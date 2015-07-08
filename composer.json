@@ -1,0 +1,27 @@
+{
+  "name": "martin-georgiev/postgresql-for-doctrine",
+  "description": "Extends Doctrine2 DBAL & DQL with Postgres 9.4+ data types, operators and commands",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Martin Georgiev",
+      "email": "martin.georgiev@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "doctrine/dbal": "~2.5",
+    "doctrine/orm": "~2.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "MartinGeorgiev\\": "src/MartinGeorgiev/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
