@@ -6,7 +6,7 @@ class IsContainedBy extends AbstractFunction
 {
     protected function customiseFunction()
     {
-        $this->setFunctionPrototype('(%s @> %s)');
+        $this->setFunctionPrototype('(%s <@ %s)');
         $this->addLiteralMapping('ArithmeticPrimary');
         $this->addLiteralMapping('ArithmeticPrimary');
     }
