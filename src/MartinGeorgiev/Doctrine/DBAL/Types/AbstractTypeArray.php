@@ -20,7 +20,7 @@ class AbstractTypeArray extends AbstractType
      * 
      * @throws DBALException
      */
-    public function convertToDatabaseValue(array $phpArray, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
+    public function convertToDatabaseValue(array $phpArray, Doctrine\DBAL\Platforms\AbstractPlatform $platform)
     {
         if (is_null($phpArray)) {
             return null;
@@ -56,7 +56,7 @@ class AbstractTypeArray extends AbstractType
      *
      * @return array|null The PHP representation of the value.
      */
-    public function convertToPHPValue($postgresArray, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
+    public function convertToPHPValue($postgresArray, Doctrine\DBAL\Platforms\AbstractPlatform $platform)
     {
         if ($postgresArray === null) {
             return null;
