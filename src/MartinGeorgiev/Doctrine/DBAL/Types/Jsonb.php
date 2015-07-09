@@ -28,7 +28,7 @@ class Jsonb extends AbstractType
      * 
      * @throws DBALException
      */
-    public function convertToDatabaseValue($value, Doctrine\DBAL\Platforms\AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if (is_null($value)) {
             return null;
@@ -48,7 +48,7 @@ class Jsonb extends AbstractType
      *
      * @return stdClass The PHP representation of the value.
      */
-    public function convertToPHPValue($value, Doctrine\DBAL\Platforms\AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
             return null;
