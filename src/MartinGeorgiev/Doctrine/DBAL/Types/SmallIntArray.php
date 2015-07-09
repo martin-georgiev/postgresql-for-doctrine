@@ -17,7 +17,7 @@ class SmallIntArray extends AbstractTypeArray
      */
     public function isValidArrayItemForDatabase($item)
     {
-        return ''.(int)$item !== ''.$item;
+        return ''.(int)$item === ''.$item;
     }
     
     /**

@@ -33,7 +33,7 @@ class Jsonb extends AbstractType
         if (is_null($value)) {
             return null;
         }
-        $encodedValue = $this->transformForPostgres($value);
+        $encodedValue = $this->transformToPostgresJson($value);
         if ($encodedValue === false) {
             throw new DBALException('Given value content cannot be encoded to valid json.');
         }
@@ -53,7 +53,7 @@ class Jsonb extends AbstractType
         if ($value === null) {
             return null;
         }
-        $json = $this->transformForPHP($value);
+        $json = $this->transformFromPostgresJson($value);
         return $json;
     }
 }

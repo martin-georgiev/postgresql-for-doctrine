@@ -2,14 +2,24 @@
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use stdClass;
+
 trait JsonTransformer
 {
-    protected function transformForPostgres($phpValue)
+    /**
+     * @param mixed $phpValue
+     * @return string
+     */
+    protected function transformToPostgresJson($phpValue)
     {
         return json_encode($phpValue);
     }
     
-    protected function transformForPHP($postgresValue)
+    /**
+     * @param string $postgresValue
+     * @return stdClass
+     */
+    protected function transformFromPostgresJson($postgresValue)
     {
         return json_decode($postgresValue);
     }
