@@ -2,15 +2,12 @@
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Type;
-
-class AbstractType extends Type
+class AbstractType extends \Doctrine\DBAL\Types\Type
 {
     /**
      * {@inheritDoc}
      */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
     {
         return $platform->getDoctrineTypeMapping(static::TYPE_NAME);
     }
