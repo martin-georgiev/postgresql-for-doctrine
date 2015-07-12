@@ -1,0 +1,276 @@
+---
+## What's this?
+This package provides Doctrine2 support for some specific PostgreSql 9.4 features:
+
+* Support of JSONB and array-like datatypes
+* Functions related to the JSONB datatype
+* Functions for basic usage of text search
+
+It can be integrated in a simple manner with Symfony2, Laravel 5 or any other framework that uses Doctrine2.
+
+You can easily extend package's behavior with your own array-like datatypes or other desired functions. Just follow the few steps in section **Extend It!** below.
+
+----
+## Integration with Symfony2
+*Register the new DBAL types*
+
+    # Usually part of config.yml
+    doctrine:
+        dbal:
+            types: # register the new types
+                jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
+                jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
+                smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
+                integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
+                bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
+
+*Add mapping between DBAL and PostgreSql datatypes*
+
+    # Usually part of config.yml
+    doctrine:
+        dbal:
+            connections:
+                your_conenction:
+                    mapping_types:
+                        jsonb: jsonb
+                        jsonb[]: jsonb[]
+                        _jsonb: jsonb[]
+                        smallint[]: smallint[]
+                        _int2: smallint[]
+                        integer[]: integer[]
+                        _int4: integer[]
+                        bigint[]: bigint[]
+                        _int8: bigint[]
+
+
+## Integration with Laravel 5
+Unfortunetly Laravel still doesn't have native integration with Doctrine.
+The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-doctrine) of [mitchellvanw/laravel-doctrine](https://github.com/mitchellvanw/laravel-doctrine) integration.
+
+1) Register the functions and datatype mappings:
+
+    # Usually part of config/doctrine.php
+    <?php
+
+    return [
+        'entity_managers' => [
+            'name_of_your_entity_manager' => [
+                'dql' => [
+                    'string_functions' => [
+                        // Array data types related functions
+                        'ALL' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All',
+                        'ANY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any',
+                        'ARRAY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr',
+                        'ARRAY_APPEND' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend',
+                        'ARE_OVERLAPING_EACH_OTHER' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAreOverlapingEachOther',
+                        'ARRAY_CARDINALITY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality',
+                        'ARRAY_CAT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat',
+                        'ARRAY_PREPEND' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend',
+                        'ARRAY_REMOVE' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove',
+                        'ARRAY_REPLACE' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace',
+                        'ARRAY_TO_STRING' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString',
+                        'STRING_TO_ARRAY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray',
+
+                        // Functions and operators used by both array and json(-b) data types
+                        'CONTAINS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains',
+                        'IS_CONTAINED_BY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy',
+
+                        // Json(-b) data type related functions and operators
+                        'JSON_GET_FIELD' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField',
+                        'JSON_GET_FIELD_AS_TEXT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText',
+                        'JSON_GET_OBJECT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject',
+                        'JSON_GET_OBJECT_AS_TEXT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText',
+                        'JSONB_ARRAY_ELEMENTS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements',
+                        'JSONB_ARRAY_ELEMENTS_TEXT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText',
+                        'JSONB_ARRAY_LENGTH' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength',
+                        'JSONB_EACH' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach',
+                        'JSONB_EACH_TEXT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText',
+                        'JSONB_EXISTS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys',
+                        'JSONB_OBJECT_KEYS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists',
+
+                        // Basic text search related functions and operators
+                        'TO_TSQUERY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery',
+                        'TO_TSVECTOR' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector',
+                        'TSMATCH' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch',
+                    ],
+                ],
+                'mapping_types' => [
+                    'jsonb' => 'jsonb',
+                    '_jsonb' => 'jsonb[]',
+                    'jsonb[]' => 'jsonb[]',
+                    '_int2' => 'smallint[]',
+                    'smallint[]' => 'smallint[]',
+                    '_int4' => 'integer[]',
+                    'integer[]' => 'integer[]',
+                    '_int8' => 'bigint',
+                    'bigint[]' => 'bigint[]',
+                ],
+
+2) Add EventSubscriber for Doctrine
+
+    <?php
+
+    namespace Acme\Handlers\Events;
+
+    use Doctrine\Common\EventSubscriber as Subscriber;
+    use Doctrine\DBAL\DBALException;
+    use Doctrine\DBAL\Event\ConnectionEventArgs;
+    use Doctrine\DBAL\Events;
+    use Doctrine\DBAL\Types\Type;
+
+    class DoctrineEventSubscriber implements Subscriber
+    {
+        /**
+         * @return array
+         */
+        public function getSubscribedEvents()
+        {
+            return [
+                Events::postConnect,
+            ];
+        }
+
+        /**
+         * @param ConnectionEventArgs $args
+         * @throws DBALException
+         */
+        public function postConnect(ConnectionEventArgs $args)
+        {
+            Type::addType('jsonb', "\MartinGeorgiev\Doctrine\DBAL\Types\Jsonb");
+            Type::addType('jsonb[]', "\MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray");
+            Type::addType('bigint[]', "\MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray");
+            Type::addType('integer[]', "\MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray");
+            Type::addType('smallint[]', "\MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray");
+        }
+    }
+
+3) Add the EventSubscriber for Doctrine to a ServiceProvider
+
+    <?php
+
+    namespace Acme\Providers;
+
+    use Config;
+    use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+    use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+    use Doctrine\Common\Persistence\ManagerRegistry as DoctrineManagerRegistry;
+    use Acme\Handlers\Events\DoctrineEventSubscriber;
+
+    /**
+     * Class EventServiceProvider
+     * @package Quantum\Providers
+     */
+    class EventServiceProvider extends ServiceProvider
+    {
+        /**
+         * Register Doctrine Events as well.
+         */
+        public function register()
+        {
+            $this->registerDoctrineEvents();
+            $this->registerDoctrineTypeMapping();
+        }
+
+        /**
+         * Register any other events for your application.
+         * @param DispatcherContract $events
+         * @return void
+         */
+        public function boot(DispatcherContract $events)
+        {
+            parent::boot($events);
+        }
+
+        /**
+         * Register Doctrine events.
+         */
+        private function registerDoctrineEvents()
+        {
+            $eventManager = $this->registry()->getConnection()->getEventManager();
+            $eventManager->addEventSubscriber(new DoctrineEventSubscriber);
+        }
+
+        /**
+         * Register any custom Doctrine type mappings
+         */
+        private function registerDoctrineTypeMapping()
+        {
+            $databasePlatform = $this->registry()->getConnection()->getDatabasePlatform();
+            $entityManagers = Config::get('doctrine.entity_managers');
+            foreach ($entityManagers as $entityManager) {
+                if (array_key_exists('mapping_types', $entityManager)) {
+                    foreach ($entityManager['mapping_types'] as $dbType => $doctrineName) {
+                        $databasePlatform->registerDoctrineTypeMapping($dbType, $doctrineName);
+                    }
+                }
+            }
+        }
+
+        /**
+         * Get the entity manager registry
+         * @return DoctrineManagerRegistry
+         */
+        function registry()
+        {
+            return app(DoctrineManagerRegistry::class);
+        }
+    }
+
+
+## Integration with Doctrine2
+    <?php
+
+    use Doctrine\DBAL\Types\Type;
+
+    Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+    Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
+    Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
+    Type::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
+    Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
+
+----
+## Extend It!
+
+**How to add more array-like datatypes?**
+
+1) Extend *MartinGeorgiev\Doctrine\DBAL\Types\AbstractTypeArray*
+
+2) You must give the new datatype a unique within your application name. For this purpose you can use the *TYPE_NAME* constant.
+
+3) Depending on your new datatype's nature you may also need to overwrite some of the following methods:
+
+    transformPostgresArrayToPHPArray() # E.g. this will be valid for postgresql's JSON datatype
+    transformArrayItemForPHP() # In almost every case you will need to adjust the returned method to your specifc needs
+    isValidArrayItemForDatabase() # It is encoraged to check that every element part of your php array is actually compatibale with your database datatype
+
+**How to add more functions?**
+
+1) Extend *MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AbstractFunction*
+
+2) Add behavior to your new function with overwriting *customiseFunction()* method. Use *setFunctionPrototype()* and *addLiteralMapping()* as in this example:
+
+    <?php
+
+    namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+
+    class ArrayAppend extends AbstractFunction
+    {
+        protected function customiseFunction()
+        {
+            $this->setFunctionPrototype('array_append(%s, %s)');
+            $this->addLiteralMapping('StringPrimary'); # this will correspond to param №1 in the prototype set in setFunctionPrototype
+            $this->addLiteralMapping('InputParameter'); # this will correspond to param №2 in the prototype set in setFunctionPrototype
+            # Add as much literal mappings as you need.
+        }
+    }
+
+*Have in mind that you cannot use **?** as part of any function protoype with Doctrine as this will result in faulty query parsing.*
+
+
+----
+##To Do
+Sorry that at this point no unit tests were added. Expect them soon but in the meantime please report anything unusual.
+
+----
+## License
+This package is licensed under the MIT License. Please, respect that!
