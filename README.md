@@ -14,7 +14,7 @@ You can easily extend package's behavior with your own array-like datatypes or o
 ## How to Install?
 Easiest possible way is through [Composer](https://getcomposer.org/download/)
 
-   composer require "martin-georgiev/postgresql-for-doctrine=~0.1"
+    composer require "martin-georgiev/postgresql-for-doctrine=~0.1"
 
 ----
 ## Integration with Symfony2
