@@ -1,4 +1,4 @@
----
+----
 ## What's this?
 This package provides Doctrine2 support for some specific PostgreSql 9.4 features:
 
@@ -9,6 +9,11 @@ This package provides Doctrine2 support for some specific PostgreSql 9.4 feature
 It can be integrated in a simple manner with Symfony2, Laravel 5 or any other framework that uses Doctrine2.
 
 You can easily extend package's behavior with your own array-like datatypes or other desired functions. Just follow the few steps in section **Extend It!** below.
+
+----
+## How to Install?
+Easiest possible way is through [Composer](https://getcomposer.org/download/)
+   composer require "martin-georgiev/postgresql-for-doctrine=~0.1"
 
 ----
 ## Integration with Symfony2
@@ -49,8 +54,8 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
 
 1) Register the functions and datatype mappings:
 
-    # Usually part of config/doctrine.php
     <?php
+    # Usually part of config/doctrine.php
 
     return [
         'entity_managers' => [
