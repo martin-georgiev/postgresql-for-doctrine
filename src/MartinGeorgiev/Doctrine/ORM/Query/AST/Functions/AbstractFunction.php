@@ -13,7 +13,7 @@ abstract class AbstractFunction extends FunctionNode
     private $literalsMapping = [];
     private $literals = [];
 
-    protected function customiseFunction();
+    abstract protected function customiseFunction();
     
     /**
      * Sets function prototype
