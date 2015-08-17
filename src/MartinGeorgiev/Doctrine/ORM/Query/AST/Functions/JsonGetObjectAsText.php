@@ -8,6 +8,6 @@ class JsonGetObjectAsText extends AbstractFunction
     {
         $this->setFunctionPrototype('(%s #>> %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('StringPrimary');
     }
 }

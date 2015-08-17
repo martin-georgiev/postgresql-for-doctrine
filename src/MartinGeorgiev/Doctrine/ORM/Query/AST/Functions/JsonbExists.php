@@ -8,6 +8,6 @@ class JsonbExists extends AbstractFunction
     {
         $this->setFunctionPrototype('jsonb_exists(%s, %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('StringPrimary');
     }
 }
