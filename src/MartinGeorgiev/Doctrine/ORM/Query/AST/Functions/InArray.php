@@ -2,11 +2,12 @@
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-class Any extends AbstractFunction
+class InArray extends AbstractFunction
 {
     protected function customiseFunction()
     {
-        $this->setFunctionPrototype('ANY(%s)');
+        $this->setFunctionPrototype('%s = ANY(%s)');
+        $this->addLiteralMapping('InputParameter');
         $this->addLiteralMapping('StringPrimary');
     }
 }
