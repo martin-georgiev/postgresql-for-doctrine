@@ -46,7 +46,7 @@ class Jsonb extends AbstractType
      * @param string $value The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
      *
-     * @return stdClass The PHP representation of the value.
+     * @return array The PHP representation of the value.
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {

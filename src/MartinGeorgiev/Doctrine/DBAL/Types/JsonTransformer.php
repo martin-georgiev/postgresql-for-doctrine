@@ -2,8 +2,6 @@
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use stdClass;
-
 trait JsonTransformer
 {
     /**
@@ -17,10 +15,10 @@ trait JsonTransformer
     
     /**
      * @param string $postgresValue
-     * @return stdClass
+     * @return array
      */
     protected function transformFromPostgresJson($postgresValue)
     {
-        return json_decode($postgresValue);
+        return json_decode($postgresValue, true);
     }
 }
