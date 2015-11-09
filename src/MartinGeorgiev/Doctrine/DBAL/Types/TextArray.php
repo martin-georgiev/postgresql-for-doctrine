@@ -5,7 +5,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 /**
  * Implementation of Postgres' text[] data type
  */
-class TextArray extends JsonbArray
+class TextArray extends Jsonb
 {
     use JsonTransformer;
     
