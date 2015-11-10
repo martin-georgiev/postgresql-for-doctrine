@@ -4,7 +4,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use stdClass;
 
 /**
  * Implementation of Postgres' jsonb data type
