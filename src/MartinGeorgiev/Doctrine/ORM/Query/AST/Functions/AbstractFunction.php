@@ -9,9 +9,18 @@ use Doctrine\ORM\Query\SqlWalker;
 
 abstract class AbstractFunction extends FunctionNode
 {
-    private $functionPrototype;
-    private $literalsMapping = [];
-    private $literals = [];
+    /**
+     * @var string
+     */
+    protected $functionPrototype;
+    /**
+     * @var array
+     */
+    protected $literalsMapping = [];
+    /**
+     * @var array
+     */
+    protected $literals = [];
 
     abstract protected function customiseFunction();
     
