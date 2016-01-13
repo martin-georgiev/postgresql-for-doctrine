@@ -14,9 +14,13 @@
     "doctrine/dbal": "~2.5",
     "doctrine/orm": "~2.5"
   },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
   "autoload": {
     "psr-4": {
-      "MartinGeorgiev\\": "src/MartinGeorgiev/"
+      "MartinGeorgiev\\": "src/MartinGeorgiev/",
+      "MartinGeorgiev\\Tests\\": "tests/MartinGeorgiev/"
     }
   },
   "extra": {
