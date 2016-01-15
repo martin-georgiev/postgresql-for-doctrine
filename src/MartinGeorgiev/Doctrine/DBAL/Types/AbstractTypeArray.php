@@ -2,13 +2,13 @@
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * Implementation of Postgres' abstract data type
  */
-class AbstractTypeArray extends AbstractType
+abstract class AbstractTypeArray extends AbstractType
 {
     /**
      * Converts a value from its PHP representation to its database representation of the type.
@@ -17,22 +17,23 @@ class AbstractTypeArray extends AbstractType
      * @param AbstractPlatform $platform The currently used database platform.
      *
      * @return string|null The database representation of the value.
-     * 
-     * @throws DBALException
+     *
+     * @throws ConversionException When passed argument is not PHP array OR When invalid array items are detected
      */ 
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform)
     {
         if (is_null($phpArray)) {
             return null;
+            
+        } elseif (!is_array($phpArray)) {
+            $exceptionMessage = 'Given PHP value content type is not PHP array. Instead it is "%s".';
+            throw new ConversionException(sprintf($exceptionMessage, gettype($phpArray)));
         }
-        if (!is_array($phpArray)) {
-            $exceptionMessage = 'Given value content are not from type "array". Instead it is "%s".';
-            throw new DBALException(sprintf($exceptionMessage, gettype($phpArray)));
-        }
+
         foreach ($phpArray as $item) {
             if (!$this->isValidArrayItemForDatabase($item)) {
                 $exceptionMessage = 'One or more of items given doesn\'t look like valid.';
-                throw new DBALException(sprintf($exceptionMessage));
+                throw new ConversionException($exceptionMessage);
             }
         }
         return '{'.join(',', $phpArray).'}';
@@ -40,7 +41,9 @@ class AbstractTypeArray extends AbstractType
     
     /**
      * Tests if given PHP array item is from compatibale type for the database
+     *
      * @param mixed $item
+     *
      * @return boolean
      */
     protected function isValidArrayItemForDatabase($item)
@@ -70,10 +73,19 @@ class AbstractTypeArray extends AbstractType
     
     /**
      * Transforms whole postgres array to PHP array
+     *
      * @param string $postgresArray
+     *
      * @return array
+     *
+     * @throws ConversionException When passed argument is not PHP string
      */
-    protected function transformPostgresArrayToPHPArray($postgresArray) {
+    protected function transformPostgresArrayToPHPArray($postgresArray)
+    {
+        if (!is_string($postgresArray)) {
+            $exceptionMessage = 'Given PostgreSql value content type is not PHP string. Instead it is "%s".';
+            throw new ConversionException(sprintf($exceptionMessage, gettype($postgresArray)));
+        }
         $trimmedPostgresArray = mb_substr($postgresArray, 1, -1);
         if ($trimmedPostgresArray === '') {
             return [];
@@ -84,7 +96,9 @@ class AbstractTypeArray extends AbstractType
     
     /**
      * Transforms postgres array item to a PHP compatibale array item
+     *
      * @param mixed $item
+     * 
      * @return mixed
      */
     protected function transformArrayItemForPHP($item)

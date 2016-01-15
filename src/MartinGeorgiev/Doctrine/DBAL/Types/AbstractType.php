@@ -5,7 +5,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-class AbstractType extends Type
+abstract class AbstractType extends Type
 {
     /**
      * {@inheritDoc}
