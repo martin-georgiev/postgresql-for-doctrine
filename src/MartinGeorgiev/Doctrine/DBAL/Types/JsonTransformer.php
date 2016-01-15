@@ -8,7 +8,7 @@ trait JsonTransformer
      * @param mixed $phpValue
      * @return string
      */
-    protected function transformToPostgresJson($phpValue)
+    public function transformToPostgresJson($phpValue)
     {
         return json_encode($phpValue);
     }
@@ -17,7 +17,7 @@ trait JsonTransformer
      * @param string $postgresValue
      * @return array
      */
-    protected function transformFromPostgresJson($postgresValue)
+    public function transformFromPostgresJson($postgresValue)
     {
         return json_decode($postgresValue, true);
     }
