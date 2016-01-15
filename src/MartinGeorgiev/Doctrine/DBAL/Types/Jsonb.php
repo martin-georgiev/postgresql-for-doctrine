@@ -25,7 +25,7 @@ class Jsonb extends AbstractType
      *
      * @return string The database representation of the value.
      * 
-     * @throws ConversionException
+     * @throws ConversionException When given value cannot be encoded
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {

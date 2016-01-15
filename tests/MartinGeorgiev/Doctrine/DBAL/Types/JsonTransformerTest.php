@@ -56,7 +56,7 @@ class JsonTransformerTest extends PHPUnit_Framework_TestCase
     /**
      * @covers ::transformToPostgresJson
      */
-    public function testCanTransformPHPValueToPostgresJson()
+    public function testCanTransformPhpValueToPostgresJson()
     {
         foreach ($this->getTestData() as $testData) {
             $this->assertEquals($testData['postgresJson'], $this->transformer->transformToPostgresJson($testData['phpValue']));
@@ -66,7 +66,7 @@ class JsonTransformerTest extends PHPUnit_Framework_TestCase
     /**
      * @covers ::transformFromPostgresJson
      */
-    public function testCanTransformPostgresJsonToPHPValue()
+    public function testCanTransformPostgresJsonToPhpValue()
     {
         foreach ($this->getTestData() as $testData) {
             $this->assertEquals($testData['phpValue'], $this->transformer->transformFromPostgresJson($testData['postgresJson']));

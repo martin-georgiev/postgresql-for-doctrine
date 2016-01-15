@@ -57,7 +57,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
      * @covers ::convertToDatabaseValue
      * @covers ::isValidArrayItemForDatabase
      */
-    public function testCanConvertDatabaseValueToPHPValue()
+    public function testCanConvertDatabaseValueToPhpValue()
     {
         $this->dbalType->expects($this->any())
             ->method('isValidArrayItemForDatabase')
@@ -72,7 +72,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
      * @expectedException Doctrine\DBAL\Types\ConversionException
      * @expectedExceptionMessageRegExp /Given PHP value content type is not PHP array. Instead it is "\w+"./
      */
-    public function testThrowsAnExceptionWhenGivenPHPValueIsNotArray()
+    public function testThrowsAnExceptionWhenPhpValueIsNotArray()
     {
         $this->dbalType->convertToDatabaseValue('invalid-php-value-type', $this->platfrom);
     }
@@ -95,7 +95,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
      * @covers ::transformPostgresArrayToPHPArray
      * @covers ::transformArrayItemForPHP
      */
-    public function testCanConvertPHPValueToDatabaseValue()
+    public function testCanConvertPhpValueToDatabaseValue()
     {
         foreach ($this->getTestData() as $testData) {
             $this->assertEquals($testData['phpArray'], $this->dbalType->convertToPHPValue($testData['postgresArray'], $this->platfrom));
@@ -106,7 +106,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
      * @expectedException Doctrine\DBAL\Types\ConversionException
      * @expectedExceptionMessageRegExp /Given PostgreSql value content type is not PHP string. Instead it is "\w+"./
      */
-    public function testThrowsAnExceptionWhenGivenPostgresValueIsNotPHPArray()
+    public function testThrowsAnExceptionWhenPostgresValueIsNotPhpArray()
     {
         $this->dbalType->convertToPHPValue([], $this->platfrom);
     }
