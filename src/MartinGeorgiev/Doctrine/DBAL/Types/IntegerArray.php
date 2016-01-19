@@ -3,7 +3,7 @@
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
- * Implementation of Postgres' integer[] data type
+ * Implementation of PostgreSql integer[] data type
  */
 class IntegerArray extends SmallIntArray
 {

@@ -3,7 +3,7 @@
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
- * Implementation of Postgres' bigint[] data type
+ * Implementation of PostgreSql bigint[] data type
  */
 class BigIntArray extends IntegerArray
 {

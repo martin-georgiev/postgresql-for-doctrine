@@ -3,18 +3,19 @@
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
+use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass MartinGeorgiev\Tests\Doctrine\DBAL\Types\Jsonb
+ * @coversDefaultClass MartinGeorgiev\Tests\Doctrine\DBAL\Types\JsonbArray
  */
-class JsonbTest extends PHPUnit_Framework_TestCase
+class JsonbArrayTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Jsonb
+     * @var JsonbArray
      */
     protected $dbalType;
+    
     /**
      * @var AbstractPlatform
      */
@@ -22,7 +23,7 @@ class JsonbTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dbalType = $this->getMockBuilder(Jsonb::class)
+        $this->dbalType = $this->getMockBuilder(JsonbArray::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
@@ -43,22 +44,23 @@ class JsonbTest extends PHPUnit_Framework_TestCase
                 'postgresJsonb' => null,
             ],
             [
-                'phpValue' => [],
-                'postgresJsonb' => '[]',
-            ],
-            [
-                'phpValue' => [681, 1185, 1878, 1989],
-                'postgresJsonb' => '[681,1185,1878,1989]',
-            ],
-            [
                 'phpValue' => [
-                    'key1' => 'value1',
-                    'key2' => false,
-                    'key3' => '15',
-                    'key4' => 15,
-                    'key5' => [112, 242, 309, 310],
+                    [
+                        'key1' => 'value1',
+                        'key2' => false,
+                        'key3' => '15',
+                        'key4' => 15,
+                        'key5' => [112, 242, 309, 310],
+                    ],
+                    [
+                        'key1' => 'value2',
+                        'key2' => true,
+                        'key3' => '115',
+                        'key4' => 115,
+                        'key5' => [304, 404, 504, 604],
+                    ],
                 ],
-                'postgresJsonb' => '{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]}',
+                'postgresJsonb' => '{{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]},{"key1":"value2","key2":true,"key3":"115","key4":115,"key5":[304,404,504,604]}}',
             ],
         ];
     }
@@ -68,13 +70,13 @@ class JsonbTest extends PHPUnit_Framework_TestCase
      */
     public function testTypeHasName()
     {
-        $this->assertEquals('jsonb', $this->dbalType->getName());
+        $this->assertEquals('jsonb[]', $this->dbalType->getName());
     }
 
     /**
      * @covers ::convertToDatabaseValue
      */
-    public function testCanTransformPhpValueInJsonb()
+    public function testCanTransformPhpValueToPostgresJson()
     {
         foreach ($this->getTestData() as $testData) {
             $this->assertEquals($testData['postgresJsonb'], $this->dbalType->convertToDatabaseValue($testData['phpValue'], $this->platform));
@@ -83,8 +85,9 @@ class JsonbTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers ::convertToPHPValue
+     * @covers ::transformPostgresArrayToPHPArray
      */
-    public function testCanTransformJsonbInPhpValue()
+    public function testCanTransformPostgresJsonToPhpValue()
     {
         foreach ($this->getTestData() as $testData) {
             $this->assertEquals($testData['phpValue'], $this->dbalType->convertToPHPValue($testData['postgresJsonb'], $this->platform));

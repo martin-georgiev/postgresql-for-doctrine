@@ -18,7 +18,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @var AbstractPlatform
      */
-    protected $platfrom;
+    protected $platform;
 
     protected function setUp()
     {
@@ -27,7 +27,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->platfrom = $this->getMockBuilder(AbstractPlatform::class)
+        $this->platform = $this->getMockBuilder(AbstractPlatform::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
     }
@@ -64,7 +64,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['postgresArray'], $this->dbalType->convertToDatabaseValue($testData['phpArray'], $this->platfrom));
+            $this->assertEquals($testData['postgresArray'], $this->dbalType->convertToDatabaseValue($testData['phpArray'], $this->platform));
         }
     }
 
@@ -74,7 +74,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testThrowsAnExceptionWhenPhpValueIsNotArray()
     {
-        $this->dbalType->convertToDatabaseValue('invalid-php-value-type', $this->platfrom);
+        $this->dbalType->convertToDatabaseValue('invalid-php-value-type', $this->platform);
     }
 
     /**
@@ -87,7 +87,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
             ->method('isValidArrayItemForDatabase')
             ->will($this->returnValue(false));
 
-        $this->dbalType->convertToDatabaseValue([0], $this->platfrom);
+        $this->dbalType->convertToDatabaseValue([0], $this->platform);
     }
 
     /**
@@ -98,7 +98,7 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
     public function testCanConvertPhpValueToDatabaseValue()
     {
         foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['phpArray'], $this->dbalType->convertToPHPValue($testData['postgresArray'], $this->platfrom));
+            $this->assertEquals($testData['phpArray'], $this->dbalType->convertToPHPValue($testData['postgresArray'], $this->platform));
         }
     }
 
@@ -108,6 +108,6 @@ class AbstractTypeArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testThrowsAnExceptionWhenPostgresValueIsNotPhpArray()
     {
-        $this->dbalType->convertToPHPValue([], $this->platfrom);
+        $this->dbalType->convertToPHPValue([], $this->platform);
     }
 }

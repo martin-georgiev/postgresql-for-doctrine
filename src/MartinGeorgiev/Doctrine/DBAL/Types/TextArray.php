@@ -6,7 +6,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Implementation of Postgres' text[] data type
+ * Implementation of PostgreSql text[] data type
  */
 class TextArray extends AbstractType
 {
@@ -38,18 +38,18 @@ class TextArray extends AbstractType
     }
 
     /**
-     * @param array $phpValue
+     * @param array $phpTextArray
      * @return string
      */
-    protected function transformToPostgresTextArray($phpValue)
+    protected function transformToPostgresTextArray($phpTextArray)
     {
-        if (!is_array($phpValue)) {
+        if (!is_array($phpTextArray)) {
             return false;
         }
-        if (!$phpValue) {
+        if (!$phpTextArray) {
             return '{}';
         }
-        return '{"' . join('","', $phpValue) . '"}';
+        return '{"' . join('","', $phpTextArray) . '"}';
     }
 
     /**

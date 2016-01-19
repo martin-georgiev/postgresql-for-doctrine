@@ -6,7 +6,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Implementation of Postgres' jsonb data type
+ * Implementation of PostgreSql jsonb data type
  */
 class Jsonb extends AbstractType
 {

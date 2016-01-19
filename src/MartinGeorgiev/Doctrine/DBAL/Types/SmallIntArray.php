@@ -3,7 +3,7 @@
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
- * Implementation of Postgres' smallint[] data type
+ * Implementation of PostgreSql smallint[] data type
  */
 class SmallIntArray extends AbstractTypeArray
 {
