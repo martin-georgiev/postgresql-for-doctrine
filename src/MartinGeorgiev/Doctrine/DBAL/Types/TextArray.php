@@ -3,7 +3,6 @@
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * Implementation of PostgreSql text[] data type
@@ -22,8 +21,6 @@ class TextArray extends AbstractType
      * @param AbstractPlatform $platform The currently used database platform.
      *
      * @return string The database representation of the value.
-     *
-     * @throws ConversionException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -31,9 +28,6 @@ class TextArray extends AbstractType
             return null;
         }
         $encodedValue = $this->transformToPostgresTextArray($value);
-        if ($encodedValue === false) {
-            throw new ConversionException('Given value content cannot be encoded to valid json.');
-        }
         return $encodedValue;
     }
 

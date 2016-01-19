@@ -75,6 +75,7 @@ class JsonbArrayTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers ::convertToDatabaseValue
+     * @covers ::transformArrayItemForPostgres
      */
     public function testCanTransformPhpValueToPostgresJson()
     {
