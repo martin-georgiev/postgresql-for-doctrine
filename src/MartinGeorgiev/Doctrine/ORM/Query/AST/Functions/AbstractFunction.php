@@ -7,6 +7,10 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
+/**
+ * @since 0.1
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ */
 abstract class AbstractFunction extends FunctionNode
 {
     /**
@@ -86,5 +90,4 @@ abstract class AbstractFunction extends FunctionNode
         }
         return vsprintf($this->functionPrototype, $dispateched);
     }
-    
 }
