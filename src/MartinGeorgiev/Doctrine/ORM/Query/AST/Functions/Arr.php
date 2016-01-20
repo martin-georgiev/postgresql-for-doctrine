@@ -2,6 +2,13 @@
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+/**
+ * Implementation of PostgreSql ARRAY[]
+ * @see http://www.postgresql.org/docs/9.4/static/arrays.html
+ *
+ * @since 0.1
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ */
 class Arr extends AbstractFunction
 {
     protected function customiseFunction()

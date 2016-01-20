@@ -6,7 +6,11 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Implementation of PostgreSql abstract data type
+ * Abstract handling of PostgreSql array data types
+ * @see http://www.postgresql.org/docs/9.4/static/arrays.html
+ *
+ * @since 0.1
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 abstract class AbstractTypeArray extends AbstractType
 {

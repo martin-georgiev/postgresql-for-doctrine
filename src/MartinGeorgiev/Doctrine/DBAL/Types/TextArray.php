@@ -5,7 +5,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
- * Implementation of PostgreSql text[] data type
+ * Implementation of PostgreSql TEXT[] data type
+ * @see http://www.postgresql.org/docs/9.4/static/arrays.html
+ *
+ * @since 0.6
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 class TextArray extends AbstractType
 {
@@ -33,6 +37,7 @@ class TextArray extends AbstractType
 
     /**
      * @param array $phpTextArray
+     * 
      * @return string
      */
     protected function transformToPostgresTextArray($phpTextArray)
@@ -65,6 +70,7 @@ class TextArray extends AbstractType
 
     /**
      * @param string $postgresValue
+     * 
      * @return array
      */
     protected function transformFromPostgresTextArray($postgresValue)

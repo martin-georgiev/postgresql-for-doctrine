@@ -3,7 +3,11 @@
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
- * Implementation of PostgreSql jsonb[] data type
+ * Implementation of PostgreSql JSONB[] data type
+ * @see http://www.postgresql.org/docs/9.4/static/arrays.html
+ * 
+ * @since 0.1
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 class JsonbArray extends AbstractTypeArray
 {

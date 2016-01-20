@@ -1,12 +1,12 @@
 ----
 ## What's this?
-This package provides Doctrine2 support for some specific PostgreSql 9.4 features:
+This package provides Doctrine2 support for some specific PostgreSql 9.4+ features:
 
-* Support of JSONB and array-like datatypes
-* Functions related to the JSONB datatype
-* Functions for basic usage of text search
+* Support of JSONB and array datatypes for integers, TEXT and JSONB
+* Implementation of most used and useful functions related to the array and JSON datatypes
+* Functions for basic support of text search
 
-It can be integrated in a simple manner with Symfony2, Laravel 5 or any other framework that uses Doctrine2.
+It can be integrated in a simple manner with Symfony, Laravel or any other framework that benefits from Doctrine2 usage.
 
 You can easily extend package's behavior with your own array-like datatypes or other desired functions. Just follow the few steps in section **Extend It!** below.
 
@@ -14,7 +14,7 @@ You can easily extend package's behavior with your own array-like datatypes or o
 ## How to Install?
 Easiest possible way is through [Composer](https://getcomposer.org/download/)
 
-    composer require "martin-georgiev/postgresql-for-doctrine=~0.1"
+    composer require "martin-georgiev/postgresql-for-doctrine=~0.7"
 
 ----
 ## Integration with Symfony2
@@ -29,6 +29,7 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
                 smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
                 integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
                 bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
+                text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
 
 *Add mapping between DBAL and PostgreSql datatypes*
 
@@ -47,6 +48,8 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
                         _int4: integer[]
                         bigint[]: bigint[]
                         _int8: bigint[]
+                        text[]: text[]
+                        _text: text[]
 
 
 ## Integration with Laravel 5
@@ -76,6 +79,9 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
                         'ARRAY_REPLACE' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace',
                         'ARRAY_TO_STRING' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString',
                         'STRING_TO_ARRAY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray',
+                        'LEAST' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least',
+                        'GREATEST' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest',
+                        'IN_ARRAY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray',
 
                         // Functions and operators used by both array and json(-b) data types
                         'CONTAINS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains',
@@ -83,6 +89,7 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
 
                         // Json(-b) data type related functions and operators
                         'JSON_GET_FIELD' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField',
+                        'JSON_GET_FIELD_AS_INTEGER' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger',
                         'JSON_GET_FIELD_AS_TEXT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText',
                         'JSON_GET_OBJECT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject',
                         'JSON_GET_OBJECT_AS_TEXT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText',
@@ -91,8 +98,8 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
                         'JSONB_ARRAY_LENGTH' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength',
                         'JSONB_EACH' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach',
                         'JSONB_EACH_TEXT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText',
-                        'JSONB_EXISTS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys',
-                        'JSONB_OBJECT_KEYS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists',
+                        'JSONB_EXISTS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists',
+                        'JSONB_OBJECT_KEYS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys',
 
                         // Basic text search related functions and operators
                         'TO_TSQUERY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery',
@@ -147,6 +154,7 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
             Type::addType('bigint[]', "\MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray");
             Type::addType('integer[]', "\MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray");
             Type::addType('smallint[]', "\MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray");
+            Type::addType('text[]', "\MartinGeorgiev\Doctrine\DBAL\Types\TextArray");
         }
     }
 
@@ -233,6 +241,7 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
     Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
     Type::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
     Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
+    Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 
 ----
 ## Extend It!
@@ -271,11 +280,6 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
     }
 
 *Have in mind that you cannot use **?** as part of any function protoype with Doctrine as this will result in faulty query parsing.*
-
-
-----
-##To Do
-Sorry that at this point no unit tests were added. Expect them soon but in the meantime please report anything unusual.
 
 ----
 ## License

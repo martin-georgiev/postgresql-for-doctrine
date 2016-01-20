@@ -5,6 +5,12 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
+/**
+ * Abstraction on top of Doctrine default Type class
+ *
+ * @since 0.1
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ */
 abstract class AbstractType extends Type
 {
     /**
