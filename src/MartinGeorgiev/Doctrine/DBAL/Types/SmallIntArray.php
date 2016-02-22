@@ -21,7 +21,7 @@ class SmallIntArray extends AbstractTypeArray
      */
     public function isValidArrayItemForDatabase($item)
     {
-        return (is_integer($item) || is_string($item)) && preg_match('/^-?[0-9]+$/', (string)$item);
+        return (is_int($item) || is_string($item)) && preg_match('/^-?[0-9]+$/', (string)$item);
     }
     
     /**

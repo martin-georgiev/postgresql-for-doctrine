@@ -49,7 +49,7 @@ abstract class AbstractTypeArray extends AbstractType
      *
      * @param mixed $item
      *
-     * @return boolean
+     * @return bool
      */
     protected function isValidArrayItemForDatabase($item)
     {
