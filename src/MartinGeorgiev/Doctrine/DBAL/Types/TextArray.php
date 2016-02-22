@@ -45,7 +45,7 @@ class TextArray extends AbstractType
         if (!is_array($phpTextArray)) {
             return false;
         }
-        if (!$phpTextArray) {
+        if (empty($phpTextArray)) {
             return '{}';
         }
         return '{"' . join('","', $phpTextArray) . '"}';
