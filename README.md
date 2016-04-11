@@ -1,3 +1,5 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/b/martin_georgiev/postgresql-for-doctrine/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/b/martin_georgiev/postgresql-for-doctrine/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/b/martin_georgiev/postgresql-for-doctrine/badges/build.png?b=master)](https://scrutinizer-ci.com/b/martin_georgiev/postgresql-for-doctrine/build-status/master)
 ----
 ## What's this?
 This package provides Doctrine2 support for some specific PostgreSql 9.4+ features:
