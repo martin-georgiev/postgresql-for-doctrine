@@ -56,7 +56,7 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
 
 ## Integration with Laravel 5
 Unfortunetly Laravel still doesn't have native integration with Doctrine.
-The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-doctrine) of [mitchellvanw/laravel-doctrine](https://github.com/mitchellvanw/laravel-doctrine) integration.
+The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-doctrine) of [mitchellvanw/laravel-doctrine](https://github.com/mitchellvanw/laravel-doctrine) integration. The package also works smoothly with [Laravel Doctrine](http://www.laraveldoctrine.org/).
 
 1) Register the functions and datatype mappings:
 
@@ -69,8 +69,8 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
                 'dql' => [
                     'string_functions' => [
                         // Array data types related functions
-                        'ALL' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All',
-                        'ANY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any',
+                        'ALL_OF' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All', // Avoid conflict with Doctrine's ALL implementation
+                        'ANY_OF' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any', // Avoid conflict with Doctrine's ANY implementation
                         'ARRAY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr',
                         'ARRAY_APPEND' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend',
                         'ARE_OVERLAPING_EACH_OTHER' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAreOverlapingEachOther',
