@@ -6,7 +6,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
  * Implementation of PostgreSql TEXT[] data type
- * @see http://www.postgresql.org/docs/9.4/static/arrays.html
+ * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  *
  * @since 0.6
  * @author Martin Georgiev <martin.georgiev@gmail.com>
