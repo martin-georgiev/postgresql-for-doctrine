@@ -76,6 +76,7 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
                         'ARE_OVERLAPING_EACH_OTHER' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAreOverlapingEachOther',
                         'ARRAY_CARDINALITY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality',
                         'ARRAY_CAT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat',
+                        'ARRAY_LENGTH' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength',
                         'ARRAY_PREPEND' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend',
                         'ARRAY_REMOVE' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove',
                         'ARRAY_REPLACE' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace',
