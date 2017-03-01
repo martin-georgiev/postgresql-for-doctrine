@@ -11,80 +11,68 @@ namespace MartinGeorgiev\Utils;
 class DataStructure
 {
     /**
-     * This method provides support only for the default escaping strategy in PostgreSql (double quotes).
+     * This method supports only single-dimensioned text arrays and
+     * relays on the default escaping strategy in PostgreSql (double quotes)
      *
-     * @see https://stackoverflow.com/a/27964420/3425372 Kudos to dmikam for the solution
      * @param string $postgresArray
      * @return array
      */
     public static function transformPostgresTextArrayToPHPArray($postgresArray)
     {
-        $parse = function($stringToParse, $startPosition = 0) use (&$parse)
-        {
-            if (empty($stringToParse) || $stringToParse[0] != '{') {
-                return null;
-            }
-            $result = [];
-            $isString = false;
-            $quote = '';
-            $length = strlen($stringToParse);
-            $value = '';
-            for ($i = $startPosition + 1; $i < $length; $i++) {
-                $currentCharacter = $stringToParse[$i];
-
-                if (!$isString && $currentCharacter == '}') {
-                    if ($value !== '' || !empty($result)) {
-                        $result[] = $value;
-                    }
+        $transform = function($textArrayToTransform) use (&$transform) {
+            $phpArray = str_getcsv(trim($textArrayToTransform, '{}'));
+            foreach ($phpArray as $i => $text) {
+                if ($text === null) {
+                    unset($phpArray[$i]);
                     break;
-                    
-                } elseif (!$isString && $currentCharacter == '{') {
-                    $value = $parse($stringToParse, $i);
-
-                } elseif (!$isString && $currentCharacter == ','){
-                    $result[] = $value;
-                    $value = '';
-
-                } elseif (!$isString && ($currentCharacter == '"' || $currentCharacter == "'")) {
-                    $isString = true;
-                    $quote = $currentCharacter;
-
-                } elseif ($isString && $currentCharacter == $quote && $stringToParse[$i - 1] == "\\") {
-                    $value = substr($value, 0, -1) . $currentCharacter;
-
-                } elseif ($isString && $currentCharacter == $quote && $stringToParse[$i - 1] != "\\") {
-                    $isString = false;
-
-                } else {
-                    $value .= $currentCharacter;
                 }
+
+                $isInteger = is_numeric($text) && ''.intval($text) === $text;
+                if ($isInteger) {
+                    $phpArray[$i] = (int)$text;
+                    continue;
+                }
+
+                $isFloat = is_numeric($text) && ''.floatval($text) === $text;
+                if ($isFloat) {
+                    $phpArray[$i] = (float)$text;
+                    continue;
+                }
+
+                $phpArray[$i] = str_replace('\"', '"', $text);
             }
 
-            return $result;
+            return $phpArray;
         };
 
-        return $parse($postgresArray);
+        return $transform($postgresArray);
     }
 
     /**
-     * This method provides support only for the default escaping strategy in PostgreSql (double quotes).
+     * This method relays on the default escaping strategy in PostgreSql (double quotes)
      * 
-     * @see https://stackoverflow.com/a/5632171/3425372 Kudos to jmz for the solution
+     * @see https://stackoverflow.com/a/5632171/3425372 Kudos to jmz for the inspiration
      * @param array $phpArray
      * @return string
      */
     public static function transformPHPArrayToPostgresTextArray(array $phpArray)
     {
-        $transform = function ($arrayToTransform) use (&$transform) {
-            settype($arrayToTransform, 'array');
+        $transform = function(array $phpArrayToTransform) use (&$transform) {
             $result = [];
-            foreach ($arrayToTransform as $text) {
+            foreach ($phpArrayToTransform as $text) {
                 if (is_array($text)) {
                     $result[] = $transform($text);
                     continue;
                 }
-                $text = str_replace('"', '\\"', $text);
-                $result[] = ctype_digit($text) ? $text : '"' . $text . '"';
+
+                if (is_numeric($text) || ctype_digit($text)) {
+                    $escapedText = $text;
+                } elseif (empty($text)) {
+                    $escapedText = '';
+                } else {
+                    $escapedText = '"' . str_replace('"', '\"', $text) . '"';
+                }
+                $result[] = $escapedText;
             }
             return '{' . implode(",", $result) . '}';
         };

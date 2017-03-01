@@ -11,7 +11,7 @@ use PHPUnit_Framework_TestCase;
 class DataStructureTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @see https://stackoverflow.com/a/27964420/3425372 Thanks to dmikam
+     * @see https://stackoverflow.com/a/27964420/3425372 Kudos to dmikam for the inspiration
      * @return array
      */
     private function getTestData()
@@ -19,27 +19,22 @@ class DataStructureTest extends PHPUnit_Framework_TestCase
         return [
             [
                 'phpValue' => [
-                    0 => [
-                      0 => '1',
-                      1 => '2',
-                    ],
-                    1 => [
-                      0 => '3',
-                      1 => '4',
-                    ],
-                    2 => [
-                      0 => '5',
-                    ],
+                    0 => '1',
+                    1 => '2',
+                    2 => '3',
+                    3 => '4',
                 ],
-                'postgresValue' => '{{1,2},{3,4},{5}}',
+                'postgresValue' => '{1,2,3,4}',
             ],
             [
                 'phpValue' => [
                     0 => 'dfasdf',
                     1 => 'qw,,e{q"we',
-                    2 => 'qrer',
+                    2 => "'qrer'",
+                    3 => 604,
+                    4 => '"aaa","b""bb","ccc"',
                 ],
-                'postgresValue' => '{dfasdf,"qw,,e{q\"we",\'qrer\'}',
+                'postgresValue' => '{"dfasdf","qw,,e{q\"we","\'qrer\'",604,"\"aaa\",\"b\"\"bb\",\"ccc\""}',
             ],
             [
                 'phpValue' => [
