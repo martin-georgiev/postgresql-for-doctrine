@@ -3,17 +3,17 @@
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql ARRAY_REMOVE()
- * @see https://www.postgresql.org/docs/9.4/static/functions-array.html
+ * Implementation of PostgreSql ARRAY_LENGTH()
+ * @see http://www.postgresql.org/docs/9.4/static/functions-array.html
  *
- * @since 0.1
+ * @since 0.9
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class ArrayRemove extends AbstractFunction
+class ArrayLength extends AbstractFunction
 {
     protected function customiseFunction()
     {
-        $this->setFunctionPrototype('array_remove(%s, %s)');
+        $this->setFunctionPrototype('array_length(%s, %s)');
         $this->addLiteralMapping('StringPrimary');
         $this->addLiteralMapping('InputParameter');
     }

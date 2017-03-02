@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * Implementation of PostgreSql JSONB data type
- * @see http://www.postgresql.org/docs/9.4/static/datatype-json.html
+ * @see https://www.postgresql.org/docs/9.4/static/datatype-json.html
  * 
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>

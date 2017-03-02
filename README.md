@@ -1,20 +1,22 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/b/martin_georgiev/postgresql-for-doctrine/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/b/martin_georgiev/postgresql-for-doctrine/?branch=master)
+[![Build Status](https://api.travis-ci.org/martin-georgiev/postgresql-for-doctrine.svg?branch=master)](https://api.travis-ci.org/martin-georgiev/postgresql-for-doctrine.svg?branch=master)
 ----
 ## What's this?
-This package provides Doctrine2 support for some specific PostgreSql 9.4+ features:
+This package provides Doctrine2 support for some specific PostgreSQL 9.4+ features:
 
-* Support of JSONB and array datatypes for integers, TEXT and JSONB
-* Implementation of most used and useful functions related to the array and JSON datatypes
+* Support of JSONB and array data types for integers, TEXT and JSONB
+* Implementation of the most commonly used functions when working with array and JSON data types
 * Functions for basic support of text search
 
 It can be integrated in a simple manner with Symfony, Laravel or any other framework that benefits from Doctrine2 usage.
 
-You can easily extend package's behavior with your own array-like datatypes or other desired functions. Just follow the few steps in section **Extend It!** below.
+You can easily extend package's behaviour with your own array-like data types or other desired functions. Just follow the few steps in section **Extend It!** below.
 
 ----
 ## How to Install?
 Easiest possible way is through [Composer](https://getcomposer.org/download/)
 
-    composer require "martin-georgiev/postgresql-for-doctrine=~0.8"
+    composer require "martin-georgiev/postgresql-for-doctrine=~0.9"
 
 ----
 ## Integration with Symfony2
@@ -31,7 +33,7 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
                 bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
                 text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
 
-*Add mapping between DBAL and PostgreSql datatypes*
+*Add mapping between DBAL and PostgreSQL data types*
 
     # Usually part of config.yml
     doctrine:
@@ -53,8 +55,8 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
 
 
 ## Integration with Laravel 5
-Unfortunetly Laravel still doesn't have native integration with Doctrine.
-The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-doctrine) of [mitchellvanw/laravel-doctrine](https://github.com/mitchellvanw/laravel-doctrine) integration.
+Unfortunately, Laravel still doesn't come with native Doctrine2 integration.
+The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-doctrine) of [mitchellvanw/laravel-doctrine](https://github.com/mitchellvanw/laravel-doctrine) integration. The package also works smoothly with [Laravel Doctrine](http://www.laraveldoctrine.org/).
 
 1) Register the functions and datatype mappings:
 
@@ -67,13 +69,14 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
                 'dql' => [
                     'string_functions' => [
                         // Array data types related functions
-                        'ALL' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All',
-                        'ANY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any',
+                        'ALL_OF' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All', // Avoid conflict with Doctrine's ALL implementation
+                        'ANY_OF' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any', // Avoid conflict with Doctrine's ANY implementation
                         'ARRAY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr',
                         'ARRAY_APPEND' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend',
                         'ARE_OVERLAPING_EACH_OTHER' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAreOverlapingEachOther',
                         'ARRAY_CARDINALITY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality',
                         'ARRAY_CAT' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat',
+                        'ARRAY_LENGTH' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength',
                         'ARRAY_PREPEND' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend',
                         'ARRAY_REMOVE' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove',
                         'ARRAY_REPLACE' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace',
@@ -246,17 +249,17 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
 ----
 ## Extend It!
 
-**How to add more array-like datatypes?**
+**How to add more array-like data types?**
 
 1) Extend *MartinGeorgiev\Doctrine\DBAL\Types\AbstractTypeArray*
 
-2) You must give the new datatype a unique within your application name. For this purpose you can use the *TYPE_NAME* constant.
+2) You must give the new datatype a unique within your application name. For this purpose, you can use the *TYPE_NAME* constant.
 
 3) Depending on your new datatype's nature you may also need to overwrite some of the following methods:
 
-    transformPostgresArrayToPHPArray() # E.g. this will be valid for postgresql's JSON datatype
-    transformArrayItemForPHP() # In almost every case you will need to adjust the returned method to your specifc needs
-    isValidArrayItemForDatabase() # It is encoraged to check that every element part of your php array is actually compatibale with your database datatype
+    transformPostgresArrayToPHPArray() # E.g. this will be valid for PostgreSQL's JSON datatype
+    transformArrayItemForPHP() # In almost every case you will need to adjust the returned method to your specific needs
+    isValidArrayItemForDatabase() # It is encouraged to check that every element part of your PHP array is actually compatible with your database datatype
 
 **How to add more functions?**
 
@@ -279,7 +282,7 @@ The steps below are based on [FoxxMD's fork](https://github.com/FoxxMD/laravel-d
         }
     }
 
-*Have in mind that you cannot use **?** as part of any function protoype with Doctrine as this will result in faulty query parsing.*
+*Beware that you cannot use **?** as part of any function prototype in Doctrine as this will result in faulty query parsing.*
 
 ----
 ## License

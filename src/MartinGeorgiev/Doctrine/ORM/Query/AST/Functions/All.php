@@ -4,7 +4,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
  * Implementation of PostgreSql ALL()
- * @see http://www.postgresql.org/docs/9.4/static/functions-subquery.html#FUNCTIONS-SUBQUERY-ALL
+ * @see https://www.postgresql.org/docs/9.4/static/functions-subquery.html#FUNCTIONS-SUBQUERY-ALL
  *
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
