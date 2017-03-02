@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * Abstract handling of PostgreSql array data types
- * @see http://www.postgresql.org/docs/9.4/static/arrays.html
+ * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  *
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
