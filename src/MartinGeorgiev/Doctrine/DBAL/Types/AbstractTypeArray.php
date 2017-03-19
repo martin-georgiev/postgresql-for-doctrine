@@ -23,13 +23,14 @@ abstract class AbstractTypeArray extends AbstractType
      * @return string|null The database representation of the value.
      *
      * @throws ConversionException When passed argument is not PHP array OR When invalid array items are detected
-     */ 
+     */
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform)
     {
         if (is_null($phpArray)) {
             return null;
-            
-        } elseif (!is_array($phpArray)) {
+        }
+
+        if (!is_array($phpArray)) {
             $exceptionMessage = 'Given PHP value content type is not PHP array. Instead it is "%s".';
             throw new ConversionException(sprintf($exceptionMessage, gettype($phpArray)));
         }
@@ -41,14 +42,15 @@ abstract class AbstractTypeArray extends AbstractType
             }
             $item = $this->transformArrayItemForPostgres($item);
         }
+        
         return '{'.join(',', $phpArray).'}';
     }
     
     /**
-     * Tests if given PHP array item is from compatibale type for PostgreSql
+     * Tests if given PHP array item is from compatible type for PostgreSql
      *
      * @param mixed $item
-     *
+     * 
      * @return bool
      */
     protected function isValidArrayItemForDatabase($item)
@@ -57,7 +59,7 @@ abstract class AbstractTypeArray extends AbstractType
     }
 
     /**
-     * Transforms PHP array item to a PostgreSql compatibale array item
+     * Transforms PHP array item to a PostgreSql compatible array item
      *
      * @param mixed $item
      *
@@ -112,10 +114,10 @@ abstract class AbstractTypeArray extends AbstractType
     }
     
     /**
-     * Transforms PostgreSql array item to a PHP compatibale array item
+     * Transforms PostgreSql array item to a PHP compatible array item
      *
      * @param mixed $item
-     * 
+     *
      * @return mixed
      */
     protected function transformArrayItemForPHP($item)
