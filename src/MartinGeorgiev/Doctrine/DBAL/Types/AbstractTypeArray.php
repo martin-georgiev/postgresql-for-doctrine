@@ -50,7 +50,7 @@ abstract class AbstractTypeArray extends AbstractType
      * Tests if given PHP array item is from compatible type for PostgreSql
      *
      * @param mixed $item
-     * 
+     *
      * @return bool
      */
     protected function isValidArrayItemForDatabase($item)
