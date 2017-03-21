@@ -14,7 +14,7 @@ class Overlaps extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('(%s && %s)');
-        $this->addLiteralMapping('ArithmeticPrimary');
-        $this->addLiteralMapping('ArithmeticPrimary');
+        $this->addLiteralMapping('StringPrimary');
+        $this->addLiteralMapping('StringPrimary');
     }
 }
