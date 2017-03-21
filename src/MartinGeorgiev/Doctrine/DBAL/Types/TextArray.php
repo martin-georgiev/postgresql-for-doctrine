@@ -38,7 +38,7 @@ class TextArray extends AbstractType
 
     /**
      * @param array $phpTextArray
-     * 
+     *
      * @return bool|string
      */
     protected function transformToPostgresTextArray($phpTextArray)
@@ -71,7 +71,7 @@ class TextArray extends AbstractType
 
     /**
      * @param string $postgresValue
-     * 
+     *
      * @return array
      */
     protected function transformFromPostgresTextArray($postgresValue)

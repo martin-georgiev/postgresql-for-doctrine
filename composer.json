@@ -1,31 +1,43 @@
 {
-  "name": "martin-georgiev/postgresql-for-doctrine",
-  "description": "Extends Doctrine2 DBAL & DQL with Postgres 9.4+ data types, operators and commands",
-  "minimum-stability": "stable",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Martin Georgiev",
-      "email": "martin.georgiev@gmail.com"
+    "name": "martin-georgiev/postgresql-for-doctrine",
+    "type": "library",
+    "description": "PostgreSQL enhacements for Doctrine2. Provides support for JSONB and array data types and operators and other specific functions.",
+    "keywords": ["martin georgiev", "doctrine2", "postgresql", "postgres", "dbal", "jsonb", "array data types"],
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Georgiev",
+            "email": "martin.georgiev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "doctrine/dbal": "~2.5",
+        "doctrine/orm": "~2.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "squizlabs/php_codesniffer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MartinGeorgiev\\": "src/MartinGeorgiev/",
+            "MartinGeorgiev\\Tests\\": "tests/MartinGeorgiev/"
+        }
+    },
+    "scripts": {
+        "check-code": [
+            "vendor/bin/phpunit",
+            "vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 --colors -n src"
+        ],
+        "fix-code": [
+            "vendor/bin/phpcbf --standard=PSR2 --encoding=utf-8 -n src"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
     }
-  ],
-  "require": {
-    "php": ">=5.5",
-    "doctrine/dbal": "~2.5",
-    "doctrine/orm": "~2.5"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "~4.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "MartinGeorgiev\\": "src/MartinGeorgiev/",
-      "MartinGeorgiev\\Tests\\": "tests/MartinGeorgiev/"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0-dev"
-    }
-  }
 }

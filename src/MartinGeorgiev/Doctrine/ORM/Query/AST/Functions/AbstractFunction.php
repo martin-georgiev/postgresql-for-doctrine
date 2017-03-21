@@ -30,20 +30,20 @@ abstract class AbstractFunction extends FunctionNode
     
     /**
      * Sets function prototype
-     * 
+     *
      * @param string $functionPrototype
      */
-    protected function setFunctionPrototype($functionPrototype) 
+    protected function setFunctionPrototype($functionPrototype)
     {
         $this->functionPrototype = $functionPrototype;
     }
     
     /**
      * Adds new literal mapping
-     * 
+     *
      * @param string $parserMethod
      */
-    protected function addLiteralMapping($parserMethod) 
+    protected function addLiteralMapping($parserMethod)
     {
         $this->literalsMapping[] = $parserMethod;
     }
@@ -63,7 +63,7 @@ abstract class AbstractFunction extends FunctionNode
     
     /**
      * Feeds given parser with previously set literals
-     * 
+     *
      * @param Parser $parser
      */
     protected function feedParserWithLiterals(Parser $parser)
