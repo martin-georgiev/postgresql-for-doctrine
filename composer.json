@@ -1,7 +1,7 @@
 {
     "name": "martin-georgiev/postgresql-for-doctrine",
     "type": "library",
-    "description": "PostgreSQL enhacements for Doctrine2. Provides support for JSONB and array data types and operators and other specific functions.",
+    "description": "PostgreSQL enhancements for Doctrine2. Provides support for JSONB and array data types and operators and other specific functions.",
     "keywords": ["martin georgiev", "doctrine2", "postgresql", "postgres", "dbal", "jsonb", "array data types"],
     "minimum-stability": "stable",
     "license": "MIT",
