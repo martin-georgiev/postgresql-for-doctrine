@@ -3,7 +3,7 @@
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql json object retrival, filtered by specific path (using #>)
+ * Implementation of PostgreSql json object retrieval, filtered by specific path (using #>)
  * @see https://www.postgresql.org/docs/9.4/static/functions-json.html
  *
  * @since 0.1

@@ -3,17 +3,17 @@
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql json field retrieval as text, filtered by key (using ->>)
- * @see https://www.postgresql.org/docs/9.4/static/functions-json.html
+ * Implementation of PostgreSql check if left side overlaps with right side (using &&)
+ * @see https://www.postgresql.org/docs/9.6/static/functions-array.html
  *
- * @since 0.1
+ * @since 0.10
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class JsonGetFieldAsText extends AbstractFunction
+class Overlaps extends AbstractFunction
 {
     protected function customiseFunction()
     {
-        $this->setFunctionPrototype('(%s ->> %s)');
+        $this->setFunctionPrototype('(%s && %s)');
         $this->addLiteralMapping('StringPrimary');
         $this->addLiteralMapping('StringPrimary');
     }
