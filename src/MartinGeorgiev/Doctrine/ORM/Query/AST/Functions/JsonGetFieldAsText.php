@@ -3,7 +3,7 @@
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql json field retrival as text, filtered by key (using ->>)
+ * Implementation of PostgreSql json field retrieval as text, filtered by key (using ->>)
  * @see https://www.postgresql.org/docs/9.4/static/functions-json.html
  *
  * @since 0.1
