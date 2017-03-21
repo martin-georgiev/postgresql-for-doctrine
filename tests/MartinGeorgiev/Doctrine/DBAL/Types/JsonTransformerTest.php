@@ -11,7 +11,7 @@ use PHPUnit_Framework_TestCase;
 class JsonTransformerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var JsonTransformer 
+     * @var JsonTransformer
      */
     private $transformer;
 

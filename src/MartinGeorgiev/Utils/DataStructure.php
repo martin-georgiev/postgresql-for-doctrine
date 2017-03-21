@@ -19,7 +19,7 @@ class DataStructure
      */
     public static function transformPostgresTextArrayToPHPArray($postgresArray)
     {
-        $transform = function($textArrayToTransform) use (&$transform) {
+        $transform = function ($textArrayToTransform) use (&$transform) {
             $phpArray = str_getcsv(trim($textArrayToTransform, '{}'));
             foreach ($phpArray as $i => $text) {
                 if ($text === null) {
@@ -50,14 +50,14 @@ class DataStructure
 
     /**
      * This method relays on the default escaping strategy in PostgreSql (double quotes)
-     * 
+     *
      * @see https://stackoverflow.com/a/5632171/3425372 Kudos to jmz for the inspiration
      * @param array $phpArray
      * @return string
      */
     public static function transformPHPArrayToPostgresTextArray(array $phpArray)
     {
-        $transform = function(array $phpArrayToTransform) use (&$transform) {
+        $transform = function (array $phpArrayToTransform) use (&$transform) {
             $result = [];
             foreach ($phpArrayToTransform as $text) {
                 if (is_array($text)) {

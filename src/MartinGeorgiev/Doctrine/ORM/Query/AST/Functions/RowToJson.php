@@ -3,17 +3,17 @@
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql ALL()
- * @see https://www.postgresql.org/docs/9.4/static/functions-subquery.html#FUNCTIONS-SUBQUERY-ALL
+ * Implementation of PostgreSql ROW_TO_JSON()
+ * @see https://www.postgresql.org/docs/9.6/static/functions-json.html
  *
- * @since 0.1
+ * @since 0.10
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class All extends AbstractFunction
+class RowToJson extends AbstractFunction
 {
     protected function customiseFunction()
     {
-        $this->setFunctionPrototype('ALL(%s)');
+        $this->setFunctionPrototype('row_to_json(%s)');
         $this->addLiteralMapping('StringPrimary');
     }
 }

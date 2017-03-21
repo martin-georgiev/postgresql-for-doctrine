@@ -12,7 +12,7 @@ trait JsonTransformer
 {
     /**
      * @param mixed $phpValue
-     * 
+     *
      * @return string
      */
     public function transformToPostgresJson($phpValue)
