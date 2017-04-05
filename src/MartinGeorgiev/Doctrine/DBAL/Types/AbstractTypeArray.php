@@ -43,7 +43,7 @@ abstract class AbstractTypeArray extends AbstractType
             $item = $this->transformArrayItemForPostgres($item);
         }
         
-        return '{'.join(',', $phpArray).'}';
+        return '{' . join(',', $phpArray) . '}';
     }
     
     /**

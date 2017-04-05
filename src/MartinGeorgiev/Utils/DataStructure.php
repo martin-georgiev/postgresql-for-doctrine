@@ -19,7 +19,7 @@ class DataStructure
      */
     public static function transformPostgresTextArrayToPHPArray($postgresArray)
     {
-        $transform = function ($textArrayToTransform) use (&$transform) {
+        $transform = function($textArrayToTransform) use (&$transform) {
             $phpArray = str_getcsv(trim($textArrayToTransform, '{}'));
             foreach ($phpArray as $i => $text) {
                 if ($text === null) {
@@ -27,13 +27,13 @@ class DataStructure
                     break;
                 }
 
-                $isInteger = is_numeric($text) && ''.intval($text) === $text;
+                $isInteger = is_numeric($text) && '' . intval($text) === $text;
                 if ($isInteger) {
                     $phpArray[$i] = (int)$text;
                     continue;
                 }
 
-                $isFloat = is_numeric($text) && ''.floatval($text) === $text;
+                $isFloat = is_numeric($text) && '' . floatval($text) === $text;
                 if ($isFloat) {
                     $phpArray[$i] = (float)$text;
                     continue;
@@ -57,7 +57,7 @@ class DataStructure
      */
     public static function transformPHPArrayToPostgresTextArray(array $phpArray)
     {
-        $transform = function (array $phpArrayToTransform) use (&$transform) {
+        $transform = function(array $phpArrayToTransform) use (&$transform) {
             $result = [];
             foreach ($phpArrayToTransform as $text) {
                 if (is_array($text)) {
