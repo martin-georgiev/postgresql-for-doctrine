@@ -19,7 +19,7 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
     composer require "martin-georgiev/postgresql-for-doctrine=~0.9"
 
 ----
-## Integration with Symfony2
+## Integration with Symfony (v2 and v3)
 *Register the new DBAL types*
 
     # Usually part of config.yml
@@ -253,15 +253,17 @@ The steps below are based on integration with [Laravel Doctrine](http://www.lara
 
 3) Depending on your new datatype's nature you may also need to overwrite some of the following methods:
 
-    transformPostgresArrayToPHPArray() # E.g. this will be valid for PostgreSQL's JSON datatype
-    transformArrayItemForPHP() # In almost every case you will need to adjust the returned method to your specific needs
-    isValidArrayItemForDatabase() # It is encouraged to check that every element part of your PHP array is actually compatible with your database datatype
+    `transformPostgresArrayToPHPArray()`. e.g. this will be valid for PostgreSQL's JSON datatype
+    `transformArrayItemForPHP()`, in almost every case you will need to adjust the returned method to your specific needs
+    `isValidArrayItemForDatabase()`, I encourage you to check that every item in your PHP array is actually compatible with your database datatype
 
 **How to add more functions?**
 
 1) Extend *MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AbstractFunction*
 
-2) Add behavior to your new function with overwriting *customiseFunction()* method. Use *setFunctionPrototype()* and *addLiteralMapping()* as in this example:
+2) Add behavior to your new function with overwriting *customiseFunction()* method. Use *setFunctionPrototype()* and *addLiteralMapping()*.
+
+Example:
 
     <?php
 
