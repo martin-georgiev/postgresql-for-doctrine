@@ -254,7 +254,9 @@ The steps below are based on integration with [Laravel Doctrine](http://www.lara
 3) Depending on your new datatype's nature you may also need to overwrite some of the following methods:
 
     `transformPostgresArrayToPHPArray()`. e.g. this will be valid for PostgreSQL's JSON datatype
+    
     `transformArrayItemForPHP()`, in almost every case you will need to adjust the returned method to your specific needs
+    
     `isValidArrayItemForDatabase()`, I encourage you to check that every item in your PHP array is actually compatible with your database datatype
 
 **How to add more functions?**
