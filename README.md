@@ -94,8 +94,6 @@ The steps below are based on integration with [Laravel Doctrine](http://www.lara
             'bigint[]' => MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class,
             'integer[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class,
             'smallint[]' => MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class,
-            'guid' => VoucherCodes\GUID\Doctrine\DBAL\Types\Guid::class,
-            'guid[]' => VoucherCodes\GUID\Doctrine\DBAL\Types\GuidArray::class,
         ],
 
         'custom_string_functions' => [
