@@ -22,37 +22,40 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
 ## Integration with Symfony (v2 and v3)
 *Register the new DBAL types*
 
-    # Usually part of config.yml
-    doctrine:
-        dbal:
-            types: # register the new types
-                jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
-                jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
-                smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
-                integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
-                bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
-                text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
+```yaml
+# Usually part of config.yml
+doctrine:
+    dbal:
+        types: # register the new types
+            jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
+            jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
+            smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
+            integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
+            bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
+            text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
+```
 
 *Add mapping between DBAL and PostgreSQL data types*
 
-    # Usually part of config.yml
-    doctrine:
-        dbal:
-            connections:
-                your_conenction:
-                    mapping_types:
-                        jsonb: jsonb
-                        jsonb[]: jsonb[]
-                        _jsonb: jsonb[]
-                        smallint[]: smallint[]
-                        _int2: smallint[]
-                        integer[]: integer[]
-                        _int4: integer[]
-                        bigint[]: bigint[]
-                        _int8: bigint[]
-                        text[]: text[]
-                        _text: text[]
-
+```yaml
+# Usually part of config.yml
+doctrine:
+    dbal:
+        connections:
+            your_conenction:
+                mapping_types:
+                    jsonb: jsonb
+                    jsonb[]: jsonb[]
+                    _jsonb: jsonb[]
+                    smallint[]: smallint[]
+                    _int2: smallint[]
+                    integer[]: integer[]
+                    _int4: integer[]
+                    bigint[]: bigint[]
+                    _int8: bigint[]
+                    text[]: text[]
+                    _text: text[]
+```
 
 ## Integration with Laravel 5
 Unfortunately, Laravel still doesn't come with native Doctrine2 integration.
@@ -60,185 +63,192 @@ The steps below are based on integration with [Laravel Doctrine](http://www.lara
 
 *Register the new functions and data type mappings*
 
-    <?php
-    # Usually part of config/doctrine.php
+```php
+<?php
+# Usually part of config/doctrine.php
 
-    return [
-        'managers' => [
-            'default' => [
-                ...
+return [
+    'managers' => [
+        'default' => [
+            ...
 
-                'type_mappings' => [
-                    'jsonb' => 'jsonb',
-                    '_jsonb' => 'jsonb[]',
-                    'jsonb[]' => 'jsonb[]',
-                    'guid' => 'guid',
-                    '_guid' => 'guid[]',
-                    'guid[]' => 'guid[]',
-                    '_int2' => 'smallint[]',
-                    'smallint[]' => 'smallint[]',
-                    '_int4' => 'integer[]',
-                    'integer[]' => 'integer[]',
-                    '_int8' => 'bigint',
-                    'bigint[]' => 'bigint[]',
-                    '_text' => 'text[]',
-                    'text[]' => 'text[]',
-                ],
+            'type_mappings' => [
+                'jsonb' => 'jsonb',
+                '_jsonb' => 'jsonb[]',
+                'jsonb[]' => 'jsonb[]',
+                'guid' => 'guid',
+                '_guid' => 'guid[]',
+                'guid[]' => 'guid[]',
+                '_int2' => 'smallint[]',
+                'smallint[]' => 'smallint[]',
+                '_int4' => 'integer[]',
+                'integer[]' => 'integer[]',
+                '_int8' => 'bigint',
+                'bigint[]' => 'bigint[]',
+                '_text' => 'text[]',
+                'text[]' => 'text[]',
             ],
         ],
+    ],
 
-        'custom_types' => [
-            'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
-            'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
-            'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
-            'bigint[]' => MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class,
-            'integer[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class,
-            'smallint[]' => MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class,
-        ],
+    'custom_types' => [
+        'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
+        'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
+        'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
+        'bigint[]' => MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class,
+        'integer[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class,
+        'smallint[]' => MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class,
+    ],
 
-        'custom_string_functions' => [
-            // Postgresql specific functions not supported natively by Doctrine or Doctrine Extensions
-            'GREATEST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest::class,
-            'LEAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least::class,
+    'custom_string_functions' => [
+        // Postgresql specific functions not supported natively by Doctrine or Doctrine Extensions
+        'GREATEST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest::class,
+        'LEAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least::class,
 
-            // Array data types related functions
-            'ALL_OF' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All::class,
-            'ANY_OF' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any::class,
-            'IN_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray::class,
-            'ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr::class,
-            'ARRAY_APPEND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend::class,
-            'ARE_OVERLAPING_EACH_OTHER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAreOverlapingEachOther::class,
-            'ARRAY_CARDINALITY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality::class,
-            'ARRAY_CAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat::class,
-            'ARRAY_PREPEND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend::class,
-            'ARRAY_REMOVE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove::class,
-            'ARRAY_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class,
-            'ARRAY_TO_STRING' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString::class,
-            'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
+        // Array data types related functions
+        'ALL_OF' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All::class,
+        'ANY_OF' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any::class,
+        'IN_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray::class,
+        'ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr::class,
+        'ARRAY_APPEND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend::class,
+        'ARE_OVERLAPING_EACH_OTHER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAreOverlapingEachOther::class,
+        'ARRAY_CARDINALITY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality::class,
+        'ARRAY_CAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat::class,
+        'ARRAY_PREPEND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend::class,
+        'ARRAY_REMOVE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove::class,
+        'ARRAY_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class,
+        'ARRAY_TO_STRING' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString::class,
+        'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
 
-            // Functions and operators used by both array and json(-b) data types
-            'CONTAINS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains::class,
-            'IS_CONTAINED_BY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy::class,
+        // Functions and operators used by both array and json(-b) data types
+        'CONTAINS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains::class,
+        'IS_CONTAINED_BY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy::class,
 
-            // Json(-b) data type related functions and operators
-            'JSON_GET_FIELD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField::class,
-            'JSON_GET_FIELD_AS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText::class,
-            'JSON_GET_FIELD_AS_INTEGER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger::class,
-            'JSON_GET_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject::class,
-            'JSON_GET_OBJECT_AS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText::class,
-            'JSONB_ARRAY_ELEMENTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements::class,
-            'JSONB_ARRAY_ELEMENTS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText::class,
-            'JSONB_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength::class,
-            'JSONB_EACH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach::class,
-            'JSONB_EACH_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText::class,
-            'JSONB_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists::class,
-            'JSONB_OBJECT_KEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys::class,
+        // Json(-b) data type related functions and operators
+        'JSON_GET_FIELD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField::class,
+        'JSON_GET_FIELD_AS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText::class,
+        'JSON_GET_FIELD_AS_INTEGER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger::class,
+        'JSON_GET_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject::class,
+        'JSON_GET_OBJECT_AS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText::class,
+        'JSONB_ARRAY_ELEMENTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements::class,
+        'JSONB_ARRAY_ELEMENTS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText::class,
+        'JSONB_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength::class,
+        'JSONB_EACH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach::class,
+        'JSONB_EACH_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText::class,
+        'JSONB_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists::class,
+        'JSONB_OBJECT_KEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys::class,
 
-            // Text search related functions and operators
-            'TO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery::class,
-            'TO_TSVECTOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector::class,
-            'TSMATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch::class,
-        ],
+        // Text search related functions and operators
+        'TO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery::class,
+        'TO_TSVECTOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector::class,
+        'TSMATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch::class,
+    ],
 
-        ...
-    ];
+    ...
+];
+```
 
 *Create an EventSubscriber for the new data types*
 
-    <?php
+```php
+<?php
 
-    namespace Acme\Handlers\Events;
+namespace Acme\Handlers\Events;
 
-    use Doctrine\Common\EventSubscriber as Subscriber;
-    use Doctrine\DBAL\DBALException;
-    use Doctrine\DBAL\Event\ConnectionEventArgs;
-    use Doctrine\DBAL\Events;
-    use Doctrine\DBAL\Types\Type;
+use Doctrine\Common\EventSubscriber as Subscriber;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Event\ConnectionEventArgs;
+use Doctrine\DBAL\Events;
+use Doctrine\DBAL\Types\Type;
 
-    class DoctrineEventSubscriber implements Subscriber
+class DoctrineEventSubscriber implements Subscriber
+{
+    /**
+     * @return array
+     */
+    public function getSubscribedEvents()
     {
-        /**
-         * @return array
-         */
-        public function getSubscribedEvents()
-        {
-            return [
-                Events::postConnect,
-            ];
-        }
+        return [
+            Events::postConnect,
+        ];
+    }
 
-        /**
-         * @param ConnectionEventArgs $args
-         * @throws DBALException
-         */
-        public function postConnect(ConnectionEventArgs $args) 
-        {
-            if (!Type::hasType('jsonb')) {
-                Type::addType('jsonb', \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class);
-            }
-            if (!Type::hasType('jsonb[]')) {
-                Type::addType('jsonb[]', \MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class);
-            }
-            if (!Type::hasType('text[]')) {
-                Type::addType('text[]', \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class);
-            }
-            if (!Type::hasType('bigint[]')) {
-                Type::addType('bigint[]', \MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class);
-            }
-            if (!Type::hasType('integer[]')) {
-                Type::addType('integer[]', \MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class);
-            }
-            if (!Type::hasType('smallint[]')) {
-                Type::addType('smallint[]', \MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class);
-            }
+    /**
+     * @param ConnectionEventArgs $args
+     * @throws DBALException
+     */
+    public function postConnect(ConnectionEventArgs $args) 
+    {
+        if (!Type::hasType('jsonb')) {
+            Type::addType('jsonb', \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class);
+        }
+        if (!Type::hasType('jsonb[]')) {
+            Type::addType('jsonb[]', \MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class);
+        }
+        if (!Type::hasType('text[]')) {
+            Type::addType('text[]', \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class);
+        }
+        if (!Type::hasType('bigint[]')) {
+            Type::addType('bigint[]', \MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class);
+        }
+        if (!Type::hasType('integer[]')) {
+            Type::addType('integer[]', \MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class);
+        }
+        if (!Type::hasType('smallint[]')) {
+            Type::addType('smallint[]', \MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class);
         }
     }
+}
+```
 
 *Register the new data type mappings in DoctrineServiceProvider*
 
-    <?php
+```php
+<?php
 
-    namespace Acme\Providers;
+namespace Acme\Providers;
 
-    use LaravelDoctrine\ORM\DoctrineServiceProvider as LaravelDoctrineServiceProvider;
+use LaravelDoctrine\ORM\DoctrineServiceProvider as LaravelDoctrineServiceProvider;
 
-    class DoctrineServiceProvider extends LaravelDoctrineServiceProvider
+class DoctrineServiceProvider extends LaravelDoctrineServiceProvider
+{
+    public function register()
     {
-        public function register()
-        {
-            parent::register();
+        parent::register();
 
-            $this->registerDoctrineTypeMapping();
-        }
+        $this->registerDoctrineTypeMapping();
+    }
 
-        private function registerDoctrineTypeMapping()
-        {
-            $databasePlatform = $this->app->make('registry')->getConnection()->getDatabasePlatform();
-            $entityManagers = $this->app->make('config')->get('doctrine.managers');
-            foreach ($entityManagers as $entityManager) {
-                if (!array_key_exists('type_mappings', $entityManager)) {
-                    continue;
-                }
-                foreach ($entityManager['type_mappings'] as $dbType => $doctrineName) {
-                    $databasePlatform->registerDoctrineTypeMapping($dbType, $doctrineName);
-                }
+    private function registerDoctrineTypeMapping()
+    {
+        $databasePlatform = $this->app->make('registry')->getConnection()->getDatabasePlatform();
+        $entityManagers = $this->app->make('config')->get('doctrine.managers');
+        foreach ($entityManagers as $entityManager) {
+            if (!array_key_exists('type_mappings', $entityManager)) {
+                continue;
+            }
+            foreach ($entityManager['type_mappings'] as $dbType => $doctrineName) {
+                $databasePlatform->registerDoctrineTypeMapping($dbType, $doctrineName);
             }
         }
     }
-
+}
+```
 
 ## Integration with Doctrine2
 
-    <?php
+```php
+<?php
 
-    use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type;
 
-    Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
-    Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
-    Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
-    Type::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
-    Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
-    Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
+Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
+Type::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
+Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
+Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+```
 
 ----
 ## Extend It!
@@ -265,20 +275,22 @@ The steps below are based on integration with [Laravel Doctrine](http://www.lara
 
 Example:
 
-    <?php
+```php
+<?php
 
-    namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-    class ArrayAppend extends AbstractFunction
+class ArrayAppend extends AbstractFunction
+{
+    protected function customiseFunction()
     {
-        protected function customiseFunction()
-        {
-            $this->setFunctionPrototype('array_append(%s, %s)');
-            $this->addLiteralMapping('StringPrimary'); # this will correspond to param №1 in the prototype set in setFunctionPrototype
-            $this->addLiteralMapping('InputParameter'); # this will correspond to param №2 in the prototype set in setFunctionPrototype
-            # Add as much literal mappings as you need.
-        }
+        $this->setFunctionPrototype('array_append(%s, %s)');
+        $this->addLiteralMapping('StringPrimary'); # this will correspond to param №1 in the prototype set in setFunctionPrototype
+        $this->addLiteralMapping('InputParameter'); # this will correspond to param №2 in the prototype set in setFunctionPrototype
+        # Add as much literal mappings as you need.
     }
+}
+```
 
 *Beware that you cannot use **?** as part of any function prototype in Doctrine as this will result in faulty query parsing.*
 
