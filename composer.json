@@ -22,7 +22,11 @@
     },
     "autoload": {
         "psr-4": {
-            "MartinGeorgiev\\": "src/MartinGeorgiev/",
+            "MartinGeorgiev\\": "src/MartinGeorgiev/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "MartinGeorgiev\\Tests\\": "tests/MartinGeorgiev/"
         }
     },
