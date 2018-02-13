@@ -19,7 +19,7 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
     composer require "martin-georgiev/postgresql-for-doctrine=~0.9"
 
 ----
-## Integration with Symfony (v2 and v3)
+## Integration with Symfony 2/3/4
 *Register the new DBAL types*
 
 ```yaml
