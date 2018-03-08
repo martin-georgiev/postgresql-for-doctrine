@@ -1,12 +1,30 @@
 language: php
-php:
-  - '5.5'
-  - '5.6'
-  - '7.0'
-  - '7.1'
-  - '7.2'
-  - hhvm
-  - nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  include:
+    - php: 5.5
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+    - php: nightly
+  allow_failures:
+    - php: nightly
+
+before_install:
+  - composer self-update
+  # Prevent Travis throwing an out of memory error on PHP 5.5
+  - if [ $(phpenv version-name) == 5.5 ]; then echo "memory_limit=-1" >> ~/.phpenv/versions/5.5/etc/conf.d/travis.ini; fi;
+  # Prevent Travis throwing an out of memory error on PHP 5.6
+  - if [ $(phpenv version-name) == 5.6 ]; then echo "memory_limit=-1" >> ~/.phpenv/versions/5.6/etc/conf.d/travis.ini; fi;
+  # Disable xdebug for improved performance; Unstable PHP versions, like nightly, don't have xdebug enabled
+  - if [ $(phpenv version-name) != "nightly" ]; then phpenv config-rm xdebug.ini; fi;
+
 install: composer install
+
 script:
   - composer run-script check-code
