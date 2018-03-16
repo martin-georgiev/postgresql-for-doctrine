@@ -15,7 +15,7 @@ class TextArrayTest extends PHPUnit_Framework_TestCase
      * @var TextArray
      */
     protected $dbalType;
-    
+
     /**
      * @var AbstractPlatform
      */

@@ -12,7 +12,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 class JsonbArray extends AbstractTypeArray
 {
     use JsonTransformer;
-    
+
     /**
      * @var string
      */
@@ -24,9 +24,10 @@ class JsonbArray extends AbstractTypeArray
     protected function transformArrayItemForPostgres($item)
     {
         $json = $this->transformToPostgresJson($item);
+
         return $json;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -38,11 +39,12 @@ class JsonbArray extends AbstractTypeArray
         $trimmedPostgresArray = mb_substr($postgresArray, 2, -2);
         $phpArray = explode('},{', $trimmedPostgresArray);
         foreach ($phpArray as &$item) {
-            $item = '{' . $item . '}';
+            $item = '{'.$item.'}';
         }
+
         return $phpArray;
     }
-    
+
     /**
      * {@inheritDoc}
      */

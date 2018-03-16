@@ -27,7 +27,7 @@ abstract class AbstractFunction extends FunctionNode
     protected $literals = [];
 
     abstract protected function customiseFunction();
-    
+
     /**
      * Sets function prototype
      *
@@ -37,7 +37,7 @@ abstract class AbstractFunction extends FunctionNode
     {
         $this->functionPrototype = $functionPrototype;
     }
-    
+
     /**
      * Adds new literal mapping
      *
@@ -47,20 +47,20 @@ abstract class AbstractFunction extends FunctionNode
     {
         $this->literalsMapping[] = $parserMethod;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function parse(Parser $parser)
     {
         $this->customiseFunction();
-        
+
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
         $this->feedParserWithLiterals($parser);
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
-    
+
     /**
      * Feeds given parser with previously set literals
      *
@@ -88,6 +88,7 @@ abstract class AbstractFunction extends FunctionNode
         foreach ($this->literals as $literal) {
             $dispateched[] = $literal->dispatch($sqlWalker);
         }
+
         return vsprintf($this->functionPrototype, $dispateched);
     }
 }

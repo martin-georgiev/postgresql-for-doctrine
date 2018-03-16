@@ -26,26 +26,28 @@ abstract class AbstractTypeArray extends AbstractType
      */
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform)
     {
-        if (is_null($phpArray)) {
+        if (null === $phpArray) {
             return null;
         }
 
         if (!is_array($phpArray)) {
             $exceptionMessage = 'Given PHP value content type is not PHP array. Instead it is "%s".';
+
             throw new ConversionException(sprintf($exceptionMessage, gettype($phpArray)));
         }
 
         foreach ($phpArray as &$item) {
             if (!$this->isValidArrayItemForDatabase($item)) {
                 $exceptionMessage = 'One or more of items given doesn\'t look like valid.';
+
                 throw new ConversionException($exceptionMessage);
             }
             $item = $this->transformArrayItemForPostgres($item);
         }
-        
-        return '{'.join(',', $phpArray).'}';
+
+        return '{'.implode(',', $phpArray).'}';
     }
-    
+
     /**
      * Tests if given PHP array item is from compatible type for PostgreSql
      *
@@ -69,7 +71,7 @@ abstract class AbstractTypeArray extends AbstractType
     {
         return $item;
     }
-    
+
     /**
      * Converts a value from its PostgreSql representation to its PHP representation of this type.
      *
@@ -87,9 +89,10 @@ abstract class AbstractTypeArray extends AbstractType
         foreach ($phpArray as &$item) {
             $item = $this->transformArrayItemForPHP($item);
         }
+
         return $phpArray;
     }
-    
+
     /**
      * Transforms whole PostgreSql array to PHP array
      *
@@ -103,6 +106,7 @@ abstract class AbstractTypeArray extends AbstractType
     {
         if (!is_string($postgresArray)) {
             $exceptionMessage = 'Given PostgreSql value content type is not PHP string. Instead it is "%s".';
+
             throw new ConversionException(sprintf($exceptionMessage, gettype($postgresArray)));
         }
         $trimmedPostgresArray = mb_substr($postgresArray, 1, -1);
@@ -110,9 +114,10 @@ abstract class AbstractTypeArray extends AbstractType
             return [];
         }
         $phpArray = explode(',', $trimmedPostgresArray);
+
         return $phpArray;
     }
-    
+
     /**
      * Transforms PostgreSql array item to a PHP compatible array item
      *

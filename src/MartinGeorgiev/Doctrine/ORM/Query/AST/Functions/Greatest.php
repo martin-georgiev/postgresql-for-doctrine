@@ -56,6 +56,7 @@ class Greatest extends AbstractFunction
         foreach ($this->literals as $literal) {
             $dispateched[] = $literal->dispatch($sqlWalker);
         }
-        return vsprintf($this->functionPrototype, join(',', $dispateched));
+
+        return vsprintf($this->functionPrototype, implode(',', $dispateched));
     }
 }
