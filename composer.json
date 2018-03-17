@@ -1,7 +1,7 @@
 {
     "name": "martin-georgiev/postgresql-for-doctrine",
     "type": "library",
-    "description": "PostgreSQL enhancements for Doctrine2. Provides support for JSONB and array data types and operators and other specific functions.",
+    "description": "PostgreSQL enhancements for Doctrine. Provides support for JSONB and array data types and operators and other specific functions.",
     "keywords": ["martin georgiev", "doctrine2", "postgresql", "postgres", "dbal", "jsonb", "array data types"],
     "minimum-stability": "stable",
     "license": "MIT",
@@ -17,9 +17,10 @@
         "doctrine/orm": "~2.5"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "*",
+        "friendsofphp/php-cs-fixer": "*",
+        "jakub-onderka/php-parallel-lint": "^0.9.2",
         "phpunit/phpunit": "~5.0",
-        "friendsofphp/php-cs-fixer": "*"
+        "sensiolabs/security-checker": "^4.1"
     },
     "autoload": {
         "psr-4": {
@@ -32,17 +33,26 @@
         }
     },
     "scripts": {
-        "check-code": [
-            "vendor/bin/phpunit",
-            "vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 --colors -n src"
+        "check-code-style": [
+            "vendor/bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --dry-run --no-interaction -v"
         ],
-        "fix-code": [
-            "vendor/bin/phpcbf --standard=PSR2 --encoding=utf-8 -n src"
+        "fix-code-style": [
+            "vendor/bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --no-interaction -v"
+        ],
+        "tests": [
+            "vendor/bin/phpunit"
+        ],
+        "validate-files": [
+            "vendor/bin/parallel-lint --exclude vendor ."
         ]
     },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
         }
-    }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true
 }

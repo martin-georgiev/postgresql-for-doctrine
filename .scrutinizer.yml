@@ -1,0 +1,7 @@
+coding_style:
+  php:
+    spaces:
+      around_operators:
+        concatenation: false
+      other:
+        after_type_cast: true
