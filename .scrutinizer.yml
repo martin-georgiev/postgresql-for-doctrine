@@ -1,3 +1,7 @@
+build:
+  environment:
+    php: '5.6.9'
+
 coding_style:
   php:
     spaces:
