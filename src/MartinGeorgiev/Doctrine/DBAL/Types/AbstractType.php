@@ -20,7 +20,7 @@ abstract class AbstractType extends Type
     {
         return $platform->getDoctrineTypeMapping(static::TYPE_NAME);
     }
-    
+
     /**
      * {@inheritDoc}
      */

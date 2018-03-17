@@ -24,18 +24,21 @@ class DataStructure
             foreach ($phpArray as $i => $text) {
                 if ($text === null) {
                     unset($phpArray[$i]);
+
                     break;
                 }
 
-                $isInteger = is_numeric($text) && ''.intval($text) === $text;
+                $isInteger = is_numeric($text) && ''.(int) $text === $text;
                 if ($isInteger) {
-                    $phpArray[$i] = (int)$text;
+                    $phpArray[$i] = (int) $text;
+
                     continue;
                 }
 
-                $isFloat = is_numeric($text) && ''.floatval($text) === $text;
+                $isFloat = is_numeric($text) && ''.(float) $text === $text;
                 if ($isFloat) {
-                    $phpArray[$i] = (float)$text;
+                    $phpArray[$i] = (float) $text;
+
                     continue;
                 }
 
@@ -62,6 +65,7 @@ class DataStructure
             foreach ($phpArrayToTransform as $text) {
                 if (is_array($text)) {
                     $result[] = $transform($text);
+
                     continue;
                 }
 
@@ -70,13 +74,14 @@ class DataStructure
                 } elseif (empty($text)) {
                     $escapedText = '';
                 } else {
-                    $escapedText = '"' . str_replace('"', '\"', $text) . '"';
+                    $escapedText = '"'.str_replace('"', '\"', $text).'"';
                 }
                 $result[] = $escapedText;
             }
-            return '{' . implode(",", $result) . '}';
+
+            return '{'.implode(',', $result).'}';
         };
-        
+
         return $transform($phpArray);
     }
 }

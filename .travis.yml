@@ -1,12 +1,57 @@
 language: php
-php:
-  - '5.5'
-  - '5.6'
-  - '7.0'
-  - '7.1'
-  - '7.2'
-  - hhvm
-  - nightly
-install: composer install
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+env:
+  global:
+    - DEPENDENCIES=no
+
+matrix:
+  include:
+    - php: 5.6
+    - php: 5.6
+      env: DEPENDENCIES=beta
+    - php: 5.6
+      env: DEPENDENCIES=low
+    - php: 7.0
+    - php: 7.0
+      env: DEPENDENCIES=beta
+    - php: 7.0
+      env: DEPENDENCIES=low
+    - php: 7.1
+    - php: 7.1
+      env: DEPENDENCIES=beta
+    - php: 7.1
+      env: DEPENDENCIES=low
+    - php: 7.2
+    - php: 7.2
+      env: DEPENDENCIES=beta
+    - php: 7.2
+      env: DEPENDENCIES=low
+    - php: nightly
+  allow_failures:
+    - php: nightly
+    - env: DEPENDENCIES=beta
+    - env: DEPENDENCIES=low
+
+before_install:
+  - composer self-update
+  # Set composer minimum-stability configuration filter to beta versions
+  - if [ "$DEPENDENCIES" = "beta" ]; then perl -pi -e 's/^}$/,"minimum-stability":"beta"}/' composer.json; fi;
+  # Disable xdebug, there is no use of it being enabled
+  - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
+  # Prevent Travis throwing an out of memory error
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  # Test if we have a token for github as the project may hit the 60 rph limit
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
+
+install:
+  - if [ "$DEPENDENCIES" = "no" ]; then composer update; fi;
+  - if [ "$DEPENDENCIES" = "low" ]; then composer --prefer-lowest --prefer-stable update; fi;
+
 script:
-  - composer run-script check-code
+  - composer validate-files
+  - composer check-code-style
+  - composer tests

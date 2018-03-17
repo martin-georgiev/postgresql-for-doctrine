@@ -15,7 +15,7 @@ class JsonbArrayTest extends PHPUnit_Framework_TestCase
      * @var JsonbArray
      */
     protected $dbalType;
-    
+
     /**
      * @var AbstractPlatform
      */

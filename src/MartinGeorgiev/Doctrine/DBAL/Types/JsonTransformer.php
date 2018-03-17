@@ -19,7 +19,7 @@ trait JsonTransformer
     {
         return json_encode($phpValue);
     }
-    
+
     /**
      * @param string $postgresValue
      *
