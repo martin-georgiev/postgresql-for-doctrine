@@ -29,10 +29,11 @@ class TextArray extends AbstractType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return null;
         }
         $encodedValue = $this->transformToPostgresTextArray($value);
+
         return $encodedValue;
     }
 
@@ -49,6 +50,7 @@ class TextArray extends AbstractType
         if (empty($phpTextArray)) {
             return '{}';
         }
+
         return DataStructure::transformPHPArrayToPostgresTextArray($phpTextArray);
     }
 
@@ -66,6 +68,7 @@ class TextArray extends AbstractType
             return null;
         }
         $textArray = $this->transformFromPostgresTextArray($value);
+
         return $textArray;
     }
 

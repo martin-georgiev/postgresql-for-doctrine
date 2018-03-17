@@ -1,8 +1,8 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/badges/quality-score.png)](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/?branch=master)
-[![Build Status](https://api.travis-ci.org/martin-georgiev/postgresql-for-doctrine.svg)](https://api.travis-ci.org/martin-georgiev/postgresql-for-doctrine.svg?branch=master)
+[![Build Status](https://api.travis-ci.org/martin-georgiev/postgresql-for-doctrine.svg)](https://www.travis-ci.org/martin-georgiev/postgresql-for-doctrine)
 ----
 ## What's this?
-This package provides Doctrine2 support for some specific PostgreSQL 9.4+ features:
+This package provides Doctrine support for some specific PostgreSQL 9.4+ features:
 
 * Support of JSONB and array data types for integers, TEXT and JSONB
 * Implementation of the most commonly used functions when working with array and JSON data types
