@@ -19,7 +19,7 @@ Easiest possible way is through [Composer](https://getcomposer.org/download/)
     composer require "martin-georgiev/postgresql-for-doctrine=~0.9"
 
 ----
-## Integration with Symfony 2/3/4
+## Integration with Symfony
 *Register the new DBAL types*
 
 ```yaml
@@ -42,7 +42,7 @@ doctrine:
 doctrine:
     dbal:
         connections:
-            your_conenction:
+            your_connection:
                 mapping_types:
                     jsonb: jsonb
                     jsonb[]: jsonb[]
@@ -55,6 +55,49 @@ doctrine:
                     _int8: bigint[]
                     text[]: text[]
                     _text: text[]
+```
+
+*Register the functions you'll use in your DQL queries*
+
+```yaml
+# Usually part of config.yml
+doctrine:
+    orm:
+        entity_managers:
+            your_connection:
+                dql:
+                    string_functions:
+                        ALL_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All
+                        ANY_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any
+                        ARRAY_APPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend
+                        ARRAY_CARDINALITY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality
+                        ARRAY_CAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat
+                        ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength
+                        ARRAY_PREPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend
+                        ARRAY_REMOVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove
+                        ARRAY_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace
+                        ARRAY_TO_STRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString
+                        ARRAY_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson
+                        STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
+                        CONTAINS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains
+                        OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps
+                        GREATEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest
+                        LEAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least
+                        IN_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray
+                        IS_CONTAINED_BY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy
+                        JSON_GET_FIELD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField
+                        JSON_GET_FIELD_AS_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText
+                        JSON_GET_FIELD_AS_INTEGER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger
+                        JSON_GET_OBJECT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject
+                        JSON_GET_OBJECT_AS_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText
+                        JSON_GET_OBJECT_AS_INTEGER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsInteger
+                        JSONB_ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength
+                        JSONB_EACH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach
+                        JSONB_EACH_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText
+                        JSONB_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists
+                        JSONB_INSERT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert
+                        JSONB_OBJECT_KEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys
+                        JSONB_SET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet
 ```
 
 ## Integration with Laravel 5
