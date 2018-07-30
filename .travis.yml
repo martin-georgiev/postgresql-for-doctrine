@@ -41,7 +41,7 @@ install:
   - if [ "$DEPENDENCIES" = "beta" ]; then
       composer config minimum-stability beta;
       composer update -n --prefer-dist;
-    else if [ "$DEPENDENCIES" = "low" ]; then
+    elif [ "$DEPENDENCIES" = "low" ]; then
       composer update -n --prefer-dist --prefer-lowest;
     else
       composer update -n --prefer-dist;
