@@ -19,7 +19,7 @@ class DataStructure
      */
     public static function transformPostgresTextArrayToPHPArray($postgresArray)
     {
-        $transform = function ($textArrayToTransform) use (&$transform) {
+        $transform = static function ($textArrayToTransform) {
             $phpArray = str_getcsv(trim($textArrayToTransform, '{}'));
             foreach ($phpArray as $i => $text) {
                 if ($text === null) {

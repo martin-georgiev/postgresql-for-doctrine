@@ -4,33 +4,29 @@ namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass MartinGeorgiev\Tests\Doctrine\DBAL\Types\JsonbArray
- */
-class JsonbArrayTest extends PHPUnit_Framework_TestCase
+class JsonbArrayTest extends TestCase
 {
     /**
-     * @var JsonbArray
+     * @var AbstractPlatform|MockObject
      */
-    protected $dbalType;
+    private $platform;
 
     /**
-     * @var AbstractPlatform
+     * @var JsonbArray|MockObject
      */
-    protected $platform;
+    private $fixture;
 
     protected function setUp()
     {
-        $this->dbalType = $this->getMockBuilder(JsonbArray::class)
+        $this->platform = $this->createMock(AbstractPlatform::class);
+
+        $this->fixture = $this->getMockBuilder(JsonbArray::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->platform = $this->getMockBuilder(AbstractPlatform::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
     }
 
     /**
@@ -66,32 +62,30 @@ class JsonbArrayTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::getName
+     * @test
      */
-    public function testTypeHasName()
+    public function has_name()
     {
-        $this->assertEquals('jsonb[]', $this->dbalType->getName());
+        $this->assertEquals('jsonb[]', $this->fixture->getName());
     }
 
     /**
-     * @covers ::convertToDatabaseValue
-     * @covers ::transformArrayItemForPostgres
+     * @test
      */
-    public function testCanTransformPhpValueToPostgresJson()
+    public function CanTransformPhpValueToPostgresJson()
     {
         foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['postgresJsonb'], $this->dbalType->convertToDatabaseValue($testData['phpValue'], $this->platform));
+            $this->assertEquals($testData['postgresJsonb'], $this->fixture->convertToDatabaseValue($testData['phpValue'], $this->platform));
         }
     }
 
     /**
-     * @covers ::convertToPHPValue
-     * @covers ::transformPostgresArrayToPHPArray
+     * @test
      */
-    public function testCanTransformPostgresJsonToPhpValue()
+    public function CanTransformPostgresJsonToPhpValue()
     {
         foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['phpValue'], $this->dbalType->convertToPHPValue($testData['postgresJsonb'], $this->platform));
+            $this->assertEquals($testData['phpValue'], $this->fixture->convertToPHPValue($testData['postgresJsonb'], $this->platform));
         }
     }
 }

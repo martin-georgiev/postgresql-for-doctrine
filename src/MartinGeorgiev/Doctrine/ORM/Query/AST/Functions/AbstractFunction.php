@@ -17,10 +17,12 @@ abstract class AbstractFunction extends FunctionNode
      * @var string
      */
     protected $functionPrototype;
+
     /**
      * @var array
      */
     protected $literalsMapping = [];
+
     /**
      * @var array
      */
@@ -69,11 +71,11 @@ abstract class AbstractFunction extends FunctionNode
     protected function feedParserWithLiterals(Parser $parser)
     {
         $literalsMappingCount = count($this->literalsMapping);
-        $lastLitteral = $literalsMappingCount - 1;
+        $lastLiteral = $literalsMappingCount - 1;
         for ($i = 0; $i < $literalsMappingCount; $i++) {
             $parserMethod = $this->literalsMapping[$i];
             $this->literals[$i] = $parser->$parserMethod();
-            if ($i < $lastLitteral) {
+            if ($i < $lastLiteral) {
                 $parser->match(Lexer::T_COMMA);
             }
         }
@@ -84,11 +86,11 @@ abstract class AbstractFunction extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        $dispateched = [];
+        $dispatched = [];
         foreach ($this->literals as $literal) {
-            $dispateched[] = $literal->dispatch($sqlWalker);
+            $dispatched[] = $literal->dispatch($sqlWalker);
         }
 
-        return vsprintf($this->functionPrototype, $dispateched);
+        return vsprintf($this->functionPrototype, $dispatched);
     }
 }

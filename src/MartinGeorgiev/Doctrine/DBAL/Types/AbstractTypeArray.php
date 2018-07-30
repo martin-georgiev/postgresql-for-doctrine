@@ -19,7 +19,6 @@ abstract class AbstractTypeArray extends AbstractType
      *
      * @param array $phpArray The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
-     *
      * @return string|null The database representation of the value.
      *
      * @throws ConversionException When passed argument is not PHP array OR When invalid array items are detected
@@ -33,7 +32,7 @@ abstract class AbstractTypeArray extends AbstractType
         if (!is_array($phpArray)) {
             $exceptionMessage = 'Given PHP value content type is not PHP array. Instead it is "%s".';
 
-            throw new ConversionException(sprintf($exceptionMessage, gettype($phpArray)));
+            throw new \InvalidArgumentException(sprintf($exceptionMessage, gettype($phpArray)));
         }
 
         foreach ($phpArray as &$item) {
@@ -52,7 +51,6 @@ abstract class AbstractTypeArray extends AbstractType
      * Tests if given PHP array item is from compatible type for PostgreSql
      *
      * @param mixed $item
-     *
      * @return bool
      */
     protected function isValidArrayItemForDatabase($item)
@@ -64,7 +62,6 @@ abstract class AbstractTypeArray extends AbstractType
      * Transforms PHP array item to a PostgreSql compatible array item
      *
      * @param mixed $item
-     *
      * @return mixed
      */
     protected function transformArrayItemForPostgres($item)
@@ -77,7 +74,6 @@ abstract class AbstractTypeArray extends AbstractType
      *
      * @param mixed $postgresArray The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
-     *
      * @return array|null The PHP representation of the value.
      */
     public function convertToPHPValue($postgresArray, AbstractPlatform $platform)
@@ -97,7 +93,6 @@ abstract class AbstractTypeArray extends AbstractType
      * Transforms whole PostgreSql array to PHP array
      *
      * @param string $postgresArray
-     *
      * @return array
      *
      * @throws ConversionException When passed argument is not PHP string
@@ -109,6 +104,7 @@ abstract class AbstractTypeArray extends AbstractType
 
             throw new ConversionException(sprintf($exceptionMessage, gettype($postgresArray)));
         }
+
         $trimmedPostgresArray = mb_substr($postgresArray, 1, -1);
         if ($trimmedPostgresArray === '') {
             return [];
@@ -122,7 +118,6 @@ abstract class AbstractTypeArray extends AbstractType
      * Transforms PostgreSql array item to a PHP compatible array item
      *
      * @param mixed $item
-     *
      * @return mixed
      */
     protected function transformArrayItemForPHP($item)

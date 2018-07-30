@@ -4,39 +4,35 @@ namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass MartinGeorgiev\Tests\Doctrine\DBAL\Types\TextArray
- */
-class TextArrayTest extends PHPUnit_Framework_TestCase
+class TextArrayTest extends TestCase
 {
     /**
-     * @var TextArray
+     * @var AbstractPlatform|MockObject
      */
-    protected $dbalType;
+    private $platform;
 
     /**
-     * @var AbstractPlatform
+     * @var TextArray|MockObject
      */
-    protected $platform;
+    private $fixture;
 
     protected function setUp()
     {
-        $this->dbalType = $this->getMockBuilder(TextArray::class)
+        $this->platform = $this->createMock(AbstractPlatform::class);
+
+        $this->fixture = $this->getMockBuilder(TextArray::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->platform = $this->getMockBuilder(AbstractPlatform::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
     }
 
     /**
      * @return array
      */
-    private function getTestData()
+    public function validTransformations()
     {
         return [
             [
@@ -55,32 +51,36 @@ class TextArrayTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::getName
+     * @test
      */
-    public function testTypeHasName()
+    public function has_name()
     {
-        $this->assertEquals('text[]', $this->dbalType->getName());
+        $this->assertEquals('text[]', $this->fixture->getName());
     }
 
     /**
-     * @covers ::convertToDatabaseValue
-     * @covers ::transformToPostgresTextArray
+     * @test
+     * @dataProvider validTransformations
+     *
+     * @param int $phpValue
+     * @param string $postgresValue
      */
-    public function testCanTransformPhpArrayToPostgresTextArray()
+    public function can_transform_from_php_value($phpValue, $postgresValue)
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['postgresValue'], $this->dbalType->convertToDatabaseValue($testData['phpValue'], $this->platform));
-        }
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
-     * @covers ::convertToPHPValue
-     * @covers ::transformFromPostgresTextArray
+
+    /**
+     * @test
+     * @dataProvider validTransformations
+     *
+     * @param int $phpValue
+     * @param string $postgresValue
      */
-    public function testCanTransformPostgresTextArrayToPhpArray()
+    public function can_transform_to_php_value($phpValue, $postgresValue)
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['phpValue'], $this->dbalType->convertToPHPValue($testData['postgresValue'], $this->platform));
-        }
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }
