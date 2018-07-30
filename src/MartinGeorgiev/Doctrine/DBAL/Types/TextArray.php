@@ -24,7 +24,6 @@ class TextArray extends AbstractType
      *
      * @param mixed $value The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
-     *
      * @return null|string The database representation of the value.
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -39,13 +38,12 @@ class TextArray extends AbstractType
 
     /**
      * @param array $phpTextArray
-     *
-     * @return bool|string
+     * @return string
      */
     protected function transformToPostgresTextArray($phpTextArray)
     {
         if (!is_array($phpTextArray)) {
-            return false;
+            throw new \InvalidArgumentException(sprintf('Value %s is not an array', var_export($phpTextArray, true)));
         }
         if (empty($phpTextArray)) {
             return '{}';
@@ -59,7 +57,6 @@ class TextArray extends AbstractType
      *
      * @param string $value The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
-     *
      * @return null|array The PHP representation of the value.
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -74,7 +71,6 @@ class TextArray extends AbstractType
 
     /**
      * @param string $postgresValue
-     *
      * @return array
      */
     protected function transformFromPostgresTextArray($postgresValue)

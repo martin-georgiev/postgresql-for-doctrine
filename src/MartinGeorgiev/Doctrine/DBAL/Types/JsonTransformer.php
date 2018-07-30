@@ -12,17 +12,20 @@ trait JsonTransformer
 {
     /**
      * @param mixed $phpValue
-     *
      * @return string
      */
     public function transformToPostgresJson($phpValue)
     {
-        return json_encode($phpValue);
+        $postgresValue = json_encode($phpValue);
+        if ($postgresValue === false) {
+            throw new \InvalidArgumentException(sprintf('Value %s can\'t be resolved to valid JSON', var_export($phpValue, true)));
+        }
+
+        return $postgresValue;
     }
 
     /**
      * @param string $postgresValue
-     *
      * @return array
      */
     public function transformFromPostgresJson($postgresValue)

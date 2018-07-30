@@ -9,7 +9,26 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class IntegerArray extends SmallIntArray
+class IntegerArray extends AbstractIntegerArray
 {
+    /**
+     * @var string
+     */
     const TYPE_NAME = 'integer[]';
+
+    /**
+     * @return string
+     */
+    protected function getMinValue()
+    {
+        return '-2147483648';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getMaxValue()
+    {
+        return '2147483647';
+    }
 }

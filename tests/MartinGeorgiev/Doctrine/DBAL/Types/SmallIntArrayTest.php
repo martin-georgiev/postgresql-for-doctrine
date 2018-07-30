@@ -3,64 +3,47 @@
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
-use PHPUnit_Framework_TestCase;
 
-/**
- * @coversDefaultClass MartinGeorgiev\Tests\Doctrine\DBAL\Types\SmallIntArray
- */
-class SmallIntArrayTest extends PHPUnit_Framework_TestCase
+class SmallIntArrayTest extends AbstractIntegerArrayTest
 {
-    /**
-     * @var SmallIntArray
-     */
-    protected $dbalType;
-
     protected function setUp()
     {
-        $this->dbalType = $this->getMockBuilder(SmallIntArray::class)
+        $this->fixture = $this->getMockBuilder(SmallIntArray::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     /**
-     * @covers ::getName
+     * @test
      */
-    public function testTypeHasName()
+    public function has_name()
     {
-        $this->assertEquals('smallint[]', $this->dbalType->getName());
+        $this->assertEquals('smallint[]', $this->fixture->getName());
     }
 
     /**
-     * @covers ::isValidArrayItemForDatabase
+     * @return array
      */
-    public function testIntegersAreValidArrayItems()
+    public function invalidTransformations()
     {
-        $arrayItems = [-32768, 32767, '-32768', '32767'];
-        foreach ($arrayItems as $item) {
-            $this->assertTrue($this->dbalType->isValidArrayItemForDatabase($item));
-        }
+        return array_merge(parent::invalidTransformations(), [['-32767.01'], [-32769]]);
     }
 
     /**
-     * @covers ::isValidArrayItemForDatabase
+     * @return array
      */
-    public function testNonIntegersAreInvalidArrayItems()
+    public function validTransformations()
     {
-        $arrayItems = [true, null, -32767.01, '-32767.01', 'string', [], new \stdClass()];
-        foreach ($arrayItems as $item) {
-            $this->assertFalse($this->dbalType->isValidArrayItemForDatabase($item));
-        }
-    }
-
-    /**
-     * @covers ::transformArrayItemForPHP
-     */
-    public function testCanTransformIntegerArrayItemInPhpInteger()
-    {
-        $items = ['-32768' => -32768, '32767' => 32767];
-        foreach ($items as $dbStoredValue => $expectedPhpValue) {
-            $this->assertEquals($expectedPhpValue, $this->dbalType->transformArrayItemForPHP($dbStoredValue));
-        }
+        return [
+            [
+                '$phpValue' => -32768,
+                '$postgresValue' => '-32768',
+            ],
+            [
+                '$phpValue' => 32767,
+                '$postgresValue' => '32767',
+            ],
+        ];
     }
 }

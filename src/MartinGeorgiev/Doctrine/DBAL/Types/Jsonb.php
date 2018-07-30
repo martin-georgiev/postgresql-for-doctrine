@@ -26,8 +26,7 @@ class Jsonb extends AbstractType
      *
      * @param mixed $value The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
-     *
-     * @return string The database representation of the value.
+     * @return string|null The database representation of the value.
      *
      * @throws ConversionException When given value cannot be encoded
      */
@@ -47,10 +46,9 @@ class Jsonb extends AbstractType
     /**
      * Converts a value from its database representation to its PHP representation of this type.
      *
-     * @param string $value The value to convert.
+     * @param string|null $value The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
-     *
-     * @return array The PHP representation of the value.
+     * @return array|null The PHP representation of the value.
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
