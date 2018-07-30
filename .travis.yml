@@ -1,57 +1,71 @@
 language: php
 
+sudo: false
+
 cache:
   directories:
     - $HOME/.composer/cache
 
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - nightly
+
 env:
   global:
-    - DEPENDENCIES=no
+    - LATEST_PHP_VERSION="7.2"
+  matrix:
+    - DEPENDENCIES="beta"
+    - DEPENDENCIES="low"
+    - DEPENDENCIES="stable"
 
 matrix:
-  include:
-    - php: 5.6
-    - php: 5.6
-      env: DEPENDENCIES=beta
-    - php: 5.6
-      env: DEPENDENCIES=low
-    - php: 7.0
-    - php: 7.0
-      env: DEPENDENCIES=beta
-    - php: 7.0
-      env: DEPENDENCIES=low
-    - php: 7.1
-    - php: 7.1
-      env: DEPENDENCIES=beta
-    - php: 7.1
-      env: DEPENDENCIES=low
-    - php: 7.2
-    - php: 7.2
-      env: DEPENDENCIES=beta
-    - php: 7.2
-      env: DEPENDENCIES=low
-    - php: nightly
+  fast_finish: true
   allow_failures:
     - php: nightly
-    - env: DEPENDENCIES=beta
-    - env: DEPENDENCIES=low
+    - env: DEPENDENCIES="beta"
 
 before_install:
-  - composer self-update
-  # Set composer minimum-stability configuration filter to beta versions
-  - if [ "$DEPENDENCIES" = "beta" ]; then perl -pi -e 's/^}$/,"minimum-stability":"beta"}/' composer.json; fi;
-  # Disable xdebug, there is no use of it being enabled
-  - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
-  # Prevent Travis throwing an out of memory error
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  # Test if we have a token for github as the project may hit the 60 rph limit
-  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
+  - if [ -n "$GH_TOKEN" ]; then
+      composer config github-oauth.github.com ${GH_TOKEN};
+    fi;
+  - mkdir -p build/logs
 
 install:
-  - if [ "$DEPENDENCIES" = "no" ]; then composer update; fi;
-  - if [ "$DEPENDENCIES" = "low" ]; then composer --prefer-lowest --prefer-stable update; fi;
+  - if [ "$(phpenv version-name)" != "$LATEST_PHP_VERSION" ]; then
+      composer remove friendsofphp/php-cs-fixer phpstan/phpstan --dev;
+    fi
+  - if [ "$DEPENDENCIES" = "beta" ]; then
+      composer config minimum-stability beta;
+      composer update -n --prefer-dist;
+    else if [ "$DEPENDENCIES" = "low" ]; then
+      composer update -n --prefer-dist --prefer-lowest;
+    else
+      composer update -n --prefer-dist;
+    fi;
 
 script:
-  - composer validate-files
-  - composer check-code-style
-  - composer tests
+  - if [ "$(phpenv version-name)" != "$LATEST_PHP_VERSION" ]; then
+      echo "File validation is skipped for older PHP versions";
+    else
+      composer validate-files;
+    fi;
+  - if [ "$(phpenv version-name)" != "$LATEST_PHP_VERSION" ]; then
+      echo "Static analysis is skipped for older PHP versions";
+    else
+      composer run-static-analysis;
+    fi;
+  - if [ "$(phpenv version-name)" != "$LATEST_PHP_VERSION" ]; then
+      echo "Code style check is skipped for older PHP versions";
+    else
+      composer check-code-style;
+    fi;
+  - if [ "$(phpenv version-name)" != "$LATEST_PHP_VERSION" ]; then
+      echo "Security check is skipped for older PHP versions";
+    else
+      composer check-security;
+    fi;
+  - composer run-tests
