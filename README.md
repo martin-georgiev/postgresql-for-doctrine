@@ -1,5 +1,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/badges/quality-score.png)](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/?branch=master)
 [![Build Status](https://api.travis-ci.org/martin-georgiev/postgresql-for-doctrine.svg?branch=master)](https://www.travis-ci.org/martin-georgiev/postgresql-for-doctrine)
+[![Latest Stable Version](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/version)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
+[![Total Downloads](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/downloads)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
 ----
 ## What's this?
 This package provides Doctrine support for some specific PostgreSQL 9.4+ features:

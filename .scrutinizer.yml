@@ -1,6 +1,6 @@
 build:
   environment:
-    php: '5.6.9'
+    php: 7.2
 
 coding_style:
   php:
