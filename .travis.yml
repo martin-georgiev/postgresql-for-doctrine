@@ -26,6 +26,7 @@ matrix:
   allow_failures:
     - php: nightly
     - env: DEPENDENCIES="beta"
+    - env: DEPENDENCIES="low"
 
 before_install:
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
