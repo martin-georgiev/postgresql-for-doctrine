@@ -9,7 +9,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class SmallIntArray extends AbstractTypeArray
+class SmallIntArray extends AbstractIntegerArray
 {
     /**
      * @var string
@@ -17,18 +17,18 @@ class SmallIntArray extends AbstractTypeArray
     const TYPE_NAME = 'smallint[]';
 
     /**
-     * {@inheritDoc}
+     * @return string
      */
-    public function isValidArrayItemForDatabase($item)
+    protected function getMinValue()
     {
-        return (is_int($item) || is_string($item)) && preg_match('/^-?[0-9]+$/', (string) $item);
+        return '-32768';
     }
 
     /**
-     * {@inheritDoc}
+     * @return string
      */
-    public function transformArrayItemForPHP($item)
+    protected function getMaxValue()
     {
-        return (int) $item;
+        return '32767';
     }
 }

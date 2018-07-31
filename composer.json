@@ -2,8 +2,7 @@
     "name": "martin-georgiev/postgresql-for-doctrine",
     "type": "library",
     "description": "PostgreSQL enhancements for Doctrine. Provides support for JSONB and array data types and operators and other specific functions.",
-    "keywords": ["martin georgiev", "doctrine2", "postgresql", "postgres", "dbal", "jsonb", "array data types"],
-    "minimum-stability": "stable",
+    "keywords": ["martin georgiev", "doctrine", "postgresql", "postgres", "dbal", "jsonb", "array data types"],
     "license": "MIT",
     "authors": [
         {
@@ -11,17 +10,7 @@
             "email": "martin.georgiev@gmail.com"
         }
     ],
-    "require": {
-        "php": ">=5.5",
-        "doctrine/dbal": "~2.5",
-        "doctrine/orm": "~2.5"
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "*",
-        "jakub-onderka/php-parallel-lint": "^0.9.2",
-        "phpunit/phpunit": "~5.0",
-        "sensiolabs/security-checker": "^4.1"
-    },
+
     "autoload": {
         "psr-4": {
             "MartinGeorgiev\\": "src/MartinGeorgiev/"
@@ -32,26 +21,52 @@
             "MartinGeorgiev\\Tests\\": "tests/MartinGeorgiev/"
         }
     },
+
+    "require": {
+        "php": ">=5.6",
+        "doctrine/dbal": "~2.5",
+        "doctrine/orm": "~2.5"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "*",
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "phpstan/phpstan": "^0.10.2",
+        "phpunit/phpunit": "^5.7",
+        "sensiolabs/security-checker": "^4.1"
+    },
+
     "scripts": {
         "check-code-style": [
-            "vendor/bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --dry-run --no-interaction -v"
+            "bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --dry-run --no-interaction --diff -v"
+        ],
+        "check-security": [
+            "bin/security-checker security:check"
         ],
         "fix-code-style": [
-            "vendor/bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --no-interaction -v"
+            "bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --no-interaction --diff -v"
         ],
-        "tests": [
-            "vendor/bin/phpunit"
+        "run-static-analysis": [
+            "bin/phpstan analyse --level=3 src/"
+        ],
+        "run-static-analysis-including-tests": [
+            "@run-static-analysis",
+            "bin/phpstan analyse --level=3 tests/"
+        ],
+        "run-tests": [
+            "bin/phpunit"
         ],
         "validate-files": [
-            "vendor/bin/parallel-lint --exclude vendor ."
+            "bin/parallel-lint --exclude vendor --exclude bin ."
         ]
     },
+
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
         }
     },
     "config": {
+        "bin-dir": "bin",
         "sort-packages": true
     },
     "prefer-stable": true

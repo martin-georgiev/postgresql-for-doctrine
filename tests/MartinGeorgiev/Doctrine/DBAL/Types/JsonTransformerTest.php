@@ -3,15 +3,13 @@
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonTransformer;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass MartinGeorgiev\Tests\Doctrine\DBAL\Types\JsonTransformer
- */
-class JsonTransformerTest extends PHPUnit_Framework_TestCase
+class JsonTransformerTest extends TestCase
 {
     /**
-     * @var JsonTransformer
+     * @var JsonTransformer|MockObject
      */
     private $transformer;
 
@@ -19,57 +17,62 @@ class JsonTransformerTest extends PHPUnit_Framework_TestCase
     {
         $this->transformer = $this->getMockBuilder(JsonTransformer::class)
             ->setMethods(null)
+            ->disableOriginalConstructor()
             ->getMockForTrait();
     }
 
     /**
      * @return array
      */
-    private function getTestData()
+    public function validTransformations()
     {
         return [
             [
-                'phpValue' => null,
-                'postgresJson' => 'null',
+                '$phpValue' => null,
+                '$postgresValue' => 'null',
             ],
             [
-                'phpValue' => [],
-                'postgresJson' => '[]',
+                '$phpValue' => [],
+                '$postgresValue' => '[]',
             ],
             [
-                'phpValue' => [681, 1185, 1878, 1989],
-                'postgresJson' => '[681,1185,1878,1989]',
+                '$phpValue' => [681, 1185, 1878, 1989],
+                '$postgresValue' => '[681,1185,1878,1989]',
             ],
             [
-                'phpValue' => [
+                '$phpValue' => [
                     'key1' => 'value1',
                     'key2' => false,
                     'key3' => '15',
                     'key4' => 15,
                     'key5' => [112, 242, 309, 310],
                 ],
-                'postgresJson' => '{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]}',
+                '$postgresValue' => '{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]}',
             ],
         ];
     }
 
     /**
-     * @covers ::transformToPostgresJson
+     * @test
+     * @dataProvider validTransformations
+     *
+     * @param int $phpValue
+     * @param string $postgresValue
      */
-    public function testCanTransformPhpValueToPostgresJson()
+    public function can_transform_from_php_value($phpValue, $postgresValue)
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['postgresJson'], $this->transformer->transformToPostgresJson($testData['phpValue']));
-        }
+        $this->assertEquals($postgresValue, $this->transformer->transformToPostgresJson($phpValue));
     }
 
     /**
-     * @covers ::transformFromPostgresJson
+     * @test
+     * @dataProvider validTransformations
+     *
+     * @param string|null $phpValue
+     * @param string|null $postgresValue
      */
-    public function testCanTransformPostgresJsonToPhpValue()
+    public function can_transform_to_php_value($phpValue, $postgresValue)
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['phpValue'], $this->transformer->transformFromPostgresJson($testData['postgresJson']));
-        }
+        $this->assertEquals($phpValue, $this->transformer->transformFromPostgresJson($postgresValue));
     }
 }

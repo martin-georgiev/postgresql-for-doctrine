@@ -18,7 +18,9 @@ abstract class AbstractType extends Type
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return $platform->getDoctrineTypeMapping(static::TYPE_NAME);
+        self::throwExceptionIfTypeNameNotConfigured();
+
+        return $platform->getDoctrineTypeMapping(constant('static::TYPE_NAME'));
     }
 
     /**
@@ -26,6 +28,15 @@ abstract class AbstractType extends Type
      */
     public function getName()
     {
-        return static::TYPE_NAME;
+        self::throwExceptionIfTypeNameNotConfigured();
+
+        return constant('static::TYPE_NAME');
+    }
+
+    private static function throwExceptionIfTypeNameNotConfigured()
+    {
+        if (false === defined('static::TYPE_NAME')) {
+            throw new \LogicException(sprintf('Doctrine type defined in class %s is missing the TYPE_NAME constant', self::class));
+        }
     }
 }

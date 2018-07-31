@@ -3,64 +3,71 @@
 namespace MartinGeorgiev\Tests\Utils;
 
 use MartinGeorgiev\Utils\DataStructure;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @covers MartinGeorgiev\Utils\DataStructure
- */
-class DataStructureTest extends PHPUnit_Framework_TestCase
+class DataStructureTest extends TestCase
 {
     /**
      * @see https://stackoverflow.com/a/27964420/3425372 Kudos to dmikam for the inspiration
      * @return array
      */
-    private function getTestData()
+    public function validTransformations()
     {
         return [
             [
-                'phpValue' => [
+                '$phpValue' => [
                     0 => '1',
                     1 => '2',
                     2 => '3',
                     3 => '4',
                 ],
-                'postgresValue' => '{1,2,3,4}',
+                '$postgresValue' => '{1,2,3,4}',
             ],
             [
-                'phpValue' => [
+                '$phpValue' => [
                     0 => 'dfasdf',
                     1 => 'qw,,e{q"we',
                     2 => "'qrer'",
                     3 => 604,
                     4 => '"aaa","b""bb","ccc"',
                 ],
-                'postgresValue' => '{"dfasdf","qw,,e{q\"we","\'qrer\'",604,"\"aaa\",\"b\"\"bb\",\"ccc\""}',
+                '$postgresValue' => '{"dfasdf","qw,,e{q\"we","\'qrer\'",604,"\"aaa\",\"b\"\"bb\",\"ccc\""}',
             ],
             [
-                'phpValue' => [
+                '$phpValue' => [
                     0 => '',
                     1 => '',
                 ],
-                'postgresValue' => '{,}',
+                '$postgresValue' => '{,}',
             ],
             [
-                'phpValue' => [],
-                'postgresValue' => '{}',
+                '$phpValue' => [],
+                '$postgresValue' => '{}',
             ],
         ];
     }
 
-    public function testCanTransformPhpArrayToPostgresTextArray()
+    /**
+     * @test
+     * @dataProvider validTransformations
+     *
+     * @param array $phpValue
+     * @param string $postgresValue
+     */
+    public function can_transform_from_php_value(array $phpValue, $postgresValue)
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['postgresValue'], DataStructure::transformPHPArrayToPostgresTextArray($testData['phpValue']));
-        }
+        $this->assertEquals($postgresValue, DataStructure::transformPHPArrayToPostgresTextArray($phpValue));
     }
 
-    public function testCanTransformPostgresTextArrayToPhpArray()
+    /**
+     * @test
+     * @dataProvider validTransformations
+     *
+     * @param array $phpValue
+     * @param string $postgresValue
+     */
+    public function can_transform_to_php_value(array $phpValue, $postgresValue)
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['phpValue'], DataStructure::transformPostgresTextArrayToPHPArray($testData['postgresValue']));
-        }
+        $this->assertEquals($phpValue, DataStructure::transformPostgresTextArrayToPHPArray($postgresValue));
     }
 }

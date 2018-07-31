@@ -52,11 +52,11 @@ class Greatest extends AbstractFunction
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        $dispateched = [];
+        $dispatched = [];
         foreach ($this->literals as $literal) {
-            $dispateched[] = $literal->dispatch($sqlWalker);
+            $dispatched[] = $literal->dispatch($sqlWalker);
         }
 
-        return vsprintf($this->functionPrototype, implode(',', $dispateched));
+        return sprintf($this->functionPrototype, implode(',', $dispatched));
     }
 }

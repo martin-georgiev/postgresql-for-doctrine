@@ -4,90 +4,91 @@ namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass MartinGeorgiev\Tests\Doctrine\DBAL\Types\Jsonb
- */
-class JsonbTest extends PHPUnit_Framework_TestCase
+class JsonbTest extends TestCase
 {
     /**
-     * @var Jsonb
+     * @var AbstractPlatform|MockObject
      */
-    protected $dbalType;
+    private $platform;
+
     /**
-     * @var AbstractPlatform
+     * @var Jsonb|MockObject
      */
-    protected $platform;
+    private $fixture;
 
     protected function setUp()
     {
-        $this->dbalType = $this->getMockBuilder(Jsonb::class)
+        $this->platform = $this->createMock(AbstractPlatform::class);
+
+        $this->fixture = $this->getMockBuilder(Jsonb::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->platform = $this->getMockBuilder(AbstractPlatform::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
     }
 
     /**
      * @return array
      */
-    private function getTestData()
+    public function validTransformations()
     {
         return [
             [
-                'phpValue' => null,
-                'postgresJsonb' => null,
+                '$phpValue' => null,
+                '$postgresValue' => null,
             ],
             [
-                'phpValue' => [],
-                'postgresJsonb' => '[]',
+                '$phpValue' => [],
+                '$postgresValue' => '[]',
             ],
             [
-                'phpValue' => [681, 1185, 1878, 1989],
-                'postgresJsonb' => '[681,1185,1878,1989]',
+                '$phpValue' => [681, 1185, 1878, 1989],
+                '$postgresValue' => '[681,1185,1878,1989]',
             ],
             [
-                'phpValue' => [
+                '$phpValue' => [
                     'key1' => 'value1',
                     'key2' => false,
                     'key3' => '15',
                     'key4' => 15,
                     'key5' => [112, 242, 309, 310],
                 ],
-                'postgresJsonb' => '{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]}',
+                '$postgresValue' => '{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]}',
             ],
         ];
     }
 
     /**
-     * @covers ::getName
+     * @test
      */
-    public function testTypeHasName()
+    public function has_name()
     {
-        $this->assertEquals('jsonb', $this->dbalType->getName());
+        $this->assertEquals('jsonb', $this->fixture->getName());
     }
 
     /**
-     * @covers ::convertToDatabaseValue
+     * @test
+     * @dataProvider validTransformations
+     *
+     * @param string|null $phpValue
+     * @param string|null $postgresValue
      */
-    public function testCanTransformPhpValueInJsonb()
+    public function can_transform_from_php_value($phpValue, $postgresValue)
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['postgresJsonb'], $this->dbalType->convertToDatabaseValue($testData['phpValue'], $this->platform));
-        }
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
-     * @covers ::convertToPHPValue
+     * @test
+     * @dataProvider validTransformations
+     *
+     * @param string|null $phpValue
+     * @param string|null $postgresValue
      */
-    public function testCanTransformJsonbInPhpValue()
+    public function can_transform_to_php_value($phpValue, $postgresValue)
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['phpValue'], $this->dbalType->convertToPHPValue($testData['postgresJsonb'], $this->platform));
-        }
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }
