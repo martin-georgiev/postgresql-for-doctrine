@@ -57,7 +57,7 @@ script:
   - if [ "$(phpenv version-name)" != "$LATEST_PHP_VERSION" ]; then
       echo "Static analysis is skipped for older PHP versions";
     else
-      composer run-static-analysis;
+      composer run-static-analysis-with-tests;
     fi;
   - if [ "$(phpenv version-name)" != "$LATEST_PHP_VERSION" ]; then
       echo "Code style check is skipped for older PHP versions";
@@ -69,4 +69,7 @@ script:
     else
       composer check-security;
     fi;
-  - composer run-tests
+  - composer run-tests-with-clover
+
+after_script:
+  - php bin/coveralls -v
