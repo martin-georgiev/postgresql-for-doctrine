@@ -34,6 +34,7 @@
         "phpstan/phpstan": "^0.10.2",
         "phpstan/phpstan-phpunit": "^0.10",
         "phpunit/phpunit": "^5.7|^6.0|^7.0",
+        "satooshi/php-coveralls": "^2.0",
         "sensiolabs/security-checker": "^4.1"
     },
 
@@ -56,6 +57,9 @@
         ],
         "run-tests": [
             "bin/phpunit"
+        ],
+        "run-tests-with-clover": [
+            "bin/phpunit --coverage-clover build/logs/clover.xml"
         ],
         "validate-files": [
             "bin/parallel-lint --exclude vendor --exclude bin ."
