@@ -37,16 +37,16 @@ class AbstractTypeArrayTest extends TestCase
     {
         return [
             [
-                '$phpValue' => null,
-                '$postgresValue' => null,
+                'phpValue' => null,
+                'postgresValue' => null,
             ],
             [
-                '$phpValue' => [],
-                '$postgresValue' => '{}',
+                'phpValue' => [],
+                'postgresValue' => '{}',
             ],
             [
-                '$phpValue' => [681, 1185, 1878, 1989],
-                '$postgresValue' => '{681,1185,1878,1989}',
+                'phpValue' => [681, 1185, 1878, 1989],
+                'postgresValue' => '{681,1185,1878,1989}',
             ],
         ];
     }
@@ -55,8 +55,8 @@ class AbstractTypeArrayTest extends TestCase
      * @test
      * @dataProvider validTransformations
      *
-     * @param int $phpValue
-     * @param string $postgresValue
+     * @param array|null $phpValue
+     * @param string|null $postgresValue
      */
     public function can_transform_from_php_value($phpValue, $postgresValue)
     {
@@ -71,8 +71,8 @@ class AbstractTypeArrayTest extends TestCase
      * @test
      * @dataProvider validTransformations
      *
-     * @param int $phpValue
-     * @param string $postgresValue
+     * @param array|null $phpValue
+     * @param string|null $postgresValue
      */
     public function can_transform_to_php_value($phpValue, $postgresValue)
     {
