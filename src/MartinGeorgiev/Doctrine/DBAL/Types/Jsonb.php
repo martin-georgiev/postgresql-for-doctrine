@@ -3,7 +3,6 @@
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * Implementation of PostgreSql JSONB data type
@@ -33,6 +32,7 @@ class Jsonb extends AbstractType
         if ($value === null) {
             return null;
         }
+
         return $this->transformToPostgresJson($value);
     }
 
@@ -48,6 +48,7 @@ class Jsonb extends AbstractType
         if ($value === null) {
             return null;
         }
+
         return $this->transformFromPostgresJson($value);
     }
 }
