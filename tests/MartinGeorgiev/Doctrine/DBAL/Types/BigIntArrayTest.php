@@ -37,12 +37,12 @@ class BigIntArrayTest extends AbstractIntegerArrayTest
     {
         return [
             [
-                '$phpValue' => -9223372036854775807,
-                '$postgresValue' => '-9223372036854775807',
+                'phpValue' => -9223372036854775807,
+                'postgresValue' => '-9223372036854775807',
             ],
             [
-                '$phpValue' => 9223372036854775807,
-                '$postgresValue' => '9223372036854775807',
+                'phpValue' => 9223372036854775807,
+                'postgresValue' => '9223372036854775807',
             ],
         ];
     }

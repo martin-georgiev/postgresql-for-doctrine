@@ -17,7 +17,7 @@ abstract class AbstractTypeArray extends AbstractType
     /**
      * Converts a value from its PHP representation to its PostgreSql representation of the type.
      *
-     * @param array $phpArray The value to convert.
+     * @param array|null $phpArray The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
      * @return string|null The database representation of the value.
      *
@@ -25,7 +25,7 @@ abstract class AbstractTypeArray extends AbstractType
      */
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform)
     {
-        if (null === $phpArray) {
+        if ($phpArray === null) {
             return null;
         }
 

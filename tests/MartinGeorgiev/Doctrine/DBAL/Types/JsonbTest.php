@@ -36,26 +36,26 @@ class JsonbTest extends TestCase
     {
         return [
             [
-                '$phpValue' => null,
-                '$postgresValue' => null,
+                'phpValue' => null,
+                'postgresValue' => null,
             ],
             [
-                '$phpValue' => [],
-                '$postgresValue' => '[]',
+                'phpValue' => [],
+                'postgresValue' => '[]',
             ],
             [
-                '$phpValue' => [681, 1185, 1878, 1989],
-                '$postgresValue' => '[681,1185,1878,1989]',
+                'phpValue' => [681, 1185, 1878, 1989],
+                'postgresValue' => '[681,1185,1878,1989]',
             ],
             [
-                '$phpValue' => [
+                'phpValue' => [
                     'key1' => 'value1',
                     'key2' => false,
                     'key3' => '15',
                     'key4' => 15,
                     'key5' => [112, 242, 309, 310],
                 ],
-                '$postgresValue' => '{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]}',
+                'postgresValue' => '{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]}',
             ],
         ];
     }

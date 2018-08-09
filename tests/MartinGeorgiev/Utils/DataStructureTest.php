@@ -15,34 +15,34 @@ class DataStructureTest extends TestCase
     {
         return [
             [
-                '$phpValue' => [
+                'phpValue' => [
                     0 => '1',
                     1 => '2',
                     2 => '3',
                     3 => '4',
                 ],
-                '$postgresValue' => '{1,2,3,4}',
+                'postgresValue' => '{1,2,3,4}',
             ],
             [
-                '$phpValue' => [
+                'phpValue' => [
                     0 => 'dfasdf',
                     1 => 'qw,,e{q"we',
                     2 => "'qrer'",
                     3 => 604,
                     4 => '"aaa","b""bb","ccc"',
                 ],
-                '$postgresValue' => '{"dfasdf","qw,,e{q\"we","\'qrer\'",604,"\"aaa\",\"b\"\"bb\",\"ccc\""}',
+                'postgresValue' => '{"dfasdf","qw,,e{q\"we","\'qrer\'",604,"\"aaa\",\"b\"\"bb\",\"ccc\""}',
             ],
             [
-                '$phpValue' => [
+                'phpValue' => [
                     0 => '',
                     1 => '',
                 ],
-                '$postgresValue' => '{,}',
+                'postgresValue' => '{,}',
             ],
             [
-                '$phpValue' => [],
-                '$postgresValue' => '{}',
+                'phpValue' => [],
+                'postgresValue' => '{}',
             ],
         ];
     }

@@ -3,7 +3,6 @@
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * Implementation of PostgreSql JSONB data type
@@ -24,23 +23,17 @@ class Jsonb extends AbstractType
     /**
      * Converts a value from its PHP representation to its database representation of the type.
      *
-     * @param mixed $value The value to convert.
+     * @param array|object|null $value The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
      * @return string|null The database representation of the value.
-     *
-     * @throws ConversionException When given value cannot be encoded
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (null === $value) {
+        if ($value === null) {
             return null;
         }
-        $encodedValue = $this->transformToPostgresJson($value);
-        if ($encodedValue === false) {
-            throw new ConversionException('Given value content cannot be encoded to valid json.');
-        }
 
-        return $encodedValue;
+        return $this->transformToPostgresJson($value);
     }
 
     /**
@@ -55,8 +48,7 @@ class Jsonb extends AbstractType
         if ($value === null) {
             return null;
         }
-        $json = $this->transformFromPostgresJson($value);
 
-        return $json;
+        return $this->transformFromPostgresJson($value);
     }
 }

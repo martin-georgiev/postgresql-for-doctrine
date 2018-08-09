@@ -37,12 +37,12 @@ class IntegerArrayTest extends AbstractIntegerArrayTest
     {
         return [
             [
-                '$phpValue' => -2147483648,
-                '$postgresValue' => '-2147483648',
+                'phpValue' => -2147483648,
+                'postgresValue' => '-2147483648',
             ],
             [
-                '$phpValue' => 2147483647,
-                '$postgresValue' => '2147483647',
+                'phpValue' => 2147483647,
+                'postgresValue' => '2147483647',
             ],
         ];
     }
