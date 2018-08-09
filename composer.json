@@ -23,7 +23,8 @@
     },
 
     "require": {
-        "php": ">=5.6",
+        "php": "^5.6|^7.0",
+        "ext-json": "*",
         "doctrine/dbal": "~2.5",
         "doctrine/orm": "~2.5"
     },
@@ -31,7 +32,9 @@
         "friendsofphp/php-cs-fixer": "*",
         "jakub-onderka/php-parallel-lint": "^1.0",
         "phpstan/phpstan": "^0.10.2",
-        "phpunit/phpunit": "^5.7",
+        "phpstan/phpstan-phpunit": "^0.10",
+        "phpunit/phpunit": "^5.7|^6.0|^7.0",
+        "satooshi/php-coveralls": "^2.0",
         "sensiolabs/security-checker": "^4.1"
     },
 
@@ -46,14 +49,17 @@
             "bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --no-interaction --diff -v"
         ],
         "run-static-analysis": [
-            "bin/phpstan analyse --level=3 src/"
+            "bin/phpstan analyse --level=4 src/"
         ],
         "run-static-analysis-including-tests": [
             "@run-static-analysis",
-            "bin/phpstan analyse --level=3 tests/"
+            "bin/phpstan analyse --level=4 tests/"
         ],
         "run-tests": [
             "bin/phpunit"
+        ],
+        "run-tests-with-clover": [
+            "bin/phpunit --coverage-clover build/logs/clover.xml"
         ],
         "validate-files": [
             "bin/parallel-lint --exclude vendor --exclude bin ."

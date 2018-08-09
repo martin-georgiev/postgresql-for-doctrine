@@ -23,9 +23,7 @@ class JsonbArray extends AbstractTypeArray
      */
     protected function transformArrayItemForPostgres($item)
     {
-        $json = $this->transformToPostgresJson($item);
-
-        return $json;
+        return $this->transformToPostgresJson($item);
     }
 
     /**

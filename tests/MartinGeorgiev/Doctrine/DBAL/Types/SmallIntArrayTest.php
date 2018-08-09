@@ -37,12 +37,12 @@ class SmallIntArrayTest extends AbstractIntegerArrayTest
     {
         return [
             [
-                '$phpValue' => -32768,
-                '$postgresValue' => '-32768',
+                'phpValue' => -32768,
+                'postgresValue' => '-32768',
             ],
             [
-                '$phpValue' => 32767,
-                '$postgresValue' => '32767',
+                'phpValue' => 32767,
+                'postgresValue' => '32767',
             ],
         ];
     }

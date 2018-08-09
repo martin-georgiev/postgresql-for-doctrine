@@ -1,5 +1,6 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/badges/quality-score.png)](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/?branch=master)
 [![Build Status](https://api.travis-ci.org/martin-georgiev/postgresql-for-doctrine.svg?branch=master)](https://www.travis-ci.org/martin-georgiev/postgresql-for-doctrine)
+[![Coverage Status](https://coveralls.io/repos/github/martin-georgiev/postgresql-for-doctrine/badge.svg?branch=master)](https://coveralls.io/github/martin-georgiev/postgresql-for-doctrine?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/version)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
 [![Total Downloads](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/downloads)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
 ----
@@ -18,7 +19,7 @@ You can easily extend package's behaviour with your own array-like data types or
 ## How to Install?
 Easiest possible way is through [Composer](https://getcomposer.org/download/)
 
-    composer require "martin-georgiev/postgresql-for-doctrine=~0.9"
+    composer require martin-georgiev/postgresql-for-doctrine
 
 ----
 ## Integration with Symfony
@@ -219,7 +220,6 @@ class DoctrineEventSubscriber implements Subscriber
     }
 
     /**
-     * @param ConnectionEventArgs $args
      * @throws DBALException
      */
     public function postConnect(ConnectionEventArgs $args) 
