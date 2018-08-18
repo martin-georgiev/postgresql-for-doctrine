@@ -8,6 +8,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @deprecated Deprecated since v0.12 and will be removed in v1.0. Use Overlaps instead.
  */
 class ArrayAreOverlapingEachOther extends AbstractFunction
 {
