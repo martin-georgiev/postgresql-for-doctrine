@@ -25,7 +25,7 @@ class Greatest extends AbstractFunction
      */
     protected function customiseFunction()
     {
-        $this->setFunctionPrototype('GREATEST(%s)');
+        $this->setFunctionPrototype('greatest(%s)');
     }
 
     /**
