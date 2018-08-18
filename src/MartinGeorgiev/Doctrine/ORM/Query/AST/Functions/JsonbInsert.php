@@ -15,7 +15,7 @@ class JsonbInsert extends AbstractFunction
     {
         $this->setFunctionPrototype('jsonb_insert(%s, %s, %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('StringPrimary');
+        $this->addLiteralMapping('StringPrimary');
     }
 }

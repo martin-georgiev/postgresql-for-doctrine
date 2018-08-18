@@ -15,7 +15,7 @@ class JsonbSet extends AbstractFunction
     {
         $this->setFunctionPrototype('jsonb_set(%s, %s, %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('StringPrimary');
+        $this->addLiteralMapping('StringPrimary');
     }
 }
