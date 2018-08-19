@@ -14,6 +14,6 @@ class Arr extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('ARRAY[%s]');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

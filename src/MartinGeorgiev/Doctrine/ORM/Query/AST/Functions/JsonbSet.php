@@ -14,8 +14,8 @@ class JsonbSet extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('jsonb_set(%s, %s, %s)');
-        $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

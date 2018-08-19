@@ -14,6 +14,6 @@ class ArrayCardinality extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('cardinality(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

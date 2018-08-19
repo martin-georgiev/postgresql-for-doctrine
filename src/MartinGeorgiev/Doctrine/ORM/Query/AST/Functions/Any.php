@@ -14,6 +14,6 @@ class Any extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('ANY(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

@@ -14,7 +14,7 @@ class ArrayAppend extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('array_append(%s, %s)');
-        $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('Literal');
+        $this->addNodeMapping('StringPrimary');
+        $this->addNodeMapping('Literal');
     }
 }

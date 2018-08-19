@@ -14,8 +14,8 @@ class ArrayReplace extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('array_replace(%s, %s, %s)');
-        $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('Literal');
-        $this->addLiteralMapping('Literal');
+        $this->addNodeMapping('StringPrimary');
+        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('Literal');
     }
 }

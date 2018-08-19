@@ -14,7 +14,7 @@ class JsonGetObject extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('(%s #> %s)');
-        $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

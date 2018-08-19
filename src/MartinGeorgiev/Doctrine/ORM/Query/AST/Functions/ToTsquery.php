@@ -14,6 +14,6 @@ class ToTsquery extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('to_tsquery(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }
