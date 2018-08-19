@@ -15,6 +15,6 @@ class ArrayToString extends AbstractFunction
     {
         $this->setFunctionPrototype('array_to_string(%s, %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('StringPrimary');
     }
 }

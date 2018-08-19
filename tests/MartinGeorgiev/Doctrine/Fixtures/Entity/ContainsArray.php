@@ -17,4 +17,9 @@ class ContainsArray extends Entity
      * @Column(type="array")
      */
     public $array;
+
+    /**
+     * @Column(type="array")
+     */
+    public $anotherArray;
 }

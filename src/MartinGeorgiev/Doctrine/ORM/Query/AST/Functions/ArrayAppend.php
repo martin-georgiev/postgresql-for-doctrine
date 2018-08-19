@@ -15,6 +15,6 @@ class ArrayAppend extends AbstractFunction
     {
         $this->setFunctionPrototype('array_append(%s, %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('Literal');
     }
 }

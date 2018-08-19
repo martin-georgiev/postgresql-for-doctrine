@@ -14,7 +14,7 @@ class ArrayPrepend extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('array_prepend(%s, %s)');
+        $this->addLiteralMapping('Literal');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
     }
 }
