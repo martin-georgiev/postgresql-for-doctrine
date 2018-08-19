@@ -44,12 +44,12 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     abstract protected function getExpectedSql();
 
     /**
-     * @return string
+     * @return string|array
      */
     abstract protected function getDql();
 
@@ -58,21 +58,31 @@ abstract class TestCase extends BaseTestCase
      */
     public function dql_is_transformed_to_valid_sql()
     {
-        $this->assertSqlFromDql($this->getExpectedSql(), $this->getDql());
+        $expectedSqls = $this->getExpectedSql();
+        if (is_string($expectedSqls)) {
+            $expectedSqls = [$expectedSqls];
+        }
+        $dqls = $this->getDql();
+        if (is_string($dqls)) {
+            $dqls = [$dqls];
+        }
+        if (count($expectedSqls) !== count($dqls)) {
+            throw new \LogicException(sprintf('You need ot provide matching expected SQL for every DQL, currently there are %d SQL statements for %d DQL statements', count($expectedSqls), count($dqls)));
+        }
+        foreach ($expectedSqls as $key => $expectedSql) {
+            $this->assertSqlFromDql($expectedSql, $dqls[$key], sprintf('Assertion failed for expected SQL statement "%s"', $expectedSql));
+        }
     }
 
     /**
      * @param string $expectedSql
      * @param string $dql
-     * @param array $paramsForDql
+     * @param string $message
      */
-    private function assertSqlFromDql($expectedSql, $dql, array $paramsForDql = [])
+    private function assertSqlFromDql($expectedSql, $dql, $message = '')
     {
         $query = $this->buildEntityManager()->createQuery($dql);
-        foreach ($paramsForDql as $paramName => $paramValue) {
-            $query->setParameter($paramName, $paramValue);
-        }
-        $this->assertEquals($expectedSql, $query->getSQL());
+        $this->assertEquals($expectedSql, $query->getSQL(), $message);
     }
 
     /**
