@@ -10,6 +10,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @deprecated Deprecated since v0.12 and will be removed in v1.0. Use Overlaps instead.
+ * @codeCoverageIgnore 
  */
 class ArrayAreOverlapingEachOther extends AbstractFunction
 {
