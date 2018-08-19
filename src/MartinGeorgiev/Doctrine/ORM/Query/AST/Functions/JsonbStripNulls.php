@@ -14,6 +14,6 @@ class JsonbStripNulls extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('jsonb_strip_nulls(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

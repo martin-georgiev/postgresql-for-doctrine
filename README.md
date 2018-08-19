@@ -315,7 +315,7 @@ Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 
 1) Extend *MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AbstractFunction*
 
-2) Add behavior to your new function with overwriting *customiseFunction()* method. Use *setFunctionPrototype()* and *addLiteralMapping()*.
+2) Add behavior to your new function with overwriting *customiseFunction()* method. Use *setFunctionPrototype()* and *addNodeMapping()*.
 
 Example:
 
@@ -329,9 +329,9 @@ class ArrayAppend extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('array_append(%s, %s)');
-        $this->addLiteralMapping('StringPrimary'); # this will correspond to param №1 in the prototype set in setFunctionPrototype
-        $this->addLiteralMapping('InputParameter'); # this will correspond to param №2 in the prototype set in setFunctionPrototype
-        # Add as much literal mappings as you need.
+        $this->addNodeMapping('StringPrimary'); # this will correspond to param №1 in the prototype set in setFunctionPrototype
+        $this->addNodeMapping('Literal'); # this will correspond to param №2 in the prototype set in setFunctionPrototype
+        # Add as much node mappings as you need.
     }
 }
 ```

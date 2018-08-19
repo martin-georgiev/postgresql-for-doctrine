@@ -23,7 +23,7 @@ abstract class TestCase extends BaseTestCase
         $this->configuration->setProxyDir(__DIR__.'/../../../../Fixtures/Proxies');
         $this->configuration->setProxyNamespace('MartinGeorgiev\Tests\Doctrine\Fixtures\Proxies');
         $this->configuration->setAutoGenerateProxyClasses(true);
-        $this->configuration->setMetadataDriverImpl($this->configuration->newDefaultAnnotationDriver(__DIR__.'/../../../../Fixtures/Entities'));
+        $this->configuration->setMetadataDriverImpl($this->configuration->newDefaultAnnotationDriver([__DIR__.'/../../../../Fixtures/Entities']));
 
         $this->registerFunction();
     }

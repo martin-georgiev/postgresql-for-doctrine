@@ -14,6 +14,6 @@ class JsonObjectKeys extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('json_object_keys(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

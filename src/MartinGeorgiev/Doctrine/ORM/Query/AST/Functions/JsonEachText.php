@@ -14,6 +14,6 @@ class JsonEachText extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('json_each_text(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

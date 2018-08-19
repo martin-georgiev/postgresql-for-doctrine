@@ -3,6 +3,7 @@
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
@@ -19,14 +20,14 @@ abstract class AbstractFunction extends FunctionNode
     protected $functionPrototype;
 
     /**
-     * @var array
+     * @var string[]
      */
-    protected $literalsMapping = [];
+    protected $nodesMapping = [];
 
     /**
-     * @var array
+     * @var Node[]
      */
-    protected $literals = [];
+    protected $nodes = [];
 
     abstract protected function customiseFunction();
 
@@ -41,13 +42,13 @@ abstract class AbstractFunction extends FunctionNode
     }
 
     /**
-     * Adds new literal mapping
+     * Adds new node mapping
      *
      * @param string $parserMethod
      */
-    protected function addLiteralMapping($parserMethod)
+    protected function addNodeMapping($parserMethod)
     {
-        $this->literalsMapping[] = $parserMethod;
+        $this->nodesMapping[] = $parserMethod;
     }
 
     /**
@@ -59,23 +60,23 @@ abstract class AbstractFunction extends FunctionNode
 
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        $this->feedParserWithLiterals($parser);
+        $this->feedParserWithNodes($parser);
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
     /**
-     * Feeds given parser with previously set literals
+     * Feeds given parser with previously set nodes
      *
      * @param Parser $parser
      */
-    protected function feedParserWithLiterals(Parser $parser)
+    protected function feedParserWithNodes(Parser $parser)
     {
-        $literalsMappingCount = count($this->literalsMapping);
-        $lastLiteral = $literalsMappingCount - 1;
-        for ($i = 0; $i < $literalsMappingCount; $i++) {
-            $parserMethod = $this->literalsMapping[$i];
-            $this->literals[$i] = $parser->$parserMethod();
-            if ($i < $lastLiteral) {
+        $nodesMappingCount = count($this->nodesMapping);
+        $lastNode = $nodesMappingCount - 1;
+        for ($i = 0; $i < $nodesMappingCount; $i++) {
+            $parserMethod = $this->nodesMapping[$i];
+            $this->nodes[$i] = $parser->$parserMethod();
+            if ($i < $lastNode) {
                 $parser->match(Lexer::T_COMMA);
             }
         }
@@ -87,8 +88,8 @@ abstract class AbstractFunction extends FunctionNode
     public function getSql(SqlWalker $sqlWalker)
     {
         $dispatched = [];
-        foreach ($this->literals as $literal) {
-            $dispatched[] = $literal->dispatch($sqlWalker);
+        foreach ($this->nodes as $node) {
+            $dispatched[] = $node->dispatch($sqlWalker);
         }
 
         return vsprintf($this->functionPrototype, $dispatched);

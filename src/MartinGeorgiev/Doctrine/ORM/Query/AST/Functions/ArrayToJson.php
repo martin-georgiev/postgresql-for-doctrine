@@ -14,6 +14,6 @@ class ArrayToJson extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('array_to_json(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }
