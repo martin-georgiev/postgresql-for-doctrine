@@ -6,11 +6,10 @@
         convertWarningsToExceptions="true"
         stopOnFailure="false"
         bootstrap="vendor/autoload.php"
-        verbose="true"
-        syntaxCheck="true">
+        verbose="true">
 
     <testsuites>
-        <testsuite>
+        <testsuite name="PostgreSQL-for-Doctrine Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

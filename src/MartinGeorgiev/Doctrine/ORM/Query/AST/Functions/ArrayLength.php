@@ -15,6 +15,6 @@ class ArrayLength extends AbstractFunction
     {
         $this->setFunctionPrototype('array_length(%s, %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('Literal');
     }
 }

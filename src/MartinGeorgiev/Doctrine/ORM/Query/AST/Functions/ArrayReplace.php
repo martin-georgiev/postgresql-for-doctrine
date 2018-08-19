@@ -15,7 +15,7 @@ class ArrayReplace extends AbstractFunction
     {
         $this->setFunctionPrototype('array_replace(%s, %s, %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('Literal');
+        $this->addLiteralMapping('Literal');
     }
 }

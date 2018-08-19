@@ -15,6 +15,6 @@ class ArrayRemove extends AbstractFunction
     {
         $this->setFunctionPrototype('array_remove(%s, %s)');
         $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
+        $this->addLiteralMapping('Literal');
     }
 }
