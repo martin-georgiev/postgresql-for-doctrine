@@ -14,6 +14,6 @@ class ArrayDimensions extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('array_dims(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

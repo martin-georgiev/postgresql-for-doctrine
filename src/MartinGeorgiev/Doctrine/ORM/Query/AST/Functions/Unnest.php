@@ -14,6 +14,6 @@ class Unnest extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('unnest(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

@@ -18,30 +18,30 @@ class Greatest extends AbstractFunction
     /**
      * @var string
      */
-    protected $commonLiteralMapping = 'ArithmeticPrimary';
+    protected $commonNodeMapping = 'ArithmeticPrimary';
 
     /**
      * {@inheritDoc}
      */
     protected function customiseFunction()
     {
-        $this->setFunctionPrototype('GREATEST(%s)');
+        $this->setFunctionPrototype('greatest(%s)');
     }
 
     /**
      * {@inheritDoc}
      */
-    public function feedParserWithLiterals(Parser $parser)
+    public function feedParserWithNodes(Parser $parser)
     {
         $lexer = $parser->getLexer();
 
-        $this->literals[] = $parser->{$this->commonLiteralMapping}();
+        $this->nodes[] = $parser->{$this->commonNodeMapping}();
 
         $aheadType = $lexer->lookahead['type'];
         while (Lexer::T_CLOSE_PARENTHESIS !== $aheadType) {
             if (Lexer::T_COMMA === $aheadType) {
                 $parser->match(Lexer::T_COMMA);
-                $this->literals[] = $parser->{$this->commonLiteralMapping}();
+                $this->nodes[] = $parser->{$this->commonNodeMapping}();
             }
             $aheadType = $lexer->lookahead['type'];
         }
@@ -53,8 +53,8 @@ class Greatest extends AbstractFunction
     public function getSql(SqlWalker $sqlWalker)
     {
         $dispatched = [];
-        foreach ($this->literals as $literal) {
-            $dispatched[] = $literal->dispatch($sqlWalker);
+        foreach ($this->nodes as $node) {
+            $dispatched[] = $node->dispatch($sqlWalker);
         }
 
         return sprintf($this->functionPrototype, implode(',', $dispatched));

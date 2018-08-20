@@ -14,6 +14,6 @@ class JsonArrayLength extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('json_array_length(%s)');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 }

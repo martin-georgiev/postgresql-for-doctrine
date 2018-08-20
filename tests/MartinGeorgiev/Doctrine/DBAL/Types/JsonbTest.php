@@ -72,7 +72,7 @@ class JsonbTest extends TestCase
      * @test
      * @dataProvider validTransformations
      *
-     * @param string|null $phpValue
+     * @param array|null $phpValue
      * @param string|null $postgresValue
      */
     public function can_transform_from_php_value($phpValue, $postgresValue)
@@ -84,7 +84,7 @@ class JsonbTest extends TestCase
      * @test
      * @dataProvider validTransformations
      *
-     * @param string|null $phpValue
+     * @param array|null $phpValue
      * @param string|null $postgresValue
      */
     public function can_transform_to_php_value($phpValue, $postgresValue)

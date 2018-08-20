@@ -16,6 +16,6 @@ class Least extends Greatest
      */
     protected function customiseFunction()
     {
-        $this->setFunctionPrototype('LEAST(%s)');
+        $this->setFunctionPrototype('least(%s)');
     }
 }

@@ -14,6 +14,6 @@ class ToJson extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('to_json(%s)');
-        $this->addLiteralMapping('InputParameter');
+        $this->addNodeMapping('InputParameter');
     }
 }

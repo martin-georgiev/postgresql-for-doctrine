@@ -14,7 +14,7 @@ class InArray extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('%s = ANY(%s)');
-        $this->addLiteralMapping('InputParameter');
-        $this->addLiteralMapping('StringPrimary');
+        $this->addNodeMapping('InputParameter');
+        $this->addNodeMapping('StringPrimary');
     }
 }

@@ -14,7 +14,7 @@ class ArrayLength extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('array_length(%s, %s)');
-        $this->addLiteralMapping('StringPrimary');
-        $this->addLiteralMapping('InputParameter');
+        $this->addNodeMapping('StringPrimary');
+        $this->addNodeMapping('Literal');
     }
 }

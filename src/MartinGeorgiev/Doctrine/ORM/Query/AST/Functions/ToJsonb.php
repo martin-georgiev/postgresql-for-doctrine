@@ -14,6 +14,6 @@ class ToJsonb extends AbstractFunction
     protected function customiseFunction()
     {
         $this->setFunctionPrototype('to_jsonb(%s)');
-        $this->addLiteralMapping('InputParameter');
+        $this->addNodeMapping('InputParameter');
     }
 }
