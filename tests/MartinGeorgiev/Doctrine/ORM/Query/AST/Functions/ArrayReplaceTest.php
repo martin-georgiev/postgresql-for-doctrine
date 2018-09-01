@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace;
@@ -7,20 +9,14 @@ use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArray;
 
 class ArrayReplaceTest extends TestCase
 {
-    /**
-     * @return array
-     */
-    protected function getStringFunctions()
+    protected function getStringFunctions(): array
     {
         return [
             'ARRAY_REPLACE' => ArrayReplace::class,
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getExpectedSql()
+    protected function getExpectedSqlStatements(): array
     {
         return [
             'SELECT array_replace(c0_.array, 1939, 1957) AS sclr_0 FROM ContainsArray c0_',
@@ -28,10 +24,7 @@ class ArrayReplaceTest extends TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getDql()
+    protected function getDqlStatements(): array
     {
         return [
             sprintf('SELECT ARRAY_REPLACE(e.array, 1939, 1957) FROM %s e', ContainsArray::class),

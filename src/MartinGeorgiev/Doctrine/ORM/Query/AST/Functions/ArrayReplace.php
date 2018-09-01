@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
@@ -9,9 +11,9 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class ArrayReplace extends AbstractFunction
+class ArrayReplace extends BaseFunction
 {
-    protected function customiseFunction()
+    protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('array_replace(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 
-class BigIntArrayTest extends AbstractIntegerArrayTest
+class BigIntArrayTest extends BaseIntegerArrayTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->fixture = $this->getMockBuilder(BigIntArray::class)
             ->setMethods(null)
@@ -17,23 +19,17 @@ class BigIntArrayTest extends AbstractIntegerArrayTest
     /**
      * @test
      */
-    public function has_name()
+    public function has_name(): void
     {
         $this->assertEquals('bigint[]', $this->fixture->getName());
     }
 
-    /**
-     * @return array
-     */
-    public function invalidTransformations()
+    public function invalidTransformations(): array
     {
         return array_merge(parent::invalidTransformations(), [['-9223372036854775807.01'], [-9223372036854775809]]);
     }
 
-    /**
-     * @return array
-     */
-    public function validTransformations()
+    public function validTransformations(): array
     {
         return [
             [

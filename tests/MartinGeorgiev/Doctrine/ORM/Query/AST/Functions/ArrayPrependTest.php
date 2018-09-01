@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend;
@@ -7,20 +9,14 @@ use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArray;
 
 class ArrayPrependTest extends TestCase
 {
-    /**
-     * @return array
-     */
-    protected function getStringFunctions()
+    protected function getStringFunctions(): array
     {
         return [
             'ARRAY_PREPEND' => ArrayPrepend::class,
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getExpectedSql()
+    protected function getExpectedSqlStatements(): array
     {
         return [
             'SELECT array_prepend(1885, c0_.array) AS sclr_0 FROM ContainsArray c0_',
@@ -28,10 +24,7 @@ class ArrayPrependTest extends TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getDql()
+    protected function getDqlStatements(): array
     {
         return [
             sprintf('SELECT ARRAY_PREPEND(1885, e.array) FROM %s e', ContainsArray::class),

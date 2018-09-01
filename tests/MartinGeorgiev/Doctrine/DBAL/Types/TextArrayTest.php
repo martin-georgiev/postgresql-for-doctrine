@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -19,7 +21,7 @@ class TextArrayTest extends TestCase
      */
     private $fixture;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->platform = $this->createMock(AbstractPlatform::class);
 
@@ -29,10 +31,7 @@ class TextArrayTest extends TestCase
             ->getMock();
     }
 
-    /**
-     * @return array
-     */
-    public function validTransformations()
+    public function validTransformations(): array
     {
         return [
             [
@@ -53,7 +52,7 @@ class TextArrayTest extends TestCase
     /**
      * @test
      */
-    public function has_name()
+    public function has_name(): void
     {
         $this->assertEquals('text[]', $this->fixture->getName());
     }
@@ -61,11 +60,8 @@ class TextArrayTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
-     *
-     * @param array|null $phpValue
-     * @param string|null $postgresValue
      */
-    public function can_transform_from_php_value($phpValue, $postgresValue)
+    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
@@ -75,11 +71,8 @@ class TextArrayTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
-     *
-     * @param array|null $phpValue
-     * @param string|null $postgresValue
      */
-    public function can_transform_to_php_value($phpValue, $postgresValue)
+    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
@@ -7,29 +9,24 @@ use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsText;
 
 class ToTsqueryTest extends TestCase
 {
-    /**
-     * @return array
-     */
-    protected function getStringFunctions()
+    protected function getStringFunctions(): array
     {
         return [
             'TO_TSQUERY' => ToTsquery::class,
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getExpectedSql()
+    protected function getExpectedSqlStatements(): array
     {
-        return 'SELECT to_tsquery(c0_.text) AS sclr_0 FROM ContainsText c0_';
+        return [
+            'SELECT to_tsquery(c0_.text) AS sclr_0 FROM ContainsText c0_',
+        ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getDql()
+    protected function getDqlStatements(): array
     {
-        return sprintf('SELECT TO_TSQUERY(e.text) FROM %s e', ContainsText::class);
+        return [
+            sprintf('SELECT TO_TSQUERY(e.text) FROM %s e', ContainsText::class),
+        ];
     }
 }

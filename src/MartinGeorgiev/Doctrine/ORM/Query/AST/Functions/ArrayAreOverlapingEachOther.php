@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
@@ -12,9 +14,9 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @deprecated Deprecated since v0.12 and will be removed in v1.0. Use Overlaps instead.
  * @codeCoverageIgnore
  */
-class ArrayAreOverlapingEachOther extends AbstractFunction
+class ArrayAreOverlapingEachOther extends BaseFunction
 {
-    protected function customiseFunction()
+    protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('(%s && %s)');
         $this->addNodeMapping('StringPrimary');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\Fixtures\Entity;
 
 use Doctrine\Common\Cache\ArrayCache;
