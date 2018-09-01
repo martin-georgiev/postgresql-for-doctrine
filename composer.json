@@ -36,7 +36,9 @@
 
     "require": {
         "php": "^7.1",
+        "ext-ctype": "*",
         "ext-json": "*",
+        "ext-mbstring": "*",
         "doctrine/dbal": "~2.5",
         "doctrine/orm": "~2.5"
     },
