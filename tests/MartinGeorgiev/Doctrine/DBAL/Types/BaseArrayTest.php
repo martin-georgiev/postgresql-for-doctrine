@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use MartinGeorgiev\Doctrine\DBAL\Types\AbstractTypeArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\BaseArray;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class AbstractTypeArrayTest extends TestCase
+class BaseArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform|MockObject
@@ -16,24 +18,21 @@ class AbstractTypeArrayTest extends TestCase
     private $platform;
 
     /**
-     * @var AbstractTypeArray|MockObject
+     * @var BaseArray|MockObject
      */
     private $fixture;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->platform = $this->createMock(AbstractPlatform::class);
 
-        $this->fixture = $this->getMockBuilder(AbstractTypeArray::class)
+        $this->fixture = $this->getMockBuilder(BaseArray::class)
             ->setMethods(['isValidArrayItemForDatabase'])
             ->disableOriginalConstructor()
             ->getMock();
     }
 
-    /**
-     * @return array
-     */
-    public function validTransformations()
+    public function validTransformations(): array
     {
         return [
             [
@@ -54,11 +53,8 @@ class AbstractTypeArrayTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
-     *
-     * @param array|null $phpValue
-     * @param string|null $postgresValue
      */
-    public function can_transform_from_php_value($phpValue, $postgresValue)
+    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->fixture
             ->method('isValidArrayItemForDatabase')
@@ -70,11 +66,8 @@ class AbstractTypeArrayTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
-     *
-     * @param array|null $phpValue
-     * @param string|null $postgresValue
      */
-    public function can_transform_to_php_value($phpValue, $postgresValue)
+    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -82,7 +75,7 @@ class AbstractTypeArrayTest extends TestCase
     /**
      * @test
      */
-    public function throws_InvalidArgumentException_when_php_value_is_not_array()
+    public function throws_InvalidArgumentException_when_php_value_is_not_array(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessageRegExp('/Given PHP value content type is not PHP array. Instead it is "\w+"./');
@@ -93,7 +86,7 @@ class AbstractTypeArrayTest extends TestCase
     /**
      * @test
      */
-    public function throws_ConversionException_when_invalid_array_item_value()
+    public function throws_ConversionException_when_invalid_array_item_value(): void
     {
         $this->expectException(ConversionException::class);
         $this->expectExceptionMessage('One or more of items given doesn\'t look like valid.');
@@ -109,7 +102,7 @@ class AbstractTypeArrayTest extends TestCase
     /**
      * @test
      */
-    public function throws_ConversionException_when_postgres_value_is_not_valid_php_array()
+    public function throws_ConversionException_when_postgres_value_is_not_valid_php_array(): void
     {
         $this->expectException(ConversionException::class);
         $this->expectExceptionMessageRegExp('/Given PostgreSql value content type is not PHP string. Instead it is "\w+"./');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Utils;
 
 /**
@@ -13,13 +15,16 @@ class DataStructure
     /**
      * This method supports only single-dimensioned text arrays and
      * relays on the default escaping strategy in PostgreSql (double quotes)
-     *
-     * @param string $postgresArray
-     * @return array
      */
-    public static function transformPostgresTextArrayToPHPArray($postgresArray)
+    public static function transformPostgresTextArrayToPHPArray(string $postgresArray): array
     {
-        $transform = static function ($textArrayToTransform) {
+        $transform = static function (string $textArrayToTransform): array {
+            $indicatesMultipleDimensions = \mb_strpos($textArrayToTransform, '},{') !== false
+                || \mb_strpos($textArrayToTransform, '{{') === 0;
+            if ($indicatesMultipleDimensions) {
+                throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
+            }
+
             $phpArray = str_getcsv(trim($textArrayToTransform, '{}'));
             foreach ($phpArray as $i => $text) {
                 if ($text === null) {
@@ -52,24 +57,21 @@ class DataStructure
     }
 
     /**
+     * This method supports only single-dimensioned PHP arrays.
      * This method relays on the default escaping strategy in PostgreSql (double quotes)
      *
      * @see https://stackoverflow.com/a/5632171/3425372 Kudos to jmz for the inspiration
-     * @param array $phpArray
-     * @return string
      */
-    public static function transformPHPArrayToPostgresTextArray(array $phpArray)
+    public static function transformPHPArrayToPostgresTextArray(array $phpArray): string
     {
-        $transform = function (array $phpArrayToTransform) use (&$transform) {
+        $transform = static function (array $phpArrayToTransform): string {
             $result = [];
             foreach ($phpArrayToTransform as $text) {
                 if (is_array($text)) {
-                    $result[] = $transform($text);
-
-                    continue;
+                    throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
                 }
 
-                if (is_numeric($text) || ctype_digit($text)) {
+                if (is_numeric($text) || \ctype_digit($text)) {
                     $escapedText = $text;
                 } elseif (empty($text)) {
                     $escapedText = '';

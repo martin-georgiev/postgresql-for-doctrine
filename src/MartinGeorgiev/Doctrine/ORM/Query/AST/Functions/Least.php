@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
@@ -9,12 +11,9 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @since 0.7
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Least extends Greatest
+class Least extends BaseComparisonFunction
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function customiseFunction()
+    protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('least(%s)');
     }

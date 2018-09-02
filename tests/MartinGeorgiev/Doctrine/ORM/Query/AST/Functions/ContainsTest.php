@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
@@ -7,29 +9,24 @@ use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArray;
 
 class ContainsTest extends TestCase
 {
-    /**
-     * @return array
-     */
-    protected function getStringFunctions()
+    protected function getStringFunctions(): array
     {
         return [
             'CONTAINS' => Contains::class,
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getExpectedSql()
+    protected function getExpectedSqlStatements(): array
     {
-        return "SELECT (c0_.array @> '{681,1185,1878}') AS sclr_0 FROM ContainsArray c0_";
+        return [
+            "SELECT (c0_.array @> '{681,1185,1878}') AS sclr_0 FROM ContainsArray c0_",
+        ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getDql()
+    protected function getDqlStatements(): array
     {
-        return sprintf("SELECT CONTAINS(e.array, '{681,1185,1878}') FROM %s e", ContainsArray::class);
+        return [
+            sprintf("SELECT CONTAINS(e.array, '{681,1185,1878}') FROM %s e", ContainsArray::class),
+        ];
     }
 }

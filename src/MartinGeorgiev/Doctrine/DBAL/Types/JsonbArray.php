@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
@@ -9,32 +11,26 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class JsonbArray extends AbstractTypeArray
+class JsonbArray extends BaseArray
 {
     use JsonTransformer;
 
     /**
      * @var string
      */
-    const TYPE_NAME = 'jsonb[]';
+    protected const TYPE_NAME = 'jsonb[]';
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function transformArrayItemForPostgres($item)
+    protected function transformArrayItemForPostgres($item): string
     {
         return $this->transformToPostgresJson($item);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function transformPostgresArrayToPHPArray($postgresArray)
+    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
         if ($postgresArray === '{}') {
             return [];
         }
-        $trimmedPostgresArray = mb_substr($postgresArray, 2, -2);
+        $trimmedPostgresArray = \mb_substr($postgresArray, 2, -2);
         $phpArray = explode('},{', $trimmedPostgresArray);
         foreach ($phpArray as &$item) {
             $item = '{'.$item.'}';
@@ -43,10 +39,7 @@ class JsonbArray extends AbstractTypeArray
         return $phpArray;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function transformArrayItemForPHP($item)
+    public function transformArrayItemForPHP($item): array
     {
         return $this->transformFromPostgresJson($item);
     }

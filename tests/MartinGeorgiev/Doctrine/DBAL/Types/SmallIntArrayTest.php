@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 
-class SmallIntArrayTest extends AbstractIntegerArrayTest
+class SmallIntArrayTest extends BaseIntegerArrayTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->fixture = $this->getMockBuilder(SmallIntArray::class)
             ->setMethods(null)
@@ -17,23 +19,17 @@ class SmallIntArrayTest extends AbstractIntegerArrayTest
     /**
      * @test
      */
-    public function has_name()
+    public function has_name(): void
     {
         $this->assertEquals('smallint[]', $this->fixture->getName());
     }
 
-    /**
-     * @return array
-     */
-    public function invalidTransformations()
+    public function invalidTransformations(): array
     {
         return array_merge(parent::invalidTransformations(), [['-32767.01'], [-32769]]);
     }
 
-    /**
-     * @return array
-     */
-    public function validTransformations()
+    public function validTransformations(): array
     {
         return [
             [

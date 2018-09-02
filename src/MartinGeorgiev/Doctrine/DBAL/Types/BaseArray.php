@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -12,18 +14,14 @@ use Doctrine\DBAL\Types\ConversionException;
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-abstract class AbstractTypeArray extends AbstractType
+abstract class BaseArray extends BaseType
 {
     /**
      * Converts a value from its PHP representation to its PostgreSql representation of the type.
-     *
      * @param array|null $phpArray The value to convert.
-     * @param AbstractPlatform $platform The currently used database platform.
-     * @return string|null The database representation of the value.
-     *
      * @throws ConversionException When passed argument is not PHP array OR When invalid array items are detected
      */
-    public function convertToDatabaseValue($phpArray, AbstractPlatform $platform)
+    public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
     {
         if ($phpArray === null) {
             return null;
@@ -49,18 +47,15 @@ abstract class AbstractTypeArray extends AbstractType
 
     /**
      * Tests if given PHP array item is from compatible type for PostgreSql
-     *
      * @param mixed $item
-     * @return bool
      */
-    protected function isValidArrayItemForDatabase($item)
+    protected function isValidArrayItemForDatabase($item): bool
     {
         return true;
     }
 
     /**
      * Transforms PHP array item to a PostgreSql compatible array item
-     *
      * @param mixed $item
      * @return mixed
      */
@@ -71,16 +66,19 @@ abstract class AbstractTypeArray extends AbstractType
 
     /**
      * Converts a value from its PostgreSql representation to its PHP representation of this type.
-     *
-     * @param mixed $postgresArray The value to convert.
-     * @param AbstractPlatform $platform The currently used database platform.
-     * @return array|null The PHP representation of the value.
+     * @param string|null $postgresArray The value to convert.
      */
-    public function convertToPHPValue($postgresArray, AbstractPlatform $platform)
+    public function convertToPHPValue($postgresArray, AbstractPlatform $platform): ?array
     {
         if ($postgresArray === null) {
             return null;
         }
+        if (!is_string($postgresArray)) {
+            $exceptionMessage = 'Given PostgreSql value content type is not PHP string. Instead it is "%s".';
+
+            throw new ConversionException(sprintf($exceptionMessage, gettype($postgresArray)));
+        }
+
         $phpArray = $this->transformPostgresArrayToPHPArray($postgresArray);
         foreach ($phpArray as &$item) {
             $item = $this->transformArrayItemForPHP($item);
@@ -89,23 +87,9 @@ abstract class AbstractTypeArray extends AbstractType
         return $phpArray;
     }
 
-    /**
-     * Transforms whole PostgreSql array to PHP array
-     *
-     * @param string $postgresArray
-     * @return array
-     *
-     * @throws ConversionException When passed argument is not PHP string
-     */
-    protected function transformPostgresArrayToPHPArray($postgresArray)
+    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        if (!is_string($postgresArray)) {
-            $exceptionMessage = 'Given PostgreSql value content type is not PHP string. Instead it is "%s".';
-
-            throw new ConversionException(sprintf($exceptionMessage, gettype($postgresArray)));
-        }
-
-        $trimmedPostgresArray = mb_substr($postgresArray, 1, -1);
+        $trimmedPostgresArray = \mb_substr($postgresArray, 1, -1);
         if ($trimmedPostgresArray === '') {
             return [];
         }
@@ -116,7 +100,6 @@ abstract class AbstractTypeArray extends AbstractType
 
     /**
      * Transforms PostgreSql array item to a PHP compatible array item
-     *
      * @param mixed $item
      * @return mixed
      */

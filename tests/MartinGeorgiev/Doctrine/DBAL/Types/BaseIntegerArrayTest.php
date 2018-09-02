@@ -1,22 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\AbstractIntegerArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\BaseIntegerArray;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-abstract class AbstractIntegerArrayTest extends TestCase
+abstract class BaseIntegerArrayTest extends TestCase
 {
     /**
-     * @var AbstractIntegerArray|MockObject
+     * @var BaseIntegerArray|MockObject
      */
     protected $fixture;
 
-    /**
-     * @return array
-     */
-    public function invalidTransformations()
+    public function invalidTransformations(): array
     {
         return [
             [true],
@@ -34,24 +33,18 @@ abstract class AbstractIntegerArrayTest extends TestCase
      *
      * @param mixed $phpValue
      */
-    public function can_detect_invalid_for_transformation_php_value($phpValue)
+    public function can_detect_invalid_for_transformation_php_value($phpValue): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
 
-    /**
-     * @return array
-     */
-    abstract public function validTransformations();
+    abstract public function validTransformations(): array;
 
     /**
      * @test
      * @dataProvider validTransformations
-     *
-     * @param int $phpValue
-     * @param string $postgresValue
      */
-    public function can_transform_from_php_value($phpValue, $postgresValue)
+    public function can_transform_from_php_value(int $phpValue, string $postgresValue): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
@@ -59,11 +52,8 @@ abstract class AbstractIntegerArrayTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
-     *
-     * @param int $phpValue
-     * @param string $postgresValue
      */
-    public function can_transform_to_php_value($phpValue, $postgresValue)
+    public function can_transform_to_php_value(int $phpValue, string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
     }

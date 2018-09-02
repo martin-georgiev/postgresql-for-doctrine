@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
@@ -9,10 +11,7 @@ use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsText;
 
 class TsmatchTest extends TestCase
 {
-    /**
-     * @return array
-     */
-    protected function getStringFunctions()
+    protected function getStringFunctions(): array
     {
         return [
             'TO_TSQUERY' => ToTsquery::class,
@@ -21,19 +20,17 @@ class TsmatchTest extends TestCase
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getExpectedSql()
+    protected function getExpectedSqlStatements(): array
     {
-        return "SELECT (to_tsvector(c0_.text) @@ to_tsquery('testing')) AS sclr_0 FROM ContainsText c0_";
+        return [
+            "SELECT (to_tsvector(c0_.text) @@ to_tsquery('testing')) AS sclr_0 FROM ContainsText c0_",
+        ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getDql()
+    protected function getDqlStatements(): array
     {
-        return sprintf("SELECT TSMATCH(TO_TSVECTOR(e.text), TO_TSQUERY('testing')) FROM %s e", ContainsText::class);
+        return [
+            sprintf("SELECT TSMATCH(TO_TSVECTOR(e.text), TO_TSQUERY('testing')) FROM %s e", ContainsText::class),
+        ];
     }
 }

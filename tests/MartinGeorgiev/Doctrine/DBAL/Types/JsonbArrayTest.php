@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -19,7 +21,7 @@ class JsonbArrayTest extends TestCase
      */
     private $fixture;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->platform = $this->createMock(AbstractPlatform::class);
 
@@ -29,15 +31,16 @@ class JsonbArrayTest extends TestCase
             ->getMock();
     }
 
-    /**
-     * @return array
-     */
-    private function getTestData()
+    public function validTransformations(): array
     {
         return [
             [
                 'phpValue' => null,
                 'postgresJsonb' => null,
+            ],
+            [
+                'phpValue' => [],
+                'postgresValue' => '{}',
             ],
             [
                 'phpValue' => [
@@ -64,28 +67,28 @@ class JsonbArrayTest extends TestCase
     /**
      * @test
      */
-    public function has_name()
+    public function has_name(): void
     {
         $this->assertEquals('jsonb[]', $this->fixture->getName());
     }
 
     /**
      * @test
+     * @dataProvider validTransformations
      */
-    public function CanTransformPhpValueToPostgresJson()
+    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['postgresJsonb'], $this->fixture->convertToDatabaseValue($testData['phpValue'], $this->platform));
-        }
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
+
+    /**
      * @test
+     * @dataProvider validTransformations
      */
-    public function CanTransformPostgresJsonToPhpValue()
+    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        foreach ($this->getTestData() as $testData) {
-            $this->assertEquals($testData['phpValue'], $this->fixture->convertToPHPValue($testData['postgresJsonb'], $this->platform));
-        }
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }

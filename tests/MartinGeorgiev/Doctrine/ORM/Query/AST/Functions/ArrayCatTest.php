@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat;
@@ -7,29 +9,24 @@ use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArray;
 
 class ArrayCatTest extends TestCase
 {
-    /**
-     * @return array
-     */
-    protected function getStringFunctions()
+    protected function getStringFunctions(): array
     {
         return [
             'ARRAY_CAT' => ArrayCat::class,
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getExpectedSql()
+    protected function getExpectedSqlStatements(): array
     {
-        return 'SELECT array_cat(c0_.array, c0_.anotherArray) AS sclr_0 FROM ContainsArray c0_';
+        return [
+            'SELECT array_cat(c0_.array, c0_.anotherArray) AS sclr_0 FROM ContainsArray c0_',
+        ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getDql()
+    protected function getDqlStatements(): array
     {
-        return sprintf('SELECT ARRAY_CAT(e.array, e.anotherArray) FROM %s e', ContainsArray::class);
+        return [
+            sprintf('SELECT ARRAY_CAT(e.array, e.anotherArray) FROM %s e', ContainsArray::class),
+        ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
@@ -9,9 +11,9 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @since 0.4
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class InArray extends AbstractFunction
+class InArray extends BaseFunction
 {
-    protected function customiseFunction()
+    protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('%s = ANY(%s)');
         $this->addNodeMapping('InputParameter');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest;
@@ -7,29 +9,24 @@ use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsSeveralIntegers;
 
 class GreatestTest extends TestCase
 {
-    /**
-     * @return array
-     */
-    protected function getStringFunctions()
+    protected function getStringFunctions(): array
     {
         return [
             'GREATEST' => Greatest::class,
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getExpectedSql()
+    protected function getExpectedSqlStatements(): array
     {
-        return 'SELECT greatest(c0_.integer1,c0_.integer2,c0_.integer3) AS sclr_0 FROM ContainsSeveralIntegers c0_';
+        return [
+            'SELECT greatest(c0_.integer1,c0_.integer2,c0_.integer3) AS sclr_0 FROM ContainsSeveralIntegers c0_',
+        ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getDql()
+    protected function getDqlStatements(): array
     {
-        return sprintf('SELECT GREATEST(e.integer1, e.integer2, e.integer3) FROM %s e', ContainsSeveralIntegers::class);
+        return [
+            sprintf('SELECT GREATEST(e.integer1, e.integer2, e.integer3) FROM %s e', ContainsSeveralIntegers::class),
+        ];
     }
 }
