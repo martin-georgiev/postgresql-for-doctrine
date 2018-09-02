@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
@@ -9,9 +11,9 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class StringToArray extends AbstractFunction
+class StringToArray extends BaseFunction
 {
-    protected function customiseFunction()
+    protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('string_to_array(%s, %s)');
         $this->addNodeMapping('StringPrimary');

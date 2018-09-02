@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\ConversionException;
@@ -10,22 +12,16 @@ use Doctrine\DBAL\Types\ConversionException;
  * @since 0.11
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-abstract class AbstractIntegerArray extends AbstractTypeArray
+abstract class BaseIntegerArray extends BaseArray
 {
-    /**
-     * @return string
-     */
-    abstract protected function getMinValue();
+    abstract protected function getMinValue(): string;
+
+    abstract protected function getMaxValue(): string;
 
     /**
-     * @return string
+     * @param mixed $item
      */
-    abstract protected function getMaxValue();
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isValidArrayItemForDatabase($item)
+    public function isValidArrayItemForDatabase($item): bool
     {
         return (is_int($item) || is_string($item))
             && (bool) preg_match('/^-?[0-9]+$/', (string) $item)
@@ -34,9 +30,9 @@ abstract class AbstractIntegerArray extends AbstractTypeArray
     }
 
     /**
-     * {@inheritDoc}
+     * @param int|string|null $item Whole number
      */
-    public function transformArrayItemForPHP($item)
+    public function transformArrayItemForPHP($item): ?int
     {
         if ($item === null) {
             return null;

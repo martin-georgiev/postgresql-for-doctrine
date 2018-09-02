@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 
-class IntegerArrayTest extends AbstractIntegerArrayTest
+class IntegerArrayTest extends BaseIntegerArrayTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->fixture = $this->getMockBuilder(IntegerArray::class)
             ->setMethods(null)
@@ -17,23 +19,17 @@ class IntegerArrayTest extends AbstractIntegerArrayTest
     /**
      * @test
      */
-    public function has_name()
+    public function has_name(): void
     {
         $this->assertEquals('integer[]', $this->fixture->getName());
     }
 
-    /**
-     * @return array
-     */
-    public function invalidTransformations()
+    public function invalidTransformations(): array
     {
         return array_merge(parent::invalidTransformations(), [['-2147483647.01'], [2147483649]]);
     }
 
-    /**
-     * @return array
-     */
-    public function validTransformations()
+    public function validTransformations(): array
     {
         return [
             [

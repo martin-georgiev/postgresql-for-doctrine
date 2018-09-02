@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\Common\Cache\ArrayCache;
@@ -15,7 +17,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected $configuration;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configuration = new Configuration();
         $this->configuration->setMetadataCacheImpl(new ArrayCache());
@@ -28,44 +30,29 @@ abstract class TestCase extends BaseTestCase
         $this->registerFunction();
     }
 
-    private function registerFunction()
+    private function registerFunction(): void
     {
         foreach ($this->getStringFunctions() as $dqlFunction => $functionClass) {
             $this->configuration->addCustomStringFunction($dqlFunction, $functionClass);
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function getStringFunctions()
+    protected function getStringFunctions(): array
     {
         return [];
     }
 
-    /**
-     * @return string|array
-     */
-    abstract protected function getExpectedSql();
+    abstract protected function getExpectedSqlStatements(): array;
 
-    /**
-     * @return string|array
-     */
-    abstract protected function getDql();
+    abstract protected function getDqlStatements(): array;
 
     /**
      * @test
      */
-    public function dql_is_transformed_to_valid_sql()
+    public function dql_is_transformed_to_valid_sql(): void
     {
-        $expectedSqls = $this->getExpectedSql();
-        if (is_string($expectedSqls)) {
-            $expectedSqls = [$expectedSqls];
-        }
-        $dqls = $this->getDql();
-        if (is_string($dqls)) {
-            $dqls = [$dqls];
-        }
+        $expectedSqls = $this->getExpectedSqlStatements();
+        $dqls = $this->getDqlStatements();
         if (count($expectedSqls) !== count($dqls)) {
             throw new \LogicException(sprintf('You need ot provide matching expected SQL for every DQL, currently there are %d SQL statements for %d DQL statements', count($expectedSqls), count($dqls)));
         }
@@ -74,22 +61,16 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
-    /**
-     * @param string $expectedSql
-     * @param string $dql
-     * @param string $message
-     */
-    private function assertSqlFromDql($expectedSql, $dql, $message = '')
+    private function assertSqlFromDql(string $expectedSql, string $dql, string $message = ''): void
     {
         $query = $this->buildEntityManager()->createQuery($dql);
         $this->assertEquals($expectedSql, $query->getSQL(), $message);
     }
 
     /**
-     * @return EntityManager
      * @throws ORMException
      */
-    private function buildEntityManager()
+    private function buildEntityManager(): EntityManager
     {
         return EntityManager::create(['driver' => 'pdo_sqlite', 'memory' => true], $this->configuration);
     }

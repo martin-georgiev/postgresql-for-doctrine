@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Tests\Utils;
 
 use MartinGeorgiev\Utils\DataStructure;
@@ -9,9 +11,8 @@ class DataStructureTest extends TestCase
 {
     /**
      * @see https://stackoverflow.com/a/27964420/3425372 Kudos to dmikam for the inspiration
-     * @return array
      */
-    public function validTransformations()
+    public function validTransformations(): array
     {
         return [
             [
@@ -50,11 +51,8 @@ class DataStructureTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
-     *
-     * @param array $phpValue
-     * @param string $postgresValue
      */
-    public function can_transform_from_php_value(array $phpValue, $postgresValue)
+    public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
     {
         $this->assertEquals($postgresValue, DataStructure::transformPHPArrayToPostgresTextArray($phpValue));
     }
@@ -62,11 +60,8 @@ class DataStructureTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
-     *
-     * @param array $phpValue
-     * @param string $postgresValue
      */
-    public function can_transform_to_php_value(array $phpValue, $postgresValue)
+    public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
     {
         $this->assertEquals($phpValue, DataStructure::transformPostgresTextArrayToPHPArray($postgresValue));
     }

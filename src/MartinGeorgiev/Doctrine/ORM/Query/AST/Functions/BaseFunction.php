@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
@@ -12,7 +14,7 @@ use Doctrine\ORM\Query\SqlWalker;
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-abstract class AbstractFunction extends FunctionNode
+abstract class BaseFunction extends FunctionNode
 {
     /**
      * @var string
@@ -29,32 +31,19 @@ abstract class AbstractFunction extends FunctionNode
      */
     protected $nodes = [];
 
-    abstract protected function customiseFunction();
+    abstract protected function customiseFunction(): void;
 
-    /**
-     * Sets function prototype
-     *
-     * @param string $functionPrototype
-     */
-    protected function setFunctionPrototype($functionPrototype)
+    protected function setFunctionPrototype(string $functionPrototype): void
     {
         $this->functionPrototype = $functionPrototype;
     }
 
-    /**
-     * Adds new node mapping
-     *
-     * @param string $parserMethod
-     */
-    protected function addNodeMapping($parserMethod)
+    protected function addNodeMapping(string $parserMethod): void
     {
         $this->nodesMapping[] = $parserMethod;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         $this->customiseFunction();
 
@@ -66,10 +55,8 @@ abstract class AbstractFunction extends FunctionNode
 
     /**
      * Feeds given parser with previously set nodes
-     *
-     * @param Parser $parser
      */
-    protected function feedParserWithNodes(Parser $parser)
+    protected function feedParserWithNodes(Parser $parser): void
     {
         $nodesMappingCount = count($this->nodesMapping);
         $lastNode = $nodesMappingCount - 1;
@@ -82,10 +69,7 @@ abstract class AbstractFunction extends FunctionNode
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         $dispatched = [];
         foreach ($this->nodes as $node) {

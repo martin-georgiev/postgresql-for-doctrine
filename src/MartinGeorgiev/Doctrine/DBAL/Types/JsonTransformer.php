@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\ConversionException;
@@ -13,12 +15,10 @@ use Doctrine\DBAL\Types\ConversionException;
 trait JsonTransformer
 {
     /**
-     * @param mixed $phpValue
-     * @return string
-     *
+     * @param mixed $phpValue Value bus be suitable for JSON encoding
      * @throws ConversionException When given value cannot be encoded
      */
-    protected function transformToPostgresJson($phpValue)
+    protected function transformToPostgresJson($phpValue): string
     {
         $postgresValue = json_encode($phpValue);
         if ($postgresValue === false) {
@@ -28,11 +28,7 @@ trait JsonTransformer
         return $postgresValue;
     }
 
-    /**
-     * @param string $postgresValue
-     * @return array
-     */
-    protected function transformFromPostgresJson($postgresValue)
+    protected function transformFromPostgresJson(string $postgresValue): array
     {
         return json_decode($postgresValue, true);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
@@ -9,9 +11,9 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @since 0.9
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class ArrayLength extends AbstractFunction
+class ArrayLength extends BaseFunction
 {
-    protected function customiseFunction()
+    protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('array_length(%s, %s)');
         $this->addNodeMapping('StringPrimary');

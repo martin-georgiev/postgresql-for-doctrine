@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -11,29 +13,25 @@ use Doctrine\DBAL\Types\Type;
  * @since 0.1
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-abstract class AbstractType extends Type
+abstract class BaseType extends Type
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    protected const TYPE_NAME = null;
+
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         self::throwExceptionIfTypeNameNotConfigured();
 
         return $platform->getDoctrineTypeMapping(constant('static::TYPE_NAME'));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         self::throwExceptionIfTypeNameNotConfigured();
 
         return constant('static::TYPE_NAME');
     }
 
-    private static function throwExceptionIfTypeNameNotConfigured()
+    private static function throwExceptionIfTypeNameNotConfigured(): void
     {
         if (false === defined('static::TYPE_NAME')) {
             throw new \LogicException(sprintf('Doctrine type defined in class %s is missing the TYPE_NAME constant', self::class));
