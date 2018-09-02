@@ -30,7 +30,7 @@ class JsonbArray extends BaseArray
         if ($postgresArray === '{}') {
             return [];
         }
-        $trimmedPostgresArray = mb_substr($postgresArray, 2, -2);
+        $trimmedPostgresArray = \mb_substr($postgresArray, 2, -2);
         $phpArray = explode('},{', $trimmedPostgresArray);
         foreach ($phpArray as &$item) {
             $item = '{'.$item.'}';

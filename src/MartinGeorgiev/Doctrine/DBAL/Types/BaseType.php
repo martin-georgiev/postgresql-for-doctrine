@@ -21,20 +21,20 @@ abstract class BaseType extends Type
     {
         self::throwExceptionIfTypeNameNotConfigured();
 
-        return $platform->getDoctrineTypeMapping(constant('static::TYPE_NAME'));
+        return $platform->getDoctrineTypeMapping(static::TYPE_NAME);
     }
 
     public function getName(): string
     {
         self::throwExceptionIfTypeNameNotConfigured();
 
-        return constant('static::TYPE_NAME');
+        return static::TYPE_NAME;
     }
 
     private static function throwExceptionIfTypeNameNotConfigured(): void
     {
-        if (false === defined('static::TYPE_NAME')) {
-            throw new \LogicException(sprintf('Doctrine type defined in class %s is missing the TYPE_NAME constant', self::class));
+        if (null === static::TYPE_NAME) {
+            throw new \LogicException(sprintf('Doctrine type defined in class %s has no meaningful value for TYPE_NAME constant', self::class));
         }
     }
 }

@@ -20,7 +20,7 @@ trait JsonTransformer
      */
     protected function transformToPostgresJson($phpValue): string
     {
-        $postgresValue = json_encode($phpValue);
+        $postgresValue = \json_encode($phpValue);
         if ($postgresValue === false) {
             throw new ConversionException(sprintf('Value %s can\'t be resolved to valid JSON', var_export($phpValue, true)));
         }
@@ -30,6 +30,6 @@ trait JsonTransformer
 
     protected function transformFromPostgresJson(string $postgresValue): array
     {
-        return json_decode($postgresValue, true);
+        return \json_decode($postgresValue, true);
     }
 }

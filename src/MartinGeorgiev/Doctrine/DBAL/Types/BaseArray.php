@@ -89,7 +89,7 @@ abstract class BaseArray extends BaseType
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        $trimmedPostgresArray = mb_substr($postgresArray, 1, -1);
+        $trimmedPostgresArray = \mb_substr($postgresArray, 1, -1);
         if ($trimmedPostgresArray === '') {
             return [];
         }

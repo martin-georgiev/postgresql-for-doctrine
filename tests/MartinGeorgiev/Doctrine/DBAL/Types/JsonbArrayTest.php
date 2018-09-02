@@ -39,6 +39,10 @@ class JsonbArrayTest extends TestCase
                 'postgresJsonb' => null,
             ],
             [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
+            [
                 'phpValue' => [
                     [
                         'key1' => 'value1',

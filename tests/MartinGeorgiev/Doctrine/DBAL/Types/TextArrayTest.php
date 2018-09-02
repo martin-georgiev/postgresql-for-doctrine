@@ -39,6 +39,10 @@ class TextArrayTest extends TestCase
                 'postgresValue' => null,
             ],
             [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
+            [
                 'phpValue' => [
                     'some text here',
                     'and some here',
