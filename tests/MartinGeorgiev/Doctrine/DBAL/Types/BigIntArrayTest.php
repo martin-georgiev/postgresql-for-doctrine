@@ -26,7 +26,7 @@ class BigIntArrayTest extends BaseIntegerArrayTest
 
     public function invalidTransformations(): array
     {
-        return array_merge(parent::invalidTransformations(), [['-9223372036854775807.01'], [-9223372036854775809]]);
+        return \array_merge(parent::invalidTransformations(), [['-9223372036854775807.01'], [-9223372036854775809]]);
     }
 
     public function validTransformations(): array

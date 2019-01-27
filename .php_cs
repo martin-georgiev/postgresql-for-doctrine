@@ -29,6 +29,7 @@ return PhpCsFixer\Config::create()
             'mb_str_functions' => false,
             'method_chaining_indentation' => true,
             'multiline_whitespace_before_semicolons' => false,
+            'native_function_invocation' => ['include' => ['@all']],
             'no_superfluous_phpdoc_tags' => true,
             'non_printable_character' => false,
             'ordered_class_elements' => ['order' => ['use_trait', 'constant', 'property', 'construct', 'magic', 'method']],

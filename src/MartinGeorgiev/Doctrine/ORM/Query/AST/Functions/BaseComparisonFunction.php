@@ -44,6 +44,6 @@ abstract class BaseComparisonFunction extends BaseFunction
             $dispatched[] = $node->dispatch($sqlWalker);
         }
 
-        return sprintf($this->functionPrototype, implode(',', $dispatched));
+        return \sprintf($this->functionPrototype, \implode(',', $dispatched));
     }
 }

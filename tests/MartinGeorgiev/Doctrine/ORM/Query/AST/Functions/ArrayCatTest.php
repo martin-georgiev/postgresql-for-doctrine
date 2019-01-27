@@ -26,7 +26,7 @@ class ArrayCatTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT ARRAY_CAT(e.array, e.anotherArray) FROM %s e', ContainsArray::class),
+            \sprintf('SELECT ARRAY_CAT(e.array, e.anotherArray) FROM %s e', ContainsArray::class),
         ];
     }
 }

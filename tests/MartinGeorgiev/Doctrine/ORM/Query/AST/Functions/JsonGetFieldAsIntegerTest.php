@@ -26,7 +26,7 @@ class JsonGetFieldAsIntegerTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT JSON_GET_FIELD_AS_INTEGER(e.object, 'rank') FROM %s e", ContainsJson::class),
+            \sprintf("SELECT JSON_GET_FIELD_AS_INTEGER(e.object, 'rank') FROM %s e", ContainsJson::class),
         ];
     }
 }

@@ -20,8 +20,8 @@ abstract class BaseIntegerArray extends BaseArray
 
     public function isValidArrayItemForDatabase($item): bool
     {
-        return (is_int($item) || is_string($item))
-            && (bool) preg_match('/^-?[0-9]+$/', (string) $item)
+        return (\is_int($item) || \is_string($item))
+            && (bool) \preg_match('/^-?[0-9]+$/', (string) $item)
             && (string) $item >= $this->getMinValue()
             && (string) $item <= $this->getMaxValue();
     }
@@ -35,11 +35,11 @@ abstract class BaseIntegerArray extends BaseArray
             return null;
         }
 
-        $isInvalidPHPInt = (bool) preg_match('/^-?[0-9]+$/', (string) $item) === false
+        $isInvalidPHPInt = (bool) \preg_match('/^-?[0-9]+$/', (string) $item) === false
             || (string) $item < $this->getMinValue()
             || (string) $item > $this->getMaxValue();
         if ($isInvalidPHPInt) {
-            throw new ConversionException(sprintf('Given value of %s content cannot be transformed to valid PHP integer.', var_export($item, true)));
+            throw new ConversionException(\sprintf('Given value of %s content cannot be transformed to valid PHP integer.', \var_export($item, true)));
         }
 
         return (int) $item;

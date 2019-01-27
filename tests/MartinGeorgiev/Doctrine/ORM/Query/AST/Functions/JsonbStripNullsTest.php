@@ -26,7 +26,7 @@ class JsonbStripNullsTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT JSONB_STRIP_NULLS(e.object) FROM %s e', ContainsJson::class),
+            \sprintf('SELECT JSONB_STRIP_NULLS(e.object) FROM %s e', ContainsJson::class),
         ];
     }
 }

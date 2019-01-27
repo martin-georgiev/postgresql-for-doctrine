@@ -26,7 +26,7 @@ class StringToArrayTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT STRING_TO_ARRAY(e.text, ',') FROM %s e", ContainsText::class),
+            \sprintf("SELECT STRING_TO_ARRAY(e.text, ',') FROM %s e", ContainsText::class),
         ];
     }
 }

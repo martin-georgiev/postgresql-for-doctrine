@@ -26,7 +26,7 @@ class JsonbEachTextTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT JSONB_EACH_TEXT(e.object) FROM %s e', ContainsJson::class),
+            \sprintf('SELECT JSONB_EACH_TEXT(e.object) FROM %s e', ContainsJson::class),
         ];
     }
 }

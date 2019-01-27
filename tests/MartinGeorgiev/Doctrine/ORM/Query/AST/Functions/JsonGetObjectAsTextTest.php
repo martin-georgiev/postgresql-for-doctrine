@@ -26,7 +26,7 @@ class JsonGetObjectAsTextTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT JSON_GET_OBJECT_AS_TEXT(e.object, '{residency,country}') FROM %s e", ContainsJson::class),
+            \sprintf("SELECT JSON_GET_OBJECT_AS_TEXT(e.object, '{residency,country}') FROM %s e", ContainsJson::class),
         ];
     }
 }

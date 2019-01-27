@@ -27,8 +27,8 @@ class ArrayPrependTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT ARRAY_PREPEND(1885, e.array) FROM %s e', ContainsArray::class),
-            sprintf("SELECT ARRAY_PREPEND('red', e.array) FROM %s e", ContainsArray::class),
+            \sprintf('SELECT ARRAY_PREPEND(1885, e.array) FROM %s e', ContainsArray::class),
+            \sprintf("SELECT ARRAY_PREPEND('red', e.array) FROM %s e", ContainsArray::class),
         ];
     }
 }

@@ -30,7 +30,7 @@ class TsmatchTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT TSMATCH(TO_TSVECTOR(e.text), TO_TSQUERY('testing')) FROM %s e", ContainsText::class),
+            \sprintf("SELECT TSMATCH(TO_TSVECTOR(e.text), TO_TSQUERY('testing')) FROM %s e", ContainsText::class),
         ];
     }
 }

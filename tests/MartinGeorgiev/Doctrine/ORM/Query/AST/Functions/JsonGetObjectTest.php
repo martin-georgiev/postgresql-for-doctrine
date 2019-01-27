@@ -26,7 +26,7 @@ class JsonGetObjectTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT JSON_GET_OBJECT(e.object, '{residency}') FROM %s e", ContainsJson::class),
+            \sprintf("SELECT JSON_GET_OBJECT(e.object, '{residency}') FROM %s e", ContainsJson::class),
         ];
     }
 }
