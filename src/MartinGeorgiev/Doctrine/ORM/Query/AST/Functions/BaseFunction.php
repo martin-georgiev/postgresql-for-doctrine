@@ -12,6 +12,7 @@ use Doctrine\ORM\Query\SqlWalker;
 
 /**
  * @since 0.1
+ *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 abstract class BaseFunction extends FunctionNode
@@ -54,7 +55,7 @@ abstract class BaseFunction extends FunctionNode
     }
 
     /**
-     * Feeds given parser with previously set nodes
+     * Feeds given parser with previously set nodes.
      */
     protected function feedParserWithNodes(Parser $parser): void
     {
@@ -62,7 +63,7 @@ abstract class BaseFunction extends FunctionNode
         $lastNode = $nodesMappingCount - 1;
         for ($i = 0; $i < $nodesMappingCount; $i++) {
             $parserMethod = $this->nodesMapping[$i];
-            $this->nodes[$i] = $parser->$parserMethod();
+            $this->nodes[$i] = $parser->{$parserMethod}();
             if ($i < $lastNode) {
                 $parser->match(Lexer::T_COMMA);
             }

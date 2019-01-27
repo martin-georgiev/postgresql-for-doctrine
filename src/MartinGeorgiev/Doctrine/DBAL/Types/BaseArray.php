@@ -8,17 +8,20 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Abstract handling of PostgreSql array data types
- * @see https://www.postgresql.org/docs/9.4/static/arrays.html
+ * Abstract handling of PostgreSql array data types.
  *
+ * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.1
+ *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 abstract class BaseArray extends BaseType
 {
     /**
      * Converts a value from its PHP representation to its PostgreSql representation of the type.
-     * @param array|null $phpArray The value to convert.
+     *
+     * @param array|null $phpArray the value to convert
+     *
      * @throws ConversionException When passed argument is not PHP array OR When invalid array items are detected
      */
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
@@ -46,8 +49,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Tests if given PHP array item is from compatible type for PostgreSql
-     * @param mixed $item
+     * Tests if given PHP array item is from compatible type for PostgreSql.
      */
     protected function isValidArrayItemForDatabase($item): bool
     {
@@ -55,9 +57,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Transforms PHP array item to a PostgreSql compatible array item
-     * @param mixed $item
-     * @return mixed
+     * Transforms PHP array item to a PostgreSql compatible array item.
      */
     protected function transformArrayItemForPostgres($item)
     {
@@ -66,7 +66,8 @@ abstract class BaseArray extends BaseType
 
     /**
      * Converts a value from its PostgreSql representation to its PHP representation of this type.
-     * @param string|null $postgresArray The value to convert.
+     *
+     * @param string|null $postgresArray the value to convert
      */
     public function convertToPHPValue($postgresArray, AbstractPlatform $platform): ?array
     {
@@ -93,15 +94,12 @@ abstract class BaseArray extends BaseType
         if ($trimmedPostgresArray === '') {
             return [];
         }
-        $phpArray = explode(',', $trimmedPostgresArray);
 
-        return $phpArray;
+        return explode(',', $trimmedPostgresArray);
     }
 
     /**
-     * Transforms PostgreSql array item to a PHP compatible array item
-     * @param mixed $item
-     * @return mixed
+     * Transforms PostgreSql array item to a PHP compatible array item.
      */
     protected function transformArrayItemForPHP($item)
     {

@@ -8,8 +8,8 @@ use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
- *
  * @since 0.11
+ *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 abstract class BaseIntegerArray extends BaseArray
@@ -18,9 +18,6 @@ abstract class BaseIntegerArray extends BaseArray
 
     abstract protected function getMaxValue(): string;
 
-    /**
-     * @param mixed $item
-     */
     public function isValidArrayItemForDatabase($item): bool
     {
         return (is_int($item) || is_string($item))

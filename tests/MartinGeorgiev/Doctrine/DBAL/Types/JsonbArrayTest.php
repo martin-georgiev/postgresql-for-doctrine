@@ -82,8 +82,6 @@ class JsonbArrayTest extends TestCase
     }
 
     /**
-
-    /**
      * @test
      * @dataProvider validTransformations
      */

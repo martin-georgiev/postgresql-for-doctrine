@@ -10,6 +10,7 @@ use Doctrine\ORM\Query\SqlWalker;
 
 /**
  * @since 1.0
+ *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 abstract class BaseComparisonFunction extends BaseFunction
@@ -26,6 +27,7 @@ abstract class BaseComparisonFunction extends BaseFunction
         $this->nodes[] = $parser->{$this->commonNodeMapping}();
 
         $aheadType = $lexer->lookahead['type'];
+
         while (Lexer::T_CLOSE_PARENTHESIS !== $aheadType) {
             if (Lexer::T_COMMA === $aheadType) {
                 $parser->match(Lexer::T_COMMA);
