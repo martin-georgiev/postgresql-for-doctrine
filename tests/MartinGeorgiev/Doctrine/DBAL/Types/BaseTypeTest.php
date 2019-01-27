@@ -34,7 +34,7 @@ class BaseTypeTest extends TestCase
     /**
      * @test
      */
-    public function getSQLDeclaration_throws_LogicException_when_no_name_is_set(): void
+    public function throws_logic_exception_when_no_name_is_set(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessageRegExp('/Doctrine type defined in class .+ has no meaningful value for TYPE_NAME constant/');
