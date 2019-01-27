@@ -27,8 +27,8 @@ class ArrayReplaceTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT ARRAY_REPLACE(e.array, 1939, 1957) FROM %s e', ContainsArray::class),
-            sprintf("SELECT ARRAY_REPLACE(e.array, 'green', 'mint') FROM %s e", ContainsArray::class),
+            \sprintf('SELECT ARRAY_REPLACE(e.array, 1939, 1957) FROM %s e', ContainsArray::class),
+            \sprintf("SELECT ARRAY_REPLACE(e.array, 'green', 'mint') FROM %s e", ContainsArray::class),
         ];
     }
 }

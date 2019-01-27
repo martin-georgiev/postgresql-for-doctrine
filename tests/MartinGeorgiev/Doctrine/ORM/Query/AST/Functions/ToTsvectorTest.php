@@ -26,7 +26,7 @@ class ToTsvectorTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT TO_TSVECTOR(e.text) FROM %s e', ContainsText::class),
+            \sprintf('SELECT TO_TSVECTOR(e.text) FROM %s e', ContainsText::class),
         ];
     }
 }

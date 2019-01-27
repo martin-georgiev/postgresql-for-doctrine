@@ -18,7 +18,7 @@ For the sake of clear Git history and speedy review of your PR please check that
 ----
 **How to add more array-like data types?**
 
-1. Extend `MartinGeorgiev\Doctrine\DBAL\Types\AbstractTypeArray`.
+1. Extend `MartinGeorgiev\Doctrine\DBAL\Types\BaseArray`.
 
 2. You must give the new data-type a unique within your application name. For this purpose, you can use the `TYPE_NAME` constant.
 3. Depending on the new data-type nature you may have to overwrite some of the following methods:
@@ -34,7 +34,7 @@ For the sake of clear Git history and speedy review of your PR please check that
 **How to add more functions?**
 
 Most new functions will likely have a signature very similar to those already implemented in the project. This means new functions probably require only extending the base class and decorating it with some behaviour. Here are the two main steps to follow:
-1. Extend `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AbstractFunction`.
+1. Extend `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction`.
 2. Use calls to `setFunctionPrototype()` and `addNodeMapping()` to implement `customiseFunction()` for your new function class.
 
 Example:
@@ -46,7 +46,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-class ArrayAppend extends AbstractFunction
+class ArrayAppend extends BaseFunction
 {
     protected function customiseFunction(): void
     {

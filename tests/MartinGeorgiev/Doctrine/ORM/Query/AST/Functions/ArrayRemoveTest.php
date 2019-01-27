@@ -27,8 +27,8 @@ class ArrayRemoveTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT ARRAY_REMOVE(e.array, 1944) FROM %s e', ContainsArray::class),
-            sprintf("SELECT ARRAY_REMOVE(e.array, 'peach') FROM %s e", ContainsArray::class),
+            \sprintf('SELECT ARRAY_REMOVE(e.array, 1944) FROM %s e', ContainsArray::class),
+            \sprintf("SELECT ARRAY_REMOVE(e.array, 'peach') FROM %s e", ContainsArray::class),
         ];
     }
 }

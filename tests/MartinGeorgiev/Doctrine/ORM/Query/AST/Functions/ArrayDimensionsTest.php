@@ -26,7 +26,7 @@ class ArrayDimensionsTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT ARRAY_DIMENSIONS(e.array) FROM %s e', ContainsArray::class),
+            \sprintf('SELECT ARRAY_DIMENSIONS(e.array) FROM %s e', ContainsArray::class),
         ];
     }
 }

@@ -26,7 +26,7 @@ class JsonbExistsTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT JSONB_EXISTS(e.object, 'country') FROM %s e", ContainsJson::class),
+            \sprintf("SELECT JSONB_EXISTS(e.object, 'country') FROM %s e", ContainsJson::class),
         ];
     }
 }

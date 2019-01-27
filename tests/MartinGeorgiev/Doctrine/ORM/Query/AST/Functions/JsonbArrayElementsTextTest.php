@@ -26,7 +26,7 @@ class JsonbArrayElementsTextTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT JSONB_ARRAY_ELEMENTS_TEXT(e.object) FROM %s e', ContainsJson::class),
+            \sprintf('SELECT JSONB_ARRAY_ELEMENTS_TEXT(e.object) FROM %s e', ContainsJson::class),
         ];
     }
 }

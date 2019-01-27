@@ -26,7 +26,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTest
 
     public function invalidTransformations(): array
     {
-        return array_merge(parent::invalidTransformations(), [['-32767.01'], [-32769]]);
+        return \array_merge(parent::invalidTransformations(), [['-32767.01'], [-32769]]);
     }
 
     public function validTransformations(): array

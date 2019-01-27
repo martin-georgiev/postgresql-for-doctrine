@@ -17,7 +17,7 @@ class TextArrayTest extends TestCase
     private $platform;
 
     /**
-     * @var TextArray|MockObject
+     * @var MockObject|TextArray
      */
     private $fixture;
 
@@ -69,8 +69,6 @@ class TextArrayTest extends TestCase
     {
         $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
-
-    /**
 
     /**
      * @test
