@@ -8,10 +8,11 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Utils\DataStructure;
 
 /**
- * Implementation of PostgreSql TEXT[] data type
- * @see https://www.postgresql.org/docs/9.4/static/arrays.html
+ * Implementation of PostgreSql TEXT[] data type.
  *
+ * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.6
+ *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 class TextArray extends BaseType
@@ -23,7 +24,8 @@ class TextArray extends BaseType
 
     /**
      * Converts a value from its PHP representation to its database representation of the type.
-     * @param array|null $value The value to convert.
+     *
+     * @param array|null $value the value to convert
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
@@ -48,7 +50,8 @@ class TextArray extends BaseType
 
     /**
      * Converts a value from its database representation to its PHP representation of this type.
-     * @param string|null $value The value to convert.
+     *
+     * @param string|null $value the value to convert
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {

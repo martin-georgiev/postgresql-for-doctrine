@@ -7,15 +7,17 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Helpers for converting PHP values into PostgreSql JSOn and vice versa
+ * Helpers for converting PHP values into PostgreSql JSOn and vice versa.
  *
  * @since 0.1
+ *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 trait JsonTransformer
 {
     /**
      * @param mixed $phpValue Value bus be suitable for JSON encoding
+     *
      * @throws ConversionException When given value cannot be encoded
      */
     protected function transformToPostgresJson($phpValue): string
