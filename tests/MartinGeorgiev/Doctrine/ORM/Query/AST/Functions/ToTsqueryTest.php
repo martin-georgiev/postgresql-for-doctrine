@@ -26,7 +26,7 @@ class ToTsqueryTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT TO_TSQUERY(e.text) FROM %s e', ContainsText::class),
+            \sprintf('SELECT TO_TSQUERY(e.text) FROM %s e', ContainsText::class),
         ];
     }
 }

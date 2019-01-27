@@ -26,7 +26,7 @@ class JsonArrayLengthTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT JSON_ARRAY_LENGTH(e.object) FROM %s e', ContainsJson::class),
+            \sprintf('SELECT JSON_ARRAY_LENGTH(e.object) FROM %s e', ContainsJson::class),
         ];
     }
 }

@@ -26,7 +26,7 @@ class ArrayToJsonTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT ARRAY_TO_JSON(e.array) FROM %s e', ContainsArray::class),
+            \sprintf('SELECT ARRAY_TO_JSON(e.array) FROM %s e', ContainsArray::class),
         ];
     }
 }

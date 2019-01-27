@@ -35,7 +35,7 @@ abstract class BaseType extends Type
     private static function throwExceptionIfTypeNameNotConfigured(): void
     {
         if (null === static::TYPE_NAME) {
-            throw new \LogicException(sprintf('Doctrine type defined in class %s has no meaningful value for TYPE_NAME constant', self::class));
+            throw new \LogicException(\sprintf('Doctrine type defined in class %s has no meaningful value for TYPE_NAME constant', self::class));
         }
     }
 }

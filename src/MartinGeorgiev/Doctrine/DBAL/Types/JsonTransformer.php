@@ -24,7 +24,7 @@ trait JsonTransformer
     {
         $postgresValue = \json_encode($phpValue);
         if ($postgresValue === false) {
-            throw new ConversionException(sprintf('Value %s can\'t be resolved to valid JSON', var_export($phpValue, true)));
+            throw new ConversionException(\sprintf('Value %s can\'t be resolved to valid JSON', \var_export($phpValue, true)));
         }
 
         return $postgresValue;

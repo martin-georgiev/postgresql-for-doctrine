@@ -26,7 +26,7 @@ class DataStructure
                 throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
             }
 
-            $phpArray = str_getcsv(trim($textArrayToTransform, '{}'));
+            $phpArray = \str_getcsv(\trim($textArrayToTransform, '{}'));
             foreach ($phpArray as $i => $text) {
                 if ($text === null) {
                     unset($phpArray[$i]);
@@ -34,21 +34,21 @@ class DataStructure
                     break;
                 }
 
-                $isInteger = is_numeric($text) && ''.(int) $text === $text;
+                $isInteger = \is_numeric($text) && ''.(int) $text === $text;
                 if ($isInteger) {
                     $phpArray[$i] = (int) $text;
 
                     continue;
                 }
 
-                $isFloat = is_numeric($text) && ''.(float) $text === $text;
+                $isFloat = \is_numeric($text) && ''.(float) $text === $text;
                 if ($isFloat) {
                     $phpArray[$i] = (float) $text;
 
                     continue;
                 }
 
-                $phpArray[$i] = str_replace('\"', '"', $text);
+                $phpArray[$i] = \str_replace('\"', '"', $text);
             }
 
             return $phpArray;
@@ -68,21 +68,21 @@ class DataStructure
         $transform = static function (array $phpArrayToTransform): string {
             $result = [];
             foreach ($phpArrayToTransform as $text) {
-                if (is_array($text)) {
+                if (\is_array($text)) {
                     throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
                 }
 
-                if (is_numeric($text) || \ctype_digit($text)) {
+                if (\is_numeric($text) || \ctype_digit($text)) {
                     $escapedText = $text;
                 } elseif (empty($text)) {
                     $escapedText = '';
                 } else {
-                    $escapedText = '"'.str_replace('"', '\"', $text).'"';
+                    $escapedText = '"'.\str_replace('"', '\"', $text).'"';
                 }
                 $result[] = $escapedText;
             }
 
-            return '{'.implode(',', $result).'}';
+            return '{'.\implode(',', $result).'}';
         };
 
         return $transform($phpArray);

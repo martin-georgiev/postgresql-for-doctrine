@@ -26,7 +26,7 @@ class IntegerArrayTest extends BaseIntegerArrayTest
 
     public function invalidTransformations(): array
     {
-        return array_merge(parent::invalidTransformations(), [['-2147483647.01'], [2147483649]]);
+        return \array_merge(parent::invalidTransformations(), [['-2147483647.01'], [2147483649]]);
     }
 
     public function validTransformations(): array

@@ -30,10 +30,10 @@ abstract class BaseArray extends BaseType
             return null;
         }
 
-        if (!is_array($phpArray)) {
+        if (!\is_array($phpArray)) {
             $exceptionMessage = 'Given PHP value content type is not PHP array. Instead it is "%s".';
 
-            throw new \InvalidArgumentException(sprintf($exceptionMessage, gettype($phpArray)));
+            throw new \InvalidArgumentException(\sprintf($exceptionMessage, \gettype($phpArray)));
         }
 
         foreach ($phpArray as &$item) {
@@ -45,7 +45,7 @@ abstract class BaseArray extends BaseType
             $item = $this->transformArrayItemForPostgres($item);
         }
 
-        return '{'.implode(',', $phpArray).'}';
+        return '{'.\implode(',', $phpArray).'}';
     }
 
     /**
@@ -74,10 +74,10 @@ abstract class BaseArray extends BaseType
         if ($postgresArray === null) {
             return null;
         }
-        if (!is_string($postgresArray)) {
+        if (!\is_string($postgresArray)) {
             $exceptionMessage = 'Given PostgreSql value content type is not PHP string. Instead it is "%s".';
 
-            throw new ConversionException(sprintf($exceptionMessage, gettype($postgresArray)));
+            throw new ConversionException(\sprintf($exceptionMessage, \gettype($postgresArray)));
         }
 
         $phpArray = $this->transformPostgresArrayToPHPArray($postgresArray);
@@ -95,7 +95,7 @@ abstract class BaseArray extends BaseType
             return [];
         }
 
-        return explode(',', $trimmedPostgresArray);
+        return \explode(',', $trimmedPostgresArray);
     }
 
     /**

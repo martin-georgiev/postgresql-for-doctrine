@@ -27,8 +27,8 @@ class ArrayAppendTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT ARRAY_APPEND(e.array, 1989) FROM %s e', ContainsArray::class),
-            sprintf("SELECT ARRAY_APPEND(e.array, 'country') FROM %s e", ContainsArray::class),
+            \sprintf('SELECT ARRAY_APPEND(e.array, 1989) FROM %s e', ContainsArray::class),
+            \sprintf("SELECT ARRAY_APPEND(e.array, 'country') FROM %s e", ContainsArray::class),
         ];
     }
 }

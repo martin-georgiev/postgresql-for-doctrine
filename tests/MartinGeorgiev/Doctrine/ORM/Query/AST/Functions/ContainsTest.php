@@ -26,7 +26,7 @@ class ContainsTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT CONTAINS(e.array, '{681,1185,1878}') FROM %s e", ContainsArray::class),
+            \sprintf("SELECT CONTAINS(e.array, '{681,1185,1878}') FROM %s e", ContainsArray::class),
         ];
     }
 }

@@ -26,7 +26,7 @@ class UnnestTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT UNNEST(e.array) FROM %s e', ContainsArray::class),
+            \sprintf('SELECT UNNEST(e.array) FROM %s e', ContainsArray::class),
         ];
     }
 }

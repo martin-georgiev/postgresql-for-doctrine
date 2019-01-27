@@ -59,7 +59,7 @@ abstract class BaseFunction extends FunctionNode
      */
     protected function feedParserWithNodes(Parser $parser): void
     {
-        $nodesMappingCount = count($this->nodesMapping);
+        $nodesMappingCount = \count($this->nodesMapping);
         $lastNode = $nodesMappingCount - 1;
         for ($i = 0; $i < $nodesMappingCount; $i++) {
             $parserMethod = $this->nodesMapping[$i];
@@ -77,6 +77,6 @@ abstract class BaseFunction extends FunctionNode
             $dispatched[] = $node->dispatch($sqlWalker);
         }
 
-        return vsprintf($this->functionPrototype, $dispatched);
+        return \vsprintf($this->functionPrototype, $dispatched);
     }
 }
