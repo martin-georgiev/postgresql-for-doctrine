@@ -48,7 +48,7 @@ class DataStructureTest extends TestCase
                     0 => '',
                     1 => '',
                 ],
-                'postgresValue' => '{,}',
+                'postgresValue' => '{"",""}',
             ],
             [
                 'phpValue' => [],
