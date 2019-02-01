@@ -74,8 +74,6 @@ class DataStructure
 
                 if (\is_numeric($text) || \ctype_digit($text)) {
                     $escapedText = $text;
-                } elseif (empty($text)) {
-                    $escapedText = '';
                 } else {
                     $escapedText = '"'.\str_replace('"', '\"', $text).'"';
                 }
