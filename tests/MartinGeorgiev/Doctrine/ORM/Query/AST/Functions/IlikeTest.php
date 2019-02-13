@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ILike;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike;
 use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsText;
 
-class ILikeTest extends TestCase
+class IlikeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'ILIKE' => ILike::class,
+            'ILIKE' => Ilike::class,
         ];
     }
 

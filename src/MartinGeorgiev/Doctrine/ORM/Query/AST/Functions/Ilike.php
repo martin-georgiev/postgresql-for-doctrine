@@ -7,10 +7,10 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSql ILIKE()
  * @see    https://www.postgresql.org/docs/9.3/functions-matching.html
- * @since  0.4
- * @author Martin Georgiev <martin.georgiev@gmail.com>
+ * @since  1.1
+ * @author llaakkkk <lenakirichokv@gmail.com>
  */
-class ILike extends BaseFunction
+class Ilike extends BaseFunction
 {
     protected function customiseFunction(): void
     {
