@@ -26,7 +26,7 @@ class LeastTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT LEAST(e.integer1, e.integer2, e.integer3) FROM %s e', ContainsSeveralIntegers::class),
+            \sprintf('SELECT LEAST(e.integer1, e.integer2, e.integer3) FROM %s e', ContainsSeveralIntegers::class),
         ];
     }
 }

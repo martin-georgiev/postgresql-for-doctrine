@@ -26,7 +26,7 @@ class JsonbSetTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT JSONB_SET(e.object, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJson::class),
+            \sprintf("SELECT JSONB_SET(e.object, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJson::class),
         ];
     }
 }

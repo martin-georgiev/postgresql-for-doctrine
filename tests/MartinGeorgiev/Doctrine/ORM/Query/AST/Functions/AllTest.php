@@ -26,7 +26,7 @@ class AllTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT e.id FROM %s e WHERE e.id > ALL_OF(e.array)', ContainsArray::class),
+            \sprintf('SELECT e.id FROM %s e WHERE e.id > ALL_OF(e.array)', ContainsArray::class),
         ];
     }
 }

@@ -26,7 +26,7 @@ class AnyTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT e.id FROM %s e WHERE e.id > ANY_OF(e.array)', ContainsArray::class),
+            \sprintf('SELECT e.id FROM %s e WHERE e.id > ANY_OF(e.array)', ContainsArray::class),
         ];
     }
 }

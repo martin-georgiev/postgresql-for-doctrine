@@ -48,7 +48,7 @@ class DataStructureTest extends TestCase
                     0 => '',
                     1 => '',
                 ],
-                'postgresValue' => '{,}',
+                'postgresValue' => '{"",""}',
             ],
             [
                 'phpValue' => [],
@@ -100,7 +100,7 @@ class DataStructureTest extends TestCase
      * @test
      * @dataProvider invalidTransformations
      */
-    public function throws_InvalidArgumentException_when_tries_to_non_single_dimensioned_array_from_php_value(array $phpValue, string $postgresValue): void
+    public function throws_invalid_argument_exception_when_tries_to_non_single_dimensioned_array_from_php_value(array $phpValue, string $postgresValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
         DataStructure::transformPHPArrayToPostgresTextArray($phpValue);
@@ -110,7 +110,7 @@ class DataStructureTest extends TestCase
      * @test
      * @dataProvider invalidTransformations
      */
-    public function throws_InvalidArgumentException_when_tries_to_non_single_dimensioned_array_to_php_value(array $phpValue, string $postgresValue): void
+    public function throws_invalid_argument_exception_when_tries_to_non_single_dimensioned_array_to_php_value(array $phpValue, string $postgresValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
         DataStructure::transformPostgresTextArrayToPHPArray($postgresValue);

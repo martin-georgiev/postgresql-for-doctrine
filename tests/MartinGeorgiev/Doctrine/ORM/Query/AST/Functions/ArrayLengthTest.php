@@ -26,7 +26,7 @@ class ArrayLengthTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT ARRAY_LENGTH(e.array, 1) FROM %s e', ContainsArray::class),
+            \sprintf('SELECT ARRAY_LENGTH(e.array, 1) FROM %s e', ContainsArray::class),
         ];
     }
 }

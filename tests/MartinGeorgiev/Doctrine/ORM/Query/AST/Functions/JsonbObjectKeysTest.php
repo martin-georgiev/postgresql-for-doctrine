@@ -26,7 +26,7 @@ class JsonbObjectKeysTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf('SELECT JSONB_OBJECT_KEYS(e.object) FROM %s e', ContainsJson::class),
+            \sprintf('SELECT JSONB_OBJECT_KEYS(e.object) FROM %s e', ContainsJson::class),
         ];
     }
 }

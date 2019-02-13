@@ -53,11 +53,11 @@ abstract class TestCase extends BaseTestCase
     {
         $expectedSqls = $this->getExpectedSqlStatements();
         $dqls = $this->getDqlStatements();
-        if (count($expectedSqls) !== count($dqls)) {
-            throw new \LogicException(sprintf('You need ot provide matching expected SQL for every DQL, currently there are %d SQL statements for %d DQL statements', count($expectedSqls), count($dqls)));
+        if (\count($expectedSqls) !== \count($dqls)) {
+            throw new \LogicException(\sprintf('You need ot provide matching expected SQL for every DQL, currently there are %d SQL statements for %d DQL statements', \count($expectedSqls), \count($dqls)));
         }
         foreach ($expectedSqls as $key => $expectedSql) {
-            $this->assertSqlFromDql($expectedSql, $dqls[$key], sprintf('Assertion failed for expected SQL statement "%s"', $expectedSql));
+            $this->assertSqlFromDql($expectedSql, $dqls[$key], \sprintf('Assertion failed for expected SQL statement "%s"', $expectedSql));
         }
     }
 
