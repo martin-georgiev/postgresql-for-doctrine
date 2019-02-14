@@ -26,7 +26,7 @@ class IlikeTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            sprintf("SELECT ILIKE(e.text,'TEST') FROM %s e", ContainsText::class),
+            \sprintf("SELECT ILIKE(e.text,'TEST') FROM %s e", ContainsText::class),
         ];
     }
 }
