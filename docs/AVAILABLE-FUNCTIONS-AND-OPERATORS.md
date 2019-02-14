@@ -53,6 +53,7 @@
 | to_tsvector | TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector` | 
 | tsmatch | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` | 
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` | 
+| ilike | ILIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike` | 
 
 
 # Bonus functions
