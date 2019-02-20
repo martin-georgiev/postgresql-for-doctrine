@@ -67,7 +67,7 @@
         ],
         "run-static-analysis-including-tests": [
             "@run-static-analysis",
-            "bin/phpstan analyse --level=4 tests/"
+            "bin/phpstan analyse --level=7 tests/"
         ],
         "run-tests": [
             "bin/phpunit"
