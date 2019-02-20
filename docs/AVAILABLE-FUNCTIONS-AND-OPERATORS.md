@@ -9,6 +9,7 @@
 | ->> | JSON_GET_FIELD_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText` |
 | #> | JSON_GET_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject` |
 | #>> | JSON_GET_OBJECT_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText` |
+| ilike | ILIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike` | 
 
 
 # Available functions
