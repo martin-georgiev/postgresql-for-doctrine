@@ -7,8 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSql ILIKE().
  *
- * @see    https://www.postgresql.org/docs/9.3/functions-matching.html
- * @since  1.1
+ * @see https://www.postgresql.org/docs/9.3/functions-matching.html
+ * @since 1.1
  *
  * @author llaakkkk <lenakirichokv@gmail.com>
  */
