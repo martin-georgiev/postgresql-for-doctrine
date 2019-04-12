@@ -30,5 +30,9 @@ Read the guide with examples for [Laravel](docs/INTEGRATING-WITH-LARAVEL.md).
 Read the guide with examples for [Doctrine](docs/INTEGRATING-WITH-DOCTRINE.md).
 
 ----
+
+Check for [common use-cases, examples and known errors](docs/USE-CASES-AND-EXAMPLES.md).
+
+----
 ## License
 This package is licensed under the MIT License.
