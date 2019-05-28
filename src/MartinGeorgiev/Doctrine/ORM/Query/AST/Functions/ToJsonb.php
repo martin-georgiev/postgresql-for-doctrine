@@ -17,6 +17,6 @@ class ToJsonb extends BaseFunction
     protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('to_jsonb(%s)');
-        $this->addNodeMapping('InputParameter');
+        $this->addNodeMapping('NewValue');
     }
 }
