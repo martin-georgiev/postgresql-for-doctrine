@@ -33,6 +33,7 @@ class ToTsvectorTest extends TestCase
             \sprintf('SELECT TO_TSVECTOR(LOWER(e.text)) FROM %s e', ContainsText::class),
             \sprintf('SELECT TO_TSVECTOR(1+1) FROM %s e', ContainsText::class),
             \sprintf('SELECT TO_TSVECTOR(true) FROM %s e', ContainsText::class),
-            \sprintf('SELECT TO_TSVECTOR(LENGTH(e.text)) FROM %s e', ContainsText::class),        ];
+            \sprintf('SELECT TO_TSVECTOR(LENGTH(e.text)) FROM %s e', ContainsText::class),
+        ];
     }
 }
