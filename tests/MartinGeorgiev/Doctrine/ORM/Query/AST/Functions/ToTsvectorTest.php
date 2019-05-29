@@ -23,7 +23,8 @@ class ToTsvectorTest extends TestCase
             'SELECT to_tsvector(LOWER(c0_.text)) AS sclr_0 FROM ContainsText c0_',
             'SELECT to_tsvector(1 + 1) AS sclr_0 FROM ContainsText c0_',
             'SELECT to_tsvector(1) AS sclr_0 FROM ContainsText c0_',
-            'SELECT to_tsvector(LENGTH(c0_.text)) AS sclr_0 FROM ContainsText c0_',        ];
+            'SELECT to_tsvector(LENGTH(c0_.text)) AS sclr_0 FROM ContainsText c0_',
+        ];
     }
 
     protected function getDqlStatements(): array
