@@ -20,13 +20,19 @@ class ToTsvectorTest extends TestCase
     {
         return [
             'SELECT to_tsvector(c0_.text) AS sclr_0 FROM ContainsText c0_',
-        ];
+            'SELECT to_tsvector(LOWER(c0_.text)) AS sclr_0 FROM ContainsText c0_',
+            'SELECT to_tsvector(1 + 1) AS sclr_0 FROM ContainsText c0_',
+            'SELECT to_tsvector(1) AS sclr_0 FROM ContainsText c0_',
+            'SELECT to_tsvector(LENGTH(c0_.text)) AS sclr_0 FROM ContainsText c0_',        ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
             \sprintf('SELECT TO_TSVECTOR(e.text) FROM %s e', ContainsText::class),
-        ];
+            \sprintf('SELECT TO_TSVECTOR(LOWER(e.text)) FROM %s e', ContainsText::class),
+            \sprintf('SELECT TO_TSVECTOR(1+1) FROM %s e', ContainsText::class),
+            \sprintf('SELECT TO_TSVECTOR(true) FROM %s e', ContainsText::class),
+            \sprintf('SELECT TO_TSVECTOR(LENGTH(e.text)) FROM %s e', ContainsText::class),        ];
     }
 }
