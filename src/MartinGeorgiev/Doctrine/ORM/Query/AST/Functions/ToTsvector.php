@@ -17,6 +17,6 @@ class ToTsvector extends BaseFunction
     protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('to_tsvector(%s)');
-        $this->addNodeMapping('NewValue');
+        $this->addNodeMapping('StringPrimary');
     }
 }

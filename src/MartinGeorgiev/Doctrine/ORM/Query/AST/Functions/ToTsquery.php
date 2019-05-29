@@ -17,6 +17,6 @@ class ToTsquery extends BaseFunction
     protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('to_tsquery(%s)');
-        $this->addNodeMapping('NewValue');
+        $this->addNodeMapping('StringPrimary');
     }
 }
