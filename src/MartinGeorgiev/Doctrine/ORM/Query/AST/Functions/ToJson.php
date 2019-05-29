@@ -17,6 +17,6 @@ class ToJson extends BaseFunction
     protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('to_json(%s)');
-        $this->addNodeMapping('InputParameter');
+        $this->addNodeMapping('NewValue');
     }
 }

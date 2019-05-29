@@ -20,6 +20,7 @@ class ToTsvectorTest extends TestCase
     {
         return [
             'SELECT to_tsvector(c0_.text) AS sclr_0 FROM ContainsText c0_',
+            'SELECT to_tsvector(LOWER(c0_.text)) AS sclr_0 FROM ContainsText c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ class ToTsvectorTest extends TestCase
     {
         return [
             \sprintf('SELECT TO_TSVECTOR(e.text) FROM %s e', ContainsText::class),
+            \sprintf('SELECT TO_TSVECTOR(LOWER(e.text)) FROM %s e', ContainsText::class),
         ];
     }
 }
