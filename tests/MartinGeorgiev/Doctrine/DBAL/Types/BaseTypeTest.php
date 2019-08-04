@@ -26,7 +26,7 @@ class BaseTypeTest extends TestCase
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(BaseType::class)
-            ->setMethods(null)
+            ->setMethods([])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
     }
