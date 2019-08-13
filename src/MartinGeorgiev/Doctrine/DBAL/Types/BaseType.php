@@ -32,6 +32,14 @@ abstract class BaseType extends Type
         return static::TYPE_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return false;
+    }
+
     private static function throwExceptionIfTypeNameNotConfigured(): void
     {
         if (null === static::TYPE_NAME) {
