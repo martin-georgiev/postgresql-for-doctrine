@@ -43,6 +43,7 @@ $em = EntityManager::create($dbParams, $configuration);
 
 ```php
 $platform = $em->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('jsonb','jsonb');
 $platform->registerDoctrineTypeMapping('integer[]','integer[]');
 $platform->registerDoctrineTypeMapping('_int4','integer[]');
 $platform->registerDoctrineTypeMapping('bigint[]','bigint[]');
