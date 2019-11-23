@@ -39,8 +39,7 @@
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "doctrine/dbal": "~2.5",
-        "doctrine/orm": "~2.5"
+        "doctrine/dbal": "~2.5"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",
@@ -49,7 +48,11 @@
         "phpstan/phpstan": "^0.11",
         "phpstan/phpstan-phpunit": "^0.11",
         "phpunit/phpunit": "^7.5 || ^8.0",
-        "sensiolabs/security-checker": "^5.0"
+        "sensiolabs/security-checker": "^5.0",
+        "doctrine/orm": "~2.5"
+    },
+    "suggest": {
+        "doctrine/orm": "~2.5"
     },
 
     "scripts": {
