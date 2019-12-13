@@ -2,7 +2,7 @@
 
 | PostgreSQL operator | Register for DQL as | Implemented by
 |---|---|---|
-| @> | CONTAINS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SmallIntArray` | 
+| @> | CONTAINS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains` | 
 | <@ | IS_CONTAINED_BY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy` | 
 | && | OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps` | 
 | -> | JSON_GET_FIELD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField` | 
