@@ -58,9 +58,10 @@
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` | 
 
 
-# Bonus functions
+# Bonus helpers
 
 | PostgreSQL functions | Register for DQL as | Implemented by
 |---|---|---|
+| array | ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr` | 
 | value = ANY(list of values) | IN_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray` | 
 | CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` | 
