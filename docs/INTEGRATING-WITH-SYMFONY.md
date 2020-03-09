@@ -117,4 +117,6 @@ doctrine:
                         
                         # other operators
                         ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
+                        SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo
+                        NOT_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo
 ```
