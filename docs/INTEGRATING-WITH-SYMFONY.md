@@ -83,7 +83,8 @@ doctrine:
                         ARRAY_TO_STRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
                         IN_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray
-                        
+                        ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr::class
+
                         # json specific functions
                         JSON_ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength
                         JSON_EACH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach
