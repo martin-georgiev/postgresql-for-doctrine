@@ -10,7 +10,8 @@
 | #> | JSON_GET_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject` |
 | #>> | JSON_GET_OBJECT_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText` |
 | ilike | ILIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike` | 
-| array | ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr` | 
+| similar to | SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo` | 
+| not similar to | NOT_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo` | 
 
 
 # Available functions
@@ -57,9 +58,10 @@
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` | 
 
 
-# Bonus functions
+# Bonus helpers
 
 | PostgreSQL functions | Register for DQL as | Implemented by
 |---|---|---|
+| array | ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr` | 
 | value = ANY(list of values) | IN_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray` | 
 | CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` | 
