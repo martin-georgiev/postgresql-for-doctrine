@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsText;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsTexts;
 
 class TsmatchTest extends TestCase
 {
@@ -23,14 +23,14 @@ class TsmatchTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (to_tsvector(c0_.text) @@ to_tsquery('testing')) AS sclr_0 FROM ContainsText c0_",
+            "SELECT (to_tsvector(c0_.text1) @@ to_tsquery('testing')) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT TSMATCH(TO_TSVECTOR(e.text), TO_TSQUERY('testing')) FROM %s e", ContainsText::class),
+            \sprintf("SELECT TSMATCH(TO_TSVECTOR(e.text1), TO_TSQUERY('testing')) FROM %s e", ContainsTexts::class),
         ];
     }
 }
