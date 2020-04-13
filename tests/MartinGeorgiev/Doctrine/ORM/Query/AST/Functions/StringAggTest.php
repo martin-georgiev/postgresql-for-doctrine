@@ -19,14 +19,14 @@ class StringAggTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT string_agg(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            "SELECT string_agg(c0_.text1 || c0_.text2, ',') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT STRING_AGG(CONCAT(e.text1, e.text1), ',') FROM %s e", ContainsTexts::class),
+            \sprintf("SELECT STRING_AGG(CONCAT(e.text1, e.text2), ',') FROM %s e", ContainsTexts::class),
         ];
     }
 }

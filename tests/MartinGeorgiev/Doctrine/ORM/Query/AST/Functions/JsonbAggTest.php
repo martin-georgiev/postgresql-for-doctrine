@@ -19,14 +19,14 @@ class JsonbAggTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT json_agg(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            'SELECT jsonb_agg(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSON_AGG(e.text1) FROM %s e', ContainsTexts::class),
+            \sprintf('SELECT JSONB_AGG(e.text1) FROM %s e', ContainsTexts::class),
         ];
     }
 }

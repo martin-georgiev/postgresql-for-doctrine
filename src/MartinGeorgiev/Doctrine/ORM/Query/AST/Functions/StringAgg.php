@@ -16,7 +16,8 @@ class StringAgg extends BaseFunction
 {
     protected function customiseFunction(): void
     {
-        $this->setFunctionPrototype('string_agg(%s)');
+        $this->setFunctionPrototype('string_agg(%s, %s)');
+        $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
     }
 }
