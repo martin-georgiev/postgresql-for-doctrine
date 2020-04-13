@@ -7,14 +7,14 @@ cache:
     - $HOME/.composer/cache
 
 php:
-  - 7.1
   - 7.2
   - 7.3
+  - 7.4
   - nightly
 
 env:
   global:
-    - LATEST_PHP_VERSION="7.3"
+    - LATEST_PHP_VERSION="7.4"
   matrix:
     - DEPENDENCIES="beta"
     - DEPENDENCIES="low"
