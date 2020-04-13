@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsJson;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsJsons;
 
 class JsonbArrayElementsTest extends TestCase
 {
@@ -19,14 +19,14 @@ class JsonbArrayElementsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT jsonb_array_elements(c0_.object) AS sclr_0 FROM ContainsJson c0_',
+            'SELECT jsonb_array_elements(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSONB_ARRAY_ELEMENTS(e.object) FROM %s e', ContainsJson::class),
+            \sprintf('SELECT JSONB_ARRAY_ELEMENTS(e.object1) FROM %s e', ContainsJsons::class),
         ];
     }
 }

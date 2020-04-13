@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsText;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsTexts;
 
 class StringToArrayTest extends TestCase
 {
@@ -19,14 +19,14 @@ class StringToArrayTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT string_to_array(c0_.text, ',') AS sclr_0 FROM ContainsText c0_",
+            "SELECT string_to_array(c0_.text1, ',') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT STRING_TO_ARRAY(e.text, ',') FROM %s e", ContainsText::class),
+            \sprintf("SELECT STRING_TO_ARRAY(e.text1, ',') FROM %s e", ContainsTexts::class),
         ];
     }
 }

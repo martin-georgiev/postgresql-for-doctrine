@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsJson;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsJsons;
 
 class JsonbExistsTest extends TestCase
 {
@@ -19,14 +19,14 @@ class JsonbExistsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT jsonb_exists(c0_.object, 'country') AS sclr_0 FROM ContainsJson c0_",
+            "SELECT jsonb_exists(c0_.object1, 'country') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT JSONB_EXISTS(e.object, 'country') FROM %s e", ContainsJson::class),
+            \sprintf("SELECT JSONB_EXISTS(e.object1, 'country') FROM %s e", ContainsJsons::class),
         ];
     }
 }

@@ -13,15 +13,20 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 /**
  * @Entity
  */
-class ContainsArray extends Entity
+class ContainsIntegers extends Entity
 {
     /**
-     * @Column(type="array")
+     * @Column(type="integer")
      */
-    public $array;
+    public $integer1;
 
     /**
-     * @Column(type="array")
+     * @Column(type="integer")
      */
-    public $anotherArray;
+    public $integer2;
+
+    /**
+     * @Column(type="integer")
+     */
+    public $integer3;
 }
