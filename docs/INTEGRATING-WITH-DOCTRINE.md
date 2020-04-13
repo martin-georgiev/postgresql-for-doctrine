@@ -22,7 +22,7 @@ Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 *Register the functions you'll use in your DQL queries*
 
 
-Full set of the available types can be found [here](AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
+Full set of the available functions and operators can be found [here](AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
 
 ```php
 <?php
