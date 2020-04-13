@@ -35,7 +35,7 @@
     },
 
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -47,7 +47,7 @@
         "php-coveralls/php-coveralls": "^2.1",
         "phpstan/phpstan": "^0.11",
         "phpstan/phpstan-phpunit": "^0.11",
-        "phpunit/phpunit": "^7.5 || ^8.0",
+        "phpunit/phpunit": "^8.5",
         "sensiolabs/security-checker": "^6.0",
         "doctrine/orm": "~2.5"
     },

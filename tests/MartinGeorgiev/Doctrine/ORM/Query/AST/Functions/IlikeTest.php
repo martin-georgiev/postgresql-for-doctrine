@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsText;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsTexts;
 
 class IlikeTest extends TestCase
 {
@@ -19,14 +19,14 @@ class IlikeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT c0_.text ilike 'TEST' AS sclr_0 FROM ContainsText c0_",
+            "SELECT c0_.text1 ilike 'TEST' AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT ILIKE(e.text,'TEST') FROM %s e", ContainsText::class),
+            \sprintf("SELECT ILIKE(e.text1,'TEST') FROM %s e", ContainsTexts::class),
         ];
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArray;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArrays;
 
 class ArrayReplaceTest extends TestCase
 {
@@ -19,16 +19,16 @@ class ArrayReplaceTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_replace(c0_.array, 1939, 1957) AS sclr_0 FROM ContainsArray c0_',
-            "SELECT array_replace(c0_.array, 'green', 'mint') AS sclr_0 FROM ContainsArray c0_",
+            'SELECT array_replace(c0_.array1, 1939, 1957) AS sclr_0 FROM ContainsArrays c0_',
+            "SELECT array_replace(c0_.array1, 'green', 'mint') AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_REPLACE(e.array, 1939, 1957) FROM %s e', ContainsArray::class),
-            \sprintf("SELECT ARRAY_REPLACE(e.array, 'green', 'mint') FROM %s e", ContainsArray::class),
+            \sprintf('SELECT ARRAY_REPLACE(e.array1, 1939, 1957) FROM %s e', ContainsArrays::class),
+            \sprintf("SELECT ARRAY_REPLACE(e.array1, 'green', 'mint') FROM %s e", ContainsArrays::class),
         ];
     }
 }

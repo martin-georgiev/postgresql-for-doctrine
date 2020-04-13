@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArray;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArrays;
 
 class ArrayLengthTest extends TestCase
 {
@@ -19,14 +19,14 @@ class ArrayLengthTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_length(c0_.array, 1) AS sclr_0 FROM ContainsArray c0_',
+            'SELECT array_length(c0_.array1, 1) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_LENGTH(e.array, 1) FROM %s e', ContainsArray::class),
+            \sprintf('SELECT ARRAY_LENGTH(e.array1, 1) FROM %s e', ContainsArrays::class),
         ];
     }
 }

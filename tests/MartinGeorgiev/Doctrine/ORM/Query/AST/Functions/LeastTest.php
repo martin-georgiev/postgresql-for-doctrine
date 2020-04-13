@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsSeveralIntegers;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsIntegers;
 
 class LeastTest extends TestCase
 {
@@ -19,14 +19,14 @@ class LeastTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT least(c0_.integer1,c0_.integer2,c0_.integer3) AS sclr_0 FROM ContainsSeveralIntegers c0_',
+            'SELECT least(c0_.integer1,c0_.integer2,c0_.integer3) AS sclr_0 FROM ContainsIntegers c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT LEAST(e.integer1, e.integer2, e.integer3) FROM %s e', ContainsSeveralIntegers::class),
+            \sprintf('SELECT LEAST(e.integer1, e.integer2, e.integer3) FROM %s e', ContainsIntegers::class),
         ];
     }
 }

@@ -13,10 +13,15 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 /**
  * @Entity
  */
-class ContainsJson extends Entity
+class ContainsJsons extends Entity
 {
     /**
      * @Column(type="json")
      */
-    public $object;
+    public $object1;
+
+    /**
+     * @Column(type="json")
+     */
+    public $object2;
 }

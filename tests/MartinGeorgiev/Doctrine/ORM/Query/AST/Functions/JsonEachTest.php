@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsJson;
+use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsJsons;
 
 class JsonEachTest extends TestCase
 {
@@ -19,14 +19,14 @@ class JsonEachTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT json_each(c0_.object) AS sclr_0 FROM ContainsJson c0_',
+            'SELECT json_each(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSON_EACH(e.object) FROM %s e', ContainsJson::class),
+            \sprintf('SELECT JSON_EACH(e.object1) FROM %s e', ContainsJsons::class),
         ];
     }
 }
