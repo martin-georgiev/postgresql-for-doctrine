@@ -37,7 +37,7 @@ return PhpCsFixer\Config::create()
             'php_unit_method_casing' => ['case' => 'snake_case'],
             'php_unit_test_class_requires_covers' => false,
             'phpdoc_types_order' => ['null_adjustment' => 'always_last'],
-            'simplified_null_return' => true,
+            'simplified_null_return' => false,
             'single_line_comment_style' => false,
             'static_lambda' => true,
             'yoda_style' => false,

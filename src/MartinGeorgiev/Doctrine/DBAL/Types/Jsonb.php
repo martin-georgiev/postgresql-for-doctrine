@@ -47,7 +47,7 @@ class Jsonb extends BaseType
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return;
+            return null;
         }
 
         return $this->transformFromPostgresJson($value);
