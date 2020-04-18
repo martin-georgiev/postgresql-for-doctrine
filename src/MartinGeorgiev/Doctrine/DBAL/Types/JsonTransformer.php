@@ -16,7 +16,7 @@ use Doctrine\DBAL\Types\ConversionException;
 trait JsonTransformer
 {
     /**
-     * @param mixed $phpValue Value bus be suitable for JSON encoding
+     * @param mixed $phpValue Value must be suitable for JSON encoding
      *
      * @throws ConversionException When given value cannot be encoded
      */
@@ -30,7 +30,10 @@ trait JsonTransformer
         return $postgresValue;
     }
 
-    protected function transformFromPostgresJson(string $postgresValue): array
+    /**
+     * @return array|float|int|string|null
+     */
+    protected function transformFromPostgresJson(string $postgresValue)
     {
         return \json_decode($postgresValue, true);
     }
