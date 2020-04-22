@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\UnexpectedTypeOfTransformedPHPValue;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -88,5 +89,17 @@ class JsonbArrayTest extends TestCase
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * @test
+     */
+    public function throws_an_error_when_transformed_value_is_not_an_array(): void
+    {
+        $this->expectException(UnexpectedTypeOfTransformedPHPValue::class);
+
+        $postgresValue = '"a string encoded as json"';
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }
 }
