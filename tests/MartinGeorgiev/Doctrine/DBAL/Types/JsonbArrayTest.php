@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
+namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\UnexpectedTypeOfTransformedPHPValue;
@@ -24,6 +24,8 @@ class JsonbArrayTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(JsonbArray::class)
@@ -32,6 +34,9 @@ class JsonbArrayTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function validTransformations(): array
     {
         return [

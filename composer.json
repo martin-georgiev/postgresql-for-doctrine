@@ -30,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "MartinGeorgiev\\Tests\\": "tests/MartinGeorgiev/"
+            "Tests\\MartinGeorgiev\\": "tests/MartinGeorgiev/"
         }
     },
 
@@ -42,14 +42,14 @@
         "doctrine/dbal": "~2.5"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.14",
-        "jakub-onderka/php-parallel-lint": "^1.0",
-        "php-coveralls/php-coveralls": "^2.1",
-        "phpstan/phpstan": "^0.11",
-        "phpstan/phpstan-phpunit": "^0.11",
+        "doctrine/orm": "~2.5",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "php-coveralls/php-coveralls": "^2.2",
+        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^8.5",
-        "sensiolabs/security-checker": "^6.0",
-        "doctrine/orm": "~2.5"
+        "sensiolabs-de/deptrac-shim": "^0.7.1",
+        "sensiolabs/security-checker": "^6.0"
     },
     "suggest": {
         "doctrine/orm": "~2.5"
@@ -57,29 +57,23 @@
 
     "scripts": {
         "check-code-style": [
-            "bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --dry-run --no-interaction --diff -v"
+            "bin/php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --dry-run --no-interaction --diff -v"
         ],
         "check-security": [
             "bin/security-checker security:check"
         ],
         "fix-code-style": [
-            "bin/php-cs-fixer fix --config='./.php_cs' --show-progress=none --no-interaction --diff -v"
+            "bin/php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --no-interaction --diff -v"
         ],
         "run-static-analysis": [
-            "bin/phpstan analyse --level=7 src/"
-        ],
-        "run-static-analysis-including-tests": [
-            "@run-static-analysis",
-            "bin/phpstan analyse --level=7 tests/"
+            "bin/phpstan analyse --configuration='./ci/phpstan/config.neon' --level=8 src/ tests/",
+            "bin/deptrac analyze './ci/deptrac/config.yml' --no-interaction --no-progress"
         ],
         "run-tests": [
-            "bin/phpunit"
+            "bin/phpunit --configuration='./ci/phpunit/config.xml'"
         ],
         "run-tests-with-clover": [
-            "bin/phpunit --coverage-clover build/logs/clover.xml"
-        ],
-        "validate-files": [
-            "bin/parallel-lint --exclude vendor --exclude bin ."
+            "bin/phpunit --configuration='./ci/phpunit/config.xml' --coverage-clover './build/logs/clover.xml'"
         ]
     },
 

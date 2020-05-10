@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
+namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 
@@ -10,6 +10,8 @@ class SmallIntArrayTest extends BaseIntegerArrayTest
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->fixture = $this->getMockBuilder(SmallIntArray::class)
             ->setMethods(null)
             ->disableOriginalConstructor()

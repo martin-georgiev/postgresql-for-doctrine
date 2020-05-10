@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+$rootDirectory = __DIR__.'/../../';
+
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__.'/src')
-    ->in(__DIR__.'/tests');
+    ->in($rootDirectory.'/src')
+    ->in($rootDirectory.'/tests');
 
 return PhpCsFixer\Config::create()
     ->setRules(
@@ -30,7 +32,7 @@ return PhpCsFixer\Config::create()
             'method_chaining_indentation' => true,
             'multiline_whitespace_before_semicolons' => false,
             'native_function_invocation' => ['include' => ['@all']],
-            'no_superfluous_phpdoc_tags' => true,
+            'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
             'non_printable_character' => false,
             'ordered_class_elements' => ['order' => ['use_trait', 'constant', 'property', 'construct', 'magic', 'method']],
             'php_unit_internal_class' => false,

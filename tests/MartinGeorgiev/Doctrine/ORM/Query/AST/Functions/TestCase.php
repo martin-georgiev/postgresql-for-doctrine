@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Configuration;
@@ -12,20 +12,24 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    protected const FIXTURES_DIRECTORY = __DIR__.'/../../../../Fixtures';
+
     /**
      * @var Configuration
      */
-    protected $configuration;
+    private $configuration;
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->configuration = new Configuration();
         $this->configuration->setMetadataCacheImpl(new ArrayCache());
         $this->configuration->setQueryCacheImpl(new ArrayCache());
-        $this->configuration->setProxyDir(__DIR__.'/../../../../Fixtures/Proxies');
-        $this->configuration->setProxyNamespace('MartinGeorgiev\Tests\Doctrine\Fixtures\Proxies');
+        $this->configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
+        $this->configuration->setProxyNamespace('Tests\MartinGeorgiev\Doctrine\Fixtures\Proxies');
         $this->configuration->setAutoGenerateProxyClasses(true);
-        $this->configuration->setMetadataDriverImpl($this->configuration->newDefaultAnnotationDriver([__DIR__.'/../../../../Fixtures/Entities']));
+        $this->configuration->setMetadataDriverImpl($this->configuration->newDefaultAnnotationDriver([static::FIXTURES_DIRECTORY.'/Entities']));
 
         $this->registerFunction();
     }
@@ -37,13 +41,22 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function getStringFunctions(): array
     {
         return [];
     }
 
+    /**
+     * @return array<int, string>
+     */
     abstract protected function getExpectedSqlStatements(): array;
 
+    /**
+     * @return array<int, string>
+     */
     abstract protected function getDqlStatements(): array;
 
     /**

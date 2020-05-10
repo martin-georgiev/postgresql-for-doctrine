@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
+namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseIntegerArray;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -15,6 +15,9 @@ abstract class BaseIntegerArrayTest extends TestCase
      */
     protected $fixture;
 
+    /**
+     * @return array<int, mixed>
+     */
     public function invalidTransformations(): array
     {
         return [
@@ -30,12 +33,17 @@ abstract class BaseIntegerArrayTest extends TestCase
     /**
      * @test
      * @dataProvider invalidTransformations
+     *
+     * @param mixed $phpValue
      */
     public function can_detect_invalid_for_transformation_php_value($phpValue): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
 
+    /**
+     * @return array<int, array<string, int|string>>
+     */
     abstract public function validTransformations(): array;
 
     /**

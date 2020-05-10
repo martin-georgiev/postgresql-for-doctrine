@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\Fixtures\Entity;
+namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Configuration;
@@ -16,11 +16,15 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 class ContainsJsons extends Entity
 {
     /**
+     * @var array
+     *
      * @Column(type="json")
      */
     public $object1;
 
     /**
+     * @var array
+     *
      * @Column(type="json")
      */
     public $object2;

@@ -18,6 +18,9 @@ abstract class BaseIntegerArray extends BaseArray
 
     abstract protected function getMaxValue(): string;
 
+    /**
+     * @param mixed $item
+     */
     public function isValidArrayItemForDatabase($item): bool
     {
         return (\is_int($item) || \is_string($item))

@@ -1,0 +1,32 @@
+paths:
+  - ./src
+  - ./tests
+
+layers:
+  - name: Functions
+    collectors:
+      - type: className
+        regex: \\MartinGeorgiev\\Doctrine\\ORM\\AST\\Functions\\.*
+  - name: Types
+    collectors:
+      - type: className
+        regex: \\MartinGeorgiev\\Doctrine\\DBAL\\Types\\.*
+  - name: Utils
+    collectors:
+      - type: className
+        regex: \\MartinGeorgiev\\Utils\\.*
+  - name: Tests
+    collectors:
+      - type: className
+        regex: \\Tests\\MartinGeorgiev\\.*
+
+ruleset:
+  Functions:
+    - Utils
+  Types:
+    - Utils
+  Utils: ~
+  Tests:
+    - Functions
+    - Types
+    - Utils

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
+namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 
@@ -10,6 +10,8 @@ class IntegerArrayTest extends BaseIntegerArrayTest
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->fixture = $this->getMockBuilder(IntegerArray::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
@@ -24,6 +26,9 @@ class IntegerArrayTest extends BaseIntegerArrayTest
         $this->assertEquals('integer[]', $this->fixture->getName());
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     public function invalidTransformations(): array
     {
         return \array_merge(parent::invalidTransformations(), [['-2147483647.01'], [2147483649]]);

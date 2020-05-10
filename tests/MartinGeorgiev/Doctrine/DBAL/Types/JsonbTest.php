@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
+namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
@@ -23,6 +23,8 @@ class JsonbTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(Jsonb::class)
@@ -31,6 +33,9 @@ class JsonbTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * @return array<int, array<string, array|float|int|string|null>>
+     */
     public function validTransformations(): array
     {
         return [
@@ -83,7 +88,7 @@ class JsonbTest extends TestCase
      * @test
      * @dataProvider validTransformations
      *
-     * @var array|float|int|string|null
+     * @param array|float|int|string|null $phpValue
      */
     public function can_transform_from_php_value($phpValue, ?string $postgresValue): void
     {
@@ -94,7 +99,7 @@ class JsonbTest extends TestCase
      * @test
      * @dataProvider validTransformations
      *
-     * @var array|float|int|string|null
+     * @param array|float|int|string|null $phpValue
      */
     public function can_transform_to_php_value($phpValue, ?string $postgresValue): void
     {

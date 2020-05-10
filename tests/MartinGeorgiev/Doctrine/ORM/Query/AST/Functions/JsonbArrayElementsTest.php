@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsJsons;
+use Tests\MartinGeorgiev\Doctrine\Fixtures\Entity\ContainsJsons;
 
 class JsonbArrayElementsTest extends TestCase
 {

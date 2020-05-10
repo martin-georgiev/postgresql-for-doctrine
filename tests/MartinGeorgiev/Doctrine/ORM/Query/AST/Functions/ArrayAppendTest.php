@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend;
-use MartinGeorgiev\Tests\Doctrine\Fixtures\Entity\ContainsArrays;
+use Tests\MartinGeorgiev\Doctrine\Fixtures\Entity\ContainsArrays;
 
 class ArrayAppendTest extends TestCase
 {
