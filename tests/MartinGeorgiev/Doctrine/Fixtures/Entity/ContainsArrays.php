@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\Fixtures\Entity;
+namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 
 /**
  * @Entity
@@ -10,11 +10,15 @@ namespace MartinGeorgiev\Tests\Doctrine\Fixtures\Entity;
 class ContainsArrays extends Entity
 {
     /**
+     * @var array
+     *
      * @Column(type="array")
      */
     public $array1;
 
     /**
+     * @var array
+     *
      * @Column(type="array")
      */
     public $array2;

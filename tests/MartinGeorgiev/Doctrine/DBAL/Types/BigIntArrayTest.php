@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
+namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 
@@ -10,6 +10,8 @@ class BigIntArrayTest extends BaseIntegerArrayTest
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->fixture = $this->getMockBuilder(BigIntArray::class)
             ->setMethods(null)
             ->disableOriginalConstructor()

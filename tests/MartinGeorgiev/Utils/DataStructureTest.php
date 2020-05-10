@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Utils;
+namespace Tests\MartinGeorgiev\Utils;
 
 use MartinGeorgiev\Utils\DataStructure;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +11,8 @@ class DataStructureTest extends TestCase
 {
     /**
      * @see https://stackoverflow.com/a/27964420/3425372 Kudos to dmikam for the inspiration
+     *
+     * @return array<int, array<string, array|string>>
      */
     public function validTransformations(): array
     {
@@ -60,6 +62,8 @@ class DataStructureTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
+     *
+     * @param array<int, array<string, array|string>> $phpValue
      */
     public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
     {
@@ -69,12 +73,17 @@ class DataStructureTest extends TestCase
     /**
      * @test
      * @dataProvider validTransformations
+     *
+     * @param array<int, array<string, array|string>> $phpValue
      */
     public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
     {
         $this->assertEquals($phpValue, DataStructure::transformPostgresTextArrayToPHPArray($postgresValue));
     }
 
+    /**
+     * @return array<int, array<string, array|string>>
+     */
     public function invalidTransformations(): array
     {
         return [
@@ -99,6 +108,8 @@ class DataStructureTest extends TestCase
     /**
      * @test
      * @dataProvider invalidTransformations
+     *
+     * @param array<int, mixed> $phpValue
      */
     public function throws_invalid_argument_exception_when_tries_to_non_single_dimensioned_array_from_php_value(array $phpValue, string $postgresValue): void
     {
@@ -109,6 +120,8 @@ class DataStructureTest extends TestCase
     /**
      * @test
      * @dataProvider invalidTransformations
+     *
+     * @param array<int, mixed> $phpValue
      */
     public function throws_invalid_argument_exception_when_tries_to_non_single_dimensioned_array_to_php_value(array $phpValue, string $postgresValue): void
     {

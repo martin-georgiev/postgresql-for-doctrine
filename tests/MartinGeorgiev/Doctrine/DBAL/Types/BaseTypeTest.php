@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\DBAL\Types;
+namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseType;
@@ -23,6 +23,8 @@ class BaseTypeTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(BaseType::class)

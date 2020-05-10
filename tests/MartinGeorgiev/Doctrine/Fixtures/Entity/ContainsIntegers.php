@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\Fixtures\Entity;
+namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Configuration;
@@ -16,16 +16,22 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 class ContainsIntegers extends Entity
 {
     /**
+     * @var int
+     *
      * @Column(type="integer")
      */
     public $integer1;
 
     /**
+     * @var int
+     *
      * @Column(type="integer")
      */
     public $integer2;
 
     /**
+     * @var int
+     *
      * @Column(type="integer")
      */
     public $integer3;

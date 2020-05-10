@@ -8,11 +8,9 @@ For the sake of clear Git history and speedy review of your PR please check that
 
 `composer fix-code-style` which will automatically apply fixes to the code style
 
-`composer run-static-analysis-including-tests` which will run static analysis for the currently configured level
+`composer run-static-analysis` which will run static analysis for the currently configured level
 
 `composer run-tests` which will run the full test suite
-
-`composer validate-files` which will validate that all PHP files can execute
 
 
 ----

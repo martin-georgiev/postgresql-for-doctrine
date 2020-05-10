@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Tests\Doctrine\Fixtures\Entity;
+namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Configuration;
@@ -13,6 +13,8 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 abstract class Entity
 {
     /**
+     * @var string
+     *
      * @Id
      * @Column(type="string")
      * @GeneratedValue
