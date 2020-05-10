@@ -13,10 +13,11 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     protected const FIXTURES_DIRECTORY = __DIR__.'/../../../../Fixtures';
+
     /**
      * @var Configuration
      */
-    protected $configuration;
+    private $configuration;
 
     protected function setUp(): void
     {

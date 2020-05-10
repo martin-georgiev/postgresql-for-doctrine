@@ -26,7 +26,7 @@ abstract class BaseComparisonFunction extends BaseFunction
 
         $this->nodes[] = $parser->{$this->commonNodeMapping}();
         if (!isset($lexer->lookahead['type'])) {
-            throw new \RuntimeException('The parser\'s "lookahead" property is not populated');
+            throw new \RuntimeException('The parser\'s "lookahead" property is not populated with a type');
         }
 
         $aheadType = $lexer->lookahead['type'];

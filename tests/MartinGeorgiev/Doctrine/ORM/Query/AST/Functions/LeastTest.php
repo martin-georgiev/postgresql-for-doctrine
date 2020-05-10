@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least;
 use Tests\MartinGeorgiev\Doctrine\Fixtures\Entity\ContainsIntegers;
 
-class LeastTest extends TestCase
+class LeastTest extends BaseComparisonFunctionTest
 {
+    protected function createFixture(): BaseComparisonFunction
+    {
+        return new Least('least');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
