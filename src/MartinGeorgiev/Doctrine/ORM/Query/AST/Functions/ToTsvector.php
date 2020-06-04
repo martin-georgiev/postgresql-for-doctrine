@@ -12,11 +12,12 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class ToTsvector extends BaseFunction
+class ToTsvector extends BaseVariadicFunction
 {
+    protected $commonNodeMapping = 'StringExpression';
+
     protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('to_tsvector(%s)');
-        $this->addNodeMapping('StringExpression');
     }
 }

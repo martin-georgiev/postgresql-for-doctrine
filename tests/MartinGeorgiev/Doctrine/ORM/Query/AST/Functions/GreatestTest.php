@@ -25,7 +25,7 @@ class GreatestTest extends BaseComparisonFunctionTest
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT greatest(c0_.integer1,c0_.integer2,c0_.integer3) AS sclr_0 FROM ContainsIntegers c0_',
+            'SELECT greatest(c0_.integer1, c0_.integer2, c0_.integer3) AS sclr_0 FROM ContainsIntegers c0_',
         ];
     }
 

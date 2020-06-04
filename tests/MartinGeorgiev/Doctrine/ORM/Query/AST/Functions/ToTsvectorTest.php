@@ -21,6 +21,7 @@ class ToTsvectorTest extends TestCase
         return [
             'SELECT to_tsvector(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
             'SELECT to_tsvector(LOWER(c0_.text1)) AS sclr_0 FROM ContainsTexts c0_',
+            'SELECT to_tsvector(\'english\', c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
@@ -29,6 +30,7 @@ class ToTsvectorTest extends TestCase
         return [
             \sprintf('SELECT TO_TSVECTOR(e.text1) FROM %s e', ContainsTexts::class),
             \sprintf('SELECT TO_TSVECTOR(LOWER(e.text1)) FROM %s e', ContainsTexts::class),
+            \sprintf('SELECT TO_TSVECTOR(\'english\', e.text1) FROM %s e', ContainsTexts::class),
         ];
     }
 }
