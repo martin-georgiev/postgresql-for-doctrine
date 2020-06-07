@@ -21,6 +21,7 @@ class ToTsqueryTest extends TestCase
         return [
             'SELECT to_tsquery(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
             'SELECT to_tsquery(UPPER(c0_.text1)) AS sclr_0 FROM ContainsTexts c0_',
+            'SELECT to_tsquery(\'english\', c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
@@ -29,6 +30,7 @@ class ToTsqueryTest extends TestCase
         return [
             \sprintf('SELECT TO_TSQUERY(e.text1) FROM %s e', ContainsTexts::class),
             \sprintf('SELECT TO_TSQUERY(UPPER(e.text1)) FROM %s e', ContainsTexts::class),
+            \sprintf('SELECT TO_TSQUERY(\'english\', e.text1) FROM %s e', ContainsTexts::class),
         ];
     }
 }

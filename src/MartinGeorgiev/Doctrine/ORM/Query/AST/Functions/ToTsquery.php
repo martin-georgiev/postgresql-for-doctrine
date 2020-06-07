@@ -12,11 +12,10 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class ToTsquery extends BaseFunction
+class ToTsquery extends BaseVariadicFunction
 {
     protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('to_tsquery(%s)');
-        $this->addNodeMapping('StringPrimary');
     }
 }
