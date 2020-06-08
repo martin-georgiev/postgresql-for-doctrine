@@ -61,15 +61,17 @@ doctrine:
                         # alternative implementation of ALL() and ANY() where subquery is not required, useful for arrays
                         ALL_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All
                         ANY_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any
-                        
+
                         # operators for working with array and json(b) data
                         CONTAINS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains
                         IS_CONTAINED_BY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy
                         OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps
                         GREATEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest
                         LEAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least
-                        
+
                         # array and string specific functions
+                        IN_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray
+                        ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg
                         ARRAY_APPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend
                         ARRAY_CARDINALITY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality
@@ -84,8 +86,7 @@ doctrine:
                         ARRAY_TO_STRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
-                        IN_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray
-                        ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr
+                        UNNEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest
 
                         # json specific functions
                         JSON_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg
@@ -101,7 +102,8 @@ doctrine:
                         JSON_OBJECT_KEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectKeys
                         JSON_STRIP_NULLS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonStripNulls
                         TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson
-                        
+                        ROW_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson
+
                         # jsonb specific functions
                         JSONB_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg
                         JSONB_ARRAY_ELEMENTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements
@@ -116,14 +118,15 @@ doctrine:
                         JSONB_SET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet
                         JSONB_STRIP_NULLS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls
                         TO_JSONB: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb
-                        
+
                         # text search specific
                         TO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery
                         TO_TSVECTOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector
                         TSMATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch
-                        
+
                         # other operators
                         ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
                         SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo
                         NOT_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo
+                        UNACCENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent
 ```
