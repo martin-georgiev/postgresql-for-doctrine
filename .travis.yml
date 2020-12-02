@@ -10,11 +10,12 @@ php:
   - 7.2
   - 7.3
   - 7.4
+  - 8.0
   - nightly
 
 env:
   global:
-    - LATEST_PHP_VERSION="7.4"
+    - LATEST_PHP_VERSION="8.0"
   matrix:
     - DEPENDENCIES="beta"
     - DEPENDENCIES="low"
