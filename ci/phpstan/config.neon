@@ -5,5 +5,5 @@ parameters:
     checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
-        - '#Parameter \#1 $phpArray of method MartinGeorgiev\Doctrine\DBAL\Types\BaseArray::convertToDatabaseValue() expects array|null, string given.#'
-        - '#Parameter \#1 $postgresArray of method MartinGeorgiev\Doctrine\DBAL\Types\BaseArray::convertToPHPValue() expects string|null, int given.#'
+        - '#Parameter \#1 $phpArray of method MartinGeorgiev\Doctrine\DBAL\Types\BaseArray::convertToDatabaseValue\(\) expects array|null, string given.#'
+        - '#Parameter \#1 $postgresArray of method MartinGeorgiev\Doctrine\DBAL\Types\BaseArray::convertToPHPValue\(\) expects string|null, int given.#'
