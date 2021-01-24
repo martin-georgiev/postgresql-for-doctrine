@@ -47,7 +47,7 @@
         "php-coveralls/php-coveralls": "^2.2",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
-        "phpunit/phpunit": "^8.5",
+        "phpunit/phpunit": "^8.5||^9.5",
         "sensiolabs-de/deptrac-shim": "^0.10"
     },
     "suggest": {
