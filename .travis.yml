@@ -15,6 +15,7 @@ php:
 
 env:
   global:
+    - XDEBUG_MODE="coverage"
     - LATEST_PHP_VERSION="8.0"
   matrix:
     - DEPENDENCIES="beta"
