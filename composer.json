@@ -1,7 +1,7 @@
 {
     "name": "martin-georgiev/postgresql-for-doctrine",
     "type": "library",
-    "description": "Adds PostgreSQL 9 and 10 enhancements to Doctrine. Provides support for JSON, JSONB and some array data types. Provides functions, operators and common expressions used when working with JSON data, arrays and features related to text search.",
+    "description": "Adds PostgreSQL enhancements to Doctrine. Provides support for JSON, JSONB and some array data types. Provides functions, operators and common expressions used when working with JSON data, arrays and features related to text search.",
     "keywords": [
         "martin georgiev",
         "doctrine",
@@ -35,7 +35,7 @@
     },
 
     "require": {
-        "php": "^7.2|^8.0",
+        "php": "^7.2||^8.0",
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -57,23 +57,23 @@
 
     "scripts": {
         "check-code-style": [
-            "bin/php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --dry-run --no-interaction --diff -v"
+            "php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --dry-run --no-interaction --diff -v"
         ],
         "check-security": [
-            "bin/security-checker security:check"
+            "security-checker security:check"
         ],
         "fix-code-style": [
-            "bin/php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --no-interaction --diff -v"
+            "php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --no-interaction --diff -v"
         ],
         "run-static-analysis": [
-            "bin/phpstan analyse --configuration='./ci/phpstan/config.neon' --level=8 src/ tests/",
-            "bin/deptrac analyze './ci/deptrac/config.yml' --no-interaction --no-progress"
+            "phpstan analyse --configuration='./ci/phpstan/config.neon' --level=8 src/ tests/",
+            "deptrac analyze './ci/deptrac/config.yml' --no-interaction --no-progress"
         ],
         "run-tests": [
-            "bin/phpunit --configuration='./ci/phpunit/config.xml'"
+            "phpunit --configuration='./ci/phpunit/config.xml'"
         ],
         "run-tests-with-clover": [
-            "bin/phpunit --configuration='./ci/phpunit/config.xml' --coverage-clover './build/logs/clover.xml'"
+            "phpunit --configuration='./ci/phpunit/config.xml' --coverage-clover './build/logs/clover.xml'"
         ]
     },
 
