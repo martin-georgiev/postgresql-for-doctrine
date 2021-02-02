@@ -48,7 +48,7 @@
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^8.5||^9.5",
-        "sensiolabs-de/deptrac-shim": "^0.10"
+        "sensiolabs-de/deptrac-shim": "^0.10 || ^0.11"
     },
     "suggest": {
         "doctrine/orm": "~2.5"
