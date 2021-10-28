@@ -39,7 +39,7 @@
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "doctrine/dbal": "~2.5"
+        "doctrine/dbal": "~3.0"
     },
     "require-dev": {
         "doctrine/orm": "~2.5",
@@ -48,7 +48,8 @@
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^8.5||^9.5",
-        "qossmic/deptrac-shim": "^0.11"
+        "qossmic/deptrac-shim": "^0.11",
+        "symfony/cache": "^5.3"
     },
     "suggest": {
         "doctrine/orm": "~2.5"

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -24,8 +24,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->configuration = new Configuration();
-        $this->configuration->setMetadataCacheImpl(new ArrayCache());
-        $this->configuration->setQueryCacheImpl(new ArrayCache());
+        $this->configuration->setMetadataCache(new ArrayAdapter());
+        $this->configuration->setQueryCache(new ArrayAdapter());
         $this->configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
         $this->configuration->setProxyNamespace('Tests\MartinGeorgiev\Doctrine\Fixtures\Proxies');
         $this->configuration->setAutoGenerateProxyClasses(true);
