@@ -35,6 +35,7 @@ trait JsonTransformer
      */
     protected function transformFromPostgresJson(string $postgresValue)
     {
+        // @phpstan-ignore-next-line
         return \json_decode($postgresValue, true);
     }
 }

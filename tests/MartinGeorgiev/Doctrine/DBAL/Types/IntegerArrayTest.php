@@ -27,7 +27,7 @@ class IntegerArrayTest extends BaseIntegerArrayTest
     }
 
     /**
-     * @return array<int, array<int, mixed>>
+     * @return array<int, mixed>
      */
     public function invalidTransformations(): array
     {

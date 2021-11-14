@@ -45,6 +45,9 @@ class JsonbArray extends BaseArray
         return $phpArray;
     }
 
+    /**
+     * @param string $item
+     */
     public function transformArrayItemForPHP($item): array
     {
         $transformedValue = $this->transformFromPostgresJson($item);
