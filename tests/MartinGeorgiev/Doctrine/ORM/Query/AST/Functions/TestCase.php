@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -23,15 +21,42 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->configuration = new Configuration();
-        $this->configuration->setMetadataCacheImpl(new ArrayCache());
-        $this->configuration->setQueryCacheImpl(new ArrayCache());
-        $this->configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
-        $this->configuration->setProxyNamespace('Tests\MartinGeorgiev\Doctrine\Fixtures\Proxies');
-        $this->configuration->setAutoGenerateProxyClasses(true);
-        $this->configuration->setMetadataDriverImpl($this->configuration->newDefaultAnnotationDriver([static::FIXTURES_DIRECTORY.'/Entities']));
+        $configuration = new Configuration();
+        $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
+        $configuration->setProxyNamespace('Tests\MartinGeorgiev\Doctrine\Fixtures\Proxies');
+        $configuration->setAutoGenerateProxyClasses(true);
+        $configuration->setMetadataDriverImpl($configuration->newDefaultAnnotationDriver([static::FIXTURES_DIRECTORY.'/Entities']));
+        $this->setConfigurationCache($configuration);
+
+        $this->configuration = $configuration;
 
         $this->registerFunction();
+    }
+
+    private function setConfigurationCache(Configuration $configuration): void
+    {
+        $symfonyArrayAdapterClass = '\Symfony\Component\Cache\Adapter\ArrayAdapter';
+        $useDbalV3 = \class_exists($symfonyArrayAdapterClass) && \method_exists($configuration, 'setMetadataCache') && \method_exists($configuration, 'setQueryCache');
+        if ($useDbalV3) {
+            // @phpstan-ignore-next-line
+            $configuration->setMetadataCache(new $symfonyArrayAdapterClass());
+            // @phpstan-ignore-next-line
+            $configuration->setQueryCache(new $symfonyArrayAdapterClass());
+
+            return;
+        }
+        $doctrineArrayCacheClass = '\Doctrine\Common\Cache\ArrayCache';
+        $useDbalV2 = \class_exists($doctrineArrayCacheClass) && \method_exists($configuration, 'setMetadataCacheImpl') && \method_exists($configuration, 'setQueryCacheImpl');
+        if ($useDbalV2) {
+            // @phpstan-ignore-next-line
+            $configuration->setMetadataCacheImpl(new $doctrineArrayCacheClass());
+            // @phpstan-ignore-next-line
+            $configuration->setQueryCacheImpl(new $doctrineArrayCacheClass());
+
+            return;
+        }
+
+        throw new \RuntimeException('No known compatible version of doctrine/dbal found. Please report an issue on GitHub.');
     }
 
     private function registerFunction(): void
@@ -80,9 +105,6 @@ abstract class TestCase extends BaseTestCase
         $this->assertEquals($expectedSql, $query->getSQL(), $message);
     }
 
-    /**
-     * @throws ORMException
-     */
     private function buildEntityManager(): EntityManager
     {
         return EntityManager::create(['driver' => 'pdo_sqlite', 'memory' => true], $this->configuration);
