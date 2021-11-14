@@ -2,6 +2,11 @@ includes:
     - ../../vendor/phpstan/phpstan-phpunit/extension.neon
 
 parameters:
+    level: max
+    paths:
+        - ../../src
+        - ../../tests
+
     checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
