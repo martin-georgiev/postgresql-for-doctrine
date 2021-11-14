@@ -1,6 +1,6 @@
 paths:
-  - ./src
-  - ./tests
+  - ../../src
+  - ../../tests
 
 layers:
   - name: Functions

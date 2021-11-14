@@ -8,19 +8,19 @@ $finder = PhpCsFixer\Finder::create()
     ->in($rootDirectory.'/src')
     ->in($rootDirectory.'/tests');
 
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+
+return $config
     ->setRules(
         [
             '@PSR2' => true,
-            '@PHP56Migration' => true,
-            '@PHP70Migration' => true,
             '@PHP71Migration' => true,
             '@DoctrineAnnotation' => true,
             '@PhpCsFixer' => true,
             'align_multiline_comment' => false,
             'array_syntax' => ['syntax' => 'short'],
             'backtick_to_shell_exec' => true,
-            'blank_line_before_statement' => ['statements' => ['break', 'declare', 'continue', 'declare', 'die', 'do', 'exit', 'return', 'throw', 'try', 'while']],
+            'blank_line_before_statement' => ['statements' => ['break', 'case', 'continue', 'declare', 'default', 'exit', 'goto', 'include', 'include_once', 'require', 'require_once', 'return', 'switch', 'throw', 'try']],
             'cast_spaces' => ['space' => 'single'],
             'concat_space' => ['spacing' => 'none'],
             'date_time_immutable' => true,
