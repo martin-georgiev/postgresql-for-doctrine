@@ -51,11 +51,17 @@ class TextArrayTest extends TestCase
                     'text',
                     'some text here',
                     'and some here',
-                    "single-quotes ain't no worry, right Alexander O'Vechkin?",
-                    'back-slashing\hooking though',
+                    <<<'END'
+''"quotes"'' ain't no """worry""", '''right''' Alexander O'Vechkin?
+END
+                    ,
+                    'back-slashing\double-slashing\\\hooking though',
                     'and "double-quotes"',
                 ],
-                'postgresValue' => '{1,2,"text","some text here","and some here","single-quotes ain\'t no worry, right Alexander O\'Vechkin?","back-slashing\\\hooking though","and \"double-quotes\""}',
+                'postgresValue' => <<<'END'
+{1,2,"text","some text here","and some here","''\"quotes\"'' ain't no \"\"\"worry\"\"\", '''right''' Alexander O'Vechkin?","back-slashing\\double-slashing\\\\hooking though","and \"double-quotes\""}
+END
+                ,
             ],
         ];
     }
