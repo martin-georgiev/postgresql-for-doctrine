@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class BooleanArrayTest extends TestCase
 {
     /**
-     * @var PostgreSQL94Platform
+     * @var AbstractPlatform|MockObject
      */
     private $platform;
 
@@ -25,7 +25,7 @@ class BooleanArrayTest extends TestCase
     {
         parent::setUp();
 
-        $this->platform = new PostgreSQL94Platform();
+        $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(BooleanArray::class)
             ->addMethods([])
@@ -39,18 +39,17 @@ class BooleanArrayTest extends TestCase
             [
                 'phpValue' => null,
                 'postgresValue' => null,
+                'platformValue' => null,
             ],
             [
                 'phpValue' => [],
                 'postgresValue' => '{}',
+                'platformValue' => [],
             ],
             [
-                'phpValue' => [
-                    true,
-                    false,
-                    true,
-                ],
+                'phpValue' => [true, false, true],
                 'postgresValue' => '{1,0,1}',
+                'platformValue' => ['1', '0', '1'],
             ],
         ];
     }
@@ -67,8 +66,12 @@ class BooleanArrayTest extends TestCase
      * @test
      * @dataProvider validTransformations
      */
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue): void
     {
+        $this->platform->method('convertBooleansToDatabaseValue')
+            ->with($phpValue)
+            ->willReturn($platformValue);
+
         $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
@@ -78,6 +81,10 @@ class BooleanArrayTest extends TestCase
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
+        $this->platform->method('convertFromBoolean')
+            ->with($this->anything())
+            ->willReturn($this->returnCallback('boolval'));
+
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }
