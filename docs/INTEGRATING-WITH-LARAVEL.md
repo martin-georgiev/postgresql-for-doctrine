@@ -17,12 +17,8 @@ return [
             ...
 
             'type_mappings' => [
-                'jsonb' => 'jsonb',
-                '_jsonb' => 'jsonb[]',
-                'jsonb[]' => 'jsonb[]',
-                'guid' => 'guid',
-                '_guid' => 'guid[]',
-                'guid[]' => 'guid[]',
+                '_bool' => 'bool[]',
+                'bool[]' => 'bool[]',
                 '_int2' => 'smallint[]',
                 'smallint[]' => 'smallint[]',
                 '_int4' => 'integer[]',
@@ -31,6 +27,9 @@ return [
                 'bigint[]' => 'bigint[]',
                 '_text' => 'text[]',
                 'text[]' => 'text[]',
+                'jsonb' => 'jsonb',
+                '_jsonb' => 'jsonb[]',
+                'jsonb[]' => 'jsonb[]',
             ],
         ],
     ],
@@ -47,12 +46,13 @@ return [
 return [
     ...
     'custom_types' => [
-        'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
-        'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
-        'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
+        'bool[]' => MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray::class,
         'bigint[]' => MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class,
         'integer[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class,
         'smallint[]' => MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class,
+        'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
+        'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
+        'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
     ],
 ];
 ```
@@ -60,7 +60,7 @@ return [
 
 *Register the functions you'll use in your DQL queries*
 
-Full set of the available functions and operators can be found [here](AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
+Full set of the available functions and extra operators can be found [here](AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
 
 ```php
 <?php
@@ -173,14 +173,8 @@ class DoctrineEventSubscriber implements Subscriber
      */
     public function postConnect(ConnectionEventArgs $args): void
     {
-        if (!Type::hasType('jsonb')) {
-            Type::addType('jsonb', \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class);
-        }
-        if (!Type::hasType('jsonb[]')) {
-            Type::addType('jsonb[]', \MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class);
-        }
-        if (!Type::hasType('text[]')) {
-            Type::addType('text[]', \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class);
+        if (!Type::hasType('bool[]')) {
+            Type::addType('bool[]', \MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray::class);
         }
         if (!Type::hasType('bigint[]')) {
             Type::addType('bigint[]', \MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class);
@@ -190,6 +184,15 @@ class DoctrineEventSubscriber implements Subscriber
         }
         if (!Type::hasType('smallint[]')) {
             Type::addType('smallint[]', \MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class);
+        }
+        if (!Type::hasType('text[]')) {
+            Type::addType('text[]', \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class);
+        }
+        if (!Type::hasType('jsonb')) {
+            Type::addType('jsonb', \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class);
+        }
+        if (!Type::hasType('jsonb[]')) {
+            Type::addType('jsonb[]', \MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class);
         }
     }
 }

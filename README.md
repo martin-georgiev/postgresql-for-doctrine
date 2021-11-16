@@ -7,7 +7,7 @@
 ## What's this?
 This package provides Doctrine support for some specific PostgreSQL 9.4+ features:
 
-* Support of JSONB and some array data-types (at present only integers, TEXT and JSONB)
+* Support of JSONB and some array data-types (at present integers, BOOL, TEXT and JSONB)
 * Implementation of the most commonly used functions and operators when working with array and JSON data-types
 * Functions for text search
 * Aggregate functions
@@ -15,6 +15,12 @@ This package provides Doctrine support for some specific PostgreSQL 9.4+ feature
 It can be integrated in a simple manner with Symfony, Laravel and other frameworks that make use of Doctrine.
 
 You can easily extend package's behaviour with your own array-like data-types or other desired functions. Read more about this in the [contributing guide](docs/CONTRIBUTING.md).
+
+----
+## What is available?
+Full set of the available types can be found [here](docs/AVAILABLE-TYPES.md).
+
+Full set of the available functions and extra operators can be found [here](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
 
 ----
 ## How to install?
