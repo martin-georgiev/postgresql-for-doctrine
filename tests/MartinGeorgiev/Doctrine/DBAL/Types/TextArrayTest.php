@@ -46,11 +46,22 @@ class TextArrayTest extends TestCase
             ],
             [
                 'phpValue' => [
+                    1,
+                    '2',
+                    'text',
                     'some text here',
                     'and some here',
-                    'even here there is text',
+                    <<<'END'
+''"quotes"'' ain't no """worry""", '''right''' Alexander O'Vechkin?
+END
+                    ,
+                    'back-slashing\double-slashing\\\hooking though',
+                    'and "double-quotes"',
                 ],
-                'postgresValue' => '{"some text here","and some here","even here there is text"}',
+                'postgresValue' => <<<'END'
+{1,2,"text","some text here","and some here","''\"quotes\"'' ain't no \"\"\"worry\"\"\", '''right''' Alexander O'Vechkin?","back-slashing\\double-slashing\\\\hooking though","and \"double-quotes\""}
+END
+                ,
             ],
         ];
     }
