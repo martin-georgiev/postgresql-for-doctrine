@@ -9,13 +9,14 @@ Full set of the available types can be found [here](AVAILABLE-TYPES.md).
 # Usually part of config.yml
 doctrine:
     dbal:
-        types: # register the new types
-            jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
-            jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
+        types: # register the new types\JsonbArray
+            bool[]: MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray
             smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
             integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
             bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
             text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
+            jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
+            jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types
 ```
 
 
@@ -32,9 +33,8 @@ doctrine:
         connections:
             your_connection:
                 mapping_types:
-                    jsonb: jsonb
-                    jsonb[]: jsonb[]
-                    _jsonb: jsonb[]
+                    bool[]: bool[]
+                    _bool: bool[]
                     smallint[]: smallint[]
                     _int2: smallint[]
                     integer[]: integer[]
@@ -43,12 +43,15 @@ doctrine:
                     _int8: bigint[]
                     text[]: text[]
                     _text: text[]
+                    jsonb: jsonb
+                    jsonb[]: jsonb[]
+                    _jsonb: jsonb[]
 ```
 
 
 *Register the functions you'll use in your DQL queries*
 
-Full set of the available types can be found [here](AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
+Full set of the available functions and extra operators can be found [here](AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
 
 ```yaml
 # Usually part of config.yml
