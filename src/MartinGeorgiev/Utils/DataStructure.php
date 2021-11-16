@@ -48,7 +48,7 @@ class DataStructure
                     continue;
                 }
 
-                $phpArray[$i] = \str_replace('\"', '"', $text);
+                $phpArray[$i] = \stripslashes(\str_replace('\"', '"', $text));
             }
 
             return $phpArray;
@@ -75,7 +75,7 @@ class DataStructure
                 if (\is_numeric($text) || \ctype_digit($text)) {
                     $escapedText = $text;
                 } else {
-                    $escapedText = '"'.\str_replace('"', '\"', $text).'"';
+                    $escapedText = \sprintf('"%s"', \addcslashes($text, '"\\'));
                 }
                 $result[] = $escapedText;
             }
