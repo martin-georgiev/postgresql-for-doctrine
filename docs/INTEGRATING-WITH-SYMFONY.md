@@ -16,7 +16,7 @@ doctrine:
             bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
             text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
-            jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types
+            jsonb[]: MartinGeorgiev\Doctrine\DBAL\JsonbArray
 ```
 
 
