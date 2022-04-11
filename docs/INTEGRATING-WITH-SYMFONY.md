@@ -135,4 +135,8 @@ doctrine:
                         SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo
                         NOT_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo
                         UNACCENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent
+                        REGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp
+                        IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp
+                        NOT_REGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp
+                        NOT_IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp
 ```

@@ -14,8 +14,8 @@
 | not similar to      | NOT_SIMILAR_TO                                  | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo`        | 
 | ~                   | REGEXP                                          | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp`              | 
 | ~*                  | IREGEXP                                         | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp`             | 
-| !~                  | NOTREGEXP                                       | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp`           | 
-| !~*                 | NOTIREGEXP                                      | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp`          | 
+| !~                  | NOT_REGEXP                                      | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp`           | 
+| !~*                 | NOT_IREGEXP                                     | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp`          | 
 
 
 # Available functions

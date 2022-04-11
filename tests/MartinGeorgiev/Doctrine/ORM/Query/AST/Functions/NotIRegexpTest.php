@@ -12,7 +12,7 @@ class NotIRegexpTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
-            'NOTIREGEXP' => NotIRegexp::class,
+            'NOT_IREGEXP' => NotIRegexp::class,
         ];
     }
 
@@ -26,7 +26,7 @@ class NotIRegexpTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT NOTIREGEXP(e.text1, '.*Thomas.*') FROM %s e", ContainsTexts::class),
+            \sprintf("SELECT NOT_IREGEXP(e.text1, '.*Thomas.*') FROM %s e", ContainsTexts::class),
         ];
     }
 }
