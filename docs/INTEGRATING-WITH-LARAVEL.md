@@ -137,6 +137,10 @@ return [
         'SIMILAR_TO' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo::class,
         'NOT_SIMILAR_TO' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo::class,
         'UNACCENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent::class,
+        'REGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp::class,
+        'IREGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp::class,
+        'NOT_REGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp::class,
+        'NOT_IREGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp::class,
     ],
 
     ...
