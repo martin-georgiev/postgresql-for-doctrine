@@ -60,6 +60,7 @@ jobs:
       run: composer check-code-style
 
     - name: Check for security vulnerabilities in 3rd party dependencies
+      continue-on-error: ${{ matrix.continue-on-error || false }}
       run: composer check-security
 
     - name: Run test suite
