@@ -68,7 +68,7 @@
         ],
         "run-static-analysis": [
             "phpstan analyse --configuration='./ci/phpstan/config.neon'",
-            "deptrac analyze './ci/deptrac/config.yml' --no-interaction --no-progress"
+            "deptrac analyze --config-file='./ci/deptrac/config.yml' --no-interaction --no-progress"
         ],
         "run-tests": [
             "phpunit --configuration='./ci/phpunit/config.xml'"
