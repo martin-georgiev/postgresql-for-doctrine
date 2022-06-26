@@ -20,10 +20,11 @@ jobs:
         include:
           - php: '7.4'
             composer-flags: '--prefer-lowest'
+            continue-on-error: true
           - php: '7.4'
           - php: '8.0'
           - php: '8.1'
-            calculate-code-coverage: 'yes'
+            calculate-code-coverage: true
 
     steps:
     - uses: actions/checkout@v3
@@ -52,19 +53,20 @@ jobs:
       run: composer update --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
 
     - name: Run static analysis
+      continue-on-error: ${{ matrix.continue-on-error || false }}
       run: composer run-static-analysis
 
     - name: Check code style
       run: composer check-code-style
 
-    - name: Check for securty vulnerabilities in 3rd party dependencies
+    - name: Check for security vulnerabilities in 3rd party dependencies
       run: composer check-security
 
     - name: Run test suite
       run: composer run-tests-with-clover
 
     - name: Upload coverage results to Coveralls
-      if: matrix.calculate-code-coverage == 'yes'
+      if: matrix.calculate-code-coverage == true
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_PARALLEL: true
