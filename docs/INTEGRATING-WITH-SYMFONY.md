@@ -127,9 +127,16 @@ doctrine:
                         TO_TSVECTOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector
                         TSMATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch
 
+                        # date specific functions
+                        DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
+                        
                         # other operators
                         ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
                         SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo
                         NOT_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo
                         UNACCENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent
+                        REGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp
+                        IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp
+                        NOT_REGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp
+                        NOT_IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp
 ```

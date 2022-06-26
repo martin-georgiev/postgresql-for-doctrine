@@ -1,17 +1,21 @@
 # Available operators
 
-| PostgreSQL operator | Register for DQL as | Implemented by
-|---|---|---|
-| @> | CONTAINS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains` | 
-| <@ | IS_CONTAINED_BY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy` | 
-| && | OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps` | 
-| -> | JSON_GET_FIELD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField` | 
-| ->> | JSON_GET_FIELD_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText` |
-| #> | JSON_GET_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject` |
-| #>> | JSON_GET_OBJECT_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText` |
-| ilike | ILIKE ([Usage note](USE-CASES-AND-EXAMPLES.md)) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike` | 
-| similar to | SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo` | 
-| not similar to | NOT_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo` | 
+| PostgreSQL operator | Register for DQL as                             | Implemented by                                                        
+|---------------------|-------------------------------------------------|-----------------------------------------------------------------------|
+| @>                  | CONTAINS                                        | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains`            | 
+| <@                  | IS_CONTAINED_BY                                 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy`       | 
+| &&                  | OVERLAPS                                        | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps`            | 
+| ->                  | JSON_GET_FIELD                                  | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField`        | 
+| ->>                 | JSON_GET_FIELD_AS_TEXT                          | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText`  |
+| #>                  | JSON_GET_OBJECT                                 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject`       |
+| #>>                 | JSON_GET_OBJECT_AS_TEXT                         | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText` |
+| ilike               | ILIKE ([Usage note](USE-CASES-AND-EXAMPLES.md)) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike`               | 
+| similar to          | SIMILAR_TO                                      | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo`           | 
+| not similar to      | NOT_SIMILAR_TO                                  | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo`        | 
+| ~                   | REGEXP                                          | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp`              | 
+| ~*                  | IREGEXP                                         | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp`             | 
+| !~                  | NOT_REGEXP                                      | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp`           | 
+| !~*                 | NOT_IREGEXP                                     | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp`          | 
 
 
 # Available functions
@@ -63,6 +67,7 @@
 | tsmatch | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` | 
 | unaccent | UNACCENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent` | 
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` | 
+| overlaps | DATE_OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps` | 
 
 
 # Bonus helpers
