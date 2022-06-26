@@ -57,6 +57,7 @@ jobs:
       run: composer run-static-analysis
 
     - name: Check code style
+      continue-on-error: ${{ matrix.continue-on-error || false }}
       run: composer check-code-style
 
     - name: Check for security vulnerabilities in 3rd party dependencies
@@ -64,6 +65,7 @@ jobs:
       run: composer check-security
 
     - name: Run test suite
+      continue-on-error: ${{ matrix.continue-on-error || false }}
       run: composer run-tests-with-clover
 
     - name: Upload coverage results to Coveralls
