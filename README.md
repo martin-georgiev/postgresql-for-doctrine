@@ -1,5 +1,5 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/badges/quality-score.png)](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/?branch=master)
-[![Build Status](https://api.travis-ci.org/martin-georgiev/postgresql-for-doctrine.svg?branch=master)](https://www.travis-ci.org/martin-georgiev/postgresql-for-doctrine)
+[![Build Status](https://github.com/martin-georgiev/postgresql-for-doctrine/actions/workflows/ci/badge.svg)](https://github.com/martin-georgiev/postgresql-for-doctrine/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/martin-georgiev/postgresql-for-doctrine/badge.svg?branch=master)](https://coveralls.io/github/martin-georgiev/postgresql-for-doctrine?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/version)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
 [![Total Downloads](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/downloads)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
