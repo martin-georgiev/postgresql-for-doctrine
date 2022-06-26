@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: "PHP ${{ matrix.php }} + Composer ${{ matrix.composer-flags }}"
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '7.4'
+            composer-flags: '--prefer-lowest'
+            continue-on-error: true
+          - php: '7.4'
+          - php: '8.0'
+          - php: '8.1'
+            calculate-code-coverage: true
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup PHP with PECL extension
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php || '8.1' }}
+        coverage: xdebug
+        extensions: ctype, json, mbstring
+        tools: composer
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install composer dependencies
+      run: composer update --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
+
+    - name: Run static analysis
+      continue-on-error: ${{ matrix.continue-on-error || false }}
+      run: composer run-static-analysis
+
+    - name: Check code style
+      continue-on-error: ${{ matrix.continue-on-error || false }}
+      run: composer check-code-style
+
+    - name: Check for security vulnerabilities in 3rd party dependencies
+      continue-on-error: ${{ matrix.continue-on-error || false }}
+      run: composer check-security
+
+    - name: Run test suite
+      continue-on-error: ${{ matrix.continue-on-error || false }}
+      run: composer run-tests-with-clover
+
+    - name: Upload coverage results to Coveralls
+      if: matrix.calculate-code-coverage == true
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_PARALLEL: true
+        COVERALLS_FLAG_NAME: "PHP ${{ matrix.php }} + Composer@${{ matrix.composer-flags || '*' }}"
+      run: bin/php-coveralls -v --exclude-no-stmt
