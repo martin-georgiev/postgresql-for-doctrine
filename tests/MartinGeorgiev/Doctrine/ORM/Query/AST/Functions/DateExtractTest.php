@@ -12,7 +12,7 @@ class DateExtractTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
-            'EXTRACT' => DateExtract::class,
+            'DATE_EXTRACT' => DateExtract::class,
         ];
     }
 
@@ -27,8 +27,8 @@ class DateExtractTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT EXTRACT('DAY', e.date1) FROM %s e", ContainsDates::class),
-            \sprintf("SELECT e.date1 FROM %s e WHERE EXTRACT('DAY', e.date1) = 1", ContainsDates::class),
+            \sprintf("SELECT DATE_EXTRACT('DAY', e.date1) FROM %s e", ContainsDates::class),
+            \sprintf("SELECT e.date1 FROM %s e WHERE DATE_EXTRACT('DAY', e.date1) = 1", ContainsDates::class),
         ];
     }
 }
