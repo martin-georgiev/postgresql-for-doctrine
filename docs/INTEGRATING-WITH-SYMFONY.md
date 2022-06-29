@@ -129,6 +129,7 @@ doctrine:
 
                         # date specific functions
                         DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
+                        EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Extract
                         
                         # other operators
                         ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
