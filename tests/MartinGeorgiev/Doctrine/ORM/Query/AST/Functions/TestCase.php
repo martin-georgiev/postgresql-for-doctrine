@@ -6,6 +6,7 @@ namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -61,8 +62,11 @@ abstract class TestCase extends BaseTestCase
 
     private function registerFunction(): void
     {
-        foreach ($this->getStringFunctions() as $dqlFunction => $functionClass) {
-            $this->configuration->addCustomStringFunction($dqlFunction, $functionClass);
+        /**
+         * @var class-string<FunctionNode> $functionClassName
+         */
+        foreach ($this->getStringFunctions() as $dqlFunction => $functionClassName) {
+            $this->configuration->addCustomStringFunction($dqlFunction, $functionClassName);
         }
     }
 
