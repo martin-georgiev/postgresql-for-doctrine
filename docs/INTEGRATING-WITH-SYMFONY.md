@@ -106,6 +106,7 @@ doctrine:
                         JSON_STRIP_NULLS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonStripNulls
                         TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson
                         ROW_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson
+                        JSON_TYPEOF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonTypeof
 
                         # jsonb specific functions
                         JSONB_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg
