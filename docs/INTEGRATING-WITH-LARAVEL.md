@@ -111,6 +111,7 @@ return [
         'JSON_STRIP_NULLS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonStripNulls::class,
         'TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson::class,
         'ROW_TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson::class,
+        'COLUMN_TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ColumnToJson::class,
 
         # jsonb specific functions
         'JSONB_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class,
@@ -126,6 +127,7 @@ return [
         'JSONB_SET' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet::class,
         'JSONB_STRIP_NULLS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls::class,
         'TO_JSONB' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb::class,
+        'COLUMN_TO_JSONB' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ColumnToJsonb::class,
 
         # text search specific
         'TO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery::class,

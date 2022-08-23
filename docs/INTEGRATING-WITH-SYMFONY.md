@@ -107,6 +107,7 @@ doctrine:
                         TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson
                         ROW_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson
                         JSON_TYPEOF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonTypeof
+                        COLUMN_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ColumnToJson::class
 
                         # jsonb specific functions
                         JSONB_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg
@@ -122,6 +123,7 @@ doctrine:
                         JSONB_SET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet
                         JSONB_STRIP_NULLS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls
                         TO_JSONB: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb
+                        COLUMN_TO_JSONB: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ColumnToJsonb::class
 
                         # text search specific
                         TO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery

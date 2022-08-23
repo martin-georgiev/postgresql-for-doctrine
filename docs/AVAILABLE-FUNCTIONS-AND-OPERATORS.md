@@ -61,8 +61,10 @@
 | row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` | 
 | string_agg | STRING_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg` | 
 | string_to_array | STRING_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray` | 
-| to_json | TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson` | 
-| to_jsonb | TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb` | 
+| to_json(text) | TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson` | 
+| to_json(text) | TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson` | 
+| to_json(column) | COLUMN_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ColumnToJson` | 
+| to_jsonb(column) | COLUMN_TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ColumnToJsonb` |
 | to_tsquery | TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery` | 
 | to_tsvector | TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector` | 
 | tsmatch | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` | 
