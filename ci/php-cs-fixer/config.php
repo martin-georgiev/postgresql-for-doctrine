@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-$rootDirectory = __DIR__.'/../../';
+$basePath = __DIR__.'/../../';
 
 $finder = PhpCsFixer\Finder::create()
-    ->in($rootDirectory.'/src')
-    ->in($rootDirectory.'/tests');
+    ->in($basePath.'ci')
+    ->in($basePath.'src')
+    ->in($basePath.'tests');
 
 $config = new PhpCsFixer\Config();
 
@@ -47,6 +48,6 @@ return $config
     )
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
-    ->setIndent("    ")
+    ->setIndent('    ')
     ->setLineEnding("\n")
     ->setFinder($finder);

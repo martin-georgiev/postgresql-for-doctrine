@@ -32,6 +32,7 @@ abstract class BaseIntegerArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invalidTransformations
      *
      * @param mixed $phpValue
@@ -48,6 +49,7 @@ abstract class BaseIntegerArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_from_php_value(int $phpValue, string $postgresValue): void
@@ -57,6 +59,7 @@ abstract class BaseIntegerArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_to_php_value(int $phpValue, string $postgresValue): void

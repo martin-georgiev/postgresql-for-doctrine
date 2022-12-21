@@ -48,6 +48,10 @@ class DataStructure
                     continue;
                 }
 
+                if (!\is_string($text)) {
+                    throw new \InvalidArgumentException(\sprintf('Unsupported data type encountered. Expected null, integer, float or string value, got %s', \gettype($text)));
+                }
+
                 $phpArray[$i] = \stripslashes(\str_replace('\"', '"', $text));
             }
 

@@ -64,6 +64,7 @@ class BooleanArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue): void
@@ -77,6 +78,7 @@ class BooleanArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void

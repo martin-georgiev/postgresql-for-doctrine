@@ -86,6 +86,7 @@ class JsonbTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      *
      * @param array|float|int|string|null $phpValue
@@ -97,6 +98,7 @@ class JsonbTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      *
      * @param array|float|int|string|null $phpValue
