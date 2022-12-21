@@ -13,14 +13,14 @@ use PHPUnit\Framework\TestCase;
 class BaseArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var BaseArray|MockObject
+     * @var BaseArray&MockObject
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {

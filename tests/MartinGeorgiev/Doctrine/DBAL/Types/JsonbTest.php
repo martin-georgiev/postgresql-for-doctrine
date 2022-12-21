@@ -12,14 +12,14 @@ use PHPUnit\Framework\TestCase;
 class JsonbTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var Jsonb|MockObject
+     * @var Jsonb&MockObject
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {

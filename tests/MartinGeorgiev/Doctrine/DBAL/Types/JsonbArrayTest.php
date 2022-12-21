@@ -13,14 +13,14 @@ use PHPUnit\Framework\TestCase;
 class JsonbArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var JsonbArray|MockObject
+     * @var JsonbArray&MockObject
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {

@@ -12,14 +12,14 @@ use PHPUnit\Framework\TestCase;
 class BooleanArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var BooleanArray|MockObject
+     * @var BooleanArray&MockObject
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {

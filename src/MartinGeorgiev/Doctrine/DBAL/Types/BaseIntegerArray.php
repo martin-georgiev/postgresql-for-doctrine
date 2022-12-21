@@ -24,7 +24,7 @@ abstract class BaseIntegerArray extends BaseArray
     public function isValidArrayItemForDatabase($item): bool
     {
         return (\is_int($item) || \is_string($item))
-            && (bool) \preg_match('/^-?[0-9]+$/', (string) $item)
+            && (bool) \preg_match('/^-?\d+$/', (string) $item)
             && (string) $item >= $this->getMinValue()
             && (string) $item <= $this->getMaxValue();
     }
@@ -38,7 +38,7 @@ abstract class BaseIntegerArray extends BaseArray
             return null;
         }
 
-        $isInvalidPHPInt = (bool) \preg_match('/^-?[0-9]+$/', (string) $item) === false
+        $isInvalidPHPInt = !(bool) \preg_match('/^-?\d+$/', (string) $item)
             || (string) $item < $this->getMinValue()
             || (string) $item > $this->getMaxValue();
         if ($isInvalidPHPInt) {

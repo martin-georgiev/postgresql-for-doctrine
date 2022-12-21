@@ -12,14 +12,14 @@ use PHPUnit\Framework\TestCase;
 class TextArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var MockObject|TextArray
+     * @var MockObject&TextArray
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {
