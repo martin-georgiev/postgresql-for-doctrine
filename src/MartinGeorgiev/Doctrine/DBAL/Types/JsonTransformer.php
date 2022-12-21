@@ -20,10 +20,11 @@ trait JsonTransformer
      *
      * @throws ConversionException When given value cannot be encoded
      */
-    protected function transformToPostgresJson($phpValue): string
+    protected function transformToPostgresJson(mixed $phpValue): string
     {
-        $postgresValue = \json_encode($phpValue);
-        if ($postgresValue === false) {
+        try {
+            $postgresValue = \json_encode($phpValue, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new ConversionException(\sprintf('Value %s can\'t be resolved to valid JSON', \var_export($phpValue, true)));
         }
 
@@ -36,6 +37,6 @@ trait JsonTransformer
     protected function transformFromPostgresJson(string $postgresValue)
     {
         // @phpstan-ignore-next-line
-        return \json_decode($postgresValue, true);
+        return \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR);
     }
 }

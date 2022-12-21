@@ -12,14 +12,14 @@ use PHPUnit\Framework\TestCase;
 class TextArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var MockObject|TextArray
+     * @var MockObject&TextArray
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {
@@ -76,6 +76,7 @@ END
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
@@ -85,6 +86,7 @@ END
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void

@@ -41,7 +41,7 @@ class TextArray extends BaseType
         if (!\is_array($phpTextArray)) {
             throw new \InvalidArgumentException(\sprintf('Value %s is not an array', \var_export($phpTextArray, true)));
         }
-        if (empty($phpTextArray)) {
+        if ($phpTextArray === []) {
             return '{}';
         }
 

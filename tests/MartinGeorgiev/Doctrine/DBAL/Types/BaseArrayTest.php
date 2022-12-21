@@ -13,14 +13,14 @@ use PHPUnit\Framework\TestCase;
 class BaseArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var BaseArray|MockObject
+     * @var BaseArray&MockObject
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {
@@ -54,6 +54,7 @@ class BaseArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
@@ -67,6 +68,7 @@ class BaseArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void

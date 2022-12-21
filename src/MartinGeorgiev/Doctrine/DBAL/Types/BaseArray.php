@@ -50,10 +50,8 @@ abstract class BaseArray extends BaseType
 
     /**
      * Tests if given PHP array item is from compatible type for PostgreSql.
-     *
-     * @param mixed $item
      */
-    protected function isValidArrayItemForDatabase($item): bool
+    protected function isValidArrayItemForDatabase(mixed $item): bool
     {
         return true;
     }
@@ -61,11 +59,9 @@ abstract class BaseArray extends BaseType
     /**
      * Transforms PHP array item to a PostgreSql compatible array item.
      *
-     * @param mixed $item
-     *
      * @return mixed
      */
-    protected function transformArrayItemForPostgres($item)
+    protected function transformArrayItemForPostgres(mixed $item)
     {
         return $item;
     }
@@ -107,11 +103,9 @@ abstract class BaseArray extends BaseType
     /**
      * Transforms PostgreSql array item to a PHP compatible array item.
      *
-     * @param mixed $item
-     *
      * @return mixed
      */
-    protected function transformArrayItemForPHP($item)
+    protected function transformArrayItemForPHP(mixed $item)
     {
         return $item;
     }

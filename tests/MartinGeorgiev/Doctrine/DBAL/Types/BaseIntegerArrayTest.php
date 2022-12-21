@@ -11,9 +11,9 @@ use PHPUnit\Framework\TestCase;
 abstract class BaseIntegerArrayTest extends TestCase
 {
     /**
-     * @var BaseIntegerArray|MockObject
+     * @var BaseIntegerArray&MockObject
      */
-    protected $fixture;
+    protected MockObject $fixture;
 
     /**
      * @return array<int, mixed>
@@ -32,11 +32,10 @@ abstract class BaseIntegerArrayTest extends TestCase
 
     /**
      * @test
-     * @dataProvider invalidTransformations
      *
-     * @param mixed $phpValue
+     * @dataProvider invalidTransformations
      */
-    public function can_detect_invalid_for_transformation_php_value($phpValue): void
+    public function can_detect_invalid_for_transformation_php_value(mixed $phpValue): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
@@ -48,6 +47,7 @@ abstract class BaseIntegerArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_from_php_value(int $phpValue, string $postgresValue): void
@@ -57,6 +57,7 @@ abstract class BaseIntegerArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_to_php_value(int $phpValue, string $postgresValue): void
