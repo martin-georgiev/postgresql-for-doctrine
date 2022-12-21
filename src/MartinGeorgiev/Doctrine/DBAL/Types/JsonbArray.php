@@ -50,8 +50,14 @@ class JsonbArray extends BaseArray
      */
     public function transformArrayItemForPHP($item): array
     {
-        $transformedValue = $this->transformFromPostgresJson($item);
-        if (!\is_array($transformedValue)) {
+        $transformedValue = null;
+
+        try {
+            $transformedValue = $this->transformFromPostgresJson($item);
+            if (!\is_array($transformedValue)) {
+                throw new UnexpectedTypeOfTransformedPHPValue($item, \gettype($transformedValue));
+            }
+        } catch (\JsonException) {
             throw new UnexpectedTypeOfTransformedPHPValue($item, \gettype($transformedValue));
         }
 

@@ -20,25 +20,13 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 class StringAgg extends BaseFunction
 {
-    /**
-     * @var bool
-     */
-    private $isDistinct = false;
+    private bool $isDistinct = false;
 
-    /**
-     * @var Node
-     */
-    private $expression;
+    private Node $expression;
 
-    /**
-     * @var Node
-     */
-    private $delimiter;
+    private Node $delimiter;
 
-    /**
-     * @var OrderByClause|null
-     */
-    private $orderBy;
+    private OrderByClause $orderBy;
 
     protected function customiseFunction(): void
     {
@@ -75,7 +63,7 @@ class StringAgg extends BaseFunction
             $this->isDistinct ? 'distinct ' : '',
             $this->expression->dispatch($sqlWalker),
             $this->delimiter->dispatch($sqlWalker),
-            $this->orderBy ? $this->orderBy->dispatch($sqlWalker) : '',
+            isset($this->orderBy) ? $this->orderBy->dispatch($sqlWalker) : '',
         ];
 
         return \vsprintf($this->functionPrototype, $dispatched);

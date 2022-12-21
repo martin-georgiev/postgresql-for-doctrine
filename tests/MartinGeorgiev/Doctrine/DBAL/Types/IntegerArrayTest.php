@@ -31,18 +31,18 @@ class IntegerArrayTest extends BaseIntegerArrayTest
      */
     public function invalidTransformations(): array
     {
-        return \array_merge(parent::invalidTransformations(), [['-2147483647.01'], [2147483649]]);
+        return \array_merge(parent::invalidTransformations(), [['-2147483647.01'], [2_147_483_649]]);
     }
 
     public function validTransformations(): array
     {
         return [
             [
-                'phpValue' => -2147483648,
+                'phpValue' => -2_147_483_648,
                 'postgresValue' => '-2147483648',
             ],
             [
-                'phpValue' => 2147483647,
+                'phpValue' => 2_147_483_647,
                 'postgresValue' => '2147483647',
             ],
         ];

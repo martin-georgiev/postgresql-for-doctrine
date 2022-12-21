@@ -12,14 +12,14 @@ use PHPUnit\Framework\TestCase;
 class BaseTypeTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var BaseType|MockObject
+     * @var BaseType&MockObject
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {

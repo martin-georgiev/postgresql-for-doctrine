@@ -1,4 +1,3 @@
-!/bin/local-php-security-checker*
 /bin/
 /vendor/
 composer.lock

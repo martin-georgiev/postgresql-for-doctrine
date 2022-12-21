@@ -38,7 +38,7 @@ class BooleanArray extends BaseArray
     {
         $phpArray = parent::convertToPHPValue($postgresArray, $platform);
         if (\is_array($phpArray)) {
-            $phpArray = \array_map(static function ($value) use ($platform) { return $platform->convertFromBoolean($value); }, $phpArray);
+            $phpArray = \array_map(static fn ($value) => $platform->convertFromBoolean($value), $phpArray);
         }
 
         return $phpArray;

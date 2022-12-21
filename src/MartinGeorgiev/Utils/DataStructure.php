@@ -48,6 +48,12 @@ class DataStructure
                     continue;
                 }
 
+                if (!\is_string($text)) {
+                    $exceptionMessage = 'Unsupported data type encountered. Expected null, integer, float or string value. Instead it is "%s".';
+
+                    throw new \InvalidArgumentException(\sprintf($exceptionMessage, \gettype($text)));
+                }
+
                 $phpArray[$i] = \stripslashes(\str_replace('\"', '"', $text));
             }
 
@@ -72,11 +78,7 @@ class DataStructure
                     throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
                 }
 
-                if (\is_numeric($text) || \ctype_digit($text)) {
-                    $escapedText = $text;
-                } else {
-                    $escapedText = \sprintf('"%s"', \addcslashes($text, '"\\'));
-                }
+                $escapedText = \is_numeric($text) || \ctype_digit($text) ? $text : \sprintf('"%s"', \addcslashes($text, '"\\'));
                 $result[] = $escapedText;
             }
 
