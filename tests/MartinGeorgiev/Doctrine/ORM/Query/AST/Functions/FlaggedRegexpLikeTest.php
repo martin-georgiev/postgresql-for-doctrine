@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike;
+use Tests\MartinGeorgiev\Doctrine\Fixtures\Entity\ContainsTexts;
+
+class FlaggedRegexpLikeTest extends TestCase
+{
+    protected function getStringFunctions(): array
+    {
+        return [
+            'FLAGGED_REGEXP_LIKE' => FlaggedRegexpLike::class,
+        ];
+    }
+
+    protected function getExpectedSqlStatements(): array
+    {
+        return [
+            "SELECT regexp_like(c0_.text1, 'pattern', 1, 'i') AS sclr_0 FROM ContainsTexts c0_",
+        ];
+    }
+
+    protected function getDqlStatements(): array
+    {
+        return [
+            \sprintf("SELECT FLAGGED_REGEXP_LIKE(e.text1, 'pattern', 'i') FROM %s e", ContainsTexts::class),
+        ];
+    }
+}
