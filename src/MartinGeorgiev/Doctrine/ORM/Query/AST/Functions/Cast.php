@@ -33,18 +33,28 @@ class Cast extends FunctionNode
         $parser->match(Lexer::T_AS);
         $parser->match(Lexer::T_IDENTIFIER);
 
-        $type = $parser->getLexer()->token['value'];
-        if ($parser->getLexer()->isNextToken(Lexer::T_OPEN_PARENTHESIS)) {
+        $lexer = $parser->getLexer();
+        $token = $lexer->token;
+        if (!isset($token['value'])) {
+            return;
+        }
+        if (!\is_string($token['value'])) {
+            return;
+        }
+
+        $type = $token['value'];
+        if ($lexer->isNextToken(Lexer::T_OPEN_PARENTHESIS)) {
             $parser->match(Lexer::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
             $parameters = [$parameter->value];
-            if ($parser->getLexer()->isNextToken(Lexer::T_COMMA)) {
-                while ($parser->getLexer()->isNextToken(Lexer::T_COMMA)) {
+            if ($lexer->isNextToken(Lexer::T_COMMA)) {
+                while ($lexer->isNextToken(Lexer::T_COMMA)) {
                     $parser->match(Lexer::T_COMMA);
                     $parameter = $parser->Literal();
                     $parameters[] = $parameter->value;
                 }
-            } $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+            }
+            $parser->match(Lexer::T_CLOSE_PARENTHESIS);
             $type .= '('.\implode(', ', $parameters).')';
         }
 
