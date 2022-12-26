@@ -24,8 +24,6 @@ class BaseArrayTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(BaseArray::class)

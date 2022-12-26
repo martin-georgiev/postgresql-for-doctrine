@@ -10,16 +10,12 @@ namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 class ContainsTexts extends Entity
 {
     /**
-     * @var string
-     *
      * @Column(type="text")
      */
-    public $text1;
+    public string $text1;
 
     /**
-     * @var string
-     *
      * @Column(type="text")
      */
-    public $text2;
+    public string $text2;
 }

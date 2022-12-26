@@ -13,10 +13,7 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 abstract class BaseVariadicFunction extends BaseFunction
 {
-    /**
-     * @var string
-     */
-    protected $commonNodeMapping = 'StringPrimary';
+    protected string $commonNodeMapping = 'StringPrimary';
 
     public function feedParserWithNodes(Parser $parser): void
     {

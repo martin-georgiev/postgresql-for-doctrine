@@ -16,7 +16,7 @@ abstract class BaseIntegerArrayTest extends TestCase
     protected MockObject $fixture;
 
     /**
-     * @return array<int, mixed>
+     * @return list<mixed>
      */
     public function invalidTransformations(): array
     {

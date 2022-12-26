@@ -10,16 +10,12 @@ namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 class ContainsJsons extends Entity
 {
     /**
-     * @var array
-     *
      * @Column(type="json")
      */
-    public $object1;
+    public array $object1;
 
     /**
-     * @var array
-     *
      * @Column(type="json")
      */
-    public $object2;
+    public array $object2;
 }
