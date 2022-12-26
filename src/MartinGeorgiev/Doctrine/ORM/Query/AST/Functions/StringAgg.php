@@ -26,7 +26,7 @@ class StringAgg extends BaseFunction
 
     private Node $delimiter;
 
-    private OrderByClause $orderBy;
+    private OrderByClause $orderByClause;
 
     protected function customiseFunction(): void
     {
@@ -51,7 +51,7 @@ class StringAgg extends BaseFunction
         $this->delimiter = $parser->StringPrimary();
 
         if ($lexer->isNextToken(Lexer::T_ORDER)) {
-            $this->orderBy = $parser->OrderByClause();
+            $this->orderByClause = $parser->OrderByClause();
         }
 
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
@@ -63,7 +63,7 @@ class StringAgg extends BaseFunction
             $this->isDistinct ? 'distinct ' : '',
             $this->expression->dispatch($sqlWalker),
             $this->delimiter->dispatch($sqlWalker),
-            isset($this->orderBy) ? $this->orderBy->dispatch($sqlWalker) : '',
+            isset($this->orderByClause) ? $this->orderByClause->dispatch($sqlWalker) : '',
         ];
 
         return \vsprintf($this->functionPrototype, $dispatched);

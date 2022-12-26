@@ -23,10 +23,17 @@ abstract class BaseIntegerArray extends BaseArray
      */
     public function isValidArrayItemForDatabase($item): bool
     {
-        return (\is_int($item) || \is_string($item))
-            && (bool) \preg_match('/^-?\d+$/', (string) $item)
-            && (string) $item >= $this->getMinValue()
-            && (string) $item <= $this->getMaxValue();
+        if (!\is_int($item) && !\is_string($item)) {
+            return false;
+        }
+        if (!(bool) \preg_match('/^-?\d+$/', (string) $item)) {
+            return false;
+        }
+        if ((string) $item < $this->getMinValue()) {
+            return false;
+        }
+
+        return (string) $item <= $this->getMaxValue();
     }
 
     /**
