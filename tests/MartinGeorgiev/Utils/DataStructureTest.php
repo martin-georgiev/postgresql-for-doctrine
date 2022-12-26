@@ -61,6 +61,7 @@ class DataStructureTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      *
      * @param array<int, array<string, array|string>> $phpValue
@@ -72,6 +73,7 @@ class DataStructureTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      *
      * @param array<int, array<string, array|string>> $phpValue
@@ -107,6 +109,7 @@ class DataStructureTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invalidTransformations
      *
      * @param array<int, mixed> $phpValue
@@ -119,6 +122,7 @@ class DataStructureTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invalidTransformations
      *
      * @param array<int, mixed> $phpValue

@@ -13,14 +13,14 @@ use PHPUnit\Framework\TestCase;
 class JsonbArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform|MockObject
+     * @var AbstractPlatform&MockObject
      */
-    private $platform;
+    private MockObject $platform;
 
     /**
-     * @var JsonbArray|MockObject
+     * @var JsonbArray&MockObject
      */
-    private $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {
@@ -80,6 +80,7 @@ class JsonbArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
@@ -89,6 +90,7 @@ class JsonbArrayTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider validTransformations
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void

@@ -28,18 +28,18 @@ class BigIntArrayTest extends BaseIntegerArrayTest
 
     public function invalidTransformations(): array
     {
-        return \array_merge(parent::invalidTransformations(), [['-9223372036854775807.01'], [-9223372036854775809]]);
+        return \array_merge(parent::invalidTransformations(), [['-9223372036854775807.01'], [-9_223_372_036_854_775_809.0]]);
     }
 
     public function validTransformations(): array
     {
         return [
             [
-                'phpValue' => -9223372036854775807,
+                'phpValue' => -9_223_372_036_854_775_807,
                 'postgresValue' => '-9223372036854775807',
             ],
             [
-                'phpValue' => 9223372036854775807,
+                'phpValue' => 9_223_372_036_854_775_807,
                 'postgresValue' => '9223372036854775807',
             ],
         ];

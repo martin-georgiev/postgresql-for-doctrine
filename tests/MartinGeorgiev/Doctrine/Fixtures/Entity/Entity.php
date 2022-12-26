@@ -10,7 +10,9 @@ abstract class Entity
      * @var string
      *
      * @Id
+     *
      * @Column(type="string")
+     *
      * @GeneratedValue
      */
     public $id;

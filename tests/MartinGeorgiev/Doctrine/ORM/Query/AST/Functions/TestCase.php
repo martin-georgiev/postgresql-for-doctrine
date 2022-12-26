@@ -6,21 +6,18 @@ namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 abstract class TestCase extends BaseTestCase
 {
     protected const FIXTURES_DIRECTORY = __DIR__.'/../../../../Fixtures';
 
-    /**
-     * @var Configuration
-     */
-    private $configuration;
+    private Configuration $configuration;
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $configuration = new Configuration();
         $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
         $configuration->setProxyNamespace('Tests\MartinGeorgiev\Doctrine\Fixtures\Proxies');
@@ -35,7 +32,7 @@ abstract class TestCase extends BaseTestCase
 
     private function setConfigurationCache(Configuration $configuration): void
     {
-        $symfonyArrayAdapterClass = '\Symfony\Component\Cache\Adapter\ArrayAdapter';
+        $symfonyArrayAdapterClass = '\\'.ArrayAdapter::class;
         $useDbalV3 = \class_exists($symfonyArrayAdapterClass) && \method_exists($configuration, 'setMetadataCache') && \method_exists($configuration, 'setQueryCache');
         if ($useDbalV3) {
             // @phpstan-ignore-next-line
@@ -61,8 +58,11 @@ abstract class TestCase extends BaseTestCase
 
     private function registerFunction(): void
     {
-        foreach ($this->getStringFunctions() as $dqlFunction => $functionClass) {
-            $this->configuration->addCustomStringFunction($dqlFunction, $functionClass);
+        /**
+         * @var class-string<FunctionNode> $functionClassName
+         */
+        foreach ($this->getStringFunctions() as $dqlFunction => $functionClassName) {
+            $this->configuration->addCustomStringFunction($dqlFunction, $functionClassName);
         }
     }
 

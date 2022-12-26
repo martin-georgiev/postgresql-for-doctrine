@@ -37,10 +37,10 @@ class BooleanArray extends BaseArray
     public function convertToPHPValue($postgresArray, AbstractPlatform $platform): ?array
     {
         $phpArray = parent::convertToPHPValue($postgresArray, $platform);
-        if (\is_array($phpArray)) {
-            $phpArray = \array_map(static function ($value) use ($platform) { return $platform->convertFromBoolean($value); }, $phpArray);
+        if (!\is_array($phpArray)) {
+            return null;
         }
 
-        return $phpArray;
+        return \array_map(static fn ($value): ?bool => $platform->convertFromBoolean($value), $phpArray);
     }
 }
