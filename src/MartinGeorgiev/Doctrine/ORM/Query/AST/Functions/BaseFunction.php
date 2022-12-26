@@ -28,7 +28,7 @@ abstract class BaseFunction extends FunctionNode
     protected $nodesMapping = [];
 
     /**
-     * @var Node[]
+     * @var list<Node|null>
      */
     protected $nodes = [];
 
@@ -74,7 +74,7 @@ abstract class BaseFunction extends FunctionNode
     {
         $dispatched = [];
         foreach ($this->nodes as $node) {
-            $dispatched[] = $node->dispatch($sqlWalker);
+            $dispatched[] = $node === null ? 'null' : $node->dispatch($sqlWalker);
         }
 
         return \vsprintf($this->functionPrototype, $dispatched);

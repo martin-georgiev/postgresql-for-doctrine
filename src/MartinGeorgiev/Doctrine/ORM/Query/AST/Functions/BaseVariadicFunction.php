@@ -42,7 +42,7 @@ abstract class BaseVariadicFunction extends BaseFunction
     {
         $dispatched = [];
         foreach ($this->nodes as $node) {
-            $dispatched[] = $node->dispatch($sqlWalker);
+            $dispatched[] = $node === null ? 'null' : $node->dispatch($sqlWalker);
         }
 
         return \sprintf($this->functionPrototype, \implode(', ', $dispatched));
