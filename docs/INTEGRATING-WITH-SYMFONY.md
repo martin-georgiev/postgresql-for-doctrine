@@ -140,4 +140,5 @@ doctrine:
                         IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp
                         NOT_REGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp
                         NOT_IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp
+                        CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
 ```
