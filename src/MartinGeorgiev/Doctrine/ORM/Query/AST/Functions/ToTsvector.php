@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class ToTsvector extends BaseVariadicFunction
 {
-    protected $commonNodeMapping = 'StringExpression';
+    protected string $commonNodeMapping = 'StringExpression';
 
     protected function customiseFunction(): void
     {

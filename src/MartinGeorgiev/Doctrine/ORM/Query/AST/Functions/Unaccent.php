@@ -13,7 +13,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class Unaccent extends BaseVariadicFunction
 {
-    protected $commonNodeMapping = 'StringPrimary';
+    protected string $commonNodeMapping = 'StringPrimary';
 
     protected function customiseFunction(): void
     {

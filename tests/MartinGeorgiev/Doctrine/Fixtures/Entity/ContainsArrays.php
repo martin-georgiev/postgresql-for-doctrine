@@ -10,16 +10,12 @@ namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 class ContainsArrays extends Entity
 {
     /**
-     * @var array
-     *
      * @Column(type="array")
      */
-    public $array1;
+    public array $array1;
 
     /**
-     * @var array
-     *
      * @Column(type="array")
      */
-    public $array2;
+    public array $array2;
 }

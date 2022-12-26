@@ -10,23 +10,17 @@ namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 class ContainsIntegers extends Entity
 {
     /**
-     * @var int
-     *
      * @Column(type="integer")
      */
-    public $integer1;
+    public int $integer1;
 
     /**
-     * @var int
-     *
      * @Column(type="integer")
      */
-    public $integer2;
+    public int $integer2;
 
     /**
-     * @var int
-     *
      * @Column(type="integer")
      */
-    public $integer3;
+    public int $integer3;
 }
