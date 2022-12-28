@@ -58,6 +58,10 @@ class JsonbTest extends TestCase
                 'postgresValue' => '"a string value"',
             ],
             [
+                'phpValue' => true,
+                'postgresValue' => 'true',
+            ],
+            [
                 'phpValue' => [681, 1185, 1878, 1989],
                 'postgresValue' => '[681,1185,1878,1989]',
             ],
