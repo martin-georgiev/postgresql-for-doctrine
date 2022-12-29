@@ -32,7 +32,7 @@ class JsonbTest extends TestCase
     }
 
     /**
-     * @return array<int, array<string, array|float|int|string|null>>
+     * @return array<int, array<string, array|bool|float|int|string|null>>
      */
     public function validTransformations(): array
     {
