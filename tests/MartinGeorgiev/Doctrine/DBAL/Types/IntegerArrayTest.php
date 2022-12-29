@@ -34,6 +34,12 @@ class IntegerArrayTest extends BaseIntegerArrayTest
         return \array_merge(parent::invalidTransformations(), [['-2147483647.01'], [2_147_483_649]]);
     }
 
+    /**
+     * @return list<array{
+     *     phpValue: int,
+     *     postgresValue: string
+     * }>
+     */
     public function validTransformations(): array
     {
         return [

@@ -23,10 +23,7 @@ class JsonbArray extends BaseArray
      */
     protected const TYPE_NAME = 'jsonb[]';
 
-    /**
-     * @param mixed $item
-     */
-    protected function transformArrayItemForPostgres($item): string
+    protected function transformArrayItemForPostgres(mixed $item): string
     {
         return $this->transformToPostgresJson($item);
     }

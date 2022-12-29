@@ -31,6 +31,12 @@ class BigIntArrayTest extends BaseIntegerArrayTest
         return \array_merge(parent::invalidTransformations(), [['-9223372036854775807.01'], [-9_223_372_036_854_775_809.0]]);
     }
 
+    /**
+     * @return list<array{
+     *     phpValue: int,
+     *     postgresValue: string
+     * }>
+     */
     public function validTransformations(): array
     {
         return [

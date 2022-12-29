@@ -12,7 +12,10 @@ class DataStructureTest extends TestCase
     /**
      * @see https://stackoverflow.com/a/27964420/3425372 Kudos to dmikam for the inspiration
      *
-     * @return array<int, array<string, array|string>>
+     * @return list<array{
+     *     phpValue: array,
+     *     postgresValue: string
+     * }>
      */
     public function validTransformations(): array
     {
@@ -84,7 +87,10 @@ class DataStructureTest extends TestCase
     }
 
     /**
-     * @return array<int, array<string, array|string>>
+     * @return list<array{
+     *     phpValue: array,
+     *     postgresValue: string
+     * }>
      */
     public function invalidTransformations(): array
     {

@@ -31,6 +31,13 @@ class BooleanArrayTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null,
+     *     platformValue: array|null
+     * }>
+     */
     public function validTransformations(): array
     {
         return [

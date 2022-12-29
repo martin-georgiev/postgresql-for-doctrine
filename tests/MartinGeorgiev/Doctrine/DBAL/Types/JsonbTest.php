@@ -32,7 +32,10 @@ class JsonbTest extends TestCase
     }
 
     /**
-     * @return array<int, array<string, array|float|int|string|null>>
+     * @return list<array{
+     *     phpValue: array|bool|float|int|string|null,
+     *     postgresValue: string|null
+     * }>
      */
     public function validTransformations(): array
     {
@@ -40,6 +43,10 @@ class JsonbTest extends TestCase
             [
                 'phpValue' => null,
                 'postgresValue' => null,
+            ],
+            [
+                'phpValue' => true,
+                'postgresValue' => 'true',
             ],
             [
                 'phpValue' => [],
@@ -86,10 +93,8 @@ class JsonbTest extends TestCase
      * @test
      *
      * @dataProvider validTransformations
-     *
-     * @param array|float|int|string|null $phpValue
      */
-    public function can_transform_from_php_value($phpValue, ?string $postgresValue): void
+    public function can_transform_from_php_value(array|bool|float|int|string|null $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
@@ -98,10 +103,8 @@ class JsonbTest extends TestCase
      * @test
      *
      * @dataProvider validTransformations
-     *
-     * @param array|float|int|string|null $phpValue
      */
-    public function can_transform_to_php_value($phpValue, ?string $postgresValue): void
+    public function can_transform_to_php_value(array|bool|float|int|string|null $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }

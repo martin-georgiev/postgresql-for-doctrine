@@ -41,7 +41,7 @@ abstract class BaseIntegerArrayTest extends TestCase
     }
 
     /**
-     * @return array<int, array<string, int|string>>
+     * @return list<array<string, int|string>>
      */
     abstract public function validTransformations(): array;
 
