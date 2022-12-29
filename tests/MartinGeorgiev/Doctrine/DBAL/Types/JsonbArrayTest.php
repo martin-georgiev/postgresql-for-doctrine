@@ -33,7 +33,7 @@ class JsonbArrayTest extends TestCase
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return list<array<string, mixed>>
      */
     public function validTransformations(): array
     {

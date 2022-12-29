@@ -32,6 +32,12 @@ class BaseArrayTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
+     */
     public function validTransformations(): array
     {
         return [
