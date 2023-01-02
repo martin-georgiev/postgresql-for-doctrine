@@ -119,7 +119,9 @@ doctrine:
                         JSONB_INSERT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert
                         JSONB_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg
                         JSONB_OBJECT_KEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys
+                        JSONB_PRETTY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPretty
                         JSONB_SET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet
+                        JSONB_SET_LAX: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax
                         JSONB_STRIP_NULLS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls
                         TO_JSONB: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb
 
@@ -133,6 +135,7 @@ doctrine:
                         DATE_EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract
                         
                         # other operators
+                        CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
                         ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
                         SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo
                         NOT_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo
@@ -141,5 +144,9 @@ doctrine:
                         IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp
                         NOT_REGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp
                         NOT_IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp
+                        FLAGGED_REGEXP_LIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike
+                        REGEXP_LIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike
+                        FLAGGED_REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch
+                        REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
 ```

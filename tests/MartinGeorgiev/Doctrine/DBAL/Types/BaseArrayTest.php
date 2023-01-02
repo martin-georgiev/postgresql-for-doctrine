@@ -24,8 +24,6 @@ class BaseArrayTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(BaseArray::class)
@@ -34,6 +32,12 @@ class BaseArrayTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
+     */
     public function validTransformations(): array
     {
         return [

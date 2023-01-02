@@ -31,6 +31,12 @@ class SmallIntArrayTest extends BaseIntegerArrayTest
         return \array_merge(parent::invalidTransformations(), [['-32767.01'], [-32769]]);
     }
 
+    /**
+     * @return list<array{
+     *     phpValue: int,
+     *     postgresValue: string
+     * }>
+     */
     public function validTransformations(): array
     {
         return [

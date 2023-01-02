@@ -24,8 +24,6 @@ class JsonbArrayTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(JsonbArray::class)
@@ -35,7 +33,7 @@ class JsonbArrayTest extends TestCase
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return list<array<string, mixed>>
      */
     public function validTransformations(): array
     {

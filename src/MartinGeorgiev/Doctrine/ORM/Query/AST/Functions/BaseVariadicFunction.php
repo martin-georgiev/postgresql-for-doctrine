@@ -13,10 +13,7 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 abstract class BaseVariadicFunction extends BaseFunction
 {
-    /**
-     * @var string
-     */
-    protected $commonNodeMapping = 'StringPrimary';
+    protected string $commonNodeMapping = 'StringPrimary';
 
     public function feedParserWithNodes(Parser $parser): void
     {
@@ -42,7 +39,7 @@ abstract class BaseVariadicFunction extends BaseFunction
     {
         $dispatched = [];
         foreach ($this->nodes as $node) {
-            $dispatched[] = $node->dispatch($sqlWalker);
+            $dispatched[] = $node === null ? 'null' : $node->dispatch($sqlWalker);
         }
 
         return \sprintf($this->functionPrototype, \implode(', ', $dispatched));

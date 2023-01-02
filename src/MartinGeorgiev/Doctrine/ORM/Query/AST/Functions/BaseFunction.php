@@ -17,20 +17,17 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 abstract class BaseFunction extends FunctionNode
 {
-    /**
-     * @var string
-     */
-    protected $functionPrototype;
+    protected string $functionPrototype;
 
     /**
-     * @var string[]
+     * @var list<string>
      */
-    protected $nodesMapping = [];
+    protected array $nodesMapping = [];
 
     /**
-     * @var Node[]
+     * @var list<Node|null>
      */
-    protected $nodes = [];
+    protected array $nodes = [];
 
     abstract protected function customiseFunction(): void;
 
@@ -74,7 +71,7 @@ abstract class BaseFunction extends FunctionNode
     {
         $dispatched = [];
         foreach ($this->nodes as $node) {
-            $dispatched[] = $node->dispatch($sqlWalker);
+            $dispatched[] = $node === null ? 'null' : $node->dispatch($sqlWalker);
         }
 
         return \vsprintf($this->functionPrototype, $dispatched);

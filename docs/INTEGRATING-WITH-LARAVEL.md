@@ -123,7 +123,9 @@ return [
         'JSONB_INSERT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert::class,
         'JSONB_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class,
         'JSONB_OBJECT_KEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys::class,
+        'JSONB_PRETTY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPretty::class,
         'JSONB_SET' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet::class,
+        'JSONB_SET_LAX' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax::class,
         'JSONB_STRIP_NULLS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls::class,
         'TO_JSONB' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb::class,
 
@@ -137,6 +139,7 @@ return [
         'DATE_EXTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class,
 
         # other operators
+        'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
         'ILIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class,
         'SIMILAR_TO' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo::class,
         'NOT_SIMILAR_TO' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo::class,
@@ -145,6 +148,10 @@ return [
         'IREGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp::class,
         'NOT_REGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp::class,
         'NOT_IREGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp::class,
+        'FLAGGED_REGEXP_LIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike::class,
+        'REGEXP_LIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike::class,
+        'FLAGGED_REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch::class,
+        'REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class,
     ],
 
     ...

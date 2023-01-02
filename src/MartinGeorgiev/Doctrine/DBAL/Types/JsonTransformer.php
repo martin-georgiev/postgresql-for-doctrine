@@ -31,10 +31,7 @@ trait JsonTransformer
         return $postgresValue;
     }
 
-    /**
-     * @return array|float|int|string|null
-     */
-    protected function transformFromPostgresJson(string $postgresValue)
+    protected function transformFromPostgresJson(string $postgresValue): array|bool|float|int|string|null
     {
         // @phpstan-ignore-next-line
         return \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR);

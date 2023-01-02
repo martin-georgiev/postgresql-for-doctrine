@@ -15,7 +15,7 @@ use Doctrine\ORM\Query\SqlWalker;
  *
  * @see https://www.postgresql.org/docs/current/sql-createcast.html
  * @see https://github.com/beberlei/DoctrineExtensions/blob/f3536d881637f6ddc7ca1d6595d18c15e06eb1d9/src/Query/Mysql/Cast.php
- * @since 2.0.0
+ * @since 2.0
  *
  * @author Mathieu Piot <https://github.com/mpiot>
  */

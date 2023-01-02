@@ -23,8 +23,6 @@ class BooleanArrayTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(BooleanArray::class)
@@ -33,6 +31,13 @@ class BooleanArrayTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null,
+     *     platformValue: array|null
+     * }>
+     */
     public function validTransformations(): array
     {
         return [

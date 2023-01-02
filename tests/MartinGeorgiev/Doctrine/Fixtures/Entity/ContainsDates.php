@@ -10,16 +10,12 @@ namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
 class ContainsDates extends Entity
 {
     /**
-     * @var \DateTimeImmutable
-     *
      * @Column(type="date_immutable")
      */
-    public $date1;
+    public \DateTimeImmutable $date1;
 
     /**
-     * @var \DateTimeImmutable
-     *
      * @Column(type="date_immutable")
      */
-    public $date2;
+    public \DateTimeImmutable $date2;
 }

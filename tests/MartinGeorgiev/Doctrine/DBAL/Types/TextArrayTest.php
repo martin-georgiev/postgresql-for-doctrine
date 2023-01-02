@@ -23,8 +23,6 @@ class TextArrayTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(TextArray::class)
@@ -33,6 +31,12 @@ class TextArrayTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
+     */
     public function validTransformations(): array
     {
         return [
