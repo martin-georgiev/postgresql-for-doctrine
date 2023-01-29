@@ -9,9 +9,9 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * from date/time values.
  *
  * @see https://www.postgresql.org/docs/14/functions-datetime.html
- * @since 0.1
+ * @since 2.1
  *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
+ * @author keithbrink <keith.brink@gmail.com>
  */
 class DateExtract extends BaseFunction
 {
