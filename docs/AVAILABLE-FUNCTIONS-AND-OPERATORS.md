@@ -16,7 +16,7 @@
 | ~*                  | IREGEXP                                         | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp`             |
 | !~                  | NOT_REGEXP                                      | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp`           |
 | !~*                 | NOT_IREGEXP                                     | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp`          |
-
+| @@                  | TSMATCH                                         | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch`             |
 
 # Available functions
 
@@ -74,7 +74,6 @@
 | to_jsonb | TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb` |
 | to_tsquery | TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery` |
 | to_tsvector | TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector` |
-| tsmatch | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` |
 | unaccent | UNACCENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent` |
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` |
 
