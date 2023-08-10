@@ -38,11 +38,11 @@ class Cast extends FunctionNode
         if (!isset($token['value'])) {
             return;
         }
-        if (!\is_string($token['value'])) {
+        if (!$token instanceof Token || !\is_string($token->value)) {
             return;
         }
 
-        $type = $token['value'];
+        $type = $token->value;
         if ($lexer->isNextToken(Lexer::T_OPEN_PARENTHESIS)) {
             $parser->match(Lexer::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
