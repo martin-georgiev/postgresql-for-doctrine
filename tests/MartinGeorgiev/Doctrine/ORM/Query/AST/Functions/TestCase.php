@@ -6,6 +6,7 @@ namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -22,7 +23,7 @@ abstract class TestCase extends BaseTestCase
         $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
         $configuration->setProxyNamespace('Tests\MartinGeorgiev\Doctrine\Fixtures\Proxies');
         $configuration->setAutoGenerateProxyClasses(true);
-        $configuration->setMetadataDriverImpl($configuration->newDefaultAnnotationDriver([static::FIXTURES_DIRECTORY.'/Entities']));
+        $configuration->setMetadataDriverImpl(ORMSetup::createDefaultAnnotationDriver([static::FIXTURES_DIRECTORY.'/Entities']));
         $this->setConfigurationCache($configuration);
 
         $this->configuration = $configuration;
