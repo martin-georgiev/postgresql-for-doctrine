@@ -35,9 +35,6 @@ class Cast extends FunctionNode
 
         $lexer = $parser->getLexer();
         $token = $lexer->token;
-        if (!isset($token['value'])) {
-            return;
-        }
         if (!$token instanceof Token || !\is_string($token->value)) {
             return;
         }
