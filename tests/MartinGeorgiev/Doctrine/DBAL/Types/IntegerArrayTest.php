@@ -12,10 +12,7 @@ class IntegerArrayTest extends BaseIntegerArrayTest
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(IntegerArray::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->fixture = new IntegerArray();
     }
 
     /**
@@ -29,9 +26,9 @@ class IntegerArrayTest extends BaseIntegerArrayTest
     /**
      * @return array<int, mixed>
      */
-    public function invalidTransformations(): array
+    public static function provideInvalidTransformations(): array
     {
-        return \array_merge(parent::invalidTransformations(), [['-2147483647.01'], [2_147_483_649]]);
+        return \array_merge(parent::provideInvalidTransformations(), [['-2147483647.01'], [2_147_483_649]]);
     }
 
     /**
@@ -40,7 +37,7 @@ class IntegerArrayTest extends BaseIntegerArrayTest
      *     postgresValue: string
      * }>
      */
-    public function validTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
             [

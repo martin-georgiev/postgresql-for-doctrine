@@ -12,10 +12,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTest
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(SmallIntArray::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->fixture = new SmallIntArray();
     }
 
     /**
@@ -26,9 +23,9 @@ class SmallIntArrayTest extends BaseIntegerArrayTest
         $this->assertEquals('smallint[]', $this->fixture->getName());
     }
 
-    public function invalidTransformations(): array
+    public static function provideInvalidTransformations(): array
     {
-        return \array_merge(parent::invalidTransformations(), [['-32767.01'], [-32769]]);
+        return \array_merge(parent::provideInvalidTransformations(), [['-32767.01'], [-32769]]);
     }
 
     /**
@@ -37,7 +34,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTest
      *     postgresValue: string
      * }>
      */
-    public function validTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
             [

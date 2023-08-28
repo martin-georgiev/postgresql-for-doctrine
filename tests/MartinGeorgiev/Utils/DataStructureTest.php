@@ -17,7 +17,7 @@ class DataStructureTest extends TestCase
      *     postgresValue: string
      * }>
      */
-    public function validTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
             [
@@ -65,7 +65,7 @@ class DataStructureTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      *
      * @param array<int, array<string, array|string>> $phpValue
      */
@@ -77,7 +77,7 @@ class DataStructureTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      *
      * @param array<int, array<string, array|string>> $phpValue
      */
@@ -92,7 +92,7 @@ class DataStructureTest extends TestCase
      *     postgresValue: string
      * }>
      */
-    public function invalidTransformations(): array
+    public static function provideInvalidTransformations(): array
     {
         return [
             [
@@ -116,7 +116,7 @@ class DataStructureTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider invalidTransformations
+     * @dataProvider provideInvalidTransformations
      *
      * @param array<int, mixed> $phpValue
      */
@@ -129,7 +129,7 @@ class DataStructureTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider invalidTransformations
+     * @dataProvider provideInvalidTransformations
      *
      * @param array<int, mixed> $phpValue
      */

@@ -12,10 +12,7 @@ class BigIntArrayTest extends BaseIntegerArrayTest
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(BigIntArray::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->fixture = new BigIntArray();
     }
 
     /**
@@ -26,9 +23,9 @@ class BigIntArrayTest extends BaseIntegerArrayTest
         $this->assertEquals('bigint[]', $this->fixture->getName());
     }
 
-    public function invalidTransformations(): array
+    public static function provideInvalidTransformations(): array
     {
-        return \array_merge(parent::invalidTransformations(), [['-9223372036854775807.01'], [-9_223_372_036_854_775_809.0]]);
+        return \array_merge(parent::provideInvalidTransformations(), [['-9223372036854775807.01'], [-9_223_372_036_854_775_809.0]]);
     }
 
     /**
@@ -37,7 +34,7 @@ class BigIntArrayTest extends BaseIntegerArrayTest
      *     postgresValue: string
      * }>
      */
-    public function validTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
             [

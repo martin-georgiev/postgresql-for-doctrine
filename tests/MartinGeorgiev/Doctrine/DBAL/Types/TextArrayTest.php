@@ -14,21 +14,15 @@ class TextArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private MockObject $platform;
+    private AbstractPlatform $platform;
 
-    /**
-     * @var MockObject&TextArray
-     */
-    private MockObject $fixture;
+    private TextArray $textArray;
 
     protected function setUp(): void
     {
         $this->platform = $this->createMock(AbstractPlatform::class);
 
-        $this->fixture = $this->getMockBuilder(TextArray::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->textArray = new TextArray();
     }
 
     /**
@@ -37,7 +31,7 @@ class TextArrayTest extends TestCase
      *     postgresValue: string|null
      * }>
      */
-    public function validTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
             [
@@ -75,26 +69,26 @@ END
      */
     public function has_name(): void
     {
-        $this->assertEquals('text[]', $this->fixture->getName());
+        $this->assertEquals('text[]', $this->textArray->getName());
     }
 
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertEquals($postgresValue, $this->textArray->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertEquals($phpValue, $this->textArray->convertToPHPValue($postgresValue, $this->platform));
     }
 }

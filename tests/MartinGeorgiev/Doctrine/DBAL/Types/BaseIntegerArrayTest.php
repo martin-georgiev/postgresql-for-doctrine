@@ -13,12 +13,12 @@ abstract class BaseIntegerArrayTest extends TestCase
     /**
      * @var BaseIntegerArray&MockObject
      */
-    protected MockObject $fixture;
+    protected BaseIntegerArray $fixture;
 
     /**
      * @return list<mixed>
      */
-    public function invalidTransformations(): array
+    public static function provideInvalidTransformations(): array
     {
         return [
             [true],
@@ -33,7 +33,7 @@ abstract class BaseIntegerArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider invalidTransformations
+     * @dataProvider provideInvalidTransformations
      */
     public function can_detect_invalid_for_transformation_php_value(mixed $phpValue): void
     {
@@ -43,12 +43,12 @@ abstract class BaseIntegerArrayTest extends TestCase
     /**
      * @return list<array<string, int|string>>
      */
-    abstract public function validTransformations(): array;
+    abstract public static function provideValidTransformations(): array;
 
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_from_php_value(int $phpValue, string $postgresValue): void
     {
@@ -58,7 +58,7 @@ abstract class BaseIntegerArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_to_php_value(int $phpValue, string $postgresValue): void
     {

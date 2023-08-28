@@ -14,21 +14,18 @@ class BooleanArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private MockObject $platform;
+    private AbstractPlatform $platform;
 
     /**
      * @var BooleanArray&MockObject
      */
-    private MockObject $fixture;
+    private BooleanArray $fixture;
 
     protected function setUp(): void
     {
         $this->platform = $this->createMock(AbstractPlatform::class);
 
-        $this->fixture = $this->getMockBuilder(BooleanArray::class)
-            ->addMethods([])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->fixture = new BooleanArray();
     }
 
     /**
@@ -38,7 +35,7 @@ class BooleanArrayTest extends TestCase
      *     platformValue: array|null
      * }>
      */
-    public function validTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
             [
@@ -70,7 +67,7 @@ class BooleanArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue): void
     {
@@ -84,7 +81,7 @@ class BooleanArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
