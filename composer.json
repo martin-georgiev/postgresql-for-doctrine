@@ -30,6 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
             "Tests\\MartinGeorgiev\\": "tests/MartinGeorgiev/"
         }
     },
@@ -43,6 +44,7 @@
     },
     "require-dev": {
         "doctrine/orm": "~2.5||~3.0",
+        "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.13",
         "php-coveralls/php-coveralls": "^2.5",
         "phpstan/phpstan": "^1.9",
@@ -55,6 +57,12 @@
     "suggest": {
         "php": "^8.2",
         "doctrine/orm": "~2.5||~3.0"
+    },
+    "replace": {
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*"
     },
 
     "scripts": {

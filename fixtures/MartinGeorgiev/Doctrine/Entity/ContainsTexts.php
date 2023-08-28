@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
+namespace Fixtures\MartinGeorgiev\Doctrine\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
+ * @ORM\Entity
  */
 class ContainsTexts extends Entity
 {
     /**
-     * @Column(type="text")
+     * @ORM\Column(type="text")
      */
     public string $text1;
 
     /**
-     * @Column(type="text")
+     * @ORM\Column(type="text")
      */
     public string $text2;
 }
