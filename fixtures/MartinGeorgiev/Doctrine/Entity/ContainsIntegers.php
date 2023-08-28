@@ -2,25 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
+namespace Fixtures\MartinGeorgiev\Doctrine\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
+ * @ORM\Entity
  */
 class ContainsIntegers extends Entity
 {
     /**
-     * @Column(type="integer")
+     * @ORM\Column(type="integer")
      */
     public int $integer1;
 
     /**
-     * @Column(type="integer")
+     * @ORM\Column(type="integer")
      */
     public int $integer2;
 
     /**
-     * @Column(type="integer")
+     * @ORM\Column(type="integer")
      */
     public int $integer3;
 }

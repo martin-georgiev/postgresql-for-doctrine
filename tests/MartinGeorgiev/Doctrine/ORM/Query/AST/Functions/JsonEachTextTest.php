@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText;
-use Tests\MartinGeorgiev\Doctrine\Fixtures\Entity\ContainsJsons;
 
 class JsonEachTextTest extends TestCase
 {
