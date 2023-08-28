@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Doctrine\Common\Lexer\Token;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
@@ -35,14 +36,14 @@ class Cast extends FunctionNode
 
         $lexer = $parser->getLexer();
         $token = $lexer->token;
-        if (!isset($token['value'])) {
+        if (!$token instanceof Token) {
             return;
         }
-        if (!\is_string($token['value'])) {
+        if (!\is_string($token->value)) {
             return;
         }
 
-        $type = $token['value'];
+        $type = $token->value;
         if ($lexer->isNextToken(Lexer::T_OPEN_PARENTHESIS)) {
             $parser->match(Lexer::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
