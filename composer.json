@@ -44,6 +44,7 @@
     },
     "require-dev": {
         "doctrine/orm": "~2.5||~3.0",
+        "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.13",
         "php-coveralls/php-coveralls": "^2.5",
         "phpstan/phpstan": "^1.9",
