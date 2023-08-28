@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\Php74\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
@@ -19,6 +20,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->parallel();
     $rectorConfig->phpstanConfig($basePath.'ci/phpstan/config.neon');
     $rectorConfig->skip([
+        ArraySpreadInsteadOfArrayMergeRector::class
     ]);
     $rectorConfig->importShortClasses(false);
     $rectorConfig->importNames(false, false); // @todo Enable once Rector introduces better support for function imports.
