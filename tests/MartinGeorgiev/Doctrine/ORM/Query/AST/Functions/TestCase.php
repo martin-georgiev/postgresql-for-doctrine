@@ -12,7 +12,7 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 abstract class TestCase extends BaseTestCase
 {
-    protected const FIXTURES_DIRECTORY = __DIR__.'/../../../../Fixtures';
+    protected const FIXTURES_DIRECTORY = __DIR__.'/../../../../../../fixtures/MartinGeorgiev/Doctrine/Entity';
 
     private Configuration $configuration;
 
@@ -20,9 +20,9 @@ abstract class TestCase extends BaseTestCase
     {
         $configuration = new Configuration();
         $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
-        $configuration->setProxyNamespace('Tests\MartinGeorgiev\Doctrine\Fixtures\Proxies');
+        $configuration->setProxyNamespace('Fixtures\MartinGeorgiev\Doctrine\Entity\Proxy');
         $configuration->setAutoGenerateProxyClasses(true);
-        $configuration->setMetadataDriverImpl($configuration->newDefaultAnnotationDriver([static::FIXTURES_DIRECTORY.'/Entities']));
+        $configuration->setMetadataDriverImpl($configuration->newDefaultAnnotationDriver([static::FIXTURES_DIRECTORY], false));
         $this->setConfigurationCache($configuration);
 
         $this->configuration = $configuration;

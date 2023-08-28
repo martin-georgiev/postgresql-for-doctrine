@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps;
-use Tests\MartinGeorgiev\Doctrine\Fixtures\Entity\ContainsDates;
 
 class DateOverlapsTest extends TestCase
 {

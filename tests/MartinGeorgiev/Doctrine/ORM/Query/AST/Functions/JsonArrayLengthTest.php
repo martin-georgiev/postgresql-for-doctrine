@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength;
-use Tests\MartinGeorgiev\Doctrine\Fixtures\Entity\ContainsJsons;
 
 class JsonArrayLengthTest extends TestCase
 {
