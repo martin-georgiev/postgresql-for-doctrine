@@ -20,7 +20,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->parallel();
     $rectorConfig->phpstanConfig($basePath.'ci/phpstan/config.neon');
     $rectorConfig->skip([
-        ArraySpreadInsteadOfArrayMergeRector::class
+        ArraySpreadInsteadOfArrayMergeRector::class,
     ]);
     $rectorConfig->importShortClasses(false);
     $rectorConfig->importNames(false, false); // @todo Enable once Rector introduces better support for function imports.
