@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
@@ -39,7 +40,7 @@ abstract class BaseVariadicFunction extends BaseFunction
     {
         $dispatched = [];
         foreach ($this->nodes as $node) {
-            $dispatched[] = $node === null ? 'null' : $node->dispatch($sqlWalker);
+            $dispatched[] = $node instanceof Node ? $node->dispatch($sqlWalker) : 'null';
         }
 
         return \sprintf($this->functionPrototype, \implode(', ', $dispatched));

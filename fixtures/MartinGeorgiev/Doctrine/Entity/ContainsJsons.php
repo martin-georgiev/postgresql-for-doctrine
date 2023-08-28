@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Tests\MartinGeorgiev\Doctrine\Fixtures\Entity;
+namespace Fixtures\MartinGeorgiev\Doctrine\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
+ * @ORM\Entity
  */
 class ContainsJsons extends Entity
 {
     /**
-     * @Column(type="json")
+     * @ORM\Column(type="json")
      */
     public array $object1;
 
     /**
-     * @Column(type="json")
+     * @ORM\Column(type="json")
      */
     public array $object2;
 }

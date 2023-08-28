@@ -71,7 +71,7 @@ abstract class BaseFunction extends FunctionNode
     {
         $dispatched = [];
         foreach ($this->nodes as $node) {
-            $dispatched[] = $node === null ? 'null' : $node->dispatch($sqlWalker);
+            $dispatched[] = $node instanceof Node ? $node->dispatch($sqlWalker) : 'null';
         }
 
         return \vsprintf($this->functionPrototype, $dispatched);
