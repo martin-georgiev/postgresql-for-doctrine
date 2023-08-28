@@ -30,7 +30,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(SetList::EARLY_RETURN);
     $rectorConfig->import(SetList::NAMING);
     $rectorConfig->import(SetList::PHP_80);
-    $rectorConfig->import(SetList::PSR_4);
     $rectorConfig->import(SetList::TYPE_DECLARATION);
 
     $rectorConfig->import(DoctrineSetList::DOCTRINE_25);

@@ -20,14 +20,14 @@ abstract class BaseType extends Type
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
-        self::throwExceptionIfTypeNameNotConfigured();
+        $this->throwExceptionIfTypeNameNotConfigured();
 
         return $platform->getDoctrineTypeMapping(static::TYPE_NAME);
     }
 
     public function getName(): string
     {
-        self::throwExceptionIfTypeNameNotConfigured();
+        $this->throwExceptionIfTypeNameNotConfigured();
 
         return static::TYPE_NAME;
     }
@@ -40,7 +40,7 @@ abstract class BaseType extends Type
         return false;
     }
 
-    private static function throwExceptionIfTypeNameNotConfigured(): void
+    private function throwExceptionIfTypeNameNotConfigured(): void
     {
         if (null === static::TYPE_NAME) {
             throw new \LogicException(\sprintf('Doctrine type defined in class %s has no meaningful value for TYPE_NAME constant', self::class));
