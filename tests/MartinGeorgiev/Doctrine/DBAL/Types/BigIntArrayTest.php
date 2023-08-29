@@ -12,7 +12,7 @@ class BigIntArrayTest extends BaseIntegerArrayTest
     {
         parent::setUp();
 
-        $this->fixture = new BigIntArray();
+        $this->fixture = new BigIntArray(); // @phpstan-ignore-line
     }
 
     /**

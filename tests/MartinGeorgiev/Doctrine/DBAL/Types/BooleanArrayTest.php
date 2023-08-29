@@ -16,9 +16,6 @@ class BooleanArrayTest extends TestCase
      */
     private AbstractPlatform $platform;
 
-    /**
-     * @var BooleanArray&MockObject
-     */
     private BooleanArray $fixture;
 
     protected function setUp(): void

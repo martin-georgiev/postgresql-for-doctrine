@@ -12,7 +12,7 @@ class IntegerArrayTest extends BaseIntegerArrayTest
     {
         parent::setUp();
 
-        $this->fixture = new IntegerArray();
+        $this->fixture = new IntegerArray(); // @phpstan-ignore-line
     }
 
     /**

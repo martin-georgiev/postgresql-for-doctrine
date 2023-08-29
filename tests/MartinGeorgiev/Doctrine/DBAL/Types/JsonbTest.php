@@ -16,9 +16,6 @@ class JsonbTest extends TestCase
      */
     private AbstractPlatform $platform;
 
-    /**
-     * @var Jsonb&MockObject
-     */
     private Jsonb $fixture;
 
     protected function setUp(): void

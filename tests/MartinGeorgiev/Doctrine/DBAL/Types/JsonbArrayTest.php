@@ -17,9 +17,6 @@ class JsonbArrayTest extends TestCase
      */
     private AbstractPlatform $platform;
 
-    /**
-     * @var JsonbArray&MockObject
-     */
     private JsonbArray $fixture;
 
     protected function setUp(): void

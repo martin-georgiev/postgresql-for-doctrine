@@ -16,13 +16,13 @@ class TextArrayTest extends TestCase
      */
     private AbstractPlatform $platform;
 
-    private TextArray $textArray;
+    private TextArray $fixture;
 
     protected function setUp(): void
     {
         $this->platform = $this->createMock(AbstractPlatform::class);
 
-        $this->textArray = new TextArray();
+        $this->fixture = new TextArray();
     }
 
     /**
@@ -69,7 +69,7 @@ END
      */
     public function has_name(): void
     {
-        $this->assertEquals('text[]', $this->textArray->getName());
+        $this->assertEquals('text[]', $this->fixture->getName());
     }
 
     /**
@@ -79,7 +79,7 @@ END
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->textArray->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
@@ -89,6 +89,6 @@ END
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->textArray->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }

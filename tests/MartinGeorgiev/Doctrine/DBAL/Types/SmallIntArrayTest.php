@@ -12,7 +12,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTest
     {
         parent::setUp();
 
-        $this->fixture = new SmallIntArray();
+        $this->fixture = new SmallIntArray(); // @phpstan-ignore-line
     }
 
     /**
