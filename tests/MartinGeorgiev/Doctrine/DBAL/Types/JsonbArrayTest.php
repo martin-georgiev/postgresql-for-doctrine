@@ -15,27 +15,21 @@ class JsonbArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private MockObject $platform;
+    private AbstractPlatform $platform;
 
-    /**
-     * @var JsonbArray&MockObject
-     */
-    private MockObject $fixture;
+    private JsonbArray $fixture;
 
     protected function setUp(): void
     {
         $this->platform = $this->createMock(AbstractPlatform::class);
 
-        $this->fixture = $this->getMockBuilder(JsonbArray::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->fixture = new JsonbArray();
     }
 
     /**
      * @return list<array<string, mixed>>
      */
-    public function validTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
             [
@@ -79,7 +73,7 @@ class JsonbArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
@@ -89,7 +83,7 @@ class JsonbArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {

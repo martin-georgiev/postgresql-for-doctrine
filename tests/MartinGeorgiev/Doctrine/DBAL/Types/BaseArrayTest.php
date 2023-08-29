@@ -15,19 +15,19 @@ class BaseArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private MockObject $platform;
+    private AbstractPlatform $platform;
 
     /**
      * @var BaseArray&MockObject
      */
-    private MockObject $fixture;
+    private BaseArray $fixture;
 
     protected function setUp(): void
     {
         $this->platform = $this->createMock(AbstractPlatform::class);
 
         $this->fixture = $this->getMockBuilder(BaseArray::class)
-            ->setMethods(['isValidArrayItemForDatabase'])
+            ->onlyMethods(['isValidArrayItemForDatabase'])
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -38,7 +38,7 @@ class BaseArrayTest extends TestCase
      *     postgresValue: string|null
      * }>
      */
-    public function validTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
             [
@@ -59,7 +59,7 @@ class BaseArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
@@ -73,7 +73,7 @@ class BaseArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider validTransformations
+     * @dataProvider provideValidTransformations
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
