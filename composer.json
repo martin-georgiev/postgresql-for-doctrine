@@ -58,12 +58,6 @@
         "php": "^8.2",
         "doctrine/orm": "~2.5||~3.0"
     },
-    "replace": {
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php73": "*",
-        "symfony/polyfill-php74": "*",
-        "symfony/polyfill-php80": "*"
-    },
 
     "scripts": {
         "check-code-style": [
