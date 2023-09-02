@@ -43,6 +43,7 @@
         "doctrine/dbal": "~2.5||~3.0"
     },
     "require-dev": {
+        "doctrine/annotations": "^2.0",
         "doctrine/orm": "~2.5||~3.0",
         "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.25.0",
