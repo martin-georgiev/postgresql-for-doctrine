@@ -43,7 +43,7 @@ class DataStructureTest extends TestCase
                     0 => 'dfasdf',
                     1 => 'qw,,e{q"we',
                     2 => "'qrer'",
-                    3 => 604,
+                    3 => '604',
                     4 => '"aaa","b""bb","ccc"',
                 ],
                 'postgresValue' => '{"dfasdf","qw,,e{q\"we","\'qrer\'",604,"\"aaa\",\"b\"\"bb\",\"ccc\""}',
@@ -71,7 +71,7 @@ class DataStructureTest extends TestCase
      */
     public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, DataStructure::transformPHPArrayToPostgresTextArray($phpValue));
+        $this->assertSame($postgresValue, DataStructure::transformPHPArrayToPostgresTextArray($phpValue));
     }
 
     /**
@@ -83,7 +83,7 @@ class DataStructureTest extends TestCase
      */
     public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($phpValue, DataStructure::transformPostgresTextArrayToPHPArray($postgresValue));
+        $this->assertSame($phpValue, DataStructure::transformPostgresTextArrayToPHPArray($postgresValue));
     }
 
     /**

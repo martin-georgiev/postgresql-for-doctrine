@@ -44,7 +44,7 @@ class TextArrayTest extends TestCase
             ],
             [
                 'phpValue' => [
-                    1,
+                    '1',
                     '2',
                     'text',
                     'some text here',
@@ -69,7 +69,7 @@ END
      */
     public function has_name(): void
     {
-        $this->assertEquals('text[]', $this->fixture->getName());
+        $this->assertSame('text[]', $this->fixture->getName());
     }
 
     /**
@@ -79,7 +79,7 @@ END
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
@@ -89,6 +89,6 @@ END
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }
