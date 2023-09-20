@@ -17,7 +17,7 @@ class ArrayPrepend extends BaseFunction
     protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('array_prepend(%s, %s)');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
     }
 }
