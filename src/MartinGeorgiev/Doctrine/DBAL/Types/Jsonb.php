@@ -26,7 +26,7 @@ class Jsonb extends BaseType
     /**
      * Converts a value from its PHP representation to its database representation of the type.
      *
-     * @param null|array|bool|float|int|string $value the value to convert
+     * @param array|bool|float|int|string|null $value the value to convert
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
