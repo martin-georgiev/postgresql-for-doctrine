@@ -32,10 +32,11 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(SetList::EARLY_RETURN);
     $rectorConfig->import(SetList::NAMING);
     $rectorConfig->import(SetList::PHP_80);
+    $rectorConfig->import(SetList::PHP_81);
     $rectorConfig->import(SetList::TYPE_DECLARATION);
 
     $rectorConfig->import(DoctrineSetList::DOCTRINE_25);
     $rectorConfig->import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
 
-    $rectorConfig->import(LevelSetList::UP_TO_PHP_80);
+    $rectorConfig->import(LevelSetList::UP_TO_PHP_81);
 };
