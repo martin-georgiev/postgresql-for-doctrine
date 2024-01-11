@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use Rector\CodingStyle\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
-use Rector\Php74\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
@@ -32,10 +32,11 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(SetList::EARLY_RETURN);
     $rectorConfig->import(SetList::NAMING);
     $rectorConfig->import(SetList::PHP_80);
+    $rectorConfig->import(SetList::PHP_81);
     $rectorConfig->import(SetList::TYPE_DECLARATION);
 
-    $rectorConfig->import(DoctrineSetList::DOCTRINE_25);
+    $rectorConfig->import(DoctrineSetList::DOCTRINE_ORM_25);
     $rectorConfig->import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
 
-    $rectorConfig->import(LevelSetList::UP_TO_PHP_80);
+    $rectorConfig->import(LevelSetList::UP_TO_PHP_81);
 };
