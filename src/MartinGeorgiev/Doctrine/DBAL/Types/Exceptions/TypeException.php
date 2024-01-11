@@ -9,6 +9,4 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-abstract class TypeException extends \Exception
-{
-}
+abstract class TypeException extends \Exception {}
