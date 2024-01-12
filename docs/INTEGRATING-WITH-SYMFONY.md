@@ -90,6 +90,7 @@ doctrine:
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
                         UNNEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest
+                        STARTS_WITH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith
 
                         # json specific functions
                         JSON_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg
