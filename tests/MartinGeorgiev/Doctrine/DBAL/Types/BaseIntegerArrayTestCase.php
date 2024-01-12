@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\BaseIntegerArray;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseIntegerArrayTest extends TestCase
+abstract class BaseIntegerArrayTestCase extends TestCase
 {
     /**
      * @var BaseIntegerArray&MockObject

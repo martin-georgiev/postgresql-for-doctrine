@@ -6,7 +6,7 @@ namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 
-class IntegerArrayTest extends BaseIntegerArrayTest
+class IntegerArrayTest extends BaseIntegerArrayTestCase
 {
     protected function setUp(): void
     {

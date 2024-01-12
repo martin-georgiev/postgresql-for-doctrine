@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        colors="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="false"
-        convertWarningsToExceptions="true"
-        stopOnFailure="false"
-        bootstrap="../../vendor/autoload.php"
-        verbose="true">
-
-    <testsuites>
-        <testsuite name="PostgreSQL-for-Doctrine Test Suite">
-            <directory>../../tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../../src</directory>
-        </whitelist>
-    </filter>
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="false" bootstrap="../../vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache">
+  <testsuites>
+    <testsuite name="PostgreSQL-for-Doctrine Test Suite">
+      <directory>../../tests</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">../../src</directory>
+    </include>
+  </source>
 </phpunit>

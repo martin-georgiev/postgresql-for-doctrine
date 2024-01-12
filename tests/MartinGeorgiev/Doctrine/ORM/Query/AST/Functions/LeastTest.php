@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least;
 
-class LeastTest extends BaseComparisonFunctionTest
+class LeastTest extends BaseComparisonFunctionTestCase
 {
     protected function createFixture(): BaseComparisonFunction
     {

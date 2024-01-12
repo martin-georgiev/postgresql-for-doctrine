@@ -6,7 +6,7 @@ namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 
-class BigIntArrayTest extends BaseIntegerArrayTest
+class BigIntArrayTest extends BaseIntegerArrayTestCase
 {
     protected function setUp(): void
     {

@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest;
 
-class GreatestTest extends BaseComparisonFunctionTest
+class GreatestTest extends BaseComparisonFunctionTestCase
 {
     protected function createFixture(): BaseComparisonFunction
     {
