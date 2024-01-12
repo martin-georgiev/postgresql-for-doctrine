@@ -8,7 +8,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
 
-abstract class BaseComparisonFunctionTest extends TestCase
+abstract class BaseComparisonFunctionTestCase extends TestCase
 {
     abstract protected function createFixture(): BaseComparisonFunction;
 
