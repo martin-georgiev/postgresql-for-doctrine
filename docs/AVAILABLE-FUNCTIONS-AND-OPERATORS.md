@@ -1,6 +1,6 @@
 # Available operators
 
-| PostgreSQL operator | Register for DQL as| Implemented by
+| PostgreSQL operator | Register for DQL as | Implemented by
 |---|---|---|
 | @> | CONTAINS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains` |
 | <@ | IS_CONTAINED_BY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy` |
