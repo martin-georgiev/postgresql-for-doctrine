@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
-use Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath;
 
 class DeleteAtPathTest extends TestCase
 {
