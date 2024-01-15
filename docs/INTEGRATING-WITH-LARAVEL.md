@@ -73,11 +73,16 @@ return [
         'ANY_OF' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any::class,
 
         # operators for working with array and json(b) data
-        'CONTAINS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains::class,
-        'IS_CONTAINED_BY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy::class,
-        'OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps::class,
         'GREATEST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest::class,
         'LEAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least::class,
+        'CONTAINS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains::class, // @>
+        'IS_CONTAINED_BY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy::class, // <@
+        'OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps::class, // &&
+        'RIGHT_EXISTS_ON_LEFT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TheRightExistsOnTheLeft::class, // ?
+        'ALL_ON_RIGHT_EXIST_ON_LEFT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AllOnTheRightExistOnTheLeft::class, // ?&
+        'ANY_ON_RIGHT_EXISTS_ON_LEFT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyOnTheRightExistsOnTheLeft::class, // ?|
+        'RETURNS_VALUE_FOR_JSON_VALUE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReturnsValueForJsonValue::class, // @?
+        'DELETE_AT_PATH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath::class, // #-
 
         # array and string specific functions
         'IN_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray::class,

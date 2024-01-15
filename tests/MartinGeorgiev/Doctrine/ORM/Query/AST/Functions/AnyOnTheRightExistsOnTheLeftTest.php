@@ -7,12 +7,12 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class TheRightExistsInTheLeftTest extends TestCase
+class AnyOnTheRightExistsOnTheLeftTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'RIGHT_EXISTS_IN_LEFT' => TheRightExistsInTheLeft::class,
+            'ANY_ON_RIGHT_EXISTS_ON_LEFT' => AnyOnTheRightExistsOnTheLeft::class,
             'ARRAY' => Arr::class,
         ];
     }
@@ -20,14 +20,14 @@ class TheRightExistsInTheLeftTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.object1 ?? ARRAY['test']) AS sclr_0 FROM ContainsJsons c0_",
+            "SELECT (c0_.object1 ??| ARRAY['test']) AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT RIGHT_EXISTS_IN_LEFT(e.object1, ARRAY('test')) FROM %s e", ContainsJsons::class),
+            \sprintf("SELECT ANY_ON_RIGHT_EXISTS_ON_LEFT(e.object1, ARRAY('test')) FROM %s e", ContainsJsons::class),
         ];
     }
 }
