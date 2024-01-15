@@ -66,12 +66,17 @@ doctrine:
                         ANY_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any
 
                         # operators for working with array and json(b) data
-                        CONTAINS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains
-                        IS_CONTAINED_BY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy
-                        OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps
                         GREATEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest
                         LEAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least
-
+                        CONTAINS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains # @>
+                        IS_CONTAINED_BY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy # <@
+                        OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps # &&
+                        RIGHT_EXISTS_ON_LEFT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TheRightExistsOnTheLeft # ?
+                        ALL_ON_RIGHT_EXIST_ON_LEFT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AllOnTheRightExistOnTheLeft # ?&
+                        ANY_ON_RIGHT_EXISTS_ON_LEFT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyOnTheRightExistsOnTheLeft # ?|
+                        RETURNS_VALUE_FOR_JSON_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReturnsValueForJsonValue # @?
+                        DELETE_AT_PATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath # #-
+                        
                         # array and string specific functions
                         IN_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray
                         ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr
@@ -87,10 +92,10 @@ doctrine:
                         ARRAY_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace
                         ARRAY_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson
                         ARRAY_TO_STRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString
+                        STARTS_WITH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
                         UNNEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest
-                        STARTS_WITH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith
 
                         # json specific functions
                         JSON_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg
