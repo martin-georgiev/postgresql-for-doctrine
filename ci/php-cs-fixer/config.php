@@ -2,14 +2,17 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
 $basePath = __DIR__.'/../../';
 
-$finder = PhpCsFixer\Finder::create()
+$finder = Finder::create()
     ->in($basePath.'ci')
     ->in($basePath.'src')
     ->in($basePath.'tests');
 
-$config = new PhpCsFixer\Config();
+$config = new Config();
 
 return $config
     ->setRules(
