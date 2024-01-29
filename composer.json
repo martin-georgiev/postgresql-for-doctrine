@@ -57,8 +57,8 @@
         "symfony/cache": "^6.4||^7.0"
     },
     "conflict": {
-        "doctrine/lexer": "< 1.0 || >= 3.0",
-        "doctrine/orm": "< 2.8 || >= 3.0"
+        "doctrine/lexer": "<1.0||>=3.0",
+        "doctrine/orm": "<2.8||>=3.0"
     },
     "suggest": {
         "php": "^8.3",
