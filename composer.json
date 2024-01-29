@@ -40,11 +40,12 @@
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "doctrine/dbal": "~2.5||~3.0"
+        "doctrine/dbal": "~2.10||~3.0"
     },
     "require-dev": {
         "doctrine/annotations": "^2.0",
-        "doctrine/orm": "~2.5||~3.0",
+        "doctrine/lexer": "~1.0||~2.0",
+        "doctrine/orm": "~2.8||~3.0",
         "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.48.0",
         "php-coveralls/php-coveralls": "^2.7.0",
@@ -55,9 +56,13 @@
         "rector/rector": "^0.19",
         "symfony/cache": "^6.4||^7.0"
     },
+    "conflict": {
+        "doctrine/lexer": "<1.0||>=3.0",
+        "doctrine/orm": "<2.8||>=3.0"
+    },
     "suggest": {
         "php": "^8.3",
-        "doctrine/orm": "~2.5||~3.0"
+        "doctrine/orm": "~2.8||~3.0"
     },
 
     "scripts": {
