@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Request reviews based on configuration
-        uses: necojackarc/auto-request-review@v0.12.0
+        uses: necojackarc/auto-request-review@v0.13.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
