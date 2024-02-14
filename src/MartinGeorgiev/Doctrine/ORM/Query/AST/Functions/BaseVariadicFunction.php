@@ -8,6 +8,7 @@ use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 /**
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -21,18 +22,19 @@ abstract class BaseVariadicFunction extends BaseFunction
         $lexer = $parser->getLexer();
 
         $this->nodes[] = $parser->{$this->commonNodeMapping}();
-        if (!isset($lexer->lookahead['type'])) {
+        if ($lexer->lookahead?->type === null) {
             throw new \RuntimeException('The parser\'s "lookahead" property is not populated with a type');
         }
 
-        $aheadType = $lexer->lookahead['type'];
+        $aheadType = $lexer->lookahead->type;
+        $ormV2 = !\class_exists(TokenType::class);
 
-        while (Lexer::T_CLOSE_PARENTHESIS !== $aheadType) {
-            if (Lexer::T_COMMA === $aheadType) {
-                $parser->match(Lexer::T_COMMA);
+        while (($ormV2 ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $aheadType) {
+            if (($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA) === $aheadType) {
+                $parser->match($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA);
                 $this->nodes[] = $parser->{$this->commonNodeMapping}();
             }
-            $aheadType = $lexer->lookahead['type'];
+            $aheadType = $lexer->lookahead->type;
         }
     }
 

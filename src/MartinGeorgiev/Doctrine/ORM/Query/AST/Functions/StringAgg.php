@@ -9,6 +9,7 @@ use Doctrine\ORM\Query\AST\OrderByClause;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 /**
  * Implementation of PostgreSql STRING_AGG().
@@ -35,26 +36,28 @@ class StringAgg extends BaseFunction
 
     public function parse(Parser $parser): void
     {
+        $ormV2 = !\class_exists(TokenType::class);
+
         $this->customiseFunction();
 
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        $parser->match($ormV2 ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
+        $parser->match($ormV2 ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
 
         $lexer = $parser->getLexer();
-        if ($lexer->isNextToken(Lexer::T_DISTINCT)) {
-            $parser->match(Lexer::T_DISTINCT);
+        if ($lexer->isNextToken($ormV2 ? Lexer::T_DISTINCT : TokenType::T_DISTINCT)) {
+            $parser->match($ormV2 ? Lexer::T_DISTINCT : TokenType::T_DISTINCT);
             $this->isDistinct = true;
         }
 
         $this->expression = $parser->StringPrimary();
-        $parser->match(Lexer::T_COMMA);
+        $parser->match($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA);
         $this->delimiter = $parser->StringPrimary();
 
-        if ($lexer->isNextToken(Lexer::T_ORDER)) {
+        if ($lexer->isNextToken($ormV2 ? Lexer::T_ORDER : TokenType::T_ORDER)) {
             $this->orderByClause = $parser->OrderByClause();
         }
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match($ormV2 ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
     }
 
     public function getSql(SqlWalker $sqlWalker): string
