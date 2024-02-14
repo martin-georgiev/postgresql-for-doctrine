@@ -15,5 +15,8 @@ abstract class Entity
      *
      * @ORM\GeneratedValue
      */
+    #[ORM\Id()]
+    #[ORM\Column(type: 'string')]
+    #[ORM\GeneratedValue()]
     public string $id;
 }
