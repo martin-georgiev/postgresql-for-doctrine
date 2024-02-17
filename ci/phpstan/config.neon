@@ -13,3 +13,6 @@ parameters:
     ignoreErrors:
         - '#Parameter \#1 \$phpArray of method MartinGeorgiev\\Doctrine\\DBAL\\Types\\BaseArray::convertToDatabaseValue\(\) expects array\|null, string given.#'
         - '#Parameter \#1 \$postgresArray of method MartinGeorgiev\\Doctrine\\DBAL\\Types\\BaseArray::convertToPHPValue\(\) expects string\|null, int given.#'
+        - '#Property MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\Cast::\$sourceType \(Doctrine\\ORM\\Query\\AST\\Node\) does not accept Doctrine\\ORM\\Query\\AST\\Node\|string#'
+        - '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
+        - '#Access to constant [A-Z_]+ on an unknown class Doctrine\\ORM\\Query\\TokenType#'
