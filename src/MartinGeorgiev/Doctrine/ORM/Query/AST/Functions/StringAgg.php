@@ -10,6 +10,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
  * Implementation of PostgreSql STRING_AGG().
@@ -36,7 +37,7 @@ class StringAgg extends BaseFunction
 
     public function parse(Parser $parser): void
     {
-        $ormV2 = !\class_exists(TokenType::class);
+        $ormV2 = DoctrineOrm::isPre219();
 
         $this->customiseFunction();
 

@@ -10,6 +10,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
  * @since 0.1
@@ -44,7 +45,7 @@ abstract class BaseFunction extends FunctionNode
 
     public function parse(Parser $parser): void
     {
-        $ormV2 = !\class_exists(TokenType::class);
+        $ormV2 = DoctrineOrm::isPre219();
 
         $this->customiseFunction();
 

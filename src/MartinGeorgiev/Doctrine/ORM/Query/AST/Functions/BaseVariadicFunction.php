@@ -9,6 +9,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -27,7 +28,7 @@ abstract class BaseVariadicFunction extends BaseFunction
         }
 
         $aheadType = $lexer->lookahead->type;
-        $ormV2 = !\class_exists(TokenType::class);
+        $ormV2 = DoctrineOrm::isPre219();
 
         while (($ormV2 ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $aheadType) {
             if (($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA) === $aheadType) {
