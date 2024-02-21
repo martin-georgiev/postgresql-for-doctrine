@@ -45,14 +45,14 @@ abstract class BaseFunction extends FunctionNode
 
     public function parse(Parser $parser): void
     {
-        $ormV2 = DoctrineOrm::isPre219();
+        $shouldUseLexer = DoctrineOrm::isPre219();
 
         $this->customiseFunction();
 
-        $parser->match($ormV2 ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
-        $parser->match($ormV2 ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
+        $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
+        $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
         $this->feedParserWithNodes($parser);
-        $parser->match($ormV2 ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
+        $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
     }
 
     /**

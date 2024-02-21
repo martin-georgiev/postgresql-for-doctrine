@@ -28,11 +28,11 @@ abstract class BaseVariadicFunction extends BaseFunction
         }
 
         $aheadType = $lexer->lookahead->type;
-        $ormV2 = DoctrineOrm::isPre219();
+        $shouldUseLexer = DoctrineOrm::isPre219();
 
-        while (($ormV2 ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $aheadType) {
-            if (($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA) === $aheadType) {
-                $parser->match($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA);
+        while (($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $aheadType) {
+            if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $aheadType) {
+                $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
                 $this->nodes[] = $parser->{$this->commonNodeMapping}();
             }
             $aheadType = $lexer->lookahead->type;

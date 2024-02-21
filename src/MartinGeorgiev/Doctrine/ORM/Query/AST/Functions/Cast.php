@@ -30,13 +30,13 @@ class Cast extends FunctionNode
 
     public function parse(Parser $parser): void
     {
-        $ormV2 = DoctrineOrm::isPre219();
+        $shouldUseLexer = DoctrineOrm::isPre219();
 
-        $parser->match($ormV2 ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
-        $parser->match($ormV2 ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
+        $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
+        $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
         $this->sourceType = $parser->SimpleArithmeticExpression();
-        $parser->match($ormV2 ? Lexer::T_AS : TokenType::T_AS);
-        $parser->match($ormV2 ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
+        $parser->match($shouldUseLexer ? Lexer::T_AS : TokenType::T_AS);
+        $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
 
         $lexer = $parser->getLexer();
         $token = $lexer->token;
@@ -48,24 +48,24 @@ class Cast extends FunctionNode
         }
 
         $type = $token->value;
-        if ($lexer->isNextToken($ormV2 ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS)) {
-            $parser->match($ormV2 ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
+        if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS)) {
+            $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
             $parameters = [$parameter->value];
-            if ($lexer->isNextToken($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA)) {
-                while ($lexer->isNextToken($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA)) {
-                    $parser->match($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA);
+            if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA)) {
+                while ($lexer->isNextToken($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA)) {
+                    $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
                     $parameter = $parser->Literal();
                     $parameters[] = $parameter->value;
                 }
             }
-            $parser->match($ormV2 ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
+            $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
             $type .= '('.\implode(', ', $parameters).')';
         }
 
         $this->targetType = $type;
 
-        $parser->match($ormV2 ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
+        $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
     }
 
     public function getSql(SqlWalker $sqlWalker): string

@@ -37,28 +37,28 @@ class StringAgg extends BaseFunction
 
     public function parse(Parser $parser): void
     {
-        $ormV2 = DoctrineOrm::isPre219();
+        $shouldUseLexer = DoctrineOrm::isPre219();
 
         $this->customiseFunction();
 
-        $parser->match($ormV2 ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
-        $parser->match($ormV2 ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
+        $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
+        $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
 
         $lexer = $parser->getLexer();
-        if ($lexer->isNextToken($ormV2 ? Lexer::T_DISTINCT : TokenType::T_DISTINCT)) {
-            $parser->match($ormV2 ? Lexer::T_DISTINCT : TokenType::T_DISTINCT);
+        if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_DISTINCT : TokenType::T_DISTINCT)) {
+            $parser->match($shouldUseLexer ? Lexer::T_DISTINCT : TokenType::T_DISTINCT);
             $this->isDistinct = true;
         }
 
         $this->expression = $parser->StringPrimary();
-        $parser->match($ormV2 ? Lexer::T_COMMA : TokenType::T_COMMA);
+        $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
         $this->delimiter = $parser->StringPrimary();
 
-        if ($lexer->isNextToken($ormV2 ? Lexer::T_ORDER : TokenType::T_ORDER)) {
+        if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_ORDER : TokenType::T_ORDER)) {
             $this->orderByClause = $parser->OrderByClause();
         }
 
-        $parser->match($ormV2 ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
+        $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
     }
 
     public function getSql(SqlWalker $sqlWalker): string
