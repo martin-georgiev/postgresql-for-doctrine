@@ -43,8 +43,7 @@
         "doctrine/dbal": "~2.10||~3.0"
     },
     "require-dev": {
-        "doctrine/annotations": "^2.0",
-        "doctrine/orm": "~2.8||~3.0",
+        "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.49.0",
         "php-coveralls/php-coveralls": "^2.7.0",
@@ -55,12 +54,9 @@
         "rector/rector": "^1.0.1",
         "symfony/cache": "^6.4||^7.0"
     },
-    "conflict": {
-        "doctrine/orm": "<2.8"
-    },
     "suggest": {
         "php": "^8.3",
-        "doctrine/orm": "~2.8||~3.0"
+        "doctrine/orm": "~2.14||~3.0"
     },
 
     "scripts": {
