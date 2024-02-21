@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   tests:
-    name: "PHP ${{ matrix.php }} + Composer ${{ matrix.composer-flags }}"
+    name: "PHP ${{ matrix.php }} + Doctrine ORM ${{ matrix.doctrine-orm }} + Composer ${{ matrix.composer-flags }}"
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,10 +23,13 @@ jobs:
           - php: '8.3'
             ignore-php-version: true
             calculate-code-coverage: true
+          - doctrine-orm: '2.14'
+          - doctrine-orm: '3.0'
+          - doctrine-orm: 'latest'
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up PHP with PECL extension
       uses: shivammathur/setup-php@v2
       with:
@@ -48,7 +51,14 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install composer dependencies
-      run: composer update --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
+      run: |
+        if [ "${{ matrix.doctrine-orm }}" == "2.14" ]; then
+          composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
+        elif [ "${{ matrix.doctrine-orm }}" == "3.0" ]; then
+          composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
+        else
+          composer update --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
+        fi
 
     - name: Run static analysis
       run: composer run-static-analysis
