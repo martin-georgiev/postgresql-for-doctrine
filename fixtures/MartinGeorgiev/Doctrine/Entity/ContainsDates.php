@@ -6,18 +6,12 @@ namespace Fixtures\MartinGeorgiev\Doctrine\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity()]
 class ContainsDates extends Entity
 {
-    /**
-     * @ORM\Column(type="date_immutable")
-     */
+    #[ORM\Column(type: 'date_immutable')]
     public \DateTimeImmutable $date1;
 
-    /**
-     * @ORM\Column(type="date_immutable")
-     */
+    #[ORM\Column(type: 'date_immutable')]
     public \DateTimeImmutable $date2;
 }
