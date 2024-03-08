@@ -84,7 +84,7 @@ class BooleanArrayTest extends TestCase
     {
         $this->platform->method('convertFromBoolean')
             ->with($this->anything())
-            ->willReturn($this->returnCallback('boolval'));
+            ->willReturnCallback('boolval');
 
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
