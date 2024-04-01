@@ -47,9 +47,9 @@
         "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.52.1",
         "php-coveralls/php-coveralls": "^2.7.0",
-        "phpstan/phpstan": "^1.10.65",
+        "phpstan/phpstan": "^1.10.66",
         "phpstan/phpstan-phpunit": "^1.3.16",
-        "phpunit/phpunit": "^10.5.15",
+        "phpunit/phpunit": "^10.5.16",
         "qossmic/deptrac": "^2.0.0-alpha",
         "rector/rector": "^1.0.3",
         "symfony/cache": "^6.4||^7.0"
