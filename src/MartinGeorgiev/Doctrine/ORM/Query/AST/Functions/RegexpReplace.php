@@ -10,7 +10,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @see https://www.postgresql.org/docs/15/functions-matching.html#FUNCTIONS-POSIX-REGEXP
  * @since 2.5.0
  *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
+ * @author Colin Doig
  */
 class RegexpReplace extends BaseFunction
 {
