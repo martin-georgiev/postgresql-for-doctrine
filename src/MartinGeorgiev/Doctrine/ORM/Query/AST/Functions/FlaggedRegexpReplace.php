@@ -12,11 +12,12 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class RegexpReplace extends BaseFunction
+class FlaggedRegexpReplace extends BaseFunction
 {
     protected function customiseFunction(): void
     {
-        $this->setFunctionPrototype('regexp_replace(%s, %s, %s)');
+        $this->setFunctionPrototype('regexp_replace(%s, %s, %s, %s)');
+        $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
