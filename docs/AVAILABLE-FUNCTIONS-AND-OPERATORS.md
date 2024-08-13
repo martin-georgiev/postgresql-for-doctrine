@@ -1,27 +1,28 @@
 # Available operators
 
-| PostgreSQL operator | Register for DQL as | Implemented by
-|---|---|---|
-| @> | CONTAINS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains` |
-| <@ | IS_CONTAINED_BY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy` |
-| && | OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps` |
-| ? | RIGHT_EXISTS_ON_LEFT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TheRightExistsOnTheLeft` |
-| ?& | ALL_ON_RIGHT_EXIST_ON_LEFT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AllOnTheRightExistOnTheLeft` |
-| ?\| | ANY_ON_RIGHT_EXISTS_ON_LEFT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyOnTheRightExistsOnTheLeft` |
-| @? | RETURNS_VALUE_FOR_JSON_VALUE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReturnsValueForJsonValue` |
-| #- | DELETE_AT_PATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath` |
-| -> | JSON_GET_FIELD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField` |
-| ->> | JSON_GET_FIELD_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText`|
-| #> | JSON_GET_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject` |
-| #>> | JSON_GET_OBJECT_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText` |
-| ilike | ILIKE ([Usage note](USE-CASES-AND-EXAMPLES.md)) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike` |
-| similar to | SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo` |
-| not similar to | NOT_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo` |
-| ~ | REGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp` |
-| ~* | IREGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp` |
-| !~ | NOT_REGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp` |
-| !~* | NOT_IREGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp` |
-| @@ | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` |
+| PostgreSQL operator | Register for DQL as                             | Implemented by                                                                  |
+|---------------------|-------------------------------------------------|---------------------------------------------------------------------------------|
+| @>                  | CONTAINS                                        | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains`                      |
+| <@                  | IS_CONTAINED_BY                                 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy`                 |
+| &&                  | OVERLAPS                                        | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps`                      |
+| ?                   | RIGHT_EXISTS_ON_LEFT                            | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TheRightExistsOnTheLeft`       |
+| ?&                  | ALL_ON_RIGHT_EXIST_ON_LEFT                      | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AllOnTheRightExistOnTheLeft`   |
+| ?\|                 | ANY_ON_RIGHT_EXISTS_ON_LEFT                     | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyOnTheRightExistsOnTheLeft`  |
+| @?                  | RETURNS_VALUE_FOR_JSON_VALUE                    | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReturnsValueForJsonValue`      |
+| #-                  | DELETE_AT_PATH                                  | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath`                  |
+| ->                  | JSON_GET_FIELD                                  | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField`                  |
+| ->>                 | JSON_GET_FIELD_AS_TEXT                          | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText`            |
+| #>                  | JSON_GET_OBJECT                                 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject`                 |
+| #>>                 | JSON_GET_OBJECT_AS_TEXT                         | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText`           |
+| ilike               | ILIKE ([Usage note](USE-CASES-AND-EXAMPLES.md)) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike`                         |
+| similar to          | SIMILAR_TO                                      | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo`                     |
+| not similar to      | NOT_SIMILAR_TO                                  | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo`                  |
+| ~                   | REGEXP                                          | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp`                        |
+| ~*                  | IREGEXP                                         | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp`                       |
+| !~                  | NOT_REGEXP                                      | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp`                     |
+| !~*                 | NOT_IREGEXP                                     | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp`                    |
+| @@                  | TSMATCH                                         | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch`                       |
+| \|\|                | STRCONCAT                                       | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat`                     |
 
 # Available functions
 
