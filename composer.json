@@ -49,7 +49,7 @@
         "php-coveralls/php-coveralls": "^2.7.0",
         "phpstan/phpstan": "^1.11.10",
         "phpstan/phpstan-phpunit": "^1.4.0",
-        "phpunit/phpunit": "^10.5.29",
+        "phpunit/phpunit": "^10.5.30",
         "qossmic/deptrac": "^2.0.0-alpha",
         "rector/rector": "^1.2.3",
         "symfony/cache": "^6.4||^7.0"
