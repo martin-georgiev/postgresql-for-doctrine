@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL string concatenation (using ||).
+ * Implementation of PostgreSQL's string concatenation operator (using `||`).
  *
- * @see https://www.postgresql.org/docs/current/functions-string.html
+ * @see https://www.postgresql.org/docs/15/functions-string.html
  * @since 2.6.0
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
