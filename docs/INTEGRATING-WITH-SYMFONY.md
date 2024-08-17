@@ -154,4 +154,5 @@ doctrine:
                         REGEXP_LIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike
                         FLAGGED_REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch
                         REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch
+                        STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
 ```
