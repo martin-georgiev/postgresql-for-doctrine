@@ -47,11 +47,11 @@
         "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.62.0",
         "php-coveralls/php-coveralls": "^2.7.0",
-        "phpstan/phpstan": "^1.11.10",
+        "phpstan/phpstan": "^1.11.11",
         "phpstan/phpstan-phpunit": "^1.4.0",
         "phpunit/phpunit": "^10.5.30",
         "qossmic/deptrac": "^2.0.0-alpha",
-        "rector/rector": "^1.2.3",
+        "rector/rector": "^1.2.4",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
