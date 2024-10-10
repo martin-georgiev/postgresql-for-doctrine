@@ -99,6 +99,7 @@ return [
         'ARRAY_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class,
         'ARRAY_TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson::class,
         'ARRAY_TO_STRING' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString::class,
+        'SPLIT_PART' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class,
         'STARTS_WITH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class,
         'STRING_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class,
         'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
