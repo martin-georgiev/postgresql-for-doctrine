@@ -1,14 +1,14 @@
 reviewers:
   defaults:
-    - code-owners
+    - repository-owners
 
   groups:
-    code-owners:
+    repository-owners:
       - martin-georgiev
 
 files:
   '**':
-    - code-owners
+    - repository-owners
 
 options:
   ignore_draft: true
