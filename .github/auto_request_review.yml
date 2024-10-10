@@ -1,0 +1,14 @@
+reviewers:
+  defaults:
+    - code-owners
+
+  groups:
+    code-owners:
+      - martin-georgiev
+
+files:
+  '**':
+    - code-owners
+
+options:
+  ignore_draft: true
