@@ -18,6 +18,6 @@ class ArrayLength extends BaseFunction
     {
         $this->setFunctionPrototype('array_length(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

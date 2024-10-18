@@ -18,6 +18,6 @@ class ArrayRemove extends BaseFunction
     {
         $this->setFunctionPrototype('array_remove(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }
