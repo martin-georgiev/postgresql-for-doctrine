@@ -21,7 +21,7 @@ class ArrayReplaceTest extends TestCase
         return [
             'SELECT array_replace(c0_.array1, 1939, 1957) AS sclr_0 FROM ContainsArrays c0_',
             "SELECT array_replace(c0_.array1, 'green', 'mint') AS sclr_0 FROM ContainsArrays c0_",
-            'SELECT array_replace(c0_.array1, 'green', ?) AS sclr_0 FROM ContainsArrays c0_',
+            "SELECT array_replace(c0_.array1, 'green', ?) AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
@@ -30,7 +30,7 @@ class ArrayReplaceTest extends TestCase
         return [
             \sprintf('SELECT ARRAY_REPLACE(e.array1, 1939, 1957) FROM %s e', ContainsArrays::class),
             \sprintf("SELECT ARRAY_REPLACE(e.array1, 'green', 'mint') FROM %s e", ContainsArrays::class),
-            \sprintf('SELECT ARRAY_REPLACE(e.array1, 'green', :dql_parameter) FROM %s e', ContainsArrays::class),
+            \sprintf("SELECT ARRAY_REPLACE(e.array1, 'green', :dql_parameter) FROM %s e", ContainsArrays::class),
         ];
     }
 }
