@@ -21,7 +21,7 @@ class ArrayRemoveTest extends TestCase
         return [
             'SELECT array_remove(c0_.array1, 1944) AS sclr_0 FROM ContainsArrays c0_',
             "SELECT array_remove(c0_.array1, 'peach') AS sclr_0 FROM ContainsArrays c0_",
-            "SELECT array_remove(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_",
+            'SELECT array_remove(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
@@ -30,7 +30,7 @@ class ArrayRemoveTest extends TestCase
         return [
             \sprintf('SELECT ARRAY_REMOVE(e.array1, 1944) FROM %s e', ContainsArrays::class),
             \sprintf("SELECT ARRAY_REMOVE(e.array1, 'peach') FROM %s e", ContainsArrays::class),
-            \sprintf("SELECT ARRAY_REMOVE(e.array1, :dql_parameter) FROM %s e", ContainsArrays::class),
+            \sprintf('SELECT ARRAY_REMOVE(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
         ];
     }
 }
