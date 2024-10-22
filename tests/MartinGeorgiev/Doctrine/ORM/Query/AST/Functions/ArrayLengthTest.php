@@ -20,6 +20,7 @@ class ArrayLengthTest extends TestCase
     {
         return [
             'SELECT array_length(c0_.array1, 1) AS sclr_0 FROM ContainsArrays c0_',
+            'SELECT array_length(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ class ArrayLengthTest extends TestCase
     {
         return [
             \sprintf('SELECT ARRAY_LENGTH(e.array1, 1) FROM %s e', ContainsArrays::class),
+            \sprintf('SELECT ARRAY_LENGTH(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
         ];
     }
 }

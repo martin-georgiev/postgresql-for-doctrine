@@ -18,6 +18,6 @@ class ArrayAppend extends BaseFunction
     {
         $this->setFunctionPrototype('array_append(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }
