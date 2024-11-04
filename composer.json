@@ -49,9 +49,9 @@
         "php-coveralls/php-coveralls": "^2.7.0",
         "phpstan/phpstan": "^1.12.7",
         "phpstan/phpstan-phpunit": "^1.4.0",
-        "phpunit/phpunit": "^10.5.36",
+        "phpunit/phpunit": "^10.5.38",
         "qossmic/deptrac": "^2.0.0-alpha",
-        "rector/rector": "^1.2.8",
+        "rector/rector": "^1.2.9",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
