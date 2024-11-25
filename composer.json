@@ -50,7 +50,7 @@
         "phpstan/phpstan": "^1.12.11",
         "phpstan/phpstan-phpunit": "^1.4.1",
         "phpunit/phpunit": "^10.5.38",
-        "qossmic/deptrac": "^2.0.0-alpha",
+        "qossmic/deptrac": "^2.0.4",
         "rector/rector": "^1.2.10",
         "symfony/cache": "^6.4||^7.0"
     },
