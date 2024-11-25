@@ -36,7 +36,7 @@
     },
 
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -55,7 +55,7 @@
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
-        "php": "^8.3",
+        "php": "^8.4",
         "doctrine/orm": "~2.14||~3.0"
     },
 
