@@ -75,6 +75,7 @@
 | regexp_match (with no flags) | REGEXP_MATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch` |
 | regexp_replace (with flags) | FLAGGED_REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpReplace` |
 | regexp_replace (with no flags) | REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace` |
+| row | ROW | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row` |
 | row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
 | split_part | SPLIT_PART | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart` |
 | starts_with | STARTS_WITH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith` |
