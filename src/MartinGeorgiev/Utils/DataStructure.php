@@ -26,7 +26,7 @@ class DataStructure
                 throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
             }
 
-            $phpArray = \str_getcsv(\trim($textArrayToTransform, '{}'), escape: '');
+            $phpArray = \str_getcsv(\trim($textArrayToTransform, '{}'), escape: '\\');
             foreach ($phpArray as $i => $text) {
                 if ($text === null) {
                     unset($phpArray[$i]);
