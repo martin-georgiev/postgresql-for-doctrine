@@ -21,6 +21,7 @@ class ArrayAppendTest extends TestCase
         return [
             'SELECT array_append(c0_.array1, 1989) AS sclr_0 FROM ContainsArrays c0_',
             "SELECT array_append(c0_.array1, 'country') AS sclr_0 FROM ContainsArrays c0_",
+            'SELECT array_append(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
@@ -29,6 +30,7 @@ class ArrayAppendTest extends TestCase
         return [
             \sprintf('SELECT ARRAY_APPEND(e.array1, 1989) FROM %s e', ContainsArrays::class),
             \sprintf("SELECT ARRAY_APPEND(e.array1, 'country') FROM %s e", ContainsArrays::class),
+            \sprintf('SELECT ARRAY_APPEND(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
         ];
     }
 }

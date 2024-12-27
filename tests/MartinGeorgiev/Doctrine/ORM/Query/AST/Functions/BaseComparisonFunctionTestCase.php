@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\Lexer;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Parser;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
 
-abstract class BaseComparisonFunctionTest extends TestCase
+abstract class BaseComparisonFunctionTestCase extends TestCase
 {
     abstract protected function createFixture(): BaseComparisonFunction;
 
@@ -20,14 +22,16 @@ abstract class BaseComparisonFunctionTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('The parser\'s "lookahead" property is not populated with a type');
 
-        $lexer = $this->createMock(Lexer::class);
-        $lexer->lookahead = null;
+        $em = $this->createMock(EntityManager::class);
+        $em->expects($this->any())
+            ->method('getConfiguration')
+            ->willReturn(new Configuration());
 
-        $parser = $this->createMock(Parser::class);
-        $parser
-            ->expects($this->once())
-            ->method('getLexer')
-            ->willReturn($lexer);
+        $query = new Query($em);
+        $query->setDQL('TRUE');
+
+        $parser = new Parser($query);
+        $parser->getLexer()->moveNext();
 
         $this->createFixture()->feedParserWithNodes($parser);
     }

@@ -6,20 +6,20 @@ deptrac:
   layers:
     - name: Functions
       collectors:
-        - type: className
-          regex: \\MartinGeorgiev\\Doctrine\\ORM\\AST\\Functions\\.*
+        - type: class
+          value: \\MartinGeorgiev\\Doctrine\\ORM\\AST\\Functions\\.*
     - name: Types
       collectors:
-        - type: className
-          regex: \\MartinGeorgiev\\Doctrine\\DBAL\\Types\\.*
+        - type: class
+          value: \\MartinGeorgiev\\Doctrine\\DBAL\\Types\\.*
     - name: Utils
       collectors:
-        - type: className
-          regex: \\MartinGeorgiev\\Utils\\.*
+        - type: class
+          value: \\MartinGeorgiev\\Utils\\.*
     - name: Tests
       collectors:
-        - type: className
-          regex: \\Tests\\MartinGeorgiev\\.*
+        - type: class
+          value: \\Tests\\MartinGeorgiev\\.*
 
   ruleset:
     Functions:
