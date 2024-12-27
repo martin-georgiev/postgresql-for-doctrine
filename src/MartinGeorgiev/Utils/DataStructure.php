@@ -34,20 +34,6 @@ class DataStructure
                     break;
                 }
 
-                $isInteger = \is_numeric($text) && ''.(int) $text === $text;
-                if ($isInteger) {
-                    $phpArray[$i] = (int) $text;
-
-                    continue;
-                }
-
-                $isFloat = \is_numeric($text) && ''.(float) $text === $text;
-                if ($isFloat) {
-                    $phpArray[$i] = (float) $text;
-
-                    continue;
-                }
-
                 if (!\is_string($text)) {
                     $exceptionMessage = 'Unsupported data type encountered. Expected null, integer, float or string value. Instead it is "%s".';
 
