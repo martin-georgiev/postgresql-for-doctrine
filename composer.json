@@ -45,9 +45,9 @@
     "require-dev": {
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^1.0",
-        "friendsofphp/php-cs-fixer": "^3.69.0",
+        "friendsofphp/php-cs-fixer": "^3.70.2",
         "php-coveralls/php-coveralls": "^2.7.0",
-        "phpstan/phpstan": "^1.12.18",
+        "phpstan/phpstan": "^1.12.20",
         "phpstan/phpstan-phpunit": "^1.4.2",
         "phpunit/phpunit": "^10.5.45",
         "qossmic/deptrac": "^2.0.4",
