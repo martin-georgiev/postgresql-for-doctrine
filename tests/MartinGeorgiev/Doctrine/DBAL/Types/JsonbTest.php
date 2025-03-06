@@ -26,6 +26,34 @@ class JsonbTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function has_name(): void
+    {
+        $this->assertEquals('jsonb', $this->fixture->getName());
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideValidTransformations
+     */
+    public function can_transform_from_php_value(null|array|bool|float|int|string $phpValue, ?string $postgresValue): void
+    {
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideValidTransformations
+     */
+    public function can_transform_to_php_value(null|array|bool|float|int|string $phpValue, ?string $postgresValue): void
+    {
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
      * @return list<array{
      *     phpValue: null|array|bool|float|int|string,
      *     postgresValue: string|null
@@ -73,33 +101,5 @@ class JsonbTest extends TestCase
                 'postgresValue' => '{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]}',
             ],
         ];
-    }
-
-    /**
-     * @test
-     */
-    public function has_name(): void
-    {
-        $this->assertEquals('jsonb', $this->fixture->getName());
-    }
-
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
-    public function can_transform_from_php_value(null|array|bool|float|int|string $phpValue, ?string $postgresValue): void
-    {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
-    }
-
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
-    public function can_transform_to_php_value(null|array|bool|float|int|string $phpValue, ?string $postgresValue): void
-    {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }
