@@ -26,34 +26,6 @@ class BooleanArrayTest extends TestCase
     }
 
     /**
-     * @return list<array{
-     *     phpValue: array|null,
-     *     postgresValue: string|null,
-     *     platformValue: array|null
-     * }>
-     */
-    public static function provideValidTransformations(): array
-    {
-        return [
-            [
-                'phpValue' => null,
-                'postgresValue' => null,
-                'platformValue' => null,
-            ],
-            [
-                'phpValue' => [],
-                'postgresValue' => '{}',
-                'platformValue' => [],
-            ],
-            [
-                'phpValue' => [true, false, true],
-                'postgresValue' => '{1,0,1}',
-                'platformValue' => ['1', '0', '1'],
-            ],
-        ];
-    }
-
-    /**
      * @test
      */
     public function has_name(): void
@@ -87,5 +59,33 @@ class BooleanArrayTest extends TestCase
             ->willReturnCallback('boolval');
 
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null,
+     *     platformValue: array|null
+     * }>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return [
+            [
+                'phpValue' => null,
+                'postgresValue' => null,
+                'platformValue' => null,
+            ],
+            [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+                'platformValue' => [],
+            ],
+            [
+                'phpValue' => [true, false, true],
+                'postgresValue' => '{1,0,1}',
+                'platformValue' => ['1', '0', '1'],
+            ],
+        ];
     }
 }
