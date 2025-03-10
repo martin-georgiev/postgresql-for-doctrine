@@ -33,30 +33,6 @@ class BaseArrayTest extends TestCase
     }
 
     /**
-     * @return list<array{
-     *     phpValue: array|null,
-     *     postgresValue: string|null
-     * }>
-     */
-    public static function provideValidTransformations(): array
-    {
-        return [
-            [
-                'phpValue' => null,
-                'postgresValue' => null,
-            ],
-            [
-                'phpValue' => [],
-                'postgresValue' => '{}',
-            ],
-            [
-                'phpValue' => [681, 1185, 1878, 1989],
-                'postgresValue' => '{681,1185,1878,1989}',
-            ],
-        ];
-    }
-
-    /**
      * @test
      *
      * @dataProvider provideValidTransformations
@@ -78,6 +54,30 @@ class BaseArrayTest extends TestCase
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return [
+            [
+                'phpValue' => null,
+                'postgresValue' => null,
+            ],
+            [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
+            [
+                'phpValue' => [681, 1185, 1878, 1989],
+                'postgresValue' => '{681,1185,1878,1989}',
+            ],
+        ];
     }
 
     /**
