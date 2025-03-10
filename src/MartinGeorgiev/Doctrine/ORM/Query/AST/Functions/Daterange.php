@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSql DATERANGE().
  *
- * @see https://www.postgresql.org/docs/17/functions-range.html
+ * @see https://www.postgresql.org/docs/17/rangetypes.html
  * @since 2.9.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
