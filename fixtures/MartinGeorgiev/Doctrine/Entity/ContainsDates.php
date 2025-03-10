@@ -14,4 +14,16 @@ class ContainsDates extends Entity
 
     #[ORM\Column(type: 'date_immutable')]
     public \DateTimeImmutable $date2;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    public \DateTimeImmutable $datetime1;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    public \DateTimeImmutable $datetime2;
+
+    #[ORM\Column(type: 'datetimetz_immutable')]
+    public \DateTimeImmutable $datetimetz1;
+
+    #[ORM\Column(type: 'datetimetz_immutable')]
+    public \DateTimeImmutable $datetimetz2;
 }

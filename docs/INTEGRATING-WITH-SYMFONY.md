@@ -9,7 +9,7 @@ Full set of the available types can be found [here](AVAILABLE-TYPES.md).
 # Usually part of config.yml
 doctrine:
     dbal:
-        types: # register the new types\JsonbArray
+        types: # register the new types
             bool[]: MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray
             smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
             integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
@@ -140,7 +140,15 @@ doctrine:
                         # date specific functions
                         DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
                         DATE_EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract
-                        
+
+                        # range functions
+                        DATERANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange
+                        INT4RANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range
+                        INT8RANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range
+                        NUMRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange
+                        TSRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange
+                        TSTZRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange
+
                         # other operators
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
                         ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
