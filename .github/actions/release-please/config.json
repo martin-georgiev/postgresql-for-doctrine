@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "changelog-sections": [
+    { "type": "build", "section": "Build System", "hidden": true },
+    { "type": "chore", "section": "Miscellaneous Chores", "hidden": true },
+    { "type": "ci", "section": "Continuous Integration", "hidden": true },
+    { "type": "docs", "section": "Documentation", "hidden": true },
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance Improvements" },
+    { "type": "refactor", "section": "Code Refactoring" },
+    { "type": "revert", "section": "Reverts" },
+    { "type": "style", "section": "Styles", "hidden": true },
+    { "type": "test", "section": "Tests", "hidden": true }
+  ],
+  "plugins": [
+    {
+      "type": "sentence-case"
+    }
+  ],
+  "initial-version": "2.8.0",
+  "include-v-in-tag": true,
+  "include-component-in-tag": false,
+  "release-type": "simple",
+  "pull-request-title-pattern": "chore: release ${version}",
+  "pull-request-header": "I have created a release PR for this version",
+  "packages": {
+    ".": {}
+  }
+}
