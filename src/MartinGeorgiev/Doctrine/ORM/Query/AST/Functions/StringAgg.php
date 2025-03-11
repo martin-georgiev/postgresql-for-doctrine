@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Node;
-use Doctrine\ORM\Query\AST\OrderByClause;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
@@ -20,45 +19,31 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class StringAgg extends BaseFunction
+class StringAgg extends BaseOrderableFunction
 {
     private bool $isDistinct = false;
-
-    private Node $expression;
-
     private Node $delimiter;
-
-    private OrderByClause $orderByClause;
 
     protected function customiseFunction(): void
     {
         $this->setFunctionPrototype('string_agg(%s%s, %s%s)');
     }
 
-    public function parse(Parser $parser): void
+    protected function parseFunction(Parser $parser): void
     {
         $shouldUseLexer = DoctrineOrm::isPre219();
-
-        $this->customiseFunction();
-
-        $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
-        $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
-
         $lexer = $parser->getLexer();
+
         if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_DISTINCT : TokenType::T_DISTINCT)) {
             $parser->match($shouldUseLexer ? Lexer::T_DISTINCT : TokenType::T_DISTINCT);
             $this->isDistinct = true;
         }
 
         $this->expression = $parser->StringPrimary();
+
         $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
+
         $this->delimiter = $parser->StringPrimary();
-
-        if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_ORDER : TokenType::T_ORDER)) {
-            $this->orderByClause = $parser->OrderByClause();
-        }
-
-        $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
     }
 
     public function getSql(SqlWalker $sqlWalker): string
@@ -67,7 +52,7 @@ class StringAgg extends BaseFunction
             $this->isDistinct ? 'distinct ' : '',
             $this->expression->dispatch($sqlWalker),
             $this->delimiter->dispatch($sqlWalker),
-            isset($this->orderByClause) ? $this->orderByClause->dispatch($sqlWalker) : '',
+            $this->getOptionalOrderByClause($sqlWalker),
         ];
 
         return \vsprintf($this->functionPrototype, $dispatched);
