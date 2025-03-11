@@ -49,7 +49,7 @@ class StringAgg extends BaseOrderableFunction
     public function getSql(SqlWalker $sqlWalker): string
     {
         $dispatched = [
-            $this->isDistinct ? 'distinct ' : '',
+            $this->isDistinct ? 'DISTINCT ' : '',
             $this->expression->dispatch($sqlWalker),
             $this->delimiter->dispatch($sqlWalker),
             $this->getOptionalOrderByClause($sqlWalker),
