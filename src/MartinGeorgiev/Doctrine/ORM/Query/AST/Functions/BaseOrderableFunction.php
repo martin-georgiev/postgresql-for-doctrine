@@ -40,6 +40,6 @@ abstract class BaseOrderableFunction extends BaseFunction
 
     protected function getOptionalOrderByClause(SqlWalker $sqlWalker): string
     {
-        return isset($this->orderByClause) ? $this->orderByClause->dispatch($sqlWalker) : '';
+        return $this->orderByClause instanceof OrderByClause ? $this->orderByClause->dispatch($sqlWalker) : '';
     }
 }
