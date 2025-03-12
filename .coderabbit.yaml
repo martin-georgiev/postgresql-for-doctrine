@@ -12,7 +12,7 @@ reviews:
   high_level_summary: true
   path_instructions:
     - path: "tests/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/**/*.php"
-      instructions: "Use the online PotgsreSQL's official documentation to check that the tests have comprehensive use-cases and example SQL queries for the tested SQL functions and operators."
+      instructions: "Use the online PostgreSQL's official documentation to check that the tests have comprehensive use-cases and example SQL queries for the tested SQL functions and operators."
   poem: true
   profile: "chill"
   request_changes_workflow: true
