@@ -1,7 +1,7 @@
+early_access: true
+language: "en-US"
 chat:
   auto_reply: true
-  early_access: true
-  language: "en-US"
 reviews:
   auto_review:
     base_branches: ["main"]
