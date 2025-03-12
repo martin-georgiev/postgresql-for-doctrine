@@ -17,3 +17,22 @@ SELECT e
 FROM EmailEntity e
 WHERE ILIKE(e.subject, 'Test email') = TRUE
 ```
+
+Using JSON_BUILD_OBJECT and JSONB_BUILD_OBJECT
+---
+
+These functions currently only support string literals and object references as arguments. Here are some valid examples:
+
+```sql
+-- Basic usage with string literals and entity properties
+SELECT JSON_BUILD_OBJECT('name', e.userName, 'email', e.userEmail) FROM User e
+
+-- Multiple key-value pairs
+SELECT JSONB_BUILD_OBJECT('id', e.id, 'status', 'active', 'type', e.userType) FROM Employee e
+
+-- Invalid usage (will not work):
+SELECT JSON_BUILD_OBJECT('count', COUNT(*))  -- Aggregate functions not supported
+SELECT JSONB_BUILD_OBJECT('number', 123)     -- All number types, NULL and boolean values not supported currently
+```
+
+Note: Keys must always be string literals, while values can be either string literals or object property references.
