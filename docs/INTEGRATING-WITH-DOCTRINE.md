@@ -32,6 +32,10 @@ use Doctrine\ORM\Configuration;
 
 $configuration = new Configuration();
 
+# Register json functions
+$configuration->addCustomStringFunction('JSON_BUILD_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class);
+$configuration->addCustomStringFunction('JSONB_BUILD_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject::class);
+
 # Register text search functions
 $configuration->addCustomStringFunction('TO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery::class);
 $configuration->addCustomStringFunction('TO_TSVECTOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector::class);
