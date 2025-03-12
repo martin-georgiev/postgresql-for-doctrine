@@ -27,9 +27,6 @@ reviews:
       enabled: true
     markdownlint:
       enabled: true
-    php-cs-fixer:
-      enabled: true
-      config_path: "ci/php-cs-fixer/config.php"
     phpstan:
       enabled: true
       config_path: "ci/phpstan/config.neon"
