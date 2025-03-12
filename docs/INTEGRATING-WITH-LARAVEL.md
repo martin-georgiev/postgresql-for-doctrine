@@ -108,6 +108,9 @@ return [
         # json specific functions
         'JSON_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class,
         'JSON_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class,
+        'JSON_BUILD_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class,
+        'JSON_EACH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach::class,
+        'JSON_EACH_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText::class,
         'JSON_GET_FIELD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField::class,
         'JSON_GET_FIELD_AS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText::class,
         'JSON_GET_FIELD_AS_INTEGER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger::class,
@@ -124,6 +127,7 @@ return [
         'JSONB_ARRAY_ELEMENTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements::class,
         'JSONB_ARRAY_ELEMENTS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText::class,
         'JSONB_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength::class,
+        'JSONB_BUILD_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject::class,
         'JSONB_EACH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach::class,
         'JSONB_EACH_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText::class,
         'JSONB_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists::class,
@@ -141,9 +145,17 @@ return [
         'TO_TSVECTOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector::class,
         'TSMATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch::class,
 
-        # Date specific functions
+        # date specific functions
         'DATE_OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class,
         'DATE_EXTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class,
+
+        # range functions
+        'DATERANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class,
+        'INT4RANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range::class,
+        'INT8RANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range::class,
+        'NUMRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class,
+        'TSRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class,
+        'TSTZRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class,
 
         # other operators
         'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,

@@ -21,6 +21,7 @@ jobs:
           - php: '8.1'
           - php: '8.2'
           - php: '8.3'
+          - php: '8.4'
             ignore-php-version: true
             calculate-code-coverage: true
           - doctrine-orm: '2.14'
@@ -33,7 +34,7 @@ jobs:
     - name: Set up PHP with PECL extension
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php || '8.3' }}
+        php-version: ${{ matrix.php || '8.4' }}
         coverage: xdebug
         extensions: ctype, json, mbstring
         tools: composer

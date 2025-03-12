@@ -21,6 +21,7 @@ class ArrayPrependTest extends TestCase
         return [
             'SELECT array_prepend(1885, c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
             "SELECT array_prepend('red', c0_.array1) AS sclr_0 FROM ContainsArrays c0_",
+            'SELECT array_prepend(?, c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
@@ -29,6 +30,7 @@ class ArrayPrependTest extends TestCase
         return [
             \sprintf('SELECT ARRAY_PREPEND(1885, e.array1) FROM %s e', ContainsArrays::class),
             \sprintf("SELECT ARRAY_PREPEND('red', e.array1) FROM %s e", ContainsArrays::class),
+            \sprintf('SELECT ARRAY_PREPEND(:dql_parameter, e.array1) FROM %s e', ContainsArrays::class),
         ];
     }
 }

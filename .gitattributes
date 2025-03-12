@@ -1,3 +1,4 @@
+/.github            export-ignore
 /ci                 export-ignore
 /docs               export-ignore
 /fixtures           export-ignore

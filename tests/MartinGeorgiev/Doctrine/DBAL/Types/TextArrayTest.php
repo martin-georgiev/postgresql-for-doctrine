@@ -26,6 +26,34 @@ class TextArrayTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function has_name(): void
+    {
+        $this->assertEquals('text[]', $this->fixture->getName());
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideValidTransformations
+     */
+    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    {
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideValidTransformations
+     */
+    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    {
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
      * @return list<array{
      *     phpValue: array|null,
      *     postgresValue: string|null
@@ -60,33 +88,5 @@ END,
 END,
             ],
         ];
-    }
-
-    /**
-     * @test
-     */
-    public function has_name(): void
-    {
-        $this->assertEquals('text[]', $this->fixture->getName());
-    }
-
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
-    {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
-    }
-
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
-    {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }

@@ -45,13 +45,13 @@
     "require-dev": {
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^1.0",
-        "friendsofphp/php-cs-fixer": "^3.64.0",
+        "friendsofphp/php-cs-fixer": "^3.71.0",
         "php-coveralls/php-coveralls": "^2.7.0",
-        "phpstan/phpstan": "^1.12.5",
-        "phpstan/phpstan-phpunit": "^1.4.0",
-        "phpunit/phpunit": "^10.5.35",
-        "qossmic/deptrac": "^2.0.0-alpha",
-        "rector/rector": "^1.2.6",
+        "phpstan/phpstan": "^1.12.21",
+        "phpstan/phpstan-phpunit": "^1.4.2",
+        "phpunit/phpunit": "^10.5.45",
+        "qossmic/deptrac": "^2.0.4",
+        "rector/rector": "^1.2.10",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
