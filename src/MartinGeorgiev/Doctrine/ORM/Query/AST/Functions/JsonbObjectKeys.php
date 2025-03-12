@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql JSONB_OBJECT_KEYS().
+ * Implementation of PostgreSQL JSONB_OBJECT_KEYS().
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-json.html
  * @since 0.1
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class JsonbObjectKeys extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('jsonb_object_keys(%s)');
         $this->addNodeMapping('StringPrimary');

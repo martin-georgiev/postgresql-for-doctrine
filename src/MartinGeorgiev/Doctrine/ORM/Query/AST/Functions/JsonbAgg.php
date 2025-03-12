@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql JSONB_AGG().
+ * Implementation of PostgreSQL JSONB_AGG().
  *
  * @see https://www.postgresql.org/docs/9.5/functions-aggregate.html
  * @since 1.4
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class JsonbAgg extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('jsonb_agg(%s)');
         $this->addNodeMapping('StringPrimary');

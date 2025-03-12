@@ -8,7 +8,7 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
- * Implementation of PostgreSql ARRAY_AGG().
+ * Implementation of PostgreSQL ARRAY_AGG().
  *
  * @see https://www.postgresql.org/docs/17/functions-aggregate.html
  * @since 1.4
@@ -17,7 +17,7 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 class ArrayAgg extends BaseOrderableFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('array_agg(%s%s)');
     }

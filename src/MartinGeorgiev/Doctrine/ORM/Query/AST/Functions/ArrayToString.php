@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql ARRAY_TO_STRING().
+ * Implementation of PostgreSQL ARRAY_TO_STRING().
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-array.html
  * @since 0.1
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class ArrayToString extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('array_to_string(%s, %s)');
         $this->addNodeMapping('StringPrimary');

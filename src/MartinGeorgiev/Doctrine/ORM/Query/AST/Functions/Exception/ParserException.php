@@ -8,6 +8,6 @@ class ParserException extends \RuntimeException
 {
     public static function missingLookaheadType(): self
     {
-        return new self('The parser\'s "lookahead" property is not populated with a type');
+        return new self("The parser's 'lookahead' property is not populated with a type");
     }
 }

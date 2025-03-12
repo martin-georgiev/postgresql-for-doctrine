@@ -21,7 +21,7 @@ abstract class BaseOrderableFunction extends BaseFunction
     {
         $shouldUseLexer = DoctrineOrm::isPre219();
 
-        $this->customiseFunction();
+        $this->customizeFunction();
 
         $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
         $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);

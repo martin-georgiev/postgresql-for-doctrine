@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql ARRAY_NDIMS().
+ * Implementation of PostgreSQL ARRAY_NDIMS().
  *
  * @see http://www.postgresql.org/docs/9.6/static/functions-array.html
  * @since 0.10
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class ArrayNumberOfDimensions extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('array_ndims(%s)');
         $this->addNodeMapping('StringPrimary');

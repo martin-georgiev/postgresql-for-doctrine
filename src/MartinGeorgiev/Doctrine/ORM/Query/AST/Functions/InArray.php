@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql STRING_TO_ARRAY().
+ * Implementation of PostgreSQL STRING_TO_ARRAY().
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-array.html
  * @since 0.4
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class InArray extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('%s = ANY(%s)');
         $this->addNodeMapping('InputParameter');

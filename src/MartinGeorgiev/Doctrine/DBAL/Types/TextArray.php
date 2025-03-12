@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Utils\DataStructure;
 
 /**
- * Implementation of PostgreSql TEXT[] data type.
+ * Implementation of PostgreSQL TEXT[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.6

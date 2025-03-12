@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
- * Implementation of PostgreSql BIGINT[] data type.
+ * Implementation of PostgreSQL BIGINT[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.1

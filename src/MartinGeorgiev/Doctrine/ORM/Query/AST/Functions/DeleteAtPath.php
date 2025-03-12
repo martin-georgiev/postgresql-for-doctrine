@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql deletion of a field at the specified path (using #-).
+ * Implementation of PostgreSQL deletion of a field at the specified path (using #-).
  *
  * @see https://www.postgresql.org/docs/14/functions-json.html
  * @since 2.3.0
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class DeleteAtPath extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('(%s #- %s)');
         $this->addNodeMapping('StringPrimary');

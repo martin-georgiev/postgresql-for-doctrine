@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql TSTZRANGE().
+ * Implementation of PostgreSQL TSTZRANGE().
  *
  * @see https://www.postgresql.org/docs/17/rangetypes.html
  * @since 2.9.0
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class Tstzrange extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('tstzrange(%s, %s)');
         $this->addNodeMapping('StringPrimary');

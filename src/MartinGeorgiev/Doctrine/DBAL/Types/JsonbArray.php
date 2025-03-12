@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\UnexpectedTypeOfTransformedPHPValue;
 
 /**
- * Implementation of PostgreSql JSONB[] data type.
+ * Implementation of PostgreSQL JSONB[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.1

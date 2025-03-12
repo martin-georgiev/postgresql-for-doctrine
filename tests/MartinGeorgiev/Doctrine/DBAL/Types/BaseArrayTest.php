@@ -113,7 +113,7 @@ class BaseArrayTest extends TestCase
     public function throws_conversion_exception_when_postgres_value_is_not_valid_php_array(): void
     {
         $this->expectException(ConversionException::class);
-        $this->expectExceptionMessageMatches('/Given PostgreSql value content type is not PHP string. Instead it is "\w+"./');
+        $this->expectExceptionMessageMatches('/Given PostgreSQL value content type is not PHP string. Instead it is "\w+"./');
 
         $this->fixture->convertToPHPValue(681, $this->platform);
     }

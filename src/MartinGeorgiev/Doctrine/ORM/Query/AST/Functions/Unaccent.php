@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql UNACCENT.
+ * Implementation of PostgreSQL UNACCENT.
  *
  * @see http://www.postgresql.org/docs/current/static/unaccent.html
  *
@@ -15,7 +15,7 @@ class Unaccent extends BaseVariadicFunction
 {
     protected string $commonNodeMapping = 'StringPrimary';
 
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('unaccent(%s)');
     }

@@ -14,7 +14,7 @@ use Doctrine\ORM\Query\TokenType;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
- * Implementation of PostgreSql CAST().
+ * Implementation of PostgreSQL CAST().
  *
  * @see https://www.postgresql.org/docs/current/sql-createcast.html
  * @see https://github.com/beberlei/DoctrineExtensions/blob/f3536d881637f6ddc7ca1d6595d18c15e06eb1d9/src/Query/Mysql/Cast.php

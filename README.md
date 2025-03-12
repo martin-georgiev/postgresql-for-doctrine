@@ -10,7 +10,7 @@ Enhances Doctrine with PostgreSQL-specific features and functions. Supports Post
 ## Quick Start
 
 ```php
-// Register types to Doctrine
+// Register types with Doctrine
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 
