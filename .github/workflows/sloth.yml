@@ -1,0 +1,21 @@
+name: Sloth
+
+on:
+  merge_group:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sloth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sloth
+        uses: lendable/sloth@0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          interval: 10
+          ignored:
+            - Auto Request Review
+            - CodeRabbit
+            - Scrutinizer
