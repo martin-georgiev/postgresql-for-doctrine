@@ -3,8 +3,10 @@ name: Sloth
 on:
   merge_group:
   pull_request:
-    branches:
-      - main
+
+permissions:
+  contents: read
+  checks: read
 
 jobs:
   sloth:
