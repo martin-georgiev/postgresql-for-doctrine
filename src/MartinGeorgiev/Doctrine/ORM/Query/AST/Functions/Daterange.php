@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql DATERANGE().
+ * Implementation of PostgreSQL DATERANGE().
  *
  * @see https://www.postgresql.org/docs/17/rangetypes.html
  * @since 2.9.0
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class Daterange extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('daterange(%s, %s)');
         $this->addNodeMapping('StringPrimary');

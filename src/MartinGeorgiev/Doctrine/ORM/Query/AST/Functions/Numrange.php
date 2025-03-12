@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql NUMRANGE().
+ * Implementation of PostgreSQL NUMRANGE().
  *
  * @see https://www.postgresql.org/docs/17/rangetypes.html
  * @since 2.9.0
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class Numrange extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('numrange(%s, %s)');
         $this->addNodeMapping('StringPrimary');

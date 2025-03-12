@@ -12,7 +12,7 @@ use Doctrine\ORM\Query\TokenType;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
- * Implementation of PostgreSql STRING_AGG().
+ * Implementation of PostgreSQL STRING_AGG().
  *
  * @see https://www.postgresql.org/docs/9.5/functions-aggregate.html
  * @since 1.4
@@ -24,7 +24,7 @@ class StringAgg extends BaseOrderableFunction
     private bool $isDistinct = false;
     private Node $delimiter;
 
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('string_agg(%s%s, %s%s)');
     }

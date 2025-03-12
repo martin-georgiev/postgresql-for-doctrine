@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql JSON_EACH().
+ * Implementation of PostgreSQL JSON_EACH().
  *
  * @see https://www.postgresql.org/docs/9.6/static/functions-json.html
  * @since 0.10
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class JsonEach extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('json_each(%s)');
         $this->addNodeMapping('StringPrimary');

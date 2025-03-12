@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Abstract handling of PostgreSql array data types.
+ * Abstract handling of PostgreSQL array data types.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.1
@@ -18,7 +18,7 @@ use Doctrine\DBAL\Types\ConversionException;
 abstract class BaseArray extends BaseType
 {
     /**
-     * Converts a value from its PHP representation to its PostgreSql representation of the type.
+     * Converts a value from its PHP representation to its PostgreSQL representation of the type.
      *
      * @param array|null $phpArray the value to convert
      *
@@ -38,7 +38,7 @@ abstract class BaseArray extends BaseType
 
         foreach ($phpArray as &$item) {
             if (!$this->isValidArrayItemForDatabase($item)) {
-                $exceptionMessage = 'One or more of items given doesn\'t look like valid.';
+                $exceptionMessage = 'One or more of the items given doesn\'t look valid.';
 
                 throw new ConversionException($exceptionMessage);
             }
@@ -49,7 +49,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Tests if given PHP array item is from compatible type for PostgreSql.
+     * Tests if given PHP array item is from compatible type for PostgreSQL.
      */
     protected function isValidArrayItemForDatabase(mixed $item): bool
     {
@@ -57,7 +57,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Transforms PHP array item to a PostgreSql compatible array item.
+     * Transforms PHP array item to a PostgreSQL compatible array item.
      *
      * @return mixed
      */
@@ -67,7 +67,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Converts a value from its PostgreSql representation to its PHP representation of this type.
+     * Converts a value from its PostgreSQL representation to its PHP representation of this type.
      *
      * @param string|null $postgresArray the value to convert
      */
@@ -77,7 +77,7 @@ abstract class BaseArray extends BaseType
             return null;
         }
         if (!\is_string($postgresArray)) {
-            $exceptionMessage = 'Given PostgreSql value content type is not PHP string. Instead it is "%s".';
+            $exceptionMessage = 'Given PostgreSQL value content type is not PHP string. Instead it is "%s".';
 
             throw new ConversionException(\sprintf($exceptionMessage, \gettype($postgresArray)));
         }
@@ -101,7 +101,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Transforms PostgreSql array item to a PHP compatible array item.
+     * Transforms PostgreSQL array item to a PHP compatible array item.
      *
      * @return mixed
      */

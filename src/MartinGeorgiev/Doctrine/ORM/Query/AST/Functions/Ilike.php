@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql ILIKE().
+ * Implementation of PostgreSQL ILIKE().
  *
  * @see https://www.postgresql.org/docs/9.3/functions-matching.html
  * @since 1.1
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class Ilike extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('%s ilike %s');
         $this->addNodeMapping('StringPrimary');

@@ -2,7 +2,7 @@
 
 **Before opening your first PR**
 
-For the sake of clear Git history and speedy review of your PR please check that the suggested changes are in line with the project's standards. Code style, static analysis and file validation scripts are already provided and can easily be checked with running from project's root:
+For the sake of clear Git history and speedy review of your PR, please check that the suggested changes are in line with the project's standards. Code style, static analysis and file validation scripts are already provided and can easily be run from project's root:
 
 `composer check-code-style` which will check for consistent code style
 
@@ -33,7 +33,7 @@ For the sake of clear Git history and speedy review of your PR please check that
 
 Most new functions will likely have a signature very similar to those already implemented in the project. This means new functions probably require only extending the base class and decorating it with some behaviour. Here are the two main steps to follow:
 1. Extend `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction`.
-2. Use calls to `setFunctionPrototype()` and `addNodeMapping()` to implement `customiseFunction()` for your new function class.
+2. Use calls to `setFunctionPrototype()` and `addNodeMapping()` to implement `customizeFunction()` for your new function class.
 
 Example:
 
@@ -46,7 +46,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 class ArrayAppend extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('array_append(%s, %s)');
         $this->addNodeMapping('StringPrimary'); # corresponds to param №1 in the prototype set in setFunctionPrototype

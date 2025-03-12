@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
- * Implementation of PostgreSql BOOL[] data type.
+ * Implementation of PostgreSQL BOOL[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 1.5.3

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql ROW_TO_JSON().
+ * Implementation of PostgreSQL ROW_TO_JSON().
  *
  * @see https://www.postgresql.org/docs/9.6/static/functions-json.html
  * @since 0.10
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class RowToJson extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('row_to_json(%s)');
         $this->addNodeMapping('StringPrimary');

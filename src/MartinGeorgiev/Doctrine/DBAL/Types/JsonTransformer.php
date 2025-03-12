@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Helpers for converting PHP values into PostgreSql JSOn and vice versa.
+ * Helpers for converting PHP values into PostgreSQL JSON and vice versa.
  *
  * @since 0.1
  *

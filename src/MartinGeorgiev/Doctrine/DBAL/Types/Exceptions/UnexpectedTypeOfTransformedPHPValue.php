@@ -14,7 +14,7 @@ class UnexpectedTypeOfTransformedPHPValue extends TypeException
     public function __construct(string $untransformedValue, string $typeOfTransformedPHPValue)
     {
         $message = \sprintf(
-            'Transforming a PostgreSql value "%s" results to an unexpected PHP value from type "%s".',
+            'Transforming a PostgreSQL value "%s" results to an unexpected PHP value from type "%s".',
             $untransformedValue,
             $typeOfTransformedPHPValue
         );

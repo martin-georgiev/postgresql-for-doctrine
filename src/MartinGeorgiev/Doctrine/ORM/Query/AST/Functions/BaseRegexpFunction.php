@@ -10,7 +10,7 @@ abstract class BaseRegexpFunction extends BaseFunction
 
     abstract protected function getParameterCount(): int;
 
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $parameters = \str_repeat(', %s', $this->getParameterCount() - 1);
         $this->setFunctionPrototype($this->getFunctionName().'(%s'.$parameters.')');

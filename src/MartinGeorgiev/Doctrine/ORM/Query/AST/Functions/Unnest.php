@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql UNNEST() for single array argument.
+ * Implementation of PostgreSQL UNNEST() for single array argument.
  *
  * @see http://www.postgresql.org/docs/9.6/static/functions-array.html
  * @since 0.10
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class Unnest extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('unnest(%s)');
         $this->addNodeMapping('StringPrimary');

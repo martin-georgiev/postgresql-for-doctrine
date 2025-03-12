@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql TO_TSVECTOR().
+ * Implementation of PostgreSQL TO_TSVECTOR().
  *
  * @see https://www.postgresql.org/docs/9.4/static/textsearch-controls.html
  * @since 0.1
@@ -16,7 +16,7 @@ class ToTsvector extends BaseVariadicFunction
 {
     protected string $commonNodeMapping = 'StringExpression';
 
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('to_tsvector(%s)');
     }

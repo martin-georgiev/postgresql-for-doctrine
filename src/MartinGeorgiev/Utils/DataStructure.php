@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Utils;
 
 /**
- * Util class with helpers for working with PostgreSql data structures.
+ * Util class with helpers for working with PostgreSQL data structures.
  *
  * @since 0.9
  *
@@ -15,7 +15,7 @@ class DataStructure
 {
     /**
      * This method supports only single-dimensioned text arrays and
-     * relays on the default escaping strategy in PostgreSql (double quotes).
+     * relays on the default escaping strategy in PostgreSQL (double quotes).
      */
     public static function transformPostgresTextArrayToPHPArray(string $postgresArray): array
     {
@@ -65,7 +65,7 @@ class DataStructure
 
     /**
      * This method supports only single-dimensioned PHP arrays.
-     * This method relays on the default escaping strategy in PostgreSql (double quotes).
+     * This method relays on the default escaping strategy in PostgreSQL (double quotes).
      *
      * @see https://stackoverflow.com/a/5632171/3425372 Kudos to jmz for the inspiration
      */

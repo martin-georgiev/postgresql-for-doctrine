@@ -31,7 +31,7 @@ abstract class BaseFunction extends FunctionNode
      */
     protected array $nodes = [];
 
-    abstract protected function customiseFunction(): void;
+    abstract protected function customizeFunction(): void;
 
     protected function setFunctionPrototype(string $functionPrototype): void
     {
@@ -47,7 +47,7 @@ abstract class BaseFunction extends FunctionNode
     {
         $shouldUseLexer = DoctrineOrm::isPre219();
 
-        $this->customiseFunction();
+        $this->customizeFunction();
 
         $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
         $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
