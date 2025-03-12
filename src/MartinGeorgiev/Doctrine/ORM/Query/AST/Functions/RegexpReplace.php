@@ -12,13 +12,15 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Colin Doig
  */
-class RegexpReplace extends BaseFunction
+class RegexpReplace extends BaseRegexpFunction
 {
-    protected function customiseFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('regexp_replace(%s, %s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return 'regexp_replace';
+    }
+
+    protected function getParameterCount(): int
+    {
+        return 3;
     }
 }
