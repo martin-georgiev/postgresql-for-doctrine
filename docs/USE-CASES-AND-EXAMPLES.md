@@ -11,7 +11,7 @@ FROM EmailEntity e
 WHERE e.subject ILIKE 'Test email'
 ```
 
-Boolean expression that will parse and is equavelnt to teh above DQL:
+Boolean expression that will parse and is equivalent to the above DQL:
 ```sql
 SELECT e
 FROM EmailEntity e
