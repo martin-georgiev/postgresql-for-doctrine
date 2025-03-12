@@ -97,7 +97,7 @@ class BaseArrayTest extends TestCase
     public function throws_conversion_exception_when_invalid_array_item_value(): void
     {
         $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage('One or more of items given doesn\'t look like valid.');
+        $this->expectExceptionMessage("One or more of the items given doesn't look valid.");
 
         $this->fixture
             ->expects($this->once())
