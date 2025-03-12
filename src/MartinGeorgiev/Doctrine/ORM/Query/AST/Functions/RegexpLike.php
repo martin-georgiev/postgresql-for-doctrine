@@ -12,12 +12,15 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class RegexpLike extends BaseFunction
+class RegexpLike extends BaseRegexpFunction
 {
-    protected function customiseFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('regexp_like(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return 'regexp_like';
+    }
+
+    protected function getParameterCount(): int
+    {
+        return 2;
     }
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
@@ -24,7 +25,7 @@ abstract class BaseVariadicFunction extends BaseFunction
 
         $this->nodes[] = $parser->{$this->commonNodeMapping}();
         if ($lexer->lookahead?->type === null) {
-            throw new \RuntimeException('The parser\'s "lookahead" property is not populated with a type');
+            throw ParserException::missingLookaheadType();
         }
 
         $aheadType = $lexer->lookahead->type;
