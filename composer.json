@@ -60,14 +60,20 @@
     },
 
     "scripts": {
+        "deptrac": [
+            "deptrac analyze --config-file=./ci/deptrac/config.yml --cache-file=./ci/deptrac/.cache --no-interaction --no-progress"
+        ],
         "php-cs-fixer": [
-            "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --no-interaction --diff -v"
+            "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --config=./ci/php-cs-fixer/config.php --show-progress=none --no-interaction --diff -v"
+        ],
+        "phpstan": [
+            "phpstan analyse --configuration=./ci/phpstan/config.neon"
         ],
         "phpunit": [
-            "phpunit --configuration='./ci/phpunit/config.xml'"
+            "XDEBUG_MODE=coverage phpunit --configuration='./ci/phpunit/config.xml"
         ],
         "rector": [
-            "rector --config='./ci/rector/config.php' --ansi --no-progress-bar"
+            "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
         ],
 
         "check-code-style": [
@@ -79,14 +85,14 @@
             "@php-cs-fixer"
         ],
         "run-static-analysis": [
-            "phpstan analyse --configuration='./ci/phpstan/config.neon'",
-            "deptrac analyze --config-file='./ci/deptrac/config.yml' --cache-file='./ci/deptrac/.cache' --no-interaction --no-progress"
+            "@phpstan",
+            "@deptrac"
         ],
         "run-tests": [
             "@phpunit"
         ],
         "run-tests-with-clover": [
-            "@phpunit --coverage-clover './build/logs/clover.xml'"
+            "@phpunit --coverage-clover=./var/logs/clover.xml"
         ]
     },
 
