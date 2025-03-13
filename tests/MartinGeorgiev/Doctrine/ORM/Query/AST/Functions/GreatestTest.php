@@ -6,6 +6,7 @@ namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest;
 
 class GreatestTest extends BaseComparisonFunctionTestCase
@@ -34,5 +35,16 @@ class GreatestTest extends BaseComparisonFunctionTestCase
         return [
             \sprintf('SELECT GREATEST(e.integer1, e.integer2, e.integer3) FROM %s e', ContainsIntegers::class),
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function throws_exception_when_single_argument_given(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+
+        $dql = \sprintf('SELECT GREATEST(e.integer1) FROM %s e', ContainsIntegers::class);
+        $this->assertSqlFromDql('', $dql);
     }
 }

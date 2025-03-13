@@ -100,7 +100,7 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
-    private function assertSqlFromDql(string $expectedSql, string $dql, string $message = ''): void
+    protected function assertSqlFromDql(string $expectedSql, string $dql, string $message = ''): void
     {
         $query = $this->buildEntityManager()->createQuery($dql);
         $this->assertEquals($expectedSql, $query->getSQL(), $message);

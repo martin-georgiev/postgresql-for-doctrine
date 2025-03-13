@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent;
 
 class UnaccentTest extends TestCase
@@ -30,5 +31,16 @@ class UnaccentTest extends TestCase
             \sprintf('SELECT UNACCENT(e.text1) FROM %s e', ContainsTexts::class),
             \sprintf('SELECT UNACCENT(\'unaccent\', e.text1) FROM %s e', ContainsTexts::class),
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function throws_exception_when_too_many_arguments_given(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+
+        $dql = \sprintf('SELECT UNACCENT(\'dict\', e.text1, \'extra\') FROM %s e', ContainsTexts::class);
+        $this->assertSqlFromDql('', $dql);
     }
 }

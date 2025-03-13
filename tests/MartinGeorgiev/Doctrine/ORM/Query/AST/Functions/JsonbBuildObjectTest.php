@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject;
 
 class JsonbBuildObjectTest extends TestCase
@@ -32,5 +33,16 @@ class JsonbBuildObjectTest extends TestCase
             \sprintf("SELECT JSONB_BUILD_OBJECT('key1', UPPER('value1'), 'key2', 'value2') FROM %s e", ContainsJsons::class),
             \sprintf("SELECT JSONB_BUILD_OBJECT('key1', e.object1, 'key2', e.object2) FROM %s e", ContainsJsons::class),
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function throws_exception_when_odd_number_of_arguments_given(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+
+        $dql = \sprintf('SELECT JSONB_BUILD_OBJECT(\'key1\', e.object1, \'key2\') FROM %s e', ContainsJsons::class);
+        $this->assertSqlFromDql('', $dql);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
 
 class ToTsqueryTest extends TestCase
@@ -32,5 +33,16 @@ class ToTsqueryTest extends TestCase
             \sprintf('SELECT TO_TSQUERY(UPPER(e.text1)) FROM %s e', ContainsTexts::class),
             \sprintf('SELECT TO_TSQUERY(\'english\', e.text1) FROM %s e', ContainsTexts::class),
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function throws_exception_when_too_many_arguments_given(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+
+        $dql = \sprintf('SELECT TO_TSQUERY(\'english\', e.text1, \'extra\') FROM %s e', ContainsTexts::class);
+        $this->assertSqlFromDql('', $dql);
     }
 }
