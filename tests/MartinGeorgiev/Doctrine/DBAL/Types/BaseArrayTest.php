@@ -100,7 +100,7 @@ class BaseArrayTest extends TestCase
         $this->expectExceptionMessage("One or more of the items given doesn't look valid.");
 
         $this->fixture
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isValidArrayItemForDatabase')
             ->willReturn(false);
 

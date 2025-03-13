@@ -43,6 +43,7 @@ abstract class TestCase extends BaseTestCase
 
             return;
         }
+
         $doctrineArrayCacheClass = '\Doctrine\Common\Cache\ArrayCache';
         $useDbalV2 = \class_exists($doctrineArrayCacheClass) && \method_exists($configuration, 'setMetadataCacheImpl') && \method_exists($configuration, 'setQueryCacheImpl');
         if ($useDbalV2) {
@@ -95,6 +96,7 @@ abstract class TestCase extends BaseTestCase
         if (\count($expectedSqls) !== \count($dqls)) {
             throw new \LogicException(\sprintf('You need ot provide matching expected SQL for every DQL, currently there are %d SQL statements for %d DQL statements', \count($expectedSqls), \count($dqls)));
         }
+
         foreach ($expectedSqls as $key => $expectedSql) {
             $this->assertSqlFromDql($expectedSql, $dqls[$key], \sprintf('Assertion failed for expected SQL statement "%s"', $expectedSql));
         }

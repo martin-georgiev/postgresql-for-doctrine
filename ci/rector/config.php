@@ -12,29 +12,36 @@ return static function (RectorConfig $rectorConfig): void {
     $basePath = __DIR__.'/../../';
     $paths = [
         $basePath.'ci',
+        $basePath.'fixtures',
         $basePath.'src',
         $basePath.'tests',
     ];
     $rectorConfig->paths($paths);
 
+    $rectorConfig->cacheDirectory($basePath.'var/cache/rector/');
+
     $rectorConfig->parallel();
     $rectorConfig->phpstanConfig($basePath.'ci/phpstan/config.neon');
+
+    $rectorConfig->sets([
+        SetList::CODE_QUALITY,
+        SetList::DEAD_CODE,
+        SetList::EARLY_RETURN,
+        SetList::NAMING,
+        SetList::PHP_80,
+        SetList::PHP_81,
+        SetList::TYPE_DECLARATION,
+        SetList::PRIVATIZATION,
+        SetList::CODING_STYLE,
+        DoctrineSetList::DOCTRINE_ORM_25,
+        DoctrineSetList::DOCTRINE_CODE_QUALITY,
+        LevelSetList::UP_TO_PHP_81,
+    ]);
+
     $rectorConfig->skip([
         RenamePropertyToMatchTypeRector::class,
     ]);
+
     $rectorConfig->importShortClasses(false);
-    $rectorConfig->importNames(false, false); // @todo Enable once Rector introduces better support for function imports.
-
-    $rectorConfig->import(SetList::CODE_QUALITY);
-    $rectorConfig->import(SetList::DEAD_CODE);
-    $rectorConfig->import(SetList::EARLY_RETURN);
-    $rectorConfig->import(SetList::NAMING);
-    $rectorConfig->import(SetList::PHP_80);
-    $rectorConfig->import(SetList::PHP_81);
-    $rectorConfig->import(SetList::TYPE_DECLARATION);
-
-    $rectorConfig->import(DoctrineSetList::DOCTRINE_ORM_25);
-    $rectorConfig->import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
-
-    $rectorConfig->import(LevelSetList::UP_TO_PHP_81);
+    $rectorConfig->importNames(false, false);
 };

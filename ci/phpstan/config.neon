@@ -1,5 +1,7 @@
 includes:
     - ../../vendor/ekino/phpstan-banned-code/extension.neon
+    - ../../vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - ../../vendor/phpstan/phpstan-doctrine/extension.neon
     - ../../vendor/phpstan/phpstan-phpunit/extension.neon
 
 parameters:
@@ -8,6 +10,13 @@ parameters:
         - ../../ci
         - ../../src
         - ../../tests
+
+    tmpDir: ../../var/cache/phpstan
+
+    parallel:
+        maximumNumberOfProcesses: 4
+
+    errorFormat: table
 
     reportUnmatchedIgnoredErrors: false
 
