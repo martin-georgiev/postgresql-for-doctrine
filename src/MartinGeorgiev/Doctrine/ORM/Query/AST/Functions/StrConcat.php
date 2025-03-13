@@ -8,7 +8,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Implementation of PostgreSQL's string concatenation operator (using `||`).
  *
  * @see https://www.postgresql.org/docs/15/functions-string.html
- * @since 2.6.0
+ * @since 2.6
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
  */
