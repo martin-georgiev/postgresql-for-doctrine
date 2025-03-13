@@ -8,7 +8,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Implementation of PostgreSQL SPLIT_PART().
  *
  * @see https://www.postgresql.org/docs/15/functions-string.html
- * @since 2.7.0
+ * @since 2.7
  *
  * @author syl20b
  */
