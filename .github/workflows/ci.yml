@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   tests:
-    name: "PHP ${{ matrix.php }} + Doctrine ORM ${{ matrix.doctrine-orm }} + Composer ${{ matrix.composer-flags }}"
+    name: "PHP ${{ matrix.php }} + Doctrine ORM ${{ matrix.doctrine-orm }}"
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,7 +22,6 @@ jobs:
           - php: '8.2'
           - php: '8.3'
           - php: '8.4'
-            ignore-php-version: true
             calculate-code-coverage: true
           - doctrine-orm: '2.14'
           - doctrine-orm: '3.0'
@@ -54,11 +53,11 @@ jobs:
     - name: Install composer dependencies
       run: |
         if [ "${{ matrix.doctrine-orm }}" == "2.14" ]; then
-          composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
+          composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress
         elif [ "${{ matrix.doctrine-orm }}" == "3.0" ]; then
-          composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
+          composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress
         else
-          composer update --prefer-dist --no-interaction --no-progress ${{ matrix.composer-flags }}
+          composer update --prefer-dist --no-interaction --no-progress }}
         fi
 
     - name: Run static analysis
@@ -67,9 +66,6 @@ jobs:
 
     - name: Check code style
       run: composer check-code-style
-      if: matrix.ignore-php-version == true
-      env:
-        PHP_CS_FIXER_IGNORE_ENV: 1
 
     - name: Check for security vulnerabilities in 3rd party dependencies
       run: composer audit
@@ -79,8 +75,9 @@ jobs:
 
     - name: Upload coverage results to Coveralls
       if: matrix.calculate-code-coverage == true
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_PARALLEL: true
-        COVERALLS_FLAG_NAME: "PHP ${{ matrix.php }} + Composer@${{ matrix.composer-flags || '*' }}"
-      run: bin/php-coveralls -v --exclude-no-stmt
+      uses: coverallsapp/github-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        fail-on-error: false
+        base-path: ./var/logs/test-coverage/
+        flag-name: "PHP ${{ matrix.php }}"
