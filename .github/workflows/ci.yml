@@ -57,7 +57,7 @@ jobs:
         elif [ "${{ matrix.doctrine-orm }}" == "3.0" ]; then
           composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress
         else
-          composer update --prefer-dist --no-interaction --no-progress }}
+          composer update --prefer-dist --no-interaction --no-progress
         fi
 
     - name: Run static analysis
