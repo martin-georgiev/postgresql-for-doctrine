@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
-
 /**
  * Implementation of PostgreSQL JSON_SERIALIZE().
  *
@@ -17,17 +15,11 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class JsonSerialize extends BaseVariadicFunction
+class JsonSerialize extends BaseFunction
 {
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('json_serialize(%s)');
-    }
-
-    protected function validateArguments(array $arguments): void
-    {
-        if (\count($arguments) !== 1) {
-            throw InvalidArgumentForVariadicFunctionException::exact('json_serialize', 1);
-        }
+        $this->addNodeMapping('StringPrimary');
     }
 }
