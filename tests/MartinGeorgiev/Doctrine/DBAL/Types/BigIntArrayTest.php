@@ -20,7 +20,7 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
      */
     public function has_name(): void
     {
-        $this->assertEquals('bigint[]', $this->fixture->getName());
+        self::assertEquals('bigint[]', $this->fixture->getName());
     }
 
     public static function provideInvalidTransformations(): array

@@ -22,7 +22,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
      */
     public function can_detect_invalid_for_transformation_php_value(mixed $phpValue): void
     {
-        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
+        self::assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
 
     /**
@@ -47,7 +47,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
      */
     public function can_transform_from_php_value(int $phpValue, string $postgresValue): void
     {
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($phpValue));
+        self::assertTrue($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
 
     /**
@@ -57,7 +57,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
      */
     public function can_transform_to_php_value(int $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
+        self::assertEquals($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
     }
 
     /**

@@ -20,7 +20,7 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
      */
     public function has_name(): void
     {
-        $this->assertEquals('integer[]', $this->fixture->getName());
+        self::assertEquals('integer[]', $this->fixture->getName());
     }
 
     /**
