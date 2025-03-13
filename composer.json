@@ -43,14 +43,13 @@
         "doctrine/dbal": "~2.10||~3.0||~4.0"
     },
     "require-dev": {
+        "deptrac/deptrac": "^3.0",
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.72.0",
-        "php-coveralls/php-coveralls": "^2.7.0",
         "phpstan/phpstan": "^1.12.21",
         "phpstan/phpstan-phpunit": "^1.4.2",
         "phpunit/phpunit": "^10.5.45",
-        "qossmic/deptrac": "^2.0.4",
         "rector/rector": "^1.2.10",
         "symfony/cache": "^6.4||^7.0"
     },
@@ -76,7 +75,7 @@
             "phpunit --configuration='./ci/phpunit/config.xml'"
         ],
         "run-tests-with-clover": [
-            "phpunit --configuration='./ci/phpunit/config.xml' --coverage-clover './build/logs/clover.xml'"
+            "phpunit --configuration='./ci/phpunit/config.xml' --coverage-clover './var/logs/test-coverage/clover.xml'"
         ]
     },
 
