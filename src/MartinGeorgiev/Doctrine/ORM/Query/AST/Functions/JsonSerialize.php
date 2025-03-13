@@ -10,6 +10,11 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Supports basic form:
  * - json_serialize(expression)
  *
+ * Note: The following variations are NOT supported due to DQL limitations:
+ * - RETURNING type
+ * - FORMAT JSON clause
+ * - ENCODING clause
+ *
  * @see https://www.postgresql.org/docs/17/functions-json.html
  * @since 2.10
  *
