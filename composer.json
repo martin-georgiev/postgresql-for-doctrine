@@ -70,7 +70,7 @@
             "phpstan analyse --configuration=./ci/phpstan/config.neon"
         ],
         "phpunit": [
-            "XDEBUG_MODE=coverage phpunit --configuration='./ci/phpunit/config.xml"
+            "XDEBUG_MODE=coverage phpunit --configuration=./ci/phpunit/config.xml"
         ],
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
