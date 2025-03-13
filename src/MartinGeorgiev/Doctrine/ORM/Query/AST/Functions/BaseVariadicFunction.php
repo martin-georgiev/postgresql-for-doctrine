@@ -9,6 +9,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
@@ -19,6 +20,9 @@ abstract class BaseVariadicFunction extends BaseFunction
 {
     protected string $commonNodeMapping = 'StringPrimary';
 
+    /**
+     * @throws ParserException
+     */
     public function feedParserWithNodes(Parser $parser): void
     {
         $lexer = $parser->getLexer();
@@ -56,6 +60,8 @@ abstract class BaseVariadicFunction extends BaseFunction
      * Validates the arguments passed to the function.
      *
      * @param mixed[] $arguments The array of arguments to validate
+     *
+     * @throws InvalidArgumentForVariadicFunctionException
      */
     abstract protected function validateArguments(array $arguments): void;
 }

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Rector\CodingStyle\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
@@ -21,7 +20,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->parallel();
     $rectorConfig->phpstanConfig($basePath.'ci/phpstan/config.neon');
     $rectorConfig->skip([
-        ArraySpreadInsteadOfArrayMergeRector::class,
         RenamePropertyToMatchTypeRector::class,
     ]);
     $rectorConfig->importShortClasses(false);

@@ -18,7 +18,7 @@ class DataStructureTest extends TestCase
      */
     public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, DataStructure::transformPHPArrayToPostgresTextArray($phpValue));
+        self::assertEquals($postgresValue, DataStructure::transformPHPArrayToPostgresTextArray($phpValue));
     }
 
     /**
@@ -30,7 +30,7 @@ class DataStructureTest extends TestCase
      */
     public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($phpValue, DataStructure::transformPostgresTextArrayToPHPArray($postgresValue));
+        self::assertEquals($phpValue, DataStructure::transformPostgresTextArrayToPHPArray($postgresValue));
     }
 
     /**

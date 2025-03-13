@@ -103,7 +103,7 @@ abstract class TestCase extends BaseTestCase
     protected function assertSqlFromDql(string $expectedSql, string $dql, string $message = ''): void
     {
         $query = $this->buildEntityManager()->createQuery($dql);
-        $this->assertEquals($expectedSql, $query->getSQL(), $message);
+        self::assertEquals($expectedSql, $query->getSQL(), $message);
     }
 
     private function buildEntityManager(): EntityManager

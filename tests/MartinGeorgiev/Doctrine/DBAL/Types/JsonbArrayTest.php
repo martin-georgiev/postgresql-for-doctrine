@@ -31,7 +31,7 @@ class JsonbArrayTest extends TestCase
      */
     public function has_name(): void
     {
-        $this->assertEquals('jsonb[]', $this->fixture->getName());
+        self::assertEquals('jsonb[]', $this->fixture->getName());
     }
 
     /**
@@ -41,7 +41,7 @@ class JsonbArrayTest extends TestCase
      */
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
@@ -51,7 +51,7 @@ class JsonbArrayTest extends TestCase
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**

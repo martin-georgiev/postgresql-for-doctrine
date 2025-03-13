@@ -30,7 +30,7 @@ class BooleanArrayTest extends TestCase
      */
     public function has_name(): void
     {
-        $this->assertEquals('bool[]', $this->fixture->getName());
+        self::assertEquals('bool[]', $this->fixture->getName());
     }
 
     /**
@@ -44,7 +44,7 @@ class BooleanArrayTest extends TestCase
             ->with($phpValue)
             ->willReturn($platformValue);
 
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
@@ -58,7 +58,7 @@ class BooleanArrayTest extends TestCase
             ->with($this->anything())
             ->willReturnCallback('boolval');
 
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**

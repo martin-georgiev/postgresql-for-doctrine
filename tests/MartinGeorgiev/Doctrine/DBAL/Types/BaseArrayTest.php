@@ -43,7 +43,7 @@ class BaseArrayTest extends TestCase
             ->method('isValidArrayItemForDatabase')
             ->willReturn(true);
 
-        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        self::assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     /**
@@ -53,7 +53,7 @@ class BaseArrayTest extends TestCase
      */
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**

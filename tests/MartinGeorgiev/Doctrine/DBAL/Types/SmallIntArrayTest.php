@@ -20,7 +20,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
      */
     public function has_name(): void
     {
-        $this->assertEquals('smallint[]', $this->fixture->getName());
+        self::assertEquals('smallint[]', $this->fixture->getName());
     }
 
     public static function provideInvalidTransformations(): array
