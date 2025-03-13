@@ -38,6 +38,8 @@ abstract class BaseVariadicFunction extends BaseFunction
             }
             $aheadType = $lexer->lookahead->type;
         }
+
+        $this->validateArguments($this->nodes);
     }
 
     public function getSql(SqlWalker $sqlWalker): string
@@ -49,4 +51,11 @@ abstract class BaseVariadicFunction extends BaseFunction
 
         return \sprintf($this->functionPrototype, \implode(', ', $dispatched));
     }
+
+    /**
+     * Validates the arguments passed to the function.
+     *
+     * @param mixed[] $arguments The array of arguments to validate
+     */
+    abstract protected function validateArguments(array $arguments): void;
 }
