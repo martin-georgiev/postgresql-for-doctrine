@@ -53,10 +53,15 @@
 | json_build_object | JSON_BUILD_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject` |
 | json_each | JSON_EACH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach` |
 | json_each_text | JSON_EACH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText` |
+| json_exists | JSON_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExists` |
 | json_object_agg | JSON_OBJECT_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg` |
 | json_object_keys | JSON_OBJECT_KEYS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectKeys` |
+| json_query | JSON_QUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonQuery` |
+| json_scalar | JSON_SCALAR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonScalar` |
+| json_serialize | JSON_SERIALIZE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonSerialize` |
 | json_strip_nulls | JSON_STRIP_NULLS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonStripNulls` |
 | json_typeof | JSON_TYPEOF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonTypeof` |
+| json_value | JSON_VALUE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonValue` |
 | jsonb_array_elements | JSONB_ARRAY_ELEMENTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements` |
 | jsonb_agg | JSONB_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg` |
 | jsonb_array_elements_text | JSONB_ARRAY_ELEMENTS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText` |

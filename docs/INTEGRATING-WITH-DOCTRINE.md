@@ -33,9 +33,26 @@ use Doctrine\ORM\Configuration;
 $configuration = new Configuration();
 
 # Register json functions
+$configuration->addCustomStringFunction('JSON_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class);
+$configuration->addCustomStringFunction('JSON_ARRAY_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class);
 $configuration->addCustomStringFunction('JSON_BUILD_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class);
-$configuration->addCustomStringFunction('JSONB_BUILD_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject::class);
-
+$configuration->addCustomStringFunction('JSON_EACH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach::class);
+$configuration->addCustomStringFunction('JSON_EACH_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText::class);
+$configuration->addCustomStringFunction('JSON_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExists::class);
+$configuration->addCustomStringFunction('JSON_GET_FIELD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField::class);
+$configuration->addCustomStringFunction('JSON_GET_FIELD_AS_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText::class);
+$configuration->addCustomStringFunction('JSON_GET_FIELD_AS_INTEGER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger::class);
+$configuration->addCustomStringFunction('JSON_GET_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject::class);
+$configuration->addCustomStringFunction('JSON_GET_OBJECT_AS_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText::class);
+$configuration->addCustomStringFunction('JSON_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class);
+$configuration->addCustomStringFunction('JSON_OBJECT_KEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectKeys::class);
+$configuration->addCustomStringFunction('JSON_QUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonQuery::class);
+$configuration->addCustomStringFunction('JSON_SCALAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonScalar::class);
+$configuration->addCustomStringFunction('JSON_SERIALIZE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonSerialize::class);
+$configuration->addCustomStringFunction('JSON_STRIP_NULLS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonStripNulls::class);
+$configuration->addCustomStringFunction('JSON_VALUE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonValue::class);
+$configuration->addCustomStringFunction('TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson::class);
+$configuration->addCustomStringFunction('ROW_TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson::class);
 # Register text search functions
 $configuration->addCustomStringFunction('TO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery::class);
 $configuration->addCustomStringFunction('TO_TSVECTOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector::class);
