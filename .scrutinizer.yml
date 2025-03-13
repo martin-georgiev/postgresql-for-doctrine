@@ -1,6 +1,6 @@
 build:
   environment:
-    php: 8.3
+    php: 8.3.16
     postgresql: true
     node: false
   nodes:
