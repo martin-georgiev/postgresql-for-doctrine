@@ -1,6 +1,64 @@
 build:
   environment:
-    php: 8.2
+    php: 8.3
+    postgresql: true
+    node: false
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
+          - command: composer run-tests-with-clover
+            coverage:
+              file: var/logs/test-coverage/clover.xml
+              format: clover
+
+  dependencies:
+    override:
+      - composer update --no-interaction --prefer-dist
+
+checks:
+  php:
+    code_rating: true
+    duplication: true
+    fix_doc_comments: true
+    fix_line_ending: true
+    fix_use_statements:
+      remove_unused: true
+      preserve_multiple: false
+      preserve_blanklines: false
+      order_alphabetically: true
+
+    verify_property_names: true
+    verify_argument_usable_as_reference: true
+    verify_access_scope_valid: true
+    variable_existence: true
+    useless_calls: true
+    use_statement_alias_conflict: true
+    unused_variables: true
+    unused_properties: true
+    unused_methods: true
+    unreachable_code: true
+    too_many_arguments: true
+    symfony_request_injection: true
+    switch_fallthrough_commented: true
+    sql_injection_vulnerabilities: true
+    security_vulnerabilities: true
+    return_in_constructor: true
+    return_doc_comments: true
+    return_doc_comment_if_not_inferrable: true
+    parameter_non_unique: true
+    optional_parameters_at_the_end: true
+    overriding_private_members: true
+    no_unnecessary_final_modifier: true
+    no_short_variable_names:
+      minimum: 3
+    no_short_method_names:
+      minimum: 3
+    no_property_on_interface: true
+    no_non_implemented_abstract_methods: true
+    no_long_variable_names:
+      maximum: 30
 
 coding_style:
   php:
@@ -9,3 +67,37 @@ coding_style:
         concatenation: false
       other:
         after_type_cast: true
+    braces:
+      classes_functions:
+        class: new-line
+        function: new-line
+      if:
+        opening: end-of-line
+      for:
+        opening: end-of-line
+      while:
+        opening: end-of-line
+      do_while:
+        opening: end-of-line
+      switch:
+        opening: end-of-line
+      try:
+        opening: end-of-line
+    upper_lower_casing:
+      keywords:
+        general: lower
+      constants:
+        true_false_null: lower
+
+filter:
+  excluded_paths:
+    - 'ci/*'
+    - 'fixtures/*'
+    - 'tests/*'
+  dependency_paths:
+    - 'vendor/*'
+
+tools:
+  external_code_coverage:
+    timeout: 600
+    runs: 1
