@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.10.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.9.0...v2.10.0) (2025-03-13)
+
+
+### Features
+
+* Add (limited) support for `json_exists`, `json_query`, `json_scalar`, `json_serialize` and `json_value` ([#277](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/277)) ([4a26400](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4a264003aa6ce58c65335b708dc1036d02217f08))
+* Add multiple arguments support for `ARRAY` ([#279](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/279)) ([7f2b05d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7f2b05d21a665d44d5fac07ac0f03f1ff99647bf))
+
+
+### Code Refactoring
+
+* Introduce `BaseRegexpFunction` and `ParserException` ([#269](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/269)) ([fed0367](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/fed0367baa8cedffe309bd25e1885fb23f6449c8))
+* Validate that variadic functions have only the expected count of arguments ([#274](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/274)) ([019f84d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/019f84d23df6e85c7f5658b94c5992699e8082e3))
+
 ## [2.9.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.8.0...v2.9.0) (2025-03-12)
 
 
