@@ -15,6 +15,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
 abstract class BaseOrderableFunction extends BaseFunction
 {
     protected Node $expression;
+
     protected ?OrderByClause $orderByClause = null;
 
     public function parse(Parser $parser): void

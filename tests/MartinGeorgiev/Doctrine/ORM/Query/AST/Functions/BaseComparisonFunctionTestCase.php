@@ -33,6 +33,10 @@ abstract class BaseComparisonFunctionTestCase extends TestCase
         $parser = new Parser($query);
         $parser->getLexer()->moveNext();
 
-        $this->createFixture()->feedParserWithNodes($parser);
+        $baseComparisonFunction = $this->createFixture();
+
+        $reflectionMethod = new \ReflectionMethod($baseComparisonFunction::class, 'feedParserWithNodes');
+        $reflectionMethod->setAccessible(true);
+        $reflectionMethod->invoke($baseComparisonFunction, $parser);
     }
 }

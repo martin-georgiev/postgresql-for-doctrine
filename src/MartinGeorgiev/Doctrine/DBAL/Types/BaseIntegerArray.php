@@ -26,9 +26,11 @@ abstract class BaseIntegerArray extends BaseArray
         if (!\is_int($item) && !\is_string($item)) {
             return false;
         }
+
         if (!(bool) \preg_match('/^-?\d+$/', (string) $item)) {
             return false;
         }
+
         if ((string) $item < $this->getMinValue()) {
             return false;
         }

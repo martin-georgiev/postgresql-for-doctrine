@@ -23,7 +23,7 @@ abstract class BaseVariadicFunction extends BaseFunction
     /**
      * @throws ParserException
      */
-    public function feedParserWithNodes(Parser $parser): void
+    protected function feedParserWithNodes(Parser $parser): void
     {
         $lexer = $parser->getLexer();
 
@@ -40,6 +40,7 @@ abstract class BaseVariadicFunction extends BaseFunction
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
                 $this->nodes[] = $parser->{$this->commonNodeMapping}();
             }
+
             $aheadType = $lexer->lookahead->type;
         }
 

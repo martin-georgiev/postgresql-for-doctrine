@@ -1,0 +1,11 @@
+parameters:
+    ignoreErrors:
+        - '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
+        - '#Access to constant [A-Z_]+ on an unknown class Doctrine\\ORM\\Query\\TokenType#'
+        - '#Fetching deprecated class constant T_IDENTIFIER of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_OPEN_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_CLOSE_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_COMMA of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_ORDER of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_AS of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_DISTINCT of class Doctrine\\ORM\\Query\\Lexer#'

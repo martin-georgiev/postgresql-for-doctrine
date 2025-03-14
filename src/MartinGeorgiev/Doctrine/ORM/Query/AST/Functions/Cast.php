@@ -34,6 +34,7 @@ class Cast extends FunctionNode
 
         $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
         $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
+
         $this->sourceType = $parser->SimpleArithmeticExpression();
         $parser->match($shouldUseLexer ? Lexer::T_AS : TokenType::T_AS);
         $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
@@ -43,6 +44,7 @@ class Cast extends FunctionNode
         if (!$token instanceof Token) {
             return;
         }
+
         if (!\is_string($token->value)) {
             return;
         }
@@ -59,6 +61,7 @@ class Cast extends FunctionNode
                     $parameters[] = $parameter->value;
                 }
             }
+
             $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
             $type .= '('.\implode(', ', $parameters).')';
         }
