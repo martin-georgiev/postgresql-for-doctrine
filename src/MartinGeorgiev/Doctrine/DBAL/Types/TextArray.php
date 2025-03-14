@@ -38,10 +38,6 @@ class TextArray extends BaseType
 
     protected function transformToPostgresTextArray(array $phpTextArray): string
     {
-        if (!\is_array($phpTextArray)) {
-            throw new \InvalidArgumentException(\sprintf('Value %s is not an array', \var_export($phpTextArray, true)));
-        }
-
         if ($phpTextArray === []) {
             return '{}';
         }

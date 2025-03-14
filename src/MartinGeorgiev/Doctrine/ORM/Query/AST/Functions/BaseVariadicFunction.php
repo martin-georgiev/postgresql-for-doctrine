@@ -28,6 +28,7 @@ abstract class BaseVariadicFunction extends BaseFunction
         $lexer = $parser->getLexer();
 
         try {
+            // @phpstan-ignore-next-line
             $this->nodes[] = $parser->{$this->commonNodeMapping}();
             if ($lexer->lookahead?->type === null) {
                 throw ParserException::missingLookaheadType();
@@ -42,6 +43,7 @@ abstract class BaseVariadicFunction extends BaseFunction
         while (($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $aheadType) {
             if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $aheadType) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
+                // @phpstan-ignore-next-line
                 $this->nodes[] = $parser->{$this->commonNodeMapping}();
             }
 
