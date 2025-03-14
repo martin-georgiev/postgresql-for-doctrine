@@ -6,3 +6,6 @@ parameters:
         - '#Fetching deprecated class constant T_OPEN_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
         - '#Fetching deprecated class constant T_CLOSE_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
         - '#Fetching deprecated class constant T_COMMA of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_ORDER of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_AS of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_DISTINCT of class Doctrine\\ORM\\Query\\Lexer#'
