@@ -49,6 +49,7 @@ abstract class TestCase extends BaseTestCase
         }
 
         $doctrineArrayCacheClass = '\Doctrine\Common\Cache\ArrayCache';
+        // @phpstan-ignore-next-line
         $useDbalV2 = \class_exists($doctrineArrayCacheClass) && \method_exists($configuration, 'setMetadataCacheImpl') && \method_exists($configuration, 'setQueryCacheImpl');
         if ($useDbalV2) {
             // @phpstan-ignore-next-line
