@@ -27,9 +27,13 @@ abstract class BaseVariadicFunction extends BaseFunction
     {
         $lexer = $parser->getLexer();
 
-        $this->nodes[] = $parser->{$this->commonNodeMapping}();
-        if ($lexer->lookahead?->type === null) {
-            throw ParserException::missingLookaheadType();
+        try {
+            $this->nodes[] = $parser->{$this->commonNodeMapping}();
+            if ($lexer->lookahead?->type === null) {
+                throw ParserException::missingLookaheadType();
+            }
+        } catch (\Throwable $throwable) {
+            throw ParserException::withThrowable($throwable);
         }
 
         $aheadType = $lexer->lookahead->type;
