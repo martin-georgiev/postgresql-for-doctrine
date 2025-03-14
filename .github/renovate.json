@@ -21,7 +21,6 @@
     "minimumReleaseAge": "3 days",
     "stabilityDays": 3,
     "platformAutomerge": true,
-    "prTitle": "chore: {{depName}} update",
     "rangeStrategy": "auto",
     "rebaseWhen": "conflicted",
     "recreateWhen": "never",

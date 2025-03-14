@@ -48,11 +48,11 @@
         "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.72.0",
         "phpstan/phpstan": "^1.12.21",
-        "phpstan/phpstan-deprecation-rules": "^1.2",
-        "phpstan/phpstan-doctrine": "^1.5",
+        "phpstan/phpstan-deprecation-rules": "^1.2.1",
+        "phpstan/phpstan-doctrine": "^1.5.7",
         "phpstan/phpstan-phpunit": "^1.4.2",
         "phpunit/phpunit": "^10.5.45",
-        "rector/rector": "^1.2",
+        "rector/rector": "^1.2.10",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
