@@ -14,6 +14,9 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 abstract class TestCase extends BaseTestCase
 {
+    /**
+     * @var string
+     */
     protected const FIXTURES_DIRECTORY = __DIR__.'/../../../../../../fixtures/MartinGeorgiev/Doctrine/Entity';
 
     private Configuration $configuration;
@@ -34,6 +37,7 @@ abstract class TestCase extends BaseTestCase
     private function setConfigurationCache(Configuration $configuration): void
     {
         $symfonyArrayAdapterClass = '\\'.ArrayAdapter::class;
+        // @phpstan-ignore-next-line
         $useDbalV3 = \class_exists($symfonyArrayAdapterClass) && \method_exists($configuration, 'setMetadataCache') && \method_exists($configuration, 'setQueryCache');
         if ($useDbalV3) {
             // @phpstan-ignore-next-line
@@ -45,6 +49,7 @@ abstract class TestCase extends BaseTestCase
         }
 
         $doctrineArrayCacheClass = '\Doctrine\Common\Cache\ArrayCache';
+        // @phpstan-ignore-next-line
         $useDbalV2 = \class_exists($doctrineArrayCacheClass) && \method_exists($configuration, 'setMetadataCacheImpl') && \method_exists($configuration, 'setQueryCacheImpl');
         if ($useDbalV2) {
             // @phpstan-ignore-next-line

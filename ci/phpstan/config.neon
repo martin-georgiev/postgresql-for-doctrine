@@ -22,3 +22,4 @@ parameters:
 
     errorFormat: table
     reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false

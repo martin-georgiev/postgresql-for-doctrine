@@ -64,6 +64,7 @@ abstract class BaseFunction extends FunctionNode
         $lastNode = $nodesMappingCount - 1;
         for ($i = 0; $i < $nodesMappingCount; $i++) {
             $parserMethod = $this->nodesMapping[$i];
+            // @phpstan-ignore-next-line
             $this->nodes[$i] = $parser->{$parserMethod}();
             if ($i < $lastNode) {
                 $parser->match(\class_exists(TokenType::class) ? TokenType::T_COMMA : Lexer::T_COMMA);
