@@ -4,19 +4,25 @@
         "config:recommended",
         ":enableVulnerabilityAlerts",
         ":semanticCommitsDisabled",
-        ":prHourlyLimitNone",
-        ":prImmediately"
+        ":prImmediately",
+        "schedule:weekly",
+        "group:allNonMajor",
+        "helpers:pinGitHubActionDigests"
     ],
     "automerge": true,
     "automergeStrategy": "squash",
     "automergeType": "pr",
     "branchPrefix": "renovate/",
+    "commitMessagePrefix": "chore: ",
+    "dependencyDashboard": true,
     "lockFileMaintenance": {
-        "enabled": true,
-        "schedule": "before 11am"
+        "enabled": false
     },
+    "minimumReleaseAge": "3 days",
+    "stabilityDays": 3,
     "platformAutomerge": true,
-    "rangeStrategy": "in-range-only",
+    "prTitle": "chore: ${depName} update",
+    "rangeStrategy": "auto",
     "rebaseWhen": "conflicted",
     "recreateWhen": "never",
     "packageRules": [
