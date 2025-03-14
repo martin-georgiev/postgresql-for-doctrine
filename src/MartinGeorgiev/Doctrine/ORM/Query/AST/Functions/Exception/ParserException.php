@@ -10,4 +10,9 @@ class ParserException extends \RuntimeException
     {
         return new self("The parser's 'lookahead' property is not populated with a type");
     }
+
+    public static function withThrowable(\Throwable $throwable): self
+    {
+        return new self($throwable->getMessage(), $throwable->getCode(), $throwable);
+    }
 }
