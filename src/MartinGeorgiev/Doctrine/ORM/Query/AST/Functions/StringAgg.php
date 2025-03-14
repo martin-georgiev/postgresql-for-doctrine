@@ -22,6 +22,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
 class StringAgg extends BaseOrderableFunction
 {
     private bool $isDistinct = false;
+
     private Node $delimiter;
 
     protected function customizeFunction(): void

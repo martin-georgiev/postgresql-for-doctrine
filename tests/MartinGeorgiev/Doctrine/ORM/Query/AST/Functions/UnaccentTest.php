@@ -21,7 +21,7 @@ class UnaccentTest extends TestCase
     {
         return [
             'SELECT unaccent(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
-            'SELECT unaccent(\'unaccent\', c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            "SELECT unaccent('unaccent', c0_.text1) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
@@ -29,7 +29,7 @@ class UnaccentTest extends TestCase
     {
         return [
             \sprintf('SELECT UNACCENT(e.text1) FROM %s e', ContainsTexts::class),
-            \sprintf('SELECT UNACCENT(\'unaccent\', e.text1) FROM %s e', ContainsTexts::class),
+            \sprintf("SELECT UNACCENT('unaccent', e.text1) FROM %s e", ContainsTexts::class),
         ];
     }
 
@@ -40,7 +40,7 @@ class UnaccentTest extends TestCase
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
 
-        $dql = \sprintf('SELECT UNACCENT(\'dict\', e.text1, \'extra\') FROM %s e', ContainsTexts::class);
+        $dql = \sprintf("SELECT UNACCENT('dict', e.text1, 'extra') FROM %s e", ContainsTexts::class);
         $this->assertSqlFromDql('', $dql);
     }
 }

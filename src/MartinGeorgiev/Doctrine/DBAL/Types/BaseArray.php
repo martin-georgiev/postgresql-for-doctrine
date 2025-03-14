@@ -38,10 +38,11 @@ abstract class BaseArray extends BaseType
 
         foreach ($phpArray as &$item) {
             if (!$this->isValidArrayItemForDatabase($item)) {
-                $exceptionMessage = 'One or more of the items given doesn\'t look valid.';
+                $exceptionMessage = "One or more of the items given doesn't look valid.";
 
                 throw new ConversionException($exceptionMessage);
             }
+
             $item = $this->transformArrayItemForPostgres($item);
         }
 
@@ -51,7 +52,7 @@ abstract class BaseArray extends BaseType
     /**
      * Tests if given PHP array item is from compatible type for PostgreSQL.
      */
-    protected function isValidArrayItemForDatabase(mixed $item): bool
+    public function isValidArrayItemForDatabase(mixed $item): bool
     {
         return true;
     }
@@ -76,6 +77,7 @@ abstract class BaseArray extends BaseType
         if ($postgresArray === null) {
             return null;
         }
+
         if (!\is_string($postgresArray)) {
             $exceptionMessage = 'Given PostgreSQL value content type is not PHP string. Instead it is "%s".';
 
@@ -105,7 +107,7 @@ abstract class BaseArray extends BaseType
      *
      * @return mixed
      */
-    protected function transformArrayItemForPHP(mixed $item)
+    public function transformArrayItemForPHP(mixed $item)
     {
         return $item;
     }

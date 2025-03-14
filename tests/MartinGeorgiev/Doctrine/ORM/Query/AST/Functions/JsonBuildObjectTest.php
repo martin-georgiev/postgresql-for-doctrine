@@ -42,7 +42,7 @@ class JsonBuildObjectTest extends TestCase
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
 
-        $dql = \sprintf('SELECT JSON_BUILD_OBJECT(\'key1\', e.value1, \'key2\') FROM %s e', ContainsJsons::class);
+        $dql = \sprintf("SELECT JSON_BUILD_OBJECT('key1', e.value1, 'key2') FROM %s e", ContainsJsons::class);
         $this->assertSqlFromDql('', $dql);
     }
 }
