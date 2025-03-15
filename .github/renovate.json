@@ -19,7 +19,6 @@
         "enabled": false
     },
     "minimumReleaseAge": "3 days",
-    "stabilityDays": 3,
     "platformAutomerge": true,
     "rangeStrategy": "auto",
     "rebaseWhen": "conflicted",
