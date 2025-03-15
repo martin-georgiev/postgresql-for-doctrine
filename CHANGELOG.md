@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.0...v2.10.1) (2025-03-14)
+
+
+### Bug Fixes
+
+* Wrap up ORM v3 throwable when parsing fails in variadic functions ([#285](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/285)) ([59a8cb9](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/59a8cb9ed84a45a8ea7da2f19e05e921400c934b))
+
 ## [2.10.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.9.0...v2.10.0) (2025-03-13)
 
 
