@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Sloth
-        uses: lendable/sloth@0.2.0
+        uses: lendable/sloth@e1fd9a2df2549f6e64188f274bc5d3b39d7842ed # 0.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           interval: 10
