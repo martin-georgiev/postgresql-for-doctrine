@@ -19,22 +19,22 @@ class ToJsonTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT to_json(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
-            'SELECT to_json(UPPER(c0_.text1)) AS sclr_0 FROM ContainsTexts c0_',
-            'SELECT to_json(1 + 1) AS sclr_0 FROM ContainsTexts c0_',
-            'SELECT to_json(1) AS sclr_0 FROM ContainsTexts c0_',
-            'SELECT to_json(LENGTH(c0_.text1)) AS sclr_0 FROM ContainsTexts c0_',
+            'converts text to json' => 'SELECT to_json(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            'converts uppercase text to json' => 'SELECT to_json(UPPER(c0_.text1)) AS sclr_0 FROM ContainsTexts c0_',
+            'converts numeric expression to json' => 'SELECT to_json(1 + 1) AS sclr_0 FROM ContainsTexts c0_',
+            'converts boolean to json' => 'SELECT to_json(1) AS sclr_0 FROM ContainsTexts c0_',
+            'converts length of text to json' => 'SELECT to_json(LENGTH(c0_.text1)) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT TO_JSON(e.text1) FROM %s e', ContainsTexts::class),
-            \sprintf('SELECT TO_JSON(UPPER(e.text1)) FROM %s e', ContainsTexts::class),
-            \sprintf('SELECT TO_JSON(1+1) FROM %s e', ContainsTexts::class),
-            \sprintf('SELECT TO_JSON(true) FROM %s e', ContainsTexts::class),
-            \sprintf('SELECT TO_JSON(LENGTH(e.text1)) FROM %s e', ContainsTexts::class),
+            'converts text to json' => \sprintf('SELECT TO_JSON(e.text1) FROM %s e', ContainsTexts::class),
+            'converts uppercase text to json' => \sprintf('SELECT TO_JSON(UPPER(e.text1)) FROM %s e', ContainsTexts::class),
+            'converts numeric expression to json' => \sprintf('SELECT TO_JSON(1+1) FROM %s e', ContainsTexts::class),
+            'converts boolean to json' => \sprintf('SELECT TO_JSON(true) FROM %s e', ContainsTexts::class),
+            'converts length of text to json' => \sprintf('SELECT TO_JSON(LENGTH(e.text1)) FROM %s e', ContainsTexts::class),
         ];
     }
 }
