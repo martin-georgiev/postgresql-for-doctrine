@@ -82,12 +82,12 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int|string, string>
      */
     abstract protected function getExpectedSqlStatements(): array;
 
     /**
-     * @return array<int, string>
+     * @return array<int|string, string>
      */
     abstract protected function getDqlStatements(): array;
 
