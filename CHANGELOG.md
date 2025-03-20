@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.1...v2.10.2) (2025-03-20)
+
+
+### Bug Fixes
+
+* Improve BC by deprecating `customiseFunction` instead of renaming it straight away ([#294](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/294)) ([910d328](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/910d3289fe9cb0e605765cf301ae4e86c5845e63))
+
 ## [2.10.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.0...v2.10.1) (2025-03-14)
 
 
