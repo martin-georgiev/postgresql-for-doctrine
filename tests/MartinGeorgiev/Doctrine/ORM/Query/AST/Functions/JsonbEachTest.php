@@ -19,14 +19,14 @@ class JsonbEachTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'expands jsonb object into key-value pairs' => 'SELECT jsonb_each(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
+            'expands top-level jsonb object into key-value pairs' => 'SELECT jsonb_each(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'expands jsonb object into key-value pairs' => \sprintf('SELECT JSONB_EACH(e.object1) FROM %s e', ContainsJsons::class),
+            'expands top-level jsonb object into key-value pairs' => \sprintf('SELECT JSONB_EACH(e.object1) FROM %s e', ContainsJsons::class),
         ];
     }
 }
