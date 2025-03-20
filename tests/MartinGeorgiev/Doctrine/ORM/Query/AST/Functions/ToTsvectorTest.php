@@ -20,18 +20,18 @@ class ToTsvectorTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT to_tsvector(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
-            'SELECT to_tsvector(LOWER(c0_.text1)) AS sclr_0 FROM ContainsTexts c0_',
-            "SELECT to_tsvector('english', c0_.text1) AS sclr_0 FROM ContainsTexts c0_",
+            'converts plain text to tsvector' => 'SELECT to_tsvector(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            'converts lowercase text to tsvector' => 'SELECT to_tsvector(LOWER(c0_.text1)) AS sclr_0 FROM ContainsTexts c0_',
+            'converts text to tsvector using english dictionary' => "SELECT to_tsvector('english', c0_.text1) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT TO_TSVECTOR(e.text1) FROM %s e', ContainsTexts::class),
-            \sprintf('SELECT TO_TSVECTOR(LOWER(e.text1)) FROM %s e', ContainsTexts::class),
-            \sprintf("SELECT TO_TSVECTOR('english', e.text1) FROM %s e", ContainsTexts::class),
+            'converts plain text to tsvector' => \sprintf('SELECT TO_TSVECTOR(e.text1) FROM %s e', ContainsTexts::class),
+            'converts lowercase text to tsvector' => \sprintf('SELECT TO_TSVECTOR(LOWER(e.text1)) FROM %s e', ContainsTexts::class),
+            'converts text to tsvector using english dictionary' => \sprintf("SELECT TO_TSVECTOR('english', e.text1) FROM %s e", ContainsTexts::class),
         ];
     }
 

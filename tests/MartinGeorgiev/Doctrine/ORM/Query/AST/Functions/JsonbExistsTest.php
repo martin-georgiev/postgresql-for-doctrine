@@ -19,14 +19,14 @@ class JsonbExistsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT jsonb_exists(c0_.object1, 'country') AS sclr_0 FROM ContainsJsons c0_",
+            'checks if top-level key exists' => "SELECT jsonb_exists(c0_.object1, 'country') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT JSONB_EXISTS(e.object1, 'country') FROM %s e", ContainsJsons::class),
+            'checks if top-level key exists' => \sprintf("SELECT JSONB_EXISTS(e.object1, 'country') FROM %s e", ContainsJsons::class),
         ];
     }
 }

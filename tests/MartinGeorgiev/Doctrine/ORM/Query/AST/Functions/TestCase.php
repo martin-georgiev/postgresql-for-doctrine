@@ -23,7 +23,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function setUp(): void
     {
-        $configuration = ORMSetup::createAttributeMetadataConfiguration([static::FIXTURES_DIRECTORY], false);
+        $configuration = ORMSetup::createAttributeMetadataConfiguration([static::FIXTURES_DIRECTORY], true);
         $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
         $configuration->setProxyNamespace('Fixtures\MartinGeorgiev\Doctrine\Entity\Proxy');
         $configuration->setAutoGenerateProxyClasses(true);
@@ -82,12 +82,12 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int|string, string>
      */
     abstract protected function getExpectedSqlStatements(): array;
 
     /**
-     * @return array<int, string>
+     * @return array<int|string, string>
      */
     abstract protected function getDqlStatements(): array;
 

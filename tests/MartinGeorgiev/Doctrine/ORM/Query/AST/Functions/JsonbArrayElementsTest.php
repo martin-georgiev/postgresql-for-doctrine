@@ -19,14 +19,14 @@ class JsonbArrayElementsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT jsonb_array_elements(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
+            'expands jsonb array into separate rows' => 'SELECT jsonb_array_elements(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSONB_ARRAY_ELEMENTS(e.object1) FROM %s e', ContainsJsons::class),
+            'expands jsonb array into separate rows' => \sprintf('SELECT JSONB_ARRAY_ELEMENTS(e.object1) FROM %s e', ContainsJsons::class),
         ];
     }
 }

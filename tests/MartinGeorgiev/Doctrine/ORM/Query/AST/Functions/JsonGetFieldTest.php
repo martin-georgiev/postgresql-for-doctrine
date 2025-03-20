@@ -19,14 +19,16 @@ class JsonGetFieldTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.object1 -> 'country') AS sclr_0 FROM ContainsJsons c0_",
+            'extracts top-level field from json' => "SELECT (c0_.object1 -> 'key') AS sclr_0 FROM ContainsJsons c0_",
+            'extracts nested field from json' => "SELECT ((c0_.object1 -> 'nested') -> 'key') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT JSON_GET_FIELD(e.object1, 'country') FROM %s e", ContainsJsons::class),
+            'extracts top-level field from json' => \sprintf("SELECT JSON_GET_FIELD(e.object1, 'key') FROM %s e", ContainsJsons::class),
+            'extracts nested field from json' => \sprintf("SELECT JSON_GET_FIELD(JSON_GET_FIELD(e.object1, 'nested'), 'key') FROM %s e", ContainsJsons::class),
         ];
     }
 }

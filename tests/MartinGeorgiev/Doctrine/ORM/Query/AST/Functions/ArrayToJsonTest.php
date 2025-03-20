@@ -19,14 +19,14 @@ class ArrayToJsonTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_to_json(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'converts simple array to json' => 'SELECT array_to_json(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_TO_JSON(e.array1) FROM %s e', ContainsArrays::class),
+            'converts simple array to json' => \sprintf('SELECT ARRAY_TO_JSON(e.array1) FROM %s e', ContainsArrays::class),
         ];
     }
 }
