@@ -36,4 +36,23 @@ final class DoctrineLexer
         // @phpstan-ignore-next-line
         return $lexer->lookahead?->type;
     }
+
+    /**
+     * @return mixed|null
+     */
+    public static function getTokenValue(Lexer $lexer)
+    {
+        if (self::isPre200($lexer)) {
+            // @phpstan-ignore-next-line
+            if ($lexer->token === null) {
+                return null;
+            }
+
+            // @phpstan-ignore-next-line
+            return $lexer->token['value'];
+        }
+
+        // @phpstan-ignore-next-line
+        return $lexer->token?->value;
+    }
 }

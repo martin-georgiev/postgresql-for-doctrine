@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\Common\Lexer\Token;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Utils\DoctrineLexer;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
@@ -40,16 +40,11 @@ class Cast extends FunctionNode
         $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
 
         $lexer = $parser->getLexer();
-        $token = $lexer->token;
-        if (!$token instanceof Token) {
+        $type = DoctrineLexer::getTokenValue($lexer);
+        if ($type === null) {
             return;
         }
 
-        if (!\is_string($token->value)) {
-            return;
-        }
-
-        $type = $token->value;
         if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS)) {
             $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
