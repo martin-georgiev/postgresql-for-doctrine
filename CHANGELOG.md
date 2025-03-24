@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.3](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.2...v2.10.3) (2025-03-24)
+
+
+### Bug Fixes
+
+* Add support for Lexer v1 (allowed by ORM &lt; v2.15) ([#300](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/300)) ([16fd227](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/16fd227d1841eccfff2ffe62a4d4c0b81c9fc3e3))
+
 ## [2.10.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.1...v2.10.2) (2025-03-20)
 
 
