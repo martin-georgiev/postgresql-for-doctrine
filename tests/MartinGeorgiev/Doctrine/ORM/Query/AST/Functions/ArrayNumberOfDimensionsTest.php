@@ -19,14 +19,14 @@ class ArrayNumberOfDimensionsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_ndims(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'gets number of dimensions of array field' => 'SELECT array_ndims(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_NUMBER_OF_DIMENSIONS(e.array1) FROM %s e', ContainsArrays::class),
+            'gets number of dimensions of array field' => \sprintf('SELECT ARRAY_NUMBER_OF_DIMENSIONS(e.array1) FROM %s e', ContainsArrays::class),
         ];
     }
 }

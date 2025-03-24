@@ -19,18 +19,18 @@ class ArrayPrependTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_prepend(1885, c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
-            "SELECT array_prepend('red', c0_.array1) AS sclr_0 FROM ContainsArrays c0_",
-            'SELECT array_prepend(?, c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'prepends string element to array' => "SELECT array_prepend('new-value', c0_.array1) AS sclr_0 FROM ContainsArrays c0_",
+            'prepends numeric element to array' => 'SELECT array_prepend(42, c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'prepends element using parameter' => 'SELECT array_prepend(?, c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_PREPEND(1885, e.array1) FROM %s e', ContainsArrays::class),
-            \sprintf("SELECT ARRAY_PREPEND('red', e.array1) FROM %s e", ContainsArrays::class),
-            \sprintf('SELECT ARRAY_PREPEND(:dql_parameter, e.array1) FROM %s e', ContainsArrays::class),
+            'prepends string element to array' => \sprintf("SELECT ARRAY_PREPEND('new-value', e.array1) FROM %s e", ContainsArrays::class),
+            'prepends numeric element to array' => \sprintf('SELECT ARRAY_PREPEND(42, e.array1) FROM %s e', ContainsArrays::class),
+            'prepends element using parameter' => \sprintf('SELECT ARRAY_PREPEND(:dql_parameter, e.array1) FROM %s e', ContainsArrays::class),
         ];
     }
 }

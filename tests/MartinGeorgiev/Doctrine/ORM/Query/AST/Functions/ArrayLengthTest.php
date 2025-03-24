@@ -19,16 +19,16 @@ class ArrayLengthTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_length(c0_.array1, 1) AS sclr_0 FROM ContainsArrays c0_',
-            'SELECT array_length(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
+            'gets length of array with hardcoded dimension' => 'SELECT array_length(c0_.array1, 1) AS sclr_0 FROM ContainsArrays c0_',
+            'gets length of array with parameterized dimension' => 'SELECT array_length(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_LENGTH(e.array1, 1) FROM %s e', ContainsArrays::class),
-            \sprintf('SELECT ARRAY_LENGTH(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
+            'gets length of array with hardcoded dimension' => \sprintf('SELECT ARRAY_LENGTH(e.array1, 1) FROM %s e', ContainsArrays::class),
+            'gets length of array with parameterized dimension' => \sprintf('SELECT ARRAY_LENGTH(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
         ];
     }
 }

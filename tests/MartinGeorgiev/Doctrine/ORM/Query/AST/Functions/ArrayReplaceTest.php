@@ -19,18 +19,18 @@ class ArrayReplaceTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_replace(c0_.array1, 1939, 1957) AS sclr_0 FROM ContainsArrays c0_',
-            "SELECT array_replace(c0_.array1, 'green', 'mint') AS sclr_0 FROM ContainsArrays c0_",
-            "SELECT array_replace(c0_.array1, 'green', ?) AS sclr_0 FROM ContainsArrays c0_",
+            'replaces string element in array' => "SELECT array_replace(c0_.array1, 'old-value', 'new-value') AS sclr_0 FROM ContainsArrays c0_",
+            'replaces numeric element in array' => 'SELECT array_replace(c0_.array1, 42, 43) AS sclr_0 FROM ContainsArrays c0_',
+            'replaces element using parameters' => 'SELECT array_replace(c0_.array1, ?, ?) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_REPLACE(e.array1, 1939, 1957) FROM %s e', ContainsArrays::class),
-            \sprintf("SELECT ARRAY_REPLACE(e.array1, 'green', 'mint') FROM %s e", ContainsArrays::class),
-            \sprintf("SELECT ARRAY_REPLACE(e.array1, 'green', :dql_parameter) FROM %s e", ContainsArrays::class),
+            'replaces string element in array' => \sprintf("SELECT ARRAY_REPLACE(e.array1, 'old-value', 'new-value') FROM %s e", ContainsArrays::class),
+            'replaces numeric element in array' => \sprintf('SELECT ARRAY_REPLACE(e.array1, 42, 43) FROM %s e', ContainsArrays::class),
+            'replaces element using parameters' => \sprintf('SELECT ARRAY_REPLACE(e.array1, :old_value, :new_value) FROM %s e', ContainsArrays::class),
         ];
     }
 }

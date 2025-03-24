@@ -19,14 +19,14 @@ class ArrayCardinalityTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT cardinality(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'gets cardinality of array' => 'SELECT cardinality(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_CARDINALITY(e.array1) FROM %s e', ContainsArrays::class),
+            'gets cardinality of array' => \sprintf('SELECT ARRAY_CARDINALITY(e.array1) FROM %s e', ContainsArrays::class),
         ];
     }
 }

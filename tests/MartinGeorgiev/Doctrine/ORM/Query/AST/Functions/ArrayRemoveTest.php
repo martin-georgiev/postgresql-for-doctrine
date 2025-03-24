@@ -19,18 +19,18 @@ class ArrayRemoveTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_remove(c0_.array1, 1944) AS sclr_0 FROM ContainsArrays c0_',
-            "SELECT array_remove(c0_.array1, 'peach') AS sclr_0 FROM ContainsArrays c0_",
-            'SELECT array_remove(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
+            'removes string element from array' => "SELECT array_remove(c0_.array1, 'value-to-remove') AS sclr_0 FROM ContainsArrays c0_",
+            'removes numeric element from array' => 'SELECT array_remove(c0_.array1, 42) AS sclr_0 FROM ContainsArrays c0_',
+            'removes element using parameter' => 'SELECT array_remove(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_REMOVE(e.array1, 1944) FROM %s e', ContainsArrays::class),
-            \sprintf("SELECT ARRAY_REMOVE(e.array1, 'peach') FROM %s e", ContainsArrays::class),
-            \sprintf('SELECT ARRAY_REMOVE(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
+            'removes string element from array' => \sprintf("SELECT ARRAY_REMOVE(e.array1, 'value-to-remove') FROM %s e", ContainsArrays::class),
+            'removes numeric element from array' => \sprintf('SELECT ARRAY_REMOVE(e.array1, 42) FROM %s e', ContainsArrays::class),
+            'removes element using parameter' => \sprintf('SELECT ARRAY_REMOVE(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
         ];
     }
 }

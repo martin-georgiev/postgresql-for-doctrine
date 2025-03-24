@@ -19,14 +19,14 @@ class AnyTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT c0_.id AS id_0 FROM ContainsArrays c0_ WHERE c0_.id > ANY(c0_.array1)',
+            'any elements match condition' => 'SELECT c0_.id AS id_0 FROM ContainsArrays c0_ WHERE c0_.id > ANY(c0_.array1)',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT e.id FROM %s e WHERE e.id > ANY_OF(e.array1)', ContainsArrays::class),
+            'any elements match condition' => \sprintf('SELECT e.id FROM %s e WHERE e.id > ANY_OF(e.array1)', ContainsArrays::class),
         ];
     }
 }

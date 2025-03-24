@@ -19,14 +19,16 @@ class ArrayCatTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT array_cat(c0_.array1, c0_.array2) AS sclr_0 FROM ContainsArrays c0_',
+            'concatenates two arrays' => 'SELECT array_cat(c0_.array1, c0_.array2) AS sclr_0 FROM ContainsArrays c0_',
+            'concatenates with parameter' => 'SELECT array_cat(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT ARRAY_CAT(e.array1, e.array2) FROM %s e', ContainsArrays::class),
+            'concatenates two arrays' => \sprintf('SELECT ARRAY_CAT(e.array1, e.array2) FROM %s e', ContainsArrays::class),
+            'concatenates with parameter' => \sprintf('SELECT ARRAY_CAT(e.array1, :parameter) FROM %s e', ContainsArrays::class),
         ];
     }
 }
