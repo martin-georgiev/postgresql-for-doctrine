@@ -70,11 +70,11 @@ jobs:
     - name: Install Doctrine ORM dependency
       run: |
         if [ "${{ matrix.doctrine-orm }}" == "2.14" ]; then
-          composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress
+          composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress --with-all-dependencies
         elif [ "${{ matrix.doctrine-orm }}" == "2.18" ]; then
-          composer require doctrine/orm "~2.18" --prefer-dist --no-interaction --no-progress
+          composer require doctrine/orm "~2.18" --prefer-dist --no-interaction --no-progress --with-all-dependencies
         elif [ "${{ matrix.doctrine-orm }}" == "3.0" ]; then
-          composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress
+          composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress --with-all-dependencies
         else
           composer update --prefer-dist --no-interaction --no-progress
         fi
