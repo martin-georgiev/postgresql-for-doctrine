@@ -31,7 +31,28 @@ abstract class BaseFunction extends FunctionNode
      */
     protected array $nodes = [];
 
-    abstract protected function customizeFunction(): void;
+    /**
+     * This method is meant for internal use only, and it is not suggested that the forks of the library depend on it.
+     * It will be made abstract from version 3.0.
+     *
+     * @internal
+     *
+     * @see customiseFunction()
+     */
+    /* abstract */
+    protected function customizeFunction(): void
+    {
+        // Void
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function customiseFunction(): void
+    {
+        \trigger_error('The internal-use method of `customiseFunction()` is deprecated and is now renamed to `customizeFunction()`. `customiseFunction()` will be removed from version 3.0 onwards.', E_USER_DEPRECATED);
+        $this->customizeFunction();
+    }
 
     protected function setFunctionPrototype(string $functionPrototype): void
     {

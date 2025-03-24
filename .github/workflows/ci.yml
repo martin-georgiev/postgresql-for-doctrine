@@ -11,17 +11,26 @@ permissions:
 
 jobs:
   tests:
-    name: "PHP ${{ matrix.php }} + Doctrine ORM ${{ matrix.doctrine-orm }}"
+    name: "PHP ${{ matrix.php }} + Doctrine ORM ${{ matrix.doctrine-orm }} + Doctrine Lexer ${{ matrix.doctrine-lexer }}"
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
         php: ['8.1', '8.2', '8.3', '8.4']
-        doctrine-orm: ['2.14', '3.0', 'latest']
+        doctrine-lexer: ['2.1', '3.0', 'latest']
+        doctrine-orm: ['2.14', '2.18', '3.0', 'latest']
         include:
+          - php: '8.1'
+            doctrine-orm: '2.14'
+            doctrine-lexer: '1.2'
           - php: '8.4'
             calculate-code-coverage: true
+        exclude:
+          - doctrine-orm: '2.14'
+            doctrine-lexer: '3.0'
+          - doctrine-orm: '3.0'
+            doctrine-lexer: '2.1'
 
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -39,19 +48,33 @@ jobs:
 
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
 
-    - name: Install composer dependencies
+    - name: Install Doctrine Lexer dependency
+      run: |
+        if [ "${{ matrix.doctrine-lexer }}" == "1.2" ]; then
+          composer require doctrine/lexer "~1.2" --dev --prefer-dist --no-interaction --no-progress
+        elif [ "${{ matrix.doctrine-lexer }}" == "2.1" ]; then
+          composer require doctrine/lexer "~2.1" --dev --prefer-dist --no-interaction --no-progress
+        elif [ "${{ matrix.doctrine-lexer }}" == "3.0" ]; then
+          composer require doctrine/lexer "~3.0" --dev --prefer-dist --no-interaction --no-progress
+        else
+          composer update --prefer-dist --no-interaction --no-progress
+        fi
+
+    - name: Install Doctrine ORM dependency
       run: |
         if [ "${{ matrix.doctrine-orm }}" == "2.14" ]; then
-          composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress
+          composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress --with-all-dependencies
+        elif [ "${{ matrix.doctrine-orm }}" == "2.18" ]; then
+          composer require doctrine/orm "~2.18" --prefer-dist --no-interaction --no-progress --with-all-dependencies
         elif [ "${{ matrix.doctrine-orm }}" == "3.0" ]; then
-          composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress
+          composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress --with-all-dependencies
         else
           composer update --prefer-dist --no-interaction --no-progress
         fi
