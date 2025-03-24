@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
@@ -40,6 +41,9 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         RenamePropertyToMatchTypeRector::class,
+        FlipTypeControlToUseExclusiveTypeRector::class => [
+            $basePath.'src/MartinGeorgiev/Utils/DoctrineLexer.php',
+        ],
     ]);
 
     $rectorConfig->importShortClasses(false);

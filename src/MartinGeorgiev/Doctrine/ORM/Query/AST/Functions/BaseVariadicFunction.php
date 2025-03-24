@@ -11,6 +11,7 @@ use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use MartinGeorgiev\Utils\DoctrineLexer;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
@@ -30,24 +31,24 @@ abstract class BaseVariadicFunction extends BaseFunction
         try {
             // @phpstan-ignore-next-line
             $this->nodes[] = $parser->{$this->commonNodeMapping}();
-            if ($lexer->lookahead?->type === null) {
+            $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
+            if ($lookaheadType === null) {
                 throw ParserException::missingLookaheadType();
             }
         } catch (\Throwable $throwable) {
             throw ParserException::withThrowable($throwable);
         }
 
-        $aheadType = $lexer->lookahead->type;
         $shouldUseLexer = DoctrineOrm::isPre219();
 
-        while (($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $aheadType) {
-            if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $aheadType) {
+        while (($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $lookaheadType) {
+            if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $lookaheadType) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
                 // @phpstan-ignore-next-line
                 $this->nodes[] = $parser->{$this->commonNodeMapping}();
             }
 
-            $aheadType = $lexer->lookahead->type;
+            $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
         }
 
         $this->validateArguments($this->nodes);
