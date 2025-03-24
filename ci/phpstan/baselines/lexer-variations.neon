@@ -11,3 +11,5 @@ parameters:
         - '#Fetching deprecated class constant T_DISTINCT of class Doctrine\\ORM\\Query\\Lexer#'
         - '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
         - '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<Doctrine\\ORM\\Query\\TokenType,string>::isNextToken\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
+        - '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects int\|string, mixed given.#'
+        - '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<int\|string,string>::isNextToken\(\) expects int\|string, mixed given.#'

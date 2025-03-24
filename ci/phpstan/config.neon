@@ -4,7 +4,7 @@ includes:
     - ../../vendor/phpstan/phpstan-doctrine/extension.neon
     - ../../vendor/phpstan/phpstan-phpunit/extension.neon
     - ./baselines/deprecated-methods.neon
-    - ./baselines/lexer-constants.neon
+    - ./baselines/lexer-variations.neon
     - ./baselines/phpstan-identifiers.neon
     - ./baselines/type-mismatches.neon
 
