@@ -41,7 +41,7 @@ class Cast extends FunctionNode
 
         $lexer = $parser->getLexer();
         $type = DoctrineLexer::getTokenValue($lexer);
-        if ($type === null) {
+        if (!\is_string($type)) {
             return;
         }
 
