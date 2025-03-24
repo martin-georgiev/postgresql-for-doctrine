@@ -26,7 +26,7 @@ class SimilarToTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT SIMILAR_TO(e.text1,'TEST') FROM %s e", ContainsTexts::class),
+            \sprintf("SELECT SIMILAR_TO(e.text1, 'TEST') FROM %s e", ContainsTexts::class),
         ];
     }
 }

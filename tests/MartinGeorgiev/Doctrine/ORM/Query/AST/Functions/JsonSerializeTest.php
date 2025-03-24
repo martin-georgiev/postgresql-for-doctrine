@@ -19,21 +19,18 @@ class JsonSerializeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            // Basic serialization
-            'SELECT json_serialize(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
-            // With expression
-            'SELECT json_serialize(UPPER(c0_.object1)) AS sclr_0 FROM ContainsJsons c0_',
-            // With literal
-            "SELECT json_serialize('{\"key\": \"value\"}') AS sclr_0 FROM ContainsJsons c0_",
+            'serializes json field' => 'SELECT json_serialize(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
+            'serializes json field with expression' => 'SELECT json_serialize(UPPER(c0_.object1)) AS sclr_0 FROM ContainsJsons c0_',
+            'serializes json literal' => "SELECT json_serialize('{\"key\": \"value\"}') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSON_SERIALIZE(e.object1) FROM %s e', ContainsJsons::class),
-            \sprintf('SELECT JSON_SERIALIZE(UPPER(e.object1)) FROM %s e', ContainsJsons::class),
-            \sprintf("SELECT JSON_SERIALIZE('{\"key\": \"value\"}') FROM %s e", ContainsJsons::class),
+            'serializes json field' => \sprintf('SELECT JSON_SERIALIZE(e.object1) FROM %s e', ContainsJsons::class),
+            'serializes json field with expression' => \sprintf('SELECT JSON_SERIALIZE(UPPER(e.object1)) FROM %s e', ContainsJsons::class),
+            'serializes json literal' => \sprintf("SELECT JSON_SERIALIZE('{\"key\": \"value\"}') FROM %s e", ContainsJsons::class),
         ];
     }
 }

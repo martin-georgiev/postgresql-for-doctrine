@@ -19,16 +19,16 @@ class JsonbPrettyTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT jsonb_pretty(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
-            "SELECT jsonb_pretty('{\"iso_3166_a3_code\":\"BGR\"}') AS sclr_0 FROM ContainsJsons c0_",
+            'formats jsonb document with proper indentation' => 'SELECT jsonb_pretty(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
+            'formats literal jsonb value' => "SELECT jsonb_pretty('{\"iso_3166_a3_code\":\"BGR\"}') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSONB_PRETTY(e.object1) FROM %s e', ContainsJsons::class),
-            \sprintf("SELECT JSONB_PRETTY('{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJsons::class),
+            'formats jsonb document with proper indentation' => \sprintf('SELECT JSONB_PRETTY(e.object1) FROM %s e', ContainsJsons::class),
+            'formats literal jsonb value' => \sprintf("SELECT JSONB_PRETTY('{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJsons::class),
         ];
     }
 }

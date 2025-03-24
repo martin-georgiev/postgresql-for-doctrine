@@ -19,14 +19,16 @@ class JsonTypeofTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT json_typeof(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
+            'determines type of json document' => 'SELECT json_typeof(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
+            'determines type of literal value' => "SELECT json_typeof('42') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSON_TYPEOF(e.object1) FROM %s e', ContainsJsons::class),
+            'determines type of json document' => \sprintf('SELECT JSON_TYPEOF(e.object1) FROM %s e', ContainsJsons::class),
+            'determines type of literal value' => \sprintf("SELECT JSON_TYPEOF('42') FROM %s e", ContainsJsons::class),
         ];
     }
 }
