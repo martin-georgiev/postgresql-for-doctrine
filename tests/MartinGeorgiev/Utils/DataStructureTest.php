@@ -128,6 +128,27 @@ class DataStructureTest extends TestCase
                 ],
                 'postgresValue' => '{"1.23",1.23,"1.230","1.23e4","1.0",1,"9999999999999999999"}',
             ],
+            'boolean values' => [
+                'phpValue' => [true, false],
+                'postgresValue' => '{true,false}',
+            ],
+            'objects with __toString' => [
+                'phpValue' => [new class {
+                    public function __toString(): string
+                    {
+                        return 'custom string';
+                    }
+                }],
+                'postgresValue' => '{"custom string"}',
+            ],
+            'strings with backslashes' => [
+                'phpValue' => ['path\to\file', 'C:\Windows\System32'],
+                'postgresValue' => '{"path\\\to\\\file","C:\\\Windows\\\System32"}',
+            ],
+            'strings with unicode characters' => [
+                'phpValue' => ['Hello 世界', '🌍 Earth'],
+                'postgresValue' => '{"Hello 世界","🌍 Earth"}',
+            ],
         ];
     }
 
@@ -182,5 +203,47 @@ class DataStructureTest extends TestCase
                 'postgresValue' => '{{"1-1","1-2","1-3"},{"2-1","2-2","2-3"}}',
             ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function throws_exception_for_invalid_postgres_array_format(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid array format');
+        DataStructure::transformPostgresTextArrayToPHPArray('{invalid"format}');
+    }
+
+    /**
+     * @test
+     */
+    public function preserves_numeric_string_types(): void
+    {
+        $input = ['1', '1.0', '1.00', 1, 1.01];
+        $postgres = DataStructure::transformPHPArrayToPostgresTextArray($input);
+        $output = DataStructure::transformPostgresTextArrayToPHPArray($postgres);
+
+        self::assertSame([
+            '1',
+            '1.0',
+            '1.00',
+            1,
+            1.01,
+        ], $output);
+    }
+
+    /**
+     * @test
+     */
+    public function handles_resource_cleanup(): void
+    {
+        $resource = \fopen('php://memory', 'r');
+        \assert(\is_resource($resource));
+        $input = [$resource];
+        $result = DataStructure::transformPHPArrayToPostgresTextArray($input);
+        \fclose($resource);
+
+        self::assertSame('{"(resource)"}', $result);
     }
 }
