@@ -47,9 +47,10 @@ abstract class BaseIntegerArray extends BaseArray
             return null;
         }
 
-        $isInvalidPHPInt = !(bool) \preg_match('/^-?\d+$/', (string) $item)
-            || (string) $item < $this->getMinValue()
-            || (string) $item > $this->getMaxValue();
+        $stringValue = (string) $item;
+        $isInvalidPHPInt = !(bool) \preg_match('/^-?\d+$/', $stringValue)
+            || $stringValue < $this->getMinValue()
+            || $stringValue > $this->getMaxValue();
         if ($isInvalidPHPInt) {
             throw new ConversionException(\sprintf('Given value of %s content cannot be transformed to valid PHP integer.', \var_export($item, true)));
         }
