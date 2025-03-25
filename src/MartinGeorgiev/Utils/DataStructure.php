@@ -39,14 +39,15 @@ class DataStructure
 
         $jsonArray = '['.\trim($trimmed, '{}').']';
 
+        /** @var array<int, mixed>|null $decoded */
         $decoded = \json_decode($jsonArray, true, 512, JSON_BIGINT_AS_STRING);
         if ($decoded === null && \json_last_error() !== JSON_ERROR_NONE) {
             throw new \InvalidArgumentException('Invalid array format: '.\json_last_error_msg());
         }
 
         return \array_map(
-            static fn ($value): mixed => \is_string($value) ? self::unescapeString($value) : $value,
-            $decoded
+            static fn (mixed $value): mixed => \is_string($value) ? self::unescapeString($value) : $value,
+            (array) $decoded
         );
     }
 
@@ -64,7 +65,11 @@ class DataStructure
             throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
         }
 
-        $processed = \array_map(static fn ($value): string => self::formatValue($value), $phpArray);
+        /** @var array<int|string, string> */
+        $processed = \array_map(
+            static fn (mixed $value): string => self::formatValue($value),
+            $phpArray
+        );
 
         return '{'.\implode(',', $processed).'}';
     }
@@ -84,8 +89,29 @@ class DataStructure
             return (string) $value;
         }
 
-        // Convert to string if not already
-        $stringValue = (string) $value;
+        // Handle booleans
+        if (\is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
+
+        // Handle objects that implement __toString()
+        if (\is_object($value)) {
+            if (\method_exists($value, '__toString')) {
+                $stringValue = $value->__toString();
+            } else {
+                // For objects without __toString, use a default representation
+                $stringValue = $value::class;
+            }
+        } else {
+            // For all other types, force string conversion
+            // This covers strings, resources, and other types
+            $stringValue = match (true) {
+                \is_resource($value) => '(resource)',
+                default => (string) $value // @phpstan-ignore-line
+            };
+        }
+
+        \assert(\is_string($stringValue));
 
         // Handle empty string
         if ($stringValue === '') {

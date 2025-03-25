@@ -34,12 +34,7 @@ class DataStructureTest extends TestCase
     }
 
     /**
-     * @see https://stackoverflow.com/a/27964420/3425372 Kudos to dmikam for the inspiration
-     *
-     * @return list<array{
-     *     phpValue: array,
-     *     postgresValue: string
-     * }>
+     * @return array<string, array{phpValue: array, postgresValue: string}>
      */
     public static function provideValidTransformations(): array
     {
