@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatValueException;
 
