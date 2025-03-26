@@ -17,6 +17,7 @@ class BaseFunctionTest extends TestCase
     public function get_sql_returns_formatted_function_call(): void
     {
         $function = new class('test_function') extends BaseFunction {
+            // @phpstan-ignore-next-line The type for $name is not string in older Doctrine versions
             public function __construct(string $name)
             {
                 parent::__construct($name);
@@ -63,6 +64,7 @@ class BaseFunctionTest extends TestCase
     public function get_sql_handles_null_nodes(): void
     {
         $function = new class('test_function') extends BaseFunction {
+            // @phpstan-ignore-next-line The type for $name is not string in older Doctrine versions
             public function __construct(string $name)
             {
                 parent::__construct($name);
