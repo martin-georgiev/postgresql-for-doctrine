@@ -10,9 +10,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
 {
     protected function setUp(): void
     {
-        parent::setUp();
-
-        $this->fixture = new SmallIntArray(); // @phpstan-ignore-line
+        $this->fixture = new SmallIntArray();
     }
 
     /**
@@ -25,26 +23,55 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
 
     public static function provideInvalidTransformations(): array
     {
-        return \array_merge(parent::provideInvalidTransformations(), [['-32767.01'], [-32769]]);
+        return \array_merge(parent::provideInvalidTransformations(), [
+            ['32768'],    // Greater than max smallint
+            ['-32769'],   // Less than min smallint
+            ['1.23e4'],   // Scientific notation
+            ['123.45'],   // Decimal number
+        ]);
     }
 
     /**
-     * @return list<array{
-     *     phpValue: int,
-     *     postgresValue: string
-     * }>
+     * @return array<int, array{phpValue: int, postgresValue: string}>
      */
     public static function provideValidTransformations(): array
     {
         return [
             [
+                'phpValue' => 32767,
+                'postgresValue' => '32767',
+            ],
+            [
                 'phpValue' => -32768,
                 'postgresValue' => '-32768',
             ],
             [
-                'phpValue' => 32767,
-                'postgresValue' => '32767',
+                'phpValue' => 0,
+                'postgresValue' => '0',
             ],
+            [
+                'phpValue' => 1,
+                'postgresValue' => '1',
+            ],
+            [
+                'phpValue' => -1,
+                'postgresValue' => '-1',
+            ],
+            [
+                'phpValue' => 9999,
+                'postgresValue' => '9999',
+            ],
+        ];
+    }
+
+    /**
+     * @return array<array{string}>
+     */
+    protected function provideOutOfRangeValues(): array
+    {
+        return [
+            ['32768'], // MAX_SMALLINT + 1
+            ['-32769'], // MIN_SMALLINT - 1
         ];
     }
 }

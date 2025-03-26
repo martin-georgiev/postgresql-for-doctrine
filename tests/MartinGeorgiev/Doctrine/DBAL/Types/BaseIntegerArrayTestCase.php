@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseIntegerArray;
-use PHPUnit\Framework\MockObject\MockObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForPHPException;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseIntegerArrayTestCase extends TestCase
 {
-    /**
-     * @var BaseIntegerArray&MockObject
-     */
     protected BaseIntegerArray $fixture;
 
     /**
@@ -33,10 +30,14 @@ abstract class BaseIntegerArrayTestCase extends TestCase
         return [
             [true],
             [null],
-            [-0.1],
             ['string'],
             [[]],
             [new \stdClass()],
+            ['1.23'],
+            ['not_a_number'],
+            ['1e2'],
+            ['0xFF'],
+            ['123abc'],
         ];
     }
 
@@ -61,7 +62,28 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     }
 
     /**
-     * @return list<array<string, int|string>>
+     * @return list<array{
+     *     phpValue: int,
+     *     postgresValue: string
+     * }>
      */
     abstract public static function provideValidTransformations(): array;
+
+    /**
+     * @test
+     *
+     * @dataProvider provideOutOfRangeValues
+     */
+    public function throws_domain_exception_when_value_exceeds_range(string $outOfRangeValue): void
+    {
+        $this->expectException(InvalidIntegerArrayItemForPHPException::class);
+        $this->expectExceptionMessage('is out of range for PostgreSQL');
+
+        $this->fixture->transformArrayItemForPHP($outOfRangeValue);
+    }
+
+    /**
+     * @return array<array{string}>
+     */
+    abstract protected function provideOutOfRangeValues(): array;
 }
