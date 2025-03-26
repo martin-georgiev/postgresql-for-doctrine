@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Utils;
 
+use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
+
 /**
  * @since 3.0
  *
@@ -18,6 +20,8 @@ class ArrayDataTransformer
     /**
      * This method supports only single-dimensioned text arrays and
      * relays on the default escaping strategy in PostgreSQL (double quotes).
+     *
+     * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has invalid format
      */
     public static function transformPostgresTextArrayToPHPArray(string $postgresArray): array
     {
@@ -28,7 +32,7 @@ class ArrayDataTransformer
         }
 
         if (\str_contains($trimmed, '},{') || \str_starts_with($trimmed, '{{')) {
-            throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
+            throw InvalidArrayFormatException::multiDimensionalArrayNotSupported();
         }
 
         if ($trimmed === self::POSTGRESQL_EMPTY_ARRAY) {
@@ -40,7 +44,7 @@ class ArrayDataTransformer
         /** @var array<int, mixed>|null $decoded */
         $decoded = \json_decode($jsonArray, true, 512, JSON_BIGINT_AS_STRING);
         if ($decoded === null && \json_last_error() !== JSON_ERROR_NONE) {
-            throw new \InvalidArgumentException('Invalid array format: '.\json_last_error_msg());
+            throw InvalidArrayFormatException::invalidFormat(\json_last_error_msg());
         }
 
         return \array_map(
@@ -52,6 +56,8 @@ class ArrayDataTransformer
     /**
      * This method supports only single-dimensioned PHP arrays.
      * This method relays on the default escaping strategy in PostgreSQL (double quotes).
+     *
+     * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has invalid format
      */
     public static function transformPHPArrayToPostgresTextArray(array $phpArray): string
     {
@@ -60,7 +66,7 @@ class ArrayDataTransformer
         }
 
         if (\array_filter($phpArray, 'is_array')) {
-            throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
+            throw InvalidArrayFormatException::multiDimensionalArrayNotSupported();
         }
 
         /** @var array<int|string, string> */

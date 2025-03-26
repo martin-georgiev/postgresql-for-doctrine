@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Utils;
 
 use MartinGeorgiev\Utils\ArrayDataTransformer;
+use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use PHPUnit\Framework\TestCase;
 
 class ArrayDataTransformerTest extends TestCase
@@ -208,16 +209,6 @@ class ArrayDataTransformerTest extends TestCase
     /**
      * @test
      */
-    public function throws_exception_for_invalid_postgres_array_format(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid array format');
-        ArrayDataTransformer::transformPostgresTextArrayToPHPArray('{invalid"format}');
-    }
-
-    /**
-     * @test
-     */
     public function preserves_numeric_string_types(): void
     {
         $input = ['1', '1.0', '1.00', 1, 1.01];
@@ -245,5 +236,116 @@ class ArrayDataTransformerTest extends TestCase
         \fclose($resource);
 
         self::assertSame('{"(resource)"}', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function handles_empty_input(): void
+    {
+        $input = '';
+        $result = ArrayDataTransformer::transformPostgresTextArrayToPHPArray($input);
+        self::assertSame([], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function handles_null_string_input(): void
+    {
+        $input = 'null';
+        $result = ArrayDataTransformer::transformPostgresTextArrayToPHPArray($input);
+        self::assertSame([], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function preserves_numeric_precision(): void
+    {
+        $input = ['9223372036854775808', '1.23456789012345'];
+        $postgres = ArrayDataTransformer::transformPHPArrayToPostgresTextArray($input);
+        $output = ArrayDataTransformer::transformPostgresTextArrayToPHPArray($postgres);
+
+        self::assertSame($input, $output);
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideMultiDimensionalArrays
+     *
+     * @param array<int|string, mixed> $phpValue
+     */
+    public function throws_exception_for_multi_dimensional_arrays(array $phpValue): void
+    {
+        $this->expectException(InvalidArrayFormatException::class);
+        $this->expectExceptionMessage('Only single-dimensioned arrays are supported');
+        ArrayDataTransformer::transformPHPArrayToPostgresTextArray($phpValue);
+    }
+
+    /**
+     * @return array<string, array{phpValue: array}>
+     */
+    public static function provideMultiDimensionalArrays(): array
+    {
+        return [
+            'nested arrays' => [
+                'phpValue' => [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                ],
+            ],
+            'deeply nested arrays' => [
+                'phpValue' => [
+                    1,
+                    [2, [3, 4]],
+                    5,
+                ],
+            ],
+            'associative nested arrays' => [
+                'phpValue' => [
+                    'first' => [1, 2, 3],
+                    'second' => [4, 5, 6],
+                ],
+            ],
+            'mixed nesting' => [
+                'phpValue' => [
+                    1,
+                    'string',
+                    ['nested' => ['deep' => 'value']],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideInvalidPostgresArrays
+     */
+    public function throws_exception_for_invalid_postgres_arrays(string $postgresValue): void
+    {
+        $this->expectException(InvalidArrayFormatException::class);
+        $this->expectExceptionMessage('Invalid array format');
+        ArrayDataTransformer::transformPostgresTextArrayToPHPArray($postgresValue);
+    }
+
+    /**
+     * @return array<string, array{postgresValue: string}>
+     */
+    public static function provideInvalidPostgresArrays(): array
+    {
+        return [
+            'unclosed string' => [
+                'postgresValue' => '{1,2,"unclosed string}',
+            ],
+            'invalid format' => [
+                'postgresValue' => '{invalid"format}',
+            ],
+            'malformed nesting' => [
+                'postgresValue' => '{1,{2,3},4}',
+            ],
+        ];
     }
 }
