@@ -80,11 +80,12 @@ abstract class BaseIntegerArray extends BaseArray
             throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInPHP($item, static::TYPE_NAME);
         }
 
-        $doesNotFitIntoDatabaseInteger = $stringValue < $this->getMinValue() || $stringValue > $this->getMaxValue();
+        $integerValue = (int) $item;
+        $doesNotFitIntoDatabaseInteger = $integerValue < $this->getMinValue() || $integerValue > $this->getMaxValue();
         if ($doesNotFitIntoDatabaseInteger) {
             throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInDatabaseType($item, static::TYPE_NAME);
         }
 
-        return (int) $item;
+        return $integerValue;
     }
 }
