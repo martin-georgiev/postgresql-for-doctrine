@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Utils;
 
-use MartinGeorgiev\Utils\DataStructure;
+use MartinGeorgiev\Utils\ArrayDataTransformer;
 use PHPUnit\Framework\TestCase;
 
-class DataStructureTest extends TestCase
+class ArrayDataTransformerTest extends TestCase
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class DataStructureTest extends TestCase
      */
     public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
     {
-        self::assertEquals($postgresValue, DataStructure::transformPHPArrayToPostgresTextArray($phpValue));
+        self::assertEquals($postgresValue, ArrayDataTransformer::transformPHPArrayToPostgresTextArray($phpValue));
     }
 
     /**
@@ -30,7 +30,7 @@ class DataStructureTest extends TestCase
      */
     public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
     {
-        self::assertEquals($phpValue, DataStructure::transformPostgresTextArrayToPHPArray($postgresValue));
+        self::assertEquals($phpValue, ArrayDataTransformer::transformPostgresTextArrayToPHPArray($postgresValue));
     }
 
     /**
@@ -118,13 +118,13 @@ class DataStructureTest extends TestCase
             ],
             'mixed numeric formats' => [
                 'phpValue' => [
-                    '1.23',           // regular float string
-                    1.23,             // regular float
-                    '1.230',          // float with trailing zeros
-                    '1.23e4',         // scientific notation
-                    '1.0',            // whole float as string
-                    1.0,              // whole float
-                    '9999999999999999999', // large integer
+                    '1.23',                 // regular float string
+                    1.23,                   // regular float
+                    '1.230',                // float with trailing zeros
+                    '1.23e4',               // scientific notation
+                    '1.0',                  // whole float as string
+                    1.0,                    // whole float
+                    '9999999999999999999',  // large integer
                 ],
                 'postgresValue' => '{"1.23",1.23,"1.230","1.23e4","1.0",1,"9999999999999999999"}',
             ],
@@ -162,7 +162,7 @@ class DataStructureTest extends TestCase
     public function throws_invalid_argument_exception_when_tries_to_non_single_dimensioned_array_from_php_value(array $phpValue, string $postgresValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        DataStructure::transformPHPArrayToPostgresTextArray($phpValue);
+        ArrayDataTransformer::transformPHPArrayToPostgresTextArray($phpValue);
     }
 
     /**
@@ -175,7 +175,7 @@ class DataStructureTest extends TestCase
     public function throws_invalid_argument_exception_when_tries_to_non_single_dimensioned_array_to_php_value(array $phpValue, string $postgresValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        DataStructure::transformPostgresTextArrayToPHPArray($postgresValue);
+        ArrayDataTransformer::transformPostgresTextArrayToPHPArray($postgresValue);
     }
 
     /**
@@ -212,7 +212,7 @@ class DataStructureTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid array format');
-        DataStructure::transformPostgresTextArrayToPHPArray('{invalid"format}');
+        ArrayDataTransformer::transformPostgresTextArrayToPHPArray('{invalid"format}');
     }
 
     /**
@@ -221,8 +221,8 @@ class DataStructureTest extends TestCase
     public function preserves_numeric_string_types(): void
     {
         $input = ['1', '1.0', '1.00', 1, 1.01];
-        $postgres = DataStructure::transformPHPArrayToPostgresTextArray($input);
-        $output = DataStructure::transformPostgresTextArrayToPHPArray($postgres);
+        $postgres = ArrayDataTransformer::transformPHPArrayToPostgresTextArray($input);
+        $output = ArrayDataTransformer::transformPostgresTextArrayToPHPArray($postgres);
 
         self::assertSame([
             '1',
@@ -241,7 +241,7 @@ class DataStructureTest extends TestCase
         $resource = \fopen('php://memory', 'r');
         \assert(\is_resource($resource));
         $input = [$resource];
-        $result = DataStructure::transformPHPArrayToPostgresTextArray($input);
+        $result = ArrayDataTransformer::transformPHPArrayToPostgresTextArray($input);
         \fclose($resource);
 
         self::assertSame('{"(resource)"}', $result);

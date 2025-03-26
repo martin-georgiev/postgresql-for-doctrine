@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Utils;
 
 /**
- * Util class with helpers for working with PostgreSQL data structures.
- *
- * @since 0.9
+ * @since 3.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class DataStructure
+class ArrayDataTransformer
 {
     private const POSTGRESQL_EMPTY_ARRAY = '{}';
 
@@ -156,9 +154,6 @@ class DataStructure
 
         // Handle double backslashes
         $value = \str_replace('\\\\', '___DBLBACK___', $value);
-
-        // Handle remaining single backslashes
-        $value = \str_replace('\\', '\\', $value);
 
         // Restore double backslashes
         $value = \str_replace('___DBLBACK___', '\\\\', $value);
