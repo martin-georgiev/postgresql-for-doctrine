@@ -57,6 +57,10 @@ class RealArrayTest extends BaseFloatArrayTestCase
                 'postgresValue' => '-1.123456',
             ],
             [
+                'phpValue' => 1.,
+                'postgresValue' => '1.0',
+            ],
+            [
                 'phpValue' => 0.0,
                 'postgresValue' => '0',
             ],

@@ -47,6 +47,7 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
             ['phpValue' => 1.23e4, 'postgresValue' => '1.23e4'],
             ['phpValue' => 1.23e-4, 'postgresValue' => '1.23e-4'],
             ['phpValue' => 1.234567890123456, 'postgresValue' => '1.234567890123456'],
+            ['phpValue' => 1., 'postgresValue' => '1.0'],
             ['phpValue' => 1.0, 'postgresValue' => '1.0'],
             ['phpValue' => -1.0, 'postgresValue' => '-1.0'],
         ];
