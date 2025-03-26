@@ -7,7 +7,7 @@ namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatValueException;
 
-class DoublePrecisionArrayTestCase extends BaseFloatArrayTestCase
+class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
 {
     protected function setUp(): void
     {
@@ -58,7 +58,7 @@ class DoublePrecisionArrayTestCase extends BaseFloatArrayTestCase
     public function throws_conversion_exception_when_value_is_too_close_to_zero(): void
     {
         $this->expectException(InvalidFloatValueException::class);
-        $this->expectExceptionMessage("Given value of '1.18E-308' is too close to zero for PostgreSQL DOUBLE PRECISION type");
+        $this->expectExceptionMessage("Given value of '1.18E-308' is too close to zero for PostgreSQL double precision[] type");
 
         $this->fixture->transformArrayItemForPHP('1.18E-308');
     }

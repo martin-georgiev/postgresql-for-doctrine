@@ -7,7 +7,7 @@ namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatValueException;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 
-class RealArrayTestCase extends BaseFloatArrayTestCase
+class RealArrayTest extends BaseFloatArrayTestCase
 {
     protected function setUp(): void
     {
@@ -69,7 +69,7 @@ class RealArrayTestCase extends BaseFloatArrayTestCase
     public function throws_conversion_exception_when_value_too_close_to_zero(): void
     {
         $this->expectException(InvalidFloatValueException::class);
-        $this->expectExceptionMessage("Given value of '1.17E-38' is too close to zero for PostgreSQL REAL type");
+        $this->expectExceptionMessage("Given value of '1.17E-38' is too close to zero for PostgreSQL real[] type");
 
         $this->fixture->transformArrayItemForPHP('1.17E-38');
     }
