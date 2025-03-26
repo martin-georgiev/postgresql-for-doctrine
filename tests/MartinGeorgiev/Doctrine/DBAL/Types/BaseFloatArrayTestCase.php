@@ -33,7 +33,10 @@ abstract class BaseFloatArrayTestCase extends TestCase
             ['string'],
             [[]],
             [new \stdClass()],
-            ['1.23e4'], // Scientific notation not allowed
+            ['1e'], // Invalid scientific notation format
+            ['e1'], // Invalid scientific notation format
+            ['1.23.45'], // Invalid number format
+            ['not_a_number'],
         ];
     }
 
@@ -71,8 +74,8 @@ abstract class BaseFloatArrayTestCase extends TestCase
     public function throws_conversion_exception_when_invalid_array_item_value(): void
     {
         $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage("Given value of '1.23e4' content cannot be transformed to valid PHP float.");
+        $this->expectExceptionMessage("Given value of '1.e234' content cannot be transformed to valid PHP float.");
 
-        $this->fixture->transformArrayItemForPHP('1.23e4');
+        $this->fixture->transformArrayItemForPHP('1.e234');
     }
 }
