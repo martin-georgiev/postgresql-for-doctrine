@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatValueException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForDatabaseException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
 
 /**
  * @since 3.0
@@ -25,14 +26,25 @@ abstract class BaseFloatArray extends BaseArray
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
+        try {
+            $this->throwIfInvalidArrayItemForDatabase($item);
+        } catch (InvalidFloatArrayItemForDatabaseException) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function throwIfInvalidArrayItemForDatabase(mixed $item): void
+    {
         $isNotANumber = !\is_float($item) && !\is_int($item) && !\is_string($item);
         if ($isNotANumber) {
-            return false;
+            throw InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
         }
 
         $stringValue = (string) $item;
         if (!\preg_match(self::FLOAT_REGEX, $stringValue)) {
-            return false;
+            throw InvalidFloatArrayItemForDatabaseException::doesNotMatchRegex($item);
         }
 
         $floatValue = (float) $stringValue;
@@ -42,30 +54,31 @@ abstract class BaseFloatArray extends BaseArray
             $standardForm = \sprintf('%.'.($this->getMaxPrecision() + 1).'f', $floatValue);
             $parts = \explode('.', $standardForm);
             if (isset($parts[1]) && \strlen($parts[1]) > $this->getMaxPrecision()) {
-                return false;
+                throw InvalidFloatArrayItemForDatabaseException::isAScientificNotationWithExcessPrecision($item);
             }
         } elseif (\str_contains($stringValue, '.')) {
             $parts = \explode('.', $stringValue);
             if (\strlen($parts[1]) > $this->getMaxPrecision()) {
-                return false;
+                throw InvalidFloatArrayItemForDatabaseException::isANormalNumberWithExcessPrecision($item);
             }
         }
 
         $isBelowMinValue = $floatValue < (float) $this->getMinValue();
         if ($isBelowMinValue) {
-            return false;
+            throw InvalidFloatArrayItemForDatabaseException::isBelowMinValue($item);
         }
 
         $isAboveMaxValue = $floatValue > (float) $this->getMaxValue();
         if ($isAboveMaxValue) {
-            return false;
+            throw InvalidFloatArrayItemForDatabaseException::isAboveMaxValue($item);
         }
 
         // Check if value is too close to zero
         $absoluteValue = \abs($floatValue);
         $isTooCloseToZero = $absoluteValue > 0 && $absoluteValue < (float) $this->getMinAbsoluteValue();
-
-        return !$isTooCloseToZero;
+        if ($isTooCloseToZero) {
+            throw InvalidFloatArrayItemForDatabaseException::absoluteValueIsTooCloseToZero($item);
+        }
     }
 
     public function transformArrayItemForPHP(mixed $item): ?float
@@ -76,12 +89,12 @@ abstract class BaseFloatArray extends BaseArray
 
         $isNotANumberCandidate = !\is_float($item) && !\is_int($item) && !\is_string($item);
         if ($isNotANumberCandidate) {
-            throw InvalidFloatValueException::forValueThatIsNotAValidPHPFloat($item);
+            throw InvalidFloatArrayItemForPHPException::forValueThatIsNotAValidPHPFloat($item, static::TYPE_NAME);
         }
 
         $stringValue = (string) $item;
         if (!\preg_match(self::FLOAT_REGEX, $stringValue)) {
-            throw InvalidFloatValueException::forValueThatIsNotAValidPHPFloat($item);
+            throw InvalidFloatArrayItemForPHPException::forValueThatIsNotAValidPHPFloat($item, static::TYPE_NAME);
         }
 
         $floatValue = (float) $stringValue;
@@ -89,11 +102,11 @@ abstract class BaseFloatArray extends BaseArray
         // Check if value is too close to zero
         $absValue = \abs($floatValue);
         if ($absValue > 0 && $absValue < (float) $this->getMinAbsoluteValue()) {
-            throw InvalidFloatValueException::forValueThatIsTooCloseToZero($item, static::TYPE_NAME);
+            throw InvalidFloatArrayItemForPHPException::forValueThatIsTooCloseToZero($item, static::TYPE_NAME);
         }
 
         if ($floatValue < (float) $this->getMinValue() || $floatValue > (float) $this->getMaxValue()) {
-            throw InvalidFloatValueException::forValueThatIsNotAValidPHPFloat($item);
+            throw InvalidFloatArrayItemForPHPException::forValueThatIsNotAValidPHPFloat($item, static::TYPE_NAME);
         }
 
         // Scientific notation is valid for input as long as the resulting number
@@ -106,7 +119,7 @@ abstract class BaseFloatArray extends BaseArray
         if (\str_contains($stringValue, '.')) {
             $parts = \explode('.', $stringValue);
             if (\strlen($parts[1]) > $this->getMaxPrecision()) {
-                throw InvalidFloatValueException::forValueThatExceedsMaximumPrecision($item, $this->getMaxPrecision(), static::TYPE_NAME);
+                throw InvalidFloatArrayItemForPHPException::forValueThatExceedsMaximumPrecision($item, static::TYPE_NAME);
             }
         }
 

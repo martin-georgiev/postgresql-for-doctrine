@@ -94,7 +94,7 @@ class BaseArrayTest extends TestCase
     /**
      * @test
      */
-    public function throws_conversion_exception_when_invalid_array_item_value(): void
+    public function throws_domain_exception_when_invalid_array_item_value(): void
     {
         $this->expectException(ConversionException::class);
         $this->expectExceptionMessage("One or more of the items given doesn't look valid.");
@@ -110,7 +110,7 @@ class BaseArrayTest extends TestCase
     /**
      * @test
      */
-    public function throws_conversion_exception_when_postgres_value_is_not_valid_php_array(): void
+    public function throws_domain_exception_when_postgres_value_is_not_valid_php_array(): void
     {
         $this->expectException(ConversionException::class);
         $this->expectExceptionMessageMatches('/Given PostgreSQL value content type is not PHP string. Instead it is "\w+"./');

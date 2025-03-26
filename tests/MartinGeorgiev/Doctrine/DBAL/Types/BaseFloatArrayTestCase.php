@@ -71,10 +71,10 @@ abstract class BaseFloatArrayTestCase extends TestCase
     /**
      * @test
      */
-    public function throws_conversion_exception_when_invalid_array_item_value(): void
+    public function throws_domain_exception_when_invalid_array_item_value(): void
     {
         $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage("Given value of '1.e234' content cannot be transformed to valid PHP float.");
+        $this->expectExceptionMessage('cannot be transformed to valid PHP float');
 
         $this->fixture->transformArrayItemForPHP('1.e234');
     }

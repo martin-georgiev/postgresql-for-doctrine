@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatValueException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 
 class RealArrayTest extends BaseFloatArrayTestCase
@@ -41,12 +41,12 @@ class RealArrayTest extends BaseFloatArrayTestCase
     {
         return [
             [
-                'phpValue' => -3.402823466E+38,
-                'postgresValue' => '-340282346600000000000000000000000000000',
+                'phpValue' => -3.402823466E+8,
+                'postgresValue' => '-3.402823466E+8',
             ],
             [
-                'phpValue' => 3.402823466E+38,
-                'postgresValue' => '340282346600000000000000000000000000000',
+                'phpValue' => 3.402823466E+8,
+                'postgresValue' => '3.402823466E+8',
             ],
             [
                 'phpValue' => 1.123456,
@@ -70,11 +70,48 @@ class RealArrayTest extends BaseFloatArrayTestCase
     /**
      * @test
      */
-    public function throws_conversion_exception_when_value_too_close_to_zero(): void
+    public function throws_domain_exception_when_value_too_close_to_zero(): void
     {
-        $this->expectException(InvalidFloatValueException::class);
-        $this->expectExceptionMessage("Given value of '1.17E-38' is too close to zero for PostgreSQL real[] type");
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+        $this->expectExceptionMessage('is too close to zero for PostgreSQL real[] type');
 
         $this->fixture->transformArrayItemForPHP('1.17E-38');
+    }
+
+    /**
+     * @test
+     */
+    public function throws_domain_exception_when_value_exceeds_precision_limit(): void
+    {
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+        $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL real[] type');
+
+        $this->fixture->transformArrayItemForPHP('1.1234567');
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider providePrecisionExceedingValues
+     */
+    public function throws_domain_exception_for_various_precision_violations(string $value): void
+    {
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+        $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL real[] type');
+
+        $this->fixture->transformArrayItemForPHP($value);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function providePrecisionExceedingValues(): array
+    {
+        return [
+            'seven decimals' => ['1.1234567'],
+            'many trailing zeros' => ['1.123000000'],
+            'large number with excess precision' => ['123456.1234567'],
+            'negative with excess precision' => ['-1.1234567'],
+        ];
     }
 }

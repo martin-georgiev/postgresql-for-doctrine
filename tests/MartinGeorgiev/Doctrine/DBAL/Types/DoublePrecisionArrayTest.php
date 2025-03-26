@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatValueException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
 
 class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
 {
@@ -56,11 +56,48 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
     /**
      * @test
      */
-    public function throws_conversion_exception_when_value_is_too_close_to_zero(): void
+    public function throws_domain_exception_when_value_is_too_close_to_zero(): void
     {
-        $this->expectException(InvalidFloatValueException::class);
-        $this->expectExceptionMessage("Given value of '1.18E-308' is too close to zero for PostgreSQL double precision[] type");
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+        $this->expectExceptionMessage('is too close to zero for PostgreSQL double precision[] type');
 
         $this->fixture->transformArrayItemForPHP('1.18E-308');
+    }
+
+    /**
+     * @test
+     */
+    public function throws_domain_exception_when_value_exceeds_precision_limit(): void
+    {
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+        $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL double precision[] type');
+
+        $this->fixture->transformArrayItemForPHP('1.123456789012345678');
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider providePrecisionExceedingValues
+     */
+    public function throws_domain_exception_for_various_precision_violations(string $value): void
+    {
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+        $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL double precision[] type');
+
+        $this->fixture->transformArrayItemForPHP($value);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function providePrecisionExceedingValues(): array
+    {
+        return [
+            'sixteen decimals' => ['1.1234567890123456789'],
+            'many trailing zeros' => ['1.123456789012345000000'],
+            'large number with excess precision' => ['123456.1234567890123456789'],
+            'negative with excess precision' => ['-1.1234567890123456789'],
+        ];
     }
 }
