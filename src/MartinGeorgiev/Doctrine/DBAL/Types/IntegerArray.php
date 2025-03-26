@@ -19,13 +19,13 @@ class IntegerArray extends BaseIntegerArray
      */
     protected const TYPE_NAME = 'integer[]';
 
-    protected function getMinValue(): string
+    protected function getMinValue(): int
     {
-        return '-2147483648';
+        return -2147483648;
     }
 
-    protected function getMaxValue(): string
+    protected function getMaxValue(): int
     {
-        return '2147483647';
+        return 2147483647;
     }
 }

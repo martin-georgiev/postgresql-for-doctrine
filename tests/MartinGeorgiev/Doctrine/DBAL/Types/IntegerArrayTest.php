@@ -10,9 +10,7 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
 {
     protected function setUp(): void
     {
-        parent::setUp();
-
-        $this->fixture = new IntegerArray(); // @phpstan-ignore-line
+        $this->fixture = new IntegerArray();
     }
 
     /**
@@ -23,31 +21,57 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
         self::assertEquals('integer[]', $this->fixture->getName());
     }
 
-    /**
-     * @return array<int, mixed>
-     */
     public static function provideInvalidTransformations(): array
     {
-        return \array_merge(parent::provideInvalidTransformations(), [['-2147483647.01'], [2_147_483_649]]);
+        return \array_merge(parent::provideInvalidTransformations(), [
+            ['2147483648'],   // Greater than max integer
+            ['-2147483649'],  // Less than min integer
+            ['1.23e6'],      // Scientific notation
+            ['123456.789'],   // Decimal number
+        ]);
     }
 
     /**
-     * @return list<array{
-     *     phpValue: int,
-     *     postgresValue: string
-     * }>
+     * @return array<int, array{phpValue: int, postgresValue: string}>
      */
     public static function provideValidTransformations(): array
     {
         return [
             [
-                'phpValue' => -2_147_483_648,
+                'phpValue' => 2147483647,
+                'postgresValue' => '2147483647',
+            ],
+            [
+                'phpValue' => -2147483648,
                 'postgresValue' => '-2147483648',
             ],
             [
-                'phpValue' => 2_147_483_647,
-                'postgresValue' => '2147483647',
+                'phpValue' => 0,
+                'postgresValue' => '0',
             ],
+            [
+                'phpValue' => 1,
+                'postgresValue' => '1',
+            ],
+            [
+                'phpValue' => -1,
+                'postgresValue' => '-1',
+            ],
+            [
+                'phpValue' => 999999999,
+                'postgresValue' => '999999999',
+            ],
+        ];
+    }
+
+    /**
+     * @return array<array{string}>
+     */
+    protected function provideOutOfRangeValues(): array
+    {
+        return [
+            ['2147483648'], // MAX_INTEGER + 1
+            ['-2147483649'], // MIN_INTEGER - 1
         ];
     }
 }

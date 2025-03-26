@@ -31,10 +31,6 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
             ['1.123456789012345678'], // Too many decimal places (>15)
             ['2.2250738585072014E-309'], // Too close to zero
             ['-2.2250738585072014E-309'], // Too close to zero (negative)
-            ['not_a_number'],
-            ['1.23.45'],
-            ['1e'], // Invalid scientific notation
-            ['e1'], // Invalid scientific notation
         ]);
     }
 

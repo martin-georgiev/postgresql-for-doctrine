@@ -19,13 +19,13 @@ class BigIntArray extends BaseIntegerArray
      */
     protected const TYPE_NAME = 'bigint[]';
 
-    protected function getMinValue(): string
+    protected function getMinValue(): int
     {
-        return '-9223372036854775807';
+        return PHP_INT_MIN;
     }
 
-    protected function getMaxValue(): string
+    protected function getMaxValue(): int
     {
-        return '9223372036854775807';
+        return PHP_INT_MAX;
     }
 }

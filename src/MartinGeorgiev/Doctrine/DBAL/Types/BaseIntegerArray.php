@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForDatabaseException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForPHPException;
 
 /**
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
@@ -14,45 +15,74 @@ use Doctrine\DBAL\Types\ConversionException;
  */
 abstract class BaseIntegerArray extends BaseArray
 {
-    abstract protected function getMinValue(): string;
+    private const INTEGER_REGEX = '/^-?\d+$/';
 
-    abstract protected function getMaxValue(): string;
+    abstract protected function getMinValue(): int;
 
-    /**
-     * @param mixed $item
-     */
-    public function isValidArrayItemForDatabase($item): bool
+    abstract protected function getMaxValue(): int;
+
+    public function isValidArrayItemForDatabase(mixed $item): bool
     {
-        if (!\is_int($item) && !\is_string($item)) {
+        try {
+            $this->throwIfInvalidArrayItemForDatabase($item);
+        } catch (InvalidIntegerArrayItemForDatabaseException) {
             return false;
         }
 
-        if (!(bool) \preg_match('/^-?\d+$/', (string) $item)) {
-            return false;
-        }
-
-        if ((string) $item < $this->getMinValue()) {
-            return false;
-        }
-
-        return (string) $item <= $this->getMaxValue();
+        return true;
     }
 
-    /**
-     * @param int|string|null $item Whole number
-     */
-    public function transformArrayItemForPHP($item): ?int
+    private function throwIfInvalidArrayItemForDatabase(mixed $item): void
+    {
+        $isNotANumber = !\is_int($item) && !\is_string($item);
+        if ($isNotANumber) {
+            throw InvalidIntegerArrayItemForDatabaseException::isNotANumber($item);
+        }
+
+        $stringValue = (string) $item;
+        if (!\preg_match(self::INTEGER_REGEX, $stringValue)) {
+            throw InvalidIntegerArrayItemForDatabaseException::doesNotMatchRegex($item);
+        }
+
+        $doesNotFitIntoPHPInteger = $stringValue !== (string) (int) $stringValue;
+        if ($doesNotFitIntoPHPInteger) {
+            throw InvalidIntegerArrayItemForDatabaseException::isOutOfRange($item);
+        }
+
+        $integerValue = (int) $item;
+        if ($integerValue < $this->getMinValue()) {
+            throw InvalidIntegerArrayItemForDatabaseException::isBelowMinValue($item);
+        }
+
+        if ($integerValue > $this->getMaxValue()) {
+            throw InvalidIntegerArrayItemForDatabaseException::isAboveMaxValue($item);
+        }
+    }
+
+    public function transformArrayItemForPHP(mixed $item): ?int
     {
         if ($item === null) {
             return null;
         }
 
+        $isNotANumberCandidate = !\is_int($item) && !\is_string($item);
+        if ($isNotANumberCandidate) {
+            throw InvalidIntegerArrayItemForPHPException::forValueThatIsNotAValidPHPInteger($item, static::TYPE_NAME);
+        }
+
         $stringValue = (string) $item;
-        $isInvalidPHPInt = !(bool) \preg_match('/^-?\d+$/', $stringValue)
-            || $stringValue < $this->getMinValue()
-            || $stringValue > $this->getMaxValue();
-        if ($isInvalidPHPInt) {
-            throw new ConversionException(\sprintf('Given value of %s content cannot be transformed to valid PHP integer.', \var_export($item, true)));
+        if (!\preg_match(self::INTEGER_REGEX, $stringValue)) {
+            throw InvalidIntegerArrayItemForPHPException::forValueThatIsNotAValidPHPInteger($item, static::TYPE_NAME);
+        }
+
+        $doesNotFitIntoPHPInteger = $stringValue !== (string) (int) $stringValue;
+        if ($doesNotFitIntoPHPInteger) {
+            throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInPHP($item, static::TYPE_NAME);
+        }
+
+        $doesNotFitIntoDatabaseInteger = $stringValue < $this->getMinValue() || $stringValue > $this->getMaxValue();
+        if ($doesNotFitIntoDatabaseInteger) {
+            throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInDatabaseType($item, static::TYPE_NAME);
         }
 
         return (int) $item;

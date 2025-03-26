@@ -19,13 +19,13 @@ class SmallIntArray extends BaseIntegerArray
      */
     protected const TYPE_NAME = 'smallint[]';
 
-    protected function getMinValue(): string
+    protected function getMinValue(): int
     {
-        return '-32768';
+        return -32768;
     }
 
-    protected function getMaxValue(): string
+    protected function getMaxValue(): int
     {
-        return '32767';
+        return 32767;
     }
 }
