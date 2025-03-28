@@ -31,22 +31,56 @@ abstract class BaseArray extends BaseType
         }
 
         if (!\is_array($phpArray)) {
-            $exceptionMessage = 'Given PHP value content type is not PHP array. Instead it is "%s".';
-
-            throw new \InvalidArgumentException(\sprintf($exceptionMessage, \gettype($phpArray)));
+            $this->throwInvalidTypeException($phpArray);
         }
 
         foreach ($phpArray as &$item) {
             if (!$this->isValidArrayItemForDatabase($item)) {
-                $exceptionMessage = "One or more of the items given doesn't look valid.";
-
-                throw new ConversionException($exceptionMessage);
+                $this->throwInvalidItemException();
             }
 
             $item = $this->transformArrayItemForPostgres($item);
         }
 
         return '{'.\implode(',', $phpArray).'}';
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    protected function throwInvalidTypeException(mixed $value): never
+    {
+        throw $this->createInvalidTypeException($value);
+    }
+
+    /**
+     * @throws ConversionException
+     */
+    protected function throwInvalidItemException(): never
+    {
+        throw $this->createInvalidItemException();
+    }
+
+    /**
+     * @throws ConversionException
+     */
+    protected function throwInvalidPostgresTypeException(mixed $value): never
+    {
+        throw new ConversionException(
+            \sprintf('Given PostgreSQL value content type is not PHP string. Instead it is "%s".', \gettype($value))
+        );
+    }
+
+    protected function createInvalidTypeException(mixed $value): \InvalidArgumentException
+    {
+        return new \InvalidArgumentException(
+            \sprintf('Given PHP value content type is not PHP array. Instead it is "%s".', \gettype($value))
+        );
+    }
+
+    protected function createInvalidItemException(): ConversionException
+    {
+        return new ConversionException("One or more of the items given doesn't look valid.");
     }
 
     /**
@@ -79,9 +113,7 @@ abstract class BaseArray extends BaseType
         }
 
         if (!\is_string($postgresArray)) {
-            $exceptionMessage = 'Given PostgreSQL value content type is not PHP string. Instead it is "%s".';
-
-            throw new ConversionException(\sprintf($exceptionMessage, \gettype($postgresArray)));
+            $this->throwInvalidPostgresTypeException($postgresArray);
         }
 
         $phpArray = $this->transformPostgresArrayToPHPArray($postgresArray);

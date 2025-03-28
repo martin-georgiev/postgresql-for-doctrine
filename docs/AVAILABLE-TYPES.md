@@ -11,3 +11,9 @@
 | text[] | _text | `MartinGeorgiev\Doctrine\DBAL\Types\TextArray` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
+| inet | inet | `MartinGeorgiev\Doctrine\DBAL\Types\Inet` |
+| inet[] | _inet | `MartinGeorgiev\Doctrine\DBAL\Types\InetArray` |
+| cidr | cidr | `MartinGeorgiev\Doctrine\DBAL\Types\Cidr` |
+| cidr[] | _cidr | `MartinGeorgiev\Doctrine\DBAL\Types\CidrArray` |
+| macaddr | macaddr | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr` |
+| macaddr[] | _macaddr | `MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray` |
