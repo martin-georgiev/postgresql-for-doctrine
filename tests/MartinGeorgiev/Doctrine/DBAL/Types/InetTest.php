@@ -87,6 +87,22 @@ class InetTest extends TestCase
                 'phpValue' => '::1',
                 'postgresValue' => '::1',
             ],
+            'IPv4 with leading zeros' => [
+                'phpValue' => '192.168.001.001',
+                'postgresValue' => '192.168.001.001',
+            ],
+            'IPv6 compressed zeros' => [
+                'phpValue' => '2001:db8::1',
+                'postgresValue' => '2001:db8::1',
+            ],
+            'IPv6 full notation' => [
+                'phpValue' => '2001:0db8:0000:0000:0000:0000:0000:0001',
+                'postgresValue' => '2001:0db8:0000:0000:0000:0000:0000:0001',
+            ],
+            'IPv4-mapped IPv6' => [
+                'phpValue' => '::ffff:192.168.1.1',
+                'postgresValue' => '::ffff:192.168.1.1',
+            ],
         ];
     }
 
@@ -116,6 +132,11 @@ class InetTest extends TestCase
             'wrong format' => ['not-an-ip-address'],
             'incomplete IPv4' => ['192.168.1'],
             'incomplete IPv6' => ['2001:db8'],
+            'IPv6 too many segments' => ['2001:db8:1:2:3:4:5:6:7'],
+            'IPv6 invalid segment length' => ['2001:db8:xyz:1:1:1:1:1'],
+            'IPv4 with invalid octet count' => ['192.168.1'],
+            'IPv4 with character suffix' => ['192.168.1.1x'],
+            'malformed IPv4-mapped IPv6' => ['::ffff:256.256.256.256'],
         ];
     }
 }

@@ -91,6 +91,14 @@ class InetArrayTest extends TestCase
                 'phpValue' => ['192.168.0.0/24', '2001:db8::/32'],
                 'postgresValue' => '{"192.168.0.0/24","2001:db8::/32"}',
             ],
+            'uppercase IPv6' => [
+                'phpValue' => ['2001:DB8::1', 'FE80::1'],
+                'postgresValue' => '{"2001:DB8::1","FE80::1"}',
+            ],
+            'IPv6 full notation' => [
+                'phpValue' => ['2001:0db8:0000:0000:0000:0000:0000:0001'],
+                'postgresValue' => '{"2001:0db8:0000:0000:0000:0000:0000:0001"}',
+            ],
         ];
     }
 
@@ -121,6 +129,11 @@ class InetArrayTest extends TestCase
             'incomplete IPv4' => [['192.168.1']],
             'incomplete IPv6' => [['2001:db8']],
             'mixed valid and invalid' => [['192.168.1.1', 'invalid-ip']],
+            'empty string' => [['']],
+            'whitespace only' => [[' ']],
+            'malformed CIDR with spaces' => [['192.168.1.0 / 24']],
+            'IPv6 with invalid segment count' => [['2001:db8:1:2:3:4:5:6:7']],
+            'IPv6 with invalid segment length' => [['2001:db8:xyz:1:1:1:1:1']],
         ];
     }
 }

@@ -79,6 +79,10 @@ class MacaddrArrayTest extends TestCase
                 'phpValue' => ['08:00:2b:01:02:03', '00-0c-29-aa-bb-cc'],
                 'postgresValue' => '{"08:00:2b:01:02:03","00-0c-29-aa-bb-cc"}',
             ],
+            'uppercase MAC addresses' => [
+                'phpValue' => ['08:00:2B:01:02:03', '00:0C:29:AA:BB:CC'],
+                'postgresValue' => '{"08:00:2B:01:02:03","00:0C:29:AA:BB:CC"}',
+            ],
         ];
     }
 
@@ -106,6 +110,11 @@ class MacaddrArrayTest extends TestCase
             'no separators' => [['000011223344']],
             'wrong separator' => [['00.11.22.33.44.55']],
             'non-hex characters' => [['GG:HH:II:JJ:KK:LL']],
+            'mixed valid and invalid' => [['08:00:2b:01:02:03', 'invalid-mac']],
+            'empty string' => [['']],
+            'whitespace only' => [[' ']],
+            'malformed with spaces' => [['08:00 :2b:01:02:03']],
+            'mixed case invalid chars' => [['GG:hh:II:jj:KK:ll']],
         ];
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -123,6 +124,29 @@ class MacaddrTest extends TestCase
             'non-hex characters' => ['GG:HH:II:JJ:KK:LL'],
             'wrong format' => ['not-a-mac-address'],
             'mixed separators' => ['00:11-22:33-44:55'],
+            'non-hex digits' => ['zz:zz:zz:zz:zz:zz'],
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideInvalidDatabaseValues
+     */
+    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $dbValue): void
+    {
+        $this->expectException(InvalidMacaddrForDatabaseException::class);
+        $this->fixture->convertToPHPValue($dbValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidDatabaseValues(): array
+    {
+        return [
+            'invalid type' => [123],
+            'invalid format from database' => ['invalid-mac-format'],
         ];
     }
 }

@@ -42,7 +42,11 @@ trait NetworkAddressValidationTrait
 
     private function isValidIpv4(string $value): bool
     {
-        return (bool) \filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+        // First remove any leading zeros from octets
+        // IPv4 addresses with leading zeros (like '192.168.001.001') are valid according to PostgreSQL's INET type specification
+        $normalized = \preg_replace('/\b0+(\d+)\b/', '$1', $value);
+
+        return (bool) \filter_var($normalized, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }
 
     private function isValidIpv6(string $value): bool

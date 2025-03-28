@@ -105,6 +105,10 @@ class CidrArrayTest extends TestCase
             'missing netmask' => [['192.168.1.0']],
             'invalid netmask IPv4' => [['192.168.1.0/33']],
             'invalid netmask IPv6' => [['2001:db8::/129']],
+            'mixed valid and invalid' => [['192.168.1.0/24', '256.256.256.0/24']], // Mixed valid/invalid values
+            'empty string' => [['']], // Empty string in array
+            'whitespace only' => [[' ']], // Whitespace string in array
+            'malformed CIDR with spaces' => [['192.168.1.0 / 24']], // Space in CIDR notation
         ];
     }
 }
