@@ -104,17 +104,13 @@ class JsonbArrayTest extends TestCase
     }
 
     /**
-     * @return array<string, array{string, string}>
+     * @return array<string, array{string}>
      */
     public static function provideInvalidTransformations(): array
     {
         return [
-            'non-array json' => [
-                '"a string encoded as json"',
-            ],
-            'invalid json format' => [
-                '{invalid json}',
-            ],
+            'non-array json' => ['"a string encoded as json"'],
+            'invalid json format' => ['{invalid json}'],
         ];
     }
 }
