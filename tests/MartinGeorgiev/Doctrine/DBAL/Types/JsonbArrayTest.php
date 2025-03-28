@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\UnexpectedTypeOfTransformedPHPValue;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -92,13 +92,25 @@ class JsonbArrayTest extends TestCase
 
     /**
      * @test
+     *
+     * @dataProvider provideInvalidTransformations
      */
-    public function throws_an_error_when_transformed_value_is_not_an_array(): void
+    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
     {
-        $this->expectException(UnexpectedTypeOfTransformedPHPValue::class);
-
-        $postgresValue = '"a string encoded as json"';
+        $this->expectException(InvalidJsonbArrayItemForPHPException::class);
+        $this->expectExceptionMessage('Invalid JSONB format in array');
 
         $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidTransformations(): array
+    {
+        return [
+            'non-array json' => ['"a string encoded as json"'],
+            'invalid json format' => ['{invalid json}'],
+        ];
     }
 }

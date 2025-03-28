@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\UnexpectedTypeOfTransformedPHPValue;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbArrayItemForPHPException;
 
 /**
  * Implementation of PostgreSQL JSONB[] data type.
@@ -18,9 +18,6 @@ class JsonbArray extends BaseArray
 {
     use JsonTransformer;
 
-    /**
-     * @var string
-     */
     protected const TYPE_NAME = 'jsonb[]';
 
     protected function transformArrayItemForPostgres(mixed $item): string
@@ -48,17 +45,15 @@ class JsonbArray extends BaseArray
      */
     public function transformArrayItemForPHP($item): array
     {
-        $transformedValue = null;
-
         try {
             $transformedValue = $this->transformFromPostgresJson($item);
             if (!\is_array($transformedValue)) {
-                throw new UnexpectedTypeOfTransformedPHPValue($item, \gettype($transformedValue));
+                throw InvalidJsonbArrayItemForPHPException::forInvalidType($item);
             }
-        } catch (\JsonException) {
-            throw new UnexpectedTypeOfTransformedPHPValue($item, \gettype($transformedValue));
-        }
 
-        return $transformedValue;
+            return $transformedValue;
+        } catch (\JsonException) {
+            throw InvalidJsonbArrayItemForPHPException::forInvalidFormat($item);
+        }
     }
 }
