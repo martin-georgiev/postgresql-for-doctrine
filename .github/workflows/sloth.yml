@@ -12,7 +12,15 @@ jobs:
   sloth:
     runs-on: ubuntu-latest
     steps:
-      - name: Sloth
+      - name: Skip for release-please
+        id: check_release_please
+        if: github.event.pull_request.user.id == 41898282 # release-please[bot]
+        run: |
+          echo "Skipping Sloth check for release-please PR"
+          exit 0
+
+      - name: Run Sloth
+        if: ${{ always() && steps.check_release_please.outcome == 'skipped' }}
         uses: lendable/sloth@e1fd9a2df2549f6e64188f274bc5d3b39d7842ed # 0.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
