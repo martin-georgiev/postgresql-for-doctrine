@@ -16,7 +16,7 @@ jobs:
       - name: Skip for release-please
         id: check
         run: |
-          if [ "${{ github.event.pull_request.user.id }}" == '41898282' ]; then
+          if [ "${{ github.event.pull_request.user.id }}" = '41898282' ]; then
             echo "run=false" >> $GITHUB_OUTPUT
             echo "::notice::Skipping CI checks - release-please PR"
           else
@@ -73,11 +73,11 @@ jobs:
 
       - name: Install Doctrine Lexer dependency
         run: |
-          if [ "${{ matrix.doctrine-lexer }}" == "1.2" ]; then
+          if [ "${{ matrix.doctrine-lexer }}" = "1.2" ]; then
             composer require doctrine/lexer "~1.2" --dev --prefer-dist --no-interaction --no-progress
-          elif [ "${{ matrix.doctrine-lexer }}" == "2.1" ]; then
+          elif [ "${{ matrix.doctrine-lexer }}" = "2.1" ]; then
             composer require doctrine/lexer "~2.1" --dev --prefer-dist --no-interaction --no-progress
-          elif [ "${{ matrix.doctrine-lexer }}" == "3.0" ]; then
+          elif [ "${{ matrix.doctrine-lexer }}" = "3.0" ]; then
             composer require doctrine/lexer "~3.0" --dev --prefer-dist --no-interaction --no-progress
           else
             composer update --prefer-dist --no-interaction --no-progress
@@ -85,11 +85,11 @@ jobs:
 
       - name: Install Doctrine ORM dependency
         run: |
-          if [ "${{ matrix.doctrine-orm }}" == "2.14" ]; then
+          if [ "${{ matrix.doctrine-orm }}" = "2.14" ]; then
             composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress --with-all-dependencies
-          elif [ "${{ matrix.doctrine-orm }}" == "2.18" ]; then
+          elif [ "${{ matrix.doctrine-orm }}" = "2.18" ]; then
             composer require doctrine/orm "~2.18" --prefer-dist --no-interaction --no-progress --with-all-dependencies
-          elif [ "${{ matrix.doctrine-orm }}" == "3.0" ]; then
+          elif [ "${{ matrix.doctrine-orm }}" = "3.0" ]; then
             composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress --with-all-dependencies
           else
             composer update --prefer-dist --no-interaction --no-progress
