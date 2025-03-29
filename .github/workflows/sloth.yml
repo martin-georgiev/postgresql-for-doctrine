@@ -22,6 +22,7 @@ jobs:
             echo "::notice::Skipping Sloth - release-please PR"
           else
             echo "run=true" >> $GITHUB_OUTPUT
+            echo "::notice::Sloth will execute - the PR author is not the release-please bot"
           fi
 
   sloth:

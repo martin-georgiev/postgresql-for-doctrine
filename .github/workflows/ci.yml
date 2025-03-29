@@ -21,6 +21,7 @@ jobs:
             echo "::notice::Skipping CI checks - release-please PR"
           else
             echo "run=true" >> $GITHUB_OUTPUT
+            echo "::notice::CI checks will execute - the PR author is not the release-please bot"
           fi
 
   tests:

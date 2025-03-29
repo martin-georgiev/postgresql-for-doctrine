@@ -18,16 +18,17 @@ jobs:
         run: |
           if [ "${{ github.event.pull_request.user.id }}" = '4849482' ]; then
             echo "run=false" >> $GITHUB_OUTPUT
-            echo "::notice::Skipping auto-review request - repository owner PR"
+            echo "::notice::Skipping auto request review - repository owner PR"
           else
             echo "run=true" >> $GITHUB_OUTPUT
+            echo "::notice::Auto request review will execute - the PR author is not the repository owner"
           fi
 
   auto-request-review:
     needs: should-run
     if: needs.should-run.outputs.run == 'true'
     runs-on: ubuntu-latest
-    name: Auto Request Review
+    name: Request a reviewer
     steps:
       - name: Request reviews based on configuration
         uses: necojackarc/auto-request-review@e89da1a8cd7c8c16d9de9c6e763290b6b0e3d424 # v0.13.0
