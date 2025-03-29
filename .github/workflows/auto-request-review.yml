@@ -16,11 +16,11 @@ jobs:
         id: check_owner
         if: github.event.pull_request.user.id == 4849482 # martin-georgiev
         run: |
+          echo "skip=true" >> $GITHUB_OUTPUT
           echo "Skipping auto-review request for repository owner"
-          exit 0
 
       - name: Request reviews based on configuration
-        if: ${{ always() && steps.check_owner.outcome == 'skipped' }}
+        if: ${{ !steps.check_owner.outputs.skip }}
         uses: necojackarc/auto-request-review@e89da1a8cd7c8c16d9de9c6e763290b6b0e3d424 # v0.13.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
