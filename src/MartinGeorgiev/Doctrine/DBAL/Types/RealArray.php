@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 /**
  * Implementation of PostgreSQL REAL[] data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-numeric.html
+ * @see https://www.postgresql.org/docs/17/datatype-numeric.html
  * @since 3.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
