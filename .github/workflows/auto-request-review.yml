@@ -8,17 +8,27 @@ on:
       - reopened
 
 jobs:
-  auto-request-review:
-    name: Auto Request Review
+  should-run:
     runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
     steps:
       - name: Skip for repository owner
-        id: check_owner
-        if: github.event.pull_request.user.id == 4849482 # martin-georgiev
+        id: check
         run: |
-          echo "skip=true" >> $GITHUB_OUTPUT
-          echo "Skipping auto-review request for repository owner"
+          if [ "${{ github.event.pull_request.user.id == '4849482' }}" == "true" ]; then
+            echo "run=false" >> $GITHUB_OUTPUT
+            echo "Skipping auto-review request - repository owner PR"
+          else
+            echo "run=true" >> $GITHUB_OUTPUT
+          fi
 
+  auto-request-review:
+    needs: should-run
+    if: needs.should-run.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    name: Auto Request Review
+    steps:
       - name: Request reviews based on configuration
         if: ${{ !steps.check_owner.outputs.skip }}
         uses: necojackarc/auto-request-review@e89da1a8cd7c8c16d9de9c6e763290b6b0e3d424 # v0.13.0

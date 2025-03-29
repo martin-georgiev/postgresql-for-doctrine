@@ -9,18 +9,27 @@ permissions:
   checks: read
 
 jobs:
-  sloth:
+  should-run:
     runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
     steps:
       - name: Skip for release-please
-        id: check_release_please
-        if: github.event.pull_request.user.id == 41898282 # release-please[bot]
+        id: check
         run: |
-          echo "skip=true" >> $GITHUB_OUTPUT
-          echo "Skipping Sloth check for release-please PR"
+          if [ "${{ github.event.pull_request.user.id == '41898282' }}" == "true" ]; then
+            echo "run=false" >> $GITHUB_OUTPUT
+            echo "Skipping Sloth - release-please PR"
+          else
+            echo "run=true" >> $GITHUB_OUTPUT
+          fi
 
+  sloth:
+    needs: should-run
+    if: needs.should-run.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    steps:
       - name: Run Sloth
-        if: ${{ !steps.check_release_please.outputs.skip }}
         uses: lendable/sloth@e1fd9a2df2549f6e64188f274bc5d3b39d7842ed # 0.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
