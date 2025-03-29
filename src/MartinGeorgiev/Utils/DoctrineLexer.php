@@ -20,7 +20,7 @@ final class DoctrineLexer
     public static function isPre200(Lexer $lexer): bool
     {
         // @phpstan-ignore-next-line
-        return \is_array($lexer->lookahead);
+        return !\is_array($lexer->lookahead);
     }
 
     /**
