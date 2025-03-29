@@ -12,7 +12,7 @@ use Doctrine\ORM\Query\Lexer;
 final class DoctrineLexer
 {
     /**
-     * Checks if the Lexer is prior to version 2.0.0.
+     * Checks if the Lexer is prior to version 2.0.0!
      *
      * In Lexer versions prior to 2.0.0, the lookahead property is an array,
      * while in 2.0.0+ it's an object.
