@@ -12,11 +12,11 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class JsonAgg extends BaseFunction
+class JsonAgg extends BaseAggregateFunction
 {
     protected function customizeFunction(): void
     {
-        $this->setFunctionPrototype('json_agg(%s)');
+        $this->setFunctionPrototype('json_agg(%s%s%s)');
         $this->addNodeMapping('StringPrimary');
     }
 }
