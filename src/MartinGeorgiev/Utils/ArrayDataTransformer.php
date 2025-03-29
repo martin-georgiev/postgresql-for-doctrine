@@ -31,7 +31,7 @@ class ArrayDataTransformer
             return [];
         }
 
-        if (\str_contains($trimmed, '},{') || \str_starts_with($trimmed, '{{')) {
+        if (\str_contains($trimmed, '},{') || \str_starts_with($trimmed, '{{1')) {
             throw InvalidArrayFormatException::multiDimensionalArrayNotSupported();
         }
 
