@@ -1,16 +1,9 @@
 name: CI
 
 on:
+  push:
   pull_request:
     branches: [ "main" ]
-    paths-ignore:
-      - '.github/**'
-      - '**/*.md'
-  push:
-    branches: [ "main" ]
-    paths-ignore:
-      - '.github/**'
-      - '**/*.md'
 
 permissions:
   contents: read
