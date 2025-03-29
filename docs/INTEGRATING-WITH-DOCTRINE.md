@@ -32,8 +32,15 @@ use Doctrine\ORM\Configuration;
 
 $configuration = new Configuration();
 
-# Register json functions
+# Register aggregation functions
+$configuration->addCustomStringFunction('ARRAY_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class);
 $configuration->addCustomStringFunction('JSON_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class);
+$configuration->addCustomStringFunction('JSON_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class);
+$configuration->addCustomStringFunction('JSONB_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class);
+$configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class);
+$configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);
+$configuration->addCustomStringFunction('XML_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
+# Register json functions
 $configuration->addCustomStringFunction('JSON_ARRAY_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class);
 $configuration->addCustomStringFunction('JSON_BUILD_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class);
 $configuration->addCustomStringFunction('JSON_EACH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach::class);
@@ -44,7 +51,6 @@ $configuration->addCustomStringFunction('JSON_GET_FIELD_AS_TEXT', MartinGeorgiev
 $configuration->addCustomStringFunction('JSON_GET_FIELD_AS_INTEGER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger::class);
 $configuration->addCustomStringFunction('JSON_GET_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject::class);
 $configuration->addCustomStringFunction('JSON_GET_OBJECT_AS_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText::class);
-$configuration->addCustomStringFunction('JSON_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class);
 $configuration->addCustomStringFunction('JSON_OBJECT_KEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectKeys::class);
 $configuration->addCustomStringFunction('JSON_QUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonQuery::class);
 $configuration->addCustomStringFunction('JSON_SCALAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonScalar::class);
