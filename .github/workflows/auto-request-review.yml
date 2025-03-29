@@ -18,7 +18,7 @@ jobs:
         run: |
           if [ "${{ github.event.pull_request.user.id == '4849482' }}" == "true" ]; then
             echo "run=false" >> $GITHUB_OUTPUT
-            echo "Skipping auto-review request - repository owner PR"
+            echo "::notice::Skipping auto-review request - repository owner PR"
           else
             echo "run=true" >> $GITHUB_OUTPUT
           fi
