@@ -17,7 +17,7 @@ jobs:
       - name: Skip for release-please
         id: check
         run: |
-          if [ "${{ github.event.pull_request.user.id == '41898282' }}" == "true" ]; then
+          if [ "${{ github.event.pull_request.user.id }}" == '41898282' ]; then
             echo "run=false" >> $GITHUB_OUTPUT
             echo "::notice::Skipping Sloth - release-please PR"
           else
