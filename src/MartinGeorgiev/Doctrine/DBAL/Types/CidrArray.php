@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\CidrValidationTrait;
 /**
  * Implementation of PostgreSQL CIDR[] data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-CIDR
+ * @see https://www.postgresql.org/docs/17/datatype-net-types.html#DATATYPE-CIDR
  * @since 3.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

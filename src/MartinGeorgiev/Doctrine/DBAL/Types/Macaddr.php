@@ -12,7 +12,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\MacaddrValidationTrait;
 /**
  * Implementation of PostgreSQL MACADDR data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR
+ * @see https://www.postgresql.org/docs/17/datatype-net-types.html#DATATYPE-MACADDR
  * @since 3.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
