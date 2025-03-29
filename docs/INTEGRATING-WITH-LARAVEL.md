@@ -87,7 +87,6 @@ return [
         # array and string specific functions
         'IN_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray::class,
         'ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr::class,
-        'ARRAY_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class,
         'ARRAY_APPEND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend::class,
         'ARRAY_CARDINALITY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality::class,
         'ARRAY_CAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat::class,
@@ -101,12 +100,10 @@ return [
         'ARRAY_TO_STRING' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString::class,
         'SPLIT_PART' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class,
         'STARTS_WITH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class,
-        'STRING_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class,
         'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
         'UNNEST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class,
 
         # json specific functions
-        'JSON_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class,
         'JSON_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class,
         'JSON_BUILD_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class,
         'JSON_EACH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach::class,
@@ -117,7 +114,6 @@ return [
         'JSON_GET_FIELD_AS_INTEGER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger::class,
         'JSON_GET_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject::class,
         'JSON_GET_OBJECT_AS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText::class,
-        'JSON_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class,
         'JSON_OBJECT_KEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectKeys::class,
         'JSON_QUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonQuery::class,
         'JSON_SCALAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonScalar::class,
@@ -128,7 +124,6 @@ return [
         'ROW_TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson::class,
 
         # jsonb specific functions
-        'JSONB_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class,
         'JSONB_ARRAY_ELEMENTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements::class,
         'JSONB_ARRAY_ELEMENTS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText::class,
         'JSONB_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength::class,
@@ -137,7 +132,6 @@ return [
         'JSONB_EACH_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText::class,
         'JSONB_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists::class,
         'JSONB_INSERT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert::class,
-        'JSONB_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class,
         'JSONB_OBJECT_KEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys::class,
         'JSONB_PRETTY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPretty::class,
         'JSONB_SET' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet::class,
@@ -177,6 +171,15 @@ return [
         'FLAGGED_REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch::class,
         'REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class,
         'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
+
+        # aggregation functions
+        'ARRAY_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class,
+        'JSON_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class,
+        'JSON_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class,
+        'JSONB_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class,
+        'JSONB_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class,
+        'STRING_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class,
+        'XML_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class,
     ],
 
     ...
