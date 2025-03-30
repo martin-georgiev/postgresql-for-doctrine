@@ -36,6 +36,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           interval: 10
           ignored: |
-            Auto Request Review
             CodeRabbit
             Scrutinizer
