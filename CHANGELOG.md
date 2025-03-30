@@ -3,7 +3,7 @@
 ## [3.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.3...v3.0.0) (2025-03-30)
 
 
-### ⚠ BREAKING CHANGES
+### ⚠️🚨 BREAKING CHANGES
 
 * refactor exceptions handling for `JsonbArray` in the style used for the network types ([#311](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/311))
 * preserve the type of booleans, floats, integers & scientific notations when transforming back and forth between PostgreSQL and PHP ([#304](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/304))
