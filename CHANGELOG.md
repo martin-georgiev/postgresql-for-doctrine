@@ -1,5 +1,45 @@
 # Changelog
 
+## [4.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.0...v4.0.0) (2025-03-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactor exceptions handling for `JsonbArray` in the style used for the network types ([#311](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/311))
+* preserve the type of booleans, floats, integers & scientific notations when transforming back and forth between PostgreSQL and PHP ([#304](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/304))
+
+### Features
+
+* Add (limited) support for `json_exists`, `json_query`, `json_scalar`, `json_serialize` and `json_value` ([#277](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/277)) ([4a26400](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4a264003aa6ce58c65335b708dc1036d02217f08))
+* Add `NULL` value support for `array_append()`, `array_replace()`, `array_prepend()`, `array_remove()` and improve test scenarios for `NULL` ([#322](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/322)) ([396856f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/396856f81c40b2eefed801995c1fced455e8a8dd))
+* Add limited support for `json_build_object` and `jsonb_build_object` ([#268](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/268)) ([2605f5a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2605f5accfedb23b5aa31afe5349ada77cd50258))
+* Add multiple arguments support for `ARRAY` ([#279](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/279)) ([7f2b05d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7f2b05d21a665d44d5fac07ac0f03f1ff99647bf))
+* Add support for `any_value()` ([#323](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/323)) ([19ee3db](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/19ee3dbd4497195bbcd3b4df7608232de0f32b8a))
+* Add support for `array_shuffle()` ([#324](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/324)) ([90a9b9e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/90a9b9e84f8ec9a0dc9fd81b2d80ae48b59f2e57))
+* Add support for `DISTINCT` and `ORDER BY` clauses to `json_agg()` and `jsonb_agg()` ([#317](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/317)) ([4cdc638](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4cdc638841b23449daa9d9c0a5f9e53e15724fa3))
+* Add support for `DISTINCT` clause to `array_agg()` ([#316](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/316)) ([3c46021](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3c4602109754b345277e292e86ffd03200d91fa8))
+* Add support for `ORDER BY` clause for `array_agg()` ([#267](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/267)) ([7c64742](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7c64742d5e3f52bb350fa630efda1ef9ac98d352))
+* Add support for `xmlagg()` ([#318](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/318)) ([0b4db8a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0b4db8a930964b9292e7d6f79678dbc76b9d841a))
+* Add support for arrays of `REAL` and `DOUBLE PRECISION` ([#307](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/307)) ([1db35ac](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1db35ac6f73b12e2691ca35fc6c63b0b8a3c4b28))
+* Add support for network types `inet`, `_inet`, `cidr`, `_cidr`, `macaddr`, `_macaddr` ([#310](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/310)) ([ba3f9f2](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ba3f9f2833fc68f4e36ae7202396794fc43ecb63))
+* Add support for range functions ([#263](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/263)) ([2fa8434](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2fa8434f517f3bf3ecb4873956bd134b4df8112b))
+* Preserve the type of booleans, floats, integers & scientific notations when transforming back and forth between PostgreSQL and PHP ([#304](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/304)) ([c584099](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c584099652b612cc4a89f24573fddcd7060bb4fe))
+* Refactor exceptions handling for `JsonbArray` in the style used for the network types ([#311](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/311)) ([0058d1c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0058d1cd657675bbea402787205db5c0e71f26ac))
+
+
+### Bug Fixes
+
+* Add support for Lexer v1 (allowed by ORM &lt; v2.15) ([#300](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/300)) ([16fd227](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/16fd227d1841eccfff2ffe62a4d4c0b81c9fc3e3))
+* Improve BC by deprecating `customiseFunction` instead of renaming it straight away ([#294](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/294)) ([910d328](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/910d3289fe9cb0e605765cf301ae4e86c5845e63))
+* Wrap up ORM v3 throwable when parsing fails in variadic functions ([#285](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/285)) ([59a8cb9](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/59a8cb9ed84a45a8ea7da2f19e05e921400c934b))
+
+
+### Code Refactoring
+
+* Introduce `BaseRegexpFunction` and `ParserException` ([#269](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/269)) ([fed0367](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/fed0367baa8cedffe309bd25e1885fb23f6449c8))
+* Modernise the validation in active code and the associated tests when dealing with integer arrays ([#308](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/308)) ([67c344e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/67c344e11e16529049422b9fe9024310594a0392))
+* Validate that variadic functions have only the expected count of arguments ([#274](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/274)) ([019f84d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/019f84d23df6e85c7f5658b94c5992699e8082e3))
+
 ## [3.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.3...v3.0.0) (2025-03-30)
 
 
