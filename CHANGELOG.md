@@ -1,5 +1,31 @@
 # Changelog
 
+## [3.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.3...v3.0.0) (2025-03-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactor exceptions handling for `JsonbArray` in the style used for the network types ([#311](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/311))
+* preserve the type of booleans, floats, integers & scientific notations when transforming back and forth between PostgreSQL and PHP ([#304](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/304))
+
+### Features
+
+* Add `NULL` value support for `array_append()`, `array_replace()`, `array_prepend()`, `array_remove()` and improve test scenarios for `NULL` ([#322](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/322)) ([396856f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/396856f81c40b2eefed801995c1fced455e8a8dd))
+* Add support for `any_value()` ([#323](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/323)) ([19ee3db](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/19ee3dbd4497195bbcd3b4df7608232de0f32b8a))
+* Add support for `array_shuffle()` ([#324](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/324)) ([90a9b9e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/90a9b9e84f8ec9a0dc9fd81b2d80ae48b59f2e57))
+* Add support for `DISTINCT` and `ORDER BY` clauses to `json_agg()` and `jsonb_agg()` ([#317](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/317)) ([4cdc638](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4cdc638841b23449daa9d9c0a5f9e53e15724fa3))
+* Add support for `DISTINCT` clause to `array_agg()` ([#316](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/316)) ([3c46021](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3c4602109754b345277e292e86ffd03200d91fa8))
+* Add support for `xmlagg()` ([#318](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/318)) ([0b4db8a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0b4db8a930964b9292e7d6f79678dbc76b9d841a))
+* Add support for arrays of `REAL` and `DOUBLE PRECISION` ([#307](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/307)) ([1db35ac](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1db35ac6f73b12e2691ca35fc6c63b0b8a3c4b28))
+* Add support for network types `inet`, `_inet`, `cidr`, `_cidr`, `macaddr`, `_macaddr` ([#310](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/310)) ([ba3f9f2](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ba3f9f2833fc68f4e36ae7202396794fc43ecb63))
+* Preserve the type of booleans, floats, integers & scientific notations when transforming back and forth between PostgreSQL and PHP ([#304](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/304)) ([c584099](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c584099652b612cc4a89f24573fddcd7060bb4fe))
+* Refactor exceptions handling for `JsonbArray` in the style used for the network types ([#311](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/311)) ([0058d1c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0058d1cd657675bbea402787205db5c0e71f26ac))
+
+
+### Code Refactoring
+
+* Modernise the validation in active code and the associated tests when dealing with integer arrays ([#308](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/308)) ([67c344e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/67c344e11e16529049422b9fe9024310594a0392))
+
 ## [2.10.3](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.2...v2.10.3) (2025-03-24)
 
 
