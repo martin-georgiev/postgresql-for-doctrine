@@ -64,7 +64,7 @@ doctrine:
                         # alternative implementation of ALL() and ANY() where subquery is not required, useful for arrays
                         ALL_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All
                         ANY_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any
-
+                        
                         # operators for working with array and json(b) data
                         GREATEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest
                         LEAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least
@@ -79,6 +79,7 @@ doctrine:
                         
                         # array and string specific functions
                         IN_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray
+                        ANY_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue
                         ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr
                         ARRAY_APPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend
                         ARRAY_CARDINALITY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality

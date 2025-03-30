@@ -86,6 +86,7 @@ return [
 
         # array and string specific functions
         'IN_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray::class,
+        'ANY_VALUE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue::class,
         'ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr::class,
         'ARRAY_APPEND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend::class,
         'ARRAY_CARDINALITY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality::class,
