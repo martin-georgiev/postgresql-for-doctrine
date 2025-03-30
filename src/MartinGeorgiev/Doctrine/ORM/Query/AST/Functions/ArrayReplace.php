@@ -18,7 +18,7 @@ class ArrayReplace extends BaseFunction
     {
         $this->setFunctionPrototype('array_replace(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('NewValue');
+        $this->addNodeMapping('NewValue');
     }
 }
