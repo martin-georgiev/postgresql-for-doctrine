@@ -70,6 +70,10 @@ $configuration->addCustomStringFunction('INT8RANGE', MartinGeorgiev\Doctrine\ORM
 $configuration->addCustomStringFunction('NUMRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class);
 $configuration->addCustomStringFunction('TSRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class);
 $configuration->addCustomStringFunction('TSTZRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class);
+# Register array value extracting functions
+$configuration->addCustomStringFunction('ALL_OF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All::class);
+$configuration->addCustomStringFunction('ANY_OF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any::class);
+$configuration->addCustomStringFunction('ANY_VALUE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue::class);
 
 $em = EntityManager::create($dbParams, $configuration);
 ```
