@@ -1,5 +1,50 @@
 # Changelog
 
+## [3.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.3...v3.0.0) (2025-03-30)
+
+
+### ⚠️🚨 BREAKING CHANGES
+
+_For detailed upgrade guide read here: [UPGRADE.md](docs/UPGRADE.md)_
+
+#### 1. Type Preservation for PostgreSQL numerical and text arrays
+
+The library now attempts to strictly preserve the type of values when converting between PostgreSQL arrays and PHP arrays. This affects all array type handlers including `TextArray`, integer arrays, and boolean arrays.
+
+**What changed:** Previously, numeric values could lose their type information during conversion (e.g., floats might become integers, string representations of numbers might become actual numbers). With version 3.0.0, the original data types are preserved in both directions. The change comes from PR [#304](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/304).
+
+**Examples:**
+- Integer values like `1` remain integers
+- Float values like `1.5` remain floats
+- String representations like `'1'` remain strings
+- Boolean values like `true`/`false` remain booleans
+- Scientific notation like `'1.23e5'` is preserved
+
+#### 2. Refactored Exception Handling for JsonbArray
+
+The exception handling for `JsonbArray` has been refactored to be more consistent with the network types approach, providing clearer error messages and better diagnostics.
+
+**What changed:** Previously, generic exceptions were thrown when JSON array conversion failed. With version 3.0.0, specific `InvalidJsonbArrayItemForPHPException` is used with more descriptive error messages about the exact nature of the failure. The change comes from PR [#311](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/311).
+
+### Features
+
+#### Added new data types
+* Add support for array of float types `real[]` and `double precision[]` ([#307](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/307)) ([1db35ac](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1db35ac6f73b12e2691ca35fc6c63b0b8a3c4b28))
+* Add support for network types `inet`, `inet[]`, `cidr`, `cidr[]`, `macaddr`, `macaddr[]` ([#310](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/310)) ([ba3f9f2](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ba3f9f2833fc68f4e36ae7202396794fc43ecb63))
+
+#### Added new functions
+* Add support for `any_value()` ([#323](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/323)) ([19ee3db](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/19ee3dbd4497195bbcd3b4df7608232de0f32b8a))
+* Add support for `array_shuffle()` ([#324](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/324)) ([90a9b9e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/90a9b9e84f8ec9a0dc9fd81b2d80ae48b59f2e57))
+* Add support for `xmlagg()` ([#318](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/318)) ([0b4db8a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0b4db8a930964b9292e7d6f79678dbc76b9d841a))
+
+#### Extended support in some existing functions
+* Add support for `NULL` value in `array_append()`, `array_replace()`, `array_prepend()`, `array_remove()` ([#322](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/322)) ([396856f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/396856f81c40b2eefed801995c1fced455e8a8dd))
+* Add support for `DISTINCT` and `ORDER BY` clauses to `json_agg()` and `jsonb_agg()` ([#317](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/317)) ([4cdc638](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4cdc638841b23449daa9d9c0a5f9e53e15724fa3))
+* Add support for `DISTINCT` clause to `array_agg()` ([#316](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/316)) ([3c46021](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3c4602109754b345277e292e86ffd03200d91fa8))
+
+### Code Refactoring
+* Modernise the validation in active code and the associated tests when dealing with integer arrays ([#308](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/308)) ([67c344e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/67c344e11e16529049422b9fe9024310594a0392))
+
 ## [2.10.3](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.2...v2.10.3) (2025-03-24)
 
 
