@@ -71,6 +71,14 @@ class TextArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             [
+                'phpValue' => ["single-back-slash\\"],
+                'postgresValue' => '{"single-back-slash\\\\"}',
+            ],
+            [
+                'phpValue' => ["double-back-slash\\\\"],
+                'postgresValue' => '{"double-back-slash\\\\\\\\"}',
+            ],
+            [
                 'phpValue' => [
                     1,
                     '2',
@@ -82,13 +90,37 @@ class TextArrayTest extends TestCase
                     <<<'END'
 ''"quotes"'' ain't no """worry""", '''right''' Alexander O'Vechkin?
 END,
-                    'back-slashing\double-slashing\\\triple-slashing\\\\\hooking though',
                     'and "double-quotes"',
                 ],
                 'postgresValue' => <<<'END'
-{1,"2",3.4,"5.6","text","some text here","and some here","''\"quotes\"'' ain't no \"\"\"worry\"\"\", '''right''' Alexander O'Vechkin?","back-slashing\\double-slashing\\\\triple-slashing\\\\\\hooking though","and \"double-quotes\""}
+{1,"2",3.4,"5.6","text","some text here","and some here","''\"quotes\"'' ain't no \"\"\"worry\"\"\", '''right''' Alexander O'Vechkin?","and \"double-quotes\""}
 END,
             ],
+            [
+                'phpValue' => ['STRING_A', 'STRING_B', 'STRING_C', 'STRING_D'],
+                'postgresValue' => '{"STRING_A","STRING_B","STRING_C","STRING_D"}',
+            ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function can_transform_unquoted_postgres_array_to_php(): void
+    {
+        $postgresValue = '{STRING_A,STRING_B,STRING_C,STRING_D}';
+        $expectedPhpValue = ['STRING_A', 'STRING_B', 'STRING_C', 'STRING_D'];
+
+        self::assertEquals($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * @test
+     */
+    public function can_handle_backslashes_correctly(): void
+    {
+        $postgresValue = '{"simple\\\backslash"}';
+        $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+        self::assertEquals(['simple\backslash'], $result);
     }
 }
