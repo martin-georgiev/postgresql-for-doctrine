@@ -44,7 +44,7 @@ class PostgresArrayToPHPArrayTransformer
 
         // Check for malformed nesting - this is a more specific check than the one above
         // But we need to exclude cases where curly braces are part of quoted strings
-        $content = \trim($trimmed, '{}');
+        $content = \trim($trimmed, self::POSTGRESQL_EMPTY_ARRAY);
         $inQuotes = false;
         $escaping = false;
 
@@ -76,7 +76,7 @@ class PostgresArrayToPHPArrayTransformer
         }
 
         // First try with json_decode for properly quoted values
-        $jsonArray = '['.\trim($trimmed, '{}').']';
+        $jsonArray = '['.\trim($trimmed, self::POSTGRESQL_EMPTY_ARRAY).']';
 
         /** @var array<int, mixed>|null $decoded */
         $decoded = \json_decode($jsonArray, true, 512, JSON_BIGINT_AS_STRING);
