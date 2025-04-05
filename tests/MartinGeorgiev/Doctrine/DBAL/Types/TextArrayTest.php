@@ -130,6 +130,6 @@ END,
         $postgresValue = '{"simple\\\backslash"}';
         $expectedPhpValue = ['simple\backslash'];
 
-        self::assertEquals($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+        self::assertEquals($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 }
