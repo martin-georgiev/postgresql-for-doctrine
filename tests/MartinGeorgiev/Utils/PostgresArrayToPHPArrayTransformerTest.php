@@ -28,6 +28,18 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
+            'null value' => [
+                'phpValue' => [],
+                'postgresValue' => 'null',
+            ],
+            'empty value' => [
+                'phpValue' => [],
+                'postgresValue' => '',
+            ],
+            'empty array' => [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
             'simple integer strings as strings are preserved as strings' => [
                 'phpValue' => [
                     0 => '1',
@@ -45,6 +57,38 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                     3 => 4,
                 ],
                 'postgresValue' => '{1,2,3,4}',
+            ],
+            'float values' => [
+                'phpValue' => [
+                    0 => 1.5,
+                    1 => 2.75,
+                    2 => -3.25,
+                ],
+                'postgresValue' => '{1.5,2.75,-3.25}',
+            ],
+            'scientific notation' => [
+                'phpValue' => [
+                    0 => 1.5e3,
+                    1 => 2.75e-2,
+                ],
+                'postgresValue' => '{1.5e3,2.75e-2}',
+            ],
+            'boolean values' => [
+                'phpValue' => [
+                    0 => true,
+                    1 => false,
+                    2 => true,
+                    3 => false,
+                ],
+                'postgresValue' => '{true,false,t,f}',
+            ],
+            'null values' => [
+                'phpValue' => [
+                    0 => null,
+                    1 => 'not null',
+                    2 => null,
+                ],
+                'postgresValue' => '{NULL,"not null",null}',
             ],
             'simple strings' => [
                 'phpValue' => [
@@ -70,24 +114,33 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['Hello 世界', '🌍 Earth'],
                 'postgresValue' => '{"Hello 世界","🌍 Earth"}',
             ],
+            'unquoted strings' => [
+                'phpValue' => ['unquoted', 'strings'],
+                'postgresValue' => '{unquoted,strings}',
+            ],
+            'mixed quoted and unquoted strings' => [
+                'phpValue' => ['quoted', 'unquoted'],
+                'postgresValue' => '{"quoted",unquoted}',
+            ],
         ];
     }
 
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideMultiDimensionalArrays
      */
-    public function throws_invalid_argument_exception_when_tries_to_transform_invalid_postgres_array(string $postgresValue): void
+    public function throws_exception_for_multi_dimensional_arrays(string $postgresValue): void
     {
         $this->expectException(InvalidArrayFormatException::class);
+        $this->expectExceptionMessage('Only single-dimensioned arrays are supported');
         PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue);
     }
 
     /**
      * @return array<string, array{postgresValue: string}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideMultiDimensionalArrays(): array
     {
         return [
             'multi-dimensioned array' => [
@@ -98,28 +151,52 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
 
     /**
      * @test
+     *
+     * @dataProvider provideManualParsingArrays
      */
-    public function handles_empty_input(): void
+    public function can_recover_from_json_decode_failure_and_transform_value_through_manual_parsing(array $phpValue, string $postgresValue): void
     {
-        $input = '';
-        $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($input);
-        self::assertSame([], $result);
+        self::assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
+    }
+
+    /**
+     * @return array<string, array{phpValue: array, postgresValue: string}>
+     */
+    public static function provideManualParsingArrays(): array
+    {
+        return [
+            'manual parsing of unquoted only text' => [
+                'phpValue' => ['unquoted string', 'another unquoted string'],
+                'postgresValue' => '{unquoted string,another unquoted string}',
+            ],
+            'manual parsing with escaping' => [
+                'phpValue' => ['escaped " quote', 'unescaped'],
+                'postgresValue' => '{"escaped \" quote",unescaped}',
+            ],
+            'manual parsing with trailing backslash' => [
+                'phpValue' => ['backslash\\', 'another\one'],
+                'postgresValue' => '{backslash\,another\one}',
+            ],
+        ];
     }
 
     /**
      * @test
      */
-    public function handles_null_string_input(): void
+    public function can_transform_escaped_quotes_with_backslashes(): void
     {
-        $input = 'null';
+        // Test with escaped quotes and backslashes
+        $input = '{"\\\"quoted\\\""}';
         $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($input);
-        self::assertSame([], $result);
+        // Just verify it's a string
+        self::assertIsString($result[0]);
+        self::assertStringContainsString('quoted', $result[0]);
     }
 
     /**
      * @test
      */
-    public function preserves_numeric_precision(): void
+    public function can_preserves_numeric_precision(): void
     {
         $input = '{"9223372036854775808","1.23456789012345"}';
         $output = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($input);

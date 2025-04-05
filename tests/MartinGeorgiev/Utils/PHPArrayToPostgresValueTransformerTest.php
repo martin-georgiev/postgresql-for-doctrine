@@ -28,6 +28,10 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
+            'empty array' => [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
             'simple integer strings as strings are preserved as strings' => [
                 'phpValue' => [
                     0 => '1',
@@ -45,6 +49,36 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
                     3 => 4,
                 ],
                 'postgresValue' => '{1,2,3,4}',
+            ],
+            'float values' => [
+                'phpValue' => [
+                    0 => 1.5,
+                    1 => 2.75,
+                    2 => -3.25,
+                ],
+                'postgresValue' => '{1.5,2.75,-3.25}',
+            ],
+            'boolean values' => [
+                'phpValue' => [
+                    0 => true,
+                    1 => false,
+                ],
+                'postgresValue' => '{true,false}',
+            ],
+            'null values' => [
+                'phpValue' => [
+                    0 => null,
+                    1 => 'not null',
+                    2 => null,
+                ],
+                'postgresValue' => '{NULL,"not null",NULL}',
+            ],
+            'empty string' => [
+                'phpValue' => [
+                    0 => '',
+                    1 => 'not empty',
+                ],
+                'postgresValue' => '{"","not empty"}',
             ],
             'simple strings' => [
                 'phpValue' => [
@@ -109,15 +143,73 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     /**
      * @test
      */
-    public function handles_resource_cleanup(): void
+    public function can_can_transform_object_with_to_string_method(): void
     {
-        $resource = \fopen('php://memory', 'r');
+        $object = new class {
+            public function __toString(): string
+            {
+                return 'object string representation';
+            }
+        };
+
+        self::assertSame('{"object string representation"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$object]));
+    }
+
+    /**
+     * @test
+     */
+    public function can_transform_object_without_to_string_method(): void
+    {
+        $object = new class {};
+
+        // Should contain the class name
+        self::assertStringContainsString('class@anonymous', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$object]));
+    }
+
+    /**
+     * @test
+     */
+    public function can_transform_closed_resource(): void
+    {
+        $resource = \fopen('php://temp', 'r');
         \assert(\is_resource($resource));
-        $input = [$resource];
-        $result = PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($input);
         \fclose($resource);
 
-        self::assertSame('{"(resource)"}', $result);
+        self::assertStringContainsString('resource (closed)', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
+    }
+
+    /**
+     * @test
+     */
+    public function can_transform_open_resource(): void
+    {
+        $resource = \fopen('php://temp', 'r');
+        \assert(\is_resource($resource));
+
+        self::assertStringContainsString('(resource)', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
+    }
+
+    /**
+     * @test
+     */
+    public function can_transform_mixed_types_in_array(): void
+    {
+        $input = [
+            'string',
+            123,
+            1.5,
+            true,
+            null,
+            new class {
+                public function __toString(): string
+                {
+                    return 'object';
+                }
+            },
+            '',
+        ];
+
+        self::assertEquals('{"string",123,1.5,true,NULL,"object",""}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($input));
     }
 
     /**
