@@ -71,12 +71,20 @@ class TextArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             [
-                'phpValue' => ["single-back-slash\\"],
-                'postgresValue' => '{"single-back-slash\\\\"}',
+                'phpValue' => ['\single-back-slash-at-the-start-and-end\\'],
+                'postgresValue' => '{"\\\single-back-slash-at-the-start-and-end\\\"}',
             ],
             [
-                'phpValue' => ["double-back-slash\\\\"],
-                'postgresValue' => '{"double-back-slash\\\\\\\\"}',
+                'phpValue' => ['double-back-slash-at-the-end\\\\'],
+                'postgresValue' => '{"double-back-slash-at-the-end\\\\\\\"}',
+            ],
+            [
+                'phpValue' => ['triple-\\\\\-back-slash-in-the-middle'],
+                'postgresValue' => '{"triple-\\\\\\\\\\\-back-slash-in-the-middle"}',
+            ],
+            [
+                'phpValue' => ['quadruple-back-slash\\\\\\\\'],
+                'postgresValue' => '{"quadruple-back-slash\\\\\\\\\\\\\\\"}',
             ],
             [
                 'phpValue' => [
@@ -120,7 +128,8 @@ END,
     public function can_handle_backslashes_correctly(): void
     {
         $postgresValue = '{"simple\\\backslash"}';
-        $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
-        self::assertEquals(['simple\backslash'], $result);
+        $expectedPhpValue = ['simple\backslash'];
+
+        self::assertEquals($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }
 }

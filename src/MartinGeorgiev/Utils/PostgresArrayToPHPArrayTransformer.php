@@ -7,23 +7,26 @@ namespace MartinGeorgiev\Utils;
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 
 /**
+ * Handles transformation from PostgreSQL text arrays to PHP values.
+ *
  * @since 3.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class ArrayDataTransformer
+class PostgresArrayToPHPArrayTransformer
 {
     private const POSTGRESQL_EMPTY_ARRAY = '{}';
 
     private const POSTGRESQL_NULL_VALUE = 'null';
 
     /**
+     * Transforms a PostgreSQL text array to a PHP array.
      * This method supports only single-dimensioned text arrays and
      * relays on the default escaping strategy in PostgreSQL (double quotes).
      *
      * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has invalid format
      */
-    public static function transformPostgresTextArrayToPHPArray(string $postgresArray): array
+    public static function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
         $trimmed = \trim($postgresArray);
 
@@ -89,9 +92,6 @@ class ArrayDataTransformer
         );
     }
 
-    /**
-     * Manually parse a PostgreSQL array content string.
-     */
     private static function parsePostgresArrayManually(string $content): array
     {
         if ($content === '') {
@@ -170,41 +170,26 @@ class ArrayDataTransformer
         return $value;
     }
 
-    /**
-     * Check if the value is a NULL value.
-     */
     private static function isNullValue(string $value): bool
     {
         return $value === 'NULL' || $value === 'null';
     }
 
-    /**
-     * Check if the value is a boolean value.
-     */
     private static function isBooleanValue(string $value): bool
     {
         return \in_array($value, ['true', 't', 'false', 'f'], true);
     }
 
-    /**
-     * Process a boolean value.
-     */
     private static function processBooleanValue(string $value): bool
     {
         return $value === 'true' || $value === 't';
     }
 
-    /**
-     * Check if the value is a quoted string.
-     */
     private static function isQuotedString(string $value): bool
     {
         return \strlen($value) >= 2 && $value[0] === '"' && $value[\strlen($value) - 1] === '"';
     }
 
-    /**
-     * Process a quoted string.
-     */
     private static function processQuotedString(string $value): string
     {
         // Remove the quotes and unescape the string
@@ -213,17 +198,11 @@ class ArrayDataTransformer
         return self::unescapeString($unquoted);
     }
 
-    /**
-     * Check if the value is a numeric value.
-     */
     private static function isNumericValue(string $value): bool
     {
         return \is_numeric($value);
     }
 
-    /**
-     * Process a numeric value.
-     */
     private static function processNumericValue(string $value): float|int
     {
         // Convert to int or float as appropriate
@@ -234,103 +213,49 @@ class ArrayDataTransformer
         return (int) $value;
     }
 
-    /**
-     * This method supports only single-dimensioned PHP arrays.
-     * This method relays on the default escaping strategy in PostgreSQL (double quotes).
-     *
-     * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has invalid format
-     */
-    public static function transformPHPArrayToPostgresTextArray(array $phpArray): string
-    {
-        if ($phpArray === []) {
-            return self::POSTGRESQL_EMPTY_ARRAY;
-        }
-
-        if (\array_filter($phpArray, 'is_array')) {
-            throw InvalidArrayFormatException::multiDimensionalArrayNotSupported();
-        }
-
-        /** @var array<int|string, string> */
-        $processed = \array_map(
-            static fn (mixed $value): string => self::formatValue($value),
-            $phpArray
-        );
-
-        return '{'.\implode(',', $processed).'}';
-    }
-
-    /**
-     * Formats a single value for PostgreSQL array.
-     */
-    private static function formatValue(mixed $value): string
-    {
-        // Handle null
-        if ($value === null) {
-            return 'NULL';
-        }
-
-        // Handle actual numbers
-        if (\is_int($value) || \is_float($value)) {
-            return (string) $value;
-        }
-
-        // Handle booleans
-        if (\is_bool($value)) {
-            return $value ? 'true' : 'false';
-        }
-
-        if (\is_object($value)) {
-            if (\method_exists($value, '__toString')) {
-                $stringValue = $value->__toString();
-            } else {
-                // For objects without __toString, use a default representation
-                $stringValue = $value::class;
-            }
-        } elseif (\is_resource($value)) {
-            $stringValue = '(resource)';
-        } else {
-            $valueType = \get_debug_type($value);
-
-            if ($valueType === 'string') {
-                $stringValue = $value;
-            } elseif (\in_array($valueType, ['int', 'float', 'bool'], true)) {
-                /** @var bool|float|int $value */
-                $stringValue = (string) $value;
-            } else {
-                $stringValue = $valueType;
-            }
-        }
-
-        \assert(\is_string($stringValue));
-
-        // Handle empty string
-        if ($stringValue === '') {
-            return '""';
-        }
-
-        // Always quote strings to match the test expectations
-        // Double the backslashes and escape quotes
-        $escaped = \str_replace(
-            ['\\', '"'],
-            ['\\\\', '\"'],
-            $stringValue
-        );
-
-        return '"'.$escaped.'"';
-    }
-
     private static function unescapeString(string $value): string
     {
-        // First handle escaped quotes
-        $value = \str_replace('\"', '___QUOTE___', $value);
+        $result = '';
+        $len = \strlen($value);
+        $i = 0;
+        $backslashCount = 0;
 
-        // Handle double backslashes
-        $value = \str_replace('\\\\', '___DBLBACK___', $value);
+        while ($i < $len) {
+            if ($value[$i] === '\\') {
+                $backslashCount++;
+                $i++;
 
-        // Restore double backslashes
-        $value = \str_replace('___DBLBACK___', '\\', $value);
+                continue;
+            }
 
-        // Finally restore quotes
-        return \str_replace('___QUOTE___', '"', $value);
+            if ($backslashCount > 0) {
+                if ($value[$i] === '"') {
+                    // This is an escaped quote
+                    $result .= \str_repeat('\\', (int) ($backslashCount / 2));
+                    if ($backslashCount % 2 === 1) {
+                        $result .= '"';
+                    } else {
+                        $result .= '\"';
+                    }
+                } else {
+                    // These are literal backslashes
+                    $result .= \str_repeat('\\', $backslashCount);
+                    $result .= $value[$i];
+                }
+
+                $backslashCount = 0;
+            } else {
+                $result .= $value[$i];
+            }
+
+            $i++;
+        }
+
+        // Handle any trailing backslashes
+        if ($backslashCount > 0) {
+            $result .= \str_repeat('\\', $backslashCount);
+        }
+
+        return $result;
     }
 }
