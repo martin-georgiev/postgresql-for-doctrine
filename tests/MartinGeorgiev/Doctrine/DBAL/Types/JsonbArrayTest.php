@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -97,8 +97,8 @@ class JsonbArrayTest extends TestCase
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
     {
-        $this->expectException(InvalidJsonbArrayItemForPHPException::class);
-        $this->expectExceptionMessage('Invalid JSONB format in array');
+        $this->expectException(InvalidJsonArrayItemForPHPException::class);
+        $this->expectExceptionMessage('Invalid JSON format in array');
 
         $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }

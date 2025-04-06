@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\ConversionException;
+use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
 /**
  * Helpers for converting PHP values into PostgreSQL JSON and vice versa.
@@ -33,7 +34,6 @@ trait JsonTransformer
 
     protected function transformFromPostgresJson(string $postgresValue): null|array|bool|float|int|string
     {
-        // @phpstan-ignore-next-line
-        return \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR);
+        return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue);
     }
 }

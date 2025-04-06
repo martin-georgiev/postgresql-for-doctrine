@@ -6,7 +6,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 
 use Doctrine\DBAL\Types\ConversionException;
 
-class InvalidJsonbArrayItemForPHPException extends ConversionException
+class InvalidJsonArrayItemForPHPException extends ConversionException
 {
     private static function create(string $message, mixed $value): self
     {
@@ -20,6 +20,6 @@ class InvalidJsonbArrayItemForPHPException extends ConversionException
 
     public static function forInvalidFormat(mixed $value): self
     {
-        return self::create('Invalid JSONB format in array: %s', $value);
+        return self::create('Invalid JSON format in array: %s', $value);
     }
 }

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MartinGeorgiev\Utils\ArrayDataTransformer;
+use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL TEXT[] data type.
@@ -42,7 +43,7 @@ class TextArray extends BaseType
             return '{}';
         }
 
-        return ArrayDataTransformer::transformPHPArrayToPostgresTextArray($phpTextArray);
+        return PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpTextArray);
     }
 
     /**
@@ -65,6 +66,6 @@ class TextArray extends BaseType
             return [];
         }
 
-        return ArrayDataTransformer::transformPostgresTextArrayToPHPArray($postgresValue);
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue);
     }
 }
