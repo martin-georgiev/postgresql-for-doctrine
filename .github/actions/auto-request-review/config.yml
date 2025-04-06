@@ -1,0 +1,8 @@
+reviewers:
+  defaults:
+    - martin-georgiev
+
+options:
+  number_of_reviewers: 1
+  ignore_draft: true
+  allow_author: false
