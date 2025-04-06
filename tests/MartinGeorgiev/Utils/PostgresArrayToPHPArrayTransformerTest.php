@@ -185,12 +185,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      */
     public function can_transform_escaped_quotes_with_backslashes(): void
     {
-        // Test with escaped quotes and backslashes
-        $input = '{"\\\"quoted\\\""}';
-        $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($input);
-        // Just verify it's a string
-        self::assertIsString($result[0]);
-        self::assertStringContainsString('quoted', $result[0]);
+        $postgresArray = '{"\\\"quoted\\\""}';
+        self::assertSame(['\\\"quoted\\\"'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
     /**
@@ -198,10 +194,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      */
     public function can_preserves_numeric_precision(): void
     {
-        $input = '{"9223372036854775808","1.23456789012345"}';
-        $output = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($input);
-
-        self::assertSame(['9223372036854775808', '1.23456789012345'], $output);
+        $postgresArray = '{"9223372036854775808","1.23456789012345"}';
+        self::assertSame(['9223372036854775808', '1.23456789012345'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
     /**

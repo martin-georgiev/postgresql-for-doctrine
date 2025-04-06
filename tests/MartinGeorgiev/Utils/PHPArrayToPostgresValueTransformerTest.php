@@ -143,7 +143,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     /**
      * @test
      */
-    public function can_can_transform_object_with_to_string_method(): void
+    public function can_transform_object_with_to_string_method(): void
     {
         $object = new class {
             public function __toString(): string
@@ -175,7 +175,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         \assert(\is_resource($resource));
         \fclose($resource);
 
-        self::assertStringContainsString('resource (closed)', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
+        self::assertSame('{"resource (closed)"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
     }
 
     /**
@@ -186,7 +186,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         $resource = \fopen('php://temp', 'r');
         \assert(\is_resource($resource));
 
-        self::assertStringContainsString('(resource)', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
+        self::assertSame('{"(resource)"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
     }
 
     /**
