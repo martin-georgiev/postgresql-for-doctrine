@@ -1,6 +1,6 @@
 # Upgrade Instructions
 
-## How to Upgrade to Version 3.0.0
+## How to Upgrade to Version 3.0
 
 ### 1. Review type handling in your code
 If your application relies on automatic type conversion between PostgreSQL and PHP (e.g., expecting string numbers to be converted to actual numbers or vice versa), you'll need to update your code to explicitly handle type conversion where needed.
@@ -16,7 +16,7 @@ $numericValue = (float)$tags[0] + 2; // Explicit conversion needed
 ```
 
 ### 2. Update your code to handle exceptions
-If you're catching specific exception types when working with `JsonbArray`, update your exception handling to catch the new `InvalidJsonbArrayItemForPHPException`.
+If you're catching specific exception types when working with `JsonbArray`, update your exception handling to catch the new `InvalidJsonItemForPHPException` and `InvalidJsonArrayItemForPHPException`.
 
 ```php
 // Before
@@ -29,7 +29,7 @@ try {
 // After
 try {
     $jsonArray = $jsonbArrayType->convertToPHPValue($postgresValue, $platform);
-} catch (\MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbArrayItemForPHPException $e) {
+} catch (\MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException $e) {
     // Handle exception
 }
 ```

@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.0...v3.0.1) (2025-04-06)
+
+
+### Bug Fixes
+
+* Restore support for unquoted string values stored in `text[]` ([#333](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/333)) ([339e988](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/339e988dd6669d6930a39deb4ad7be74ffecc78d))
+
 ## [3.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v2.10.3...v3.0.0) (2025-03-30)
 
 
