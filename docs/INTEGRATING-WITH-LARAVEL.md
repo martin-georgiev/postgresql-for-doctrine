@@ -173,6 +173,9 @@ return [
         'FLAGGED_REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch::class,
         'REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class,
         'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
+        'FLAGGED_REGEXP_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpReplace::class,
+        'REGEXP_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class,
+        'ROW' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class,
 
         # aggregation functions
         'ARRAY_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class,
