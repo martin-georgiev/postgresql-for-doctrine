@@ -17,6 +17,7 @@ Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
 Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
+Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
 ```
 
 
@@ -91,6 +92,7 @@ $platform->registerDoctrineTypeMapping('_int8','bigint[]');
 $platform->registerDoctrineTypeMapping('text[]','text[]');
 $platform->registerDoctrineTypeMapping('_text','text[]');
 $platform->registerDoctrineTypeMapping('jsonb','jsonb');
+$platform->registerDoctrineTypeMapping('point','point');
 ...
 
 ```

@@ -17,6 +17,7 @@ doctrine:
             text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
             jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
+            point: MartinGeorgiev\Doctrine\DBAL\Types\Point
 ```
 
 
@@ -46,6 +47,7 @@ doctrine:
                     jsonb: jsonb
                     jsonb[]: jsonb[]
                     _jsonb: jsonb[]
+                    point: point
 ```
 
 
