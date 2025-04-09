@@ -11,5 +11,5 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 abstract class BaseComparisonFunction extends BaseVariadicFunction
 {
-    protected string $commonNodeMapping = 'ArithmeticPrimary';
+    protected string $commonNodeMapping = 'SimpleArithmeticExpression';
 }
