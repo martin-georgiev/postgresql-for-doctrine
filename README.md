@@ -23,8 +23,8 @@ private array $tags;
 
 // Use in DQL
 $query = $em->createQuery('
-    SELECT e 
-    FROM App\Entity\Post e 
+    SELECT e
+    FROM App\Entity\Post e
     WHERE CONTAINS(e.tags, ARRAY[:tags]) = TRUE
     AND JSON_GET_FIELD(e.data, :field) = :value
 ');
@@ -37,6 +37,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 ### Data Types
 - **Array Types**
   - Integer arrays (`int[]`, `smallint[]`, `bigint[]`)
+  - Float arrays (`real[]`, `double precision[]`)
   - Text arrays (`text[]`)
   - Boolean arrays (`bool[]`)
   - JSONB arrays (`jsonb[]`)
@@ -44,6 +45,10 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Native JSONB support
   - JSON field operations
   - JSON construction and manipulation
+- **Network Types**
+  - IP addresses (`inet`, `inet[]`)
+  - Network CIDR notation (`cidr`, `cidr[]`)
+  - MAC addresses (`macaddr`, `macaddr[]`)
 
 ### PostgreSQL Operators
 - **Array Operations**
@@ -63,13 +68,15 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Regular expressions
 - **Array Functions**
   - Array aggregation (`array_agg`)
-  - Array manipulation (`array_append`, `array_prepend`)
+  - Array manipulation (`array_append`, `array_prepend`, `array_remove`, `array_replace`, `array_shuffle`)
   - Array dimensions and length
 - **JSON Functions**
   - JSON construction (`json_build_object`, `jsonb_build_object`)
   - JSON manipulation and transformation
 - **Date Functions**
 - **Aggregate Functions**
+  - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
+  - Special aggregates (`any_value`, `xmlagg`)
 
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
