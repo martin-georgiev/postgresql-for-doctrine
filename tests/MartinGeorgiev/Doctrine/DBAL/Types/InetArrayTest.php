@@ -140,7 +140,7 @@ class InetArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidDatabaseValuesForPHPTransformationForDatabaseTransformation
+     * @dataProvider provideInvalidDatabaseValuesForPHPTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
     {
@@ -152,7 +152,7 @@ class InetArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidDatabaseValuesForPHPTransformationForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValuesForPHPTransformation(): array
     {
         return [
             'invalid format' => ['{"invalid-ip"}'],
