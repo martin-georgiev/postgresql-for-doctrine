@@ -138,20 +138,16 @@ class InetArrayTest extends TestCase
     }
 
     /**
-     /**
      * @test
      *
      * @dataProvider provideInvalidDatabaseValuesForPHPTransformation
      */
-     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
-     {
-        // The parameter is typed as string since the data provider returns only string values.
-        // If non-string test cases are added in the future, update both the provider and this method signature accordingly.
-        $this-
+    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    {
+        $this->expectException(InvalidInetArrayItemForPHPException::class);
 
-     >expectException(InvalidInetArrayItemForPHPException::class);
         $this->fixture->convertToPHPValue($postgresValue, $this->platform);
-     }
+    }
 
     /**
      * @return array<string, array{string}>
