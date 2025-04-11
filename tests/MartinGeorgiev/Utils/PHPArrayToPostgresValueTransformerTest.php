@@ -121,7 +121,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array, postgresValue: string}>
+     * @return array<string, array{phpValue: array}>
      */
     public static function provideInvalidTransformations(): array
     {
@@ -135,7 +135,6 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
                         'test',
                     ],
                 ],
-                'postgresValue' => '',
             ],
         ];
     }

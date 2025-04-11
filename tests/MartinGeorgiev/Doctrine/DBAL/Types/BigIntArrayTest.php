@@ -81,7 +81,7 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
     /**
      * @return array<array{string}>
      */
-    protected function provideOutOfRangeValues(): array
+    public static function provideOutOfRangeValues(): array
     {
         return [
             ['9223372036854775808'], // PHP_INT_MAX + 1

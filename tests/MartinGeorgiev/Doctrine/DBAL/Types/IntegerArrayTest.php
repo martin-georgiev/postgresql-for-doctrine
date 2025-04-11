@@ -67,7 +67,7 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
     /**
      * @return array<array{string}>
      */
-    protected function provideOutOfRangeValues(): array
+    public static function provideOutOfRangeValues(): array
     {
         return [
             ['2147483648'], // MAX_INTEGER + 1

@@ -67,7 +67,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
     /**
      * @return array<array{string}>
      */
-    protected function provideOutOfRangeValues(): array
+    public static function provideOutOfRangeValues(): array
     {
         return [
             ['32768'], // MAX_SMALLINT + 1
