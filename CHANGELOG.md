@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.1...v3.0.2) (2025-04-11)
+
+
+### Bug Fixes
+
+* Avoid infinite parsing loop for `GREATEST()` and `LEAST()` by using `SimpleArithmeticExpression` ([#338](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/338)) ([169192b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/169192bb6aafc1a8851e6ab38737c27c87706bf8))
+
 ## [3.0.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.0...v3.0.1) (2025-04-06)
 
 
