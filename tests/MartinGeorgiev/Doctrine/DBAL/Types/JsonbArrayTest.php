@@ -93,7 +93,7 @@ class JsonbArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
     {
@@ -106,7 +106,7 @@ class JsonbArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
             'non-array json' => ['"a string encoded as json"'],

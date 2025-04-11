@@ -105,7 +105,7 @@ class InetArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
@@ -116,7 +116,7 @@ class InetArrayTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
             'invalid type' => ['not-an-array'],
@@ -134,6 +134,36 @@ class InetArrayTest extends TestCase
             'malformed CIDR with spaces' => [['192.168.1.0 / 24']],
             'IPv6 with invalid segment count' => [['2001:db8:1:2:3:4:5:6:7']],
             'IPv6 with invalid segment length' => [['2001:db8:xyz:1:1:1:1:1']],
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideInvalidDatabaseValuesForPHPTransformationForDatabaseTransformation
+     */
+    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    {
+        $this->expectException(InvalidInetArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidDatabaseValuesForPHPTransformationForDatabaseTransformation(): array
+    {
+        return [
+            'invalid format' => ['{"invalid-ip"}'],
+            'invalid IPv4 in array' => ['{"256.256.256.256"}'],
+            'invalid IPv6 in array' => ['{"2001:xyz::1"}'],
+            'malformed array' => ['not-an-array'],
+            'empty item in array' => ['{"192.168.1.1",""}'],
+            'invalid item in array' => ['{"192.168.1.1","invalid-ip"}'],
+            'invalid CIDR in array' => ['{"192.168.1.0/33"}'],
+            'incomplete IPv4 in array' => ['{"192.168.1"}'],
+            'incomplete IPv6 in array' => ['{"2001:db8"}'],
         ];
     }
 }

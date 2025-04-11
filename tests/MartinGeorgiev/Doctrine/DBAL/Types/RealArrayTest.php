@@ -22,9 +22,9 @@ class RealArrayTest extends BaseFloatArrayTestCase
         self::assertEquals('real[]', $this->fixture->getName());
     }
 
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
-        return \array_merge(parent::provideInvalidTransformations(), [
+        return \array_merge(parent::provideInvalidPHPValuesForDatabaseTransformation(), [
             ['3.402823467E+38'], // Too large
             ['-3.402823467E+38'], // Too small
             ['1.1234567'], // Too many decimal places (>6)

@@ -89,7 +89,7 @@ class MacaddrArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
@@ -100,7 +100,7 @@ class MacaddrArrayTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
             'invalid type' => ['not-an-array'],
@@ -115,6 +115,32 @@ class MacaddrArrayTest extends TestCase
             'whitespace only' => [[' ']],
             'malformed with spaces' => [['08:00 :2b:01:02:03']],
             'mixed case invalid chars' => [['GG:hh:II:jj:KK:ll']],
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideInvalidDatabaseValuesForPHPTransformationForPHPTransformation
+     */
+    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    {
+        $this->expectException(InvalidMacaddrArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidDatabaseValuesForPHPTransformationForPHPTransformation(): array
+    {
+        return [
+            'invalid format' => ['{"invalid-mac"}'],
+            'invalid MAC in array' => ['{"00:11:22:33:44:ZZ"}'],
+            'malformed array' => ['not-an-array'],
+            'empty item in array' => ['{"08:00:2b:01:02:03",""}'],
+            'invalid item in array' => ['{"08:00:2b:01:02:03","invalid-mac"}'],
         ];
     }
 }

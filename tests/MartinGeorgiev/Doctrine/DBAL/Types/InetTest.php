@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Inet;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -109,7 +110,7 @@ class InetTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
@@ -120,10 +121,45 @@ class InetTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
+            'non-string value' => [123],
             'empty string' => [''],
+            'invalid IPv4' => ['256.256.256.256'],
+            'invalid IPv6' => ['2001:xyz::1'],
+            'invalid CIDR format' => ['192.168.1.0/xyz'],
+            'invalid IPv4 CIDR netmask' => ['192.168.1.0/33'],
+            'invalid IPv6 CIDR netmask' => ['2001:db8::/129'],
+            'wrong format' => ['not-an-ip-address'],
+            'incomplete IPv4' => ['192.168.1'],
+            'incomplete IPv6' => ['2001:db8'],
+            'IPv6 too many segments' => ['2001:db8:1:2:3:4:5:6:7'],
+            'IPv6 invalid segment length' => ['2001:db8:xyz:1:1:1:1:1'],
+            'IPv4 with invalid octet count' => ['192.168.1'],
+            'IPv4 with character suffix' => ['192.168.1.1x'],
+            'malformed IPv4-mapped IPv6' => ['::ffff:256.256.256.256'],
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideInvalidDatabaseValuesForPHPTransformation
+     */
+    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $postgresValue): void
+    {
+        $this->expectException(InvalidInetForDatabaseException::class);
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidDatabaseValuesForPHPTransformation(): array
+    {
+        return [
+            'non-string value' => [123],
             'invalid IPv4' => ['256.256.256.256'],
             'invalid IPv6' => ['2001:xyz::1'],
             'invalid CIDR format' => ['192.168.1.0/xyz'],

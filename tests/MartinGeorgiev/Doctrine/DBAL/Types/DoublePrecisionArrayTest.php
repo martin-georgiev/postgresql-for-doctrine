@@ -23,9 +23,9 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
         self::assertEquals('double precision[]', $this->fixture->getName());
     }
 
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
-        return \array_merge(parent::provideInvalidTransformations(), [
+        return \array_merge(parent::provideInvalidPHPValuesForDatabaseTransformation(), [
             ['1.7976931348623157E+309'], // Too large
             ['-1.7976931348623157E+309'], // Too small
             ['1.123456789012345678'], // Too many decimal places (>15)
