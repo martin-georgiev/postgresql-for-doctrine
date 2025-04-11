@@ -85,7 +85,7 @@ class CidrArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
@@ -96,7 +96,7 @@ class CidrArrayTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
             'invalid type' => ['not-an-array'],
@@ -109,6 +109,33 @@ class CidrArrayTest extends TestCase
             'empty string' => [['']], // Empty string in array
             'whitespace only' => [[' ']], // Whitespace string in array
             'malformed CIDR with spaces' => [['192.168.1.0 / 24']], // Space in CIDR notation
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideInvalidDatabaseValuesForPHPTransformationForPHPTransformation
+     */
+    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    {
+        $this->expectException(InvalidCidrArrayItemForPHPException::class);
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidDatabaseValuesForPHPTransformationForPHPTransformation(): array
+    {
+        return [
+            'invalid format' => ['{"invalid-cidr"}'],
+            'invalid CIDR in array' => ['{"256.256.256.0/24"}'],
+            'malformed array' => ['not-an-array'],
+            'empty item in array' => ['{"192.168.1.0/24",""}'],
+            'invalid item in array' => ['{"192.168.1.0/24","invalid-cidr"}'],
+            'missing netmask in array' => ['{"192.168.1.0"}'],
+            'invalid netmask in array' => ['{"192.168.1.0/33"}'],
         ];
     }
 }

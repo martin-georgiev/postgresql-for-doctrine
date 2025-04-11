@@ -62,7 +62,7 @@ class JsonbArrayTest extends TestCase
         return [
             [
                 'phpValue' => null,
-                'postgresJsonb' => null,
+                'postgresValue' => null,
             ],
             [
                 'phpValue' => [],
@@ -85,7 +85,7 @@ class JsonbArrayTest extends TestCase
                         'key5' => [304, 404, 504, 604],
                     ],
                 ],
-                'postgresJsonb' => '{{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]},{"key1":"value2","key2":true,"key3":"115","key4":115,"key5":[304,404,504,604]}}',
+                'postgresValue' => '{{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]},{"key1":"value2","key2":true,"key3":"115","key4":115,"key5":[304,404,504,604]}}',
             ],
         ];
     }
@@ -93,7 +93,7 @@ class JsonbArrayTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
     {
@@ -106,7 +106,7 @@ class JsonbArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
             'non-array json' => ['"a string encoded as json"'],

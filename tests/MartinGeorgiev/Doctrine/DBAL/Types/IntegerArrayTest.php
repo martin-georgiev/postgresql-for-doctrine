@@ -21,9 +21,9 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
         self::assertEquals('integer[]', $this->fixture->getName());
     }
 
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
-        return \array_merge(parent::provideInvalidTransformations(), [
+        return \array_merge(parent::provideInvalidPHPValuesForDatabaseTransformation(), [
             ['2147483648'],   // Greater than max integer
             ['-2147483649'],  // Less than min integer
             ['1.23e6'],      // Scientific notation
@@ -67,7 +67,7 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
     /**
      * @return array<array{string}>
      */
-    protected function provideOutOfRangeValues(): array
+    public static function provideOutOfRangeValues(): array
     {
         return [
             ['2147483648'], // MAX_INTEGER + 1

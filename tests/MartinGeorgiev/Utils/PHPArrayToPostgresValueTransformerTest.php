@@ -110,7 +110,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      *
      * @param array<int, mixed> $phpValue
      */
@@ -121,9 +121,9 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array, postgresValue: string}>
+     * @return array<string, array{phpValue: array}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
             'multi-dimensioned array' => [
@@ -135,7 +135,6 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
                         'test',
                     ],
                 ],
-                'postgresValue' => '',
             ],
         ];
     }
