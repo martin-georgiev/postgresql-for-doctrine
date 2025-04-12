@@ -113,7 +113,7 @@ abstract class TestCase extends BaseTestCase
         self::assertEquals($expectedSql, $query->getSQL(), $message);
     }
 
-    private function buildEntityManager(): EntityManager
+    protected function buildEntityManager(): EntityManager
     {
         return new EntityManager(DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true], $this->configuration), $this->configuration);
     }
