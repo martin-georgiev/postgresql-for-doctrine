@@ -20,7 +20,8 @@ class DateBinTest extends TestCase
     {
         return [
             'bins by 15 minutes' => "SELECT date_bin('15 minutes', c0_.datetime1, '2001-02-16 20:05:00') AS sclr_0 FROM ContainsDates c0_",
-            'bins by 1 hour' => "SELECT date_bin('1 hour', c0_.datetime1, '2001-02-16 00:00:00') AS sclr_0 FROM ContainsDates c0_",
+            'bins by 1 day' => "SELECT date_bin('1 day', c0_.datetime1, '2001-02-16 00:00:00') AS sclr_0 FROM ContainsDates c0_",
+            'bins with native function as parameter' => "SELECT date_bin('1 hour', CURRENT_TIMESTAMP, '2001-02-16 00:00:00') AS sclr_0 FROM ContainsDates c0_",
         ];
     }
 
@@ -28,7 +29,8 @@ class DateBinTest extends TestCase
     {
         return [
             'bins by 15 minutes' => \sprintf("SELECT DATE_BIN('15 minutes', e.datetime1, '2001-02-16 20:05:00') FROM %s e", ContainsDates::class),
-            'bins by 1 hour' => \sprintf("SELECT DATE_BIN('1 hour', e.datetime1, '2001-02-16 00:00:00') FROM %s e", ContainsDates::class),
+            'bins by 1 day' => \sprintf("SELECT DATE_BIN('1 day', e.datetime1, '2001-02-16 00:00:00') FROM %s e", ContainsDates::class),
+            'bins with native function as parameter' => \sprintf("SELECT DATE_BIN('1 hour', CURRENT_TIMESTAMP(), '2001-02-16 00:00:00') FROM %s e", ContainsDates::class),
         ];
     }
 }
