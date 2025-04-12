@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Doctrine\ORM\Query\AST\Node;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 
 /**
@@ -21,7 +22,7 @@ class JsonbBuildObject extends BaseVariadicFunction
         $this->setFunctionPrototype('jsonb_build_object(%s)');
     }
 
-    protected function validateArguments(array $arguments): void
+    protected function validateArguments(Node ...$arguments): void
     {
         $argumentCount = \count($arguments);
         if ($argumentCount === 0 || $argumentCount % 2 !== 0) {

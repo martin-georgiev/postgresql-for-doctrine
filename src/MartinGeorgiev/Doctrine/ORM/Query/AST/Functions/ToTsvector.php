@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Doctrine\ORM\Query\AST\Node;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 
 /**
@@ -23,7 +24,7 @@ class ToTsvector extends BaseVariadicFunction
         $this->setFunctionPrototype('to_tsvector(%s)');
     }
 
-    protected function validateArguments(array $arguments): void
+    protected function validateArguments(Node ...$arguments): void
     {
         $argumentCount = \count($arguments);
         if ($argumentCount < 1 || $argumentCount > 2) {

@@ -51,7 +51,7 @@ abstract class BaseVariadicFunction extends BaseFunction
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
         }
 
-        $this->validateArguments($this->nodes);
+        $this->validateArguments(...$this->nodes); // @phpstan-ignore-line
     }
 
     public function getSql(SqlWalker $sqlWalker): string
@@ -67,9 +67,7 @@ abstract class BaseVariadicFunction extends BaseFunction
     /**
      * Validates the arguments passed to the function.
      *
-     * @param mixed[] $arguments The array of arguments to validate
-     *
      * @throws InvalidArgumentForVariadicFunctionException
      */
-    abstract protected function validateArguments(array $arguments): void;
+    abstract protected function validateArguments(Node ...$arguments): void;
 }
