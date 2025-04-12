@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Doctrine\ORM\Query\AST\Node;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 
 /**
@@ -21,7 +22,7 @@ class Least extends BaseComparisonFunction
         $this->setFunctionPrototype('least(%s)');
     }
 
-    protected function validateArguments(array $arguments): void
+    protected function validateArguments(Node ...$arguments): void
     {
         $argumentCount = \count($arguments);
         if ($argumentCount < 2) {
