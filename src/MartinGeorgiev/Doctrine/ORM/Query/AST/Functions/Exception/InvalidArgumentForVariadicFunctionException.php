@@ -43,4 +43,14 @@ class InvalidArgumentForVariadicFunctionException extends \InvalidArgumentExcept
             $functionName
         ));
     }
+
+    public static function unsupportedCombination(string $functionName, int $count, string $note): self
+    {
+        return new self(\sprintf(
+            '%s() cannot be called with %d arguments, because %s',
+            $functionName,
+            $count,
+            $note,
+        ));
+    }
 }
