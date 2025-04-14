@@ -26,6 +26,11 @@ class JsonbPathMatch extends BaseVariadicFunction
 {
     use BooleanValidationTrait;
 
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringPrimary'];
+    }
+
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('jsonb_path_match(%s)');

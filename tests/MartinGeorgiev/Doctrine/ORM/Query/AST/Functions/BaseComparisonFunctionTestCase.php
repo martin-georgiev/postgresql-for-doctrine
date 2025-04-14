@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Parser;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 
 abstract class BaseComparisonFunctionTestCase extends TestCase
 {
@@ -20,7 +20,7 @@ abstract class BaseComparisonFunctionTestCase extends TestCase
      */
     public function throws_an_exception_when_lexer_is_not_populated_with_a_lookahead_type(): void
     {
-        $this->expectException(ParserException::class);
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
 
         $em = $this->createMock(EntityManager::class);
         $em->expects($this->any())

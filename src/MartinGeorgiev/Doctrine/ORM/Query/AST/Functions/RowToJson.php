@@ -25,6 +25,11 @@ class RowToJson extends BaseVariadicFunction
 {
     use BooleanValidationTrait;
 
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringPrimary'];
+    }
+
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('row_to_json(%s)');
