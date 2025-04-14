@@ -17,6 +17,11 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  */
 class JsonbBuildObject extends BaseVariadicFunction
 {
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringPrimary'];
+    }
+
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('jsonb_build_object(%s)');

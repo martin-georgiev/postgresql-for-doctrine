@@ -17,7 +17,10 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  */
 class Arr extends BaseVariadicFunction
 {
-    protected string $commonNodeMapping = 'StringPrimary';
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringPrimary'];
+    }
 
     protected function customizeFunction(): void
     {

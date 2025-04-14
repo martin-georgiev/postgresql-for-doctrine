@@ -25,6 +25,11 @@ class DateSubtract extends BaseVariadicFunction
 {
     use TimezoneValidationTrait;
 
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringPrimary'];
+    }
+
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('date_subtract(%s)');

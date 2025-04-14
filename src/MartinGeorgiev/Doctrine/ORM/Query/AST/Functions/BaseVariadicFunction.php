@@ -19,18 +19,37 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  */
 abstract class BaseVariadicFunction extends BaseFunction
 {
-    protected string $commonNodeMapping = 'StringPrimary';
+    /**
+     * @return array<int|string, string>
+     */
+    abstract protected function getNodeMappingPattern(): array;
 
     /**
      * @throws ParserException
      */
     protected function feedParserWithNodes(Parser $parser): void
     {
+        foreach ($this->getNodeMappingPattern() as $nodeMappingPattern) {
+            try {
+                $this->feedParserWithNodesForNodeMappingPattern($parser, $nodeMappingPattern);
+
+                break;
+            } catch (ParserException) {
+                // swallow and continue with next pattern
+            }
+        }
+
+        $this->validateArguments(...$this->nodes); // @phpstan-ignore-line
+    }
+
+    private function feedParserWithNodesForNodeMappingPattern(Parser $parser, string $nodeMappingPattern): void
+    {
+        $nodeMapping = \explode(',', $nodeMappingPattern);
         $lexer = $parser->getLexer();
 
         try {
             // @phpstan-ignore-next-line
-            $this->nodes[] = $parser->{$this->commonNodeMapping}();
+            $this->nodes[] = $parser->{$nodeMapping[0]}();
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
             if ($lookaheadType === null) {
                 throw ParserException::missingLookaheadType();
@@ -40,18 +59,18 @@ abstract class BaseVariadicFunction extends BaseFunction
         }
 
         $shouldUseLexer = DoctrineOrm::isPre219();
-
+        $isNodeMappingASimplePattern = \count($nodeMapping) === 1;
+        $nodeIndex = 1;
         while (($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $lookaheadType) {
             if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $lookaheadType) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
                 // @phpstan-ignore-next-line
-                $this->nodes[] = $parser->{$this->commonNodeMapping}();
+                $this->nodes[] = $parser->{$nodeMapping[$isNodeMappingASimplePattern ? 0 : $nodeIndex]}();
+                $nodeIndex++;
             }
 
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
         }
-
-        $this->validateArguments(...$this->nodes); // @phpstan-ignore-line
     }
 
     public function getSql(SqlWalker $sqlWalker): string
