@@ -17,6 +17,11 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  */
 class ToTsquery extends BaseVariadicFunction
 {
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringPrimary'];
+    }
+
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('to_tsquery(%s)');

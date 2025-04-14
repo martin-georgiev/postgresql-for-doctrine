@@ -17,7 +17,10 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  */
 class ToTsvector extends BaseVariadicFunction
 {
-    protected string $commonNodeMapping = 'StringExpression';
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringExpression'];
+    }
 
     protected function customizeFunction(): void
     {

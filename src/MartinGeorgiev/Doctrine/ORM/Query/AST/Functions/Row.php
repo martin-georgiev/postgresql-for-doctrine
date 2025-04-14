@@ -14,7 +14,10 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  */
 class Row extends BaseVariadicFunction
 {
-    protected string $commonNodeMapping = 'InParameter';
+    protected function getNodeMappingPattern(): array
+    {
+        return ['InParameter'];
+    }
 
     protected function customizeFunction(): void
     {
