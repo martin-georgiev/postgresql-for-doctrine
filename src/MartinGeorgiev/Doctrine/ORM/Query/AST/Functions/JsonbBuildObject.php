@@ -22,16 +22,27 @@ class JsonbBuildObject extends BaseVariadicFunction
         return ['StringPrimary'];
     }
 
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('jsonb_build_object(%s)');
+        return 'jsonb_build_object';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2; // At least one key-value pair
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return PHP_INT_MAX; // No upper limit, but must be even
     }
 
     protected function validateArguments(Node ...$arguments): void
     {
-        $argumentCount = \count($arguments);
-        if ($argumentCount === 0 || $argumentCount % 2 !== 0) {
-            throw InvalidArgumentForVariadicFunctionException::evenNumber('jsonb_build_object');
+        parent::validateArguments(...$arguments);
+
+        if (\count($arguments) % 2 !== 0) {
+            throw InvalidArgumentForVariadicFunctionException::evenNumber($this->getFunctionName());
         }
     }
 }

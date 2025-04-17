@@ -19,14 +19,22 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  */
 abstract class BaseVariadicFunction extends BaseFunction
 {
+    protected function customizeFunction(): void
+    {
+        $this->setFunctionPrototype(\sprintf('%s(%%s)', $this->getFunctionName()));
+    }
+
+    abstract protected function getFunctionName(): string;
+
     /**
-     * @return array<int|string, string>
+     * @return array<string>
      */
     abstract protected function getNodeMappingPattern(): array;
 
-    /**
-     * @throws ParserException
-     */
+    abstract protected function getMinArgumentCount(): int;
+
+    abstract protected function getMaxArgumentCount(): int;
+
     protected function feedParserWithNodes(Parser $parser): void
     {
         foreach ($this->getNodeMappingPattern() as $nodeMappingPattern) {
@@ -38,10 +46,12 @@ abstract class BaseVariadicFunction extends BaseFunction
                 // swallow and continue with next pattern
             }
         }
-
-        $this->validateArguments(...$this->nodes); // @phpstan-ignore-line
     }
 
+    /**
+     * @throws InvalidArgumentForVariadicFunctionException
+     * @throws ParserException
+     */
     private function feedParserWithNodesForNodeMappingPattern(Parser $parser, string $nodeMappingPattern): void
     {
         $nodeMapping = \explode(',', $nodeMappingPattern);
@@ -52,7 +62,7 @@ abstract class BaseVariadicFunction extends BaseFunction
             $this->nodes[] = $parser->{$nodeMapping[0]}();
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
             if ($lookaheadType === null) {
-                throw ParserException::missingLookaheadType();
+                throw InvalidArgumentForVariadicFunctionException::atLeast($this->getFunctionName(), $this->getMinArgumentCount());
             }
         } catch (\Throwable $throwable) {
             throw ParserException::withThrowable($throwable);
@@ -64,12 +74,42 @@ abstract class BaseVariadicFunction extends BaseFunction
         while (($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $lookaheadType) {
             if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $lookaheadType) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
-                // @phpstan-ignore-next-line
-                $this->nodes[] = $parser->{$nodeMapping[$isNodeMappingASimplePattern ? 0 : $nodeIndex]}();
+
+                // Check if we're about to exceed the maximum number of arguments
+                // nodeIndex starts at 1 and counts up for each argument after the first
+                // So when nodeIndex=1, we're about to add the 2nd argument (total: 2)
+                // When nodeIndex=2, we're about to add the 3rd argument (total: 3)
+                $foundMoreNodesThanMappingExpected = ($nodeIndex + 1) > $this->getMaxArgumentCount();
+                if ($foundMoreNodesThanMappingExpected) {
+                    throw InvalidArgumentForVariadicFunctionException::between($this->getFunctionName(), $this->getMinArgumentCount(), $this->getMaxArgumentCount());
+                }
+
+                $expectedNodeIndex = $isNodeMappingASimplePattern ? 0 : $nodeIndex;
+                $this->nodes[] = $parser->{$nodeMapping[$expectedNodeIndex]}(); // @phpstan-ignore-line
                 $nodeIndex++;
             }
 
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
+        }
+
+        $this->validateArguments(...$this->nodes); // @phpstan-ignore-line
+    }
+
+    /**
+     * @throws InvalidArgumentForVariadicFunctionException
+     */
+    protected function validateArguments(Node ...$arguments): void
+    {
+        $minArgumentCount = $this->getMinArgumentCount();
+        $maxArgumentCount = $this->getMaxArgumentCount();
+        $argumentCount = \count($arguments);
+
+        if ($argumentCount < $minArgumentCount) {
+            throw InvalidArgumentForVariadicFunctionException::atLeast($this->getFunctionName(), $this->getMinArgumentCount());
+        }
+
+        if ($argumentCount > $maxArgumentCount) {
+            throw InvalidArgumentForVariadicFunctionException::between($this->getFunctionName(), $this->getMinArgumentCount(), $this->getMaxArgumentCount());
         }
     }
 
@@ -82,11 +122,4 @@ abstract class BaseVariadicFunction extends BaseFunction
 
         return \sprintf($this->functionPrototype, \implode(', ', $dispatched));
     }
-
-    /**
-     * Validates the arguments passed to the function.
-     *
-     * @throws InvalidArgumentForVariadicFunctionException
-     */
-    abstract protected function validateArguments(Node ...$arguments): void;
 }

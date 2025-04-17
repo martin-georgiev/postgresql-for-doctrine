@@ -37,7 +37,7 @@ class JsonbInsertTest extends TestCase
     public function test_invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
-        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for JSONB_INSERT. Must be "true" or "false".');
+        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_insert. Must be "true" or "false".');
 
         $dql = \sprintf("SELECT JSONB_INSERT(e.object1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'invalid') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
@@ -46,7 +46,7 @@ class JsonbInsertTest extends TestCase
     public function test_too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('jsonb_insert() requires between 3 and 4 arguments');
+        $this->expectExceptionMessage('jsonb_insert() requires at least 3 arguments');
 
         $dql = \sprintf('SELECT JSONB_INSERT(e.object1) FROM %s e', ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

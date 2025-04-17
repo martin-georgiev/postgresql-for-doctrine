@@ -15,4 +15,19 @@ abstract class BaseComparisonFunction extends BaseVariadicFunction
     {
         return ['SimpleArithmeticExpression'];
     }
+
+    protected function customizeFunction(): void
+    {
+        $this->setFunctionPrototype(\sprintf('%s(%%s)', $this->getFunctionName()));
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return PHP_INT_MAX; // No hard limit apart the PHP internals
+    }
 }

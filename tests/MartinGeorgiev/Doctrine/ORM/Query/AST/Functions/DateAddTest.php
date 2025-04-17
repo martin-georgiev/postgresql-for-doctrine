@@ -41,7 +41,7 @@ class DateAddTest extends TestCase
     public function test_invalid_timezone_throws_exception(): void
     {
         $this->expectException(InvalidTimezoneException::class);
-        $this->expectExceptionMessage('Invalid timezone "Invalid/Timezone" provided for DATE_ADD');
+        $this->expectExceptionMessage('Invalid timezone "Invalid/Timezone" provided for date_add');
 
         $dql = \sprintf("SELECT DATE_ADD(e.datetimetz1, '1 day', 'Invalid/Timezone') FROM %s e", ContainsDates::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
@@ -50,7 +50,7 @@ class DateAddTest extends TestCase
     public function test_too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('date_add() requires between 2 and 3 arguments');
+        $this->expectExceptionMessage('date_add() requires at least 2 arguments');
 
         $dql = \sprintf('SELECT DATE_ADD(e.datetimetz1) FROM %s e', ContainsDates::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

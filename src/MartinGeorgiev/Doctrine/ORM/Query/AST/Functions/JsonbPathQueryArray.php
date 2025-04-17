@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
 
 /**
@@ -29,21 +28,28 @@ class JsonbPathQueryArray extends BaseVariadicFunction
         return ['StringPrimary'];
     }
 
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('jsonb_path_query_array(%s)');
+        return 'jsonb_path_query_array';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 4;
     }
 
     protected function validateArguments(Node ...$arguments): void
     {
-        $argumentCount = \count($arguments);
-        if ($argumentCount < 2 || $argumentCount > 4) {
-            throw InvalidArgumentForVariadicFunctionException::between('jsonb_path_query_array', 2, 4);
-        }
+        parent::validateArguments(...$arguments);
 
         // Validate that the fourth parameter is a valid boolean if provided
-        if ($argumentCount === 4) {
-            $this->validateBoolean($arguments[3], 'JSONB_PATH_QUERY_ARRAY');
+        if (\count($arguments) === 4) {
+            $this->validateBoolean($arguments[3], $this->getFunctionName());
         }
     }
 }

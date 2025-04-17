@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least;
 
-class LeastTest extends BaseComparisonFunctionTestCase
+class LeastTest extends TestCase
 {
-    protected function createFixture(): BaseComparisonFunction
-    {
-        return new Least('least');
-    }
-
     protected function getStringFunctions(): array
     {
         return [

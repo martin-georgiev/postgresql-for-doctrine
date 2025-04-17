@@ -37,7 +37,7 @@ class ArrayToJsonTest extends TestCase
     public function test_invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
-        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for ARRAY_TO_JSON. Must be "true" or "false".');
+        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for array_to_json. Must be "true" or "false".');
 
         $dql = \sprintf("SELECT ARRAY_TO_JSON(e.array1, 'invalid') FROM %s e", ContainsArrays::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

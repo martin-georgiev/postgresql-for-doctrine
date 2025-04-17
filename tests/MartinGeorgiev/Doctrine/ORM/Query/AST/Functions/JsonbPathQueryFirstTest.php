@@ -41,7 +41,7 @@ class JsonbPathQueryFirstTest extends TestCase
     public function test_invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
-        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for JSONB_PATH_QUERY_FIRST. Must be "true" or "false".');
+        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_path_query_first. Must be "true" or "false".');
 
         $dql = \sprintf("SELECT JSONB_PATH_QUERY_FIRST(e.object1, '$.items[*].id', '{\"strict\": false}', 'invalid') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
@@ -50,7 +50,7 @@ class JsonbPathQueryFirstTest extends TestCase
     public function test_too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('jsonb_path_query_first() requires between 2 and 4 arguments');
+        $this->expectExceptionMessage('jsonb_path_query_first() requires at least 2 arguments');
 
         $dql = \sprintf('SELECT JSONB_PATH_QUERY_FIRST(e.object1) FROM %s e', ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

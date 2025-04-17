@@ -39,7 +39,7 @@ class RowToJsonTest extends TestCase
     public function test_invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
-        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for ROW_TO_JSON. Must be "true" or "false".');
+        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for row_to_json. Must be "true" or "false".');
 
         $dql = \sprintf("SELECT ROW_TO_JSON(e.text1, 'invalid') FROM %s e", ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
