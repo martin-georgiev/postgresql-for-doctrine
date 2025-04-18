@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Doctrine\ORM\Query\AST\Node;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 
 /**
@@ -16,14 +17,17 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  */
 class Arr extends BaseVariadicFunction
 {
-    protected string $commonNodeMapping = 'StringPrimary';
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringPrimary'];
+    }
 
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('ARRAY[%s]');
     }
 
-    protected function validateArguments(array $arguments): void
+    protected function validateArguments(Node ...$arguments): void
     {
         $argumentCount = \count($arguments);
         if ($argumentCount === 0) {

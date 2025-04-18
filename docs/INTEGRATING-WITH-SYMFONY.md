@@ -169,6 +169,9 @@ doctrine:
                         FLAGGED_REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch
                         REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch
                         STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
+                        FLAGGED_REGEXP_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpReplace
+                        REGEXP_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace
+                        ROW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row
 
                         # aggregation functions
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg

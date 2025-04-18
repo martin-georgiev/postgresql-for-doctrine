@@ -15,7 +15,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      */
     public function can_detect_invalid_for_transformation_php_value(mixed $phpValue): void
     {
@@ -25,7 +25,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     /**
      * @return list<mixed>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
             [true],
@@ -85,5 +85,5 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     /**
      * @return array<array{string}>
      */
-    abstract protected function provideOutOfRangeValues(): array;
+    abstract public static function provideOutOfRangeValues(): array;
 }

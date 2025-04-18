@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Doctrine\ORM\Query\AST\Node;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 
 /**
@@ -13,14 +14,17 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  */
 class Row extends BaseVariadicFunction
 {
-    protected string $commonNodeMapping = 'InParameter';
+    protected function getNodeMappingPattern(): array
+    {
+        return ['InParameter'];
+    }
 
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('ROW(%s)');
     }
 
-    protected function validateArguments(array $arguments): void
+    protected function validateArguments(Node ...$arguments): void
     {
         $argumentCount = \count($arguments);
         if ($argumentCount === 0) {

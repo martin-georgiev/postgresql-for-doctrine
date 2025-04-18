@@ -22,9 +22,9 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
         self::assertEquals('bigint[]', $this->fixture->getName());
     }
 
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
-        return \array_merge(parent::provideInvalidTransformations(), [
+        return \array_merge(parent::provideInvalidPHPValuesForDatabaseTransformation(), [
             ['9223372036854775808'],    // Greater than PHP_INT_MAX
             ['-9223372036854775809'],   // Less than PHP_INT_MIN
             ['1.23e10'],                // Scientific notation
@@ -81,7 +81,7 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
     /**
      * @return array<array{string}>
      */
-    protected function provideOutOfRangeValues(): array
+    public static function provideOutOfRangeValues(): array
     {
         return [
             ['9223372036854775808'], // PHP_INT_MAX + 1

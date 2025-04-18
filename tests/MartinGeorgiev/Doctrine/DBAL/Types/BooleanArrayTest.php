@@ -52,7 +52,7 @@ class BooleanArrayTest extends TestCase
      *
      * @dataProvider provideValidTransformations
      */
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue = null): void
     {
         $this->platform->method('convertFromBoolean')
             ->with($this->anything())

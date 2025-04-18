@@ -101,7 +101,7 @@ class MacaddrTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidTransformations
+     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
@@ -112,7 +112,7 @@ class MacaddrTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {
         return [
             'empty string' => [''],
@@ -131,7 +131,7 @@ class MacaddrTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider provideInvalidDatabaseValues
+     * @dataProvider provideInvalidDatabaseValuesForPHPTransformation
      */
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $dbValue): void
     {
@@ -142,7 +142,7 @@ class MacaddrTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValues(): array
+    public static function provideInvalidDatabaseValuesForPHPTransformation(): array
     {
         return [
             'invalid type' => [123],
