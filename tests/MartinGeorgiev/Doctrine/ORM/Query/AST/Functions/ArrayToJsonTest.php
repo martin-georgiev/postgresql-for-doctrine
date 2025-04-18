@@ -6,11 +6,17 @@ namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
 
-class ArrayToJsonTest extends TestCase
+class ArrayToJsonTest extends BaseVariadicFunctionTestCase
 {
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new ArrayToJson('ARRAY_TO_JSON');
+    }
+
     protected function getStringFunctions(): array
     {
         return [

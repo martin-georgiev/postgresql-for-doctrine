@@ -6,9 +6,15 @@ namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
-class ArrTest extends TestCase
+class ArrTest extends BaseVariadicFunctionTestCase
 {
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new Arr('ARRAY');
+    }
+
     protected function getStringFunctions(): array
     {
         return [

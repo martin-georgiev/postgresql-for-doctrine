@@ -58,12 +58,12 @@ abstract class BaseVariadicFunction extends BaseFunction
         $lexer = $parser->getLexer();
 
         try {
-            // @phpstan-ignore-next-line
-            $this->nodes[] = $parser->{$nodeMapping[0]}();
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
             if ($lookaheadType === null) {
                 throw InvalidArgumentForVariadicFunctionException::atLeast($this->getFunctionName(), $this->getMinArgumentCount());
             }
+
+            $this->nodes[] = $parser->{$nodeMapping[0]}(); // @phpstan-ignore-line
         } catch (\Throwable $throwable) {
             throw ParserException::withThrowable($throwable);
         }

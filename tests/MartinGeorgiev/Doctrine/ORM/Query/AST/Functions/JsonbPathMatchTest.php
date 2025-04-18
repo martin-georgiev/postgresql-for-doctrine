@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathMatch;
 
-class JsonbPathMatchTest extends TestCase
+class JsonbPathMatchTest extends BaseVariadicFunctionTestCase
 {
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new JsonbPathMatch('JSONB_PATH_MATCH');
+    }
+
     protected function getStringFunctions(): array
     {
         return [

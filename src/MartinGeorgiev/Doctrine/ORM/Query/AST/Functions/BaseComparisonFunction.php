@@ -16,11 +16,6 @@ abstract class BaseComparisonFunction extends BaseVariadicFunction
         return ['SimpleArithmeticExpression'];
     }
 
-    protected function customizeFunction(): void
-    {
-        $this->setFunctionPrototype(\sprintf('%s(%%s)', $this->getFunctionName()));
-    }
-
     protected function getMinArgumentCount(): int
     {
         return 2;
