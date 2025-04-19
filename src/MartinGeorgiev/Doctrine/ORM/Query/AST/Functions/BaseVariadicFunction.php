@@ -85,6 +85,15 @@ abstract class BaseVariadicFunction extends BaseFunction
                 }
 
                 $expectedNodeIndex = $isNodeMappingASimplePattern ? 0 : $nodeIndex;
+                $argumentCountExceedsMappingPatternExpectation = !isset($nodeMapping[$expectedNodeIndex]);
+                if ($argumentCountExceedsMappingPatternExpectation) {
+                    throw InvalidArgumentForVariadicFunctionException::unsupportedCombination(
+                        $this->getFunctionName(),
+                        \count($this->nodes) + 1,
+                        'implementation defines fewer node mappings than the actually provided argument count'
+                    );
+                }
+
                 $this->nodes[] = $parser->{$nodeMapping[$expectedNodeIndex]}(); // @phpstan-ignore-line
                 $nodeIndex++;
             }
