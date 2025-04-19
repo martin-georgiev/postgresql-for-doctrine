@@ -18,6 +18,7 @@ doctrine:
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
             jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
             point: MartinGeorgiev\Doctrine\DBAL\Types\Point
+            point[]: MartinGeorgiev\Doctrine\DBAL\Types\PointArray
 ```
 
 
@@ -48,6 +49,8 @@ doctrine:
                     jsonb[]: jsonb[]
                     _jsonb: jsonb[]
                     point: point
+                    point[]: point[]
+                    _point: point[]
 ```
 
 

@@ -7,7 +7,7 @@ namespace Tests\MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
-use MartinGeorgiev\ValueObject\Point as PointValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -55,7 +55,7 @@ class PointArrayTest extends TestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array<PointValueObject>|null, postgresValue: string|null}>
+     * @return array<string, array{phpValue: array<Point>|null, postgresValue: string|null}>
      */
     public static function provideValidTransformations(): array
     {
@@ -69,20 +69,20 @@ class PointArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'single point' => [
-                'phpValue' => [new PointValueObject(1.23, 4.56)],
+                'phpValue' => [new Point(1.23, 4.56)],
                 'postgresValue' => '{"(1.230000, 4.560000)"}',
             ],
             'multiple points' => [
                 'phpValue' => [
-                    new PointValueObject(1.23, 4.56),
-                    new PointValueObject(-7.89, 0.12),
+                    new Point(1.23, 4.56),
+                    new Point(-7.89, 0.12),
                 ],
                 'postgresValue' => '{"(1.230000, 4.560000)","(-7.890000, 0.120000)"}',
             ],
             'points with zero values' => [
                 'phpValue' => [
-                    new PointValueObject(0.0, 0.0),
-                    new PointValueObject(10.5, -3.7),
+                    new Point(0.0, 0.0),
+                    new Point(10.5, -3.7),
                 ],
                 'postgresValue' => '{"(0.000000, 0.000000)","(10.500000, -3.700000)"}',
             ],
@@ -111,7 +111,7 @@ class PointArrayTest extends TestCase
             'invalid nested point' => [['(1.23,4.56)']],
             'mixed array (valid and invalid points)' => [
                 [
-                    new PointValueObject(1.23, 4.56),
+                    new Point(1.23, 4.56),
                     'invalid',
                 ],
             ],

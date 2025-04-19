@@ -55,6 +55,7 @@ return [
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
         'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
         'point' => MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
+        'point[]' => MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class,
     ],
 ];
 ```
@@ -246,6 +247,9 @@ class DoctrineEventSubscriber implements Subscriber
         }
         if (!Type::hasType('point')) {
             Type::addType('point', \MartinGeorgiev\Doctrine\DBAL\Types\Point::class);
+        }
+        if (!Type::hasType('point[]')) {
+            Type::addType('point[]', \MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class);
         }
     }
 }

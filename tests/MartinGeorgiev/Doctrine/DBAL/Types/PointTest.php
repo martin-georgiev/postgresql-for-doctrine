@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
-use MartinGeorgiev\ValueObject\Point as PointValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -56,26 +56,30 @@ class PointTest extends TestCase
     }
 
     /**
-     * @return array<string, array{phpValue: PointValueObject|null, postgresValue: string|null}>
+     * @return array<string, array{pointValueObject: PointValueObject|null, postgresValue: string|null}>
      */
     public static function provideValidTransformations(): array
     {
         return [
             'null' => [
-                'phpValue' => null,
+                'pointValueObject' => null,
                 'postgresValue' => null,
             ],
             'valid point' => [
-                'phpValue' => new PointValueObject(1.23, 4.56),
+                'pointValueObject' => new PointValueObject(1.23, 4.56),
                 'postgresValue' => '(1.230000, 4.560000)',
             ],
             'negative coordinates' => [
-                'phpValue' => new PointValueObject(-1.23, -4.56),
+                'pointValueObject' => new PointValueObject(-1.23, -4.56),
                 'postgresValue' => '(-1.230000, -4.560000)',
             ],
             'zero coordinates' => [
-                'phpValue' => new PointValueObject(0.0, 0.0),
+                'pointValueObject' => new PointValueObject(0.0, 0.0),
                 'postgresValue' => '(0.000000, 0.000000)',
+            ],
+            'maximum float precision' => [
+                'pointValueObject' => new PointValueObject(45.123456, 179.987654),
+                'postgresValue' => '(45.123456, 179.987654)',
             ],
         ];
     }
@@ -127,6 +131,7 @@ class PointTest extends TestCase
             'non-numeric values' => ['(a,b)'],
             'too many coordinates' => ['(1.23,4.56,7.89)'],
             'not a string' => [123],
+            'maximum float precision' => ['(1.23456789,7.89)'],
         ];
     }
 }

@@ -7,15 +7,15 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForPHPException;
-use MartinGeorgiev\ValueObject\Point as PointValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 
 /**
  * Implementation of PostgreSQL POINT data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-GEOMETRIC-POINTS
+ * @see https://www.postgresql.org/docs/17/datatype-geometric.html#DATATYPE-GEOMETRIC-POINTS
  * @since 3.1
  *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
+ * @author Sébastien Jean <sebastien.jean76@gmail.com>
  */
 class Point extends BaseType
 {
@@ -44,7 +44,7 @@ class Point extends BaseType
             throw InvalidPointForDatabaseException::forInvalidType($value);
         }
 
-        if (!\preg_match('/\((-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)\)/', $value, $matches)) {
+        if (!\preg_match('/\((-?\d+(?:\.\d{1,6})?),\s*(-?\d+(?:\.\d{1,6})?)\)/', $value, $matches)) {
             throw InvalidPointForDatabaseException::forInvalidFormat($value);
         }
 

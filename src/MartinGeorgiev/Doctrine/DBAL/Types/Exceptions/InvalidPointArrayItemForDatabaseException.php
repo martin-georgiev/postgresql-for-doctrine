@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\ConversionException;
 /**
  * @since 3.1
  *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
+ * @author Sébastien Jean <sebastien.jean76@gmail.com>
  */
 class InvalidPointArrayItemForDatabaseException extends ConversionException
 {

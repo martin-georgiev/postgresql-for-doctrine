@@ -6,15 +6,15 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointArrayItemForPHPException;
-use MartinGeorgiev\ValueObject\Point as PointValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 
 /**
  * Implementation of PostgreSQL POINT[] data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-GEOMETRIC-POINTS
+ * @see https://www.postgresql.org/docs/17/datatype-geometric.html#DATATYPE-GEOMETRIC-POINTS
  * @since 3.1
  *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
+ * @author Sébastien Jean <sebastien.jean76@gmail.com>
  */
 class PointArray extends BaseArray
 {
@@ -53,7 +53,7 @@ class PointArray extends BaseArray
             $this->throwInvalidTypeException($item);
         }
 
-        if (!\preg_match('/^\((-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)\)$/', $item, $matches)) {
+        if (!\preg_match('/^\((-?\d+(?:\.\d{1,6})?),\s*(-?\d+(?:\.\d{1,6})?)\)$/', $item, $matches)) {
             $this->throwInvalidFormatException($item);
         }
 

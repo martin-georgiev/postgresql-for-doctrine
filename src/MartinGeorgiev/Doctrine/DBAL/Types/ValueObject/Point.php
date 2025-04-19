@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\ValueObject;
+namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 /**
  * @since 3.1
  *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
+ * @author Sébastien Jean <sebastien.jean76@gmail.com>
  */
 final class Point implements \Stringable
 {
