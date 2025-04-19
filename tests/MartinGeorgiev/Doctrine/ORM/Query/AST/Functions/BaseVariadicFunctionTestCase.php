@@ -8,19 +8,19 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Parser;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseComparisonFunction;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 
-abstract class BaseComparisonFunctionTestCase extends TestCase
+abstract class BaseVariadicFunctionTestCase extends TestCase
 {
-    abstract protected function createFixture(): BaseComparisonFunction;
+    abstract protected function createFixture(): BaseVariadicFunction;
 
     /**
      * @test
      */
     public function throws_an_exception_when_lexer_is_not_populated_with_a_lookahead_type(): void
     {
-        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectException(ParserException::class);
 
         $em = $this->createMock(EntityManager::class);
         $em->expects($this->any())
@@ -33,10 +33,10 @@ abstract class BaseComparisonFunctionTestCase extends TestCase
         $parser = new Parser($query);
         $parser->getLexer()->moveNext();
 
-        $baseComparisonFunction = $this->createFixture();
+        $baseVariadicFunction = $this->createFixture();
 
-        $reflectionMethod = new \ReflectionMethod($baseComparisonFunction::class, 'feedParserWithNodes');
+        $reflectionMethod = new \ReflectionMethod($baseVariadicFunction::class, 'feedParserWithNodesForNodeMappingPattern');
         $reflectionMethod->setAccessible(true);
-        $reflectionMethod->invoke($baseComparisonFunction, $parser);
+        $reflectionMethod->invoke($baseVariadicFunction, $parser, 'ArithmeticPrimary');
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\TimezoneValidationTrait;
 
 /**
@@ -30,21 +29,28 @@ class DateSubtract extends BaseVariadicFunction
         return ['StringPrimary'];
     }
 
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('date_subtract(%s)');
+        return 'date_subtract';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 3;
     }
 
     protected function validateArguments(Node ...$arguments): void
     {
-        $argumentCount = \count($arguments);
-        if ($argumentCount < 2 || $argumentCount > 3) {
-            throw InvalidArgumentForVariadicFunctionException::between('date_subtract', 2, 3);
-        }
+        parent::validateArguments(...$arguments);
 
         // Validate that the third parameter is a valid timezone if provided
-        if ($argumentCount === 3) {
-            $this->validateTimezone($arguments[2], 'DATE_SUBTRACT');
+        if (\count($arguments) === 3) {
+            $this->validateTimezone($arguments[2], $this->getFunctionName());
         }
     }
 }

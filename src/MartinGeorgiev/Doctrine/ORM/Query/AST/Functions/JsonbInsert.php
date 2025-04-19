@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
 
 /**
@@ -31,21 +30,28 @@ class JsonbInsert extends BaseVariadicFunction
         return ['StringPrimary'];
     }
 
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('jsonb_insert(%s)');
+        return 'jsonb_insert';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 3;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 4;
     }
 
     protected function validateArguments(Node ...$arguments): void
     {
-        $argumentCount = \count($arguments);
-        if ($argumentCount < 3 || $argumentCount > 4) {
-            throw InvalidArgumentForVariadicFunctionException::between('jsonb_insert', 3, 4);
-        }
+        parent::validateArguments(...$arguments);
 
         // Validate that the fourth parameter is a valid boolean if provided
-        if ($argumentCount === 4) {
-            $this->validateBoolean($arguments[3], 'JSONB_INSERT');
+        if (\count($arguments) === 4) {
+            $this->validateBoolean($arguments[3], $this->getFunctionName());
         }
     }
 }

@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson;
 
-class RowToJsonTest extends TestCase
+class RowToJsonTest extends BaseVariadicFunctionTestCase
 {
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new RowToJson('ROW_TO_JSON');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
@@ -39,7 +45,7 @@ class RowToJsonTest extends TestCase
     public function test_invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
-        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for ROW_TO_JSON. Must be "true" or "false".');
+        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for row_to_json. Must be "true" or "false".');
 
         $dql = \sprintf("SELECT ROW_TO_JSON(e.text1, 'invalid') FROM %s e", ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

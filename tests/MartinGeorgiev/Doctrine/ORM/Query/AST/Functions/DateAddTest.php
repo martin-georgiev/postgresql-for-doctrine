@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidTimezoneException;
 
-class DateAddTest extends TestCase
+class DateAddTest extends BaseVariadicFunctionTestCase
 {
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new DateAdd('DATE_ADD');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
@@ -41,7 +47,7 @@ class DateAddTest extends TestCase
     public function test_invalid_timezone_throws_exception(): void
     {
         $this->expectException(InvalidTimezoneException::class);
-        $this->expectExceptionMessage('Invalid timezone "Invalid/Timezone" provided for DATE_ADD');
+        $this->expectExceptionMessage('Invalid timezone "Invalid/Timezone" provided for date_add');
 
         $dql = \sprintf("SELECT DATE_ADD(e.datetimetz1, '1 day', 'Invalid/Timezone') FROM %s e", ContainsDates::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
@@ -50,7 +56,7 @@ class DateAddTest extends TestCase
     public function test_too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('date_add() requires between 2 and 3 arguments');
+        $this->expectExceptionMessage('date_add() requires at least 2 arguments');
 
         $dql = \sprintf('SELECT DATE_ADD(e.datetimetz1) FROM %s e', ContainsDates::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

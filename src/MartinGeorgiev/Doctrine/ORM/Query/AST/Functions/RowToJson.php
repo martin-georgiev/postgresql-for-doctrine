@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
 
 /**
@@ -30,21 +29,28 @@ class RowToJson extends BaseVariadicFunction
         return ['StringPrimary'];
     }
 
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('row_to_json(%s)');
+        return 'row_to_json';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 1;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 2;
     }
 
     protected function validateArguments(Node ...$arguments): void
     {
-        $argumentCount = \count($arguments);
-        if ($argumentCount < 1 || $argumentCount > 2) {
-            throw InvalidArgumentForVariadicFunctionException::between('row_to_json', 1, 2);
-        }
+        parent::validateArguments(...$arguments);
 
         // Validate that the second parameter is a valid boolean if provided
-        if ($argumentCount === 2) {
-            $this->validateBoolean($arguments[1], 'ROW_TO_JSON');
+        if (\count($arguments) === 2) {
+            $this->validateBoolean($arguments[1], $this->getFunctionName());
         }
     }
 }
