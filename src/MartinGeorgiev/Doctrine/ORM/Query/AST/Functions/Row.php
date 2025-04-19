@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
-
 /**
  * Implementation of PostgreSQL Row Constructor expression.
  *
@@ -19,16 +16,18 @@ class Row extends BaseVariadicFunction
         return ['InParameter'];
     }
 
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('ROW(%s)');
+        return 'ROW';
     }
 
-    protected function validateArguments(Node ...$arguments): void
+    protected function getMinArgumentCount(): int
     {
-        $argumentCount = \count($arguments);
-        if ($argumentCount === 0) {
-            throw InvalidArgumentForVariadicFunctionException::atLeast('ROW', 1);
-        }
+        return 1;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return PHP_INT_MAX; // No upper limit
     }
 }

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
-
 /**
  * Implementation of PostgreSQL UNACCENT.
  *
@@ -21,16 +18,18 @@ class Unaccent extends BaseVariadicFunction
         return ['StringPrimary'];
     }
 
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('unaccent(%s)');
+        return 'unaccent';
     }
 
-    protected function validateArguments(Node ...$arguments): void
+    protected function getMinArgumentCount(): int
     {
-        $argumentCount = \count($arguments);
-        if ($argumentCount < 1 || $argumentCount > 2) {
-            throw InvalidArgumentForVariadicFunctionException::between('unaccent', 1, 2);
-        }
+        return 1;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 2;
     }
 }

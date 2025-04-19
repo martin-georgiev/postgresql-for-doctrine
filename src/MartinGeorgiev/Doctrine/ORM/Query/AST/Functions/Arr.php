@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
-
 /**
  * Implementation of PostgreSQL ARRAY[].
  *
@@ -22,16 +19,23 @@ class Arr extends BaseVariadicFunction
         return ['StringPrimary'];
     }
 
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('ARRAY[%s]');
+        return 'ARRAY';
     }
 
-    protected function validateArguments(Node ...$arguments): void
+    protected function customizeFunction(): void
     {
-        $argumentCount = \count($arguments);
-        if ($argumentCount === 0) {
-            throw InvalidArgumentForVariadicFunctionException::atLeast('ARRAY', 1);
-        }
+        $this->setFunctionPrototype(\sprintf('%s[%%s]', $this->getFunctionName()));
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 1;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return PHP_INT_MAX; // No upper limit
     }
 }

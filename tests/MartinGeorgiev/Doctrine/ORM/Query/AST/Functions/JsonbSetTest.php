@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet;
 
-class JsonbSetTest extends TestCase
+class JsonbSetTest extends BaseVariadicFunctionTestCase
 {
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new JsonbSet('JSONB_SET');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
@@ -37,7 +43,7 @@ class JsonbSetTest extends TestCase
     public function test_invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
-        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for JSONB_SET. Must be "true" or "false".');
+        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_set. Must be "true" or "false".');
 
         $dql = \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'invalid') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
@@ -46,7 +52,7 @@ class JsonbSetTest extends TestCase
     public function test_too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('jsonb_set() requires between 3 and 4 arguments');
+        $this->expectExceptionMessage('jsonb_set() requires at least 3 arguments');
 
         $dql = \sprintf('SELECT JSONB_SET(e.object1) FROM %s e', ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

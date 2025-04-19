@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
-
 /**
  * Implementation of PostgreSQL LEAST().
  *
@@ -17,16 +14,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  */
 class Least extends BaseComparisonFunction
 {
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('least(%s)');
-    }
-
-    protected function validateArguments(Node ...$arguments): void
-    {
-        $argumentCount = \count($arguments);
-        if ($argumentCount < 2) {
-            throw InvalidArgumentForVariadicFunctionException::atLeast('least', 2);
-        }
+        return 'least';
     }
 }

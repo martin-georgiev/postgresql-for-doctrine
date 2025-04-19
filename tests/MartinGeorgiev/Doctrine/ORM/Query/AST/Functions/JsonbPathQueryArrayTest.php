@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryArray;
 
-class JsonbPathQueryArrayTest extends TestCase
+class JsonbPathQueryArrayTest extends BaseVariadicFunctionTestCase
 {
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new JsonbPathQueryArray('JSONB_PATH_QUERY_ARRAY');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
@@ -41,7 +47,7 @@ class JsonbPathQueryArrayTest extends TestCase
     public function test_invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
-        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for JSONB_PATH_QUERY_ARRAY. Must be "true" or "false".');
+        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_path_query_array. Must be "true" or "false".');
 
         $dql = \sprintf("SELECT JSONB_PATH_QUERY_ARRAY(e.object1, '$.items[*].id', '{\"strict\": false}', 'invalid') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
@@ -50,7 +56,7 @@ class JsonbPathQueryArrayTest extends TestCase
     public function test_too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('jsonb_path_query_array() requires between 2 and 4 arguments');
+        $this->expectExceptionMessage('jsonb_path_query_array() requires at least 2 arguments');
 
         $dql = \sprintf('SELECT JSONB_PATH_QUERY_ARRAY(e.object1) FROM %s e', ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
