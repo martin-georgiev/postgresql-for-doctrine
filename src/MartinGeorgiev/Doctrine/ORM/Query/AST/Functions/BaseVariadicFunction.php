@@ -85,7 +85,7 @@ abstract class BaseVariadicFunction extends BaseFunction
                 }
 
                 $expectedNodeIndex = $isNodeMappingASimplePattern ? 0 : $nodeIndex;
-                $argumentCountExceedsMappingPatternExpectation = !isset($nodeMapping[$expectedNodeIndex]);
+                $argumentCountExceedsMappingPatternExpectation = !\array_key_exists($expectedNodeIndex, $nodeMapping);
                 if ($argumentCountExceedsMappingPatternExpectation) {
                     throw InvalidArgumentForVariadicFunctionException::unsupportedCombination(
                         $this->getFunctionName(),
@@ -101,6 +101,7 @@ abstract class BaseVariadicFunction extends BaseFunction
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
         }
 
+        // Final validation ensures all arguments meet requirements, including any special rules in subclass implementations
         $this->validateArguments(...$this->nodes); // @phpstan-ignore-line
     }
 
