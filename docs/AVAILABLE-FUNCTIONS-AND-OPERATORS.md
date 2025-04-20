@@ -23,6 +23,7 @@
 | !~* | NOT_IREGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp` |
 | @@ | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` |
 | \|\| | STRCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat` |
+| <@> | DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance` |
 
 # Available functions
 

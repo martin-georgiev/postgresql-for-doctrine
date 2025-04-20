@@ -212,6 +212,7 @@ doctrine:
                         REGEXP_SUBSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr
                         ROW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row
                         STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
+                        DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance
 
                         # aggregation functions
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg
