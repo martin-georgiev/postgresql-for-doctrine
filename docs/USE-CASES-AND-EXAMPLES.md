@@ -41,3 +41,59 @@ SELECT JSONB_BUILD_OBJECT('number', 123)     -- All number types, NULL and boole
 ```
 
 Note: Keys must always be string literals, while values can be either string literals or object property references.
+
+Using JSON Path Functions
+---
+
+PostgreSQL 14+ introduced JSON path functions that provide a powerful way to query JSON data. Here are some examples:
+
+```sql
+-- Check if a JSON path exists with a condition
+SELECT e FROM Entity e WHERE JSONB_PATH_EXISTS(e.jsonData, '$.items[*] ? (@.price > 100)') = TRUE
+
+-- Check if a JSON path matches a condition
+SELECT e FROM Entity e WHERE JSONB_PATH_MATCH(e.jsonData, 'exists($.items[*] ? (@.price >= 50 && @.price <= 100))') = TRUE
+
+-- Extract all items matching a path query
+SELECT e.id, JSONB_PATH_QUERY(e.jsonData, '$.items[*].name') FROM Entity e
+
+-- Extract all items as an array
+SELECT e.id, JSONB_PATH_QUERY_ARRAY(e.jsonData, '$.items[*].id') FROM Entity e
+
+-- Extract the first item matching a path query
+SELECT e.id, JSONB_PATH_QUERY_FIRST(e.jsonData, '$.items[*] ? (@.featured == true)') FROM Entity e
+```
+
+Using Regular Expression Functions
+---
+
+PostgreSQL 15+ introduced additional regular expression functions that provide more flexibility when working with text data:
+
+```sql
+-- Count occurrences of a pattern
+SELECT e.id, REGEXP_COUNT(e.text, '\d{3}-\d{2}-\d{4}') as ssn_count FROM Entity e
+
+-- Find position of a pattern
+SELECT e.id, REGEXP_INSTR(e.text, 'important') as position FROM Entity e
+
+-- Extract substring matching a pattern
+SELECT e.id, REGEXP_SUBSTR(e.text, 'https?://[\w.-]+') as url FROM Entity e
+```
+
+Using Date Functions
+---
+
+PostgreSQL 14+ introduced additional date functions that provide more flexibility when working with dates and timestamps:
+
+```sql
+-- Bin timestamps into 15-minute intervals
+SELECT DATE_BIN('15 minutes', e.createdAt, '2001-01-01') FROM Entity e
+
+-- Add an interval to a timestamp (timezone parameter is optional)
+SELECT DATE_ADD(e.timestampWithTz, '1 day') FROM Entity e
+SELECT DATE_ADD(e.timestampWithTz, '1 day', 'Europe/London') FROM Entity e
+
+-- Subtract an interval from a timestamp (timezone parameter is optional)
+SELECT DATE_SUBTRACT(e.timestampWithTz, '2 hours') FROM Entity e
+SELECT DATE_SUBTRACT(e.timestampWithTz, '2 hours', 'UTC') FROM Entity e
+```
