@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL REGEXP_REPLACE().
+ * @deprecated This function will be dropped in v4.0. Use RegexpReplace instead.
  *
+ * Implementation of PostgreSQL REGEXP_REPLACE().
  * @see https://www.postgresql.org/docs/15/functions-matching.html#FUNCTIONS-POSIX-REGEXP
  * @since 2.5
  *

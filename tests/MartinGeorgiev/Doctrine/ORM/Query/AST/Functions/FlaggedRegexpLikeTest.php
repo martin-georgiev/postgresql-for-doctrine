@@ -12,7 +12,7 @@ class FlaggedRegexpLikeTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
-            'FLAGGED_REGEXP_LIKE' => FlaggedRegexpLike::class,
+            'FLAGGED_REGEXP_LIKE' => FlaggedRegexpLike::class, // @phpstan-ignore-line
         ];
     }
 

@@ -82,12 +82,9 @@
 | least | LEAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least` |
 | numrange | NUMRANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange` |
 | overlaps | DATE_OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps` |
-| regexp_like (with flags) | FLAGGED_REGEXP_LIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike` |
-| regexp_like (with no flags) | REGEXP_LIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike` |
-| regexp_match (with flags) | FLAGGED_REGEXP_MATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch` |
-| regexp_match (with no flags) | REGEXP_MATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch` |
-| regexp_replace (with flags) | FLAGGED_REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpReplace` |
-| regexp_replace (with no flags) | REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace` |
+| regexp_like | REGEXP_LIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike` |
+| regexp_match | REGEXP_MATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch` |
+| regexp_replace | REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace` |
 | row | ROW | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row` |
 | row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
 | split_part | SPLIT_PART | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart` |

@@ -12,7 +12,7 @@ class FlaggedRegexpMatchTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
-            'FLAGGED_REGEXP_MATCH' => FlaggedRegexpMatch::class,
+            'FLAGGED_REGEXP_MATCH' => FlaggedRegexpMatch::class, // @phpstan-ignore-line
         ];
     }
 
