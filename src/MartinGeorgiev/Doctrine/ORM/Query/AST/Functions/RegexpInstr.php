@@ -10,20 +10,23 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Returns the position within string where the Nth match of the POSIX regular expression pattern occurs,
  * or zero if there is no such match.
  *
- * @see https://www.postgresql.org/docs/15/functions-matching.html#FUNCTIONS-POSIX-REGEXP
+ * @see https://www.postgresql.org/docs/17/functions-matching.html#FUNCTIONS-POSIX-REGEXP
  * @since 3.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT REGEXP_INSTR(e.text, 'c(.)(..)', 1, 1, 0, 'i') FROM Entity e"
+ * @example Using it in DQL: "SELECT REGEXP_INSTR(e.text, 'c(.)(..)', 1, 1, 0, 'i', 2) FROM Entity e"
  */
 class RegexpInstr extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
         return [
+            'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,StringPrimary,ArithmeticPrimary',
             'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,StringPrimary',
             'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary',
+            'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
+            'StringPrimary,StringPrimary,ArithmeticPrimary',
             'StringPrimary,StringPrimary',
         ];
     }
@@ -40,6 +43,6 @@ class RegexpInstr extends BaseVariadicFunction
 
     protected function getMaxArgumentCount(): int
     {
-        return 6;
+        return 7;
     }
 }

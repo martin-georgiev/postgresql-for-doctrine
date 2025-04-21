@@ -31,7 +31,8 @@ class RegexpInstrTest extends BaseVariadicFunctionTestCase
             'with start position' => "SELECT regexp_instr(c0_.text1, '\\d+', 1) AS sclr_0 FROM ContainsTexts c0_",
             'with start and occurrence' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2) AS sclr_0 FROM ContainsTexts c0_",
             'with start, occurrence and return_option' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2, 0) AS sclr_0 FROM ContainsTexts c0_",
-            'with all parameters' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2, 0, 'i') AS sclr_0 FROM ContainsTexts c0_",
+            'with flags' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2, 0, 'i') AS sclr_0 FROM ContainsTexts c0_",
+            'with subexpr' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2, 0, 'i', 2) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
@@ -43,7 +44,8 @@ class RegexpInstrTest extends BaseVariadicFunctionTestCase
             'with start position' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1) FROM %s e", ContainsTexts::class),
             'with start and occurrence' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2) FROM %s e", ContainsTexts::class),
             'with start, occurrence and return_option' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2, 0) FROM %s e", ContainsTexts::class),
-            'with all parameters' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2, 0, 'i') FROM %s e", ContainsTexts::class),
+            'with flags' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2, 0, 'i') FROM %s e", ContainsTexts::class),
+            'with subexpr' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2, 0, 'i', 2) FROM %s e", ContainsTexts::class),
         ];
     }
 
@@ -59,9 +61,9 @@ class RegexpInstrTest extends BaseVariadicFunctionTestCase
     public function test_too_many_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('regexp_instr() requires between 2 and 6 arguments');
+        $this->expectExceptionMessage('regexp_instr() requires between 2 and 7 arguments');
 
-        $dql = \sprintf("SELECT REGEXP_INSTR(e.text1, 'c(.)(..)', 1, 1, 0, 'i', 'extra_arg') FROM %s e", ContainsTexts::class);
+        $dql = \sprintf("SELECT REGEXP_INSTR(e.text1, 'c(.)(..)', 1, 1, 0, 'i', 2, 'extra_arg') FROM %s e", ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }

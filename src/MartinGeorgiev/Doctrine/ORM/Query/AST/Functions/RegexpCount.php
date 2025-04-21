@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT REGEXP_COUNT(e.text, '\d\d\d') FROM Entity e"
+ * @example Using it in DQL: "SELECT REGEXP_COUNT(e.text, '\d\d\d', 1, 'i') FROM Entity e"
  */
 class RegexpCount extends BaseVariadicFunction
 {
@@ -22,6 +22,7 @@ class RegexpCount extends BaseVariadicFunction
     {
         return [
             'StringPrimary,StringPrimary,ArithmeticPrimary,StringPrimary',
+            'StringPrimary,StringPrimary,ArithmeticPrimary',
             'StringPrimary,StringPrimary',
         ];
     }

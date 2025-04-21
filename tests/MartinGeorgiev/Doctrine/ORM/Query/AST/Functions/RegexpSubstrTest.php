@@ -30,7 +30,7 @@ class RegexpSubstrTest extends BaseVariadicFunctionTestCase
             'extracts digits' => "SELECT regexp_substr(c0_.text1, '\\d+') AS sclr_0 FROM ContainsTexts c0_",
             'extracts digits with start and N parameters' => "SELECT regexp_substr(c0_.text1, '\\d+', 1, 4) AS sclr_0 FROM ContainsTexts c0_",
             'extracts digits with start and N parameters and flags' => "SELECT regexp_substr(c0_.text1, '\\d+', 1, 4, 'i') AS sclr_0 FROM ContainsTexts c0_",
-            'extracts digits with start, N and subexpr parameters and flags' => "SELECT regexp_substr(c0_.text1, '\\d+', 1, 4, 'i', 3) AS sclr_0 FROM ContainsTexts c0_",
+            'extracts digits with start, N parameters, flags and subexpr parameter' => "SELECT regexp_substr(c0_.text1, '\\d+', 1, 4, 'i', 3) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
@@ -41,7 +41,7 @@ class RegexpSubstrTest extends BaseVariadicFunctionTestCase
             'extracts digits' => \sprintf("SELECT REGEXP_SUBSTR(e.text1, '\\d+') FROM %s e", ContainsTexts::class),
             'extracts digits with start and N parameters' => \sprintf("SELECT REGEXP_SUBSTR(e.text1, '\\d+', 1, 4) FROM %s e", ContainsTexts::class),
             'extracts digits with start and N parameters and flags' => \sprintf("SELECT REGEXP_SUBSTR(e.text1, '\\d+', 1, 4, 'i') FROM %s e", ContainsTexts::class),
-            'extracts digits with start, N and subexpr parameters and flags' => \sprintf("SELECT REGEXP_SUBSTR(e.text1, '\\d+', 1, 4, 'i', 3) FROM %s e", ContainsTexts::class),
+            'extracts digits with start, N parameters, flags and subexpr parameter' => \sprintf("SELECT REGEXP_SUBSTR(e.text1, '\\d+', 1, 4, 'i', 3) FROM %s e", ContainsTexts::class),
         ];
     }
 

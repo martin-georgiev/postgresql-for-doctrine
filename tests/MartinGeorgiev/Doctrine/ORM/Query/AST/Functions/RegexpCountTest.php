@@ -30,7 +30,6 @@ class RegexpCountTest extends BaseVariadicFunctionTestCase
             'counts words' => "SELECT regexp_count(c0_.text1, '\\w+') AS sclr_0 FROM ContainsTexts c0_",
             'with start position' => "SELECT regexp_count(c0_.text1, '\\d\\d\\d', 1) AS sclr_0 FROM ContainsTexts c0_",
             'with flags' => "SELECT regexp_count(c0_.text1, '\\d\\d\\d', 1, 'i') AS sclr_0 FROM ContainsTexts c0_",
-            'with all parameters' => "SELECT regexp_count(c0_.text1, '\\d\\d\\d', 1, 'i') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
@@ -41,7 +40,6 @@ class RegexpCountTest extends BaseVariadicFunctionTestCase
             'counts words' => \sprintf("SELECT REGEXP_COUNT(e.text1, '\\w+') FROM %s e", ContainsTexts::class),
             'with start position' => \sprintf("SELECT REGEXP_COUNT(e.text1, '\\d\\d\\d', 1) FROM %s e", ContainsTexts::class),
             'with flags' => \sprintf("SELECT REGEXP_COUNT(e.text1, '\\d\\d\\d', 1, 'i') FROM %s e", ContainsTexts::class),
-            'with all parameters' => \sprintf("SELECT REGEXP_COUNT(e.text1, '\\d\\d\\d', 1, 'i') FROM %s e", ContainsTexts::class),
         ];
     }
 
