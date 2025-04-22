@@ -28,8 +28,6 @@ class RegexpMatchTest extends BaseVariadicFunctionTestCase
         return [
             'basic match' => "SELECT regexp_match(c0_.text1, 'pattern') AS sclr_0 FROM ContainsTexts c0_",
             'with flags' => "SELECT regexp_match(c0_.text1, 'pattern', 'i') AS sclr_0 FROM ContainsTexts c0_",
-            'with start position' => "SELECT regexp_match(c0_.text1, 'pattern', 3) AS sclr_0 FROM ContainsTexts c0_",
-            'with start position and flags' => "SELECT regexp_match(c0_.text1, 'pattern', 3, 'i') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
@@ -38,8 +36,6 @@ class RegexpMatchTest extends BaseVariadicFunctionTestCase
         return [
             'basic match' => \sprintf("SELECT REGEXP_MATCH(e.text1, 'pattern') FROM %s e", ContainsTexts::class),
             'with flags' => \sprintf("SELECT REGEXP_MATCH(e.text1, 'pattern', 'i') FROM %s e", ContainsTexts::class),
-            'with start position' => \sprintf("SELECT REGEXP_MATCH(e.text1, 'pattern', 3) FROM %s e", ContainsTexts::class),
-            'with start position and flags' => \sprintf("SELECT REGEXP_MATCH(e.text1, 'pattern', 3, 'i') FROM %s e", ContainsTexts::class),
         ];
     }
 
@@ -55,9 +51,9 @@ class RegexpMatchTest extends BaseVariadicFunctionTestCase
     public function test_too_many_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('regexp_match() requires between 2 and 4 arguments');
+        $this->expectExceptionMessage('regexp_match() requires between 2 and 3 arguments');
 
-        $dql = \sprintf("SELECT REGEXP_MATCH(e.text1, 'pattern', 3, 'i', 'extra_arg') FROM %s e", ContainsTexts::class);
+        $dql = \sprintf("SELECT REGEXP_MATCH(e.text1, 'pattern', 'i', 'extra_arg') FROM %s e", ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }

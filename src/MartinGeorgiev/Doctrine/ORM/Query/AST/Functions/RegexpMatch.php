@@ -14,17 +14,14 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT REGEXP_MATCH(e.text, 'pattern', 3, 'i') FROM Entity e"
+ * @example Using it in DQL: "SELECT REGEXP_MATCH(e.text, 'pattern', 'i') FROM Entity e"
  */
 class RegexpMatch extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,StringPrimary,ArithmeticPrimary,StringPrimary',
-            'StringPrimary,StringPrimary,ArithmeticPrimary',
-            'StringPrimary,StringPrimary,StringPrimary',
-            'StringPrimary,StringPrimary',
+            'StringPrimary',
         ];
     }
 
@@ -40,6 +37,6 @@ class RegexpMatch extends BaseVariadicFunction
 
     protected function getMaxArgumentCount(): int
     {
-        return 4;
+        return 3;
     }
 }

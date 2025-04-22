@@ -19,7 +19,7 @@ class FlaggedRegexpLikeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT regexp_like(c0_.text1, 'pattern', 1, 'i') AS sclr_0 FROM ContainsTexts c0_",
+            "SELECT regexp_like(c0_.text1, 'pattern', 'i') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 

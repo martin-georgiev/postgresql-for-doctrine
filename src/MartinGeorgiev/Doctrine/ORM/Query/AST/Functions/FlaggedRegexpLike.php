@@ -18,7 +18,7 @@ class FlaggedRegexpLike extends BaseFunction
 {
     protected function customizeFunction(): void
     {
-        $this->setFunctionPrototype('regexp_like(%s, %s, 1, %s)');
+        $this->setFunctionPrototype('regexp_like(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
