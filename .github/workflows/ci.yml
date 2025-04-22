@@ -114,7 +114,7 @@ jobs:
 
       - name: Run test suite
         run: |
-          for file in tests/MartinGeorgiev/**/*Test.php; do
+          for file in $(find tests -name "*Test.php"); do
             echo "Running tests from $file"
             php ./bin/phpunit --configuration=./ci/phpunit/config.xml "$file"
           done
