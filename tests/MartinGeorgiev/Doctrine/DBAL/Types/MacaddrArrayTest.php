@@ -15,7 +15,7 @@ class MacaddrArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private AbstractPlatform $platform;
+    private MockObject $platform;
 
     private MacaddrArray $fixture;
 

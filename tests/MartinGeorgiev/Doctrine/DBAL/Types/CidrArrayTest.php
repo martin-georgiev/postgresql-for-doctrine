@@ -15,7 +15,7 @@ class CidrArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private AbstractPlatform $platform;
+    private MockObject $platform;
 
     private CidrArray $fixture;
 
