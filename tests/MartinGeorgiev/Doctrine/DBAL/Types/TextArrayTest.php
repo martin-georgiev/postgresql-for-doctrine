@@ -14,7 +14,7 @@ class TextArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private AbstractPlatform $platform;
+    private MockObject $platform;
 
     private TextArray $fixture;
 
