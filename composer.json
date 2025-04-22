@@ -71,7 +71,7 @@
             "phpstan analyse --configuration=./ci/phpstan/config.neon"
         ],
         "phpunit": [
-            "phpunit --configuration=./ci/phpunit/config.xml --verbose --debug"
+            "phpunit --configuration=./ci/phpunit/config.xml --testdox --display-deprecations --display-errors --display-incomplete"
         ],
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
