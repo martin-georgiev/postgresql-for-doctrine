@@ -15,12 +15,12 @@ class BaseArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private AbstractPlatform $platform;
+    private MockObject $platform;
 
     /**
      * @var BaseArray&MockObject
      */
-    private BaseArray $fixture;
+    private MockObject $fixture;
 
     protected function setUp(): void
     {
