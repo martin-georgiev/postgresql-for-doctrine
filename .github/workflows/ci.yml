@@ -115,8 +115,8 @@ jobs:
       - name: Run test suite
         run: |
           for file in tests/MartinGeorgiev/**/*Test.php; do
-            echo "Running $file"
-            php vendor/bin/phpunit --configuration=./ci/phpunit/config.xml "$file"
+            echo "Running tests from $file"
+            php ./bin/phpunit --configuration=./ci/phpunit/config.xml "$file"
           done
 
       - name: Upload coverage results to Coveralls
