@@ -94,6 +94,12 @@
         ],
         "run-tests-with-clover": [
             "@phpunit --coverage-clover=./var/logs/test-coverage/clover.xml"
+        ],
+        "run-tests-split": [
+            "bash ./ci/phpunit/run-split-tests.sh"
+        ],
+        "run-tests-split-with-clover": [
+            "bash ./ci/phpunit/run-split-tests.sh --coverage-clover=./var/logs/test-coverage/clover.xml"
         ]
     },
 

@@ -113,7 +113,11 @@ jobs:
         run: composer audit
 
       - name: Run test suite
-        run: composer run-tests-with-clover
+        run: |
+          for file in tests/MartinGeorgiev/**/*Test.php; do
+            echo "Running $file"
+            php vendor/bin/phpunit --configuration=./ci/phpunit/config.xml "$file"
+          done
 
       - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true
