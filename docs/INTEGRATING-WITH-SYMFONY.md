@@ -14,9 +14,21 @@ doctrine:
             smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
             integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
             bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
+            
+            double precision[]: MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray
+            real[]: MartinGeorgiev\Doctrine\DBAL\Types\RealArray
+            
             text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
             jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
+            
+            cidr: MartinGeorgiev\Doctrine\DBAL\Types\Cidr
+            cidr[]: MartinGeorgiev\Doctrine\DBAL\Types\CidrArray
+            inet: MartinGeorgiev\Doctrine\DBAL\Types\Inet
+            inet[]: MartinGeorgiev\Doctrine\DBAL\Types\InetArray
+            macaddr: MartinGeorgiev\Doctrine\DBAL\Types\Macaddr
+            macaddr[]: MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray
+
             point: MartinGeorgiev\Doctrine\DBAL\Types\Point
             point[]: MartinGeorgiev\Doctrine\DBAL\Types\PointArray
 ```
@@ -43,11 +55,28 @@ doctrine:
                     _int4: integer[]
                     bigint[]: bigint[]
                     _int8: bigint[]
+                    
+                    double precision[]: double precision[]
+                    _float8: double precision[]
+                    real[]: real[]
+                    _float4: real[]
+                    
                     text[]: text[]
                     _text: text[]
                     jsonb: jsonb
                     jsonb[]: jsonb[]
                     _jsonb: jsonb[]
+                    
+                    cidr: cidr
+                    cidr[]: cidr[]
+                    _cidr: cidr[]
+                    inet: inet
+                    inet[]: inet[]
+                    _inet: inet[]
+                    macaddr: macaddr
+                    macaddr[]: macaddr[]
+                    _macaddr: macaddr[]
+
                     point: point
                     point[]: point[]
                     _point: point[]
@@ -69,7 +98,7 @@ doctrine:
                         # alternative implementation of ALL() and ANY() where subquery is not required, useful for arrays
                         ALL_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All
                         ANY_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any
-                        
+
                         # operators for working with array and json(b) data
                         GREATEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest
                         LEAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least
@@ -81,7 +110,7 @@ doctrine:
                         ANY_ON_RIGHT_EXISTS_ON_LEFT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyOnTheRightExistsOnTheLeft # ?|
                         RETURNS_VALUE_FOR_JSON_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReturnsValueForJsonValue # @?
                         DELETE_AT_PATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath # #-
-                        
+
                         # array and string specific functions
                         IN_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray
                         ANY_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue
@@ -134,6 +163,11 @@ doctrine:
                         JSONB_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists
                         JSONB_INSERT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert
                         JSONB_OBJECT_KEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys
+                        JSONB_PATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathExists
+                        JSONB_PATH_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathMatch
+                        JSONB_PATH_QUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQuery
+                        JSONB_PATH_QUERY_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryArray
+                        JSONB_PATH_QUERY_FIRST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryFirst
                         JSONB_PRETTY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPretty
                         JSONB_SET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet
                         JSONB_SET_LAX: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax
@@ -146,8 +180,11 @@ doctrine:
                         TSMATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch
 
                         # date specific functions
-                        DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
+                        DATE_ADD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd
+                        DATE_BIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin
                         DATE_EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract
+                        DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
+                        DATE_SUBTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract
 
                         # range functions
                         DATERANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange
@@ -167,14 +204,14 @@ doctrine:
                         IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp
                         NOT_REGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp
                         NOT_IREGEXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp
-                        FLAGGED_REGEXP_LIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike
-                        REGEXP_LIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike
-                        FLAGGED_REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch
+                        REGEXP_COUNT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpCount
+                        REGEXP_INSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr
+                        REGEXP_LIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike
                         REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch
-                        STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
-                        FLAGGED_REGEXP_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpReplace
                         REGEXP_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace
+                        REGEXP_SUBSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr
                         ROW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row
+                        STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
 
                         # aggregation functions
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg
