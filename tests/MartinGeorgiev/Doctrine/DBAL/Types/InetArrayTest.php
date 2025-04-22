@@ -15,7 +15,7 @@ class InetArrayTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private AbstractPlatform $platform;
+    private MockObject $platform;
 
     private InetArray $fixture;
 
