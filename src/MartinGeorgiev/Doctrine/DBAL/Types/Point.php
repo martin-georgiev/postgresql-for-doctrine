@@ -44,10 +44,10 @@ class Point extends BaseType
             throw InvalidPointForDatabaseException::forInvalidType($value);
         }
 
-        if (!\preg_match('/\((-?\d+(?:\.\d{1,6})?),\s*(-?\d+(?:\.\d{1,6})?)\)/', $value, $matches)) {
+        try {
+            return PointValueObject::fromString($value);
+        } catch (\InvalidArgumentException) {
             throw InvalidPointForDatabaseException::forInvalidFormat($value);
         }
-
-        return new PointValueObject((float) $matches[1], (float) $matches[2]);
     }
 }

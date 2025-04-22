@@ -17,7 +17,7 @@ class PointTest extends TestCase
     /**
      * @var AbstractPlatform&MockObject
      */
-    private AbstractPlatform $platform;
+    private MockObject $platform;
 
     private Point $fixture;
 
@@ -131,7 +131,7 @@ class PointTest extends TestCase
             'non-numeric values' => ['(a,b)'],
             'too many coordinates' => ['(1.23,4.56,7.89)'],
             'not a string' => [123],
-            'maximum float precision' => ['(1.23456789,7.89)'],
+            'float precision is too granular' => ['(1.23456789,7.89)'],
         ];
     }
 }

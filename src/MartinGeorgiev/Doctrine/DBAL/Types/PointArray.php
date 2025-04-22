@@ -53,11 +53,11 @@ class PointArray extends BaseArray
             $this->throwInvalidTypeException($item);
         }
 
-        if (!\preg_match('/^\((-?\d+(?:\.\d{1,6})?),\s*(-?\d+(?:\.\d{1,6})?)\)$/', $item, $matches)) {
+        try {
+            return PointValueObject::fromString($item);
+        } catch (\InvalidArgumentException) {
             $this->throwInvalidFormatException($item);
         }
-
-        return new PointValueObject((float) $matches[1], (float) $matches[2]);
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
