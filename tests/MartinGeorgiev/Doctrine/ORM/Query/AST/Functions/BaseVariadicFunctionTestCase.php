@@ -28,7 +28,7 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
             ->willReturn(new Configuration());
 
         $query = new Query($em);
-        $query->setDQL('TRUE');
+        $query->setDQL('SELECT 1');
 
         $parser = new Parser($query);
         $parser->getLexer()->moveNext();

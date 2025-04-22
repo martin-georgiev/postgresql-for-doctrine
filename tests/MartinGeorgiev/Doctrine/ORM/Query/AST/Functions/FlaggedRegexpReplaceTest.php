@@ -12,7 +12,7 @@ class FlaggedRegexpReplaceTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
-            'FLAGGED_REGEXP_REPLACE' => FlaggedRegexpReplace::class,
+            'FLAGGED_REGEXP_REPLACE' => FlaggedRegexpReplace::class, // @phpstan-ignore-line
         ];
     }
 
