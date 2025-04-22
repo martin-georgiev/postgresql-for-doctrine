@@ -19,17 +19,33 @@ return [
             'type_mappings' => [
                 '_bool' => 'bool[]',
                 'bool[]' => 'bool[]',
-                '_int2' => 'smallint[]',
                 'smallint[]' => 'smallint[]',
-                '_int4' => 'integer[]',
+                '_int2' => 'smallint[]',
                 'integer[]' => 'integer[]',
-                '_int8' => 'bigint',
+                '_int4' => 'integer[]',
                 'bigint[]' => 'bigint[]',
+                '_int8' => 'bigint',
+                
+                'double precision[]' => 'double precision[]',
+                '_float8' => 'double precision[]',
+                'real[]' => 'real[]',
+                '_float4' => 'real',
+                
                 '_text' => 'text[]',
                 'text[]' => 'text[]',
                 'jsonb' => 'jsonb',
                 '_jsonb' => 'jsonb[]',
                 'jsonb[]' => 'jsonb[]',
+                
+                'cidr' => 'cidr',
+                'cidr[]' => 'cidr[]',
+                '_cidr' => 'cidr[]',
+                'inet' => 'inet',
+                'inet[]' => 'inet[]',
+                '_inet' => 'inet[]',
+                'macaddr' => 'macaddr',
+                'macaddr[]' => 'macaddr[]',
+                '_macaddr' => 'macaddr[]',
             ],
         ],
     ],
@@ -50,9 +66,20 @@ return [
         'bigint[]' => MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class,
         'integer[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class,
         'smallint[]' => MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class,
+        
+        'double precision[]' => MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class,
+        'real[]' => MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class,
+        
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
         'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
+        
+        'cnet' => MartinGeorgiev\Doctrine\DBAL\Types\Cnet::class,
+        'cnet[]' => MartinGeorgiev\Doctrine\DBAL\Types\CnetArray::class,
+        'inet' => MartinGeorgiev\Doctrine\DBAL\Types\Inet::class,
+        'inet[]' => MartinGeorgiev\Doctrine\DBAL\Types\InetArray::class,
+        'macaddr' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr::class,
+        'macaddr[]' => MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray::class,
     ],
 ];
 ```
@@ -135,6 +162,11 @@ return [
         'JSONB_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists::class,
         'JSONB_INSERT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert::class,
         'JSONB_OBJECT_KEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys::class,
+        'JSONB_PATH_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathExists::class,
+        'JSONB_PATH_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathMatch::class,
+        'JSONB_PATH_QUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQuery::class,
+        'JSONB_PATH_QUERY_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryArray::class,
+        'JSONB_PATH_QUERY_FIRST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryFirst::class,
         'JSONB_PRETTY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPretty::class,
         'JSONB_SET' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet::class,
         'JSONB_SET_LAX' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax::class,
@@ -147,8 +179,11 @@ return [
         'TSMATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch::class,
 
         # date specific functions
-        'DATE_OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class,
+        'DATE_ADD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class,
+        'DATE_BIN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin::class,
         'DATE_EXTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class,
+        'DATE_OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class,
+        'DATE_SUBTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class,
 
         # range functions
         'DATERANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class,
@@ -168,13 +203,13 @@ return [
         'IREGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp::class,
         'NOT_REGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp::class,
         'NOT_IREGEXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp::class,
-        'FLAGGED_REGEXP_LIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike::class,
+        'REGEXP_COUNT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpCount::class,
+        'REGEXP_INSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr::class,
         'REGEXP_LIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike::class,
-        'FLAGGED_REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch::class,
         'REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class,
-        'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
-        'FLAGGED_REGEXP_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpReplace::class,
         'REGEXP_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class,
+        'REGEXP_SUBSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class,
+        'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
         'ROW' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class,
 
         # aggregation functions
@@ -233,6 +268,12 @@ class DoctrineEventSubscriber implements Subscriber
         if (!Type::hasType('smallint[]')) {
             Type::addType('smallint[]', \MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class);
         }
+        if (!Type::hasType('double precision[]')) {
+            Type::addType('double precision[]', \MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class);
+        }
+        if (!Type::hasType('real[]')) {
+            Type::addType('real[]', \MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class);
+        }
         if (!Type::hasType('text[]')) {
             Type::addType('text[]', \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class);
         }
@@ -241,6 +282,24 @@ class DoctrineEventSubscriber implements Subscriber
         }
         if (!Type::hasType('jsonb[]')) {
             Type::addType('jsonb[]', \MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class);
+        }
+        if (!Type::hasType('cidr')) {
+            Type::addType('cidr', \MartinGeorgiev\Doctrine\DBAL\Types\Cidr::class);
+        }
+        if (!Type::hasType('cidr[]')) {
+            Type::addType('cidr[]', \MartinGeorgiev\Doctrine\DBAL\Types\CidrArray::class);
+        }
+        if (!Type::hasType('inet')) {
+            Type::addType('inet', \MartinGeorgiev\Doctrine\DBAL\Types\Inet::class);
+        }
+        if (!Type::hasType('inet[]')) {
+            Type::addType('inet[]', \MartinGeorgiev\Doctrine\DBAL\Types\InetArray::class);
+        }
+        if (!Type::hasType('macaddr')) {
+            Type::addType('macaddr', \MartinGeorgiev\Doctrine\DBAL\Types\Macaddr::class);
+        }
+        if (!Type::hasType('macaddr[]')) {
+            Type::addType('macaddr[]', \MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray::class);
         }
     }
 }

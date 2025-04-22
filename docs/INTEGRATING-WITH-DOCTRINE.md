@@ -14,9 +14,20 @@ Type::addType('bool[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BooleanArray");
 Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
 Type::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
 Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
+
+Type::addType('double precision[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DoublePrecisionArray");
+Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
+
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
 Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
+
+Type::addType('cidr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Cidr");
+Type::addType('cidr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CidrArray");
+Type::addType('inet', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Inet");
+Type::addType('inet[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\InetArray");
+Type::addType('macaddr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr");
+Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray");
 ```
 
 
@@ -90,7 +101,6 @@ $configuration->addCustomStringFunction('JSON_VALUE', MartinGeorgiev\Doctrine\OR
 $configuration->addCustomStringFunction('TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson::class);
 $configuration->addCustomStringFunction('ROW_TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson::class);
 
-
 # jsonb specific functions
 $configuration->addCustomStringFunction('JSONB_ARRAY_ELEMENTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements::class);
 $configuration->addCustomStringFunction('JSONB_ARRAY_ELEMENTS_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText::class);
@@ -101,6 +111,11 @@ $configuration->addCustomStringFunction('JSONB_EACH_TEXT', MartinGeorgiev\Doctri
 $configuration->addCustomStringFunction('JSONB_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists::class);
 $configuration->addCustomStringFunction('JSONB_INSERT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert::class);
 $configuration->addCustomStringFunction('JSONB_OBJECT_KEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys::class);
+$configuration->addCustomStringFunction('JSONB_PATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathExists::class);
+$configuration->addCustomStringFunction('JSONB_PATH_MATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathMatch::class);
+$configuration->addCustomStringFunction('JSONB_PATH_QUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQuery::class);
+$configuration->addCustomStringFunction('JSONB_PATH_QUERY_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryArray::class);
+$configuration->addCustomStringFunction('JSONB_PATH_QUERY_FIRST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryFirst::class);
 $configuration->addCustomStringFunction('JSONB_PRETTY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPretty::class);
 $configuration->addCustomStringFunction('JSONB_SET', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet::class);
 $configuration->addCustomStringFunction('JSONB_SET_LAX', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax::class);
@@ -113,8 +128,11 @@ $configuration->addCustomStringFunction('TO_TSVECTOR', MartinGeorgiev\Doctrine\O
 $configuration->addCustomStringFunction('TSMATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch::class);
 
 # date specific functions
-$configuration->addCustomStringFunction('DATE_OVERLAPS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class);
+$configuration->addCustomStringFunction('DATE_ADD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class);
+$configuration->addCustomStringFunction('DATE_BIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin::class);
 $configuration->addCustomStringFunction('DATE_EXTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class);
+$configuration->addCustomStringFunction('DATE_OVERLAPS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class);
+$configuration->addCustomStringFunction('DATE_SUBTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class);
 
 # range functions
 $configuration->addCustomStringFunction('DATERANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class);
@@ -134,12 +152,12 @@ $configuration->addCustomStringFunction('REGEXP', MartinGeorgiev\Doctrine\ORM\Qu
 $configuration->addCustomStringFunction('IREGEXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp::class);
 $configuration->addCustomStringFunction('NOT_REGEXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp::class);
 $configuration->addCustomStringFunction('NOT_IREGEXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp::class);
-$configuration->addCustomStringFunction('FLAGGED_REGEXP_LIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike::class);
 $configuration->addCustomStringFunction('REGEXP_LIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike::class);
-$configuration->addCustomStringFunction('FLAGGED_REGEXP_MATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch::class);
+$configuration->addCustomStringFunction('REGEXP_COUNT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpCount::class);
+$configuration->addCustomStringFunction('REGEXP_INSTR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr::class);
+$configuration->addCustomStringFunction('REGEXP_SUBSTR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class);
 $configuration->addCustomStringFunction('REGEXP_MATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class);
 $configuration->addCustomStringFunction('STRCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class);
-$configuration->addCustomStringFunction('FLAGGED_REGEXP_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpReplace::class);
 $configuration->addCustomStringFunction('REGEXP_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class);
 $configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
 
@@ -159,15 +177,33 @@ $em = EntityManager::create($dbParams, $configuration);
 
 ```php
 $platform = $em->getConnection()->getDatabasePlatform();
+
 $platform->registerDoctrineTypeMapping('bool[]','bool[]');
 $platform->registerDoctrineTypeMapping('_bool','bool[]');
+$platform->registerDoctrineTypeMapping('smallint[]','smallint[]');
+$platform->registerDoctrineTypeMapping('_int2','smallint[]');
 $platform->registerDoctrineTypeMapping('integer[]','integer[]');
 $platform->registerDoctrineTypeMapping('_int4','integer[]');
 $platform->registerDoctrineTypeMapping('bigint[]','bigint[]');
 $platform->registerDoctrineTypeMapping('_int8','bigint[]');
+
+$platform->registerDoctrineTypeMapping('double precision[]','double precision[]');
+$platform->registerDoctrineTypeMapping('_float8','double precision[]');
+$platform->registerDoctrineTypeMapping('real[]','real[]');
+$platform->registerDoctrineTypeMapping('_float4','real[]');
+
 $platform->registerDoctrineTypeMapping('text[]','text[]');
 $platform->registerDoctrineTypeMapping('_text','text[]');
 $platform->registerDoctrineTypeMapping('jsonb','jsonb');
+$platform->registerDoctrineTypeMapping('jsonb[]','jsonb[]');
+$platform->registerDoctrineTypeMapping('_jsonb','jsonb[]');
+
+$platform->registerDoctrineTypeMapping('cidr[]','cidr[]');
+$platform->registerDoctrineTypeMapping('_cidr','cidr[]');
+$platform->registerDoctrineTypeMapping('inet[]','inet[]');
+$platform->registerDoctrineTypeMapping('_inet','inet[]');
+$platform->registerDoctrineTypeMapping('macaddr[]','macaddr[]');
+$platform->registerDoctrineTypeMapping('_macaddr','macaddr[]');
 ...
 
 ```
