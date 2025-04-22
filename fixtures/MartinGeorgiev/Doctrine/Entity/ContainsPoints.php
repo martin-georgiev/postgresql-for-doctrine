@@ -12,4 +12,7 @@ class ContainsPoints extends Entity
 {
     #[ORM\Column(type: 'point')]
     public Point $point;
+    
+    #[ORM\Column(type: 'point')]
+    public Point $point2;
 }
