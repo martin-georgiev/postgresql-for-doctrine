@@ -12,14 +12,14 @@ class FlaggedRegexpLikeTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
-            'FLAGGED_REGEXP_LIKE' => FlaggedRegexpLike::class,
+            'FLAGGED_REGEXP_LIKE' => FlaggedRegexpLike::class, // @phpstan-ignore-line
         ];
     }
 
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT regexp_like(c0_.text1, 'pattern', 1, 'i') AS sclr_0 FROM ContainsTexts c0_",
+            "SELECT regexp_like(c0_.text1, 'pattern', 'i') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 

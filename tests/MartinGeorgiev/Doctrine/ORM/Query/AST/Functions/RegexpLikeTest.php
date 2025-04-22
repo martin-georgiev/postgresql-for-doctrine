@@ -5,10 +5,17 @@ declare(strict_types=1);
 namespace Tests\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike;
 
-class RegexpLikeTest extends TestCase
+class RegexpLikeTest extends BaseVariadicFunctionTestCase
 {
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new RegexpLike('REGEXP_LIKE');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
@@ -19,14 +26,34 @@ class RegexpLikeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT regexp_like(c0_.text1, 'pattern') AS sclr_0 FROM ContainsTexts c0_",
+            'basic match' => "SELECT regexp_like(c0_.text1, 'pattern') AS sclr_0 FROM ContainsTexts c0_",
+            'with flags' => "SELECT regexp_like(c0_.text1, 'pattern', 'i') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT REGEXP_LIKE(e.text1, 'pattern') FROM %s e", ContainsTexts::class),
+            'basic match' => \sprintf("SELECT REGEXP_LIKE(e.text1, 'pattern') FROM %s e", ContainsTexts::class),
+            'with flags' => \sprintf("SELECT REGEXP_LIKE(e.text1, 'pattern', 'i') FROM %s e", ContainsTexts::class),
         ];
+    }
+
+    public function test_too_few_arguments_throws_exception(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('regexp_like() requires at least 2 arguments');
+
+        $dql = \sprintf('SELECT REGEXP_LIKE(e.text1) FROM %s e', ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    public function test_too_many_arguments_throws_exception(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('regexp_like() requires between 2 and 3 arguments');
+
+        $dql = \sprintf("SELECT REGEXP_LIKE(e.text1, 'pattern', 'i', 'extra_arg') FROM %s e", ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }
