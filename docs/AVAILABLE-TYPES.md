@@ -17,3 +17,5 @@
 | cidr[] | _cidr | `MartinGeorgiev\Doctrine\DBAL\Types\CidrArray` |
 | macaddr | macaddr | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr` |
 | macaddr[] | _macaddr | `MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray` |
+| point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
+| point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |

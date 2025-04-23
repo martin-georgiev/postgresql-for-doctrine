@@ -28,6 +28,9 @@ doctrine:
             inet[]: MartinGeorgiev\Doctrine\DBAL\Types\InetArray
             macaddr: MartinGeorgiev\Doctrine\DBAL\Types\Macaddr
             macaddr[]: MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray
+
+            point: MartinGeorgiev\Doctrine\DBAL\Types\Point
+            point[]: MartinGeorgiev\Doctrine\DBAL\Types\PointArray
 ```
 
 
@@ -73,6 +76,10 @@ doctrine:
                     macaddr: macaddr
                     macaddr[]: macaddr[]
                     _macaddr: macaddr[]
+
+                    point: point
+                    point[]: point[]
+                    _point: point[]
 ```
 
 
