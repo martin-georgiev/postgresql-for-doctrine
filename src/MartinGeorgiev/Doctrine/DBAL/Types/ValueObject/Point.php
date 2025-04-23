@@ -11,7 +11,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  */
 final class Point implements \Stringable
 {
-    public const POINT_REGEX = '/\((-?\d+(?:\.\d{1,6})?),\s*(-?\d+(?:\.\d{1,6})?)\)/';
+    private const POINT_REGEX = '/\((-?\d+(?:\.\d{1,6})?),\s*(-?\d+(?:\.\d{1,6})?)\)/';
 
     public function __construct(
         private readonly float $x,
