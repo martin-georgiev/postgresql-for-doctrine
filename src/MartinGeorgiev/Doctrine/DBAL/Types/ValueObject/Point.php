@@ -47,6 +47,7 @@ final class Point implements \Stringable
         return new self((float) $matches[1], (float) $matches[2]);
     }
 
+
     private function validateCoordinate(float $value, string $name): void
     {
         $stringValue = (string) $value;
