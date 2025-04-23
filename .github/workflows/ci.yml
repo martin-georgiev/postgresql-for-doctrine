@@ -112,8 +112,8 @@ jobs:
       - name: Check for security vulnerabilities in 3rd party dependencies
         run: composer audit
 
-      - name: Run test suite
-        run: composer run-tests-with-clover
+      - name: Run unit test suite
+        run: composer run-unit-tests-with-clover
 
       - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true

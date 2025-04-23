@@ -98,6 +98,29 @@ composer require martin-georgiev/postgresql-for-doctrine
 ## 💡 Usage Examples
 See our [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md) for detailed code samples.
 
+## 🧪 Testing
+
+### Unit Tests
+```bash
+composer run-unit-tests
+```
+
+### PostgreSQL Integration Tests
+We also provide integration tests that run against a real PostgreSQL database to ensure compatibility:
+
+```bash
+# Start PostgreSQL using Docker Compose
+docker-compose up -d
+
+# Run integration tests
+composer run-integration-tests
+
+# Stop PostgreSQL
+docker-compose down -v
+```
+
+See [tests-integration/README.md](tests-integration/README.md) for more details.
+
 ## ⭐ Support the Project
 
 ### 💖 GitHub Sponsors
