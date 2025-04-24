@@ -31,7 +31,8 @@
     "autoload-dev": {
         "psr-4": {
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
-            "Tests\\MartinGeorgiev\\": "tests/MartinGeorgiev/"
+            "Tests\\Integration\\MartinGeorgiev\\": "tests/Integration/MartinGeorgiev/",
+            "Tests\\Unit\\MartinGeorgiev\\": "tests/Unit/MartinGeorgiev/"
         }
     },
 
@@ -71,7 +72,13 @@
             "phpstan analyse --configuration=./ci/phpstan/config.neon"
         ],
         "phpunit": [
-            "XDEBUG_MODE=coverage phpunit --configuration=./ci/phpunit/config.xml"
+            "XDEBUG_MODE=coverage phpunit"
+        ],
+        "phpunit:unit": [
+            "@phpunit --configuration=./ci/phpunit/config-unit.xml"
+        ],
+        "phpunit:integration": [
+            "@phpunit --configuration=./ci/phpunit/config-integration.xml"
         ],
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
@@ -89,11 +96,18 @@
             "@phpstan",
             "@deptrac"
         ],
-        "run-tests": [
-            "@phpunit"
+        "run-integration-tests": [
+            "@phpunit:integration"
         ],
-        "run-tests-with-clover": [
-            "@phpunit --coverage-clover=./var/logs/test-coverage/clover.xml"
+        "run-unit-tests": [
+            "@phpunit:unit"
+        ],
+        "run-unit-tests-with-clover": [
+            "@phpunit:unit --coverage-clover=./var/logs/test-coverage/clover.xml"
+        ],
+        "run-all-tests": [
+            "@run-unit-tests",
+            "@run-integration-tests"
         ]
     },
 

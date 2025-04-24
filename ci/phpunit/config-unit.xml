@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         colors="true"
+         stopOnFailure="false"
+         bootstrap="../../vendor/autoload.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         cacheDirectory="../../var/cache/phpunit/"
+         executionOrder="random"
+         failOnRisky="true"
+         failOnWarning="true"
+         beStrictAboutOutputDuringTests="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnPhpunitDeprecations="true">
+    <testsuites>
+        <testsuite name="PostgreSQL-for-Doctrine Unit Test Suite">
+            <directory>../../tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <report>
+            <html outputDirectory="../../var/coverage/html"/>
+            <clover outputFile="../../var/coverage/clover.xml"/>
+        </report>
+    </coverage>
+    <source>
+        <include>
+            <directory suffix=".php">../../src</directory>
+        </include>
+    </source>
+</phpunit>
