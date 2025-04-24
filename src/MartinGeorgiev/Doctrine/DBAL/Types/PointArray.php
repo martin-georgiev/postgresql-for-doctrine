@@ -18,7 +18,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
  */
 class PointArray extends BaseArray
 {
-    protected const TYPE_NAME = 'point[]';
+    public const TYPE_NAME = 'point[]';
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {

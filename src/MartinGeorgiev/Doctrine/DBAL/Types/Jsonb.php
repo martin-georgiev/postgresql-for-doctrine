@@ -21,7 +21,7 @@ class Jsonb extends BaseType
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'jsonb';
+    public const TYPE_NAME = 'jsonb';
 
     /**
      * Converts a value from its PHP representation to its database representation of the type.

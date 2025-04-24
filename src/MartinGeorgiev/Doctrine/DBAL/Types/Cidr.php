@@ -21,7 +21,7 @@ class Cidr extends BaseType
 {
     use CidrValidationTrait;
 
-    protected const TYPE_NAME = 'cidr';
+    public const TYPE_NAME = 'cidr';
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {

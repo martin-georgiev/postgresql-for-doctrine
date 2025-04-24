@@ -19,7 +19,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
  */
 class Point extends BaseType
 {
-    protected const TYPE_NAME = 'point';
+    public const TYPE_NAME = 'point';
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {

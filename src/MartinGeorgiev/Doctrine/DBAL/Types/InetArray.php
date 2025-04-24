@@ -19,7 +19,7 @@ class InetArray extends BaseNetworkTypeArray
 {
     use InetValidationTrait;
 
-    protected const TYPE_NAME = 'inet[]';
+    public const TYPE_NAME = 'inet[]';
 
     protected function isValidNetworkAddress(string $value): bool
     {

@@ -23,7 +23,7 @@ class BaseNetworkTypeArrayTest extends TestCase
         $this->platform = $this->createMock(AbstractPlatform::class);
         // Create a concrete implementation of the abstract class for testing
         $this->fixture = new class extends BaseNetworkTypeArray {
-            protected const TYPE_NAME = 'test_network_array';
+            public const TYPE_NAME = 'test_network_array';
 
             protected function isValidNetworkAddress(string $value): bool
             {

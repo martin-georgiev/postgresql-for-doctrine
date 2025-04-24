@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
  */
 class RealArray extends BaseFloatArray
 {
-    protected const TYPE_NAME = 'real[]';
+    public const TYPE_NAME = 'real[]';
 
     protected function getMinValue(): string
     {

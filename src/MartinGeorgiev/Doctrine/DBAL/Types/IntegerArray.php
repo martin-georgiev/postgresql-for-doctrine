@@ -17,7 +17,7 @@ class IntegerArray extends BaseIntegerArray
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'integer[]';
+    public const TYPE_NAME = 'integer[]';
 
     protected function getMinValue(): int
     {
