@@ -12,6 +12,7 @@ parameters:
     level: max
     paths:
         - ../../ci
+        - ../../fixtures
         - ../../src
         - ../../tests
 

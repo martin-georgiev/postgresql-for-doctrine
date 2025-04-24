@@ -1,5 +1,6 @@
 deptrac:
   paths:
+    - ../../fixtures
     - ../../src
     - ../../tests
 
@@ -16,10 +17,18 @@ deptrac:
       collectors:
         - type: class
           value: \\MartinGeorgiev\\Utils\\.*
-    - name: Tests
+    - name: Fixtures
       collectors:
         - type: class
-          value: \\Tests\\MartinGeorgiev\\.*
+          value: \\Fixtures\\MartinGeorgiev\\.*
+    - name: Integration Tests
+      collectors:
+        - type: class
+          value: \\Tests\\Integration\\MartinGeorgiev\\.*
+    - name: Unit Tests
+      collectors:
+        - type: class
+          value: \\Tests\\Unit\\MartinGeorgiev\\.*
 
   ruleset:
     Functions:
@@ -27,7 +36,12 @@ deptrac:
     Types:
       - Utils
     Utils: ~
-    Tests:
+    Integration Tests:
+      - Fixtures
+      - Functions
+      - Types
+    Unit Tests:
+      - Fixtures
       - Functions
       - Types
       - Utils
