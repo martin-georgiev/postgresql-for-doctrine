@@ -1,4 +1,4 @@
-name: PostgreSQL integration Tests
+name: Integrations
 
 on:
   push:
@@ -56,7 +56,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          # Enable PostgreSQL server logs for debugging
           --mount type=tmpfs,destination=/var/lib/postgresql/data
           -e POSTGRES_INITDB_ARGS="--data-checksums"
 
