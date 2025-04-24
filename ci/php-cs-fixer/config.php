@@ -9,6 +9,7 @@ $basePath = __DIR__.'/../../';
 
 $finder = Finder::create()
     ->in($basePath.'ci')
+    ->in($basePath.'fixtures')
     ->in($basePath.'src')
     ->in($basePath.'tests');
 

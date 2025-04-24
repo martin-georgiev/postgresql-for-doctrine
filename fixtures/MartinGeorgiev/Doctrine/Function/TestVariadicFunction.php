@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Fixtures\MartinGeorgiev\Doctrine\Function;
 
-use Doctrine\ORM\Query\AST\Literal;
-use Doctrine\ORM\Query\AST\Node;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
 
 /**
