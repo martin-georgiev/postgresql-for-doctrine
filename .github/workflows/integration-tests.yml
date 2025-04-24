@@ -34,7 +34,7 @@ jobs:
     needs: should-run
     if: needs.should-run.outputs.run == 'true'
     runs-on: ubuntu-latest
-    name: "PostgreSQL integration Tests - PHP ${{ matrix.php }}"
+    name: "PostgreSQL ${{ matrix.postgres }} + PHP ${{ matrix.php }}"
 
     strategy:
       fail-fast: false
