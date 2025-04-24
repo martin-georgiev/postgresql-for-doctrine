@@ -218,6 +218,7 @@ return [
         'REGEXP_SUBSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class,
         'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
         'ROW' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class,
+        'DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class,
 
         # aggregation functions
         'ARRAY_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class,
