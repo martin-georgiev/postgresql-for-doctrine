@@ -163,6 +163,7 @@ $configuration->addCustomStringFunction('REGEXP_MATCH', MartinGeorgiev\Doctrine\
 $configuration->addCustomStringFunction('STRCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class);
 $configuration->addCustomStringFunction('REGEXP_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class);
 $configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
+$configuration->addCustomStringFunction('DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class);
 
 # aggregation functions
 $configuration->addCustomStringFunction('ARRAY_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class);
