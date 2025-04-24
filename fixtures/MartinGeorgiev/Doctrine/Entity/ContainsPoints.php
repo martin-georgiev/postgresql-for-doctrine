@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 class ContainsPoints extends Entity
 {
     #[ORM\Column(type: 'point')]
-    public Point $point;
+    public Point $point1;
 
     #[ORM\Column(type: 'point')]
     public Point $point2;
