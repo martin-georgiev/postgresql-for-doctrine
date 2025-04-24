@@ -19,6 +19,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Point;
+use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
@@ -80,6 +82,8 @@ abstract class IntegrationTestCase extends TestCase
             'jsonb[]' => JsonbArray::class,
             'macaddr' => Macaddr::class,
             'macaddr[]' => MacaddrArray::class,
+            'point' => Point::class,
+            'point[]' => PointArray::class,
             'real[]' => RealArray::class,
             'smallint[]' => SmallIntArray::class,
             'text[]' => TextArray::class,

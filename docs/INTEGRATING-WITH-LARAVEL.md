@@ -46,6 +46,10 @@ return [
                 'macaddr' => 'macaddr',
                 'macaddr[]' => 'macaddr[]',
                 '_macaddr' => 'macaddr[]',
+                
+                'point' => 'point',
+                'point[]' => 'point[]',
+                '_point' => 'point[]',
             ],
         ],
     ],
@@ -80,6 +84,9 @@ return [
         'inet[]' => MartinGeorgiev\Doctrine\DBAL\Types\InetArray::class,
         'macaddr' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr::class,
         'macaddr[]' => MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray::class,
+        
+        'point' => MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
+        'point[]' => MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class,
     ],
 ];
 ```
@@ -300,6 +307,12 @@ class DoctrineEventSubscriber implements Subscriber
         }
         if (!Type::hasType('macaddr[]')) {
             Type::addType('macaddr[]', \MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray::class);
+        }
+        if (!Type::hasType('point')) {
+            Type::addType('point', \MartinGeorgiev\Doctrine\DBAL\Types\Point::class);
+        }
+        if (!Type::hasType('point[]')) {
+            Type::addType('point[]', \MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class);
         }
     }
 }

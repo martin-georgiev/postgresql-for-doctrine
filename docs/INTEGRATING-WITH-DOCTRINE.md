@@ -28,6 +28,9 @@ Type::addType('inet', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Inet");
 Type::addType('inet[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\InetArray");
 Type::addType('macaddr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr");
 Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray");
+
+Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
+Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
 ```
 
 
@@ -204,6 +207,10 @@ $platform->registerDoctrineTypeMapping('inet[]','inet[]');
 $platform->registerDoctrineTypeMapping('_inet','inet[]');
 $platform->registerDoctrineTypeMapping('macaddr[]','macaddr[]');
 $platform->registerDoctrineTypeMapping('_macaddr','macaddr[]');
+
+$platform->registerDoctrineTypeMapping('point','point');
+$platform->registerDoctrineTypeMapping('point[]','point[]');
+$platform->registerDoctrineTypeMapping('_point','point[]');
 ...
 
 ```

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 
 class DBALTypesIntegrationTest extends IntegrationTestCase
 {
@@ -122,6 +123,11 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
             'cidr[]' => ['cidr[]', 'CIDR[]', ['192.168.1.0/24', '10.0.0.0/8', '172.16.0.0/16']],
             'inet[]' => ['inet[]', 'INET[]', ['192.168.1.1', '10.0.0.1', '172.16.0.1']],
             'macaddr[]' => ['macaddr[]', 'MACADDR[]', ['08:00:2b:01:02:03', '00:0c:29:aa:bb:cc']],
+            'point[]' => ['point[]', 'POINT[]', [
+                new PointValueObject(1.23, 4.56),
+                new PointValueObject(-10.5, -20.75),
+                new PointValueObject(0.0, 0.0),
+            ]],
         ];
     }
 
@@ -183,6 +189,60 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
                     'object' => ['nested' => 'value'],
                 ],
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider providePointTypeTestCases
+     */
+    public function test_point_type(string $typeName, string $columnType, PointValueObject $pointValueObject): void
+    {
+        $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
+        $columnName = 'test_column';
+
+        try {
+            $this->createTestTable($tableName, $columnName, $columnType);
+
+            // Insert test value
+            $queryBuilder = self::$connection->createQueryBuilder();
+            $queryBuilder
+                ->insert('test.'.$tableName)
+                ->values([$columnName => '?'])
+                ->setParameter(1, $pointValueObject, $typeName);
+
+            $queryBuilder->executeStatement();
+
+            // Query the value back
+            $queryBuilder = self::$connection->createQueryBuilder();
+            $queryBuilder
+                ->select($columnName)
+                ->from('test.'.$tableName)
+                ->where('id = 1');
+
+            $result = $queryBuilder->executeQuery();
+            $row = $result->fetchAssociative();
+            \assert(\is_array($row) && \array_key_exists($columnName, $row));
+
+            // Get the value with the correct type
+            $platform = self::$connection->getDatabasePlatform();
+            $retrievedValue = Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
+            \assert($retrievedValue instanceof PointValueObject);
+
+            // Assert the retrieved value matches the original
+            $this->assertEquals($pointValueObject->getX(), $retrievedValue->getX(), 'Failed asserting that X coordinates are equal for type '.$typeName);
+            $this->assertEquals($pointValueObject->getY(), $retrievedValue->getY(), 'Failed asserting that Y coordinates are equal for type '.$typeName);
+        } finally {
+            $this->dropTestTable($tableName);
+        }
+    }
+
+    public static function providePointTypeTestCases(): array
+    {
+        return [
+            'point with positive coordinates' => ['point', 'POINT', new PointValueObject(1.23, 4.56)],
+            'point with negative coordinates' => ['point', 'POINT', new PointValueObject(-10.5, -20.75)],
+            'point with zero coordinates' => ['point', 'POINT', new PointValueObject(0.0, 0.0)],
+            'point with max precision' => ['point', 'POINT', new PointValueObject(123.456789, -98.765432)],
         ];
     }
 }
