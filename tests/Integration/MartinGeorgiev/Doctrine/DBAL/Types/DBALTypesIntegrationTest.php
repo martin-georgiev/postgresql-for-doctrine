@@ -14,45 +14,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
      */
     public function test_scalar_type(string $typeName, string $columnType, mixed $testValue): void
     {
-        $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
-        $columnName = 'test_column';
-
-        try {
-            $this->createTestTable($tableName, $columnName, $columnType);
-
-            // Insert test value
-            $queryBuilder = self::$connection->createQueryBuilder();
-            $queryBuilder
-                ->insert('test.'.$tableName)
-                ->values([$columnName => '?'])
-                ->setParameter(1, $testValue, $typeName);
-
-            $queryBuilder->executeStatement();
-
-            // Query the value back
-            $queryBuilder = self::$connection->createQueryBuilder();
-            $queryBuilder
-                ->select($columnName)
-                ->from('test.'.$tableName)
-                ->where('id = 1');
-
-            $result = $queryBuilder->executeQuery();
-            $row = $result->fetchAssociative();
-            \assert(\is_array($row) && \array_key_exists($columnName, $row));
-
-            // Get the value with the correct type
-            $platform = self::$connection->getDatabasePlatform();
-            $retrievedValue = Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
-
-            // Assert the retrieved value matches the original
-            if (\is_array($testValue)) {
-                $this->assertEquals($testValue, $retrievedValue, 'Failed asserting that array values are equal for type '.$typeName);
-            } else {
-                $this->assertSame($testValue, $retrievedValue, 'Failed asserting that values are identical for type '.$typeName);
-            }
-        } finally {
-            $this->dropTestTable($tableName);
-        }
+        $this->runTypeTest($typeName, $columnType, $testValue);
     }
 
     public static function provideScalarTypeTestCases(): array
@@ -72,41 +34,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
      */
     public function test_array_type(string $typeName, string $columnType, array $testValue): void
     {
-        $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
-        $columnName = 'test_column';
-
-        try {
-            $this->createTestTable($tableName, $columnName, $columnType);
-
-            // Insert test value
-            $queryBuilder = self::$connection->createQueryBuilder();
-            $queryBuilder
-                ->insert('test.'.$tableName)
-                ->values([$columnName => '?'])
-                ->setParameter(1, $testValue, $typeName);
-
-            $queryBuilder->executeStatement();
-
-            // Query the value back
-            $queryBuilder = self::$connection->createQueryBuilder();
-            $queryBuilder
-                ->select($columnName)
-                ->from('test.'.$tableName)
-                ->where('id = 1');
-
-            $result = $queryBuilder->executeQuery();
-            $row = $result->fetchAssociative();
-            \assert(\is_array($row) && \array_key_exists($columnName, $row));
-
-            // Get the value with the correct type
-            $platform = self::$connection->getDatabasePlatform();
-            $retrievedValue = Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
-
-            // Assert the retrieved value matches the original
-            $this->assertEquals($testValue, $retrievedValue, 'Failed asserting that array values are equal for type '.$typeName);
-        } finally {
-            $this->dropTestTable($tableName);
-        }
+        $this->runTypeTest($typeName, $columnType, $testValue);
     }
 
     public static function provideArrayTypeTestCases(): array
@@ -136,6 +64,51 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
      */
     public function test_json_type(string $typeName, string $columnType, array $testValue): void
     {
+        $this->runTypeTest($typeName, $columnType, $testValue);
+    }
+
+    public static function provideJsonTypeTestCases(): array
+    {
+        return [
+            'jsonb simple' => ['jsonb', 'JSONB', ['foo' => 'bar', 'baz' => 123]],
+            'jsonb complex' => [
+                'jsonb',
+                'JSONB',
+                [
+                    'string' => 'value',
+                    'number' => 42,
+                    'boolean' => true,
+                    'null' => null,
+                    'array' => [1, 2, 3],
+                    'object' => ['nested' => 'value'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider providePointTypeTestCases
+     */
+    public function test_point_type(string $typeName, string $columnType, PointValueObject $pointValueObject): void
+    {
+        $this->runTypeTest($typeName, $columnType, $pointValueObject);
+    }
+
+    public static function providePointTypeTestCases(): array
+    {
+        return [
+            'point with positive coordinates' => ['point', 'POINT', new PointValueObject(1.23, 4.56)],
+            'point with negative coordinates' => ['point', 'POINT', new PointValueObject(-10.5, -20.75)],
+            'point with zero coordinates' => ['point', 'POINT', new PointValueObject(0.0, 0.0)],
+            'point with max precision' => ['point', 'POINT', new PointValueObject(123.456789, -98.765432)],
+        ];
+    }
+
+    /**
+     * Generic test method that handles all types of tests.
+     */
+    private function runTypeTest(string $typeName, string $columnType, mixed $testValue): void
+    {
         $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
         $columnName = 'test_column';
 
@@ -166,83 +139,25 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
             $platform = self::$connection->getDatabasePlatform();
             $retrievedValue = Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
 
-            // Assert the retrieved value matches the original
-            $this->assertEquals($testValue, $retrievedValue, 'Failed asserting that JSON values are equal for type '.$typeName);
+            $this->assertDatabaseRoundtripEquals($testValue, $retrievedValue, $typeName);
         } finally {
             $this->dropTestTable($tableName);
         }
     }
 
-    public static function provideJsonTypeTestCases(): array
+    private function assertDatabaseRoundtripEquals(mixed $expected, mixed $actual, string $typeName): void
     {
-        return [
-            'jsonb simple' => ['jsonb', 'JSONB', ['foo' => 'bar', 'baz' => 123]],
-            'jsonb complex' => [
-                'jsonb',
-                'JSONB',
-                [
-                    'string' => 'value',
-                    'number' => 42,
-                    'boolean' => true,
-                    'null' => null,
-                    'array' => [1, 2, 3],
-                    'object' => ['nested' => 'value'],
-                ],
-            ],
-        ];
+        match (true) {
+            $expected instanceof PointValueObject => $this->assertPointEquals($expected, $actual, $typeName),
+            \is_array($expected) => $this->assertEquals($expected, $actual, 'Failed asserting that array values are equal for type '.$typeName),
+            default => $this->assertSame($expected, $actual, 'Failed asserting that values are identical for type '.$typeName)
+        };
     }
 
-    /**
-     * @dataProvider providePointTypeTestCases
-     */
-    public function test_point_type(string $typeName, string $columnType, PointValueObject $pointValueObject): void
+    private function assertPointEquals(PointValueObject $pointValueObject, mixed $actual, string $typeName): void
     {
-        $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
-        $columnName = 'test_column';
-
-        try {
-            $this->createTestTable($tableName, $columnName, $columnType);
-
-            // Insert test value
-            $queryBuilder = self::$connection->createQueryBuilder();
-            $queryBuilder
-                ->insert('test.'.$tableName)
-                ->values([$columnName => '?'])
-                ->setParameter(1, $pointValueObject, $typeName);
-
-            $queryBuilder->executeStatement();
-
-            // Query the value back
-            $queryBuilder = self::$connection->createQueryBuilder();
-            $queryBuilder
-                ->select($columnName)
-                ->from('test.'.$tableName)
-                ->where('id = 1');
-
-            $result = $queryBuilder->executeQuery();
-            $row = $result->fetchAssociative();
-            \assert(\is_array($row) && \array_key_exists($columnName, $row));
-
-            // Get the value with the correct type
-            $platform = self::$connection->getDatabasePlatform();
-            $retrievedValue = Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
-            \assert($retrievedValue instanceof PointValueObject);
-
-            // Assert the retrieved value matches the original
-            $this->assertEquals($pointValueObject->getX(), $retrievedValue->getX(), 'Failed asserting that X coordinates are equal for type '.$typeName);
-            $this->assertEquals($pointValueObject->getY(), $retrievedValue->getY(), 'Failed asserting that Y coordinates are equal for type '.$typeName);
-        } finally {
-            $this->dropTestTable($tableName);
-        }
-    }
-
-    public static function providePointTypeTestCases(): array
-    {
-        return [
-            'point with positive coordinates' => ['point', 'POINT', new PointValueObject(1.23, 4.56)],
-            'point with negative coordinates' => ['point', 'POINT', new PointValueObject(-10.5, -20.75)],
-            'point with zero coordinates' => ['point', 'POINT', new PointValueObject(0.0, 0.0)],
-            'point with max precision' => ['point', 'POINT', new PointValueObject(123.456789, -98.765432)],
-        ];
+        $this->assertInstanceOf(PointValueObject::class, $actual, 'Failed asserting that value is a Point object for type '.$typeName);
+        $this->assertEquals($pointValueObject->getX(), $actual->getX(), 'Failed asserting that X coordinates are equal for type '.$typeName);
+        $this->assertEquals($pointValueObject->getY(), $actual->getY(), 'Failed asserting that Y coordinates are equal for type '.$typeName);
     }
 }
