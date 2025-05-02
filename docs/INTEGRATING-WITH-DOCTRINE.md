@@ -72,6 +72,8 @@ $configuration->addCustomStringFunction('ARRAY_CAT', MartinGeorgiev\Doctrine\ORM
 $configuration->addCustomStringFunction('ARRAY_DIMENSIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions::class);
 $configuration->addCustomStringFunction('ARRAY_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength::class);
 $configuration->addCustomStringFunction('ARRAY_NUMBER_OF_DIMENSIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions::class);
+$configuration->addCustomStringFunction('ARRAY_POSITION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition::class);
+$configuration->addCustomStringFunction('ARRAY_POSITIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions::class);
 $configuration->addCustomStringFunction('ARRAY_PREPEND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend::class);
 $configuration->addCustomStringFunction('ARRAY_REMOVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove::class);
 $configuration->addCustomStringFunction('ARRAY_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class);
