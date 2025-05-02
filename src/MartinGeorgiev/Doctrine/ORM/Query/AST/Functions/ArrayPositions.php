@@ -10,7 +10,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @see https://www.postgresql.org/docs/9.5/static/functions-array.html
  * @since 3.0.3
  *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
+ * @author Daniel Gorgan <danut007ro@gmail.com>
  */
 class ArrayPositions extends BaseFunction
 {
