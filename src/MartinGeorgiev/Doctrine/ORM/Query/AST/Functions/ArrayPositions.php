@@ -8,7 +8,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Implementation of PostgreSQL ARRAY_POSITIONS().
  *
  * @see https://www.postgresql.org/docs/9.5/static/functions-array.html
- * @since 3.0.3
+ * @since 3.1
  *
  * @author Daniel Gorgan <danut007ro@gmail.com>
  */
