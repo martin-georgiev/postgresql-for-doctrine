@@ -1,5 +1,26 @@
 # Changelog
 
+## [3.1.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.2...v3.1.0) (2025-05-03)
+
+
+### Features
+
+* Add support for `ARRAY_POSITION()` and `ARRAY_POSITIONS()` ([#366](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/366)) ([a1dc059](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a1dc059965175d23a8efbf99afd2ab99a2d79564))
+* Add support for `DATE_ADD()`, `DATE_SUBTRACT()` and `DATE_BIN()` ([#345](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/345)) ([c3cb08d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c3cb08d6af36057a0ce88fd184f91c243bcab5da))
+* Add support for `JSONB_PATH_EXISTS()`, `JSONB_PATH_MATCH()`, `JSONB_PATH_QUERY()`, `JSONB_PATH_QUERY_ARRAY()` and `JSONB_PATH_QUERY_FIRST()` ([#346](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/346)) ([0cda902](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0cda90218c4330b78c2a94f757e30e4045c70768))
+* Add support for `POINT` and `POINT[]` data types ([#348](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/348)) ([18ec906](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/18ec906be3f87473b842aaa4038cc097d46e6495))
+* Add support for `REGEXP_COUNT()`, `REGEXP_INSTR()` and `REGEXP_SUBSTR()` and extend support for `REGEXP_REPLACE()` ([#352](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/352)) ([9959476](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/995947610b8538e35b5a5a5233a04b22dd202bd5))
+* Add support for distance operator `<@>` ([#361](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/361)) ([8dbbf8c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8dbbf8c71b801bd624829e04504919d730ff4a57))
+* Extend existing function support with optional boolean parameters ([#347](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/347)) ([67265cc](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/67265cc84313b6cb447f6ec3a67f3b99dba4bde2))
+* Extend support of `REGEXP_LIKE()`, `REGEXP_MATCH()` and `REGEXP_REPLACE()` while deprecating the legacy limited flagged variations of `FlaggedRegexpLike`, `FlaggedRegexpMatch` and `FlaggedRegexpReplace` ([#357](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/357)) ([ef688dc](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ef688dc2d62c702fbcb85c8474e15f687de82ea5))
+
+
+### Code Refactoring
+
+* Allow multiple node mapping patterns to be used and their arguments to be validated in variadic functions ([#350](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/350)) ([e111dd2](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e111dd28da6985324d0b9b181daf73dcbc97bb00))
+* Allow node mapping in variadic functions to have different patterns, thus opening the path to a combination of node types (compared to the previous single type support) ([#349](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/349)) ([6a5ba9e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/6a5ba9ef21b24b0e6107d85e67725a4c96f3ab8a))
+* Stricter method argument types when handling variadic functions ([#343](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/343)) ([553a30c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/553a30c2e26c4b8e69b14ad4d791dd7f7d0670d8))
+
 ## [3.0.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.1...v3.0.2) (2025-04-11)
 
 
