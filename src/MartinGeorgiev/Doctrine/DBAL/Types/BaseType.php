@@ -25,7 +25,7 @@ abstract class BaseType extends Type
     {
         $this->throwExceptionIfTypeNameNotConfigured();
 
-        return strtoupper($platform->getDoctrineTypeMapping(static::TYPE_NAME));
+        return \strtoupper($platform->getDoctrineTypeMapping(static::TYPE_NAME));
     }
 
     public function getName(): string
