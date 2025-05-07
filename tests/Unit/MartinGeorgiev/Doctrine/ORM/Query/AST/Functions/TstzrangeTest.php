@@ -20,6 +20,7 @@ class TstzrangeTest extends TestCase
     {
         return [
             'SELECT tstzrange(c0_.datetimetz1, c0_.datetimetz2) AS sclr_0 FROM ContainsDates c0_',
+            'SELECT tstzrange(c0_.datetimetz1, c0_.datetimetz2, \'[)\') AS sclr_0 FROM ContainsDates c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ class TstzrangeTest extends TestCase
     {
         return [
             \sprintf('SELECT TSTZRANGE(e.datetimetz1, e.datetimetz2) FROM %s e', ContainsDates::class),
+            \sprintf('SELECT TSTZRANGE(e.datetimetz1, e.datetimetz2, \'[)\') FROM %s e', ContainsDates::class),
         ];
     }
 }

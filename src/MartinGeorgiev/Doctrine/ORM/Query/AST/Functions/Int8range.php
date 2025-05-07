@@ -12,12 +12,10 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Int8range extends BaseFunction
+class Int8range extends BaseRangeFunction
 {
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('int8range(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return 'int8range';
     }
 }

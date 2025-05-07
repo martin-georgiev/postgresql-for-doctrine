@@ -70,6 +70,9 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Array aggregation (`array_agg`)
   - Array manipulation (`array_append`, `array_prepend`, `array_remove`, `array_replace`, `array_shuffle`)
   - Array dimensions and length
+- **Range functions**
+  - Arithmetic ranges (`int4range`, `int8range`, `numrange`)
+  - Date ranges (`daterange`, `tsrange`, `tstzrange`)
 - **JSON Functions**
   - JSON construction (`json_build_object`, `jsonb_build_object`)
   - JSON manipulation and transformation

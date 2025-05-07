@@ -20,6 +20,7 @@ class Int8rangeTest extends TestCase
     {
         return [
             'SELECT int8range(c0_.integer1, c0_.integer2) AS sclr_0 FROM ContainsIntegers c0_',
+            'SELECT int8range(c0_.integer1, c0_.integer2, \'[)\') AS sclr_0 FROM ContainsIntegers c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ class Int8rangeTest extends TestCase
     {
         return [
             \sprintf('SELECT INT8RANGE(e.integer1, e.integer2) FROM %s e', ContainsIntegers::class),
+            \sprintf('SELECT INT8RANGE(e.integer1, e.integer2, \'[)\') FROM %s e', ContainsIntegers::class),
         ];
     }
 }
