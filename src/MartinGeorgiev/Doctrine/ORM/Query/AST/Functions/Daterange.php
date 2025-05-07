@@ -12,12 +12,19 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Daterange extends BaseFunction
+class Daterange extends BaseRangeFunction
 {
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('daterange(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return 'daterange';
+    }
+
+    protected function getNodeMappingPattern(): array
+    {
+        return [
+            'StringPrimary',
+            'StringPrimary',
+            'StringPrimary',
+        ];
     }
 }

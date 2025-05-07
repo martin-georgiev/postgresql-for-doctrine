@@ -20,6 +20,7 @@ class NumrangeTest extends TestCase
     {
         return [
             'SELECT numrange(c0_.decimal1, c0_.decimal2) AS sclr_0 FROM ContainsDecimals c0_',
+            'SELECT numrange(c0_.decimal1, c0_.decimal2, \'[)\') AS sclr_0 FROM ContainsDecimals c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ class NumrangeTest extends TestCase
     {
         return [
             \sprintf('SELECT NUMRANGE(e.decimal1, e.decimal2) FROM %s e', ContainsDecimals::class),
+            \sprintf('SELECT NUMRANGE(e.decimal1, e.decimal2, \'[)\') FROM %s e', ContainsDecimals::class),
         ];
     }
 }
