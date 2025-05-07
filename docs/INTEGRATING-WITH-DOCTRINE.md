@@ -147,6 +147,13 @@ $configuration->addCustomStringFunction('NUMRANGE', MartinGeorgiev\Doctrine\ORM\
 $configuration->addCustomStringFunction('TSRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class);
 $configuration->addCustomStringFunction('TSTZRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class);
 
+# Arithmetic functions
+$configuration->addCustomStringFunction('ABS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Abs::class);
+$configuration->addCustomStringFunction('CEIL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil::class);
+$configuration->addCustomStringFunction('FLOOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor::class);
+$configuration->addCustomStringFunction('ROUND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round::class);
+$configuration->addCustomStringFunction('TRUNC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc::class);
+
 # other operators
 $configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
 $configuration->addCustomStringFunction('ILIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class);

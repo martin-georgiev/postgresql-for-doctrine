@@ -195,6 +195,13 @@ doctrine:
                         NUMRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange
                         TSRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange
                         TSTZRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange
+                        
+                        # Arithmetic functions
+                        ABS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Abs
+                        CEIL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil
+                        FLOOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor
+                        ROUND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round
+                        TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc
 
                         # other operators
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
