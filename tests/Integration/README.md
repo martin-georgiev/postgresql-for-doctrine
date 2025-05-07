@@ -27,6 +27,8 @@ docker run --name postgres-doctrine-test -e POSTGRES_PASSWORD=postgres -e POSTGR
 ### Run the Tests
 
 ```bash
+# Install the latest dependencies
+composer update
 # Run the integration tests
 composer run-integration-tests
 ```
