@@ -9,22 +9,23 @@ use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
-return static function (RectorConfig $rectorConfig): void {
-    $basePath = __DIR__.'/../../';
-    $paths = [
+$basePath = __DIR__.'/../../';
+
+return RectorConfig::configure()
+    ->withPaths([
         $basePath.'ci',
         $basePath.'fixtures',
         $basePath.'src',
         $basePath.'tests',
-    ];
-    $rectorConfig->paths($paths);
-
-    $rectorConfig->cacheDirectory($basePath.'var/cache/rector/');
-
-    $rectorConfig->parallel();
-    $rectorConfig->phpstanConfig($basePath.'ci/phpstan/config.neon');
-
-    $rectorConfig->sets([
+    ])
+    ->withCache($basePath.'var/cache/rector/')
+    ->withParallel()
+    ->withPHPStanConfigs([$basePath.'ci/phpstan/config.neon'])
+    ->withComposerBased(
+        doctrine: true,
+        phpunit: true,
+    )
+    ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
         SetList::EARLY_RETURN,
@@ -34,18 +35,18 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::TYPE_DECLARATION,
         SetList::PRIVATIZATION,
         SetList::CODING_STYLE,
-        DoctrineSetList::DOCTRINE_ORM_25,
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
         LevelSetList::UP_TO_PHP_81,
-    ]);
-
-    $rectorConfig->skip([
+    ])
+    ->withSkip([
         RenamePropertyToMatchTypeRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class => [
             $basePath.'src/MartinGeorgiev/Utils/DoctrineLexer.php',
         ],
-    ]);
-
-    $rectorConfig->importShortClasses(false);
-    $rectorConfig->importNames(false, false);
-};
+    ])
+    ->withImportNames(
+        importNames: false,
+        importDocBlockNames: false,
+        importShortClasses: false,
+        removeUnusedImports: true,
+    );

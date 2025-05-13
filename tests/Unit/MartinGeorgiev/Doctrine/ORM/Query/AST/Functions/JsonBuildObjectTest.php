@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonBuildObjectTest extends BaseVariadicFunctionTestCase
 {
@@ -41,9 +42,7 @@ class JsonBuildObjectTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_when_odd_number_of_arguments_given(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);

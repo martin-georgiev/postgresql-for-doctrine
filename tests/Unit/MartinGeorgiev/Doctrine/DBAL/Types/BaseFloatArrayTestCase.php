@@ -6,17 +6,16 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseFloatArray;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseFloatArrayTestCase extends TestCase
 {
     protected BaseFloatArray $fixture;
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
-     */
+    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[Test]
     public function can_detect_invalid_for_transformation_php_value(mixed $phpValue): void
     {
         self::assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
@@ -40,21 +39,15 @@ abstract class BaseFloatArrayTestCase extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(float $phpValue, string $postgresValue): void
     {
         self::assertTrue($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(float $phpValue, string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
@@ -68,9 +61,7 @@ abstract class BaseFloatArrayTestCase extends TestCase
      */
     abstract public static function provideValidTransformations(): array;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_domain_exception_when_invalid_array_item_value(): void
     {
         $this->expectException(ConversionException::class);

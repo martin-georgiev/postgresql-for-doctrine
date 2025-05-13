@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
+use PHPUnit\Framework\Attributes\Test;
 
 class SmallIntArrayTest extends BaseIntegerArrayTestCase
 {
@@ -13,9 +14,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
         $this->fixture = new SmallIntArray();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('smallint[]', $this->fixture->getName());

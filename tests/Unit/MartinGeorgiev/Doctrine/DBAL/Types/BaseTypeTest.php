@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseType;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -21,9 +22,7 @@ class BaseTypeTest extends TestCase
         $this->platform = $this->createMock(AbstractPlatform::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_when_type_name_not_configured(): void
     {
         $type = new class extends BaseType {
@@ -36,9 +35,7 @@ class BaseTypeTest extends TestCase
         $type->getName();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_when_getting_sql_declaration_with_no_type_name(): void
     {
         $type = new class extends BaseType {
@@ -51,9 +48,7 @@ class BaseTypeTest extends TestCase
         $type->getSQLDeclaration([], $this->platform);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returns_correct_type_name(): void
     {
         $type = new class extends BaseType {
@@ -63,9 +58,7 @@ class BaseTypeTest extends TestCase
         self::assertEquals('custom_type', $type->getName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function gets_correct_sql_declaration(): void
     {
         $type = new class extends BaseType {
@@ -82,9 +75,7 @@ class BaseTypeTest extends TestCase
         self::assertEquals('CUSTOM_SQL_TYPE', $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function requires_sql_comment_hint_returns_false(): void
     {
         $type = new class extends BaseType {
