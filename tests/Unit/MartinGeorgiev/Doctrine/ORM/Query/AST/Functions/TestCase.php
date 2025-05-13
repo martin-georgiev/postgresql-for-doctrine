@@ -9,6 +9,7 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
@@ -91,9 +92,7 @@ abstract class TestCase extends BaseTestCase
      */
     abstract protected function getDqlStatements(): array;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function dql_is_transformed_to_valid_sql(): void
     {
         $expectedSqls = $this->getExpectedSqlStatements();

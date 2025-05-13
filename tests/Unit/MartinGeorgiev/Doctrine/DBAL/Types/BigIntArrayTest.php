@@ -6,6 +6,8 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForPHPException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class BigIntArrayTest extends BaseIntegerArrayTestCase
 {
@@ -14,9 +16,7 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
         $this->fixture = new BigIntArray();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('bigint[]', $this->fixture->getName());
@@ -65,11 +65,8 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideOutOfRangeValues
-     */
+    #[DataProvider('provideOutOfRangeValues')]
+    #[Test]
     public function throws_domain_exception_when_value_exceeds_range(string $outOfRangeValue): void
     {
         $this->expectException(InvalidIntegerArrayItemForPHPException::class);
