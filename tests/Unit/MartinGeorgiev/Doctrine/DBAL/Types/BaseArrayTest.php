@@ -7,6 +7,8 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseArray;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -32,11 +34,8 @@ class BaseArrayTest extends TestCase
             ->getMock();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->fixture
@@ -46,11 +45,8 @@ class BaseArrayTest extends TestCase
         self::assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
@@ -80,9 +76,7 @@ class BaseArrayTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_invalid_argument_exception_when_php_value_is_not_array(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -91,9 +85,7 @@ class BaseArrayTest extends TestCase
         $this->fixture->convertToDatabaseValue('invalid-php-value-type', $this->platform);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_domain_exception_when_invalid_array_item_value(): void
     {
         $this->expectException(ConversionException::class);
@@ -107,9 +99,7 @@ class BaseArrayTest extends TestCase
         $this->fixture->convertToDatabaseValue([0], $this->platform);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_domain_exception_when_postgres_value_is_not_valid_php_array(): void
     {
         $this->expectException(ConversionException::class);

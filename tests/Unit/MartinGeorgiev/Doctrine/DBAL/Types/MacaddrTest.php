@@ -8,6 +8,8 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -26,29 +28,21 @@ class MacaddrTest extends TestCase
         $this->fixture = new Macaddr();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('macaddr', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(?string $phpInput, ?string $postgresValueAfterNormalisation, ?string $phpValueAfterRetrievalFromDatabase): void
     {
         self::assertEquals($postgresValueAfterNormalisation, $this->fixture->convertToDatabaseValue($phpInput, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(?string $phpInput, ?string $postgresValueAfterNormalisation, ?string $phpValueAfterRetrievalFromDatabase): void
     {
         self::assertEquals($phpValueAfterRetrievalFromDatabase, $this->fixture->convertToPHPValue($postgresValueAfterNormalisation, $this->platform));
@@ -98,11 +92,8 @@ class MacaddrTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
-     */
+    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
         $this->expectException(InvalidMacaddrForPHPException::class);
@@ -128,11 +119,8 @@ class MacaddrTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidDatabaseValuesForPHPTransformation
-     */
+    #[DataProvider('provideInvalidDatabaseValuesForPHPTransformation')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $dbValue): void
     {
         $this->expectException(InvalidMacaddrForDatabaseException::class);
