@@ -21,12 +21,14 @@ docker-compose up -d
 Or use a plain Docker command:
 
 ```bash
-docker run --name postgres-doctrine-test -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres_doctrine_test -p 5432:5432 -d postgres:14
+docker run --name postgres-doctrine-test -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres_doctrine_test -p 5432:5432 -d postgres:17
 ```
 
 ### Run the Tests
 
 ```bash
+# Install the latest dependencies
+composer update
 # Run the integration tests
 composer run-integration-tests
 ```
