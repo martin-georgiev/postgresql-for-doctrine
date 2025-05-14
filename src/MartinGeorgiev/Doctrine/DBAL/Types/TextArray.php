@@ -21,7 +21,7 @@ class TextArray extends BaseType
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'text[]';
+    public const TYPE_NAME = 'text[]';
 
     /**
      * Converts a value from its PHP representation to its database representation of the type.
