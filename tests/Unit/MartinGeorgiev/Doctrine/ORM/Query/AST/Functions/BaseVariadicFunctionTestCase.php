@@ -10,14 +10,13 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Parser;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use PHPUnit\Framework\Attributes\Test;
 
 abstract class BaseVariadicFunctionTestCase extends TestCase
 {
     abstract protected function createFixture(): BaseVariadicFunction;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_an_exception_when_lexer_is_not_populated_with_a_lookahead_type(): void
     {
         $this->expectException(ParserException::class);

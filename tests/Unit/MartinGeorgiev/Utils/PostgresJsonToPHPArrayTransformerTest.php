@@ -7,15 +7,14 @@ namespace Tests\MartinGeorgiev\Utils;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonItemForPHPException;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PostgresJsonToPHPArrayTransformerTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider provideValidJsonTransformations
-     */
+    #[DataProvider('provideValidJsonTransformations')]
+    #[Test]
     public function can_transform_json_to_php_value(null|array|bool|int|string $phpValue, string $postgresValue): void
     {
         self::assertEquals($phpValue, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue));
@@ -58,11 +57,8 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidJsonbArrayTransformations
-     */
+    #[DataProvider('provideValidJsonbArrayTransformations')]
+    #[Test]
     public function can_transform_json_array_to_php_array(array $phpArray, string $postgresArray): void
     {
         self::assertEquals($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
@@ -89,11 +85,8 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidJsonbArrayItemTransformations
-     */
+    #[DataProvider('provideValidJsonbArrayItemTransformations')]
+    #[Test]
     public function can_transform_json_array_item_to_php_array(array $phpArray, string $item): void
     {
         self::assertEquals($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item));
@@ -116,9 +109,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_invalid_json(): void
     {
         $this->expectException(InvalidJsonItemForPHPException::class);
@@ -126,9 +117,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
         PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue('{invalid json}');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_invalid_json_array_item(): void
     {
         $this->expectException(InvalidJsonArrayItemForPHPException::class);
@@ -136,9 +125,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
         PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray('{invalid json}');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_non_array_json_array_item(): void
     {
         $this->expectException(InvalidJsonArrayItemForPHPException::class);

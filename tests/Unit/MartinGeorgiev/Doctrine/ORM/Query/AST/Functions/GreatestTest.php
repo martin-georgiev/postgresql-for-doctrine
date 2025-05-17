@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest;
+use PHPUnit\Framework\Attributes\Test;
 
 class GreatestTest extends BaseVariadicFunctionTestCase
 {
@@ -41,9 +42,7 @@ class GreatestTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_when_single_argument_given(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);

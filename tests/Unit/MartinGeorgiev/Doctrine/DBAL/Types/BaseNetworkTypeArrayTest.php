@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseNetworkTypeArray;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -47,33 +48,25 @@ class BaseNetworkTypeArrayTest extends TestCase
         };
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('test_network_array', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_convert_null_to_database_value(): void
     {
         self::assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_convert_empty_array_to_database_value(): void
     {
         self::assertEquals('{}', $this->fixture->convertToDatabaseValue([], $this->platform));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_convert_valid_array_to_database_value(): void
     {
         self::assertEquals(
@@ -82,9 +75,7 @@ class BaseNetworkTypeArrayTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_invalid_type(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -92,25 +83,19 @@ class BaseNetworkTypeArrayTest extends TestCase
         $this->fixture->convertToDatabaseValue('not_an_array', $this->platform);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_convert_null_to_php_value(): void
     {
         self::assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_convert_empty_array_to_php_value(): void
     {
         self::assertEquals([], $this->fixture->convertToPHPValue('{}', $this->platform));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_convert_valid_string_to_php_value(): void
     {
         self::assertEquals(
