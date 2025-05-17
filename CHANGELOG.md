@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.1.0...v3.2.0) (2025-05-17)
+
+
+### Features
+
+* Add support for arithmetic functions `ABS`, `CEIL`, `FLOOR`, `ROUND` and `TRUNC` ([#369](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/369)) ([3f04c0e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3f04c0ea41f85d218e2b62d3de5bc999b2bc4ed5))
+
 ## [3.1.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.2...v3.1.0) (2025-05-03)
 
 
