@@ -6,6 +6,8 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -25,19 +27,14 @@ class BooleanArrayTest extends TestCase
         $this->fixture = new BooleanArray();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('bool[]', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue): void
     {
         $this->platform->method('convertBooleansToDatabaseValue')
@@ -47,11 +44,8 @@ class BooleanArrayTest extends TestCase
         self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue = null): void
     {
         $this->platform->method('convertFromBoolean')

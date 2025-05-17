@@ -6,12 +6,11 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DBALTypesIntegrationTest extends IntegrationTestCase
 {
-    /**
-     * @dataProvider provideScalarTypeTestCases
-     */
+    #[DataProvider('provideScalarTypeTestCases')]
     public function test_scalar_type(string $typeName, string $columnType, mixed $testValue): void
     {
         $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
@@ -67,9 +66,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideArrayTypeTestCases
-     */
+    #[DataProvider('provideArrayTypeTestCases')]
     public function test_array_type(string $typeName, string $columnType, array $testValue): void
     {
         $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
@@ -131,9 +128,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideJsonTypeTestCases
-     */
+    #[DataProvider('provideJsonTypeTestCases')]
     public function test_json_type(string $typeName, string $columnType, array $testValue): void
     {
         $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
@@ -192,9 +187,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider providePointTypeTestCases
-     */
+    #[DataProvider('providePointTypeTestCases')]
     public function test_point_type(string $typeName, string $columnType, PointValueObject $pointValueObject): void
     {
         $tableName = 'test_'.\str_replace(['[', ']', ' '], ['', '', '_'], $typeName);
