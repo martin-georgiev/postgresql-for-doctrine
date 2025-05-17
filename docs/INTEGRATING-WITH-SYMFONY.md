@@ -121,6 +121,8 @@ doctrine:
                         ARRAY_DIMENSIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions
                         ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength
                         ARRAY_NUMBER_OF_DIMENSIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions
+                        ARRAY_POSITION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition
+                        ARRAY_POSITIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions
                         ARRAY_PREPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend
                         ARRAY_REMOVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove
                         ARRAY_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace
@@ -193,6 +195,13 @@ doctrine:
                         NUMRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange
                         TSRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange
                         TSTZRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange
+                        
+                        # Arithmetic functions
+                        ABS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Abs
+                        CEIL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil
+                        FLOOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor
+                        ROUND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round
+                        TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc
 
                         # other operators
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
@@ -212,6 +221,7 @@ doctrine:
                         REGEXP_SUBSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr
                         ROW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row
                         STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
+                        DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance
 
                         # aggregation functions
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg

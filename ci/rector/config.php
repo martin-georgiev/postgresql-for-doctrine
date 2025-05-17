@@ -9,29 +9,22 @@ use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
-// Using the new configuration pattern with RectorConfig::configure()
-// See: https://getrector.com/blog/introducing-composer-version-based-sets
+$basePath = __DIR__.'/../../';
+
 return RectorConfig::configure()
-    // Define paths to be processed
     ->withPaths([
-        __DIR__.'/../../ci',
-        __DIR__.'/../../fixtures',
-        __DIR__.'/../../src',
-        __DIR__.'/../../tests',
+        $basePath.'ci',
+        $basePath.'fixtures',
+        $basePath.'src',
+        $basePath.'tests',
     ])
-    // Cache directory for better performance
-    ->withCache(__DIR__.'/../../var/cache/rector/')
-    // Enable parallel processing
+    ->withCache($basePath.'var/cache/rector/')
     ->withParallel()
-    // PHPStan configuration
-    ->withPHPStanConfigs([__DIR__.'/../../ci/phpstan/config.neon'])
-    // Use composer-based sets for Doctrine
-    // This replaces the deprecated DOCTRINE_ORM_25 constant
+    ->withPHPStanConfigs([$basePath.'ci/phpstan/config.neon'])
     ->withComposerBased(
         doctrine: true,
-        phpunit: true
+        phpunit: true,
     )
-    // Standard sets to apply
     ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
@@ -45,12 +38,15 @@ return RectorConfig::configure()
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
         LevelSetList::UP_TO_PHP_81,
     ])
-    // Rules to skip
     ->withSkip([
         RenamePropertyToMatchTypeRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class => [
-            __DIR__.'/../../src/MartinGeorgiev/Utils/DoctrineLexer.php',
+            $basePath.'src/MartinGeorgiev/Utils/DoctrineLexer.php',
         ],
     ])
-    // Import configuration
-    ->withImportNames(false, false, true);
+    ->withImportNames(
+        importNames: false,
+        importDocBlockNames: false,
+        importShortClasses: false,
+        removeUnusedImports: true,
+    );
