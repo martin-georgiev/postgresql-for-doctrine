@@ -20,6 +20,7 @@ class Int4rangeTest extends TestCase
     {
         return [
             'SELECT int4range(c0_.integer1, c0_.integer2) AS sclr_0 FROM ContainsIntegers c0_',
+            'SELECT int4range(c0_.integer1, c0_.integer2, \'[)\') AS sclr_0 FROM ContainsIntegers c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ class Int4rangeTest extends TestCase
     {
         return [
             \sprintf('SELECT INT4RANGE(e.integer1, e.integer2) FROM %s e', ContainsIntegers::class),
+            \sprintf('SELECT INT4RANGE(e.integer1, e.integer2, \'[)\') FROM %s e', ContainsIntegers::class),
         ];
     }
 }
