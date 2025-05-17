@@ -201,6 +201,13 @@ return [
         'NUMRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class,
         'TSRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class,
         'TSTZRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class,
+        
+        # Arithmetic functions
+        'ABS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Abs::class,
+        'CEIL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil::class,
+        'FLOOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor::class,
+        'ROUND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round::class,
+        'TRUNC' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc::class,
 
         # other operators
         'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
