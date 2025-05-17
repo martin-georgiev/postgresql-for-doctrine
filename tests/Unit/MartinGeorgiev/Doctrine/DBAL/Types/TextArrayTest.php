@@ -6,6 +6,8 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -25,29 +27,21 @@ class TextArrayTest extends TestCase
         $this->fixture = new TextArray();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('text[]', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
@@ -111,9 +105,7 @@ END,
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_transform_unquoted_postgres_array_to_php(): void
     {
         $postgresValue = '{STRING_A,STRING_B,STRING_C,STRING_D}';
@@ -122,9 +114,7 @@ END,
         self::assertEquals($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_handle_backslashes_correctly(): void
     {
         $postgresValue = '{"simple\\\backslash"}';

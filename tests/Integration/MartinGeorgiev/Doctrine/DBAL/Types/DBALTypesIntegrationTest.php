@@ -6,12 +6,11 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DBALTypesIntegrationTest extends IntegrationTestCase
 {
-    /**
-     * @dataProvider provideScalarTypeTestCases
-     */
+    #[DataProvider('provideScalarTypeTestCases')]
     public function test_scalar_type(string $typeName, string $columnType, mixed $testValue): void
     {
         $this->runTypeTest($typeName, $columnType, $testValue);
@@ -29,9 +28,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideArrayTypeTestCases
-     */
+    #[DataProvider('provideArrayTypeTestCases')]
     public function test_array_type(string $typeName, string $columnType, array $testValue): void
     {
         $this->runTypeTest($typeName, $columnType, $testValue);
@@ -59,9 +56,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideJsonTypeTestCases
-     */
+    #[DataProvider('provideJsonTypeTestCases')]
     public function test_json_type(string $typeName, string $columnType, array $testValue): void
     {
         $this->runTypeTest($typeName, $columnType, $testValue);
@@ -86,9 +81,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider providePointTypeTestCases
-     */
+    #[DataProvider('providePointTypeTestCases')]
     public function test_point_type(string $typeName, string $columnType, PointValueObject $pointValueObject): void
     {
         $this->runTypeTest($typeName, $columnType, $pointValueObject);
@@ -116,7 +109,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
             $this->createTestTable($tableName, $columnName, $columnType);
 
             // Insert test value
-            $queryBuilder = self::$connection->createQueryBuilder();
+            $queryBuilder = $this->connection->createQueryBuilder();
             $queryBuilder
                 ->insert('test.'.$tableName)
                 ->values([$columnName => '?'])
@@ -125,7 +118,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
             $queryBuilder->executeStatement();
 
             // Query the value back
-            $queryBuilder = self::$connection->createQueryBuilder();
+            $queryBuilder = $this->connection->createQueryBuilder();
             $queryBuilder
                 ->select($columnName)
                 ->from('test.'.$tableName)
@@ -136,7 +129,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
             \assert(\is_array($row) && \array_key_exists($columnName, $row));
 
             // Get the value with the correct type
-            $platform = self::$connection->getDatabasePlatform();
+            $platform = $this->connection->getDatabasePlatform();
             $retrievedValue = Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
 
             $this->assertDatabaseRoundtripEquals($testValue, $retrievedValue, $typeName);

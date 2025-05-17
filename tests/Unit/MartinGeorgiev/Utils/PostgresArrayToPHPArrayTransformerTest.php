@@ -6,17 +6,17 @@ namespace Tests\MartinGeorgiev\Utils;
 
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PostgresArrayToPHPArrayTransformerTest extends TestCase
 {
     /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     *
      * @param array<int, array<string, array|string>> $phpValue
      */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
     {
         self::assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
@@ -125,11 +125,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideMultiDimensionalArrays
-     */
+    #[DataProvider('provideMultiDimensionalArrays')]
+    #[Test]
     public function throws_exception_for_multi_dimensional_arrays(string $postgresValue): void
     {
         $this->expectException(InvalidArrayFormatException::class);
@@ -149,11 +146,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideManualParsingArrays
-     */
+    #[DataProvider('provideManualParsingArrays')]
+    #[Test]
     public function can_recover_from_json_decode_failure_and_transform_value_through_manual_parsing(array $phpValue, string $postgresValue): void
     {
         self::assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
@@ -180,29 +174,22 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_transform_escaped_quotes_with_backslashes(): void
     {
         $postgresArray = '{"\\\"quoted\\\""}';
         self::assertSame(['\\\"quoted\\\"'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_preserves_numeric_precision(): void
     {
         $postgresArray = '{"9223372036854775808","1.23456789012345"}';
         self::assertSame(['9223372036854775808', '1.23456789012345'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidPostgresArrays
-     */
+    #[DataProvider('provideInvalidPostgresArrays')]
+    #[Test]
     public function throws_exception_for_invalid_postgres_arrays(string $postgresValue): void
     {
         $this->expectException(InvalidArrayFormatException::class);

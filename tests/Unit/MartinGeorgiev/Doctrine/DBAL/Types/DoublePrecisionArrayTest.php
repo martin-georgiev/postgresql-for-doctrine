@@ -6,6 +6,8 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
 {
@@ -15,9 +17,7 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
         $this->fixture = new DoublePrecisionArray();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('double precision[]', $this->fixture->getName());
@@ -49,9 +49,7 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_domain_exception_when_value_is_too_close_to_zero(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
@@ -60,9 +58,7 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
         $this->fixture->transformArrayItemForPHP('1.18E-308');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_domain_exception_when_value_exceeds_precision_limit(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
@@ -71,11 +67,8 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
         $this->fixture->transformArrayItemForPHP('1.123456789012345678');
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider providePrecisionExceedingValues
-     */
+    #[DataProvider('providePrecisionExceedingValues')]
+    #[Test]
     public function throws_domain_exception_for_various_precision_violations(string $value): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);

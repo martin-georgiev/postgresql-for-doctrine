@@ -7,6 +7,8 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -26,29 +28,21 @@ class JsonbArrayTest extends TestCase
         $this->fixture = new JsonbArray();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('jsonb[]', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
@@ -90,11 +84,8 @@ class JsonbArrayTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
-     */
+    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
     {
         $this->expectException(InvalidJsonArrayItemForPHPException::class);
