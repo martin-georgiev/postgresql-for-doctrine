@@ -55,6 +55,7 @@ abstract class IntegrationTestCase extends TestCase
     {
         $query = $this->entityManager->createQuery($dql);
         $result = $query->getResult();
-        return is_array($result) ? $result : [];
+
+        return \is_array($result) ? $result : [];
     }
 }

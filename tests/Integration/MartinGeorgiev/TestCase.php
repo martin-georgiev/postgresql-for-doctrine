@@ -223,7 +223,7 @@ abstract class TestCase extends BaseTestCase
         $schemaManager = $this->connection->createSchemaManager();
 
         // Use the test schema for all tables
-        $fullTableName = 'test.' . $tableName;
+        $fullTableName = 'test.'.$tableName;
 
         // Ensure schema exists
         $this->connection->executeStatement('CREATE SCHEMA IF NOT EXISTS test');
