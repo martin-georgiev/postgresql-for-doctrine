@@ -66,9 +66,10 @@ abstract class IntegrationTestCase extends TestCase
                 // Make sure all keys in the row are strings
                 $normalizedRow = [];
                 foreach ($row as $key => $value) {
-                    $stringKey = \is_string($key) ? $key : 'item_' . $key;
+                    $stringKey = \is_string($key) ? $key : 'item_'.$key;
                     $normalizedRow[$stringKey] = $value;
                 }
+
                 $normalizedResult[] = $normalizedRow;
             } else {
                 // Handle scalar or object results by wrapping them
