@@ -16,7 +16,7 @@ class ArrayReplaceIntegrationTest extends IntegrationTestCase
     public function test_array_replace_with_text_array(): void
     {
         $dql = "SELECT ARRAY_REPLACE(t.textArray, 'apple', 'pear') as replaced 
-                FROM MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\Entity\\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
@@ -28,7 +28,7 @@ class ArrayReplaceIntegrationTest extends IntegrationTestCase
     public function test_array_replace_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.intArray, 1, 10) as replaced 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
@@ -40,12 +40,12 @@ class ArrayReplaceIntegrationTest extends IntegrationTestCase
     public function test_array_replace_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.boolArray, true, false) as replaced 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1';
 
         $this->executeDqlQuery($dql);
 
-        $updatedEntity = $this->entityManager->createQuery('SELECT t FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t WHERE t.id = 1')->getOneOrNullResult();
+        $updatedEntity = $this->entityManager->createQuery('SELECT t FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t WHERE t.id = 1')->getOneOrNullResult();
         \assert($updatedEntity !== null && \is_object($updatedEntity) && \property_exists($updatedEntity, 'boolArray'));
 
         $this->assertEquals([false, false, false], $updatedEntity->boolArray);

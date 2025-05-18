@@ -16,7 +16,7 @@ class ArrayCardinalityIntegrationTest extends IntegrationTestCase
     public function test_array_cardinality_with_text_array(): void
     {
         $dql = 'SELECT t.id, ARRAY_CARDINALITY(t.textArray) as cardinality 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 ORDER BY t.id';
 
         $result = $this->executeDqlQuery($dql);
@@ -29,7 +29,7 @@ class ArrayCardinalityIntegrationTest extends IntegrationTestCase
     public function test_array_cardinality_with_integer_array(): void
     {
         $dql = 'SELECT t.id, ARRAY_CARDINALITY(t.intArray) as cardinality 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 ORDER BY t.id';
 
         $result = $this->executeDqlQuery($dql);
@@ -42,7 +42,7 @@ class ArrayCardinalityIntegrationTest extends IntegrationTestCase
     public function test_array_cardinality_with_boolean_array(): void
     {
         $dql = 'SELECT t.id, ARRAY_CARDINALITY(t.boolArray) as cardinality 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 ORDER BY t.id';
 
         $result = $this->executeDqlQuery($dql);

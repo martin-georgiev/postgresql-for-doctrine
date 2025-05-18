@@ -15,14 +15,12 @@ abstract class IntegrationTestCase extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->entityManager = new EntityManager($this->connection, $this->configuration);
-
-        self::createTestSchema($this->connection);
-        self::insertTestData($this->connection);
+        $this->createTestSchema($this->connection);
+        $this->insertTestData($this->connection);
     }
 
-    protected static function createTestSchema(Connection $connection): void
+    protected function createTestSchema(Connection $connection): void
     {
         $connection->executeStatement('DROP SCHEMA IF EXISTS public CASCADE');
         $connection->executeStatement('CREATE SCHEMA public');
@@ -36,7 +34,7 @@ abstract class IntegrationTestCase extends TestCase
         ');
     }
 
-    protected static function insertTestData(Connection $connection): void
+    protected function insertTestData(Connection $connection): void
     {
         $connection->executeStatement("
             INSERT INTO array_test (text_array, int_array, bool_array) VALUES
@@ -56,27 +54,9 @@ abstract class IntegrationTestCase extends TestCase
      */
     protected function executeDqlQuery(string $dql): array
     {
-        $result = $this->entityManager->createQuery($dql)->getResult();
-        \assert(\is_array($result));
+        $query = $this->entityManager->createQuery($dql);
+        $result = $query->getResult();
 
-        // Ensure the result matches the expected return type array<int, array<string, mixed>>
-        $normalizedResult = [];
-        foreach ($result as $row) {
-            if (\is_array($row)) {
-                // Make sure all keys in the row are strings
-                $normalizedRow = [];
-                foreach ($row as $key => $value) {
-                    $stringKey = \is_string($key) ? $key : 'item_'.$key;
-                    $normalizedRow[$stringKey] = $value;
-                }
-
-                $normalizedResult[] = $normalizedRow;
-            } else {
-                // Handle scalar or object results by wrapping them
-                $normalizedResult[] = ['value' => $row];
-            }
-        }
-
-        return $normalizedResult;
+        return $result;
     }
 }

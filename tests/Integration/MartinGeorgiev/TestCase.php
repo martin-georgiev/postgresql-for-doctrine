@@ -8,8 +8,10 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
@@ -45,11 +47,24 @@ abstract class TestCase extends BaseTestCase
 
     protected function setUp(): void
     {
-        $configuration = ORMSetup::createAttributeMetadataConfiguration([static::FIXTURES_DIRECTORY], true);
-        $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
+        // Set up a driver chain
+        $mappingDriverChain = new MappingDriverChain();
+        $entityNamespace = 'Fixtures\MartinGeorgiev\Doctrine\Entity';
+        $entityDir = __DIR__.'/../../../../../../fixtures/MartinGeorgiev/Doctrine/Entity';
+        $attributeDriver = new AttributeDriver([$entityDir]);
+        $mappingDriverChain->addDriver($attributeDriver, $entityNamespace);
+
+        $configuration = ORMSetup::createAttributeMetadataConfiguration([], true);
+        $configuration->setMetadataDriverImpl($mappingDriverChain);
+        $configuration->setProxyDir($entityDir.'/Proxies');
         $configuration->setProxyNamespace('Fixtures\MartinGeorgiev\Doctrine\Entity\Proxy');
         $configuration->setAutoGenerateProxyClasses(true);
         $this->setConfigurationCache($configuration);
+
+        // Register the entity namespace for DQL short aliases
+        $configuration->setEntityNamespaces([
+            'Fixtures' => $entityNamespace,
+        ]);
 
         $this->configuration = $configuration;
 
@@ -57,11 +72,40 @@ abstract class TestCase extends BaseTestCase
 
         $this->registerCustomTypes();
         $this->registerCustomFunctions();
+
+        // Create test schema and insert test data
+        $this->createTestSchema();
+        $this->insertTestData();
+    }
+
+    protected function createTestSchema(): void
+    {
+        $this->connection->executeStatement('DROP SCHEMA IF EXISTS public CASCADE');
+        $this->connection->executeStatement('CREATE SCHEMA public');
+        $this->connection->executeStatement('
+            CREATE TABLE array_test (
+                id SERIAL PRIMARY KEY,
+                text_array TEXT[],
+                int_array INTEGER[],
+                bool_array BOOLEAN[]
+            )
+        ');
+    }
+
+    protected function insertTestData(): void
+    {
+        $this->connection->executeStatement("
+            INSERT INTO array_test (text_array, int_array, bool_array) VALUES
+            (ARRAY['apple', 'banana', 'orange'], ARRAY[1, 2, 3], ARRAY[true, false, true]),
+            (ARRAY['grape', 'apple'], ARRAY[4, 1], ARRAY[false, true]),
+            (ARRAY['banana', 'orange', 'kiwi', 'mango'], ARRAY[2, 3, 7, 8], ARRAY[true, true, false, true])
+        ");
     }
 
     protected function tearDown(): void
     {
         if (isset($this->connection)) {
+            $this->connection->executeStatement('DROP SCHEMA IF EXISTS public CASCADE');
             $this->connection->close();
         }
     }
@@ -137,6 +181,9 @@ abstract class TestCase extends BaseTestCase
         ];
 
         $this->connection = DriverManager::getConnection($connectionParams);
+
+        // Create test schema if it doesn't exist
+        $this->connection->executeStatement('CREATE SCHEMA IF NOT EXISTS test');
     }
 
     protected static function registerCustomTypes(): void

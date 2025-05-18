@@ -16,7 +16,7 @@ class ArrayRemoveIntegrationTest extends IntegrationTestCase
     public function test_array_remove_with_text_array(): void
     {
         $dql = "SELECT ARRAY_REMOVE(t.textArray, 'apple') as removed 
-                FROM MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\Entity\\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
@@ -27,7 +27,7 @@ class ArrayRemoveIntegrationTest extends IntegrationTestCase
     public function test_array_remove_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.intArray, 1) as removed 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
@@ -38,7 +38,7 @@ class ArrayRemoveIntegrationTest extends IntegrationTestCase
     public function test_array_remove_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.boolArray, true) as removed 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);

@@ -16,7 +16,7 @@ class ArrayAppendIntegrationTest extends IntegrationTestCase
     public function test_array_append_with_text_array(): void
     {
         $dql = "SELECT ARRAY_APPEND(t.textArray, 'orange') as appended 
-                FROM MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\Entity\\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
@@ -27,7 +27,7 @@ class ArrayAppendIntegrationTest extends IntegrationTestCase
     public function test_array_append_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_APPEND(t.intArray, 3) as appended 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
@@ -38,7 +38,7 @@ class ArrayAppendIntegrationTest extends IntegrationTestCase
     public function test_array_append_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_APPEND(t.boolArray, true) as appended 
-                FROM MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Entity\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
