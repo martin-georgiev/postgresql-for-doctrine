@@ -112,8 +112,8 @@ class DBALTypesTest extends TestCase
             $queryBuilder = $this->connection->createQueryBuilder();
             $queryBuilder
                 ->insert('test.'.$tableName)
-                ->values([$columnName => '?'])
-                ->setParameter(1, $testValue, $typeName);
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $testValue, $typeName);
 
             $queryBuilder->executeStatement();
 
