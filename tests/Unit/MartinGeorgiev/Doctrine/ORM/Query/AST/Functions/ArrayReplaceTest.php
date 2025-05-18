@@ -20,7 +20,7 @@ class ArrayReplaceTest extends TestCase
     {
         return [
             'replaces string element in array' => "SELECT array_replace(c0_.textArray, 'old-value', 'new-value') AS sclr_0 FROM ContainsArrays c0_",
-            'replaces numeric element in array' => 'SELECT array_replace(c0_.textArray, 42, 43) AS sclr_0 FROM ContainsArrays c0_',
+            'replaces numeric element in array' => 'SELECT array_replace(c0_.inetegerArray, 42, 43) AS sclr_0 FROM ContainsArrays c0_',
             'replaces element using parameters' => 'SELECT array_replace(c0_.textArray, ?, ?) AS sclr_0 FROM ContainsArrays c0_',
             'replaces null with string' => "SELECT array_replace(c0_.textArray, null, 'new-value') AS sclr_0 FROM ContainsArrays c0_",
             'replaces value with null' => "SELECT array_replace(c0_.textArray, 'old-value', null) AS sclr_0 FROM ContainsArrays c0_",
@@ -32,7 +32,7 @@ class ArrayReplaceTest extends TestCase
     {
         return [
             'replaces string element in array' => \sprintf("SELECT ARRAY_REPLACE(e.textArray, 'old-value', 'new-value') FROM %s e", ContainsArrays::class),
-            'replaces numeric element in array' => \sprintf('SELECT ARRAY_REPLACE(e.textArray, 42, 43) FROM %s e', ContainsArrays::class),
+            'replaces numeric element in array' => \sprintf('SELECT ARRAY_REPLACE(e.inetegerArray, 42, 43) FROM %s e', ContainsArrays::class),
             'replaces element using parameters' => \sprintf('SELECT ARRAY_REPLACE(e.textArray, :old_value, :new_value) FROM %s e', ContainsArrays::class),
             'replaces null with string' => \sprintf("SELECT ARRAY_REPLACE(e.textArray, NULL, 'new-value') FROM %s e", ContainsArrays::class),
             'replaces value with null' => \sprintf("SELECT ARRAY_REPLACE(e.textArray, 'old-value', NULL) FROM %s e", ContainsArrays::class),
