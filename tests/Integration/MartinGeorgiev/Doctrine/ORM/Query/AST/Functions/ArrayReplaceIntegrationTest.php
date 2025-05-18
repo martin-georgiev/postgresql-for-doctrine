@@ -21,33 +21,31 @@ class ArrayReplaceIntegrationTest extends IntegrationTestCase
 
         $result = $this->executeDqlQuery($dql);
         \assert(isset($result[0]['replaced']));
-
-        $this->assertEquals(['pear', 'banana', 'pear'], $result[0]['replaced']);
+        $actual = $this->transformPostgresArray($result[0]['replaced']);
+        $this->assertEquals(['pear', 'banana', 'orange'], $actual);
     }
 
     public function test_array_replace_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.intArray, 1, 10) as replaced 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ArrayTest t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         \assert(isset($result[0]['replaced']));
-
-        $this->assertEquals([10, 2, 10], $result[0]['replaced']);
+        $actual = $this->transformPostgresArray($result[0]['replaced']);
+        $this->assertEquals([10, 2, 3], $actual);
     }
 
     public function test_array_replace_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.boolArray, true, false) as replaced 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ArrayTest t 
                 WHERE t.id = 1';
 
-        $this->executeDqlQuery($dql);
-
-        $updatedEntity = $this->entityManager->createQuery('SELECT t FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t WHERE t.id = 1')->getOneOrNullResult();
-        \assert($updatedEntity !== null && \is_object($updatedEntity) && \property_exists($updatedEntity, 'boolArray'));
-
-        $this->assertEquals([false, false, false], $updatedEntity->boolArray);
+        $result = $this->executeDqlQuery($dql);
+        \assert(isset($result[0]['replaced']));
+        $actual = $this->transformPostgresArray($result[0]['replaced']);
+        $this->assertEquals([false, false, false], $actual);
     }
 }

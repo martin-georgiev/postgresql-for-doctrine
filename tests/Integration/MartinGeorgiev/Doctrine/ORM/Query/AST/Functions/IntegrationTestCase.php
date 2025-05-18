@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Tests\Integration\MartinGeorgiev\TestCase;
 
@@ -16,15 +15,15 @@ abstract class IntegrationTestCase extends TestCase
     {
         parent::setUp();
         $this->entityManager = new EntityManager($this->connection, $this->configuration);
-        $this->createTestSchema($this->connection);
-        $this->insertTestData($this->connection);
+        $this->createTestSchema();
+        $this->insertTestData();
     }
 
-    protected function createTestSchema(Connection $connection): void
+    protected function createTestSchema(): void
     {
-        $connection->executeStatement('DROP SCHEMA IF EXISTS public CASCADE');
-        $connection->executeStatement('CREATE SCHEMA public');
-        $connection->executeStatement('
+        $this->connection->executeStatement('DROP SCHEMA IF EXISTS public CASCADE');
+        $this->connection->executeStatement('CREATE SCHEMA public');
+        $this->connection->executeStatement('
             CREATE TABLE array_test (
                 id SERIAL PRIMARY KEY,
                 text_array TEXT[],
@@ -34,9 +33,9 @@ abstract class IntegrationTestCase extends TestCase
         ');
     }
 
-    protected function insertTestData(Connection $connection): void
+    protected function insertTestData(): void
     {
-        $connection->executeStatement("
+        $this->connection->executeStatement("
             INSERT INTO array_test (text_array, int_array, bool_array) VALUES
             (ARRAY['apple', 'banana', 'orange'], ARRAY[1, 2, 3], ARRAY[true, false, true]),
             (ARRAY['grape', 'apple'], ARRAY[4, 1], ARRAY[false, true]),
@@ -55,8 +54,7 @@ abstract class IntegrationTestCase extends TestCase
     protected function executeDqlQuery(string $dql): array
     {
         $query = $this->entityManager->createQuery($dql);
-        $result = $query->getResult();
 
-        return $result;
+        return $query->getResult();
     }
 }

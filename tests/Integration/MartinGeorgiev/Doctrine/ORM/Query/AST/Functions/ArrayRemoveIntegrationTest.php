@@ -20,29 +20,29 @@ class ArrayRemoveIntegrationTest extends IntegrationTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-
-        $this->assertEquals(['banana'], $result[0]['removed']);
+        $actual = $this->transformPostgresArray($result[0]['removed']);
+        $this->assertEquals(['banana', 'orange'], $actual);
     }
 
     public function test_array_remove_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.intArray, 1) as removed 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ArrayTest t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-
-        $this->assertEquals([2], $result[0]['removed']);
+        $actual = $this->transformPostgresArray($result[0]['removed']);
+        $this->assertEquals([2, 3], $actual);
     }
 
     public function test_array_remove_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.boolArray, true) as removed 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ArrayTest t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-
-        $this->assertEquals([false], $result[0]['removed']);
+        $actual = $this->transformPostgresArray($result[0]['removed']);
+        $this->assertEquals([false], $actual);
     }
 }

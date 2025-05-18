@@ -7,6 +7,7 @@ namespace Fixtures\MartinGeorgiev\Doctrine\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
+#[ORM\Table(name: 'array_test')]
 class ArrayTest extends Entity
 {
     #[ORM\Column(name: 'text_array', type: 'text[]')]

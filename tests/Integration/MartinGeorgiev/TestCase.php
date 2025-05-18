@@ -29,6 +29,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
@@ -191,6 +192,7 @@ abstract class TestCase extends BaseTestCase
         $typesMap = [
             'bigint[]' => BigIntArray::class,
             'boolean[]' => BooleanArray::class,
+            'bool[]' => BooleanArray::class,
             'cidr' => Cidr::class,
             'cidr[]' => CidrArray::class,
             'double precision[]' => DoublePrecisionArray::class,
@@ -246,5 +248,21 @@ abstract class TestCase extends BaseTestCase
         if ($schemaManager->tablesExist([$tableName])) {
             $schemaManager->dropTable($tableName);
         }
+    }
+
+    /**
+     * Transforms a PostgreSQL array string to a PHP array if needed.
+     *
+     * @param mixed $value The value to transform
+     *
+     * @return mixed The transformed value
+     */
+    protected function transformPostgresArray(mixed $value): mixed
+    {
+        if (\is_string($value) && \str_starts_with($value, '{') && \str_ends_with($value, '}')) {
+            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($value);
+        }
+
+        return $value;
     }
 }
