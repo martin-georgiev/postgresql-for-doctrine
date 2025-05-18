@@ -15,37 +15,45 @@ class ArrayReplaceTest extends TestCase
 
     public function test_array_replace_with_text_array(): void
     {
-        $dql = "SELECT ARRAY_REPLACE(t.textArray, 'apple', 'pear') as replaced 
+        $dql = "SELECT ARRAY_REPLACE(t.textArray, 'banana', 'mango') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        \assert(isset($result[0]['replaced']));
-        $actual = $this->transformPostgresArray($result[0]['replaced']);
-        $this->assertEquals(['pear', 'banana', 'orange'], $actual);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertEquals(['apple', 'mango', 'orange'], $actual);
     }
 
     public function test_array_replace_with_integer_array(): void
     {
-        $dql = 'SELECT ARRAY_REPLACE(t.integerArray, 1, 10) as replaced 
+        $dql = 'SELECT ARRAY_REPLACE(t.integerArray, 2, 5) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        \assert(isset($result[0]['replaced']));
-        $actual = $this->transformPostgresArray($result[0]['replaced']);
-        $this->assertEquals([10, 2, 3], $actual);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertEquals([1, 5, 3], $actual);
     }
 
     public function test_array_replace_with_boolean_array(): void
     {
-        $dql = 'SELECT ARRAY_REPLACE(t.boolArray, true, false) as replaced 
+        $dql = 'SELECT ARRAY_REPLACE(t.boolArray, false, true) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        \assert(isset($result[0]['replaced']));
-        $actual = $this->transformPostgresArray($result[0]['replaced']);
-        $this->assertEquals([false, false, false], $actual);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertEquals([true, true, true], $actual);
+    }
+
+    public function test_array_replace_with_not_found(): void
+    {
+        $dql = "SELECT ARRAY_REPLACE(t.textArray, 'mango', 'kiwi') as result 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+                WHERE t.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertEquals(['apple', 'banana', 'orange'], $actual);
     }
 }

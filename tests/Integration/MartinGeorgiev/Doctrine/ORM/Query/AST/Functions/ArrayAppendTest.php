@@ -15,34 +15,34 @@ class ArrayAppendTest extends TestCase
 
     public function test_array_append_with_text_array(): void
     {
-        $dql = "SELECT ARRAY_APPEND(t.textArray, 'orange') as appended 
+        $dql = "SELECT ARRAY_APPEND(t.textArray, 'orange') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['appended']);
+        $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals(['apple', 'banana', 'orange', 'orange'], $actual);
     }
 
     public function test_array_append_with_integer_array(): void
     {
-        $dql = 'SELECT ARRAY_APPEND(t.integerArray, 3) as appended 
+        $dql = 'SELECT ARRAY_APPEND(t.integerArray, 3) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['appended']);
+        $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals([1, 2, 3, 3], $actual);
     }
 
     public function test_array_append_with_boolean_array(): void
     {
-        $dql = 'SELECT ARRAY_APPEND(t.boolArray, true) as appended 
+        $dql = 'SELECT ARRAY_APPEND(t.boolArray, true) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['appended']);
+        $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals([true, false, true, true], $actual);
     }
 }

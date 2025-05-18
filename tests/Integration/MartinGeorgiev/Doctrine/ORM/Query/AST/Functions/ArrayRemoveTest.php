@@ -15,34 +15,45 @@ class ArrayRemoveTest extends TestCase
 
     public function test_array_remove_with_text_array(): void
     {
-        $dql = "SELECT ARRAY_REMOVE(t.textArray, 'apple') as removed 
+        $dql = "SELECT ARRAY_REMOVE(t.textArray, 'banana') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['removed']);
-        $this->assertEquals(['banana', 'orange'], $actual);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertEquals(['apple', 'orange'], $actual);
     }
 
     public function test_array_remove_with_integer_array(): void
     {
-        $dql = 'SELECT ARRAY_REMOVE(t.integerArray, 1) as removed 
+        $dql = 'SELECT ARRAY_REMOVE(t.integerArray, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['removed']);
-        $this->assertEquals([2, 3], $actual);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertEquals([1, 3], $actual);
     }
 
     public function test_array_remove_with_boolean_array(): void
     {
-        $dql = 'SELECT ARRAY_REMOVE(t.boolArray, true) as removed 
+        $dql = 'SELECT ARRAY_REMOVE(t.boolArray, false) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['removed']);
-        $this->assertEquals([false], $actual);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertEquals([true, true], $actual);
+    }
+
+    public function test_array_remove_with_not_found(): void
+    {
+        $dql = "SELECT ARRAY_REMOVE(t.textArray, 'mango') as result 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+                WHERE t.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertEquals(['apple', 'banana', 'orange'], $actual);
     }
 }
