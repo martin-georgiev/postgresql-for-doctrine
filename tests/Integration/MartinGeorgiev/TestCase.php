@@ -223,17 +223,21 @@ abstract class TestCase extends BaseTestCase
         $schemaManager = $this->connection->createSchemaManager();
 
         // Use the test schema for all tables
-        $fullTableName = 'test.'.$tableName;
+        $fullTableName = 'test.' . $tableName;
 
-        // Drop table if it exists
+        // Ensure schema exists
+        $this->connection->executeStatement('CREATE SCHEMA IF NOT EXISTS test');
+
+        // Drop table if it already exists
         if ($schemaManager->tablesExist([$fullTableName])) {
             $schemaManager->dropTable($fullTableName);
         }
 
-        // Create table with the specified column type
+        // Create table with the specified column type, quoting identifiers
         $sql = \sprintf(
-            'CREATE TABLE %s (id SERIAL PRIMARY KEY, %s %s)',
-            $fullTableName,
+            'CREATE TABLE "%s"."%s" (id SERIAL PRIMARY KEY, "%s" %s)',
+            'test',
+            $tableName,
             $columnName,
             $columnType
         );

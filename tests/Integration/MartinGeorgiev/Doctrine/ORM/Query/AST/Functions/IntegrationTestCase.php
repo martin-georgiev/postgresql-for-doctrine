@@ -54,7 +54,7 @@ abstract class IntegrationTestCase extends TestCase
     protected function executeDqlQuery(string $dql): array
     {
         $query = $this->entityManager->createQuery($dql);
-
-        return $query->getResult();
+        $result = $query->getResult();
+        return is_array($result) ? $result : [];
     }
 }
