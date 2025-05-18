@@ -8,7 +8,7 @@ use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class DBALTypesIntegrationTest extends IntegrationTestCase
+class DBALTypesTest extends TestCase
 {
     #[DataProvider('provideScalarTypeTestCases')]
     public function test_scalar_type(string $typeName, string $columnType, mixed $testValue): void
@@ -106,7 +106,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
         $columnName = 'test_column';
 
         try {
-            $this->createTestTable($tableName, $columnName, $columnType);
+            $this->createTestTableForDataType($tableName, $columnName, $columnType);
 
             // Insert test value
             $queryBuilder = $this->connection->createQueryBuilder();
@@ -134,7 +134,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
 
             $this->assertDatabaseRoundtripEquals($testValue, $retrievedValue, $typeName);
         } finally {
-            $this->dropTestTable($tableName);
+            $this->dropTestTableIfItExists($tableName);
         }
     }
 

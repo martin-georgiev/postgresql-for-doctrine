@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace;
-use Tests\Integration\MartinGeorgiev\TestCase;
 
-class ArrayReplaceIntegrationTest extends TestCase
+class ArrayReplaceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

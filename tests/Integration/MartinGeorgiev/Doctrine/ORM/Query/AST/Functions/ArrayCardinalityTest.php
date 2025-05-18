@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality;
-use Tests\Integration\MartinGeorgiev\TestCase;
 
-class ArrayCardinalityIntegrationTest extends TestCase
+class ArrayCardinalityTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

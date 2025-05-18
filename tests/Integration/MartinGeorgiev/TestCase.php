@@ -76,55 +76,18 @@ abstract class TestCase extends BaseTestCase
 
         $this->setUpConnection();
 
+        $this->createTestSchema();
+
         $this->registerCustomTypes();
         $this->registerCustomFunctions();
 
-        // Create test schema and insert test data
-        $this->createTestSchema();
-        $this->insertTestData();
-
         $this->entityManager = new EntityManager($this->connection, $this->configuration);
-    }
-
-    protected function createTestSchema(): void
-    {
-        $this->connection->executeStatement(\sprintf('DROP SCHEMA IF EXISTS %s CASCADE', self::DATABASE_SCHEMA));
-        $this->connection->executeStatement(\sprintf('CREATE SCHEMA %s', self::DATABASE_SCHEMA));
-        $this->connection->executeStatement(\sprintf('SET search_path TO %s', self::DATABASE_SCHEMA));
-        $this->connection->executeStatement('
-            CREATE TABLE containsarrays (
-                id SERIAL PRIMARY KEY,
-                textarray TEXT[],
-                smallintarray SMALLINT[],
-                integerarray INTEGER[],
-                bigintarray BIGINT[],
-                boolarray BOOLEAN[]
-            )
-        ');
-    }
-
-    protected function insertTestData(): void
-    {
-        $this->connection->executeStatement("
-            INSERT INTO containsarrays (textarray, smallintarray, integerarray, bigintarray, boolarray) VALUES
-            (ARRAY['apple', 'banana', 'orange'], ARRAY[1, 2, 3],  ARRAY[1, 2, 3],  ARRAY[1, 2, 3], ARRAY[true, false, true]),
-            (ARRAY['grape', 'apple'], ARRAY[4, 1], ARRAY[4, 1], ARRAY[4, 1], ARRAY[false, true]),
-            (ARRAY['banana', 'orange', 'kiwi', 'mango'], ARRAY[2, 3, 7, 8], ARRAY[2, 3, 7, 8], ARRAY[2, 3, 7, 8], ARRAY[true, true, false, true])
-        ");
     }
 
     protected function tearDown(): void
     {
         $this->connection->executeStatement('DROP SCHEMA IF EXISTS test CASCADE');
         $this->connection->close();
-    }
-
-    /**
-     * @return array<int, array<string, mixed>>
-     */
-    protected function executeDqlQuery(string $dql): array
-    {
-        return $this->entityManager->createQuery($dql)->getArrayResult(); // @phpstan-ignore-line
     }
 
     private function setConfigurationCache(Configuration $configuration): void
@@ -156,24 +119,6 @@ abstract class TestCase extends BaseTestCase
         throw new \RuntimeException('No known compatible version of doctrine/dbal found. Please report an issue on GitHub.');
     }
 
-    private function registerCustomFunctions(): void
-    {
-        /**
-         * @var class-string<FunctionNode> $functionClassName
-         */
-        foreach ($this->getStringFunctions() as $dqlFunction => $functionClassName) {
-            $this->configuration->addCustomStringFunction($dqlFunction, $functionClassName);
-        }
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    protected function getStringFunctions(): array
-    {
-        return [];
-    }
-
     protected function setUpConnection(): void
     {
         // Get environment variables with proper type casting
@@ -198,12 +143,16 @@ abstract class TestCase extends BaseTestCase
         ];
 
         $this->connection = DriverManager::getConnection($connectionParams);
-
-        // Create test schema if it doesn't exist
-        $this->connection->executeStatement('CREATE SCHEMA IF NOT EXISTS test');
     }
 
-    protected static function registerCustomTypes(): void
+    protected function createTestSchema(): void
+    {
+        $this->connection->executeStatement(\sprintf('DROP SCHEMA IF EXISTS %s CASCADE', self::DATABASE_SCHEMA));
+        $this->connection->executeStatement(\sprintf('CREATE SCHEMA %s', self::DATABASE_SCHEMA));
+        $this->connection->executeStatement(\sprintf('SET search_path TO %s', self::DATABASE_SCHEMA));
+    }
+
+    protected function registerCustomTypes(): void
     {
         $typesMap = [
             'bigint[]' => BigIntArray::class,
@@ -233,39 +182,30 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
-    protected function createTestTable(string $tableName, string $columnName, string $columnType): void
+    private function registerCustomFunctions(): void
     {
-        $schemaManager = $this->connection->createSchemaManager();
-
-        // Use the test schema for all tables
-        $fullTableName = 'test.'.$tableName;
-
-        // Ensure schema exists
-        $this->connection->executeStatement('CREATE SCHEMA IF NOT EXISTS test');
-
-        // Drop table if it already exists
-        if ($schemaManager->tablesExist([$fullTableName])) {
-            $schemaManager->dropTable($fullTableName);
+        /**
+         * @var class-string<FunctionNode> $functionClassName
+         */
+        foreach ($this->getStringFunctions() as $dqlFunction => $functionClassName) {
+            $this->configuration->addCustomStringFunction($dqlFunction, $functionClassName);
         }
-
-        // Create table with the specified column type, quoting identifiers
-        $sql = \sprintf(
-            'CREATE TABLE "%s"."%s" (id SERIAL PRIMARY KEY, "%s" %s)',
-            'test',
-            $tableName,
-            $columnName,
-            $columnType
-        );
-
-        $this->connection->executeStatement($sql);
     }
 
-    protected function dropTestTable(string $tableName): void
+    /**
+     * @return array<string, string>
+     */
+    protected function getStringFunctions(): array
+    {
+        return [];
+    }
+
+    protected function dropTestTableIfItExists(string $tableName): void
     {
         $schemaManager = $this->connection->createSchemaManager();
-
-        if ($schemaManager->tablesExist([$tableName])) {
-            $schemaManager->dropTable($tableName);
+        $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
+        if ($schemaManager->tablesExist([$fullTableName])) {
+            $schemaManager->dropTable($fullTableName);
         }
     }
 
@@ -283,5 +223,13 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $value;
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    protected function executeDqlQuery(string $dql): array
+    {
+        return $this->entityManager->createQuery($dql)->getArrayResult(); // @phpstan-ignore-line
     }
 }

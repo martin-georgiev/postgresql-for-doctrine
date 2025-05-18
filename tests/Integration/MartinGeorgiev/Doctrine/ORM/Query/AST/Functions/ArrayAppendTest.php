@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend;
-use Tests\Integration\MartinGeorgiev\TestCase;
 
-class ArrayAppendIntegrationTest extends TestCase
+class ArrayAppendTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
