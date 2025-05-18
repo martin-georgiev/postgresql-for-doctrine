@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
@@ -40,9 +41,15 @@ abstract class TestCase extends BaseTestCase
      */
     protected const FIXTURES_DIRECTORY = __DIR__.'/../../../../../../fixtures/MartinGeorgiev/Doctrine/Entity';
 
+    protected const FIXTURE_NAMESPACE = 'Fixtures\MartinGeorgiev\Doctrine\Entity';
+
+    protected const DATABASE_SCHEMA = 'test';
+
     protected Configuration $configuration;
 
     protected Connection $connection;
+
+    protected EntityManager $entityManager;
 
     protected static array $registeredTypes = [];
 
@@ -50,21 +57,19 @@ abstract class TestCase extends BaseTestCase
     {
         // Set up a driver chain
         $mappingDriverChain = new MappingDriverChain();
-        $entityNamespace = 'Fixtures\MartinGeorgiev\Doctrine\Entity';
-        $entityDir = __DIR__.'/../../../../../../fixtures/MartinGeorgiev/Doctrine/Entity';
-        $attributeDriver = new AttributeDriver([$entityDir]);
-        $mappingDriverChain->addDriver($attributeDriver, $entityNamespace);
+        $attributeDriver = new AttributeDriver([self::FIXTURES_DIRECTORY]);
+        $mappingDriverChain->addDriver($attributeDriver, self::FIXTURE_NAMESPACE);
 
         $configuration = ORMSetup::createAttributeMetadataConfiguration([], true);
         $configuration->setMetadataDriverImpl($mappingDriverChain);
-        $configuration->setProxyDir($entityDir.'/Proxies');
-        $configuration->setProxyNamespace('Fixtures\MartinGeorgiev\Doctrine\Entity\Proxy');
+        $configuration->setProxyDir(self::FIXTURES_DIRECTORY.'/Proxies');
+        $configuration->setProxyNamespace(self::FIXTURE_NAMESPACE.'\Proxy');
         $configuration->setAutoGenerateProxyClasses(true);
         $this->setConfigurationCache($configuration);
 
         // Register the entity namespace for DQL short aliases
         $configuration->setEntityNamespaces([
-            'Fixtures' => $entityNamespace,
+            'Fixtures' => self::FIXTURE_NAMESPACE,
         ]);
 
         $this->configuration = $configuration;
@@ -77,18 +82,23 @@ abstract class TestCase extends BaseTestCase
         // Create test schema and insert test data
         $this->createTestSchema();
         $this->insertTestData();
+
+        $this->entityManager = new EntityManager($this->connection, $this->configuration);
     }
 
     protected function createTestSchema(): void
     {
-        $this->connection->executeStatement('DROP SCHEMA IF EXISTS public CASCADE');
-        $this->connection->executeStatement('CREATE SCHEMA public');
+        $this->connection->executeStatement(\sprintf('DROP SCHEMA IF EXISTS %s CASCADE', self::DATABASE_SCHEMA));
+        $this->connection->executeStatement(\sprintf('CREATE SCHEMA %s', self::DATABASE_SCHEMA));
+        $this->connection->executeStatement(\sprintf('SET search_path TO %s', self::DATABASE_SCHEMA));
         $this->connection->executeStatement('
-            CREATE TABLE array_test (
+            CREATE TABLE containsarrays (
                 id SERIAL PRIMARY KEY,
-                text_array TEXT[],
-                int_array INTEGER[],
-                bool_array BOOLEAN[]
+                textarray TEXT[],
+                smallintarray SMALLINT[],
+                integerarray INTEGER[],
+                bigintarray BIGINT[],
+                boolarray BOOLEAN[]
             )
         ');
     }
@@ -96,19 +106,25 @@ abstract class TestCase extends BaseTestCase
     protected function insertTestData(): void
     {
         $this->connection->executeStatement("
-            INSERT INTO array_test (text_array, int_array, bool_array) VALUES
-            (ARRAY['apple', 'banana', 'orange'], ARRAY[1, 2, 3], ARRAY[true, false, true]),
-            (ARRAY['grape', 'apple'], ARRAY[4, 1], ARRAY[false, true]),
-            (ARRAY['banana', 'orange', 'kiwi', 'mango'], ARRAY[2, 3, 7, 8], ARRAY[true, true, false, true])
+            INSERT INTO containsarrays (textarray, smallintarray, integerarray, bigintarray, boolarray) VALUES
+            (ARRAY['apple', 'banana', 'orange'], ARRAY[1, 2, 3],  ARRAY[1, 2, 3],  ARRAY[1, 2, 3], ARRAY[true, false, true]),
+            (ARRAY['grape', 'apple'], ARRAY[4, 1], ARRAY[4, 1], ARRAY[4, 1], ARRAY[false, true]),
+            (ARRAY['banana', 'orange', 'kiwi', 'mango'], ARRAY[2, 3, 7, 8], ARRAY[2, 3, 7, 8], ARRAY[2, 3, 7, 8], ARRAY[true, true, false, true])
         ");
     }
 
     protected function tearDown(): void
     {
-        if (isset($this->connection)) {
-            $this->connection->executeStatement('DROP SCHEMA IF EXISTS public CASCADE');
-            $this->connection->close();
-        }
+        $this->connection->executeStatement('DROP SCHEMA IF EXISTS test CASCADE');
+        $this->connection->close();
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    protected function executeDqlQuery(string $dql): array
+    {
+        return $this->entityManager->createQuery($dql)->getArrayResult(); // @phpstan-ignore-line
     }
 
     private function setConfigurationCache(Configuration $configuration): void
@@ -191,7 +207,6 @@ abstract class TestCase extends BaseTestCase
     {
         $typesMap = [
             'bigint[]' => BigIntArray::class,
-            'boolean[]' => BooleanArray::class,
             'bool[]' => BooleanArray::class,
             'cidr' => Cidr::class,
             'cidr[]' => CidrArray::class,

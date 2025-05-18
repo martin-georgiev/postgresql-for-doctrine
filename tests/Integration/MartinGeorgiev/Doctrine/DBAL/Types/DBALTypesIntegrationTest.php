@@ -37,7 +37,7 @@ class DBALTypesIntegrationTest extends IntegrationTestCase
     public static function provideArrayTypeTestCases(): array
     {
         return [
-            'boolean[]' => ['boolean[]', 'BOOLEAN[]', [true, false, true]],
+            'bool[]' => ['bool[]', 'BOOL[]', [true, false, true]],
             'smallint[]' => ['smallint[]', 'SMALLINT[]', [32767, 0, -32768]],
             'integer[]' => ['integer[]', 'INTEGER[]', [1, 2, 3, 4, 5]],
             'bigint[]' => ['bigint[]', 'BIGINT[]', [9223372036854775807, 1, -9223372036854775807]],

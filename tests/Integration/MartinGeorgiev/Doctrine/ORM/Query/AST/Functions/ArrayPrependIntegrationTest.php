@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend;
+use Tests\Integration\MartinGeorgiev\TestCase;
 
-class ArrayPrependIntegrationTest extends IntegrationTestCase
+class ArrayPrependIntegrationTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
@@ -16,7 +17,7 @@ class ArrayPrependIntegrationTest extends IntegrationTestCase
     public function test_array_prepend_with_text_array(): void
     {
         $dql = "SELECT ARRAY_PREPEND('orange', t.textArray) as prepended 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
@@ -26,8 +27,8 @@ class ArrayPrependIntegrationTest extends IntegrationTestCase
 
     public function test_array_prepend_with_integer_array(): void
     {
-        $dql = 'SELECT ARRAY_PREPEND(3, t.intArray) as prepended 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ArrayTest t 
+        $dql = 'SELECT ARRAY_PREPEND(3, t.integerArray) as prepended 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
@@ -38,7 +39,7 @@ class ArrayPrependIntegrationTest extends IntegrationTestCase
     public function test_array_prepend_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_PREPEND(true, t.boolArray) as prepended 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ArrayTest t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);

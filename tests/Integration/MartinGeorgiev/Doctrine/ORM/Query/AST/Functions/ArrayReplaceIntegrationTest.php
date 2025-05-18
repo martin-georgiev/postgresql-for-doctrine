@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace;
+use Tests\Integration\MartinGeorgiev\TestCase;
 
-class ArrayReplaceIntegrationTest extends IntegrationTestCase
+class ArrayReplaceIntegrationTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
@@ -16,7 +17,7 @@ class ArrayReplaceIntegrationTest extends IntegrationTestCase
     public function test_array_replace_with_text_array(): void
     {
         $dql = "SELECT ARRAY_REPLACE(t.textArray, 'apple', 'pear') as replaced 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ArrayTest t 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
@@ -27,8 +28,8 @@ class ArrayReplaceIntegrationTest extends IntegrationTestCase
 
     public function test_array_replace_with_integer_array(): void
     {
-        $dql = 'SELECT ARRAY_REPLACE(t.intArray, 1, 10) as replaced 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ArrayTest t 
+        $dql = 'SELECT ARRAY_REPLACE(t.integerArray, 1, 10) as replaced 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
@@ -40,7 +41,7 @@ class ArrayReplaceIntegrationTest extends IntegrationTestCase
     public function test_array_replace_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.boolArray, true, false) as replaced 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ArrayTest t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
