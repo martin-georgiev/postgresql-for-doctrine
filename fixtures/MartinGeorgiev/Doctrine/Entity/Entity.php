@@ -7,10 +7,11 @@ namespace Fixtures\MartinGeorgiev\Doctrine\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\MappedSuperclass]
 abstract class Entity
 {
-    #[ORM\Id()]
-    #[ORM\Column(type: Types::STRING)]
-    #[ORM\GeneratedValue()]
-    public string $id;
+    #[ORM\Id]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\GeneratedValue]
+    public int $id;
 }

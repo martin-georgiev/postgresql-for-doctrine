@@ -19,14 +19,14 @@ class UnnestTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT unnest(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'SELECT unnest(c0_.textArray) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT UNNEST(e.array1) FROM %s e', ContainsArrays::class),
+            \sprintf('SELECT UNNEST(e.textArray) FROM %s e', ContainsArrays::class),
         ];
     }
 }

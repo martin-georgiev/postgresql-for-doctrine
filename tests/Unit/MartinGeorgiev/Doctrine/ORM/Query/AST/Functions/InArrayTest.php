@@ -19,14 +19,14 @@ class InArrayTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'checks if value is in array' => 'SELECT ? = ANY(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'checks if value is in array' => 'SELECT ? = ANY(c0_.textArray) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'checks if value is in array' => \sprintf('SELECT IN_ARRAY(:value, e.array1) FROM %s e', ContainsArrays::class),
+            'checks if value is in array' => \sprintf('SELECT IN_ARRAY(:value, e.textArray) FROM %s e', ContainsArrays::class),
         ];
     }
 }

@@ -19,18 +19,18 @@ class ArrayPositionsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'finds string element' => "SELECT array_positions(c0_.array1, 'new-value') AS sclr_0 FROM ContainsArrays c0_",
-            'finds numeric element' => 'SELECT array_positions(c0_.array1, 42) AS sclr_0 FROM ContainsArrays c0_',
-            'finds element using parameter' => 'SELECT array_positions(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
+            'finds string element' => "SELECT array_positions(c0_.textArray, 'new-value') AS sclr_0 FROM ContainsArrays c0_",
+            'finds numeric element' => 'SELECT array_positions(c0_.integerArray, 42) AS sclr_0 FROM ContainsArrays c0_',
+            'finds element using parameter' => 'SELECT array_positions(c0_.textArray, ?) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'finds string element' => \sprintf("SELECT ARRAY_POSITIONS(e.array1, 'new-value') FROM %s e", ContainsArrays::class),
-            'finds numeric element' => \sprintf('SELECT ARRAY_POSITIONS(e.array1, 42) FROM %s e', ContainsArrays::class),
-            'finds element using parameter' => \sprintf('SELECT ARRAY_POSITIONS(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
+            'finds string element' => \sprintf("SELECT ARRAY_POSITIONS(e.textArray, 'new-value') FROM %s e", ContainsArrays::class),
+            'finds numeric element' => \sprintf('SELECT ARRAY_POSITIONS(e.integerArray, 42) FROM %s e', ContainsArrays::class),
+            'finds element using parameter' => \sprintf('SELECT ARRAY_POSITIONS(e.textArray, :dql_parameter) FROM %s e', ContainsArrays::class),
         ];
     }
 }

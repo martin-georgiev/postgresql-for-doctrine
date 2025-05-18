@@ -19,14 +19,14 @@ class AllTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT c0_.id AS id_0 FROM ContainsArrays c0_ WHERE c0_.id > ALL(c0_.array1)',
+            'SELECT c0_.id AS id_0 FROM ContainsArrays c0_ WHERE c0_.id > ALL(c0_.textArray)',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT e.id FROM %s e WHERE e.id > ALL_OF(e.array1)', ContainsArrays::class),
+            \sprintf('SELECT e.id FROM %s e WHERE e.id > ALL_OF(e.textArray)', ContainsArrays::class),
         ];
     }
 }
