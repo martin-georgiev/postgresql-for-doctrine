@@ -21,6 +21,7 @@ class ArrayShuffleTest extends TestCase
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
+        \assert(\is_countable($actual));
         $this->assertCount(3, $actual);
         $this->assertEqualsCanonicalizing(['apple', 'banana', 'orange'], $actual);
     }
@@ -33,6 +34,7 @@ class ArrayShuffleTest extends TestCase
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
+        \assert(\is_countable($actual));
         $this->assertCount(3, $actual);
         $this->assertEqualsCanonicalizing([1, 2, 3], $actual);
     }
@@ -45,6 +47,7 @@ class ArrayShuffleTest extends TestCase
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
+        \assert(\is_countable($actual));
         $this->assertCount(3, $actual);
         $this->assertEqualsCanonicalizing([true, false, true], $actual);
     }
