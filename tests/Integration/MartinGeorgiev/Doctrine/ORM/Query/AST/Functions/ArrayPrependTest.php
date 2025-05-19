@@ -15,34 +15,34 @@ class ArrayPrependTest extends TestCase
 
     public function test_array_prepend_with_text_array(): void
     {
-        $dql = "SELECT ARRAY_PREPEND('orange', t.textArray) as prepended 
+        $dql = "SELECT ARRAY_PREPEND('orange', t.textArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['prepended']);
+        $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals(['orange', 'apple', 'banana', 'orange'], $actual);
     }
 
     public function test_array_prepend_with_integer_array(): void
     {
-        $dql = 'SELECT ARRAY_PREPEND(3, t.integerArray) as prepended 
+        $dql = 'SELECT ARRAY_PREPEND(3, t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['prepended']);
+        $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals([3, 1, 2, 3], $actual);
     }
 
     public function test_array_prepend_with_boolean_array(): void
     {
-        $dql = 'SELECT ARRAY_PREPEND(true, t.boolArray) as prepended 
+        $dql = 'SELECT ARRAY_PREPEND(true, t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['prepended']);
+        $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals([true, true, false, true], $actual);
     }
 }

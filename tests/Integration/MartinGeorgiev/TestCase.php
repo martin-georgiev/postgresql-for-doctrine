@@ -218,11 +218,13 @@ abstract class TestCase extends BaseTestCase
      */
     protected function transformPostgresArray(mixed $value): mixed
     {
-        if (\is_string($value) && \str_starts_with($value, '{') && \str_ends_with($value, '}')) {
-            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($value);
-        }
+        try {
+            \assert(\is_string($value));
 
-        return $value;
+            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($value);
+        } catch (\Throwable) {
+            return $value;
+        }
     }
 
     /**
