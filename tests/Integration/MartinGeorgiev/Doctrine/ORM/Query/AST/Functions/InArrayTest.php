@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray;
 
-class InArrayTest extends TestCase
+class InArrayTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

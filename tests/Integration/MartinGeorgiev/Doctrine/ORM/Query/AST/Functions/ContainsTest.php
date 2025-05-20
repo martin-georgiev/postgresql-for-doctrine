@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
 
-class ContainsTest extends TestCase
+class ContainsTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

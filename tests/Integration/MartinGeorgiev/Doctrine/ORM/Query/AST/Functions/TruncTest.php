@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc;
+use Tests\Integration\MartinGeorgiev\TestCase;
 
 class TruncTest extends TestCase
 {

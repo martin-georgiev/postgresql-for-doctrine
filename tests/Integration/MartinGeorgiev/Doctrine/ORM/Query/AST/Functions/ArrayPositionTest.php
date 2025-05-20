@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition;
 
-class ArrayPositionTest extends TestCase
+class ArrayPositionTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet;
 
-class JsonbSetTest extends TestCase
+class JsonbSetTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -20,7 +20,7 @@ class JsonbSetTest extends TestCase
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals(['name' => 'banana'], \json_decode((string) $result[0]['result'], true));
+        $this->assertEquals(['name' => 'banana'], \json_decode($result[0]['result'], true));
     }
 
     public function test_jsonb_set_with_nested_path(): void
@@ -30,7 +30,7 @@ class JsonbSetTest extends TestCase
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals(['user' => ['name' => 'banana']], \json_decode((string) $result[0]['result'], true));
+        $this->assertEquals(['user' => ['name' => 'banana']], \json_decode($result[0]['result'], true));
     }
 
     public function test_jsonb_set_with_array_value(): void
@@ -40,7 +40,7 @@ class JsonbSetTest extends TestCase
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals(['fruits' => ['apple', 'banana', 'orange']], \json_decode((string) $result[0]['result'], true));
+        $this->assertEquals(['fruits' => ['apple', 'banana', 'orange']], \json_decode($result[0]['result'], true));
     }
 
     public function test_jsonb_set_with_create_missing(): void
@@ -50,6 +50,6 @@ class JsonbSetTest extends TestCase
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals(['name' => 'apple', 'age' => 1], \json_decode((string) $result[0]['result'], true));
+        $this->assertEquals(['name' => 'apple', 'age' => 1], \json_decode($result[0]['result'], true));
     }
 }

@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality;
 
-class ArrayCardinalityTest extends TestCase
+class ArrayCardinalityTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
