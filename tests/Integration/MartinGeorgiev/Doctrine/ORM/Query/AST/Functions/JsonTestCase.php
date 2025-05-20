@@ -27,8 +27,8 @@ abstract class JsonTestCase extends BaseTestCase
         $sql = \sprintf('
             CREATE TABLE %s (
                 id SERIAL PRIMARY KEY,
-                json_data JSONB,
-                jsonb_data JSONB
+                object1 JSONB,
+                object2 JSONB
             )
         ', $fullTableName);
 
@@ -40,7 +40,7 @@ abstract class JsonTestCase extends BaseTestCase
         $json1 = '{"name": "John", "age": 30, "tags": ["developer", "manager"], "address": {"city": "New York"}}';
         $json2 = '{"name": "Jane", "age": 25, "tags": ["designer"], "address": {"city": "Boston"}}';
 
-        $sql = \sprintf("\n            INSERT INTO %s.containsjsons (json_data, jsonb_data) VALUES 
+        $sql = \sprintf("\n            INSERT INTO %s.containsjsons (object1, object2) VALUES 
             ('%s', '%s'),
             ('%s', '%s')
         ", self::DATABASE_SCHEMA, $json1, $json1, $json2, $json2);
