@@ -30,6 +30,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -228,10 +229,24 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * @param array<string, mixed> $parameters
+     *
      * @return array<int, array<string, mixed>>
      */
-    protected function executeDqlQuery(string $dql): array
+    protected function executeDqlQuery(string $dql, array $parameters = []): array
     {
-        return $this->entityManager->createQuery($dql)->getArrayResult(); // @phpstan-ignore-line
+        $query = $this->entityManager->createQuery($dql);
+
+        foreach ($parameters as $key => $value) {
+            if (\is_array($value)) {
+                // Convert the array to a PostgreSQL array string
+                $postgresArray = PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($value);
+                $query->setParameter($key, $postgresArray);
+            } else {
+                $query->setParameter($key, $value);
+            }
+        }
+
+        return $query->getArrayResult(); // @phpstan-ignore-line
     }
 }
