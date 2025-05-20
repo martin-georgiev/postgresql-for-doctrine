@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove;
 
-class ArrayRemoveTest extends TestCase
+class ArrayRemoveTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

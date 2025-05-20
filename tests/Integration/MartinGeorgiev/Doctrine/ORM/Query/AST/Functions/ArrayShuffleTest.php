@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle;
 
-class ArrayShuffleTest extends TestCase
+class ArrayShuffleTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

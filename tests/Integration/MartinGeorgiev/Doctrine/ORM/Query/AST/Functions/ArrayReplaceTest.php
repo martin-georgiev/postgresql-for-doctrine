@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace;
 
-class ArrayReplaceTest extends TestCase
+class ArrayReplaceTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat;
 
-class ArrayCatTest extends TestCase
+class ArrayCatTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

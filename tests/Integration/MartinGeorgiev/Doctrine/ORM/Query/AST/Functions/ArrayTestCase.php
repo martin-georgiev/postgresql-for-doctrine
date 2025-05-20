@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Tests\Integration\MartinGeorgiev\TestCase as BaseTestCase;
 
-abstract class TestCase extends BaseTestCase
+abstract class ArrayTestCase extends BaseTestCase
 {
     protected function setUp(): void
     {

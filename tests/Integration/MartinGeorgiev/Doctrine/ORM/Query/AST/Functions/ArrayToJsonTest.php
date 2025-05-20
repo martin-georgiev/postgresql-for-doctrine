@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson;
 
-class ArrayToJsonTest extends TestCase
+class ArrayToJsonTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

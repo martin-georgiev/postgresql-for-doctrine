@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase as BaseTestCase;
+use Tests\Integration\MartinGeorgiev\TestCase as BaseTestCase;
 
 abstract class JsonTestCase extends BaseTestCase
 {

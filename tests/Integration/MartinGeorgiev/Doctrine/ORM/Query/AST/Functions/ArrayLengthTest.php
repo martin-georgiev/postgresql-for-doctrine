@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength;
 
-class ArrayLengthTest extends TestCase
+class ArrayLengthTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
