@@ -16,7 +16,7 @@ class InArrayTest extends TestCase
     public function test_in_array_with_text_element(): void
     {
         $dql = 'SELECT IN_ARRAY(:value, t.textArray) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql, ['value' => 'banana']);
@@ -36,7 +36,7 @@ class InArrayTest extends TestCase
     public function test_in_array_with_non_existing_element(): void
     {
         $dql = 'SELECT IN_ARRAY(:value, t.textArray) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql, ['value' => 'mango']);

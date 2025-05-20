@@ -16,7 +16,7 @@ class ContainsTest extends TestCase
     public function test_contains_with_text_array(): void
     {
         $dql = 'SELECT CONTAINS(t.textArray, :value) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql, ['value' => ['banana']]);

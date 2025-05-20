@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject;
+
+class JsonbBuildObjectTest extends TestCase
+{
+    protected function getStringFunctions(): array
+    {
+        return ['JSONB_BUILD_OBJECT' => JsonbBuildObject::class];
+    }
+
+    public function test_jsonb_build_object_with_text_values(): void
+    {
+        $dql = "SELECT JSONB_BUILD_OBJECT('name', t.textArray[1], 'age', t.integerArray[1], 'active', t.boolArray[1]) as result 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+                WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(['name' => 'apple', 'age' => 1, 'active' => true], \json_decode((string) $result[0]['result'], true));
+    }
+
+    public function test_jsonb_build_object_with_array_values(): void
+    {
+        $dql = "SELECT JSONB_BUILD_OBJECT('fruits', t.textArray, 'numbers', t.integerArray) as result 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+                WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(['fruits' => ['apple', 'banana', 'orange'], 'numbers' => [1, 2, 3]], \json_decode((string) $result[0]['result'], true));
+    }
+
+    public function test_jsonb_build_object_with_null_values(): void
+    {
+        $dql = "SELECT JSONB_BUILD_OBJECT('name', t.textArray[1], 'middle_name', NULL, 'last_name', t.textArray[2]) as result 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+                WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(['name' => 'apple', 'middle_name' => null, 'last_name' => 'banana'], \json_decode((string) $result[0]['result'], true));
+    }
+}

@@ -239,7 +239,6 @@ abstract class TestCase extends BaseTestCase
 
         foreach ($parameters as $key => $value) {
             if (\is_array($value)) {
-                // Convert the array to a PostgreSQL array string
                 $postgresArray = PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($value);
                 $query->setParameter($key, $postgresArray);
             } else {
