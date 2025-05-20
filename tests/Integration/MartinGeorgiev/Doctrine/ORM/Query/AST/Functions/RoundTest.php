@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round;
-use Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayTestCase;
 
 class RoundTest extends ArrayTestCase
 {
@@ -23,7 +22,7 @@ class RoundTest extends ArrayTestCase
 
     public function test_round_with_negative_number(): void
     {
-        $dql = 'SELECT ROUND((-3.14159)) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1';
+        $dql = 'SELECT ROUND((-3.14159)) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(-3, $result[0]['result']);
     }
@@ -37,7 +36,7 @@ class RoundTest extends ArrayTestCase
 
     public function test_round_with_negative_precision(): void
     {
-        $dql = 'SELECT ROUND(314.159, (-2)) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1';
+        $dql = 'SELECT ROUND(314.159, (-2)) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(300, $result[0]['result']);
     }
