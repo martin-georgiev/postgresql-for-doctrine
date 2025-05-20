@@ -40,6 +40,7 @@ class DeleteAtPathTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsonb t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '{nested,value}']);
+        $this->assertIsString($result[0]['result']);
         $this->assertJson($result[0]['result']);
     }
 }

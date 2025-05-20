@@ -20,6 +20,7 @@ class ArrayAggTest extends TestCase
                 ORDER BY t.id';
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertIsArray($actual);
         $this->assertCount(3, $actual);
         $this->assertContains('apple', $actual);
         $this->assertContains('banana', $actual);
@@ -33,6 +34,7 @@ class ArrayAggTest extends TestCase
                 ORDER BY t.id';
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertIsArray($actual);
         $this->assertCount(3, $actual);
         $this->assertContains(1, $actual);
         $this->assertContains(2, $actual);
@@ -45,6 +47,7 @@ class ArrayAggTest extends TestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t';
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertIsArray($actual);
         $this->assertCount(3, $actual);
         $this->assertEqualsCanonicalizing([1, 2, 3], $actual);
     }

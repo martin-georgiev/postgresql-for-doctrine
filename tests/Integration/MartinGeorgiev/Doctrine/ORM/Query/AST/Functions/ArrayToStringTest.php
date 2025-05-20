@@ -40,6 +40,7 @@ class ArrayToStringTest extends TestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $this->assertStringContainsString(' - ', $result[0]['result']);
     }
 }
