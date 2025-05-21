@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract;
-use Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTestCase;
 
 class DateExtractTest extends DateTestCase
 {
