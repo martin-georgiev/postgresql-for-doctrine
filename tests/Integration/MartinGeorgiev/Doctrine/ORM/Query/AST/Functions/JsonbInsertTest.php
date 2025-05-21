@@ -27,6 +27,8 @@ class JsonbInsertTest extends JsonTestCase
         ]);
         $this->assertIsString($result[0]['result']);
         $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertArrayHasKey('email', $decoded);
         $this->assertSame('john@example.com', $decoded['email']);
     }
 
@@ -41,6 +43,10 @@ class JsonbInsertTest extends JsonTestCase
         ]);
         $this->assertIsString($result[0]['result']);
         $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertArrayHasKey('address', $decoded);
+        $this->assertIsArray($decoded['address']);
+        $this->assertArrayHasKey('zip', $decoded['address']);
         $this->assertSame('10001', $decoded['address']['zip']);
     }
 
