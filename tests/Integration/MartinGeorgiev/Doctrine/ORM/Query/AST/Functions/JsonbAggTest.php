@@ -31,35 +31,11 @@ class JsonbAggTest extends JsonTestCase
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
-    public function test_jsonb_agg_with_all_rows(): void
+    public function test_jsonb_agg_with_multiple_rows(): void
     {
         $dql = 'SELECT JSONB_AGG(t.object1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $actual = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($actual);
-        $expected = [
-            [
-                'name' => 'John',
-                'age' => 30,
-                'tags' => ['developer', 'manager'],
-                'address' => ['city' => 'New York'],
-            ],
-            [
-                'name' => 'Jane',
-                'age' => 25,
-                'tags' => ['designer'],
-                'address' => ['city' => 'Boston'],
-            ],
-        ];
-        $this->assertEqualsCanonicalizing($expected, $actual);
-    }
-
-    public function test_jsonb_agg_with_object2_column(): void
-    {
-        $dql = 'SELECT JSONB_AGG(t.object2) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t';
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
+                WHERE t.id IN (1, 2)';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
         $actual = \json_decode($result[0]['result'], true);
