@@ -19,14 +19,16 @@ class TstzrangeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT tstzrange(c0_.datetimetz1, c0_.datetimetz2) AS sclr_0 FROM ContainsDates c0_',
+            'basic range with default bounds' => 'SELECT tstzrange(c0_.datetimetz1, c0_.datetimetz2) AS sclr_0 FROM ContainsDates c0_',
+            'range with explicit bounds' => "SELECT tstzrange(c0_.datetimetz1, c0_.datetimetz2, '[)') AS sclr_0 FROM ContainsDates c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT TSTZRANGE(e.datetimetz1, e.datetimetz2) FROM %s e', ContainsDates::class),
+            'basic range with default bounds' => \sprintf('SELECT TSTZRANGE(e.datetimetz1, e.datetimetz2) FROM %s e', ContainsDates::class),
+            'range with explicit bounds' => \sprintf("SELECT TSTZRANGE(e.datetimetz1, e.datetimetz2, '[)') FROM %s e", ContainsDates::class),
         ];
     }
 }
