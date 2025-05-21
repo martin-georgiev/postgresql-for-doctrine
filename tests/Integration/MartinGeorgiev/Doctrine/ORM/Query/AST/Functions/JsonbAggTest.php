@@ -19,7 +19,8 @@ class JsonbAggTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertEquals([
             [
@@ -36,7 +37,8 @@ class JsonbAggTest extends JsonTestCase
         $dql = 'SELECT JSONB_AGG(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t';
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertEquals([
             [
@@ -59,7 +61,8 @@ class JsonbAggTest extends JsonTestCase
         $dql = 'SELECT JSONB_AGG(t.object2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t';
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertEquals([
             [
