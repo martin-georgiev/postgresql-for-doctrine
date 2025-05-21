@@ -15,7 +15,7 @@ class ArrayCatTest extends ArrayTestCase
 
     public function test_array_cat_with_text_arrays(): void
     {
-        $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1';
+        $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
             'array1' => ['apple', 'banana'],
             'array2' => ['orange', 'kiwi'],

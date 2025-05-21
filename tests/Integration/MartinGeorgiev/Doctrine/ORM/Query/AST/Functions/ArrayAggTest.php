@@ -17,32 +17,38 @@ class ArrayAggTest extends ArrayTestCase
     {
         $dql = 'SELECT ARRAY_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1
-                GROUP BY t.id';
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals(['apple', 'banana', 'orange'], \json_decode($result[0]['result'], true)[0]);
+        $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertCount(1, $decoded);
+        $this->assertEquals(['apple', 'banana', 'orange'], $decoded[0]);
     }
 
     public function test_array_agg_with_integer_values(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1
-                GROUP BY t.id';
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals([1, 2, 3], \json_decode($result[0]['result'], true)[0]);
+        $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertCount(1, $decoded);
+        $this->assertEquals([1, 2, 3], $decoded[0]);
     }
 
     public function test_array_agg_with_distinct(): void
     {
         $dql = 'SELECT ARRAY_AGG(DISTINCT t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t
-                WHERE t.id = 1
-                GROUP BY t.id';
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals([1, 2, 3], \json_decode($result[0]['result'], true)[0]);
+        $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertCount(1, $decoded);
+        $this->assertEquals([1, 2, 3], $decoded[0]);
     }
 }
