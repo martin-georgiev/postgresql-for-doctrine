@@ -50,7 +50,7 @@ class JsonbInsertTest extends JsonTestCase
         $this->assertSame('10001', $decoded['address']['zip']);
     }
 
-    public function test_jsonb_insert_existing_path(): void
+    public function test_throws_exception_when_inserting_at_existing_object_key(): void
     {
         $this->expectException(Exception::class);
         $dql = 'SELECT JSONB_INSERT(t.object1, :path, :value) as result 
@@ -62,15 +62,17 @@ class JsonbInsertTest extends JsonTestCase
         ]);
     }
 
-    public function test_jsonb_insert_with_insert_if_missing_true(): void
+    public function test_throws_exception_when_inserting_at_existing_nested_path(): void
     {
         $this->expectException(Exception::class);
-        $dql = "SELECT JSONB_INSERT(t.object1, :path, :value, 'true') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
+
+        $dql = 'SELECT JSONB_INSERT(t.object1, :path, :value) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
+                WHERE t.id = 5';
+
         $this->executeDqlQuery($dql, [
-            'path' => '{name}',
-            'value' => '"John Doe"',
+            'path'  => '{address,zip}',
+            'value' => '"10001"',
         ]);
     }
 }
