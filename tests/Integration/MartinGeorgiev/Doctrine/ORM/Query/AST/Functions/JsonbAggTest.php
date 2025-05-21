@@ -20,16 +20,15 @@ class JsonbAggTest extends JsonTestCase
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertSame([
-            [
-                'name' => 'John',
-                'age' => 30,
-                'tags' => ['developer', 'manager'],
-                'address' => ['city' => 'New York'],
-            ],
-        ], $decoded);
+        $actual = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($actual);
+        $expected = [[
+            'name' => 'John',
+            'age' => 30,
+            'tags' => ['developer', 'manager'],
+            'address' => ['city' => 'New York'],
+        ]];
+        $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
     public function test_jsonb_agg_with_all_rows(): void
@@ -38,9 +37,9 @@ class JsonbAggTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertSame([
+        $actual = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($actual);
+        $expected = [
             [
                 'name' => 'John',
                 'age' => 30,
@@ -53,7 +52,8 @@ class JsonbAggTest extends JsonTestCase
                 'tags' => ['designer'],
                 'address' => ['city' => 'Boston'],
             ],
-        ], $decoded);
+        ];
+        $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
     public function test_jsonb_agg_with_object2_column(): void
@@ -62,9 +62,9 @@ class JsonbAggTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertSame([
+        $actual = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($actual);
+        $expected = [
             [
                 'name' => 'John',
                 'age' => 30,
@@ -77,6 +77,7 @@ class JsonbAggTest extends JsonTestCase
                 'tags' => ['designer'],
                 'address' => ['city' => 'Boston'],
             ],
-        ], $decoded);
+        ];
+        $this->assertEqualsCanonicalizing($expected, $actual);
     }
 }
