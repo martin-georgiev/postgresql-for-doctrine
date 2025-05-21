@@ -20,7 +20,6 @@ class InArrayTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql, ['value' => 'banana']);
-        $this->assertIsBool($result[0]['result']);
         $this->assertTrue($result[0]['result']);
     }
 
@@ -31,7 +30,6 @@ class InArrayTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql, ['value' => 2]);
-        $this->assertIsBool($result[0]['result']);
         $this->assertTrue($result[0]['result']);
     }
 
@@ -42,7 +40,6 @@ class InArrayTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql, ['value' => 'mango']);
-        $this->assertIsBool($result[0]['result']);
         $this->assertFalse($result[0]['result']);
     }
 }

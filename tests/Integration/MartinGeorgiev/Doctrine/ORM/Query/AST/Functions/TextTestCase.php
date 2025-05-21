@@ -36,10 +36,10 @@ abstract class TextTestCase extends TestCase
 
     protected function insertTestDataForTextFixture(): void
     {
-        $sql = \sprintf("
+        $sql = \sprintf('
             INSERT INTO %s.containstexts (text1, text2) VALUES 
-            ('this is a test string', 'another test string')
-        ", self::DATABASE_SCHEMA);
+            (\'this is a test string\', \'another test string\')
+        ', self::DATABASE_SCHEMA);
         $this->connection->executeStatement($sql);
     }
 }

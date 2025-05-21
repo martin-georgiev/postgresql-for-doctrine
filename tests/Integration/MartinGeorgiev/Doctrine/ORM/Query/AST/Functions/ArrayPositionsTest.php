@@ -15,13 +15,14 @@ class ArrayPositionsTest extends ArrayTestCase
 
     public function test_array_positions_with_text_array(): void
     {
-        $dql = "SELECT ARRAY_POSITIONS(t.textArray, 'apple') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 2";
+        $dql = 'SELECT ARRAY_POSITIONS(t.textArray, \'apple\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                WHERE t.id = 2';
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertEquals([2], $actual);
+        $this->assertIsArray($actual);
+        $this->assertSame([2], $actual);
     }
 
     public function test_array_positions_with_integer_array(): void
@@ -32,7 +33,8 @@ class ArrayPositionsTest extends ArrayTestCase
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertEquals([2], $actual);
+        $this->assertIsArray($actual);
+        $this->assertSame([2], $actual);
     }
 
     public function test_array_positions_with_boolean_array(): void
@@ -43,17 +45,19 @@ class ArrayPositionsTest extends ArrayTestCase
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertEquals([2], $actual);
+        $this->assertIsArray($actual);
+        $this->assertSame([2], $actual);
     }
 
     public function test_array_positions_with_not_found(): void
     {
-        $dql = "SELECT ARRAY_POSITIONS(t.textArray, 'mango') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 2";
+        $dql = 'SELECT ARRAY_POSITIONS(t.textArray, \'mango\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                WHERE t.id = 2';
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertEquals([], $actual);
+        $this->assertIsArray($actual);
+        $this->assertSame([], $actual);
     }
 }

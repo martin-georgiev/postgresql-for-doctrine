@@ -40,10 +40,10 @@ abstract class DateTestCase extends TestCase
 
     protected function insertTestDataForDateFixture(): void
     {
-        $sql = \sprintf("
+        $sql = \sprintf('
             INSERT INTO %s.containsdates (date1, date2, datetime1, datetime2, time1, time2) VALUES 
-            ('2023-06-15', '2023-06-16', '2023-06-15 10:30:00', '2023-06-16 11:45:00', '10:30:00', '11:45:00')
-        ", self::DATABASE_SCHEMA);
+            (\'2023-06-15\', \'2023-06-16\', \'2023-06-15 10:30:00\', \'2023-06-16 11:45:00\', \'10:30:00\', \'11:45:00\')
+        ', self::DATABASE_SCHEMA);
         $this->connection->executeStatement($sql);
     }
 }

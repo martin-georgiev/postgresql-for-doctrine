@@ -40,10 +40,11 @@ abstract class JsonTestCase extends BaseTestCase
         $json1 = '{"name": "John", "age": 30, "tags": ["developer", "manager"], "address": {"city": "New York"}}';
         $json2 = '{"name": "Jane", "age": 25, "tags": ["designer"], "address": {"city": "Boston"}}';
 
-        $sql = \sprintf("\n            INSERT INTO %s.containsjsons (object1, object2) VALUES 
-            ('%s', '%s'),
-            ('%s', '%s')
-        ", self::DATABASE_SCHEMA, $json1, $json1, $json2, $json2);
+        $sql = \sprintf('
+            INSERT INTO %s.containsjsons (object1, object2) VALUES 
+            (\'%s\', \'%s\'),
+            (\'%s\', \'%s\')
+        ', self::DATABASE_SCHEMA, $json1, $json1, $json2, $json2);
         $this->connection->executeStatement($sql);
     }
 }
