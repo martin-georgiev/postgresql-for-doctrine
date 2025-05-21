@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition;
 
-class ArrayPositionTest extends TestCase
+class ArrayPositionTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -15,12 +15,13 @@ class ArrayPositionTest extends TestCase
 
     public function test_array_position_with_text_array(): void
     {
-        $dql = "SELECT ARRAY_POSITION(t.textArray, 'banana') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1";
+        $dql = 'SELECT ARRAY_POSITION(t.textArray, \'banana\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(2, $result[0]['result']);
     }
 
     public function test_array_position_with_integer_array(): void
@@ -30,7 +31,8 @@ class ArrayPositionTest extends TestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(2, $result[0]['result']);
     }
 
     public function test_array_position_with_boolean_array(): void
@@ -40,14 +42,15 @@ class ArrayPositionTest extends TestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(2, $result[0]['result']);
     }
 
-    public function test_array_position_with_not_found(): void
+    public function test_array_position_with_not_found_element(): void
     {
-        $dql = "SELECT ARRAY_POSITION(t.textArray, 'mango') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1";
+        $dql = 'SELECT ARRAY_POSITION(t.textArray, \'mango\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertNull($result[0]['result']);

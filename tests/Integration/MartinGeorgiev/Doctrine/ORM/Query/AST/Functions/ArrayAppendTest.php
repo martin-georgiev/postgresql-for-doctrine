@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend;
 
-class ArrayAppendTest extends TestCase
+class ArrayAppendTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -15,13 +15,15 @@ class ArrayAppendTest extends TestCase
 
     public function test_array_append_with_text_array(): void
     {
-        $dql = "SELECT ARRAY_APPEND(t.textArray, 'orange') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1";
+        $dql = 'SELECT ARRAY_APPEND(t.textArray, \'orange\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertEquals(['apple', 'banana', 'orange', 'orange'], $actual);
+        $this->assertIsArray($actual);
+        $this->assertSame(['apple', 'banana', 'orange', 'orange'], $actual);
     }
 
     public function test_array_append_with_integer_array(): void
@@ -31,8 +33,10 @@ class ArrayAppendTest extends TestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertEquals([1, 2, 3, 3], $actual);
+        $this->assertIsArray($actual);
+        $this->assertSame([1, 2, 3, 3], $actual);
     }
 
     public function test_array_append_with_boolean_array(): void
@@ -42,7 +46,9 @@ class ArrayAppendTest extends TestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertEquals([true, false, true, true], $actual);
+        $this->assertIsArray($actual);
+        $this->assertSame([true, false, true, true], $actual);
     }
 }

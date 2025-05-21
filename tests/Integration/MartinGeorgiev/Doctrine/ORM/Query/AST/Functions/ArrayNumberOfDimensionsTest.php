@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions;
 
-class ArrayNumberOfDimensionsTest extends TestCase
+class ArrayNumberOfDimensionsTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -20,7 +20,8 @@ class ArrayNumberOfDimensionsTest extends TestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(1, $result[0]['result']);
     }
 
     public function test_array_number_of_dimensions_with_integer_array(): void
@@ -30,7 +31,8 @@ class ArrayNumberOfDimensionsTest extends TestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(1, $result[0]['result']);
     }
 
     public function test_array_number_of_dimensions_with_boolean_array(): void
@@ -40,6 +42,7 @@ class ArrayNumberOfDimensionsTest extends TestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(1, $result[0]['result']);
     }
 }
