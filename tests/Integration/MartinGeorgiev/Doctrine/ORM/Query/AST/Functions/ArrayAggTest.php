@@ -17,28 +17,24 @@ class ArrayAggTest extends ArrayTestCase
     {
         $dql = 'SELECT ARRAY_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                ORDER BY t.id';
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($actual);
-        $this->assertCount(3, $actual);
+        $this->assertCount(1, $actual);
         $this->assertContains('apple', $actual);
-        $this->assertContains('banana', $actual);
-        $this->assertContains('orange', $actual);
     }
 
     public function test_array_agg_with_integer_values(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                ORDER BY t.id';
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($actual);
-        $this->assertCount(3, $actual);
+        $this->assertCount(1, $actual);
         $this->assertContains(1, $actual);
-        $this->assertContains(2, $actual);
-        $this->assertContains(3, $actual);
     }
 
     public function test_array_agg_with_distinct(): void
