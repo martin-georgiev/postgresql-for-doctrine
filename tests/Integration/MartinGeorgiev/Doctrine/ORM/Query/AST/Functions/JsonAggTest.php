@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg;
 
-class JsonAggTest extends JsonTestCase
+class JsonAggTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -20,7 +20,10 @@ class JsonAggTest extends JsonTestCase
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals(['apple', 'banana', 'orange'], \json_decode($result[0]['result'], true));
+        $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertCount(1, $decoded);
+        $this->assertEquals(['apple', 'banana', 'orange'], $decoded[0]);
     }
 
     public function test_json_agg_with_integer_array(): void
@@ -30,7 +33,10 @@ class JsonAggTest extends JsonTestCase
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals([1, 2, 3], \json_decode($result[0]['result'], true));
+        $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertCount(1, $decoded);
+        $this->assertEquals([1, 2, 3], $decoded[0]);
     }
 
     public function test_json_agg_with_boolean_array(): void
@@ -40,6 +46,9 @@ class JsonAggTest extends JsonTestCase
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertEquals([true, false, true], \json_decode($result[0]['result'], true));
+        $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertCount(1, $decoded);
+        $this->assertEquals([true, false, true], $decoded[0]);
     }
 }

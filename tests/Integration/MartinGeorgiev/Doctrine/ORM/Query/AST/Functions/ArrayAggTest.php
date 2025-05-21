@@ -17,34 +17,32 @@ class ArrayAggTest extends ArrayTestCase
     {
         $dql = 'SELECT ARRAY_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
+                WHERE t.id = 1
+                GROUP BY t.id';
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($actual);
-        $this->assertCount(1, $actual);
-        $this->assertContains('apple', $actual);
+        $this->assertIsString($result[0]['result']);
+        $this->assertEquals(['apple', 'banana', 'orange'], \json_decode($result[0]['result'], true)[0]);
     }
 
     public function test_array_agg_with_integer_values(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
+                WHERE t.id = 1
+                GROUP BY t.id';
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($actual);
-        $this->assertCount(1, $actual);
-        $this->assertContains(1, $actual);
+        $this->assertIsString($result[0]['result']);
+        $this->assertEquals([1, 2, 3], \json_decode($result[0]['result'], true)[0]);
     }
 
     public function test_array_agg_with_distinct(): void
     {
         $dql = 'SELECT ARRAY_AGG(DISTINCT t.integerArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t';
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t
+                WHERE t.id = 1
+                GROUP BY t.id';
         $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($actual);
-        $this->assertCount(3, $actual);
-        $this->assertEqualsCanonicalizing([1, 2, 3], $actual);
+        $this->assertIsString($result[0]['result']);
+        $this->assertEquals([1, 2, 3], \json_decode($result[0]['result'], true)[0]);
     }
 }

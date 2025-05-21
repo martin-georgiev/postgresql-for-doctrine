@@ -15,24 +15,33 @@ class ArrayCatTest extends ArrayTestCase
 
     public function test_array_cat_with_text_arrays(): void
     {
-        $dql = "SELECT ARRAY_CAT(ARRAY['apple', 'banana'], ARRAY['orange', 'kiwi']) as result";
-        $result = $this->executeDqlQuery($dql);
+        $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql, [
+            'array1' => ['apple', 'banana'],
+            'array2' => ['orange', 'kiwi'],
+        ]);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals(['apple', 'banana', 'orange', 'kiwi'], $actual);
     }
 
     public function test_array_cat_with_integer_arrays(): void
     {
-        $dql = 'SELECT ARRAY_CAT(ARRAY[1, 2], ARRAY[3, 4]) as result';
-        $result = $this->executeDqlQuery($dql);
+        $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql, [
+            'array1' => [1, 2],
+            'array2' => [3, 4],
+        ]);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals([1, 2, 3, 4], $actual);
     }
 
     public function test_array_cat_with_boolean_arrays(): void
     {
-        $dql = 'SELECT ARRAY_CAT(ARRAY[true, false], ARRAY[true, true]) as result';
-        $result = $this->executeDqlQuery($dql);
+        $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql, [
+            'array1' => [true, false],
+            'array2' => [true, true],
+        ]);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEquals([true, false, true, true], $actual);
     }
