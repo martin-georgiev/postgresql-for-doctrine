@@ -24,8 +24,8 @@ class TruncTest extends ArrayTestCase
 
     public function test_trunc_with_negative_number(): void
     {
-        $dql = 'SELECT TRUNC(-3.14159) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
+        $dql = 'SELECT TRUNC(:number) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql, ['number' => -3.14159]);
         $this->assertEquals(-3, $result[0]['result']);
     }
 
