@@ -27,7 +27,7 @@ class TsrangeTest extends DateTestCase
 
     public function test_tsrange_with_bounds(): void
     {
-        $dql = 'SELECT TSRANGE(t.datetime1, t.datetime2, "[)") as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
+        $dql = "SELECT TSRANGE(t.datetime1, t.datetime2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsArray($result);
         $this->assertNotEmpty($result[0]['result']);

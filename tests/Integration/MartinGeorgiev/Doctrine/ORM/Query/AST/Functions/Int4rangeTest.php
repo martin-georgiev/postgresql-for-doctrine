@@ -30,7 +30,7 @@ class Int4rangeTest extends JsonTestCase
 
     public function test_int4range_with_bounds(): void
     {
-        $dql = 'SELECT INT4RANGE(:start, :end, "[)") as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1';
+        $dql = "SELECT INT4RANGE(:start, :end, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql, [
             'start' => 10,
             'end' => 20,
