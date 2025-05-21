@@ -13,33 +13,67 @@ class JsonbAggTest extends JsonTestCase
         return ['JSONB_AGG' => JsonbAgg::class];
     }
 
-    public function test_jsonb_agg_with_text_array(): void
+    public function test_jsonb_agg_with_object1_single_row(): void
     {
-        $dql = 'SELECT JSONB_AGG(t.textArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+        $dql = 'SELECT JSONB_AGG(t.object1) as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertEquals(['apple', 'banana', 'orange'], \json_decode($result[0]['result'], true));
+        $decoded = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertEquals([
+            [
+                'name' => 'John',
+                'age' => 30,
+                'tags' => ['developer', 'manager'],
+                'address' => ['city' => 'New York'],
+            ],
+        ], $decoded);
     }
 
-    public function test_jsonb_agg_with_integer_array(): void
+    public function test_jsonb_agg_with_object1_all_rows(): void
     {
-        $dql = 'SELECT JSONB_AGG(t.integerArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
+        $dql = 'SELECT JSONB_AGG(t.object1) as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertEquals([1, 2, 3], \json_decode($result[0]['result'], true));
+        $decoded = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertEquals([
+            [
+                'name' => 'John',
+                'age' => 30,
+                'tags' => ['developer', 'manager'],
+                'address' => ['city' => 'New York'],
+            ],
+            [
+                'name' => 'Jane',
+                'age' => 25,
+                'tags' => ['designer'],
+                'address' => ['city' => 'Boston'],
+            ],
+        ], $decoded);
     }
 
-    public function test_jsonb_agg_with_boolean_array(): void
+    public function test_jsonb_agg_with_object2_all_rows(): void
     {
-        $dql = 'SELECT JSONB_AGG(t.boolArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
+        $dql = 'SELECT JSONB_AGG(t.object2) as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertEquals([true, false, true], \json_decode($result[0]['result'], true));
+        $decoded = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsArray($decoded);
+        $this->assertEquals([
+            [
+                'name' => 'John',
+                'age' => 30,
+                'tags' => ['developer', 'manager'],
+                'address' => ['city' => 'New York'],
+            ],
+            [
+                'name' => 'Jane',
+                'age' => 25,
+                'tags' => ['designer'],
+                'address' => ['city' => 'Boston'],
+            ],
+        ], $decoded);
     }
 }

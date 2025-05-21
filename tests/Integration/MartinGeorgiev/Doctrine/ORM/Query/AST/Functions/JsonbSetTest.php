@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet;
 
 class JsonbSetTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['JSONB_SET' => JsonbSet::class];
+        return [
+            'JSONB_SET' => JsonbSet::class,
+            'JSONB_BUILD_OBJECT' => JsonbBuildObject::class,
+        ];
     }
 
     public function test_jsonb_set_with_text_value(): void

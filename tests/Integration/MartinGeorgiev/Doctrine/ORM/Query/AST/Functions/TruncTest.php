@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc;
-use Tests\Integration\MartinGeorgiev\TestCase;
 
-class TruncTest extends TestCase
+// use Tests\Integration\MartinGeorgiev\TestCase;
+
+class TruncTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -37,8 +38,8 @@ class TruncTest extends TestCase
 
     public function test_trunc_with_negative_precision(): void
     {
-        $dql = 'SELECT TRUNC(314.159, -2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
+        $dql = 'SELECT TRUNC(314.159, :precision) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql, ['precision' => -2]);
         $this->assertEquals(300, $result[0]['result']);
     }
 }

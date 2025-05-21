@@ -15,31 +15,31 @@ class DeleteAtPathTest extends JsonTestCase
 
     public function test_delete_at_path_simple(): void
     {
-        $dql = "SELECT DELETE_AT_PATH('{\"a\": {\"b\": {\"c\": \"value\"}}}'::jsonb, '{a,b}') as result";
+        $dql = "SELECT DELETE_AT_PATH('{\"a\": {\"b\": {\"c\": \"value\"}}}', '{a,b}') as result";
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('{"a": {}}', $result[0]['result']);
     }
 
     public function test_delete_at_path_multiple_elements(): void
     {
-        $dql = "SELECT DELETE_AT_PATH('{\"a\": {\"b\": 1, \"c\": 2}}'::jsonb, '{a,b}') as result";
+        $dql = "SELECT DELETE_AT_PATH('{\"a\": {\"b\": 1, \"c\": 2}}', '{a,b}') as result";
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('{"a": {"c": 2}}', $result[0]['result']);
     }
 
     public function test_delete_at_path_with_array(): void
     {
-        $dql = "SELECT DELETE_AT_PATH('{\"a\": [1, 2, 3]}'::jsonb, '{a,1}') as result";
+        $dql = "SELECT DELETE_AT_PATH('{\"a\": [1, 2, 3]}', '{a,1}') as result";
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('{"a": [1, 3]}', $result[0]['result']);
     }
 
     public function test_delete_at_path_with_column_reference(): void
     {
-        $dql = 'SELECT DELETE_AT_PATH(t.jsonbData, :path) as result 
+        $dql = 'SELECT DELETE_AT_PATH(t.jsonbData, "{nested,value}") as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsonb t 
                 WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, ['path' => '{nested,value}']);
+        $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
         $this->assertJson($result[0]['result']);
     }
