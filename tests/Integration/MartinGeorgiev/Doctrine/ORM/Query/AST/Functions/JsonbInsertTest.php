@@ -71,7 +71,7 @@ class JsonbInsertTest extends JsonTestCase
                 WHERE t.id = 5';
 
         $this->executeDqlQuery($dql, [
-            'path'  => '{address,zip}',
+            'path' => '{address,zip}',
             'value' => '"10001"',
         ]);
     }
