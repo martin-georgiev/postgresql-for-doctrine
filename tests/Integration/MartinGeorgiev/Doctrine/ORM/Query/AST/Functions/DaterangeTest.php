@@ -17,21 +17,21 @@ class DaterangeTest extends DateTestCase
 
     public function test_daterange(): void
     {
-        $dql = "SELECT DATERANGE(t.date1, t.date2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
+        $dql = 'SELECT DATERANGE(t.date1, t.date2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsArray($result);
         $this->assertNotEmpty($result[0]['result']);
-        $actual = (string)($result[0]['result'] ?? '');
-        $this->assertSame('[2023-06-15,2023-06-16)', $actual);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('[2023-06-15,2023-06-16)', $result[0]['result']);
     }
 
     public function test_daterange_with_bounds(): void
     {
-        $dql = "SELECT DATERANGE(t.date1, t.date2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
+        $dql = 'SELECT DATERANGE(t.date1, t.date2, "[)") as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsArray($result);
         $this->assertNotEmpty($result[0]['result']);
-        $actual = (string)($result[0]['result'] ?? '');
-        $this->assertSame('[2023-06-15,2023-06-16)', $actual);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('[2023-06-15,2023-06-16)', $result[0]['result']);
     }
 }
