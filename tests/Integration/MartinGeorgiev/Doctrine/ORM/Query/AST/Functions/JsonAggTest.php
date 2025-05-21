@@ -23,7 +23,7 @@ class JsonAggTest extends ArrayTestCase
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertCount(1, $decoded);
-        $this->assertEquals(['apple', 'banana', 'orange'], $decoded[0]);
+        $this->assertSame(['apple', 'banana', 'orange'], $decoded[0]);
     }
 
     public function test_json_agg_with_integer_array(): void
@@ -36,7 +36,7 @@ class JsonAggTest extends ArrayTestCase
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertCount(1, $decoded);
-        $this->assertEquals([1, 2, 3], $decoded[0]);
+        $this->assertSame([1, 2, 3], $decoded[0]);
     }
 
     public function test_json_agg_with_boolean_array(): void
@@ -49,6 +49,6 @@ class JsonAggTest extends ArrayTestCase
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertCount(1, $decoded);
-        $this->assertEquals([true, false, true], $decoded[0]);
+        $this->assertSame([true, false, true], $decoded[0]);
     }
 }

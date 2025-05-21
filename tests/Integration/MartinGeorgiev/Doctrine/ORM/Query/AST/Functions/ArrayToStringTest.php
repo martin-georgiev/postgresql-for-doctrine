@@ -15,19 +15,21 @@ class ArrayToStringTest extends ArrayTestCase
 
     public function test_array_to_string_with_default_delimiter(): void
     {
-        $dql = "SELECT ARRAY_TO_STRING(t.textArray, ',') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1";
+        $dql = 'SELECT ARRAY_TO_STRING(t.textArray, \',\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('apple,banana,orange', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('apple,banana,orange', $result[0]['result']);
     }
 
     public function test_array_to_string_with_custom_delimiter(): void
     {
-        $dql = "SELECT ARRAY_TO_STRING(t.textArray, ' | ') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1";
+        $dql = 'SELECT ARRAY_TO_STRING(t.textArray, \' | \') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('apple | banana | orange', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('apple | banana | orange', $result[0]['result']);
     }
 }

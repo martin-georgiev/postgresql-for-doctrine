@@ -20,7 +20,8 @@ class ArrayLengthTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(3, $result[0]['result']);
     }
 
     public function test_array_length_with_integer_array(): void
@@ -30,7 +31,8 @@ class ArrayLengthTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(3, $result[0]['result']);
     }
 
     public function test_array_length_with_boolean_array(): void
@@ -40,7 +42,8 @@ class ArrayLengthTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3, $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(3, $result[0]['result']);
     }
 
     public function test_array_length_with_invalid_dimension(): void

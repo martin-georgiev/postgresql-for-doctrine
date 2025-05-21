@@ -20,7 +20,8 @@ class JsonbExistsTest extends JsonTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertIsBool($result[0]['result']);
+        $this->assertSame(true, $result[0]['result']);
     }
 
     public function test_jsonb_exists_with_nested_key(): void
@@ -30,7 +31,8 @@ class JsonbExistsTest extends JsonTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertIsBool($result[0]['result']);
+        $this->assertSame(true, $result[0]['result']);
     }
 
     public function test_jsonb_exists_with_array_element(): void
@@ -40,7 +42,8 @@ class JsonbExistsTest extends JsonTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertIsBool($result[0]['result']);
+        $this->assertSame(true, $result[0]['result']);
     }
 
     public function test_jsonb_exists_with_non_existing_key(): void
@@ -50,6 +53,7 @@ class JsonbExistsTest extends JsonTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsBool($result[0]['result']);
         $this->assertFalse($result[0]['result']);
     }
 }

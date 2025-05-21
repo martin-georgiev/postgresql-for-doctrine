@@ -20,7 +20,8 @@ class ArrayDimensionsTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('[1:3]', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('[1:3]', $result[0]['result']);
     }
 
     public function test_array_dimensions_with_integer_array(): void
@@ -30,7 +31,8 @@ class ArrayDimensionsTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('[1:3]', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('[1:3]', $result[0]['result']);
     }
 
     public function test_array_dimensions_with_boolean_array(): void
@@ -40,6 +42,7 @@ class ArrayDimensionsTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('[1:3]', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('[1:3]', $result[0]['result']);
     }
 }

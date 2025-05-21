@@ -20,7 +20,8 @@ class ArrayToJsonTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('["apple","banana","orange"]', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('["apple","banana","orange"]', $result[0]['result']);
     }
 
     public function test_array_to_json_with_integer_array(): void
@@ -30,7 +31,8 @@ class ArrayToJsonTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('[1,2,3]', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('[1,2,3]', $result[0]['result']);
     }
 
     public function test_array_to_json_with_boolean_array(): void
@@ -40,6 +42,7 @@ class ArrayToJsonTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('[true,false,true]', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('[true,false,true]', $result[0]['result']);
     }
 }

@@ -19,7 +19,8 @@ class DeleteAtPathTest extends JsonTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('{"a": {}}', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('{"a": {}}', $result[0]['result']);
     }
 
     public function test_delete_at_path_multiple_elements(): void
@@ -28,7 +29,8 @@ class DeleteAtPathTest extends JsonTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('{"a": {"c": 2}}', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('{"a": {"c": 2}}', $result[0]['result']);
     }
 
     public function test_delete_at_path_with_array(): void
@@ -37,7 +39,8 @@ class DeleteAtPathTest extends JsonTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('{"a": [1, 3]}', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('{"a": [1, 3]}', $result[0]['result']);
     }
 
     public function test_delete_at_path_with_column_reference(): void

@@ -13,30 +13,33 @@ class JsonbPathExistsTest extends JsonTestCase
         return ['JSONB_PATH_EXISTS' => JsonbPathExists::class];
     }
 
-    public function test_jsonb_path_exists_simple(): void
+    public function test_jsonb_path_exists_with_simple_path(): void
     {
-        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": 1, \"b\": 2}', '$.b') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
+        $dql = 'SELECT JSONB_PATH_EXISTS(\'{"a": 1, "b": 2}\', \'$.b\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertIsBool($result[0]['result']);
+        $this->assertSame(true, $result[0]['result']);
     }
 
-    public function test_jsonb_path_exists_nested(): void
+    public function test_jsonb_path_exists_with_nested_path(): void
     {
-        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": {\"b\": 2}}', '$.a.b') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
+        $dql = 'SELECT JSONB_PATH_EXISTS(\'{"a": {"b": 2}}\', \'$.a.b\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertIsBool($result[0]['result']);
+        $this->assertSame(true, $result[0]['result']);
     }
 
-    public function test_jsonb_path_not_exists(): void
+    public function test_jsonb_path_exists_with_missing_path(): void
     {
-        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": 1}', '$.b') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
+        $dql = 'SELECT JSONB_PATH_EXISTS(\'{"a": 1}\', \'$.b\') as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsBool($result[0]['result']);
         $this->assertFalse($result[0]['result']);
     }
 
