@@ -15,21 +15,27 @@ class JsonbPathExistsTest extends JsonTestCase
 
     public function test_jsonb_path_exists_simple(): void
     {
-        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": 1, \"b\": 2}', '$.b') as result";
+        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": 1, \"b\": 2}', '$.b') as result 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
+                WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
 
     public function test_jsonb_path_exists_nested(): void
     {
-        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": {\"b\": 2}}', '$.a.b') as result";
+        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": {\"b\": 2}}', '$.a.b') as result 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
+                WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
 
     public function test_jsonb_path_not_exists(): void
     {
-        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": 1}', '$.b') as result";
+        $dql = "SELECT JSONB_PATH_EXISTS('{\"a\": 1}', '$.b') as result 
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
+                WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
