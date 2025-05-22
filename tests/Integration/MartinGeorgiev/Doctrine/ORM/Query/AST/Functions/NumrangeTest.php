@@ -19,19 +19,13 @@ class NumrangeTest extends NumericTestCase
     {
         $dql = 'SELECT NUMRANGE(t.decimal1, t.decimal2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result[0]['result']);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('[10.5,20.5)', $result[0]['result']);
     }
 
     public function test_numrange_with_bounds(): void
     {
-        $dql = "SELECT NUMRANGE(t.decimal1, t.decimal2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
+        $dql = "SELECT NUMRANGE(t.decimal1, t.decimal2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result[0]['result']);
-        $this->assertIsString($result[0]['result']);
-        $this->assertSame('[10.5,20.5)', $result[0]['result']);
+        $this->assertSame('(10.5,20.5]', $result[0]['result']);
     }
 }

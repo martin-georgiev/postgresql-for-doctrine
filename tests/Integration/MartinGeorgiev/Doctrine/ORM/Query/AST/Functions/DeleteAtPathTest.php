@@ -22,7 +22,6 @@ class DeleteAtPathTest extends JsonTestCase
             'json' => '{"a": {"b": {"c": "value"}}}',
             'path' => '{a,b}',
         ]);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('{"a": {}}', $result[0]['result']);
     }
 
@@ -35,7 +34,6 @@ class DeleteAtPathTest extends JsonTestCase
             'json' => '{"a": {"b": 1, "c": 2}}',
             'path' => '{a,b}',
         ]);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('{"a": {"c": 2}}', $result[0]['result']);
     }
 
@@ -48,7 +46,6 @@ class DeleteAtPathTest extends JsonTestCase
             'json' => '{"a": [1, 2, 3]}',
             'path' => '{a,1}',
         ]);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('{"a": [1, 3]}', $result[0]['result']);
     }
 

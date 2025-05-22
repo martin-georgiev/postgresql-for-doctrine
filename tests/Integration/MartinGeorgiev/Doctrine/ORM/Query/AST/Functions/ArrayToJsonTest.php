@@ -20,7 +20,6 @@ class ArrayToJsonTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('["apple","banana","orange"]', $result[0]['result']);
     }
 
@@ -31,7 +30,6 @@ class ArrayToJsonTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('[1,2,3]', $result[0]['result']);
     }
 
@@ -42,7 +40,6 @@ class ArrayToJsonTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('[true,false,true]', $result[0]['result']);
     }
 }

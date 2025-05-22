@@ -24,7 +24,6 @@ class JsonbPathQueryFirstTest extends JsonTestCase
             'json' => '{"a": 1, "b": 2}',
             'path' => '$.b',
         ]);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2', $result[0]['result']);
     }
 
@@ -37,7 +36,6 @@ class JsonbPathQueryFirstTest extends JsonTestCase
             'json' => '{"items": [1, 2, 3]}',
             'path' => '$.items[*]',
         ]);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('1', $result[0]['result']);
     }
 
@@ -50,7 +48,6 @@ class JsonbPathQueryFirstTest extends JsonTestCase
             'json' => '{"items": [{"id": 1}, {"id": 2}, {"id": 3}]}',
             'path' => '$.items[*] ? (@.id > 1)',
         ]);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('{"id": 2}', $result[0]['result']);
     }
 
@@ -72,7 +69,6 @@ class JsonbPathQueryFirstTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '$.tags[*]']);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('"developer"', $result[0]['result']);
     }
 }
