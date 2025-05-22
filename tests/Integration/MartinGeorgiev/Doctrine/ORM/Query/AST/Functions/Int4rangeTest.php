@@ -26,6 +26,6 @@ class Int4rangeTest extends NumericTestCase
     {
         $dql = "SELECT INT4RANGE(t.integer1, t.integer2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('(10,20]', $result[0]['result']);
+        $this->assertSame('[11,21)', $result[0]['result']);
     }
 }
