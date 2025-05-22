@@ -38,7 +38,10 @@ abstract class TextTestCase extends TestCase
     {
         $sql = \sprintf('
             INSERT INTO %s.containstexts (text1, text2) VALUES 
-            (\'this is a test string\', \'another test string\')
+            (\'this is a test string\', \'another test string\'),
+            (\'lorem ipsum dolor\', \'sit amet\'),
+            (\'foo\', \'bar\'),
+            (\'special,chars;test\', \'multi;delimiter,case\')
         ', self::DATABASE_SCHEMA);
         $this->connection->executeStatement($sql);
     }
