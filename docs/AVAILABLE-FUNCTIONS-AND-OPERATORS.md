@@ -28,7 +28,6 @@
 
 | PostgreSQL functions | Register for DQL as | Implemented by
 |---|---|---|
-| abs | ABS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Abs` |
 | all | ALL_OF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All` |
 | any | ANY_OF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any` |
 | any_value | ANY_VALUE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue` |
@@ -118,6 +117,17 @@
 | unaccent | UNACCENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent` |
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` |
 | xmlagg | XML_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
+| cbrt | CBRT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt` |
+| degrees | DEGREES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees` |
+| exp | EXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp` |
+| ln | LN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln` |
+| log | LOG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log` |
+| pi | PI | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi` |
+| power | POWER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power` |
+| radians | RADIANS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians` |
+| random | RANDOM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random` |
+| sign | SIGN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign` |
+| width_bucket | WIDTH_BUCKET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket` |
 
 
 # Bonus helpers

@@ -77,6 +77,10 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
   - Special aggregates (`any_value`, `xmlagg`)
+- **Mathematical/Arithmetic Functions**
+  - CBRT, CEIL, DEGREES, EXP, FLOOR, LN, LOG, PI, POWER, RADIANS, RANDOM, ROUND, SIGN, TRUNC, WIDTH_BUCKET
+- **Range Functions**
+  - DATERANGE, INT4RANGE, INT8RANGE, NUMRANGE, TSRANGE, TSTZRANGE
 
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)

@@ -19,8 +19,7 @@ class RoundTest extends ArrayTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['number' => 3.14159]);
-        $this->assertIsNumeric($result[0]['result']);
-        $this->assertSame(3.0, (float) $result[0]['result']);
+        $this->assertSame(3.0, $result[0]['result']);
     }
 
     public function test_round_with_negative_number(): void
@@ -29,8 +28,7 @@ class RoundTest extends ArrayTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['number' => -3.14159]);
-        $this->assertIsNumeric($result[0]['result']);
-        $this->assertSame(-3.0, (float) $result[0]['result']);
+        $this->assertSame(-3.0, $result[0]['result']);
     }
 
     public function test_round_with_precision(): void
@@ -42,8 +40,7 @@ class RoundTest extends ArrayTestCase
             'number' => 3.14159,
             'precision' => 2,
         ]);
-        $this->assertIsNumeric($result[0]['result']);
-        $this->assertSame(3.14, (float) $result[0]['result']);
+        $this->assertSame('3.14', $result[0]['result']);
     }
 
     public function test_round_with_negative_precision(): void
@@ -55,7 +52,15 @@ class RoundTest extends ArrayTestCase
             'number' => 314.159,
             'precision' => -2,
         ]);
-        $this->assertIsNumeric($result[0]['result']);
-        $this->assertSame(300.0, (float) $result[0]['result']);
+        $this->assertSame('300', $result[0]['result']);
+    }
+
+    public function test_round_with_column_value(): void
+    {
+        $dql = 'SELECT ROUND(t.decimal1) as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(300.0, $result[0]['result']);
     }
 }
