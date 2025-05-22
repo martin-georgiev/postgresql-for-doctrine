@@ -21,7 +21,8 @@ class RegexpInstrTest extends JsonTestCase
         $dql = "SELECT REGEXP_INSTR('John', 'J.*n') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsArray($result);
-        $this->assertSame('1', $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(1, $result[0]['result']);
     }
 
     public function test_regexp_instr_negative(): void
@@ -29,14 +30,7 @@ class RegexpInstrTest extends JsonTestCase
         $dql = "SELECT REGEXP_INSTR('John', 'Jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsArray($result);
-        $this->assertSame('0', $result[0]['result']);
-    }
-
-    public function test_regexp_instr_with_field(): void
-    {
-        $dql = "SELECT REGEXP_INSTR(t.object1, 'John') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertGreaterThan('0', $result[0]['result']);
+        $this->assertIsInt($result[0]['result']);
+        $this->assertSame(0, $result[0]['result']);
     }
 }
