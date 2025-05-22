@@ -24,8 +24,8 @@ class NumrangeTest extends NumericTestCase
 
     public function test_numrange_with_bounds(): void
     {
-        $dql = "SELECT NUMRANGE(t.decimal1, t.decimal2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
+        $dql = "SELECT NUMRANGE(t.decimal1, t.decimal2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('[10.5,20.5)', $result[0]['result']);
+        $this->assertSame('(10.5,20.5]', $result[0]['result']);
     }
 }

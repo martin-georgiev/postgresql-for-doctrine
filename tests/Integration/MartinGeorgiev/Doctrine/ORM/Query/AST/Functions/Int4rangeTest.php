@@ -24,8 +24,8 @@ class Int4rangeTest extends NumericTestCase
 
     public function test_int4range_with_bounds(): void
     {
-        $dql = "SELECT INT4RANGE(t.integer1, t.integer2, '[>') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
+        $dql = "SELECT INT4RANGE(t.integer1, t.integer2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('[10,20>', $result[0]['result']);
+        $this->assertSame('(10,20]', $result[0]['result']);
     }
 }

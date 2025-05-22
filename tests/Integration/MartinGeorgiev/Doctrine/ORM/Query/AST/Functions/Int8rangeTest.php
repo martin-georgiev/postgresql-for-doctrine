@@ -24,8 +24,8 @@ class Int8rangeTest extends NumericTestCase
 
     public function test_int8range_with_bounds(): void
     {
-        $dql = "SELECT INT8RANGE(t.bigint1, t.bigint2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
+        $dql = "SELECT INT8RANGE(t.bigint1, t.bigint2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('[1000,2000)', $result[0]['result']);
+        $this->assertSame('(1000,2000]', $result[0]['result']);
     }
 }
