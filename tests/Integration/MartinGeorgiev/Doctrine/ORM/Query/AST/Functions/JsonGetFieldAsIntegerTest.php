@@ -20,6 +20,6 @@ class JsonGetFieldAsIntegerTest extends JsonTestCase
         $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsArray($result);
-        $this->assertSame(30, (int) $result[0]['result']);
+        $this->assertSame('30', $result[0]['result']);
     }
 }
