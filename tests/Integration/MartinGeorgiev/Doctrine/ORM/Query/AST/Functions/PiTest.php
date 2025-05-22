@@ -17,7 +17,7 @@ class PiTest extends NumericTestCase
 
     public function test_pi(): void
     {
-        $dql = 'SELECT PI() as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1';
+        $dql = 'SELECT PI() as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(3.141592653589793, $result[0]['result'], 0.0001);
     }

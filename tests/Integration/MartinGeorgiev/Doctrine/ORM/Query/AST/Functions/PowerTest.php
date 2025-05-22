@@ -35,7 +35,7 @@ class PowerTest extends NumericTestCase
 
     public function test_power_with_negative_base(): void
     {
-        $dql = 'SELECT POWER(-2, 3) as result 
+        $dql = 'SELECT POWER((-2), 3) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -44,7 +44,7 @@ class PowerTest extends NumericTestCase
 
     public function test_power_with_negative_exponent(): void
     {
-        $dql = 'SELECT POWER(2, -2) as result 
+        $dql = 'SELECT POWER(2, (-2)) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round;
 
-class RoundTest extends ArrayTestCase
+class RoundTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -16,7 +16,7 @@ class RoundTest extends ArrayTestCase
     public function test_round_with_positive_number(): void
     {
         $dql = 'SELECT ROUND(:number) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['number' => 3.14159]);
         $this->assertSame(3.0, $result[0]['result']);
@@ -25,7 +25,7 @@ class RoundTest extends ArrayTestCase
     public function test_round_with_negative_number(): void
     {
         $dql = 'SELECT ROUND(:number) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['number' => -3.14159]);
         $this->assertSame(-3.0, $result[0]['result']);
@@ -34,7 +34,7 @@ class RoundTest extends ArrayTestCase
     public function test_round_with_precision(): void
     {
         $dql = 'SELECT ROUND(:number, :precision) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
             'number' => 3.14159,
@@ -46,7 +46,7 @@ class RoundTest extends ArrayTestCase
     public function test_round_with_negative_precision(): void
     {
         $dql = 'SELECT ROUND(:number, :precision) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
             'number' => 314.159,
@@ -58,9 +58,9 @@ class RoundTest extends ArrayTestCase
     public function test_round_with_column_value(): void
     {
         $dql = 'SELECT ROUND(t.decimal1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(300.0, $result[0]['result']);
+        $this->assertSame('11', $result[0]['result']);
     }
 }

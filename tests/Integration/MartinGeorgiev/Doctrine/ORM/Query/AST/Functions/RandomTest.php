@@ -17,7 +17,7 @@ class RandomTest extends NumericTestCase
 
     public function test_random(): void
     {
-        $dql = 'SELECT RANDOM() as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1';
+        $dql = 'SELECT RANDOM() as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertGreaterThanOrEqual(0.0, $result[0]['result']);
         $this->assertLessThanOrEqual(1.0, $result[0]['result']);

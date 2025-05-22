@@ -17,7 +17,7 @@ class ExpTest extends NumericTestCase
 
     public function test_exp(): void
     {
-        $dql = 'SELECT EXP(1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1';
+        $dql = 'SELECT EXP(1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(2.718281828459, $result[0]['result'], 0.0001);
     }

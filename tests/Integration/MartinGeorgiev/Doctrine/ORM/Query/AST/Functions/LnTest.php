@@ -17,7 +17,7 @@ class LnTest extends NumericTestCase
 
     public function test_ln(): void
     {
-        $dql = 'SELECT LN(2.718281828459) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1';
+        $dql = 'SELECT LN(2.718281828459) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(1.0, $result[0]['result'], 0.0001);
     }

@@ -17,7 +17,7 @@ class WidthBucketTest extends NumericTestCase
 
     public function test_width_bucket(): void
     {
-        $dql = 'SELECT WIDTH_BUCKET(5.35, 0.024, 10.06, 5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1';
+        $dql = 'SELECT WIDTH_BUCKET(5.35, 0.024, 10.06, 5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(3, $result[0]['result']);
     }
@@ -26,7 +26,6 @@ class WidthBucketTest extends NumericTestCase
     {
         $dql = 'SELECT WIDTH_BUCKET(n.decimal1, 0.0, 20.0, 4) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsInt($result[0]['result']);
         $this->assertSame(3, $result[0]['result']);
     }
 }

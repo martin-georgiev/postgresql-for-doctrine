@@ -17,7 +17,7 @@ class LogTest extends NumericTestCase
 
     public function test_log(): void
     {
-        $dql = 'SELECT LOG(10, 100) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1';
+        $dql = 'SELECT LOG(10, 100) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(2.0, $result[0]['result'], 0.0001);
     }
