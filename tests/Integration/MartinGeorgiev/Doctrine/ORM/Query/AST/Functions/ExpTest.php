@@ -26,6 +26,6 @@ class ExpTest extends NumericTestCase
     {
         $dql = 'SELECT EXP(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(1, $result[0]['result']);
+        $this->assertEqualsWithDelta(36315.502674246638, $result[0]['result'], 0.000001);
     }
 }

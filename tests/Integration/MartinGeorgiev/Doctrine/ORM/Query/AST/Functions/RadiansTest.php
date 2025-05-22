@@ -26,6 +26,6 @@ class RadiansTest extends NumericTestCase
     {
         $dql = 'SELECT RADIANS(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(0.1832595714594046, $result[0]['result']);
+        $this->assertEqualsWithDelta(0.1832595714594046, $result[0]['result'], 0.000001);
     }
 }
