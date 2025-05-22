@@ -19,8 +19,6 @@ class JsonGetFieldAsIntegerTest extends JsonTestCase
     {
         $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertIsInt($result[0]['result']);
         $this->assertSame(30, $result[0]['result']);
     }
 
@@ -28,7 +26,6 @@ class JsonGetFieldAsIntegerTest extends JsonTestCase
     {
         $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 4";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
         $this->assertNull($result[0]['result']);
     }
 
@@ -36,7 +33,6 @@ class JsonGetFieldAsIntegerTest extends JsonTestCase
     {
         $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 5";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
         $this->assertNull($result[0]['result']);
     }
 
@@ -44,7 +40,6 @@ class JsonGetFieldAsIntegerTest extends JsonTestCase
     {
         $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'nonexistent') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
         $this->assertNull($result[0]['result']);
     }
 }

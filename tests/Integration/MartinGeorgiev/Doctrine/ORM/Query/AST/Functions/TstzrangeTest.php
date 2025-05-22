@@ -19,8 +19,6 @@ class TstzrangeTest extends DateTestCase
     {
         $dql = 'SELECT TSTZRANGE(t.datetimetz1, t.datetimetz2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result[0]['result']);
         $this->assertIsString($result[0]['result']);
         $this->assertSame('["2023-06-15 10:30:00+00","2023-06-16 11:45:00+00")', $result[0]['result']);
     }
@@ -29,8 +27,6 @@ class TstzrangeTest extends DateTestCase
     {
         $dql = "SELECT TSTZRANGE(t.datetimetz1, t.datetimetz2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result[0]['result']);
         $this->assertIsString($result[0]['result']);
         $this->assertSame('["2023-06-15 10:30:00+00","2023-06-16 11:45:00+00")', $result[0]['result']);
     }

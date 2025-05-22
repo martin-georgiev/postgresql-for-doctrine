@@ -20,7 +20,6 @@ class ArrayAppendTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($actual);
         $this->assertSame(['apple', 'banana', 'orange', 'orange'], $actual);
@@ -33,7 +32,6 @@ class ArrayAppendTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($actual);
         $this->assertSame([1, 2, 3, 3], $actual);
@@ -46,7 +44,6 @@ class ArrayAppendTest extends ArrayTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($actual);
         $this->assertSame([true, false, true, true], $actual);

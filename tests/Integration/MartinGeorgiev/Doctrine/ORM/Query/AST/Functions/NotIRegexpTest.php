@@ -20,7 +20,13 @@ class NotIRegexpTest extends JsonTestCase
         // NOTE: Using string literals for arguments due to DQL limitations with field extraction.
         $dql = "SELECT NOT_IREGEXP('John', 'jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertTrue((bool) $result[0]['result']);
+        $this->assertTrue($result[0]['result']);
+    }
+
+    public function test_not_iregexp_negative(): void
+    {
+        $dql = "SELECT NOT_IREGEXP('John', 'John') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
     }
 }

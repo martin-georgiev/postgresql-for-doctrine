@@ -19,9 +19,6 @@ class Int8rangeTest extends NumericTestCase
     {
         $dql = 'SELECT INT8RANGE(t.bigint1, t.bigint2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result[0]['result']);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('[1000,2000)', $result[0]['result']);
     }
 
@@ -29,9 +26,6 @@ class Int8rangeTest extends NumericTestCase
     {
         $dql = "SELECT INT8RANGE(t.bigint1, t.bigint2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result[0]['result']);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('[1000,2000)', $result[0]['result']);
     }
 }

@@ -20,7 +20,13 @@ class IlikeTest extends JsonTestCase
         // NOTE: Using string literals for arguments due to DQL limitations with field extraction.
         $dql = "SELECT ILIKE('John', 'john') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertTrue((bool) $result[0]['result']);
+        $this->assertTrue($result[0]['result']);
+    }
+
+    public function test_ilike_negative(): void
+    {
+        $dql = "SELECT ILIKE('John', 'jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
     }
 }

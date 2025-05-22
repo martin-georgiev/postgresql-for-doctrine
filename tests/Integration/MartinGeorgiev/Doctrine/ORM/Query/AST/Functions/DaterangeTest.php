@@ -19,8 +19,6 @@ class DaterangeTest extends DateTestCase
     {
         $dql = 'SELECT DATERANGE(t.date1, t.date2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result[0]['result']);
         $this->assertIsString($result[0]['result']);
         $this->assertSame('[2023-06-15,2023-06-16)', $result[0]['result']);
     }
@@ -29,8 +27,6 @@ class DaterangeTest extends DateTestCase
     {
         $dql = "SELECT DATERANGE(t.date1, t.date2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result[0]['result']);
         $this->assertIsString($result[0]['result']);
         $this->assertSame('[2023-06-15,2023-06-16)', $result[0]['result']);
     }

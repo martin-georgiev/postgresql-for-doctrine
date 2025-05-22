@@ -55,6 +55,6 @@ class JsonbPathExistsTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '$.nested']);
-        $this->assertIsBool($result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 }

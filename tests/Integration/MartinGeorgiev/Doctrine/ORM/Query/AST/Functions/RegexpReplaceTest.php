@@ -20,7 +20,13 @@ class RegexpReplaceTest extends JsonTestCase
         // NOTE: Using string literals for arguments due to DQL limitations with field extraction.
         $dql = "SELECT REGEXP_REPLACE('John', 'J.*n', 'Jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
         $this->assertSame('Jane', $result[0]['result']);
+    }
+
+    public function test_regexp_replace_no_match(): void
+    {
+        $dql = "SELECT REGEXP_REPLACE('John', 'Jane', 'Jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('John', $result[0]['result']);
     }
 }

@@ -19,7 +19,6 @@ class DateExtractTest extends DateTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023', $result[0]['result']);
     }
 
@@ -29,7 +28,6 @@ class DateExtractTest extends DateTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('6', $result[0]['result']);
     }
 
@@ -39,7 +37,6 @@ class DateExtractTest extends DateTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('15', $result[0]['result']);
     }
 
@@ -49,7 +46,6 @@ class DateExtractTest extends DateTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023', $result[0]['result']);
     }
 }

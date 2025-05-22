@@ -20,8 +20,6 @@ class RegexpInstrTest extends JsonTestCase
         // NOTE: Using string literals for arguments due to DQL limitations with field extraction.
         $dql = "SELECT REGEXP_INSTR('John', 'J.*n') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertIsInt($result[0]['result']);
         $this->assertSame(1, $result[0]['result']);
     }
 
@@ -29,8 +27,6 @@ class RegexpInstrTest extends JsonTestCase
     {
         $dql = "SELECT REGEXP_INSTR('John', 'Jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertIsInt($result[0]['result']);
         $this->assertSame(0, $result[0]['result']);
     }
 }

@@ -20,7 +20,15 @@ class IRegexpTest extends JsonTestCase
         // NOTE: Using string literals for arguments due to DQL limitations with field extraction.
         $dql = "SELECT IREGEXP('John', 'j.*n') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
-        $this->assertTrue((bool) $result[0]['result']);
+        $this->assertIsBool($result[0]['result']);
+        $this->assertTrue($result[0]['result']);
+    }
+
+    public function test_iregexp_negative(): void
+    {
+        $dql = "SELECT IREGEXP('John', 'Jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertIsBool($result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 }

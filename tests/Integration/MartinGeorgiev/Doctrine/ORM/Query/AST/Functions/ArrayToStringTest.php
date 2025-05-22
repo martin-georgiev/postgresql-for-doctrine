@@ -19,7 +19,6 @@ class ArrayToStringTest extends ArrayTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('apple,banana,orange', $result[0]['result']);
     }
 
@@ -29,7 +28,6 @@ class ArrayToStringTest extends ArrayTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('apple | banana | orange', $result[0]['result']);
     }
 }

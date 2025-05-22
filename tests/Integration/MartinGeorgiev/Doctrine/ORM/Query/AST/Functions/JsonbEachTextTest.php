@@ -21,7 +21,6 @@ class JsonbEachTextTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
         $this->assertCount(4, $result);
         foreach ($result as $row) {
             $this->assertIsArray($row);
@@ -47,7 +46,33 @@ class JsonbEachTextTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 4';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsArray($result);
         $this->assertCount(0, $result);
+    }
+
+    public function test_jsonb_each_text_with_different_object(): void
+    {
+        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+                WHERE t.id = 2';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertCount(4, $result);
+    }
+
+    public function test_jsonb_each_text_with_nulls(): void
+    {
+        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+                WHERE t.id = 5';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertCount(4, $result);
+    }
+
+    public function test_jsonb_each_text_with_empty_tags_array(): void
+    {
+        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+                WHERE t.id = 3';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertCount(4, $result);
     }
 }
