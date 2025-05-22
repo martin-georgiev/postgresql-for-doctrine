@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange;
 
-class TstzrangeTest extends JsonTestCase
+class TstzrangeTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,11 +17,21 @@ class TstzrangeTest extends JsonTestCase
 
     public function test_tstzrange(): void
     {
-        $dql = 'SELECT TSTZRANGE(\'2024-01-01 00:00:00+00\', \'2024-12-31 23:59:59+00\') as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1';
+        $dql = 'SELECT TSTZRANGE(t.datetimetz1, t.datetimetz2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsArray($result);
         $this->assertNotEmpty($result[0]['result']);
         $this->assertIsString($result[0]['result']);
-        $this->assertSame('["2024-01-01 00:00:00+00","2024-12-31 23:59:59+00")', $result[0]['result']);
+        $this->assertSame('["2023-06-15 10:30:00+00","2023-06-16 11:45:00+00")', $result[0]['result']);
+    }
+
+    public function test_tstzrange_with_bounds(): void
+    {
+        $dql = "SELECT TSTZRANGE(t.datetimetz1, t.datetimetz2, '[)') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertIsArray($result);
+        $this->assertNotEmpty($result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('["2023-06-15 10:30:00+00","2023-06-16 11:45:00+00")', $result[0]['result']);
     }
 }
