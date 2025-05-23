@@ -104,6 +104,6 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $reflectionMethod->setAccessible(true);
 
         $node = $this->createMock(Node::class);
-        $reflectionMethod->invoke($function, $node, $node, $node);; // 3 arguments when max 2 are required
+        $reflectionMethod->invoke($function, $node, $node, $node); // 3 arguments when max 2 are required
     }
 }
