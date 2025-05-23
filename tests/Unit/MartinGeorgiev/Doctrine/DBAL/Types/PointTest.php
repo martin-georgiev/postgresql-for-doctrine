@@ -122,4 +122,19 @@ class PointTest extends TestCase
             'float precision is too granular' => ['(1.23456789,7.89)'],
         ];
     }
+
+    #[Test]
+    public function allows_coordinate_with_exactly_6_decimal_places(): void
+    {
+        $point = new PointValueObject(1.123456, 2.654321);
+        $this->assertSame(1.123456, $point->getX());
+        $this->assertSame(2.654321, $point->getY());
+    }
+
+    #[Test]
+    public function throws_for_coordinate_with_more_than_6_decimal_places(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new PointValueObject(1.1234567, 2.0);
+    }
 }

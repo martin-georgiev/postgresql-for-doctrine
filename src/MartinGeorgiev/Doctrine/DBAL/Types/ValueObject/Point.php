@@ -11,7 +11,9 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  */
 final class Point implements \Stringable
 {
-    private const POINT_REGEX = '/\((-?\d+(?:\.\d{1,6})?),\s*(-?\d+(?:\.\d{1,6})?)\)/';
+    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
+
+    private const POINT_REGEX = '/\(('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\)/';
 
     public function __construct(
         private readonly float $x,
@@ -51,7 +53,8 @@ final class Point implements \Stringable
     {
         $stringValue = (string) $value;
 
-        if (!\preg_match('/^-?\d+(\.\d{1,6})?$/', $stringValue)) {
+        $floatRegex = '/^'.self::COORDINATE_PATTERN.'$/';
+        if (!\preg_match($floatRegex, $stringValue)) {
             throw new \InvalidArgumentException(
                 \sprintf('Invalid %s coordinate format: %s', $name, $stringValue)
             );
