@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.2.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.1.0...v3.2.0) (2025-05-23)
+
+
+### Features
+
+* Add support for arithmetic functions `ABS`, `CEIL`, `FLOOR`, `ROUND` and `TRUNC` ([#369](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/369)) ([3f04c0e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3f04c0ea41f85d218e2b62d3de5bc999b2bc4ed5))
+* Add support for mathematical functions `CBRT`, `DEGREES`, `EXP`, `LN`, `LOG`, `PI`, `POWER`, `RADIANS`, `RANDOM`, `SIGN` and `WIDTH_BUCKET` ([#383](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/383)) ([3665a25](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3665a25bffc86c4596927f386022fd45b8d9d9db))
+* Add support for specifying explicit range bounds ([#380](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/380)) ([d83a099](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d83a099e8b39c8e354e250322e6f7b2328b1f680))
+
 ## [3.1.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.2...v3.1.0) (2025-05-03)
 
 
