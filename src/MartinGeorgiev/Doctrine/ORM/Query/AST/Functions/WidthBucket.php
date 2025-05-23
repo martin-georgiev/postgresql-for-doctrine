@@ -5,27 +5,29 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL ROUND().
+ * Implementation of PostgreSQL WIDTH_BUCKET() - assigns values to buckets (equi-width histogram).
  *
  * @see https://www.postgresql.org/docs/17/functions-math.html
  * @since 3.2
  *
- * @author Jan Klan <jan@klan.com.au>
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT WIDTH_BUCKET(operand, b1, b2, count) FROM Entity e"
  */
-class Round extends BaseArithmeticFunction
+class WidthBucket extends BaseArithmeticFunction
 {
     protected function getFunctionName(): string
     {
-        return 'ROUND';
+        return 'WIDTH_BUCKET';
     }
 
     protected function getMinArgumentCount(): int
     {
-        return 1;
+        return 4;
     }
 
     protected function getMaxArgumentCount(): int
     {
-        return 2;
+        return 4;
     }
 }

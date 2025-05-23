@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL ROUND().
+ * Implementation of PostgreSQL LOG() - logarithm with specified base.
  *
  * @see https://www.postgresql.org/docs/17/functions-math.html
  * @since 3.2
  *
- * @author Jan Klan <jan@klan.com.au>
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Round extends BaseArithmeticFunction
+class Log extends BaseArithmeticFunction
 {
     protected function getFunctionName(): string
     {
-        return 'ROUND';
+        return 'LOG';
     }
 
     protected function getMinArgumentCount(): int

@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL ROUND().
+ * Implementation of PostgreSQL POWER() function.
  *
  * @see https://www.postgresql.org/docs/17/functions-math.html
  * @since 3.2
  *
- * @author Jan Klan <jan@klan.com.au>
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Round extends BaseArithmeticFunction
+class Power extends BaseArithmeticFunction
 {
     protected function getFunctionName(): string
     {
-        return 'ROUND';
+        return 'POWER';
     }
 
     protected function getMinArgumentCount(): int
     {
-        return 1;
+        return 2;
     }
 
     protected function getMaxArgumentCount(): int

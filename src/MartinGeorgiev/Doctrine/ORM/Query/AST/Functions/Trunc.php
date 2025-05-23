@@ -19,6 +19,11 @@ class Trunc extends BaseArithmeticFunction
         return 'TRUNC';
     }
 
+    protected function getMinArgumentCount(): int
+    {
+        return 1;
+    }
+
     protected function getMaxArgumentCount(): int
     {
         return 2;

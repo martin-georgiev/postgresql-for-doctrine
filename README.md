@@ -49,6 +49,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - IP addresses (`inet`, `inet[]`)
   - Network CIDR notation (`cidr`, `cidr[]`)
   - MAC addresses (`macaddr`, `macaddr[]`)
+- **Geometric Types**
+  - Point (`point`, `point[]`)
 
 ### PostgreSQL Operators
 - **Array Operations**
@@ -77,6 +79,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
   - Special aggregates (`any_value`, `xmlagg`)
+- **Mathematical/Arithmetic Functions**
+- **Range Functions**
 
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
