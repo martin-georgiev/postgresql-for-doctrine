@@ -122,6 +122,26 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['quoted', 'unquoted'],
                 'postgresValue' => '{"quoted",unquoted}',
             ],
+            'only whitespace' => [
+                'phpValue' => [],
+                'postgresValue' => '   ',
+            ],
+            'with trailing comma' => [
+                'phpValue' => ['a'],
+                'postgresValue' => '{a,}}',
+            ],
+            'with only backslashes' => [
+                'phpValue' => ['\\'],
+                'postgresValue' => '{\}',
+            ],
+            'with only double quotes' => [
+                'phpValue' => ['"'],
+                'postgresValue' => '{"\""}',
+            ],
+            'with empty quoted strings' => [
+                'phpValue' => ['', ''],
+                'postgresValue' => '{"",""}',
+            ],
         ];
     }
 
