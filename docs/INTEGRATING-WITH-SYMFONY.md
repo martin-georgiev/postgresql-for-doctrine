@@ -241,4 +241,10 @@ doctrine:
                         JSONB_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
                         XML_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
+
+                        # data type formatting functions
+                        TO_CHAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar
+                        TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate
+                        TO_NUMBER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber
+                        TO_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp
 ```
