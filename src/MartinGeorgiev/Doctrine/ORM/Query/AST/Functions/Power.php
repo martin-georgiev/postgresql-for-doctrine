@@ -19,12 +19,12 @@ class Power extends BaseArithmeticFunction
         return 'POWER';
     }
 
-    protected function getMaxArgumentCount(): int
+    protected function getMinArgumentCount(): int
     {
         return 2;
     }
 
-    protected function getMinArgumentCount(): int
+    protected function getMaxArgumentCount(): int
     {
         return 2;
     }

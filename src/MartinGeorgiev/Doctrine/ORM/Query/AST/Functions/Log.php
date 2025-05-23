@@ -19,12 +19,12 @@ class Log extends BaseArithmeticFunction
         return 'LOG';
     }
 
-    protected function getMaxArgumentCount(): int
+    protected function getMinArgumentCount(): int
     {
-        return 2;
+        return 1;
     }
 
-    protected function getMinArgumentCount(): int
+    protected function getMaxArgumentCount(): int
     {
         return 2;
     }

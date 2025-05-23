@@ -21,12 +21,12 @@ class WidthBucket extends BaseArithmeticFunction
         return 'WIDTH_BUCKET';
     }
 
-    protected function getMaxArgumentCount(): int
+    protected function getMinArgumentCount(): int
     {
         return 4;
     }
 
-    protected function getMinArgumentCount(): int
+    protected function getMaxArgumentCount(): int
     {
         return 4;
     }

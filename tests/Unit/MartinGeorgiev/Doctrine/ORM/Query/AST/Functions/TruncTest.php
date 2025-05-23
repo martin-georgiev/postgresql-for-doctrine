@@ -19,18 +19,18 @@ class TruncTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
+            'SELECT TRUNC(55.000200) AS sclr_0 FROM ContainsDecimals c0_',
             'SELECT TRUNC(c0_.decimal1) AS sclr_0 FROM ContainsDecimals c0_',
-            'SELECT TRUNC(c0_.decimal2, 0) AS sclr_0 FROM ContainsDecimals c0_',
-            'SELECT TRUNC(c0_.decimal3, 1) AS sclr_0 FROM ContainsDecimals c0_',
+            'SELECT TRUNC(c0_.decimal2, 1) AS sclr_0 FROM ContainsDecimals c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
+            \sprintf('SELECT TRUNC(55.000200) FROM %s e', ContainsDecimals::class),
             \sprintf('SELECT TRUNC(e.decimal1) FROM %s e', ContainsDecimals::class),
-            \sprintf('SELECT TRUNC(e.decimal2, 0) FROM %s e', ContainsDecimals::class),
-            \sprintf('SELECT TRUNC(e.decimal3, 1) FROM %s e', ContainsDecimals::class),
+            \sprintf('SELECT TRUNC(e.decimal2, 1) FROM %s e', ContainsDecimals::class),
         ];
     }
 }

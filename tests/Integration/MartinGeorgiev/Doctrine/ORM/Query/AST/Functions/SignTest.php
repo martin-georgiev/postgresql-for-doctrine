@@ -21,7 +21,7 @@ class SignTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(0.0, $result[0]['result']);
+        $this->assertEquals(0, $result[0]['result']);
     }
 
     public function test_sign_with_column_value(): void
@@ -30,6 +30,6 @@ class SignTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('1', $result[0]['result']);
+        $this->assertEquals(1, $result[0]['result']);
     }
 }

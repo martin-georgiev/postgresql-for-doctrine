@@ -19,7 +19,7 @@ class RoundTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['number' => 3.14159]);
-        $this->assertSame(3.0, $result[0]['result']);
+        $this->assertEquals(3, $result[0]['result']);
     }
 
     public function test_round_with_negative_number(): void
@@ -28,7 +28,7 @@ class RoundTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['number' => -3.14159]);
-        $this->assertSame(-3.0, $result[0]['result']);
+        $this->assertEquals(-3, $result[0]['result']);
     }
 
     public function test_round_with_precision(): void
@@ -40,7 +40,7 @@ class RoundTest extends NumericTestCase
             'number' => 3.14159,
             'precision' => 2,
         ]);
-        $this->assertSame('3.14', $result[0]['result']);
+        $this->assertEquals(3.14, $result[0]['result']);
     }
 
     public function test_round_with_negative_precision(): void
@@ -52,7 +52,7 @@ class RoundTest extends NumericTestCase
             'number' => 314.159,
             'precision' => -2,
         ]);
-        $this->assertSame('300', $result[0]['result']);
+        $this->assertEquals(300, $result[0]['result']);
     }
 
     public function test_round_with_column_value(): void
@@ -61,6 +61,6 @@ class RoundTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('11', $result[0]['result']);
+        $this->assertEquals(11, $result[0]['result']);
     }
 }

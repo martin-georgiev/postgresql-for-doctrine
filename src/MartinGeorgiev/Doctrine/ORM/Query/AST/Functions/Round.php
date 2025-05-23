@@ -19,6 +19,11 @@ class Round extends BaseArithmeticFunction
         return 'ROUND';
     }
 
+    protected function getMinArgumentCount(): int
+    {
+        return 1;
+    }
+
     protected function getMaxArgumentCount(): int
     {
         return 2;
