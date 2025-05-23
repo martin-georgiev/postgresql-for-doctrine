@@ -27,7 +27,7 @@ class RandomTest extends NumericTestCase
     {
         $dql = 'SELECT RANDOM() + n.decimal1 as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertGreaterThanOrEqual(10.0, $result[0]['result']);
-        $this->assertLessThanOrEqual(12.0, $result[0]['result']);
+        $this->assertGreaterThanOrEqual(10.5, $result[0]['result']);
+        $this->assertLessThanOrEqual(11.5, $result[0]['result']);
     }
 }
