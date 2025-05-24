@@ -19,14 +19,16 @@ class DaterangeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT daterange(c0_.date1, c0_.date2) AS sclr_0 FROM ContainsDates c0_',
+            'basic range with default bounds' => 'SELECT daterange(c0_.date1, c0_.date2) AS sclr_0 FROM ContainsDates c0_',
+            'range with explicit bounds' => "SELECT daterange(c0_.date1, c0_.date2, '[)') AS sclr_0 FROM ContainsDates c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT DATERANGE(e.date1, e.date2) FROM %s e', ContainsDates::class),
+            'basic range with default bounds' => \sprintf('SELECT DATERANGE(e.date1, e.date2) FROM %s e', ContainsDates::class),
+            'range with explicit bounds' => \sprintf("SELECT DATERANGE(e.date1, e.date2, '[)') FROM %s e", ContainsDates::class),
         ];
     }
 }

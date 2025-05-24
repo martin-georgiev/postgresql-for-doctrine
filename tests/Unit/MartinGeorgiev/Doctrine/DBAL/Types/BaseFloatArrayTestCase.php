@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseFloatArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -64,7 +64,7 @@ abstract class BaseFloatArrayTestCase extends TestCase
     #[Test]
     public function throws_domain_exception_when_invalid_array_item_value(): void
     {
-        $this->expectException(ConversionException::class);
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('cannot be transformed to valid PHP float');
 
         $this->fixture->transformArrayItemForPHP('1.e234');

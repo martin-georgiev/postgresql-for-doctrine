@@ -26,20 +26,20 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'finds string element' => "SELECT array_position(c0_.array1, 'new-value') AS sclr_0 FROM ContainsArrays c0_",
-            'finds numeric element' => 'SELECT array_position(c0_.array1, 42) AS sclr_0 FROM ContainsArrays c0_',
-            'finds element using parameter' => 'SELECT array_position(c0_.array1, ?) AS sclr_0 FROM ContainsArrays c0_',
-            'with start position' => "SELECT array_position(c0_.array1, 'new-value', 2) AS sclr_0 FROM ContainsArrays c0_",
+            'finds string element' => "SELECT array_position(c0_.textArray, 'new-value') AS sclr_0 FROM ContainsArrays c0_",
+            'finds numeric element' => 'SELECT array_position(c0_.integerArray, 42) AS sclr_0 FROM ContainsArrays c0_',
+            'finds element using parameter' => 'SELECT array_position(c0_.textArray, ?) AS sclr_0 FROM ContainsArrays c0_',
+            'with start position' => "SELECT array_position(c0_.textArray, 'new-value', 2) AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'finds string element' => \sprintf("SELECT ARRAY_POSITION(e.array1, 'new-value') FROM %s e", ContainsArrays::class),
-            'finds numeric element' => \sprintf('SELECT ARRAY_POSITION(e.array1, 42) FROM %s e', ContainsArrays::class),
-            'finds element using parameter' => \sprintf('SELECT ARRAY_POSITION(e.array1, :dql_parameter) FROM %s e', ContainsArrays::class),
-            'with start position' => \sprintf("SELECT ARRAY_POSITION(e.array1, 'new-value', 2) FROM %s e", ContainsArrays::class),
+            'finds string element' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'new-value') FROM %s e", ContainsArrays::class),
+            'finds numeric element' => \sprintf('SELECT ARRAY_POSITION(e.integerArray, 42) FROM %s e', ContainsArrays::class),
+            'finds element using parameter' => \sprintf('SELECT ARRAY_POSITION(e.textArray, :dql_parameter) FROM %s e', ContainsArrays::class),
+            'with start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'new-value', 2) FROM %s e", ContainsArrays::class),
         ];
     }
 
@@ -48,7 +48,7 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('array_position() requires at least 2 arguments');
 
-        $dql = \sprintf('SELECT ARRAY_POSITION(e.array1) FROM %s e', ContainsArrays::class);
+        $dql = \sprintf('SELECT ARRAY_POSITION(e.textArray) FROM %s e', ContainsArrays::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
@@ -57,7 +57,7 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('array_position() requires between 2 and 3 arguments');
 
-        $dql = \sprintf("SELECT ARRAY_POSITION(e.array1, 0, 1, 'extra_arg') FROM %s e", ContainsArrays::class);
+        $dql = \sprintf("SELECT ARRAY_POSITION(e.textArray, 0, 1, 'extra_arg') FROM %s e", ContainsArrays::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }

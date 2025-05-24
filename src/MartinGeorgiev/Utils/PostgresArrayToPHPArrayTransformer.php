@@ -218,42 +218,30 @@ class PostgresArrayToPHPArrayTransformer
         $result = '';
         $len = \strlen($value);
         $i = 0;
-        $backslashCount = 0;
-
         while ($i < $len) {
             if ($value[$i] === '\\') {
-                $backslashCount++;
-                $i++;
+                $start = $i;
+                while ($i < $len && $value[$i] === '\\') {
+                    $i++;
+                }
+
+                $slashCount = $i - $start;
+                $nextChar = $i < $len ? $value[$i] : '';
+                if ($nextChar === '"' || $nextChar === '\\') {
+                    $result .= \str_repeat('\\', \intdiv($slashCount, 2));
+                    if ($slashCount % 2 === 1) {
+                        $result .= $nextChar;
+                        $i++;
+                    }
+                } else {
+                    $result .= \str_repeat('\\', $slashCount);
+                }
 
                 continue;
             }
 
-            if ($backslashCount > 0) {
-                if ($value[$i] === '"') {
-                    // This is an escaped quote
-                    $result .= \str_repeat('\\', (int) ($backslashCount / 2));
-                    if ($backslashCount % 2 === 1) {
-                        $result .= '"';
-                    } else {
-                        $result .= '\"';
-                    }
-                } else {
-                    // These are literal backslashes
-                    $result .= \str_repeat('\\', $backslashCount);
-                    $result .= $value[$i];
-                }
-
-                $backslashCount = 0;
-            } else {
-                $result .= $value[$i];
-            }
-
+            $result .= $value[$i];
             $i++;
-        }
-
-        // Handle any trailing backslashes
-        if ($backslashCount > 0) {
-            $result .= \str_repeat('\\', $backslashCount);
         }
 
         return $result;

@@ -195,6 +195,23 @@ doctrine:
                         NUMRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange
                         TSRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange
                         TSTZRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange
+                        
+                        # Arithmetic functions
+                        CBRT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt
+                        CEIL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil
+                        DEGREES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees
+                        EXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp
+                        FLOOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor
+                        LN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln
+                        LOG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log
+                        PI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi
+                        POWER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power
+                        RADIANS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians
+                        RANDOM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random
+                        ROUND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round
+                        SIGN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign
+                        TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc
+                        WIDTH_BUCKET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket
 
                         # other operators
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast

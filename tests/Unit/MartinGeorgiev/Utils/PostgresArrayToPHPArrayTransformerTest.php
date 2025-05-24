@@ -122,6 +122,46 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['quoted', 'unquoted'],
                 'postgresValue' => '{"quoted",unquoted}',
             ],
+            'only whitespace' => [
+                'phpValue' => [],
+                'postgresValue' => '   ',
+            ],
+            'with trailing comma' => [
+                'phpValue' => ['a'],
+                'postgresValue' => '{a,}}',
+            ],
+            'with only backslashes' => [
+                'phpValue' => ['\\'],
+                'postgresValue' => '{\}',
+            ],
+            'with only double quotes' => [
+                'phpValue' => ['"'],
+                'postgresValue' => '{"\""}',
+            ],
+            'with empty quoted strings' => [
+                'phpValue' => ['', ''],
+                'postgresValue' => '{"",""}',
+            ],
+            'github #351 regression: string with special characters and backslash' => [
+                'phpValue' => ["!@#\\$%^&*()_+=-}{[]|\":;'\\?><,./"],
+                'postgresValue' => '{"!@#\$%^&*()_+=-}{[]|\":;\'\?><,./"}',
+            ],
+            'backslash before backslash' => [
+                'phpValue' => ['a\b'],
+                'postgresValue' => '{"a\\\b"}', // a\\b
+            ],
+            'single backslash before non-escape char' => [
+                'phpValue' => ['a\$b'],
+                'postgresValue' => '{"a\$b"}', // a\$b
+            ],
+            'element with curly braces and comma' => [
+                'phpValue' => ['{foo,bar}'],
+                'postgresValue' => '{"{foo,bar}"}',
+            ],
+            'element with whitespace' => [
+                'phpValue' => ['  foo  '],
+                'postgresValue' => '{"  foo  "}',
+            ],
         ];
     }
 
@@ -178,7 +218,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     public function can_transform_escaped_quotes_with_backslashes(): void
     {
         $postgresArray = '{"\\\"quoted\\\""}';
-        self::assertSame(['\\\"quoted\\\"'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
+        self::assertSame(['\"quoted\"'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
     #[Test]

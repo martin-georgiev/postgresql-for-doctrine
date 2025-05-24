@@ -19,14 +19,14 @@ class ArrayDimensionsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'gets dimensions of array field' => 'SELECT array_dims(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'gets dimensions of array field' => 'SELECT array_dims(c0_.textArray) AS sclr_0 FROM ContainsArrays c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'gets dimensions of array field' => \sprintf('SELECT ARRAY_DIMENSIONS(e.array1) FROM %s e', ContainsArrays::class),
+            'gets dimensions of array field' => \sprintf('SELECT ARRAY_DIMENSIONS(e.textArray) FROM %s e', ContainsArrays::class),
         ];
     }
 }

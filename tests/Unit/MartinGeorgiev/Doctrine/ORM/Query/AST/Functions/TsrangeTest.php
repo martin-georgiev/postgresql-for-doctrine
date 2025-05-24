@@ -19,14 +19,16 @@ class TsrangeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT tsrange(c0_.datetime1, c0_.datetime2) AS sclr_0 FROM ContainsDates c0_',
+            'basic range with default bounds' => 'SELECT tsrange(c0_.datetime1, c0_.datetime2) AS sclr_0 FROM ContainsDates c0_',
+            'range with explicit bounds' => "SELECT tsrange(c0_.datetime1, c0_.datetime2, '[)') AS sclr_0 FROM ContainsDates c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT TSRANGE(e.datetime1, e.datetime2) FROM %s e', ContainsDates::class),
+            'basic range with default bounds' => \sprintf('SELECT TSRANGE(e.datetime1, e.datetime2) FROM %s e', ContainsDates::class),
+            'range with explicit bounds' => \sprintf("SELECT TSRANGE(e.datetime1, e.datetime2, '[)') FROM %s e", ContainsDates::class),
         ];
     }
 }

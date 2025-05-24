@@ -201,6 +201,23 @@ return [
         'NUMRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class,
         'TSRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class,
         'TSTZRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class,
+        
+        # Arithmetic functions
+        'CBRT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt::class,
+        'CEIL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil::class,
+        'DEGREES' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees::class,
+        'EXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp::class,
+        'FLOOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor::class,
+        'LN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln::class,
+        'LOG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log::class,
+        'PI' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi::class,
+        'POWER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power::class,
+        'RADIANS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians::class,
+        'RANDOM' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random::class,
+        'ROUND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round::class,
+        'SIGN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign::class,
+        'TRUNC' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc::class,
+        'WIDTH_BUCKET' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket::class,
 
         # other operators
         'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,

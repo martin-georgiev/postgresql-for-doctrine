@@ -147,6 +147,23 @@ $configuration->addCustomStringFunction('NUMRANGE', MartinGeorgiev\Doctrine\ORM\
 $configuration->addCustomStringFunction('TSRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class);
 $configuration->addCustomStringFunction('TSTZRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class);
 
+# Arithmetic functions
+$configuration->addCustomStringFunction('CBRT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt::class);
+$configuration->addCustomStringFunction('CEIL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil::class);
+$configuration->addCustomStringFunction('DEGREES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees::class);
+$configuration->addCustomStringFunction('EXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp::class);
+$configuration->addCustomStringFunction('FLOOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor::class);
+$configuration->addCustomStringFunction('LN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln::class);
+$configuration->addCustomStringFunction('LOG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log::class);
+$configuration->addCustomStringFunction('PI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi::class);
+$configuration->addCustomStringFunction('POWER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power::class);
+$configuration->addCustomStringFunction('RADIANS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians::class);
+$configuration->addCustomStringFunction('RANDOM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random::class);
+$configuration->addCustomStringFunction('ROUND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round::class);
+$configuration->addCustomStringFunction('SIGN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign::class);
+$configuration->addCustomStringFunction('TRUNC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc::class);
+$configuration->addCustomStringFunction('WIDTH_BUCKET', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket::class);
+
 # other operators
 $configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
 $configuration->addCustomStringFunction('ILIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class);
