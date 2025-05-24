@@ -193,6 +193,12 @@ $configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctr
 $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);
 $configuration->addCustomStringFunction('XML_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
 
+# data type formatting functions
+$configuration->addCustomStringFunction('TO_CHAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class);
+$configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class);
+$configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
+$configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class);
+
 $em = EntityManager::create($dbParams, $configuration);
 ```
 
