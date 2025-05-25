@@ -19,7 +19,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     #[Test]
     public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
     {
-        self::assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
+        self::assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue), 'V3 values not equal');
+        self::assertEquals($phpValue, $this->transformPostgresTextArrayToPHPArray($postgresValue), 'V2 values not equal');
     }
 
     /**
@@ -142,9 +143,13 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['', ''],
                 'postgresValue' => '{"",""}',
             ],
-            'github #351 regression: string with special characters and backslash' => [
-                'phpValue' => ["!@#\\$%^&*()_+=-}{[]|\":;'\\?><,./"],
-                'postgresValue' => '{"!@#\$%^&*()_+=-}{[]|\":;\'\?><,./"}',
+            'github #351 regression #1: string with special characters and backslash' => [
+                'phpValue' => ['⥀!@#$%^&*()_+=-}{[]|":;\'\?><,./'],
+                'postgresValue' => '{"⥀!@#$%^&*()_+=-}{[]|\\":;\'\\\\?><,./"}',
+            ],
+            'github #351 regression #2: string with special characters, backslash and additional element' => [
+                'phpValue' => ['⥀!@#$%^&*()_+=-}{[]|":;\'\?><,./', 'text'],
+                'postgresValue' => '{"⥀!@#$%^&*()_+=-}{[]|\\":;\'\\\\?><,./",text}',
             ],
             'backslash before backslash' => [
                 'phpValue' => ['a\b'],
@@ -253,5 +258,46 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'postgresValue' => '{1,{2,3},4}',
             ],
         ];
+    }
+
+    // function from v2.10.3
+    private static function transformPostgresTextArrayToPHPArray(string $postgresArray): array
+    {
+        $transform = static function (string $textArrayToTransform): array {
+            $indicatesMultipleDimensions = \mb_strpos($textArrayToTransform, '},{') !== false
+                || \mb_strpos($textArrayToTransform, '{{') === 0;
+            if ($indicatesMultipleDimensions) {
+                throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
+            }
+
+            $phpArray = \str_getcsv(\trim($textArrayToTransform, '{}'), escape: '\\');
+            foreach ($phpArray as $i => $text) {
+                if ($text === null) {
+                    unset($phpArray[$i]);
+
+                    break;
+                }
+
+                $isInteger = \is_numeric($text) && ''.(int) $text === $text;
+                if ($isInteger) {
+                    $phpArray[$i] = (int) $text;
+
+                    continue;
+                }
+
+                $isFloat = \is_numeric($text) && ''.(float) $text === $text;
+                if ($isFloat) {
+                    $phpArray[$i] = (float) $text;
+
+                    continue;
+                }
+
+                $phpArray[$i] = \stripslashes(\str_replace('\"', '"', $text));
+            }
+
+            return $phpArray;
+        };
+
+        return $transform($postgresArray);
     }
 }
