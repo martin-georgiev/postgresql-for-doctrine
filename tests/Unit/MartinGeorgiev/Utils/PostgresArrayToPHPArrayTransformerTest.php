@@ -143,8 +143,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'postgresValue' => '{"",""}',
             ],
             'github #351 regression: string with special characters and backslash' => [
-                'phpValue' => ["!@#\\$%^&*()_+=-}{[]|\":;'\\?><,./"],
-                'postgresValue' => '{"!@#\$%^&*()_+=-}{[]|\":;\'\?><,./"}',
+                'phpValue' => ["⥀!@#$%^&*()_+=-}{[]|\":;\'\?><,./"],
+                'postgresValue' => '{"⥀!@#$%^&*()_+=-}{[]|\":;\\\'\?><,./"}',
             ],
             'backslash before backslash' => [
                 'phpValue' => ['a\b'],

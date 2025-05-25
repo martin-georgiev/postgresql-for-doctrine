@@ -220,30 +220,29 @@ class PostgresArrayToPHPArrayTransformer
         $i = 0;
         while ($i < $len) {
             if ($value[$i] === '\\') {
+                // Count consecutive backslashes
                 $start = $i;
                 while ($i < $len && $value[$i] === '\\') {
                     $i++;
                 }
-
                 $slashCount = $i - $start;
                 $nextChar = $i < $len ? $value[$i] : '';
                 if ($nextChar === '"' || $nextChar === '\\') {
-                    $result .= \str_repeat('\\', \intdiv($slashCount, 2));
+                    // For even count, output half as literal
+                    $result .= str_repeat('\\', intdiv($slashCount, 2));
                     if ($slashCount % 2 === 1) {
                         $result .= $nextChar;
                         $i++;
                     }
                 } else {
-                    $result .= \str_repeat('\\', $slashCount);
+                    // Not escaping, output all as literal
+                    $result .= str_repeat('\\', $slashCount);
                 }
-
-                continue;
+            } else {
+                $result .= $value[$i];
+                $i++;
             }
-
-            $result .= $value[$i];
-            $i++;
         }
-
         return $result;
     }
 }
