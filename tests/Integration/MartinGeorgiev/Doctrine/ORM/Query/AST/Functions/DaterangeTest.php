@@ -24,7 +24,7 @@ class DaterangeTest extends DateTestCase
 
     public function test_daterange_with_bounds(): void
     {
-        $dql = "SELECT DATERANGE(t.date1, t.date2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
+        $dql = "SELECT DATERANGE(t.date1, t.date2, '(]') as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('[2023-06-16,2023-06-17)', $result[0]['result']);
     }

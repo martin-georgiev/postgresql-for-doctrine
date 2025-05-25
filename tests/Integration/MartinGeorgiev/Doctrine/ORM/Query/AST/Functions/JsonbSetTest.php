@@ -68,7 +68,7 @@ class JsonbSetTest extends JsonTestCase
     public function test_jsonb_set_with_create_missing_false(): void
     {
         $dql = "SELECT JSONB_SET(t.object1, :path, :value, 'false') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql, [
             'path' => '{nonexistent}',

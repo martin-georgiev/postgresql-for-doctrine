@@ -17,28 +17,28 @@ class JsonGetFieldAsIntegerTest extends JsonTestCase
 
     public function test_json_get_field_as_integer(): void
     {
-        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
+        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(30, $result[0]['result']);
     }
 
     public function test_json_get_field_as_integer_empty_object(): void
     {
-        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 4";
+        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 4";
         $result = $this->executeDqlQuery($dql);
         $this->assertNull($result[0]['result']);
     }
 
     public function test_json_get_field_as_integer_null_value(): void
     {
-        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 5";
+        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'age') as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 5";
         $result = $this->executeDqlQuery($dql);
         $this->assertNull($result[0]['result']);
     }
 
     public function test_json_get_field_as_integer_nonexistent_field(): void
     {
-        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'nonexistent') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
+        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.object1, 'nonexistent') as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertNull($result[0]['result']);
     }

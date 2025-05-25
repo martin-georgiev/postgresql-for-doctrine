@@ -18,7 +18,7 @@ class JsonbObjectAggTest extends JsonTestCase
     public function test_jsonb_object_agg(): void
     {
         $dql = "SELECT JSONB_OBJECT_AGG('key', 'value') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);

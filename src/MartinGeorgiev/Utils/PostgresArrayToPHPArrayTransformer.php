@@ -225,24 +225,26 @@ class PostgresArrayToPHPArrayTransformer
                 while ($i < $len && $value[$i] === '\\') {
                     $i++;
                 }
+
                 $slashCount = $i - $start;
                 $nextChar = $i < $len ? $value[$i] : '';
                 if ($nextChar === '"' || $nextChar === '\\') {
                     // For even count, output half as literal
-                    $result .= str_repeat('\\', intdiv($slashCount, 2));
+                    $result .= \str_repeat('\\', \intdiv($slashCount, 2));
                     if ($slashCount % 2 === 1) {
                         $result .= $nextChar;
                         $i++;
                     }
                 } else {
                     // Not escaping, output all as literal
-                    $result .= str_repeat('\\', $slashCount);
+                    $result .= \str_repeat('\\', $slashCount);
                 }
             } else {
                 $result .= $value[$i];
                 $i++;
             }
         }
+
         return $result;
     }
 }

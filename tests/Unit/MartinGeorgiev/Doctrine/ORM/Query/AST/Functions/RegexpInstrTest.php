@@ -27,12 +27,12 @@ class RegexpInstrTest extends BaseVariadicFunctionTestCase
     {
         return [
             'finds position of pattern' => "SELECT regexp_instr(c0_.text1, 'c(.)(...)') AS sclr_0 FROM ContainsTexts c0_",
-            'finds position of digits' => "SELECT regexp_instr(c0_.text1, '\\d+') AS sclr_0 FROM ContainsTexts c0_",
-            'with start position' => "SELECT regexp_instr(c0_.text1, '\\d+', 1) AS sclr_0 FROM ContainsTexts c0_",
-            'with start and occurrence' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2) AS sclr_0 FROM ContainsTexts c0_",
-            'with start, occurrence and return_option' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2, 0) AS sclr_0 FROM ContainsTexts c0_",
-            'with flags' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2, 0, 'i') AS sclr_0 FROM ContainsTexts c0_",
-            'with subexpr' => "SELECT regexp_instr(c0_.text1, '\\d+', 1, 2, 0, 'i', 2) AS sclr_0 FROM ContainsTexts c0_",
+            'finds position of digits' => "SELECT regexp_instr(c0_.text1, '\d+') AS sclr_0 FROM ContainsTexts c0_",
+            'with start position' => "SELECT regexp_instr(c0_.text1, '\d+', 1) AS sclr_0 FROM ContainsTexts c0_",
+            'with start and occurrence' => "SELECT regexp_instr(c0_.text1, '\d+', 1, 2) AS sclr_0 FROM ContainsTexts c0_",
+            'with start, occurrence and return_option' => "SELECT regexp_instr(c0_.text1, '\d+', 1, 2, 0) AS sclr_0 FROM ContainsTexts c0_",
+            'with flags' => "SELECT regexp_instr(c0_.text1, '\d+', 1, 2, 0, 'i') AS sclr_0 FROM ContainsTexts c0_",
+            'with subexpr' => "SELECT regexp_instr(c0_.text1, '\d+', 1, 2, 0, 'i', 2) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
@@ -40,12 +40,12 @@ class RegexpInstrTest extends BaseVariadicFunctionTestCase
     {
         return [
             'finds position of pattern' => \sprintf("SELECT REGEXP_INSTR(e.text1, 'c(.)(...)') FROM %s e", ContainsTexts::class),
-            'finds position of digits' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+') FROM %s e", ContainsTexts::class),
-            'with start position' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1) FROM %s e", ContainsTexts::class),
-            'with start and occurrence' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2) FROM %s e", ContainsTexts::class),
-            'with start, occurrence and return_option' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2, 0) FROM %s e", ContainsTexts::class),
-            'with flags' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2, 0, 'i') FROM %s e", ContainsTexts::class),
-            'with subexpr' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\\d+', 1, 2, 0, 'i', 2) FROM %s e", ContainsTexts::class),
+            'finds position of digits' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\d+') FROM %s e", ContainsTexts::class),
+            'with start position' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\d+', 1) FROM %s e", ContainsTexts::class),
+            'with start and occurrence' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\d+', 1, 2) FROM %s e", ContainsTexts::class),
+            'with start, occurrence and return_option' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\d+', 1, 2, 0) FROM %s e", ContainsTexts::class),
+            'with flags' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\d+', 1, 2, 0, 'i') FROM %s e", ContainsTexts::class),
+            'with subexpr' => \sprintf("SELECT REGEXP_INSTR(e.text1, '\d+', 1, 2, 0, 'i', 2) FROM %s e", ContainsTexts::class),
         ];
     }
 
