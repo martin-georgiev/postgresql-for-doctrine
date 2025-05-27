@@ -104,6 +104,18 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
                 'phpValue' => ['Hello 世界', '🌍 Earth'],
                 'postgresValue' => '{"Hello 世界","🌍 Earth"}',
             ],
+            'with only nulls' => [
+                'phpValue' => [null, null],
+                'postgresValue' => '{NULL,NULL}',
+            ],
+            'with only booleans' => [
+                'phpValue' => [true, false, true],
+                'postgresValue' => '{true,false,true}',
+            ],
+            'with empty empty strings' => [
+                'phpValue' => ['', ''],
+                'postgresValue' => '{"",""}',
+            ],
         ];
     }
 
@@ -236,5 +248,18 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
                 ],
             ],
         ];
+    }
+
+    #[Test]
+    public function can_transform_array_with_gd_resource(): void
+    {
+        if (!\function_exists('imagecreatetruecolor')) {
+            $this->markTestSkipped('GD extension not available');
+        }
+
+        $resource = \imagecreatetruecolor(1, 1);
+        $result = PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]);
+        $this->assertStringContainsString('GdImage', $result);
+        \imagedestroy($resource);
     }
 }

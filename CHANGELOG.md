@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.0...v3.2.1) (2025-05-24)
+
+
+### Bug Fixes
+
+* **#351:** Remove invalid or non-PostgreSQL-compliant test cases; ensure edge cases for backslashes, quotes, special characters, and NULL handling are covered ([#385](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/385)) ([c5f7327](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c5f73279bc32bb185a93d81363a014193b6c1657))
+* **#367:** Change to uppercase the return value of `getSQLDeclaration` ([#368](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/368)) ([7e4be89](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7e4be89bfd630356f390bdd3e457500b78c568ad))
+
 ## [3.2.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.1.0...v3.2.0) (2025-05-23)
 
 
