@@ -14,7 +14,7 @@ class ToChar extends BaseFunction
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('to_char(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
+        $this->addNodeMapping('ArithmeticFactor');
         $this->addNodeMapping('StringPrimary');
     }
 }
