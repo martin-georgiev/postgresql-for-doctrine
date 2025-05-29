@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\ORM\Query\QueryException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
@@ -15,6 +16,7 @@ class ToCharTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->createTestSchema();
         $this->createContainsDatesTableWithFixture();
         $this->createContainsNumericsTableWithFixture();
     }
@@ -69,14 +71,14 @@ class ToCharTest extends TestCase
         static::assertSame('11:55:32', $result[0]['result']);
     }
 
-    public function test_todate_throws_with_invalid_input(): void
+    public function test_tochar_throws_with_invalid_input_type(): void
     {
-        $this->expectException(QueryException::class);
-        $dql = "SELECT to_date('invalid_date', 'DD Mon YYYY') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $this->expectException(DriverException::class);
+        $dql = "SELECT to_char('can only be timestamp, interval or numeric, never a string', 'DD Mon YYYY') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
 
-    public function test_todate_throws_with_invalid_format(): void
+    public function test_tochar_throws_with_invalid_format(): void
     {
         $this->expectException(Exception::class);
         $dql = "SELECT to_char(t.decimal1, 'invalid_format') FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
@@ -94,7 +96,6 @@ class ToCharTest extends TestCase
     {
         $tableName = 'containsdates';
 
-        $this->createTestSchema();
         $this->dropTestTableIfItExists($tableName);
 
         $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
