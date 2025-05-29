@@ -24,21 +24,21 @@ class ToNumberTest extends TextTestCase
         static::assertSame('-12454.8', $result[0]['result']);
     }
 
-    public function test_tonumber_with_invalid_format(): void
+    public function test_tonumber_throws_with_invalid_format(): void
     {
         $this->expectException(Exception::class);
         $dql = "SELECT to_number('12,454.8-', 'invalid_format') FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
 
-    public function test_tonumber_with_wrong_type_format(): void
+    public function test_tonumber_throws_with_unsupported_null_format(): void
     {
         $this->expectException(QueryException::class);
         $dql = "SELECT to_number('12,454.8-', null) FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
 
-    public function test_tonumber_with_wrong_type_input(): void
+    public function test_tonumber_throws_with_unsupported_input_type(): void
     {
         $this->expectException(QueryException::class);
         $dql = "SELECT to_number(123456, '999D99S') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";

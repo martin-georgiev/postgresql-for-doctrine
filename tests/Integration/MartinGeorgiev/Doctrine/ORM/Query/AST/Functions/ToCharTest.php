@@ -8,13 +8,15 @@ use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Query\QueryException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
+use Tests\Integration\MartinGeorgiev\TestCase;
 
-class ToCharTest extends DateTestCase
+class ToCharTest extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
-        $this->createSimpleNumericTableWithDateFixture();
+        $this->createContainsDatesTableWithFixture();
+        $this->createContainsNumericsTableWithFixture();
     }
 
     protected function getStringFunctions(): array
@@ -55,65 +57,96 @@ class ToCharTest extends DateTestCase
 
     public function test_tochar_for_numeric_literal_negative(): void
     {
-        $dql = "SELECT to_char(125.80, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
+        $dql = "SELECT to_char(-125.80, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('125.80+', $result[0]['result']);
+        static::assertSame('125.80-', $result[0]['result']);
     }
 
-    public function test_tochar_with_timestamp_function(): void
+    public function test_tochar_with_subfunction(): void
     {
         $dql = "SELECT to_char(to_timestamp('05 Dec 2000 at 11:55 and 32 seconds', 'DD Mon YYYY tt HH24:MI ttt SS ttttttt'), 'HH24:MI:SS') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         static::assertSame('11:55:32', $result[0]['result']);
     }
 
-    public function test_todate_with_invalid_input(): void
+    public function test_todate_throws_with_invalid_input(): void
     {
         $this->expectException(QueryException::class);
         $dql = "SELECT to_date('invalid_date', 'DD Mon YYYY') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
 
-    public function test_todate_with_invalid_format(): void
+    public function test_todate_throws_with_invalid_format(): void
     {
         $this->expectException(Exception::class);
         $dql = "SELECT to_char(t.decimal1, 'invalid_format') FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
 
-    public function test_tochar_invalid_input(): void
+    public function test_tochar_throws_with_unsupported_null_input(): void
     {
         $this->expectException(QueryException::class);
         $dql = "SELECT to_char(NULL, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
 
-    protected function createSimpleNumericTableWithDateFixture(): void
+    private function createContainsDatesTableWithFixture(): void
+    {
+        $tableName = 'containsdates';
+
+        $this->createTestSchema();
+        $this->dropTestTableIfItExists($tableName);
+
+        $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
+        $sql = \sprintf('
+            CREATE TABLE %s (
+                id SERIAL PRIMARY KEY,
+                date1 DATE,
+                date2 DATE,
+                datetime1 TIMESTAMP,
+                datetime2 TIMESTAMP,
+                time1 TIME,
+                time2 TIME,
+                datetimetz1 TIMESTAMPTZ,
+                datetimetz2 TIMESTAMPTZ,
+                dateinterval1 INTERVAL
+            )
+        ', $fullTableName);
+
+        $this->connection->executeStatement($sql);
+
+        $sql = \sprintf('
+            INSERT INTO %s.containsdates (date1, date2, datetime1, datetime2, time1, time2, datetimetz1, datetimetz2, dateinterval1) VALUES 
+            (\'2023-06-15\', \'2023-06-16\', \'2023-06-15 10:30:00\', \'2023-06-16 11:45:00\', \'10:30:00\', \'11:45:00\', \'2023-06-15 10:30:00+00\', \'2023-06-16 11:45:00+00\', \'15h 2m 12s\')
+        ', self::DATABASE_SCHEMA);
+        $this->connection->executeStatement($sql);
+    }
+
+    private function createContainsNumericsTableWithFixture(): void
     {
         $tableName = 'containsnumerics';
 
         $this->dropTestTableIfItExists($tableName);
 
         $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
-        $sql = \sprintf(
-            '
+        $sql = \sprintf('
             CREATE TABLE %s (
-                id serial PRIMARY KEY,
-                decimal1 DECIMAL
+                id SERIAL PRIMARY KEY,
+                integer1 INTEGER,
+                integer2 INTEGER,
+                bigint1 BIGINT,
+                bigint2 BIGINT,
+                decimal1 DECIMAL,
+                decimal2 DECIMAL
             )
-        ',
-            $fullTableName
-        );
+        ', $fullTableName);
 
         $this->connection->executeStatement($sql);
 
-        $sql = \sprintf(
-            '
-            INSERT INTO %s.containsnumerics (decimal1) VALUES 
-            (-125.8)
-        ',
-            self::DATABASE_SCHEMA
-        );
+        $sql = \sprintf('
+            INSERT INTO %s.containsnumerics (integer1, integer2, bigint1, bigint2, decimal1, decimal2) VALUES 
+            (10, 20, 1000, 2000, -125.8, 20.5)
+        ', self::DATABASE_SCHEMA);
         $this->connection->executeStatement($sql);
     }
 }

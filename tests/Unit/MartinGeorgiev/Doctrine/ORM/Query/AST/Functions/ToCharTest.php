@@ -8,6 +8,7 @@ use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar;
+use PHPUnit\Framework\Attributes\Test;
 
 class ToCharTest extends TestCase
 {
@@ -36,7 +37,8 @@ class ToCharTest extends TestCase
         ];
     }
 
-    public function test_missing_format_throws_exception(): void
+    #[Test]
+    public function throws_exception_when_argument_missing(): void
     {
         $this->expectException(QueryException::class);
 

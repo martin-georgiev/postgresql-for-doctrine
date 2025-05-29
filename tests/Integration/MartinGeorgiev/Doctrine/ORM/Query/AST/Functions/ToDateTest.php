@@ -24,7 +24,7 @@ class ToDateTest extends TextTestCase
         static::assertSame('2000-12-05', $result[0]['result']);
     }
 
-    public function test_todate_with_invalid_input(): void
+    public function test_todate_throws_with_invalid_input(): void
     {
         $this->expectException(DriverException::class);
         $dql = "SELECT to_date('invalid_date', 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
@@ -38,14 +38,14 @@ class ToDateTest extends TextTestCase
         static::assertSame('2005-01-01', $result[0]['result']);
     }
 
-    public function test_todate_with_wrong_type_format(): void
+    public function test_todate_throws_with_unsupported_format_type(): void
     {
         $this->expectException(QueryException::class);
         $dql = "SELECT to_date('05 Dec 2000', 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
 
-    public function test_todate_with_wrong_type_input(): void
+    public function test_todate_throws_with_unsupported_null_input(): void
     {
         $this->expectException(QueryException::class);
         $dql = "SELECT to_date(null, 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";

@@ -7,6 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber;
+use PHPUnit\Framework\Attributes\Test;
 
 class ToNumberTest extends TestCase
 {
@@ -31,7 +32,8 @@ class ToNumberTest extends TestCase
         ];
     }
 
-    public function test_missing_format_throws_exception(): void
+    #[Test]
+    public function throws_exception_when_argument_missing(): void
     {
         $this->expectException(QueryException::class);
 
