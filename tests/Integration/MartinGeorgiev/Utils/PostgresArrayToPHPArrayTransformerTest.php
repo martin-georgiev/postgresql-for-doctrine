@@ -125,8 +125,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
         /** @var string $postgresArray */
         $postgresArray = $row['test_array'];
 
-        /** @var array<int, string> $result */
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray); // @phpstan-ignore-line
     }
 
     private function retrieveArrayAsText(int $id): string
