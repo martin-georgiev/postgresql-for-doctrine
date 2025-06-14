@@ -20,37 +20,26 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
-     * @return array<int, array{description: string, input: array<int, string>}>
+     * @return array<int, array{0: array{description: string, input: array<int, string>}}>
      */
     public static function provideArrayTestCases(): array
     {
         return [
-            // Basic cases
-            ['description' => 'Simple array', 'input' => ['hello', 'world']],
-            ['description' => 'Empty array', 'input' => []],
-            ['description' => 'Single empty string', 'input' => ['']],
-
-            // Special characters
-            ['description' => 'Quotes and backslashes', 'input' => ['"quoted"', 'back\\slash']],
-            ['description' => 'Windows paths', 'input' => ['C:\\Windows\\System32']],
-            ['description' => 'Escaped quotes', 'input' => ['\"escaped\"']],
-            ['description' => 'Double backslashes', 'input' => ['\\\\double\\\\']],
-
-            // Unicode and special characters
-            ['description' => 'Unicode', 'input' => ['Hello 世界', '🌍 Earth']],
-            ['description' => 'Special chars', 'input' => ['!@#$%^&*()_+=-}{[]|":;\'?><,./']],
-
-            // GitHub #351 case
-            ['description' => 'GitHub #351', 'input' => ["!@#\\$%^&*()_+=-}{[]|\":;'\\?><,./"]],
-
-            // Edge cases
-            ['description' => 'Curly braces', 'input' => ['{foo,bar}']],
-            ['description' => 'Spaces', 'input' => ['  spaces  ']],
-            ['description' => 'Trailing backslash', 'input' => ['trailing\\']],
-            ['description' => 'Leading backslash', 'input' => ['\\leading']],
-
-            // Mixed case
-            ['description' => 'Mixed', 'input' => ['simple', '"quoted"', 'back\\slash', '']],
+            [['description' => 'Simple array', 'input' => ['hello', 'world']]],
+            [['description' => 'Empty array', 'input' => []]],
+            [['description' => 'Single empty string', 'input' => ['']]],
+            [['description' => 'Quotes and backslashes', 'input' => ['"quoted"', 'back\\slash']]],
+            [['description' => 'Windows paths', 'input' => ['C:\\Windows\\System32']]],
+            [['description' => 'Escaped quotes', 'input' => ['\"escaped\"']]],
+            [['description' => 'Double backslashes', 'input' => ['\\\\double\\\\']]],
+            [['description' => 'Unicode', 'input' => ['Hello 世界', '🌍 Earth']]],
+            [['description' => 'Special chars', 'input' => ['!@#$%^&*()_+=-}{[]|":;\'?><,./']]],
+            [['description' => 'GitHub #351', 'input' => ["!@#\\$%^&*()_+=-}{[]|\":;'\\?><,./"]]],
+            [['description' => 'Curly braces', 'input' => ['{foo,bar}']]],
+            [['description' => 'Spaces', 'input' => ['  spaces  ']]],
+            [['description' => 'Trailing backslash', 'input' => ['trailing\\']]],
+            [['description' => 'Leading backslash', 'input' => ['\\leading']]],
+            [['description' => 'Mixed', 'input' => ['simple', '"quoted"', 'back\\slash', '']]],
         ];
     }
 
@@ -66,15 +55,15 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
-     * @return array<int, array{description: string, input: string}>
+     * @return array<int, array{0: array{description: string, input: string}}>
      */
     public static function provideInvalidArrayFormats(): array
     {
         return [
-            ['description' => 'Multi-dimensional', 'input' => '{{1,2},{3,4}}'],
-            ['description' => 'Unclosed quote', 'input' => '{1,2,"unclosed'],
-            ['description' => 'Invalid format', 'input' => '{invalid"format}'],
-            ['description' => 'Malformed nesting', 'input' => '{1,{2,3},4}'],
+            [['description' => 'Multi-dimensional', 'input' => '{{1,2},{3,4}}']],
+            [['description' => 'Unclosed quote', 'input' => '{1,2,"unclosed']],
+            [['description' => 'Invalid format', 'input' => '{invalid"format}']],
+            [['description' => 'Malformed nesting', 'input' => '{1,{2,3},4}']],
         ];
     }
 
@@ -120,14 +109,20 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      */
     private function retrieveArray(int $id): array
     {
-        /** @var array<int, string> $result */
-        $result = $this->retrieveFromDatabase(
+        $row = $this->connection->executeQuery(
             \sprintf('SELECT test_array FROM %s WHERE id = :id', self::TABLE_NAME),
-            ['id' => $id],
-            static fn (string $value): array => PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($value)
-        );
-
-        return $result;
+            ['id' => $id]
+        )->fetchAssociative();
+        
+        if ($row === false || !isset($row['test_array']) || !\is_string($row['test_array'])) {
+            throw new \RuntimeException(\sprintf('Failed to retrieve array data for ID %d', $id));
+        }
+        
+        /** @var string $postgresArray */
+        $postgresArray = $row['test_array'];
+        /** @var array<int, string> $parsed */
+        $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        return $parsed;
     }
 
     private function retrieveArrayAsText(int $id): string
