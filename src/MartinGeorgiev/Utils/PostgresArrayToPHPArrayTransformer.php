@@ -221,11 +221,11 @@ class PostgresArrayToPHPArrayTransformer
         $result = '';
         $length = \strlen($value);
         $position = 0;
-        
+
         while ($position < $length) {
             if ($value[$position] === '\\' && $position + 1 < $length) {
                 $nextChar = $value[$position + 1];
-                
+
                 if ($nextChar === '\\') {
                     // \\ -> \
                     $result .= '\\';
