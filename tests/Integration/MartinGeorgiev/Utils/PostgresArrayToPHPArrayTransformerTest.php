@@ -71,7 +71,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     public function test_invalid_array_formats_throw_exceptions(array $testCase): void
     {
         $this->expectException(InvalidArrayFormatException::class);
-        PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($testCase['input']);
+        PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($testCase['input']); // @phpstan-ignore-line
     }
 
     private function createTestTable(): void
@@ -113,16 +113,20 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
             \sprintf('SELECT test_array FROM %s WHERE id = :id', self::TABLE_NAME),
             ['id' => $id]
         )->fetchAssociative();
-        
-        if ($row === false || !isset($row['test_array']) || !\is_string($row['test_array'])) {
+
+        if ($row === false || !isset($row['test_array'])) {
             throw new \RuntimeException(\sprintf('Failed to retrieve array data for ID %d', $id));
         }
-        
+
+        if (!\is_string($row['test_array'])) {
+            throw new \RuntimeException(\sprintf('Expected string for test_array, got %s', \gettype($row['test_array'])));
+        }
+
         /** @var string $postgresArray */
         $postgresArray = $row['test_array'];
-        /** @var array<int, string> $parsed */
-        $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-        return $parsed;
+
+        /** @var array<int, string> $result */
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     private function retrieveArrayAsText(int $id): string
