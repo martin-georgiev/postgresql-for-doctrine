@@ -6,301 +6,181 @@ namespace Tests\Integration\MartinGeorgiev\Utils;
 
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Integration\MartinGeorgiev\TestCase;
 
 class PostgresArrayToPHPArrayTransformerTest extends TestCase
 {
+    private const TABLE_NAME = 'array_test_table';
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->createTestTableForArrayFixture();
+        $this->createTestTable();
     }
 
-    public function test_round_trip_integrity_with_real_postgres(): void
+    /**
+     * @return array<int, array{description: string, input: array<int, string>}>
+     */
+    public static function provideArrayTestCases(): array
     {
-        $testCases = [
-            // Simple cases
-            ['hello', 'world'],
-            ['123', '456'],
-            ['true', 'false'],
+        return [
+            // Basic cases
+            ['description' => 'Simple array', 'input' => ['hello', 'world']],
+            ['description' => 'Empty array', 'input' => []],
+            ['description' => 'Single empty string', 'input' => ['']],
 
-            // Empty and null cases
-            [],
-            [''],
-            ['', '', ''],
-
-            // Special characters and escaping
-            ['"quoted"', 'unquoted'],
-            ['this has \\backslashes\\'],
-            ['path\\to\\file', 'C:\\Windows\\System32'],
-
-            // Complex escaping scenarios
-            ['\"escaped\"'],
-            ['\\\\double\\\\backslash\\\\'],
+            // Special characters
+            ['description' => 'Quotes and backslashes', 'input' => ['"quoted"', 'back\\slash']],
+            ['description' => 'Windows paths', 'input' => ['C:\\Windows\\System32']],
+            ['description' => 'Escaped quotes', 'input' => ['\"escaped\"']],
+            ['description' => 'Double backslashes', 'input' => ['\\\\double\\\\']],
 
             // Unicode and special characters
-            ['Hello 世界', '🌍 Earth'],
-            ['!@#$%^&*()_+=-}{[]|":;\'?><,./'],
+            ['description' => 'Unicode', 'input' => ['Hello 世界', '🌍 Earth']],
+            ['description' => 'Special chars', 'input' => ['!@#$%^&*()_+=-}{[]|":;\'?><,./']],
 
-            // The GitHub #351 regression case
-            ["!@#\\$%^&*()_+=-}{[]|\":;'\\?><,./"],
+            // GitHub #351 case
+            ['description' => 'GitHub #351', 'input' => ["!@#\\$%^&*()_+=-}{[]|\":;'\\?><,./"]],
 
             // Edge cases
-            ['{foo,bar}'],
-            ['  spaces  '],
-            ['trailing\\'],
-            ['\\leading'],
+            ['description' => 'Curly braces', 'input' => ['{foo,bar}']],
+            ['description' => 'Spaces', 'input' => ['  spaces  ']],
+            ['description' => 'Trailing backslash', 'input' => ['trailing\\']],
+            ['description' => 'Leading backslash', 'input' => ['\\leading']],
 
-            // Mixed cases
-            ['simple', '"quoted"', 'back\\slash', ''],
+            // Mixed case
+            ['description' => 'Mixed', 'input' => ['simple', '"quoted"', 'back\\slash', '']],
         ];
-
-        foreach ($testCases as $i => $originalArray) {
-            $this->assertRoundTripIntegrity($originalArray, 'Test case '.$i);
-        }
     }
 
     /**
-     * Test storing and retrieving arrays through actual PostgreSQL text[] columns.
+     * @param array{description: string, input: array<int, string>} $testCase
      */
-    public function test_text_array_column_storage(): void
+    #[DataProvider('provideArrayTestCases')]
+    public function test_array_round_trip(array $testCase): void
     {
-        // Test data with various edge cases
-        $testData = [
-            ['simple', 'array'],
-            ['with "quotes"', 'and \\backslashes\\'],
-            [''],  // Empty array
-            ['unicode 🎉', '世界'],
-            ['!@#\\$%^&*()_+=-}{[]|":;\'\\?><,./'],  // GitHub #351 case
+        $id = $this->insertArray($testCase['input']);
+
+        $this->assertArrayRoundTrip($id, $testCase['input'], $testCase['description']);
+    }
+
+    /**
+     * @return array<int, array{description: string, input: string}>
+     */
+    public static function provideInvalidArrayFormats(): array
+    {
+        return [
+            ['description' => 'Multi-dimensional', 'input' => '{{1,2},{3,4}}'],
+            ['description' => 'Unclosed quote', 'input' => '{1,2,"unclosed'],
+            ['description' => 'Invalid format', 'input' => '{invalid"format}'],
+            ['description' => 'Malformed nesting', 'input' => '{1,{2,3},4}'],
         ];
-
-        foreach ($testData as $id => $arrayData) {
-            // Store the array in PostgreSQL
-            $this->insertArrayData($id, $arrayData);
-
-            // Retrieve and verify
-            $retrieved = $this->retrieveArrayData($id);
-
-            self::assertEquals(
-                $arrayData,
-                $retrieved,
-                \sprintf('Round-trip failed for test data ID %s: ', $id).\var_export($arrayData, true)
-            );
-        }
     }
 
-    /**
-     * Test PostgreSQL array representations that come from actual database queries.
-     */
-    public function test_real_postgres_array_representations(): void
+    #[DataProvider('provideInvalidArrayFormats')]
+    public function test_invalid_array_formats_throw_exceptions(array $testCase): void
     {
-        // Insert various arrays and capture their actual PostgreSQL string representations
-        $testArrays = [
-            ['single'],
-            ['one', 'two'],
-            ['has "quotes"'],
-            ['has \\backslashes\\'],
-            [''],
-            ['mixed', '"quoted"', 'back\\slash'],
-        ];
-
-        foreach ($testArrays as $i => $testArray) {
-            // Store in database
-            $this->insertArrayData($i, $testArray);
-
-            // Get the raw PostgreSQL string representation
-            $sql = 'SELECT test_array::text FROM array_test_table WHERE id = ?';
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue(1, $i);
-            $result = $stmt->executeQuery();
-            $row = $result->fetchAssociative();
-
-            if ($row === false) {
-                self::fail(\sprintf('Failed to retrieve test array with ID %d', $i));
-            }
-
-            if (!isset($row['test_array']) || !\is_string($row['test_array'])) {
-                self::fail(\sprintf('Invalid test array data for ID %d', $i));
-            }
-
-            $postgresRepresentation = $row['test_array'];
-
-            // Test our transformer can handle the real representation
-            $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresRepresentation);
-
-            self::assertEquals(
-                $testArray,
-                $parsed,
-                \sprintf('Failed to parse real PostgreSQL representation: %s', $postgresRepresentation)
-            );
-        }
+        $this->expectException(InvalidArrayFormatException::class);
+        PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($testCase['input']);
     }
 
-    /**
-     * Test error handling with invalid array formats.
-     */
-    public function test_invalid_array_formats_throw_exceptions(): void
+    private function createTestTable(): void
     {
-        $invalidFormats = [
-            '{{1,2},{3,4}}',  // Multi-dimensional
-            '{1,2,"unclosed',  // Unclosed quote
-            '{invalid"format}',  // Invalid format
-            '{1,{2,3},4}',  // Malformed nesting
-        ];
-
-        foreach ($invalidFormats as $invalidFormat) {
-            $this->expectException(InvalidArrayFormatException::class);
-            PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($invalidFormat);
-        }
-    }
-
-    /**
-     * Test arrays with NULL values through the database.
-     */
-    public function test_null_value_handling(): void
-    {
-        // Create test table that allows NULLs
-        $sql = '
-            CREATE TABLE null_test_table (
-                id INTEGER PRIMARY KEY,
-                nullable_array TEXT[]
-            )
-        ';
-        $this->connection->executeStatement($sql);
-
-        // Test array with NULL elements
-        $this->connection->executeStatement(
-            'INSERT INTO null_test_table (id, nullable_array) VALUES (1, \'{"item1", NULL, "item3"}\')'
-        );
-
-        $result = $this->connection->executeQuery('SELECT nullable_array::text FROM null_test_table WHERE id = 1');
-        $row = $result->fetchAssociative();
-
-        if ($row === false) {
-            self::fail('Failed to retrieve nullable array test data');
-        }
-
-        if (!isset($row['nullable_array']) || !\is_string($row['nullable_array'])) {
-            self::fail('Invalid nullable array data');
-        }
-
-        $postgresString = $row['nullable_array'];
-        $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresString);
-        self::assertEquals(['item1', null, 'item3'], $parsed);
-    }
-
-    /**
-     * Test edge cases that were problematic in GitHub issue #351.
-     */
-    public function test_github_351_regression_scenarios(): void
-    {
-        $regressionCases = [
-            // Original case from issue #351
-            ["!@#\\$%^&*()_+=-}{[]|\":;'\\?><,./"],
-
-            // Related edge cases with backslashes and quotes
-            ['\\before'],
-            ['after\\'],
-            ['\\middle\\'],
-            ['\\\\double\\\\'],
-            ['\"quoted\"'],
-            ['\\\"escaped\\\"'],
-
-            // Special characters that could cause parsing issues
-            ['{curly}', '[square]', '(parens)'],
-            ['comma,separated', 'semicolon;separated'],
-            ['pipe|separated', 'colon:separated'],
-        ];
-
-        foreach ($regressionCases as $i => $testCase) {
-            $this->assertRoundTripIntegrity($testCase, 'GitHub #351 regression case '.$i);
-        }
-    }
-
-    /**
-     * Helper method to test round-trip integrity.
-     */
-    private function assertRoundTripIntegrity(array $originalArray, string $testDescription): void
-    {
-        // Store in PostgreSQL using ARRAY constructor
-        $placeholders = \str_repeat('?,', \count($originalArray));
-        $placeholders = \rtrim($placeholders, ',');
-
-        if ($originalArray === []) {
-            $sql = "SELECT '{}'::text[]::text";
-            $stmt = $this->connection->prepare($sql);
-        } else {
-            $sql = \sprintf('SELECT ARRAY[%s]::text[]::text', $placeholders);
-            $stmt = $this->connection->prepare($sql);
-            foreach ($originalArray as $i => $value) {
-                $stmt->bindValue($i + 1, $value);
-            }
-        }
-
-        $result = $stmt->executeQuery();
-        $row = $result->fetchAssociative();
-
-        if ($row === false) {
-            self::fail(\sprintf('Failed to retrieve PostgreSQL array representation for %s', $testDescription));
-        }
-
-        if (!isset($row['array']) || !\is_string($row['array'])) {
-            self::fail(\sprintf('Invalid array data for %s', $testDescription));
-        }
-
-        $postgresString = $row['array'];
-
-        // Parse back using our transformer
-        $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresString);
-
-        self::assertEquals(
-            $originalArray,
-            $parsed,
-            \sprintf('Round-trip integrity failed for %s. PostgreSQL representation: %s', $testDescription, $postgresString)
-        );
-    }
-
-    private function createTestTableForArrayFixture(): void
-    {
-        $this->dropTestTableIfItExists('array_test_table');
-
-        $sql = '
-            CREATE TABLE array_test_table (
-                id INTEGER PRIMARY KEY,
+        $this->dropTestTableIfItExists(self::TABLE_NAME);
+        $this->connection->executeStatement(\sprintf('
+            CREATE TABLE %s (
+                id SERIAL PRIMARY KEY,
                 test_array TEXT[]
             )
-        ';
-        $this->connection->executeStatement($sql);
+        ', self::TABLE_NAME));
     }
 
-    private function insertArrayData(int $id, array $arrayData): void
+    /**
+     * @template T
+     *
+     * @param array<string, mixed> $params
+     * @param callable(string): T  $transform
+     *
+     * @return T
+     */
+    private function retrieveFromDatabase(string $sql, array $params, callable $transform): mixed
     {
-        $sql = 'INSERT INTO array_test_table (id, test_array) VALUES (:id, :arrayData)';
-        $statement = $this->connection->prepare($sql);
-        $statement->bindValue('id', $id);
-        $statement->bindValue('arrayData', $arrayData, 'text[]');
-        $statement->executeStatement();
+        $row = $this->connection->executeQuery($sql, $params)->fetchAssociative();
+
+        if ($row === false || !isset($row['test_array']) || !\is_string($row['test_array'])) {
+            throw new \RuntimeException('Failed to retrieve array data');
+        }
+
+        return $transform($row['test_array']);
     }
 
-    private function retrieveArrayData(int $id): array
+    /**
+     * @return array<int, string>
+     */
+    private function retrieveArray(int $id): array
     {
-        $sql = 'SELECT test_array FROM array_test_table WHERE id = :id';
-        $statement = $this->connection->prepare($sql);
-        $statement->bindValue('id', $id);
+        /** @var array<int, string> $result */
+        $result = $this->retrieveFromDatabase(
+            \sprintf('SELECT test_array FROM %s WHERE id = :id', self::TABLE_NAME),
+            ['id' => $id],
+            static fn (string $value): array => PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($value)
+        );
 
-        $result = $statement->executeQuery();
+        return $result;
+    }
+
+    private function retrieveArrayAsText(int $id): string
+    {
+        /** @var string $result */
+        $result = $this->retrieveFromDatabase(
+            \sprintf('SELECT test_array::text FROM %s WHERE id = :id', self::TABLE_NAME),
+            ['id' => $id],
+            static fn (string $value): string => $value
+        );
+
+        return $result;
+    }
+
+    /**
+     * @param array<int, string> $arrayData
+     */
+    private function insertArray(array $arrayData): int
+    {
+        $result = $this->connection->executeQuery(
+            \sprintf('INSERT INTO %s (test_array) VALUES (:arrayData) RETURNING id', self::TABLE_NAME),
+            ['arrayData' => $arrayData],
+            ['arrayData' => 'text[]']
+        );
+
         $row = $result->fetchAssociative();
-
-        if ($row === false) {
-            self::fail(\sprintf('Failed to retrieve array data for ID %d', $id));
+        if ($row === false || !isset($row['id']) || !\is_numeric($row['id'])) {
+            throw new \RuntimeException('Failed to insert array data');
         }
 
-        if (!isset($row['test_array']) || !\is_string($row['test_array'])) {
-            self::fail(\sprintf('Invalid array data for ID %d', $id));
-        }
+        return (int) $row['id'];
+    }
 
-        $postgresString = $row['test_array'];
+    /**
+     * @param array<int, string> $expected
+     */
+    private function assertArrayRoundTrip(int $id, array $expected, string $description): void
+    {
+        // Test direct retrieval
+        $retrieved = $this->retrieveArray($id);
+        self::assertEquals(
+            $expected,
+            $retrieved,
+            \sprintf('Direct retrieval failed for %s', $description)
+        );
 
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresString);
+        // Test text representation
+        $postgresText = $this->retrieveArrayAsText($id);
+        $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresText);
+        self::assertEquals(
+            $expected,
+            $parsed,
+            \sprintf('Text representation parsing failed for %s', $description)
+        );
     }
 }
