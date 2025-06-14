@@ -21,10 +21,10 @@ class PostgresArrayToPHPArrayTransformer
 
     /**
      * Transforms a PostgreSQL text array to a PHP array.
-     * This method supports only single-dimensioned text arrays and
-     * relays on the default escaping strategy in PostgreSQL (double quotes).
+     * This method supports only single-dimensional text arrays and
+     * relies on the default escaping strategy in PostgreSQL (double quotes).
      *
-     * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has invalid format
+     * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has an invalid format
      */
     public static function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
@@ -86,10 +86,7 @@ class PostgresArrayToPHPArrayTransformer
             return self::parsePostgresArrayManually($content);
         }
 
-        return \array_map(
-            static fn (mixed $value): mixed => \is_string($value) ? self::unescapeString($value) : $value,
-            (array) $decoded
-        );
+        return (array) $decoded;
     }
 
     private static function parsePostgresArrayManually(string $content): array
@@ -215,33 +212,37 @@ class PostgresArrayToPHPArrayTransformer
 
     private static function unescapeString(string $value): string
     {
+        /**
+         * PostgreSQL array escaping rules:
+         * \\ -> \ (escaped backslash becomes literal backslash)
+         * \" -> " (escaped quote becomes literal quote)
+         * Everything else remains as-is
+         */
         $result = '';
-        $len = \strlen($value);
-        $i = 0;
-        while ($i < $len) {
-            if ($value[$i] === '\\') {
-                $start = $i;
-                while ($i < $len && $value[$i] === '\\') {
-                    $i++;
-                }
-
-                $slashCount = $i - $start;
-                $nextChar = $i < $len ? $value[$i] : '';
-                if ($nextChar === '"' || $nextChar === '\\') {
-                    $result .= \str_repeat('\\', \intdiv($slashCount, 2));
-                    if ($slashCount % 2 === 1) {
-                        $result .= $nextChar;
-                        $i++;
-                    }
+        $length = \strlen($value);
+        $position = 0;
+        
+        while ($position < $length) {
+            if ($value[$position] === '\\' && $position + 1 < $length) {
+                $nextChar = $value[$position + 1];
+                
+                if ($nextChar === '\\') {
+                    // \\ -> \
+                    $result .= '\\';
+                    $position += 2;
+                } elseif ($nextChar === '"') {
+                    // \" -> "
+                    $result .= '"';
+                    $position += 2;
                 } else {
-                    $result .= \str_repeat('\\', $slashCount);
+                    // \ followed by anything else - keep the backslash
+                    $result .= '\\';
+                    $position++;
                 }
-
-                continue;
+            } else {
+                $result .= $value[$position];
+                $position++;
             }
-
-            $result .= $value[$i];
-            $i++;
         }
 
         return $result;
