@@ -115,6 +115,14 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
             $result = $stmt->executeQuery();
             $row = $result->fetchAssociative();
 
+            if ($row === false) {
+                self::fail(\sprintf('Failed to retrieve test array with ID %d', $i));
+            }
+
+            if (!isset($row['test_array']) || !\is_string($row['test_array'])) {
+                self::fail(\sprintf('Invalid test array data for ID %d', $i));
+            }
+
             $postgresRepresentation = $row['test_array'];
 
             // Test our transformer can handle the real representation
@@ -123,7 +131,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
             self::assertEquals(
                 $testArray,
                 $parsed,
-                'Failed to parse real PostgreSQL representation: '.$postgresRepresentation
+                \sprintf('Failed to parse real PostgreSQL representation: %s', $postgresRepresentation)
             );
         }
     }
@@ -168,7 +176,16 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
         $result = $this->connection->executeQuery('SELECT nullable_array::text FROM null_test_table WHERE id = 1');
         $row = $result->fetchAssociative();
 
-        $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($row['nullable_array']);
+        if ($row === false) {
+            self::fail('Failed to retrieve nullable array test data');
+        }
+
+        if (!isset($row['nullable_array']) || !\is_string($row['nullable_array'])) {
+            self::fail('Invalid nullable array data');
+        }
+
+        $postgresString = $row['nullable_array'];
+        $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresString);
         self::assertEquals(['item1', null, 'item3'], $parsed);
     }
 
@@ -222,6 +239,15 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
 
         $result = $stmt->executeQuery();
         $row = $result->fetchAssociative();
+
+        if ($row === false) {
+            self::fail(\sprintf('Failed to retrieve PostgreSQL array representation for %s', $testDescription));
+        }
+
+        if (!isset($row['array']) || !\is_string($row['array'])) {
+            self::fail(\sprintf('Invalid array data for %s', $testDescription));
+        }
+
         $postgresString = $row['array'];
 
         // Parse back using our transformer
@@ -265,6 +291,16 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
         $result = $statement->executeQuery();
         $row = $result->fetchAssociative();
 
-        return $this->transformPostgresArray($row['test_array']);
+        if ($row === false) {
+            self::fail(\sprintf('Failed to retrieve array data for ID %d', $id));
+        }
+
+        if (!isset($row['test_array']) || !\is_string($row['test_array'])) {
+            self::fail(\sprintf('Invalid array data for ID %d', $id));
+        }
+
+        $postgresString = $row['test_array'];
+
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresString);
     }
 }
