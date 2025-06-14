@@ -53,7 +53,7 @@
         "phpstan/phpstan-doctrine": "^2.0.3",
         "phpstan/phpstan-phpunit": "^2.0.6",
         "phpunit/phpunit": "^10.5.46",
-        "rector/rector": "^2.0.16",
+        "rector/rector": "^2.0.18",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
