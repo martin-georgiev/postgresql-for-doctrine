@@ -81,6 +81,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Special aggregates (`any_value`, `xmlagg`)
 - **Mathematical/Arithmetic Functions**
 - **Range Functions**
+- **Data Type Formatting Functions**
 
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
