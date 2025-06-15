@@ -33,7 +33,7 @@ class ToDateTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_when_argument_missing(): void
+    public function throws_exception_when_argument_is_missing(): void
     {
         $this->expectException(QueryException::class);
 

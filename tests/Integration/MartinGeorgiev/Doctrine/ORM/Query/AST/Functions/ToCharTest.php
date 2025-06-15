@@ -17,8 +17,8 @@ class ToCharTest extends TestCase
     {
         parent::setUp();
         $this->createTestSchema();
-        $this->createContainsDatesTableWithFixture();
-        $this->createContainsNumericsTableWithFixture();
+        $this->createTestTableForDateFixture();
+        $this->createTestTableForNumericFixture();
     }
 
     protected function getStringFunctions(): array
@@ -92,7 +92,7 @@ class ToCharTest extends TestCase
         $this->executeDqlQuery($dql);
     }
 
-    private function createContainsDatesTableWithFixture(): void
+    private function createTestTableForDateFixture(): void
     {
         $tableName = 'containsdates';
 
@@ -123,7 +123,7 @@ class ToCharTest extends TestCase
         $this->connection->executeStatement($sql);
     }
 
-    private function createContainsNumericsTableWithFixture(): void
+    private function createTestTableForNumericFixture(): void
     {
         $tableName = 'containsnumerics';
 
