@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.1...v3.2.2) (2025-06-15)
+
+
+### Bug Fixes
+
+* **#351:** Correct round-trip handling of special characters between PHP and PostgreSQL ([#391](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/391)) ([979a581](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/979a5815faed6c2139c530abc6fbd60ff26c7f1b))
+
 ## [3.2.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.0...v3.2.1) (2025-05-24)
 
 
