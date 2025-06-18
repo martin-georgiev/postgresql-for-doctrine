@@ -16,7 +16,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPE
  */
 class MacaddrArray extends BaseNetworkTypeArray
 {
-    protected const TYPE_NAME = 'macaddr[]';
+    public const TYPE_NAME = 'macaddr[]';
 
     protected function isValidNetworkAddress(string $value): bool
     {
