@@ -36,7 +36,7 @@ final class DateRangeTest extends TestCase
     {
         $dateRange = DateRange::infinite();
 
-        self::assertEquals('[,]', (string) $dateRange);
+        self::assertEquals('(,)', (string) $dateRange);
         self::assertFalse($dateRange->isEmpty());
     }
 

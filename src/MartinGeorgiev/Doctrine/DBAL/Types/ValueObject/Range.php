@@ -140,6 +140,6 @@ abstract class Range implements \Stringable
 
     public static function infinite(): static
     {
-        return new static(null, null, true, true);
+        return new static(null, null, false, false);
     }
 }

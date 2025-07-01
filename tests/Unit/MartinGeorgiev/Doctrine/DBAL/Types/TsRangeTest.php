@@ -75,7 +75,10 @@ final class TsRangeTest extends TestCase
             '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000)',
         ];
         yield 'hour range' => [
-            TsRangeValueObject::hour(new \DateTimeImmutable('2023-01-01 14:30:00')),
+            new TsRangeValueObject(
+                new \DateTimeImmutable('2023-01-01 14:00:00'),
+                new \DateTimeImmutable('2023-01-01 15:00:00')
+            ),
             '[2023-01-01 14:00:00.000000,2023-01-01 15:00:00.000000)',
         ];
         yield 'empty range' => [

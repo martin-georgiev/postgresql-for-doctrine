@@ -54,8 +54,9 @@ final class TsRangeTest extends TestCase
     #[Test]
     public function can_create_hour_range(): void
     {
-        $dateTime = new \DateTimeImmutable('2023-01-01 14:30:00');
-        $tsRange = TsRange::hour($dateTime);
+        $start = new \DateTimeImmutable('2023-01-01 14:00:00');
+        $end = $start->modify('+1 hour');
+        $tsRange = new TsRange($start, $end);
 
         self::assertEquals('[2023-01-01 14:00:00.000000,2023-01-01 15:00:00.000000)', (string) $tsRange);
         self::assertFalse($tsRange->isEmpty());

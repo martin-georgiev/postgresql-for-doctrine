@@ -23,53 +23,14 @@ abstract class BaseTimestampRange extends Range
         parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
     }
 
-    public static function hour(\DateTimeInterface $dateTime): static
-    {
-        $start = \DateTimeImmutable::createFromInterface($dateTime)->setTime(
-            (int) $dateTime->format('H'),
-            0,
-            0,
-            0
-        );
-        $end = $start->modify('+1 hour');
-
-        return new static($start, $end, true, false);
-    }
-
-    public static function fromString(string $rangeString): static
-    {
-        $rangeString = \trim($rangeString);
-
-        if ($rangeString === parent::EMPTY_RANGE_STRING) {
-            return static::empty();
-        }
-
-        if (!\preg_match('/^(\[|\()("?[^",]*"?),("?[^",]*"?)(\]|\))$/', $rangeString, $matches)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid range format: %s', $rangeString)
-            );
-        }
-
-        $isLowerBracketInclusive = $matches[1] === parent::BRACKET_LOWER_INCLUSIVE;
-        $isUpperBracketInclusive = $matches[4] === parent::BRACKET_UPPER_INCLUSIVE;
-        $lowerBoundValue = $matches[2] === '' ? null : static::parseTimestampValue(\trim($matches[2], '"'));
-        $upperBoundValue = $matches[3] === '' ? null : static::parseTimestampValue(\trim($matches[3], '"'));
-
-        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive);
-    }
-
-    /**
-     * Compare timestamps with microsecond precision.
-     * PHP's getTimestamp() only returns seconds, so we need separate microsecond comparison.
-     */
     protected function compareBounds(mixed $a, mixed $b): int
     {
         $timestampComparison = $a->getTimestamp() <=> $b->getTimestamp();
-
         if ($timestampComparison !== 0) {
             return $timestampComparison;
         }
 
+        // PHP's getTimestamp() only returns seconds, so we need separate microsecond comparison.
         return (int) $a->format('u') <=> (int) $b->format('u');
     }
 
@@ -82,7 +43,7 @@ abstract class BaseTimestampRange extends Range
         return $value->format('Y-m-d H:i:s.u');
     }
 
-    protected static function parseTimestampValue(string $value): \DateTimeImmutable
+    protected static function parseValue(string $value): \DateTimeImmutable
     {
         try {
             return new \DateTimeImmutable($value);
@@ -93,10 +54,5 @@ abstract class BaseTimestampRange extends Range
                 $exception
             );
         }
-    }
-
-    protected static function parseValue(string $value): \DateTimeImmutable
-    {
-        return static::parseTimestampValue($value);
     }
 }

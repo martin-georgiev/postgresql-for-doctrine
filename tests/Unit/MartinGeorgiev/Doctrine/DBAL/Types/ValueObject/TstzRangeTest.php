@@ -54,8 +54,9 @@ final class TstzRangeTest extends TestCase
     #[Test]
     public function can_create_hour_range(): void
     {
-        $dateTime = new \DateTimeImmutable('2023-01-01 14:30:00+02:00');
-        $tstzRange = TstzRange::hour($dateTime);
+        $start = new \DateTimeImmutable('2023-01-01 14:00:00+02:00');
+        $end = $start->modify('+1 hour');
+        $tstzRange = new TstzRange($start, $end);
 
         self::assertEquals('[2023-01-01 14:00:00.000000+02:00,2023-01-01 15:00:00.000000+02:00)', (string) $tstzRange);
         self::assertFalse($tstzRange->isEmpty());
