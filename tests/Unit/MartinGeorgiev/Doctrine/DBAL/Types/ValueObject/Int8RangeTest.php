@@ -41,7 +41,7 @@ final class Int8RangeTest extends TestCase
     #[Test]
     public function can_create_inclusive_range(): void
     {
-        $int8Range = Int8Range::inclusive(1, 10);
+        $int8Range = new Int8Range(1, 10, true, true);
 
         self::assertEquals('[1,10]', (string) $int8Range);
         self::assertFalse($int8Range->isEmpty());

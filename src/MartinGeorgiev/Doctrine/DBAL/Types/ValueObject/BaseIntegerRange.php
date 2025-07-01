@@ -23,24 +23,6 @@ abstract class BaseIntegerRange extends Range
         parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
     }
 
-    /**
-     * Uses PostgreSQL's explicit empty state rather than mathematical tricks.
-     */
-    public static function empty(): static
-    {
-        return new static(null, null, true, false, true);
-    }
-
-    public static function infinite(): static
-    {
-        return new static(null, null, false, false);
-    }
-
-    public static function inclusive(?int $lower, ?int $upper): static
-    {
-        return new static($lower, $upper, true, true);
-    }
-
     public static function fromString(string $rangeString): static
     {
         $rangeString = \trim($rangeString);

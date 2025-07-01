@@ -41,7 +41,7 @@ final class Int4RangeTest extends TestCase
     #[Test]
     public function can_create_inclusive_range(): void
     {
-        $int4Range = Int4Range::inclusive(1, 10);
+        $int4Range = new Int4Range(1, 10, true, true);
 
         self::assertEquals('[1,10]', (string) $int4Range);
         self::assertFalse($int4Range->isEmpty());

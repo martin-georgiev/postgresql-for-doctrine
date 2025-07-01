@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range as Int4RangeValueOb
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 
 /**
- * PostgreSQL INT4RANGE type.
+ * Implementation of PostgreSQL INT4RANGE type.
  *
  * @extends BaseRangeType<Int4RangeValueObject>
  *

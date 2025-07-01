@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 
 /**
- * PostgreSQL NUMRANGE type.
+ * Implementation of PostgreSQL NUMRANGE type.
  *
  * @extends BaseRangeType<NumericRange>
  *

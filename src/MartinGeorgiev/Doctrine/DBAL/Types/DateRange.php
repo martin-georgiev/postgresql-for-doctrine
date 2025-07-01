@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange as DateRangeValueOb
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 
 /**
- * PostgreSQL DATERANGE type.
+ * Implementation of PostgreSQL DATERANGE type.
  *
  * @extends BaseRangeType<DateRangeValueObject>
  *

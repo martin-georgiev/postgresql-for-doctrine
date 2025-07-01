@@ -45,7 +45,7 @@ final class TsRangeTest extends TestCase
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00');
-        $tsRange = TsRange::inclusive($start, $end);
+        $tsRange = new TsRange($start, $end, true, true);
 
         self::assertEquals('[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000]', (string) $tsRange);
         self::assertFalse($tsRange->isEmpty());

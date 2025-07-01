@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueOb
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 
 /**
- * PostgreSQL INT8RANGE type.
+ * Implementation of PostgreSQL INT8RANGE type.
  *
  * @extends BaseRangeType<Int8RangeValueObject>
  *

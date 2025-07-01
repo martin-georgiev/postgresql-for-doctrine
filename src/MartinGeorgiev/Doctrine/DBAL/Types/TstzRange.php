@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange as TstzRangeValueObject;
 
 /**
- * PostgreSQL TSTZRANGE type.
+ * Implementation of PostgreSQL TSTZRANGE type.
  *
  * @extends BaseRangeType<TstzRangeValueObject>
  *

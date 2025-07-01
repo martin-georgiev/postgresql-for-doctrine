@@ -64,19 +64,6 @@ final class DateRange extends Range
         }
     }
 
-    /**
-     * Uses PostgreSQL's explicit empty state rather than mathematical tricks.
-     */
-    public static function empty(): self
-    {
-        return new self(null, null, true, false, true);
-    }
-
-    public static function infinite(): self
-    {
-        return new self(null, null, true, true);
-    }
-
     public static function singleDay(\DateTimeInterface $date): self
     {
         $startOfDay = \DateTimeImmutable::createFromInterface($date)->setTime(0, 0, 0);

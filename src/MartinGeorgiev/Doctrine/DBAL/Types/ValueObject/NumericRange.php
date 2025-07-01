@@ -64,22 +64,4 @@ final class NumericRange extends Range
 
         return $floatValue === (float) $intValue ? $intValue : $floatValue;
     }
-
-    public static function withLowerBoundInclusive(mixed $lower, mixed $upper): self
-    {
-        return new self($lower, $upper, true, false);
-    }
-
-    /**
-     * Uses PostgreSQL's explicit empty state rather than mathematical tricks.
-     */
-    public static function empty(): self
-    {
-        return new self(null, null, true, false, true);
-    }
-
-    public static function infinite(): self
-    {
-        return new self(null, null, false, false);
-    }
 }

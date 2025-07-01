@@ -45,7 +45,7 @@ final class TstzRangeTest extends TestCase
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00+00:00');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00+00:00');
-        $tstzRange = TstzRange::inclusive($start, $end);
+        $tstzRange = new TstzRange($start, $end, true, true);
 
         self::assertEquals('[2023-01-01 10:00:00.000000+00:00,2023-01-01 18:00:00.000000+00:00]', (string) $tstzRange);
         self::assertFalse($tstzRange->isEmpty());

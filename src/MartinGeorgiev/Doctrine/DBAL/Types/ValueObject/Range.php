@@ -39,14 +39,67 @@ abstract class Range implements \Stringable
             return self::EMPTY_RANGE_STRING;
         }
 
-        $lowerBracketChar = $this->isLowerBracketInclusive ? self::BRACKET_LOWER_INCLUSIVE : self::BRACKET_LOWER_EXCLUSIVE;
-        $upperBracketChar = $this->isUpperBracketInclusive ? self::BRACKET_UPPER_INCLUSIVE : self::BRACKET_UPPER_EXCLUSIVE;
+        $lowerBracket = $this->isLowerBracketInclusive ? self::BRACKET_LOWER_INCLUSIVE : self::BRACKET_LOWER_EXCLUSIVE;
+        $upperBracket = $this->isUpperBracketInclusive ? self::BRACKET_UPPER_INCLUSIVE : self::BRACKET_UPPER_EXCLUSIVE;
 
         $formattedLowerBound = $this->lower === null ? '' : $this->formatValue($this->lower);
         $formattedUpperBound = $this->upper === null ? '' : $this->formatValue($this->upper);
 
-        return $lowerBracketChar.$formattedLowerBound.','.$formattedUpperBound.$upperBracketChar;
+        return $lowerBracket.$formattedLowerBound.','.$formattedUpperBound.$upperBracket;
     }
+
+    /**
+     * Following PostgreSQL's design philosophy, a range can be empty in two ways:
+     * 1. Explicitly marked as empty (isExplicitlyEmpty flag = true)
+     * 2. Mathematically empty due to bounds (lower > upper, or equal bounds with exclusive brackets)
+     */
+    public function isEmpty(): bool
+    {
+        if ($this->isExplicitlyEmpty) {
+            return true;
+        }
+
+        if ($this->lower === null || $this->upper === null) {
+            return false;
+        }
+
+        $comparison = $this->compareBounds($this->lower, $this->upper);
+        if ($comparison > 0) {
+            return true;
+        }
+
+        return $comparison === 0 && (!$this->isLowerBracketInclusive || !$this->isUpperBracketInclusive);
+    }
+
+    abstract protected function compareBounds(mixed $a, mixed $b): int;
+
+    abstract protected function formatValue(mixed $value): string;
+
+    public static function fromString(string $rangeString): static
+    {
+        $rangeString = \trim($rangeString);
+
+        if ($rangeString === self::EMPTY_RANGE_STRING) {
+            // PostgreSQL's explicit empty state rather than mathematical tricks
+            return new static(null, null, true, false, true);
+        }
+
+        $pattern = '/^('.\preg_quote(self::BRACKET_LOWER_INCLUSIVE, '/').'|'.\preg_quote(self::BRACKET_LOWER_EXCLUSIVE, '/').')("?[^",]*"?),("?[^",]*"?)('.\preg_quote(self::BRACKET_UPPER_INCLUSIVE, '/').'|'.\preg_quote(self::BRACKET_UPPER_EXCLUSIVE, '/').')$/';
+        if (!\preg_match($pattern, $rangeString, $matches)) {
+            throw new \InvalidArgumentException(
+                \sprintf('Invalid range format: %s', $rangeString)
+            );
+        }
+
+        $isLowerBracketInclusive = $matches[1] === self::BRACKET_LOWER_INCLUSIVE;
+        $isUpperBracketInclusive = $matches[4] === self::BRACKET_UPPER_INCLUSIVE;
+        $lowerBoundValue = $matches[2] === '' ? null : static::parseValue(\trim($matches[2], '"'));
+        $upperBoundValue = $matches[3] === '' ? null : static::parseValue(\trim($matches[3], '"'));
+
+        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive);
+    }
+
+    abstract protected static function parseValue(string $value): mixed;
 
     public function contains(mixed $target): bool
     {
@@ -77,57 +130,16 @@ abstract class Range implements \Stringable
         return true;
     }
 
-    public static function fromString(string $rangeString): static
+    /**
+     * Uses PostgreSQL's explicit empty state rather than mathematical tricks.
+     */
+    public static function empty(): static
     {
-        $rangeString = \trim($rangeString);
-
-        if ($rangeString === self::EMPTY_RANGE_STRING) {
-            // PostgreSQL's explicit empty state rather than mathematical tricks
-            return new static(null, null, true, false, true);
-        }
-
-        $pattern = '/^('.\preg_quote(self::BRACKET_LOWER_INCLUSIVE, '/').'|'.\preg_quote(self::BRACKET_LOWER_EXCLUSIVE, '/').')("?[^",]*"?),("?[^",]*"?)('.\preg_quote(self::BRACKET_UPPER_INCLUSIVE, '/').'|'.\preg_quote(self::BRACKET_UPPER_EXCLUSIVE, '/').')$/';
-        if (!\preg_match($pattern, $rangeString, $matches)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid range format: %s', $rangeString)
-            );
-        }
-
-        $isLowerBracketInclusive = $matches[1] === self::BRACKET_LOWER_INCLUSIVE;
-        $isUpperBracketInclusive = $matches[4] === self::BRACKET_UPPER_INCLUSIVE;
-        $lowerBoundValue = $matches[2] === '' ? null : static::parseValue(\trim($matches[2], '"'));
-        $upperBoundValue = $matches[3] === '' ? null : static::parseValue(\trim($matches[3], '"'));
-
-        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive);
+        return new static(null, null, true, false, true);
     }
 
-    abstract protected function compareBounds(mixed $a, mixed $b): int;
-
-    abstract protected function formatValue(mixed $value): string;
-
-    abstract protected static function parseValue(string $value): mixed;
-
-    /**
-     * Following PostgreSQL's design philosophy, a range can be empty in two ways:
-     * 1. Explicitly marked as empty (isExplicitlyEmpty flag = true)
-     * 2. Mathematically empty due to bounds (lower > upper, or equal bounds with exclusive brackets)
-     */
-    public function isEmpty(): bool
+    public static function infinite(): static
     {
-        if ($this->isExplicitlyEmpty) {
-            return true;
-        }
-
-        if ($this->lower === null || $this->upper === null) {
-            return false;
-        }
-
-        $comparison = $this->compareBounds($this->lower, $this->upper);
-
-        if ($comparison > 0) {
-            return true;
-        }
-
-        return $comparison === 0 && (!$this->isLowerBracketInclusive || !$this->isUpperBracketInclusive);
+        return new static(null, null, true, true);
     }
 }
