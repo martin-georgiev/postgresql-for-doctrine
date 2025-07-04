@@ -17,19 +17,25 @@ use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
 use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Inet;
 use MartinGeorgiev\Doctrine\DBAL\Types\InetArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
+use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -160,19 +166,25 @@ abstract class TestCase extends BaseTestCase
             'bool[]' => BooleanArray::class,
             'cidr' => Cidr::class,
             'cidr[]' => CidrArray::class,
+            'daterange' => DateRange::class,
             'double precision[]' => DoublePrecisionArray::class,
             'inet' => Inet::class,
             'inet[]' => InetArray::class,
+            'int4range' => Int4Range::class,
+            'int8range' => Int8Range::class,
             'integer[]' => IntegerArray::class,
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
             'macaddr' => Macaddr::class,
             'macaddr[]' => MacaddrArray::class,
+            'numrange' => NumRange::class,
             'point' => Point::class,
             'point[]' => PointArray::class,
             'real[]' => RealArray::class,
             'smallint[]' => SmallIntArray::class,
             'text[]' => TextArray::class,
+            'tsrange' => TsRange::class,
+            'tstzrange' => TstzRange::class,
         ];
 
         foreach ($typesMap as $typeName => $typeClass) {

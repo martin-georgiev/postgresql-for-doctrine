@@ -5,7 +5,14 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange as DateRangeValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range as Int4RangeValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange as NumRangeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range as RangeValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange as TsRangeValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange as TstzRangeValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class DBALTypesTest extends TestCase
@@ -97,6 +104,27 @@ class DBALTypesTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideRangeTypeTestCases')]
+    public function test_range_type(string $typeName, string $columnType, RangeValueObject $rangeValueObject): void
+    {
+        $this->runTypeTest($typeName, $columnType, $rangeValueObject);
+    }
+
+    public static function provideRangeTypeTestCases(): array
+    {
+        return [
+            'numrange simple' => ['numrange', 'NUMRANGE', new NumRangeValueObject(1.5, 10.7)],
+            'numrange infinite' => ['numrange', 'NUMRANGE', new NumRangeValueObject(null, 1000, false, false)],
+            'numrange empty' => ['numrange', 'NUMRANGE', NumRangeValueObject::empty()],
+            'int4range simple' => ['int4range', 'INT4RANGE', new Int4RangeValueObject(1, 1000)],
+            'int4range infinite' => ['int4range', 'INT4RANGE', new Int4RangeValueObject(null, 1000, false, false)],
+            'int8range simple' => ['int8range', 'INT8RANGE', new Int8RangeValueObject(PHP_INT_MIN, PHP_INT_MAX)],
+            'daterange simple' => ['daterange', 'DATERANGE', new DateRangeValueObject(new \DateTimeImmutable('2023-01-01'), new \DateTimeImmutable('2023-12-31'))],
+            'tsrange simple' => ['tsrange', 'TSRANGE', new TsRangeValueObject(new \DateTimeImmutable('2023-01-01 10:00:00'), new \DateTimeImmutable('2023-01-01 18:00:00'))],
+            'tstzrange simple' => ['tstzrange', 'TSTZRANGE', new TstzRangeValueObject(new \DateTimeImmutable('2023-01-01 10:00:00+00:00'), new \DateTimeImmutable('2023-01-01 18:00:00+00:00'))],
+        ];
+    }
+
     /**
      * Generic test method that handles all types of tests.
      */
@@ -142,6 +170,7 @@ class DBALTypesTest extends TestCase
     {
         match (true) {
             $expected instanceof PointValueObject => $this->assertPointEquals($expected, $actual, $typeName),
+            $expected instanceof RangeValueObject => $this->assertRangeEquals($expected, $actual, $typeName),
             \is_array($expected) => $this->assertEquals($expected, $actual, 'Failed asserting that array values are equal for type '.$typeName),
             default => $this->assertSame($expected, $actual, 'Failed asserting that values are identical for type '.$typeName)
         };
@@ -152,5 +181,12 @@ class DBALTypesTest extends TestCase
         $this->assertInstanceOf(PointValueObject::class, $actual, 'Failed asserting that value is a Point object for type '.$typeName);
         $this->assertEquals($pointValueObject->getX(), $actual->getX(), 'Failed asserting that X coordinates are equal for type '.$typeName);
         $this->assertEquals($pointValueObject->getY(), $actual->getY(), 'Failed asserting that Y coordinates are equal for type '.$typeName);
+    }
+
+    private function assertRangeEquals(RangeValueObject $rangeValueObject, mixed $actual, string $typeName): void
+    {
+        $this->assertInstanceOf(RangeValueObject::class, $actual, 'Failed asserting that value is a Range object for type '.$typeName);
+        $this->assertEquals($rangeValueObject->__toString(), $actual->__toString(), 'Failed asserting that range string representations are equal for type '.$typeName);
+        $this->assertEquals($rangeValueObject->isEmpty(), $actual->isEmpty(), 'Failed asserting that range empty states are equal for type '.$typeName);
     }
 }
