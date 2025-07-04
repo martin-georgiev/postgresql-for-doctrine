@@ -21,17 +21,4 @@ final class TsRange extends BaseTimestampRange
 
         return $value->format('Y-m-d H:i:s.u');
     }
-
-    protected static function parseValue(string $value): \DateTimeImmutable
-    {
-        try {
-            return new \DateTimeImmutable($value);
-        } catch (\Exception $exception) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid timestamp value: %s. Error: %s', $value, $exception->getMessage()),
-                0,
-                $exception
-            );
-        }
-    }
 }

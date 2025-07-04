@@ -38,22 +38,4 @@ final class Int4Range extends BaseIntegerRange
 
         parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
     }
-
-    protected static function parseValue(string $value): int
-    {
-        if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid integer value: %s', $value)
-            );
-        }
-
-        $intValue = (int) $value;
-        if ((string) $intValue !== $value) {
-            throw new \InvalidArgumentException(
-                \sprintf('Value %s is not a valid integer', $value)
-            );
-        }
-
-        return $intValue;
-    }
 }

@@ -30,17 +30,8 @@ abstract class BaseTimestampRange extends Range
             return $timestampComparison;
         }
 
-        // PHP's getTimestamp() only returns seconds, so we need separate microsecond comparison.
+        // PHP's getTimestamp() only returns seconds, so we need to separate the microsecond comparison.
         return (int) $a->format('u') <=> (int) $b->format('u');
-    }
-
-    protected function formatValue(mixed $value): string
-    {
-        if (!$value instanceof \DateTimeInterface) {
-            throw new \InvalidArgumentException('Value must be a DateTimeInterface');
-        }
-
-        return $value->format('Y-m-d H:i:s.u');
     }
 
     protected static function parseValue(string $value): \DateTimeImmutable

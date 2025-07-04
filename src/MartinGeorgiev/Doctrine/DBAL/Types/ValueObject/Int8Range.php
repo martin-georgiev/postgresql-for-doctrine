@@ -11,23 +11,4 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class Int8Range extends BaseIntegerRange
-{
-    protected static function parseValue(string $value): int
-    {
-        if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid integer value: %s', $value)
-            );
-        }
-
-        $intValue = (int) $value;
-        if ((string) $intValue !== $value) {
-            throw new \InvalidArgumentException(
-                \sprintf('Value %s is not a valid integer', $value)
-            );
-        }
-
-        return $intValue;
-    }
-}
+final class Int8Range extends BaseIntegerRange {}
