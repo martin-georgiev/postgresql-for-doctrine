@@ -4,74 +4,55 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueObject;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-final class Int8RangeTest extends TestCase
+final class Int8RangeTest extends BaseRangeTestCase
 {
-    private Int8Range $fixture;
-
-    private PostgreSQLPlatform $platform;
-
-    protected function setUp(): void
+    protected function createRangeType(): Type
     {
-        $this->fixture = new Int8Range();
-        $this->platform = new PostgreSQLPlatform();
+        return new Int8Range();
     }
 
-    #[Test]
-    public function can_get_sql_declaration(): void
+    protected function getExpectedTypeName(): string
     {
-        $result = $this->fixture->getSQLDeclaration([], $this->platform);
-
-        self::assertEquals('int8range', $result);
+        return 'int8range';
     }
 
-    #[Test]
-    #[DataProvider('providesValidPHPValues')]
-    public function can_transform_from_php_value(Int8RangeValueObject $int8RangeValueObject, string $expectedSqlValue): void
+    protected function getExpectedSqlDeclaration(): string
     {
-        $result = $this->fixture->convertToDatabaseValue($int8RangeValueObject, $this->platform);
-
-        self::assertEquals($expectedSqlValue, $result);
+        return 'int8range';
     }
 
-    #[Test]
-    public function can_transform_null_from_php_value(): void
+    protected function getExpectedValueObjectClass(): string
     {
-        $result = $this->fixture->convertToDatabaseValue(null, $this->platform);
-
-        self::assertNull($result);
+        return Int8RangeValueObject::class;
     }
 
-    #[Test]
-    #[DataProvider('providesValidSqlValues')]
-    public function can_transform_from_sql_value(string $sqlValue, Int8RangeValueObject $int8RangeValueObject): void
-    {
-        $result = $this->fixture->convertToPHPValue($sqlValue, $this->platform);
-
-        self::assertEquals($int8RangeValueObject, $result);
-    }
-
-    #[Test]
-    public function can_transform_null_from_sql_value(): void
-    {
-        $result = $this->fixture->convertToPHPValue(null, $this->platform);
-
-        self::assertNull($result);
-    }
-
-    public static function providesValidPHPValues(): \Generator
+    public static function provideValidTransformations(): \Generator
     {
         yield 'simple range' => [
             new Int8RangeValueObject(1, 1000),
             '[1,1000)',
         ];
-        yield 'large range' => [
+        yield 'inclusive range' => [
+            new Int8RangeValueObject(1, 10, true, true),
+            '[1,10]',
+        ];
+        yield 'exclusive range' => [
+            new Int8RangeValueObject(1, 10, false, false),
+            '(1,10)',
+        ];
+        yield 'infinite lower' => [
+            new Int8RangeValueObject(null, 100),
+            '[,100)',
+        ];
+        yield 'infinite upper' => [
+            new Int8RangeValueObject(1, null),
+            '[1,)',
+        ];
+        yield 'max bounds' => [
             new Int8RangeValueObject(PHP_INT_MIN, PHP_INT_MAX),
             '['.PHP_INT_MIN.','.PHP_INT_MAX.')',
         ];
@@ -79,27 +60,9 @@ final class Int8RangeTest extends TestCase
             Int8RangeValueObject::empty(),
             'empty',
         ];
-    }
-
-    public static function providesValidSqlValues(): \Generator
-    {
-        yield 'simple range' => [
-            '[1,1000)',
-            new Int8RangeValueObject(1, 1000),
+        yield 'null value' => [
+            null,
+            null,
         ];
-        yield 'empty range' => [
-            'empty',
-            Int8RangeValueObject::empty(),
-        ];
-    }
-
-    #[Test]
-    public function can_handle_postgres_empty_range(): void
-    {
-        $result = $this->fixture->convertToPHPValue('empty', $this->platform);
-
-        self::assertInstanceOf(Int8RangeValueObject::class, $result);
-        self::assertEquals('empty', (string) $result);
-        self::assertTrue($result->isEmpty());
     }
 }

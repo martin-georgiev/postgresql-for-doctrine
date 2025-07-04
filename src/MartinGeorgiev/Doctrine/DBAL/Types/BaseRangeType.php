@@ -20,6 +20,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
  */
 abstract class BaseRangeType extends Type
 {
+    public function getName(): string
+    {
+        return static::TYPE_NAME;
+    }
+
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return static::TYPE_NAME;

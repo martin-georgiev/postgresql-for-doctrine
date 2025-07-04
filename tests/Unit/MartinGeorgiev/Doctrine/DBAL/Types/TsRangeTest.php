@@ -4,111 +4,61 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange as TsRangeValueObject;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-final class TsRangeTest extends TestCase
+final class TsRangeTest extends BaseRangeTestCase
 {
-    private TsRange $fixture;
-
-    private PostgreSQLPlatform $platform;
-
-    protected function setUp(): void
+    protected function createRangeType(): Type
     {
-        $this->fixture = new TsRange();
-        $this->platform = new PostgreSQLPlatform();
+        return new TsRange();
     }
 
-    #[Test]
-    public function can_get_sql_declaration(): void
+    protected function getExpectedTypeName(): string
     {
-        $result = $this->fixture->getSQLDeclaration([], $this->platform);
-
-        self::assertEquals('tsrange', $result);
+        return 'tsrange';
     }
 
-    #[Test]
-    #[DataProvider('providesValidPHPValues')]
-    public function can_transform_from_php_value(TsRangeValueObject $tsRangeValueObject, string $expectedSqlValue): void
+    protected function getExpectedSqlDeclaration(): string
     {
-        $result = $this->fixture->convertToDatabaseValue($tsRangeValueObject, $this->platform);
-
-        self::assertEquals($expectedSqlValue, $result);
+        return 'tsrange';
     }
 
-    #[Test]
-    public function can_transform_null_from_php_value(): void
+    protected function getExpectedValueObjectClass(): string
     {
-        $result = $this->fixture->convertToDatabaseValue(null, $this->platform);
-
-        self::assertNull($result);
+        return TsRangeValueObject::class;
     }
 
-    #[Test]
-    #[DataProvider('providesValidSqlValues')]
-    public function can_transform_from_sql_value(string $sqlValue, TsRangeValueObject $tsRangeValueObject): void
-    {
-        $result = $this->fixture->convertToPHPValue($sqlValue, $this->platform);
-
-        self::assertEquals($tsRangeValueObject, $result);
-    }
-
-    #[Test]
-    public function can_transform_null_from_sql_value(): void
-    {
-        $result = $this->fixture->convertToPHPValue(null, $this->platform);
-
-        self::assertNull($result);
-    }
-
-    public static function providesValidPHPValues(): \Generator
+    public static function provideValidTransformations(): \Generator
     {
         yield 'simple range' => [
-            new TsRangeValueObject(
-                new \DateTimeImmutable('2023-01-01 10:00:00'),
-                new \DateTimeImmutable('2023-01-01 18:00:00')
-            ),
+            new TsRangeValueObject(new \DateTimeImmutable('2023-01-01 10:00:00'), new \DateTimeImmutable('2023-01-01 18:00:00')),
             '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000)',
         ];
-        yield 'hour range' => [
-            new TsRangeValueObject(
-                new \DateTimeImmutable('2023-01-01 14:00:00'),
-                new \DateTimeImmutable('2023-01-01 15:00:00')
-            ),
-            '[2023-01-01 14:00:00.000000,2023-01-01 15:00:00.000000)',
+        yield 'inclusive range' => [
+            new TsRangeValueObject(new \DateTimeImmutable('2023-01-01 10:00:00'), new \DateTimeImmutable('2023-01-01 18:00:00'), true, true),
+            '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000]',
+        ];
+        yield 'exclusive range' => [
+            new TsRangeValueObject(new \DateTimeImmutable('2023-01-01 10:00:00'), new \DateTimeImmutable('2023-01-01 18:00:00'), false, false),
+            '(2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000)',
+        ];
+        yield 'infinite lower' => [
+            new TsRangeValueObject(null, new \DateTimeImmutable('2023-01-01 18:00:00')),
+            '[,2023-01-01 18:00:00.000000)',
+        ];
+        yield 'infinite upper' => [
+            new TsRangeValueObject(new \DateTimeImmutable('2023-01-01 10:00:00'), null),
+            '[2023-01-01 10:00:00.000000,)',
         ];
         yield 'empty range' => [
             TsRangeValueObject::empty(),
             'empty',
         ];
-    }
-
-    public static function providesValidSqlValues(): \Generator
-    {
-        yield 'simple range' => [
-            '[2023-01-01 10:00:00,2023-01-01 18:00:00)',
-            new TsRangeValueObject(
-                new \DateTimeImmutable('2023-01-01 10:00:00'),
-                new \DateTimeImmutable('2023-01-01 18:00:00')
-            ),
+        yield 'null value' => [
+            null,
+            null,
         ];
-        yield 'empty range' => [
-            'empty',
-            TsRangeValueObject::empty(),
-        ];
-    }
-
-    #[Test]
-    public function can_handle_postgres_empty_range(): void
-    {
-        $result = $this->fixture->convertToPHPValue('empty', $this->platform);
-
-        self::assertInstanceOf(TsRangeValueObject::class, $result);
-        self::assertEquals('empty', (string) $result);
-        self::assertTrue($result->isEmpty());
     }
 }
