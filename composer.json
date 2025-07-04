@@ -52,7 +52,7 @@
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
         "phpstan/phpstan-doctrine": "^2.0.3",
         "phpstan/phpstan-phpunit": "^2.0.6",
-        "phpunit/phpunit": "^10.5.47",
+        "phpunit/phpunit": "^12.2.5",
         "rector/rector": "^2.1.0",
         "symfony/cache": "^6.4||^7.0"
     },
