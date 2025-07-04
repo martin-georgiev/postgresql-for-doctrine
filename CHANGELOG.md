@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.2...v3.3.0) (2025-07-04)
+
+
+### Features
+
+* Add support for formatting functions `to_char`, `to_date`, `to_number`, `to_timestamp` ([#386](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/386)) ([7a047e8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7a047e840bd4b1df608eb56ee796d19e209077e8))
+
 ## [3.2.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.1...v3.2.2) (2025-06-15)
 
 
