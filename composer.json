@@ -47,13 +47,13 @@
         "deptrac/deptrac": "^3.0",
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.0",
-        "friendsofphp/php-cs-fixer": "^3.75.0",
+        "friendsofphp/php-cs-fixer": "^3.76.0",
         "phpstan/phpstan": "^2.1.17",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
         "phpstan/phpstan-doctrine": "^2.0.3",
         "phpstan/phpstan-phpunit": "^2.0.6",
-        "phpunit/phpunit": "^10.5.46",
-        "rector/rector": "^2.0.18",
+        "phpunit/phpunit": "^10.5.47",
+        "rector/rector": "^2.1.0",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
