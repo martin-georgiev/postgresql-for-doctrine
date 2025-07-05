@@ -7,6 +7,9 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 
+/**
+ * @extends BaseRangeTestCase<NumericRange>
+ */
 final class NumRangeTest extends BaseRangeTestCase
 {
     protected function createRangeType(): NumRange
@@ -15,11 +18,6 @@ final class NumRangeTest extends BaseRangeTestCase
     }
 
     protected function getExpectedTypeName(): string
-    {
-        return 'numrange';
-    }
-
-    protected function getExpectedSqlDeclaration(): string
     {
         return 'numrange';
     }

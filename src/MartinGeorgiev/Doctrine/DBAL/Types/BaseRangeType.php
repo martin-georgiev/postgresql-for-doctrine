@@ -12,7 +12,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 /**
  * Base class for PostgreSQL range types.
  *
- * @template T of Range
+ * @template R of Range
  *
  * @since 3.3
  *
@@ -20,6 +20,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
  */
 abstract class BaseRangeType extends BaseType
 {
+    /**
+     * @param R|null $value
+     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -34,9 +37,9 @@ abstract class BaseRangeType extends BaseType
     }
 
     /**
-     * @param mixed $value
+     * @param string|null $value
      *
-     * @return T|null
+     * @return R|null
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Range
     {
@@ -60,7 +63,7 @@ abstract class BaseRangeType extends BaseType
     }
 
     /**
-     * @return T
+     * @return R
      */
     abstract protected function createFromString(string $value): Range;
 }

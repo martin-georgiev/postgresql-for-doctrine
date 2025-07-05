@@ -7,6 +7,9 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range as Int4RangeValueObject;
 
+/**
+ * @extends BaseRangeTestCase<Int4RangeValueObject>
+ */
 final class Int4RangeTest extends BaseRangeTestCase
 {
     protected function createRangeType(): Int4Range
@@ -15,11 +18,6 @@ final class Int4RangeTest extends BaseRangeTestCase
     }
 
     protected function getExpectedTypeName(): string
-    {
-        return 'int4range';
-    }
-
-    protected function getExpectedSqlDeclaration(): string
     {
         return 'int4range';
     }

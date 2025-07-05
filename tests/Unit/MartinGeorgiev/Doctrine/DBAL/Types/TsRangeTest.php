@@ -7,6 +7,9 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange as TsRangeValueObject;
 
+/**
+ * @extends BaseRangeTestCase<TsRangeValueObject>
+ */
 final class TsRangeTest extends BaseRangeTestCase
 {
     protected function createRangeType(): TsRange
@@ -15,11 +18,6 @@ final class TsRangeTest extends BaseRangeTestCase
     }
 
     protected function getExpectedTypeName(): string
-    {
-        return 'tsrange';
-    }
-
-    protected function getExpectedSqlDeclaration(): string
     {
         return 'tsrange';
     }

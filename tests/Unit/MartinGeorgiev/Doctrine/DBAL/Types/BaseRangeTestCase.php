@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseRangeType;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -13,6 +12,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @template R of Range
+ */
 abstract class BaseRangeTestCase extends TestCase
 {
     /**
@@ -20,6 +22,9 @@ abstract class BaseRangeTestCase extends TestCase
      */
     protected MockObject $platform;
 
+    /**
+     * @var BaseRangeType<R>
+     */
     protected BaseRangeType $fixture;
 
     protected function setUp(): void
@@ -34,6 +39,9 @@ abstract class BaseRangeTestCase extends TestCase
         self::assertEquals($this->getExpectedTypeName(), $this->fixture->getName());
     }
 
+    /**
+     * @param R|null $range
+     */
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?Range $range, ?string $postgresValue): void
@@ -41,6 +49,9 @@ abstract class BaseRangeTestCase extends TestCase
         self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($range, $this->platform));
     }
 
+    /**
+     * @param R|null $range
+     */
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?Range $range, ?string $postgresValue): void
@@ -87,6 +98,9 @@ abstract class BaseRangeTestCase extends TestCase
      */
     abstract public static function provideValidTransformations(): \Generator;
 
+    /**
+     * @return BaseRangeType<R>
+     */
     abstract protected function createRangeType(): BaseRangeType;
 
     /**
@@ -95,9 +109,7 @@ abstract class BaseRangeTestCase extends TestCase
     abstract protected function getExpectedTypeName(): string;
 
     /**
-     * Returns the expected SQL declaration (e.g., 'NUMRANGE', 'INT4RANGE').
+     * @return class-string<R>
      */
-    abstract protected function getExpectedSqlDeclaration(): string;
-
     abstract protected function getExpectedValueObjectClass(): string;
 }

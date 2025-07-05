@@ -7,6 +7,9 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueObject;
 
+/**
+ * @extends BaseRangeTestCase<Int8RangeValueObject>
+ */
 final class Int8RangeTest extends BaseRangeTestCase
 {
     protected function createRangeType(): Int8Range
@@ -15,11 +18,6 @@ final class Int8RangeTest extends BaseRangeTestCase
     }
 
     protected function getExpectedTypeName(): string
-    {
-        return 'int8range';
-    }
-
-    protected function getExpectedSqlDeclaration(): string
     {
         return 'int8range';
     }

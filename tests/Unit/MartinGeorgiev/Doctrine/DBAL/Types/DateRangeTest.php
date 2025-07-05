@@ -7,6 +7,9 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange as DateRangeValueObject;
 
+/**
+ * @extends BaseRangeTestCase<DateRangeValueObject>
+ */
 final class DateRangeTest extends BaseRangeTestCase
 {
     protected function createRangeType(): DateRange
@@ -15,11 +18,6 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     protected function getExpectedTypeName(): string
-    {
-        return 'daterange';
-    }
-
-    protected function getExpectedSqlDeclaration(): string
     {
         return 'daterange';
     }
