@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\BaseRangeType;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -19,7 +20,7 @@ abstract class BaseRangeTestCase extends TestCase
      */
     protected MockObject $platform;
 
-    protected Type $fixture;
+    protected BaseRangeType $fixture;
 
     protected function setUp(): void
     {
@@ -86,7 +87,7 @@ abstract class BaseRangeTestCase extends TestCase
      */
     abstract public static function provideValidTransformations(): \Generator;
 
-    abstract protected function createRangeType(): Type;
+    abstract protected function createRangeType(): BaseRangeType;
 
     /**
      * Returns the expected type name (e.g., 'numrange', 'int4range').

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange as TstzRangeValueObject;
 
 final class TstzRangeTest extends BaseRangeTestCase
 {
-    protected function createRangeType(): Type
+    protected function createRangeType(): TstzRange
     {
         return new TstzRange();
     }

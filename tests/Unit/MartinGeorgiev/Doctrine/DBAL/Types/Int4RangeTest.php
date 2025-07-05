@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range as Int4RangeValueObject;
 
 final class Int4RangeTest extends BaseRangeTestCase
 {
-    protected function createRangeType(): Type
+    protected function createRangeType(): Int4Range
     {
         return new Int4Range();
     }

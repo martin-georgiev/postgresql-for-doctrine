@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 
 final class NumRangeTest extends BaseRangeTestCase
 {
-    protected function createRangeType(): Type
+    protected function createRangeType(): NumRange
     {
         return new NumRange();
     }

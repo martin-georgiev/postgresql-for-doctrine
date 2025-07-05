@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange as DateRangeValueObject;
 
 final class DateRangeTest extends BaseRangeTestCase
 {
-    protected function createRangeType(): Type
+    protected function createRangeType(): DateRange
     {
         return new DateRange();
     }
