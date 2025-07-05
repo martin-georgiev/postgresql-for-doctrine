@@ -31,6 +31,13 @@ Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray"
 
 Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
 Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
+
+Type::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
+Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
+Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
+Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
+Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
+Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 ```
 
 
@@ -237,6 +244,13 @@ $platform->registerDoctrineTypeMapping('_macaddr','macaddr[]');
 $platform->registerDoctrineTypeMapping('point','point');
 $platform->registerDoctrineTypeMapping('point[]','point[]');
 $platform->registerDoctrineTypeMapping('_point','point[]');
+
+$platform->registerDoctrineTypeMapping('daterange','daterange');
+$platform->registerDoctrineTypeMapping('int4range','int4range');
+$platform->registerDoctrineTypeMapping('int8range','int8range');
+$platform->registerDoctrineTypeMapping('numrange','numrange');
+$platform->registerDoctrineTypeMapping('tsrange','tsrange');
+$platform->registerDoctrineTypeMapping('tstzrange','tstzrange');
 ...
 
 ```
