@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 /**
  * Abstract base class for PostgreSQL range types.
  *
- * @template T of int|float|\DateTimeInterface
+ * @template R of int|float|\DateTimeInterface
  *
  * @since 3.3
  *

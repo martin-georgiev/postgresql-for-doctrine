@@ -1,0 +1,25 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\:\:empty\(\) should return static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\<R of DateTimeInterface\|float\|int\>\) but returns static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\<DateTimeInterface\|float\|int\>\)\.$#'
+			identifier: return.type
+			count: 1
+			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Range.php
+
+		-
+			message: '#^Method MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\:\:fromString\(\) should return static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\<R of DateTimeInterface\|float\|int\>\) but returns static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\<DateTimeInterface\|float\|int\>\)\.$#'
+			identifier: return.type
+			count: 2
+			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Range.php
+
+		-
+			message: '#^Method MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\:\:infinite\(\) should return static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\<R of DateTimeInterface\|float\|int\>\) but returns static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\<DateTimeInterface\|float\|int\>\)\.$#'
+			identifier: return.type
+			count: 1
+			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Range.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 4
+			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Range.php

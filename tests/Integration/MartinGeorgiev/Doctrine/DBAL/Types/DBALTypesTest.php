@@ -23,6 +23,9 @@ class DBALTypesTest extends TestCase
         $this->runTypeTest($typeName, $columnType, $testValue);
     }
 
+    /**
+     * @return array<string, array{string, string, string}>
+     */
     public static function provideScalarTypeTestCases(): array
     {
         return [
@@ -35,12 +38,18 @@ class DBALTypesTest extends TestCase
         ];
     }
 
+    /**
+     * @param array<mixed> $testValue
+     */
     #[DataProvider('provideArrayTypeTestCases')]
     public function test_array_type(string $typeName, string $columnType, array $testValue): void
     {
         $this->runTypeTest($typeName, $columnType, $testValue);
     }
 
+    /**
+     * @return array<string, array{string, string, array<mixed>}>
+     */
     public static function provideArrayTypeTestCases(): array
     {
         return [
@@ -63,12 +72,18 @@ class DBALTypesTest extends TestCase
         ];
     }
 
+    /**
+     * @param array<mixed> $testValue
+     */
     #[DataProvider('provideJsonTypeTestCases')]
     public function test_json_type(string $typeName, string $columnType, array $testValue): void
     {
         $this->runTypeTest($typeName, $columnType, $testValue);
     }
 
+    /**
+     * @return array<string, array{string, string, array<mixed>}>
+     */
     public static function provideJsonTypeTestCases(): array
     {
         return [
@@ -94,6 +109,9 @@ class DBALTypesTest extends TestCase
         $this->runTypeTest($typeName, $columnType, $pointValueObject);
     }
 
+    /**
+     * @return array<string, array{string, string, PointValueObject}>
+     */
     public static function providePointTypeTestCases(): array
     {
         return [
@@ -104,12 +122,18 @@ class DBALTypesTest extends TestCase
         ];
     }
 
+    /**
+     * @param DateRangeValueObject|Int4RangeValueObject|Int8RangeValueObject|NumRangeValueObject|TsRangeValueObject|TstzRangeValueObject $rangeValueObject
+     */
     #[DataProvider('provideRangeTypeTestCases')]
     public function test_range_type(string $typeName, string $columnType, RangeValueObject $rangeValueObject): void
     {
         $this->runTypeTest($typeName, $columnType, $rangeValueObject);
     }
 
+    /**
+     * @return array<string, array{string, string, DateRangeValueObject|Int4RangeValueObject|Int8RangeValueObject|NumRangeValueObject|TsRangeValueObject|TstzRangeValueObject}>
+     */
     public static function provideRangeTypeTestCases(): array
     {
         return [
@@ -183,6 +207,9 @@ class DBALTypesTest extends TestCase
         $this->assertEquals($pointValueObject->getY(), $actual->getY(), 'Failed asserting that Y coordinates are equal for type '.$typeName);
     }
 
+    /**
+     * @param RangeValueObject<\DateTimeInterface|float|int> $rangeValueObject
+     */
     private function assertRangeEquals(RangeValueObject $rangeValueObject, mixed $actual, string $typeName): void
     {
         $this->assertInstanceOf(RangeValueObject::class, $actual, 'Failed asserting that value is a Range object for type '.$typeName);
