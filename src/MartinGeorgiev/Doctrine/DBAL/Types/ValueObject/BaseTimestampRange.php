@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+
 /**
  * Base class for PostgreSQL timestamp range types.
+ *
+ * @extends Range<\DateTimeInterface>
  *
  * @since 3.3
  *
@@ -25,6 +29,14 @@ abstract class BaseTimestampRange extends Range
 
     protected function compareBounds(mixed $a, mixed $b): int
     {
+        if (!$a instanceof \DateTimeInterface) {
+            throw InvalidRangeForPHPException::forInvalidDateTimeBound($a);
+        }
+
+        if (!$b instanceof \DateTimeInterface) {
+            throw InvalidRangeForPHPException::forInvalidDateTimeBound($b);
+        }
+
         $timestampComparison = $a->getTimestamp() <=> $b->getTimestamp();
         if ($timestampComparison !== 0) {
             return $timestampComparison;

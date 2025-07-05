@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+
 /**
  * Base class for PostgreSQL integer range types.
+ *
+ * @extends Range<int>
  *
  * @since 3.3
  *
@@ -30,6 +34,10 @@ abstract class BaseIntegerRange extends Range
 
     protected function formatValue(mixed $value): string
     {
+        if (!\is_int($value)) {
+            throw InvalidRangeForPHPException::forInvalidIntegerBound($value);
+        }
+
         return (string) $value;
     }
 

@@ -75,6 +75,9 @@ abstract class Range implements \Stringable
 
     abstract protected function formatValue(mixed $value): string;
 
+    /**
+     * @param string $rangeString The PostgreSQL range string (e.g., '[1,10)', 'empty')
+     */
     public static function fromString(string $rangeString): static
     {
         $rangeString = \trim($rangeString);
@@ -130,9 +133,6 @@ abstract class Range implements \Stringable
         return true;
     }
 
-    /**
-     * Uses PostgreSQL's explicit empty state rather than mathematical tricks.
-     */
     public static function empty(): static
     {
         return new static(null, null, true, false, true);

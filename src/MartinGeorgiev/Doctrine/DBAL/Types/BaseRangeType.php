@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForDatabaseException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 
 /**
@@ -18,18 +18,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-abstract class BaseRangeType extends Type
+abstract class BaseRangeType extends BaseType
 {
-    public function getName(): string
-    {
-        return static::TYPE_NAME;
-    }
-
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
-    {
-        return static::TYPE_NAME;
-    }
-
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -55,7 +45,7 @@ abstract class BaseRangeType extends Type
         }
 
         if (!\is_string($value)) {
-            throw InvalidRangeForDatabaseException::forInvalidType($value);
+            throw InvalidRangeForPHPException::forInvalidType($value);
         }
 
         if ($value === '') {
@@ -65,7 +55,7 @@ abstract class BaseRangeType extends Type
         try {
             return $this->createFromString($value);
         } catch (\InvalidArgumentException) {
-            throw InvalidRangeForDatabaseException::forInvalidFormat($value);
+            throw InvalidRangeForPHPException::forInvalidFormat($value);
         }
     }
 

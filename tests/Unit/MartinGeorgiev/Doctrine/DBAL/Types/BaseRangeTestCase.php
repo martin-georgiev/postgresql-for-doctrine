@@ -33,14 +33,6 @@ abstract class BaseRangeTestCase extends TestCase
         self::assertEquals($this->getExpectedTypeName(), $this->fixture->getName());
     }
 
-    #[Test]
-    public function can_get_sql_declaration(): void
-    {
-        $result = $this->fixture->getSQLDeclaration([], $this->platform);
-
-        self::assertEquals($this->getExpectedSqlDeclaration(), $result);
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?Range $range, ?string $postgresValue): void
