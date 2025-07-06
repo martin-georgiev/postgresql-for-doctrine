@@ -97,3 +97,45 @@ SELECT DATE_ADD(e.timestampWithTz, '1 day', 'Europe/London') FROM Entity e
 SELECT DATE_SUBTRACT(e.timestampWithTz, '2 hours') FROM Entity e
 SELECT DATE_SUBTRACT(e.timestampWithTz, '2 hours', 'UTC') FROM Entity e
 ```
+
+Using Range Types
+---
+
+PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:
+
+```php
+// Entity with range fields
+#[ORM\Entity]
+class Product
+{
+    #[ORM\Column(type: 'numrange')]
+    private ?NumericRange $priceRange = null;
+
+    #[ORM\Column(type: 'daterange')]
+    private ?DateRange $availabilityPeriod = null;
+}
+
+// Create ranges
+$product = new Product();
+$product->setPriceRange(new NumericRange(10.50, 99.99));
+$product->setAvailabilityPeriod(new DateRange(
+    new \DateTimeImmutable('2024-01-01'),
+    new \DateTimeImmutable('2024-12-31')
+));
+
+// Check if values are in range
+if ($product->getPriceRange()->contains(25.00)) {
+    echo "Price is in range";
+}
+```
+
+```sql
+-- Find products with overlapping price ranges
+SELECT p FROM Product p WHERE OVERLAPS(p.priceRange, NUMRANGE(20, 50)) = TRUE
+
+-- Find products available in a specific period
+SELECT p FROM Product p WHERE CONTAINS(p.availabilityPeriod, DATERANGE('2024-06-01', '2024-06-30')) = TRUE
+
+-- Find products with prices in a specific range
+SELECT p FROM Product p WHERE p.priceRange @> 25.0
+```
