@@ -140,7 +140,8 @@ final class NumericRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_value_in_constructor(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Lower bound must be numeric');
 
         new NumericRange('invalid', 10);
     }
@@ -149,7 +150,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function throws_exception_for_invalid_parse_value_via_from_string(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid range format');
+        $this->expectExceptionMessage('Invalid numeric value');
 
         NumericRange::fromString('[not_numeric,10)');
     }

@@ -6,39 +6,131 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-final class DateRangeTest extends TestCase
+final class DateRangeTest extends BaseRangeTestCase
 {
-    #[Test]
-    public function can_create_simple_range(): void
+    protected function createSimpleRange(): Range
     {
-        $start = new \DateTimeImmutable('2023-01-01');
-        $end = new \DateTimeImmutable('2023-12-31');
-        $dateRange = new DateRange($start, $end);
-
-        self::assertEquals('[2023-01-01,2023-12-31)', (string) $dateRange);
-        self::assertFalse($dateRange->isEmpty());
+        return new DateRange(
+            new \DateTimeImmutable('2023-01-01'),
+            new \DateTimeImmutable('2023-12-31')
+        );
     }
 
-    #[Test]
-    public function can_create_empty_range(): void
+    protected function getExpectedSimpleRangeString(): string
     {
-        $dateRange = DateRange::empty();
-
-        self::assertEquals('empty', (string) $dateRange);
-        self::assertTrue($dateRange->isEmpty());
+        return '[2023-01-01,2023-12-31)';
     }
 
-    #[Test]
-    public function can_create_infinite_range(): void
+    protected function createEmptyRange(): Range
     {
-        $dateRange = DateRange::infinite();
+        return DateRange::empty();
+    }
 
-        self::assertEquals('(,)', (string) $dateRange);
-        self::assertFalse($dateRange->isEmpty());
+    protected function createInfiniteRange(): Range
+    {
+        return DateRange::infinite();
+    }
+
+    protected function createInclusiveRange(): Range
+    {
+        return new DateRange(
+            new \DateTimeImmutable('2023-01-01'),
+            new \DateTimeImmutable('2023-12-31'),
+            true,
+            true
+        );
+    }
+
+    protected function getExpectedInclusiveRangeString(): string
+    {
+        return '[2023-01-01,2023-12-31]';
+    }
+
+    protected function parseFromString(string $input): Range
+    {
+        return DateRange::fromString($input);
+    }
+
+    protected function createBoundaryTestRange(): Range
+    {
+        return new DateRange(
+            new \DateTimeImmutable('2023-01-01'),
+            new \DateTimeImmutable('2023-01-10'),
+            true,
+            false
+        );
+    }
+
+    protected function getBoundaryTestCases(): array
+    {
+        return [
+            'contains lower bound (inclusive)' => [
+                'value' => new \DateTimeImmutable('2023-01-01'),
+                'expected' => true,
+            ],
+            'does not contain value before range' => [
+                'value' => new \DateTimeImmutable('2022-12-31'),
+                'expected' => false,
+            ],
+            'does not contain upper bound (exclusive)' => [
+                'value' => new \DateTimeImmutable('2023-01-10'),
+                'expected' => false,
+            ],
+            'contains value just before upper' => [
+                'value' => new \DateTimeImmutable('2023-01-09'),
+                'expected' => true,
+            ],
+            'does not contain value after range' => [
+                'value' => new \DateTimeImmutable('2023-01-11'),
+                'expected' => false,
+            ],
+            'contains middle value' => [
+                'value' => new \DateTimeImmutable('2023-01-05'),
+                'expected' => true,
+            ],
+        ];
+    }
+
+    protected function getComparisonTestCases(): array
+    {
+        return [
+            'reverse range should be empty' => [
+                'range' => new DateRange(
+                    new \DateTimeImmutable('2023-12-31'),
+                    new \DateTimeImmutable('2023-01-01')
+                ),
+                'expectedEmpty' => true,
+            ],
+            'normal range should not be empty' => [
+                'range' => new DateRange(
+                    new \DateTimeImmutable('2023-01-01'),
+                    new \DateTimeImmutable('2023-12-31')
+                ),
+                'expectedEmpty' => false,
+            ],
+            'equal bounds exclusive should be empty' => [
+                'range' => new DateRange(
+                    new \DateTimeImmutable('2023-06-15'),
+                    new \DateTimeImmutable('2023-06-15'),
+                    false,
+                    false
+                ),
+                'expectedEmpty' => true,
+            ],
+            'equal bounds inclusive should not be empty' => [
+                'range' => new DateRange(
+                    new \DateTimeImmutable('2023-06-15'),
+                    new \DateTimeImmutable('2023-06-15'),
+                    true,
+                    true
+                ),
+                'expectedEmpty' => false,
+            ],
+        ];
     }
 
     #[Test]
@@ -69,21 +161,68 @@ final class DateRangeTest extends TestCase
         self::assertFalse($dateRange->isEmpty());
     }
 
-    #[Test]
-    #[DataProvider('providesContainsTestCases')]
-    public function can_check_contains(DateRange $dateRange, mixed $value, bool $expected): void
+    public static function provideContainsTestCases(): \Generator
     {
-        self::assertEquals($expected, $dateRange->contains($value));
+        $dateRange = new DateRange(
+            new \DateTimeImmutable('2023-01-01'),
+            new \DateTimeImmutable('2023-12-31')
+        );
+
+        yield 'contains date in range' => [
+            $dateRange,
+            new \DateTimeImmutable('2023-06-15'),
+            true,
+        ];
+        yield 'contains lower bound (inclusive)' => [
+            $dateRange,
+            new \DateTimeImmutable('2023-01-01'),
+            true,
+        ];
+        yield 'does not contain upper bound (exclusive)' => [
+            $dateRange,
+            new \DateTimeImmutable('2023-12-31'),
+            false,
+        ];
+        yield 'does not contain date before range' => [
+            $dateRange,
+            new \DateTimeImmutable('2022-12-31'),
+            false,
+        ];
+        yield 'does not contain date after range' => [
+            $dateRange,
+            new \DateTimeImmutable('2024-01-01'),
+            false,
+        ];
+        yield 'does not contain null' => [$dateRange, null, false];
     }
 
-    #[Test]
-    #[DataProvider('providesFromStringTestCases')]
-    public function can_parse_from_string(string $input, DateRange $dateRange): void
+    public static function provideFromStringTestCases(): \Generator
     {
-        $result = DateRange::fromString($input);
-
-        self::assertEquals($dateRange->__toString(), $result->__toString());
-        self::assertEquals($dateRange->isEmpty(), $result->isEmpty());
+        yield 'simple date range' => [
+            '[2023-01-01,2023-12-31)',
+            new DateRange(
+                new \DateTimeImmutable('2023-01-01'),
+                new \DateTimeImmutable('2023-12-31')
+            ),
+        ];
+        yield 'inclusive date range' => [
+            '[2023-01-01,2023-12-31]',
+            new DateRange(
+                new \DateTimeImmutable('2023-01-01'),
+                new \DateTimeImmutable('2023-12-31'),
+                true,
+                true
+            ),
+        ];
+        yield 'infinite lower' => [
+            '[,2023-12-31)',
+            new DateRange(null, new \DateTimeImmutable('2023-12-31')),
+        ];
+        yield 'infinite upper' => [
+            '[2023-01-01,)',
+            new DateRange(new \DateTimeImmutable('2023-01-01'), null),
+        ];
+        yield 'empty range' => ['empty', DateRange::empty()];
     }
 
     #[Test]
@@ -102,45 +241,6 @@ final class DateRangeTest extends TestCase
         $this->expectExceptionMessage('Upper bound must be DateTimeInterface');
 
         new DateRange(new \DateTimeImmutable('2023-01-01'), 'invalid');
-    }
-
-    public static function providesContainsTestCases(): \Generator
-    {
-        $dateRange = new DateRange(
-            new \DateTimeImmutable('2023-01-01'),
-            new \DateTimeImmutable('2023-12-31')
-        );
-
-        yield 'contains date in range' => [$dateRange, new \DateTimeImmutable('2023-06-15'), true];
-        yield 'contains lower bound (inclusive)' => [$dateRange, new \DateTimeImmutable('2023-01-01'), true];
-        yield 'does not contain upper bound (exclusive)' => [$dateRange, new \DateTimeImmutable('2023-12-31'), false];
-        yield 'does not contain date before range' => [$dateRange, new \DateTimeImmutable('2022-12-31'), false];
-        yield 'does not contain date after range' => [$dateRange, new \DateTimeImmutable('2024-01-01'), false];
-        yield 'does not contain null' => [$dateRange, null, false];
-
-        $emptyRange = DateRange::empty();
-        yield 'empty range contains nothing' => [$emptyRange, new \DateTimeImmutable('2023-06-15'), false];
-    }
-
-    public static function providesFromStringTestCases(): \Generator
-    {
-        yield 'simple range' => [
-            '[2023-01-01,2023-12-31)',
-            new DateRange(new \DateTimeImmutable('2023-01-01'), new \DateTimeImmutable('2023-12-31')),
-        ];
-        yield 'inclusive range' => [
-            '[2023-01-01,2023-12-31]',
-            new DateRange(new \DateTimeImmutable('2023-01-01'), new \DateTimeImmutable('2023-12-31'), true, true),
-        ];
-        yield 'infinite lower' => [
-            '[,2023-12-31)',
-            new DateRange(null, new \DateTimeImmutable('2023-12-31')),
-        ];
-        yield 'infinite upper' => [
-            '[2023-01-01,)',
-            new DateRange(new \DateTimeImmutable('2023-01-01'), null),
-        ];
-        yield 'empty range' => ['empty', DateRange::empty()];
     }
 
     #[Test]
@@ -178,7 +278,8 @@ final class DateRangeTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_value_in_constructor(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Lower bound must be DateTimeInterface');
 
         new DateRange('invalid', new \DateTimeImmutable('2023-12-31'));
     }
@@ -187,7 +288,7 @@ final class DateRangeTest extends TestCase
     public function throws_exception_for_invalid_date_string_in_parse_via_from_string(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid range format');
+        $this->expectExceptionMessage('Invalid date value');
 
         DateRange::fromString('[invalid_date,2023-12-31)');
     }
