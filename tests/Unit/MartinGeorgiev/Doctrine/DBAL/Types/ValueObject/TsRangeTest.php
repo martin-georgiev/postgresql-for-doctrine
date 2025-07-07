@@ -4,51 +4,162 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-final class TsRangeTest extends TestCase
+final class TsRangeTest extends BaseTimestampRangeTestCase
 {
-    #[Test]
-    public function can_create_simple_range(): void
+    protected function createSimpleRange(): Range
     {
-        $start = new \DateTimeImmutable('2023-01-01 10:00:00');
-        $end = new \DateTimeImmutable('2023-01-01 18:00:00');
-        $tsRange = new TsRange($start, $end);
-
-        self::assertEquals('[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000)', (string) $tsRange);
-        self::assertFalse($tsRange->isEmpty());
+        return new TsRange(
+            new \DateTimeImmutable('2023-01-01 10:00:00'),
+            new \DateTimeImmutable('2023-01-01 18:00:00')
+        );
     }
 
-    #[Test]
-    public function can_create_empty_range(): void
+    protected function getExpectedSimpleRangeString(): string
     {
-        $tsRange = TsRange::empty();
-
-        self::assertEquals('empty', (string) $tsRange);
-        self::assertTrue($tsRange->isEmpty());
+        return '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000)';
     }
 
-    #[Test]
-    public function can_create_infinite_range(): void
+    protected function createEmptyRange(): Range
     {
-        $tsRange = TsRange::infinite();
-
-        self::assertEquals('(,)', (string) $tsRange);
-        self::assertFalse($tsRange->isEmpty());
+        return TsRange::empty();
     }
 
-    #[Test]
-    public function can_create_inclusive_range(): void
+    protected function createInfiniteRange(): Range
     {
-        $start = new \DateTimeImmutable('2023-01-01 10:00:00');
-        $end = new \DateTimeImmutable('2023-01-01 18:00:00');
-        $tsRange = new TsRange($start, $end, true, true);
+        return TsRange::infinite();
+    }
 
-        self::assertEquals('[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000]', (string) $tsRange);
-        self::assertFalse($tsRange->isEmpty());
+    protected function createInclusiveRange(): Range
+    {
+        return new TsRange(
+            new \DateTimeImmutable('2023-01-01 10:00:00'),
+            new \DateTimeImmutable('2023-01-01 18:00:00'),
+            true,
+            true
+        );
+    }
+
+    protected function getExpectedInclusiveRangeString(): string
+    {
+        return '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000]';
+    }
+
+    protected function parseFromString(string $input): Range
+    {
+        return TsRange::fromString($input);
+    }
+
+    protected function createBoundaryTestRange(): Range
+    {
+        return new TsRange($this->getTestStartTime(), $this->getTestEndTime(), true, false);
+    }
+
+    protected function createRangeWithTimes(
+        ?\DateTimeInterface $start,
+        ?\DateTimeInterface $end,
+        bool $lowerInclusive = true,
+        bool $upperInclusive = false
+    ): Range {
+        return new TsRange($start, $end, $lowerInclusive, $upperInclusive);
+    }
+
+    protected function getTestStartTime(): \DateTimeInterface
+    {
+        return new \DateTimeImmutable('2023-01-01 10:00:00');
+    }
+
+    protected function getTestEndTime(): \DateTimeInterface
+    {
+        return new \DateTimeImmutable('2023-01-01 18:00:00');
+    }
+
+    protected function getTimeBeforeRange(): \DateTimeInterface
+    {
+        return new \DateTimeImmutable('2023-01-01 09:00:00');
+    }
+
+    protected function getTimeInMiddle(): \DateTimeInterface
+    {
+        return new \DateTimeImmutable('2023-01-01 14:00:00');
+    }
+
+    protected function createTimeWithMicroseconds(string $timeString): \DateTimeInterface
+    {
+        return new \DateTimeImmutable($timeString);
+    }
+
+    protected function getTestStartTimeString(): string
+    {
+        return '2023-01-01 10:00:00';
+    }
+
+    protected function getTestEndTimeString(): string
+    {
+        return '2023-01-01 18:00:00';
+    }
+
+    protected function getBoundaryTestCases(): array
+    {
+        return [
+            'contains lower bound (inclusive)' => [
+                'value' => new \DateTimeImmutable('2023-01-01 10:00:00'),
+                'expected' => true,
+            ],
+            'does not contain value before range' => [
+                'value' => new \DateTimeImmutable('2023-01-01 09:00:00'),
+                'expected' => false,
+            ],
+            'does not contain upper bound (exclusive)' => [
+                'value' => new \DateTimeImmutable('2023-01-01 18:00:00'),
+                'expected' => false,
+            ],
+            'contains value in middle' => [
+                'value' => new \DateTimeImmutable('2023-01-01 14:00:00'),
+                'expected' => true,
+            ],
+        ];
+    }
+
+    protected function getComparisonTestCases(): array
+    {
+        return [
+            'reverse range should be empty' => [
+                'range' => new TsRange(
+                    new \DateTimeImmutable('2023-01-01 18:00:00'),
+                    new \DateTimeImmutable('2023-01-01 10:00:00')
+                ),
+                'expectedEmpty' => true,
+            ],
+            'normal range should not be empty' => [
+                'range' => new TsRange(
+                    new \DateTimeImmutable('2023-01-01 10:00:00'),
+                    new \DateTimeImmutable('2023-01-01 18:00:00')
+                ),
+                'expectedEmpty' => false,
+            ],
+            'equal bounds exclusive should be empty' => [
+                'range' => new TsRange(
+                    new \DateTimeImmutable('2023-01-01 10:00:00'),
+                    new \DateTimeImmutable('2023-01-01 10:00:00'),
+                    false,
+                    false
+                ),
+                'expectedEmpty' => true,
+            ],
+            'equal bounds inclusive should not be empty' => [
+                'range' => new TsRange(
+                    new \DateTimeImmutable('2023-01-01 10:00:00'),
+                    new \DateTimeImmutable('2023-01-01 10:00:00'),
+                    true,
+                    true
+                ),
+                'expectedEmpty' => false,
+            ],
+        ];
     }
 
     #[Test]
@@ -62,21 +173,46 @@ final class TsRangeTest extends TestCase
         self::assertFalse($tsRange->isEmpty());
     }
 
-    #[Test]
-    #[DataProvider('providesContainsTestCases')]
-    public function can_check_contains(TsRange $tsRange, mixed $value, bool $expected): void
+    public static function provideContainsTestCases(): \Generator
     {
-        self::assertEquals($expected, $tsRange->contains($value));
+        $start = new \DateTimeImmutable('2023-01-01 10:00:00');
+        $end = new \DateTimeImmutable('2023-01-01 18:00:00');
+        $tsRange = new TsRange($start, $end);
+
+        yield 'contains value in range' => [
+            $tsRange,
+            new \DateTimeImmutable('2023-01-01 14:00:00'),
+            true,
+        ];
+        yield 'contains lower bound (inclusive)' => [$tsRange, $start, true];
+        yield 'does not contain upper bound (exclusive)' => [$tsRange, $end, false];
+        yield 'does not contain value before range' => [
+            $tsRange,
+            new \DateTimeImmutable('2023-01-01 09:00:00'),
+            false,
+        ];
+        yield 'does not contain null' => [$tsRange, null, false];
     }
 
-    #[Test]
-    #[DataProvider('providesFromStringTestCases')]
-    public function can_parse_from_string(string $input, TsRange $tsRange): void
+    public static function provideFromStringTestCases(): \Generator
     {
-        $result = TsRange::fromString($input);
-
-        self::assertEquals($tsRange->__toString(), $result->__toString());
-        self::assertEquals($tsRange->isEmpty(), $result->isEmpty());
+        yield 'simple range' => [
+            '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000)',
+            new TsRange(
+                new \DateTimeImmutable('2023-01-01 10:00:00'),
+                new \DateTimeImmutable('2023-01-01 18:00:00')
+            ),
+        ];
+        yield 'inclusive range' => [
+            '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000]',
+            new TsRange(
+                new \DateTimeImmutable('2023-01-01 10:00:00'),
+                new \DateTimeImmutable('2023-01-01 18:00:00'),
+                true,
+                true
+            ),
+        ];
+        yield 'empty range' => ['empty', TsRange::empty()];
     }
 
     #[Test]
@@ -89,42 +225,66 @@ final class TsRangeTest extends TestCase
         self::assertEquals('[2023-01-01 10:00:00.123456,2023-01-01 18:00:00.654321)', (string) $tsRange);
     }
 
-    public static function providesContainsTestCases(): \Generator
+    #[Test]
+    public function throws_exception_for_invalid_value_in_constructor(): void
     {
-        $tsRange = new TsRange(
-            new \DateTimeImmutable('2023-01-01 10:00:00'),
-            new \DateTimeImmutable('2023-01-01 18:00:00')
-        );
+        $this->expectException(\TypeError::class);
 
-        yield 'contains timestamp in range' => [$tsRange, new \DateTimeImmutable('2023-01-01 14:00:00'), true];
-        yield 'contains lower bound (inclusive)' => [$tsRange, new \DateTimeImmutable('2023-01-01 10:00:00'), true];
-        yield 'does not contain upper bound (exclusive)' => [$tsRange, new \DateTimeImmutable('2023-01-01 18:00:00'), false];
-        yield 'does not contain timestamp before range' => [$tsRange, new \DateTimeImmutable('2023-01-01 09:00:00'), false];
-        yield 'does not contain timestamp after range' => [$tsRange, new \DateTimeImmutable('2023-01-01 19:00:00'), false];
-        yield 'does not contain null' => [$tsRange, null, false];
-
-        $emptyRange = TsRange::empty();
-        yield 'empty range contains nothing' => [$emptyRange, new \DateTimeImmutable('2023-01-01 14:00:00'), false];
+        new TsRange('invalid', new \DateTimeImmutable('2023-01-01 18:00:00'));
     }
 
-    public static function providesFromStringTestCases(): \Generator
+    #[Test]
+    public function can_format_timestamp_values_via_to_string(): void
     {
-        yield 'simple range' => [
-            '[2023-01-01 10:00:00,2023-01-01 18:00:00)',
-            new TsRange(new \DateTimeImmutable('2023-01-01 10:00:00'), new \DateTimeImmutable('2023-01-01 18:00:00')),
-        ];
-        yield 'inclusive range' => [
-            '[2023-01-01 10:00:00,2023-01-01 18:00:00]',
-            new TsRange(new \DateTimeImmutable('2023-01-01 10:00:00'), new \DateTimeImmutable('2023-01-01 18:00:00'), true, true),
-        ];
-        yield 'infinite lower' => [
-            '[,2023-01-01 18:00:00)',
-            new TsRange(null, new \DateTimeImmutable('2023-01-01 18:00:00')),
-        ];
-        yield 'infinite upper' => [
-            '[2023-01-01 10:00:00,)',
-            new TsRange(new \DateTimeImmutable('2023-01-01 10:00:00'), null),
-        ];
-        yield 'empty range' => ['empty', TsRange::empty()];
+        $tsRange = new TsRange(
+            new \DateTimeImmutable('2023-06-15 14:30:25.123456'),
+            new \DateTimeImmutable('2023-06-15 18:45:30.654321')
+        );
+
+        $formatted = (string) $tsRange;
+        self::assertStringContainsString('2023-06-15 14:30:25.123456', $formatted);
+        self::assertStringContainsString('2023-06-15 18:45:30.654321', $formatted);
+    }
+
+    #[Test]
+    public function can_handle_microseconds_in_formatting(): void
+    {
+        $tsRange = new TsRange(
+            new \DateTimeImmutable('2023-01-01 10:00:00.123456'),
+            new \DateTimeImmutable('2023-01-01 18:00:00.654321')
+        );
+
+        self::assertEquals('[2023-01-01 10:00:00.123456,2023-01-01 18:00:00.654321)', (string) $tsRange);
+    }
+
+    #[Test]
+    public function can_parse_timestamp_strings_via_from_string(): void
+    {
+        $tsRange = TsRange::fromString('[2023-06-15 14:30:25.123456,2023-06-15 18:45:30.654321)');
+
+        $formatted = (string) $tsRange;
+        self::assertStringContainsString('2023-06-15 14:30:25.123456', $formatted);
+        self::assertStringContainsString('2023-06-15 18:45:30.654321', $formatted);
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_timestamp_string_via_from_string(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid timestamp value');
+
+        TsRange::fromString('[invalid_timestamp,2023-01-01 18:00:00)');
+    }
+
+    #[Test]
+    public function can_handle_timezone_information_in_input(): void
+    {
+        // TsRange preserves the original timestamp but formats without timezone info
+        $timestampWithTz = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');
+        $tsRange = new TsRange($timestampWithTz, null);
+
+        // The timestamp should be formatted as-is without timezone conversion
+        $formatted = (string) $tsRange;
+        self::assertStringContainsString('2023-01-01 10:00:00.000000', $formatted);
     }
 }

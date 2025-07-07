@@ -4,51 +4,102 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-final class TstzRangeTest extends TestCase
+final class TstzRangeTest extends BaseTimestampRangeTestCase
 {
-    #[Test]
-    public function can_create_simple_range(): void
+    protected function createSimpleRange(): Range
     {
-        $start = new \DateTimeImmutable('2023-01-01 10:00:00+00:00');
-        $end = new \DateTimeImmutable('2023-01-01 18:00:00+00:00');
-        $tstzRange = new TstzRange($start, $end);
-
-        self::assertEquals('[2023-01-01 10:00:00.000000+00:00,2023-01-01 18:00:00.000000+00:00)', (string) $tstzRange);
-        self::assertFalse($tstzRange->isEmpty());
+        return new TstzRange(
+            new \DateTimeImmutable('2023-01-01 10:00:00+00:00'),
+            new \DateTimeImmutable('2023-01-01 18:00:00+00:00')
+        );
     }
 
-    #[Test]
-    public function can_create_empty_range(): void
+    protected function getExpectedSimpleRangeString(): string
     {
-        $tstzRange = TstzRange::empty();
-
-        self::assertEquals('empty', (string) $tstzRange);
-        self::assertTrue($tstzRange->isEmpty());
+        return '[2023-01-01 10:00:00.000000+00:00,2023-01-01 18:00:00.000000+00:00)';
     }
 
-    #[Test]
-    public function can_create_infinite_range(): void
+    protected function createEmptyRange(): Range
     {
-        $tstzRange = TstzRange::infinite();
-
-        self::assertEquals('(,)', (string) $tstzRange);
-        self::assertFalse($tstzRange->isEmpty());
+        return TstzRange::empty();
     }
 
-    #[Test]
-    public function can_create_inclusive_range(): void
+    protected function createInfiniteRange(): Range
     {
-        $start = new \DateTimeImmutable('2023-01-01 10:00:00+00:00');
-        $end = new \DateTimeImmutable('2023-01-01 18:00:00+00:00');
-        $tstzRange = new TstzRange($start, $end, true, true);
+        return TstzRange::infinite();
+    }
 
-        self::assertEquals('[2023-01-01 10:00:00.000000+00:00,2023-01-01 18:00:00.000000+00:00]', (string) $tstzRange);
-        self::assertFalse($tstzRange->isEmpty());
+    protected function createInclusiveRange(): Range
+    {
+        return new TstzRange(
+            new \DateTimeImmutable('2023-01-01 10:00:00+00:00'),
+            new \DateTimeImmutable('2023-01-01 18:00:00+00:00'),
+            true,
+            true
+        );
+    }
+
+    protected function getExpectedInclusiveRangeString(): string
+    {
+        return '[2023-01-01 10:00:00.000000+00:00,2023-01-01 18:00:00.000000+00:00]';
+    }
+
+    protected function parseFromString(string $input): Range
+    {
+        return TstzRange::fromString($input);
+    }
+
+    protected function createBoundaryTestRange(): Range
+    {
+        return new TstzRange($this->getTestStartTime(), $this->getTestEndTime(), true, false);
+    }
+
+    protected function createRangeWithTimes(
+        ?\DateTimeInterface $start,
+        ?\DateTimeInterface $end,
+        bool $lowerInclusive = true,
+        bool $upperInclusive = false
+    ): Range {
+        return new TstzRange($start, $end, $lowerInclusive, $upperInclusive);
+    }
+
+    protected function getTestStartTime(): \DateTimeInterface
+    {
+        return new \DateTimeImmutable('2023-01-01 10:00:00+00:00');
+    }
+
+    protected function getTestEndTime(): \DateTimeInterface
+    {
+        return new \DateTimeImmutable('2023-01-01 18:00:00+00:00');
+    }
+
+    protected function getTimeBeforeRange(): \DateTimeInterface
+    {
+        return new \DateTimeImmutable('2023-01-01 09:00:00+00:00');
+    }
+
+    protected function getTimeInMiddle(): \DateTimeInterface
+    {
+        return new \DateTimeImmutable('2023-01-01 14:00:00+00:00');
+    }
+
+    protected function createTimeWithMicroseconds(string $timeString): \DateTimeInterface
+    {
+        return new \DateTimeImmutable($timeString);
+    }
+
+    protected function getTestStartTimeString(): string
+    {
+        return '2023-01-01 10:00:00+00:00';
+    }
+
+    protected function getTestEndTimeString(): string
+    {
+        return '2023-01-01 18:00:00+00:00';
     }
 
     #[Test]
@@ -62,21 +113,46 @@ final class TstzRangeTest extends TestCase
         self::assertFalse($tstzRange->isEmpty());
     }
 
-    #[Test]
-    #[DataProvider('providesContainsTestCases')]
-    public function can_check_contains(TstzRange $tstzRange, mixed $value, bool $expected): void
+    public static function provideContainsTestCases(): \Generator
     {
-        self::assertEquals($expected, $tstzRange->contains($value));
+        $start = new \DateTimeImmutable('2023-01-01 10:00:00+00:00');
+        $end = new \DateTimeImmutable('2023-01-01 18:00:00+00:00');
+        $tstzRange = new TstzRange($start, $end);
+
+        yield 'contains value in range' => [
+            $tstzRange,
+            new \DateTimeImmutable('2023-01-01 14:00:00+00:00'),
+            true,
+        ];
+        yield 'contains lower bound (inclusive)' => [$tstzRange, $start, true];
+        yield 'does not contain upper bound (exclusive)' => [$tstzRange, $end, false];
+        yield 'does not contain value before range' => [
+            $tstzRange,
+            new \DateTimeImmutable('2023-01-01 09:00:00+00:00'),
+            false,
+        ];
+        yield 'does not contain null' => [$tstzRange, null, false];
     }
 
-    #[Test]
-    #[DataProvider('providesFromStringTestCases')]
-    public function can_parse_from_string(string $input, TstzRange $tstzRange): void
+    public static function provideFromStringTestCases(): \Generator
     {
-        $result = TstzRange::fromString($input);
-
-        self::assertEquals($tstzRange->__toString(), $result->__toString());
-        self::assertEquals($tstzRange->isEmpty(), $result->isEmpty());
+        yield 'simple range' => [
+            '[2023-01-01 10:00:00.000000+00:00,2023-01-01 18:00:00.000000+00:00)',
+            new TstzRange(
+                new \DateTimeImmutable('2023-01-01 10:00:00+00:00'),
+                new \DateTimeImmutable('2023-01-01 18:00:00+00:00')
+            ),
+        ];
+        yield 'inclusive range' => [
+            '[2023-01-01 10:00:00.000000+00:00,2023-01-01 18:00:00.000000+00:00]',
+            new TstzRange(
+                new \DateTimeImmutable('2023-01-01 10:00:00+00:00'),
+                new \DateTimeImmutable('2023-01-01 18:00:00+00:00'),
+                true,
+                true
+            ),
+        ];
+        yield 'empty range' => ['empty', TstzRange::empty()];
     }
 
     #[Test]
@@ -136,5 +212,82 @@ final class TstzRangeTest extends TestCase
             new TstzRange(new \DateTimeImmutable('2023-01-01 10:00:00+00:00'), null),
         ];
         yield 'empty range' => ['empty', TstzRange::empty()];
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_constructor_input(): void
+    {
+        $this->expectException(\TypeError::class);
+
+        new TstzRange('invalid', new \DateTimeImmutable('2023-01-01 18:00:00+00:00'));
+    }
+
+    #[Test]
+    public function can_format_timestamp_with_timezone_via_to_string(): void
+    {
+        $tstzRange = new TstzRange(
+            new \DateTimeImmutable('2023-06-15 14:30:25.123456+02:00'),
+            new \DateTimeImmutable('2023-06-15 18:45:30.654321+02:00')
+        );
+
+        $formatted = (string) $tstzRange;
+        self::assertStringContainsString('2023-06-15 14:30:25.123456+02:00', $formatted);
+        self::assertStringContainsString('2023-06-15 18:45:30.654321+02:00', $formatted);
+    }
+
+    #[Test]
+    public function can_handle_timezone_comparison(): void
+    {
+        $utc = new \DateTimeImmutable('2023-01-01 10:00:00+00:00');
+        $est = new \DateTimeImmutable('2023-01-01 05:00:00-05:00'); // Same moment as UTC
+        $later = new \DateTimeImmutable('2023-01-01 15:00:00+00:00'); // Later moment
+
+        $tstzRange = new TstzRange($utc, $later);
+
+        // EST represents the same moment as the lower bound, so it should be contained (inclusive lower)
+        self::assertTrue($tstzRange->contains($est));
+    }
+
+    #[Test]
+    public function can_parse_timestamp_with_timezone_strings_via_from_string(): void
+    {
+        $tstzRange = TstzRange::fromString('[2023-06-15 14:30:25.123456+02:00,2023-06-15 18:45:30.654321+02:00)');
+
+        $formatted = (string) $tstzRange;
+        self::assertStringContainsString('2023-06-15 14:30:25.123456+02:00', $formatted);
+        self::assertStringContainsString('2023-06-15 18:45:30.654321+02:00', $formatted);
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_timestamp_string_via_from_string(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid timestamp value');
+
+        TstzRange::fromString('[invalid_timestamp,2023-01-01 18:00:00+00:00)');
+    }
+
+    #[Test]
+    public function preserves_timezone_information(): void
+    {
+        $timestampWithTz = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');
+        $tstzRange = new TstzRange($timestampWithTz, null);
+
+        $formatted = (string) $tstzRange;
+        self::assertStringContainsString('+02:00', $formatted);
+        self::assertStringContainsString('2023-01-01 10:00:00.000000+02:00', $formatted);
+    }
+
+    #[Test]
+    public function can_handle_different_datetime_implementations(): void
+    {
+        $dateTime = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');
+        $dateTimeImmutable = new \DateTimeImmutable('2023-01-01 18:00:00-05:00');
+
+        $tstzRange = new TstzRange($dateTime, $dateTimeImmutable);
+        $formatted = (string) $tstzRange;
+
+        self::assertStringContainsString('+02:00', $formatted);
+        self::assertStringContainsString('-05:00', $formatted);
     }
 }

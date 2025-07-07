@@ -5,63 +5,105 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range;
-use PHPUnit\Framework\Attributes\DataProvider;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-final class Int4RangeTest extends TestCase
+final class Int4RangeTest extends BaseRangeTestCase
 {
-    #[Test]
-    public function can_create_simple_range(): void
+    protected function createSimpleRange(): Range
     {
-        $int4Range = new Int4Range(1, 1000);
-
-        self::assertEquals('[1,1000)', (string) $int4Range);
-        self::assertFalse($int4Range->isEmpty());
+        return new Int4Range(1, 1000);
     }
 
-    #[Test]
-    public function can_create_empty_range(): void
+    protected function getExpectedSimpleRangeString(): string
     {
-        $int4Range = Int4Range::empty();
-
-        self::assertEquals('empty', (string) $int4Range);
-        self::assertTrue($int4Range->isEmpty());
+        return '[1,1000)';
     }
 
-    #[Test]
-    public function can_create_infinite_range(): void
+    protected function createEmptyRange(): Range
     {
-        $int4Range = Int4Range::infinite();
-
-        self::assertEquals('(,)', (string) $int4Range);
-        self::assertFalse($int4Range->isEmpty());
+        return Int4Range::empty();
     }
 
-    #[Test]
-    public function can_create_inclusive_range(): void
+    protected function createInfiniteRange(): Range
     {
-        $int4Range = new Int4Range(1, 10, true, true);
-
-        self::assertEquals('[1,10]', (string) $int4Range);
-        self::assertFalse($int4Range->isEmpty());
+        return Int4Range::infinite();
     }
 
-    #[Test]
-    #[DataProvider('providesContainsTestCases')]
-    public function can_check_contains(Int4Range $int4Range, mixed $value, bool $expected): void
+    protected function createInclusiveRange(): Range
     {
-        self::assertEquals($expected, $int4Range->contains($value));
+        return new Int4Range(1, 10, true, true);
     }
 
-    #[Test]
-    #[DataProvider('providesFromStringTestCases')]
-    public function can_parse_from_string(string $input, Int4Range $int4Range): void
+    protected function getExpectedInclusiveRangeString(): string
     {
-        $result = Int4Range::fromString($input);
+        return '[1,10]';
+    }
 
-        self::assertEquals($int4Range->__toString(), $result->__toString());
-        self::assertEquals($int4Range->isEmpty(), $result->isEmpty());
+    protected function parseFromString(string $input): Range
+    {
+        return Int4Range::fromString($input);
+    }
+
+    protected function createBoundaryTestRange(): Range
+    {
+        return new Int4Range(1, 10, true, false); // [1, 10)
+    }
+
+    protected function getBoundaryTestCases(): array
+    {
+        return [
+            'contains lower bound (inclusive)' => ['value' => 1, 'expected' => true],
+            'does not contain value below range' => ['value' => 0, 'expected' => false],
+            'does not contain upper bound (exclusive)' => ['value' => 10, 'expected' => false],
+            'contains value just below upper' => ['value' => 9, 'expected' => true],
+            'does not contain value above range' => ['value' => 11, 'expected' => false],
+            'contains middle value' => ['value' => 5, 'expected' => true],
+        ];
+    }
+
+    protected function getComparisonTestCases(): array
+    {
+        return [
+            'reverse range should be empty' => [
+                'range' => new Int4Range(10, 5),
+                'expectedEmpty' => true,
+            ],
+            'normal range should not be empty' => [
+                'range' => new Int4Range(5, 10),
+                'expectedEmpty' => false,
+            ],
+            'equal bounds exclusive should be empty' => [
+                'range' => new Int4Range(5, 5, false, false),
+                'expectedEmpty' => true,
+            ],
+            'equal bounds inclusive should not be empty' => [
+                'range' => new Int4Range(5, 5, true, true),
+                'expectedEmpty' => false,
+            ],
+        ];
+    }
+
+    public static function provideContainsTestCases(): \Generator
+    {
+        $int4Range = new Int4Range(1, 10);
+
+        yield 'contains middle value' => [$int4Range, 5, true];
+        yield 'contains lower bound' => [$int4Range, 1, true];
+        yield 'excludes upper bound' => [$int4Range, 10, false];
+        yield 'excludes below range' => [$int4Range, 0, false];
+        yield 'excludes above range' => [$int4Range, 11, false];
+        yield 'excludes null' => [$int4Range, null, false];
+    }
+
+    public static function provideFromStringTestCases(): \Generator
+    {
+        yield 'basic range' => ['[1,10)', new Int4Range(1, 10)];
+        yield 'inclusive' => ['[1,10]', new Int4Range(1, 10, true, true)];
+        yield 'exclusive' => ['(1,10)', new Int4Range(1, 10, false, false)];
+        yield 'infinite lower' => ['[,10)', new Int4Range(null, 10)];
+        yield 'infinite upper' => ['[1,)', new Int4Range(1, null)];
+        yield 'empty' => ['empty', Int4Range::empty()];
     }
 
     #[Test]
@@ -88,30 +130,5 @@ final class Int4RangeTest extends TestCase
         $int4Range = new Int4Range(-2147483648, 2147483647);
 
         self::assertEquals('[-2147483648,2147483647)', (string) $int4Range);
-    }
-
-    public static function providesContainsTestCases(): \Generator
-    {
-        $int4Range = new Int4Range(1, 10);
-
-        yield 'contains value in range' => [$int4Range, 5, true];
-        yield 'contains lower bound (inclusive)' => [$int4Range, 1, true];
-        yield 'does not contain upper bound (exclusive)' => [$int4Range, 10, false];
-        yield 'does not contain value below range' => [$int4Range, 0, false];
-        yield 'does not contain value above range' => [$int4Range, 11, false];
-        yield 'does not contain null' => [$int4Range, null, false];
-
-        $emptyRange = Int4Range::empty();
-        yield 'empty range contains nothing' => [$emptyRange, 5, false];
-    }
-
-    public static function providesFromStringTestCases(): \Generator
-    {
-        yield 'simple range' => ['[1,1000)', new Int4Range(1, 1000)];
-        yield 'inclusive range' => ['[1,10]', new Int4Range(1, 10, true, true)];
-        yield 'exclusive range' => ['(1,10)', new Int4Range(1, 10, false, false)];
-        yield 'infinite lower' => ['[,10)', new Int4Range(null, 10)];
-        yield 'infinite upper' => ['[1,)', new Int4Range(1, null)];
-        yield 'empty range' => ['empty', Int4Range::empty()];
     }
 }

@@ -5,46 +5,83 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range;
-use PHPUnit\Framework\Attributes\DataProvider;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-final class Int8RangeTest extends TestCase
+final class Int8RangeTest extends BaseRangeTestCase
 {
-    #[Test]
-    public function can_create_simple_range(): void
+    protected function createSimpleRange(): Range
     {
-        $int8Range = new Int8Range(1, 1000);
-
-        self::assertEquals('[1,1000)', (string) $int8Range);
-        self::assertFalse($int8Range->isEmpty());
+        return new Int8Range(1, 1000);
     }
 
-    #[Test]
-    public function can_create_empty_range(): void
+    protected function getExpectedSimpleRangeString(): string
     {
-        $int8Range = Int8Range::empty();
-
-        self::assertEquals('empty', (string) $int8Range);
-        self::assertTrue($int8Range->isEmpty());
+        return '[1,1000)';
     }
 
-    #[Test]
-    public function can_create_infinite_range(): void
+    protected function createEmptyRange(): Range
     {
-        $int8Range = Int8Range::infinite();
-
-        self::assertEquals('(,)', (string) $int8Range);
-        self::assertFalse($int8Range->isEmpty());
+        return Int8Range::empty();
     }
 
-    #[Test]
-    public function can_create_inclusive_range(): void
+    protected function createInfiniteRange(): Range
     {
-        $int8Range = new Int8Range(1, 10, true, true);
+        return Int8Range::infinite();
+    }
 
-        self::assertEquals('[1,10]', (string) $int8Range);
-        self::assertFalse($int8Range->isEmpty());
+    protected function createInclusiveRange(): Range
+    {
+        return new Int8Range(1, 10, true, true);
+    }
+
+    protected function getExpectedInclusiveRangeString(): string
+    {
+        return '[1,10]';
+    }
+
+    protected function parseFromString(string $input): Range
+    {
+        return Int8Range::fromString($input);
+    }
+
+    protected function createBoundaryTestRange(): Range
+    {
+        return new Int8Range(1, 10, true, false); // [1, 10)
+    }
+
+    protected function getBoundaryTestCases(): array
+    {
+        return [
+            'contains lower bound (inclusive)' => ['value' => 1, 'expected' => true],
+            'does not contain value below range' => ['value' => 0, 'expected' => false],
+            'does not contain upper bound (exclusive)' => ['value' => 10, 'expected' => false],
+            'contains value just below upper' => ['value' => 9, 'expected' => true],
+            'does not contain value above range' => ['value' => 11, 'expected' => false],
+            'contains middle value' => ['value' => 5, 'expected' => true],
+        ];
+    }
+
+    protected function getComparisonTestCases(): array
+    {
+        return [
+            'reverse range should be empty' => [
+                'range' => new Int8Range(10, 5),
+                'expectedEmpty' => true,
+            ],
+            'normal range should not be empty' => [
+                'range' => new Int8Range(5, 10),
+                'expectedEmpty' => false,
+            ],
+            'equal bounds exclusive should be empty' => [
+                'range' => new Int8Range(5, 5, false, false),
+                'expectedEmpty' => true,
+            ],
+            'equal bounds inclusive should not be empty' => [
+                'range' => new Int8Range(5, 5, true, true),
+                'expectedEmpty' => false,
+            ],
+        ];
     }
 
     #[Test]
@@ -56,46 +93,26 @@ final class Int8RangeTest extends TestCase
         self::assertFalse($int8Range->isEmpty());
     }
 
-    #[Test]
-    #[DataProvider('providesContainsTestCases')]
-    public function can_check_contains(Int8Range $int8Range, mixed $value, bool $expected): void
-    {
-        self::assertEquals($expected, $int8Range->contains($value));
-    }
-
-    #[Test]
-    #[DataProvider('providesFromStringTestCases')]
-    public function can_parse_from_string(string $input, Int8Range $int8Range): void
-    {
-        $result = Int8Range::fromString($input);
-
-        self::assertEquals($int8Range->__toString(), $result->__toString());
-        self::assertEquals($int8Range->isEmpty(), $result->isEmpty());
-    }
-
-    public static function providesContainsTestCases(): \Generator
+    public static function provideContainsTestCases(): \Generator
     {
         $int8Range = new Int8Range(1, 10);
 
-        yield 'contains value in range' => [$int8Range, 5, true];
-        yield 'contains lower bound (inclusive)' => [$int8Range, 1, true];
-        yield 'does not contain upper bound (exclusive)' => [$int8Range, 10, false];
-        yield 'does not contain value below range' => [$int8Range, 0, false];
-        yield 'does not contain value above range' => [$int8Range, 11, false];
-        yield 'does not contain null' => [$int8Range, null, false];
-
-        $emptyRange = Int8Range::empty();
-        yield 'empty range contains nothing' => [$emptyRange, 5, false];
+        yield 'contains middle value' => [$int8Range, 5, true];
+        yield 'contains lower bound' => [$int8Range, 1, true];
+        yield 'excludes upper bound' => [$int8Range, 10, false];
+        yield 'excludes below range' => [$int8Range, 0, false];
+        yield 'excludes above range' => [$int8Range, 11, false];
+        yield 'excludes null' => [$int8Range, null, false];
     }
 
-    public static function providesFromStringTestCases(): \Generator
+    public static function provideFromStringTestCases(): \Generator
     {
-        yield 'simple range' => ['[1,1000)', new Int8Range(1, 1000)];
-        yield 'inclusive range' => ['[1,10]', new Int8Range(1, 10, true, true)];
-        yield 'exclusive range' => ['(1,10)', new Int8Range(1, 10, false, false)];
+        yield 'basic range' => ['[1,10)', new Int8Range(1, 10)];
+        yield 'inclusive' => ['[1,10]', new Int8Range(1, 10, true, true)];
+        yield 'exclusive' => ['(1,10)', new Int8Range(1, 10, false, false)];
         yield 'infinite lower' => ['[,10)', new Int8Range(null, 10)];
         yield 'infinite upper' => ['[1,)', new Int8Range(1, null)];
-        yield 'empty range' => ['empty', Int8Range::empty()];
+        yield 'empty' => ['empty', Int8Range::empty()];
         yield 'large values' => ['['.PHP_INT_MIN.','.PHP_INT_MAX.')', new Int8Range(PHP_INT_MIN, PHP_INT_MAX)];
     }
 }

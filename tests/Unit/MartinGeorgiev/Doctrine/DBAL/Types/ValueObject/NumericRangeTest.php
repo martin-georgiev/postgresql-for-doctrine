@@ -4,73 +4,100 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
-use PHPUnit\Framework\Attributes\DataProvider;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
-final class NumericRangeTest extends TestCase
+final class NumericRangeTest extends BaseRangeTestCase
 {
-    #[Test]
-    public function can_create_simple_range(): void
+    protected function createSimpleRange(): Range
     {
-        $numericRange = new NumericRange(1.5, 10.7);
-
-        self::assertEquals('[1.5,10.7)', (string) $numericRange);
-        self::assertFalse($numericRange->isEmpty());
+        return new NumericRange(1.5, 10.7);
     }
 
-    #[Test]
-    public function can_create_empty_range(): void
+    protected function getExpectedSimpleRangeString(): string
     {
-        $numericRange = NumericRange::empty();
-
-        self::assertEquals('empty', (string) $numericRange);
-        self::assertTrue($numericRange->isEmpty());
+        return '[1.5,10.7)';
     }
 
-    #[Test]
-    public function can_create_infinite_range(): void
+    protected function createEmptyRange(): Range
     {
-        $numericRange = NumericRange::infinite();
-
-        self::assertEquals('(,)', (string) $numericRange);
-        self::assertFalse($numericRange->isEmpty());
+        return NumericRange::empty();
     }
 
-    #[Test]
-    #[DataProvider('providesContainsTestCases')]
-    public function can_check_contains(NumericRange $numericRange, mixed $value, bool $expected): void
+    protected function createInfiniteRange(): Range
     {
-        self::assertEquals($expected, $numericRange->contains($value));
+        return NumericRange::infinite();
     }
 
-    #[Test]
-    #[DataProvider('providesFromStringTestCases')]
-    public function can_parse_from_string(string $input, NumericRange $numericRange): void
+    protected function createInclusiveRange(): Range
     {
-        $result = NumericRange::fromString($input);
-
-        self::assertEquals($numericRange->__toString(), $result->__toString());
-        self::assertEquals($numericRange->isEmpty(), $result->isEmpty());
+        return new NumericRange(1, 10, true, true);
     }
 
-    public static function providesContainsTestCases(): \Generator
+    protected function getExpectedInclusiveRangeString(): string
+    {
+        return '[1,10]';
+    }
+
+    protected function parseFromString(string $input): Range
+    {
+        return NumericRange::fromString($input);
+    }
+
+    protected function createBoundaryTestRange(): Range
+    {
+        return new NumericRange(1, 10, true, false); // [1, 10)
+    }
+
+    protected function getBoundaryTestCases(): array
+    {
+        return [
+            'contains lower bound (inclusive)' => ['value' => 1, 'expected' => true],
+            'does not contain value below range' => ['value' => 0, 'expected' => false],
+            'does not contain upper bound (exclusive)' => ['value' => 10, 'expected' => false],
+            'contains value just below upper' => ['value' => 9.9, 'expected' => true],
+            'does not contain value above range' => ['value' => 11, 'expected' => false],
+            'contains middle value' => ['value' => 5.5, 'expected' => true],
+        ];
+    }
+
+    protected function getComparisonTestCases(): array
+    {
+        return [
+            'reverse range should be empty' => [
+                'range' => new NumericRange(10.5, 5.0),
+                'expectedEmpty' => true,
+            ],
+            'normal range should not be empty' => [
+                'range' => new NumericRange(5.0, 10.5),
+                'expectedEmpty' => false,
+            ],
+            'equal bounds exclusive should be empty' => [
+                'range' => new NumericRange(5.0, 5.0, false, false),
+                'expectedEmpty' => true,
+            ],
+            'equal bounds inclusive should not be empty' => [
+                'range' => new NumericRange(5.0, 5.0, true, true),
+                'expectedEmpty' => false,
+            ],
+        ];
+    }
+
+    public static function provideContainsTestCases(): \Generator
     {
         $numericRange = new NumericRange(1, 10);
 
-        yield 'contains value in range' => [$numericRange, 5, true];
-        yield 'contains lower bound (inclusive)' => [$numericRange, 1, true];
-        yield 'does not contain upper bound (exclusive)' => [$numericRange, 10, false];
-        yield 'does not contain value below range' => [$numericRange, 0, false];
-        yield 'does not contain value above range' => [$numericRange, 11, false];
-        yield 'does not contain null' => [$numericRange, null, false];
-
-        $emptyRange = NumericRange::empty();
-        yield 'empty range contains nothing' => [$emptyRange, 5, false];
+        yield 'contains middle value' => [$numericRange, 5, true];
+        yield 'contains lower bound' => [$numericRange, 1, true];
+        yield 'excludes upper bound' => [$numericRange, 10, false];
+        yield 'excludes below range' => [$numericRange, 0, false];
+        yield 'excludes above range' => [$numericRange, 11, false];
+        yield 'excludes null' => [$numericRange, null, false];
     }
 
-    public static function providesFromStringTestCases(): \Generator
+    public static function provideFromStringTestCases(): \Generator
     {
         yield 'simple range' => ['[1.5,10.7)', new NumericRange(1.5, 10.7)];
         yield 'inclusive range' => ['[1,10]', new NumericRange(1, 10, true, true)];
@@ -96,5 +123,89 @@ final class NumericRangeTest extends TestCase
         $this->expectExceptionMessage('Upper bound must be numeric');
 
         new NumericRange(1, 'invalid');
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_numeric_bound_in_comparison_via_contains(): void
+    {
+        $numericRange = new NumericRange(1, 10);
+
+        $this->expectException(InvalidRangeForPHPException::class);
+        $this->expectExceptionMessage('Range bound must be numeric');
+
+        // Test compareBounds error through contains() - natural public API
+        $numericRange->contains('invalid');
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_value_in_constructor(): void
+    {
+        $this->expectException(\TypeError::class);
+
+        new NumericRange('invalid', 10);
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_parse_value_via_from_string(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid range format');
+
+        NumericRange::fromString('[not_numeric,10)');
+    }
+
+    #[Test]
+    public function can_parse_integer_and_float_values_via_from_string(): void
+    {
+        $numericRange = NumericRange::fromString('[42,100)');
+        self::assertStringContainsString('42', (string) $numericRange);
+
+        $range2 = NumericRange::fromString('[-123,0)');
+        self::assertStringContainsString('-123', (string) $range2);
+
+        $range3 = NumericRange::fromString('[3.14,10)');
+        self::assertStringContainsString('3.14', (string) $range3);
+
+        $range4 = NumericRange::fromString('[-2.5,0)');
+        self::assertStringContainsString('-2.5', (string) $range4);
+    }
+
+    #[Test]
+    public function can_handle_mixed_integer_and_float_ranges(): void
+    {
+        $range = new NumericRange(1, 10.5);
+        self::assertEquals('[1,10.5)', (string) $range);
+
+        $range2 = new NumericRange(1.5, 10);
+        self::assertEquals('[1.5,10)', (string) $range2);
+    }
+
+    #[Test]
+    public function can_compare_mixed_numeric_types_via_is_empty(): void
+    {
+        $reverseRange = new NumericRange(5.1, 5.0);
+        self::assertTrue($reverseRange->isEmpty());
+
+        $normalRange = new NumericRange(5.0, 5.1);
+        self::assertFalse($normalRange->isEmpty());
+
+        $equalRange = new NumericRange(5, 5.0, true, true);
+        self::assertFalse($equalRange->isEmpty());
+
+        $equalExclusive = new NumericRange(5.0, 5.0, false, false);
+        self::assertTrue($equalExclusive->isEmpty());
+    }
+
+    #[Test]
+    public function can_format_numeric_values_via_to_string(): void
+    {
+        $range1 = new NumericRange(42, 100);
+        self::assertStringContainsString('42', (string) $range1);
+
+        $range2 = new NumericRange(3.14, 10);
+        self::assertStringContainsString('3.14', (string) $range2);
+
+        $range3 = new NumericRange(-2.5, 0);
+        self::assertStringContainsString('-2.5', (string) $range3);
     }
 }
