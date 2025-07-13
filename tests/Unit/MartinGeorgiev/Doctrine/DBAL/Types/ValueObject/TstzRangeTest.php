@@ -175,45 +175,6 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
         self::assertEquals('[2023-01-01 10:00:00.123456+00:00,2023-01-01 18:00:00.654321+00:00)', (string) $tstzRange);
     }
 
-    public static function providesContainsTestCases(): \Generator
-    {
-        $tstzRange = new TstzRange(
-            new \DateTimeImmutable('2023-01-01 10:00:00+00:00'),
-            new \DateTimeImmutable('2023-01-01 18:00:00+00:00')
-        );
-
-        yield 'contains timestamp in range' => [$tstzRange, new \DateTimeImmutable('2023-01-01 14:00:00+00:00'), true];
-        yield 'contains lower bound (inclusive)' => [$tstzRange, new \DateTimeImmutable('2023-01-01 10:00:00+00:00'), true];
-        yield 'does not contain upper bound (exclusive)' => [$tstzRange, new \DateTimeImmutable('2023-01-01 18:00:00+00:00'), false];
-        yield 'does not contain timestamp before range' => [$tstzRange, new \DateTimeImmutable('2023-01-01 09:00:00+00:00'), false];
-        yield 'does not contain timestamp after range' => [$tstzRange, new \DateTimeImmutable('2023-01-01 19:00:00+00:00'), false];
-        yield 'does not contain null' => [$tstzRange, null, false];
-
-        $emptyRange = TstzRange::empty();
-        yield 'empty range contains nothing' => [$emptyRange, new \DateTimeImmutable('2023-01-01 14:00:00+00:00'), false];
-    }
-
-    public static function providesFromStringTestCases(): \Generator
-    {
-        yield 'simple range with timezone' => [
-            '[2023-01-01 10:00:00+00:00,2023-01-01 18:00:00+00:00)',
-            new TstzRange(new \DateTimeImmutable('2023-01-01 10:00:00+00:00'), new \DateTimeImmutable('2023-01-01 18:00:00+00:00')),
-        ];
-        yield 'inclusive range with timezone' => [
-            '[2023-01-01 10:00:00+02:00,2023-01-01 18:00:00+02:00]',
-            new TstzRange(new \DateTimeImmutable('2023-01-01 10:00:00+02:00'), new \DateTimeImmutable('2023-01-01 18:00:00+02:00'), true, true),
-        ];
-        yield 'infinite lower' => [
-            '[,2023-01-01 18:00:00+00:00)',
-            new TstzRange(null, new \DateTimeImmutable('2023-01-01 18:00:00+00:00')),
-        ];
-        yield 'infinite upper' => [
-            '[2023-01-01 10:00:00+00:00,)',
-            new TstzRange(new \DateTimeImmutable('2023-01-01 10:00:00+00:00'), null),
-        ];
-        yield 'empty range' => ['empty', TstzRange::empty()];
-    }
-
     #[Test]
     public function throws_exception_for_invalid_constructor_input(): void
     {

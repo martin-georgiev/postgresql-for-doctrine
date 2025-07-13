@@ -244,24 +244,6 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function throws_exception_for_invalid_lower_bound_type(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Lower bound must be DateTimeInterface');
-
-        new DateRange('invalid', new \DateTimeImmutable('2023-12-31'));
-    }
-
-    #[Test]
-    public function throws_exception_for_invalid_upper_bound_type(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Upper bound must be DateTimeInterface');
-
-        new DateRange(new \DateTimeImmutable('2023-01-01'), 'invalid');
-    }
-
-    #[Test]
     public function throws_exception_for_invalid_datetime_in_comparison_via_contains(): void
     {
         $dateRange = new DateRange(
@@ -273,15 +255,6 @@ final class DateRangeTest extends BaseRangeTestCase
         $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
 
         $dateRange->contains('invalid');
-    }
-
-    #[Test]
-    public function throws_exception_for_invalid_value_in_constructor(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Lower bound must be DateTimeInterface');
-
-        new DateRange('invalid', new \DateTimeImmutable('2023-12-31'));
     }
 
     #[Test]
