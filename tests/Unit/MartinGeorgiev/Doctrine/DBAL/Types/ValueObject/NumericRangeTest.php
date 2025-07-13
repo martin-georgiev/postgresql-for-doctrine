@@ -9,6 +9,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\Test;
 
+/**
+ * @extends BaseRangeTestCase<float|int>
+ */
 final class NumericRangeTest extends BaseRangeTestCase
 {
     protected function createSimpleRange(): Range

@@ -8,6 +8,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange;
 use PHPUnit\Framework\Attributes\Test;
 
+/**
+ * @extends BaseTimestampRangeTestCase<\DateTimeInterface>
+ */
 final class TstzRangeTest extends BaseTimestampRangeTestCase
 {
     protected function createSimpleRange(): Range
@@ -180,6 +183,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     {
         $this->expectException(\TypeError::class);
 
+        /* @phpstan-ignore-next-line */
         new TstzRange('invalid', new \DateTimeImmutable('2023-01-01 18:00:00+00:00'));
     }
 

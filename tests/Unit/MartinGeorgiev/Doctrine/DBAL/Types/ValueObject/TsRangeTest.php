@@ -8,6 +8,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange;
 use PHPUnit\Framework\Attributes\Test;
 
+/**
+ * @extends BaseTimestampRangeTestCase<\DateTimeInterface>
+ */
 final class TsRangeTest extends BaseTimestampRangeTestCase
 {
     protected function createSimpleRange(): Range
@@ -230,6 +233,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     {
         $this->expectException(\TypeError::class);
 
+        /* @phpstan-ignore-next-line */
         new TsRange('invalid', new \DateTimeImmutable('2023-01-01 18:00:00'));
     }
 

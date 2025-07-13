@@ -10,6 +10,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
+/**
+ * @extends BaseRangeTestCase<\DateTimeInterface>
+ */
 final class DateRangeTest extends BaseRangeTestCase
 {
     protected function createSimpleRange(): Range

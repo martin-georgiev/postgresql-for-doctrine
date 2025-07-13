@@ -8,6 +8,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\Test;
 
+/**
+ * @extends BaseRangeTestCase<int>
+ */
 final class Int8RangeTest extends BaseRangeTestCase
 {
     protected function createSimpleRange(): Range

@@ -9,6 +9,13 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @template R of int|float|\DateTimeInterface
+ *
+ * TODO: Remove PHPStan suppressions when covariant generics are supported
+ *
+ * @see https://github.com/phpstan/phpstan/issues/7427
+ */
 abstract class BaseRangeTestCase extends TestCase
 {
     #[Test]
@@ -49,6 +56,9 @@ abstract class BaseRangeTestCase extends TestCase
         self::assertFalse($range->isEmpty());
     }
 
+    /**
+     * @param Range<R> $range
+     */
     #[Test]
     #[DataProvider('provideContainsTestCases')]
     public function can_check_contains(Range $range, mixed $value, bool $expected): void
@@ -56,6 +66,9 @@ abstract class BaseRangeTestCase extends TestCase
         self::assertEquals($expected, $range->contains($value));
     }
 
+    /**
+     * @param Range<R> $expectedRange
+     */
     #[Test]
     #[DataProvider('provideFromStringTestCases')]
     public function can_parse_from_string(string $input, Range $expectedRange): void
@@ -89,6 +102,8 @@ abstract class BaseRangeTestCase extends TestCase
 
     /**
      * Create a simple range for basic testing.
+     *
+     * @return Range<R>
      */
     abstract protected function createSimpleRange(): Range;
 
@@ -99,16 +114,22 @@ abstract class BaseRangeTestCase extends TestCase
 
     /**
      * Create an empty range.
+     *
+     * @return Range<R>
      */
     abstract protected function createEmptyRange(): Range;
 
     /**
      * Create an infinite range.
+     *
+     * @return Range<R>
      */
     abstract protected function createInfiniteRange(): Range;
 
     /**
      * Create an inclusive range for testing.
+     *
+     * @return Range<R>
      */
     abstract protected function createInclusiveRange(): Range;
 
@@ -119,11 +140,15 @@ abstract class BaseRangeTestCase extends TestCase
 
     /**
      * Parse range from string.
+     *
+     * @return Range<R>
      */
     abstract protected function parseFromString(string $input): Range;
 
     /**
      * Create range for boundary testing.
+     *
+     * @return Range<R>
      */
     abstract protected function createBoundaryTestRange(): Range;
 
@@ -137,22 +162,25 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Get comparison test cases.
      *
-     * @return array<string, array{range: Range, expectedEmpty: bool}>
+     * @return array<string, array{range: Range<R>, expectedEmpty: bool}>
      */
     abstract protected function getComparisonTestCases(): array;
 
     /**
-     * @return \Generator<string, array{Range, mixed, bool}>
+     * @return \Generator<string, array{Range<R>, mixed, bool}>
      */
     abstract public static function provideContainsTestCases(): \Generator;
 
     /**
-     * @return \Generator<string, array{string, Range}>
+     * @return \Generator<string, array{string, Range<R>}>
      */
     abstract public static function provideFromStringTestCases(): \Generator;
 
     /**
      * Assert that a range equals another range by comparing string representation and isEmpty state.
+     *
+     * @param Range<R> $expected
+     * @param Range<R> $actual
      */
     protected function assertRangeEquals(Range $expected, Range $actual, string $message = ''): void
     {
@@ -163,6 +191,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Assert that a range contains all the given values.
      *
+     * @param Range<R>     $range
      * @param array<mixed> $values
      */
     protected function assertRangeContainsAll(Range $range, array $values, string $message = ''): void
@@ -178,6 +207,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Assert that a range does not contain any of the given values.
      *
+     * @param Range<R>     $range
      * @param array<mixed> $values
      */
     protected function assertRangeContainsNone(Range $range, array $values, string $message = ''): void
@@ -192,6 +222,8 @@ abstract class BaseRangeTestCase extends TestCase
 
     /**
      * Assert that a range has the expected string representation.
+     *
+     * @param Range<R> $range
      */
     protected function assertRangeStringEquals(string $expected, Range $range, string $message = ''): void
     {
@@ -200,6 +232,8 @@ abstract class BaseRangeTestCase extends TestCase
 
     /**
      * Assert that a range is empty.
+     *
+     * @param Range<R> $range
      */
     protected function assertRangeIsEmpty(Range $range, string $message = ''): void
     {
@@ -209,6 +243,8 @@ abstract class BaseRangeTestCase extends TestCase
 
     /**
      * Assert that a range is not empty.
+     *
+     * @param Range<R> $range
      */
     protected function assertRangeIsNotEmpty(Range $range, string $message = ''): void
     {
@@ -219,6 +255,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Test boundary conditions for a range with known bounds.
      *
+     * @param Range<R>                                           $range
      * @param array<string, array{value: mixed, expected: bool}> $testCases
      */
     protected function assertBoundaryConditions(Range $range, array $testCases, string $message = ''): void
@@ -257,7 +294,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Test that a range correctly handles equal bounds with different bracket combinations.
      *
-     * @param callable $rangeFactory Function that creates a range: fn($lower, $upper, $lowerInc, $upperInc) => Range
+     * @param callable(mixed, mixed, bool, bool): Range<R> $rangeFactory Function that creates a range
      */
     protected function assertEqualBoundsHandling(callable $rangeFactory, mixed $value): void
     {
@@ -278,7 +315,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Test that a range correctly handles reverse bounds (lower > upper).
      *
-     * @param callable $rangeFactory Function that creates a range: fn($lower, $upper, $lowerInc, $upperInc) => Range
+     * @param callable(mixed, mixed, bool, bool): Range<R> $rangeFactory Function that creates a range
      */
     protected function assertReverseBoundsHandling(callable $rangeFactory, mixed $lower, mixed $upper): void
     {

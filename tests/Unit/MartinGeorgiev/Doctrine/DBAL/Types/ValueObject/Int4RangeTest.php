@@ -8,6 +8,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\Test;
 
+/**
+ * @extends BaseRangeTestCase<int>
+ */
 final class Int4RangeTest extends BaseRangeTestCase
 {
     protected function createSimpleRange(): Range

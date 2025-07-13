@@ -12,6 +12,9 @@ use PHPUnit\Framework\Attributes\Test;
  * Base test case for timestamp range types (TsRange, TstzRange).
  * Provides common timestamp-specific test patterns.
  */
+/**
+ * @template R of \DateTimeInterface
+ */
 abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
 {
     protected function getBoundaryTestCases(): array
@@ -36,6 +39,9 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
         ];
     }
 
+    /**
+     * @return array<string, array{range: Range<R>, expectedEmpty: bool}>
+     */
     protected function getComparisonTestCases(): array
     {
         return [
@@ -73,6 +79,7 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
     {
         $this->expectException(\TypeError::class);
 
+        /* @phpstan-ignore-next-line */
         $this->createRangeWithTimes('invalid', $this->getTestEndTime());
     }
 
@@ -124,6 +131,8 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
 
     /**
      * Create a range with specific DateTimeInterface objects.
+     *
+     * @return Range<R>
      */
     abstract protected function createRangeWithTimes(
         ?\DateTimeInterface $start,
