@@ -8,3 +8,4 @@
 .scrutinizer.yml    export-ignore
 docker-compose.yml  export-ignore
 README.md           export-ignore
+.coderabbit.yaml    export-ignore
