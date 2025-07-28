@@ -20,6 +20,17 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
+     * @param array{description: string, input: array<int, string>} $testCase
+     */
+    #[DataProvider('provideArrayTestCases')]
+    public function test_array_round_trip(array $testCase): void
+    {
+        $id = $this->insertArray($testCase['input']);
+
+        $this->assertArrayRoundTrip($id, $testCase['input'], $testCase['description']);
+    }
+
+    /**
      * @return array<int, array{0: array{description: string, input: array<int, string>}}>
      */
     public static function provideArrayTestCases(): array
@@ -44,15 +55,11 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @param array{description: string, input: array<int, string>} $testCase
-     */
-    #[DataProvider('provideArrayTestCases')]
-    public function test_array_round_trip(array $testCase): void
+    #[DataProvider('provideInvalidArrayFormats')]
+    public function test_invalid_array_formats_throw_exceptions(array $testCase): void
     {
-        $id = $this->insertArray($testCase['input']);
-
-        $this->assertArrayRoundTrip($id, $testCase['input'], $testCase['description']);
+        $this->expectException(InvalidArrayFormatException::class);
+        PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($testCase['input']); // @phpstan-ignore-line
     }
 
     /**
@@ -66,13 +73,6 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
             [['description' => 'Invalid format', 'input' => '{invalid"format}']],
             [['description' => 'Malformed nesting', 'input' => '{1,{2,3},4}']],
         ];
-    }
-
-    #[DataProvider('provideInvalidArrayFormats')]
-    public function test_invalid_array_formats_throw_exceptions(array $testCase): void
-    {
-        $this->expectException(InvalidArrayFormatException::class);
-        PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($testCase['input']); // @phpstan-ignore-line
     }
 
     private function createTestTable(): void
