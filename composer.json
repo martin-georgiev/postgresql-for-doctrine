@@ -44,16 +44,16 @@
         "doctrine/dbal": "~2.10||~3.0||~4.0"
     },
     "require-dev": {
-        "deptrac/deptrac": "^3.0",
+        "deptrac/deptrac": "^4.0",
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.0",
-        "friendsofphp/php-cs-fixer": "^3.76.0",
-        "phpstan/phpstan": "^2.1.17",
+        "friendsofphp/php-cs-fixer": "^3.84.0",
+        "phpstan/phpstan": "^2.1.19",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
-        "phpstan/phpstan-doctrine": "^2.0.3",
-        "phpstan/phpstan-phpunit": "^2.0.6",
-        "phpunit/phpunit": "^10.5.47",
-        "rector/rector": "^2.1.0",
+        "phpstan/phpstan-doctrine": "^2.0.4",
+        "phpstan/phpstan-phpunit": "^2.0.7",
+        "phpunit/phpunit": "^10.5.48",
+        "rector/rector": "^2.1.2",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
