@@ -327,13 +327,6 @@ final class DateRangeTest extends BaseRangeTestCase
         self::assertEquals($expectedString, (string) $dateRange, $description);
     }
 
-    #[Test]
-    #[DataProvider('provideEdgeCaseMonthTestCases')]
-    public function can_handle_edge_case_months(DateRange $dateRange, string $expectedString, string $description): void
-    {
-        self::assertEquals($expectedString, (string) $dateRange, $description);
-    }
-
     public static function provideLeapYearTestCases(): \Generator
     {
         yield 'leap year 2024' => [
@@ -351,6 +344,13 @@ final class DateRangeTest extends BaseRangeTestCase
             '[2023-02-01,2023-03-01)',
             'February in non-leap year should span correctly',
         ];
+    }
+
+    #[Test]
+    #[DataProvider('provideEdgeCaseMonthTestCases')]
+    public function can_handle_edge_case_months(DateRange $dateRange, string $expectedString, string $description): void
+    {
+        self::assertEquals($expectedString, (string) $dateRange, $description);
     }
 
     public static function provideEdgeCaseMonthTestCases(): \Generator

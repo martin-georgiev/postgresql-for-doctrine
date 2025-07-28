@@ -69,6 +69,11 @@ abstract class BaseRangeTestCase extends TestCase
         }
     }
 
+    /**
+     * Each array contains [phpValue, postgresValue] pairs.
+     */
+    abstract public static function provideValidTransformations(): \Generator;
+
     #[Test]
     public function can_transform_null_from_php_value(): void
     {
@@ -129,11 +134,6 @@ abstract class BaseRangeTestCase extends TestCase
 
         $this->fixture->convertToPHPValue('{1,2}', $this->platform);
     }
-
-    /**
-     * Each array contains [phpValue, postgresValue] pairs.
-     */
-    abstract public static function provideValidTransformations(): \Generator;
 
     /**
      * @return BaseRangeType<R>

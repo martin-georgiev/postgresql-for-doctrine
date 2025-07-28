@@ -67,6 +67,11 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     /**
+     * @return \Generator<string, array{Range<R>, mixed, bool}>
+     */
+    abstract public static function provideContainsTestCases(): \Generator;
+
+    /**
      * @param Range<R> $expectedRange
      */
     #[Test]
@@ -76,6 +81,11 @@ abstract class BaseRangeTestCase extends TestCase
         $range = $this->parseFromString($input);
         $this->assertRangeEquals($expectedRange, $range);
     }
+
+    /**
+     * @return \Generator<string, array{string, Range<R>}>
+     */
+    abstract public static function provideFromStringTestCases(): \Generator;
 
     #[Test]
     public function can_handle_boundary_conditions(): void
@@ -165,16 +175,6 @@ abstract class BaseRangeTestCase extends TestCase
      * @return array<string, array{range: Range<R>, expectedEmpty: bool}>
      */
     abstract protected function getComparisonTestCases(): array;
-
-    /**
-     * @return \Generator<string, array{Range<R>, mixed, bool}>
-     */
-    abstract public static function provideContainsTestCases(): \Generator;
-
-    /**
-     * @return \Generator<string, array{string, Range<R>}>
-     */
-    abstract public static function provideFromStringTestCases(): \Generator;
 
     /**
      * Assert that a range equals another range by comparing string representation and isEmpty state.
