@@ -49,7 +49,7 @@ class JsonbTest extends TestCase
 
     /**
      * @return list<array{
-     *     phpValue: null|array|bool|float|int|string,
+     *     phpValue: array|bool|float|int|string|null,
      *     postgresValue: string|null
      * }>
      */

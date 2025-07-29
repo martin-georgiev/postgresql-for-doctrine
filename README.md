@@ -13,6 +13,7 @@ Enhances Doctrine with PostgreSQL-specific features and functions. Supports Post
 // Register types with Doctrine
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 
 // Use in your Doctrine entities
 #[ORM\Column(type: 'jsonb')]
@@ -20,6 +21,9 @@ private array $data;
 
 #[ORM\Column(type: 'text[]')]
 private array $tags;
+
+#[ORM\Column(type: 'numrange')]
+private NumericRange $priceRange;
 
 // Use in DQL
 $query = $em->createQuery('
@@ -51,6 +55,9 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - MAC addresses (`macaddr`, `macaddr[]`)
 - **Geometric Types**
   - Point (`point`, `point[]`)
+- **Range Types**
+  - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
+  - Numeric ranges (`numrange`, `int4range`, `int8range`)
 
 ### PostgreSQL Operators
 - **Array Operations**
@@ -62,6 +69,9 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Field access (`->`, `->>`)
   - Path operations (`#>`, `#>>`)
   - JSON containment and existence operators
+- **Range Operations**
+  - Containment checks (in PHP value objects and for DQL queries with `@>` and `<@`)
+  - Overlaps (`&&`)
 
 ### Functions
 - **Text Search**
@@ -85,6 +95,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
+- [Value Objects for Range Types](docs/RANGE-TYPES.md)
 - [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md)
 - [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
 
