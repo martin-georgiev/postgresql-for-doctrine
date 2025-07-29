@@ -70,7 +70,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Path operations (`#>`, `#>>`)
   - JSON containment and existence operators
 - **Range Operations**
-  - Containment checks (in PHP value objects and for DQL queries with `@>`)
+  - Containment checks (in PHP value objects and for DQL queries with `@>` and `<@`)
   - Overlaps (`&&`)
 
 ### Functions
