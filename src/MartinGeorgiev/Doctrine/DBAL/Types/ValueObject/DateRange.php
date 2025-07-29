@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 
 /**
- * Represents a PostgreSQL DATERANGE (date range).
+ * Represents a PostgreSQL date range.
  *
  * @extends Range<\DateTimeInterface>
  *

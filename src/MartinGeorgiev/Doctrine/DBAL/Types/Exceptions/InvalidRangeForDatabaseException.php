@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 
 /**
- * Exception thrown when an invalid range value is provided for database conversion.
- *
  * @since 3.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 /**
- * Abstract base class for PostgreSQL range types.
- *
  * @template R of int|float|\DateTimeInterface
  *
  * @since 3.3

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 
 /**
- * Represents a PostgreSQL NUMRANGE (numeric range).
+ * Represents a PostgreSQL numeric range.
  *
  * @extends Range<float|int>
  *

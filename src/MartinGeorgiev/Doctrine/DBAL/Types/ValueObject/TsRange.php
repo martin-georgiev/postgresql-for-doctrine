@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 /**
- * Represents a PostgreSQL TSRANGE (timestamp without timezone).
+ * Represents a PostgreSQL timestamp range without timezone.
  *
  * @since 3.3
  *

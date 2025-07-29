@@ -7,8 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Exception thrown when an invalid PHP value is provided for range creation.
- *
  * @since 3.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

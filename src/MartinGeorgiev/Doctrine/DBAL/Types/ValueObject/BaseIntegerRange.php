@@ -7,8 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 
 /**
- * Base class for PostgreSQL integer range types.
- *
  * @extends Range<int>
  *
  * @since 3.3
