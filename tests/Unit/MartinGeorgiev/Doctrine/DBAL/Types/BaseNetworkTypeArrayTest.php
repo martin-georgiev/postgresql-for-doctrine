@@ -57,7 +57,7 @@ class BaseNetworkTypeArrayTest extends TestCase
 
     #[Test]
     #[DataProvider('provideValidTransformations')]
-    public function can_convert_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }

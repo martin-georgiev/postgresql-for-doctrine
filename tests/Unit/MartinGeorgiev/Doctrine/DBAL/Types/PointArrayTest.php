@@ -183,7 +183,7 @@ class PointArrayTest extends TestCase
     }
 
     #[Test]
-    public function returns_empty_array_for_non_standard_postgres_array_format(): void
+    public function can_return_empty_array_for_non_standard_postgres_array_format(): void
     {
         $result1 = $this->fixture->convertToPHPValue('[test]', $this->platform);
         $result2 = $this->fixture->convertToPHPValue('not-an-array', $this->platform);

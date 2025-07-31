@@ -11,8 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * Base test case for timestamp range types (TsRange, TstzRange).
  * Provides common timestamp-specific test patterns.
- */
-/**
+ *
  * @template R of \DateTimeInterface
  */
 abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
