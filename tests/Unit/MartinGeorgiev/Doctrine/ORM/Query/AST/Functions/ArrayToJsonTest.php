@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayToJsonTest extends BaseVariadicFunctionTestCase
 {
