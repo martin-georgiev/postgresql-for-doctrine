@@ -36,57 +36,57 @@ class MacaddrTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?string $phpInput, ?string $postgresValueAfterNormalisation, ?string $phpValueAfterRetrievalFromDatabase): void
+    public function can_transform_from_php_value(?string $phpInput, ?string $postgresValueAfterNormalization, ?string $phpValueAfterRetrievalFromDatabase): void
     {
-        self::assertEquals($postgresValueAfterNormalisation, $this->fixture->convertToDatabaseValue($phpInput, $this->platform));
+        self::assertEquals($postgresValueAfterNormalization, $this->fixture->convertToDatabaseValue($phpInput, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?string $phpInput, ?string $postgresValueAfterNormalisation, ?string $phpValueAfterRetrievalFromDatabase): void
+    public function can_transform_to_php_value(?string $phpInput, ?string $postgresValueAfterNormalization, ?string $phpValueAfterRetrievalFromDatabase): void
     {
-        self::assertEquals($phpValueAfterRetrievalFromDatabase, $this->fixture->convertToPHPValue($postgresValueAfterNormalisation, $this->platform));
+        self::assertEquals($phpValueAfterRetrievalFromDatabase, $this->fixture->convertToPHPValue($postgresValueAfterNormalization, $this->platform));
     }
 
     /**
-     * @return array<string, array{phpInput: string|null, postgresValueAfterNormalisation: string|null, postgresValueAfterNormalisation: string|null}>
+     * @return array<string, array{phpInput: string|null, postgresValueAfterNormalization: string|null, phpValueAfterRetrievalFromDatabase: string|null}>
      */
     public static function provideValidTransformations(): array
     {
         return [
             'null' => [
                 'phpInput' => null,
-                'postgresValueAfterNormalisation' => null,
+                'postgresValueAfterNormalization' => null,
                 'phpValueAfterRetrievalFromDatabase' => null,
             ],
             'colon-separated lowercase' => [
                 'phpInput' => '08:00:2b:01:02:03',
-                'postgresValueAfterNormalisation' => '08:00:2b:01:02:03',
+                'postgresValueAfterNormalization' => '08:00:2b:01:02:03',
                 'phpValueAfterRetrievalFromDatabase' => '08:00:2b:01:02:03',
             ],
             'colon-separated uppercase' => [
                 'phpInput' => '08:00:2B:01:02:03',
-                'postgresValueAfterNormalisation' => '08:00:2b:01:02:03',
+                'postgresValueAfterNormalization' => '08:00:2b:01:02:03',
                 'phpValueAfterRetrievalFromDatabase' => '08:00:2b:01:02:03',
             ],
             'hyphen-separated lowercase' => [
                 'phpInput' => '08-00-2b-01-02-03',
-                'postgresValueAfterNormalisation' => '08:00:2b:01:02:03',
+                'postgresValueAfterNormalization' => '08:00:2b:01:02:03',
                 'phpValueAfterRetrievalFromDatabase' => '08:00:2b:01:02:03',
             ],
             'hyphen-separated uppercase' => [
                 'phpInput' => '08-00-2B-01-02-03',
-                'postgresValueAfterNormalisation' => '08:00:2b:01:02:03',
+                'postgresValueAfterNormalization' => '08:00:2b:01:02:03',
                 'phpValueAfterRetrievalFromDatabase' => '08:00:2b:01:02:03',
             ],
             'no separator' => [
                 'phpInput' => '08002B010203',
-                'postgresValueAfterNormalisation' => '08:00:2b:01:02:03',
+                'postgresValueAfterNormalization' => '08:00:2b:01:02:03',
                 'phpValueAfterRetrievalFromDatabase' => '08:00:2b:01:02:03',
             ],
             'mixed case no separator' => [
                 'phpInput' => '08002b010203',
-                'postgresValueAfterNormalisation' => '08:00:2b:01:02:03',
+                'postgresValueAfterNormalization' => '08:00:2b:01:02:03',
                 'phpValueAfterRetrievalFromDatabase' => '08:00:2b:01:02:03',
             ],
         ];

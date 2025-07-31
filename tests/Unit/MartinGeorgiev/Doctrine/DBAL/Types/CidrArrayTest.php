@@ -103,7 +103,7 @@ class CidrArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValuesForPHPTransformationForPHPTransformation')]
+    #[DataProvider('provideInvalidDatabaseValuesForPHPTransformation')]
     #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
     {
@@ -114,7 +114,7 @@ class CidrArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidDatabaseValuesForPHPTransformationForPHPTransformation(): array
+    public static function provideInvalidDatabaseValuesForPHPTransformation(): array
     {
         return [
             'invalid format' => ['{"invalid-cidr"}'],
