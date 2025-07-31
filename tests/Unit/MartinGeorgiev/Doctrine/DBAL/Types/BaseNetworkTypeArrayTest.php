@@ -112,7 +112,7 @@ class BaseNetworkTypeArrayTest extends TestCase
     }
 
     #[Test]
-    public function transform_array_item_for_php_handles_valid_string(): void
+    public function can_transform_array_item_for_php_with_valid_string(): void
     {
         $this->assertSame('valid_address', $this->fixture->transformArrayItemForPHP('"valid_address"'));
     }

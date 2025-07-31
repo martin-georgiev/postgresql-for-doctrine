@@ -171,7 +171,7 @@ class PointArrayTest extends TestCase
     }
 
     #[Test]
-    public function handles_edge_case_with_empty_and_malformed_arrays(): void
+    public function can_handle_edge_case_with_empty_and_malformed_arrays(): void
     {
         $result1 = $this->fixture->convertToPHPValue('{}', $this->platform);
         $result2 = $this->fixture->convertToPHPValue('{invalid}', $this->platform);
@@ -193,14 +193,14 @@ class PointArrayTest extends TestCase
     }
 
     #[Test]
-    public function transform_array_item_for_php_returns_null_for_null(): void
+    public function can_transform_array_item_for_php_returning_null_for_null(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
     #[Test]
     #[DataProvider('provideInvalidTypes')]
-    public function transform_array_item_for_php_throws_for_invalid_type(mixed $value): void
+    public function can_transform_array_item_for_php_throwing_for_invalid_type(mixed $value): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP($value);
@@ -208,7 +208,7 @@ class PointArrayTest extends TestCase
 
     #[Test]
     #[DataProvider('provideInvalidTypes')]
-    public function transform_postgres_array_to_php_array_returns_empty_for_invalid_format(mixed $value): void
+    public function can_transform_postgres_array_to_php_array_returning_empty_for_invalid_format(mixed $value): void
     {
         $reflectionObject = new \ReflectionObject($this->fixture);
         $reflectionMethod = $reflectionObject->getMethod('transformPostgresArrayToPHPArray');

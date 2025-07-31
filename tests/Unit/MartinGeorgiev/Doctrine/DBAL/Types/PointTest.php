@@ -124,7 +124,7 @@ class PointTest extends TestCase
     }
 
     #[Test]
-    public function allows_coordinate_with_exactly_6_decimal_places(): void
+    public function can_allow_coordinate_with_exactly_6_decimal_places(): void
     {
         $point = new PointValueObject(1.123456, 2.654321);
         $this->assertSame(1.123456, $point->getX());
@@ -132,7 +132,7 @@ class PointTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_coordinate_with_more_than_6_decimal_places(): void
+    public function throws_exception_for_coordinate_with_more_than_6_decimal_places(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new PointValueObject(1.1234567, 2.0);

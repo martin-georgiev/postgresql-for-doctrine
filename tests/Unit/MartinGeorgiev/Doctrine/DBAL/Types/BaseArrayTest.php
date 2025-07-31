@@ -77,7 +77,7 @@ class BaseArrayTest extends TestCase
     }
 
     #[Test]
-    public function throws_invalid_argument_exception_when_php_value_is_not_array(): void
+    public function throws_exception_when_php_value_is_not_array(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/Given PHP value content type is not PHP array. Instead it is "\w+"./');

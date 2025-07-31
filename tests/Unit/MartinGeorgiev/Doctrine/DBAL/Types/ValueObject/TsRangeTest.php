@@ -219,7 +219,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function handles_microseconds_correctly(): void
+    public function can_handle_microseconds_correctly(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00.123456');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00.654321');
