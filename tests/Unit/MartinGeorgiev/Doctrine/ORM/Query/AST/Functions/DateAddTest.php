@@ -44,7 +44,8 @@ class DateAddTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    public function test_invalid_timezone_throws_exception(): void
+    #[Test]
+    public function invalid_timezone_throws_exception(): void
     {
         $this->expectException(InvalidTimezoneException::class);
         $this->expectExceptionMessage('Invalid timezone "Invalid/Timezone" provided for date_add');
@@ -53,7 +54,8 @@ class DateAddTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_few_arguments_throws_exception(): void
+    #[Test]
+    public function too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('date_add() requires at least 2 arguments');
@@ -62,7 +64,8 @@ class DateAddTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_many_arguments_throws_exception(): void
+    #[Test]
+    public function too_many_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('date_add() requires between 2 and 3 arguments');

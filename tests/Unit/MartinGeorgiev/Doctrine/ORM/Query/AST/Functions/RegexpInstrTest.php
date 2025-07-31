@@ -49,7 +49,8 @@ class RegexpInstrTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    public function test_too_few_arguments_throws_exception(): void
+    #[Test]
+    public function too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('regexp_instr() requires at least 2 arguments');
@@ -58,7 +59,8 @@ class RegexpInstrTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_many_arguments_throws_exception(): void
+    #[Test]
+    public function too_many_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('regexp_instr() requires between 2 and 7 arguments');

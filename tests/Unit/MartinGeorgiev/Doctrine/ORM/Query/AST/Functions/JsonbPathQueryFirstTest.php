@@ -44,7 +44,8 @@ class JsonbPathQueryFirstTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    public function test_invalid_boolean_throws_exception(): void
+    #[Test]
+    public function invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_path_query_first. Must be "true" or "false".');
@@ -53,7 +54,8 @@ class JsonbPathQueryFirstTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_few_arguments_throws_exception(): void
+    #[Test]
+    public function too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_path_query_first() requires at least 2 arguments');
@@ -62,7 +64,8 @@ class JsonbPathQueryFirstTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_many_arguments_throws_exception(): void
+    #[Test]
+    public function too_many_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_path_query_first() requires between 2 and 4 arguments');
