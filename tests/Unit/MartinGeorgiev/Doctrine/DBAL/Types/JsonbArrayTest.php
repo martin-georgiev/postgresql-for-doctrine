@@ -49,7 +49,10 @@ class JsonbArrayTest extends TestCase
     }
 
     /**
-     * @return list<array<string, mixed>>
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
      */
     public static function provideValidTransformations(): array
     {

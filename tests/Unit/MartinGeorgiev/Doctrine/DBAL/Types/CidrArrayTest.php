@@ -48,7 +48,10 @@ class CidrArrayTest extends TestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array|null, postgresValue: string|null}>
+     * @return array<string, array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
      */
     public static function provideValidTransformations(): array
     {

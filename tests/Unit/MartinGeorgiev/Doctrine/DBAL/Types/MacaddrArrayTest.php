@@ -48,7 +48,10 @@ class MacaddrArrayTest extends TestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array|null, postgresValue: string|null}>
+     * @return array<string, array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
      */
     public static function provideValidTransformations(): array
     {
@@ -89,7 +92,7 @@ class MacaddrArrayTest extends TestCase
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array{mixed}>
      */
     public static function provideInvalidPHPValuesForDatabaseTransformation(): array
     {

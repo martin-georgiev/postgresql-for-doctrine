@@ -35,7 +35,10 @@ class RealArrayTest extends BaseFloatArrayTestCase
     }
 
     /**
-     * @return array<int, array{phpValue: float, postgresValue: string}>
+     * @return list<array{
+     *     phpValue: float,
+     *     postgresValue: string
+     * }>
      */
     public static function provideValidTransformations(): array
     {

@@ -49,7 +49,10 @@ class PointArrayTest extends TestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array<Point>|null, postgresValue: string|null}>
+     * @return array<string, array{
+     *     phpValue: array<Point>|null,
+     *     postgresValue: string|null
+     * }>
      */
     public static function provideValidTransformations(): array
     {

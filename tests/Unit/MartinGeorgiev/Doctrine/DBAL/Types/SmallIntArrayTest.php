@@ -31,7 +31,10 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return array<int, array{phpValue: int, postgresValue: string}>
+     * @return list<array{
+     *     phpValue: int,
+     *     postgresValue: string
+     * }>
      */
     public static function provideValidTransformations(): array
     {
@@ -64,7 +67,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return array<array{string}>
+     * @return list<array{string}>
      */
     public static function provideOutOfRangeValues(): array
     {
