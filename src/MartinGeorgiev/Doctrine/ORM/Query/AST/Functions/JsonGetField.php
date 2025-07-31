@@ -33,16 +33,18 @@ class JsonGetField extends BaseFunction
     {
         $shouldUseLexer = DoctrineOrm::isPre219();
 
-        // Parse first parameter (always StringPrimary for the JSON column)
-        $this->nodes[0] = $parser->StringPrimary();
+        $nodeForJsonDocumentName = $parser->StringPrimary();
         $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
 
-        // Parse second parameter - try ArithmeticPrimary first, then StringPrimary
+        // Second parameter can be either an index or a property name
         try {
-            $this->nodes[1] = $parser->ArithmeticPrimary();
+            $nodeForJsonIndexOrPropertyName = $parser->ArithmeticPrimary();
         } catch (QueryException) {
-            // If ArithmeticPrimary fails (e.g., when encountering a string), try StringPrimary
-            $this->nodes[1] = $parser->StringPrimary();
+            // If ArithmeticPrimary fails (e.g., when encountering a property name rather than an index), try StringPrimary
+            $nodeForJsonIndexOrPropertyName = $parser->StringPrimary();
         }
+
+        /* @phpstan-ignore-next-line assign.propertyType */
+        $this->nodes = [$nodeForJsonDocumentName, $nodeForJsonIndexOrPropertyName];
     }
 }
