@@ -101,9 +101,9 @@ class InetTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
         $this->expectException(InvalidInetForPHPException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
@@ -112,7 +112,7 @@ class InetTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'non-string value' => [123],
@@ -130,12 +130,15 @@ class InetTest extends TestCase
             'IPv4 with invalid octet count' => ['192.168.1'],
             'IPv4 with character suffix' => ['192.168.1.1x'],
             'malformed IPv4-mapped IPv6' => ['::ffff:256.256.256.256'],
+            'array input' => [['not', 'ip']],
+            'boolean input' => [true],
+            'object input' => [new \stdClass()],
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValuesForPHPTransformation')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $postgresValue): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $postgresValue): void
     {
         $this->expectException(InvalidInetForDatabaseException::class);
         $this->fixture->convertToPHPValue($postgresValue, $this->platform);
@@ -144,7 +147,7 @@ class InetTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValuesForPHPTransformation(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'non-string value' => [123],
@@ -161,6 +164,9 @@ class InetTest extends TestCase
             'IPv4 with invalid octet count' => ['192.168.1'],
             'IPv4 with character suffix' => ['192.168.1.1x'],
             'malformed IPv4-mapped IPv6' => ['::ffff:256.256.256.256'],
+            'array input' => [['not', 'ip']],
+            'boolean input' => [false],
+            'object input' => [new \stdClass()],
         ];
     }
 }

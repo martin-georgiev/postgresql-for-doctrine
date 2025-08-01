@@ -92,20 +92,22 @@ class MacaddrTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
         $this->expectException(InvalidMacaddrForPHPException::class);
+
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
     }
 
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
+            // Invalid MAC address formats
             'empty string' => [''],
             'invalid format' => ['00:11:22:33:44'],
             'invalid characters' => ['00:11:22:gg:hh:ii'],
@@ -116,25 +118,58 @@ class MacaddrTest extends TestCase
             'wrong format' => ['not-a-mac-address'],
             'mixed separators' => ['00:11-22:33-44:55'],
             'non-hex digits' => ['zz:zz:zz:zz:zz:zz'],
+            // Invalid types
+            'integer input' => [123],
+            'array input' => [['not', 'string']],
+            'boolean input' => [false],
+            'object input' => [new \stdClass()],
+            'float input' => [3.14],
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValuesForPHPTransformation')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $dbValue): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $invalidValue): void
     {
         $this->expectException(InvalidMacaddrForDatabaseException::class);
-        $this->fixture->convertToPHPValue($dbValue, $this->platform);
+        $this->expectExceptionMessage('Database value must be a string');
+
+        $this->fixture->convertToPHPValue($invalidValue, $this->platform);
     }
 
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValuesForPHPTransformation(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
-            'invalid type' => [123],
+            'integer input' => [123],
+            'array input' => [['not', 'string']],
+            'boolean input' => [true],
+            'object input' => [new \stdClass()],
+            'float input' => [3.14],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueFormats')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_formats(string $invalidFormat): void
+    {
+        $this->expectException(InvalidMacaddrForDatabaseException::class);
+        $this->expectExceptionMessage('Invalid MAC address format in database');
+
+        $this->fixture->convertToPHPValue($invalidFormat, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueFormats(): array
+    {
+        return [
             'invalid format from database' => ['invalid-mac-format'],
+            'empty string' => [''],
+            'malformed mac' => ['00:11:22:33:44'],
         ];
     }
 }
