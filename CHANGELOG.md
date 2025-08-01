@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.3.0...v3.4.0) (2025-08-01)
+
+
+### Features
+
+* **#401:** Improve JSON field extraction by adding index support ([#402](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/402)) ([8d18b35](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8d18b35ddbc4c9a059b5e6b4e22f12490b28c3f6))
+
 ## [3.3.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.2...v3.3.0) (2025-07-29)
 
 
