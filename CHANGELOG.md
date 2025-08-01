@@ -1,5 +1,58 @@
 # Changelog
 
+## [3.3.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.2...v3.3.0) (2025-07-29)
+
+
+### Features
+
+* Add support for formatting functions `to_char`, `to_date`, `to_number`, `to_timestamp` ([#386](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/386)) ([7a047e8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7a047e840bd4b1df608eb56ee796d19e209077e8))
+* Add support for range types ([#396](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/396)) ([cc4749c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/cc4749c6f6df4b058c33caca3d21945d5e9a7f01))
+
+## [3.2.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.1...v3.2.2) (2025-06-15)
+
+
+### Bug Fixes
+
+* **#351:** Correct round-trip handling of special characters between PHP and PostgreSQL ([#391](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/391)) ([979a581](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/979a5815faed6c2139c530abc6fbd60ff26c7f1b))
+
+## [3.2.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.2.0...v3.2.1) (2025-05-24)
+
+
+### Bug Fixes
+
+* **#351:** Remove invalid or non-PostgreSQL-compliant test cases; ensure edge cases for backslashes, quotes, special characters, and NULL handling are covered ([#385](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/385)) ([c5f7327](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c5f73279bc32bb185a93d81363a014193b6c1657))
+* **#367:** Change to uppercase the return value of `getSQLDeclaration` ([#368](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/368)) ([7e4be89](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7e4be89bfd630356f390bdd3e457500b78c568ad))
+
+## [3.2.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.1.0...v3.2.0) (2025-05-23)
+
+
+### Features
+
+* Add support for arithmetic functions `ABS`, `CEIL`, `FLOOR`, `ROUND` and `TRUNC` ([#369](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/369)) ([3f04c0e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3f04c0ea41f85d218e2b62d3de5bc999b2bc4ed5))
+* Add support for mathematical functions `CBRT`, `DEGREES`, `EXP`, `LN`, `LOG`, `PI`, `POWER`, `RADIANS`, `RANDOM`, `SIGN` and `WIDTH_BUCKET` ([#383](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/383)) ([3665a25](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3665a25bffc86c4596927f386022fd45b8d9d9db))
+* Add support for specifying explicit range bounds ([#380](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/380)) ([d83a099](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d83a099e8b39c8e354e250322e6f7b2328b1f680))
+
+## [3.1.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.2...v3.1.0) (2025-05-03)
+
+
+### Features
+
+* Add support for `ARRAY_POSITION()` and `ARRAY_POSITIONS()` ([#366](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/366)) ([a1dc059](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a1dc059965175d23a8efbf99afd2ab99a2d79564))
+* Add support for `DATE_ADD()`, `DATE_SUBTRACT()` and `DATE_BIN()` ([#345](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/345)) ([c3cb08d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c3cb08d6af36057a0ce88fd184f91c243bcab5da))
+* Add support for `JSONB_PATH_EXISTS()`, `JSONB_PATH_MATCH()`, `JSONB_PATH_QUERY()`, `JSONB_PATH_QUERY_ARRAY()` and `JSONB_PATH_QUERY_FIRST()` ([#346](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/346)) ([0cda902](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0cda90218c4330b78c2a94f757e30e4045c70768))
+* Add support for `POINT` and `POINT[]` data types ([#348](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/348)) ([18ec906](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/18ec906be3f87473b842aaa4038cc097d46e6495))
+* Add support for `REGEXP_COUNT()`, `REGEXP_INSTR()` and `REGEXP_SUBSTR()` and extend support for `REGEXP_REPLACE()` ([#352](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/352)) ([9959476](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/995947610b8538e35b5a5a5233a04b22dd202bd5))
+* Add support for distance operator `<@>` ([#361](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/361)) ([8dbbf8c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8dbbf8c71b801bd624829e04504919d730ff4a57))
+* Extend existing function support with optional boolean parameters ([#347](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/347)) ([67265cc](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/67265cc84313b6cb447f6ec3a67f3b99dba4bde2))
+* Extend support of `REGEXP_LIKE()`, `REGEXP_MATCH()` and `REGEXP_REPLACE()` while deprecating the legacy limited flagged variations of `FlaggedRegexpLike`, `FlaggedRegexpMatch` and `FlaggedRegexpReplace` ([#357](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/357)) ([ef688dc](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ef688dc2d62c702fbcb85c8474e15f687de82ea5))
+
+
+### Code Refactoring
+
+* Allow multiple node mapping patterns to be used and their arguments to be validated in variadic functions ([#350](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/350)) ([e111dd2](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e111dd28da6985324d0b9b181daf73dcbc97bb00))
+* Allow node mapping in variadic functions to have different patterns, thus opening the path to a combination of node types (compared to the previous single type support) ([#349](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/349)) ([6a5ba9e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/6a5ba9ef21b24b0e6107d85e67725a4c96f3ab8a))
+* Stricter method argument types when handling variadic functions ([#343](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/343)) ([553a30c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/553a30c2e26c4b8e69b14ad4d791dd7f7d0670d8))
+
 ## [3.0.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.0.1...v3.0.2) (2025-04-11)
 
 

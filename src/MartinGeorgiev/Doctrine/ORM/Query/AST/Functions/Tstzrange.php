@@ -12,12 +12,28 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Tstzrange extends BaseFunction
+class Tstzrange extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('tstzrange(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return 'tstzrange';
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function getNodeMappingPattern(): array
+    {
+        return ['StringPrimary'];
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 3;
     }
 }

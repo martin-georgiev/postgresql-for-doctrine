@@ -8,6 +8,8 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForPHPException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -26,29 +28,21 @@ class CidrTest extends TestCase
         $this->fixture = new Cidr();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('cidr', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(?string $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(?string $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
@@ -99,11 +93,8 @@ class CidrTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
-     */
+    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
         $this->expectException(InvalidCidrForPHPException::class);
@@ -133,11 +124,8 @@ class CidrTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidDatabaseValuesForPHPTransformation
-     */
+    #[DataProvider('provideInvalidDatabaseValuesForPHPTransformation')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $dbValue): void
     {
         $this->expectException(InvalidCidrForDatabaseException::class);

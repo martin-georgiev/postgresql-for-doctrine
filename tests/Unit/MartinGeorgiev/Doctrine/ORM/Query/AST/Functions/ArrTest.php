@@ -26,8 +26,8 @@ class ArrTest extends BaseVariadicFunctionTestCase
     {
         return [
             'creates array from multiple literal values' => "SELECT ARRAY['foo', 'bar', 'baz'] AS sclr_0 FROM ContainsArrays c0_",
-            'creates array from column references' => 'SELECT ARRAY[c0_.array1] AS sclr_0 FROM ContainsArrays c0_',
-            'creates array from mix of column references and literals' => "SELECT ARRAY[c0_.array1, 'test-value', c0_.array2] AS sclr_0 FROM ContainsArrays c0_",
+            'creates array from column references' => 'SELECT ARRAY[c0_.textArray] AS sclr_0 FROM ContainsArrays c0_',
+            'creates array from mix of column references and literals' => "SELECT ARRAY[c0_.textArray, 'test-value', c0_.integerArray] AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
@@ -35,8 +35,8 @@ class ArrTest extends BaseVariadicFunctionTestCase
     {
         return [
             'creates array from multiple literal values' => \sprintf("SELECT ARRAY('foo', 'bar', 'baz') FROM %s e", ContainsArrays::class),
-            'creates array from column references' => \sprintf('SELECT ARRAY(e.array1) FROM %s e', ContainsArrays::class),
-            'creates array from mix of column references and literals' => \sprintf("SELECT ARRAY(e.array1, 'test-value', e.array2) FROM %s e", ContainsArrays::class),
+            'creates array from column references' => \sprintf('SELECT ARRAY(e.textArray) FROM %s e', ContainsArrays::class),
+            'creates array from mix of column references and literals' => \sprintf("SELECT ARRAY(e.textArray, 'test-value', e.integerArray) FROM %s e", ContainsArrays::class),
         ];
     }
 }

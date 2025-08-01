@@ -6,17 +6,17 @@ namespace Tests\MartinGeorgiev\Utils;
 
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PHPArrayToPostgresValueTransformerTest extends TestCase
 {
     /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     *
      * @param array<int, array<string, array|string>> $phpValue
      */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
     {
         self::assertEquals($postgresValue, PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpValue));
@@ -104,16 +104,26 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
                 'phpValue' => ['Hello 世界', '🌍 Earth'],
                 'postgresValue' => '{"Hello 世界","🌍 Earth"}',
             ],
+            'with only nulls' => [
+                'phpValue' => [null, null],
+                'postgresValue' => '{NULL,NULL}',
+            ],
+            'with only booleans' => [
+                'phpValue' => [true, false, true],
+                'postgresValue' => '{true,false,true}',
+            ],
+            'with empty empty strings' => [
+                'phpValue' => ['', ''],
+                'postgresValue' => '{"",""}',
+            ],
         ];
     }
 
     /**
-     * @test
-     *
-     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
-     *
      * @param array<int, mixed> $phpValue
      */
+    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[Test]
     public function throws_invalid_argument_exception_when_tries_to_non_single_dimensioned_array_from_php_value(array $phpValue): void
     {
         $this->expectException(InvalidArrayFormatException::class);
@@ -139,9 +149,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_transform_object_with_to_string_method(): void
     {
         $object = new class {
@@ -154,9 +162,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         self::assertSame('{"object string representation"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$object]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_transform_object_without_to_string_method(): void
     {
         $object = new class {};
@@ -165,9 +171,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         self::assertStringContainsString('class@anonymous', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$object]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_transform_closed_resource(): void
     {
         $resource = \fopen('php://temp', 'r');
@@ -177,9 +181,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         self::assertSame('{"resource (closed)"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_transform_open_resource(): void
     {
         $resource = \fopen('php://temp', 'r');
@@ -188,9 +190,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         self::assertSame('{"(resource)"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_transform_mixed_types_in_array(): void
     {
         $input = [
@@ -212,12 +212,10 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider provideMultiDimensionalArrays
-     *
      * @param array<int|string, mixed> $phpValue
      */
+    #[DataProvider('provideMultiDimensionalArrays')]
+    #[Test]
     public function throws_exception_for_multi_dimensional_arrays(array $phpValue): void
     {
         $this->expectException(InvalidArrayFormatException::class);
@@ -250,5 +248,18 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
                 ],
             ],
         ];
+    }
+
+    #[Test]
+    public function can_transform_array_with_gd_resource(): void
+    {
+        if (!\function_exists('imagecreatetruecolor')) {
+            $this->markTestSkipped('GD extension not available');
+        }
+
+        $resource = \imagecreatetruecolor(1, 1);
+        $result = PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]);
+        $this->assertStringContainsString('GdImage', $result);
+        \imagedestroy($resource);
     }
 }

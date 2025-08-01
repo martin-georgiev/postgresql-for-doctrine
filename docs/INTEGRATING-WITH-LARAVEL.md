@@ -128,6 +128,8 @@ return [
         'ARRAY_DIMENSIONS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions::class,
         'ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength::class,
         'ARRAY_NUMBER_OF_DIMENSIONS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions::class,
+        'ARRAY_POSITION' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition::class,
+        'ARRAY_POSITIONS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions::class,
         'ARRAY_PREPEND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend::class,
         'ARRAY_REMOVE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove::class,
         'ARRAY_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class,
@@ -199,6 +201,23 @@ return [
         'NUMRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class,
         'TSRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class,
         'TSTZRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class,
+        
+        # Arithmetic functions
+        'CBRT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt::class,
+        'CEIL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil::class,
+        'DEGREES' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees::class,
+        'EXP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp::class,
+        'FLOOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor::class,
+        'LN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln::class,
+        'LOG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log::class,
+        'PI' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi::class,
+        'POWER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power::class,
+        'RADIANS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians::class,
+        'RANDOM' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random::class,
+        'ROUND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round::class,
+        'SIGN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign::class,
+        'TRUNC' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc::class,
+        'WIDTH_BUCKET' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket::class,
 
         # other operators
         'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
@@ -228,6 +247,12 @@ return [
         'JSONB_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class,
         'STRING_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class,
         'XML_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class,
+
+        # data type formatting functions
+        'TO_CHAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class,
+        'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,
+        'TO_NUMBER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class,
+        'TO_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class,
     ],
 
     ...

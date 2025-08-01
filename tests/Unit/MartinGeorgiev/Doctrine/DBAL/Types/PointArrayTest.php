@@ -8,6 +8,8 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -26,29 +28,21 @@ class PointArrayTest extends TestCase
         $this->fixture = new PointArray();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('point[]', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
@@ -89,11 +83,8 @@ class PointArrayTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidTransformations
-     */
+    #[DataProvider('provideInvalidTransformations')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
@@ -118,11 +109,8 @@ class PointArrayTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidDatabaseValues
-     */
+    #[DataProvider('provideInvalidDatabaseValues')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
@@ -143,11 +131,8 @@ class PointArrayTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidPHPValueTypes
-     */
+    #[DataProvider('provideInvalidPHPValueTypes')]
+    #[Test]
     public function throws_exception_when_non_string_provided_to_convert_to_php_value(mixed $value): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
@@ -167,9 +152,7 @@ class PointArrayTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_when_invalid_point_format_provided(): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
@@ -178,9 +161,7 @@ class PointArrayTest extends TestCase
         $this->fixture->transformArrayItemForPHP($invalidPointString);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_malformed_point_strings_in_database(): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
@@ -189,9 +170,7 @@ class PointArrayTest extends TestCase
         $this->fixture->convertToPHPValue('{"(invalid,point)"}', $this->platform);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function handles_edge_case_with_empty_and_malformed_arrays(): void
     {
         $result1 = $this->fixture->convertToPHPValue('{}', $this->platform);
@@ -203,9 +182,7 @@ class PointArrayTest extends TestCase
         self::assertEquals([], $result3);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returns_empty_array_for_non_standard_postgres_array_format(): void
     {
         $result1 = $this->fixture->convertToPHPValue('[test]', $this->platform);
@@ -213,5 +190,38 @@ class PointArrayTest extends TestCase
 
         self::assertEquals([], $result1);
         self::assertEquals([], $result2);
+    }
+
+    #[Test]
+    public function transform_array_item_for_php_returns_null_for_null(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    #[DataProvider('provideInvalidTypes')]
+    public function transform_array_item_for_php_throws_for_invalid_type(mixed $value): void
+    {
+        $this->expectException(InvalidPointArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP($value);
+    }
+
+    #[Test]
+    #[DataProvider('provideInvalidTypes')]
+    public function transform_postgres_array_to_php_array_returns_empty_for_invalid_format(mixed $value): void
+    {
+        $reflectionObject = new \ReflectionObject($this->fixture);
+        $reflectionMethod = $reflectionObject->getMethod('transformPostgresArrayToPHPArray');
+        $reflectionMethod->setAccessible(true);
+        $this->assertSame([], $reflectionMethod->invoke($this->fixture, $value));
+    }
+
+    public static function provideInvalidTypes(): array
+    {
+        return [
+            [123],
+            ['not-a-point-instance'],
+            ['{invalid}'],
+        ];
     }
 }

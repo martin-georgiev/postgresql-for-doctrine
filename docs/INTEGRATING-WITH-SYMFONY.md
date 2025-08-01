@@ -121,6 +121,8 @@ doctrine:
                         ARRAY_DIMENSIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions
                         ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength
                         ARRAY_NUMBER_OF_DIMENSIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions
+                        ARRAY_POSITION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition
+                        ARRAY_POSITIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions
                         ARRAY_PREPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend
                         ARRAY_REMOVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove
                         ARRAY_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace
@@ -193,6 +195,23 @@ doctrine:
                         NUMRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange
                         TSRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange
                         TSTZRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange
+                        
+                        # Arithmetic functions
+                        CBRT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt
+                        CEIL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil
+                        DEGREES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees
+                        EXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp
+                        FLOOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor
+                        LN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln
+                        LOG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log
+                        PI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi
+                        POWER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power
+                        RADIANS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians
+                        RANDOM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random
+                        ROUND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round
+                        SIGN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign
+                        TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc
+                        WIDTH_BUCKET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket
 
                         # other operators
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
@@ -222,4 +241,10 @@ doctrine:
                         JSONB_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
                         XML_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
+
+                        # data type formatting functions
+                        TO_CHAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar
+                        TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate
+                        TO_NUMBER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber
+                        TO_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp
 ```

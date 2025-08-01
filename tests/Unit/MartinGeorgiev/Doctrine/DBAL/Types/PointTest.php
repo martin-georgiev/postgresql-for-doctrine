@@ -9,6 +9,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForDatabaseExcepti
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -27,29 +29,21 @@ class PointTest extends TestCase
         $this->fixture = new Point();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('point', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(?PointValueObject $pointValueObject, ?string $postgresValue): void
     {
         self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($pointValueObject, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(?PointValueObject $pointValueObject, ?string $postgresValue): void
     {
         self::assertEquals($pointValueObject, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
@@ -84,11 +78,8 @@ class PointTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidTransformations
-     */
+    #[DataProvider('provideInvalidTransformations')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
     {
         $this->expectException(InvalidPointForPHPException::class);
@@ -107,11 +98,8 @@ class PointTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidDatabaseValues
-     */
+    #[DataProvider('provideInvalidDatabaseValues')]
+    #[Test]
     public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $phpValue): void
     {
         $this->expectException(InvalidPointForDatabaseException::class);
@@ -133,5 +121,20 @@ class PointTest extends TestCase
             'not a string' => [123],
             'float precision is too granular' => ['(1.23456789,7.89)'],
         ];
+    }
+
+    #[Test]
+    public function allows_coordinate_with_exactly_6_decimal_places(): void
+    {
+        $point = new PointValueObject(1.123456, 2.654321);
+        $this->assertSame(1.123456, $point->getX());
+        $this->assertSame(2.654321, $point->getY());
+    }
+
+    #[Test]
+    public function throws_for_coordinate_with_more_than_6_decimal_places(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new PointValueObject(1.1234567, 2.0);
     }
 }

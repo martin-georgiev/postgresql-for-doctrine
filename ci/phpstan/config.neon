@@ -6,6 +6,7 @@ includes:
     - ./baselines/deprecated-methods.neon
     - ./baselines/lexer-variations.neon
     - ./baselines/phpstan-identifiers.neon
+    - ./baselines/range-baseline.neon
     - ./baselines/type-mismatches.neon
 
 parameters:

@@ -31,6 +31,13 @@ Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray"
 
 Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
 Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
+
+Type::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
+Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
+Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
+Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
+Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
+Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 ```
 
 
@@ -72,6 +79,8 @@ $configuration->addCustomStringFunction('ARRAY_CAT', MartinGeorgiev\Doctrine\ORM
 $configuration->addCustomStringFunction('ARRAY_DIMENSIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions::class);
 $configuration->addCustomStringFunction('ARRAY_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength::class);
 $configuration->addCustomStringFunction('ARRAY_NUMBER_OF_DIMENSIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions::class);
+$configuration->addCustomStringFunction('ARRAY_POSITION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition::class);
+$configuration->addCustomStringFunction('ARRAY_POSITIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions::class);
 $configuration->addCustomStringFunction('ARRAY_PREPEND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend::class);
 $configuration->addCustomStringFunction('ARRAY_REMOVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove::class);
 $configuration->addCustomStringFunction('ARRAY_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class);
@@ -145,6 +154,23 @@ $configuration->addCustomStringFunction('NUMRANGE', MartinGeorgiev\Doctrine\ORM\
 $configuration->addCustomStringFunction('TSRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class);
 $configuration->addCustomStringFunction('TSTZRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class);
 
+# Arithmetic functions
+$configuration->addCustomStringFunction('CBRT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt::class);
+$configuration->addCustomStringFunction('CEIL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil::class);
+$configuration->addCustomStringFunction('DEGREES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees::class);
+$configuration->addCustomStringFunction('EXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp::class);
+$configuration->addCustomStringFunction('FLOOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor::class);
+$configuration->addCustomStringFunction('LN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln::class);
+$configuration->addCustomStringFunction('LOG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log::class);
+$configuration->addCustomStringFunction('PI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi::class);
+$configuration->addCustomStringFunction('POWER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power::class);
+$configuration->addCustomStringFunction('RADIANS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians::class);
+$configuration->addCustomStringFunction('RANDOM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random::class);
+$configuration->addCustomStringFunction('ROUND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round::class);
+$configuration->addCustomStringFunction('SIGN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign::class);
+$configuration->addCustomStringFunction('TRUNC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc::class);
+$configuration->addCustomStringFunction('WIDTH_BUCKET', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket::class);
+
 # other operators
 $configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
 $configuration->addCustomStringFunction('ILIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class);
@@ -173,6 +199,12 @@ $configuration->addCustomStringFunction('JSONB_AGG', MartinGeorgiev\Doctrine\ORM
 $configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class);
 $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);
 $configuration->addCustomStringFunction('XML_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
+
+# data type formatting functions
+$configuration->addCustomStringFunction('TO_CHAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class);
+$configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class);
+$configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
+$configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class);
 
 $em = EntityManager::create($dbParams, $configuration);
 ```
@@ -212,6 +244,13 @@ $platform->registerDoctrineTypeMapping('_macaddr','macaddr[]');
 $platform->registerDoctrineTypeMapping('point','point');
 $platform->registerDoctrineTypeMapping('point[]','point[]');
 $platform->registerDoctrineTypeMapping('_point','point[]');
+
+$platform->registerDoctrineTypeMapping('daterange','daterange');
+$platform->registerDoctrineTypeMapping('int4range','int4range');
+$platform->registerDoctrineTypeMapping('int8range','int8range');
+$platform->registerDoctrineTypeMapping('numrange','numrange');
+$platform->registerDoctrineTypeMapping('tsrange','tsrange');
+$platform->registerDoctrineTypeMapping('tstzrange','tstzrange');
 ...
 
 ```

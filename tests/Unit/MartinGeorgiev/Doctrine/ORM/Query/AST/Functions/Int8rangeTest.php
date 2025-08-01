@@ -19,14 +19,16 @@ class Int8rangeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT int8range(c0_.integer1, c0_.integer2) AS sclr_0 FROM ContainsIntegers c0_',
+            'basic range with default bounds' => 'SELECT int8range(c0_.integer1, c0_.integer2) AS sclr_0 FROM ContainsIntegers c0_',
+            'range with explicit bounds' => "SELECT int8range(c0_.integer1, c0_.integer2, '[)') AS sclr_0 FROM ContainsIntegers c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT INT8RANGE(e.integer1, e.integer2) FROM %s e', ContainsIntegers::class),
+            'basic range with default bounds' => \sprintf('SELECT INT8RANGE(e.integer1, e.integer2) FROM %s e', ContainsIntegers::class),
+            'range with explicit bounds' => \sprintf("SELECT INT8RANGE(e.integer1, e.integer2, '[)') FROM %s e", ContainsIntegers::class),
         ];
     }
 }

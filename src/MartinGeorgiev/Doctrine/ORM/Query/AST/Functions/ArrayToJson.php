@@ -18,8 +18,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT ARRAY_TO_JSON(e.array1) FROM Entity e"
- * @example Using it in DQL with pretty_bool: "SELECT ARRAY_TO_JSON(e.array1, 'true') FROM Entity e"
+ * @example Using it in DQL: "SELECT ARRAY_TO_JSON(e.textArray) FROM Entity e"
+ * @example Using it in DQL with pretty_bool: "SELECT ARRAY_TO_JSON(e.textArray, 'true') FROM Entity e"
  */
 class ArrayToJson extends BaseVariadicFunction
 {

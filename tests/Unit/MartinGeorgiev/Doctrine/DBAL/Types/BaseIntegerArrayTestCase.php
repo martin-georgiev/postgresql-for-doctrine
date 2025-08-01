@@ -6,17 +6,16 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseIntegerArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForPHPException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseIntegerArrayTestCase extends TestCase
 {
     protected BaseIntegerArray $fixture;
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidPHPValuesForDatabaseTransformation
-     */
+    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[Test]
     public function can_detect_invalid_for_transformation_php_value(mixed $phpValue): void
     {
         self::assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
@@ -41,21 +40,15 @@ abstract class BaseIntegerArrayTestCase extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(int $phpValue, string $postgresValue): void
     {
         self::assertTrue($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(int $phpValue, string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
@@ -69,11 +62,8 @@ abstract class BaseIntegerArrayTestCase extends TestCase
      */
     abstract public static function provideValidTransformations(): array;
 
-    /**
-     * @test
-     *
-     * @dataProvider provideOutOfRangeValues
-     */
+    #[DataProvider('provideOutOfRangeValues')]
+    #[Test]
     public function throws_domain_exception_when_value_exceeds_range(string $outOfRangeValue): void
     {
         $this->expectException(InvalidIntegerArrayItemForPHPException::class);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger;
 
 class JsonGetFieldAsIntegerTest extends TestCase
@@ -12,6 +13,7 @@ class JsonGetFieldAsIntegerTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
+            'JSON_GET_FIELD' => JsonGetField::class,
             'JSON_GET_FIELD_AS_INTEGER' => JsonGetFieldAsInteger::class,
         ];
     }
@@ -19,14 +21,18 @@ class JsonGetFieldAsIntegerTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT CAST(c0_.object1 ->> 'rank' as BIGINT) AS sclr_0 FROM ContainsJsons c0_",
+            'extracts field as integer' => "SELECT CAST(c0_.object1 ->> 'rank' as BIGINT) AS sclr_0 FROM ContainsJsons c0_",
+            'extracts array element as integer' => 'SELECT CAST(c0_.object1 ->> 0 as BIGINT) AS sclr_0 FROM ContainsJsons c0_',
+            'extracts nested array element as integer' => "SELECT CAST((c0_.object1 -> 'scores') ->> 1 as BIGINT) AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT JSON_GET_FIELD_AS_INTEGER(e.object1, 'rank') FROM %s e", ContainsJsons::class),
+            'extracts field as integer' => \sprintf("SELECT JSON_GET_FIELD_AS_INTEGER(e.object1, 'rank') FROM %s e", ContainsJsons::class),
+            'extracts array element as integer' => \sprintf('SELECT JSON_GET_FIELD_AS_INTEGER(e.object1, 0) FROM %s e', ContainsJsons::class),
+            'extracts nested array element as integer' => \sprintf("SELECT JSON_GET_FIELD_AS_INTEGER(JSON_GET_FIELD(e.object1, 'scores'), 1) FROM %s e", ContainsJsons::class),
         ];
     }
 }

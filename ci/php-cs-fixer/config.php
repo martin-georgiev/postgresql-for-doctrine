@@ -47,6 +47,7 @@ return $config
             'simplified_null_return' => false,
             'single_line_comment_style' => false,
             'static_lambda' => true,
+            'string_implicit_backslashes' => false,
             'yoda_style' => false,
         ]
     )

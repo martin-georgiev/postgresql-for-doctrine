@@ -6,6 +6,8 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -25,29 +27,21 @@ class JsonbTest extends TestCase
         $this->fixture = new Jsonb();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('jsonb', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_from_php_value(null|array|bool|float|int|string $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValidTransformations
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_transform_to_php_value(null|array|bool|float|int|string $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
@@ -55,7 +49,7 @@ class JsonbTest extends TestCase
 
     /**
      * @return list<array{
-     *     phpValue: null|array|bool|float|int|string,
+     *     phpValue: array|bool|float|int|string|null,
      *     postgresValue: string|null
      * }>
      */

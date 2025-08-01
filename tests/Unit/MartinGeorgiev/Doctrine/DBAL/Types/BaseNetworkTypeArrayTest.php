@@ -6,6 +6,8 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseNetworkTypeArray;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -47,44 +49,38 @@ class BaseNetworkTypeArrayTest extends TestCase
         };
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function has_name(): void
     {
         self::assertEquals('test_network_array', $this->fixture->getName());
     }
 
-    /**
-     * @test
-     */
-    public function can_convert_null_to_database_value(): void
+    #[Test]
+    #[DataProvider('provideValidTransformations')]
+    public function can_convert_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        self::assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
+        self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
-    /**
-     * @test
-     */
-    public function can_convert_empty_array_to_database_value(): void
+    public static function provideValidTransformations(): array
     {
-        self::assertEquals('{}', $this->fixture->convertToDatabaseValue([], $this->platform));
+        return [
+            'null' => [
+                'phpValue' => null,
+                'postgresValue' => null,
+            ],
+            'empty array' => [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
+            'valid array' => [
+                'phpValue' => ['valid_address', 'valid_address'],
+                'postgresValue' => '{"valid_address","valid_address"}',
+            ],
+        ];
     }
 
-    /**
-     * @test
-     */
-    public function can_convert_valid_array_to_database_value(): void
-    {
-        self::assertEquals(
-            '{"valid_address","valid_address"}',
-            $this->fixture->convertToDatabaseValue(['valid_address', 'valid_address'], $this->platform)
-        );
-    }
-
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_invalid_type(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -92,30 +88,32 @@ class BaseNetworkTypeArrayTest extends TestCase
         $this->fixture->convertToDatabaseValue('not_an_array', $this->platform);
     }
 
-    /**
-     * @test
-     */
-    public function can_convert_null_to_php_value(): void
+    #[Test]
+    #[DataProvider('provideInvalidValues')]
+    public function throws_exception_for_invalid_values(mixed $arrayItem, string $exceptionMessage): void
     {
-        self::assertNull($this->fixture->convertToPHPValue(null, $this->platform));
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($exceptionMessage);
+        $this->fixture->transformArrayItemForPHP($arrayItem);
     }
 
-    /**
-     * @test
-     */
-    public function can_convert_empty_array_to_php_value(): void
+    public static function provideInvalidValues(): array
     {
-        self::assertEquals([], $this->fixture->convertToPHPValue('{}', $this->platform));
+        return [
+            'invalid type' => [
+                'arrayItem' => [],
+                'exceptionMessage' => 'Invalid type',
+            ],
+            'invalid format' => [
+                'arrayItem' => '"invalid_address"',
+                'exceptionMessage' => 'Invalid format',
+            ],
+        ];
     }
 
-    /**
-     * @test
-     */
-    public function can_convert_valid_string_to_php_value(): void
+    #[Test]
+    public function transform_array_item_for_php_handles_valid_string(): void
     {
-        self::assertEquals(
-            ['valid_address', 'valid_address'],
-            $this->fixture->convertToPHPValue('{"valid_address","valid_address"}', $this->platform)
-        );
+        $this->assertSame('valid_address', $this->fixture->transformArrayItemForPHP('"valid_address"'));
     }
 }

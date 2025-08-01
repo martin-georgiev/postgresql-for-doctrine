@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
+use PHPUnit\Framework\Attributes\Test;
 
 class ToTsvectorTest extends BaseVariadicFunctionTestCase
 {
@@ -41,9 +42,7 @@ class ToTsvectorTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_when_too_many_arguments_given(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);

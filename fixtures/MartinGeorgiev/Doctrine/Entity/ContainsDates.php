@@ -27,4 +27,7 @@ class ContainsDates extends Entity
 
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
     public \DateTimeImmutable $datetimetz2;
+
+    #[ORM\Column(type: Types::DATEINTERVAL)]
+    public \DateTimeImmutable $dateinterval1;
 }

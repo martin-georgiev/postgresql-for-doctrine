@@ -21,7 +21,7 @@ class ArrayShuffleTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'from array field' => 'SELECT array_shuffle(c0_.array1) AS sclr_0 FROM ContainsArrays c0_',
+            'from array field' => 'SELECT array_shuffle(c0_.textArray) AS sclr_0 FROM ContainsArrays c0_',
             'from literal array' => "SELECT array_shuffle(ARRAY['red', 'green', 'blue']) AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
@@ -29,7 +29,7 @@ class ArrayShuffleTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'from array field' => \sprintf('SELECT ARRAY_SHUFFLE(e.array1) FROM %s e', ContainsArrays::class),
+            'from array field' => \sprintf('SELECT ARRAY_SHUFFLE(e.textArray) FROM %s e', ContainsArrays::class),
             'from literal array' => \sprintf("SELECT ARRAY_SHUFFLE(ARRAY('red', 'green', 'blue')) FROM %s e", ContainsArrays::class),
         ];
     }
