@@ -110,7 +110,7 @@ abstract class BaseRangeTestCase extends TestCase
 
     #[DataProvider('provideInvalidDatabaseValues')]
     #[Test]
-    public function throws_exception_when_converting_to_database_value_for_invalid_types(mixed $invalidValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $invalidValue): void
     {
         $this->expectException(InvalidRangeForDatabaseException::class);
         $this->expectExceptionMessage('Invalid type for range');
@@ -132,7 +132,7 @@ abstract class BaseRangeTestCase extends TestCase
 
     #[DataProvider('provideInvalidPHPValues')]
     #[Test]
-    public function throws_exception_when_converting_to_php_value_for_invalid_types(mixed $invalidValue): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $invalidValue): void
     {
         $this->expectException(InvalidRangeForPHPException::class);
         $this->expectExceptionMessage('Invalid database value type for range conversion');

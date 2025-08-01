@@ -20,9 +20,9 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
         self::assertEquals('smallint[]', $this->fixture->getName());
     }
 
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
-        return \array_merge(parent::provideInvalidPHPValuesForDatabaseTransformation(), [
+        return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
             ['32768'],    // Greater than max smallint
             ['-32769'],   // Less than min smallint
             ['1.23e4'],   // Scientific notation

@@ -112,9 +112,9 @@ class PointArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValues')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
         $this->fixture->convertToPHPValue($postgresValue, $this->platform);
@@ -123,7 +123,7 @@ class PointArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidDatabaseValues(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'missing parentheses' => ['{"(1.23, 4.56)","(-7.89, 0.12"}'],
@@ -136,7 +136,7 @@ class PointArrayTest extends TestCase
 
     #[DataProvider('provideInvalidPHPValueTypes')]
     #[Test]
-    public function throws_exception_when_non_string_provided_to_convert_to_php_value(mixed $value): void
+    public function throws_exception_for_non_string_inputs_to_database_conversion(mixed $value): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue($value, $this->platform); // @phpstan-ignore-line

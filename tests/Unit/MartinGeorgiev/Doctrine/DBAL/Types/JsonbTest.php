@@ -103,11 +103,15 @@ class JsonbTest extends TestCase
     public function throws_exception_for_non_encodable_value(): void
     {
         $resourceThatCannotBeJsonEncoded = \fopen('php://memory', 'r');
+        if ($resourceThatCannotBeJsonEncoded === false) {
+            $this->fail('Failed to create test resource');
+        }
 
         $this->expectException(ConversionException::class);
         $this->expectExceptionMessage("can't be resolved to valid JSON");
 
         try {
+            // @phpstan-ignore-next-line argument.type - Testing invalid type handling
             $this->fixture->convertToDatabaseValue($resourceThatCannotBeJsonEncoded, $this->platform);
         } finally {
             \fclose($resourceThatCannotBeJsonEncoded);
@@ -139,6 +143,7 @@ class JsonbTest extends TestCase
         $this->expectExceptionMessage("can't be resolved to valid JSON");
 
         try {
+            // @phpstan-ignore-next-line argument.type - Testing invalid type handling
             $this->fixture->convertToDatabaseValue($object1, $this->platform);
         } finally {
             \restore_error_handler();

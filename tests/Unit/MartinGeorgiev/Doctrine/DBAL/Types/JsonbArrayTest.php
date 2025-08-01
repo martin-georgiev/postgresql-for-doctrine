@@ -87,9 +87,9 @@ class JsonbArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
     {
         $this->expectException(InvalidJsonArrayItemForPHPException::class);
         $this->expectExceptionMessage('Invalid JSON format in array');
@@ -100,7 +100,7 @@ class JsonbArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'non-array json' => ['"a string encoded as json"'],

@@ -14,7 +14,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
 {
     protected BaseIntegerArray $fixture;
 
-    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
     public function can_detect_invalid_for_transformation_php_value(mixed $phpValue): void
     {
@@ -24,7 +24,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     /**
      * @return list<mixed>
      */
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             [true],
