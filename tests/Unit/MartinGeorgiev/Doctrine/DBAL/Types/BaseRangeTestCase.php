@@ -108,22 +108,48 @@ abstract class BaseRangeTestCase extends TestCase
         self::assertNull($result);
     }
 
+    #[DataProvider('provideInvalidDatabaseValues')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_type(): void
+    public function throws_exception_when_converting_to_database_value_for_invalid_types(mixed $invalidValue): void
     {
         $this->expectException(InvalidRangeForDatabaseException::class);
         $this->expectExceptionMessage('Invalid type for range');
 
-        $this->fixture->convertToDatabaseValue('invalid', $this->platform); // @phpstan-ignore-line argument.type
+        $this->fixture->convertToDatabaseValue($invalidValue, $this->platform); // @phpstan-ignore-line argument.type
     }
 
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidDatabaseValues(): array
+    {
+        return [
+            'string value' => ['not_a_range'],
+            'integer value' => [123],
+            'array value' => [[1, 2, 3]],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValues')]
     #[Test]
-    public function throws_exception_for_invalid_sql_value_type(): void
+    public function throws_exception_when_converting_to_php_value_for_invalid_types(mixed $invalidValue): void
     {
         $this->expectException(InvalidRangeForPHPException::class);
         $this->expectExceptionMessage('Invalid database value type for range conversion');
 
-        $this->fixture->convertToPHPValue([1, 2], $this->platform); // @phpstan-ignore-line argument.type
+        $this->fixture->convertToPHPValue($invalidValue, $this->platform); // @phpstan-ignore-line argument.type
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidPHPValues(): array
+    {
+        return [
+            'integer value' => [123],
+            'array value' => [['invalid']],
+            'boolean value' => [true],
+        ];
     }
 
     #[Test]
