@@ -19,7 +19,7 @@ abstract class BaseType extends Type
     /**
      * @var string
      */
-    protected const TYPE_NAME = '';
+    public const TYPE_NAME = '';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
