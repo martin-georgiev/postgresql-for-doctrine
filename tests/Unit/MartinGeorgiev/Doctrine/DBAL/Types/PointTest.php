@@ -78,9 +78,9 @@ class PointTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidTransformations')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
         $this->expectException(InvalidPointForPHPException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
@@ -89,18 +89,22 @@ class PointTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidTransformations(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'empty string' => [''],
             'whitespace string' => [' '],
             'invalid format' => ['invalid point'],
+            'integer input' => [123],
+            'array input' => [['not', 'point']],
+            'boolean input' => [true],
+            'object input' => [new \stdClass()],
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValues')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(mixed $phpValue): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $phpValue): void
     {
         $this->expectException(InvalidPointForDatabaseException::class);
         $this->fixture->convertToPHPValue($phpValue, $this->platform);
@@ -109,7 +113,7 @@ class PointTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValues(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'empty string' => [''],
@@ -120,11 +124,14 @@ class PointTest extends TestCase
             'too many coordinates' => ['(1.23,4.56,7.89)'],
             'not a string' => [123],
             'float precision is too granular' => ['(1.23456789,7.89)'],
+            'array input' => [['not', 'point']],
+            'boolean input' => [false],
+            'object input' => [new \stdClass()],
         ];
     }
 
     #[Test]
-    public function allows_coordinate_with_exactly_6_decimal_places(): void
+    public function can_allow_coordinate_with_exactly_6_decimal_places(): void
     {
         $point = new PointValueObject(1.123456, 2.654321);
         $this->assertSame(1.123456, $point->getX());
@@ -132,7 +139,7 @@ class PointTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_coordinate_with_more_than_6_decimal_places(): void
+    public function throws_exception_for_coordinate_with_more_than_6_decimal_places(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new PointValueObject(1.1234567, 2.0);

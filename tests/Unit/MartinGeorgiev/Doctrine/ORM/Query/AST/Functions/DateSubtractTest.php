@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidTimezoneException;
+use PHPUnit\Framework\Attributes\Test;
 
 class DateSubtractTest extends BaseVariadicFunctionTestCase
 {
@@ -42,7 +43,8 @@ class DateSubtractTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    public function test_invalid_timezone_throws_exception(): void
+    #[Test]
+    public function invalid_timezone_throws_exception(): void
     {
         $this->expectException(InvalidTimezoneException::class);
         $this->expectExceptionMessage('Invalid timezone "Invalid/Timezone" provided for date_subtract');
@@ -51,7 +53,8 @@ class DateSubtractTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_few_arguments_throws_exception(): void
+    #[Test]
+    public function too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('date_subtract() requires at least 2 arguments');
@@ -60,7 +63,8 @@ class DateSubtractTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_many_arguments_throws_exception(): void
+    #[Test]
+    public function too_many_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('date_subtract() requires between 2 and 3 arguments');

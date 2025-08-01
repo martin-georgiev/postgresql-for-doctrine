@@ -57,7 +57,7 @@ class BaseNetworkTypeArrayTest extends TestCase
 
     #[Test]
     #[DataProvider('provideValidTransformations')]
-    public function can_convert_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -112,7 +112,7 @@ class BaseNetworkTypeArrayTest extends TestCase
     }
 
     #[Test]
-    public function transform_array_item_for_php_handles_valid_string(): void
+    public function can_transform_array_item_for_php_with_valid_string(): void
     {
         $this->assertSame('valid_address', $this->fixture->transformArrayItemForPHP('"valid_address"'));
     }

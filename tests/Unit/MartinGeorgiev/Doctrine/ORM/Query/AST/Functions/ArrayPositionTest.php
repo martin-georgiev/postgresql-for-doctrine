@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayPositionTest extends BaseVariadicFunctionTestCase
 {
@@ -43,7 +44,8 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    public function test_too_few_arguments_throws_exception(): void
+    #[Test]
+    public function too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('array_position() requires at least 2 arguments');
@@ -52,7 +54,8 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_many_arguments_throws_exception(): void
+    #[Test]
+    public function too_many_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('array_position() requires between 2 and 3 arguments');

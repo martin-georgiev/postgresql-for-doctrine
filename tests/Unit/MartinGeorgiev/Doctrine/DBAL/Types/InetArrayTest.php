@@ -48,7 +48,10 @@ class InetArrayTest extends TestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array|null, postgresValue: string|null}>
+     * @return array<string, array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
      */
     public static function provideValidTransformations(): array
     {
@@ -96,9 +99,9 @@ class InetArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
         $this->expectException(InvalidInetArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
@@ -107,7 +110,7 @@ class InetArrayTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'invalid type' => ['not-an-array'],
@@ -128,9 +131,9 @@ class InetArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValuesForPHPTransformation')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
     {
         $this->expectException(InvalidInetArrayItemForPHPException::class);
 
@@ -140,7 +143,7 @@ class InetArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidDatabaseValuesForPHPTransformation(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'invalid format' => ['{"invalid-ip"}'],

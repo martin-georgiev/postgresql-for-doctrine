@@ -22,9 +22,9 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
         self::assertEquals('bigint[]', $this->fixture->getName());
     }
 
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
-        return \array_merge(parent::provideInvalidPHPValuesForDatabaseTransformation(), [
+        return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
             ['9223372036854775808'],    // Greater than PHP_INT_MAX
             ['-9223372036854775809'],   // Less than PHP_INT_MIN
             ['1.23e10'],                // Scientific notation
@@ -33,7 +33,10 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return array<int, array{phpValue: int, postgresValue: string}>
+     * @return list<array{
+     *     phpValue: int,
+     *     postgresValue: string
+     * }>
      */
     public static function provideValidTransformations(): array
     {
@@ -76,7 +79,7 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return array<array{string}>
+     * @return list<array{string}>
      */
     public static function provideOutOfRangeValues(): array
     {

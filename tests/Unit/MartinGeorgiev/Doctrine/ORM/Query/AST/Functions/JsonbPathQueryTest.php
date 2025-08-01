@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQuery;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbPathQueryTest extends BaseVariadicFunctionTestCase
 {
@@ -44,7 +45,8 @@ class JsonbPathQueryTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    public function test_invalid_boolean_throws_exception(): void
+    #[Test]
+    public function invalid_boolean_throws_exception(): void
     {
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_path_query. Must be "true" or "false".');
@@ -53,7 +55,8 @@ class JsonbPathQueryTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_few_arguments_throws_exception(): void
+    #[Test]
+    public function too_few_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_path_query() requires at least 2 arguments');
@@ -62,7 +65,8 @@ class JsonbPathQueryTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_many_arguments_throws_exception(): void
+    #[Test]
+    public function too_many_arguments_throws_exception(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_path_query() requires between 2 and 4 arguments');
