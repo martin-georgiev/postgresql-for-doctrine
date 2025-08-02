@@ -42,7 +42,7 @@ class ArrayToJsonTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function invalid_boolean_throws_exception(): void
+    public function throws_exception_for_invalid_boolean_value(): void
     {
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for array_to_json. Must be "true" or "false".');
@@ -52,7 +52,7 @@ class ArrayToJsonTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function too_many_arguments_throws_exception(): void
+    public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('array_to_json() requires between 1 and 2 arguments');
