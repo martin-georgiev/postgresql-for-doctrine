@@ -81,6 +81,10 @@ abstract class BaseVariadicFunction extends BaseFunction
                 // When nodeIndex=2, we're about to add the 3rd argument (total: 3)
                 $foundMoreNodesThanMappingExpected = ($nodeIndex + 1) > $this->getMaxArgumentCount();
                 if ($foundMoreNodesThanMappingExpected) {
+                    if ($this->getMinArgumentCount() === $this->getMaxArgumentCount()) {
+                        throw InvalidArgumentForVariadicFunctionException::exactCount($this->getFunctionName(), $this->getMinArgumentCount());
+                    }
+
                     throw InvalidArgumentForVariadicFunctionException::between($this->getFunctionName(), $this->getMinArgumentCount(), $this->getMaxArgumentCount());
                 }
 
@@ -113,6 +117,10 @@ abstract class BaseVariadicFunction extends BaseFunction
         $minArgumentCount = $this->getMinArgumentCount();
         $maxArgumentCount = $this->getMaxArgumentCount();
         $argumentCount = \count($arguments);
+
+        if ($minArgumentCount === $maxArgumentCount && $argumentCount !== $minArgumentCount) {
+            throw InvalidArgumentForVariadicFunctionException::exactCount($this->getFunctionName(), $this->getMinArgumentCount());
+        }
 
         if ($argumentCount < $minArgumentCount) {
             throw InvalidArgumentForVariadicFunctionException::atLeast($this->getFunctionName(), $this->getMinArgumentCount());
