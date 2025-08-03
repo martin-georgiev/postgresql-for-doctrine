@@ -19,14 +19,14 @@ class FloorTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT FLOOR(c0_.decimal1) AS sclr_0 FROM ContainsDecimals c0_',
+            'rounds decimal down to nearest integer' => 'SELECT FLOOR(c0_.decimal1) AS sclr_0 FROM ContainsDecimals c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT FLOOR(e.decimal1) FROM %s e', ContainsDecimals::class),
+            'rounds decimal down to nearest integer' => \sprintf('SELECT FLOOR(e.decimal1) FROM %s e', ContainsDecimals::class),
         ];
     }
 }

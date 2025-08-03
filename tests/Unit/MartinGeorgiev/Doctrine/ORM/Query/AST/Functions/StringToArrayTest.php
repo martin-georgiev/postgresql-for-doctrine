@@ -19,14 +19,14 @@ class StringToArrayTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT string_to_array(c0_.text1, ',') AS sclr_0 FROM ContainsTexts c0_",
+            'splits text into array using comma delimiter' => "SELECT string_to_array(c0_.text1, ',') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT STRING_TO_ARRAY(e.text1, ',') FROM %s e", ContainsTexts::class),
+            'splits text into array using comma delimiter' => \sprintf("SELECT STRING_TO_ARRAY(e.text1, ',') FROM %s e", ContainsTexts::class),
         ];
     }
 }
