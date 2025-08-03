@@ -46,7 +46,7 @@ class JsonbPathExistsTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function invalid_boolean_throws_exception(): void
+    public function throws_exception_for_invalid_boolean(): void
     {
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_path_exists. Must be "true" or "false".');
@@ -56,7 +56,7 @@ class JsonbPathExistsTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function too_few_arguments_throws_exception(): void
+    public function throws_exception_for_too_few_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_path_exists() requires at least 2 arguments');
@@ -66,7 +66,7 @@ class JsonbPathExistsTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function too_many_arguments_throws_exception(): void
+    public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_path_exists() requires between 2 and 4 arguments');

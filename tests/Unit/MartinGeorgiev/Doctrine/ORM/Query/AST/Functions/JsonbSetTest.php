@@ -42,7 +42,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function invalid_boolean_throws_exception(): void
+    public function throws_exception_for_invalid_boolean(): void
     {
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_set. Must be "true" or "false".');
@@ -52,7 +52,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function too_few_arguments_throws_exception(): void
+    public function throws_exception_for_too_few_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_set() requires at least 3 arguments');
@@ -62,7 +62,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function too_many_arguments_throws_exception(): void
+    public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_set() requires between 3 and 4 arguments');

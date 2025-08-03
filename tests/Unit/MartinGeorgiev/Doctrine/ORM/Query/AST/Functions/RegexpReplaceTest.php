@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class RegexpReplaceTest extends BaseVariadicFunctionTestCase
@@ -46,23 +47,30 @@ class RegexpReplaceTest extends BaseVariadicFunctionTestCase
         ];
     }
 
+    #[DataProvider('provideInvalidArgumentCountCases')]
     #[Test]
-    public function too_few_arguments_throws_exception(): void
+    public function throws_exception_for_invalid_argument_count(string $dql, string $expectedMessage): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('regexp_replace() requires at least 3 arguments');
+        $this->expectExceptionMessage($expectedMessage);
 
-        $dql = \sprintf("SELECT REGEXP_REPLACE(e.text1, 'pattern') FROM %s e", ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    #[Test]
-    public function too_many_arguments_throws_exception(): void
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideInvalidArgumentCountCases(): array
     {
-        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('regexp_replace() requires between 3 and 6 arguments');
-
-        $dql = \sprintf("SELECT REGEXP_REPLACE(e.text1, 'pattern', 'replacement', 3, 2, 'i', 'extra_arg') FROM %s e", ContainsTexts::class);
-        $this->buildEntityManager()->createQuery($dql)->getSQL();
+        return [
+            'too few arguments' => [
+                \sprintf("SELECT REGEXP_REPLACE(e.text1, 'pattern') FROM %s e", ContainsTexts::class),
+                'regexp_replace() requires at least 3 arguments',
+            ],
+            'too many arguments' => [
+                \sprintf("SELECT REGEXP_REPLACE(e.text1, 'pattern', 'replacement', 3, 2, 'i', 'extra_arg') FROM %s e", ContainsTexts::class),
+                'regexp_replace() requires between 3 and 6 arguments',
+            ],
+        ];
     }
 }

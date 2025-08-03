@@ -41,7 +41,7 @@ class UnaccentTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function throws_exception_when_too_many_arguments_given(): void
+    public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
 

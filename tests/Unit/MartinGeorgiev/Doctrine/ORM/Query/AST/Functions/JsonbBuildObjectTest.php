@@ -43,7 +43,7 @@ class JsonbBuildObjectTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function throws_exception_when_odd_number_of_arguments_given(): void
+    public function throws_exception_for_invalid_argument_count(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
 

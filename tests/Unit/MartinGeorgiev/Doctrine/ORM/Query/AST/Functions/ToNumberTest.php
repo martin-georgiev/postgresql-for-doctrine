@@ -33,7 +33,7 @@ class ToNumberTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_when_argument_is_missing(): void
+    public function throws_exception_for_missing_arguments(): void
     {
         $this->expectException(QueryException::class);
 

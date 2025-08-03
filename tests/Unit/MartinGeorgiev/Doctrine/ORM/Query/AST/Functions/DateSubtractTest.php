@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidTimezoneException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class DateSubtractTest extends BaseVariadicFunctionTestCase
@@ -44,7 +45,7 @@ class DateSubtractTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function invalid_timezone_throws_exception(): void
+    public function throws_exception_for_invalid_timezone(): void
     {
         $this->expectException(InvalidTimezoneException::class);
         $this->expectExceptionMessage('Invalid timezone "Invalid/Timezone" provided for date_subtract');
@@ -53,23 +54,30 @@ class DateSubtractTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
+    #[DataProvider('provideInvalidArgumentCountCases')]
     #[Test]
-    public function too_few_arguments_throws_exception(): void
+    public function throws_exception_for_invalid_argument_count(string $dql, string $expectedMessage): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('date_subtract() requires at least 2 arguments');
+        $this->expectExceptionMessage($expectedMessage);
 
-        $dql = \sprintf('SELECT DATE_SUBTRACT(e.datetimetz1) FROM %s e', ContainsDates::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    #[Test]
-    public function too_many_arguments_throws_exception(): void
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideInvalidArgumentCountCases(): array
     {
-        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('date_subtract() requires between 2 and 3 arguments');
-
-        $dql = \sprintf("SELECT DATE_SUBTRACT(e.datetimetz1, '1 day', 'Europe/Sofia', 'extra_arg') FROM %s e", ContainsDates::class);
-        $this->buildEntityManager()->createQuery($dql)->getSQL();
+        return [
+            'too few arguments' => [
+                \sprintf('SELECT DATE_SUBTRACT(e.datetimetz1) FROM %s e', ContainsDates::class),
+                'date_subtract() requires at least 2 arguments',
+            ],
+            'too many arguments' => [
+                \sprintf("SELECT DATE_SUBTRACT(e.datetimetz1, '1 day', 'Europe/Sofia', 'extra_arg') FROM %s e", ContainsDates::class),
+                'date_subtract() requires between 2 and 3 arguments',
+            ],
+        ];
     }
 }
