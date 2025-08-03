@@ -19,18 +19,18 @@ class DistanceTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.point1 <@> '(2.320041, 48.858889)') AS sclr_0 FROM ContainsPoints c0_",
-            'SELECT (c0_.point1 <@> c0_.point2) AS sclr_0 FROM ContainsPoints c0_',
-            "SELECT ('(1.0, 1.0)' <@> '(2.0, 2.0)') AS sclr_0 FROM ContainsPoints c0_",
+            'calculates distance between field and literal point' => "SELECT (c0_.point1 <@> '(2.320041, 48.858889)') AS sclr_0 FROM ContainsPoints c0_",
+            'calculates distance between two point fields' => 'SELECT (c0_.point1 <@> c0_.point2) AS sclr_0 FROM ContainsPoints c0_',
+            'calculates distance between two literal points' => "SELECT ('(1.0, 1.0)' <@> '(2.0, 2.0)') AS sclr_0 FROM ContainsPoints c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT DISTANCE(e.point1, '(2.320041, 48.858889)') FROM %s e", ContainsPoints::class),
-            \sprintf('SELECT DISTANCE(e.point1, e.point2) FROM %s e', ContainsPoints::class),
-            \sprintf("SELECT DISTANCE('(1.0, 1.0)', '(2.0, 2.0)') FROM %s e", ContainsPoints::class),
+            'calculates distance between field and literal point' => \sprintf("SELECT DISTANCE(e.point1, '(2.320041, 48.858889)') FROM %s e", ContainsPoints::class),
+            'calculates distance between two point fields' => \sprintf('SELECT DISTANCE(e.point1, e.point2) FROM %s e', ContainsPoints::class),
+            'calculates distance between two literal points' => \sprintf("SELECT DISTANCE('(1.0, 1.0)', '(2.0, 2.0)') FROM %s e", ContainsPoints::class),
         ];
     }
 }

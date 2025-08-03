@@ -27,18 +27,18 @@ class JsonBuildObjectTest extends BaseVariadicFunctionTestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT json_build_object('key1', c0_.object1) AS sclr_0 FROM ContainsJsons c0_",
-            "SELECT json_build_object('key1', UPPER('value1'), 'key2', 'value2') AS sclr_0 FROM ContainsJsons c0_",
-            "SELECT json_build_object('key1', c0_.object1, 'key2', c0_.object2) AS sclr_0 FROM ContainsJsons c0_",
+            'builds JSON object with field value' => "SELECT json_build_object('key1', c0_.object1) AS sclr_0 FROM ContainsJsons c0_",
+            'builds JSON object with function result and literal' => "SELECT json_build_object('key1', UPPER('value1'), 'key2', 'value2') AS sclr_0 FROM ContainsJsons c0_",
+            'builds JSON object with multiple field values' => "SELECT json_build_object('key1', c0_.object1, 'key2', c0_.object2) AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT JSON_BUILD_OBJECT('key1', e.object1) FROM %s e", ContainsJsons::class),
-            \sprintf("SELECT JSON_BUILD_OBJECT('key1', UPPER('value1'), 'key2', 'value2') FROM %s e", ContainsJsons::class),
-            \sprintf("SELECT JSON_BUILD_OBJECT('key1', e.object1, 'key2', e.object2) FROM %s e", ContainsJsons::class),
+            'builds JSON object with field value' => \sprintf("SELECT JSON_BUILD_OBJECT('key1', e.object1) FROM %s e", ContainsJsons::class),
+            'builds JSON object with function result and literal' => \sprintf("SELECT JSON_BUILD_OBJECT('key1', UPPER('value1'), 'key2', 'value2') FROM %s e", ContainsJsons::class),
+            'builds JSON object with multiple field values' => \sprintf("SELECT JSON_BUILD_OBJECT('key1', e.object1, 'key2', e.object2) FROM %s e", ContainsJsons::class),
         ];
     }
 
