@@ -32,6 +32,9 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
             'finds numeric element' => 'SELECT array_position(c0_.integerArray, 42) AS sclr_0 FROM ContainsArrays c0_',
             'finds element using parameter' => 'SELECT array_position(c0_.textArray, ?) AS sclr_0 FROM ContainsArrays c0_',
             'with start position' => "SELECT array_position(c0_.textArray, 'new-value', 2) AS sclr_0 FROM ContainsArrays c0_",
+            'with zero start position' => "SELECT array_position(c0_.textArray, 'value', 0) AS sclr_0 FROM ContainsArrays c0_",
+            'with negative start position' => "SELECT array_position(c0_.textArray, 'value', -1) AS sclr_0 FROM ContainsArrays c0_",
+            'with arithmetic expression as start position' => "SELECT array_position(c0_.textArray, 'value', 1 + 1) AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
@@ -42,6 +45,9 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
             'finds numeric element' => \sprintf('SELECT ARRAY_POSITION(e.integerArray, 42) FROM %s e', ContainsArrays::class),
             'finds element using parameter' => \sprintf('SELECT ARRAY_POSITION(e.textArray, :dql_parameter) FROM %s e', ContainsArrays::class),
             'with start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'new-value', 2) FROM %s e", ContainsArrays::class),
+            'with zero start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'value', 0) FROM %s e", ContainsArrays::class),
+            'with negative start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'value', -1) FROM %s e", ContainsArrays::class),
+            'with arithmetic expression as start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'value', 1+1) FROM %s e", ContainsArrays::class),
         ];
     }
 
