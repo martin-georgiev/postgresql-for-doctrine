@@ -19,14 +19,14 @@ class OverlapsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.textArray && '{681,1185,1878}') AS sclr_0 FROM ContainsArrays c0_",
+            'checks if arrays have overlapping elements' => "SELECT (c0_.textArray && '{681,1185,1878}') AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT OVERLAPS(e.textArray, '{681,1185,1878}') FROM %s e", ContainsArrays::class),
+            'checks if arrays have overlapping elements' => \sprintf("SELECT OVERLAPS(e.textArray, '{681,1185,1878}') FROM %s e", ContainsArrays::class),
         ];
     }
 }

@@ -19,14 +19,14 @@ class FlaggedRegexpMatchTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT regexp_match(c0_.text1, 'pattern', 'i') AS sclr_0 FROM ContainsTexts c0_",
+            'matches text using regex with flags' => "SELECT regexp_match(c0_.text1, 'pattern', 'i') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT FLAGGED_REGEXP_MATCH(e.text1, 'pattern', 'i') FROM %s e", ContainsTexts::class),
+            'matches text using regex with flags' => \sprintf("SELECT FLAGGED_REGEXP_MATCH(e.text1, 'pattern', 'i') FROM %s e", ContainsTexts::class),
         ];
     }
 }

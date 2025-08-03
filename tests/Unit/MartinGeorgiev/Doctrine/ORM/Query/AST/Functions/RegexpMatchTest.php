@@ -41,7 +41,7 @@ class RegexpMatchTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function too_few_arguments_throws_exception(): void
+    public function throws_exception_for_too_few_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('regexp_match() requires at least 2 arguments');
@@ -51,7 +51,7 @@ class RegexpMatchTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function too_many_arguments_throws_exception(): void
+    public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('regexp_match() requires between 2 and 3 arguments');

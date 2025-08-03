@@ -43,7 +43,7 @@ class LeastTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
-    public function throws_exception_when_single_argument_given(): void
+    public function throws_exception_for_insufficient_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
 

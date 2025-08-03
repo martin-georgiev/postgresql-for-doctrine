@@ -19,14 +19,14 @@ class NotSimilarToTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT c0_.text1 not similar to 'TEST' AS sclr_0 FROM ContainsTexts c0_",
+            'SQL regex pattern non-matching' => "SELECT c0_.text1 not similar to 'TEST' AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT NOT_SIMILAR_TO(e.text1,'TEST') FROM %s e", ContainsTexts::class),
+            'SQL regex pattern non-matching' => \sprintf("SELECT NOT_SIMILAR_TO(e.text1,'TEST') FROM %s e", ContainsTexts::class),
         ];
     }
 }

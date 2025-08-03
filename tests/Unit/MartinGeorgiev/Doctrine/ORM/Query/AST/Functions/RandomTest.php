@@ -19,16 +19,16 @@ class RandomTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT RANDOM() AS sclr_0 FROM ContainsDecimals c0_',
-            'SELECT RANDOM() + c0_.decimal1 AS sclr_0 FROM ContainsDecimals c0_',
+            'generates random number' => 'SELECT RANDOM() AS sclr_0 FROM ContainsDecimals c0_',
+            'uses random in arithmetic expression' => 'SELECT RANDOM() + c0_.decimal1 AS sclr_0 FROM ContainsDecimals c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT RANDOM() FROM %s e', ContainsDecimals::class),
-            \sprintf('SELECT RANDOM() + e.decimal1 FROM %s e', ContainsDecimals::class),
+            'generates random number' => \sprintf('SELECT RANDOM() FROM %s e', ContainsDecimals::class),
+            'uses random in arithmetic expression' => \sprintf('SELECT RANDOM() + e.decimal1 FROM %s e', ContainsDecimals::class),
         ];
     }
 }

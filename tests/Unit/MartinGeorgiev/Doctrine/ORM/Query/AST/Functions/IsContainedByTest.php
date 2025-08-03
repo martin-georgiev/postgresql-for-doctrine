@@ -19,14 +19,14 @@ class IsContainedByTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.textArray <@ '{681,1185,1878}') AS sclr_0 FROM ContainsArrays c0_",
+            'checks if left array is contained by right array' => "SELECT (c0_.textArray <@ '{681,1185,1878}') AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT IS_CONTAINED_BY(e.textArray, '{681,1185,1878}') FROM %s e", ContainsArrays::class),
+            'checks if left array is contained by right array' => \sprintf("SELECT IS_CONTAINED_BY(e.textArray, '{681,1185,1878}') FROM %s e", ContainsArrays::class),
         ];
     }
 }

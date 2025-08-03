@@ -36,7 +36,7 @@ class JsonbInsertTest extends TestCase
     }
 
     #[Test]
-    public function invalid_boolean_throws_exception(): void
+    public function throws_exception_for_invalid_boolean(): void
     {
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_insert. Must be "true" or "false".');
@@ -46,7 +46,7 @@ class JsonbInsertTest extends TestCase
     }
 
     #[Test]
-    public function too_few_arguments_throws_exception(): void
+    public function throws_exception_for_too_few_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_insert() requires at least 3 arguments');
@@ -56,7 +56,7 @@ class JsonbInsertTest extends TestCase
     }
 
     #[Test]
-    public function too_many_arguments_throws_exception(): void
+    public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_insert() requires between 3 and 4 arguments');

@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class RegexpInstrTest extends BaseVariadicFunctionTestCase
@@ -50,23 +51,30 @@ class RegexpInstrTest extends BaseVariadicFunctionTestCase
         ];
     }
 
+    #[DataProvider('provideInvalidArgumentCountCases')]
     #[Test]
-    public function too_few_arguments_throws_exception(): void
+    public function throws_exception_for_invalid_argument_count(string $dql, string $expectedMessage): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('regexp_instr() requires at least 2 arguments');
+        $this->expectExceptionMessage($expectedMessage);
 
-        $dql = \sprintf('SELECT REGEXP_INSTR(e.text1) FROM %s e', ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    #[Test]
-    public function too_many_arguments_throws_exception(): void
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideInvalidArgumentCountCases(): array
     {
-        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('regexp_instr() requires between 2 and 7 arguments');
-
-        $dql = \sprintf("SELECT REGEXP_INSTR(e.text1, 'c(.)(..)', 1, 1, 0, 'i', 2, 'extra_arg') FROM %s e", ContainsTexts::class);
-        $this->buildEntityManager()->createQuery($dql)->getSQL();
+        return [
+            'too few arguments' => [
+                \sprintf('SELECT REGEXP_INSTR(e.text1) FROM %s e', ContainsTexts::class),
+                'regexp_instr() requires at least 2 arguments',
+            ],
+            'too many arguments' => [
+                \sprintf("SELECT REGEXP_INSTR(e.text1, 'c(.)(..)', 1, 1, 0, 'i', 2, 'extra_arg') FROM %s e", ContainsTexts::class),
+                'regexp_instr() requires between 2 and 7 arguments',
+            ],
+        ];
     }
 }

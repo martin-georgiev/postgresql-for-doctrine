@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class ArrayPositionTest extends BaseVariadicFunctionTestCase
@@ -31,6 +32,9 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
             'finds numeric element' => 'SELECT array_position(c0_.integerArray, 42) AS sclr_0 FROM ContainsArrays c0_',
             'finds element using parameter' => 'SELECT array_position(c0_.textArray, ?) AS sclr_0 FROM ContainsArrays c0_',
             'with start position' => "SELECT array_position(c0_.textArray, 'new-value', 2) AS sclr_0 FROM ContainsArrays c0_",
+            'with zero start position' => "SELECT array_position(c0_.textArray, 'value', 0) AS sclr_0 FROM ContainsArrays c0_",
+            'with negative start position' => "SELECT array_position(c0_.textArray, 'value', -1) AS sclr_0 FROM ContainsArrays c0_",
+            'with arithmetic expression as start position' => "SELECT array_position(c0_.textArray, 'value', 1 + 1) AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
@@ -41,26 +45,36 @@ class ArrayPositionTest extends BaseVariadicFunctionTestCase
             'finds numeric element' => \sprintf('SELECT ARRAY_POSITION(e.integerArray, 42) FROM %s e', ContainsArrays::class),
             'finds element using parameter' => \sprintf('SELECT ARRAY_POSITION(e.textArray, :dql_parameter) FROM %s e', ContainsArrays::class),
             'with start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'new-value', 2) FROM %s e", ContainsArrays::class),
+            'with zero start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'value', 0) FROM %s e", ContainsArrays::class),
+            'with negative start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'value', -1) FROM %s e", ContainsArrays::class),
+            'with arithmetic expression as start position' => \sprintf("SELECT ARRAY_POSITION(e.textArray, 'value', 1+1) FROM %s e", ContainsArrays::class),
         ];
     }
 
+    #[DataProvider('provideInvalidArgumentCountCases')]
     #[Test]
-    public function too_few_arguments_throws_exception(): void
+    public function throws_exception_for_invalid_argument_count(string $dql, string $expectedMessage): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('array_position() requires at least 2 arguments');
+        $this->expectExceptionMessage($expectedMessage);
 
-        $dql = \sprintf('SELECT ARRAY_POSITION(e.textArray) FROM %s e', ContainsArrays::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    #[Test]
-    public function too_many_arguments_throws_exception(): void
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideInvalidArgumentCountCases(): array
     {
-        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('array_position() requires between 2 and 3 arguments');
-
-        $dql = \sprintf("SELECT ARRAY_POSITION(e.textArray, 0, 1, 'extra_arg') FROM %s e", ContainsArrays::class);
-        $this->buildEntityManager()->createQuery($dql)->getSQL();
+        return [
+            'too few arguments' => [
+                \sprintf('SELECT ARRAY_POSITION(e.textArray) FROM %s e', ContainsArrays::class),
+                'array_position() requires at least 2 arguments',
+            ],
+            'too many arguments' => [
+                \sprintf("SELECT ARRAY_POSITION(e.textArray, 0, 1, 'extra_arg') FROM %s e", ContainsArrays::class),
+                'array_position() requires between 2 and 3 arguments',
+            ],
+        ];
     }
 }
