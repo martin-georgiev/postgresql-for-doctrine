@@ -67,11 +67,13 @@ class Cast extends FunctionNode
         $nextTokenValue = DoctrineLexer::getLookaheadValue($lexer);
         if ($nextTokenValue === '[') {
             // Consume the '[' token
+            /** @phpstan-ignore-next-line */
             $parser->match($shouldUseLexer ? Lexer::T_NONE : TokenType::T_NONE);
 
             // Check for the closing ']' token
             $nextTokenValue = DoctrineLexer::getLookaheadValue($lexer);
             if ($nextTokenValue === ']') {
+                /** @phpstan-ignore-next-line */
                 $parser->match($shouldUseLexer ? Lexer::T_NONE : TokenType::T_NONE);
                 $type .= '[]';
             }
