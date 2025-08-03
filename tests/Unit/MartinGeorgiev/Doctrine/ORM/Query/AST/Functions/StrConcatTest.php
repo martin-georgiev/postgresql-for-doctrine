@@ -19,14 +19,14 @@ class StrConcatTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.text1 || 'text2') AS sclr_0 FROM ContainsTexts c0_",
+            'concatenates field with literal string' => "SELECT (c0_.text1 || 'text2') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT STRCONCAT(e.text1, 'text2') FROM %s e", ContainsTexts::class),
+            'concatenates field with literal string' => \sprintf("SELECT STRCONCAT(e.text1, 'text2') FROM %s e", ContainsTexts::class),
         ];
     }
 }

@@ -19,14 +19,14 @@ class FlaggedRegexpReplaceTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT regexp_replace(c0_.text1, 'pattern', 'replacement', 'g') AS sclr_0 FROM ContainsTexts c0_",
+            'replaces text using regex with flags' => "SELECT regexp_replace(c0_.text1, 'pattern', 'replacement', 'g') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT FLAGGED_REGEXP_REPLACE(e.text1, 'pattern', 'replacement', 'g') FROM %s e", ContainsTexts::class),
+            'replaces text using regex with flags' => \sprintf("SELECT FLAGGED_REGEXP_REPLACE(e.text1, 'pattern', 'replacement', 'g') FROM %s e", ContainsTexts::class),
         ];
     }
 }

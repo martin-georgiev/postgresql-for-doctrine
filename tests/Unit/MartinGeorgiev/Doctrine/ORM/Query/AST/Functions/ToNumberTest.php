@@ -21,14 +21,14 @@ class ToNumberTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT to_number(c0_.text1, '99G999D9S') AS sclr_0 FROM ContainsTexts c0_",
+            'converts text to number using format pattern' => "SELECT to_number(c0_.text1, '99G999D9S') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT TO_NUMBER(e.text1, '99G999D9S') FROM %s e", ContainsTexts::class),
+            'converts text to number using format pattern' => \sprintf("SELECT TO_NUMBER(e.text1, '99G999D9S') FROM %s e", ContainsTexts::class),
         ];
     }
 

@@ -19,22 +19,22 @@ class DateExtractTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT EXTRACT('DAY' FROM c0_.date1) AS sclr_0 FROM ContainsDates c0_",
-            "SELECT EXTRACT('MONTH' FROM c0_.date1) AS sclr_0 FROM ContainsDates c0_",
-            "SELECT EXTRACT('YEAR' FROM c0_.date1) AS sclr_0 FROM ContainsDates c0_",
-            "SELECT c0_.date1 AS date1_0 FROM ContainsDates c0_ WHERE EXTRACT('DAY' FROM c0_.date1) = 7",
-            "SELECT c0_.date1 AS date1_0 FROM ContainsDates c0_ WHERE EXTRACT('MONTH' FROM c0_.date1) = 12",
+            'extracts day from date' => "SELECT EXTRACT('DAY' FROM c0_.date1) AS sclr_0 FROM ContainsDates c0_",
+            'extracts month from date' => "SELECT EXTRACT('MONTH' FROM c0_.date1) AS sclr_0 FROM ContainsDates c0_",
+            'extracts year from date' => "SELECT EXTRACT('YEAR' FROM c0_.date1) AS sclr_0 FROM ContainsDates c0_",
+            'filters by extracted day' => "SELECT c0_.date1 AS date1_0 FROM ContainsDates c0_ WHERE EXTRACT('DAY' FROM c0_.date1) = 7",
+            'filters by extracted month' => "SELECT c0_.date1 AS date1_0 FROM ContainsDates c0_ WHERE EXTRACT('MONTH' FROM c0_.date1) = 12",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT DATE_EXTRACT('DAY', e.date1) FROM %s e", ContainsDates::class),
-            \sprintf("SELECT DATE_EXTRACT('MONTH', e.date1) FROM %s e", ContainsDates::class),
-            \sprintf("SELECT DATE_EXTRACT('YEAR', e.date1) FROM %s e", ContainsDates::class),
-            \sprintf("SELECT e.date1 FROM %s e WHERE DATE_EXTRACT('DAY', e.date1) = 7", ContainsDates::class),
-            \sprintf("SELECT e.date1 FROM %s e WHERE DATE_EXTRACT('MONTH', e.date1) = 12", ContainsDates::class),
+            'extracts day from date' => \sprintf("SELECT DATE_EXTRACT('DAY', e.date1) FROM %s e", ContainsDates::class),
+            'extracts month from date' => \sprintf("SELECT DATE_EXTRACT('MONTH', e.date1) FROM %s e", ContainsDates::class),
+            'extracts year from date' => \sprintf("SELECT DATE_EXTRACT('YEAR', e.date1) FROM %s e", ContainsDates::class),
+            'filters by extracted day' => \sprintf("SELECT e.date1 FROM %s e WHERE DATE_EXTRACT('DAY', e.date1) = 7", ContainsDates::class),
+            'filters by extracted month' => \sprintf("SELECT e.date1 FROM %s e WHERE DATE_EXTRACT('MONTH', e.date1) = 12", ContainsDates::class),
         ];
     }
 }
