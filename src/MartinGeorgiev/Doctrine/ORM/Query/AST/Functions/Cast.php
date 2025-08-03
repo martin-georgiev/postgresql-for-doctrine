@@ -45,6 +45,7 @@ class Cast extends FunctionNode
             return;
         }
 
+        // Handle parameterized types (e.g., DECIMAL(10, 2))
         if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS)) {
             $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
@@ -59,6 +60,21 @@ class Cast extends FunctionNode
 
             $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
             $type .= '('.\implode(', ', $parameters).')';
+        }
+
+        // Handle array types by checking if the next token is '['
+        // Since brackets are not recognized as specific tokens, we need to check the token value
+        $nextTokenValue = DoctrineLexer::getLookaheadValue($lexer);
+        if ($nextTokenValue === '[') {
+            // Consume the '[' token
+            $parser->match($shouldUseLexer ? Lexer::T_NONE : TokenType::T_NONE);
+
+            // Check for the closing ']' token
+            $nextTokenValue = DoctrineLexer::getLookaheadValue($lexer);
+            if ($nextTokenValue === ']') {
+                $parser->match($shouldUseLexer ? Lexer::T_NONE : TokenType::T_NONE);
+                $type .= '[]';
+            }
         }
 
         $this->targetType = $type;

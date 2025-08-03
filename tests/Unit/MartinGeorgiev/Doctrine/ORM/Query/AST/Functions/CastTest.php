@@ -25,6 +25,10 @@ class CastTest extends TestCase
             'cast as jsonb' => 'SELECT cast(c0_.text1 as JSONB) AS sclr_0 FROM ContainsTexts c0_',
             'cast as boolean' => 'SELECT cast(c0_.text1 as BOOLEAN) AS sclr_0 FROM ContainsTexts c0_',
             'cast with precision' => 'SELECT cast(c0_.text1 as DECIMAL(10, 2)) AS sclr_0 FROM ContainsTexts c0_',
+            'cast as integer array' => 'SELECT cast(c0_.text1 as INTEGER[]) AS sclr_0 FROM ContainsTexts c0_',
+            'cast as text array' => 'SELECT cast(c0_.text1 as TEXT[]) AS sclr_0 FROM ContainsTexts c0_',
+            'cast as boolean array' => 'SELECT cast(c0_.text1 as BOOLEAN[]) AS sclr_0 FROM ContainsTexts c0_',
+            'cast as decimal array' => 'SELECT cast(c0_.text1 as DECIMAL(10, 2)[]) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
@@ -37,6 +41,10 @@ class CastTest extends TestCase
             'cast as jsonb' => \sprintf('SELECT CAST(e.text1 AS JSONB) FROM %s e', ContainsTexts::class),
             'cast as boolean' => \sprintf('SELECT CAST(e.text1 AS BOOLEAN) FROM %s e', ContainsTexts::class),
             'cast with precision' => \sprintf('SELECT CAST(e.text1 AS DECIMAL(10, 2)) FROM %s e', ContainsTexts::class),
+            'cast as integer array' => \sprintf('SELECT CAST(e.text1 AS INTEGER[]) FROM %s e', ContainsTexts::class),
+            'cast as text array' => \sprintf('SELECT CAST(e.text1 AS TEXT[]) FROM %s e', ContainsTexts::class),
+            'cast as boolean array' => \sprintf('SELECT CAST(e.text1 AS BOOLEAN[]) FROM %s e', ContainsTexts::class),
+            'cast as decimal array' => \sprintf('SELECT CAST(e.text1 AS DECIMAL(10, 2)[]) FROM %s e', ContainsTexts::class),
         ];
     }
 }
