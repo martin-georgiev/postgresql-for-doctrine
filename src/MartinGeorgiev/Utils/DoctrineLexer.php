@@ -40,6 +40,20 @@ final class DoctrineLexer
     /**
      * @return mixed|null
      */
+    public static function getLookaheadValue(Lexer $lexer)
+    {
+        if (self::isPre200($lexer)) {
+            // @phpstan-ignore-next-line
+            return $lexer->lookahead['value'] ?? null;
+        }
+
+        // @phpstan-ignore-next-line
+        return $lexer->lookahead?->value;
+    }
+
+    /**
+     * @return mixed|null
+     */
     public static function getTokenValue(Lexer $lexer)
     {
         if (self::isPre200($lexer)) {
