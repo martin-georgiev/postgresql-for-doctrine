@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.4.0...v3.4.1) (2025-08-03)
+
+
+### Bug Fixes
+
+* **#399:** Support array types for `CAST` ([#406](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/406)) ([465963e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/465963ef0c398c1e22cf58d5db933e2d24ede569))
+
 ## [3.4.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.3.0...v3.4.0) (2025-08-01)
 
 
