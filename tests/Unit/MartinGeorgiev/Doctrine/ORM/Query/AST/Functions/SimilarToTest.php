@@ -19,14 +19,14 @@ class SimilarToTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT c0_.text1 similar to 'TEST' AS sclr_0 FROM ContainsTexts c0_",
+            'SQL regular expression pattern matching' => "SELECT c0_.text1 similar to 'TEST' AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT SIMILAR_TO(e.text1, 'TEST') FROM %s e", ContainsTexts::class),
+            'SQL regular expression pattern matching' => \sprintf("SELECT SIMILAR_TO(e.text1, 'TEST') FROM %s e", ContainsTexts::class),
         ];
     }
 }

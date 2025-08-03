@@ -19,14 +19,14 @@ class IlikeTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT c0_.text1 ilike 'TEST' AS sclr_0 FROM ContainsTexts c0_",
+            'case-insensitive pattern matching' => "SELECT c0_.text1 ilike 'TEST' AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT ILIKE(e.text1,'TEST') FROM %s e", ContainsTexts::class),
+            'case-insensitive pattern matching' => \sprintf("SELECT ILIKE(e.text1,'TEST') FROM %s e", ContainsTexts::class),
         ];
     }
 }
