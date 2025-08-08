@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange as DateRangeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range as Int4RangeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange as NumRangeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range as RangeValueObject;
@@ -17,6 +18,14 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class DBALTypesTest extends TestCase
 {
+    #[\Override]
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->createLtreeExtension();
+    }
+
     #[DataProvider('provideScalarTypeTestCases')]
     public function test_scalar_type(string $typeName, string $columnType, mixed $testValue): void
     {
@@ -122,6 +131,25 @@ class DBALTypesTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideLtreeTypeTestCases')]
+    public function test_ltree_type(string $typeName, string $columnType, mixed $testValue): void
+    {
+        $this->runTypeTest($typeName, $columnType, $testValue);
+    }
+
+    /**
+     * @return array<string, array{string, string, ?LtreeValueObject}>
+     */
+    public static function provideLtreeTypeTestCases(): array
+    {
+        return [
+            'ltree simple string' => ['ltree', 'LTREE', new LtreeValueObject(['foo', 'bar', 'baz'])],
+            'ltree simple numeric' => ['ltree', 'LTREE', new LtreeValueObject(['1', '2', '3'])],
+            'ltree single numeric' => ['ltree', 'LTREE', new LtreeValueObject(['1'])],
+            'ltree empty' => ['ltree', 'LTREE', new LtreeValueObject([])],
+        ];
+    }
+
     /**
      * @param DateRangeValueObject|Int4RangeValueObject|Int8RangeValueObject|NumRangeValueObject|TsRangeValueObject|TstzRangeValueObject $rangeValueObject
      */
@@ -195,6 +223,7 @@ class DBALTypesTest extends TestCase
         match (true) {
             $expected instanceof PointValueObject => $this->assertPointEquals($expected, $actual, $typeName),
             $expected instanceof RangeValueObject => $this->assertRangeEquals($expected, $actual, $typeName),
+            $expected instanceof LtreeValueObject => $this->assertLtreeEquals($expected, $actual, $typeName),
             \is_array($expected) => $this->assertEquals($expected, $actual, 'Failed asserting that array values are equal for type '.$typeName),
             default => $this->assertSame($expected, $actual, 'Failed asserting that values are identical for type '.$typeName)
         };
@@ -215,5 +244,17 @@ class DBALTypesTest extends TestCase
         $this->assertInstanceOf(RangeValueObject::class, $actual, 'Failed asserting that value is a Range object for type '.$typeName);
         $this->assertEquals($rangeValueObject->__toString(), $actual->__toString(), 'Failed asserting that range string representations are equal for type '.$typeName);
         $this->assertEquals($rangeValueObject->isEmpty(), $actual->isEmpty(), 'Failed asserting that range empty states are equal for type '.$typeName);
+    }
+
+    private function assertLtreeEquals(LtreeValueObject $ltreeValueObject, mixed $actual, string $typeName): void
+    {
+        $this->assertInstanceOf(LtreeValueObject::class, $actual, 'Failed asserting that value is a Ltree object for type '.$typeName);
+        $this->assertTrue($ltreeValueObject->equals($actual), 'Failed asserting that values are equal for type '.$typeName);
+    }
+
+    private function createLtreeExtension(): void
+    {
+        $sql = 'CREATE EXTENSION IF NOT EXISTS ltree';
+        $this->connection->executeStatement($sql);
     }
 }
