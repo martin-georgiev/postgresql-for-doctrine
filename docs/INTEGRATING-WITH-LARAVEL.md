@@ -82,6 +82,9 @@ return [
                 'numrange' => 'numrange',
                 'tsrange' => 'tsrange',
                 'tstzrange' => 'tstzrange',
+
+                // Hierarchical type mappings
+                'ltree' => 'ltree'
             ],
         ],
     ],
@@ -123,6 +126,9 @@ return [
         'numrange' => MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class,
         'tsrange' => MartinGeorgiev\Doctrine\DBAL\Types\TsRange::class,
         'tstzrange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class,
+
+        // Hierarchical types
+        'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
     ],
 
     // ... other configuration
@@ -339,6 +345,7 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->registerNetworkTypes();
         $this->registerSpatialTypes();
         $this->registerRangeTypes();
+        $this->registerHierarchicalTypes();
     }
 
     private function registerArrayTypes(): void
@@ -388,6 +395,11 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->addTypeIfNotExists('tstzrange', \MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class);
     }
 
+    private function registerHierarchicalTypes(): void
+    {
+        $this->addTypeIfNotExists('ltree', \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class);
+    }
+
     private function addTypeIfNotExists(string $name, string $className): void
     {
         if (!Type::hasType($name)) {
@@ -430,6 +442,7 @@ namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
@@ -463,6 +476,9 @@ class Product
 
     #[ORM\Column(type: 'inet')]
     private string $originServerIp;
+
+    #[ORM\Column(type: 'ltree')]
+    private Ltree $pathFromRoot;
 }
 ```
 
@@ -503,6 +519,7 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'text[]' => \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
             'point' => \MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
             'numrange' => \MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class,
+            'ltree' => \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
             // Add other types as needed...
         ];
 
@@ -524,6 +541,7 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'point' => 'point',
             '_point' => 'point[]',
             'numrange' => 'numrange',
+            'ltree' => 'ltree',
             // Add other mappings as needed...
         ];
 

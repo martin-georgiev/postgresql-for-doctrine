@@ -30,6 +30,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
@@ -198,6 +199,7 @@ abstract class TestCase extends BaseTestCase
             'integer[]' => IntegerArray::class,
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
+            'ltree' => Ltree::class,
             'macaddr' => Macaddr::class,
             'macaddr[]' => MacaddrArray::class,
             'numrange' => NumRange::class,
