@@ -26,7 +26,7 @@ class BaseTypeTest extends TestCase
     public function throws_exception_when_type_name_not_configured(): void
     {
         $type = new class extends BaseType {
-            protected const TYPE_NAME = '';
+            public const TYPE_NAME = '';
         };
 
         $this->expectException(\LogicException::class);
@@ -39,7 +39,7 @@ class BaseTypeTest extends TestCase
     public function throws_exception_when_getting_sql_declaration_with_no_type_name(): void
     {
         $type = new class extends BaseType {
-            protected const TYPE_NAME = '';
+            public const TYPE_NAME = '';
         };
 
         $this->expectException(\LogicException::class);
@@ -52,7 +52,7 @@ class BaseTypeTest extends TestCase
     public function can_return_correct_type_name(): void
     {
         $type = new class extends BaseType {
-            protected const TYPE_NAME = 'custom_type';
+            public const TYPE_NAME = 'custom_type';
         };
 
         self::assertEquals('custom_type', $type->getName());
@@ -62,7 +62,7 @@ class BaseTypeTest extends TestCase
     public function can_get_correct_sql_declaration(): void
     {
         $type = new class extends BaseType {
-            protected const TYPE_NAME = 'custom_type';
+            public const TYPE_NAME = 'custom_type';
         };
 
         $this->platform
@@ -79,7 +79,7 @@ class BaseTypeTest extends TestCase
     public function can_return_false_for_sql_comment_hint_requirement(): void
     {
         $type = new class extends BaseType {
-            protected const TYPE_NAME = 'custom_type';
+            public const TYPE_NAME = 'custom_type';
         };
 
         // @phpstan-ignore-next-line Not all Doctrine version like this method as it's deprecated. For now, we ignore the deprecation.

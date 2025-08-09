@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
  */
 class DoublePrecisionArray extends BaseFloatArray
 {
-    protected const TYPE_NAME = 'double precision[]';
+    public const TYPE_NAME = 'double precision[]';
 
     protected function getMinValue(): string
     {

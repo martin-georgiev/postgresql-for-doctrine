@@ -17,7 +17,7 @@ class SmallIntArray extends BaseIntegerArray
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'smallint[]';
+    public const TYPE_NAME = 'smallint[]';
 
     protected function getMinValue(): int
     {

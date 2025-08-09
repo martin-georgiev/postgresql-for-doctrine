@@ -19,7 +19,7 @@ class BooleanArray extends BaseArray
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'bool[]';
+    public const TYPE_NAME = 'bool[]';
 
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
     {
