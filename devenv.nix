@@ -70,8 +70,8 @@
     ];
 
     ini = lib.concatStringsSep "\n" [
-      "xdebug.mode = develop;"
-      "memory_limit = 256m;"
+      "xdebug.mode = develop"
+      "memory_limit = 256m"
     ];
   };
 
