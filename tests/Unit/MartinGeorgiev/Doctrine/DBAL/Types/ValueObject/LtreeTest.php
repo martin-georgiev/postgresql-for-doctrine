@@ -80,6 +80,15 @@ final class LtreeTest extends TestCase
         self::assertSame('a.b', (string) $parent);
     }
 
+    public function test_get_parent_respect_immutability(): void
+    {
+        $ltree = new Ltree(['a', 'b', 'c']);
+        $parent = $ltree->getParent();
+        self::assertNotSame($ltree, $parent);
+        self::assertSame(['a', 'b', 'c'], $ltree->getBranch());
+        self::assertSame('a.b.c', (string) $ltree);
+    }
+
     public function test_get_parent_on_root(): void
     {
         $ltree = new Ltree(['a']);
@@ -97,8 +106,7 @@ final class LtreeTest extends TestCase
     {
         $ltree = new Ltree(['a']);
         $this->expectException(\InvalidArgumentException::class);
-        // @phpstan-ignore-next-line argument.type - Testing invalid type handling
-        $ltree->createLeaf('');
+        $ltree->createLeaf(''); // @phpstan-ignore argument.type
     }
 
     public function test_create_leaf_with_dot_throws(): void
