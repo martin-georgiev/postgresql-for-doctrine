@@ -5,16 +5,22 @@
   inputs,
   ...
 }:
-
+let
+  inherit (config.languages.php.packages) composer;
+  composerCommand = lib.meta.getExe composer;
+  phpCommand = lib.meta.getExe config.languages.php.package;
+  pythonPackages = pkgs.python3Packages;
+in
 {
   name = "PostgreSQL for Doctrine";
 
   # https://devenv.sh/basics/
+  # Set these locally in devenv.local.nix
   env = {
-    POSTGRES_USER = "postgres";
-    POSTGRES_PASSWORD = "postgres";
-    POSTGRES_DB = "postgres_doctrine_test";
-    POSTGRES_PORT = 5432;
+    POSTGRES_USER = lib.mkDefault "postgres";
+    POSTGRES_PASSWORD = lib.mkDefault "postgres";
+    POSTGRES_DB = lib.mkDefault "postgres_doctrine_test";
+    POSTGRES_PORT = lib.mkDefault 5432;
   };
 
   # https://devenv.sh/packages/
@@ -23,56 +29,28 @@
   # https://devenv.sh/languages/
   languages.php = {
     enable = true;
+    # PHP 8.1 is this project least supported PHP version.
     version = "8.1";
     extensions = [
+      "ctype"
       "dom"
       "filter"
       "iconv"
       "mbstring"
       "openssl"
+      "pdo"
       "pdo_pgsql"
       "pdo_sqlite"
+      "tokenizer"
       "xdebug"
       "xmlwriter"
     ];
-    disableExtensions = [
-      "bcmath"
-      "calendar"
-      "ctype"
-      "curl"
-      "date"
-      "exif"
-      "fileinfo"
-      "ftp"
-      "gd"
-      "gettext"
-      "gmp"
-      "imap"
-      "intl"
-      "ldap"
-      "mysqli"
-      "mysqlnd"
-      "opcache"
-      "pcntl"
-      "pdo_mysql"
-      "pdo_odbc"
-      "posix"
-      "readline"
-      "session"
-      "simplexml"
-      "soap"
-      "sockets"
-      "sodium"
-      "sysvsem"
-      "xmlreader"
-      "zip"
-      "zlib"
-    ];
 
     ini = lib.concatStringsSep "\n" [
-      "xdebug.mode = develop"
-      "memory_limit = 256m"
-    ];
+        "xdebug.mode=develop"
+        "memory_limit=256m"
+        "error_reporting=E_ALL"
+      ];
   };
 
   # https://devenv.sh/processes/
@@ -100,7 +78,7 @@
     echo 'Installed PHP modules'
     echo '---------------------'
 
-    php -m |
+    ${phpCommand} -m |
     command grep --invert-match --extended-regexp '^(|\[.*\])$' |
     command tr '\n' ' ' |
     command fold --spaces
@@ -109,6 +87,7 @@
   '';
 
   enterShell = ''
+    echo "🚀 ${config.name} Development Environment"
     git --version
     composer  --version
     php-modules
@@ -118,10 +97,26 @@
   '';
 
   # https://devenv.sh/tasks/
-  # tasks = {
-  #   "myproj:setup".exec = "mytool build";
-  #   "devenv:enterShell".after = [ "myproj:setup" ];
-  # };
+  tasks = {
+    "devenv:enterShell:install:composer" = {
+      description = "Install composer packages";
+      before = [ "devenv:enterShell" ];
+      exec = ''
+        set -o 'errexit'
+        [[ -e "''${DEVENV_ROOT}/composer.json" ]] &&
+        ${composerCommand} 'install'
+      '';
+    };
+    "devenv:services:reset:postgresql" = {
+      description = "Reset PostgreSQL data";
+      exec = ''
+        set -o 'errexit'
+        echo "Deleting PostgreSQL data in ''${PGDATA}"
+        [[ -e "''${PGDATA}" ]] &&
+        rm -r "''${PGDATA}"
+      '';
+    };
+  };
 
   # https://devenv.sh/tests/
   enterTest = ''
@@ -135,41 +130,108 @@
 
   # https://devenv.sh/git-hooks/
   git-hooks.hooks = {
-    phpstan = rec {
+    # Conventional Commits
+    commitizen.enable = true;
+
+    # Markdown files
+    # markdownlint.enable = true;
+    # mdformat = rec {
+    #   enable = true;
+    #   package = pythonPackages.mdformat;
+    #   extraPackages = with pythonPackages; [
+    #     mdformat-beautysh
+    #     mdformat-gfm
+    #     mdformat-tables
+    #   ];
+    # };
+
+    composer-validate = rec {
       enable = true;
-      name = "PHPStan";
-      inherit (config.languages.php) package;
+      name = "composer validate";
+      package = composer;
+      files = "composer.json$";
       pass_filenames = false;
-      entry = "${package}/bin/php '${config.env.DEVENV_ROOT}/bin/phpstan' 'analyse'";
-      args = [ "--configuration=${config.env.DEVENV_ROOT}/ci/phpstan/config.neon" ];
+      entry = ''"${lib.meta.getExe package}" validate'';
+      stages = [
+        "pre-commit"
+        "pre-push"
+      ];
     };
 
-    php-cs-fixer = rec {
+    composer-audit = rec {
       enable = true;
-      name = "PHP Coding Standards Fixer";
-      inherit (config.languages.php) package;
-      files = ".*\.php$";
-      entry = "${package}/bin/php '${config.env.DEVENV_ROOT}/bin/php-cs-fixer' 'fix'";
-      args = [
-        "--dry-run"
-        "--config=${config.env.DEVENV_ROOT}/ci/php-cs-fixer/config.php"
-        "--show-progress=none"
-        "--no-interaction"
+      name = "composer audit";
+      after = [ "composer-validate" ];
+      package = composer;
+      files = "composer.json$";
+      verbose = true;
+      pass_filenames = false;
+      entry = ''"${lib.meta.getExe package}" audit'';
+      stages = [
+        "pre-commit"
+        "pre-push"
       ];
     };
 
     rector = rec {
       enable = true;
       name = "Rector";
+      after = [ "composer-validate" ];
       inherit (config.languages.php) package;
-      files = ".*\.php$";
-      pass_filenames = false;
-      entry = "${package}/bin/php '${config.env.DEVENV_ROOT}/bin/rector' 'process'";
+      files = "\\.php$";
+      pass_filenames = true;
+      entry = "${lib.meta.getExe package} '${config.env.DEVENV_ROOT}/bin/rector' 'process'";
       args = [
         "--dry-run"
         "--config=${config.env.DEVENV_ROOT}/ci/rector/config.php"
       ];
     };
+
+    php-cs-fixer = rec {
+      enable = true;
+      name = "PHP Coding Standards Fixer";
+      after = [
+        "composer-validate"
+        "rector"
+      ];
+      inherit (config.languages.php) package;
+      files = "\\.php$";
+      pass_filenames = true;
+      entry = "${lib.meta.getExe package} '${config.env.DEVENV_ROOT}/bin/php-cs-fixer' 'fix'";
+      args = [
+        "--dry-run"
+        "--config=${config.env.DEVENV_ROOT}/ci/php-cs-fixer/config.php"
+        "--show-progress=none"
+        "--no-interaction"
+        "--diff"
+      ];
+    };
+
+    phpstan = rec {
+      enable = true;
+      name = "PHPStan";
+      after = [ "composer-validate" ];
+      inherit (config.languages.php) package;
+      pass_filenames = false;
+      entry = "${lib.meta.getExe package} '${config.env.DEVENV_ROOT}/bin/phpstan' 'analyse'";
+      args = [ "--configuration=${config.env.DEVENV_ROOT}/ci/phpstan/config.neon" ];
+    };
+
+    deptrac = rec {
+      enable = true;
+      name = "Deptrac";
+      after = [ "composer-validate" ];
+      inherit (config.languages.php) package;
+      pass_filenames = false;
+      entry = "${lib.meta.getExe package} '${config.env.DEVENV_ROOT}/bin/deptrac' 'analyze'";
+      args = [
+        "--config-file=./ci/deptrac/config.yml"
+        "--cache-file=./ci/deptrac/.cache"
+        "--no-interaction"
+        "--no-progress"
+      ];
+    };
+
   };
 
   # See full reference at https://devenv.sh/reference/options/
