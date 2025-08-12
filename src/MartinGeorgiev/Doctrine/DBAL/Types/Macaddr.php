@@ -21,7 +21,7 @@ class Macaddr extends BaseType
 {
     use MacaddrValidationTrait;
 
-    protected const TYPE_NAME = 'macaddr';
+    public const TYPE_NAME = 'macaddr';
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
