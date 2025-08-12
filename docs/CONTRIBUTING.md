@@ -23,7 +23,7 @@ development environment:
    1. Enable `nix` command, and flakes support:
 
       ```bash
-      sudo tee -a '/etc/nix/nix.conf' <<EOF
+      sudo tee --append '/etc/nix/nix.conf' <<EOF
       # Enable nix command and flakes
       extra-experimental-features = nix-command flakes
 
@@ -33,7 +33,7 @@ development environment:
    2. Trust [Cachix](https://www.cachix.org/) devenv packages cache:
 
       ```bash
-      sudo tee -a '/etc/nix/nix.conf' <<EOF
+      sudo tee --append '/etc/nix/nix.conf' <<EOF
       # Trust Cachix DevEnv
       extra-substituters = https://devenv.cachix.org
       extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
@@ -74,6 +74,19 @@ development environment:
    direnv allow
    ```
 
+   ℹ️ If you don't have `direnv` and `nix-direnv` installed, install them with:
+
+   ```bash
+   nix profile install nixpkgs#direnv nixpkgs#nix-direnv
+   ```
+
+   Then hook `direnv` into your shell (once).
+   For `bash`, add this line to `~/.bashrc`:
+
+   ```bash
+   eval "$(direnv hook bash)"
+   ```
+
 4. Launch the PostgreSQL server, for running integration tests:
 
    ```bash
@@ -84,12 +97,14 @@ The provided environment includes:
 
 - PHP 8.1, which is the oldest PHP version supported by this project.
 - Composer
-- PostgreSQL 17, started by ```devenv up```.
-- Pre-commit hooks for code quality.
+- PostgreSQL 17, started by `devenv up`.
+- Pre-commit hooks (PHP-CS-Fixer, PHPStan, Rector, deptrac, ...).
 
 ### Local development
 
 ℹ️ Use `devenv.local.nix` to alter the development environment.
+It's listed in `.gitignore` and not committed.
+Using local-only plaintext secrets here is acceptable.
 For example, this file:
 
 - Install [Harlequin](https://harlequin.sh/) database TUI.
@@ -103,7 +118,7 @@ For example, this file:
   # https://devenv.sh/packages/
   packages = with pkgs; [ harlequin ];
 
-    # https://devenv.sh/languages/
+  # https://devenv.sh/languages/
   languages.php.version = "8.4";
 
   # https://devenv.sh/basics/
@@ -116,8 +131,9 @@ For example, this file:
 
 ### devenv.lock handling
 
-The `devenv.lock` file locks the software versions installed by the devenv.
-This is good for reproducibility.
+The `devenv.lock` file pins the Nix inputs (package set and dependencies) used
+by devenv.
+This ensures reproducible development environments.
 
 Update the devenv by:
 
@@ -136,7 +152,7 @@ Update the devenv by:
 ## Before opening your first PR
 
 For the sake of clear Git history and speedy review of your PR,
-please check that the suggested changes are in line with the project's standards.
+please verify that the suggested changes are in line with the project's standards.
 Code style, static analysis, and file validation scripts are already provided
 and can easily be run from project's root:
 
