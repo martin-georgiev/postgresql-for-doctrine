@@ -13,16 +13,17 @@ development environment:
    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
    ```
 
-   ℹ️ Nix allows to declare precisely an environment.
-   While the learning curve is steep, it allows for reproducible installations.
+   ℹ️ Nix lets you declaratively define environments.
+   While the learning curve is steep, it enables reproducible installations.
    Consider using [Nix Flakes](https://nixos.wiki/wiki/flakes)
    and [Home Manager](https://home-manager.dev/).
 
    Configure the Nix environment:
 
-   1. Enable `nix` command, and flakes support:
+   1. Enable `nix` command, and Flakes support:
 
       ```bash
+      grep --quiet '^experimental-features = nix-command' '/etc/nix/nix.conf' ||
       sudo tee --append '/etc/nix/nix.conf' <<EOF
       # Enable nix command and flakes
       extra-experimental-features = nix-command flakes
@@ -33,6 +34,7 @@ development environment:
    2. Trust [Cachix](https://www.cachix.org/) devenv packages cache:
 
       ```bash
+      grep --quiet '^extra-substituters = https://devenv.cachix.org' '/etc/nix/nix.conf' ||
       sudo tee --append '/etc/nix/nix.conf' <<EOF
       # Trust Cachix DevEnv
       extra-substituters = https://devenv.cachix.org
@@ -43,9 +45,16 @@ development environment:
 
    3. Restart `nix-daemon` to load the new configuration:
 
-      ```bash
-      sudo systemctl 'restart' 'nix-daemon.service'
-      ```
+      - for GNU/Linux systems:
+
+        ```bash
+        sudo systemctl 'restart' 'nix-daemon.service'
+        ```
+      - for macOS systems:
+
+        ```bash
+        sudo launchctl kickstart -k system/org.nixos.nix-daemon
+        ```
 
 2. Install [devenv.sh](https://devenv.sh/) (if not already installed),
    by following [Getting started @ devenv.sh](https://devenv.sh/getting-started/):
@@ -62,32 +71,43 @@ development environment:
      nix-env --install --attr devenv -f https://github.com/NixOS/nixpkgs/tarball/nixpkgs-unstable
      ```
 
-3. Enter the development shell from the project's root:
-
-   ```bash
-   devenv shell
-   ```
-
-   Or with [direnv](https://direnv.net/) (recommended):
-
-   ```bash
-   direnv allow
-   ```
-
-   ℹ️ If you don't have `direnv` and `nix-direnv` installed, install them with:
+3. Install [direnv](https://direnv.net/) (if not already installed):
 
    ```bash
    nix profile install nixpkgs#direnv nixpkgs#nix-direnv
    ```
 
    Then hook `direnv` into your shell (once).
-   For `bash`, add this line to `~/.bashrc`:
 
-   ```bash
-   eval "$(direnv hook bash)"
-   ```
+   - for `bash`, add this line to `~/.bashrc`:
 
-4. Launch the PostgreSQL server, for running integration tests:
+     ```bash
+     eval "$(direnv hook bash)"
+     ```
+
+   - for `zsh`, add this line to `~/.zshrc`:
+
+     ```bash
+     eval "$(direnv hook zsh)"
+     ```
+
+   - for other shells, see [Setup @ direnv documentation](https://direnv.net/docs/hook.html).
+
+4. Enter the development shell from the project's root:
+
+   - with `direnv` (recommended):
+
+     ```bash
+     direnv allow
+     ```
+
+   - without `direnv`:
+
+     ```bash
+     devenv shell
+     ```
+
+5. Launch the PostgreSQL server, for running integration tests:
 
    ```bash
    devenv up
