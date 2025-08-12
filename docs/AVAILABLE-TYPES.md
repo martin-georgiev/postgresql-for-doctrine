@@ -25,3 +25,4 @@
 | numrange | numrange | `MartinGeorgiev\Doctrine\DBAL\Types\NumRange` |
 | tsrange | tsrange | `MartinGeorgiev\Doctrine\DBAL\Types\TsRange` |
 | tstzrange | tstzrange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzRange` |
+| ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |

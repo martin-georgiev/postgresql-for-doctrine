@@ -38,6 +38,8 @@ Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
 Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
 Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
+
+Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 ```
 
 
@@ -251,6 +253,8 @@ $platform->registerDoctrineTypeMapping('int8range','int8range');
 $platform->registerDoctrineTypeMapping('numrange','numrange');
 $platform->registerDoctrineTypeMapping('tsrange','tsrange');
 $platform->registerDoctrineTypeMapping('tstzrange','tstzrange');
+
+$platform->registerDoctrineTypeMapping('ltree','ltree');
 ...
 
 ```
