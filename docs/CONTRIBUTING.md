@@ -18,12 +18,49 @@ development environment:
    Consider using [Nix Flakes](https://nixos.wiki/wiki/flakes)
    and [Home Manager](https://home-manager.dev/).
 
+   Configure the Nix environment:
+
+   1. Enable `nix` command, and flakes support:
+
+      ```bash
+      sudo tee -a '/etc/nix/nix.conf' <<EOF
+      # Enable nix command and flakes
+      extra-experimental-features = nix-command flakes
+
+      EOF
+      ```
+
+   2. Trust [Cachix](https://www.cachix.org/) devenv packages cache:
+
+      ```bash
+      sudo tee -a '/etc/nix/nix.conf' <<EOF
+      # Trust Cachix DevEnv
+      extra-substituters = https://devenv.cachix.org
+      extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
+
+      EOF
+      ```
+
+   3. Restart `nix-daemon` to load the new configuration:
+
+      ```bash
+      sudo systemctl 'restart' 'nix-daemon.service'
+      ```
+
 2. Install [devenv.sh](https://devenv.sh/) (if not already installed),
    by following [Getting started @ devenv.sh](https://devenv.sh/getting-started/):
 
-   ```bash
-   nix-env --install --attr devenv -f https://github.com/NixOS/nixpkgs/tarball/nixpkgs-unstable
-   ```
+   - by using `nix` command if available (recommended):
+
+     ```bash
+     nix profile install nixpkgs#devenv
+     ```
+
+   - by using `nix-env` command:
+
+     ```bash
+     nix-env --install --attr devenv -f https://github.com/NixOS/nixpkgs/tarball/nixpkgs-unstable
+     ```
 
 3. Enter the development shell from the project's root:
 
