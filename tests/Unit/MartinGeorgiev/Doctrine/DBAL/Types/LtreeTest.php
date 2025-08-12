@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeForPHPException;
@@ -16,10 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 final class LtreeTest extends TestCase
 {
-    /**
-     * @var MockObject&PostgreSQLPlatform
-     */
-    private MockObject $platform;
+    private MockObject&PostgreSQLPlatform $platform;
 
     private Ltree $fixture;
 
@@ -33,14 +32,29 @@ final class LtreeTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('ltree', $this->fixture->getName());
+        self::assertSame('ltree', $this->fixture->getName());
+    }
+
+    public function test_get_sql_declaration(): void
+    {
+        self::assertSame('ltree', $this->fixture->getSQLDeclaration([], $this->platform));
+    }
+
+    public function test_get_binding_type(): void
+    {
+        self::assertSame(ParameterType::STRING, $this->fixture->getBindingType());
+    }
+
+    public function test_get_mapped_database_types(): void
+    {
+        self::assertSame(['ltree'], $this->fixture->getMappedDatabaseTypes($this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?LtreeValueObject $ltreeValueObject, ?string $postgresValue): void
     {
-        self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($ltreeValueObject, $this->platform));
+        self::assertSame($postgresValue, $this->fixture->convertToDatabaseValue($ltreeValueObject, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -119,5 +133,26 @@ final class LtreeTest extends TestCase
             'boolean input' => [false],
             'object input' => [new \stdClass()],
         ];
+    }
+
+    public function test_get_sql_declaration_throws_on_non_postgresql_platform(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->fixture->getSQLDeclaration([], self::createStub(AbstractPlatform::class));
+    }
+
+    public function test_convert_to_database_value_throws_on_non_postgresql_platform(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->fixture->convertToDatabaseValue(
+            new LtreeValueObject(['valid', 'ltree']),
+            self::createStub(AbstractPlatform::class),
+        );
+    }
+
+    public function test_convert_to_php_value_throws_on_non_postgresql_platform(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->fixture->convertToPHPValue('valid.ltree', self::createStub(AbstractPlatform::class));
     }
 }
