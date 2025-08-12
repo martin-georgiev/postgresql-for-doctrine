@@ -18,6 +18,8 @@ final class Ltree extends BaseType
     #[\Override]
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
+        unset($column);
+
         $this->assertPostgreSQLPlatform($platform);
 
         return 'ltree';
@@ -26,6 +28,8 @@ final class Ltree extends BaseType
     #[\Override]
     public function getMappedDatabaseTypes(AbstractPlatform $platform): array
     {
+        $this->assertPostgreSQLPlatform($platform);
+
         return [
             'ltree',
         ];
@@ -75,7 +79,7 @@ final class Ltree extends BaseType
     private function assertPostgreSQLPlatform(AbstractPlatform $platform): void
     {
         if (!$platform instanceof PostgreSQLPlatform) {
-            throw new \InvalidArgumentException('LtreeType can only be used with PostgreSQL platform.');
+            throw new \LogicException('Ltree DBAL type can only be used with the PostgreSQL platform.');
         }
     }
 }

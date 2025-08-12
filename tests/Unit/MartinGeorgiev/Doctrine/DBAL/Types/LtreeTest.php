@@ -141,6 +141,12 @@ final class LtreeTest extends TestCase
         $this->fixture->getSQLDeclaration([], self::createStub(AbstractPlatform::class));
     }
 
+    public function test_get_mapped_database_types_throws_on_non_postgresql_platform(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->fixture->getMappedDatabaseTypes(self::createStub(AbstractPlatform::class));
+    }
+
     public function test_convert_to_database_value_throws_on_non_postgresql_platform(): void
     {
         $this->expectException(\LogicException::class);
