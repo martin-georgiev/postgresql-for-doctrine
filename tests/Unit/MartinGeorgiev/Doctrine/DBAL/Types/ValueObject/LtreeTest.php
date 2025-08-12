@@ -15,6 +15,18 @@ final class LtreeTest extends TestCase
         self::assertSame('a.b.c', (string) $ltree);
     }
 
+    public function test_construct_trows_on_non_list(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Ltree([0 => 'a', 2 => 'b', 3 => 'c']); // @phpstan-ignore argument.type
+    }
+
+    public function test_construct_trows_on_empty_string_in_branch(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Ltree(['a', '', 'c']); // @phpstan-ignore argument.type
+    }
+
     public function test_from_string(): void
     {
         $ltree = Ltree::fromString('x.y.z');
@@ -27,6 +39,20 @@ final class LtreeTest extends TestCase
         $ltree = Ltree::fromString('');
         self::assertSame([], $ltree->getBranch());
         self::assertSame('', (string) $ltree);
+    }
+
+    public function test_json_serialize(): void
+    {
+        $branch = ['a', 'b', 'c'];
+        $ltree = new Ltree($branch);
+        self::assertSame($branch, $ltree->jsonSerialize());
+    }
+
+    public function test_json_encode(): void
+    {
+        $ltree = new Ltree(['a', 'b', 'c']);
+        $json = \json_encode($ltree);
+        self::assertSame('["a","b","c"]', $json);
     }
 
     public function test_create_leaf(): void
