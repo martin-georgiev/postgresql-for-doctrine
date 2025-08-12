@@ -39,6 +39,12 @@ class Ltree implements LtreeInterface
     }
 
     #[\Override]
+    public function jsonSerialize(): array
+    {
+        return $this->branch;
+    }
+
+    #[\Override]
     public function createLeaf(string $leaf): static
     {
         if ('' === $leaf) {

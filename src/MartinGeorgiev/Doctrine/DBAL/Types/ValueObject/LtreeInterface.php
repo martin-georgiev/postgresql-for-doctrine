@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-interface LtreeInterface extends \Stringable
+interface LtreeInterface extends \Stringable, \JsonSerializable
 {
     /**
      * @param list<non-empty-string> $branch
@@ -17,6 +17,12 @@ interface LtreeInterface extends \Stringable
      * @throws \InvalidArgumentException if the ltree is empty
      */
     public static function fromString(string $ltree): static;
+
+    /**
+     * @return list<non-empty-string>
+     */
+    #[\Override]
+    public function jsonSerialize(): array;
 
     /**
      * @param non-empty-string $leaf
