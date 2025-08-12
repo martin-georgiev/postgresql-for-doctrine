@@ -67,11 +67,11 @@ For example, this file:
   packages = with pkgs; [ harlequin ];
 
     # https://devenv.sh/languages/
-  languages.php.version = "8.1";
+  languages.php.version = "8.4";
 
   # https://devenv.sh/basics/
   env = {
-    POSTGRES_PASSWORD = "my-local-password";
+    POSTGRES_PASSWORD = "changeme";
     POSTGRES_PORT = 45432;
   };
 }
