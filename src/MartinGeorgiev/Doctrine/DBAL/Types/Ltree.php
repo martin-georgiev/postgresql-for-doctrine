@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeForDatabaseException;
@@ -22,12 +21,6 @@ final class Ltree extends BaseType
         $this->assertPostgreSQLPlatform($platform);
 
         return 'ltree';
-    }
-
-    #[\Override]
-    public function getBindingType(): ParameterType
-    {
-        return ParameterType::STRING;
     }
 
     #[\Override]
