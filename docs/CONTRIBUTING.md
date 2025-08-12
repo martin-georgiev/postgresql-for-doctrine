@@ -23,7 +23,7 @@ development environment:
    1. Enable `nix` command, and Flakes support:
 
       ```bash
-      grep --quiet '^experimental-features = nix-command' '/etc/nix/nix.conf' ||
+      grep --quiet '^extra-experimental-features = nix-command flakes' '/etc/nix/nix.conf' ||
       sudo tee --append '/etc/nix/nix.conf' <<EOF
       # Enable nix command and flakes
       extra-experimental-features = nix-command flakes
@@ -65,7 +65,7 @@ development environment:
      nix profile install nixpkgs#devenv
      ```
 
-   - by using `nix-env` command:
+   - by using `nix-env` command (legacy; discouraged):
 
      ```bash
      nix-env --install --attr devenv -f https://github.com/NixOS/nixpkgs/tarball/nixpkgs-unstable
@@ -206,8 +206,8 @@ and can easily be run from project's root:
 
 1. Extend `MartinGeorgiev\Doctrine\DBAL\Types\BaseArray`.
 
-2. You must give the new data-type a unique within your application name.
-   For this purpose, you can use the `TYPE_NAME` constant.
+2. Give the new data type a unique name within your application.
+   Use the `TYPE_NAME` constant for that purpose.
 3. Depending on the new data-type nature you may have to overwrite some of
    the following methods:
 
@@ -243,9 +243,9 @@ class ArrayAppend extends BaseFunction
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('array_append(%s, %s)');
-        $this->addNodeMapping('StringPrimary'); # corresponds to param №1 in the prototype set in setFunctionPrototype
-        $this->addNodeMapping('Literal'); # corresponds to param №2 in the prototype set in setFunctionPrototype
-        # Add as more node mappings if needed.
+        $this->addNodeMapping('StringPrimary'); // corresponds to param №1 in the prototype set in setFunctionPrototype
+        $this->addNodeMapping('Literal'); // corresponds to param №2 in the prototype set in setFunctionPrototype
+        // Add more node mappings if needed.
     }
 }
 ```
