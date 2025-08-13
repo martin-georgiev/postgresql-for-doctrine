@@ -122,6 +122,10 @@ class MyEntity implements \Stringable
             throw new \InvalidArgumentException("Parent MyEntity can't be self");
         }
 
+        if (in_array($this->getId()->toBase58(), $parent->getPath()->getBranch(), true)) {
+            throw new \InvalidArgumentException("Parent MyEntity can't be a child of the current MyEntity");
+        }
+
         $this->parent = $parent;
 
         // Use createLeaf() to create a new Ltree instance
@@ -156,7 +160,7 @@ final readonly class MyEntityListener
     {
         if ($eventArgs->hasChangedField('path')) {
             foreach($entity->getChildren() as $child) {
-                $child->setParent($myEntity);
+                $child->setParent($entity);
             }
         }
     }
