@@ -50,6 +50,14 @@ final class LtreeTest extends TestCase
         self::assertSame(['ltree'], $this->fixture->getMappedDatabaseTypes($this->platform));
     }
 
+    public function test_convert_to_database_value_accepts_string(): void
+    {
+        $value = 'alpha.beta.gamma';
+        $databaseValue = $this->fixture->convertToDatabaseValue($value, $this->platform);
+
+        self::assertSame($value, $databaseValue);
+    }
+
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?LtreeValueObject $ltreeValueObject, ?string $postgresValue): void
@@ -103,7 +111,6 @@ final class LtreeTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            'string input' => ['not..ltree'],
             'integer input' => [123],
             'array input' => [['not', 'ltree']],
             'boolean input' => [true],

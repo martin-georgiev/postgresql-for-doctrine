@@ -65,7 +65,7 @@ final class Ltree extends BaseType
     {
         $this->assertPostgreSQLPlatform($platform);
 
-        if ($value instanceof LtreeInterface) {
+        if ($value instanceof LtreeInterface || \is_string($value)) {
             return (string) $value;
         }
 
@@ -78,8 +78,13 @@ final class Ltree extends BaseType
 
     private function assertPostgreSQLPlatform(AbstractPlatform $platform): void
     {
-        if (!$platform instanceof PostgreSQLPlatform) {
-            throw new \LogicException('Ltree DBAL type can only be used with the PostgreSQL platform.');
+        $isDbalTwoPostgres = \class_exists(PostgreSQLPlatform::class)
+            && \is_a($platform, '\Doctrine\DBAL\Platforms\PostgreSqlPlatform');
+
+        if ($platform instanceof PostgreSQLPlatform || $isDbalTwoPostgres) {
+            return;
         }
+
+        throw new \LogicException('Ltree DBAL type can only be used with the PostgreSQL platform.');
     }
 }
