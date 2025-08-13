@@ -111,6 +111,7 @@ final class LtreeTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
+            'invalid string' => ['invalid..ltree'],
             'integer input' => [123],
             'array input' => [['not', 'ltree']],
             'boolean input' => [true],

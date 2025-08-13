@@ -65,7 +65,15 @@ final class Ltree extends BaseType
     {
         $this->assertPostgreSQLPlatform($platform);
 
-        if ($value instanceof LtreeInterface || \is_string($value)) {
+        if (\is_string($value)) {
+            try {
+                $value = LtreeValueObject::fromString($value);
+            } catch (\InvalidArgumentException) {
+                throw InvalidLtreeForPHPException::forInvalidFormat($value);
+            }
+        }
+
+        if ($value instanceof LtreeInterface) {
             return (string) $value;
         }
 

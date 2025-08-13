@@ -17,4 +17,9 @@ class InvalidLtreeForPHPException extends ConversionException
     {
         return self::create('Value must be a LtreeInterface, %s given', \gettype($value));
     }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Invalid Ltree format: %s', $value);
+    }
 }
