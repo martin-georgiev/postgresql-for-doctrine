@@ -86,8 +86,7 @@ final class Ltree extends BaseType
 
     private function assertPostgreSQLPlatform(AbstractPlatform $platform): void
     {
-        $isDbalTwoPostgres = \class_exists(PostgreSQLPlatform::class)
-            && \is_a($platform, '\Doctrine\DBAL\Platforms\PostgreSqlPlatform');
+        $isDbalTwoPostgres = \is_a($platform, '\Doctrine\DBAL\Platforms\PostgreSqlPlatform');
 
         if ($platform instanceof PostgreSQLPlatform || $isDbalTwoPostgres) {
             return;
