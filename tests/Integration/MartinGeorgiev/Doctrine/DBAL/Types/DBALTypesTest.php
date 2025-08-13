@@ -138,15 +138,17 @@ class DBALTypesTest extends TestCase
     }
 
     /**
-     * @return array<string, array{string, string, ?LtreeValueObject}>
+     * @return array<string, array{string, string, LtreeValueObject|string|null}>
      */
     public static function provideLtreeTypeTestCases(): array
     {
         return [
             'ltree simple string' => ['ltree', 'LTREE', new LtreeValueObject(['foo', 'bar', 'baz'])],
+            'ltree from string' => ['ltree', 'LTREE', 'foo.bar.baz'],
             'ltree simple numeric' => ['ltree', 'LTREE', new LtreeValueObject(['1', '2', '3'])],
             'ltree single numeric' => ['ltree', 'LTREE', new LtreeValueObject(['1'])],
             'ltree empty' => ['ltree', 'LTREE', new LtreeValueObject([])],
+            'ltree null' => ['ltree', 'LTREE', null],
         ];
     }
 
@@ -224,6 +226,7 @@ class DBALTypesTest extends TestCase
             $expected instanceof PointValueObject => $this->assertPointEquals($expected, $actual, $typeName),
             $expected instanceof RangeValueObject => $this->assertRangeEquals($expected, $actual, $typeName),
             $expected instanceof LtreeValueObject => $this->assertLtreeEquals($expected, $actual, $typeName),
+            $typeName === 'ltree' && \is_string($expected) => $this->assertLtreeEquals($expected, $actual, $typeName),
             \is_array($expected) => $this->assertEquals($expected, $actual, 'Failed asserting that array values are equal for type '.$typeName),
             default => $this->assertSame($expected, $actual, 'Failed asserting that values are identical for type '.$typeName)
         };
@@ -246,10 +249,10 @@ class DBALTypesTest extends TestCase
         $this->assertEquals($rangeValueObject->isEmpty(), $actual->isEmpty(), 'Failed asserting that range empty states are equal for type '.$typeName);
     }
 
-    private function assertLtreeEquals(LtreeValueObject $ltreeValueObject, mixed $actual, string $typeName): void
+    private function assertLtreeEquals(LtreeValueObject|string $ltreeValueObject, mixed $actual, string $typeName): void
     {
         $this->assertInstanceOf(LtreeValueObject::class, $actual, 'Failed asserting that value is a Ltree object for type '.$typeName);
-        $this->assertTrue($ltreeValueObject->equals($actual), 'Failed asserting that values are equal for type '.$typeName);
+        $this->assertSame((string) $ltreeValueObject, (string) $actual, 'Failed asserting that ltree string representations are identical for type '.$typeName);
     }
 
     private function createLtreeExtension(): void
