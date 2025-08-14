@@ -37,7 +37,6 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $baseVariadicFunction = $this->createFixture();
 
         $reflectionMethod = new \ReflectionMethod($baseVariadicFunction::class, 'feedParserWithNodesForNodeMappingPattern');
-        $reflectionMethod->setAccessible(true);
         $reflectionMethod->invoke($baseVariadicFunction, $parser, 'ArithmeticPrimary');
     }
 
@@ -68,7 +67,6 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $reflectionClass = new \ReflectionClass($function);
         $reflectionMethod = $reflectionClass->getMethod('validateArguments');
-        $reflectionMethod->setAccessible(true);
 
         $node = $this->createMock(Node::class);
         $reflectionMethod->invoke($function, $node); // 1 argument when min 2 are required
@@ -101,7 +99,6 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $reflectionClass = new \ReflectionClass($function);
         $reflectionMethod = $reflectionClass->getMethod('validateArguments');
-        $reflectionMethod->setAccessible(true);
 
         $node = $this->createMock(Node::class);
         $reflectionMethod->invoke($function, $node, $node, $node); // 3 arguments when max 2 are required
