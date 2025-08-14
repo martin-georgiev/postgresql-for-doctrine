@@ -10,20 +10,20 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 class Ltree implements LtreeInterface
 {
     /**
-     * @param list<non-empty-string> $branch
+     * @param list<non-empty-string> $pathFromRoot
      *
-     * @throws \InvalidArgumentException if the branch contains empty strings or is not a list
+     * @throws \InvalidArgumentException if the pathFromRoot contains empty strings or is not a list
      */
     public function __construct(
-        private readonly array $branch,
+        private readonly array $pathFromRoot,
     ) {
-        self::assertListOfNonEmptyStrings($branch);
+        self::assertListOfNonEmptyStrings($pathFromRoot);
     }
 
     #[\Override]
     public function __toString(): string
     {
-        return \implode('.', $this->branch);
+        return \implode('.', $this->pathFromRoot);
     }
 
     #[\Override]
@@ -33,19 +33,19 @@ class Ltree implements LtreeInterface
             return new static([]);
         }
 
-        $branch = \explode('.', $ltree);
+        $pathFromRoot = \explode('.', $ltree);
 
-        return new static($branch); // @phpstan-ignore-line argument.type
+        return new static($pathFromRoot); // @phpstan-ignore-line argument.type
     }
 
     #[\Override]
     public function jsonSerialize(): array
     {
-        return $this->branch;
+        return $this->pathFromRoot;
     }
 
     #[\Override]
-    public function createLeaf(string $leaf): static
+    public function withLeaf(string $leaf): static
     {
         if ('' === $leaf) {
             throw new \InvalidArgumentException('Leaf cannot be empty.');
@@ -55,31 +55,31 @@ class Ltree implements LtreeInterface
             throw new \InvalidArgumentException('Leaf cannot contain dot.');
         }
 
-        $newBranch = [...$this->branch, $leaf];
+        $newBranch = [...$this->pathFromRoot, $leaf];
 
         return new static($newBranch);
     }
 
     #[\Override]
-    public function getBranch(): array
+    public function getPathFromRoot(): array
     {
-        return $this->branch;
+        return $this->pathFromRoot;
     }
 
     #[\Override]
     public function equals(LtreeInterface $ltree): bool
     {
-        return $this->branch === $ltree->getBranch();
+        return $this->pathFromRoot === $ltree->getPathFromRoot();
     }
 
     #[\Override]
     public function isAncestorOf(LtreeInterface $ltree): bool
     {
-        return [] === $this->branch || \str_starts_with((string) $ltree, \sprintf('%s.', (string) $this));
+        return [] === $this->pathFromRoot || \str_starts_with((string) $ltree, \sprintf('%s.', (string) $this));
     }
 
     #[\Override]
-    public function isDescendantOf(LtreeInterface $ltree): bool
+    public function isLeafOf(LtreeInterface $ltree): bool
     {
         return \str_starts_with((string) $this, \sprintf('%s.', (string) $ltree));
     }
@@ -87,17 +87,17 @@ class Ltree implements LtreeInterface
     #[\Override]
     public function isRoot(): bool
     {
-        return 1 >= \count($this->branch);
+        return 1 >= \count($this->pathFromRoot);
     }
 
     #[\Override]
     public function getParent(): static
     {
-        if ([] === $this->branch) {
+        if ([] === $this->pathFromRoot) {
             throw new \LogicException('Empty ltree has no parent.');
         }
 
-        $parentBranch = \array_slice($this->branch, 0, -1);
+        $parentBranch = \array_slice($this->pathFromRoot, 0, -1);
         self::assertListOfNonEmptyStrings($parentBranch);
 
         return new static($parentBranch);

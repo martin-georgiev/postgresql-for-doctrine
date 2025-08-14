@@ -7,11 +7,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 interface LtreeInterface extends \Stringable, \JsonSerializable
 {
     /**
-     * @param list<non-empty-string> $branch
+     * @param list<non-empty-string> $pathFromRoot
      *
-     * @throws \InvalidArgumentException if the branch is empty
+     * @throws \InvalidArgumentException if the pathFromRoot is empty
      */
-    public function __construct(array $branch);
+    public function __construct(array $pathFromRoot);
 
     /**
      * @throws \InvalidArgumentException if the ltree is empty
@@ -29,18 +29,18 @@ interface LtreeInterface extends \Stringable, \JsonSerializable
      *
      * @throws \InvalidArgumentException if the leaf is empty or contains dot
      */
-    public function createLeaf(string $leaf): static;
+    public function withLeaf(string $leaf): static;
 
     /**
      * @return list<non-empty-string>
      */
-    public function getBranch(): array;
+    public function getPathFromRoot(): array;
 
     public function equals(LtreeInterface $ltree): bool;
 
     public function isAncestorOf(LtreeInterface $ltree): bool;
 
-    public function isDescendantOf(LtreeInterface $ltree): bool;
+    public function isLeafOf(LtreeInterface $ltree): bool;
 
     public function isRoot(): bool;
 

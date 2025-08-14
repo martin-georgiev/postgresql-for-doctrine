@@ -122,15 +122,15 @@ class MyEntity implements \Stringable
             throw new \InvalidArgumentException("Parent MyEntity can't be self");
         }
 
-        if (in_array($this->getId()->toBase58(), $parent->getPath()->getBranch(), true)) {
+        if (in_array($this->getId()->toBase58(), $parent->getPath()->getPathFromRoot(), true)) {
             throw new \InvalidArgumentException("Parent MyEntity can't be a child of the current MyEntity");
         }
 
         $this->parent = $parent;
 
-        // Use createLeaf() to create a new Ltree instance
+        // Use withLeaf() to create a new Ltree instance
         // with the parent's path and the current entity's ID.
-        $this->path = $parent->getPath()->createLeaf($this->id->toBase58());
+        $this->path = $parent->getPath()->withLeaf($this->id->toBase58());
     }
 }
 ```

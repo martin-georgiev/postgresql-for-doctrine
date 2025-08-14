@@ -21,7 +21,7 @@ final class LtreeTest extends TestCase
         new Ltree([0 => 'a', 2 => 'b', 3 => 'c']); // @phpstan-ignore argument.type
     }
 
-    public function test_construct_trows_on_empty_string_in_branch(): void
+    public function test_construct_trows_on_empty_string_in_path_from_root(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Ltree(['a', '', 'c']); // @phpstan-ignore argument.type
@@ -30,22 +30,22 @@ final class LtreeTest extends TestCase
     public function test_from_string(): void
     {
         $ltree = Ltree::fromString('x.y.z');
-        self::assertSame(['x', 'y', 'z'], $ltree->getBranch());
+        self::assertSame(['x', 'y', 'z'], $ltree->getPathFromRoot());
         self::assertSame('x.y.z', (string) $ltree);
     }
 
     public function test_from_string_empty(): void
     {
         $ltree = Ltree::fromString('');
-        self::assertSame([], $ltree->getBranch());
+        self::assertSame([], $ltree->getPathFromRoot());
         self::assertSame('', (string) $ltree);
     }
 
     public function test_json_serialize(): void
     {
-        $branch = ['a', 'b', 'c'];
-        $ltree = new Ltree($branch);
-        self::assertSame($branch, $ltree->jsonSerialize());
+        $pathFromRoot = ['a', 'b', 'c'];
+        $ltree = new Ltree($pathFromRoot);
+        self::assertSame($pathFromRoot, $ltree->jsonSerialize());
     }
 
     public function test_json_encode(): void
@@ -55,11 +55,11 @@ final class LtreeTest extends TestCase
         self::assertSame('["a","b","c"]', $json);
     }
 
-    public function test_create_leaf(): void
+    public function test_with_leaf(): void
     {
         $ltree = new Ltree(['root']);
-        $newLtree = $ltree->createLeaf('leaf');
-        self::assertSame(['root', 'leaf'], $newLtree->getBranch());
+        $newLtree = $ltree->withLeaf('leaf');
+        self::assertSame(['root', 'leaf'], $newLtree->getPathFromRoot());
         self::assertSame('root.leaf', (string) $newLtree);
     }
 
@@ -75,17 +75,17 @@ final class LtreeTest extends TestCase
     public function test_is_ancestor_of(): void
     {
         $ancestor = new Ltree(['a', 'b']);
-        $descendant = new Ltree(['a', 'b', 'c']);
-        self::assertTrue($ancestor->isAncestorOf($descendant));
-        self::assertFalse($descendant->isAncestorOf($ancestor));
+        $leaf = new Ltree(['a', 'b', 'c']);
+        self::assertTrue($ancestor->isAncestorOf($leaf));
+        self::assertFalse($leaf->isAncestorOf($ancestor));
     }
 
-    public function test_is_descendant_of(): void
+    public function test_is_leaf_of(): void
     {
         $ancestor = new Ltree(['a', 'b']);
-        $descendant = new Ltree(['a', 'b', 'c']);
-        self::assertTrue($descendant->isDescendantOf($ancestor));
-        self::assertFalse($ancestor->isDescendantOf($descendant));
+        $leaf = new Ltree(['a', 'b', 'c']);
+        self::assertTrue($leaf->isLeafOf($ancestor));
+        self::assertFalse($ancestor->isLeafOf($leaf));
     }
 
     public function test_is_root(): void
@@ -102,7 +102,7 @@ final class LtreeTest extends TestCase
     {
         $ltree = new Ltree(['a', 'b', 'c']);
         $parent = $ltree->getParent();
-        self::assertSame(['a', 'b'], $parent->getBranch());
+        self::assertSame(['a', 'b'], $parent->getPathFromRoot());
         self::assertSame('a.b', (string) $parent);
     }
 
@@ -111,7 +111,7 @@ final class LtreeTest extends TestCase
         $ltree = new Ltree(['a', 'b', 'c']);
         $parent = $ltree->getParent();
         self::assertNotSame($ltree, $parent);
-        self::assertSame(['a', 'b', 'c'], $ltree->getBranch());
+        self::assertSame(['a', 'b', 'c'], $ltree->getPathFromRoot());
         self::assertSame('a.b.c', (string) $ltree);
     }
 
@@ -119,7 +119,7 @@ final class LtreeTest extends TestCase
     {
         $ltree = new Ltree(['a']);
         $parent = $ltree->getParent();
-        self::assertSame([], $parent->getBranch());
+        self::assertSame([], $parent->getPathFromRoot());
     }
 
     public function test_get_parent_throws_on_empty(): void
@@ -128,17 +128,17 @@ final class LtreeTest extends TestCase
         (new Ltree([]))->getParent();
     }
 
-    public function test_create_leaf_empty_throws(): void
+    public function test_with_leaf_empty_throws(): void
     {
         $ltree = new Ltree(['a']);
         $this->expectException(\InvalidArgumentException::class);
-        $ltree->createLeaf(''); // @phpstan-ignore argument.type
+        $ltree->withLeaf(''); // @phpstan-ignore argument.type
     }
 
-    public function test_create_leaf_with_dot_throws(): void
+    public function test_with_leaf_with_dot_throws(): void
     {
         $ltree = new Ltree(['a']);
         $this->expectException(\InvalidArgumentException::class);
-        $ltree->createLeaf('foo.bar');
+        $ltree->withLeaf('foo.bar');
     }
 }
