@@ -9,12 +9,15 @@ interface LtreeInterface extends \Stringable, \JsonSerializable
     /**
      * @param list<non-empty-string> $pathFromRoot
      *
-     * @throws \InvalidArgumentException if the pathFromRoot is empty
+     * @throws \InvalidArgumentException if the pathFromRoot is not a valid ltree path
+     *                                   (contains empty labels, consecutive dots, or starts/ends with a dot)
      */
     public function __construct(array $pathFromRoot);
 
     /**
-     * @throws \InvalidArgumentException if the ltree is empty
+     * Creates an Ltree instance from a string representation.
+     *
+     * @throws \InvalidArgumentException if the ltree is contains invalid/empty labels (consecutive dots)
      */
     public static function fromString(string $ltree): static;
 
@@ -25,27 +28,43 @@ interface LtreeInterface extends \Stringable, \JsonSerializable
     public function jsonSerialize(): array;
 
     /**
+     * @return list<non-empty-string>
+     */
+    public function getPathFromRoot(): array;
+
+    /**
+     * @throws \LogicException if the ltree is empty
+     */
+    public function getParent(): static;
+
+    public function equals(LtreeInterface $ltree): bool;
+
+    /**
+     * Checks if the ltree has no nodes.
+     */
+    public function isEmpty(): bool;
+
+    /**
+     * Checks if the ltree has only one node.
+     */
+    public function isRoot(): bool;
+
+    public function isAncestorOf(LtreeInterface $ltree): bool;
+
+    public function isDescendantOf(LtreeInterface $ltree): bool;
+
+    public function isParentOf(LtreeInterface $ltree): bool;
+
+    public function isChildOf(LtreeInterface $ltree): bool;
+
+    public function isSiblingOf(LtreeInterface $ltree): bool;
+
+    /**
+     * Creates a new Ltree instance with the given leaf added to the end of the path.
+     *
      * @param non-empty-string $leaf
      *
      * @throws \InvalidArgumentException if the leaf is empty or contains dot
      */
     public function withLeaf(string $leaf): static;
-
-    /**
-     * @return list<non-empty-string>
-     */
-    public function getPathFromRoot(): array;
-
-    public function equals(LtreeInterface $ltree): bool;
-
-    public function isAncestorOf(LtreeInterface $ltree): bool;
-
-    public function isLeafOf(LtreeInterface $ltree): bool;
-
-    public function isRoot(): bool;
-
-    /**
-     * @tthrows \LogicException if the ltree is root
-     */
-    public function getParent(): static;
 }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\LtreeInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LtreeTest extends TestCase
@@ -15,37 +17,72 @@ final class LtreeTest extends TestCase
         self::assertSame('a.b.c', (string) $ltree);
     }
 
-    public function test_construct_trows_on_non_list(): void
+    /**
+     * @param mixed[] $value
+     */
+    #[DataProvider('badPathFromRootProvider')]
+    public function test_construct_throws_on_bad_path_from_root(array $value): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new Ltree([0 => 'a', 2 => 'b', 3 => 'c']); // @phpstan-ignore argument.type
+        new Ltree($value); // @phpstan-ignore argument.type
     }
 
-    public function test_construct_trows_on_empty_string_in_path_from_root(): void
+    /**
+     * @return iterable<string, array<array-key,mixed[]>>
+     */
+    public static function badPathFromRootProvider(): iterable
     {
-        $this->expectException(\InvalidArgumentException::class);
-        new Ltree(['a', '', 'c']); // @phpstan-ignore argument.type
+        yield 'not a list' => [[0 => 'a', 2 => 'b', 3 => 'c']];
+        yield 'empty string in path' => [['a', '', 'c']];
+        yield 'list with object' => [['a', new \stdClass(), 'c']];
+        yield 'list with null' => [['a', null, 'c']];
+        yield 'list with dotted string' => [['a', 'b.c', 'ds']];
     }
 
-    public function test_from_string(): void
+    /**
+     * @param list<non-empty-string> $expected
+     */
+    #[DataProvider('goodRepresentationProvider')]
+    public function test_from_string(string $value, array $expected): void
     {
-        $ltree = Ltree::fromString('x.y.z');
-        self::assertSame(['x', 'y', 'z'], $ltree->getPathFromRoot());
-        self::assertSame('x.y.z', (string) $ltree);
+        $ltree = Ltree::fromString($value);
+        self::assertSame($expected, $ltree->getPathFromRoot());
+        self::assertSame($value, (string) $ltree);
     }
 
-    public function test_from_string_empty(): void
+    /**
+     * @param list<non-empty-string> $value
+     */
+    #[DataProvider('goodRepresentationProvider')]
+    public function test_to_string(string $expected, array $value): void
     {
-        $ltree = Ltree::fromString('');
-        self::assertSame([], $ltree->getPathFromRoot());
-        self::assertSame('', (string) $ltree);
+        $ltree = new Ltree($value);
+        self::assertSame($expected, (string) $ltree);
     }
 
-    public function test_json_serialize(): void
+    /**
+     * @param list<non-empty-string> $expected
+     */
+    #[DataProvider('goodRepresentationProvider')]
+    public function test_json_serialize(string $value, array $expected): void
     {
-        $pathFromRoot = ['a', 'b', 'c'];
-        $ltree = new Ltree($pathFromRoot);
-        self::assertSame($pathFromRoot, $ltree->jsonSerialize());
+        $ltreeFromString = Ltree::fromString($value);
+        self::assertSame($expected, $ltreeFromString->jsonSerialize());
+
+        $ltree = new Ltree($expected);
+        self::assertSame($expected, $ltree->jsonSerialize());
+    }
+
+    /**
+     * @return iterable<string, array{0: string, 1: list<non-empty-string>}>
+     */
+    public static function goodRepresentationProvider(): iterable
+    {
+        yield 'empty string' => ['', []];
+        yield 'single node' => ['a', ['a']];
+        yield 'multiple nodes' => ['a.b.c', ['a', 'b', 'c']];
+        yield 'with numbers' => ['1.2.3', ['1', '2', '3']];
+        yield 'with special characters' => ['a.b.c-d_e', ['a', 'b', 'c-d_e']];
     }
 
     public function test_json_encode(): void
@@ -55,71 +92,38 @@ final class LtreeTest extends TestCase
         self::assertSame('["a","b","c"]', $json);
     }
 
-    public function test_with_leaf(): void
+    #[DataProvider('parentProvider')]
+    public function test_get_parent(LtreeInterface $child, LtreeInterface $parent): void
     {
-        $ltree = new Ltree(['root']);
-        $newLtree = $ltree->withLeaf('leaf');
-        self::assertSame(['root', 'leaf'], $newLtree->getPathFromRoot());
-        self::assertSame('root.leaf', (string) $newLtree);
+        $child->getPathFromRoot();
+        $ltree = $child->getParent();
+        self::assertSame((string) $parent, (string) $ltree);
     }
 
-    public function test_equals(): void
+    #[DataProvider('parentProvider')]
+    public function test_get_parent_respect_immutability(LtreeInterface $child, LtreeInterface $parent): void
     {
-        $a = new Ltree(['foo', 'bar']);
-        $b = new Ltree(['foo', 'bar']);
-        $c = new Ltree(['foo', 'baz']);
-        self::assertTrue($a->equals($b));
-        self::assertFalse($a->equals($c));
+        unset($parent);
+        $childAsString = (string) $child;
+        $ltree = $child->getParent();
+        self::assertNotSame($child, $ltree, 'getParent() should return a new instance');
+        self::assertSame($childAsString, (string) $child, 'getParent() should not mutate the original instance');
     }
 
-    public function test_is_ancestor_of(): void
+    /**
+     * @return iterable<string, array{child: LtreeInterface, parent: LtreeInterface}>
+     */
+    public static function parentProvider(): iterable
     {
-        $ancestor = new Ltree(['a', 'b']);
-        $leaf = new Ltree(['a', 'b', 'c']);
-        self::assertTrue($ancestor->isAncestorOf($leaf));
-        self::assertFalse($leaf->isAncestorOf($ancestor));
-    }
+        yield 'root' => [
+            'child' => new Ltree(['a']),
+            'parent' => new Ltree([]),
+        ];
 
-    public function test_is_leaf_of(): void
-    {
-        $ancestor = new Ltree(['a', 'b']);
-        $leaf = new Ltree(['a', 'b', 'c']);
-        self::assertTrue($leaf->isLeafOf($ancestor));
-        self::assertFalse($ancestor->isLeafOf($leaf));
-    }
-
-    public function test_is_root(): void
-    {
-        $emptyRoot = new Ltree([]);
-        $root = new Ltree(['a']);
-        $notRoot = new Ltree(['a', 'b']);
-        self::assertTrue($emptyRoot->isRoot());
-        self::assertTrue($root->isRoot());
-        self::assertFalse($notRoot->isRoot());
-    }
-
-    public function test_get_parent(): void
-    {
-        $ltree = new Ltree(['a', 'b', 'c']);
-        $parent = $ltree->getParent();
-        self::assertSame(['a', 'b'], $parent->getPathFromRoot());
-        self::assertSame('a.b', (string) $parent);
-    }
-
-    public function test_get_parent_respect_immutability(): void
-    {
-        $ltree = new Ltree(['a', 'b', 'c']);
-        $parent = $ltree->getParent();
-        self::assertNotSame($ltree, $parent);
-        self::assertSame(['a', 'b', 'c'], $ltree->getPathFromRoot());
-        self::assertSame('a.b.c', (string) $ltree);
-    }
-
-    public function test_get_parent_on_root(): void
-    {
-        $ltree = new Ltree(['a']);
-        $parent = $ltree->getParent();
-        self::assertSame([], $parent->getPathFromRoot());
+        yield 'child with nodes' => [
+            'child' => new Ltree(['a', 'b', 'c']),
+            'parent' => new Ltree(['a', 'b']),
+        ];
     }
 
     public function test_get_parent_throws_on_empty(): void
@@ -128,17 +132,388 @@ final class LtreeTest extends TestCase
         (new Ltree([]))->getParent();
     }
 
-    public function test_with_leaf_empty_throws(): void
+    public function test_is_empty(): void
     {
-        $ltree = new Ltree(['a']);
-        $this->expectException(\InvalidArgumentException::class);
-        $ltree->withLeaf(''); // @phpstan-ignore argument.type
+        $ltree = new Ltree([]);
+        self::assertTrue($ltree->isEmpty());
+
+        $ltreeWithNodes = new Ltree(['a', 'b']);
+        self::assertFalse($ltreeWithNodes->isEmpty());
     }
 
-    public function test_with_leaf_with_dot_throws(): void
+    public function test_is_root(): void
     {
-        $ltree = new Ltree(['a']);
+        $emptyRoot = new Ltree([]);
+        $root = new Ltree(['a']);
+        $notRoot = new Ltree(['a', 'b']);
+        self::assertFalse($emptyRoot->isRoot());
+        self::assertTrue($root->isRoot());
+        self::assertFalse($notRoot->isRoot());
+    }
+
+    /**
+     * @param $expected array{
+     *                  equals: bool,
+     *                  isAncestorOf: bool,
+     *                  isDescendantOf: bool,
+     *                  isParentOf: bool,
+     *                  isChildOf: bool,
+     *                  isSiblingOf: bool,
+     *                  }
+     */
+    #[DataProvider('familyProvider')]
+    public function test_relationships(
+        LtreeInterface $left,
+        LtreeInterface $right,
+        array $expected,
+    ): void {
+        foreach ($expected as $method => $value) {
+            self::assertSame(
+                $value,
+                $left->{$method}($right),
+                \sprintf('Failed  %s check', $method),
+            );
+        }
+    }
+
+    /**
+     * @return iterable<string, array{
+     *   left: LtreeInterface,
+     *   right: LtreeInterface,
+     *   expected: array{
+     *     equals: bool,
+     *     isAncestorOf: bool,
+     *     isDescendantOf: bool,
+     *     isParentOf: bool,
+     *     isChildOf: bool,
+     *     isSiblingOf: bool,
+     *   },
+     * }>
+     */
+    public static function familyProvider(): iterable
+    {
+        $empty = new Ltree([]);
+        $root = new Ltree(['a']);
+        $child = new Ltree(['a', 'b']);
+        $secondChild = new Ltree(['a', 'e']);
+        $grandChild = new Ltree(['a', 'b', 'c']);
+        $secondGrandChild = new Ltree(['a', 'b', 'd']);
+        $thirdGrandChild = new Ltree(['a', 'e', 'f']);
+        $unrelated = new Ltree(['x', 'y']);
+
+        yield 'empty is ? of empty' => [
+            'left' => $empty,
+            'right' => $empty,
+            'expected' => [
+                'equals' => true,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'empty is ? of root' => [
+            'left' => $empty,
+            'right' => $root,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => true,
+                'isDescendantOf' => false,
+                'isParentOf' => true,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'root is ? of empty' => [
+            'left' => $root,
+            'right' => $empty,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => true,
+                'isParentOf' => false,
+                'isChildOf' => true,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'root is ? of root' => [
+            'left' => $root,
+            'right' => $root,
+            'expected' => [
+                'equals' => true,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'child is ? of empty' => [
+            'left' => $child,
+            'right' => $empty,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => true,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'root is ? of child' => [
+            'left' => $root,
+            'right' => $child,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => true,
+                'isDescendantOf' => false,
+                'isParentOf' => true,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'child is ? of root' => [
+            'left' => $child,
+            'right' => $root,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => true,
+                'isParentOf' => false,
+                'isChildOf' => true,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'child is ? of child' => [
+            'left' => $child,
+            'right' => $child,
+            'expected' => [
+                'equals' => true,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'child is ? of grandChild' => [
+            'left' => $child,
+            'right' => $grandChild,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => true,
+                'isDescendantOf' => false,
+                'isParentOf' => true,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'grandChild is ? of child' => [
+            'left' => $grandChild,
+            'right' => $child,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => true,
+                'isParentOf' => false,
+                'isChildOf' => true,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'child is ? of unrelated' => [
+            'left' => $child,
+            'right' => $unrelated,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'unrelated is ? of child' => [
+            'left' => $unrelated,
+            'right' => $child,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'child is ? of secondChild' => [
+            'left' => $child,
+            'right' => $secondChild,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => true,
+            ],
+        ];
+
+        yield 'secondChild is ? of child' => [
+            'left' => $secondChild,
+            'right' => $child,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => true,
+            ],
+        ];
+
+        yield 'grandChild is ? of secondGrandChild' => [
+            'left' => $grandChild,
+            'right' => $secondGrandChild,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => true,
+            ],
+        ];
+
+        yield 'secondGrandChild is ? of grandChild' => [
+            'left' => $secondGrandChild,
+            'right' => $grandChild,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => true,
+            ],
+        ];
+
+        yield 'grandChild is ? of thirdGrandChild' => [
+            'left' => $grandChild,
+            'right' => $thirdGrandChild,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'thirdGrandChild is ? of grandChild' => [
+            'left' => $thirdGrandChild,
+            'right' => $grandChild,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'secondChild is ? of secondGrandChild' => [
+            'left' => $secondChild,
+            'right' => $secondGrandChild,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => false,
+                'isDescendantOf' => false,
+                'isParentOf' => false,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+
+        yield 'secondChild is ? of thirdGrandChild' => [
+            'left' => $secondChild,
+            'right' => $thirdGrandChild,
+            'expected' => [
+                'equals' => false,
+                'isAncestorOf' => true,
+                'isDescendantOf' => false,
+                'isParentOf' => true,
+                'isChildOf' => false,
+                'isSiblingOf' => false,
+            ],
+        ];
+    }
+
+    /**
+     * @param non-empty-string $leaf
+     */
+    #[DataProvider('goodLeafProvider')]
+    public function test_with_leaf(LtreeInterface $parent, string $leaf, LtreeInterface $expected): void
+    {
+        $ltree = $parent->withLeaf($leaf);
+        self::assertSame((string) $expected, (string) $ltree);
+    }
+
+    /**
+     * @param non-empty-string $leaf
+     */
+    #[DataProvider('goodLeafProvider')]
+    public function test_with_leaf_respects_immutability(LtreeInterface $parent, string $leaf, LtreeInterface $expected): void
+    {
+        unset($expected);
+
+        $parentAsString = (string) $parent;
+        $ltree = $parent->withLeaf($leaf);
+        self::assertNotSame($parent, $ltree, 'withLeaf() should return a new instance');
+        self::assertSame($parentAsString, (string) $parent, 'withLeaf() should not mutate the original instance');
+    }
+
+    /**
+     * @return iterable<string, array{0: LtreeInterface, 1: non-empty-string, 2: LtreeInterface}>
+     */
+    public static function goodLeafProvider(): iterable
+    {
+        yield 'add leaf to empty' => [new Ltree([]), 'a', new Ltree(['a'])];
+
+        yield 'add leaf to root' => [new Ltree(['a']), 'b', new Ltree(['a', 'b'])];
+
+        yield 'add leaf to child' => [new Ltree(['a', 'b']), 'c', new Ltree(['a', 'b', 'c'])];
+    }
+
+    #[DataProvider('badLeafProvider')]
+    public function test_with_leaf_throws(string $leaf): void
+    {
+        $ltree = new Ltree(['a', 'b']);
         $this->expectException(\InvalidArgumentException::class);
-        $ltree->withLeaf('foo.bar');
+        $ltree->withLeaf($leaf); // @phpstan-ignore argument.type
+    }
+
+    /**
+     * @return iterable<string, string[]>
+     */
+    public static function badLeafProvider(): iterable
+    {
+        yield 'with empty leaf' => [''];
+        yield 'with leaf with dot' => ['a.b'];
+        yield 'with leaf starting by dot' => ['.b'];
+        yield 'with leaf ending by dot' => ['a.'];
     }
 }
