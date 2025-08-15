@@ -35,7 +35,9 @@ class Ltree implements LtreeInterface
 
         $pathFromRoot = \explode('.', $ltree);
 
-        return new static($pathFromRoot); // @phpstan-ignore-line argument.type
+        self::assertListOfValidLtreeNodes($pathFromRoot);
+
+        return new static($pathFromRoot);
     }
 
     #[\Override]
@@ -57,10 +59,9 @@ class Ltree implements LtreeInterface
             throw new \LogicException('Empty ltree has no parent.');
         }
 
-        $parentBranch = \array_slice($this->pathFromRoot, 0, -1);
-        self::assertListOfValidLtreeNodes($parentBranch);
+        $parentPathFromRoot = \array_slice($this->pathFromRoot, 0, -1);
 
-        return new static($parentBranch);
+        return new static($parentPathFromRoot);
     }
 
     #[\Override]
@@ -92,7 +93,9 @@ class Ltree implements LtreeInterface
             return true;
         }
 
-        return \str_starts_with((string) $ltree, \sprintf('%s.', (string) $this));
+        $prefix = \sprintf('%s.', (string) $this);
+
+        return \str_starts_with((string) $ltree, $prefix);
     }
 
     #[\Override]
@@ -106,7 +109,9 @@ class Ltree implements LtreeInterface
             return true;
         }
 
-        return \str_starts_with((string) $this, \sprintf('%s.', (string) $ltree));
+        $prefix = \sprintf('%s.', (string) $ltree);
+
+        return \str_starts_with((string) $this, $prefix);
     }
 
     #[\Override]
@@ -162,10 +167,9 @@ class Ltree implements LtreeInterface
             throw new \InvalidArgumentException('Branch must be a list of non-empty strings.');
         }
 
-        \array_map(
-            self::assertValidLtreeNode(...),
-            $value,
-        );
+        foreach ($value as $node) {
+            self::assertValidLtreeNode($node);
+        }
     }
 
     /**
