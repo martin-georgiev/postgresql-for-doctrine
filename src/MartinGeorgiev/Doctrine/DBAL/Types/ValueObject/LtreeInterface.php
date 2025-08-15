@@ -64,7 +64,7 @@ interface LtreeInterface extends \Stringable, \JsonSerializable
      *
      * @param non-empty-string $leaf
      *
-     * @throws \InvalidArgumentException if the leaf is empty or contains dot
+     * @throws \InvalidArgumentException if the leaf format is invalid (empty string, contains dots, ...)
      */
     public function withLeaf(string $leaf): static;
 }
