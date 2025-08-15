@@ -39,6 +39,22 @@ final class LtreeTest extends TestCase
         yield 'list with dotted string' => [['a', 'b.c', 'ds']];
     }
 
+    #[DataProvider('badRepresentationProvider')]
+    public function test_from_string_throws_on_bad_value(string $value): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Ltree::fromString($value);
+    }
+
+    /**
+     * @return iterable<string, string[]>
+     */
+    public static function badRepresentationProvider(): iterable
+    {
+        yield 'string starting with dot' => ['.b'];
+        yield 'string ending with dot' => ['a.'];
+    }
+
     /**
      * @param list<non-empty-string> $expected
      */
@@ -95,7 +111,6 @@ final class LtreeTest extends TestCase
     #[DataProvider('parentProvider')]
     public function test_get_parent(LtreeInterface $child, LtreeInterface $parent): void
     {
-        $child->getPathFromRoot();
         $ltree = $child->getParent();
         self::assertSame((string) $parent, (string) $ltree);
     }
