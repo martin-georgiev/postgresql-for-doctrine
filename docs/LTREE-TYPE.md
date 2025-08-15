@@ -10,7 +10,7 @@ CREATE EXTENSION IF NOT EXISTS ltree;
 ```
 
 For [Symfony](https://symfony.com/),
-customize the migration introducing the `ltree` field by adding this line
+customize the migration that introduces the `ltree` field by adding this line
 at the beginning of the `up()` method:
 
 ```php
@@ -33,7 +33,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\LtreeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
@@ -139,12 +138,12 @@ Add a GiST index to an `ltree` column by manually adding its `CREATE INDEX`
 command to the migration:
 
 ```sql
-// Example GiST index for ltree with a custom signature length (must be a multiple of 4)
+-- Example GiST index for ltree with a custom signature length (must be a multiple of 4)
 CREATE INDEX my_entity_path_gist_idx
     ON my_entity USING GIST (path gist_ltree_ops(siglen = 100));
 ```
 
-⚠️ **Important**: Changing an entity's parent requires to cascade the change
+⚠️ **Important**: Changing an entity's parent requires cascading the change
 to all its children.
 This is not handled automatically by Doctrine.
 Implement a [preUpdate](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/events.html#reference-events-pre-update)
