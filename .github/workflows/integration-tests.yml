@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Set up PHP
-        uses: shivammathur/setup-php@ccf2c627fe61b1b4d924adfcbd19d661a18133a0 # v2
+        uses: shivammathur/setup-php@20529878ed81ef8e78ddf08b480401e6101a850f # v2
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
@@ -75,7 +75,7 @@ jobs:
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
