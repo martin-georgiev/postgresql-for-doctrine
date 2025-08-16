@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types\ScalarTypeTestCase;
 
-class CidrTypeTest extends ScalarTypeTestCase
+class MacaddrTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {
-        return 'cidr';
+        return 'macaddr';
     }
 
     protected function getPostgresTypeName(): string
     {
-        return 'CIDR';
+        return 'MACADDR';
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -37,23 +37,22 @@ class CidrTypeTest extends ScalarTypeTestCase
     public static function provideValidTransformations(): array
     {
         return [
-            'IPv4 CIDR' => ['192.168.1.0/24'],
-            'IPv4 CIDR /8' => ['10.0.0.0/8'],
-            'IPv4 CIDR /16' => ['172.16.0.0/16'],
-            'IPv6 CIDR' => ['2001:db8::/32'],
-            'IPv6 CIDR /64' => ['2001:db8::/64'],
-            'IPv6 CIDR /128' => ['2001:db8::1/128'],
+            'standard MAC address' => ['08:00:2b:01:02:03'],
+            'MAC with zeros' => ['00:00:00:00:00:00'],
+            'MAC with FF' => ['ff:ff:ff:ff:ff:ff'],
+            'mixed case MAC' => ['08:00:2b:01:02:03'],
+            'MAC with single digits' => ['01:02:03:04:05:06'],
         ];
     }
 
     #[Test]
-    public function can_handle_invalid_networks(): void
+    public function can_handle_invalid_addresses(): void
     {
-        $this->expectException(InvalidCidrForPHPException::class);
+        $this->expectException(InvalidMacaddrForPHPException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, 'invalid-network');
+        $this->runTypeTest($typeName, $columnType, 'invalid-mac');
     }
 }
