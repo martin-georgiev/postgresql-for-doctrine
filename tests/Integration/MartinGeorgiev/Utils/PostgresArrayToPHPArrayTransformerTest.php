@@ -7,6 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Utils;
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\TestCase;
 
 class PostgresArrayToPHPArrayTransformerTest extends TestCase
@@ -23,7 +24,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      * @param array{description: string, input: array<int, string>} $testCase
      */
     #[DataProvider('provideArrayTestCases')]
-    public function test_array_round_trip(array $testCase): void
+    #[Test]
+    public function array_round_trip(array $testCase): void
     {
         $id = $this->insertArray($testCase['input']);
 
@@ -56,7 +58,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     #[DataProvider('provideInvalidArrayFormats')]
-    public function test_invalid_array_formats_throw_exceptions(array $testCase): void
+    #[Test]
+    public function invalid_array_formats_throw_exceptions(array $testCase): void
     {
         $this->expectException(InvalidArrayFormatException::class);
         PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($testCase['input']); // @phpstan-ignore-line
