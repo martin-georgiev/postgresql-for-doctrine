@@ -7,7 +7,6 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types\ScalarTypeTestCase;
 
 class CidrTypeTest extends ScalarTypeTestCase
 {
