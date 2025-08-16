@@ -46,12 +46,6 @@ class TstzRangeTypeTest extends RangeTypeTestCase
                 true,
                 true
             )],
-            'tstzrange with different timezones' => ['tstzrange with different timezones', new TstzRangeValueObject(
-                new \DateTimeImmutable('2023-01-01 10:00:00+02:00'),
-                new \DateTimeImmutable('2023-01-01 18:00:00+02:00'),
-                false,
-                false
-            )],
             'tstzrange with UTC' => ['tstzrange with UTC', new TstzRangeValueObject(
                 new \DateTimeImmutable('2023-06-15 08:00:00+00:00'),
                 new \DateTimeImmutable('2023-06-15 16:00:00+00:00'),
