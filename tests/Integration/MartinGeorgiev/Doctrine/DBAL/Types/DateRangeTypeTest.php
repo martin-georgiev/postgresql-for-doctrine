@@ -86,4 +86,16 @@ class DateRangeTypeTest extends RangeTypeTestCase
         );
         $this->runTypeTest($typeName, $columnType, $dateRange);
     }
+
+    /**
+     * @return array<string, array{string, string, array<int>}> [name, dql, expectedIds]
+     */
+    public static function provideOperatorScenarios(): array
+    {
+        return [
+            'contains daterange' => ['contains daterange', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE CONTAINS(r.dateRange, \'[2023-02-01,2023-11-01)\') = TRUE', [1]],
+            'is contained by daterange' => ['is contained by daterange', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE IS_CONTAINED_BY(\'[2023-02-01,2023-11-01)\', r.dateRange) = TRUE', [1]],
+            'overlaps daterange' => ['overlaps daterange', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE OVERLAPS(r.dateRange, \'[2023-11-15,2024-01-15)\') = TRUE', [1, 2, 3]],
+        ];
+    }
 }

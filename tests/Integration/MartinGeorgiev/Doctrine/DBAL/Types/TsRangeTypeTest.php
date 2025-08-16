@@ -86,4 +86,15 @@ class TsRangeTypeTest extends RangeTypeTestCase
         );
         $this->runTypeTest($typeName, $columnType, $tsRange);
     }
+
+    /**
+     * @return array<string, array{string, string, array<int>}> [name, dql, expectedIds]
+     */
+    public static function provideOperatorScenarios(): array
+    {
+        return [
+            'is contained by tsrange' => ['is contained by tsrange', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE IS_CONTAINED_BY(\'[2023-01-01 12:00:00,2023-01-01 16:00:00)\', r.tsRange) = TRUE', [1]],
+            'overlaps tsrange' => ['overlaps tsrange', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE OVERLAPS(r.tsRange, \'[2023-01-01 16:00:00,2023-01-01 20:00:00)\') = TRUE', [1]],
+        ];
+    }
 }

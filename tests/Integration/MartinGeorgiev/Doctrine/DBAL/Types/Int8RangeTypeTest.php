@@ -61,4 +61,16 @@ class Int8RangeTypeTest extends RangeTypeTestCase
         $int8Range = new Int8RangeValueObject(10, 5, false, false);
         $this->runTypeTest($typeName, $columnType, $int8Range);
     }
+
+    /**
+     * @return array<string, array{string, string, array<int>}> [name, dql, expectedIds]
+     */
+    public static function provideOperatorScenarios(): array
+    {
+        return [
+            'contains int8range' => ['contains int8range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE CONTAINS(r.int8Range, \'[150,800)\') = TRUE', [1]],
+            'is contained by int8range' => ['is contained by int8range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE IS_CONTAINED_BY(\'[200,800)\', r.int8Range) = TRUE', [1]],
+            'overlaps int8range' => ['overlaps int8range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE OVERLAPS(r.int8Range, \'[800,1200)\') = TRUE', [1, 2]],
+        ];
+    }
 }

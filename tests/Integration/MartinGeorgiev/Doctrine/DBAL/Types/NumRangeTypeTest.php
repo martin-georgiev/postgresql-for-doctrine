@@ -61,4 +61,14 @@ class NumRangeTypeTest extends RangeTypeTestCase
         $numericRange = new NumRangeValueObject(10.5, 5.7, false, false);
         $this->runTypeTest($typeName, $columnType, $numericRange);
     }
+
+    /**
+     * @return array<string, array{string, string, array<int>}> [name, dql, expectedIds]
+     */
+    public static function provideOperatorScenarios(): array
+    {
+        return [
+            'contains numrange' => ['contains numrange', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE CONTAINS(r.numRange, \'[2.5,8.5)\') = TRUE', [1]],
+        ];
+    }
 }

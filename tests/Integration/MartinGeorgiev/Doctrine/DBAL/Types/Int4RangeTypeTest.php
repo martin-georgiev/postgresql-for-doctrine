@@ -61,4 +61,16 @@ class Int4RangeTypeTest extends RangeTypeTestCase
         $int4Range = new Int4RangeValueObject(10, 5, false, false);
         $this->runTypeTest($typeName, $columnType, $int4Range);
     }
+
+    /**
+     * @return array<string, array{string, string, array<int>}> [name, dql, expectedIds]
+     */
+    public static function provideOperatorScenarios(): array
+    {
+        return [
+            'contains int4range' => ['contains int4range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE CONTAINS(r.int4Range, \'[3,7)\') = TRUE', [1]],
+            'is contained by int4range' => ['is contained by int4range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE IS_CONTAINED_BY(\'[3,7)\', r.int4Range) = TRUE', [1]],
+            'overlaps int4range' => ['overlaps int4range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE OVERLAPS(r.int4Range, \'[8,12)\') = TRUE', [1, 2]],
+        ];
+    }
 }
