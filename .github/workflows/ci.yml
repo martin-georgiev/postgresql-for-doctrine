@@ -122,7 +122,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: ./var/logs/test-coverage/unit/clover.xml
           parallel: true
-          flag-name: "unit"
+          flag-name: "Unit"
           fail-on-error: false
 
   coveralls-finish:
