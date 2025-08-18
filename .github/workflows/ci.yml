@@ -113,13 +113,25 @@ jobs:
         run: composer audit
 
       - name: Run unit test suite
-        run: composer run-unit-tests-with-clover
+        run: composer run-unit-tests
 
       - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./var/logs/test-coverage/unit/clover.xml
+          parallel: true
+          flag-name: "Unit"
           fail-on-error: false
-          base-path: ./var/logs/test-coverage/
-          flag-name: "PHP ${{ matrix.php }}"
+
+  coveralls-finish:
+    needs: tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finalize Coveralls parallel run
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
