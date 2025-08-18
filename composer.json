@@ -102,9 +102,6 @@
         "run-unit-tests": [
             "@phpunit:unit"
         ],
-        "run-unit-tests-with-clover": [
-            "@phpunit:unit --coverage-clover=./var/logs/test-coverage/clover.xml"
-        ],
         "run-all-tests": [
             "@run-unit-tests",
             "@run-integration-tests"
