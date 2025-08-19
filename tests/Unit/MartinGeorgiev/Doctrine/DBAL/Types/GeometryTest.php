@@ -58,29 +58,29 @@ final class GeometryTest extends TestCase
     }
 
     /**
-     * @return array<string, array{valueObject: WktSpatialData|null, postgresValue: string|null}>
+     * @return array<string, array{wktSpatialData: WktSpatialData|null, postgresValue: string|null}>
      */
     public static function provideValidTransformations(): array
     {
         return [
             'null' => [
-                'valueObject' => null,
+                'wktSpatialData' => null,
                 'postgresValue' => null,
             ],
             'point' => [
-                'valueObject' => WktSpatialData::fromWkt('POINT(1 2)'),
+                'wktSpatialData' => WktSpatialData::fromWkt('POINT(1 2)'),
                 'postgresValue' => 'POINT(1 2)',
             ],
             'point with srid' => [
-                'valueObject' => WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
+                'wktSpatialData' => WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
                 'postgresValue' => 'SRID=4326;POINT(-122.4194 37.7749)',
             ],
             'linestring' => [
-                'valueObject' => WktSpatialData::fromWkt('LINESTRING(0 0, 1 1, 2 2)'),
+                'wktSpatialData' => WktSpatialData::fromWkt('LINESTRING(0 0, 1 1, 2 2)'),
                 'postgresValue' => 'LINESTRING(0 0, 1 1, 2 2)',
             ],
             'polygon' => [
-                'valueObject' => WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
+                'wktSpatialData' => WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
                 'postgresValue' => 'POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))',
             ],
         ];

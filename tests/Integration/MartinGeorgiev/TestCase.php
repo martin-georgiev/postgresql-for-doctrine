@@ -19,6 +19,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
 use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Geography;
+use MartinGeorgiev\Doctrine\DBAL\Types\Geometry;
 use MartinGeorgiev\Doctrine\DBAL\Types\Inet;
 use MartinGeorgiev\Doctrine\DBAL\Types\InetArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
@@ -156,7 +158,22 @@ abstract class TestCase extends BaseTestCase
     {
         $this->connection->executeStatement(\sprintf('DROP SCHEMA IF EXISTS %s CASCADE', self::DATABASE_SCHEMA));
         $this->connection->executeStatement(\sprintf('CREATE SCHEMA %s', self::DATABASE_SCHEMA));
-        $this->connection->executeStatement(\sprintf('SET search_path TO %s', self::DATABASE_SCHEMA));
+
+        // Ensure PostGIS is available for geometry/geography types
+        // Ensure PostGIS is available in the test schema and as default search_path
+        try {
+            // Ensure PostGIS is installed and, if possible, placed in the test schema
+            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS postgis');
+            // Move the extension objects into the test schema to resolve types without relying on public
+            $this->connection->executeStatement(\sprintf('ALTER EXTENSION postgis SET SCHEMA %s', self::DATABASE_SCHEMA));
+        } catch (\Throwable) {
+            // Fallback: if moving the extension is not possible, keep public in the search_path below
+        }
+
+        // Ensure our schema is first, but include public so extensions installed there resolve
+        $this->connection->executeStatement(\sprintf('SET search_path TO %s, public', self::DATABASE_SCHEMA));
+        // Stabilize timezone-dependent tests
+        $this->connection->executeStatement("SET TIME ZONE 'UTC'");
     }
 
     protected function registerCustomTypes(): void
@@ -168,6 +185,8 @@ abstract class TestCase extends BaseTestCase
             'cidr[]' => CidrArray::class,
             'daterange' => DateRange::class,
             'double precision[]' => DoublePrecisionArray::class,
+            'geography' => Geography::class,
+            'geometry' => Geometry::class,
             'inet' => Inet::class,
             'inet[]' => InetArray::class,
             'int4range' => Int4Range::class,

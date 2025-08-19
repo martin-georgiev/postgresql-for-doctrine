@@ -58,17 +58,17 @@ final class GeographyTest extends TestCase
     }
 
     /**
-     * @return array<string, array{valueObject: WktSpatialData|null, postgresValue: string|null}>
+     * @return array<string, array{wktSpatialData: WktSpatialData|null, postgresValue: string|null}>
      */
     public static function provideValidTransformations(): array
     {
         return [
             'null' => [
-                'valueObject' => null,
+                'wktSpatialData' => null,
                 'postgresValue' => null,
             ],
             'point' => [
-                'valueObject' => WktSpatialData::fromWkt('POINT(1 2)'),
+                'wktSpatialData' => WktSpatialData::fromWkt('POINT(1 2)'),
                 'postgresValue' => 'POINT(1 2)',
             ],
         ];
