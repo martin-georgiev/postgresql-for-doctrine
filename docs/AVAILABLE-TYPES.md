@@ -28,8 +28,8 @@
 | tstzrange | tstzrange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzRange` |
 |---|---|---|
 | geography | geography | `MartinGeorgiev\Doctrine\DBAL\Types\Geography` |
-| geography[] | geography[] | `MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray` |
+| geography[] | _geography | `MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray` |
 | geometry | geometry | `MartinGeorgiev\Doctrine\DBAL\Types\Geometry` |
-| geometry[] | geometry[] | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
+| geometry[] | _geometry | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
 | point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
 | point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
