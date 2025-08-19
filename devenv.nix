@@ -74,8 +74,19 @@ in
     ];
 
     initialScript = ''
-      CREATE ROLE "${config.env.POSTGRES_USER}"
-        WITH SUPERUSER LOGIN PASSWORD '${config.env.POSTGRES_PASSWORD}';
+      -- Create role if it doesn't exist, or update password if it does
+      DO $$
+      BEGIN
+        IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = '${config.env.POSTGRES_USER}') THEN
+          CREATE ROLE "${config.env.POSTGRES_USER}" WITH SUPERUSER LOGIN PASSWORD '${config.env.POSTGRES_PASSWORD}';
+        ELSE
+          ALTER ROLE "${config.env.POSTGRES_USER}" WITH SUPERUSER LOGIN PASSWORD '${config.env.POSTGRES_PASSWORD}';
+        END IF;
+      END
+      $$;
+
+      -- Set database owner
+      ALTER DATABASE "${config.env.POSTGRES_DB}" OWNER TO "${config.env.POSTGRES_USER}";
 
       -- Enable PostGIS extension in the database
       \c ${config.env.POSTGRES_DB}
