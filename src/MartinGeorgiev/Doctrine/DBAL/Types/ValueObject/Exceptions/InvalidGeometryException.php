@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktGeometryType;
+
 /**
  * Exception thrown when creating or manipulating Geometry value objects with invalid data.
  * 
@@ -43,6 +45,12 @@ final class InvalidGeometryException extends \InvalidArgumentException
 
     public static function forUnsupportedGeometryType(string $type): self
     {
-        return new self(\sprintf('Unsupported Wkt geometry type: %s', \var_export($type, true)));
+        $supportedTypes = \array_map(fn(WktGeometryType $case) => $case->value, WktGeometryType::cases());
+
+        return new self(\sprintf(
+            'Unsupported Wkt geometry type: %s. Supported types: %s',
+            \var_export($type, true),
+            \implode(', ', $supportedTypes)
+        ));
     }
 }
