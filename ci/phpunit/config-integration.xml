@@ -19,6 +19,12 @@
             <directory>../../tests/Integration</directory>
         </testsuite>
     </testsuites>
+    <coverage>
+        <report>
+            <html outputDirectory="../../var/logs/test-coverage/integration/html"/>
+            <clover outputFile="../../var/logs/test-coverage/integration/clover.xml"/>
+        </report>
+    </coverage>
     <source>
         <include>
             <directory suffix=".php">../../src</directory>

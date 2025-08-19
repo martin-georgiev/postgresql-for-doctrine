@@ -61,7 +61,7 @@ jobs:
           -e POSTGRES_INITDB_ARGS="--data-checksums"
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
 
       - name: Set up PHP
         uses: shivammathur/setup-php@20529878ed81ef8e78ddf08b480401e6101a850f # v2
