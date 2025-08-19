@@ -6,7 +6,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
 
 /**
  * Exception thrown when creating or manipulating Point value objects with invalid data.
- * 
+ *
  * This exception is specifically for validation errors within the Point value object itself,
  * separate from DBAL conversion exceptions.
  *
