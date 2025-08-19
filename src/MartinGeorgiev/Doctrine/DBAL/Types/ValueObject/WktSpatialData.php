@@ -21,11 +21,21 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialD
  */
 final class WktSpatialData implements \Stringable
 {
-    private function __construct(private readonly ?int $srid, private readonly WktGeometryType $wktType, private readonly string $wktBody) {}
+    private function __construct(
+        private readonly ?int $srid,
+        private readonly WktGeometryType $wktType,
+        private readonly string $wktBody,
+        private readonly ?string $dimensionalModifier = null
+    ) {}
 
     public function __toString(): string
     {
-        $typeAndBody = $this->wktType->value.'('.$this->wktBody.')';
+        $typeWithModifier = $this->wktType->value;
+        if ($this->dimensionalModifier !== null) {
+            $typeWithModifier .= ' '.$this->dimensionalModifier;
+        }
+
+        $typeAndBody = $typeWithModifier.'('.$this->wktBody.')';
         if ($this->srid === null) {
             return $typeAndBody;
         }
@@ -57,13 +67,14 @@ final class WktSpatialData implements \Stringable
             $wkt = \substr($wkt, $sridSeparatorPosition + 1);
         }
 
-        $wktTypeWithOptionalModifiersPattern = '/^([A-Z][A-Z0-9_]*)(?:\s+(?:ZM|Z|M))?\s*\((.*)\)$/s';
+        $wktTypeWithOptionalModifiersPattern = '/^([A-Z][A-Z0-9_]*)(?:\s+(ZM|Z|M))?\s*\((.*)\)$/s';
         if (!\preg_match($wktTypeWithOptionalModifiersPattern, $wkt, $matches)) {
             throw InvalidWktSpatialDataException::forInvalidWktFormat($wkt);
         }
 
         $typeString = $matches[1];
-        $body = $matches[2];
+        $dimensionalModifier = empty($matches[2]) ? null : $matches[2];
+        $body = \trim($matches[3]);
         if ($body === '') {
             throw InvalidWktSpatialDataException::forEmptyCoordinateSection();
         }
@@ -73,7 +84,7 @@ final class WktSpatialData implements \Stringable
             throw InvalidWktSpatialDataException::forUnsupportedGeometryType($typeString);
         }
 
-        return new self($srid, $geometryType, $body);
+        return new self($srid, $geometryType, $body, $dimensionalModifier);
     }
 
     public function getSrid(): ?int

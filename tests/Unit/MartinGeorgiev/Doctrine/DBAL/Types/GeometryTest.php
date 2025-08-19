@@ -83,6 +83,22 @@ final class GeometryTest extends TestCase
                 'wktSpatialData' => WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
                 'postgresValue' => 'POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))',
             ],
+            'point z' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('POINT Z(1 2 3)'),
+                'postgresValue' => 'POINT Z(1 2 3)',
+            ],
+            'linestring m' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('LINESTRING M(0 0 1, 1 1 2)'),
+                'postgresValue' => 'LINESTRING M(0 0 1, 1 1 2)',
+            ],
+            'polygon zm' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'),
+                'postgresValue' => 'POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))',
+            ],
+            'point z with srid' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                'postgresValue' => 'SRID=4326;POINT Z(-122.4194 37.7749 100)',
+            ],
         ];
     }
 

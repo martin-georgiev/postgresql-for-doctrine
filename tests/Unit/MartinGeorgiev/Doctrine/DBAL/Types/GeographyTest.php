@@ -71,6 +71,18 @@ final class GeographyTest extends TestCase
                 'wktSpatialData' => WktSpatialData::fromWkt('POINT(1 2)'),
                 'postgresValue' => 'POINT(1 2)',
             ],
+            'point z' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)'),
+                'postgresValue' => 'POINT Z(-122.4194 37.7749 100)',
+            ],
+            'linestring m' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
+                'postgresValue' => 'LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)',
+            ],
+            'polygon zm with srid' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'),
+                'postgresValue' => 'SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))',
+            ],
         ];
     }
 

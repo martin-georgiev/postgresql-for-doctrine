@@ -35,6 +35,12 @@ final class WktSpatialDataTest extends TestCase
             'point with srid' => ['SRID=4326;POINT(-122.4194 37.7749)', 'POINT', 4326],
             'linestring' => ['LINESTRING(0 0, 1 1, 2 2)', 'LINESTRING', null],
             'polygon' => ['POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))', 'POLYGON', null],
+            'point z' => ['POINT Z(1 2 3)', 'POINT', null],
+            'linestring m' => ['LINESTRING M(0 0 1, 1 1 2)', 'LINESTRING', null],
+            'polygon zm' => ['POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))', 'POLYGON', null],
+            'point z with srid' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)', 'POINT', 4326],
+            'multipoint z' => ['MULTIPOINT Z((1 2 3), (4 5 6))', 'MULTIPOINT', null],
+            'geometrycollection m' => ['GEOMETRYCOLLECTION M(POINT M(1 2 3), LINESTRING M(0 0 1, 1 1 2))', 'GEOMETRYCOLLECTION', null],
         ];
     }
 
@@ -58,6 +64,41 @@ final class WktSpatialDataTest extends TestCase
             'invalid body' => ['POINT()'],
             'invalid format' => ['INVALID_WKT'],
             'unsupported geometry type' => ['UNSUPPORTED(1 2)'],
+            'whitespace-only coordinates' => ['POINT(   )'],
+        ];
+    }
+
+    #[DataProvider('provideDimensionalModifierRoundTripCases')]
+    #[Test]
+    public function preserves_dimensional_modifiers_in_round_trip(string $wkt): void
+    {
+        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+        $output = (string) $wktSpatialData;
+
+        self::assertSame($wkt, $output, 'Dimensional modifier should be preserved in round-trip conversion');
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideDimensionalModifierRoundTripCases(): array
+    {
+        return [
+            'point z' => ['POINT Z(1 2 3)'],
+            'point m' => ['POINT M(1 2 3)'],
+            'point zm' => ['POINT ZM(1 2 3 4)'],
+            'linestring z' => ['LINESTRING Z(0 0 1, 1 1 2)'],
+            'linestring m' => ['LINESTRING M(0 0 1, 1 1 2)'],
+            'linestring zm' => ['LINESTRING ZM(0 0 1 2, 1 1 3 4)'],
+            'polygon z' => ['POLYGON Z((0 0 1, 0 1 1, 1 1 1, 1 0 1, 0 0 1))'],
+            'polygon m' => ['POLYGON M((0 0 1, 0 1 2, 1 1 3, 1 0 4, 0 0 1))'],
+            'polygon zm' => ['POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'],
+            'multipoint z' => ['MULTIPOINT Z((1 2 3), (4 5 6))'],
+            'multilinestring m' => ['MULTILINESTRING M((0 0 1, 1 1 2), (2 2 3, 3 3 4))'],
+            'multipolygon zm' => ['MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'],
+            'geometrycollection z' => ['GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))'],
+            'srid with point z' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)'],
+            'srid with polygon zm' => ['SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'],
         ];
     }
 }
