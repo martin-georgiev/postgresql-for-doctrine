@@ -55,6 +55,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - MAC addresses (`macaddr`, `macaddr[]`)
 - **Geometric Types**
   - Point (`point`, `point[]`)
+  - PostGIS Geometry (`geometry`)
+  - PostGIS Geography (`geography`)
 - **Range Types**
   - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
@@ -122,10 +124,10 @@ composer run-unit-tests
 ```
 
 ### PostgreSQL Integration Tests
-We also provide integration tests that run against a real PostgreSQL database to ensure compatibility:
+We also provide integration tests that run against a real PostgreSQL database with PostGIS to ensure compatibility:
 
 ```bash
-# Start PostgreSQL using Docker Compose
+# Start PostgreSQL with PostGIS using Docker Compose
 docker-compose up -d
 
 # Run integration tests
@@ -135,7 +137,7 @@ composer run-integration-tests
 docker-compose down -v
 ```
 
-See [tests-integration/README.md](tests-integration/README.md) for more details.
+See [tests/Integration/README.md](tests/Integration/README.md) for more details.
 
 ## ⭐ Support the Project
 

@@ -139,3 +139,32 @@ SELECT p FROM Product p WHERE CONTAINS(p.availabilityPeriod, DATERANGE('2024-06-
 -- Find products with prices in a specific range
 SELECT p FROM Product p WHERE p.priceRange @> 25.0
 ```
+
+
+Using PostGIS Types
+---
+
+The library provides DBAL type support for PostGIS `geometry` and `geography` columns. Example usage:
+
+```sql
+CREATE TABLE places (
+    id SERIAL PRIMARY KEY,
+    location GEOMETRY,
+    boundary GEOGRAPHY
+);
+```
+
+```php
+use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Geometry as GeometryValueObject;
+
+Type::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
+Type::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
+
+$location = GeometryValueObject::fromWKT('SRID=4326;POINT(-122.4194 37.7749)');
+$entity->setLocation($location);
+```
+
+Notes:
+- Values round-trip as EWKT/WKT strings at the database boundary.
+- Integration tests automatically enable the `postgis` extension; ensure PostGIS is available in your environment.
