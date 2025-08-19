@@ -48,7 +48,7 @@ abstract class TestCase extends BaseTestCase
             // Query the value back
             $queryBuilder = $this->connection->createQueryBuilder();
             $queryBuilder
-                ->select($columnName)
+                ->select($this->getSelectExpressionForType($typeName, $columnName))
                 ->from(self::DATABASE_SCHEMA.'.'.$tableName)
                 ->where('id = 1');
 
@@ -95,5 +95,15 @@ abstract class TestCase extends BaseTestCase
         $this->assertTrue(Type::hasType($typeName), \sprintf('Type %s should be registered', $typeName));
 
         Type::getType($typeName);
+    }
+
+    private function getSelectExpressionForType(string $typeName, string $columnName): string
+    {
+        // Ensure we get a text representation for PostGIS types that DBAL might map to resource/stream
+        return match ($typeName) {
+            'geometry' => \sprintf('ST_AsEWKT("%s") AS "%s"', $columnName, $columnName),
+            'geography' => \sprintf('ST_AsEWKT("%s"::geometry) AS "%s"', $columnName, $columnName),
+            default => $columnName,
+        };
     }
 }
