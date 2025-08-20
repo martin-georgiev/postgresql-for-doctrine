@@ -20,7 +20,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geography;
+use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geometry;
+use MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Inet;
 use MartinGeorgiev\Doctrine\DBAL\Types\InetArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
@@ -186,7 +188,9 @@ abstract class TestCase extends BaseTestCase
             'daterange' => DateRange::class,
             'double precision[]' => DoublePrecisionArray::class,
             'geography' => Geography::class,
+            'geography[]' => GeographyArray::class,
             'geometry' => Geometry::class,
+            'geometry[]' => GeometryArray::class,
             'inet' => Inet::class,
             'inet[]' => InetArray::class,
             'int4range' => Int4Range::class,
