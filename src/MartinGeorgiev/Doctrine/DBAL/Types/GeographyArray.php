@@ -18,11 +18,7 @@ final class GeographyArray extends SpatialDataArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
-        if (!$this->isValidArrayItemForDatabase($item)) {
-            throw InvalidGeographyForPHPException::forInvalidType($item);
-        }
-
-        return (string) $item;
+        return (string) $this->getValidatedArrayItem($item);
     }
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException

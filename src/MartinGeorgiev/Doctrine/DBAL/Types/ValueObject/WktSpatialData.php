@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
 
 /**
@@ -32,7 +31,7 @@ final class WktSpatialData implements \Stringable
     public function __toString(): string
     {
         $typeWithModifier = $this->geometryType->value;
-        if ($this->dimensionalModifier !== null) {
+        if ($this->dimensionalModifier instanceof DimensionalModifier) {
             $typeWithModifier .= ' '.$this->dimensionalModifier->value;
         }
 

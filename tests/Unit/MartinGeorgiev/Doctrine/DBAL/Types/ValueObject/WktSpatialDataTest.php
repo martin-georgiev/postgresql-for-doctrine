@@ -26,15 +26,6 @@ final class WktSpatialDataTest extends TestCase
         self::assertSame($wkt, (string) $wktSpatialData);
     }
 
-    #[DataProvider('provideDimensionalModifierWkt')]
-    #[Test]
-    public function can_extract_dimensional_modifier(string $wkt, ?DimensionalModifier $expectedModifier): void
-    {
-        $wktSpatialData = WktSpatialData::fromWkt($wkt);
-
-        self::assertSame($expectedModifier, $wktSpatialData->getDimensionalModifier());
-    }
-
     /**
      * @return array<string, array{string, string, int|null}>
      */
@@ -51,6 +42,33 @@ final class WktSpatialDataTest extends TestCase
             'point z with srid' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)', 'POINT', 4326],
             'multipoint z' => ['MULTIPOINT Z((1 2 3), (4 5 6))', 'MULTIPOINT', null],
             'geometrycollection m' => ['GEOMETRYCOLLECTION M(POINT M(1 2 3), LINESTRING M(0 0 1, 1 1 2))', 'GEOMETRYCOLLECTION', null],
+        ];
+    }
+
+    #[DataProvider('provideDimensionalModifierWkt')]
+    #[Test]
+    public function can_extract_dimensional_modifier(string $wkt, ?DimensionalModifier $dimensionalModifier): void
+    {
+        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+
+        self::assertSame($dimensionalModifier, $wktSpatialData->getDimensionalModifier());
+    }
+
+    /**
+     * @return array<string, array{string, DimensionalModifier|null}>
+     */
+    public static function provideDimensionalModifierWkt(): array
+    {
+        return [
+            'point without modifier' => ['POINT(1 2)', null],
+            'point with z' => ['POINT Z(1 2 3)', DimensionalModifier::Z],
+            'point with m' => ['POINT M(1 2 3)', DimensionalModifier::M],
+            'point with zm' => ['POINT ZM(1 2 3 4)', DimensionalModifier::ZM],
+            'linestring with z' => ['LINESTRING Z(0 0 1, 1 1 2)', DimensionalModifier::Z],
+            'polygon with m' => ['POLYGON M((0 0 1, 0 1 2, 1 1 3, 1 0 4, 0 0 1))', DimensionalModifier::M],
+            'multipoint with zm' => ['MULTIPOINT ZM((1 2 3 4), (5 6 7 8))', DimensionalModifier::ZM],
+            'srid with z modifier' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)', DimensionalModifier::Z],
+            'srid without modifier' => ['SRID=4326;POINT(-122.4194 37.7749)', null],
         ];
     }
 
@@ -109,24 +127,6 @@ final class WktSpatialDataTest extends TestCase
             'geometrycollection z' => ['GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))'],
             'srid with point z' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)'],
             'srid with polygon zm' => ['SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'],
-        ];
-    }
-
-    /**
-     * @return array<string, array{string, DimensionalModifier|null}>
-     */
-    public static function provideDimensionalModifierWkt(): array
-    {
-        return [
-            'point without modifier' => ['POINT(1 2)', null],
-            'point with z' => ['POINT Z(1 2 3)', DimensionalModifier::Z],
-            'point with m' => ['POINT M(1 2 3)', DimensionalModifier::M],
-            'point with zm' => ['POINT ZM(1 2 3 4)', DimensionalModifier::ZM],
-            'linestring with z' => ['LINESTRING Z(0 0 1, 1 1 2)', DimensionalModifier::Z],
-            'polygon with m' => ['POLYGON M((0 0 1, 0 1 2, 1 1 3, 1 0 4, 0 0 1))', DimensionalModifier::M],
-            'multipoint with zm' => ['MULTIPOINT ZM((1 2 3 4), (5 6 7 8))', DimensionalModifier::ZM],
-            'srid with z modifier' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)', DimensionalModifier::Z],
-            'srid without modifier' => ['SRID=4326;POINT(-122.4194 37.7749)', null],
         ];
     }
 }

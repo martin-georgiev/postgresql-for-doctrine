@@ -18,11 +18,7 @@ final class GeometryArray extends SpatialDataArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
-        if (!$this->isValidArrayItemForDatabase($item)) {
-            throw InvalidGeometryForPHPException::forInvalidType($item);
-        }
-
-        return (string) $item;
+        return (string) $this->getValidatedArrayItem($item);
     }
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException
