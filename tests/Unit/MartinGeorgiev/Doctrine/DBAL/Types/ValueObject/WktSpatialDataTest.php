@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktGeometryType;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -19,10 +20,19 @@ final class WktSpatialDataTest extends TestCase
     {
         $wktSpatialData = WktSpatialData::fromWkt($wkt);
 
-        self::assertSame(WktGeometryType::from($expectedType), $wktSpatialData->getGeometryType());
+        self::assertSame(GeometryType::from($expectedType), $wktSpatialData->getGeometryType());
         self::assertSame($expectedSrid, $wktSpatialData->getSrid());
         self::assertSame($wkt, $wktSpatialData->getWkt());
         self::assertSame($wkt, (string) $wktSpatialData);
+    }
+
+    #[DataProvider('provideDimensionalModifierWkt')]
+    #[Test]
+    public function can_extract_dimensional_modifier(string $wkt, ?DimensionalModifier $expectedModifier): void
+    {
+        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+
+        self::assertSame($expectedModifier, $wktSpatialData->getDimensionalModifier());
     }
 
     /**
@@ -99,6 +109,24 @@ final class WktSpatialDataTest extends TestCase
             'geometrycollection z' => ['GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))'],
             'srid with point z' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)'],
             'srid with polygon zm' => ['SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'],
+        ];
+    }
+
+    /**
+     * @return array<string, array{string, DimensionalModifier|null}>
+     */
+    public static function provideDimensionalModifierWkt(): array
+    {
+        return [
+            'point without modifier' => ['POINT(1 2)', null],
+            'point with z' => ['POINT Z(1 2 3)', DimensionalModifier::Z],
+            'point with m' => ['POINT M(1 2 3)', DimensionalModifier::M],
+            'point with zm' => ['POINT ZM(1 2 3 4)', DimensionalModifier::ZM],
+            'linestring with z' => ['LINESTRING Z(0 0 1, 1 1 2)', DimensionalModifier::Z],
+            'polygon with m' => ['POLYGON M((0 0 1, 0 1 2, 1 1 3, 1 0 4, 0 0 1))', DimensionalModifier::M],
+            'multipoint with zm' => ['MULTIPOINT ZM((1 2 3 4), (5 6 7 8))', DimensionalModifier::ZM],
+            'srid with z modifier' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)', DimensionalModifier::Z],
+            'srid without modifier' => ['SRID=4326;POINT(-122.4194 37.7749)', null],
         ];
     }
 }

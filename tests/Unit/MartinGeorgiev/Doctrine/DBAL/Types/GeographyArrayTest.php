@@ -19,7 +19,7 @@ final class GeographyArrayTest extends TestCase
 {
     private GeographyArray $type;
 
-    private MockObject $platform;
+    private AbstractPlatform&MockObject $platform;
 
     protected function setUp(): void
     {
@@ -95,6 +95,33 @@ final class GeographyArrayTest extends TestCase
                 ],
                 '{POINT(0 0),POINT(180 0),POINT(-180 0)}',
             ],
+            'mixed geographic geometry types' => [
+                [
+                    WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
+                    WktSpatialData::fromWkt('SRID=4326;LINESTRING(-122.4194 37.7749, -122.4094 37.7849)'),
+                    WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))'),
+                    WktSpatialData::fromWkt('SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))'),
+                ],
+                '{SRID=4326;POINT(-122.4194 37.7749),SRID=4326;LINESTRING(-122.4194 37.7749, -122.4094 37.7849),SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7)),SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))}',
+            ],
+            'mixed geographic dimensional modifiers' => [
+                [
+                    WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
+                    WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                    WktSpatialData::fromWkt('SRID=4326;POINT M(-122.4194 37.7749 1)'),
+                    WktSpatialData::fromWkt('SRID=4326;POINT ZM(-122.4194 37.7749 100 1)'),
+                ],
+                '{SRID=4326;POINT(-122.4194 37.7749),SRID=4326;POINT Z(-122.4194 37.7749 100),SRID=4326;POINT M(-122.4194 37.7749 1),SRID=4326;POINT ZM(-122.4194 37.7749 100 1)}',
+            ],
+            'complex geographic mix' => [
+                [
+                    WktSpatialData::fromWkt('POINT(0 0)'), // Null Island (no SRID)
+                    WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                    WktSpatialData::fromWkt('SRID=4269;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
+                    WktSpatialData::fromWkt('SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))'),
+                ],
+                '{POINT(0 0),SRID=4326;POINT Z(-122.4194 37.7749 100),SRID=4269;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2),SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))}',
+            ],
         ];
     }
 
@@ -120,6 +147,7 @@ final class GeographyArrayTest extends TestCase
     {
         $result = $this->type->convertToPHPValue($postgresArray, $this->platform);
 
+        self::assertIsArray($result);
         self::assertCount(\count($expectedPhpArray), $result);
 
         foreach ($result as $index => $item) {
@@ -165,11 +193,14 @@ final class GeographyArrayTest extends TestCase
         $databaseValue = $this->type->convertToDatabaseValue($phpArray, $this->platform);
         $convertedBack = $this->type->convertToPHPValue($databaseValue, $this->platform);
 
+        self::assertIsArray($convertedBack);
         self::assertCount(\count($phpArray), $convertedBack);
 
         foreach ($convertedBack as $index => $item) {
             self::assertInstanceOf(WktSpatialData::class, $item);
-            self::assertSame((string) $phpArray[$index], (string) $item);
+            $originalItem = $phpArray[$index];
+            self::assertInstanceOf(WktSpatialData::class, $originalItem);
+            self::assertSame((string) $originalItem, (string) $item);
         }
     }
 

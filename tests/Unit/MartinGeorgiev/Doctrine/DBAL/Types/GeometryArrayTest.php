@@ -19,7 +19,7 @@ final class GeometryArrayTest extends TestCase
 {
     private GeometryArray $type;
 
-    private MockObject $platform;
+    private AbstractPlatform&MockObject $platform;
 
     protected function setUp(): void
     {
@@ -87,6 +87,32 @@ final class GeometryArrayTest extends TestCase
                 ],
                 '{POINT ZM(1 2 3 4),MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))}',
             ],
+            'mixed geometry types' => [
+                [
+                    WktSpatialData::fromWkt('POINT(0 0)'),
+                    WktSpatialData::fromWkt('LINESTRING(0 0, 1 1)'),
+                    WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
+                ],
+                '{POINT(0 0),LINESTRING(0 0, 1 1),POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))}',
+            ],
+            'mixed srid usage' => [
+                [
+                    WktSpatialData::fromWkt('POINT(0 0)'),
+                    WktSpatialData::fromWkt('SRID=4326;POINT(-122 37)'),
+                    WktSpatialData::fromWkt('SRID=3857;POINT(1000 2000)'),
+                ],
+                '{POINT(0 0),SRID=4326;POINT(-122 37),SRID=3857;POINT(1000 2000)}',
+            ],
+            'complex mixed array' => [
+                [
+                    WktSpatialData::fromWkt('POINT(0 0)'),
+                    WktSpatialData::fromWkt('SRID=4326;POINT Z(1 2 3)'),
+                    WktSpatialData::fromWkt('LINESTRING M(0 0 1, 1 1 2)'),
+                    WktSpatialData::fromWkt('MULTIPOINT((1 2), (3 4))'),
+                    WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))'),
+                ],
+                '{POINT(0 0),SRID=4326;POINT Z(1 2 3),LINESTRING M(0 0 1, 1 1 2),MULTIPOINT((1 2), (3 4)),GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))}',
+            ],
         ];
     }
 
@@ -112,6 +138,7 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->convertToPHPValue($postgresArray, $this->platform);
 
+        self::assertIsArray($result);
         self::assertCount(\count($expectedPhpArray), $result);
 
         foreach ($result as $index => $item) {
@@ -157,11 +184,14 @@ final class GeometryArrayTest extends TestCase
         $databaseValue = $this->type->convertToDatabaseValue($phpArray, $this->platform);
         $convertedBack = $this->type->convertToPHPValue($databaseValue, $this->platform);
 
+        self::assertIsArray($convertedBack);
         self::assertCount(\count($phpArray), $convertedBack);
 
         foreach ($convertedBack as $index => $item) {
             self::assertInstanceOf(WktSpatialData::class, $item);
-            self::assertSame((string) $phpArray[$index], (string) $item);
+            $originalItem = $phpArray[$index];
+            self::assertInstanceOf(WktSpatialData::class, $originalItem);
+            self::assertSame((string) $originalItem, (string) $item);
         }
     }
 

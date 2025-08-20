@@ -103,6 +103,8 @@ abstract class TestCase extends BaseTestCase
         return match ($typeName) {
             'geometry' => \sprintf('ST_AsEWKT("%s") AS "%s"', $columnName, $columnName),
             'geography' => \sprintf('ST_AsEWKT("%s"::geometry) AS "%s"', $columnName, $columnName),
+            'geometry[]' => \sprintf('ARRAY(SELECT CASE WHEN ST_SRID(geom) = 0 THEN ST_AsText(geom) ELSE \'SRID=\' || ST_SRID(geom) || \';\' || ST_AsText(geom) END FROM unnest("%s") AS geom) AS "%s"', $columnName, $columnName),
+            'geography[]' => \sprintf('ARRAY(SELECT CASE WHEN ST_SRID(geog::geometry) = 0 THEN ST_AsText(geog::geometry) ELSE \'SRID=\' || ST_SRID(geog::geometry) || \';\' || ST_AsText(geog::geometry) END FROM unnest("%s") AS geog) AS "%s"', $columnName, $columnName),
             default => $columnName,
         };
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
 
 /**
@@ -23,16 +24,16 @@ final class WktSpatialData implements \Stringable
 {
     private function __construct(
         private readonly ?int $srid,
-        private readonly WktGeometryType $wktType,
+        private readonly GeometryType $geometryType,
         private readonly string $wktBody,
-        private readonly ?string $dimensionalModifier = null
+        private readonly ?DimensionalModifier $dimensionalModifier = null
     ) {}
 
     public function __toString(): string
     {
-        $typeWithModifier = $this->wktType->value;
+        $typeWithModifier = $this->geometryType->value;
         if ($this->dimensionalModifier !== null) {
-            $typeWithModifier .= ' '.$this->dimensionalModifier;
+            $typeWithModifier .= ' '.$this->dimensionalModifier->value;
         }
 
         $typeAndBody = $typeWithModifier.'('.$this->wktBody.')';
@@ -73,13 +74,13 @@ final class WktSpatialData implements \Stringable
         }
 
         $typeString = $matches[1];
-        $dimensionalModifier = empty($matches[2]) ? null : $matches[2];
+        $dimensionalModifier = empty($matches[2]) ? null : DimensionalModifier::tryFrom($matches[2]);
         $body = \trim($matches[3]);
         if ($body === '') {
             throw InvalidWktSpatialDataException::forEmptyCoordinateSection();
         }
 
-        $geometryType = WktGeometryType::tryFrom($typeString);
+        $geometryType = GeometryType::tryFrom($typeString);
         if ($geometryType === null) {
             throw InvalidWktSpatialDataException::forUnsupportedGeometryType($typeString);
         }
@@ -92,9 +93,14 @@ final class WktSpatialData implements \Stringable
         return $this->srid;
     }
 
-    public function getGeometryType(): WktGeometryType
+    public function getGeometryType(): GeometryType
     {
-        return $this->wktType;
+        return $this->geometryType;
+    }
+
+    public function getDimensionalModifier(): ?DimensionalModifier
+    {
+        return $this->dimensionalModifier;
     }
 
     public function getWkt(): string
