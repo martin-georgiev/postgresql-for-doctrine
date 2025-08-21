@@ -23,7 +23,8 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     protected function getSelectExpression(string $columnName): string
     {
         return \sprintf(
-            'ARRAY(SELECT CASE WHEN ST_SRID(geom) = 0 THEN ST_AsText(geom) ELSE \"SRID=\" || ST_SRID(geom) || \";\" || ST_AsText(geom) END FROM unnest(\"%s\") AS geom) AS \"%s\"',
+            'ARRAY(SELECT CASE WHEN ST_SRID(geom) = 0 THEN ST_AsText(geom) ELSE '
+            ."'SRID=' || ST_SRID(geom) || ';' || ST_AsText(geom) END FROM unnest(\"%s\") AS geom) AS \"%s\"",
             $columnName,
             $columnName
         );
@@ -83,8 +84,7 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     #[Test]
     public function can_handle_multi_item_array(array $phpArray): void
     {
-        $wktsAsString = \array_values(\array_map(static fn ($v): string => (string) $v, $phpArray));
-        $this->runArrayConstructorTypeTest($this->getTypeName(), $this->getPostgresTypeName(), $wktsAsString, 'geometry');
+        $this->runArrayConstructorTypeTest($this->getTypeName(), $this->getPostgresTypeName(), 'geometry', ...$phpArray);
     }
 
     /**

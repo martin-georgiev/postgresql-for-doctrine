@@ -22,7 +22,15 @@ final class GeometryTypeTest extends TestCase
 
     protected function getSelectExpression(string $columnName): string
     {
-        return \sprintf('ST_AsEWKT("%s") AS "%s"', $columnName, $columnName);
+        return \sprintf(
+            'CASE WHEN ST_SRID("%s") = 0 THEN ST_AsText("%s") ELSE '
+            ."'SRID=' || ST_SRID(\"%s\") || ';' || ST_AsText(\"%s\") END AS \"%s\"",
+            $columnName,
+            $columnName,
+            $columnName,
+            $columnName,
+            $columnName
+        );
     }
 
     #[Test]

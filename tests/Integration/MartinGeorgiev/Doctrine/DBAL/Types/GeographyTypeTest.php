@@ -22,7 +22,8 @@ final class GeographyTypeTest extends TestCase
 
     protected function getSelectExpression(string $columnName): string
     {
-        return \sprintf('ST_AsEWKT("%s"::geometry) AS "%s"', $columnName, $columnName);
+        // For geography, avoid adding SRID prefix to preserve original input format
+        return \sprintf('ST_AsText("%s"::geometry) AS "%s"', $columnName, $columnName);
     }
 
     #[Test]

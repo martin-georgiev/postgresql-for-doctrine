@@ -23,7 +23,8 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
     protected function getSelectExpression(string $columnName): string
     {
         return \sprintf(
-            'ARRAY(SELECT CASE WHEN ST_SRID(geog::geometry) = 0 THEN ST_AsText(geog::geometry) ELSE \"SRID=\" || ST_SRID(geog::geometry) || \";\" || ST_AsText(geog::geometry) END FROM unnest(\"%s\") AS geog) AS \"%s\"',
+            'ARRAY(SELECT CASE WHEN ST_SRID(geog::geometry) = 0 THEN ST_AsText(geog::geometry) ELSE '
+            ."'SRID=' || ST_SRID(geog::geometry) || ';' || ST_AsText(geog::geometry) END FROM unnest(\"%s\") AS geog) AS \"%s\"",
             $columnName,
             $columnName
         );
@@ -83,8 +84,7 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
     #[Test]
     public function can_handle_multi_item_array(array $phpArray): void
     {
-        $wkts = \array_values(\array_map(static fn ($v): string => (string) $v, $phpArray));
-        $this->runArrayConstructorTypeTest($this->getTypeName(), $this->getPostgresTypeName(), $wkts, 'geography');
+        $this->runArrayConstructorTypeTest($this->getTypeName(), $this->getPostgresTypeName(), 'geography', ...$phpArray);
     }
 
     /**
