@@ -20,6 +20,11 @@ final class GeographyTypeTest extends TestCase
         return 'GEOGRAPHY';
     }
 
+    protected function getSelectExpression(string $columnName): string
+    {
+        return \sprintf('ST_AsEWKT("%s"::geometry) AS "%s"', $columnName, $columnName);
+    }
+
     #[Test]
     public function can_handle_null_values(): void
     {

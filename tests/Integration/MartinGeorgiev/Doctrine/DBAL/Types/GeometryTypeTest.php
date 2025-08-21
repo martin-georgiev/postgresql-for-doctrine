@@ -20,6 +20,11 @@ final class GeometryTypeTest extends TestCase
         return 'GEOMETRY';
     }
 
+    protected function getSelectExpression(string $columnName): string
+    {
+        return \sprintf('ST_AsEWKT("%s") AS "%s"', $columnName, $columnName);
+    }
+
     #[Test]
     public function can_handle_null_values(): void
     {

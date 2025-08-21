@@ -93,7 +93,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      * @template T
      *
      * @param array<string, mixed> $params
-     * @param callable(string): T  $transform
+     * @param callable(string): T $transform
      *
      * @return T
      */

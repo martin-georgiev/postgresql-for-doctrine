@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-final class GeographyArrayTypeTest extends TestCase
+final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -18,6 +18,15 @@ final class GeographyArrayTypeTest extends TestCase
     protected function getPostgresTypeName(): string
     {
         return 'GEOGRAPHY[]';
+    }
+
+    protected function getSelectExpression(string $columnName): string
+    {
+        return \sprintf(
+            'ARRAY(SELECT CASE WHEN ST_SRID(geog::geometry) = 0 THEN ST_AsText(geog::geometry) ELSE \"SRID=\" || ST_SRID(geog::geometry) || \";\" || ST_AsText(geog::geometry) END FROM unnest(\"%s\") AS geog) AS \"%s\"',
+            $columnName,
+            $columnName
+        );
     }
 
     #[DataProvider('provideSingleItemArrays')]

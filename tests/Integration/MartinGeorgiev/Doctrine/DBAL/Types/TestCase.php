@@ -48,12 +48,11 @@ abstract class TestCase extends BaseTestCase
             // Query the value back
             $queryBuilder = $this->connection->createQueryBuilder();
             $queryBuilder
-                ->select($this->getSelectExpressionForType($typeName, $columnName))
+                ->select($this->getSelectExpression($columnType))
                 ->from(self::DATABASE_SCHEMA.'.'.$tableName)
                 ->where('id = 1');
 
-            $result = $queryBuilder->executeQuery();
-            $row = $result->fetchAssociative();
+            $row = $queryBuilder->executeQuery()->fetchAssociative();
             \assert(\is_array($row) && \array_key_exists($columnName, $row));
 
             // Get the value with the correct type
@@ -97,15 +96,8 @@ abstract class TestCase extends BaseTestCase
         Type::getType($typeName);
     }
 
-    private function getSelectExpressionForType(string $typeName, string $columnName): string
+    protected function getSelectExpression(string $columnName): string
     {
-        // Ensure we get a text representation for PostGIS types that DBAL might map to resource/stream
-        return match ($typeName) {
-            'geometry' => \sprintf('ST_AsEWKT("%s") AS "%s"', $columnName, $columnName),
-            'geography' => \sprintf('ST_AsEWKT("%s"::geometry) AS "%s"', $columnName, $columnName),
-            'geometry[]' => \sprintf('ARRAY(SELECT CASE WHEN ST_SRID(geom) = 0 THEN ST_AsText(geom) ELSE \'SRID=\' || ST_SRID(geom) || \';\' || ST_AsText(geom) END FROM unnest("%s") AS geom) AS "%s"', $columnName, $columnName),
-            'geography[]' => \sprintf('ARRAY(SELECT CASE WHEN ST_SRID(geog::geometry) = 0 THEN ST_AsText(geog::geometry) ELSE \'SRID=\' || ST_SRID(geog::geometry) || \';\' || ST_AsText(geog::geometry) END FROM unnest("%s") AS geog) AS "%s"', $columnName, $columnName),
-            default => $columnName,
-        };
+        return $columnName;
     }
 }

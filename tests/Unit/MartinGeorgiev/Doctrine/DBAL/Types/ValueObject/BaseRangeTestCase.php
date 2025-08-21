@@ -191,7 +191,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Assert that a range contains all the given values.
      *
-     * @param Range<R>     $range
+     * @param Range<R> $range
      * @param array<mixed> $values
      */
     protected function assertRangeContainsAll(Range $range, array $values, string $message = ''): void
@@ -207,7 +207,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Assert that a range does not contain any of the given values.
      *
-     * @param Range<R>     $range
+     * @param Range<R> $range
      * @param array<mixed> $values
      */
     protected function assertRangeContainsNone(Range $range, array $values, string $message = ''): void
@@ -255,7 +255,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Test boundary conditions for a range with known bounds.
      *
-     * @param Range<R>                                           $range
+     * @param Range<R> $range
      * @param array<string, array{value: mixed, expected: bool}> $testCases
      */
     protected function assertBoundaryConditions(Range $range, array $testCases, string $message = ''): void
