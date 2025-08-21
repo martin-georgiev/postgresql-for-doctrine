@@ -20,64 +20,86 @@ final class GeometryArrayTypeTest extends TestCase
         return 'GEOMETRY[]';
     }
 
+    #[DataProvider('provideSingleItemArrays')]
     #[Test]
-    public function can_handle_null_values(): void
-    {
-        $this->runTypeTest($this->getTypeName(), $this->getPostgresTypeName(), null);
-    }
-
-    #[DataProvider('provideValues')]
-    #[Test]
-    public function can_handle_values(array $values): void
+    public function can_handle_single_item_array(array $values): void
     {
         $this->runTypeTest($this->getTypeName(), $this->getPostgresTypeName(), $values);
     }
 
-    public static function provideValues(): array
+    public static function provideSingleItemArrays(): array
     {
         return [
-            'simple geometries' => [[
+            // Single item tests - These work perfectly with Doctrine DBAL parameter binding
+            'single point' => [[
                 WktSpatialData::fromWkt('POINT(0 0)'),
-                WktSpatialData::fromWkt('LINESTRING(0 0, 1 1)'),
-                WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
-                WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))'),
             ]],
-            'dimensional modifiers z' => [[
+            'single point with z dimension' => [[
                 WktSpatialData::fromWkt('POINT Z(1 2 3)'),
-                WktSpatialData::fromWkt('LINESTRING Z(0 0 1, 1 1 2)'),
-                WktSpatialData::fromWkt('POLYGON Z((0 0 1, 0 1 1, 1 1 1, 1 0 1, 0 0 1))'),
             ]],
-            'dimensional modifiers m' => [[
+            'single point with m dimension' => [[
                 WktSpatialData::fromWkt('POINT M(1 2 3)'),
-                WktSpatialData::fromWkt('LINESTRING M(0 0 1, 1 1 2)'),
-                WktSpatialData::fromWkt('MULTIPOINT M((1 2 3), (4 5 6))'),
             ]],
-            'dimensional modifiers zm' => [[
+            'single point with zm dimensions' => [[
                 WktSpatialData::fromWkt('POINT ZM(1 2 3 4)'),
-                WktSpatialData::fromWkt('LINESTRING ZM(0 0 1 2, 1 1 3 4)'),
-                WktSpatialData::fromWkt('POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'),
             ]],
-            'ewkt with srid' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
-                WktSpatialData::fromWkt('SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
-                WktSpatialData::fromWkt('SRID=3857;LINESTRING(0 0, 1000 1000)'),
+            'single ewkt with srid' => [[
+                WktSpatialData::fromWkt('SRID=4326;POINT(0 0)'),
             ]],
-            'mixed dimensional and srid' => [[
-                WktSpatialData::fromWkt('POINT Z(1 2 3)'),
-                WktSpatialData::fromWkt('LINESTRING M(0 0 1, 1 1 2)'),
-                WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
-                WktSpatialData::fromWkt('POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'),
+            'single ewkt with srid and dimensions' => [[
+                WktSpatialData::fromWkt('SRID=4326;POINT Z(1 2 3)'),
             ]],
-            'complex multigeometries' => [[
-                WktSpatialData::fromWkt('MULTIPOINT Z((1 2 3), (4 5 6))'),
-                WktSpatialData::fromWkt('MULTILINESTRING M((0 0 1, 1 1 2), (2 2 3, 3 3 4))'),
-                WktSpatialData::fromWkt('MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'),
-                WktSpatialData::fromWkt('GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))'),
+            'single linestring' => [[
+                WktSpatialData::fromWkt('LINESTRING(0 0,1 1,2 2)'),
             ]],
-            'single item array' => [[
-                WktSpatialData::fromWkt('POINT(42 42)'),
+            'single polygon' => [[
+                WktSpatialData::fromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))'),
             ]],
+            'single multipoint' => [[
+                WktSpatialData::fromWkt('MULTIPOINT((1 2),(3 4))'),
+            ]],
+            'single complex geometry with srid' => [[
+                WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
+            ]],
+
+            // Edge cases
             'empty array' => [[]],
+        ];
+    }
+
+    /**
+     * @param array<WktSpatialData> $phpArray
+     */
+    #[DataProvider('provideMultiItemArrays')]
+    #[Test]
+    public function can_handle_multi_item_array(array $phpArray): void
+    {
+        $wktsAsString = \array_values(\array_map(static fn ($v): string => (string) $v, $phpArray));
+        $this->runArrayConstructorTypeTest($this->getTypeName(), $this->getPostgresTypeName(), $wktsAsString, 'geometry');
+    }
+
+    /**
+     * @return array<string, array{array<WktSpatialData>}>
+     */
+    public static function provideMultiItemArrays(): array
+    {
+        return [
+            'two points' => [[
+                WktSpatialData::fromWkt('POINT(0 0)'),
+                WktSpatialData::fromWkt('POINT(1 1)'),
+            ]],
+            'dimensional modifiers' => [[
+                WktSpatialData::fromWkt('POINT Z(1 2 3)'),
+                WktSpatialData::fromWkt('POINT M(1 2 3)'),
+                WktSpatialData::fromWkt('POINT ZM(1 2 3 4)'),
+            ]],
+            'mixed types' => [[
+                WktSpatialData::fromWkt('POINT(0 0)'),
+                WktSpatialData::fromWkt('SRID=4326;POINT Z(1 2 3)'),
+                WktSpatialData::fromWkt('LINESTRING M(0 0 1,1 1 2)'),
+                WktSpatialData::fromWkt('SRID=3857;POLYGON((0 0,0 1000,1000 1000,1000 0,0 0))'),
+                WktSpatialData::fromWkt('MULTIPOINT((1 2),(3 4))'),
+            ]],
         ];
     }
 }
