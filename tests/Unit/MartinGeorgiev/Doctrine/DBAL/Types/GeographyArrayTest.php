@@ -174,6 +174,32 @@ final class GeographyArrayTest extends TestCase
                 '{POINT Z(-122.4194 37.7749 100),LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)}',
                 ['POINT Z(-122.4194 37.7749 100)', 'LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'],
             ],
+            // Normalization coverage: no-space and spacing variants
+            'no-space POINTZ geography' => [
+                '{POINTZ(-122.4194 37.7749 100)}',
+                ['POINT Z(-122.4194 37.7749 100)'],
+            ],
+            'no-space LINESTRINGM geography' => [
+                '{LINESTRINGM(-122.4194 37.7749 1, -122.4094 37.7849 2)}',
+                ['LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'],
+            ],
+            'no-space POLYGONZM geography' => [
+                '{POLYGONZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))}',
+                ['POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'],
+            ],
+            'extra space before parentheses geography' => [
+                '{POINT Z (-122.4194 37.7749 100)}',
+                ['POINT Z(-122.4194 37.7749 100)'],
+            ],
+            'multiple spaces between type and modifier geography' => [
+                '{POINT  Z(-122.4194 37.7749 100)}',
+                ['POINT Z(-122.4194 37.7749 100)'],
+            ],
+            'srid with extra space before parentheses geography' => [
+                '{SRID=4326;POINT Z (-122.4194 37.7749 100)}',
+                ['SRID=4326;POINT Z(-122.4194 37.7749 100)'],
+            ],
+
             'geographic areas with srid' => [
                 '{SRID=4326;POINT(-122.4194 37.7749),SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))}',
                 ['SRID=4326;POINT(-122.4194 37.7749)', 'SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))'],

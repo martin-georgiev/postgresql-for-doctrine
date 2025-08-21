@@ -173,6 +173,31 @@ final class GeometryArrayTest extends TestCase
                 '{POLYGON((0 0, 0 1, 1 1, 1 0, 0 0)),MULTIPOINT((1 2), (3 4))}',
                 ['POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))', 'MULTIPOINT((1 2), (3 4))'],
             ],
+            // Normalization coverage for no-space and extra-space dimensional modifiers
+            'no-space POINTZ' => [
+                '{POINTZ(1 2 3)}',
+                ['POINT Z(1 2 3)'],
+            ],
+            'no-space LINESTRINGM' => [
+                '{LINESTRINGM(0 0 1, 1 1 2)}',
+                ['LINESTRING M(0 0 1, 1 1 2)'],
+            ],
+            'no-space POLYGONZM' => [
+                '{POLYGONZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))}',
+                ['POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'],
+            ],
+            'extra space before parentheses' => [
+                '{POINT Z (1 2 3)}',
+                ['POINT Z(1 2 3)'],
+            ],
+            'multiple spaces between type and modifier' => [
+                '{POINT  Z(1 2 3)}',
+                ['POINT Z(1 2 3)'],
+            ],
+            'srid with extra space before parentheses' => [
+                '{SRID=4326;POINT Z (1 2 3)}',
+                ['SRID=4326;POINT Z(1 2 3)'],
+            ],
         ];
     }
 

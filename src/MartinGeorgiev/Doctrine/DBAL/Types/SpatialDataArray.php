@@ -244,13 +244,13 @@ abstract class SpatialDataArray extends BaseArray
         $sridPrefix = '';
         $hasSrid = \str_starts_with($wkt, 'SRID=');
         if ($hasSrid) {
-            $sridEnd = \strpos($wkt, ';');
-            if ($sridEnd === false) {
+            $sridSeparatorPosition = \strpos($wkt, ';');
+            if ($sridSeparatorPosition === false) {
                 throw InvalidWktSpatialDataException::forMissingSemicolonInEwkt();
             }
 
-            $sridPrefix = \substr($wkt, 0, $sridEnd + 1);
-            $wkt = \substr($wkt, $sridEnd + 1);
+            $sridPrefix = \substr($wkt, 0, $sridSeparatorPosition + 1);
+            $wkt = \substr($wkt, $sridSeparatorPosition + 1);
         }
 
         // Normalize dimensional modifiers using patterns built from WktGeometryType enum
