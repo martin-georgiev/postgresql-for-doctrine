@@ -45,12 +45,12 @@ final class GeographyTypeTest extends TestCase
     {
         return [
             'point' => ['point', WktSpatialData::fromWkt('POINT(1 2)')],
-            'linestring' => ['linestring', WktSpatialData::fromWkt('LINESTRING(0 0, 1 1, 2 2)')],
-            'polygon' => ['polygon', WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))')],
-            'geometrycollection' => ['geometrycollection', WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))')],
+            'linestring' => ['linestring', WktSpatialData::fromWkt('LINESTRING(0 0,1 1,2 2)')],
+            'polygon' => ['polygon', WktSpatialData::fromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))')],
+            'geometrycollection' => ['geometrycollection', WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
             'point z' => ['point z', WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)')],
-            'linestring m' => ['linestring m', WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)')],
-            'polygon zm' => ['polygon zm', WktSpatialData::fromWkt('POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))')],
+            'linestring m' => ['linestring m', WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
+            'polygon zm' => ['polygon zm', WktSpatialData::fromWkt('POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],
         ];
     }
 }

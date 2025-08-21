@@ -48,7 +48,7 @@ abstract class TestCase extends BaseTestCase
             // Query the value back
             $queryBuilder = $this->connection->createQueryBuilder();
             $queryBuilder
-                ->select($this->getSelectExpression($columnType))
+                ->select($this->getSelectExpression($columnName))
                 ->from(self::DATABASE_SCHEMA.'.'.$tableName)
                 ->where('id = 1');
 
