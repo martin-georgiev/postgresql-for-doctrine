@@ -14,6 +14,6 @@ abstract class ScalarTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, null);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 }

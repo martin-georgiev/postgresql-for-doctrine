@@ -27,7 +27,7 @@ class MacaddrTypeTest extends ScalarTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, $testValue);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $testValue);
     }
 
     /**
@@ -52,6 +52,6 @@ class MacaddrTypeTest extends ScalarTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, 'invalid-mac');
+        $this->runDbalBindingRoundTrip($typeName, $columnType, 'invalid-mac');
     }
 }

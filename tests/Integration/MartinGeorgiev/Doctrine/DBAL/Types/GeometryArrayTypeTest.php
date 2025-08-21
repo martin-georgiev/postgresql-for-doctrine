@@ -34,7 +34,7 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     #[Test]
     public function can_handle_single_item_array(array $values): void
     {
-        $this->runTypeTest($this->getTypeName(), $this->getPostgresTypeName(), $values);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $values);
     }
 
     public static function provideSingleItemArrays(): array
@@ -104,7 +104,7 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
             ]],
             'mixed types' => [[
                 WktSpatialData::fromWkt('POINT(0 0)'),
-                WktSpatialData::fromWkt('SRID=4326;POINT Z(1 2 3)'),
+                WktSpatialData::fromWkt('SRID=3035;POINT Z(1 2 3)'),
                 WktSpatialData::fromWkt('LINESTRING M(0 0 1,1 1 2)'),
                 WktSpatialData::fromWkt('SRID=3857;POLYGON((0 0,0 1000,1000 1000,1000 0,0 0))'),
                 WktSpatialData::fromWkt('MULTIPOINT((1 2),(3 4))'),

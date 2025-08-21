@@ -27,7 +27,7 @@ class InetTypeTest extends ScalarTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, $testValue);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $testValue);
     }
 
     /**
@@ -53,7 +53,7 @@ class InetTypeTest extends ScalarTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, 'invalid-address');
+        $this->runDbalBindingRoundTrip($typeName, $columnType, 'invalid-address');
     }
 
     #[Test]
@@ -64,6 +64,6 @@ class InetTypeTest extends ScalarTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, '');
+        $this->runDbalBindingRoundTrip($typeName, $columnType, '');
     }
 }

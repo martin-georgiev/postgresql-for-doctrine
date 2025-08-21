@@ -29,14 +29,14 @@ final class GeographyTypeTest extends TestCase
     #[Test]
     public function can_handle_null_values(): void
     {
-        $this->runTypeTest($this->getTypeName(), $this->getPostgresTypeName(), null);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_handle_geography_values(string $testName, WktSpatialData $wktSpatialData): void
     {
-        $this->runTypeTest($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
 
     /**

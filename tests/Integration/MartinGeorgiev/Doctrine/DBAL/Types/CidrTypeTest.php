@@ -27,7 +27,7 @@ class CidrTypeTest extends ScalarTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, $testValue);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $testValue);
     }
 
     /**
@@ -53,6 +53,6 @@ class CidrTypeTest extends ScalarTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, 'invalid-network');
+        $this->runDbalBindingRoundTrip($typeName, $columnType, 'invalid-network');
     }
 }

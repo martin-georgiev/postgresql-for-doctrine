@@ -28,7 +28,7 @@ class PointTypeTest extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, null);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     /**
@@ -50,7 +50,7 @@ class PointTypeTest extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, $pointValueObject);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $pointValueObject);
     }
 
     /**

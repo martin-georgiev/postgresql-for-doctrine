@@ -54,13 +54,11 @@ abstract class SpatialDataArray extends BaseArray
         $modifiersPattern = '('.\implode('|', $modifierValues).')';
 
         return [
-            // Handle no-space format (POINTZM -> POINT ZM, POINTZ -> POINT Z, POINTM -> POINT M)
-            \sprintf('/^%sZM\b/', $geometryTypesPattern) => '$1 ZM',
-            \sprintf('/^%sZ\b/', $geometryTypesPattern) => '$1 Z',
-            \sprintf('/^%sM\b/', $geometryTypesPattern) => '$1 M',
-            // Handle ST_AsText extra space format (POINT Z (1 2 3) -> POINT Z(1 2 3))
+            // No-space variants: POINTZM/POINTZ/POINTM -> POINT ZM|Z|M (built from enum)
+            \sprintf('/^%s%s\b/', $geometryTypesPattern, $modifiersPattern) => '$1 $2',
+            // ST_AsText extra space format: POINT Z ( -> POINT Z(
             \sprintf('/^%s\s+%s\s+\(/', $geometryTypesPattern, $modifiersPattern) => '$1 $2(',
-            // Handle multiple spaces (POINT  Z -> POINT Z)
+            // Multiple spaces: POINT  Z -> POINT Z
             \sprintf('/^%s\s+%s\b/', $geometryTypesPattern, $modifiersPattern) => '$1 $2',
         ];
     }
@@ -248,7 +246,7 @@ abstract class SpatialDataArray extends BaseArray
         if ($hasSrid) {
             $sridEnd = \strpos($wkt, ';');
             if ($sridEnd === false) {
-                throw new \RuntimeException();
+                throw InvalidWktSpatialDataException::forMissingSemicolonInEwkt();
             }
 
             $sridPrefix = \substr($wkt, 0, $sridEnd + 1);
@@ -256,9 +254,7 @@ abstract class SpatialDataArray extends BaseArray
         }
 
         // Normalize dimensional modifiers using patterns built from WktGeometryType enum
-        $patterns = $this->getDimensionalModifierPatterns();
-
-        foreach ($patterns as $pattern => $replacement) {
+        foreach ($this->getDimensionalModifierPatterns() as $pattern => $replacement) {
             $wkt = \preg_replace($pattern, $replacement, (string) $wkt);
         }
 

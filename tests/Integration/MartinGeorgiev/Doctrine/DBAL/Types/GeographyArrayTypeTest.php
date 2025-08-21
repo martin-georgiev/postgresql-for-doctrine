@@ -34,7 +34,7 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
     #[Test]
     public function can_handle_single_item_array(array $values): void
     {
-        $this->runTypeTest($this->getTypeName(), $this->getPostgresTypeName(), $values);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $values);
     }
 
     public static function provideSingleItemArrays(): array
