@@ -31,6 +31,10 @@ Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray"
 
 Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
 Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
+Type::addType('geometry', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geometry");
+Type::addType('geometry[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeometryArray");
+Type::addType('geography', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geography");
+Type::addType('geography[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeographyArray");
 
 Type::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
 Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
@@ -244,6 +248,12 @@ $platform->registerDoctrineTypeMapping('_macaddr','macaddr[]');
 $platform->registerDoctrineTypeMapping('point','point');
 $platform->registerDoctrineTypeMapping('point[]','point[]');
 $platform->registerDoctrineTypeMapping('_point','point[]');
+$platform->registerDoctrineTypeMapping('geometry','geometry');
+$platform->registerDoctrineTypeMapping('geometry[]','geometry[]');
+$platform->registerDoctrineTypeMapping('_geography','geography[]');
+$platform->registerDoctrineTypeMapping('geography','geography');
+$platform->registerDoctrineTypeMapping('geometry[]','geometry[]');
+$platform->registerDoctrineTypeMapping('_geometry','geometry[]');
 
 $platform->registerDoctrineTypeMapping('daterange','daterange');
 $platform->registerDoctrineTypeMapping('int4range','int4range');
