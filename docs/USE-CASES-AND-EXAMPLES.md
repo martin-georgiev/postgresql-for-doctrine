@@ -178,7 +178,7 @@ POLYGONZM((...))           => POLYGON ZM((...))
 POINT Z (1 2 3)            => POINT Z(1 2 3)
 ```
 
-For multi-item arrays, see [GEOMETRY_ARRAYS.md](./GEOMETRY_ARRAYS.md) for Doctrine DQL limitations and the suggested workarounds.
+For multi-item arrays, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for Doctrine DQL limitations and the suggested workarounds.
 
 The library provides DBAL type support for PostGIS `geometry` and `geography` columns. Example usage:
 
