@@ -55,8 +55,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - MAC addresses (`macaddr`, `macaddr[]`)
 - **Geometric Types**
   - Point (`point`, `point[]`)
-  - PostGIS Geometry (`geometry`)
-  - PostGIS Geography (`geography`)
+  - PostGIS Geometry (`geometry`, `geometry[]`)
+  - PostGIS Geography (`geography`, `geography[]`)
 - **Range Types**
   - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
@@ -100,6 +100,8 @@ Full documentation:
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
 - [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md)
 - [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
+- [Spatial Types](docs/SPATIAL-TYPES.md)
+- [Geometry Arrays](docs/GEOMETRY-ARRAYS.md)
 
 ## 📦 Installation
 

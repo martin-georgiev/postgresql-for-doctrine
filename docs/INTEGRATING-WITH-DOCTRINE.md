@@ -250,10 +250,10 @@ $platform->registerDoctrineTypeMapping('point[]','point[]');
 $platform->registerDoctrineTypeMapping('_point','point[]');
 $platform->registerDoctrineTypeMapping('geometry','geometry');
 $platform->registerDoctrineTypeMapping('geometry[]','geometry[]');
-$platform->registerDoctrineTypeMapping('_geography','geography[]');
-$platform->registerDoctrineTypeMapping('geography','geography');
-$platform->registerDoctrineTypeMapping('geometry[]','geometry[]');
 $platform->registerDoctrineTypeMapping('_geometry','geometry[]');
+$platform->registerDoctrineTypeMapping('geography','geography');
+$platform->registerDoctrineTypeMapping('geography[]','geography[]');
+$platform->registerDoctrineTypeMapping('_geography','geography[]');
 
 $platform->registerDoctrineTypeMapping('daterange','daterange');
 $platform->registerDoctrineTypeMapping('int4range','int4range');

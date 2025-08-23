@@ -152,7 +152,7 @@ $connection->executeStatement($sql, ['POINT(1 2)', 'POINT(3 4)']);
 
 ```php
 // Instead of one multi-item array
-$multiArray = [geom1, geom2, geom3];
+$geometries = [$geom1, $geom2, $geom3];
 
 // Use multiple single-item arrays
 foreach ($geometries as $geometry) {
