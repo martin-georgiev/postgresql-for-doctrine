@@ -51,8 +51,12 @@ final class LtreeTypeTest extends TestCase
      */
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
-        if (!$expected instanceof LtreeValueObject && !\is_string($expected) || !$actual instanceof LtreeValueObject) {
-            throw new \InvalidArgumentException('LtreeTypeTest expects Ltree value objects.');
+        if (!$actual instanceof LtreeValueObject) {
+            throw new \InvalidArgumentException('LtreeTypeTest expects actual value to be a Ltree object');
+        }
+
+        if (!$expected instanceof LtreeValueObject && !\is_string($expected)) {
+            throw new \InvalidArgumentException('LtreeTypeTest expects expected value to be a Ltree object or string');
         }
 
         $this->assertLtreeEquals($expected, $actual, $typeName);
@@ -60,7 +64,7 @@ final class LtreeTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_ltree_values(string $testName, LtreeValueObject $ltreeValueObject): void
+    public function can_handle_ltree_values(LtreeValueObject $ltreeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -69,15 +73,15 @@ final class LtreeTypeTest extends TestCase
     }
 
     /**
-     * @return array<string, array{string, ?LtreeValueObject}>
+     * @return array<string, array{LtreeValueObject}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'ltree simple string' => ['ltree simple string', new LtreeValueObject(['foo', 'bar', 'baz'])],
-            'ltree simple numeric' => ['ltree simple numeric', new LtreeValueObject(['1', '2', '3'])],
-            'ltree single numeric' => ['ltree single numeric', new LtreeValueObject(['1'])],
-            'ltree empty' => ['ltree empty', new LtreeValueObject([])],
+            'ltree simple string' => [new LtreeValueObject(['foo', 'bar', 'baz'])],
+            'ltree simple numeric' => [new LtreeValueObject(['1', '2', '3'])],
+            'ltree single numeric' => [new LtreeValueObject(['1'])],
+            'ltree empty' => [new LtreeValueObject([])],
         ];
     }
 
