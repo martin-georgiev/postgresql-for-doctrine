@@ -58,7 +58,7 @@ class Location
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
-// Single-item geometry[] array
+// Single-item geometry[] array (supported)
 $qb = $connection->createQueryBuilder();
 $qb->insert('locations')->values(['geometries' => ':wktSpatialData']);
 $qb->setParameter('wktSpatialData', [WktSpatialData::fromWkt('POINT(0 0)')], 'geometry[]');
@@ -71,30 +71,7 @@ $qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('SRID=4326;POINT(-12
 $qb->executeStatement();
 ```
 
-### Parameter Binding with DBAL
-
-```php
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
-
-// Single-item geometry[] array
-$qb = $connection->createQueryBuilder();
-$qb->insert('locations')->values(['geometries' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', [WktSpatialData::fromWkt('POINT(0 0)')], 'geometry[]');
-$qb->executeStatement();
-
-// Single geography value
-$qb = $connection->createQueryBuilder();
-$qb->insert('places')->values(['locations' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
-$qb->executeStatement();
-```
-        $this->geometries = array_map(
-            fn(string $wkt) => WktSpatialData::fromWkt($wkt),
-            $geometries
-        );
-    }
-}
-```
+**Note**: Multi-item arrays have limitations - see the "Important Limitation: Multi-Item Arrays" section below.
 
 ### Working Examples
 
@@ -259,8 +236,11 @@ The integration tests include both working single-item arrays and workarounded (
 
 - **Single-item arrays**: Excellent performance, full PostgreSQL optimization
 - **Multi-item workarounds**: May have performance implications depending on the approach
-- **Indexing**: PostgreSQL can index geometry arrays using GiST indexes
-- **Query optimization**: Use appropriate spatial operators and indexes
+- **Indexing**: GiST/operator classes only support spatial types like `geometry`/`geography`/`MULTIPOLYGON` and cannot directly index SQL array types like `geometry[]`. For proper spatial indexing, consider:
+  - Normalizing arrays into separate geometry rows with individual GiST indexes
+  - Materializing a single geometry (e.g., union or bounding geometry) into a `geometry` column for GiST indexing
+  - See [PostGIS documentation on spatial indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#idm6696) for details
+- **Query optimization**: Use appropriate spatial operators and indexes on individual geometry columns, not arrays
 
 ## Future Improvements
 
