@@ -28,6 +28,12 @@ final class GeographyArrayTest extends TestCase
     }
 
     #[Test]
+    public function has_name(): void
+    {
+        self::assertEquals('geography[]', $this->type->getName());
+    }
+
+    #[Test]
     public function can_convert_null_to_database_value(): void
     {
         $result = $this->type->convertToDatabaseValue(null, $this->platform);
@@ -256,6 +262,61 @@ final class GeographyArrayTest extends TestCase
                     WktSpatialData::fromWkt('POINT(0 0)'),      // Null Island
                 ],
             ],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItem')]
+    #[Test]
+    public function can_validate_array_items_for_database(mixed $item): void
+    {
+        self::assertFalse($this->type->isValidArrayItemForDatabase($item));
+    }
+
+    /**
+     * @return array<string, array{item: mixed}>
+     */
+    public static function provideInvalidArrayItem(): array
+    {
+        return [
+            'string is invalid' => [
+                'item' => 'not a spatial data object',
+            ],
+            'null is invalid' => [
+                'item' => null,
+            ],
+            'integer is invalid' => [
+                'item' => 123,
+            ],
+            'array is invalid' => [
+                'item' => [],
+            ],
+        ];
+    }
+
+    #[DataProvider('provideDimensionalModifierNormalization')]
+    #[Test]
+    public function can_normalize_dimensional_modifiers(string $input, string $expected): void
+    {
+        $result = $this->type->transformArrayItemForPHP($input);
+
+        self::assertInstanceOf(WktSpatialData::class, $result);
+        self::assertEquals($expected, (string) $result);
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideDimensionalModifierNormalization(): array
+    {
+        return [
+            'no-space POINTZ' => ['POINTZ(1 2 3)', 'POINT Z(1 2 3)'],
+            'no-space LINESTRINGM' => ['LINESTRINGM(0 0 1, 1 1 2)', 'LINESTRING M(0 0 1, 1 1 2)'],
+            'no-space POLYGONZM' => ['POLYGONZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))', 'POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'],
+            'extra space before parentheses' => ['POINT Z (1 2 3)', 'POINT Z(1 2 3)'],
+            'multiple spaces between type and modifier' => ['POINT  Z(1 2 3)', 'POINT Z(1 2 3)'],
+            'srid with extra space before parentheses' => ['SRID=4326;POINT Z (1 2 3)', 'SRID=4326;POINT Z(1 2 3)'],
+            'srid with no-space modifier' => ['SRID=4326;POINTZ(1 2 3)', 'SRID=4326;POINT Z(1 2 3)'],
+            'complex geometry with no-space modifier' => ['MULTIPOLYGONZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))', 'MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'],
         ];
     }
 }

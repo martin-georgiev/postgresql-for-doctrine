@@ -28,6 +28,12 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
+    public function has_name(): void
+    {
+        self::assertEquals('geometry[]', $this->type->getName());
+    }
+
+    #[Test]
     public function can_convert_null_to_database_value(): void
     {
         $result = $this->type->convertToDatabaseValue(null, $this->platform);
@@ -198,6 +204,61 @@ final class GeometryArrayTest extends TestCase
                 '{SRID=4326;POINT Z (1 2 3)}',
                 ['SRID=4326;POINT Z(1 2 3)'],
             ],
+            // Quoted array format tests - critical for PostgreSQL compatibility
+            'quoted single point' => [
+                '{"POINT(1 2)"}',
+                ['POINT(1 2)'],
+            ],
+            'quoted multiple points' => [
+                '{"POINT(1 2)","POINT(3 4)","POINT(5 6)"}',
+                ['POINT(1 2)', 'POINT(3 4)', 'POINT(5 6)'],
+            ],
+            'quoted complex geometries' => [
+                '{"POINT(1 2)","LINESTRING(0 0, 1 1)","POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))"}',
+                ['POINT(1 2)', 'LINESTRING(0 0, 1 1)', 'POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'],
+            ],
+            'quoted geometries with dimensional modifiers' => [
+                '{"POINT Z(1 2 3)","LINESTRING M(0 0 1, 1 1 2)","POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))"}',
+                ['POINT Z(1 2 3)', 'LINESTRING M(0 0 1, 1 1 2)', 'POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'],
+            ],
+            'quoted ewkt with srid' => [
+                '{"SRID=4326;POINT(-122.4194 37.7749)","SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))"}',
+                ['SRID=4326;POINT(-122.4194 37.7749)', 'SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'],
+            ],
+            'quoted complex nested geometries' => [
+                '{"MULTIPOINT((1 2), (3 4))","GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))"}',
+                ['MULTIPOINT((1 2), (3 4))', 'GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))'],
+            ],
+            'quoted circular geometries' => [
+                '{"CIRCULARSTRING(0 0, 1 1, 2 0)","COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))"}',
+                ['CIRCULARSTRING(0 0, 1 1, 2 0)', 'COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))'],
+            ],
+            'quoted triangle and tin' => [
+                '{"TRIANGLE((0 0, 1 0, 0.5 1, 0 0))","TIN(((0 0, 1 0, 0.5 1, 0 0)), ((1 0, 2 0, 1.5 1, 1 0)))"}',
+                ['TRIANGLE((0 0, 1 0, 0.5 1, 0 0))', 'TIN(((0 0, 1 0, 0.5 1, 0 0)), ((1 0, 2 0, 1.5 1, 1 0)))'],
+            ],
+            // Edge cases for array parsing
+            'empty quoted array' => [
+                '{}',
+                [],
+            ],
+            'single empty quoted item' => [
+                '{"POINT(1 2)",""}',
+                ['POINT(1 2)'],
+            ],
+            // Complex nested structures that test bracket depth tracking
+            'complex nested with multiple parentheses' => [
+                '{MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2))),GEOMETRYCOLLECTION(POINT(1 2), MULTILINESTRING((0 0, 1 1), (2 2, 3 3)))}',
+                ['MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))', 'GEOMETRYCOLLECTION(POINT(1 2), MULTILINESTRING((0 0, 1 1), (2 2, 3 3)))'],
+            ],
+            'polygon with holes' => [
+                '{POLYGON((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))}',
+                ['POLYGON((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))'],
+            ],
+            'quoted polygon with holes' => [
+                '{"POLYGON((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))"}',
+                ['POLYGON((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))'],
+            ],
         ];
     }
 
@@ -245,6 +306,87 @@ final class GeometryArrayTest extends TestCase
                     WktSpatialData::fromWkt('MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))'),
                 ],
             ],
+        ];
+    }
+
+    #[DataProvider('provideValidationCases')]
+    #[Test]
+    public function can_validate_array_items_for_database(mixed $item, bool $expected): void
+    {
+        self::assertSame($expected, $this->type->isValidArrayItemForDatabase($item));
+    }
+
+    /**
+     * @return array<string, array{item: mixed, expected: bool}>
+     */
+    public static function provideValidationCases(): array
+    {
+        return [
+            'valid WktSpatialData' => [
+                'item' => WktSpatialData::fromWkt('POINT(1 2)'),
+                'expected' => true,
+            ],
+            'string is invalid' => [
+                'item' => 'not a spatial data object',
+                'expected' => false,
+            ],
+            'null is invalid' => [
+                'item' => null,
+                'expected' => false,
+            ],
+            'integer is invalid' => [
+                'item' => 123,
+                'expected' => false,
+            ],
+            'array is invalid' => [
+                'item' => [],
+                'expected' => false,
+            ],
+        ];
+    }
+
+    #[Test]
+    public function can_transform_array_item_for_php(): void
+    {
+        $wktString = 'POINT(1 2)';
+        $result = $this->type->transformArrayItemForPHP($wktString);
+
+        self::assertInstanceOf(WktSpatialData::class, $result);
+        self::assertEquals($wktString, (string) $result);
+    }
+
+    #[Test]
+    public function can_transform_null_array_item_for_php(): void
+    {
+        $result = $this->type->transformArrayItemForPHP(null);
+
+        self::assertNull($result);
+    }
+
+    #[DataProvider('provideDimensionalModifierNormalization')]
+    #[Test]
+    public function can_normalize_dimensional_modifiers(string $input, string $expected): void
+    {
+        $result = $this->type->transformArrayItemForPHP($input);
+
+        self::assertInstanceOf(WktSpatialData::class, $result);
+        self::assertEquals($expected, (string) $result);
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideDimensionalModifierNormalization(): array
+    {
+        return [
+            'no-space POINTZ' => ['POINTZ(1 2 3)', 'POINT Z(1 2 3)'],
+            'no-space LINESTRINGM' => ['LINESTRINGM(0 0 1, 1 1 2)', 'LINESTRING M(0 0 1, 1 1 2)'],
+            'no-space POLYGONZM' => ['POLYGONZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))', 'POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'],
+            'extra space before parentheses' => ['POINT Z (1 2 3)', 'POINT Z(1 2 3)'],
+            'multiple spaces between type and modifier' => ['POINT  Z(1 2 3)', 'POINT Z(1 2 3)'],
+            'srid with extra space before parentheses' => ['SRID=4326;POINT Z (1 2 3)', 'SRID=4326;POINT Z(1 2 3)'],
+            'srid with no-space modifier' => ['SRID=4326;POINTZ(1 2 3)', 'SRID=4326;POINT Z(1 2 3)'],
+            'complex geometry with no-space modifier' => ['MULTIPOLYGONZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))', 'MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'],
         ];
     }
 }

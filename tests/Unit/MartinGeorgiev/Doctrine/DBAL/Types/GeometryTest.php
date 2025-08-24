@@ -99,6 +99,83 @@ final class GeometryTest extends TestCase
                 'wktSpatialData' => WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
                 'postgresValue' => 'SRID=4326;POINT Z(-122.4194 37.7749 100)',
             ],
+            // Multi-geometry types
+            'multipoint' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('MULTIPOINT((1 2), (3 4), (5 6))'),
+                'postgresValue' => 'MULTIPOINT((1 2), (3 4), (5 6))',
+            ],
+            'multilinestring' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('MULTILINESTRING((0 0, 1 1), (2 2, 3 3))'),
+                'postgresValue' => 'MULTILINESTRING((0 0, 1 1), (2 2, 3 3))',
+            ],
+            'multipolygon' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))'),
+                'postgresValue' => 'MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))',
+            ],
+            'geometrycollection' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))'),
+                'postgresValue' => 'GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))',
+            ],
+            // Circular geometry types (PostGIS extensions)
+            'circularstring' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('CIRCULARSTRING(0 0, 1 1, 2 0)'),
+                'postgresValue' => 'CIRCULARSTRING(0 0, 1 1, 2 0)',
+            ],
+            'compoundcurve' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))'),
+                'postgresValue' => 'COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))',
+            ],
+            'curvepolygon' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0))'),
+                'postgresValue' => 'CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0))',
+            ],
+            'multicurve' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('MULTICURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))'),
+                'postgresValue' => 'MULTICURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))',
+            ],
+            'multisurface' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('MULTISURFACE(CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0)))'),
+                'postgresValue' => 'MULTISURFACE(CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0)))',
+            ],
+            // Triangle and TIN types
+            'triangle' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('TRIANGLE((0 0, 1 0, 0.5 1, 0 0))'),
+                'postgresValue' => 'TRIANGLE((0 0, 1 0, 0.5 1, 0 0))',
+            ],
+            'tin' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('TIN(((0 0, 1 0, 0.5 1, 0 0)), ((1 0, 2 0, 1.5 1, 1 0)))'),
+                'postgresValue' => 'TIN(((0 0, 1 0, 0.5 1, 0 0)), ((1 0, 2 0, 1.5 1, 1 0)))',
+            ],
+            'polyhedralsurface' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((0 0, 0 1, 0 0 1, 0 0)))'),
+                'postgresValue' => 'POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((0 0, 0 1, 0 0 1, 0 0)))',
+            ],
+            // Complex dimensional modifiers
+            'multipoint z' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('MULTIPOINT Z((1 2 3), (4 5 6))'),
+                'postgresValue' => 'MULTIPOINT Z((1 2 3), (4 5 6))',
+            ],
+            'multilinestring m' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('MULTILINESTRING M((0 0 1, 1 1 2), (2 2 3, 3 3 4))'),
+                'postgresValue' => 'MULTILINESTRING M((0 0 1, 1 1 2), (2 2 3, 3 3 4))',
+            ],
+            'multipolygon zm' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'),
+                'postgresValue' => 'MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))',
+            ],
+            'geometrycollection z' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))'),
+                'postgresValue' => 'GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))',
+            ],
+            // Complex SRID combinations
+            'complex geometry with srid' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('SRID=4326;MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))'),
+                'postgresValue' => 'SRID=4326;MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))',
+            ],
+            'circular geometry with srid' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('SRID=4326;CIRCULARSTRING(0 0, 1 1, 2 0)'),
+                'postgresValue' => 'SRID=4326;CIRCULARSTRING(0 0, 1 1, 2 0)',
+            ],
         ];
     }
 
