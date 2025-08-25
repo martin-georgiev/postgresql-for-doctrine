@@ -1,0 +1,34 @@
+name: Coverage
+
+on:
+  workflow_run:
+    workflows: ["Integration Tests", "Unit Tests"]
+    types: [completed]
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const workflows = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head_sha: context.payload.workflow_run.head_sha,
+              status: 'completed'
+            });
+
+            const bothComplete = ['Integrations Tests', 'Integration Tests'].every(name =>
+              workflows.data.workflow_runs.some(run => run.name === name)
+            );
+
+            if (!bothComplete) {
+              core.info('Waiting for other workflow to complete');
+              process.exit(0);
+            }
+
+      - uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
