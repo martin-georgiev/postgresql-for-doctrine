@@ -48,7 +48,7 @@ class Int4RangeTypeTest extends RangeTypeTestCase
         $columnType = $this->getPostgresTypeName();
 
         $int4Range = new Int4RangeValueObject(null, null, false, false);
-        $this->runTypeTest($typeName, $columnType, $int4Range);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $int4Range);
     }
 
     #[Test]
@@ -59,7 +59,7 @@ class Int4RangeTypeTest extends RangeTypeTestCase
 
         // lower > upper shall result in an empty range
         $int4Range = new Int4RangeValueObject(10, 5, false, false);
-        $this->runTypeTest($typeName, $columnType, $int4Range);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $int4Range);
     }
 
     /**

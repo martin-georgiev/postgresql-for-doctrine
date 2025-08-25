@@ -48,7 +48,7 @@ class NumRangeTypeTest extends RangeTypeTestCase
         $columnType = $this->getPostgresTypeName();
 
         $numericRange = new NumRangeValueObject(null, null, false, false);
-        $this->runTypeTest($typeName, $columnType, $numericRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $numericRange);
     }
 
     #[Test]
@@ -59,7 +59,7 @@ class NumRangeTypeTest extends RangeTypeTestCase
 
         // lower > upper shall result in an empty range
         $numericRange = new NumRangeValueObject(10.5, 5.7, false, false);
-        $this->runTypeTest($typeName, $columnType, $numericRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $numericRange);
     }
 
     /**

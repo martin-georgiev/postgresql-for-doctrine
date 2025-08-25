@@ -57,6 +57,6 @@ class InetArrayTypeTest extends ArrayTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, ['invalid-address', '192.168.1.1']);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['invalid-address', '192.168.1.1']);
     }
 }
