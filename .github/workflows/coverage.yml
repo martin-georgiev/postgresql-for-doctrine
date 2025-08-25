@@ -18,7 +18,7 @@ jobs:
       statuses: write
     # Prevent multiple concurrent finalizers for the same commit
     concurrency:
-      group: coverage-${{ github.event.workflow_run.head_sha }}
+      group: coverage-${{ github.event.workflow_run.head_sha || github.sha }}
       cancel-in-progress: true
     steps:
       - id: check
@@ -44,9 +44,18 @@ jobs:
 
             // Debug information
             core.info(`Found ${workflows.data.workflow_runs.length} workflow runs for SHA ${targetSha}`);
+            core.info(`Looking for workflows: Integration Tests, Unit Tests`);
+            
             workflows.data.workflow_runs.forEach(run => {
-              core.info(`- ${run.name}: ${run.conclusion} (${run.status})`);
+              core.info(`- ${run.name}: ${run.conclusion} (${run.status}) - ID: ${run.id}`);
             });
+
+            // Check each required workflow specifically
+            const integrationTests = workflows.data.workflow_runs.find(run => run.name === 'Integration Tests');
+            const unitTests = workflows.data.workflow_runs.find(run => run.name === 'Unit Tests');
+            
+            core.info(`Integration Tests found: ${integrationTests ? 'YES' : 'NO'} - ${integrationTests?.conclusion || 'N/A'}`);
+            core.info(`Unit Tests found: ${unitTests ? 'YES' : 'NO'} - ${unitTests?.conclusion || 'N/A'}`);
 
             core.info(bothComplete ? 'Both workflows completed successfully.' : 'Waiting for other workflow to complete.');
             core.setOutput('ready', String(bothComplete));
