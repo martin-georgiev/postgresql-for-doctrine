@@ -25,18 +25,18 @@ return [
                 '_int4' => 'integer[]',
                 'bigint[]' => 'bigint[]',
                 '_int8' => 'bigint',
-
+                
                 'double precision[]' => 'double precision[]',
                 '_float8' => 'double precision[]',
                 'real[]' => 'real[]',
                 '_float4' => 'real',
-
+                
                 '_text' => 'text[]',
                 'text[]' => 'text[]',
                 'jsonb' => 'jsonb',
                 '_jsonb' => 'jsonb[]',
                 'jsonb[]' => 'jsonb[]',
-
+                
                 'cidr' => 'cidr',
                 'cidr[]' => 'cidr[]',
                 '_cidr' => 'cidr[]',
@@ -46,11 +46,11 @@ return [
                 'macaddr' => 'macaddr',
                 'macaddr[]' => 'macaddr[]',
                 '_macaddr' => 'macaddr[]',
-
+                
                 'point' => 'point',
                 'point[]' => 'point[]',
                 '_point' => 'point[]',
-
+                
                 'ltree' => 'ltree',
             ],
         ],
@@ -72,24 +72,24 @@ return [
         'bigint[]' => MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class,
         'integer[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class,
         'smallint[]' => MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class,
-
+        
         'double precision[]' => MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class,
         'real[]' => MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class,
-
+        
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
         'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
-
+        
         'cnet' => MartinGeorgiev\Doctrine\DBAL\Types\Cnet::class,
         'cnet[]' => MartinGeorgiev\Doctrine\DBAL\Types\CnetArray::class,
         'inet' => MartinGeorgiev\Doctrine\DBAL\Types\Inet::class,
         'inet[]' => MartinGeorgiev\Doctrine\DBAL\Types\InetArray::class,
         'macaddr' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr::class,
         'macaddr[]' => MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray::class,
-
+        
         'point' => MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
         'point[]' => MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class,
-
+        
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
     ],
 ];
@@ -205,7 +205,7 @@ return [
         'NUMRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class,
         'TSRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class,
         'TSTZRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class,
-
+        
         # Arithmetic functions
         'CBRT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt::class,
         'CEIL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil::class,

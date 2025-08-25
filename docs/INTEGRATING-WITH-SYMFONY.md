@@ -14,14 +14,14 @@ doctrine:
             smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
             integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
             bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
-
+            
             double precision[]: MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray
             real[]: MartinGeorgiev\Doctrine\DBAL\Types\RealArray
-
+            
             text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
             jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
-
+            
             cidr: MartinGeorgiev\Doctrine\DBAL\Types\Cidr
             cidr[]: MartinGeorgiev\Doctrine\DBAL\Types\CidrArray
             inet: MartinGeorgiev\Doctrine\DBAL\Types\Inet
@@ -31,7 +31,7 @@ doctrine:
 
             point: MartinGeorgiev\Doctrine\DBAL\Types\Point
             point[]: MartinGeorgiev\Doctrine\DBAL\Types\PointArray
-
+            
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
 ```
 
@@ -57,18 +57,18 @@ doctrine:
                     _int4: integer[]
                     bigint[]: bigint[]
                     _int8: bigint[]
-
+                    
                     double precision[]: double precision[]
                     _float8: double precision[]
                     real[]: real[]
                     _float4: real[]
-
+                    
                     text[]: text[]
                     _text: text[]
                     jsonb: jsonb
                     jsonb[]: jsonb[]
                     _jsonb: jsonb[]
-
+                    
                     cidr: cidr
                     cidr[]: cidr[]
                     _cidr: cidr[]
@@ -82,7 +82,7 @@ doctrine:
                     point: point
                     point[]: point[]
                     _point: point[]
-
+                    
                     ltree: ltree
 ```
 
@@ -199,7 +199,7 @@ doctrine:
                         NUMRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange
                         TSRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange
                         TSTZRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange
-
+                        
                         # Arithmetic functions
                         CBRT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt
                         CEIL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil
