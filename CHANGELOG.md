@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.4.1...v3.5.0) (2025-08-25)
+
+
+### Features
+
+* **#305:** Add support for PostGIS's types of `GEOGRAPHY`, `GEOMETRY` and their array variations ([#421](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/421)) ([d97caae](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d97caae042ecbdd1e958b512e38ca4d56fd3d711))
+
 ## [3.4.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.4.0...v3.4.1) (2025-08-03)
 
 
