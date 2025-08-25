@@ -1,4 +1,4 @@
-name: Coveralls
+name: Coverage
 
 on:
   workflow_run:
