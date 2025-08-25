@@ -28,9 +28,6 @@ abstract class TestCase extends BaseTestCase
         };
     }
 
-    /**
-     * Build a deterministic table name for the given column type and optional suffix.
-     */
     protected function buildTableName(string $columnType): string
     {
         return 'test_type_'.\strtolower(\str_replace([' ', '[]', '()'], ['_', '_array', ''], $columnType));
@@ -69,9 +66,6 @@ abstract class TestCase extends BaseTestCase
         return Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
     }
 
-    /**
-     * Assert the round trip value, allowing nulls.
-     */
     protected function assertRoundTrip(string $typeName, mixed $expected, mixed $retrieved): void
     {
         if ($expected === null) {
