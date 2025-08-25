@@ -61,7 +61,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
 - **Hierarchical Types**
-  - [ltree](https://www.postgresql.org/docs/current/ltree.html) (`ltree`)
+  - [ltree](https://www.postgresql.org/docs/16/ltree.html) (`ltree`)
 
 ### PostgreSQL Operators
 - **Array Operations**

@@ -2,7 +2,7 @@
 
 ## Requirements
 
-The `ltree` data type requires enabling the [`ltree` extension](https://www.postgresql.org/docs/current/ltree.html)
+The `ltree` data type requires enabling the [`ltree` extension](https://www.postgresql.org/docs/16/ltree.html)
 in PostgreSQL.
 
 ```sql
@@ -48,7 +48,7 @@ class MyEntity implements \Stringable
     #[ORM\Id()]
     private Uuid $id;
 
-    #[ORM\Column(type: 'ltree', unique: true)]
+    #[ORM\Column(type: 'ltree')]
     private Ltree $path;
 
     /**
@@ -136,8 +136,8 @@ class MyEntity implements \Stringable
 }
 ```
 
-🗃️ Doctrine can't create PostgreSQL [GiST indexes](https://www.postgresql.org/docs/current/gist.html)
-or [GIN indexes](https://www.postgresql.org/docs/current/gin.html).
+🗃️ Doctrine can't create PostgreSQL [GiST indexes](https://www.postgresql.org/docs/16/gist.html)
+or [GIN indexes](https://www.postgresql.org/docs/16/gin.html).
 Add a GiST index to an `ltree` column by manually adding its `CREATE INDEX`
 command to the migration:
 
@@ -154,7 +154,7 @@ CREATE INDEX my_entity_path_gin_idx
 to all its children.
 This is not handled automatically by Doctrine.
 Implement a [onFlush](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/events.html#reference-events-on-flush)
-[Doctrine Entity Listener](https://symfony.com/doc/current/doctrine/events.html#doctrine-lifecycle-listeners)
+[Doctrine Entity Listener](https://symfony.com/doc/7.3/doctrine/events.html#doctrine-lifecycle-listeners)
 to handle updating the `path` column of the updated entity children
 when the `path` is present in the changed fields:
 
