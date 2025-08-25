@@ -68,7 +68,7 @@ class DateRangeTypeTest extends RangeTypeTestCase
         $columnType = $this->getPostgresTypeName();
 
         $dateRange = new DateRangeValueObject(null, null, false, false);
-        $this->runTypeTest($typeName, $columnType, $dateRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $dateRange);
     }
 
     #[Test]
@@ -84,7 +84,7 @@ class DateRangeTypeTest extends RangeTypeTestCase
             false,
             false
         );
-        $this->runTypeTest($typeName, $columnType, $dateRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $dateRange);
     }
 
     /**

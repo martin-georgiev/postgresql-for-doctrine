@@ -68,7 +68,7 @@ class TsRangeTypeTest extends RangeTypeTestCase
         $columnType = $this->getPostgresTypeName();
 
         $tsRange = new TsRangeValueObject(null, null, false, false);
-        $this->runTypeTest($typeName, $columnType, $tsRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $tsRange);
     }
 
     #[Test]
@@ -84,7 +84,7 @@ class TsRangeTypeTest extends RangeTypeTestCase
             false,
             false
         );
-        $this->runTypeTest($typeName, $columnType, $tsRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $tsRange);
     }
 
     /**

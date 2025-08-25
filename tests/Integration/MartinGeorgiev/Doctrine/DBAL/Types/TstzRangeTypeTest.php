@@ -62,7 +62,7 @@ class TstzRangeTypeTest extends RangeTypeTestCase
         $columnType = $this->getPostgresTypeName();
 
         $tstzRange = new TstzRangeValueObject(null, null, false, false);
-        $this->runTypeTest($typeName, $columnType, $tstzRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $tstzRange);
     }
 
     #[Test]
@@ -78,7 +78,7 @@ class TstzRangeTypeTest extends RangeTypeTestCase
             false,
             false
         );
-        $this->runTypeTest($typeName, $columnType, $tstzRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $tstzRange);
     }
 
     /**

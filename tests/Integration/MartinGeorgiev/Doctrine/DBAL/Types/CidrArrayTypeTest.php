@@ -58,6 +58,6 @@ class CidrArrayTypeTest extends ArrayTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, ['invalid-network', '192.168.1.0/24']);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['invalid-network', '192.168.1.0/24']);
     }
 }

@@ -129,7 +129,7 @@ abstract class RangeTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, null);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     /**
@@ -143,7 +143,7 @@ abstract class RangeTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, $rangeValueObject);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $rangeValueObject);
     }
 
     /**

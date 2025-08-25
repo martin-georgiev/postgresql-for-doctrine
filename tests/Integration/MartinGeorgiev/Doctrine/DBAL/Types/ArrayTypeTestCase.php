@@ -14,7 +14,7 @@ abstract class ArrayTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, []);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, []);
     }
 
     #[Test]
@@ -23,7 +23,7 @@ abstract class ArrayTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, null);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     /**
@@ -35,6 +35,6 @@ abstract class ArrayTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, $arrayValue);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $arrayValue);
     }
 }

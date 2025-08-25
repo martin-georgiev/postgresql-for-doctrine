@@ -25,7 +25,7 @@ class JsonbTypeTest extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, null);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     #[Test]
@@ -34,7 +34,7 @@ class JsonbTypeTest extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, []);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, []);
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -44,7 +44,7 @@ class JsonbTypeTest extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, $json);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $json);
     }
 
     /**

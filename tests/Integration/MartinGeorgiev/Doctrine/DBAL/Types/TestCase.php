@@ -28,45 +28,71 @@ abstract class TestCase extends BaseTestCase
         };
     }
 
-    protected function runTypeTest(string $typeName, string $columnType, mixed $testValue): void
+    protected function buildTableName(string $columnType): string
     {
-        $tableName = 'test_type_'.\strtolower(\str_replace([' ', '[]', '()'], ['_', '_array', ''], $columnType));
+        return 'test_type_'.\strtolower(\str_replace([' ', '[]', '()'], ['_', '_array', ''], $columnType));
+    }
+
+    /**
+     * Prepare a test table for a round trip and return the [tableName, columnName].
+     * Caller is responsible to drop the table (typically in a finally block).
+     *
+     * @return array{string,string}
+     */
+    protected function prepareTestTable(string $columnType): array
+    {
+        $tableName = $this->buildTableName($columnType);
         $columnName = 'test_column';
+        $this->createTestTableForDataType($tableName, $columnName, $columnType);
+
+        return [$tableName, $columnName];
+    }
+
+    /**
+     * Read value back from the DB, convert using DBAL type and return it.
+     */
+    protected function fetchConvertedValue(string $typeName, string $tableName, string $columnName): mixed
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->select($this->getSelectExpression($columnName))
+            ->from(self::DATABASE_SCHEMA.'.'.$tableName)
+            ->where('id = 1');
+
+        $row = $queryBuilder->executeQuery()->fetchAssociative();
+        \assert(\is_array($row) && \array_key_exists($columnName, $row));
+
+        $platform = $this->connection->getDatabasePlatform();
+
+        return Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
+    }
+
+    protected function assertRoundTrip(string $typeName, mixed $expected, mixed $retrieved): void
+    {
+        if ($expected === null) {
+            $this->assertNull($retrieved);
+
+            return;
+        }
+
+        $this->assertTypeValueEquals($expected, $retrieved, $typeName);
+    }
+
+    /**
+     * Perform a round-trip using DBAL parameter binding for insertion.
+     */
+    protected function runDbalBindingRoundTrip(string $typeName, string $columnType, mixed $value): void
+    {
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
 
         try {
-            $this->createTestTableForDataType($tableName, $columnName, $columnType);
-
-            // Insert test value using proper type conversion
-            $queryBuilder = $this->connection->createQueryBuilder();
-            $queryBuilder
-                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+            $qb = $this->connection->createQueryBuilder();
+            $qb->insert(self::DATABASE_SCHEMA.'.'.$tableName)
                 ->values([$columnName => ':value'])
-                ->setParameter('value', $testValue, $typeName);
+                ->setParameter('value', $value, $typeName)
+                ->executeStatement();
 
-            $queryBuilder->executeStatement();
-
-            // Query the value back
-            $queryBuilder = $this->connection->createQueryBuilder();
-            $queryBuilder
-                ->select($columnName)
-                ->from(self::DATABASE_SCHEMA.'.'.$tableName)
-                ->where('id = 1');
-
-            $result = $queryBuilder->executeQuery();
-            $row = $result->fetchAssociative();
-            \assert(\is_array($row) && \array_key_exists($columnName, $row));
-
-            // Get the value with the correct type
-            $platform = $this->connection->getDatabasePlatform();
-            $retrievedValue = Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
-
-            if ($testValue === null) {
-                $this->assertNull($retrievedValue);
-
-                return;
-            }
-
-            $this->assertTypeValueEquals($testValue, $retrievedValue, $typeName);
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+            $this->assertRoundTrip($typeName, $value, $retrieved);
         } finally {
             $this->dropTestTableIfItExists($tableName);
         }
@@ -95,5 +121,10 @@ abstract class TestCase extends BaseTestCase
         $this->assertTrue(Type::hasType($typeName), \sprintf('Type %s should be registered', $typeName));
 
         Type::getType($typeName);
+    }
+
+    protected function getSelectExpression(string $columnName): string
+    {
+        return $columnName;
     }
 }

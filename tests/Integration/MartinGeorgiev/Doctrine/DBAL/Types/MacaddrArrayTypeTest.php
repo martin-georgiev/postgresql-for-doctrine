@@ -55,6 +55,6 @@ class MacaddrArrayTypeTest extends ArrayTypeTestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, ['invalid-mac', '08:00:2b:01:02:03']);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['invalid-mac', '08:00:2b:01:02:03']);
     }
 }
