@@ -124,12 +124,11 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
 
-      - name: Upload coverage results to Coveralls
+      - name: Upload integration coverage artifact
         if: matrix.calculate-code-coverage == true
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
+        uses: actions/upload-artifact@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./var/logs/test-coverage/integration/clover.xml
-          parallel: true
-          flag-name: "Integration"
-          fail-on-error: false
+          name: coverage-integration-clover
+          path: ./var/logs/test-coverage/integration/clover.xml
+          if-no-files-found: error
+          retention-days: 7
