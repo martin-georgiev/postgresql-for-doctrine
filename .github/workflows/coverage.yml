@@ -45,3 +45,11 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+          carryforward: "Integration,Unit"
+          # Pass the original commit SHA and PR context to maintain consistency
+          git-commit: ${{ github.event.workflow_run.head_sha }}
+          git-branch: ${{ github.event.workflow_run.head_branch }}
+          service-number: ${{ github.event.workflow_run.run_number }}
+          service-job-id: ${{ github.event.workflow_run.id }}
+          # Handle pull request context properly
+          pull-request: ${{ github.event.workflow_run.pull_requests[0].number || '' }}
