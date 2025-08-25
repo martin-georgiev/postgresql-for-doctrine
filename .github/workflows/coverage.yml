@@ -23,6 +23,8 @@ jobs:
         uses: kachick/wait-other-jobs@755be1ff093bd2a6a82a24bfc50ef4d9fe491a59 # v3.8.1
         with:
           skip-same-workflow: 'true'
+          warmup-delay: 'PT1M'
+          retry-method: 'exponential_backoff'
           wait-list: |
             [
               {"workflowFile": "integration-tests.yml"},
@@ -30,8 +32,7 @@ jobs:
             ]
         timeout-minutes: 15
 
-      - if: ${{ steps.check.outputs.ready == 'true' }}
-        name: Finalize Coveralls parallel build
+      - name: Finalize Coveralls parallel build
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
