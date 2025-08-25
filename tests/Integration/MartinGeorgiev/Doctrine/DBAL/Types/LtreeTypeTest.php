@@ -34,7 +34,7 @@ final class LtreeTypeTest extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, null);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     #[Test]
@@ -43,7 +43,7 @@ final class LtreeTypeTest extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, 'root.child.grand-child');
+        $this->runDbalBindingRoundTrip($typeName, $columnType, 'root.child.grand-child');
     }
 
     /**
@@ -69,7 +69,7 @@ final class LtreeTypeTest extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runTypeTest($typeName, $columnType, $ltreeValueObject);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $ltreeValueObject);
     }
 
     /**
