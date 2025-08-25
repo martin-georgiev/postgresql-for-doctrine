@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointException;
+
 /**
  * @since 3.1
  *
@@ -41,9 +43,7 @@ final class Point implements \Stringable
     public static function fromString(string $pointString): self
     {
         if (!\preg_match(self::POINT_REGEX, $pointString, $matches)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid point format. Expected format matching %s, got: %s', self::POINT_REGEX, $pointString)
-            );
+            throw InvalidPointException::forInvalidPointFormat($pointString, self::POINT_REGEX);
         }
 
         return new self((float) $matches[1], (float) $matches[2]);
@@ -55,9 +55,7 @@ final class Point implements \Stringable
 
         $floatRegex = '/^'.self::COORDINATE_PATTERN.'$/';
         if (!\preg_match($floatRegex, $stringValue)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid %s coordinate format: %s', $name, $stringValue)
-            );
+            throw InvalidPointException::forInvalidCoordinate($name, $stringValue);
         }
     }
 }
