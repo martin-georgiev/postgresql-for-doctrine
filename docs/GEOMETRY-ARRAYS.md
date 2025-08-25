@@ -4,8 +4,7 @@ This document explains the usage, limitations, and workarounds for PostgreSQL `g
 
 ## Overview
 
-The `GeometryArray` and `GeographyArray` types provide support for PostgreSQL's `GEOMETRY[]` and `GEOGRAPHY[]` array types, allowing you to store collections of spatial data in a single database column.
-
+The `GeometryArray` and `GeographyArray` types provide support for PostgreSQL's `GEOMETRY[]` and `GEOGRAPHY[]` array types, allowing you to store collections of spatial data in a single database column. The use of these types currently has several limitations due to Doctrine DBAL's parameter binding behavior. Workarounds are provided for multi-item arrays in [USE-CASES-AND-EXAMPLES.md](./USE-CASES-AND-EXAMPLES.md).
 
 ## Registration and Type Mapping
 
@@ -30,20 +29,23 @@ $platform->registerDoctrineTypeMapping('_geography', 'geography[]');
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+use Doctrine\ORM\Mapping as ORM;
 
 class Location
 {
     /**
+     * @var WktSpatialData[]
      * @ORM\Column(type="geometry[]")
      */
     private array $geometries;
 
     /**
+     * @var WktSpatialData[]
      * @ORM\Column(type="geography[]")
      */
     private array $geographies;
 
-    public function setGeometries(array $geometries): void
+    public function setGeometries(WktSpatialData ...$geometries): void
     {
         $this->geometries = array_map(
             fn(string $wkt) => WktSpatialData::fromWkt($wkt),
@@ -71,7 +73,7 @@ $qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('SRID=4326;POINT(-12
 $qb->executeStatement();
 ```
 
-**Note**: Multi-item arrays have limitations - see the "Important Limitation: Multi-Item Arrays" section below.
+**Note**: Multi-item arrays have limitations — see "[Important Limitation: Multi-Item Arrays](#important-limitation-multi-item-arrays)" below.
 
 ### Working Examples
 
@@ -102,7 +104,7 @@ $multiItem = [
 It generates a PostgreSQL array literal: `{POINT(1 2),POINT(3 4)}`
 
 However, **PostGIS intercepts this and tries to parse the entire string as a single geometry**, causing this error:
-```
+```text
 ERROR: parse error - invalid geometry
 HINT: "POINT(1 2),POI" <-- parse error at position 14
 ```
@@ -145,7 +147,7 @@ The library normalizes dimensional modifiers based on enums for geometry types a
 
 Examples:
 
-```
+```text
 POINTZ(1 2 3)               => POINT Z(1 2 3)
 LINESTRINGM(0 0 1, 1 1 2)   => LINESTRING M(0 0 1, 1 1 2)
 POLYGONZM((...))            => POLYGON ZM((...))
@@ -156,12 +158,11 @@ SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 See also: Spatial foundations and parser behavior in the Spatial Types document.
 
 ```php
-// Build arrays in application code, then use raw SQL
+// Build arrays in application code, then use raw SQL with placeholders
 $geometries = ['POINT(1 2)', 'POINT(3 4)', 'LINESTRING(0 0,1 1)'];
-$arrayConstructor = 'ARRAY[' . implode('::geometry,', $geometries) . '::geometry]';
-
-$sql = "INSERT INTO locations (geoms) VALUES ({$arrayConstructor})";
-$connection->executeStatement($sql);
+$placeholders = implode(',', array_fill(0, count($geometries), '?::geometry'));
+$sql = "INSERT INTO locations (geometries) VALUES (ARRAY[$placeholders])";
+$connection->executeStatement($sql, $geometries);
 ```
 
 ### Option 4: JSON Storage Alternative
@@ -230,16 +231,16 @@ The integration tests include both working single-item arrays and workarounded (
 2. **Test thoroughly** with your specific geometry combinations
 3. **Consider alternatives** (JSON, separate tables) for complex multi-item scenarios
 4. **Use raw SQL** when you need multi-item arrays and can control the SQL generation
-5. **Monitor PostGIS updates** - this limitation may be addressed in future versions
+5. **State tested versions** — e.g., "Verified on PostgreSQL 16.x + PostGIS 3.5.x"; monitor PostGIS updates in case this changes.
 
 ## Performance Considerations
 
 - **Single-item arrays**: Excellent performance, full PostgreSQL optimization
 - **Multi-item workarounds**: May have performance implications depending on the approach
-- **Indexing**: GiST/operator classes only support spatial types like `geometry`/`geography`/`MULTIPOLYGON` and cannot directly index SQL array types like `geometry[]`. For proper spatial indexing, consider:
+- **Indexing**: GiST/operator classes only support spatial types like `geometry`/`geography` and cannot directly index SQL array types like `geometry[]`. For proper spatial indexing, consider:
   - Normalizing arrays into separate geometry rows with individual GiST indexes
   - Materializing a single geometry (e.g., union or bounding geometry) into a `geometry` column for GiST indexing
-  - See [PostGIS documentation on spatial indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#idm6696) for details
+  - See the [PostGIS FAQ on spatial indexes](https://postgis.net/documentation/faq/spatial-indexes/) for details
 - **Query optimization**: Use appropriate spatial operators and indexes on individual geometry columns, not arrays
 
 ## Future Improvements
