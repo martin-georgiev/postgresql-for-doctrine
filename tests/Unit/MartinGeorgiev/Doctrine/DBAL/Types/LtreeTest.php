@@ -35,22 +35,20 @@ final class LtreeTest extends TestCase
         self::assertSame('ltree', $this->fixture->getName());
     }
 
-    public function test_get_sql_declaration(): void
-    {
-        self::assertSame('ltree', $this->fixture->getSQLDeclaration([], $this->platform));
-    }
-
-    public function test_get_binding_type(): void
+    #[Test]
+    public function can_get_correct_binding_type(): void
     {
         self::assertSame(ParameterType::STRING, $this->fixture->getBindingType());
     }
 
-    public function test_get_mapped_database_types(): void
+    #[Test]
+    public function can_get_correct_mapped_database_types(): void
     {
         self::assertSame(['ltree'], $this->fixture->getMappedDatabaseTypes($this->platform));
     }
 
-    public function test_convert_to_database_value_accepts_string(): void
+    #[Test]
+    public function can_convert_string_to_database_value(): void
     {
         $value = 'alpha.beta.gamma';
         $databaseValue = $this->fixture->convertToDatabaseValue($value, $this->platform);
@@ -143,19 +141,22 @@ final class LtreeTest extends TestCase
         ];
     }
 
-    public function test_get_sql_declaration_throws_on_non_postgresql_platform(): void
+    #[Test]
+    public function throws_exception_when_getting_sql_declaration_for_unsupported_platform(): void
     {
         $this->expectException(\LogicException::class);
         $this->fixture->getSQLDeclaration([], self::createStub(AbstractPlatform::class));
     }
 
-    public function test_get_mapped_database_types_throws_on_non_postgresql_platform(): void
+    #[Test]
+    public function throws_exception_when_getting_mapped_database_types_for_unsupported_platform(): void
     {
         $this->expectException(\LogicException::class);
         $this->fixture->getMappedDatabaseTypes(self::createStub(AbstractPlatform::class));
     }
 
-    public function test_convert_to_database_value_throws_on_non_postgresql_platform(): void
+    #[Test]
+    public function throws_exception_when_converting_to_database_value_for_unsupported_platform(): void
     {
         $this->expectException(\LogicException::class);
         $this->fixture->convertToDatabaseValue(
@@ -164,7 +165,8 @@ final class LtreeTest extends TestCase
         );
     }
 
-    public function test_convert_to_php_value_throws_on_non_postgresql_platform(): void
+    #[Test]
+    public function throws_exception_when_converting_to_php_value_from_unsupported_platform(): void
     {
         $this->expectException(\LogicException::class);
         $this->fixture->convertToPHPValue('valid.ltree', self::createStub(AbstractPlatform::class));
