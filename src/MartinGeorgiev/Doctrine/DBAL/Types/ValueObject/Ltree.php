@@ -40,8 +40,6 @@ class Ltree implements \Stringable, \JsonSerializable
 
         $pathFromRoot = \explode('.', $ltree);
 
-        self::assertListOfValidLtreeNodes($pathFromRoot);
-
         return new static($pathFromRoot);
     }
 
@@ -76,11 +74,6 @@ class Ltree implements \Stringable, \JsonSerializable
         return new static($parentPathFromRoot);
     }
 
-    public function equals(Ltree $ltree): bool
-    {
-        return $this->pathFromRoot === $ltree->getPathFromRoot();
-    }
-
     /**
      * Checks if the ltree has no nodes.
      */
@@ -99,7 +92,7 @@ class Ltree implements \Stringable, \JsonSerializable
 
     public function isAncestorOf(Ltree $ltree): bool
     {
-        if ($this->equals($ltree) || $ltree->isEmpty()) {
+        if ($this->getPathFromRoot() === $ltree->getPathFromRoot() || $ltree->isEmpty()) {
             return false;
         }
 
@@ -114,7 +107,7 @@ class Ltree implements \Stringable, \JsonSerializable
 
     public function isDescendantOf(Ltree $ltree): bool
     {
-        if ($this->equals($ltree) || $this->isEmpty()) {
+        if ($this->getPathFromRoot() === $ltree->getPathFromRoot() || $this->isEmpty()) {
             return false;
         }
 
@@ -133,25 +126,25 @@ class Ltree implements \Stringable, \JsonSerializable
             return false;
         }
 
-        return $this->equals($ltree->getParent());
+        return $this->getPathFromRoot() === $ltree->getParent()->getPathFromRoot();
     }
 
     public function isChildOf(Ltree $ltree): bool
     {
-        if ($this->equals($ltree) || $this->isEmpty()) {
+        if ($this->getPathFromRoot() === $ltree->getPathFromRoot() || $this->isEmpty()) {
             return false;
         }
 
-        return $ltree->equals($this->getParent());
+        return $ltree->getPathFromRoot() === $this->getParent()->getPathFromRoot();
     }
 
     public function isSiblingOf(Ltree $ltree): bool
     {
-        if ($this->isEmpty() || $ltree->isEmpty() || $this->equals($ltree)) {
+        if ($this->isEmpty() || $ltree->isEmpty() || $this->getPathFromRoot() === $ltree->getPathFromRoot()) {
             return false;
         }
 
-        return $this->getParent()->equals($ltree->getParent());
+        return $this->getParent()->getPathFromRoot() === $ltree->getParent()->getPathFromRoot();
     }
 
     /**
