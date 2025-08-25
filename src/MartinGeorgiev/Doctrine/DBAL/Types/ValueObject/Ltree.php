@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLtreeException;
+
 /**
  * @phpstan-consistent-constructor
  */
@@ -12,8 +14,8 @@ class Ltree implements \Stringable, \JsonSerializable
     /**
      * @param list<non-empty-string> $pathFromRoot A list with one element represents the root. The list may be empty.
      *
-     * @throws \InvalidArgumentException if the pathFromRoot is not a valid ltree path
-     *                                   (contains labels which are empty or contains one or more dots)
+     * @throws InvalidLtreeException if the pathFromRoot is not a valid ltree path
+     *                               (contains labels which are empty or contains one or more dots)
      */
     public function __construct(
         private readonly array $pathFromRoot,
@@ -30,7 +32,7 @@ class Ltree implements \Stringable, \JsonSerializable
     /**
      * Creates an Ltree instance from a string representation.
      *
-     * @throws \InvalidArgumentException if $ltree contains invalid/empty labels (e.g., consecutive dots)
+     * @throws InvalidLtreeException if $ltree contains invalid/empty labels (e.g., consecutive dots)
      */
     public static function fromString(string $ltree): static
     {
@@ -152,7 +154,7 @@ class Ltree implements \Stringable, \JsonSerializable
      *
      * @param non-empty-string $leaf
      *
-     * @throws \InvalidArgumentException if the leaf format is invalid (empty string, contains dots, ...)
+     * @throws InvalidLtreeException if the leaf format is invalid (empty string, contains dots, ...)
      */
     public function withLeaf(string $leaf): static
     {
@@ -166,14 +168,14 @@ class Ltree implements \Stringable, \JsonSerializable
     /**
      * @param mixed[] $value
      *
-     * @throws \InvalidArgumentException if the value is not a list of non-empty strings
+     * @throws InvalidLtreeException if the value is not a list of non-empty strings
      *
      * @phpstan-assert list<non-empty-string> $value
      */
     protected static function assertListOfValidLtreeNodes(array $value): void
     {
         if (!\array_is_list($value)) {
-            throw new \InvalidArgumentException('Branch must be a list of non-empty strings.');
+            throw InvalidLtreeException::forInvalidPathFromRootFormat($value, 'list of non-empty strings');
         }
 
         foreach ($value as $node) {
@@ -182,18 +184,18 @@ class Ltree implements \Stringable, \JsonSerializable
     }
 
     /**
-     * @throws \InvalidArgumentException if the value is not a non-empty string
+     * @throws InvalidLtreeException if the value is not a non-empty string
      *
      * @phpstan-assert non-empty-string $value
      */
     protected static function assertValidLtreeNode(mixed $value): void
     {
         if (!\is_string($value) || '' === $value) {
-            throw new \InvalidArgumentException('Value must be a non-empty string.');
+            throw InvalidLtreeException::forInvalidNodeFormat($value, 'non-empty string');
         }
 
         if (\str_contains($value, '.')) {
-            throw new \InvalidArgumentException('Value cannot contain dot.');
+            throw InvalidLtreeException::forInvalidNodeFormat($value, 'string without dot');
         }
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLtreeException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,7 +26,7 @@ final class LtreeTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_path_from_root(array $value): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidLtreeException::class);
         new Ltree($value); // @phpstan-ignore argument.type
     }
 
@@ -45,7 +46,7 @@ final class LtreeTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_string_represensation(string $value): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidLtreeException::class);
         Ltree::fromString($value);
     }
 
@@ -177,12 +178,12 @@ final class LtreeTest extends TestCase
 
     /**
      * @param $expected array{
-     *                  isAncestorOf: bool,
-     *                  isDescendantOf: bool,
-     *                  isParentOf: bool,
-     *                  isChildOf: bool,
-     *                  isSiblingOf: bool,
-     *                  }
+     *                 isAncestorOf: bool,
+     *                 isDescendantOf: bool,
+     *                 isParentOf: bool,
+     *                 isChildOf: bool,
+     *                 isSiblingOf: bool,
+     *                 }
      */
     #[DataProvider('provideFamilyRelationshipWithExpectedResults')]
     #[Test]
@@ -469,6 +470,7 @@ final class LtreeTest extends TestCase
      * @param non-empty-string $leaf
      */
     #[DataProvider('provideValidLeaf')]
+    #[Test]
     public function can_create_leaf(Ltree $parent, string $leaf, Ltree $expected): void
     {
         $ltree = $parent->withLeaf($leaf);
@@ -479,6 +481,7 @@ final class LtreeTest extends TestCase
      * @param non-empty-string $leaf
      */
     #[DataProvider('provideValidLeaf')]
+    #[Test]
     public function respects_immutability_when_creating_leaf(Ltree $parent, string $leaf, Ltree $expected): void
     {
         unset($expected);
@@ -506,7 +509,7 @@ final class LtreeTest extends TestCase
     public function throws_exception_for_invalid_leaf(string $leaf): void
     {
         $ltree = new Ltree(['a', 'b']);
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidLtreeException::class);
         $ltree->withLeaf($leaf); // @phpstan-ignore argument.type
     }
 
