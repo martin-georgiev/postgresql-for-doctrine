@@ -1,81 +1,39 @@
 name: Coverage
 
 on:
-  workflow_run:
-    workflows: ["Integration Tests", "Unit Tests"]
-    types: [completed]
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/actions/release-please/**'
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
+  checks: read
+  actions: read
 
 jobs:
-  finalize:
+  coverage:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
-      - id: check
-        name: Verify all prerequisite workflows succeeded
-        uses: actions/github-script@v7
+      - name: Wait for Unit and Integration jobs
+        uses: kachick/wait-other-jobs@755be1ff093bd2a6a82a24bfc50ef4d9fe491a59 # v3.8.1
         with:
-          script: |
-            const {owner, repo} = context.repo;
-            const headSha = context.payload.workflow_run?.head_sha || context.sha;
-
-            const runs = await github.rest.actions.listWorkflowRunsForRepo({
-              owner,
-              repo,
-              head_sha: headSha,
-              status: 'completed',
-              per_page: 100
-            });
-
-            const findRun = (name) => runs.data.workflow_runs.find(r => r.name === name && r.conclusion === 'success');
-            
-            const integration = findRun('Integration Tests');
-            const unit = findRun('Unit Tests');
-
-            const ok = Boolean(unit && integration);
-            core.info(ok ? 'All workflows completed successfully.' : 'Waiting for a remaining workflow to complete.');
-
-            core.setOutput('ready', String(ok));
-            if (ok) {
-              core.setOutput('unit_run_id', String(unit.id));
-              core.setOutput('integration_run_id', String(integration.id));
-            }
+          skip-same-workflow: 'true'
+          wait-list: |
+            [
+              {"workflowFile": "integration-tests.yml"},
+              {"workflowFile": "unit-tests.yml"}
+            ]
+        timeout-minutes: 15
 
       - if: ${{ steps.check.outputs.ready == 'true' }}
-        name: Download artifacts from Integration Tests run
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-integration-clover
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ steps.check.outputs.integration_run_id }}
-          path: integration-coverage
-
-      - if: ${{ steps.check.outputs.ready == 'true' }}
-        name: Download artifacts from Unit Tests run
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-unit-clover
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ steps.check.outputs.unit_run_id }}
-          path: unit-coverage
-
-      - if: ${{ steps.check.outputs.ready == 'true' }}
-        name: Merge Clover reports
-        uses: danielpalme/ReportGenerator-GitHub-Action@v5
-        with:
-          reports: |
-            unit-coverage/clover.xml;
-            integration-coverage/clover.xml
-          targetdir: merged-coverage
-          reporttypes: Clover
-
-      - if: ${{ steps.check.outputs.ready == 'true' }}
-        name: Upload merged coverage to Coveralls
+        name: Finalize Coveralls parallel build
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./merged-coverage/Clover.xml
-          fail-on-error: false
+          parallel-finished: true
+          carryforward: "Integration,Unit"

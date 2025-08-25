@@ -107,11 +107,12 @@ jobs:
       - name: Run unit test suite
         run: composer run-unit-tests
 
-      - name: Upload unit coverage artifact
+      - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true
-        uses: actions/upload-artifact@v4
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
         with:
-          name: coverage-unit-clover
-          path: ./var/logs/test-coverage/unit/clover.xml
-          if-no-files-found: error
-          retention-days: 7
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./var/logs/test-coverage/unit/clover.xml
+          parallel: true
+          flag-name: "Unit"
+          fail-on-error: false
