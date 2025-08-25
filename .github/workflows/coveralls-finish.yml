@@ -1,0 +1,23 @@
+name: Coveralls Finish
+
+on:
+  workflow_run:
+    workflows: ["Unit Tests", "Integrations"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+jobs:
+  coveralls-finish:
+    runs-on: ubuntu-latest
+    if: >
+      github.event.workflow_run.conclusion == 'success' ||
+      github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: Finalize Coveralls parallel run
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
