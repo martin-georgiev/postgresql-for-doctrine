@@ -36,6 +36,18 @@ final class LtreeTest extends TestCase
     }
 
     #[Test]
+    public function can_get_correct_sql_declaration(): void
+    {
+        $this->platform
+            ->expects(self::once())
+            ->method('getDoctrineTypeMapping')
+            ->with('ltree')
+            ->willReturn('LTREE');
+
+        self::assertSame('LTREE', $this->fixture->getSqlDeclaration([], $this->platform));
+    }
+
+    #[Test]
     public function can_get_correct_binding_type(): void
     {
         self::assertSame(ParameterType::STRING, $this->fixture->getBindingType());
