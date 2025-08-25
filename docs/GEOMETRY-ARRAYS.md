@@ -47,10 +47,7 @@ class Location
 
     public function setGeometries(WktSpatialData ...$geometries): void
     {
-        $this->geometries = array_map(
-            fn(string $wkt) => WktSpatialData::fromWkt($wkt),
-            $geometries
-        );
+        $this->geometries = $geometries;
     }
 }
 ```
