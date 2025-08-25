@@ -1,0 +1,47 @@
+name: Coverage
+
+on:
+  workflow_run:
+    workflows: ["Integration Tests", "Unit Tests"]
+    types: [completed]
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_sha == github.sha }}
+    # Needed for listWorkflowRunsForRepo and safe defaults for token scope
+    permissions:
+      actions: read
+      contents: read
+      statuses: write
+    # Prevent multiple concurrent finalizers for the same commit
+    concurrency:
+      group: coverage-${{ github.event.workflow_run.head_sha }}
+      cancel-in-progress: true
+    steps:
+      - id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflows = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head_sha: context.payload.workflow_run.head_sha,
+              status: 'completed',
+              per_page: 100
+            });
+
+            const bothComplete = ['Integration Tests', 'Unit Tests'].every(name =>
+              workflows.data.workflow_runs.some(
+                run => run.name === name && run.conclusion === 'success'
+              )
+            );
+
+            core.info(bothComplete ? 'Both workflows completed successfully.' : 'Waiting for other workflow to complete.');
+            core.setOutput('ready', String(bothComplete));
+
+      - if: ${{ steps.check.outputs.ready == 'true' }}
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
