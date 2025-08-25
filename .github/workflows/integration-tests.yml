@@ -34,21 +34,23 @@ jobs:
     needs: should-run
     if: needs.should-run.outputs.run == 'true'
     runs-on: ubuntu-latest
-    name: "PostgreSQL ${{ matrix.postgres }} + PHP ${{ matrix.php }}"
+    name: "PostgreSQL ${{ matrix.postgres }} + PostGIS ${{ matrix.postgis }} + PHP ${{ matrix.php }}"
 
     strategy:
       fail-fast: false
       matrix:
         php: ['8.1', '8.2', '8.3', '8.4']
+        postgis: ['3.4', '3.5']
         postgres: ['16', '17']
         include:
           - php: '8.4'
+            postgis: '3.5'
             postgres: '17'
             calculate-code-coverage: true
 
     services:
       postgres:
-        image: postgres:${{ matrix.postgres }}
+        image: postgis/postgis:${{ matrix.postgres }}-${{ matrix.postgis }}
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
@@ -109,6 +111,9 @@ jobs:
 
           echo "\nListing available PostgreSQL extensions:"
           PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SELECT * FROM pg_available_extensions;"
+
+          echo "\nVerifying PostGIS installation:"
+          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SELECT PostGIS_Version();"
 
       - name: Run integration test suite
         run: composer run-integration-tests

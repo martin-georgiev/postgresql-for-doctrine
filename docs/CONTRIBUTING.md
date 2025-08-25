@@ -117,7 +117,7 @@ The provided environment includes:
 
 - PHP 8.1, which is the oldest PHP version supported by this project.
 - Composer
-- PostgreSQL 17, started by `devenv up`.
+- PostgreSQL 17 with PostGIS 3.4, started by `devenv up`.
 - Pre-commit hooks (PHP-CS-Fixer, PHPStan, Rector, deptrac, ...).
 
 ### Local development

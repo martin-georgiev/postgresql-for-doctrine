@@ -60,14 +60,37 @@ in
   services.postgres = {
     enable = true;
 
+    # Use PostgreSQL 17 to match Docker Compose and CI
+    package = pkgs.postgresql_17;
+
     listen_addresses = "127.0.0.1";
     port = config.env.POSTGRES_PORT;
 
     initialDatabases = [ { name = config.env.POSTGRES_DB; } ];
 
+    # Enable PostGIS extension
+    extensions = extensions: [
+      extensions.postgis
+    ];
+
     initialScript = ''
-      CREATE ROLE "${config.env.POSTGRES_USER}"
-        WITH SUPERUSER LOGIN PASSWORD '${config.env.POSTGRES_PASSWORD}';
+      -- Create role if it doesn't exist, or update password if it does
+      DO $$
+      BEGIN
+        IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = '${config.env.POSTGRES_USER}') THEN
+          CREATE ROLE "${config.env.POSTGRES_USER}" WITH SUPERUSER LOGIN PASSWORD '${config.env.POSTGRES_PASSWORD}';
+        ELSE
+          ALTER ROLE "${config.env.POSTGRES_USER}" WITH SUPERUSER LOGIN PASSWORD '${config.env.POSTGRES_PASSWORD}';
+        END IF;
+      END
+      $$;
+
+      -- Set database owner
+      ALTER DATABASE "${config.env.POSTGRES_DB}" OWNER TO "${config.env.POSTGRES_USER}";
+
+      -- Enable PostGIS extension in the database
+      \c ${config.env.POSTGRES_DB}
+      CREATE EXTENSION IF NOT EXISTS postgis;
     '';
   };
 

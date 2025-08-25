@@ -139,3 +139,68 @@ SELECT p FROM Product p WHERE CONTAINS(p.availabilityPeriod, DATERANGE('2024-06-
 -- Find products with prices in a specific range
 SELECT p FROM Product p WHERE p.priceRange @> 25.0
 ```
+
+
+Using PostGIS Types
+---
+
+
+### Using PostGIS Types with Doctrine DBAL (Geometry/Geography)
+
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
+// Insert a single geometry value
+$qb = $connection->createQueryBuilder();
+$qb->insert('places')->values(['location' => ':wktSpatialData']);
+$qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('POINT(1 2)'), 'geometry');
+$qb->executeStatement();
+
+// Insert a single geography value with SRID
+$qb = $connection->createQueryBuilder();
+$qb->insert('places')->values(['boundary' => ':wktSpatialData']);
+$qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
+$qb->executeStatement();
+
+// Insert a single-item geometry[] array
+$qb = $connection->createQueryBuilder();
+$qb->insert('routes')->values(['geometriesLines' => ':wktSpatialData']);
+$qb->setParameter('wktSpatialData', [WktSpatialData::fromWkt('LINESTRING(0 0, 1 1)')], 'geometry[]');
+$qb->executeStatement();
+```
+
+Dimensional modifiers are supported and normalized:
+
+```
+POINTZ(1 2 3)              => POINT Z(1 2 3)
+LINESTRINGM(0 0 1, 1 1 2)  => LINESTRING M(0 0 1, 1 1 2)
+POLYGONZM((...))           => POLYGON ZM((...))
+POINT Z (1 2 3)            => POINT Z(1 2 3)
+```
+
+For multi-item arrays, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for Doctrine DQL limitations and the suggested workarounds.
+
+The library provides DBAL type support for PostGIS `geometry` and `geography` columns. Example usage:
+
+```sql
+CREATE TABLE places (
+    id SERIAL PRIMARY KEY,
+    location GEOMETRY,
+    boundary GEOGRAPHY
+);
+```
+
+```php
+use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Geometry as GeometryValueObject;
+
+Type::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
+Type::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
+
+$location = GeometryValueObject::fromWKT('SRID=4326;POINT(-122.4194 37.7749)');
+$entity->setLocation($location);
+```
+
+Notes:
+- Values round-trip as EWKT/WKT strings at the database boundary.
+- Integration tests automatically enable the `postgis` extension; ensure PostGIS is available in your environment.
