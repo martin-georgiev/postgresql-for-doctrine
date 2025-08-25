@@ -11,14 +11,14 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 class ContainsGeometries extends Entity
 {
     #[ORM\Column(type: 'geometry')]
-    public ?WktSpatialData $geometry1 = null;
+    public WktSpatialData $geometry1;
 
     #[ORM\Column(type: 'geometry')]
-    public ?WktSpatialData $geometry2 = null;
+    public WktSpatialData $geometry2;
 
     #[ORM\Column(type: 'geography')]
-    public ?WktSpatialData $geography1 = null;
+    public WktSpatialData $geography1;
 
     #[ORM\Column(type: 'geography')]
-    public ?WktSpatialData $geography2 = null;
+    public WktSpatialData $geography2;
 }
