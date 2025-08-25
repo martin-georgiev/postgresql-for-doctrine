@@ -13,7 +13,7 @@ jobs:
     permissions:
       actions: read
       contents: read
-      workflows: write
+      statuses: write
     # Prevent multiple concurrent finalizers for the same commit
     concurrency:
       group: coverage-${{ github.event.workflow_run.head_sha }}
