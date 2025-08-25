@@ -60,6 +60,5 @@ jobs:
           # Pass the original commit SHA and PR context to maintain consistency
           git-commit: ${{ github.event.workflow_run.head_sha || github.sha }}
           git-branch: ${{ github.event.workflow_run.head_branch || github.ref_name }}
-          service-number: ${{ github.event.workflow_run.run_number || github.run_number }}
-          service-job-id: ${{ github.event.workflow_run.id || github.run_id }}
+          service-number: ${{ github.event.workflow_run.id || github.run_id }}
           pull-request: ${{ github.event.workflow_run.pull_requests[0].number || github.event.pull_request.number || '' }}
