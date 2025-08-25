@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\LtreeInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -109,14 +108,14 @@ final class LtreeTest extends TestCase
     }
 
     #[DataProvider('parentProvider')]
-    public function test_get_parent(LtreeInterface $child, LtreeInterface $parent): void
+    public function test_get_parent(Ltree $child, Ltree $parent): void
     {
         $ltree = $child->getParent();
         self::assertSame((string) $parent, (string) $ltree);
     }
 
     #[DataProvider('parentProvider')]
-    public function test_get_parent_respect_immutability(LtreeInterface $child, LtreeInterface $parent): void
+    public function test_get_parent_respect_immutability(Ltree $child, Ltree $parent): void
     {
         unset($parent);
         $childAsString = (string) $child;
@@ -126,7 +125,7 @@ final class LtreeTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{child: LtreeInterface, parent: LtreeInterface}>
+     * @return iterable<string, array{child: Ltree, parent: Ltree}>
      */
     public static function parentProvider(): iterable
     {
@@ -178,8 +177,8 @@ final class LtreeTest extends TestCase
      */
     #[DataProvider('familyProvider')]
     public function test_relationships(
-        LtreeInterface $left,
-        LtreeInterface $right,
+        Ltree $left,
+        Ltree $right,
         array $expected,
     ): void {
         foreach ($expected as $method => $value) {
@@ -193,8 +192,8 @@ final class LtreeTest extends TestCase
 
     /**
      * @return iterable<string, array{
-     *   left: LtreeInterface,
-     *   right: LtreeInterface,
+     *   left: Ltree,
+     *   right: Ltree,
      *   expected: array{
      *     equals: bool,
      *     isAncestorOf: bool,
@@ -481,7 +480,7 @@ final class LtreeTest extends TestCase
      * @param non-empty-string $leaf
      */
     #[DataProvider('goodLeafProvider')]
-    public function test_with_leaf(LtreeInterface $parent, string $leaf, LtreeInterface $expected): void
+    public function test_with_leaf(Ltree $parent, string $leaf, Ltree $expected): void
     {
         $ltree = $parent->withLeaf($leaf);
         self::assertSame((string) $expected, (string) $ltree);
@@ -491,7 +490,7 @@ final class LtreeTest extends TestCase
      * @param non-empty-string $leaf
      */
     #[DataProvider('goodLeafProvider')]
-    public function test_with_leaf_respects_immutability(LtreeInterface $parent, string $leaf, LtreeInterface $expected): void
+    public function test_with_leaf_respects_immutability(Ltree $parent, string $leaf, Ltree $expected): void
     {
         unset($expected);
 
@@ -502,7 +501,7 @@ final class LtreeTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{0: LtreeInterface, 1: non-empty-string, 2: LtreeInterface}>
+     * @return iterable<string, array{0: Ltree, 1: non-empty-string, 2: Ltree}>
      */
     public static function goodLeafProvider(): iterable
     {

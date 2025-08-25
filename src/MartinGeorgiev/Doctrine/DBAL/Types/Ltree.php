@@ -9,7 +9,6 @@ use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\LtreeInterface;
 
 final class Ltree extends BaseType
 {
@@ -77,7 +76,7 @@ final class Ltree extends BaseType
             }
         }
 
-        if ($value instanceof LtreeInterface) {
+        if ($value instanceof LtreeValueObject) {
             return (string) $value;
         }
 
