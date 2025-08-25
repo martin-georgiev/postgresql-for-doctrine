@@ -17,11 +17,9 @@ final class Ltree extends BaseType
     #[\Override]
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        unset($column);
-
         $this->assertPostgreSQLPlatform($platform);
 
-        return 'ltree';
+        return parent::getSQLDeclaration($column, $platform);
     }
 
     #[\Override]
