@@ -7,12 +7,13 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 /**
  * @phpstan-consistent-constructor
  */
-class Ltree implements LtreeInterface
+class Ltree implements \Stringable, \JsonSerializable
 {
     /**
-     * @param list<non-empty-string> $pathFromRoot
+     * @param list<non-empty-string> $pathFromRoot A list with one element represents the root. The list may be empty.
      *
-     * @throws \InvalidArgumentException if the pathFromRoot contains empty strings or is not a list
+     * @throws \InvalidArgumentException if the pathFromRoot is not a valid ltree path
+     *                                   (contains labels which are empty or contains one or more dots)
      */
     public function __construct(
         private readonly array $pathFromRoot,
@@ -26,7 +27,11 @@ class Ltree implements LtreeInterface
         return \implode('.', $this->pathFromRoot);
     }
 
-    #[\Override]
+    /**
+     * Creates an Ltree instance from a string representation.
+     *
+     * @throws \InvalidArgumentException if $ltree contains invalid/empty labels (e.g., consecutive dots)
+     */
     public static function fromString(string $ltree): static
     {
         if ('' === $ltree) {
@@ -40,19 +45,26 @@ class Ltree implements LtreeInterface
         return new static($pathFromRoot);
     }
 
+    /**
+     * @return list<non-empty-string>
+     */
     #[\Override]
     public function jsonSerialize(): array
     {
-        return $this->pathFromRoot;
+        return $this->getPathFromRoot();
     }
 
-    #[\Override]
+    /**
+     * @return list<non-empty-string>
+     */
     public function getPathFromRoot(): array
     {
         return $this->pathFromRoot;
     }
 
-    #[\Override]
+    /**
+     * @throws \LogicException if the ltree is empty
+     */
     public function getParent(): static
     {
         if ($this->isEmpty()) {
@@ -64,26 +76,28 @@ class Ltree implements LtreeInterface
         return new static($parentPathFromRoot);
     }
 
-    #[\Override]
-    public function equals(LtreeInterface $ltree): bool
+    public function equals(Ltree $ltree): bool
     {
         return $this->pathFromRoot === $ltree->getPathFromRoot();
     }
 
-    #[\Override]
+    /**
+     * Checks if the ltree has no nodes.
+     */
     public function isEmpty(): bool
     {
         return [] === $this->pathFromRoot;
     }
 
-    #[\Override]
+    /**
+     * Checks if the ltree has only one node.
+     */
     public function isRoot(): bool
     {
         return 1 === \count($this->pathFromRoot);
     }
 
-    #[\Override]
-    public function isAncestorOf(LtreeInterface $ltree): bool
+    public function isAncestorOf(Ltree $ltree): bool
     {
         if ($this->equals($ltree) || $ltree->isEmpty()) {
             return false;
@@ -98,8 +112,7 @@ class Ltree implements LtreeInterface
         return \str_starts_with((string) $ltree, $prefix);
     }
 
-    #[\Override]
-    public function isDescendantOf(LtreeInterface $ltree): bool
+    public function isDescendantOf(Ltree $ltree): bool
     {
         if ($this->equals($ltree) || $this->isEmpty()) {
             return false;
@@ -114,8 +127,7 @@ class Ltree implements LtreeInterface
         return \str_starts_with((string) $this, $prefix);
     }
 
-    #[\Override]
-    public function isParentOf(LtreeInterface $ltree): bool
+    public function isParentOf(Ltree $ltree): bool
     {
         if ($ltree->isEmpty()) {
             return false;
@@ -124,8 +136,7 @@ class Ltree implements LtreeInterface
         return $this->equals($ltree->getParent());
     }
 
-    #[\Override]
-    public function isChildOf(LtreeInterface $ltree): bool
+    public function isChildOf(Ltree $ltree): bool
     {
         if ($this->equals($ltree) || $this->isEmpty()) {
             return false;
@@ -134,8 +145,7 @@ class Ltree implements LtreeInterface
         return $ltree->equals($this->getParent());
     }
 
-    #[\Override]
-    public function isSiblingOf(LtreeInterface $ltree): bool
+    public function isSiblingOf(Ltree $ltree): bool
     {
         if ($this->isEmpty() || $ltree->isEmpty() || $this->equals($ltree)) {
             return false;
@@ -144,7 +154,13 @@ class Ltree implements LtreeInterface
         return $this->getParent()->equals($ltree->getParent());
     }
 
-    #[\Override]
+    /**
+     * Creates a new Ltree instance with the given leaf added to the end of the path.
+     *
+     * @param non-empty-string $leaf
+     *
+     * @throws \InvalidArgumentException if the leaf format is invalid (empty string, contains dots, ...)
+     */
     public function withLeaf(string $leaf): static
     {
         self::assertValidLtreeNode($leaf);

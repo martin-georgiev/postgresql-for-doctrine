@@ -32,7 +32,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\LtreeInterface;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
@@ -50,7 +49,7 @@ class MyEntity implements \Stringable
     private Uuid $id;
 
     #[ORM\Column(type: 'ltree', unique: true)]
-    private LtreeInterface $path;
+    private Ltree $path;
 
     /**
      * @var Collection<array-key,MyEntity> $children
@@ -99,7 +98,7 @@ class MyEntity implements \Stringable
         return $this->name;
     }
 
-    public function getPath(): LtreeInterface
+    public function getPath(): Ltree
     {
         return $this->path;
     }
