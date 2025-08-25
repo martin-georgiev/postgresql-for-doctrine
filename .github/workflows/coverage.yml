@@ -19,7 +19,7 @@ jobs:
               status: 'completed'
             });
 
-            const bothComplete = ['Integrations Tests', 'Integration Tests'].every(name =>
+            const bothComplete = ['Integration Tests', 'Unit Tests'].every(name =>
               workflows.data.workflow_runs.some(run => run.name === name)
             );
 
