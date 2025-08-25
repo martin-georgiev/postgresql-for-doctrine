@@ -41,6 +41,10 @@ jobs:
       matrix:
         php: ['8.1', '8.2', '8.3', '8.4']
         postgres: ['16', '17']
+        include:
+          - php: '8.4'
+            postgres: '17'
+            calculate-code-coverage: true
 
     services:
       postgres:
