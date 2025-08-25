@@ -24,7 +24,7 @@ class StrictlyRightTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
+        $this->assertTrue($result[0]['result'], 'POINT(1 1) should be strictly to the right of POINT(0 0)');
     }
 
     #[Test]
@@ -35,17 +35,17 @@ class StrictlyRightTest extends SpatialOperatorTestCase
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
+        $this->assertFalse($result[0]['result'], 'POINT(0 0) should NOT be strictly to the right of POINT(-5 -5)');
     }
 
     #[Test]
     public function strictly_right_with_linestrings(): void
     {
-        $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
+        $this->assertTrue($result[0]['result'], 'Higher linestring should be strictly to the right of lower linestring');
     }
 }
