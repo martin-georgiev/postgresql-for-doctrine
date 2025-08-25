@@ -4,20 +4,12 @@ on:
   workflow_run:
     workflows: ["Integration Tests", "Unit Tests"]
     types: [completed]
+  workflow_dispatch:
 
 jobs:
   finalize:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_sha == github.sha }}
-    # Needed for listWorkflowRunsForRepo and safe defaults for token scope
-    permissions:
-      actions: read
-      contents: read
-      statuses: write
-    # Prevent multiple concurrent finalizers for the same commit
-    concurrency:
-      group: coverage-${{ github.event.workflow_run.head_sha }}
-      cancel-in-progress: true
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
       - id: check
         uses: actions/github-script@v7
@@ -26,7 +18,7 @@ jobs:
             const workflows = await github.rest.actions.listWorkflowRunsForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head_sha: context.payload.workflow_run.head_sha,
+              head_sha: context.payload.workflow_run?.head_sha || context.sha,
               status: 'completed',
               per_page: 100
             });
@@ -41,7 +33,9 @@ jobs:
             core.setOutput('ready', String(bothComplete));
 
       - if: ${{ steps.check.outputs.ready == 'true' }}
+        name: Finalize coverage report
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+          carryforward: "Unit,Integration"
