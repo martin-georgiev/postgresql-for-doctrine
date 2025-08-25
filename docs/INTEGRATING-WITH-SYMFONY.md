@@ -31,6 +31,8 @@ doctrine:
 
             point: MartinGeorgiev\Doctrine\DBAL\Types\Point
             point[]: MartinGeorgiev\Doctrine\DBAL\Types\PointArray
+            
+            ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
 ```
 
 
@@ -80,6 +82,8 @@ doctrine:
                     point: point
                     point[]: point[]
                     _point: point[]
+                    
+                    ltree: ltree
 ```
 
 

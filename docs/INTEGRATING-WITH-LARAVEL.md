@@ -50,6 +50,8 @@ return [
                 'point' => 'point',
                 'point[]' => 'point[]',
                 '_point' => 'point[]',
+                
+                'ltree' => 'ltree',
             ],
         ],
     ],
@@ -87,6 +89,8 @@ return [
         
         'point' => MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
         'point[]' => MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class,
+        
+        'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
     ],
 ];
 ```
@@ -339,6 +343,9 @@ class DoctrineEventSubscriber implements Subscriber
         }
         if (!Type::hasType('point[]')) {
             Type::addType('point[]', \MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class);
+        }
+        if (!Type::hasType('ltree')) {
+            Type::addType('ltree', \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class);
         }
     }
 }
