@@ -6,11 +6,13 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class LtreeTest extends TestCase
 {
-    public function test_construct_and_to_string(): void
+    #[Test]
+    public function can_create_from_list_of_strings(): void
     {
         $ltree = new Ltree(['a', 'b', 'c']);
         self::assertSame('a.b.c', (string) $ltree);
@@ -19,8 +21,9 @@ final class LtreeTest extends TestCase
     /**
      * @param mixed[] $value
      */
-    #[DataProvider('badPathFromRootProvider')]
-    public function test_construct_throws_on_bad_path_from_root(array $value): void
+    #[DataProvider('provideInvalidPathFromRoot')]
+    #[Test]
+    public function throws_exception_for_invalid_path_from_root(array $value): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Ltree($value); // @phpstan-ignore argument.type
@@ -29,7 +32,7 @@ final class LtreeTest extends TestCase
     /**
      * @return iterable<string, array<array-key,mixed[]>>
      */
-    public static function badPathFromRootProvider(): iterable
+    public static function provideInvalidPathFromRoot(): iterable
     {
         yield 'not a list' => [[0 => 'a', 2 => 'b', 3 => 'c']];
         yield 'empty string in path' => [['a', '', 'c']];
@@ -38,8 +41,9 @@ final class LtreeTest extends TestCase
         yield 'list with dotted string' => [['a', 'b.c', 'ds']];
     }
 
-    #[DataProvider('badRepresentationProvider')]
-    public function test_from_string_throws_on_bad_value(string $value): void
+    #[DataProvider('provideInvalidStringRepresentation')]
+    #[Test]
+    public function throws_exception_for_invalid_string_represensation(string $value): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Ltree::fromString($value);
@@ -48,7 +52,7 @@ final class LtreeTest extends TestCase
     /**
      * @return iterable<string, string[]>
      */
-    public static function badRepresentationProvider(): iterable
+    public static function provideInvalidStringRepresentation(): iterable
     {
         yield 'string starting with dot' => ['.b'];
         yield 'string ending with dot' => ['a.'];
@@ -57,8 +61,8 @@ final class LtreeTest extends TestCase
     /**
      * @param list<non-empty-string> $expected
      */
-    #[DataProvider('goodRepresentationProvider')]
-    public function test_from_string(string $value, array $expected): void
+    #[DataProvider('provideValidRepresentation')]
+    public function can_create_from_string(string $value, array $expected): void
     {
         $ltree = Ltree::fromString($value);
         self::assertSame($expected, $ltree->getPathFromRoot());
@@ -68,8 +72,8 @@ final class LtreeTest extends TestCase
     /**
      * @param list<non-empty-string> $value
      */
-    #[DataProvider('goodRepresentationProvider')]
-    public function test_to_string(string $expected, array $value): void
+    #[DataProvider('provideValidRepresentation')]
+    public function can_convert_to_string(string $expected, array $value): void
     {
         $ltree = new Ltree($value);
         self::assertSame($expected, (string) $ltree);
@@ -78,8 +82,8 @@ final class LtreeTest extends TestCase
     /**
      * @param list<non-empty-string> $expected
      */
-    #[DataProvider('goodRepresentationProvider')]
-    public function test_json_serialize(string $value, array $expected): void
+    #[DataProvider('provideValidRepresentation')]
+    public function can_serialize_to_json(string $value, array $expected): void
     {
         $ltreeFromString = Ltree::fromString($value);
         self::assertSame($expected, $ltreeFromString->jsonSerialize());
@@ -91,7 +95,7 @@ final class LtreeTest extends TestCase
     /**
      * @return iterable<string, array{0: string, 1: list<non-empty-string>}>
      */
-    public static function goodRepresentationProvider(): iterable
+    public static function provideValidRepresentation(): iterable
     {
         yield 'empty string' => ['', []];
         yield 'single node' => ['a', ['a']];
@@ -100,22 +104,25 @@ final class LtreeTest extends TestCase
         yield 'with special characters' => ['a.b.c-d_e', ['a', 'b', 'c-d_e']];
     }
 
-    public function test_json_encode(): void
+    #[Test]
+    public function can_encode_to_json_array(): void
     {
         $ltree = new Ltree(['a', 'b', 'c']);
         $json = \json_encode($ltree);
         self::assertSame('["a","b","c"]', $json);
     }
 
-    #[DataProvider('parentProvider')]
-    public function test_get_parent(Ltree $child, Ltree $parent): void
+    #[DataProvider('provideParentRelationship')]
+    #[Test]
+    public function can_get_parent(Ltree $child, Ltree $parent): void
     {
         $ltree = $child->getParent();
         self::assertSame((string) $parent, (string) $ltree);
     }
 
-    #[DataProvider('parentProvider')]
-    public function test_get_parent_respect_immutability(Ltree $child, Ltree $parent): void
+    #[DataProvider('provideParentRelationship')]
+    #[Test]
+    public function respect_immutability_when_getting_parent(Ltree $child, Ltree $parent): void
     {
         unset($parent);
         $childAsString = (string) $child;
@@ -127,7 +134,7 @@ final class LtreeTest extends TestCase
     /**
      * @return iterable<string, array{child: Ltree, parent: Ltree}>
      */
-    public static function parentProvider(): iterable
+    public static function provideParentRelationship(): iterable
     {
         yield 'root' => [
             'child' => new Ltree(['a']),
@@ -140,13 +147,15 @@ final class LtreeTest extends TestCase
         ];
     }
 
-    public function test_get_parent_throws_on_empty(): void
+    #[Test]
+    public function throws_exception_when_getting_empty_ltree_parent(): void
     {
         $this->expectException(\LogicException::class);
         (new Ltree([]))->getParent();
     }
 
-    public function test_is_empty(): void
+    #[Test]
+    public function can_verify_empty_status(): void
     {
         $ltree = new Ltree([]);
         self::assertTrue($ltree->isEmpty());
@@ -155,7 +164,8 @@ final class LtreeTest extends TestCase
         self::assertFalse($ltreeWithNodes->isEmpty());
     }
 
-    public function test_is_root(): void
+    #[Test]
+    public function can_verify_root_status(): void
     {
         $emptyRoot = new Ltree([]);
         $root = new Ltree(['a']);
@@ -167,7 +177,6 @@ final class LtreeTest extends TestCase
 
     /**
      * @param $expected array{
-     *                  equals: bool,
      *                  isAncestorOf: bool,
      *                  isDescendantOf: bool,
      *                  isParentOf: bool,
@@ -175,8 +184,9 @@ final class LtreeTest extends TestCase
      *                  isSiblingOf: bool,
      *                  }
      */
-    #[DataProvider('familyProvider')]
-    public function test_relationships(
+    #[DataProvider('provideFamilyRelationshipWithExpectedResults')]
+    #[Test]
+    public function can_verify_relationship(
         Ltree $left,
         Ltree $right,
         array $expected,
@@ -195,7 +205,6 @@ final class LtreeTest extends TestCase
      *   left: Ltree,
      *   right: Ltree,
      *   expected: array{
-     *     equals: bool,
      *     isAncestorOf: bool,
      *     isDescendantOf: bool,
      *     isParentOf: bool,
@@ -204,7 +213,7 @@ final class LtreeTest extends TestCase
      *   },
      * }>
      */
-    public static function familyProvider(): iterable
+    public static function provideFamilyRelationshipWithExpectedResults(): iterable
     {
         $empty = new Ltree([]);
         $root = new Ltree(['a']);
@@ -219,7 +228,6 @@ final class LtreeTest extends TestCase
             'left' => $empty,
             'right' => $empty,
             'expected' => [
-                'equals' => true,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -232,7 +240,6 @@ final class LtreeTest extends TestCase
             'left' => $empty,
             'right' => $root,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => true,
                 'isDescendantOf' => false,
                 'isParentOf' => true,
@@ -245,7 +252,6 @@ final class LtreeTest extends TestCase
             'left' => $root,
             'right' => $empty,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => true,
                 'isParentOf' => false,
@@ -258,7 +264,6 @@ final class LtreeTest extends TestCase
             'left' => $root,
             'right' => $root,
             'expected' => [
-                'equals' => true,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -271,7 +276,6 @@ final class LtreeTest extends TestCase
             'left' => $child,
             'right' => $empty,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => true,
                 'isParentOf' => false,
@@ -284,7 +288,6 @@ final class LtreeTest extends TestCase
             'left' => $root,
             'right' => $child,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => true,
                 'isDescendantOf' => false,
                 'isParentOf' => true,
@@ -297,7 +300,6 @@ final class LtreeTest extends TestCase
             'left' => $child,
             'right' => $root,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => true,
                 'isParentOf' => false,
@@ -310,7 +312,6 @@ final class LtreeTest extends TestCase
             'left' => $child,
             'right' => $child,
             'expected' => [
-                'equals' => true,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -323,7 +324,6 @@ final class LtreeTest extends TestCase
             'left' => $child,
             'right' => $grandChild,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => true,
                 'isDescendantOf' => false,
                 'isParentOf' => true,
@@ -336,7 +336,6 @@ final class LtreeTest extends TestCase
             'left' => $grandChild,
             'right' => $child,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => true,
                 'isParentOf' => false,
@@ -349,7 +348,6 @@ final class LtreeTest extends TestCase
             'left' => $child,
             'right' => $unrelated,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -362,7 +360,6 @@ final class LtreeTest extends TestCase
             'left' => $unrelated,
             'right' => $child,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -375,7 +372,6 @@ final class LtreeTest extends TestCase
             'left' => $child,
             'right' => $secondChild,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -388,7 +384,6 @@ final class LtreeTest extends TestCase
             'left' => $secondChild,
             'right' => $child,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -401,7 +396,6 @@ final class LtreeTest extends TestCase
             'left' => $grandChild,
             'right' => $secondGrandChild,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -414,7 +408,6 @@ final class LtreeTest extends TestCase
             'left' => $secondGrandChild,
             'right' => $grandChild,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -427,7 +420,6 @@ final class LtreeTest extends TestCase
             'left' => $grandChild,
             'right' => $thirdGrandChild,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -440,7 +432,6 @@ final class LtreeTest extends TestCase
             'left' => $thirdGrandChild,
             'right' => $grandChild,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -453,7 +444,6 @@ final class LtreeTest extends TestCase
             'left' => $secondChild,
             'right' => $secondGrandChild,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => false,
                 'isDescendantOf' => false,
                 'isParentOf' => false,
@@ -466,7 +456,6 @@ final class LtreeTest extends TestCase
             'left' => $secondChild,
             'right' => $thirdGrandChild,
             'expected' => [
-                'equals' => false,
                 'isAncestorOf' => true,
                 'isDescendantOf' => false,
                 'isParentOf' => true,
@@ -479,8 +468,8 @@ final class LtreeTest extends TestCase
     /**
      * @param non-empty-string $leaf
      */
-    #[DataProvider('goodLeafProvider')]
-    public function test_with_leaf(Ltree $parent, string $leaf, Ltree $expected): void
+    #[DataProvider('provideValidLeaf')]
+    public function can_create_leaf(Ltree $parent, string $leaf, Ltree $expected): void
     {
         $ltree = $parent->withLeaf($leaf);
         self::assertSame((string) $expected, (string) $ltree);
@@ -489,8 +478,8 @@ final class LtreeTest extends TestCase
     /**
      * @param non-empty-string $leaf
      */
-    #[DataProvider('goodLeafProvider')]
-    public function test_with_leaf_respects_immutability(Ltree $parent, string $leaf, Ltree $expected): void
+    #[DataProvider('provideValidLeaf')]
+    public function respects_immutability_when_creating_leaf(Ltree $parent, string $leaf, Ltree $expected): void
     {
         unset($expected);
 
@@ -503,7 +492,7 @@ final class LtreeTest extends TestCase
     /**
      * @return iterable<string, array{0: Ltree, 1: non-empty-string, 2: Ltree}>
      */
-    public static function goodLeafProvider(): iterable
+    public static function provideValidLeaf(): iterable
     {
         yield 'add leaf to empty' => [new Ltree([]), 'a', new Ltree(['a'])];
 
@@ -512,8 +501,9 @@ final class LtreeTest extends TestCase
         yield 'add leaf to child' => [new Ltree(['a', 'b']), 'c', new Ltree(['a', 'b', 'c'])];
     }
 
-    #[DataProvider('badLeafProvider')]
-    public function test_with_leaf_throws(string $leaf): void
+    #[DataProvider('provideInvalidLeaf')]
+    #[Test]
+    public function throws_exception_for_invalid_leaf(string $leaf): void
     {
         $ltree = new Ltree(['a', 'b']);
         $this->expectException(\InvalidArgumentException::class);
@@ -523,7 +513,7 @@ final class LtreeTest extends TestCase
     /**
      * @return iterable<string, string[]>
      */
-    public static function badLeafProvider(): iterable
+    public static function provideInvalidLeaf(): iterable
     {
         yield 'with empty leaf' => [''];
         yield 'with leaf with dot' => ['a.b'];
