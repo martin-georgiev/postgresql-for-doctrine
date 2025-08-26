@@ -17,19 +17,19 @@ class ArrayPositionTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_position_with_text_array(): void
+    public function can_find_position_in_text_array(): void
     {
-        $dql = 'SELECT ARRAY_POSITION(t.textArray, \'banana\') as result 
+        $dql = 'SELECT ARRAY_POSITION(t.textArray, \'orange\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertIsInt($result[0]['result']);
-        $this->assertSame(2, $result[0]['result']);
+        $this->assertSame(3, $result[0]['result']);
     }
 
     #[Test]
-    public function array_position_with_integer_array(): void
+    public function can_find_position_in_integer_array(): void
     {
         $dql = 'SELECT ARRAY_POSITION(t.integerArray, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -41,7 +41,7 @@ class ArrayPositionTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_position_with_boolean_array(): void
+    public function can_find_position_in_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_POSITION(t.boolArray, false) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -53,7 +53,7 @@ class ArrayPositionTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_position_with_not_found_element(): void
+    public function returns_null_when_no_position_is_found(): void
     {
         $dql = 'SELECT ARRAY_POSITION(t.textArray, \'mango\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

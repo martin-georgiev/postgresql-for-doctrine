@@ -17,7 +17,7 @@ class ArrayToJsonTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_to_json_with_text_array(): void
+    public function can_convert_text_array_to_json(): void
     {
         $dql = 'SELECT ARRAY_TO_JSON(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -28,7 +28,7 @@ class ArrayToJsonTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_to_json_with_integer_array(): void
+    public function can_convert_integer_array_to_json(): void
     {
         $dql = 'SELECT ARRAY_TO_JSON(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -39,7 +39,7 @@ class ArrayToJsonTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_to_json_with_boolean_array(): void
+    public function can_convert_boolean_array_to_json(): void
     {
         $dql = 'SELECT ARRAY_TO_JSON(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

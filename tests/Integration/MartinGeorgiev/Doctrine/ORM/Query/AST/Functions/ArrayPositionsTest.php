@@ -17,20 +17,20 @@ class ArrayPositionsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_positions_with_text_array(): void
+    public function can_find_positions_in_text_array(): void
     {
         $dql = 'SELECT ARRAY_POSITIONS(t.textArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 2';
+                WHERE t.id = 3';
 
-        $result = $this->executeDqlQuery($dql, ['value' => 'apple']);
+        $result = $this->executeDqlQuery($dql, ['value' => 'kiwi']);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($actual);
-        $this->assertSame([2], $actual);
+        $this->assertSame([3], $actual);
     }
 
     #[Test]
-    public function array_positions_with_integer_array(): void
+    public function can_find_positions_in_integer_array(): void
     {
         $dql = 'SELECT ARRAY_POSITIONS(t.integerArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -43,7 +43,7 @@ class ArrayPositionsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_positions_with_boolean_array(): void
+    public function can_find_positions_in_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_POSITIONS(t.boolArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -56,7 +56,7 @@ class ArrayPositionsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_positions_with_not_found(): void
+    public function returns_empty_array_when_no_positions_are_found(): void
     {
         $dql = 'SELECT ARRAY_POSITIONS(t.textArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

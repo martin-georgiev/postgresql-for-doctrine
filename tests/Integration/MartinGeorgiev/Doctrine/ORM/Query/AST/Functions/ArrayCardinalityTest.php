@@ -17,7 +17,7 @@ class ArrayCardinalityTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_cardinality_with_text_array(): void
+    public function can_get_text_array_cardinality(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -28,7 +28,7 @@ class ArrayCardinalityTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_cardinality_with_integer_array(): void
+    public function can_get_integer_array_cardinality(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -39,7 +39,7 @@ class ArrayCardinalityTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_cardinality_with_boolean_array(): void
+    public function can_get_boolean_array_cardinality(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

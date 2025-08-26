@@ -17,7 +17,7 @@ class ArrayCatTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_cat_with_text_arrays(): void
+    public function can_concatenate_text_arrays(): void
     {
         $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -32,7 +32,7 @@ class ArrayCatTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_cat_with_integer_arrays(): void
+    public function can_concatenate_integer_arrays(): void
     {
         $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -47,7 +47,7 @@ class ArrayCatTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_cat_with_boolean_arrays(): void
+    public function can_concatenate_boolean_arrays(): void
     {
         $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -62,7 +62,7 @@ class ArrayCatTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_cat_with_array_columns(): void
+    public function can_concatenate_array_columns(): void
     {
         $dql = 'SELECT ARRAY_CAT(t.textArray, t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

@@ -17,7 +17,7 @@ class Int4rangeTest extends NumericTestCase
     }
 
     #[Test]
-    public function int4range(): void
+    public function can_create_integer_range_with_default_bounds(): void
     {
         $dql = 'SELECT INT4RANGE(t.integer1, t.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class Int4rangeTest extends NumericTestCase
     }
 
     #[Test]
-    public function int4range_with_bounds(): void
+    public function can_create_integer_range_with_custom_bounds(): void
     {
         $dql = "SELECT INT4RANGE(t.integer1, t.integer2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

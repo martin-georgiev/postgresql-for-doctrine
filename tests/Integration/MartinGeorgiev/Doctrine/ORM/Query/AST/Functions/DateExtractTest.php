@@ -17,7 +17,7 @@ class DateExtractTest extends DateTestCase
     }
 
     #[Test]
-    public function date_extract_with_year(): void
+    public function can_extract_year(): void
     {
         $dql = "SELECT DATE_EXTRACT('year', t.date1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
@@ -27,7 +27,7 @@ class DateExtractTest extends DateTestCase
     }
 
     #[Test]
-    public function date_extract_with_month(): void
+    public function can_extract_month(): void
     {
         $dql = "SELECT DATE_EXTRACT('month', t.date1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
@@ -37,7 +37,7 @@ class DateExtractTest extends DateTestCase
     }
 
     #[Test]
-    public function date_extract_with_day(): void
+    public function can_extract_day(): void
     {
         $dql = "SELECT DATE_EXTRACT('day', t.date1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
@@ -47,7 +47,7 @@ class DateExtractTest extends DateTestCase
     }
 
     #[Test]
-    public function date_extract_with_column_reference(): void
+    public function can_extract_from_column_reference(): void
     {
         $dql = "SELECT DATE_EXTRACT('year', t.date1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
