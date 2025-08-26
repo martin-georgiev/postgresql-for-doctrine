@@ -17,7 +17,7 @@ class ContainsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function contains_with_text_array(): void
+    public function returns_true_when_value_is_contained_in_text_array(): void
     {
         $dql = 'SELECT CONTAINS(t.textArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -28,7 +28,7 @@ class ContainsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function contains_with_integer_array(): void
+    public function returns_true_when_value_is_contained_in_integer_array(): void
     {
         $dql = 'SELECT CONTAINS(t.integerArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -39,7 +39,7 @@ class ContainsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function contains_with_non_existing_element(): void
+    public function returns_false_for_non_existing_elements(): void
     {
         $dql = 'SELECT CONTAINS(t.textArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

@@ -17,7 +17,7 @@ class ArrayLengthTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_length_with_text_array(): void
+    public function can_get_text_array_length(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.textArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -29,7 +29,7 @@ class ArrayLengthTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_length_with_integer_array(): void
+    public function can_get_integer_array_length(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.integerArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -41,7 +41,7 @@ class ArrayLengthTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_length_with_boolean_array(): void
+    public function can_get_boolean_array_length(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.boolArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -53,7 +53,7 @@ class ArrayLengthTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_length_with_invalid_dimension(): void
+    public function returns_null_for_invalid_dimension(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.textArray, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

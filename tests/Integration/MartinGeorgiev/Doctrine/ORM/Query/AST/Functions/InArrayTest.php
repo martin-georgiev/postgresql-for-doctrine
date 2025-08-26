@@ -17,7 +17,7 @@ class InArrayTest extends ArrayTestCase
     }
 
     #[Test]
-    public function in_array_with_text_element(): void
+    public function returns_true_when_text_element_exists_in_array(): void
     {
         $dql = 'SELECT IN_ARRAY(:value, t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -28,7 +28,7 @@ class InArrayTest extends ArrayTestCase
     }
 
     #[Test]
-    public function in_array_with_integer_element(): void
+    public function returns_true_when_integer_element_exists_in_array(): void
     {
         $dql = 'SELECT IN_ARRAY(:value, t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -39,7 +39,7 @@ class InArrayTest extends ArrayTestCase
     }
 
     #[Test]
-    public function in_array_with_non_existing_element(): void
+    public function returns_false_for_non_existing_element(): void
     {
         $dql = 'SELECT IN_ARRAY(:value, t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

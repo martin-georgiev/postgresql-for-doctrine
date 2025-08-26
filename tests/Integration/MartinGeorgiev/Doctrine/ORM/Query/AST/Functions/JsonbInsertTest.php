@@ -18,7 +18,7 @@ class JsonbInsertTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_insert_new_value(): void
+    public function can_insert_new_value(): void
     {
         $dql = 'SELECT JSONB_INSERT(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -35,7 +35,7 @@ class JsonbInsertTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_insert_nested_path(): void
+    public function can_insert_at_nested_path(): void
     {
         $dql = 'SELECT JSONB_INSERT(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

@@ -17,7 +17,7 @@ class JsonbEachTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_each_text(): void
+    public function extracts_key_value_pairs_from_standard_json_object(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -43,7 +43,7 @@ class JsonbEachTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_each_text_with_empty_object(): void
+    public function returns_empty_result_for_empty_object(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -53,7 +53,7 @@ class JsonbEachTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_each_text_with_different_object(): void
+    public function extracts_key_value_pairs_from_alternative_json_object(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -63,7 +63,7 @@ class JsonbEachTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_each_text_with_nulls(): void
+    public function extracts_key_value_pairs_when_json_contains_null_values(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -73,7 +73,7 @@ class JsonbEachTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_each_text_with_empty_tags_array(): void
+    public function extracts_key_value_pairs_when_json_contains_empty_array(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

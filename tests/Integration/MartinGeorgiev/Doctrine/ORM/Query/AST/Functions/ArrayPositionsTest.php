@@ -17,7 +17,7 @@ class ArrayPositionsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_find_positions_in_text_array(): void
+    public function returns_positions_when_text_element_is_found(): void
     {
         $dql = 'SELECT ARRAY_POSITIONS(t.textArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -30,7 +30,7 @@ class ArrayPositionsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_find_positions_in_integer_array(): void
+    public function returns_positions_when_integer_element_is_found(): void
     {
         $dql = 'SELECT ARRAY_POSITIONS(t.integerArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -43,7 +43,7 @@ class ArrayPositionsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_find_positions_in_boolean_array(): void
+    public function returns_positions_when_boolean_element_is_found(): void
     {
         $dql = 'SELECT ARRAY_POSITIONS(t.boolArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
