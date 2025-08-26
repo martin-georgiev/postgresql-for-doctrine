@@ -30,8 +30,6 @@ class Ltree implements \Stringable, \JsonSerializable
     }
 
     /**
-     * Creates an Ltree instance from a string representation.
-     *
      * @throws InvalidLtreeException if $ltree contains invalid/empty labels (e.g., consecutive dots)
      */
     public static function fromString(string $ltree): static
@@ -76,9 +74,6 @@ class Ltree implements \Stringable, \JsonSerializable
         return new static($parentPathFromRoot);
     }
 
-    /**
-     * Checks if the ltree has no nodes.
-     */
     public function isEmpty(): bool
     {
         return [] === $this->pathFromRoot;
