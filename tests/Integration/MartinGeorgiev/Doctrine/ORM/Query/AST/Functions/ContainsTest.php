@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
+use PHPUnit\Framework\Attributes\Test;
 
 class ContainsTest extends ArrayTestCase
 {
@@ -13,7 +14,8 @@ class ContainsTest extends ArrayTestCase
         return ['CONTAINS' => Contains::class];
     }
 
-    public function test_contains_with_text_array(): void
+    #[Test]
+    public function contains_with_text_array(): void
     {
         $dql = 'SELECT CONTAINS(t.textArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -23,7 +25,8 @@ class ContainsTest extends ArrayTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_contains_with_integer_array(): void
+    #[Test]
+    public function contains_with_integer_array(): void
     {
         $dql = 'SELECT CONTAINS(t.integerArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -33,7 +36,8 @@ class ContainsTest extends ArrayTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_contains_with_non_existing_element(): void
+    #[Test]
+    public function contains_with_non_existing_element(): void
     {
         $dql = 'SELECT CONTAINS(t.textArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

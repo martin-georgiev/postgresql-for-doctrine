@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbSetLaxTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbSetLaxTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_set_lax_update_existing_value(): void
+    #[Test]
+    public function jsonb_set_lax_update_existing_value(): void
     {
         $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -31,7 +33,8 @@ class JsonbSetLaxTest extends JsonTestCase
         $this->assertSame('John Doe', $decoded['name']);
     }
 
-    public function test_jsonb_set_lax_add_new_value(): void
+    #[Test]
+    public function jsonb_set_lax_add_new_value(): void
     {
         $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -47,7 +50,8 @@ class JsonbSetLaxTest extends JsonTestCase
         $this->assertSame('john@example.com', $decoded['email']);
     }
 
-    public function test_jsonb_set_lax_nested_path(): void
+    #[Test]
+    public function jsonb_set_lax_nested_path(): void
     {
         $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -65,7 +69,8 @@ class JsonbSetLaxTest extends JsonTestCase
         $this->assertSame('10001', $decoded['address']['zip']);
     }
 
-    public function test_jsonb_set_lax_with_invalid_path(): void
+    #[Test]
+    public function jsonb_set_lax_with_invalid_path(): void
     {
         $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

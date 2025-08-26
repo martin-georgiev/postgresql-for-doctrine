@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch;
+use PHPUnit\Framework\Attributes\Test;
 
 class TsmatchTest extends JsonTestCase
 {
@@ -15,14 +16,16 @@ class TsmatchTest extends JsonTestCase
         ];
     }
 
-    public function test_tsmatch(): void
+    #[Test]
+    public function tsmatch(): void
     {
         $dql = "SELECT TSMATCH('developer manager', 'developer') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_tsmatch_negative(): void
+    #[Test]
+    public function tsmatch_negative(): void
     {
         $dql = "SELECT TSMATCH('developer manager', 'doctor') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

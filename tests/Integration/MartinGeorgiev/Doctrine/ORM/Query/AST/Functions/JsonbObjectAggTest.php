@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbObjectAggTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbObjectAggTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_object_agg(): void
+    #[Test]
+    public function jsonb_object_agg(): void
     {
         $dql = "SELECT JSONB_OBJECT_AGG('key', 'value') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

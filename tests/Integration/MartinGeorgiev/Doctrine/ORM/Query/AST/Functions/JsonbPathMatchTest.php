@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathMatch;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbPathMatchTest extends JsonTestCase
 {
@@ -13,7 +14,8 @@ class JsonbPathMatchTest extends JsonTestCase
         return ['JSONB_PATH_MATCH' => JsonbPathMatch::class];
     }
 
-    public function test_jsonb_path_match_simple(): void
+    #[Test]
+    public function jsonb_path_match_simple(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -25,7 +27,8 @@ class JsonbPathMatchTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_path_match_comparison(): void
+    #[Test]
+    public function jsonb_path_match_comparison(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -37,7 +40,8 @@ class JsonbPathMatchTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_path_match_negative(): void
+    #[Test]
+    public function jsonb_path_match_negative(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -49,7 +53,8 @@ class JsonbPathMatchTest extends JsonTestCase
         $this->assertFalse($result[0]['result']);
     }
 
-    public function test_jsonb_path_match_with_column_reference(): void
+    #[Test]
+    public function jsonb_path_match_with_column_reference(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(t.object1, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

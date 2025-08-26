@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbObjectKeysTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbObjectKeysTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_object_keys(): void
+    #[Test]
+    public function jsonb_object_keys(): void
     {
         $dql = 'SELECT JSONB_OBJECT_KEYS(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

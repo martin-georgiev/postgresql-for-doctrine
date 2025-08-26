@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbExistsTest extends JsonTestCase
 {
@@ -13,7 +14,8 @@ class JsonbExistsTest extends JsonTestCase
         return ['JSONB_EXISTS' => JsonbExists::class];
     }
 
-    public function test_jsonb_exists_with_existing_key(): void
+    #[Test]
+    public function jsonb_exists_with_existing_key(): void
     {
         $dql = 'SELECT JSONB_EXISTS(t.object1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -23,7 +25,8 @@ class JsonbExistsTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_exists_with_nested_key(): void
+    #[Test]
+    public function jsonb_exists_with_nested_key(): void
     {
         $dql = 'SELECT JSONB_EXISTS(t.object1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -33,7 +36,8 @@ class JsonbExistsTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_exists_with_array_element(): void
+    #[Test]
+    public function jsonb_exists_with_array_element(): void
     {
         $dql = 'SELECT JSONB_EXISTS(t.object1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -43,7 +47,8 @@ class JsonbExistsTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_exists_with_non_existing_key(): void
+    #[Test]
+    public function jsonb_exists_with_non_existing_key(): void
     {
         $dql = 'SELECT JSONB_EXISTS(t.object1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

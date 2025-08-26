@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbSetTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbSetTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_set_update_existing_value(): void
+    #[Test]
+    public function jsonb_set_update_existing_value(): void
     {
         $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -31,7 +33,8 @@ class JsonbSetTest extends JsonTestCase
         $this->assertSame('John Doe', $decoded['name']);
     }
 
-    public function test_jsonb_set_add_new_value(): void
+    #[Test]
+    public function jsonb_set_add_new_value(): void
     {
         $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -47,7 +50,8 @@ class JsonbSetTest extends JsonTestCase
         $this->assertSame('john@example.com', $decoded['email']);
     }
 
-    public function test_jsonb_set_nested_path(): void
+    #[Test]
+    public function jsonb_set_nested_path(): void
     {
         $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -65,7 +69,8 @@ class JsonbSetTest extends JsonTestCase
         $this->assertSame('10001', $decoded['address']['zip']);
     }
 
-    public function test_jsonb_set_with_create_missing_false(): void
+    #[Test]
+    public function jsonb_set_with_create_missing_false(): void
     {
         $dql = "SELECT JSONB_SET(t.object1, :path, :value, 'false') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

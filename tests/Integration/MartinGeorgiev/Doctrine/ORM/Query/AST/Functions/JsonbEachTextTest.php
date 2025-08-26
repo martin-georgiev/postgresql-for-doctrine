@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbEachTextTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbEachTextTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_each_text(): void
+    #[Test]
+    public function jsonb_each_text(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -40,7 +42,8 @@ class JsonbEachTextTest extends JsonTestCase
         }
     }
 
-    public function test_jsonb_each_text_with_empty_object(): void
+    #[Test]
+    public function jsonb_each_text_with_empty_object(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -49,7 +52,8 @@ class JsonbEachTextTest extends JsonTestCase
         $this->assertCount(0, $result);
     }
 
-    public function test_jsonb_each_text_with_different_object(): void
+    #[Test]
+    public function jsonb_each_text_with_different_object(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -58,7 +62,8 @@ class JsonbEachTextTest extends JsonTestCase
         $this->assertCount(4, $result);
     }
 
-    public function test_jsonb_each_text_with_nulls(): void
+    #[Test]
+    public function jsonb_each_text_with_nulls(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -67,7 +72,8 @@ class JsonbEachTextTest extends JsonTestCase
         $this->assertCount(4, $result);
     }
 
-    public function test_jsonb_each_text_with_empty_tags_array(): void
+    #[Test]
+    public function jsonb_each_text_with_empty_tags_array(): void
     {
         $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

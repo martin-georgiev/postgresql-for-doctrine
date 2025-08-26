@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQuery;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbPathQueryTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbPathQueryTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_path_query_simple(): void
+    #[Test]
+    public function jsonb_path_query_simple(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -28,7 +30,8 @@ class JsonbPathQueryTest extends JsonTestCase
         $this->assertSame('2', $result[0]['result']);
     }
 
-    public function test_jsonb_path_query_array(): void
+    #[Test]
+    public function jsonb_path_query_array(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -43,7 +46,8 @@ class JsonbPathQueryTest extends JsonTestCase
         $this->assertSame('3', $result[2]['result']);
     }
 
-    public function test_jsonb_path_query_with_filter(): void
+    #[Test]
+    public function jsonb_path_query_with_filter(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -57,7 +61,8 @@ class JsonbPathQueryTest extends JsonTestCase
         $this->assertSame('{"id": 3}', $result[1]['result']);
     }
 
-    public function test_jsonb_path_query_with_column_reference(): void
+    #[Test]
+    public function jsonb_path_query_with_column_reference(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(t.object1, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
