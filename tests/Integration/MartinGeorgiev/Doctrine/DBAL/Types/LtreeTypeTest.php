@@ -10,14 +10,6 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class LtreeTypeTest extends TestCase
 {
-    #[\Override]
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->createLtreeExtension();
-    }
-
     protected function getTypeName(): string
     {
         return 'ltree';
@@ -89,11 +81,5 @@ final class LtreeTypeTest extends TestCase
     {
         $this->assertInstanceOf(LtreeValueObject::class, $actual, 'Failed asserting that value is a Ltree object for type '.$typeName);
         $this->assertSame((string) $ltreeValueObject, (string) $actual, 'Failed asserting that ltree string representations are identical for type '.$typeName);
-    }
-
-    private function createLtreeExtension(): void
-    {
-        $sql = 'CREATE EXTENSION IF NOT EXISTS ltree';
-        $this->connection->executeStatement($sql);
     }
 }

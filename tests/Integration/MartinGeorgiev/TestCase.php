@@ -162,6 +162,17 @@ abstract class TestCase extends BaseTestCase
         $this->connection->executeStatement(\sprintf('DROP SCHEMA IF EXISTS %s CASCADE', self::DATABASE_SCHEMA));
         $this->connection->executeStatement(\sprintf('CREATE SCHEMA %s', self::DATABASE_SCHEMA));
 
+        // Ensure Ltree is available for hierarchy tree types
+        // Ensure Ltree is available in the test schema
+        try {
+            // Ensure PostGIS is installed and, if possible, placed in the test schema
+            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS ltree');
+            // Move the extension objects into the test schema to resolve types without relying on public
+            $this->connection->executeStatement(\sprintf('ALTER EXTENSION ltree SET SCHEMA %s', self::DATABASE_SCHEMA));
+        } catch (\Throwable) {
+            // Fallback: if moving the extension is not possible, keep public in the search_path below
+        }
+
         // Ensure PostGIS is available for geometry/geography types
         // Ensure PostGIS is available in the test schema and as default search_path
         try {
