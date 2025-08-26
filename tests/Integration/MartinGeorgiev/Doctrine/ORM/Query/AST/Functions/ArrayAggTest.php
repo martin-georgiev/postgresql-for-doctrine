@@ -17,7 +17,7 @@ class ArrayAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_agg_with_text_array(): void
+    public function can_aggregate_text_arrays(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -27,7 +27,7 @@ class ArrayAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_agg_with_integer_array(): void
+    public function can_aggregate_integer_arrays(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -37,7 +37,7 @@ class ArrayAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_agg_with_boolean_array(): void
+    public function can_aggregate_boolean_arrays(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

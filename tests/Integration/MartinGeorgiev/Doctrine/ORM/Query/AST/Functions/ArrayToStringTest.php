@@ -17,7 +17,7 @@ class ArrayToStringTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_to_string_with_default_delimiter(): void
+    public function can_convert_to_string_with_comma_delimiter(): void
     {
         $dql = 'SELECT ARRAY_TO_STRING(t.textArray, \',\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -27,7 +27,7 @@ class ArrayToStringTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_to_string_with_custom_delimiter(): void
+    public function can_convert_to_string_with_custom_delimiter(): void
     {
         $dql = 'SELECT ARRAY_TO_STRING(t.textArray, \' | \') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

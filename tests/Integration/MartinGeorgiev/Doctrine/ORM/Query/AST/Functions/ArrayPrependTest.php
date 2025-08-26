@@ -17,7 +17,7 @@ class ArrayPrependTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_prepend_with_text_array(): void
+    public function can_prepend_to_text_array(): void
     {
         $dql = 'SELECT ARRAY_PREPEND(\'orange\', t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -30,7 +30,7 @@ class ArrayPrependTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_prepend_with_integer_array(): void
+    public function can_prepend_to_integer_array(): void
     {
         $dql = 'SELECT ARRAY_PREPEND(3, t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -43,7 +43,7 @@ class ArrayPrependTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_prepend_with_boolean_array(): void
+    public function can_prepend_to_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_PREPEND(true, t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

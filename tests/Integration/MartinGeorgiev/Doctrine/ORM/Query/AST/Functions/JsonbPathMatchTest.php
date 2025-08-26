@@ -17,7 +17,7 @@ class JsonbPathMatchTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_match_simple(): void
+    public function can_match_simple_path(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,7 +30,7 @@ class JsonbPathMatchTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_match_comparison(): void
+    public function can_match_comparison_expression(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -43,7 +43,7 @@ class JsonbPathMatchTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_match_negative(): void
+    public function returns_false_for_non_matching_path(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -56,7 +56,7 @@ class JsonbPathMatchTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_match_with_column_reference(): void
+    public function can_match_with_column_reference(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(t.object1, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

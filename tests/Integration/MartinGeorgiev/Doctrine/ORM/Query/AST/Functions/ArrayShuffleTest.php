@@ -17,7 +17,7 @@ class ArrayShuffleTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_shuffle_with_text_array(): void
+    public function can_shuffle_text_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -31,7 +31,7 @@ class ArrayShuffleTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_shuffle_with_integer_array(): void
+    public function can_shuffle_integer_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -45,7 +45,7 @@ class ArrayShuffleTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_shuffle_with_boolean_array(): void
+    public function can_shuffle_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

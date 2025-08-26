@@ -17,7 +17,7 @@ class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function delete_at_path_simple(): void
+    public function can_delete_simple_path(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,7 +30,7 @@ class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function delete_at_path_multiple_elements(): void
+    public function can_delete_multiple_elements(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -43,7 +43,7 @@ class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function delete_at_path_with_array(): void
+    public function can_delete_array_element(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -56,7 +56,7 @@ class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function delete_at_path_with_column_reference(): void
+    public function can_delete_with_column_reference(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(t.object1, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

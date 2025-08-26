@@ -17,7 +17,7 @@ class ArrayReplaceTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_replace_with_text_array(): void
+    public function can_replace_text_elements(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.textArray, \'banana\', \'mango\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -30,7 +30,7 @@ class ArrayReplaceTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_replace_with_integer_array(): void
+    public function can_replace_integer_elements(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.integerArray, 2, 5) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -43,7 +43,7 @@ class ArrayReplaceTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_replace_with_boolean_array(): void
+    public function can_replace_boolean_elements(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.boolArray, false, true) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -56,7 +56,7 @@ class ArrayReplaceTest extends ArrayTestCase
     }
 
     #[Test]
-    public function array_replace_with_not_found_element(): void
+    public function leaves_array_unchanged_when_element_not_found(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.textArray, \'mango\', \'kiwi\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
