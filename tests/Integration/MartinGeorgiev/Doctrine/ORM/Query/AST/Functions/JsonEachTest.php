@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbEachTest extends JsonTestCase
+class JsonEachTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'JSONB_EACH' => JsonbEach::class,
+            'JSON_EACH' => JsonEach::class,
         ];
     }
 
     #[Test]
     public function extracts_key_value_pairs_from_standard_json_object(): void
     {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSON_EACH(t.jsonObject1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(4, $result);
@@ -52,8 +52,8 @@ class JsonbEachTest extends JsonTestCase
     #[Test]
     public function returns_empty_result_for_empty_object(): void
     {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSON_EACH(t.jsonObject1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 4';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(0, $result);
@@ -62,8 +62,8 @@ class JsonbEachTest extends JsonTestCase
     #[Test]
     public function extracts_key_value_pairs_from_alternative_json_object(): void
     {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSON_EACH(t.jsonObject1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(4, $result);
@@ -81,8 +81,8 @@ class JsonbEachTest extends JsonTestCase
     #[Test]
     public function extracts_key_value_pairs_when_json_contains_null_values(): void
     {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSON_EACH(t.jsonObject1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 5';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(4, $result);
@@ -100,8 +100,8 @@ class JsonbEachTest extends JsonTestCase
     #[Test]
     public function extracts_key_value_pairs_when_json_contains_empty_array(): void
     {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSON_EACH(t.jsonObject1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 3';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(4, $result);

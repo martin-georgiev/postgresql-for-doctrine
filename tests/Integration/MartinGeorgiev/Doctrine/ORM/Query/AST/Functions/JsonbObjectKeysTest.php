@@ -19,7 +19,7 @@ class JsonbObjectKeysTest extends JsonTestCase
     #[Test]
     public function extracts_object_keys_from_jsonb(): void
     {
-        $dql = 'SELECT JSONB_OBJECT_KEYS(t.object1) as result 
+        $dql = 'SELECT JSONB_OBJECT_KEYS(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);

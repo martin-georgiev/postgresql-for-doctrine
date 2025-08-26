@@ -28,16 +28,16 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'basic usage' => "SELECT jsonb_set(c0_.object1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') AS sclr_0 FROM ContainsJsons c0_",
-            'with create-if-missing parameter' => "SELECT jsonb_set(c0_.object1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') AS sclr_0 FROM ContainsJsons c0_",
+            'basic usage' => "SELECT jsonb_set(c0_.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') AS sclr_0 FROM ContainsJsons c0_",
+            'with create-if-missing parameter' => "SELECT jsonb_set(c0_.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'basic usage' => \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJsons::class),
-            'with create-if-missing parameter' => \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') FROM %s e", ContainsJsons::class),
+            'basic usage' => \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJsons::class),
+            'with create-if-missing parameter' => \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') FROM %s e", ContainsJsons::class),
         ];
     }
 

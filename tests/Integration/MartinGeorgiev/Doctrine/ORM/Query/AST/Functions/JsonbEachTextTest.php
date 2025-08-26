@@ -19,7 +19,7 @@ class JsonbEachTextTest extends JsonTestCase
     #[Test]
     public function extracts_key_value_pairs_from_standard_json_object(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -45,7 +45,7 @@ class JsonbEachTextTest extends JsonTestCase
     #[Test]
     public function returns_empty_result_for_empty_object(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 4';
         $result = $this->executeDqlQuery($dql);
@@ -55,7 +55,7 @@ class JsonbEachTextTest extends JsonTestCase
     #[Test]
     public function extracts_key_value_pairs_from_alternative_json_object(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
@@ -65,7 +65,7 @@ class JsonbEachTextTest extends JsonTestCase
     #[Test]
     public function extracts_key_value_pairs_when_json_contains_null_values(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 5';
         $result = $this->executeDqlQuery($dql);
@@ -75,7 +75,7 @@ class JsonbEachTextTest extends JsonTestCase
     #[Test]
     public function extracts_key_value_pairs_when_json_contains_empty_array(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 3';
         $result = $this->executeDqlQuery($dql);
