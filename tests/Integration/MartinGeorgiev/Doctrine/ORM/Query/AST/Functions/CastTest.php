@@ -90,7 +90,7 @@ class CastTest extends TestCase
     {
         $dql = 'SELECT t.id, CAST(t.text1 AS INTEGER) as casted_text FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id IN (1, 2, 3)';
         $result = $this->executeDqlQuery($dql);
-        static::assertNotEmpty($result);
+        $this->assertNotEmpty($result);
     }
 
     #[Test]
@@ -98,7 +98,7 @@ class CastTest extends TestCase
     {
         $dql = 'SELECT CAST(n.decimal1 AS INTEGER) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        static::assertSame(11, $result[0]['result']); // PostgreSQL rounds 10.5 to 11
+        $this->assertSame(11, $result[0]['result'], 'PostgreSQL is expected to round 10.5 to 11');
     }
 
     #[Test]
@@ -106,7 +106,7 @@ class CastTest extends TestCase
     {
         $dql = 'SELECT CAST(n.integer1 AS DECIMAL(10, 2)) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        static::assertEquals('10.00', $result[0]['result']);
+        $this->assertEquals('10.00', $result[0]['result']);
     }
 
     #[Test]
@@ -130,8 +130,8 @@ class CastTest extends TestCase
     {
         $dql = 'SELECT CAST(a.integerArray AS int[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
-        static::assertIsString($result[0]['result']);
-        static::assertStringContainsString('{', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertStringContainsString('{', $result[0]['result']);
     }
 
     #[Test]
@@ -139,8 +139,8 @@ class CastTest extends TestCase
     {
         $dql = 'SELECT CAST(a.integerArray AS Text[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
-        static::assertIsString($result[0]['result']);
-        static::assertStringContainsString('{', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertStringContainsString('{', $result[0]['result']);
     }
 
     #[Test]
@@ -148,8 +148,8 @@ class CastTest extends TestCase
     {
         $dql = 'SELECT CAST(a.integerArray AS DECIMAL(10, 2)[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
-        static::assertIsString($result[0]['result']);
-        static::assertStringContainsString('{', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $this->assertStringContainsString('{', $result[0]['result']);
     }
 
     private function createTestTableForTextFixture(): void

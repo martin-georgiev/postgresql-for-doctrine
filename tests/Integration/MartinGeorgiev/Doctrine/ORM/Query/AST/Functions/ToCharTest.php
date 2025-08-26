@@ -35,7 +35,7 @@ class ToCharTest extends TestCase
     {
         $dql = "SELECT to_char(t.datetimetz1, 'HH12:MI:SS') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('10:30:00', $result[0]['result']);
+        $this->assertSame('10:30:00', $result[0]['result']);
     }
 
     #[Test]
@@ -43,7 +43,7 @@ class ToCharTest extends TestCase
     {
         $dql = "SELECT to_char(t.dateinterval1, 'HH24:MI:SS') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('15:02:12', $result[0]['result']);
+        $this->assertSame('15:02:12', $result[0]['result']);
     }
 
     #[Test]
@@ -51,7 +51,7 @@ class ToCharTest extends TestCase
     {
         $dql = "SELECT to_char(t.decimal1, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('125.80-', $result[0]['result']);
+        $this->assertSame('125.80-', $result[0]['result']);
     }
 
     #[Test]
@@ -59,7 +59,7 @@ class ToCharTest extends TestCase
     {
         $dql = "SELECT to_char(125.80, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('125.80+', $result[0]['result']);
+        $this->assertSame('125.80+', $result[0]['result']);
     }
 
     #[Test]
@@ -67,7 +67,7 @@ class ToCharTest extends TestCase
     {
         $dql = "SELECT to_char(-125.80, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('125.80-', $result[0]['result']);
+        $this->assertSame('125.80-', $result[0]['result']);
     }
 
     #[Test]
@@ -75,7 +75,7 @@ class ToCharTest extends TestCase
     {
         $dql = "SELECT to_char(to_timestamp('05 Dec 2000 at 11:55 and 32 seconds', 'DD Mon YYYY tt HH24:MI ttt SS ttttttt'), 'HH24:MI:SS') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('11:55:32', $result[0]['result']);
+        $this->assertSame('11:55:32', $result[0]['result']);
     }
 
     #[Test]

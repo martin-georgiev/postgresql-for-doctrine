@@ -92,8 +92,8 @@ final class Int8RangeTest extends BaseRangeTestCase
     {
         $int8Range = new Int8Range(PHP_INT_MIN, PHP_INT_MAX);
 
-        self::assertEquals('['.PHP_INT_MIN.','.PHP_INT_MAX.')', (string) $int8Range);
-        self::assertFalse($int8Range->isEmpty());
+        $this->assertEquals('['.PHP_INT_MIN.','.PHP_INT_MAX.')', (string) $int8Range);
+        $this->assertFalse($int8Range->isEmpty());
     }
 
     public static function provideContainsTestCases(): \Generator

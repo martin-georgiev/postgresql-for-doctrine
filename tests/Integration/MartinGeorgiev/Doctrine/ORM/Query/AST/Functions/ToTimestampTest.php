@@ -23,7 +23,7 @@ class ToTimestampTest extends TextTestCase
     {
         $dql = "SELECT to_timestamp('05 Dec 2000 at 11:55 and 32 seconds', 'DD Mon YYYY tt HH24:MI ttt SS ttttttt') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('2000-12-05 11:55:32+00', $result[0]['result']);
+        $this->assertSame('2000-12-05 11:55:32+00', $result[0]['result']);
     }
 
     #[Test]
@@ -39,7 +39,7 @@ class ToTimestampTest extends TextTestCase
     {
         $dql = "SELECT to_timestamp('05 Dec 2000', 'invalid_format') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('2005-01-01 00:00:00+00', $result[0]['result']);
+        $this->assertSame('2005-01-01 00:00:00+00', $result[0]['result']);
     }
 
     #[Test]

@@ -20,10 +20,10 @@ final class WktSpatialDataTest extends TestCase
     {
         $wktSpatialData = WktSpatialData::fromWkt($wkt);
 
-        self::assertSame(GeometryType::from($expectedType), $wktSpatialData->getGeometryType());
-        self::assertSame($expectedSrid, $wktSpatialData->getSrid());
-        self::assertSame($wkt, $wktSpatialData->getWkt());
-        self::assertSame($wkt, (string) $wktSpatialData);
+        $this->assertSame(GeometryType::from($expectedType), $wktSpatialData->getGeometryType());
+        $this->assertSame($expectedSrid, $wktSpatialData->getSrid());
+        $this->assertSame($wkt, $wktSpatialData->getWkt());
+        $this->assertSame($wkt, (string) $wktSpatialData);
     }
 
     /**
@@ -71,7 +71,7 @@ final class WktSpatialDataTest extends TestCase
     {
         $wktSpatialData = WktSpatialData::fromWkt($wkt);
 
-        self::assertSame($dimensionalModifier, $wktSpatialData->getDimensionalModifier());
+        $this->assertSame($dimensionalModifier, $wktSpatialData->getDimensionalModifier());
     }
 
     /**
@@ -141,7 +141,7 @@ final class WktSpatialDataTest extends TestCase
         $wktSpatialData = WktSpatialData::fromWkt($wkt);
         $output = (string) $wktSpatialData;
 
-        self::assertSame($wkt, $output, 'Dimensional modifier should be preserved in round-trip conversion');
+        $this->assertSame($wkt, $output, 'Dimensional modifier should be preserved in round-trip conversion');
     }
 
     /**

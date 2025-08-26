@@ -19,7 +19,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     #[Test]
     public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
     {
-        self::assertEquals($postgresValue, PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpValue));
+        $this->assertEquals($postgresValue, PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpValue));
     }
 
     /**
@@ -159,7 +159,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
             }
         };
 
-        self::assertSame('{"object string representation"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$object]));
+        $this->assertSame('{"object string representation"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$object]));
     }
 
     #[Test]
@@ -168,7 +168,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         $object = new class {};
 
         // Should contain the class name
-        self::assertStringContainsString('class@anonymous', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$object]));
+        $this->assertStringContainsString('class@anonymous', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$object]));
     }
 
     #[Test]
@@ -178,7 +178,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         \assert(\is_resource($resource));
         \fclose($resource);
 
-        self::assertSame('{"resource (closed)"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
+        $this->assertSame('{"resource (closed)"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
     }
 
     #[Test]
@@ -187,7 +187,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         $resource = \fopen('php://temp', 'r');
         \assert(\is_resource($resource));
 
-        self::assertSame('{"(resource)"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
+        $this->assertSame('{"(resource)"}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]));
     }
 
     #[Test]
@@ -208,7 +208,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
             '',
         ];
 
-        self::assertEquals('{"string",123,1.5,true,NULL,"object",""}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($input));
+        $this->assertEquals('{"string",123,1.5,true,NULL,"object",""}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($input));
     }
 
     /**

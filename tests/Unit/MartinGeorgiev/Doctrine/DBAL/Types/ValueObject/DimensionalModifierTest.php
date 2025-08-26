@@ -17,8 +17,8 @@ final class DimensionalModifierTest extends TestCase
     {
         $modifier = DimensionalModifier::from($modifierString);
 
-        self::assertSame($dimensionalModifier, $modifier);
-        self::assertSame($modifierString, $modifier->value);
+        $this->assertSame($dimensionalModifier, $modifier);
+        $this->assertSame($modifierString, $modifier->value);
     }
 
     #[Test]
@@ -35,7 +35,7 @@ final class DimensionalModifierTest extends TestCase
     {
         $result = DimensionalModifier::tryFrom($modifierString);
 
-        self::assertSame($dimensionalModifier, $result);
+        $this->assertSame($dimensionalModifier, $result);
     }
 
     /**
@@ -53,9 +53,9 @@ final class DimensionalModifierTest extends TestCase
     #[Test]
     public function returns_null_for_invalid_modifiers(): void
     {
-        self::assertNull(DimensionalModifier::tryFrom('INVALID_MODIFIER'));
-        self::assertNull(DimensionalModifier::tryFrom(''));
-        self::assertNull(DimensionalModifier::tryFrom('X'));
-        self::assertNull(DimensionalModifier::tryFrom('Y'));
+        $this->assertNull(DimensionalModifier::tryFrom('INVALID_MODIFIER'));
+        $this->assertNull(DimensionalModifier::tryFrom(''));
+        $this->assertNull(DimensionalModifier::tryFrom('X'));
+        $this->assertNull(DimensionalModifier::tryFrom('Y'));
     }
 }

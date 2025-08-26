@@ -170,7 +170,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     {
         // Test direct retrieval
         $retrieved = $this->retrieveArray($id);
-        self::assertEquals(
+        $this->assertEquals(
             $expected,
             $retrieved,
             \sprintf('Direct retrieval failed for %s', $description)
@@ -179,7 +179,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
         // Test text representation
         $postgresText = $this->retrieveArrayAsText($id);
         $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresText);
-        self::assertEquals(
+        $this->assertEquals(
             $expected,
             $parsed,
             \sprintf('Text representation parsing failed for %s', $description)

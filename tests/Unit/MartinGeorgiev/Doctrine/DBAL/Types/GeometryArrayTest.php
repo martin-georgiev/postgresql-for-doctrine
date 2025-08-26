@@ -30,7 +30,7 @@ final class GeometryArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('geometry[]', $this->type->getName());
+        $this->assertEquals('geometry[]', $this->type->getName());
     }
 
     #[Test]
@@ -38,7 +38,7 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->convertToDatabaseValue(null, $this->platform);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     #[Test]
@@ -46,7 +46,7 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->convertToDatabaseValue([], $this->platform);
 
-        self::assertSame('{}', $result);
+        $this->assertSame('{}', $result);
     }
 
     #[DataProvider('provideValidArraysForDatabase')]
@@ -55,7 +55,7 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->convertToDatabaseValue($phpArray, $this->platform);
 
-        self::assertSame($expectedPostgresArray, $result);
+        $this->assertSame($expectedPostgresArray, $result);
     }
 
     /**
@@ -127,7 +127,7 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->convertToPHPValue(null, $this->platform);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     #[Test]
@@ -135,7 +135,7 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->convertToPHPValue('{}', $this->platform);
 
-        self::assertSame([], $result);
+        $this->assertSame([], $result);
     }
 
     #[DataProvider('provideValidPostgresArraysForPHP')]
@@ -144,12 +144,12 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->convertToPHPValue($postgresArray, $this->platform);
 
-        self::assertIsArray($result);
-        self::assertCount(\count($expectedPhpArray), $result);
+        $this->assertIsArray($result);
+        $this->assertCount(\count($expectedPhpArray), $result);
 
         foreach ($result as $index => $item) {
-            self::assertInstanceOf(WktSpatialData::class, $item);
-            self::assertSame($expectedPhpArray[$index], (string) $item);
+            $this->assertInstanceOf(WktSpatialData::class, $item);
+            $this->assertSame($expectedPhpArray[$index], (string) $item);
         }
     }
 
@@ -270,14 +270,14 @@ final class GeometryArrayTest extends TestCase
         $databaseValue = $this->type->convertToDatabaseValue($phpArray, $this->platform);
         $convertedBack = $this->type->convertToPHPValue($databaseValue, $this->platform);
 
-        self::assertIsArray($convertedBack);
-        self::assertCount(\count($phpArray), $convertedBack);
+        $this->assertIsArray($convertedBack);
+        $this->assertCount(\count($phpArray), $convertedBack);
 
         foreach ($convertedBack as $index => $item) {
-            self::assertInstanceOf(WktSpatialData::class, $item);
+            $this->assertInstanceOf(WktSpatialData::class, $item);
             $originalItem = $phpArray[$index];
-            self::assertInstanceOf(WktSpatialData::class, $originalItem);
-            self::assertSame((string) $originalItem, (string) $item);
+            $this->assertInstanceOf(WktSpatialData::class, $originalItem);
+            $this->assertSame((string) $originalItem, (string) $item);
         }
     }
 
@@ -313,7 +313,7 @@ final class GeometryArrayTest extends TestCase
     #[Test]
     public function can_validate_array_items_for_database(mixed $item, bool $expected): void
     {
-        self::assertSame($expected, $this->type->isValidArrayItemForDatabase($item));
+        $this->assertSame($expected, $this->type->isValidArrayItemForDatabase($item));
     }
 
     /**
@@ -351,8 +351,8 @@ final class GeometryArrayTest extends TestCase
         $wktString = 'POINT(1 2)';
         $result = $this->type->transformArrayItemForPHP($wktString);
 
-        self::assertInstanceOf(WktSpatialData::class, $result);
-        self::assertEquals($wktString, (string) $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result);
+        $this->assertEquals($wktString, (string) $result);
     }
 
     #[Test]
@@ -360,7 +360,7 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->transformArrayItemForPHP(null);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     #[DataProvider('provideDimensionalModifierNormalization')]
@@ -369,8 +369,8 @@ final class GeometryArrayTest extends TestCase
     {
         $result = $this->type->transformArrayItemForPHP($input);
 
-        self::assertInstanceOf(WktSpatialData::class, $result);
-        self::assertEquals($expected, (string) $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result);
+        $this->assertEquals($expected, (string) $result);
     }
 
     /**

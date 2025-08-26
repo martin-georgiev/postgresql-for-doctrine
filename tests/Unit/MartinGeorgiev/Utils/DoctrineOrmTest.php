@@ -17,6 +17,6 @@ class DoctrineOrmTest extends TestCase
         $tokenTypeExists = \class_exists(TokenType::class);
         $isPre219 = DoctrineOrm::isPre219();
 
-        self::assertSame(!$tokenTypeExists, $isPre219);
+        $this->assertSame(!$tokenTypeExists, $isPre219);
     }
 }

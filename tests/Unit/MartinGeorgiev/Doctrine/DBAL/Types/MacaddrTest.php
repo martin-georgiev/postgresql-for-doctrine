@@ -31,21 +31,21 @@ class MacaddrTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('macaddr', $this->fixture->getName());
+        $this->assertEquals('macaddr', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?string $phpInput, ?string $postgresValueAfterNormalization, ?string $phpValueAfterRetrievalFromDatabase): void
     {
-        self::assertEquals($postgresValueAfterNormalization, $this->fixture->convertToDatabaseValue($phpInput, $this->platform));
+        $this->assertEquals($postgresValueAfterNormalization, $this->fixture->convertToDatabaseValue($phpInput, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?string $phpInput, ?string $postgresValueAfterNormalization, ?string $phpValueAfterRetrievalFromDatabase): void
     {
-        self::assertEquals($phpValueAfterRetrievalFromDatabase, $this->fixture->convertToPHPValue($postgresValueAfterNormalization, $this->platform));
+        $this->assertEquals($phpValueAfterRetrievalFromDatabase, $this->fixture->convertToPHPValue($postgresValueAfterNormalization, $this->platform));
     }
 
     /**

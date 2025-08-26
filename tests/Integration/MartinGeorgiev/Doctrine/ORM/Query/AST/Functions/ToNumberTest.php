@@ -23,7 +23,7 @@ class ToNumberTest extends TextTestCase
     {
         $dql = "SELECT to_number('12,454.8-', '99G999D9S') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('-12454.8', $result[0]['result']);
+        $this->assertSame('-12454.8', $result[0]['result']);
     }
 
     #[Test]
