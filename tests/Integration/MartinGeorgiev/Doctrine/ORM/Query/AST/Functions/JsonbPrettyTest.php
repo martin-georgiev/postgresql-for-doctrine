@@ -44,6 +44,7 @@ class JsonbPrettyTest extends JsonTestCase
 
         // Verify that the formatted JSON is different from a compact version
         $compactJson = \json_encode($decoded);
+        \assert(\is_string($compactJson));
         $this->assertNotEquals($compactJson, $prettyJson, 'Pretty JSON should be different from compact JSON');
 
         // Verify that the content is preserved (round-trip test)
