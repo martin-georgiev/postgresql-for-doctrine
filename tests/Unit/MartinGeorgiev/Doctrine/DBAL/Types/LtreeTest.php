@@ -121,7 +121,7 @@ final class LtreeTest extends TestCase
             'ending by dot' => ['root.'],
             'empty dots' => ['a..b'],
             'not a string' => [123],
-            'array input' => [['not', 'point']],
+            'array input' => [['not', 'ltree']],
             'boolean input' => [false],
             'object input' => [new \stdClass()],
         ];
