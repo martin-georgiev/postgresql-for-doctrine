@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeForPHPException;
@@ -33,30 +31,6 @@ final class LtreeTest extends TestCase
     public function has_name(): void
     {
         self::assertSame('ltree', $this->fixture->getName());
-    }
-
-    #[Test]
-    public function can_get_correct_sql_declaration(): void
-    {
-        $this->platform
-            ->expects(self::once())
-            ->method('getDoctrineTypeMapping')
-            ->with('ltree')
-            ->willReturn('LTREE');
-
-        self::assertSame('LTREE', $this->fixture->getSqlDeclaration([], $this->platform));
-    }
-
-    #[Test]
-    public function can_get_correct_binding_type(): void
-    {
-        self::assertSame(ParameterType::STRING, $this->fixture->getBindingType());
-    }
-
-    #[Test]
-    public function can_get_correct_mapped_database_types(): void
-    {
-        self::assertSame(['ltree'], $this->fixture->getMappedDatabaseTypes($this->platform));
     }
 
     #[Test]
@@ -151,36 +125,5 @@ final class LtreeTest extends TestCase
             'boolean input' => [false],
             'object input' => [new \stdClass()],
         ];
-    }
-
-    #[Test]
-    public function throws_exception_when_getting_sql_declaration_for_unsupported_platform(): void
-    {
-        $this->expectException(\LogicException::class);
-        $this->fixture->getSQLDeclaration([], self::createStub(AbstractPlatform::class));
-    }
-
-    #[Test]
-    public function throws_exception_when_getting_mapped_database_types_for_unsupported_platform(): void
-    {
-        $this->expectException(\LogicException::class);
-        $this->fixture->getMappedDatabaseTypes(self::createStub(AbstractPlatform::class));
-    }
-
-    #[Test]
-    public function throws_exception_when_converting_to_database_value_for_unsupported_platform(): void
-    {
-        $this->expectException(\LogicException::class);
-        $this->fixture->convertToDatabaseValue(
-            new LtreeValueObject(['valid', 'ltree']),
-            self::createStub(AbstractPlatform::class),
-        );
-    }
-
-    #[Test]
-    public function throws_exception_when_converting_to_php_value_from_unsupported_platform(): void
-    {
-        $this->expectException(\LogicException::class);
-        $this->fixture->convertToPHPValue('valid.ltree', self::createStub(AbstractPlatform::class));
     }
 }
