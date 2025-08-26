@@ -11,7 +11,9 @@ class ArrayAggTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_AGG' => ArrayAgg::class];
+        return [
+            'ARRAY_AGG' => ArrayAgg::class,
+        ];
     }
 
     #[Test]

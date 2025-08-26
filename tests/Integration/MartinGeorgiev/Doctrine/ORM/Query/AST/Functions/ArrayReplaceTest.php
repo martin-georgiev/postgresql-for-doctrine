@@ -11,7 +11,9 @@ class ArrayReplaceTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_REPLACE' => ArrayReplace::class];
+        return [
+            'ARRAY_REPLACE' => ArrayReplace::class,
+        ];
     }
 
     #[Test]

@@ -11,7 +11,9 @@ class JsonAggTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['JSON_AGG' => JsonAgg::class];
+        return [
+            'JSON_AGG' => JsonAgg::class,
+        ];
     }
 
     #[Test]

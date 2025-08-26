@@ -11,7 +11,9 @@ class ArrayCardinalityTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_CARDINALITY' => ArrayCardinality::class];
+        return [
+            'ARRAY_CARDINALITY' => ArrayCardinality::class,
+        ];
     }
 
     #[Test]

@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayShuffleTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_SHUFFLE' => ArrayShuffle::class];
+        return [
+            'ARRAY_SHUFFLE' => ArrayShuffle::class,
+        ];
     }
 
-    public function test_array_shuffle_with_text_array(): void
+    #[Test]
+    public function array_shuffle_with_text_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -26,7 +30,8 @@ class ArrayShuffleTest extends ArrayTestCase
         $this->assertEqualsCanonicalizing(['apple', 'banana', 'orange'], $actual);
     }
 
-    public function test_array_shuffle_with_integer_array(): void
+    #[Test]
+    public function array_shuffle_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -39,7 +44,8 @@ class ArrayShuffleTest extends ArrayTestCase
         $this->assertEqualsCanonicalizing([1, 2, 3], $actual);
     }
 
-    public function test_array_shuffle_with_boolean_array(): void
+    #[Test]
+    public function array_shuffle_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

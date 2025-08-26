@@ -11,7 +11,9 @@ class JsonbPathMatchTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['JSONB_PATH_MATCH' => JsonbPathMatch::class];
+        return [
+            'JSONB_PATH_MATCH' => JsonbPathMatch::class,
+        ];
     }
 
     #[Test]

@@ -11,7 +11,9 @@ class ArrayAppendTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_APPEND' => ArrayAppend::class];
+        return [
+            'ARRAY_APPEND' => ArrayAppend::class,
+        ];
     }
 
     #[Test]

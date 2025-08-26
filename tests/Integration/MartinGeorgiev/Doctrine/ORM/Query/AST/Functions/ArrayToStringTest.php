@@ -11,7 +11,9 @@ class ArrayToStringTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_TO_STRING' => ArrayToString::class];
+        return [
+            'ARRAY_TO_STRING' => ArrayToString::class,
+        ];
     }
 
     #[Test]

@@ -11,7 +11,9 @@ class ArrayDimensionsTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_DIMENSIONS' => ArrayDimensions::class];
+        return [
+            'ARRAY_DIMENSIONS' => ArrayDimensions::class,
+        ];
     }
 
     #[Test]

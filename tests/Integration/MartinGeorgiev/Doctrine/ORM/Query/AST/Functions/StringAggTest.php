@@ -11,7 +11,9 @@ class StringAggTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['STRING_AGG' => StringAgg::class];
+        return [
+            'STRING_AGG' => StringAgg::class,
+        ];
     }
 
     #[Test]

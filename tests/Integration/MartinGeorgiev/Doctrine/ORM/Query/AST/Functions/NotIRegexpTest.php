@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp;
+use PHPUnit\Framework\Attributes\Test;
 
 class NotIRegexpTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class NotIRegexpTest extends JsonTestCase
         ];
     }
 
-    public function test_not_iregexp(): void
+    #[Test]
+    public function not_iregexp(): void
     {
         // NOTE: Using string literals for arguments due to DQL limitations with field extraction.
         $dql = "SELECT NOT_IREGEXP('John', 'jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
@@ -23,7 +25,8 @@ class NotIRegexpTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_not_iregexp_negative(): void
+    #[Test]
+    public function not_iregexp_negative(): void
     {
         $dql = "SELECT NOT_IREGEXP('John', 'John') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
