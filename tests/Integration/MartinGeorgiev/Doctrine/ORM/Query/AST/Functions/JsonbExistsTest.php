@@ -19,7 +19,7 @@ class JsonbExistsTest extends JsonTestCase
     #[Test]
     public function returns_true_when_key_exists(): void
     {
-        $dql = 'SELECT JSONB_EXISTS(t.object1, :key) as result 
+        $dql = 'SELECT JSONB_EXISTS(t.jsonbObject1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
 
@@ -30,7 +30,7 @@ class JsonbExistsTest extends JsonTestCase
     #[Test]
     public function returns_true_when_nested_key_exists(): void
     {
-        $dql = 'SELECT JSONB_EXISTS(t.object1, :key) as result 
+        $dql = 'SELECT JSONB_EXISTS(t.jsonbObject1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
 
@@ -41,7 +41,7 @@ class JsonbExistsTest extends JsonTestCase
     #[Test]
     public function returns_true_when_array_element_exists(): void
     {
-        $dql = 'SELECT JSONB_EXISTS(t.object1, :key) as result 
+        $dql = 'SELECT JSONB_EXISTS(t.jsonbObject1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
 
@@ -52,7 +52,7 @@ class JsonbExistsTest extends JsonTestCase
     #[Test]
     public function returns_false_for_non_existing_key(): void
     {
-        $dql = 'SELECT JSONB_EXISTS(t.object1, :key) as result 
+        $dql = 'SELECT JSONB_EXISTS(t.jsonbObject1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
 

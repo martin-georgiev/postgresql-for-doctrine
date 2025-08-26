@@ -19,7 +19,7 @@ class JsonbSetTest extends JsonTestCase
     #[Test]
     public function can_update_existing_value(): void
     {
-        $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -36,7 +36,7 @@ class JsonbSetTest extends JsonTestCase
     #[Test]
     public function can_add_new_value(): void
     {
-        $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -53,7 +53,7 @@ class JsonbSetTest extends JsonTestCase
     #[Test]
     public function can_set_nested_path(): void
     {
-        $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -72,7 +72,7 @@ class JsonbSetTest extends JsonTestCase
     #[Test]
     public function does_not_create_missing_key_when_create_missing_is_false(): void
     {
-        $dql = "SELECT JSONB_SET(t.object1, :path, :value, 'false') as result 
+        $dql = "SELECT JSONB_SET(t.jsonbObject1, :path, :value, 'false') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql, [

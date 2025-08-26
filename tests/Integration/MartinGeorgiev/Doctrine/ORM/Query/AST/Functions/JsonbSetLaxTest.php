@@ -19,7 +19,7 @@ class JsonbSetLaxTest extends JsonTestCase
     #[Test]
     public function can_update_existing_value(): void
     {
-        $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET_LAX(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -36,7 +36,7 @@ class JsonbSetLaxTest extends JsonTestCase
     #[Test]
     public function can_add_new_value(): void
     {
-        $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET_LAX(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -53,7 +53,7 @@ class JsonbSetLaxTest extends JsonTestCase
     #[Test]
     public function can_set_nested_path(): void
     {
-        $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET_LAX(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -72,7 +72,7 @@ class JsonbSetLaxTest extends JsonTestCase
     #[Test]
     public function does_not_add_value_for_invalid_path(): void
     {
-        $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET_LAX(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [

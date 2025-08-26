@@ -58,8 +58,8 @@ class DeleteAtPathTest extends JsonTestCase
     #[Test]
     public function can_delete_with_column_reference(): void
     {
-        $dql = 'SELECT DELETE_AT_PATH(t.object1, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT DELETE_AT_PATH(t.jsonbObject1, :path) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '{nested,value}']);
         $this->assertIsString($result[0]['result']);

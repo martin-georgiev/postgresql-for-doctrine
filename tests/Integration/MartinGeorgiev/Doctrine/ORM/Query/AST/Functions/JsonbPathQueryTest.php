@@ -17,7 +17,7 @@ class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_query_simple(): void
+    public function can_query_simple_path(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -31,7 +31,7 @@ class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_query_array(): void
+    public function can_query_array_elements(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -47,7 +47,7 @@ class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_query_with_filter(): void
+    public function can_query_with_filter(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -62,10 +62,10 @@ class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_query_with_column_reference(): void
+    public function can_query_with_column_reference(): void
     {
-        $dql = 'SELECT JSONB_PATH_QUERY(t.object1, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSONB_PATH_QUERY(t.jsonbObject1, :path) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '$.tags[*]']);
         $this->assertCount(2, $result);

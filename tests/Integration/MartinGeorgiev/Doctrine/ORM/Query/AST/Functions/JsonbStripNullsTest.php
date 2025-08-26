@@ -19,7 +19,7 @@ class JsonbStripNullsTest extends JsonTestCase
     #[Test]
     public function jsonb_strip_nulls(): void
     {
-        $dql = 'SELECT JSONB_STRIP_NULLS(t.object1) as result 
+        $dql = 'SELECT JSONB_STRIP_NULLS(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -29,7 +29,7 @@ class JsonbStripNullsTest extends JsonTestCase
     #[Test]
     public function jsonb_strip_nulls_with_null_values(): void
     {
-        $dql = 'SELECT JSONB_STRIP_NULLS(t.object1) as result 
+        $dql = 'SELECT JSONB_STRIP_NULLS(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 5';
         $result = $this->executeDqlQuery($dql);

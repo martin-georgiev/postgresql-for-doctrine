@@ -47,7 +47,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_set. Must be "true" or "false".');
 
-        $dql = \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'invalid') FROM %s e", ContainsJsons::class);
+        $dql = \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'invalid') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
@@ -57,7 +57,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_set() requires at least 3 arguments');
 
-        $dql = \sprintf('SELECT JSONB_SET(e.object1) FROM %s e', ContainsJsons::class);
+        $dql = \sprintf('SELECT JSONB_SET(e.jsonbObject1) FROM %s e', ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
@@ -67,7 +67,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_set() requires between 3 and 4 arguments');
 
-        $dql = \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'true', 'extra_arg') FROM %s e", ContainsJsons::class);
+        $dql = \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'true', 'extra_arg') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }

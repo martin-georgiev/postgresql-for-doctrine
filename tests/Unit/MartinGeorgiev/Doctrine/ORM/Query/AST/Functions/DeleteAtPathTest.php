@@ -19,14 +19,14 @@ class DeleteAtPathTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT (c0_.object1 #- c0_.object2) AS sclr_0 FROM ContainsJsons c0_',
+            'SELECT (c0_.jsonbObject1 #- c0_.jsonbObject2) AS sclr_0 FROM ContainsJsons c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT DELETE_AT_PATH(e.object1, e.object2) FROM %s e', ContainsJsons::class),
+            \sprintf('SELECT DELETE_AT_PATH(e.jsonbObject1, e.jsonbObject2) FROM %s e', ContainsJsons::class),
         ];
     }
 }

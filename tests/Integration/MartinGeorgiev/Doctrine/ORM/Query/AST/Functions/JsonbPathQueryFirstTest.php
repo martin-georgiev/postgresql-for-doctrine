@@ -71,8 +71,8 @@ class JsonbPathQueryFirstTest extends JsonTestCase
     #[Test]
     public function jsonb_path_query_first_with_column_reference(): void
     {
-        $dql = 'SELECT JSONB_PATH_QUERY_FIRST(t.object1, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSONB_PATH_QUERY_FIRST(t.jsonbObject1, :path) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '$.tags[*]']);
         $this->assertSame('"developer"', $result[0]['result']);

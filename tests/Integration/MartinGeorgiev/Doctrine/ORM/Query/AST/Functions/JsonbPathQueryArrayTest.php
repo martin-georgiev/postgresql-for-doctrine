@@ -71,8 +71,8 @@ class JsonbPathQueryArrayTest extends JsonTestCase
     #[Test]
     public function jsonb_path_query_array_with_column_reference(): void
     {
-        $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(t.object1, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(t.jsonbObject1, :path) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '$.tags[*]']);
         $this->assertIsString($result[0]['result']);
