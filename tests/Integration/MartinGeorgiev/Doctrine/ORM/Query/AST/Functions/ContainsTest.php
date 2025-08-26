@@ -11,7 +11,9 @@ class ContainsTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['CONTAINS' => Contains::class];
+        return [
+            'CONTAINS' => Contains::class,
+        ];
     }
 
     #[Test]

@@ -11,7 +11,9 @@ class JsonbPathExistsTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['JSONB_PATH_EXISTS' => JsonbPathExists::class];
+        return [
+            'JSONB_PATH_EXISTS' => JsonbPathExists::class,
+        ];
     }
 
     #[Test]

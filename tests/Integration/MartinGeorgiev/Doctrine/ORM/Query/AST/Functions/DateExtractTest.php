@@ -11,7 +11,9 @@ class DateExtractTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['DATE_EXTRACT' => DateExtract::class];
+        return [
+            'DATE_EXTRACT' => DateExtract::class,
+        ];
     }
 
     #[Test]

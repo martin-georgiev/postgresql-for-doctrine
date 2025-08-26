@@ -11,7 +11,9 @@ class JsonbExistsTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['JSONB_EXISTS' => JsonbExists::class];
+        return [
+            'JSONB_EXISTS' => JsonbExists::class,
+        ];
     }
 
     #[Test]

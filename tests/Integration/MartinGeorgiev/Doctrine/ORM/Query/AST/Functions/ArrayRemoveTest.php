@@ -11,7 +11,9 @@ class ArrayRemoveTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_REMOVE' => ArrayRemove::class];
+        return [
+            'ARRAY_REMOVE' => ArrayRemove::class,
+        ];
     }
 
     #[Test]

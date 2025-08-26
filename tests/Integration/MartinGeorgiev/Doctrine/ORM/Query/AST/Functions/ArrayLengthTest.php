@@ -11,7 +11,9 @@ class ArrayLengthTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_LENGTH' => ArrayLength::class];
+        return [
+            'ARRAY_LENGTH' => ArrayLength::class,
+        ];
     }
 
     #[Test]

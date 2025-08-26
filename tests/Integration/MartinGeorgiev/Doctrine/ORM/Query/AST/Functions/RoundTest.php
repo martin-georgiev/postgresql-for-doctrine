@@ -11,7 +11,9 @@ class RoundTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ROUND' => Round::class];
+        return [
+            'ROUND' => Round::class,
+        ];
     }
 
     #[Test]

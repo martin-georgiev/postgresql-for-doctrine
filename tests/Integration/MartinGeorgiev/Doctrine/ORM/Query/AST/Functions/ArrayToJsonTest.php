@@ -11,7 +11,9 @@ class ArrayToJsonTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_TO_JSON' => ArrayToJson::class];
+        return [
+            'ARRAY_TO_JSON' => ArrayToJson::class,
+        ];
     }
 
     #[Test]

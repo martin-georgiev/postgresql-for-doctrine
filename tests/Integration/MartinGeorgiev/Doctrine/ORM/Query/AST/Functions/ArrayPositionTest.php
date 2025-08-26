@@ -11,7 +11,9 @@ class ArrayPositionTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_POSITION' => ArrayPosition::class];
+        return [
+            'ARRAY_POSITION' => ArrayPosition::class,
+        ];
     }
 
     #[Test]

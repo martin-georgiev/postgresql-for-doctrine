@@ -11,7 +11,9 @@ class ArrayCatTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_CAT' => ArrayCat::class];
+        return [
+            'ARRAY_CAT' => ArrayCat::class,
+        ];
     }
 
     #[Test]
