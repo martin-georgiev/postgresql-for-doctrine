@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt;
+use PHPUnit\Framework\Attributes\Test;
 
 class CbrtTest extends NumericTestCase
 {
@@ -15,7 +16,8 @@ class CbrtTest extends NumericTestCase
         ];
     }
 
-    public function test_cbrt_with_perfect_cube(): void
+    #[Test]
+    public function can_calculate_cube_root_of_perfect_cube(): void
     {
         $dql = 'SELECT CBRT(27.0) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
@@ -24,7 +26,8 @@ class CbrtTest extends NumericTestCase
         $this->assertEqualsWithDelta(3.0, $result[0]['result'], 0.0001);
     }
 
-    public function test_cbrt_with_non_perfect_cube(): void
+    #[Test]
+    public function can_calculate_cube_root_of_non_perfect_cube(): void
     {
         $dql = 'SELECT CBRT(10.0) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
@@ -33,7 +36,8 @@ class CbrtTest extends NumericTestCase
         $this->assertEqualsWithDelta(2.1544, $result[0]['result'], 0.0001);
     }
 
-    public function test_cbrt_with_negative_number(): void
+    #[Test]
+    public function can_calculate_cube_root_of_negative_number(): void
     {
         $dql = 'SELECT CBRT((-27.0)) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
@@ -42,7 +46,8 @@ class CbrtTest extends NumericTestCase
         $this->assertEqualsWithDelta(-3.0, $result[0]['result'], 0.0001);
     }
 
-    public function test_cbrt_with_column_value(): void
+    #[Test]
+    public function can_calculate_cube_root_of_column_value(): void
     {
         $dql = 'SELECT CBRT(n.decimal1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 

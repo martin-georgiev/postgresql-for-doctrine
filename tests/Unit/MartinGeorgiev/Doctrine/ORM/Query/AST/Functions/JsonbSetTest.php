@@ -28,16 +28,16 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'basic usage' => "SELECT jsonb_set(c0_.object1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') AS sclr_0 FROM ContainsJsons c0_",
-            'with create-if-missing parameter' => "SELECT jsonb_set(c0_.object1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') AS sclr_0 FROM ContainsJsons c0_",
+            'basic usage' => "SELECT jsonb_set(c0_.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') AS sclr_0 FROM ContainsJsons c0_",
+            'with create-if-missing parameter' => "SELECT jsonb_set(c0_.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'basic usage' => \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJsons::class),
-            'with create-if-missing parameter' => \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') FROM %s e", ContainsJsons::class),
+            'basic usage' => \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJsons::class),
+            'with create-if-missing parameter' => \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') FROM %s e", ContainsJsons::class),
         ];
     }
 
@@ -47,7 +47,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_set. Must be "true" or "false".');
 
-        $dql = \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'invalid') FROM %s e", ContainsJsons::class);
+        $dql = \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'invalid') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
@@ -57,7 +57,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_set() requires at least 3 arguments');
 
-        $dql = \sprintf('SELECT JSONB_SET(e.object1) FROM %s e', ContainsJsons::class);
+        $dql = \sprintf('SELECT JSONB_SET(e.jsonbObject1) FROM %s e', ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
@@ -67,7 +67,7 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_set() requires between 3 and 4 arguments');
 
-        $dql = \sprintf("SELECT JSONB_SET(e.object1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'true', 'extra_arg') FROM %s e", ContainsJsons::class);
+        $dql = \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'true', 'extra_arg') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }

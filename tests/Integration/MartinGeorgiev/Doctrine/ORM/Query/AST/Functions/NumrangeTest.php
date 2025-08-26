@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange;
+use PHPUnit\Framework\Attributes\Test;
 
 class NumrangeTest extends NumericTestCase
 {
@@ -15,14 +16,16 @@ class NumrangeTest extends NumericTestCase
         ];
     }
 
-    public function test_numrange(): void
+    #[Test]
+    public function can_create_range_with_default_bounds(): void
     {
         $dql = 'SELECT NUMRANGE(t.decimal1, t.decimal2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('[10.5,20.5)', $result[0]['result']);
     }
 
-    public function test_numrange_with_bounds(): void
+    #[Test]
+    public function can_create_range_with_custom_bounds(): void
     {
         $dql = "SELECT NUMRANGE(t.decimal1, t.decimal2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

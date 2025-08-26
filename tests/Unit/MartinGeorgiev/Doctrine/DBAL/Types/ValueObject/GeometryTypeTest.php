@@ -17,8 +17,8 @@ final class GeometryTypeTest extends TestCase
     {
         $result = GeometryType::from($typeString);
 
-        self::assertSame($geometryType, $result);
-        self::assertSame($typeString, $result->value);
+        $this->assertSame($geometryType, $result);
+        $this->assertSame($typeString, $result->value);
     }
 
     #[Test]
@@ -35,7 +35,7 @@ final class GeometryTypeTest extends TestCase
     {
         $result = GeometryType::tryFrom($typeString);
 
-        self::assertSame($geometryType, $result);
+        $this->assertSame($geometryType, $result);
     }
 
     /**
@@ -65,7 +65,7 @@ final class GeometryTypeTest extends TestCase
     #[Test]
     public function returns_null_for_invalid_types(): void
     {
-        self::assertNull(GeometryType::tryFrom('INVALID_TYPE'));
-        self::assertNull(GeometryType::tryFrom(''));
+        $this->assertNull(GeometryType::tryFrom('INVALID_TYPE'));
+        $this->assertNull(GeometryType::tryFrom(''));
     }
 }

@@ -17,7 +17,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
     #[Test]
     public function can_transform_json_to_php_value(null|array|bool|int|string $phpValue, string $postgresValue): void
     {
-        self::assertEquals($phpValue, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue));
+        $this->assertEquals($phpValue, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue));
     }
 
     /**
@@ -61,7 +61,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
     #[Test]
     public function can_transform_json_array_to_php_array(array $phpArray, string $postgresArray): void
     {
-        self::assertEquals($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
+        $this->assertEquals($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
     /**
@@ -89,7 +89,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
     #[Test]
     public function can_transform_json_array_item_to_php_array(array $phpArray, string $item): void
     {
-        self::assertEquals($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item));
+        $this->assertEquals($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item));
     }
 
     /**

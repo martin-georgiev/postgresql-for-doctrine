@@ -27,8 +27,10 @@ abstract class JsonTestCase extends BaseTestCase
         $sql = \sprintf('
             CREATE TABLE %s (
                 id SERIAL PRIMARY KEY,
-                object1 JSONB,
-                object2 JSONB
+                jsonbObject1 JSONB,
+                jsonbObject2 JSONB,
+                jsonObject1 JSON,
+                jsonObject2 JSON
             )
         ', $fullTableName);
 
@@ -43,14 +45,37 @@ abstract class JsonTestCase extends BaseTestCase
         $json4 = '{}';
         $json5 = '{"name": "John", "age": null, "tags": ["developer"], "address": {"city": "New York", "zip": null}}';
 
-        $sql = \sprintf('
-            INSERT INTO %s.containsjsons (object1, object2) VALUES 
-            (\'%s\', \'%s\'),
-            (\'%s\', \'%s\'),
-            (\'%s\', \'%s\'),
-            (\'%s\', \'%s\'),
-            (\'%s\', \'%s\')
-        ', self::DATABASE_SCHEMA, $json1, $json1, $json2, $json2, $json3, $json3, $json4, $json4, $json5, $json5);
+        $sql = \sprintf(
+            '
+            INSERT INTO %s.containsjsons (jsonbObject1, jsonbObject2, jsonObject1, jsonObject2) VALUES
+            (\'%s\', \'%s\', \'%s\', \'%s\'),
+            (\'%s\', \'%s\', \'%s\', \'%s\'),
+            (\'%s\', \'%s\', \'%s\', \'%s\'),
+            (\'%s\', \'%s\', \'%s\', \'%s\'),
+            (\'%s\', \'%s\', \'%s\', \'%s\')
+        ',
+            self::DATABASE_SCHEMA,
+            $json1,
+            $json1,
+            $json1,
+            $json1,
+            $json2,
+            $json2,
+            $json2,
+            $json2,
+            $json3,
+            $json3,
+            $json3,
+            $json3,
+            $json4,
+            $json4,
+            $json4,
+            $json4,
+            $json5,
+            $json5,
+            $json5,
+            $json5
+        );
         $this->connection->executeStatement($sql);
     }
 }
