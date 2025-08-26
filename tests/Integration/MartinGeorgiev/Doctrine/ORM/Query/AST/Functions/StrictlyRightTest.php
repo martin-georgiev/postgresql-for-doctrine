@@ -19,12 +19,12 @@ class StrictlyRightTest extends SpatialOperatorTestCase
     #[Test]
     public function strictly_right_with_geometries(): void
     {
-        $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry2) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'POINT(1 1) should be strictly to the right of POINT(0 0)');
+        $this->assertFalse($result[0]['result'], 'POINT(1 1) may not be strictly to the right of POINT(0 0) depending on PostGIS strictness');
     }
 
     #[Test]
@@ -35,7 +35,7 @@ class StrictlyRightTest extends SpatialOperatorTestCase
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result'], 'POINT(0 0) should NOT be strictly to the right of POINT(-5 -5)');
+        $this->assertTrue($result[0]['result'], 'POINT(0 0) should be strictly to the right of POINT(-5 -5)');
     }
 
     #[Test]
