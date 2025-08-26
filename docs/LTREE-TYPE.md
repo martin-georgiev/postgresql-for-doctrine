@@ -57,9 +57,6 @@ class MyEntity implements \Stringable
     #[ORM\OneToMany(targetEntity: MyEntity::class, mappedBy: 'parent')]
     private Collection $children;
 
-    /**
-     * @SuppressWarnings("PHPMD.StaticAccess")
-     */
     public function __construct(
         #[ORM\Column(unique: true, length: 128)]
         private string $name,
@@ -152,10 +149,10 @@ CREATE INDEX my_entity_path_gin_idx
 ⚠️ **Important**: Changing an entity's parent requires cascading the change
 to all its children.
 This is not handled automatically by Doctrine.
-Implement a [onFlush](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/events.html#reference-events-on-flush)
-[Doctrine Entity Listener](https://symfony.com/doc/7.3/doctrine/events.html#doctrine-lifecycle-listeners)
-to handle updating the `path` column of the updated entity children
-when the `path` is present in the changed fields:
+Implement an [onFlush](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/events.html#reference-events-on-flush)
+[Doctrine entity listener](https://symfony.com/doc/7.3/doctrine/events.html#doctrine-lifecycle-listeners)
+to handle updating the `path` column of the updated entity's children
+when `path` is present in the change set:
 
 ```php
 <?php
