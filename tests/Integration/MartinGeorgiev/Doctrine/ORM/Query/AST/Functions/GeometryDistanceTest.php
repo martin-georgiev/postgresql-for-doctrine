@@ -17,7 +17,7 @@ class GeometryDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function geometry_distance_returns_correct_distance_between_test_points(): void
+    public function geometry_distance_with_geometrical_types(): void
     {
         $dql = 'SELECT GEOMETRY_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -26,8 +26,7 @@ class GeometryDistanceTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertIsNumeric($result[0]['distance']);
         $this->assertGreaterThan(0, $result[0]['distance']);
-        // Distance between (0,0) and (1,1) should be sqrt(2) ≈ 1.414
-        $this->assertEqualsWithDelta(1.414, $result[0]['distance'], 0.01, 'Distance between (0,0) and (1,1)');
+        $this->assertEqualsWithDelta(1.414, $result[0]['distance'], 0.01, 'Distance between (0,0) and (1,1) should be sqrt(2) ≈ 1.414');
     }
 
     #[Test]
@@ -42,15 +41,14 @@ class GeometryDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function geometry_distance_with_geography_types(): void
+    public function geometry_distance_with_geographical_types(): void
     {
-        // Geography types should return distance in meters
         $dql = 'SELECT GEOMETRY_DISTANCE(g.geography1, g.geography2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertIsNumeric($result[0]['distance']);
-        $this->assertGreaterThan(1000000, $result[0]['distance']); // Lisbon to London is > 1M meters
+        $this->assertGreaterThan(1000000, $result[0]['distance'], 'Lisbon to London is > 1M meters');
     }
 }
