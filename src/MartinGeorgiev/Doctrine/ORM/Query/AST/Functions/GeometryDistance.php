@@ -8,9 +8,13 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Implementation of PostGIS 2D distance between geometries operator (using <->).
  *
  * Returns the 2D distance between A and B geometries.
- * This is different from the existing Distance class which uses <@> for point distance.
+ * This differs from BoundingBoxDistance (using <#>), which measures distance between
+ * bounding boxes only. The <-> operator is commonly used for KNN nearest-neighbor
+ * ordering, and on PostgreSQL 9.5+ with PostGIS 2.2+ it returns true geometry distance;
+ * on older stacks it behaved as a centroid-of-bounding-box distance approximation.
  *
- * @see https://postgis.net/docs/reference.html#Operators_Distance
+ * @see https://postgis.net/docs/reference.html#Operators
+ * @see https://postgis.net/docs/geometry_distance_knn.html
  * @since 3.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
