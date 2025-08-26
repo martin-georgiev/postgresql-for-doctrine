@@ -19,14 +19,14 @@ class JsonObjectKeysTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT json_object_keys(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
+            'SELECT json_object_keys(c0_.jsonObject1) AS sclr_0 FROM ContainsJsons c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSON_OBJECT_KEYS(e.object1) FROM %s e', ContainsJsons::class),
+            \sprintf('SELECT JSON_OBJECT_KEYS(e.jsonObject1) FROM %s e', ContainsJsons::class),
         ];
     }
 }

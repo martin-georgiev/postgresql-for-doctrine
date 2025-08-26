@@ -32,14 +32,14 @@ final class GeographyTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('geography', $this->fixture->getName());
+        $this->assertEquals('geography', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?WktSpatialData $wktSpatialData, ?string $postgresValue): void
     {
-        self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($wktSpatialData, $this->platform));
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($wktSpatialData, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -48,13 +48,13 @@ final class GeographyTest extends TestCase
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
         if (!$wktSpatialData instanceof WktSpatialData) {
-            self::assertNull($result);
+            $this->assertNull($result);
 
             return;
         }
 
-        self::assertInstanceOf(WktSpatialData::class, $result);
-        self::assertEquals((string) $wktSpatialData, (string) $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result);
+        $this->assertEquals((string) $wktSpatialData, (string) $result);
     }
 
     /**

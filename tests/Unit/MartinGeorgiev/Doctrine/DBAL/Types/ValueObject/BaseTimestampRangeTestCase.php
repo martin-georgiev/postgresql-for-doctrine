@@ -110,9 +110,9 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
 
         $range = $this->createRangeWithTimes($earlier, $later);
 
-        self::assertTrue($range->contains($this->createTimeWithMicroseconds('2023-01-01 10:00:00.400000')));
-        self::assertFalse($range->contains($this->createTimeWithMicroseconds('2023-01-01 10:00:00.100000')));
-        self::assertFalse($range->contains($this->createTimeWithMicroseconds('2023-01-01 10:00:00.700000')));
+        $this->assertTrue($range->contains($this->createTimeWithMicroseconds('2023-01-01 10:00:00.400000')));
+        $this->assertFalse($range->contains($this->createTimeWithMicroseconds('2023-01-01 10:00:00.100000')));
+        $this->assertFalse($range->contains($this->createTimeWithMicroseconds('2023-01-01 10:00:00.700000')));
     }
 
     #[Test]
@@ -124,8 +124,8 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
         $range = $this->createRangeWithTimes($dateTime, $dateTimeImmutable);
         $formatted = (string) $range;
 
-        self::assertStringContainsString('2023-01-01 10:00:00', $formatted);
-        self::assertStringContainsString('2023-01-01 18:00:00', $formatted);
+        $this->assertStringContainsString('2023-01-01 10:00:00', $formatted);
+        $this->assertStringContainsString('2023-01-01 18:00:00', $formatted);
     }
 
     /**

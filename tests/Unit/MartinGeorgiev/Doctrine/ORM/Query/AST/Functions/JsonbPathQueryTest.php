@@ -28,20 +28,20 @@ class JsonbPathQueryTest extends BaseVariadicFunctionTestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'extracts items with condition' => "SELECT jsonb_path_query(c0_.object1, '$.items[*] ? (@.price > 100)') AS sclr_0 FROM ContainsJsons c0_",
-            'extracts items from path' => "SELECT jsonb_path_query(c0_.object1, '$.items[*].id') AS sclr_0 FROM ContainsJsons c0_",
-            'extracts items from path with vars argument' => "SELECT jsonb_path_query(c0_.object1, '$.items[*].id', '{\"strict\": false}') AS sclr_0 FROM ContainsJsons c0_",
-            'extracts items from path with vars and silent arguments' => "SELECT jsonb_path_query(c0_.object1, '$.items[*].id', '{\"strict\": false}', 'true') AS sclr_0 FROM ContainsJsons c0_",
+            'extracts items with condition' => "SELECT jsonb_path_query(c0_.jsonbObject1, '$.items[*] ? (@.price > 100)') AS sclr_0 FROM ContainsJsons c0_",
+            'extracts items from path' => "SELECT jsonb_path_query(c0_.jsonbObject1, '$.items[*].id') AS sclr_0 FROM ContainsJsons c0_",
+            'extracts items from path with vars argument' => "SELECT jsonb_path_query(c0_.jsonbObject1, '$.items[*].id', '{\"strict\": false}') AS sclr_0 FROM ContainsJsons c0_",
+            'extracts items from path with vars and silent arguments' => "SELECT jsonb_path_query(c0_.jsonbObject1, '$.items[*].id', '{\"strict\": false}', 'true') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'extracts items with condition' => \sprintf("SELECT JSONB_PATH_QUERY(e.object1, '$.items[*] ? (@.price > 100)') FROM %s e", ContainsJsons::class),
-            'extracts items from path' => \sprintf("SELECT JSONB_PATH_QUERY(e.object1, '$.items[*].id') FROM %s e", ContainsJsons::class),
-            'extracts items from path with vars argument' => \sprintf("SELECT JSONB_PATH_QUERY(e.object1, '$.items[*].id', '{\"strict\": false}') FROM %s e", ContainsJsons::class),
-            'extracts items from path with vars and silent arguments' => \sprintf("SELECT JSONB_PATH_QUERY(e.object1, '$.items[*].id', '{\"strict\": false}', 'true') FROM %s e", ContainsJsons::class),
+            'extracts items with condition' => \sprintf("SELECT JSONB_PATH_QUERY(e.jsonbObject1, '$.items[*] ? (@.price > 100)') FROM %s e", ContainsJsons::class),
+            'extracts items from path' => \sprintf("SELECT JSONB_PATH_QUERY(e.jsonbObject1, '$.items[*].id') FROM %s e", ContainsJsons::class),
+            'extracts items from path with vars argument' => \sprintf("SELECT JSONB_PATH_QUERY(e.jsonbObject1, '$.items[*].id', '{\"strict\": false}') FROM %s e", ContainsJsons::class),
+            'extracts items from path with vars and silent arguments' => \sprintf("SELECT JSONB_PATH_QUERY(e.jsonbObject1, '$.items[*].id', '{\"strict\": false}', 'true') FROM %s e", ContainsJsons::class),
         ];
     }
 
@@ -51,7 +51,7 @@ class JsonbPathQueryTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidBooleanException::class);
         $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_path_query. Must be "true" or "false".');
 
-        $dql = \sprintf("SELECT JSONB_PATH_QUERY(e.object1, '$.items[*].id', '{\"strict\": false}', 'invalid') FROM %s e", ContainsJsons::class);
+        $dql = \sprintf("SELECT JSONB_PATH_QUERY(e.jsonbObject1, '$.items[*].id', '{\"strict\": false}', 'invalid') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
@@ -61,7 +61,7 @@ class JsonbPathQueryTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_path_query() requires at least 2 arguments');
 
-        $dql = \sprintf('SELECT JSONB_PATH_QUERY(e.object1) FROM %s e', ContainsJsons::class);
+        $dql = \sprintf('SELECT JSONB_PATH_QUERY(e.jsonbObject1) FROM %s e', ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
@@ -71,7 +71,7 @@ class JsonbPathQueryTest extends BaseVariadicFunctionTestCase
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('jsonb_path_query() requires between 2 and 4 arguments');
 
-        $dql = \sprintf("SELECT JSONB_PATH_QUERY(e.object1, '$.items[*].id', '{\"strict\": false}', 'true', 'extra_arg') FROM %s e", ContainsJsons::class);
+        $dql = \sprintf("SELECT JSONB_PATH_QUERY(e.jsonbObject1, '$.items[*].id', '{\"strict\": false}', 'true', 'extra_arg') FROM %s e", ContainsJsons::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }

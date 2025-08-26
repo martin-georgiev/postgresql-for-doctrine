@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryFirst;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbPathQueryFirstTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbPathQueryFirstTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_path_query_first_simple(): void
+    #[Test]
+    public function jsonb_path_query_first_simple(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_FIRST(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -27,7 +29,8 @@ class JsonbPathQueryFirstTest extends JsonTestCase
         $this->assertSame('2', $result[0]['result']);
     }
 
-    public function test_jsonb_path_query_first_array(): void
+    #[Test]
+    public function jsonb_path_query_first_array(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_FIRST(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -39,7 +42,8 @@ class JsonbPathQueryFirstTest extends JsonTestCase
         $this->assertSame('1', $result[0]['result']);
     }
 
-    public function test_jsonb_path_query_first_with_filter(): void
+    #[Test]
+    public function jsonb_path_query_first_with_filter(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_FIRST(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -51,7 +55,8 @@ class JsonbPathQueryFirstTest extends JsonTestCase
         $this->assertSame('{"id": 2}', $result[0]['result']);
     }
 
-    public function test_jsonb_path_query_first_with_no_match(): void
+    #[Test]
+    public function jsonb_path_query_first_with_no_match(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_FIRST(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -63,10 +68,11 @@ class JsonbPathQueryFirstTest extends JsonTestCase
         $this->assertNull($result[0]['result']);
     }
 
-    public function test_jsonb_path_query_first_with_column_reference(): void
+    #[Test]
+    public function jsonb_path_query_first_with_column_reference(): void
     {
-        $dql = 'SELECT JSONB_PATH_QUERY_FIRST(t.object1, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSONB_PATH_QUERY_FIRST(t.jsonbObject1, :path) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '$.tags[*]']);
         $this->assertSame('"developer"', $result[0]['result']);

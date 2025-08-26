@@ -55,7 +55,7 @@ class BaseTypeTest extends TestCase
             protected const TYPE_NAME = 'custom_type';
         };
 
-        self::assertEquals('custom_type', $type->getName());
+        $this->assertEquals('custom_type', $type->getName());
     }
 
     #[Test]
@@ -72,7 +72,7 @@ class BaseTypeTest extends TestCase
             ->willReturn('CUSTOM_SQL_TYPE');
 
         $result = $type->getSQLDeclaration([], $this->platform);
-        self::assertEquals('CUSTOM_SQL_TYPE', $result);
+        $this->assertEquals('CUSTOM_SQL_TYPE', $result);
     }
 
     #[Test]
@@ -83,6 +83,6 @@ class BaseTypeTest extends TestCase
         };
 
         // @phpstan-ignore-next-line Not all Doctrine version like this method as it's deprecated. For now, we ignore the deprecation.
-        self::assertFalse($type->requiresSQLCommentHint($this->platform));
+        $this->assertFalse($type->requiresSQLCommentHint($this->platform));
     }
 }

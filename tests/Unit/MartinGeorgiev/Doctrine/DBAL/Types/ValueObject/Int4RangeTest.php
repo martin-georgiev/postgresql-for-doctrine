@@ -132,6 +132,6 @@ final class Int4RangeTest extends BaseRangeTestCase
     {
         $int4Range = new Int4Range(-2147483648, 2147483647);
 
-        self::assertEquals('[-2147483648,2147483647)', (string) $int4Range);
+        $this->assertEquals('[-2147483648,2147483647)', (string) $int4Range);
     }
 }

@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayReplaceTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_REPLACE' => ArrayReplace::class];
+        return [
+            'ARRAY_REPLACE' => ArrayReplace::class,
+        ];
     }
 
-    public function test_array_replace_with_text_array(): void
+    #[Test]
+    public function can_replace_text_elements(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.textArray, \'banana\', \'mango\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -25,7 +29,8 @@ class ArrayReplaceTest extends ArrayTestCase
         $this->assertSame(['apple', 'mango', 'orange'], $actual);
     }
 
-    public function test_array_replace_with_integer_array(): void
+    #[Test]
+    public function can_replace_integer_elements(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.integerArray, 2, 5) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -37,7 +42,8 @@ class ArrayReplaceTest extends ArrayTestCase
         $this->assertSame([1, 5, 3], $actual);
     }
 
-    public function test_array_replace_with_boolean_array(): void
+    #[Test]
+    public function can_replace_boolean_elements(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.boolArray, false, true) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -49,7 +55,8 @@ class ArrayReplaceTest extends ArrayTestCase
         $this->assertSame([true, true, true], $actual);
     }
 
-    public function test_array_replace_with_not_found_element(): void
+    #[Test]
+    public function leaves_array_unchanged_when_element_not_found(): void
     {
         $dql = 'SELECT ARRAY_REPLACE(t.textArray, \'mango\', \'kiwi\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

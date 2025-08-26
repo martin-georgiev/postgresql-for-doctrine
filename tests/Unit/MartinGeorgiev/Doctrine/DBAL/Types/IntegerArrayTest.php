@@ -17,16 +17,16 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('integer[]', $this->fixture->getName());
+        $this->assertEquals('integer[]', $this->fixture->getName());
     }
 
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
-            ['2147483648'],   // Greater than max integer
-            ['-2147483649'],  // Less than min integer
-            ['1.23e6'],      // Scientific notation
-            ['123456.789'],   // Decimal number
+            ['2147483648'], // Greater than max integer
+            ['-2147483649'], // Less than min integer
+            ['1.23e6'], // Scientific notation
+            ['123456.789'], // Decimal number
         ]);
     }
 

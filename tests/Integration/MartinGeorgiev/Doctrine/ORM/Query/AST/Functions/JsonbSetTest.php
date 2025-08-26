@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbSetTest extends JsonTestCase
 {
@@ -15,9 +16,10 @@ class JsonbSetTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_set_update_existing_value(): void
+    #[Test]
+    public function can_update_existing_value(): void
     {
-        $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -31,9 +33,10 @@ class JsonbSetTest extends JsonTestCase
         $this->assertSame('John Doe', $decoded['name']);
     }
 
-    public function test_jsonb_set_add_new_value(): void
+    #[Test]
+    public function can_add_new_value(): void
     {
-        $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -47,9 +50,10 @@ class JsonbSetTest extends JsonTestCase
         $this->assertSame('john@example.com', $decoded['email']);
     }
 
-    public function test_jsonb_set_nested_path(): void
+    #[Test]
+    public function can_set_nested_path(): void
     {
-        $dql = 'SELECT JSONB_SET(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -65,9 +69,10 @@ class JsonbSetTest extends JsonTestCase
         $this->assertSame('10001', $decoded['address']['zip']);
     }
 
-    public function test_jsonb_set_with_create_missing_false(): void
+    #[Test]
+    public function does_not_create_missing_key_when_create_missing_is_false(): void
     {
-        $dql = "SELECT JSONB_SET(t.object1, :path, :value, 'false') as result 
+        $dql = "SELECT JSONB_SET(t.jsonbObject1, :path, :value, 'false') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql, [
@@ -77,6 +82,6 @@ class JsonbSetTest extends JsonTestCase
         $this->assertIsString($result[0]['result']);
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
-        self::assertArrayNotHasKey('nonexistent', $decoded);
+        $this->assertArrayNotHasKey('nonexistent', $decoded);
     }
 }

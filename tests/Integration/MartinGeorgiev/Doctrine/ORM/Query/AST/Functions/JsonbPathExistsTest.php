@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathExists;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbPathExistsTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['JSONB_PATH_EXISTS' => JsonbPathExists::class];
+        return [
+            'JSONB_PATH_EXISTS' => JsonbPathExists::class,
+        ];
     }
 
-    public function test_jsonb_path_exists_with_simple_path(): void
+    #[Test]
+    public function can_check_simple_path_exists(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -25,7 +29,8 @@ class JsonbPathExistsTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_path_exists_with_nested_path(): void
+    #[Test]
+    public function can_check_nested_path_exists(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -37,7 +42,8 @@ class JsonbPathExistsTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_path_exists_with_missing_path(): void
+    #[Test]
+    public function returns_false_for_missing_path(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -49,10 +55,11 @@ class JsonbPathExistsTest extends JsonTestCase
         $this->assertFalse($result[0]['result']);
     }
 
-    public function test_jsonb_path_exists_with_column_reference(): void
+    #[Test]
+    public function can_check_path_exists_in_column_reference(): void
     {
-        $dql = 'SELECT JSONB_PATH_EXISTS(t.object1, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSONB_PATH_EXISTS(t.jsonbObject1, :path) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '$.name']);
         $this->assertTrue($result[0]['result']);

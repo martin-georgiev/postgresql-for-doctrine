@@ -30,7 +30,7 @@ final class GeographyArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('geography[]', $this->type->getName());
+        $this->assertEquals('geography[]', $this->type->getName());
     }
 
     #[Test]
@@ -38,7 +38,7 @@ final class GeographyArrayTest extends TestCase
     {
         $result = $this->type->convertToDatabaseValue(null, $this->platform);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     #[Test]
@@ -46,7 +46,7 @@ final class GeographyArrayTest extends TestCase
     {
         $result = $this->type->convertToDatabaseValue([], $this->platform);
 
-        self::assertSame('{}', $result);
+        $this->assertSame('{}', $result);
     }
 
     #[DataProvider('provideValidArraysForDatabase')]
@@ -55,7 +55,7 @@ final class GeographyArrayTest extends TestCase
     {
         $result = $this->type->convertToDatabaseValue($phpArray, $this->platform);
 
-        self::assertSame($expectedPostgresArray, $result);
+        $this->assertSame($expectedPostgresArray, $result);
     }
 
     /**
@@ -136,7 +136,7 @@ final class GeographyArrayTest extends TestCase
     {
         $result = $this->type->convertToPHPValue(null, $this->platform);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     #[Test]
@@ -144,7 +144,7 @@ final class GeographyArrayTest extends TestCase
     {
         $result = $this->type->convertToPHPValue('{}', $this->platform);
 
-        self::assertSame([], $result);
+        $this->assertSame([], $result);
     }
 
     #[DataProvider('provideValidPostgresArraysForPHP')]
@@ -153,12 +153,12 @@ final class GeographyArrayTest extends TestCase
     {
         $result = $this->type->convertToPHPValue($postgresArray, $this->platform);
 
-        self::assertIsArray($result);
-        self::assertCount(\count($expectedPhpArray), $result);
+        $this->assertIsArray($result);
+        $this->assertCount(\count($expectedPhpArray), $result);
 
         foreach ($result as $index => $item) {
-            self::assertInstanceOf(WktSpatialData::class, $item);
-            self::assertSame($expectedPhpArray[$index], (string) $item);
+            $this->assertInstanceOf(WktSpatialData::class, $item);
+            $this->assertSame($expectedPhpArray[$index], (string) $item);
         }
     }
 
@@ -225,14 +225,14 @@ final class GeographyArrayTest extends TestCase
         $databaseValue = $this->type->convertToDatabaseValue($phpArray, $this->platform);
         $convertedBack = $this->type->convertToPHPValue($databaseValue, $this->platform);
 
-        self::assertIsArray($convertedBack);
-        self::assertCount(\count($phpArray), $convertedBack);
+        $this->assertIsArray($convertedBack);
+        $this->assertCount(\count($phpArray), $convertedBack);
 
         foreach ($convertedBack as $index => $item) {
-            self::assertInstanceOf(WktSpatialData::class, $item);
+            $this->assertInstanceOf(WktSpatialData::class, $item);
             $originalItem = $phpArray[$index];
-            self::assertInstanceOf(WktSpatialData::class, $originalItem);
-            self::assertSame((string) $originalItem, (string) $item);
+            $this->assertInstanceOf(WktSpatialData::class, $originalItem);
+            $this->assertSame((string) $originalItem, (string) $item);
         }
     }
 
@@ -258,8 +258,8 @@ final class GeographyArrayTest extends TestCase
             'world coordinate edge cases' => [
                 [
                     WktSpatialData::fromWkt('POINT(-180 -90)'), // Southwest corner
-                    WktSpatialData::fromWkt('POINT(180 90)'),   // Northeast corner
-                    WktSpatialData::fromWkt('POINT(0 0)'),      // Null Island
+                    WktSpatialData::fromWkt('POINT(180 90)'), // Northeast corner
+                    WktSpatialData::fromWkt('POINT(0 0)'), // Null Island
                 ],
             ],
         ];
@@ -269,7 +269,7 @@ final class GeographyArrayTest extends TestCase
     #[Test]
     public function can_validate_array_items_for_database(mixed $item): void
     {
-        self::assertFalse($this->type->isValidArrayItemForDatabase($item));
+        $this->assertFalse($this->type->isValidArrayItemForDatabase($item));
     }
 
     /**
@@ -299,8 +299,8 @@ final class GeographyArrayTest extends TestCase
     {
         $result = $this->type->transformArrayItemForPHP($input);
 
-        self::assertInstanceOf(WktSpatialData::class, $result);
-        self::assertEquals($expected, (string) $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result);
+        $this->assertEquals($expected, (string) $result);
     }
 
     /**
