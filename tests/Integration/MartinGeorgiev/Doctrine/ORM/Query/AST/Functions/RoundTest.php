@@ -17,7 +17,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function round_with_positive_number(): void
+    public function can_round_positive_number(): void
     {
         $dql = 'SELECT ROUND(:number) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -27,7 +27,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function round_with_negative_number(): void
+    public function can_round_negative_number(): void
     {
         $dql = 'SELECT ROUND(:number) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -37,7 +37,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function round_with_precision(): void
+    public function can_round_with_precision(): void
     {
         $dql = 'SELECT ROUND(:number, :precision) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -50,7 +50,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function round_with_negative_precision(): void
+    public function can_round_with_negative_precision(): void
     {
         $dql = 'SELECT ROUND(:number, :precision) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -63,7 +63,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function round_with_column_value(): void
+    public function can_round_column_value(): void
     {
         $dql = 'SELECT ROUND(t.decimal1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 

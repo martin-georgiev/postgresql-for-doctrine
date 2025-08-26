@@ -19,15 +19,15 @@ class ToDateTest extends TextTestCase
     }
 
     #[Test]
-    public function todate(): void
+    public function can_convert_string_to_date(): void
     {
         $dql = "SELECT TO_DATE('05 Dec 2000', 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('2000-12-05', $result[0]['result']);
+        $this->assertSame('2000-12-05', $result[0]['result']);
     }
 
     #[Test]
-    public function todate_throws_with_invalid_input(): void
+    public function throws_exception_for_invalid_date_input(): void
     {
         $this->expectException(DriverException::class);
         $dql = "SELECT TO_DATE('invalid_date', 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
@@ -35,15 +35,15 @@ class ToDateTest extends TextTestCase
     }
 
     #[Test]
-    public function todate_with_invalid_format(): void
+    public function returns_default_date_for_invalid_format(): void
     {
         $dql = "SELECT TO_DATE('05 Dec 2000', 'invalid_format') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        static::assertSame('2005-01-01', $result[0]['result']);
+        $this->assertSame('2005-01-01', $result[0]['result']);
     }
 
     #[Test]
-    public function todate_throws_with_unsupported_format_type(): void
+    public function throws_exception_for_unsupported_format_type(): void
     {
         $this->expectException(QueryException::class);
         $dql = "SELECT TO_DATE('05 Dec 2000', 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
@@ -51,7 +51,7 @@ class ToDateTest extends TextTestCase
     }
 
     #[Test]
-    public function todate_throws_with_unsupported_null_input(): void
+    public function throws_exception_for_null_input(): void
     {
         $this->expectException(QueryException::class);
         $dql = "SELECT TO_DATE(null, 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";

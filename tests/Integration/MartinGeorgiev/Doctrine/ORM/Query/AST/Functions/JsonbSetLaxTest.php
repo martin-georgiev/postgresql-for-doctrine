@@ -17,7 +17,7 @@ class JsonbSetLaxTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_set_lax_update_existing_value(): void
+    public function can_update_existing_value(): void
     {
         $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -34,7 +34,7 @@ class JsonbSetLaxTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_set_lax_add_new_value(): void
+    public function can_add_new_value(): void
     {
         $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -51,7 +51,7 @@ class JsonbSetLaxTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_set_lax_nested_path(): void
+    public function can_set_nested_path(): void
     {
         $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -70,7 +70,7 @@ class JsonbSetLaxTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_set_lax_with_invalid_path(): void
+    public function does_not_add_value_for_invalid_path(): void
     {
         $dql = 'SELECT JSONB_SET_LAX(t.object1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -82,6 +82,6 @@ class JsonbSetLaxTest extends JsonTestCase
         $this->assertIsString($result[0]['result']);
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
-        self::assertArrayNotHasKey('invalid', $decoded);
+        $this->assertArrayNotHasKey('invalid', $decoded);
     }
 }

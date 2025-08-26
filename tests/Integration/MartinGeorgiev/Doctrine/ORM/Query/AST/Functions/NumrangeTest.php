@@ -17,7 +17,7 @@ class NumrangeTest extends NumericTestCase
     }
 
     #[Test]
-    public function numrange(): void
+    public function can_create_range_with_default_bounds(): void
     {
         $dql = 'SELECT NUMRANGE(t.decimal1, t.decimal2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class NumrangeTest extends NumericTestCase
     }
 
     #[Test]
-    public function numrange_with_bounds(): void
+    public function can_create_range_with_custom_bounds(): void
     {
         $dql = "SELECT NUMRANGE(t.decimal1, t.decimal2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

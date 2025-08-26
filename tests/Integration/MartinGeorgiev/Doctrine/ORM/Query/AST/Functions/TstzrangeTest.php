@@ -17,7 +17,7 @@ class TstzrangeTest extends DateTestCase
     }
 
     #[Test]
-    public function tstzrange(): void
+    public function can_create_timestamptz_range_with_default_bounds(): void
     {
         $dql = 'SELECT TSTZRANGE(t.datetimetz1, t.datetimetz2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class TstzrangeTest extends DateTestCase
     }
 
     #[Test]
-    public function tstzrange_with_bounds(): void
+    public function can_create_timestamptz_range_with_custom_bounds(): void
     {
         $dql = "SELECT TSTZRANGE(t.datetimetz1, t.datetimetz2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
