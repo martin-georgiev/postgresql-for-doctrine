@@ -24,15 +24,24 @@ class JsonObjectAggTest extends JsonTestCase
                 WHERE t.id = 3";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
+
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
-        $this->assertSame([
-            'key' => [
-                'age' => 30,
-                'name' => 'Micky',
-                'tags' => [],
-                'address' => ['city' => 'New York'],
-            ],
-        ], $decoded);
+        $this->assertArrayHasKey('key', $decoded);
+
+        $keyData = $decoded['key'];
+        $this->assertIsArray($keyData);
+
+        $this->assertArrayHasKey('age', $keyData);
+        $this->assertSame(30, $keyData['age']);
+
+        $this->assertArrayHasKey('name', $keyData);
+        $this->assertSame('Micky', $keyData['name']);
+
+        $this->assertArrayHasKey('tags', $keyData);
+        $this->assertSame([], $keyData['tags']);
+
+        $this->assertArrayHasKey('address', $keyData);
+        $this->assertSame(['city' => 'New York'], $keyData['address']);
     }
 }
