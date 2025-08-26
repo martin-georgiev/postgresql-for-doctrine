@@ -136,10 +136,9 @@ class MyEntity implements \Stringable
 }
 ```
 
-🗃️ Doctrine can't create PostgreSQL [GiST indexes](https://www.postgresql.org/docs/16/gist.html)
-or [GIN indexes](https://www.postgresql.org/docs/16/gin.html).
-Add a GiST index to an `ltree` column by manually adding its `CREATE INDEX`
-command to the migration:
+🗃️ Doctrine's schema tool can't define PostgreSQL [GiST](https://www.postgresql.org/docs/16/gist.html)
+or [GIN](https://www.postgresql.org/docs/16/gin.html) indexes with the required ltree operator classes.
+Create the index via a manual `CREATE INDEX` statement in your migration:
 
 ```sql
 -- Example GiST index for ltree with a custom signature length (must be a multiple of 4)
