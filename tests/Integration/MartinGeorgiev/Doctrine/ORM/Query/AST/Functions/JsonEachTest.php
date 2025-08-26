@@ -18,6 +18,37 @@ class JsonEachTest extends JsonTestCase
         ];
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $result Query results from executeDqlQuery()
+     * @param int $expectedCount Expected number of key-value pairs
+     *
+     * @return array<int, string> Array of extracted keys
+     */
+    private function extractAndValidateKeysFromJsonEachResult(array $result, int $expectedCount): array
+    {
+        $this->assertCount($expectedCount, $result);
+
+        $extractedKeys = [];
+        foreach ($result as $row) {
+            $this->assertIsArray($row, 'Query result row should be an array');
+            $this->assertValidTupleStructure($row);
+            $extractedKeys[] = $this->extractKeysFromTupleResult($row);
+        }
+
+        return $extractedKeys;
+    }
+
+    /**
+     * @param array<int, string> $extractedKeys
+     * @param array<int, string> $expectedKeys Keys expected to be among the extracted keys
+     */
+    private function assertExtractedKeys(array $extractedKeys, array $expectedKeys): void
+    {
+        $expectedCount = \count($expectedKeys);
+        $this->assertExpectedKeysArePresent($extractedKeys, $expectedKeys);
+        $this->assertCount($expectedCount, $extractedKeys, \sprintf('Should extract exactly %d keys from JSON object', $expectedCount));
+    }
+
     #[Test]
     public function extracts_key_value_pairs_from_standard_json_object(): void
     {
@@ -25,22 +56,9 @@ class JsonEachTest extends JsonTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(4, $result);
 
-        // Extract keys from PostgreSQL tuple results by processing each row individually
-        $extractedKeys = [];
-        foreach ($result as $row) {
-            $this->assertIsArray($row, 'Query result row should be an array');
-            $key = $this->extractKeysFromTupleResult($row);
-            $extractedKeys[] = $key;
-        }
-
-        // Verify all expected keys are present
-        $expectedKeys = ['name', 'age', 'address', 'tags'];
-        $this->assertExpectedKeysArePresent($extractedKeys, $expectedKeys);
-
-        // Verify we extracted the correct number of keys
-        $this->assertCount(4, $extractedKeys, 'Should extract exactly 4 keys from JSON object');
+        $extractedKeys = $this->extractAndValidateKeysFromJsonEachResult($result, 4);
+        $this->assertExtractedKeys($extractedKeys, ['name', 'age', 'address', 'tags']);
     }
 
     #[Test]
@@ -61,21 +79,8 @@ class JsonEachTest extends JsonTestCase
                 WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
 
-        // Verify we get the expected number of key-value pairs
-        $this->assertCount(4, $result, 'Should extract 4 key-value pairs from alternative JSON object');
-
-        // Validate tuple structure and extract keys by processing each row individually
-        $extractedKeys = [];
-        foreach ($result as $row) {
-            $this->assertIsArray($row, 'Query result row should be an array');
-            $this->assertValidTupleStructure($row);
-            $key = $this->extractKeysFromTupleResult($row);
-            $extractedKeys[] = $key;
-        }
-
-        // Verify all expected keys are present
-        $expectedKeys = ['name', 'age', 'address', 'tags'];
-        $this->assertExpectedKeysArePresent($extractedKeys, $expectedKeys);
+        $extractedKeys = $this->extractAndValidateKeysFromJsonEachResult($result, 4);
+        $this->assertExtractedKeys($extractedKeys, ['name', 'age', 'address', 'tags']);
     }
 
     #[Test]
@@ -86,21 +91,8 @@ class JsonEachTest extends JsonTestCase
                 WHERE t.id = 5';
         $result = $this->executeDqlQuery($dql);
 
-        // Verify we get the expected number of key-value pairs even with null values
-        $this->assertCount(4, $result, 'Should extract 4 key-value pairs even when JSON contains null values');
-
-        // Validate tuple structure and extract keys by processing each row individually
-        $extractedKeys = [];
-        foreach ($result as $row) {
-            $this->assertIsArray($row, 'Query result row should be an array');
-            $this->assertValidTupleStructure($row);
-            $key = $this->extractKeysFromTupleResult($row);
-            $extractedKeys[] = $key;
-        }
-
-        // Verify all expected keys are present
-        $expectedKeys = ['name', 'age', 'address', 'tags'];
-        $this->assertExpectedKeysArePresent($extractedKeys, $expectedKeys);
+        $extractedKeys = $this->extractAndValidateKeysFromJsonEachResult($result, 4);
+        $this->assertExtractedKeys($extractedKeys, ['name', 'age', 'address', 'tags']);
     }
 
     #[Test]
@@ -111,20 +103,7 @@ class JsonEachTest extends JsonTestCase
                 WHERE t.id = 3';
         $result = $this->executeDqlQuery($dql);
 
-        // Verify we get the expected number of key-value pairs even with empty arrays
-        $this->assertCount(4, $result, 'Should extract 4 key-value pairs even when JSON contains empty arrays');
-
-        // Validate tuple structure and extract keys by processing each row individually
-        $extractedKeys = [];
-        foreach ($result as $row) {
-            $this->assertIsArray($row, 'Query result row should be an array');
-            $this->assertValidTupleStructure($row);
-            $key = $this->extractKeysFromTupleResult($row);
-            $extractedKeys[] = $key;
-        }
-
-        // Verify all expected keys are present
-        $expectedKeys = ['name', 'age', 'address', 'tags'];
-        $this->assertExpectedKeysArePresent($extractedKeys, $expectedKeys);
+        $extractedKeys = $this->extractAndValidateKeysFromJsonEachResult($result, 4);
+        $this->assertExtractedKeys($extractedKeys, ['name', 'age', 'address', 'tags']);
     }
 }
