@@ -43,7 +43,13 @@ class RegexpInstrTest extends TextTestCase
     #[Test]
     public function returns_position_when_finding_word_boundary_pattern(): void
     {
-        $dql = "SELECT REGEXP_INSTR(t.text1, '\\bis\\b') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        // POSIX word boundary pattern: [[:<:]]is[[:>:]]
+        // - [[:<:]] = start of word (word boundary at beginning)
+        // - is = literal word 'is'
+        // - [[:>:]] = end of word (word boundary at end)
+        // This matches 'is' as a complete word, considering letters, numbers, and underscores as word characters.
+        // Returns position 6 (start of 'is') in 'this is a test string'
+        $dql = "SELECT REGEXP_INSTR(t.text1, '[[:<:]]is[[:>:]]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(6, $result[0]['result']);
     }

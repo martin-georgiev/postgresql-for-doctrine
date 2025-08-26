@@ -43,7 +43,13 @@ class RegexpLikeTest extends TextTestCase
     #[Test]
     public function returns_true_when_matching_word_boundaries(): void
     {
-        $dql = "SELECT REGEXP_LIKE(t.text1, '\\bis\\b') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        // POSIX word boundary pattern: [[:<:]]is[[:>:]]
+        // - [[:<:]] = start of word (word boundary at beginning)
+        // - is = literal word 'is'
+        // - [[:>:]] = end of word (word boundary at end)
+        // This matches 'is' as a complete word, considering letters, numbers, and underscores as word characters.
+        // Examples: 'this is test' ✅, 'is great' ✅, 'island' ❌, 'is_var' ❌, 'is123' ❌
+        $dql = "SELECT REGEXP_LIKE(t.text1, '[[:<:]]is[[:>:]]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }

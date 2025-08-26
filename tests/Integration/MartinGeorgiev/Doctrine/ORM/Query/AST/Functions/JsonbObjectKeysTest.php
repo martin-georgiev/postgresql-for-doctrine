@@ -19,19 +19,23 @@ class JsonbObjectKeysTest extends JsonTestCase
     #[Test]
     public function extracts_object_keys_from_jsonb(): void
     {
-        $dql = 'SELECT JSONB_OBJECT_KEYS(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSONB_OBJECT_KEYS(t.jsonbObject1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
+        $this->assertCount(4, $result);
 
-        $keys = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($keys);
-        $this->assertCount(4, $keys);
+        $foundKeys = [];
+        foreach ($result as $row) {
+            $this->assertIsArray($row);
+            $this->assertArrayHasKey('result', $row);
+            $this->assertIsString($row['result']);
+            $foundKeys[] = $row['result'];
+        }
 
         $expectedKeys = ['name', 'age', 'address', 'tags'];
         foreach ($expectedKeys as $expectedKey) {
-            $this->assertContains($expectedKey, $keys, \sprintf("Expected key '%s' should be present in the extracted keys", $expectedKey));
+            $this->assertContains($expectedKey, $foundKeys, \sprintf("Expected key '%s' should be present in the extracted keys", $expectedKey));
         }
     }
 }

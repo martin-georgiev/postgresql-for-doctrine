@@ -21,7 +21,6 @@ class IRegexpTest extends TextTestCase
     {
         $dql = "SELECT IREGEXP(t.text1, 'test.*string') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
         $this->assertTrue($result[0]['result']);
     }
 
@@ -30,7 +29,6 @@ class IRegexpTest extends TextTestCase
     {
         $dql = "SELECT IREGEXP(t.text1, 'TEST.*STRING') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
         $this->assertTrue($result[0]['result']);
     }
 
@@ -39,7 +37,6 @@ class IRegexpTest extends TextTestCase
     {
         $dql = "SELECT IREGEXP(t.text1, 'nonexistent.*pattern') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
         $this->assertFalse($result[0]['result']);
     }
 
@@ -48,16 +45,20 @@ class IRegexpTest extends TextTestCase
     {
         $dql = "SELECT IREGEXP(t.text2, 'another.*string') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
         $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
     public function returns_true_when_matching_word_boundaries(): void
     {
-        $dql = "SELECT IREGEXP(t.text1, '\\bis\\b') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        // POSIX word boundary pattern: [[:<:]]is[[:>:]]
+        // - [[:<:]] = start of word (word boundary at beginning)
+        // - is = literal word 'is'
+        // - [[:>:]] = end of word (word boundary at end)
+        // This matches 'is' as a complete word, considering letters, numbers, and underscores as word characters.
+        // Examples: 'this is test' ✅, 'is great' ✅, 'island' ❌, 'is_var' ❌, 'is123' ❌
+        $dql = "SELECT IREGEXP(t.text1, '[[:<:]]is[[:>:]]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
         $this->assertTrue($result[0]['result']);
     }
 }
