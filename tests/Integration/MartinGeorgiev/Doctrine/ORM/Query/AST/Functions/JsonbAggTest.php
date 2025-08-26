@@ -19,7 +19,7 @@ class JsonbAggTest extends JsonTestCase
     #[Test]
     public function can_aggregate_single_row_to_jsonb(): void
     {
-        $dql = 'SELECT JSONB_AGG(t.object1) as result 
+        $dql = 'SELECT JSONB_AGG(t.jsonObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -38,7 +38,7 @@ class JsonbAggTest extends JsonTestCase
     #[Test]
     public function can_aggregate_multiple_rows_to_jsonb(): void
     {
-        $dql = 'SELECT JSONB_AGG(t.object1) as result 
+        $dql = 'SELECT JSONB_AGG(t.jsonObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id IN (1, 2)';
         $result = $this->executeDqlQuery($dql);

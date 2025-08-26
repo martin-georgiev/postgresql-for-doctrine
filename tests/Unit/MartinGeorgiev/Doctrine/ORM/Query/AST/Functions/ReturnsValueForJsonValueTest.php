@@ -19,14 +19,14 @@ class ReturnsValueForJsonValueTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'checks if JSON path expression returns value' => "SELECT (c0_.object1 @?? '$.test[*] ?? (@ > 2)') AS sclr_0 FROM ContainsJsons c0_",
+            'checks if JSON path expression returns value' => "SELECT (c0_.jsonObject1 @?? '$.test[*] ?? (@ > 2)') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'checks if JSON path expression returns value' => \sprintf("SELECT RETURNS_VALUE_FOR_JSON_VALUE(e.object1, '$.test[*] ?? (@ > 2)') FROM %s e", ContainsJsons::class),
+            'checks if JSON path expression returns value' => \sprintf("SELECT RETURNS_VALUE_FOR_JSON_VALUE(e.jsonObject1, '$.test[*] ?? (@ > 2)') FROM %s e", ContainsJsons::class),
         ];
     }
 }
