@@ -24,14 +24,14 @@ class JsonbObjectKeysTest extends JsonTestCase
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        
+
         $keys = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($keys);
         $this->assertCount(4, $keys);
-        
+
         $expectedKeys = ['name', 'age', 'address', 'tags'];
         foreach ($expectedKeys as $expectedKey) {
-            $this->assertContains($expectedKey, $keys, "Expected key '{$expectedKey}' should be present in the extracted keys");
+            $this->assertContains($expectedKey, $keys, \sprintf("Expected key '%s' should be present in the extracted keys", $expectedKey));
         }
     }
 }
