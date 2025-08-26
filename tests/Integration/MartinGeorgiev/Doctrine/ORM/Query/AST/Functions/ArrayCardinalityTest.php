@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayCardinalityTest extends ArrayTestCase
 {
@@ -13,7 +14,8 @@ class ArrayCardinalityTest extends ArrayTestCase
         return ['ARRAY_CARDINALITY' => ArrayCardinality::class];
     }
 
-    public function test_array_cardinality_with_text_array(): void
+    #[Test]
+    public function array_cardinality_with_text_array(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -23,7 +25,8 @@ class ArrayCardinalityTest extends ArrayTestCase
         $this->assertSame(3, $result[0]['result']);
     }
 
-    public function test_array_cardinality_with_integer_array(): void
+    #[Test]
+    public function array_cardinality_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -33,7 +36,8 @@ class ArrayCardinalityTest extends ArrayTestCase
         $this->assertSame(3, $result[0]['result']);
     }
 
-    public function test_array_cardinality_with_boolean_array(): void
+    #[Test]
+    public function array_cardinality_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

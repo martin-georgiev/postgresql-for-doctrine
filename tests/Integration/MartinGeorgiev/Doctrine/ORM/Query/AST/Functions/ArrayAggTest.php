@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayAggTest extends ArrayTestCase
 {
@@ -13,7 +14,8 @@ class ArrayAggTest extends ArrayTestCase
         return ['ARRAY_AGG' => ArrayAgg::class];
     }
 
-    public function test_array_agg_with_text_array(): void
+    #[Test]
+    public function array_agg_with_text_array(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -22,7 +24,8 @@ class ArrayAggTest extends ArrayTestCase
         $this->assertSame('{{apple,banana,orange}}', $result[0]['result']);
     }
 
-    public function test_array_agg_with_integer_array(): void
+    #[Test]
+    public function array_agg_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -31,7 +34,8 @@ class ArrayAggTest extends ArrayTestCase
         $this->assertSame('{{1,2,3}}', $result[0]['result']);
     }
 
-    public function test_array_agg_with_boolean_array(): void
+    #[Test]
+    public function array_agg_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

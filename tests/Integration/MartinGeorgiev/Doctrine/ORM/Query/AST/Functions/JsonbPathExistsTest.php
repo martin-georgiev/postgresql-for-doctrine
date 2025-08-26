@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathExists;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbPathExistsTest extends JsonTestCase
 {
@@ -13,7 +14,8 @@ class JsonbPathExistsTest extends JsonTestCase
         return ['JSONB_PATH_EXISTS' => JsonbPathExists::class];
     }
 
-    public function test_jsonb_path_exists_with_simple_path(): void
+    #[Test]
+    public function jsonb_path_exists_with_simple_path(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -25,7 +27,8 @@ class JsonbPathExistsTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_path_exists_with_nested_path(): void
+    #[Test]
+    public function jsonb_path_exists_with_nested_path(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -37,7 +40,8 @@ class JsonbPathExistsTest extends JsonTestCase
         $this->assertTrue($result[0]['result']);
     }
 
-    public function test_jsonb_path_exists_with_missing_path(): void
+    #[Test]
+    public function jsonb_path_exists_with_missing_path(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -49,7 +53,8 @@ class JsonbPathExistsTest extends JsonTestCase
         $this->assertFalse($result[0]['result']);
     }
 
-    public function test_jsonb_path_exists_with_column_reference(): void
+    #[Test]
+    public function jsonb_path_exists_with_column_reference(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(t.object1, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

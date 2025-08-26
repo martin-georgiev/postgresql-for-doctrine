@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbStripNullsTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbStripNullsTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_strip_nulls(): void
+    #[Test]
+    public function jsonb_strip_nulls(): void
     {
         $dql = 'SELECT JSONB_STRIP_NULLS(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -24,7 +26,8 @@ class JsonbStripNullsTest extends JsonTestCase
         $this->assertIsString($result[0]['result']);
     }
 
-    public function test_jsonb_strip_nulls_with_null_values(): void
+    #[Test]
+    public function jsonb_strip_nulls_with_null_values(): void
     {
         $dql = 'SELECT JSONB_STRIP_NULLS(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

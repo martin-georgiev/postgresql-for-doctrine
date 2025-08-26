@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbAggTest extends JsonTestCase
 {
@@ -13,7 +14,8 @@ class JsonbAggTest extends JsonTestCase
         return ['JSONB_AGG' => JsonbAgg::class];
     }
 
-    public function test_jsonb_agg_with_single_row(): void
+    #[Test]
+    public function jsonb_agg_with_single_row(): void
     {
         $dql = 'SELECT JSONB_AGG(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -31,7 +33,8 @@ class JsonbAggTest extends JsonTestCase
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
-    public function test_jsonb_agg_with_multiple_rows(): void
+    #[Test]
+    public function jsonb_agg_with_multiple_rows(): void
     {
         $dql = 'SELECT JSONB_AGG(t.object1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

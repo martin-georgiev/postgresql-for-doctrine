@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayLengthTest extends ArrayTestCase
 {
@@ -13,7 +14,8 @@ class ArrayLengthTest extends ArrayTestCase
         return ['ARRAY_LENGTH' => ArrayLength::class];
     }
 
-    public function test_array_length_with_text_array(): void
+    #[Test]
+    public function array_length_with_text_array(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.textArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -24,7 +26,8 @@ class ArrayLengthTest extends ArrayTestCase
         $this->assertSame(3, $result[0]['result']);
     }
 
-    public function test_array_length_with_integer_array(): void
+    #[Test]
+    public function array_length_with_integer_array(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.integerArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -35,7 +38,8 @@ class ArrayLengthTest extends ArrayTestCase
         $this->assertSame(3, $result[0]['result']);
     }
 
-    public function test_array_length_with_boolean_array(): void
+    #[Test]
+    public function array_length_with_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.boolArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -46,7 +50,8 @@ class ArrayLengthTest extends ArrayTestCase
         $this->assertSame(3, $result[0]['result']);
     }
 
-    public function test_array_length_with_invalid_dimension(): void
+    #[Test]
+    public function array_length_with_invalid_dimension(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.textArray, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

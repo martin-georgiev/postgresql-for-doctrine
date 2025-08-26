@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract;
+use PHPUnit\Framework\Attributes\Test;
 
 class DateExtractTest extends DateTestCase
 {
@@ -13,7 +14,8 @@ class DateExtractTest extends DateTestCase
         return ['DATE_EXTRACT' => DateExtract::class];
     }
 
-    public function test_date_extract_with_year(): void
+    #[Test]
+    public function date_extract_with_year(): void
     {
         $dql = "SELECT DATE_EXTRACT('year', t.date1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
@@ -22,7 +24,8 @@ class DateExtractTest extends DateTestCase
         $this->assertSame('2023', $result[0]['result']);
     }
 
-    public function test_date_extract_with_month(): void
+    #[Test]
+    public function date_extract_with_month(): void
     {
         $dql = "SELECT DATE_EXTRACT('month', t.date1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
@@ -31,7 +34,8 @@ class DateExtractTest extends DateTestCase
         $this->assertSame('6', $result[0]['result']);
     }
 
-    public function test_date_extract_with_day(): void
+    #[Test]
+    public function date_extract_with_day(): void
     {
         $dql = "SELECT DATE_EXTRACT('day', t.date1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
@@ -40,7 +44,8 @@ class DateExtractTest extends DateTestCase
         $this->assertSame('15', $result[0]['result']);
     }
 
-    public function test_date_extract_with_column_reference(): void
+    #[Test]
+    public function date_extract_with_column_reference(): void
     {
         $dql = "SELECT DATE_EXTRACT('year', t.date1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 

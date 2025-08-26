@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonAggTest extends ArrayTestCase
 {
@@ -13,7 +14,8 @@ class JsonAggTest extends ArrayTestCase
         return ['JSON_AGG' => JsonAgg::class];
     }
 
-    public function test_json_agg_with_text_array(): void
+    #[Test]
+    public function json_agg_with_text_array(): void
     {
         $dql = 'SELECT JSON_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -26,7 +28,8 @@ class JsonAggTest extends ArrayTestCase
         $this->assertSame(['apple', 'banana', 'orange'], $decoded[0]);
     }
 
-    public function test_json_agg_with_integer_array(): void
+    #[Test]
+    public function json_agg_with_integer_array(): void
     {
         $dql = 'SELECT JSON_AGG(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -39,7 +42,8 @@ class JsonAggTest extends ArrayTestCase
         $this->assertSame([1, 2, 3], $decoded[0]);
     }
 
-    public function test_json_agg_with_boolean_array(): void
+    #[Test]
+    public function json_agg_with_boolean_array(): void
     {
         $dql = 'SELECT JSON_AGG(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
