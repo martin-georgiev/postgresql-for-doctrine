@@ -168,7 +168,6 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      */
     private function assertArrayRoundTrip(int $id, array $expected, string $description): void
     {
-        // Test direct retrieval
         $retrieved = $this->retrieveArray($id);
         $this->assertEquals(
             $expected,
@@ -176,7 +175,6 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
             \sprintf('Direct retrieval failed for %s', $description)
         );
 
-        // Test text representation
         $postgresText = $this->retrieveArrayAsText($id);
         $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresText);
         $this->assertEquals(

@@ -25,10 +25,10 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
-            ['9223372036854775808'],    // Greater than PHP_INT_MAX
-            ['-9223372036854775809'],   // Less than PHP_INT_MIN
-            ['1.23e10'],                // Scientific notation
-            ['12345.67890'],            // Decimal number
+            ['9223372036854775808'], // Greater than PHP_INT_MAX
+            ['-9223372036854775809'], // Less than PHP_INT_MIN
+            ['1.23e10'], // Scientific notation
+            ['12345.67890'], // Decimal number
         ]);
     }
 

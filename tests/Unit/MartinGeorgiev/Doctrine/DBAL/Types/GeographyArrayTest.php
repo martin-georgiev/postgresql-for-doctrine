@@ -258,8 +258,8 @@ final class GeographyArrayTest extends TestCase
             'world coordinate edge cases' => [
                 [
                     WktSpatialData::fromWkt('POINT(-180 -90)'), // Southwest corner
-                    WktSpatialData::fromWkt('POINT(180 90)'),   // Northeast corner
-                    WktSpatialData::fromWkt('POINT(0 0)'),      // Null Island
+                    WktSpatialData::fromWkt('POINT(180 90)'), // Northeast corner
+                    WktSpatialData::fromWkt('POINT(0 0)'), // Null Island
                 ],
             ],
         ];
