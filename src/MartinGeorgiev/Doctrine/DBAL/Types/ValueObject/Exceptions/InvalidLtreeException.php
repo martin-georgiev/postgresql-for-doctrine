@@ -20,7 +20,7 @@ final class InvalidLtreeException extends \InvalidArgumentException
     public static function forInvalidPathFromRootFormat(array $value, string $expectedFormat): self
     {
         return new self(\sprintf(
-            "Invalid Ltree's path from root format. Expected %s, got: %s",
+            'Invalid path from root format. Expected %s, got: %s',
             $expectedFormat,
             \var_export($value, true)
         ));
