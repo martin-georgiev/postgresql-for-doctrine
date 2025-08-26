@@ -19,7 +19,7 @@ class IlikeTest extends TextTestCase
     #[Test]
     public function returns_true_for_case_insensitive_matching_string(): void
     {
-        $dql = "SELECT ILIKE(t.text1, 'test') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $dql = "SELECT ILIKE(t.text1, '%test%') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
@@ -27,7 +27,7 @@ class IlikeTest extends TextTestCase
     #[Test]
     public function returns_true_for_case_insensitive_matching_with_different_case(): void
     {
-        $dql = "SELECT ILIKE(t.text1, 'TEST') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $dql = "SELECT ILIKE(t.text1, '%TEST%') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
@@ -43,7 +43,7 @@ class IlikeTest extends TextTestCase
     #[Test]
     public function returns_true_when_matching_second_text_field(): void
     {
-        $dql = "SELECT ILIKE(t.text2, 'another') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $dql = "SELECT ILIKE(t.text2, '%another%') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
