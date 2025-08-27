@@ -178,9 +178,87 @@ POLYGONZM((...))           => POLYGON ZM((...))
 POINT Z (1 2 3)            => POINT Z(1 2 3)
 ```
 
+### Using PostGIS Spatial Operators in DQL
+
+PostGIS spatial operators allow you to perform spatial queries using bounding box relationships and distance calculations. **Important**: All spatial operators return boolean values and shall be used with `= TRUE` or `= FALSE` in DQL.
+
+#### Bounding Box Spatial Relationships
+
+```sql
+-- Find geometries to the left of a reference point
+SELECT e FROM Entity e WHERE STRICTLY_LEFT(e.geometry, 'POINT(0 0)') = TRUE
+
+-- Find geometries that spatially contain a point (bounding box level)
+SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, 'POINT(1 1)') = TRUE
+
+-- Find geometries contained within a bounding box
+SELECT e FROM Entity e WHERE SPATIAL_CONTAINED_BY(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE
+
+-- Check if two geometries have the same bounding box
+SELECT e FROM Entity e WHERE SPATIAL_SAME(e.geometry1, e.geometry2) = TRUE
+
+-- Vertical relationships
+SELECT e FROM Entity e WHERE STRICTLY_ABOVE(e.geometry, 'LINESTRING(0 0, 5 0)') = TRUE
+SELECT e FROM Entity e WHERE OVERLAPS_BELOW(e.geometry, 'POLYGON((0 5, 5 5, 5 10, 0 10, 0 5))') = TRUE
+
+-- 3D spatial relationships
+SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1, 2 2 2, 0 0 0))') = TRUE
+```
+
+#### Distance-Based Queries
+
+```sql
+-- Find the 10 nearest geometries to a point
+SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
+FROM Entity e
+ORDER BY distance
+LIMIT 10
+
+-- Find geometries within a specific distance (using bounding box distance for performance)
+SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
+
+-- Calculate trajectory distances (for linestrings with measure values)
+SELECT TRAJECTORY_DISTANCE(e.trajectory1, e.trajectory2) as closest_approach
+FROM Entity e
+WHERE e.trajectory1 IS NOT NULL
+
+-- 3D distance calculations
+SELECT e, ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance3d
+FROM Entity e
+WHERE ND_BOUNDING_BOX_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
+```
+
+#### Operator Conflicts and Best Practices
+
+Some operators have different meanings for different data types. Use specific function names to avoid conflicts:
+
+```sql
+-- ✅ CORRECT: Use specific function names
+SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY['tag1']) = TRUE      -- Array containment
+SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, e.point) = TRUE -- Spatial containment
+SELECT e FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE            -- Text pattern matching
+
+-- ❌ AVOID: Ambiguous usage that might conflict
+-- The @ and ~ operators have different meanings for arrays vs spatial data
+```
+
+#### Performance Tips
+
+```sql
+-- Use bounding box operators for initial filtering (they use spatial indexes)
+SELECT e FROM Entity e
+WHERE OVERLAPS(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE
+  AND ST_Intersects(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))')  -- Exact check
+
+-- Use distance operators for nearest neighbor queries
+SELECT e FROM Entity e
+ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
+LIMIT 10
+```
+
 For multi-item arrays, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for Doctrine DQL limitations and the suggested workarounds.
 
-The library provides DBAL type support for PostGIS `geometry` and `geography` columns. Example usage:
+The library provides DBAL type support for PostGIS `geometry` and `geography` types. Example usage:
 
 ```sql
 CREATE TABLE places (
