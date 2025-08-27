@@ -17,10 +17,10 @@ class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function nd_centroid_distance_with_geometries(): void
+    public function can_calculate_distance_between_geometry_centroids(): void
     {
-        $dql = 'SELECT ND_CENTROID_DISTANCE(g.geometry1, g.geometry2) as distance 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT ND_CENTROID_DISTANCE(g.geometry1, g.geometry2) as distance
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
@@ -29,10 +29,10 @@ class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function nd_centroid_distance_with_literal_geometry(): void
+    public function can_calculate_distance_between_geometry_and_literal_point(): void
     {
-        $dql = "SELECT ND_CENTROID_DISTANCE(g.geometry1, 'POINT(3 3)') as distance 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = "SELECT ND_CENTROID_DISTANCE(g.geometry1, 'POINT(3 3)') as distance
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
@@ -41,10 +41,10 @@ class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function nd_centroid_distance_with_identical_geometries(): void
+    public function returns_zero_when_comparing_identical_geometries(): void
     {
-        $dql = 'SELECT ND_CENTROID_DISTANCE(g.geometry1, g.geometry1) as distance 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT ND_CENTROID_DISTANCE(g.geometry1, g.geometry1) as distance
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);

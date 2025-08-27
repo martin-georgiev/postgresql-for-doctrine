@@ -17,21 +17,21 @@ class NDimensionalOverlapsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function nd_overlaps_with_2d_geometries(): void
+    public function returns_true_when_2d_polygons_have_overlapping_bounding_boxes(): void
     {
-        $dql = 'SELECT ND_OVERLAPS(g.geometry1, g.geometry2) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT ND_OVERLAPS(g.geometry1, g.geometry2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'Overlapping polygons should return true for n-dimensional overlaps');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function nd_overlaps_with_identical_geometries(): void
+    public function returns_true_when_comparing_identical_geometries(): void
     {
-        $dql = 'SELECT ND_OVERLAPS(g.geometry1, g.geometry1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT ND_OVERLAPS(g.geometry1, g.geometry1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);

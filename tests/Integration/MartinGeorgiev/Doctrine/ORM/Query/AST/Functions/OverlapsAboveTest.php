@@ -17,35 +17,35 @@ class OverlapsAboveTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function overlaps_above_with_geometries(): void
+    public function returns_false_when_polygons_are_at_same_vertical_level(): void
     {
-        $dql = 'SELECT OVERLAPS_ABOVE(g.geometry1, g.geometry2) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT OVERLAPS_ABOVE(g.geometry1, g.geometry2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result'], 'Overlapping polygons may not be considered above each other');
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]
-    public function overlaps_above_with_literal_geometry(): void
+    public function returns_true_when_geometry_is_positioned_above_literal_point(): void
     {
-        $dql = "SELECT OVERLAPS_ABOVE(g.geometry1, 'POINT(0 -1)') as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = "SELECT OVERLAPS_ABOVE(g.geometry1, 'POINT(0 -1)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'Overlapping or above geometries should return true');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function overlaps_above_with_polygons(): void
+    public function returns_true_when_second_polygon_overlaps_or_is_above_first(): void
     {
-        $dql = 'SELECT OVERLAPS_ABOVE(g.geometry2, g.geometry1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT OVERLAPS_ABOVE(g.geometry2, g.geometry1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'Overlapping or above geometries should return true');
+        $this->assertTrue($result[0]['result']);
     }
 }
