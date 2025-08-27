@@ -17,7 +17,7 @@ class SpatialContainedByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_with_overlapping_polygons(): void
+    public function returns_false_when_first_polygon_is_not_contained_by_overlapping_second(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ class SpatialContainedByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_with_separate_points(): void
+    public function returns_false_when_comparing_separate_point_geometries(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -41,8 +41,8 @@ class SpatialContainedByTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_comparing_identical_geometries(): void
     {
-        $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);

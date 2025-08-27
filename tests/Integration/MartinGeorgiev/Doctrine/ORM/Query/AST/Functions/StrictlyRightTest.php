@@ -17,35 +17,35 @@ class StrictlyRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function strictly_right_with_geometries(): void
+    public function returns_false_when_first_point_is_not_strictly_to_the_right(): void
     {
         $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result'], 'POINT(1 1) may not be strictly to the right of POINT(0 0) depending on PostGIS strictness');
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]
-    public function strictly_right_with_literal_geometry(): void
+    public function returns_true_when_geometry_is_positioned_right_of_literal_point(): void
     {
-        $dql = "SELECT STRICTLY_RIGHT(g.geometry1, 'POINT(-5 -5)') as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g 
+        $dql = "SELECT STRICTLY_RIGHT(g.geometry1, 'POINT(-5 -5)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'POINT(0 0) should be strictly to the right of POINT(-5 -5)');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function strictly_right_with_linestrings(): void
+    public function returns_true_when_higher_linestring_is_strictly_to_the_right_of_lower_onetrajetoryds(): void
     {
         $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'Higher linestring should be strictly to the right of lower linestring');
+        $this->assertTrue($result[0]['result']);
     }
 }

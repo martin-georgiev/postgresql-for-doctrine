@@ -17,46 +17,46 @@ class OverlapsLeftTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function overlaps_left_with_test_data(): void
+    public function returns_true_when_first_point_is_positioned_left_of_second(): void
     {
         $dql = 'SELECT OVERLAPS_LEFT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'POINT(0 0) should overlap or be to the left of POINT(1 1)');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function overlaps_left_with_reversed_geometries(): void
+    public function returns_false_when_geometry_positions_are_reversed(): void
     {
         $dql = 'SELECT OVERLAPS_LEFT(g.geometry2, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result'], 'POINT(1 1) should NOT be to the left of POINT(0 0)');
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]
-    public function overlaps_left_with_overlapping_polygons(): void
+    public function returns_true_when_first_polygon_overlaps_or_is_left_of_second(): void
     {
         $dql = 'SELECT OVERLAPS_LEFT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'First polygon should overlap or be to the left of second polygon');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function overlaps_left_with_identical_geometries(): void
+    public function returns_true_when_comparing_identical_geometries(): void
     {
         $dql = 'SELECT OVERLAPS_LEFT(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'Identical geometries should overlap');
+        $this->assertTrue($result[0]['result']);
     }
 }
