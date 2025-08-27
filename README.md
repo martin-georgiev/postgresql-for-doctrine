@@ -74,11 +74,16 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Range Operations**
   - Containment checks (in PHP value objects and for DQL queries with `@>` and `<@`)
   - Overlaps (`&&`)
+- **PostGIS Spatial Operations**
+  - Bounding box relationships (`<<`, `>>`, `&<`, `&>`, `|&>`, `&<|`, `<<|`, `|>>`)
+  - Spatial containment (`@`, `~`)
+  - Distance calculations (`<->`, `<#>`, `<<->>`, `<<#>>`, `|=|`)
+  - N-dimensional operations (`&&&`)
 
 ### Functions
 - **Text Search**
   - Full text search (`to_tsvector`, `to_tsquery`)
-  - Pattern matching (`ILIKE`, `SIMILAR TO`)
+  - Pattern matching (`ilike`, `similar to`)
   - Regular expressions
 - **Array Functions**
   - Array aggregation (`array_agg`)

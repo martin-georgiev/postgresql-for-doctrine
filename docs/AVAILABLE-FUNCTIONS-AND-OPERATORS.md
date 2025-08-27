@@ -1,6 +1,26 @@
-# Available operators
+# Available Operators
 
-| PostgreSQL operator | Register for DQL as | Implemented by
+## Operator Conflicts and Usage Notes
+
+**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
+
+| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
+|---|---|---|---|
+| `@>` | `CONTAINS` (arrays contain elements) | Works automatically with geometry/geography | N/A |
+| `<@` | `IS_CONTAINED_BY` (element in array) | Works automatically with geometry/geography | N/A |
+| `@` | N/A | `SPATIAL_CONTAINED_BY` (bounding box contained) | N/A |
+| `~` | N/A | `SPATIAL_CONTAINS` (bounding box contains) | `REGEXP` (text pattern matching) |
+| `&&` | `OVERLAPS` (arrays/ranges overlap) | Works automatically with geometry/geography | N/A |
+
+**Usage Guidelines:**
+- **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
+- **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations
+- **Text**: Use `REGEXP`, `IREGEXP` for pattern matching
+- **Boolean operators**: All spatial operators return boolean values and **shall be used with `= TRUE` or `= FALSE` in DQL**
+
+## General Operators
+
+| PostgreSQL operator | Register for DQL as | Implemented by |
 |---|---|---|
 | @> | CONTAINS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains` |
 | <@ | IS_CONTAINED_BY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy` |
@@ -24,9 +44,80 @@
 | @@ | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` |
 | \|\| | STRCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat` |
 
-# Available functions
+## PostGIS Spatial Operators
 
-| PostgreSQL functions | Register for DQL as | Implemented by
+**⚠️ Important**: Some operators have dual meanings for different data types. Use the specific DQL function names to avoid conflicts:
+
+- **`@`**: Use `CONTAINS` for arrays/JSON, `SPATIAL_CONTAINED_BY` for geometry/geography
+- **`~`**: Use `REGEXP` for text patterns, `SPATIAL_CONTAINS` for geometry/geography
+- **`&&`**: Use `OVERLAPS` for arrays/JSON, spatial overlaps work automatically with geometry/geography
+
+**📝 Compatibility Notes**:
+- Most bounding box operators work primarily with **geometry** types
+- **Geography** types have limited operator support (mainly `&&`, `<->`, `<@>`)
+- **3D/n-dimensional operators** may require explicit type casting: `ST_GeomFromText('POINT Z(0 0 0)')`
+- Some advanced operators (`&&&`, `<<#>>`) may not be available in all PostGIS versions
+
+### Bounding Box Operators
+
+These operators work with geometry and geography bounding boxes. All return boolean values and **shall be used with `= TRUE` or `= FALSE` in DQL**.
+
+| PostgreSQL operator | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| &< | OVERLAPS_LEFT | Returns TRUE if A's bounding box overlaps or is to the left of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OverlapsLeft` |
+| &> | OVERLAPS_RIGHT | Returns TRUE if A's bounding box overlaps or is to the right of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OverlapsRight` |
+| << | STRICTLY_LEFT | Returns TRUE if A's bounding box is strictly to the left of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrictlyLeft` |
+| >> | STRICTLY_RIGHT | Returns TRUE if A's bounding box is strictly to the right of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrictlyRight` |
+| @ | SPATIAL_CONTAINED_BY | Returns TRUE if A's bounding box is contained by B's (**spatial version**) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SpatialContainedBy` |
+| ~ | SPATIAL_CONTAINS | Returns TRUE if A's bounding box contains B's (**spatial version**) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SpatialContains` |
+| ~= | SPATIAL_SAME | Returns TRUE if A's bounding box is the same as B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SpatialSame` |
+| \|&> | OVERLAPS_ABOVE | Returns TRUE if A's bounding box overlaps or is above B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OverlapsAbove` |
+| \|>> | STRICTLY_ABOVE | Returns TRUE if A's bounding box is strictly above B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrictlyAbove` |
+| &<\| | OVERLAPS_BELOW | Returns TRUE if A's bounding box overlaps or is below B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OverlapsBelow` |
+| <<\| | STRICTLY_BELOW | Returns TRUE if A's bounding box is strictly below B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrictlyBelow` |
+| &&& | ND_OVERLAPS | Returns TRUE if A's n-D bounding box intersects B's n-D bounding box | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NDimensionalOverlaps` |
+
+**Usage Examples:**
+```sql
+-- Find geometries to the left of a reference point
+SELECT e FROM Entity e WHERE STRICTLY_LEFT(e.geometry, 'POINT(0 0)') = TRUE
+
+-- Find overlapping polygons
+SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, e.point) = TRUE
+
+-- 3D spatial relationships
+SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1, 2 2 2, 0 0 0))') = TRUE
+```
+
+### Distance Operators
+
+These operators calculate distances between geometries. All return numeric values.
+
+| PostgreSQL operator | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| <-> | GEOMETRY_DISTANCE | Returns the 2D distance between A and B geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GeometryDistance` |
+| <@> | DISTANCE | Returns distance between points (legacy operator) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance` |
+| \|=\| | TRAJECTORY_DISTANCE | Returns distance between trajectories at closest point of approach | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrajectoryDistance` |
+| <#> | BOUNDING_BOX_DISTANCE | Returns the 2D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoundingBoxDistance` |
+| <<->> | ND_CENTROID_DISTANCE | Returns n-D distance between centroids of bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NDimensionalCentroidDistance` |
+| <<#>> | ND_BOUNDING_BOX_DISTANCE | Returns the n-D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NDimensionalBoundingBoxDistance` |
+
+**Usage Examples:**
+```sql
+-- Find nearest geometries
+SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
+FROM Entity e ORDER BY distance LIMIT 10
+
+-- Bounding box distance for index optimization
+SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
+
+-- 3D distance calculations
+SELECT ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance FROM Entity e
+```
+
+# Available Functions
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
 | all | ALL_OF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All` |
 | any | ANY_OF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any` |
@@ -134,9 +225,9 @@
 | width_bucket | WIDTH_BUCKET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket` |
 
 
-# Bonus helpers
+# Bonus Helpers
 
-| PostgreSQL functions | Register for DQL as | Implemented by
+| PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
 | array | ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr` |
 | value = ANY(list of values) | IN_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray` |
