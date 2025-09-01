@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointInsideCircle;
+use PHPUnit\Framework\Attributes\Test;
 
 class ST_PointInsideCircleTest extends SpatialOperatorTestCase
 {
@@ -15,27 +16,36 @@ class ST_PointInsideCircleTest extends SpatialOperatorTestCase
         ];
     }
 
-    public function test_function_with_point_inside_circle(): void
+    #[Test]
+    public function returns_true_when_point_is_inside_circle(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_PointInsideCircle(g.geometry1, 0, 0, 1000) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
-            'SELECT ST_PointInsideCircle(c0_.geometry1, 0, 0, 1000) AS sclr_0 FROM ContainsGeometries c0_'
-        );
+        $dql = 'SELECT ST_PointInsideCircle(g.geometry1, 0.5, 0.5, 2.0) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
     }
 
-    public function test_function_with_point_inside_circle_in_where_clause(): void
+    #[Test]
+    public function returns_false_when_point_is_outside_circle(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_PointInsideCircle(g.geometry1, 0, 0, 1000) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g WHERE ST_PointInsideCircle(g.geometry1, 0, 0, 1000) = TRUE',
-            'SELECT ST_PointInsideCircle(c0_.geometry1, 0, 0, 1000) AS sclr_0 FROM ContainsGeometries c0_ WHERE ST_PointInsideCircle(c0_.geometry1, 0, 0, 1000) = TRUE'
-        );
+        $dql = 'SELECT ST_PointInsideCircle(g.geometry1, 10.0, 10.0, 1.0) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
     }
 
-    public function test_function_with_point_outside_circle(): void
+    #[Test]
+    public function returns_true_when_point_is_inside_circle_in_where_clause(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_PointInsideCircle(g.geometry1, 0, 0, 1000) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g WHERE ST_PointInsideCircle(g.geometry1, 0, 0, 1000) = FALSE',
-            'SELECT ST_PointInsideCircle(c0_.geometry1, 0, 0, 1000) AS sclr_0 FROM ContainsGeometries c0_ WHERE ST_PointInsideCircle(c0_.geometry1, 0, 0, 1000) = FALSE'
-        );
+        $dql = 'SELECT ST_PointInsideCircle(g.geometry1, 0.5, 0.5, 2.0) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE ST_PointInsideCircle(g.geometry1, 0.5, 0.5, 2.0) = TRUE';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
     }
 }

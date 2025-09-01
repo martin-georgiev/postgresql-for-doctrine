@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RelateMatch;
+use PHPUnit\Framework\Attributes\Test;
 
 class ST_RelateMatchTest extends SpatialOperatorTestCase
 {
@@ -15,27 +16,36 @@ class ST_RelateMatchTest extends SpatialOperatorTestCase
         ];
     }
 
-    public function test_function_with_relate_match(): void
+    #[Test]
+    public function returns_true_when_relate_pattern_matches(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_RelateMatch(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
-            'SELECT ST_RelateMatch(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_'
-        );
+        $dql = 'SELECT ST_RelateMatch(\'T*T***T**\', \'T*T***T**\') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
     }
 
-    public function test_function_with_relate_match_in_where_clause(): void
+    #[Test]
+    public function returns_false_when_relate_pattern_does_not_match(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_RelateMatch(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g WHERE ST_RelateMatch(g.geometry1, g.geometry2) = TRUE',
-            'SELECT ST_RelateMatch(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_ WHERE ST_RelateMatch(c0_.geometry1, c0_.geometry2) = TRUE'
-        );
+        $dql = 'SELECT ST_RelateMatch(\'FF*FF****\', \'T*T***T**\') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
     }
 
-    public function test_function_with_no_relate_match(): void
+    #[Test]
+    public function returns_true_when_relate_pattern_matches_in_where_clause(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_RelateMatch(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g WHERE ST_RelateMatch(g.geometry1, g.geometry2) = FALSE',
-            'SELECT ST_RelateMatch(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_ WHERE ST_RelateMatch(c0_.geometry1, c0_.geometry2) = FALSE'
-        );
+        $dql = 'SELECT ST_RelateMatch(\'T*T***T**\', \'T*T***T**\') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE ST_RelateMatch(\'T*T***T**\', \'T*T***T**\') = TRUE';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
     }
 }

@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Covers;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyRight;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_CoversTest extends SpatialOperatorTestCase
+class StrictlyRightTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'ST_COVERS' => ST_Covers::class,
+            'STRICTLY_RIGHT' => StrictlyRight::class,
         ];
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries(): void
+    public function returns_false_when_geometry_is_not_strictly_to_the_right(): void
     {
-        $dql = 'SELECT ST_Covers(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -28,24 +28,24 @@ class ST_CoversTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
+    public function returns_true_when_geometry_is_strictly_to_the_right(): void
     {
-        $dql = 'SELECT ST_Covers(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function returns_true_when_geometry_covers_another(): void
+    public function returns_false_when_geometries_are_identical(): void
     {
-        $dql = 'SELECT ST_Covers(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 }

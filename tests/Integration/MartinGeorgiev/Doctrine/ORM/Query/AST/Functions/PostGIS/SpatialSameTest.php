@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoveredBy;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialSame;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_CoveredByTest extends SpatialOperatorTestCase
+class SpatialSameTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'ST_COVEREDBY' => ST_CoveredBy::class,
+            'SPATIAL_SAME' => SpatialSame::class,
         ];
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries(): void
+    public function returns_false_when_geometries_are_different(): void
     {
-        $dql = 'SELECT ST_CoveredBy(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT SPATIAL_SAME(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -28,9 +28,9 @@ class ST_CoveredByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
+    public function returns_true_when_geometries_are_identical(): void
     {
-        $dql = 'SELECT ST_CoveredBy(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT SPATIAL_SAME(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -39,9 +39,9 @@ class ST_CoveredByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometry_is_covered_by_another(): void
+    public function returns_true_when_geometries_have_same_bounding_box(): void
     {
-        $dql = 'SELECT ST_CoveredBy(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT SPATIAL_SAME(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 

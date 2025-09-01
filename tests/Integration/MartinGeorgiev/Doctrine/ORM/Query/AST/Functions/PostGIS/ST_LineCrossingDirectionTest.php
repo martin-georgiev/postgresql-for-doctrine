@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineCrossingDirection;
+use PHPUnit\Framework\Attributes\Test;
 
 class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
 {
@@ -15,27 +16,36 @@ class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
         ];
     }
 
-    public function test_function_with_line_crossing_direction(): void
+    #[Test]
+    public function returns_crossing_direction_when_lines_cross(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_LineCrossingDirection(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
-            'SELECT ST_LineCrossingDirection(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_'
-        );
+        $dql = 'SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(0 0, 2 2)\'), ST_GeomFromText(\'LINESTRING(0 2, 2 0)\')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertIsInt($result[0]['result']);
     }
 
-    public function test_function_with_line_crossing_direction_in_where_clause(): void
+    #[Test]
+    public function returns_zero_when_lines_do_not_cross(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_LineCrossingDirection(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g WHERE ST_LineCrossingDirection(g.geometry1, g.geometry2) = 1',
-            'SELECT ST_LineCrossingDirection(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_ WHERE ST_LineCrossingDirection(c0_.geometry1, c0_.geometry2) = 1'
-        );
+        $dql = 'SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\'), ST_GeomFromText(\'LINESTRING(3 3, 4 4)\')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0, $result[0]['result']);
     }
 
-    public function test_function_with_no_line_crossing(): void
+    #[Test]
+    public function returns_crossing_direction_in_where_clause(): void
     {
-        $this->assertDoctrineQueryParsedToSql(
-            'SELECT ST_LineCrossingDirection(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g WHERE ST_LineCrossingDirection(g.geometry1, g.geometry2) = 0',
-            'SELECT ST_LineCrossingDirection(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_ WHERE ST_LineCrossingDirection(c0_.geometry1, c0_.geometry2) = 0'
-        );
+        $dql = 'SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(0 0, 2 2)\'), ST_GeomFromText(\'LINESTRING(0 2, 2 0)\')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(0 0, 2 2)\'), ST_GeomFromText(\'LINESTRING(0 2, 2 0)\')) > 0';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertNotEmpty($result);
     }
 }
