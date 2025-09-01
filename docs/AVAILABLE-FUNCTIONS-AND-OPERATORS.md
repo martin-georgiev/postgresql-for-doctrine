@@ -16,7 +16,7 @@
 - **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
 - **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching
-- **Boolean operators**: All spatial operators return boolean values and **shall be used with `= TRUE` or `= FALSE` in DQL**
+- **Boolean operators**: All spatial operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
 
 ## General Operators
 
@@ -60,7 +60,7 @@
 
 ### Bounding Box Operators
 
-These operators work with geometry and geography bounding boxes. All return boolean values and **shall be used with `= TRUE` or `= FALSE` in DQL**.
+These operators work with geometry and geography bounding boxes. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**.
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
@@ -226,7 +226,7 @@ SELECT ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance FROM Entit
 
 ## PostGIS Spatial Relationship Functions
 
-These functions determine spatial relationships between geometries. All return boolean values and **shall be used with `= TRUE` or `= FALSE` in DQL**.
+These functions determine spatial relationships between geometries. Most return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**, but there are exceptions: `ST_Relate(geom, geom)` returns text (intersection matrix) and `ST_LineCrossingDirection` returns integer (crossing behavior).
 
 | PostgreSQL functions | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
@@ -271,9 +271,15 @@ SELECT e FROM Entity e WHERE ST_PointInsideCircle(e.point, 0, 0, 1000) = TRUE
 ```
 
 **📝 Notes:**
-- `ST_Relate` is a variadic function that accepts 2 or 3 arguments
-- `ST_LineCrossingDirection` returns an integer (0, 1, -1, or 2) indicating crossing behavior
-- All other functions return boolean values and must be used with `= TRUE` or `= FALSE` in DQL
+- `ST_Relate` is a variadic function that accepts 2 or 3 arguments:
+  - With 2 arguments: returns text (intersection matrix)
+  - With 3 arguments: returns boolean (relationship test)
+- `ST_LineCrossingDirection` returns an integer (0, 1, -1, or 2) indicating crossing behavior:
+  - `0`: No crossing
+  - `1`: Left to right crossing
+  - `-1`: Right to left crossing
+  - `2`: Multiple crossings
+- All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
 
 
 # Bonus Helpers

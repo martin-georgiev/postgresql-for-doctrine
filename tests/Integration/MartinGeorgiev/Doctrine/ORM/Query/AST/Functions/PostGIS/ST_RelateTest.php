@@ -17,7 +17,7 @@ class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_intersection_matrix_when_two_arguments(): void
+    public function returns_de9im_matrix_for_disjoint_point_geometries(): void
     {
         $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -29,7 +29,7 @@ class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_three_arguments_and_pattern_matches(): void
+    public function returns_true_when_geometries_match_disjoint_pattern(): void
     {
         $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2, \'FF0FFF0F2\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -40,7 +40,7 @@ class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_three_arguments_and_pattern_does_not_match(): void
+    public function returns_false_when_geometries_do_not_match_intersecting_pattern(): void
     {
         $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2, \'T*T***T**\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
