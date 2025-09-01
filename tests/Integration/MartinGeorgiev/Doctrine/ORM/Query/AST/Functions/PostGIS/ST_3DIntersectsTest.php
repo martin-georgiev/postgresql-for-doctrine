@@ -19,7 +19,7 @@ class ST_3DIntersectsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_comparing_separate_point_geometries(): void
     {
-        $dql = 'SELECT ST_3DIntersects(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_3DINTERSECTS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_3DIntersectsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_comparing_identical_geometries(): void
     {
-        $dql = 'SELECT ST_3DIntersects(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT ST_3DINTERSECTS(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -41,7 +41,7 @@ class ST_3DIntersectsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_3d_geometries_intersect(): void
     {
-        $dql = 'SELECT ST_3DIntersects(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_3DINTERSECTS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 

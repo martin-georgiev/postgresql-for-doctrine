@@ -19,7 +19,7 @@ class ST_EqualsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_geometries_are_not_equal(): void
     {
-        $dql = 'SELECT ST_Equals(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_EQUALS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_EqualsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_geometries_are_equal(): void
     {
-        $dql = 'SELECT ST_Equals(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT ST_EQUALS(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -41,7 +41,7 @@ class ST_EqualsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_geometries_have_same_spatial_relationship(): void
     {
-        $dql = 'SELECT ST_Equals(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_EQUALS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 7';
 

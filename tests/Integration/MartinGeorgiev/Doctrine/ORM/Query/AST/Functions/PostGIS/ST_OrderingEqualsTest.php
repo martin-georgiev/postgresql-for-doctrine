@@ -19,7 +19,7 @@ class ST_OrderingEqualsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_geometries_are_not_ordering_equal(): void
     {
-        $dql = 'SELECT ST_OrderingEquals(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_ORDERINGEQUALS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_OrderingEqualsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_geometries_are_ordering_equal(): void
     {
-        $dql = 'SELECT ST_OrderingEquals(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT ST_ORDERINGEQUALS(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -41,7 +41,7 @@ class ST_OrderingEqualsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_geometries_have_same_ordering(): void
     {
-        $dql = 'SELECT ST_OrderingEquals(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_ORDERINGEQUALS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 7';
 

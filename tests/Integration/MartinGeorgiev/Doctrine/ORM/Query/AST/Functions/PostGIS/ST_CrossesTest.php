@@ -19,7 +19,7 @@ class ST_CrossesTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_comparing_separate_point_geometries(): void
     {
-        $dql = 'SELECT ST_Crosses(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_CROSSES(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_CrossesTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_line_crosses_polygon(): void
     {
-        $dql = 'SELECT ST_Crosses(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_CROSSES(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 5';
 
@@ -41,7 +41,7 @@ class ST_CrossesTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_geometries_do_not_cross(): void
     {
-        $dql = 'SELECT ST_Crosses(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_CROSSES(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3';
 

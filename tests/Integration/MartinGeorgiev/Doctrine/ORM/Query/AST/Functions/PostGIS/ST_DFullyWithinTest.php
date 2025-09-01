@@ -19,7 +19,7 @@ class ST_DFullyWithinTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_geometries_are_fully_within_distance(): void
     {
-        $dql = 'SELECT ST_DFullyWithin(g.geometry1, g.geometry2, 10.0) as result
+        $dql = 'SELECT ST_DFULLYWITHIN(g.geometry1, g.geometry2, 10.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_DFullyWithinTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_geometries_are_not_fully_within_distance(): void
     {
-        $dql = 'SELECT ST_DFullyWithin(g.geometry1, g.geometry2, 0.1) as result
+        $dql = 'SELECT ST_DFULLYWITHIN(g.geometry1, g.geometry2, 0.1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -41,9 +41,9 @@ class ST_DFullyWithinTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_geometries_are_fully_within_distance_in_where_clause(): void
     {
-        $dql = 'SELECT ST_DFullyWithin(g.geometry1, g.geometry2, 10.0) as result
+        $dql = 'SELECT ST_DFULLYWITHIN(g.geometry1, g.geometry2, 10.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE ST_DFullyWithin(g.geometry1, g.geometry2, 10.0) = TRUE';
+                WHERE ST_DFULLYWITHIN(g.geometry1, g.geometry2, 10.0) = TRUE';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

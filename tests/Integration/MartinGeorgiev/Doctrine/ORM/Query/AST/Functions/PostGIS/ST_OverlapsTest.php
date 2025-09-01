@@ -19,7 +19,7 @@ class ST_OverlapsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_geometries_do_not_overlap(): void
     {
-        $dql = 'SELECT ST_Overlaps(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_OVERLAPS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_OverlapsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_geometries_overlap(): void
     {
-        $dql = 'SELECT ST_Overlaps(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_OVERLAPS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 4';
 
@@ -41,7 +41,7 @@ class ST_OverlapsTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_geometries_are_identical(): void
     {
-        $dql = 'SELECT ST_Overlaps(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT ST_OVERLAPS(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 

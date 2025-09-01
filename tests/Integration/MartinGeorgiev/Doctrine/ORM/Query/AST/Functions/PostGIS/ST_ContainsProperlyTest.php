@@ -19,7 +19,7 @@ class ST_ContainsProperlyTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_comparing_separate_point_geometries(): void
     {
-        $dql = 'SELECT ST_ContainsProperly(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_CONTAINSPROPERLY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_ContainsProperlyTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_geometry_properly_contains_another(): void
     {
-        $dql = 'SELECT ST_ContainsProperly(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_CONTAINSPROPERLY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
@@ -41,7 +41,7 @@ class ST_ContainsProperlyTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_geometry_does_not_properly_contain_another(): void
     {
-        $dql = 'SELECT ST_ContainsProperly(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_CONTAINSPROPERLY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3';
 
