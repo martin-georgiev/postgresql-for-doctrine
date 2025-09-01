@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NDimensionalCentroidDistance;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance;
 use PHPUnit\Framework\Attributes\Test;
 
 class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
