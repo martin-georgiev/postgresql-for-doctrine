@@ -28,14 +28,14 @@ class ST_TouchesTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
+    public function returns_false_when_comparing_identical_geometries(): void
     {
         $dql = 'SELECT ST_Touches(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]
@@ -43,7 +43,7 @@ class ST_TouchesTest extends SpatialOperatorTestCase
     {
         $dql = 'SELECT ST_Touches(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 8';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

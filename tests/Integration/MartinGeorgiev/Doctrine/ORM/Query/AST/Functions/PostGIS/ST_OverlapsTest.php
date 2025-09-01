@@ -32,7 +32,7 @@ class ST_OverlapsTest extends SpatialOperatorTestCase
     {
         $dql = 'SELECT ST_Overlaps(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 4';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

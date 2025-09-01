@@ -43,7 +43,7 @@ class ST_OrderingEqualsTest extends SpatialOperatorTestCase
     {
         $dql = 'SELECT ST_OrderingEquals(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 7';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
