@@ -26,16 +26,16 @@ class ST_RelateTest extends BaseVariadicFunctionTestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'ST_Relate with two arguments' => 'SELECT ST_Relate(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_',
-            'ST_Relate with three arguments' => "SELECT ST_Relate(c0_.geometry1, c0_.geometry2, 'T*T***T**') AS sclr_0 FROM ContainsGeometries c0_",
+            'returns DE-9IM intersection matrix between geometries' => 'SELECT ST_Relate(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_',
+            'tests geometries against custom DE-9IM pattern matrix' => "SELECT ST_Relate(c0_.geometry1, c0_.geometry2, 'T*T***T**') AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'ST_Relate with two arguments' => \sprintf('SELECT ST_Relate(g.geometry1, g.geometry2) FROM %s g', ContainsGeometries::class),
-            'ST_Relate with three arguments' => \sprintf("SELECT ST_Relate(g.geometry1, g.geometry2, 'T*T***T**') FROM %s g", ContainsGeometries::class),
+            'returns DE-9IM intersection matrix between geometries' => \sprintf('SELECT ST_RELATE(g.geometry1, g.geometry2) FROM %s g', ContainsGeometries::class),
+            'tests geometries against custom DE-9IM pattern matrix' => \sprintf("SELECT ST_RELATE(g.geometry1, g.geometry2, 'T*T***T**') FROM %s g", ContainsGeometries::class),
         ];
     }
 }

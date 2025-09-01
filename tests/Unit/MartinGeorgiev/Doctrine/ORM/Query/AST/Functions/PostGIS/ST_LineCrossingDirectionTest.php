@@ -26,7 +26,7 @@ class ST_LineCrossingDirectionTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_LineCrossingDirection(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_LINECROSSINGDIRECTION(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

@@ -26,7 +26,7 @@ class ST_IntersectsTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_Intersects(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_INTERSECTS(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

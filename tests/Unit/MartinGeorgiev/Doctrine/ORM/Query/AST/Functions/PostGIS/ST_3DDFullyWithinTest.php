@@ -26,7 +26,7 @@ class ST_3DDFullyWithinTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_3DDFullyWithin(g.geometry1, g.geometry2, 1000) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_3DDFULLYWITHIN(g.geometry1, g.geometry2, 1000) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

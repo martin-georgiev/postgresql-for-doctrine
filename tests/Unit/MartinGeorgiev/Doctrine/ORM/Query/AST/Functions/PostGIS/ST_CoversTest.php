@@ -26,7 +26,7 @@ class ST_CoversTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_Covers(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_COVERS(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

@@ -26,7 +26,7 @@ class ST_OverlapsTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_Overlaps(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_OVERLAPS(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

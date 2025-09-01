@@ -26,7 +26,7 @@ class ST_CoveredByTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_CoveredBy(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_COVEREDBY(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

@@ -19,7 +19,7 @@ class ST_RelateTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_intersection_matrix_when_two_arguments(): void
     {
-        $dql = 'SELECT ST_Relate(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -31,7 +31,7 @@ class ST_RelateTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_three_arguments_and_pattern_matches(): void
     {
-        $dql = 'SELECT ST_Relate(g.geometry1, g.geometry2, \'FF0FFF0F2\') as result
+        $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2, \'FF0FFF0F2\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -42,7 +42,7 @@ class ST_RelateTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_three_arguments_and_pattern_does_not_match(): void
     {
-        $dql = 'SELECT ST_Relate(g.geometry1, g.geometry2, \'T*T***T**\') as result
+        $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2, \'T*T***T**\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 

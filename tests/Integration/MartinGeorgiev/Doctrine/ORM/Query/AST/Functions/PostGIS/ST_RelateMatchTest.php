@@ -19,7 +19,7 @@ class ST_RelateMatchTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_relate_pattern_matches(): void
     {
-        $dql = 'SELECT ST_RelateMatch(\'T*T***T**\', \'T*T***T**\') as result
+        $dql = 'SELECT ST_RELATEMATCH(\'T*T***T**\', \'T*T***T**\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_RelateMatchTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_false_when_relate_pattern_does_not_match(): void
     {
-        $dql = 'SELECT ST_RelateMatch(\'FF*FF****\', \'T*T***T**\') as result
+        $dql = 'SELECT ST_RELATEMATCH(\'FF*FF****\', \'T*T***T**\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -41,9 +41,9 @@ class ST_RelateMatchTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_relate_pattern_matches_in_where_clause(): void
     {
-        $dql = 'SELECT ST_RelateMatch(\'T*T***T**\', \'T*T***T**\') as result
+        $dql = 'SELECT ST_RELATEMATCH(\'T*T***T**\', \'T*T***T**\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE ST_RelateMatch(\'T*T***T**\', \'T*T***T**\') = TRUE';
+                WHERE ST_RELATEMATCH(\'T*T***T**\', \'T*T***T**\') = TRUE';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

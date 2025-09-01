@@ -26,7 +26,7 @@ class ST_EqualsTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_Equals(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_EQUALS(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

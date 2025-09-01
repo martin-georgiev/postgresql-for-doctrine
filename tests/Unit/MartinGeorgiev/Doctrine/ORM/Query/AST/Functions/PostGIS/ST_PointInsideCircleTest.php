@@ -26,7 +26,7 @@ class ST_PointInsideCircleTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_PointInsideCircle(g.geometry1, 0, 0, 1000) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_POINTINSIDECIRCLE(g.geometry1, 0, 0, 1000) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

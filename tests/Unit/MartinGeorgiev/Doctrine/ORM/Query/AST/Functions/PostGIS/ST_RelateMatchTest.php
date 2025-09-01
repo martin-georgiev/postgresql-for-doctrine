@@ -26,7 +26,7 @@ class ST_RelateMatchTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_RelateMatch(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_RELATEMATCH(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

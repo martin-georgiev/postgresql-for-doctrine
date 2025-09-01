@@ -26,7 +26,7 @@ class ST_TouchesTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_Touches(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_TOUCHES(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

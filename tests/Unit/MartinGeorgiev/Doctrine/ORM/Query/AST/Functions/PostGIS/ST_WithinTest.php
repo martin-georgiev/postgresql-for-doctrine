@@ -26,7 +26,7 @@ class ST_WithinTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_Within(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_WITHIN(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

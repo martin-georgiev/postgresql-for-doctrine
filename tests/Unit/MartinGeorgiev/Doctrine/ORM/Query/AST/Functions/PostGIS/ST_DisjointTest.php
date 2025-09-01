@@ -26,7 +26,7 @@ class ST_DisjointTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_Disjoint(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_DISJOINT(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

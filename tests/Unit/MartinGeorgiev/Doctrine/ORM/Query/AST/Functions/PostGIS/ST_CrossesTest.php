@@ -26,7 +26,7 @@ class ST_CrossesTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_Crosses(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_CROSSES(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

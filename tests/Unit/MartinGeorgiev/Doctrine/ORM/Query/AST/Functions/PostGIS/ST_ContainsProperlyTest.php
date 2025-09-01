@@ -26,7 +26,7 @@ class ST_ContainsProperlyTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_ContainsProperly(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_CONTAINSPROPERLY(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }
