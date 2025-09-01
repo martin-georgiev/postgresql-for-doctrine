@@ -19,7 +19,7 @@ class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_crossing_direction_when_lines_cross(): void
     {
-        $dql = 'SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(0 0, 2 2)\'), ST_GeomFromText(\'LINESTRING(0 2, 2 0)\')) as result
+        $dql = 'SELECT ST_LineCrossingDirection(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(0 2, 2 0)\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_zero_when_lines_do_not_cross(): void
     {
-        $dql = 'SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\'), ST_GeomFromText(\'LINESTRING(3 3, 4 4)\')) as result
+        $dql = 'SELECT ST_LineCrossingDirection(\'LINESTRING(0 0, 1 1)\', \'LINESTRING(3 3, 4 4)\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -41,9 +41,9 @@ class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_crossing_direction_in_where_clause(): void
     {
-        $dql = 'SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(0 0, 2 2)\'), ST_GeomFromText(\'LINESTRING(0 2, 2 0)\')) as result
+        $dql = 'SELECT ST_LineCrossingDirection(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(0 2, 2 0)\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(0 0, 2 2)\'), ST_GeomFromText(\'LINESTRING(0 2, 2 0)\')) > 0';
+                WHERE ST_LineCrossingDirection(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(0 2, 2 0)\') > 0';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertNotEmpty($result);
