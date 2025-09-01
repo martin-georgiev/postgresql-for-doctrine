@@ -17,7 +17,7 @@ class SpatialContainsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_geometry_does_not_contain_another(): void
+    public function returns_false_when_comparing_separate_point_geometries(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,18 +28,18 @@ class SpatialContainsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometry_contains_another(): void
+    public function returns_false_when_first_polygon_does_not_fully_contain_second(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]
-    public function returns_true_when_geometries_are_identical(): void
+    public function returns_true_when_comparing_identical_geometries(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINS(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

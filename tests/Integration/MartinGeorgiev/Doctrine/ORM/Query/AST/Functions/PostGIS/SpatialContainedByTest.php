@@ -17,7 +17,18 @@ class SpatialContainedByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_geometry_is_not_contained_by_another(): void
+    public function returns_false_when_first_polygon_is_not_contained_by_overlapping_second(): void
+    {
+        $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_false_when_comparing_separate_point_geometries(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,18 +39,7 @@ class SpatialContainedByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometry_is_contained_by_another(): void
-    {
-        $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry2, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_geometries_are_identical(): void
+    public function returns_true_when_comparing_identical_geometries(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

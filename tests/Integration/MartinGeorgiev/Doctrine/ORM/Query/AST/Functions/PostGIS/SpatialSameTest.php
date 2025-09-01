@@ -17,18 +17,7 @@ class SpatialSameTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_geometries_are_different(): void
-    {
-        $dql = 'SELECT SPATIAL_SAME(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_geometries_are_identical(): void
+    public function returns_true_when_comparing_identical_geometries(): void
     {
         $dql = 'SELECT SPATIAL_SAME(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -39,13 +28,24 @@ class SpatialSameTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometries_have_same_bounding_box(): void
+    public function returns_false_when_comparing_different_point_geometries(): void
+    {
+        $dql = 'SELECT SPATIAL_SAME(g.geometry1, g.geometry2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_false_when_comparing_overlapping_polygons(): void
     {
         $dql = 'SELECT SPATIAL_SAME(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 }

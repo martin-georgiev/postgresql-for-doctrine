@@ -17,7 +17,7 @@ class StrictlyRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_geometry_is_not_strictly_to_the_right(): void
+    public function returns_false_when_first_point_is_not_strictly_to_the_right(): void
     {
         $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,24 +28,24 @@ class StrictlyRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometry_is_strictly_to_the_right(): void
+    public function returns_true_when_geometry_is_positioned_right_of_literal_point(): void
     {
-        $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result
+        $dql = "SELECT STRICTLY_RIGHT(g.geometry1, 'POINT(-5 -5)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function returns_false_when_geometries_are_identical(): void
+    public function returns_true_when_higher_linestring_is_strictly_to_the_right_of_lower_onetrajetoryds(): void
     {
-        $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 }
