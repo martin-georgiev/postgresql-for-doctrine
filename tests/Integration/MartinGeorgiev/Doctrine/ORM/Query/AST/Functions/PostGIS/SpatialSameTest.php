@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Within;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoveredBy;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_WithinTest extends SpatialOperatorTestCase
+class ST_CoveredByTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'ST_WITHIN' => ST_Within::class,
+            'ST_COVEREDBY' => ST_CoveredBy::class,
         ];
     }
 
     #[Test]
     public function returns_false_when_comparing_separate_point_geometries(): void
     {
-        $dql = 'SELECT ST_Within(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_CoveredBy(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -30,7 +30,7 @@ class ST_WithinTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_true_when_comparing_identical_geometries(): void
     {
-        $dql = 'SELECT ST_Within(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT ST_CoveredBy(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
@@ -39,9 +39,9 @@ class ST_WithinTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometry_is_within_another(): void
+    public function returns_true_when_geometry_is_covered_by_another(): void
     {
-        $dql = 'SELECT ST_Within(g.geometry1, g.geometry2) as result
+        $dql = 'SELECT ST_CoveredBy(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 

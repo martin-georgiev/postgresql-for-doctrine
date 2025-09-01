@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDWithin;
-use PHPUnit\Framework\Attributes\Test;
-
 
 class ST_3DDWithinTest extends SpatialOperatorTestCase
 {

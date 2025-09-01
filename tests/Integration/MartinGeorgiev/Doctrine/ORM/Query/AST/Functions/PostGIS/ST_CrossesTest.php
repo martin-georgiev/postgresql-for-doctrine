@@ -7,7 +7,6 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Crosses;
 use PHPUnit\Framework\Attributes\Test;
 
-
 class ST_CrossesTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array

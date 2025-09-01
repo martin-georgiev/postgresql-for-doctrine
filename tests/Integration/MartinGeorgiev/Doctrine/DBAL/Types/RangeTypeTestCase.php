@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range as RangeValueObject;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\Overlaps;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
