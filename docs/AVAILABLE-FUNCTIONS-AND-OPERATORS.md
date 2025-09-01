@@ -64,18 +64,18 @@ These operators work with geometry and geography bounding boxes. All return bool
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
-| &< | OVERLAPS_LEFT | Returns TRUE if A's bounding box overlaps or is to the left of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OverlapsLeft` |
-| &> | OVERLAPS_RIGHT | Returns TRUE if A's bounding box overlaps or is to the right of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OverlapsRight` |
-| << | STRICTLY_LEFT | Returns TRUE if A's bounding box is strictly to the left of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrictlyLeft` |
-| >> | STRICTLY_RIGHT | Returns TRUE if A's bounding box is strictly to the right of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrictlyRight` |
-| @ | SPATIAL_CONTAINED_BY | Returns TRUE if A's bounding box is contained by B's (**spatial version**) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SpatialContainedBy` |
-| ~ | SPATIAL_CONTAINS | Returns TRUE if A's bounding box contains B's (**spatial version**) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SpatialContains` |
-| ~= | SPATIAL_SAME | Returns TRUE if A's bounding box is the same as B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SpatialSame` |
-| \|&> | OVERLAPS_ABOVE | Returns TRUE if A's bounding box overlaps or is above B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OverlapsAbove` |
-| \|>> | STRICTLY_ABOVE | Returns TRUE if A's bounding box is strictly above B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrictlyAbove` |
-| &<\| | OVERLAPS_BELOW | Returns TRUE if A's bounding box overlaps or is below B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OverlapsBelow` |
-| <<\| | STRICTLY_BELOW | Returns TRUE if A's bounding box is strictly below B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrictlyBelow` |
-| &&& | ND_OVERLAPS | Returns TRUE if A's n-D bounding box intersects B's n-D bounding box | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NDimensionalOverlaps` |
+| &< | OVERLAPS_LEFT | Returns TRUE if A's bounding box overlaps or is to the left of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsLeft` |
+| &> | OVERLAPS_RIGHT | Returns TRUE if A's bounding box overlaps or is to the right of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsRight` |
+| << | STRICTLY_LEFT | Returns TRUE if A's bounding box is strictly to the left of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyLeft` |
+| >> | STRICTLY_RIGHT | Returns TRUE if A's bounding box is strictly to the right of B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyRight` |
+| @ | SPATIAL_CONTAINED_BY | Returns TRUE if A's bounding box is contained by B's (**spatial version**) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialContainedBy` |
+| ~ | SPATIAL_CONTAINS | Returns TRUE if A's bounding box contains B's (**spatial version**) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialContains` |
+| ~= | SPATIAL_SAME | Returns TRUE if A's bounding box is the same as B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialSame` |
+| \|&> | OVERLAPS_ABOVE | Returns TRUE if A's bounding box overlaps or is above B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsAbove` |
+| \|>> | STRICTLY_ABOVE | Returns TRUE if A's bounding box is strictly above B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyAbove` |
+| &<\| | OVERLAPS_BELOW | Returns TRUE if A's bounding box overlaps or is below B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsBelow` |
+| <<\| | STRICTLY_BELOW | Returns TRUE if A's bounding box is strictly below B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyBelow` |
+| &&& | ND_OVERLAPS | Returns TRUE if A's n-D bounding box intersects B's n-D bounding box | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps` |
 
 **Usage Examples:**
 ```sql
@@ -95,12 +95,12 @@ These operators calculate distances between geometries. All return numeric value
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
-| <-> | GEOMETRY_DISTANCE | Returns the 2D distance between A and B geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GeometryDistance` |
+| <-> | GEOMETRY_DISTANCE | Returns the 2D distance between A and B geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance` |
 | <@> | DISTANCE | Returns distance between points (legacy operator) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance` |
-| \|=\| | TRAJECTORY_DISTANCE | Returns distance between trajectories at closest point of approach | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrajectoryDistance` |
-| <#> | BOUNDING_BOX_DISTANCE | Returns the 2D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoundingBoxDistance` |
-| <<->> | ND_CENTROID_DISTANCE | Returns n-D distance between centroids of bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NDimensionalCentroidDistance` |
-| <<#>> | ND_BOUNDING_BOX_DISTANCE | Returns the n-D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NDimensionalBoundingBoxDistance` |
+| \|=\| | TRAJECTORY_DISTANCE | Returns distance between trajectories at closest point of approach | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\TrajectoryDistance` |
+| <#> | BOUNDING_BOX_DISTANCE | Returns the 2D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance` |
+| <<->> | ND_CENTROID_DISTANCE | Returns n-D distance between centroids of bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance` |
+| <<#>> | ND_BOUNDING_BOX_DISTANCE | Returns the n-D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance` |
 
 **Usage Examples:**
 ```sql
@@ -223,6 +223,57 @@ SELECT ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance FROM Entit
 | random | RANDOM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random` |
 | sign | SIGN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign` |
 | width_bucket | WIDTH_BUCKET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket` |
+
+## PostGIS Spatial Relationship Functions
+
+These functions determine spatial relationships between geometries. All return boolean values and **shall be used with `= TRUE` or `= FALSE` in DQL**.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_3DDWithin | ST_3DDWITHIN | Tests if two 3D geometries are within a given 3D distance | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDWithin` |
+| ST_3DDFullyWithin | ST_3DDFULLYWITHIN | Tests if two 3D geometries are entirely within a given 3D distance | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDFullyWithin` |
+| ST_3DIntersects | ST_3DINTERSECTS | Tests if two geometries spatially intersect in 3D | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DIntersects` |
+| ST_Contains | ST_CONTAINS | Tests if every point of B lies in A, and their interiors have a point in common | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Contains` |
+| ST_ContainsProperly | ST_CONTAINSPROPERLY | Tests if every point of B lies in the interior of A | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ContainsProperly` |
+| ST_CoveredBy | ST_COVEREDBY | Tests if every point of A lies in B | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoveredBy` |
+| ST_Covers | ST_COVERS | Tests if every point of B lies in A | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Covers` |
+| ST_Crosses | ST_CROSSES | Tests if two geometries have some, but not all, interior points in common | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Crosses` |
+| ST_DFullyWithin | ST_DFULLYWITHIN | Tests if a geometry is entirely inside a distance of another | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_DFullyWithin` |
+| ST_Disjoint | ST_DISJOINT | Tests if two geometries have no points in common | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Disjoint` |
+| ST_DWithin | ST_DWITHIN | Tests if two geometries are within a given distance | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_DWithin` |
+| ST_Equals | ST_EQUALS | Tests if two geometries include the same set of points | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals` |
+| ST_Intersects | ST_INTERSECTS | Tests if two geometries intersect (they have at least one point in common) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Intersects` |
+| ST_LineCrossingDirection | ST_LINECROSSINGDIRECTION | Returns a number indicating the crossing behavior of two LineStrings | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineCrossingDirection` |
+| ST_OrderingEquals | ST_ORDERINGEQUALS | Tests if two geometries represent the same geometry and have points in the same directional order | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_OrderingEquals` |
+| ST_Overlaps | ST_OVERLAPS | Tests if two geometries have the same dimension and intersect, but each has at least one point not in the other | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Overlaps` |
+| ST_PointInsideCircle | ST_POINTINSIDECIRCLE | Tests if a point geometry is inside a circle defined by a center and radius | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointInsideCircle` |
+| ST_Relate | ST_RELATE | Tests if two geometries have a topological relationship matching an Intersection Matrix pattern, or computes their Intersection Matrix | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Relate` |
+| ST_RelateMatch | ST_RELATEMATCH | Tests if a DE-9IM Intersection Matrix matches an Intersection Matrix pattern | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RelateMatch` |
+| ST_Touches | ST_TOUCHES | Tests if two geometries have at least one point in common, but their interiors do not intersect | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Touches` |
+| ST_Within | ST_WITHIN | Tests if every point of A lies in B, and their interiors have a point in common | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Within` |
+
+**Usage Examples:**
+```sql
+-- Test if geometries intersect
+SELECT e FROM Entity e WHERE ST_Intersects(e.geometry, 'POINT(0 0)') = TRUE
+
+-- Test if one geometry contains another
+SELECT e FROM Entity e WHERE ST_Contains(e.polygon, e.point) = TRUE
+
+-- Test if geometries are within a distance
+SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
+
+-- Test topological relationships with intersection matrix
+SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'T*T***T**') = TRUE
+
+-- Test if point is inside circle
+SELECT e FROM Entity e WHERE ST_PointInsideCircle(e.point, 0, 0, 1000) = TRUE
+```
+
+**📝 Notes:**
+- `ST_Relate` is a variadic function that accepts 2 or 3 arguments
+- `ST_LineCrossingDirection` returns an integer (0, 1, -1, or 2) indicating crossing behavior
+- All other functions return boolean values and must be used with `= TRUE` or `= FALSE` in DQL
 
 
 # Bonus Helpers
