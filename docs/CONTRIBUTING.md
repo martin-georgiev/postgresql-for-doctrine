@@ -197,7 +197,7 @@ and can easily be run from project's root:
 - Run the full test suite:
 
   ```bash
-  composer run-tests
+  composer run-all-tests
   ```
 
 ## Coding practices
@@ -253,3 +253,194 @@ class ArrayAppend extends BaseFunction
 ⚠️ **Beware:** you cannot use **?** (e.g. the `??` operator) as part of any
 function prototype in Doctrine.
 It causes query parsing failures.
+
+
+## Testing: Patterns and Guidelines
+
+This project has a rich, well-structured test suite consisting of fast unit tests and database-backed integration tests. Please follow the conventions below when adding or modifying tests.
+
+### Tools and how to run tests
+- Framework: PHPUnit 10 (PHP attributes like #[Test], #[DataProvider])
+- Static analysis: PHPStan (+ doctrine + phpunit extensions)
+- Architecture checks: deptrac
+- Code style and refactoring: PHP-CS-Fixer, Rector
+
+Composer scripts:
+- Run unit tests: `composer run-unit-tests` (uses ci/phpunit/config-unit.xml)
+- Run integration tests: `composer run-integration-tests` (uses ci/phpunit/config-integration.xml)
+- Run both suites: `composer run-all-tests`
+- Static analysis: `composer run-static-analysis`
+
+Integration tests require a PostgreSQL with PostGIS:
+- Easiest: Docker Compose
+  - Start: `docker-compose up -d`
+  - Stop: `docker-compose down -v`
+- Alternatively (dev shell): `devenv up`
+- See tests/Integration/README.md for environment variables and details
+
+Coverage reports are written to var/logs/test-coverage/{unit|integration}/.
+
+### Choosing unit vs. integration tests
+- Prefer unit tests for:
+  - Pure value objects and small utilities (no DB/ORM)
+  - Doctrine DBAL Type conversions (PHP <-> database string) using an AbstractPlatform mock
+  - DQL AST function SQL generation (no DB round-trip)
+- Prefer integration tests for:
+  - Verifying DBAL types round-trip correctly against a real PostgreSQL
+  - DQL functions/operators evaluated end-to-end against PostgreSQL
+  - Scenarios relying on PostGIS or PostgreSQL-specific behavior
+
+Keep unit tests fast and deterministic; use integration tests to validate behavior against the real database.
+
+### Unit test patterns and conventions
+- Location: tests/Unit/...
+- Naming:
+  - Class names end with `Test` (e.g., `PointTest`, `CidrTest`)
+  - One file/class per subject
+  - Concrete tests may be `final`
+- Structure:
+  - Extend `PHPUnit\Framework\TestCase` or an existing base test class in Unit when available
+  - Use `setUp()` to create an `AbstractPlatform` mock and the subject under test when testing DBAL Types
+  - Use `#[DataProvider]` for bidirectional transformation scenarios (one provider used for both PHP->DB and DB->PHP tests)
+- Assertions:
+  - Use domain-specific exceptions in negative tests (e.g., `InvalidCidrForPHPException`, `InvalidRangeForDatabaseException`)
+  - Prefer dedicated assertion helpers provided by base classes (e.g., range equality helpers) when available
+- Value Object Range tests:
+  - Reuse base classes:
+    - `tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/BaseRangeTestCase`
+    - `tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/BaseTimestampRangeTestCase`
+  - Implement the abstract factory/expectation methods and provide concise data providers
+- DBAL Type unit tests:
+  - Follow patterns from `PointTest`, `CidrTest`, `JsonbTest`
+  - Test name retrieval (`getName()`), conversions in both directions, and invalid inputs
+- DQL AST unit tests:
+  - Use `tests/Unit/.../ORM/Query/AST/Functions/TestCase` to assert DQL -> SQL transformation
+
+Anti-patterns to avoid in unit tests:
+- No echo/print statements
+- Avoid Reflection; test through public APIs
+- Avoid raw/native SQL when verifying DBAL Types; prefer conversion tests with platform mock
+- Avoid excessive PHPStan suppression; prefer PHPDoc over `@phpstan-ignore`
+
+### Integration test patterns and organization
+- Location: tests/Integration/...
+- Base infrastructure:
+  - Extend `tests/Integration/MartinGeorgiev/TestCase`
+    - Sets up Doctrine ORM config, connection, schema `test`, caches, and ensures PostGIS
+    - Provides helpers to create/drop tables, run DQL, and assert results
+  - Use specialized base classes based on what you test:
+    - Array types: `ArrayTypeTestCase`
+    - Scalar types: `ScalarTypeTestCase`
+    - Range types: `RangeTypeTestCase` (includes operator tests and `assertRangeEquals`)
+    - Spatial arrays: `SpatialArrayTypeTestCase` (ARRAY[...] insertion for WKT)
+- Per-type organization:
+  - One integration test class per DBAL Type (e.g., `MacaddrTypeTest`, `JsonbTypeTest`, `IntegerArrayTypeTest`)
+  - Implement:
+    - `protected function getTypeName(): string` (Doctrine type name)
+    - `protected function getPostgresTypeName(): string` (column type)
+  - Data-driven tests:
+    - Provide a `provideValidTransformations()` where applicable
+    - Use `runDbalBindingRoundTrip($typeName, $columnType, $value)` for round-trips
+- Range integration tests:
+  - Extend `RangeTypeTestCase`
+  - Provide a data provider for range values and add `#[DataProvider('provideValidTransformations')]` to `can_handle_range_values()`
+  - Optionally add operator scenarios via `provideOperatorScenarios()` returning [name, DQL, expectedIds]
+
+Anti-patterns to avoid in integration tests:
+- Do not modify or rely on global/public schema; tests use the dedicated `test` schema created per test run
+- Avoid changing existing shared fixtures/data unless strictly necessary; prefer adding new, focused fixtures
+- No echo/print statements
+
+### Base test classes and shared utilities
+Commonly used bases and what they provide:
+- Unit (Value Objects):
+  - `BaseRangeTestCase`: creation/formatting/boundary tests with abstract factory methods
+  - `BaseTimestampRangeTestCase`: extends the above with timestamp-specific boundary and helpers
+- Unit (DBAL Types):
+  - `tests/Unit/.../DBAL/Types/BaseRangeTestCase`: negative cases and conversions for range DBAL types
+- Unit (ORM functions):
+  - `tests/Unit/.../ORM/Query/AST/Functions/TestCase`: DQL to SQL transformation checks
+- Integration (DBAL Types):
+  - `TestCase`: connection/schema setup, round-trip helper, assertions
+  - `ArrayTypeTestCase`, `ScalarTypeTestCase`, `RangeTypeTestCase`, `SpatialArrayTypeTestCase`
+
+Prefer extending these base classes over duplicating setup/utility code.
+
+### Exception handling and error testing
+- Use domain-specific exceptions consistently:
+  - `convertToPHPValue()` should throw `...ForPHPException`
+  - `convertToDatabaseValue()` should throw `...ForDatabaseException`
+- In tests, assert the exact exception class and include `expectExceptionMessage()` when the message is part of the contract
+- For range equality in integration, use the provided `assertRangeEquals()` which compares string representation and emptiness
+
+### Test data and fixtures
+- Entities for integration live under `fixtures/MartinGeorgiev/Doctrine/Entity` and are registered via attributes
+- If a new fixture is necessary, add it under the same namespace and keep it minimal and reusable
+- Range/operator tests seed their own tables (see `RangeTypeTestCase`’s `createRangeOperatorsTable()` and insert helpers)
+
+### Code style in test files
+- Use PHP attributes `#[Test]` and `#[DataProvider]` (PHPUnit 10)
+- Descriptive dataset names in data providers improve failure readability
+- Prefer clear method names starting with verbs: `can_...`, `throws_...`, `dql_is_...`
+- Keep tests small and focused; avoid commentary that restates code; write comments only to explain intent or PostgreSQL-specific behavior
+- Maintain alphabetical order in documentation blocks and lists when applicable
+
+### Minimal examples
+Unit test for a DBAL Type (mock platform, bidirectional conversions):
+
+```php
+final class InetTest extends TestCase
+{
+    /**
+     * @var AbstractPlatform&MockObject
+     */
+    private MockObject $platform;
+    private Inet $fixture;
+
+    protected function setUp(): void
+    {
+        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->fixture = new Inet();
+    }
+
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
+    public function can_transform_from_php_value(?string $php, ?string $pg): void
+    {
+        $this->assertEquals($pg, $this->fixture->convertToDatabaseValue($php, $this->platform));
+    }
+
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
+    public function can_transform_to_php_value(?string $php, ?string $pg): void
+    {
+        $this->assertEquals($php, $this->fixture->convertToPHPValue($pg, $this->platform));
+    }
+}
+```
+
+Integration test for an array type:
+
+```php
+final class TextArrayTypeTest extends ArrayTypeTestCase
+{
+    protected function getTypeName(): string { return 'text[]'; }
+    protected function getPostgresTypeName(): string { return 'TEXT[]'; }
+    #[DataProvider('provideValidTransformations')] #[Test]
+    public function can_handle_array_values(string $name, array $value): void { parent::can_handle_array_values($name, $value); }
+}
+```
+
+Range integration test:
+
+```php
+final class Int4RangeTypeTest extends RangeTypeTestCase
+{
+    protected function getTypeName(): string { return 'int4range'; }
+    protected function getPostgresTypeName(): string { return 'INT4RANGE'; }
+    #[DataProvider('provideValidTransformations')] #[Test]
+    public function can_handle_range_values(string $name, RangeValueObject $range): void { parent::can_handle_range_values($name, $range); }
+}
+```
+
+If unsure which base to extend or how to structure a new test, mirror a nearby, similar test and keep changes minimal and consistent with the patterns above.
