@@ -54,8 +54,7 @@ return $config
     )
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
-    ->setParallelisation()
-    ->setUnsupportedPhpVersionAllowed(true)
+    ->setParallelConfig(\PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setIndent('    ')
     ->setLineEnding("\n")
     ->setFinder($finder);
