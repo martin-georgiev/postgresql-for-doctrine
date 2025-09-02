@@ -19,14 +19,16 @@ class ST_ClipByBox2DTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT ST_ClipByBox2D(c0_.geometry1, 'BOX(0 0, 10 10)') AS sclr_0 FROM ContainsGeometries c0_",
+            'clips geometry with literal box' => "SELECT ST_ClipByBox2D(c0_.geometry1, 'BOX(0 0, 4 4)') AS sclr_0 FROM ContainsGeometries c0_",
+            'clips geometry with parameter placeholder' => 'SELECT ST_ClipByBox2D(c0_.geometry1, ?) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'SELECT ST_CLIPBYBOX2D(g.geometry1, \'BOX(0 0, 10 10)\') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'clips geometry with literal box' => 'SELECT ST_CLIPBYBOX2D(g.geometry1, \'BOX(0 0, 4 4)\') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'clips geometry with parameter placeholder' => 'SELECT ST_CLIPBYBOX2D(g.geometry1, :box_param) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

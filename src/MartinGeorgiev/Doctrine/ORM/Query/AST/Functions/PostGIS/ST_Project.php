@@ -17,7 +17,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT ST_PROJECT(g.geometry, 1000, 45) FROM Entity g"
+ * @example Using it in DQL: "SELECT ST_PROJECT(g.geometry, :distance, :azimuth) FROM Entity g"
  * Returns projected point.
  */
 class ST_Project extends BaseFunction
@@ -26,7 +26,7 @@ class ST_Project extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Project(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }
