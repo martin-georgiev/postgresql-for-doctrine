@@ -54,6 +54,8 @@ return $config
     )
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
+    ->setParallelisation()
+    ->setUnsupportedPhpVersionAllowed(true)
     ->setIndent('    ')
     ->setLineEnding("\n")
     ->setFinder($finder);

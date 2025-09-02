@@ -32,7 +32,7 @@ trait JsonTransformer
         return $postgresValue;
     }
 
-    protected function transformFromPostgresJson(string $postgresValue): null|array|bool|float|int|string
+    protected function transformFromPostgresJson(string $postgresValue): array|bool|float|int|string|null
     {
         return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue);
     }
