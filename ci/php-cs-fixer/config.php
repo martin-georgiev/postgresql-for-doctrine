@@ -14,9 +14,7 @@ $finder = Finder::create()
     ->in($basePath.'src')
     ->in($basePath.'tests');
 
-$config = new Config();
-
-return $config
+$config = (new Config())
     ->setRules(
         [
             '@PSR2' => true,
@@ -55,7 +53,13 @@ return $config
     )
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
-    ->setParallelConfig(ParallelConfigFactory::detect())
+
     ->setIndent('    ')
     ->setLineEnding("\n")
     ->setFinder($finder);
+
+if (\method_exists($config, 'setParallelConfig')) {
+    $config->setParallelConfig(ParallelConfigFactory::detect());
+}
+
+return $config;
