@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
 $basePath = __DIR__.'/../../';
 
@@ -54,7 +55,7 @@ return $config
     )
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
-    ->setParallelConfig(\PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
+    ->setParallelConfig(ParallelConfigFactory::detect())
     ->setIndent('    ')
     ->setLineEnding("\n")
     ->setFinder($finder);
