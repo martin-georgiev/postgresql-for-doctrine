@@ -37,14 +37,14 @@ class JsonbTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(null|array|bool|float|int|string $phpValue, ?string $postgresValue): void
+    public function can_transform_from_php_value(array|bool|float|int|string|null $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(null|array|bool|float|int|string $phpValue, ?string $postgresValue): void
+    public function can_transform_to_php_value(array|bool|float|int|string|null $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
