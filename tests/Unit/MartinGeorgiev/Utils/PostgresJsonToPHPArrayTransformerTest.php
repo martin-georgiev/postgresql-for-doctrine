@@ -15,7 +15,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
 {
     #[DataProvider('provideValidJsonTransformations')]
     #[Test]
-    public function can_transform_json_to_php_value(null|array|bool|int|string $phpValue, string $postgresValue): void
+    public function can_transform_json_to_php_value(array|bool|int|string|null $phpValue, string $postgresValue): void
     {
         $this->assertEquals($phpValue, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue));
     }

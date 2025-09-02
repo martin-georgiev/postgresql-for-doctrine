@@ -53,7 +53,7 @@ class PostgresJsonToPHPArrayTransformer
     /**
      * @throws InvalidJsonItemForPHPException When the PostgreSQL value is not JSON-decodable
      */
-    public static function transformPostgresJsonEncodedValueToPHPValue(string $postgresValue): null|array|bool|float|int|string
+    public static function transformPostgresJsonEncodedValueToPHPValue(string $postgresValue): array|bool|float|int|string|null
     {
         try {
             // @phpstan-ignore-next-line
