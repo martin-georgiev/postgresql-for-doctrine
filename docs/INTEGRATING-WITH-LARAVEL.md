@@ -78,8 +78,8 @@ return [
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
         'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
         
-        'cnet' => MartinGeorgiev\Doctrine\DBAL\Types\Cnet::class,
-        'cnet[]' => MartinGeorgiev\Doctrine\DBAL\Types\CnetArray::class,
+        'cidr' => MartinGeorgiev\Doctrine\DBAL\Types\Cidr::class,
+        'cidr[]' => MartinGeorgiev\Doctrine\DBAL\Types\CidrArray::class,
         'inet' => MartinGeorgiev\Doctrine\DBAL\Types\Inet::class,
         'inet[]' => MartinGeorgiev\Doctrine\DBAL\Types\InetArray::class,
         'macaddr' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr::class,
@@ -94,7 +94,12 @@ return [
 
 *Register the functions you'll use in your DQL queries*
 
-Full set of the available functions and extra operators can be found [here](AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
+Full set of the available functions and extra operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+- [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
+- [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+- [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
+- [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
+- [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
 
 ```php
 <?php
