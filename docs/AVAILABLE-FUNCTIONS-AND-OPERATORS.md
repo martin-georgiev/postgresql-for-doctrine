@@ -15,9 +15,9 @@ This document provides an overview of PostgreSQL functions and operators availab
 | `&&` | `OVERLAPS` (arrays/ranges overlap) | Works automatically with geometry/geography | N/A |
 
 **Usage Guidelines:**
-- **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
-- **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations
-- **Text**: Use `REGEXP`, `IREGEXP` for pattern matching
+- **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
+- **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations → [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+- **Text**: Use `REGEXP`, `IREGEXP` for pattern matching → [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - **Boolean operators**: All spatial operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
 
 ## 📚 Function and Operator Categories
@@ -53,32 +53,32 @@ Complete documentation for mathematical operations and utility functions.
 
 ### Most Commonly Used Functions
 
-**Array Operations:**
+**Array Operations:** ([Complete documentation](ARRAY-AND-JSON-FUNCTIONS.md))
 - `CONTAINS` (`@>`) - Test if array/range contains elements
 - `OVERLAPS` (`&&`) - Test if arrays/ranges overlap
 - `ARRAY_AGG` - Aggregate values into arrays
 
-**JSON Operations:**
+**JSON Operations:** ([Complete documentation](ARRAY-AND-JSON-FUNCTIONS.md))
 - `JSON_GET_FIELD_AS_TEXT` (`->>`) - Extract JSON field as text
 - `JSON_BUILD_OBJECT` - Build JSON objects
 - `JSONB_PATH_EXISTS` - Test JSON path existence
 
-**Spatial Operations:**
+**Spatial Operations:** ([Complete documentation](SPATIAL-FUNCTIONS-AND-OPERATORS.md))
 - `ST_INTERSECTS` - Test if geometries intersect
 - `ST_DISTANCE` - Calculate distance between geometries
 - `ST_CONTAINS` - Test spatial containment
 
-**Text Operations:**
+**Text Operations:** ([Complete documentation](TEXT-AND-PATTERN-FUNCTIONS.md))
 - `ILIKE` - Case-insensitive pattern matching
 - `REGEXP` (`~`) - Regular expression matching
 - `STARTS_WITH` - Test if text starts with substring
 
-**Date/Range Operations:**
+**Date/Range Operations:** ([Complete documentation](DATE-AND-RANGE-FUNCTIONS.md))
 - `DATE_ADD` - Add interval to date
 - `DATE_EXTRACT` - Extract date components
 - `DATERANGE` - Create date ranges
 
-**Mathematical Operations:**
+**Mathematical Operations:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
 - `GREATEST`/`LEAST` - Find maximum/minimum values
 - `ROUND` - Round numeric values
 - `RANDOM` - Generate random numbers
@@ -119,12 +119,12 @@ Complete documentation for mathematical operations and utility functions.
 ---
 
 **💡 Tips for Usage:**
-1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL
-2. **Spatial functions** work best with proper geometry types and indexes
-3. **Array functions** provide efficient PostgreSQL array operations
-4. **JSON functions** support both JSON and JSONB data types
-5. **Range functions** provide efficient storage and querying for value ranges
-6. **Mathematical functions** work with numeric types and return appropriate precision
+1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL → [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md)
+2. **Spatial functions** work best with proper geometry types and indexes → [Spatial Types](SPATIAL-TYPES.md)
+3. **Array functions** provide efficient PostgreSQL array operations → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
+4. **JSON functions** support both JSON and JSONB data types → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
+5. **Range functions** provide efficient storage and querying for value ranges → [Range Types](RANGE-TYPES.md)
+6. **Mathematical functions** work with numeric types and return appropriate precision → [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
 
 ---
 

@@ -17,6 +17,8 @@ This document describes the core primitives used by the spatial DBAL types: pars
 
 Parsing outputs a list of `WktSpatialData` value objects that Doctrine DBAL can bind.
 
+> 📖 **See also**: [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for working with spatial data in queries
+
 ## Enum-driven patterns
 
 Two enums drive normalization so the code and docs remain consistent:

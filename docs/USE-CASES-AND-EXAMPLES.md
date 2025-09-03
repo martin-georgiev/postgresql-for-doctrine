@@ -28,6 +28,8 @@ Using JSON_BUILD_OBJECT and JSONB_BUILD_OBJECT
 
 These functions currently only support string literals and object references as arguments. Here are some valid examples:
 
+> 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSON/JSONB function documentation
+
 ```sql
 -- Basic usage with string literals and entity properties
 SELECT JSON_BUILD_OBJECT('name', e.userName, 'email', e.userEmail) FROM User e
@@ -46,6 +48,8 @@ Using JSON Path Functions
 ---
 
 PostgreSQL 14+ introduced JSON path functions that provide a powerful way to query JSON data. Here are some examples:
+
+> 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
 
 ```sql
 -- Check if a JSON path exists with a condition
@@ -69,6 +73,8 @@ Using Regular Expression Functions
 
 PostgreSQL 15+ introduced additional regular expression functions that provide more flexibility when working with text data:
 
+> 📖 **See also**: [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md) for complete regular expression and text processing documentation
+
 ```sql
 -- Count occurrences of a pattern
 SELECT e.id, REGEXP_COUNT(e.text, '\d{3}-\d{2}-\d{4}') as ssn_count FROM Entity e
@@ -84,6 +90,8 @@ Using Date Functions
 ---
 
 PostgreSQL 14+ introduced additional date functions that provide more flexibility when working with dates and timestamps:
+
+> 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for complete date/time and range function documentation
 
 ```sql
 -- Bin timestamps into 15-minute intervals
@@ -102,6 +110,8 @@ Using Range Types
 ---
 
 PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:
+
+> 📖 **See also**: [Range Types](RANGE-TYPES.md) for complete range value object documentation and [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions
 
 ```php
 // Entity with range fields
@@ -181,6 +191,8 @@ POINT Z (1 2 3)            => POINT Z(1 2 3)
 ### Using PostGIS Spatial Operators in DQL
 
 PostGIS spatial operators allow you to perform spatial queries using bounding box relationships and distance calculations. **Important**: All spatial operators return boolean values and shall be used with `= TRUE` or `= FALSE` in DQL.
+
+> 📖 **See also**: [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for complete spatial function documentation
 
 #### Bounding Box Spatial Relationships
 

@@ -2,6 +2,8 @@
 
 This document covers PostgreSQL text processing, pattern matching, and regular expression functions and operators available in this library.
 
+> 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical text processing and regular expression examples
+
 ## Text and Pattern Operators
 
 **⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:

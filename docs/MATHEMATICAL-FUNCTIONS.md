@@ -2,6 +2,8 @@
 
 This document covers PostgreSQL mathematical, utility, and miscellaneous functions available in this library.
 
+> 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
+
 ## Mathematical Functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |

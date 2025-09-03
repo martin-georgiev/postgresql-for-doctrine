@@ -2,6 +2,8 @@
 
 This document covers PostgreSQL date, time, and range functions available in this library.
 
+> 📖 **See also**: [Range Types](RANGE-TYPES.md) for range value objects and [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical date and range examples
+
 ## Date and Time Functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |

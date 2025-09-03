@@ -2,6 +2,8 @@
 
 This document covers PostgreSQL array and JSON/JSONB operators and functions available in this library.
 
+> 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical JSON and array usage examples
+
 ## Array and JSON Operators
 
 **⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
