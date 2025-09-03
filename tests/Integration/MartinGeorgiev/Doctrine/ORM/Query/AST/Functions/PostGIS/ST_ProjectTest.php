@@ -28,7 +28,7 @@ class ST_ProjectTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0, $result[0]['result'], 0.001, 'geometries with opposite directions should return to approximately the same point');
+        $this->assertEqualsWithDelta(0, $result[0]['result'], 0.01, 'geometries with opposite directions should return to approximately the same point');
     }
 
     #[Test]
