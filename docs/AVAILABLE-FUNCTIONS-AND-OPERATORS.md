@@ -266,9 +266,115 @@ SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
 -- Test topological relationships with intersection matrix
 SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'T*T***T**') = TRUE
 
+-- Get intersection matrix between two geometries
+SELECT e, ST_Relate(e.geometry1, e.geometry2) as matrix FROM Entity e
+
+-- Test if geometries are disjoint (no intersection)
+SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'FF*FF****') = TRUE
+
+-- Test if one geometry contains another (contains relationship)
+SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'T*****FF*') = TRUE
+
+-- Test if geometries touch (boundary intersection only)
+SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'FT*******') = TRUE
+
 -- Test if point is inside circle
 SELECT e FROM Entity e WHERE ST_PointInsideCircle(e.point, 0, 0, 1000) = TRUE
-```
+
+-- Analyze line crossing behavior
+SELECT e, ST_LineCrossingDirection(e.line1, e.line2) as crossing FROM Entity e
+WHERE ST_LineCrossingDirection(e.line1, e.line2) != 0
+
+-- Find lines that cross from left to right
+SELECT e FROM Entity e WHERE ST_LineCrossingDirection(e.line1, e.line2) = 1
+
+-- Find lines that cross from right to left
+SELECT e FROM Entity e WHERE ST_LineCrossingDirection(e.line1, e.line2) = -1
+
+-- Find lines with multiple crossings
+SELECT e FROM Entity e WHERE ST_LineCrossingDirection(e.line1, e.line2) = 2
+
+-- Calculate areas and perimeters
+SELECT e, ST_Area(e.polygon) as area, ST_Perimeter(e.polygon) as perimeter 
+FROM Entity e WHERE e.polygon IS NOT NULL
+
+-- Calculate 3D measurements
+SELECT e, ST_3DLength(e.line3d) as length3d, ST_3DPerimeter(e.polygon3d) as perimeter3d
+FROM Entity e WHERE e.line3d IS NOT NULL OR e.polygon3d IS NOT NULL
+
+-- Find geometries within distance
+SELECT e, ST_Distance(e.geometry, 'POINT(0 0)') as distance
+FROM Entity e ORDER BY distance LIMIT 10
+
+-- Calculate azimuth between points
+SELECT e, ST_Azimuth(e.point1, e.point2) as azimuth_radians,
+       DEGREES(ST_Azimuth(e.point1, e.point2)) as azimuth_degrees
+FROM Entity e WHERE e.point1 IS NOT NULL AND e.point2 IS NOT NULL
+
+-- Geometric operations and transformations
+-- Create buffer around geometry
+SELECT e, ST_Buffer(e.geometry, 100) as buffered_geometry FROM Entity e
+
+-- Simplify complex geometries
+SELECT e, ST_Simplify(e.complex_geometry, 0.5) as simplified_geometry FROM Entity e
+
+-- Transform coordinate systems
+SELECT e, ST_Transform(e.geometry, 4326) as wgs84_geometry FROM Entity e
+
+-- Get convex hull
+SELECT e, ST_ConvexHull(e.geometry) as convex_hull FROM Entity e
+
+-- Scale and rotate geometries
+SELECT e, ST_Scale(ST_Rotate(e.geometry, PI()/4), 2, 2) as scaled_rotated_geometry FROM Entity e
+
+-- Array and JSON operations
+-- Check if array contains specific elements
+SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY['important', 'urgent']) = TRUE
+
+-- Find entities with overlapping arrays
+SELECT e FROM Entity e WHERE OVERLAPS(e.categories, ARRAY['admin', 'user']) = TRUE
+
+-- Extract JSON field values
+SELECT e, JSON_GET_FIELD_AS_TEXT(e.metadata, 'status') as status FROM Entity e
+
+-- Aggregate values into arrays
+SELECT e.category, ARRAY_AGG(e.id) as entity_ids FROM Entity e GROUP BY e.category
+
+-- Build JSON objects
+SELECT e.id, JSON_BUILD_OBJECT('name', e.name, 'type', e.type) as json_data FROM Entity e
+
+-- Text and pattern matching
+-- Case-insensitive pattern matching
+SELECT e FROM Entity e WHERE IREGEXP(e.name, '^admin.*') = TRUE
+
+-- Extract text using regex
+SELECT e, REGEXP_SUBSTR(e.description, 'version [0-9.]+') as version FROM Entity e
+
+-- Replace text patterns
+SELECT e, REGEXP_REPLACE(e.content, 'old_pattern', 'new_pattern') as updated_content FROM Entity e
+
+-- Check if text starts with specific string
+SELECT e FROM Entity e WHERE STARTS_WITH(e.name, 'user_') = TRUE
+
+-- Full-text search
+SELECT e FROM Entity e WHERE TSMATCH(e.search_vector, 'query & terms') = TRUE
+
+-- Date and range operations
+-- Add days to date
+SELECT e, DATE_ADD(e.created_at, 30) as expiry_date FROM Entity e
+
+-- Extract date components
+SELECT e, DATE_EXTRACT(e.timestamp, 'YEAR') as year FROM Entity e
+
+-- Check date overlaps
+SELECT e FROM Entity e WHERE DATE_OVERLAPS(e.period1, e.period2) = TRUE
+
+-- Create date ranges
+SELECT e, DATERANGE(e.start_date, e.end_date) as date_range FROM Entity e
+
+-- Mathematical operations
+SELECT e, POWER(e.value, 2) as squared, SQRT(e.value) as root FROM Entity e
+WHERE e.value > 0
 
 **📝 Notes:**
 - `ST_Relate` is a variadic function that accepts 2 or 3 arguments:
@@ -281,6 +387,88 @@ SELECT e FROM Entity e WHERE ST_PointInsideCircle(e.point, 0, 0, 1000) = TRUE
   - `2`: Multiple crossings
 - All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
 
+**🔍 DE-9IM Intersection Matrix Patterns for ST_Relate:**
+
+The DE-9IM (Dimensionally Extended 9-Intersection Model) uses a 9-character pattern where each character represents the intersection between:
+- Interior (I), Boundary (B), and Exterior (E) of geometry A
+- Interior (I), Boundary (B), and Exterior (E) of geometry B
+
+Common patterns:
+- `FF*FF****` = Disjoint (no intersection)
+- `T*****FF*` = Contains (A contains B)
+- `T*T***T**` = Intersects (geometries intersect)
+- `FT*******` = Touches (boundary intersection only)
+- `F**T*****` = Within (A is within B)
+- `T*T***T**` = Overlaps (partial overlap)
+
+**📊 Function Return Types:**
+- **Boolean functions**: Use with `= TRUE` or `= FALSE` in DQL
+- **Numeric functions**: Return values for calculations and ordering
+- **Geometry functions**: Return new geometries for further operations
+- **Text functions**: Return strings for pattern matching and display
+
+## PostGIS Measurement Functions
+
+These functions calculate various measurements of geometries including lengths, areas, distances, and angles.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_Length | ST_LENGTH | Returns the 2D length of LineString/MultiLineString or perimeter of areal geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length` |
+| ST_Length2D | ST_LENGTH2D | Returns the 2D length, ignoring Z coordinates | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length2D` |
+| ST_3DLength | ST_3DLENGTH | Returns the 3D length of LineString/MultiLineString or 3D perimeter of areal geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DLength` |
+| ST_Area | ST_AREA | Returns the area of polygon/multi-polygon geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area` |
+| ST_Perimeter | ST_PERIMETER | Returns the 2D perimeter of polygon/multi-polygon geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Perimeter` |
+| ST_3DPerimeter | ST_3DPERIMETER | Returns the 3D perimeter of polygon/multi-polygon geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DPerimeter` |
+| ST_Distance | ST_DISTANCE | Returns the 2D distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Distance` |
+| ST_3DDistance | ST_3DDISTANCE | Returns the 3D distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDistance` |
+| ST_Centroid | ST_CENTROID | Returns the geometric center of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Centroid` |
+| ST_MaxDistance | ST_MAXDISTANCE | Returns the maximum distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MaxDistance` |
+| ST_HausdorffDistance | ST_HAUSDORFFDISTANCE | Returns the Hausdorff distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HausdorffDistance` |
+| ST_FrechetDistance | ST_FRECHETDISTANCE | Returns the Fréchet distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_FrechetDistance` |
+| ST_Azimuth | ST_AZIMUTH | Returns the azimuth between two points in radians | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Azimuth` |
+| ST_Project | ST_PROJECT | Projects a point along a geodesic by distance and azimuth | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Project` |
+
+## PostGIS Overlay Functions
+
+These functions perform geometric operations between geometries including intersection, union, difference, and splitting.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_Intersection | ST_INTERSECTION | Returns the point set intersection of two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Intersection` |
+| ST_Union | ST_UNION | Returns the point set union of two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Union` |
+| ST_UnaryUnion | ST_UNARYUNION | Performs unary union on a geometry (dissolves internal boundaries) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_UnaryUnion` |
+| ST_Difference | ST_DIFFERENCE | Returns the point set difference (A - B) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Difference` |
+| ST_SymDifference | ST_SYMDIFFERENCE | Returns the symmetric difference of two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SymDifference` |
+| ST_Split | ST_SPLIT | Splits a geometry by another geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Split` |
+| ST_Subdivide | ST_SUBDIVIDE | Subdivides a geometry into smaller parts | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Subdivide` |
+| ST_ClipByBox2D | ST_CLIPBYBOX2D | Clips a geometry by a 2D box | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ClipByBox2D` |
+| ST_Collect | ST_COLLECT | Collects geometries into a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Collect` |
+| ST_CollectionExtract | ST_COLLECTIONEXTRACT | Extracts a specific type from a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionExtract` |
+| ST_CollectionHomogenize | ST_COLLECTIONHOMOGENIZE | Homogenizes a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionHomogenize` |
+
+## PostGIS Geometry Processing Functions
+
+These functions modify and transform geometries including buffering, simplification, coordinate system changes, and geometric transformations.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_Buffer | ST_BUFFER | Creates a buffer around a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Buffer` |
+| ST_Simplify | ST_SIMPLIFY | Simplifies geometry using Douglas-Peucker algorithm | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Simplify` |
+| ST_SimplifyPreserveTopology | ST_SIMPLIFYPRESERVETOPOLOGY | Simplifies geometry while preserving topology | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPreserveTopology` |
+| ST_SimplifyVW | ST_SIMPLIFYVW | Simplifies geometry using Visvalingam-Whyatt algorithm | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyVW` |
+| ST_ConvexHull | ST_CONVEXHULL | Returns the convex hull of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConvexHull` |
+| ST_Envelope | ST_ENVELOPE | Returns the bounding box as a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope` |
+| ST_Boundary | ST_BOUNDARY | Returns the boundary of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Boundary` |
+| ST_Transform | ST_TRANSFORM | Transforms geometry to different coordinate system | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Transform` |
+| ST_Reverse | ST_REVERSE | Reverses the order of points in a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Reverse` |
+| ST_Force2D | ST_FORCE2D | Forces geometry to 2D by removing Z/M coordinates | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force2D` |
+| ST_Force3D | ST_FORCE3D | Forces geometry to 3D by adding Z coordinate if needed | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force3D` |
+| ST_Force4D | ST_FORCE4D | Forces geometry to 4D by adding Z and M coordinates if needed | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force4D` |
+| ST_CurveToLine | ST_CURVETOLINE | Converts curved geometries to linear geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveToLine` |
+| ST_LineToCurve | ST_LINETOCURVE | Converts linear geometries to curved geometries where possible | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineToCurve` |
+| ST_Scale | ST_SCALE | Scales a geometry by given factors | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Scale` |
+| ST_Rotate | ST_ROTATE | Rotates a geometry by given angle | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Rotate` |
+| ST_Translate | ST_TRANSLATE | Translates a geometry by given offsets | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Translate` |
 
 # Bonus Helpers
 
