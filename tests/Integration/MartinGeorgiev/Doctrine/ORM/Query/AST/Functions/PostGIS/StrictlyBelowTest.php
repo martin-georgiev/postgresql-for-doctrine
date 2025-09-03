@@ -19,7 +19,6 @@ class StrictlyBelowTest extends SpatialOperatorTestCase
     #[Test]
     public function strictly_below_returns_false_with_overlapping_polygons(): void
     {
-        // Overlapping polygons are not strictly below each other
         $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
@@ -31,7 +30,6 @@ class StrictlyBelowTest extends SpatialOperatorTestCase
     #[Test]
     public function strictly_below_returns_true_when_geometry_is_lower(): void
     {
-        // POINT(0 0) should be strictly below POINT(1 1)
         $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
@@ -43,7 +41,6 @@ class StrictlyBelowTest extends SpatialOperatorTestCase
     #[Test]
     public function strictly_below_returns_true_with_linestrings(): void
     {
-        // First linestring should be strictly below second linestring
         $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3';
@@ -55,7 +52,6 @@ class StrictlyBelowTest extends SpatialOperatorTestCase
     #[Test]
     public function strictly_below_returns_false_with_identical_geometries(): void
     {
-        // Identical geometries are not strictly below each other
         $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';

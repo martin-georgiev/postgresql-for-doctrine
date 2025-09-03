@@ -2,6 +2,8 @@
 
 This document explains the usage, limitations, and workarounds for PostgreSQL `geometry` and `geography` array types in Doctrine DBAL.
 
+> 📖 **See also**: [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for spatial functions that work with geometry and geography data
+
 ## Overview
 
 The `GeometryArray` and `GeographyArray` types provide support for PostgreSQL's `GEOMETRY[]` and `GEOGRAPHY[]` array types, allowing you to store collections of spatial data in a single database column. The use of these types currently has several limitations due to Doctrine DBAL's parameter binding behavior. Workarounds are provided for multi-item arrays in [USE-CASES-AND-EXAMPLES.md](./USE-CASES-AND-EXAMPLES.md).

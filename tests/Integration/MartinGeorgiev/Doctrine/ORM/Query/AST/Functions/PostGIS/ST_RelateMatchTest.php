@@ -70,7 +70,7 @@ class ST_RelateMatchTest extends SpatialOperatorTestCase
                 WHERE ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF0FFF0F2\') = TRUE';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertGreaterThan(0, \count($result));
+        $this->assertCount(1, $result);
         $this->assertTrue($result[0]['matches_disjoint_points']);
         $this->assertEquals(1, $result[0]['id']);
     }

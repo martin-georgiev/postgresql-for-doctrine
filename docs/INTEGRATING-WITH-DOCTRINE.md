@@ -47,8 +47,12 @@ Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 
 *Register the functions you'll use in your DQL queries*
 
-
-Full set of the available functions and extra operators can be found [here](AVAILABLE-FUNCTIONS-AND-OPERATORS.md).
+Full set of the available functions and extra operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+- [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
+- [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+- [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
+- [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
+- [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
 
 ```php
 <?php

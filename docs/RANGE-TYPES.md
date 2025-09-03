@@ -2,6 +2,8 @@
 
 PostgreSQL range types represent ranges of values of some element type (called the range's subtype). This library provides support for all PostgreSQL built-in range types.
 
+> 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions and operators in DQL queries
+
 ## Available Range Types
 
 | Range Type | PostgreSQL Type | Value Type | Description |

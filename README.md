@@ -103,7 +103,12 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
-- [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md)
+- [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md) - Overview and cross-references
+  - [Array and JSON Functions](docs/ARRAY-AND-JSON-FUNCTIONS.md)
+  - [PostGIS Spatial Functions](docs/SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+  - [Text and Pattern Functions](docs/TEXT-AND-PATTERN-FUNCTIONS.md)
+  - [Date and Range Functions](docs/DATE-AND-RANGE-FUNCTIONS.md)
+  - [Mathematical Functions](docs/MATHEMATICAL-FUNCTIONS.md)
 - [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
 - [Spatial Types](docs/SPATIAL-TYPES.md)
 - [Geometry Arrays](docs/GEOMETRY-ARRAYS.md)
