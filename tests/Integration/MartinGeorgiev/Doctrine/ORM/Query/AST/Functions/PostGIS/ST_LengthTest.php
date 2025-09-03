@@ -35,7 +35,7 @@ class ST_LengthTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result']);
+        $this->assertEquals(0, $result[0]['result'], 'PostGIS behavior expects length of 0 for polygons in geographic coordinate systems');
     }
 
     #[Test]
@@ -47,5 +47,27 @@ class ST_LengthTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0, $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_actual_length_for_projected_coordinate_system_linestring(): void
+    {
+        $dql = 'SELECT ST_LENGTH(g.geometry1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 10';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(2000, $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_zero_for_projected_coordinate_system_polygon(): void
+    {
+        $dql = 'SELECT ST_LENGTH(g.geometry2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 10';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0, $result[0]['result'], 'PostGIS design mandates that ST_Length is for linear geometries only, so this is not expected to compute a length');
     }
 }
