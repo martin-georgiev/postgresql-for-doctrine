@@ -57,6 +57,7 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 |---|---|---|
 | to_tsquery | TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery` |
 | to_tsvector | TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector` |
+| websearch_to_tsquery | WEBSEARCH_TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery` |
 
 ## Usage Examples
 
