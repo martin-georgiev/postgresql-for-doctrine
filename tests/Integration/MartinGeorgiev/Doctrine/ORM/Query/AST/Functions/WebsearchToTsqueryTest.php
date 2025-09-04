@@ -18,7 +18,7 @@ class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function websearch_to_tsquery_with_explicit_config(): void
+    public function can_use_with_explicit_config(): void
     {
         $dql = "SELECT websearch_to_tsquery('english', '\"sad cat\" or \"fat rat\"') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -26,7 +26,7 @@ class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function websearch_to_tsquery_with_default_config(): void
+    public function can_use_default_config(): void
     {
         $dql = "SELECT websearch_to_tsquery('\"sad cat\" or \"fat rat\"') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -34,7 +34,7 @@ class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function totsquery_throws_with_invalid_input(): void
+    public function throws_for_invalid_config_input(): void
     {
         $this->expectException(DriverException::class);
         $this->expectExceptionMessageMatches('/text search configuration .*invalid_regconfig.* does not exist/i');

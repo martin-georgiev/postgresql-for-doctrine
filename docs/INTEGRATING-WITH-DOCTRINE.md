@@ -1,27 +1,30 @@
 ## Integration with Doctrine
 
+This guide covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For older versions, please refer to previous documentation versions.
 
-*Register the DBAL types you plan to use*
+### Register DBAL Types
 
-Full set of the available types can be found [here](AVAILABLE-TYPES.md).
+Register the DBAL types you plan to use. The **full set** of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
 
 ```php
 <?php
 
 use Doctrine\DBAL\Types\Type;
 
+// Array types
 Type::addType('bool[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BooleanArray");
 Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
 Type::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
 Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
-
 Type::addType('double precision[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DoublePrecisionArray");
 Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
-
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+
+// JSON types
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
 Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
 
+// Network types
 Type::addType('cidr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Cidr");
 Type::addType('cidr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CidrArray");
 Type::addType('inet', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Inet");
@@ -29,6 +32,7 @@ Type::addType('inet[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\InetArray");
 Type::addType('macaddr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr");
 Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray");
 
+// Spatial types
 Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
 Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
 Type::addType('geometry', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geometry");
@@ -36,6 +40,7 @@ Type::addType('geometry[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeometryArra
 Type::addType('geography', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geography");
 Type::addType('geography[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeographyArray");
 
+// Range types
 Type::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
 Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
 Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
@@ -45,9 +50,9 @@ Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 ```
 
 
-*Register the functions you'll use in your DQL queries*
+### Register DQL Functions
 
-Full set of the available functions and extra operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+Register the functions you'll use in your DQL queries. The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
 - [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
 - [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
@@ -189,7 +194,7 @@ $configuration->addCustomStringFunction('REGEXP', MartinGeorgiev\Doctrine\ORM\Qu
 $configuration->addCustomStringFunction('IREGEXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp::class);
 $configuration->addCustomStringFunction('NOT_REGEXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp::class);
 $configuration->addCustomStringFunction('NOT_IREGEXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp::class);
-$configuration->addCustomStringFunction('REGEXP_LIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike::class);
+$configuration->addCustomStringFunction('REGEXP_LIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike::class);
 $configuration->addCustomStringFunction('REGEXP_COUNT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpCount::class);
 $configuration->addCustomStringFunction('REGEXP_INSTR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr::class);
 $configuration->addCustomStringFunction('REGEXP_SUBSTR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class);
@@ -217,54 +222,102 @@ $configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\
 $em = EntityManager::create($dbParams, $configuration);
 ```
 
-*Then you need to register type mappings like below, based on [documentation](https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/cookbook/custom-mapping-types.html)*
+### Register Platform Type Mappings
+
+Register type mappings between PostgreSQL and Doctrine types. This is required for schema introspection and migrations. Based on the [Doctrine documentation](https://www.doctrine-project.org/projects/doctrine-orm/en/current/cookbook/custom-mapping-types.html).
 
 ```php
+<?php
+
 $platform = $em->getConnection()->getDatabasePlatform();
 
-$platform->registerDoctrineTypeMapping('bool[]','bool[]');
-$platform->registerDoctrineTypeMapping('_bool','bool[]');
-$platform->registerDoctrineTypeMapping('smallint[]','smallint[]');
-$platform->registerDoctrineTypeMapping('_int2','smallint[]');
-$platform->registerDoctrineTypeMapping('integer[]','integer[]');
-$platform->registerDoctrineTypeMapping('_int4','integer[]');
-$platform->registerDoctrineTypeMapping('bigint[]','bigint[]');
-$platform->registerDoctrineTypeMapping('_int8','bigint[]');
+// Array type mappings
+$platform->registerDoctrineTypeMapping('bool[]', 'bool[]');
+$platform->registerDoctrineTypeMapping('_bool', 'bool[]');
+$platform->registerDoctrineTypeMapping('smallint[]', 'smallint[]');
+$platform->registerDoctrineTypeMapping('_int2', 'smallint[]');
+$platform->registerDoctrineTypeMapping('integer[]', 'integer[]');
+$platform->registerDoctrineTypeMapping('_int4', 'integer[]');
+$platform->registerDoctrineTypeMapping('bigint[]', 'bigint[]');
+$platform->registerDoctrineTypeMapping('_int8', 'bigint[]');
+$platform->registerDoctrineTypeMapping('double precision[]', 'double precision[]');
+$platform->registerDoctrineTypeMapping('_float8', 'double precision[]');
+$platform->registerDoctrineTypeMapping('real[]', 'real[]');
+$platform->registerDoctrineTypeMapping('_float4', 'real[]');
+$platform->registerDoctrineTypeMapping('text[]', 'text[]');
+$platform->registerDoctrineTypeMapping('_text', 'text[]');
 
-$platform->registerDoctrineTypeMapping('double precision[]','double precision[]');
-$platform->registerDoctrineTypeMapping('_float8','double precision[]');
-$platform->registerDoctrineTypeMapping('real[]','real[]');
-$platform->registerDoctrineTypeMapping('_float4','real[]');
+// JSON type mappings
+$platform->registerDoctrineTypeMapping('jsonb', 'jsonb');
+$platform->registerDoctrineTypeMapping('jsonb[]', 'jsonb[]');
+$platform->registerDoctrineTypeMapping('_jsonb', 'jsonb[]');
 
-$platform->registerDoctrineTypeMapping('text[]','text[]');
-$platform->registerDoctrineTypeMapping('_text','text[]');
-$platform->registerDoctrineTypeMapping('jsonb','jsonb');
-$platform->registerDoctrineTypeMapping('jsonb[]','jsonb[]');
-$platform->registerDoctrineTypeMapping('_jsonb','jsonb[]');
+// Network type mappings
+$platform->registerDoctrineTypeMapping('cidr', 'cidr');
+$platform->registerDoctrineTypeMapping('cidr[]', 'cidr[]');
+$platform->registerDoctrineTypeMapping('_cidr', 'cidr[]');
+$platform->registerDoctrineTypeMapping('inet', 'inet');
+$platform->registerDoctrineTypeMapping('inet[]', 'inet[]');
+$platform->registerDoctrineTypeMapping('_inet', 'inet[]');
+$platform->registerDoctrineTypeMapping('macaddr', 'macaddr');
+$platform->registerDoctrineTypeMapping('macaddr[]', 'macaddr[]');
+$platform->registerDoctrineTypeMapping('_macaddr', 'macaddr[]');
 
-$platform->registerDoctrineTypeMapping('cidr[]','cidr[]');
-$platform->registerDoctrineTypeMapping('_cidr','cidr[]');
-$platform->registerDoctrineTypeMapping('inet[]','inet[]');
-$platform->registerDoctrineTypeMapping('_inet','inet[]');
-$platform->registerDoctrineTypeMapping('macaddr[]','macaddr[]');
-$platform->registerDoctrineTypeMapping('_macaddr','macaddr[]');
+// Spatial type mappings
+$platform->registerDoctrineTypeMapping('point', 'point');
+$platform->registerDoctrineTypeMapping('point[]', 'point[]');
+$platform->registerDoctrineTypeMapping('_point', 'point[]');
+$platform->registerDoctrineTypeMapping('geometry', 'geometry');
+$platform->registerDoctrineTypeMapping('geometry[]', 'geometry[]');
+$platform->registerDoctrineTypeMapping('_geometry', 'geometry[]');
+$platform->registerDoctrineTypeMapping('geography', 'geography');
+$platform->registerDoctrineTypeMapping('geography[]', 'geography[]');
+$platform->registerDoctrineTypeMapping('_geography', 'geography[]');
 
-$platform->registerDoctrineTypeMapping('point','point');
-$platform->registerDoctrineTypeMapping('point[]','point[]');
-$platform->registerDoctrineTypeMapping('_point','point[]');
-$platform->registerDoctrineTypeMapping('geometry','geometry');
-$platform->registerDoctrineTypeMapping('geometry[]','geometry[]');
-$platform->registerDoctrineTypeMapping('_geometry','geometry[]');
-$platform->registerDoctrineTypeMapping('geography','geography');
-$platform->registerDoctrineTypeMapping('geography[]','geography[]');
-$platform->registerDoctrineTypeMapping('_geography','geography[]');
+// Range type mappings
+$platform->registerDoctrineTypeMapping('daterange', 'daterange');
+$platform->registerDoctrineTypeMapping('int4range', 'int4range');
+$platform->registerDoctrineTypeMapping('int8range', 'int8range');
+$platform->registerDoctrineTypeMapping('numrange', 'numrange');
+$platform->registerDoctrineTypeMapping('tsrange', 'tsrange');
+$platform->registerDoctrineTypeMapping('tstzrange', 'tstzrange');
+```
 
-$platform->registerDoctrineTypeMapping('daterange','daterange');
-$platform->registerDoctrineTypeMapping('int4range','int4range');
-$platform->registerDoctrineTypeMapping('int8range','int8range');
-$platform->registerDoctrineTypeMapping('numrange','numrange');
-$platform->registerDoctrineTypeMapping('tsrange','tsrange');
-$platform->registerDoctrineTypeMapping('tstzrange','tstzrange');
-...
+### Usage in Entities
 
+Once types are registered, you can use them in your Doctrine entities:
+
+```php
+<?php
+
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
+#[ORM\Entity]
+class MyEntity
+{
+    #[ORM\Column(type: 'jsonb')]
+    private array $metadata = [];
+
+    #[ORM\Column(type: 'text[]')]
+    private array $tags = [];
+
+    #[ORM\Column(type: 'point')]
+    private Point $location;
+
+    #[ORM\Column(type: 'geometry')]
+    private WktSpatialData $shape;
+
+    #[ORM\Column(type: 'numrange')]
+    private NumericRange $priceRange;
+
+    #[ORM\Column(type: 'daterange')]
+    private DateRange $validPeriod;
+
+    #[ORM\Column(type: 'inet')]
+    private string $ipAddress;
+}
 ```

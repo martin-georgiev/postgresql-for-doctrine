@@ -1,91 +1,122 @@
 ## Integration with Symfony
 
+This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle. For older Symfony versions, please refer to previous documentation versions.
 
-*Register the DBAL types you plan to use*
+### Register DBAL Types
 
-Full set of the available types can be found [here](AVAILABLE-TYPES.md).
+Register the DBAL types you plan to use. The full set of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
 
 ```yaml
-# Usually part of config.yml
+# config/packages/doctrine.yaml
 doctrine:
     dbal:
-        types: # register the new types
-            bool[]: MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray
-            smallint[]: MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
-            integer[]: MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
-            bigint[]: MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
-            
-            double precision[]: MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray
-            real[]: MartinGeorgiev\Doctrine\DBAL\Types\RealArray
-            
-            text[]: MartinGeorgiev\Doctrine\DBAL\Types\TextArray
-            jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
-            jsonb[]: MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
-            
-            cidr: MartinGeorgiev\Doctrine\DBAL\Types\Cidr
-            cidr[]: MartinGeorgiev\Doctrine\DBAL\Types\CidrArray
-            inet: MartinGeorgiev\Doctrine\DBAL\Types\Inet
-            inet[]: MartinGeorgiev\Doctrine\DBAL\Types\InetArray
-            macaddr: MartinGeorgiev\Doctrine\DBAL\Types\Macaddr
-            macaddr[]: MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray
+        types:
+            # Array types
+            'bool[]': MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray
+            'smallint[]': MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
+            'integer[]': MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
+            'bigint[]': MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
+            'double precision[]': MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray
+            'real[]': MartinGeorgiev\Doctrine\DBAL\Types\RealArray
+            'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
 
+            # JSON types
+            jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
+            'jsonb[]': MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
+
+            # Network types
+            cidr: MartinGeorgiev\Doctrine\DBAL\Types\Cidr
+            'cidr[]': MartinGeorgiev\Doctrine\DBAL\Types\CidrArray
+            inet: MartinGeorgiev\Doctrine\DBAL\Types\Inet
+            'inet[]': MartinGeorgiev\Doctrine\DBAL\Types\InetArray
+            macaddr: MartinGeorgiev\Doctrine\DBAL\Types\Macaddr
+            'macaddr[]': MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray
+
+            # Spatial types
             point: MartinGeorgiev\Doctrine\DBAL\Types\Point
-            point[]: MartinGeorgiev\Doctrine\DBAL\Types\PointArray
+            'point[]': MartinGeorgiev\Doctrine\DBAL\Types\PointArray
+            geometry: MartinGeorgiev\Doctrine\DBAL\Types\Geometry
+            'geometry[]': MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray
+            geography: MartinGeorgiev\Doctrine\DBAL\Types\Geography
+            'geography[]': MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray
+
+            # Range types
+            daterange: MartinGeorgiev\Doctrine\DBAL\Types\DateRange
+            int4range: MartinGeorgiev\Doctrine\DBAL\Types\Int4Range
+            int8range: MartinGeorgiev\Doctrine\DBAL\Types\Int8Range
+            numrange: MartinGeorgiev\Doctrine\DBAL\Types\NumRange
+            tsrange: MartinGeorgiev\Doctrine\DBAL\Types\TsRange
+            tstzrange: MartinGeorgiev\Doctrine\DBAL\Types\TstzRange
 ```
 
 
-*Add mapping between DBAL and PostgreSQL data types*
+### Configure Type Mappings
 
-PostgreSQL will normally prefix array data-types with `_`.
-Beware of the specific to PostgreSQL primary way of data-type naming for integers (`int2`, `int4`, `int8`).
-
+Add mapping between DBAL and PostgreSQL data types. PostgreSQL normally prefixes array data-types with `_`. Note the PostgreSQL-specific naming for integers (`int2`, `int4`, `int8`).
 
 ```yaml
-# Usually part of config.yml
+# config/packages/doctrine.yaml
 doctrine:
     dbal:
         connections:
-            your_connection:
+            default:
                 mapping_types:
-                    bool[]: bool[]
-                    _bool: bool[]
-                    smallint[]: smallint[]
-                    _int2: smallint[]
-                    integer[]: integer[]
-                    _int4: integer[]
-                    bigint[]: bigint[]
-                    _int8: bigint[]
-                    
-                    double precision[]: double precision[]
-                    _float8: double precision[]
-                    real[]: real[]
-                    _float4: real[]
-                    
-                    text[]: text[]
-                    _text: text[]
-                    jsonb: jsonb
-                    jsonb[]: jsonb[]
-                    _jsonb: jsonb[]
-                    
-                    cidr: cidr
-                    cidr[]: cidr[]
-                    _cidr: cidr[]
-                    inet: inet
-                    inet[]: inet[]
-                    _inet: inet[]
-                    macaddr: macaddr
-                    macaddr[]: macaddr[]
-                    _macaddr: macaddr[]
+                    # Array type mappings
+                    'bool[]': 'bool[]'
+                    _bool: 'bool[]'
+                    'smallint[]': 'smallint[]'
+                    _int2: 'smallint[]'
+                    'integer[]': 'integer[]'
+                    _int4: 'integer[]'
+                    'bigint[]': 'bigint[]'
+                    _int8: 'bigint[]'
+                    'double precision[]': 'double precision[]'
+                    _float8: 'double precision[]'
+                    'real[]': 'real[]'
+                    _float4: 'real[]'
+                    'text[]': 'text[]'
+                    _text: 'text[]'
 
+                    # JSON type mappings
+                    jsonb: jsonb
+                    'jsonb[]': 'jsonb[]'
+                    _jsonb: 'jsonb[]'
+
+                    # Network type mappings
+                    cidr: cidr
+                    'cidr[]': 'cidr[]'
+                    _cidr: 'cidr[]'
+                    inet: inet
+                    'inet[]': 'inet[]'
+                    _inet: 'inet[]'
+                    macaddr: macaddr
+                    'macaddr[]': 'macaddr[]'
+                    _macaddr: 'macaddr[]'
+
+                    # Spatial type mappings
                     point: point
-                    point[]: point[]
-                    _point: point[]
+                    'point[]': 'point[]'
+                    _point: 'point[]'
+                    geometry: geometry
+                    'geometry[]': 'geometry[]'
+                    _geometry: 'geometry[]'
+                    geography: geography
+                    'geography[]': 'geography[]'
+                    _geography: 'geography[]'
+
+                    # Range type mappings
+                    daterange: daterange
+                    int4range: int4range
+                    int8range: int8range
+                    numrange: numrange
+                    tsrange: tsrange
+                    tstzrange: tstzrange
 ```
 
 
-*Register the functions you'll use in your DQL queries*
+### Register DQL Functions
 
-Full set of the available functions and extra operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+Register the functions you'll use in your DQL queries. The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
 - [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
 - [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
@@ -93,7 +124,7 @@ Full set of the available functions and extra operators can be found in the [Ava
 - [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
 
 ```yaml
-# Usually part of config.yml
+# config/packages/doctrine.yaml
 doctrine:
     orm:
         entity_managers:
@@ -252,4 +283,102 @@ doctrine:
                         TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate
                         TO_NUMBER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber
                         TO_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp
+```
+
+### Usage in Entities
+
+Once configured, you can use the PostgreSQL types in your Symfony entities:
+
+```php
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
+#[ORM\Entity]
+#[ORM\Table(name: 'products')]
+class Product
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(type: 'jsonb')]
+    private array $specifications = [];
+
+    #[ORM\Column(type: 'text[]')]
+    private array $categories = [];
+
+    #[ORM\Column(type: 'point')]
+    private Point $manufacturingLocation;
+
+    #[ORM\Column(type: 'numrange')]
+    private NumericRange $priceRange;
+
+    #[ORM\Column(type: 'daterange')]
+    private DateRange $availabilityPeriod;
+
+    #[ORM\Column(type: 'inet')]
+    private string $originServerIp;
+}
+```
+
+### Environment-Specific Configuration
+
+For different environments, you can override configuration in environment-specific files:
+
+```yaml
+# config/packages/dev/doctrine.yaml
+doctrine:
+    dbal:
+        logging: true
+        profiling: true
+    orm:
+        auto_generate_proxy_classes: true
+
+# config/packages/prod/doctrine.yaml
+doctrine:
+    orm:
+        auto_generate_proxy_classes: false
+        metadata_cache_driver:
+            type: pool
+            pool: doctrine.system_cache_pool
+        query_cache_driver:
+            type: pool
+            pool: doctrine.system_cache_pool
+        result_cache_driver:
+            type: pool
+            pool: doctrine.result_cache_pool
+```
+
+### Service Container Integration
+
+If you need to register types programmatically (e.g., in a bundle), you can do so in a service:
+
+```php
+<?php
+
+namespace App\Service;
+
+use Doctrine\DBAL\Types\Type;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+
+#[Autoconfigure(lazy: true)]
+class DoctrineTypeRegistrar
+{
+    public function registerTypes(): void
+    {
+        if (!Type::hasType('jsonb')) {
+            Type::addType('jsonb', \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class);
+        }
+
+        // Register other types as needed...
+    }
+}
 ```

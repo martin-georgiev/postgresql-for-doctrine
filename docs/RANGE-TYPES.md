@@ -43,10 +43,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 class Product
 {
     #[ORM\Column(type: 'numrange')]
-    private ?NumericRange $priceRange = null;
+    private NumericRange $priceRange;
     
     #[ORM\Column(type: 'daterange')]
-    private ?DateRange $availabilityPeriod = null;
+    private DateRange $availabilityPeriod;
     
     public function setPriceRange(float $min, float $max): void
     {
