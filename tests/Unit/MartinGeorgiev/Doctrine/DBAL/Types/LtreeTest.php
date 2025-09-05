@@ -30,7 +30,7 @@ final class LtreeTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertSame('ltree', $this->fixture->getName());
+        $this->assertSame('ltree', $this->fixture->getName());
     }
 
     #[Test]
@@ -39,21 +39,21 @@ final class LtreeTest extends TestCase
         $value = 'alpha.beta.gamma';
         $databaseValue = $this->fixture->convertToDatabaseValue($value, $this->platform);
 
-        self::assertSame($value, $databaseValue);
+        $this->assertSame($value, $databaseValue);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?LtreeValueObject $ltreeValueObject, ?string $postgresValue): void
     {
-        self::assertSame($postgresValue, $this->fixture->convertToDatabaseValue($ltreeValueObject, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($ltreeValueObject, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?LtreeValueObject $ltreeValueObject, ?string $postgresValue): void
     {
-        self::assertEquals($ltreeValueObject, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertEquals($ltreeValueObject, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**

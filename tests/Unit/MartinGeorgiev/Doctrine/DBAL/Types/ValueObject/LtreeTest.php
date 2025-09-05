@@ -16,7 +16,7 @@ final class LtreeTest extends TestCase
     public function can_create_from_list_of_strings(): void
     {
         $ltree = new Ltree(['a', 'b', 'c']);
-        self::assertSame('a.b.c', (string) $ltree);
+        $this->assertSame('a.b.c', (string) $ltree);
     }
 
     /**
@@ -67,8 +67,8 @@ final class LtreeTest extends TestCase
     public function can_create_from_string(string $value, array $expected): void
     {
         $ltree = Ltree::fromString($value);
-        self::assertSame($expected, $ltree->getPathFromRoot());
-        self::assertSame($value, (string) $ltree);
+        $this->assertSame($expected, $ltree->getPathFromRoot());
+        $this->assertSame($value, (string) $ltree);
     }
 
     /**
@@ -79,7 +79,7 @@ final class LtreeTest extends TestCase
     public function can_convert_to_string(string $expected, array $value): void
     {
         $ltree = new Ltree($value);
-        self::assertSame($expected, (string) $ltree);
+        $this->assertSame($expected, (string) $ltree);
     }
 
     /**
@@ -90,10 +90,10 @@ final class LtreeTest extends TestCase
     public function can_serialize_to_json(string $value, array $expected): void
     {
         $ltreeFromString = Ltree::fromString($value);
-        self::assertSame($expected, $ltreeFromString->jsonSerialize());
+        $this->assertSame($expected, $ltreeFromString->jsonSerialize());
 
         $ltree = new Ltree($expected);
-        self::assertSame($expected, $ltree->jsonSerialize());
+        $this->assertSame($expected, $ltree->jsonSerialize());
     }
 
     /**
@@ -113,7 +113,7 @@ final class LtreeTest extends TestCase
     {
         $ltree = new Ltree(['a', 'b', 'c']);
         $json = \json_encode($ltree, \JSON_THROW_ON_ERROR);
-        self::assertSame('["a","b","c"]', $json);
+        $this->assertSame('["a","b","c"]', $json);
     }
 
     #[DataProvider('provideParentRelationship')]
@@ -121,7 +121,7 @@ final class LtreeTest extends TestCase
     public function can_get_parent(Ltree $child, Ltree $parent): void
     {
         $ltree = $child->getParent();
-        self::assertSame((string) $parent, (string) $ltree);
+        $this->assertSame((string) $parent, (string) $ltree);
     }
 
     #[DataProvider('provideParentRelationship')]
@@ -130,8 +130,8 @@ final class LtreeTest extends TestCase
     {
         $childAsString = (string) $child;
         $ltree = $child->getParent();
-        self::assertNotSame($child, $ltree, 'getParent() should return a new instance');
-        self::assertSame($childAsString, (string) $child, 'getParent() should not mutate the original instance');
+        $this->assertNotSame($child, $ltree, 'getParent() should return a new instance');
+        $this->assertSame($childAsString, (string) $child, 'getParent() should not mutate the original instance');
     }
 
     /**
@@ -161,10 +161,10 @@ final class LtreeTest extends TestCase
     public function can_verify_empty_status(): void
     {
         $ltree = new Ltree([]);
-        self::assertTrue($ltree->isEmpty());
+        $this->assertTrue($ltree->isEmpty());
 
         $ltreeWithNodes = new Ltree(['a', 'b']);
-        self::assertFalse($ltreeWithNodes->isEmpty());
+        $this->assertFalse($ltreeWithNodes->isEmpty());
     }
 
     #[Test]
@@ -173,9 +173,9 @@ final class LtreeTest extends TestCase
         $emptyRoot = new Ltree([]);
         $root = new Ltree(['a']);
         $notRoot = new Ltree(['a', 'b']);
-        self::assertFalse($emptyRoot->isRoot());
-        self::assertTrue($root->isRoot());
-        self::assertFalse($notRoot->isRoot());
+        $this->assertFalse($emptyRoot->isRoot());
+        $this->assertTrue($root->isRoot());
+        $this->assertFalse($notRoot->isRoot());
     }
 
     /**
@@ -195,7 +195,7 @@ final class LtreeTest extends TestCase
         array $expected,
     ): void {
         foreach ($expected as $method => $value) {
-            self::assertSame(
+            $this->assertSame(
                 $value,
                 $left->{$method}($right),
                 \sprintf('Failed %s check', $method),
@@ -476,7 +476,7 @@ final class LtreeTest extends TestCase
     public function can_create_leaf(Ltree $parent, string $leaf, Ltree $expected): void
     {
         $ltree = $parent->withLeaf($leaf);
-        self::assertSame((string) $expected, (string) $ltree);
+        $this->assertSame((string) $expected, (string) $ltree);
     }
 
     /**
@@ -488,8 +488,8 @@ final class LtreeTest extends TestCase
     {
         $parentAsString = (string) $parent;
         $ltree = $parent->withLeaf($leaf);
-        self::assertNotSame($parent, $ltree, 'withLeaf() should return a new instance');
-        self::assertSame($parentAsString, (string) $parent, 'withLeaf() should not mutate the original instance');
+        $this->assertNotSame($parent, $ltree, 'withLeaf() should return a new instance');
+        $this->assertSame($parentAsString, (string) $parent, 'withLeaf() should not mutate the original instance');
     }
 
     /**
