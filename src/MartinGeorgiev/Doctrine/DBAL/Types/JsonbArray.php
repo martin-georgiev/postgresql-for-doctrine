@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL JSONB[] data type.
  *
- * @see https://www.postgresql.org/docs/9.4/static/arrays.html
+ * @see https://www.postgresql.org/docs/17/arrays.html
  * @since 0.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -22,12 +23,22 @@ class JsonbArray extends BaseArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
-        return $this->transformToPostgresJson($item);
+        // Quote each JSON value as a PostgreSQL array element and escape inner quotes and backslashes
+        $json = $this->transformToPostgresJson($item);
+        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $json);
+
+        return '"'.$escaped.'"';
     }
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        return PostgresJsonToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        $trimmed = \trim($postgresArray);
+        if ($trimmed === '{}') {
+            return [];
+        }
+
+        // Standard array literal with quoted JSON elements
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     /**
