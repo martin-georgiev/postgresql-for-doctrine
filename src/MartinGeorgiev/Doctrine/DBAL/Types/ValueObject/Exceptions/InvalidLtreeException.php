@@ -11,6 +11,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
  * separate from DBAL conversion exceptions.
  *
  * @since 3.5
+ *
+ * @author Pierre-Yves Landuré
  */
 final class InvalidLtreeException extends \InvalidArgumentException
 {
@@ -33,5 +35,10 @@ final class InvalidLtreeException extends \InvalidArgumentException
             $expectedFormat,
             \var_export($value, true)
         ));
+    }
+
+    public static function forImpossibleLtree(string $message): self
+    {
+        return new self(\sprintf('Impossible Ltree value: %s', $message));
     }
 }
