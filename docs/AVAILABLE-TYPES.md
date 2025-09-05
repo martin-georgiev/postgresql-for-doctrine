@@ -33,3 +33,5 @@
 | geometry[] | _geometry | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
 | point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
 | point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
+|---|---|---|
+| ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |

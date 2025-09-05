@@ -47,6 +47,9 @@ doctrine:
             numrange: MartinGeorgiev\Doctrine\DBAL\Types\NumRange
             tsrange: MartinGeorgiev\Doctrine\DBAL\Types\TsRange
             tstzrange: MartinGeorgiev\Doctrine\DBAL\Types\TstzRange
+
+            # Hierarchical types
+            ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
 ```
 
 
@@ -111,6 +114,9 @@ doctrine:
                     numrange: numrange
                     tsrange: tsrange
                     tstzrange: tstzrange
+
+                    # Hierarchical type mappings
+                    ltree: ltree
 ```
 
 
@@ -296,6 +302,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
@@ -326,6 +333,9 @@ class Product
 
     #[ORM\Column(type: 'inet')]
     private string $originServerIp;
+
+    #[ORM\Column(type: 'ltree')]
+    private Ltree $pathFromRoot;
 }
 ```
 

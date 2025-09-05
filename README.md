@@ -60,6 +60,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Range Types**
   - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
+- **Hierarchical Types**
+  - [ltree](https://www.postgresql.org/docs/16/ltree.html) (`ltree`)
 
 ### PostgreSQL Operators
 - **Array Operations**
@@ -127,6 +129,8 @@ composer require martin-georgiev/postgresql-for-doctrine
 
 ## 💡 Usage Examples
 See our [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md) for detailed code samples.
+
+See our [ltree type usage guide](docs/LTREE-TYPE.md) for an example of how to use the `ltree` type.
 
 ## 🧪 Testing
 

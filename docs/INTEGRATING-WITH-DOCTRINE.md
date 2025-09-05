@@ -47,6 +47,9 @@ Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
 Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
 Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
+
+// Hierarchical types
+Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 ```
 
 
@@ -281,6 +284,9 @@ $platform->registerDoctrineTypeMapping('int8range', 'int8range');
 $platform->registerDoctrineTypeMapping('numrange', 'numrange');
 $platform->registerDoctrineTypeMapping('tsrange', 'tsrange');
 $platform->registerDoctrineTypeMapping('tstzrange', 'tstzrange');
+
+// Hierarchical mappings
+$platform->registerDoctrineTypeMapping('ltree','ltree');
 ```
 
 ### Usage in Entities
@@ -292,6 +298,7 @@ Once types are registered, you can use them in your Doctrine entities:
 
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
@@ -319,5 +326,8 @@ class MyEntity
 
     #[ORM\Column(type: 'inet')]
     private string $ipAddress;
+
+    #[ORM\Column(type: 'ltree')]
+    private Ltree $pathFromRoot;
 }
 ```
