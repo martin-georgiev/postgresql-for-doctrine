@@ -44,7 +44,7 @@ final class LtreeTest extends TestCase
 
     #[DataProvider('provideInvalidStringRepresentation')]
     #[Test]
-    public function throws_exception_for_invalid_string_represensation(string $value): void
+    public function throws_exception_for_invalid_string_representation(string $value): void
     {
         $this->expectException(InvalidLtreeException::class);
         Ltree::fromString($value);
@@ -63,6 +63,7 @@ final class LtreeTest extends TestCase
      * @param list<non-empty-string> $expected
      */
     #[DataProvider('provideValidRepresentation')]
+    #[Test]
     public function can_create_from_string(string $value, array $expected): void
     {
         $ltree = Ltree::fromString($value);
@@ -74,6 +75,7 @@ final class LtreeTest extends TestCase
      * @param list<non-empty-string> $value
      */
     #[DataProvider('provideValidRepresentation')]
+    #[Test]
     public function can_convert_to_string(string $expected, array $value): void
     {
         $ltree = new Ltree($value);
@@ -84,6 +86,7 @@ final class LtreeTest extends TestCase
      * @param list<non-empty-string> $expected
      */
     #[DataProvider('provideValidRepresentation')]
+    #[Test]
     public function can_serialize_to_json(string $value, array $expected): void
     {
         $ltreeFromString = Ltree::fromString($value);
@@ -109,7 +112,7 @@ final class LtreeTest extends TestCase
     public function can_encode_to_json_array(): void
     {
         $ltree = new Ltree(['a', 'b', 'c']);
-        $json = \json_encode($ltree);
+        $json = \json_encode($ltree, \JSON_THROW_ON_ERROR);
         self::assertSame('["a","b","c"]', $json);
     }
 
@@ -125,7 +128,6 @@ final class LtreeTest extends TestCase
     #[Test]
     public function respect_immutability_when_getting_parent(Ltree $child, Ltree $parent): void
     {
-        unset($parent);
         $childAsString = (string) $child;
         $ltree = $child->getParent();
         self::assertNotSame($child, $ltree, 'getParent() should return a new instance');
@@ -177,13 +179,13 @@ final class LtreeTest extends TestCase
     }
 
     /**
-     * @param $expected array{
-     *                 isAncestorOf: bool,
-     *                 isDescendantOf: bool,
-     *                 isParentOf: bool,
-     *                 isChildOf: bool,
-     *                 isSiblingOf: bool,
-     *                 }
+     * @param array{
+     *     isAncestorOf: bool,
+     *     isDescendantOf: bool,
+     *     isParentOf: bool,
+     *     isChildOf: bool,
+     *     isSiblingOf: bool,
+     * } $expected
      */
     #[DataProvider('provideFamilyRelationshipWithExpectedResults')]
     #[Test]
@@ -196,7 +198,7 @@ final class LtreeTest extends TestCase
             self::assertSame(
                 $value,
                 $left->{$method}($right),
-                \sprintf('Failed  %s check', $method),
+                \sprintf('Failed %s check', $method),
             );
         }
     }
@@ -484,8 +486,6 @@ final class LtreeTest extends TestCase
     #[Test]
     public function respects_immutability_when_creating_leaf(Ltree $parent, string $leaf, Ltree $expected): void
     {
-        unset($expected);
-
         $parentAsString = (string) $parent;
         $ltree = $parent->withLeaf($leaf);
         self::assertNotSame($parent, $ltree, 'withLeaf() should return a new instance');
