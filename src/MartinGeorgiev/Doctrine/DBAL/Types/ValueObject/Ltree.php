@@ -7,6 +7,10 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLtreeException;
 
 /**
+ * @since 3.5
+ *
+ * @author Pierre-Yves Landuré
+ *
  * @phpstan-consistent-constructor
  */
 class Ltree implements \Stringable, \JsonSerializable
@@ -61,12 +65,12 @@ class Ltree implements \Stringable, \JsonSerializable
     }
 
     /**
-     * @throws \LogicException if the ltree is empty
+     * @throws InvalidLtreeException if the ltree is empty
      */
     public function getParent(): static
     {
         if ($this->isEmpty()) {
-            throw new \LogicException('Empty ltree has no parent.');
+            throw InvalidLtreeException::forImpossibleLtree('Empty ltree has no parent.');
         }
 
         $parentPathFromRoot = \array_slice($this->pathFromRoot, 0, -1);
@@ -89,7 +93,7 @@ class Ltree implements \Stringable, \JsonSerializable
 
     public function isAncestorOf(Ltree $ltree): bool
     {
-        if ($this->getPathFromRoot() === $ltree->getPathFromRoot() || $ltree->isEmpty()) {
+        if ($this->equals($ltree) || $ltree->isEmpty()) {
             return false;
         }
 
@@ -104,7 +108,7 @@ class Ltree implements \Stringable, \JsonSerializable
 
     public function isDescendantOf(Ltree $ltree): bool
     {
-        if ($this->getPathFromRoot() === $ltree->getPathFromRoot() || $this->isEmpty()) {
+        if ($this->equals($ltree) || $this->isEmpty()) {
             return false;
         }
 
@@ -123,25 +127,25 @@ class Ltree implements \Stringable, \JsonSerializable
             return false;
         }
 
-        return $this->getPathFromRoot() === $ltree->getParent()->getPathFromRoot();
+        return $this->equals($ltree->getParent());
     }
 
     public function isChildOf(Ltree $ltree): bool
     {
-        if ($this->getPathFromRoot() === $ltree->getPathFromRoot() || $this->isEmpty()) {
+        if ($this->equals($ltree) || $this->isEmpty()) {
             return false;
         }
 
-        return $ltree->getPathFromRoot() === $this->getParent()->getPathFromRoot();
+        return $ltree->equals($this->getParent());
     }
 
     public function isSiblingOf(Ltree $ltree): bool
     {
-        if ($this->isEmpty() || $ltree->isEmpty() || $this->getPathFromRoot() === $ltree->getPathFromRoot()) {
+        if ($this->isEmpty() || $ltree->isEmpty() || $this->equals($ltree)) {
             return false;
         }
 
-        return $this->getParent()->getPathFromRoot() === $ltree->getParent()->getPathFromRoot();
+        return $this->getParent()->equals($ltree->getParent());
     }
 
     /**
@@ -192,5 +196,10 @@ class Ltree implements \Stringable, \JsonSerializable
         if (\str_contains($value, '.')) {
             throw InvalidLtreeException::forInvalidNodeFormat($value, 'string without dot');
         }
+    }
+
+    private function equals(Ltree $ltree): bool
+    {
+        return $this->pathFromRoot === $ltree->getPathFromRoot();
     }
 }

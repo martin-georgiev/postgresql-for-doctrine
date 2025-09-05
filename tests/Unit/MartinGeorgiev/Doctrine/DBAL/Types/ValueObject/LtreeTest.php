@@ -151,7 +151,7 @@ final class LtreeTest extends TestCase
     #[Test]
     public function throws_exception_when_getting_empty_ltree_parent(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(InvalidLtreeException::class);
         (new Ltree([]))->getParent();
     }
 
