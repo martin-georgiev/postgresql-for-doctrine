@@ -66,7 +66,7 @@ class BaseTypeTest extends TestCase
         };
 
         $this->platform
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getDoctrineTypeMapping')
             ->with('custom_type')
             ->willReturn('CUSTOM_SQL_TYPE');
