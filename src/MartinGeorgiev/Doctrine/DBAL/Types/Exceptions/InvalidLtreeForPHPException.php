@@ -6,6 +6,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 
 use Doctrine\DBAL\Types\ConversionException;
 
+/**
+ * @since 3.5
+ *
+ * @author Pierre-Yves Landuré
+ */
 class InvalidLtreeForPHPException extends ConversionException
 {
     private static function create(string $message, mixed $value): self
