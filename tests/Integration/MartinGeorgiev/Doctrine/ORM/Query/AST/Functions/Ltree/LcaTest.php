@@ -33,11 +33,11 @@ class LcaTest extends LtreeTestCase
     }
 
     #[Test]
-    public function can_compute_longest_common_ancestor_to_be_empty_string_when_one_of_the_paths_has_only_a_root_with_no_leafs(): void
+    public function can_compute_longest_common_ancestor_to_be_empty_string_when_one_of_the_paths_has_only_a_root_with_no_leaves(): void
     {
         $dql = 'SELECT LCA(l.ltree1, l.ltree2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 3';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('', $result[0]['result']);
+        $this->assertSame('', $result[0]['result'], 'ltree LCA returns the parent of the shorter path; for a root-only path, the parent is always an empty string');
     }
 
     #[Test]
