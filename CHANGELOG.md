@@ -1,5 +1,29 @@
 # Changelog
 
+## [3.5.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.4.1...v3.5.0) (2025-09-06)
+
+
+### Features
+
+* **#305, #432:** Add support for PostGIS functions for topological and distance relationships ([#434](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/434)) ([2922b63](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2922b63012b77a76002436985fd1808541801b43))
+* **#305:** Add support for PostGIS measurement, overlay and geometry processing functions ([#435](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/435)) ([9724452](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/97244528f815f521d32e2c808f241245df67e139))
+* **#305:** Add support for PostGIS operators ([#430](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/430)) ([5b5583b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5b5583b9db30b0ba55c6047539242359a432a56e))
+* **#305:** Add support for PostGIS's types of `GEOGRAPHY`, `GEOMETRY` and their array variations ([#421](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/421)) ([d97caae](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d97caae042ecbdd1e958b512e38ca4d56fd3d711))
+* **#410:**  add support for `LTREE` type ([#411](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/411)) ([5a6563d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5a6563d3431d7ea670407363527a645b3d25db32))
+* **#440:** Add support for functions to use with the `LTREE` data type ([#440](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/440)) ([745b269](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/745b2695d334e8f352a6e24469ba2f39e175d1cb))
+* Add support for `websearch_to_tsquery` ([#437](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/437)) ([be90545](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/be9054563fbdfda912256d4ff24d8d971eddc7ec))
+
+
+### Bug Fixes
+
+* **#424:** Address unintentional loss of string data type when retrieving PHP array item values from a stored `TextArray` value ([#443](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/443)) ([bdb8df2](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/bdb8df28f173d0e5b8510fa33c529af42fc01660))
+* Address broken escaping of array items for `JsonbArray` and preserve integer values as strings if they are outside PHP integer range ([#442](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/442)) ([d213967](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d2139679a6b193df3e45ce04c8e56ebbc9dcf6f2))
+
+
+### Code Refactoring
+
+* **#305:** Move PostGIS operators in a dedicated namespace ([#433](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/433)) ([522e653](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/522e653f4e1bff8de7b99c9171e5ae573e5dee1a))
+
 ## [3.4.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.4.0...v3.4.1) (2025-08-03)
 
 
