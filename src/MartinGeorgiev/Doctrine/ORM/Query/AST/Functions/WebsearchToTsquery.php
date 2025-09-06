@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL WEBSEARCH_TO_TSQUERY().
  *
- * @see https://www.postgresql.org/docs/current/textsearch-controls.html
+ * @see https://www.postgresql.org/docs/17/textsearch-controls.html
  * @since 3.5
  *
  * @author Jan Klan <jan@klan.com.au>

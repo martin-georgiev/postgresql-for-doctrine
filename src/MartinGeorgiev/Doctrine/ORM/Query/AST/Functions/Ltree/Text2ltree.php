@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * Casts text to ltree.
  *
- * @see https://www.postgresql.org/docs/current/ltree.html#LTREE-FUNCTIONS
+ * @see https://www.postgresql.org/docs/17/ltree.html#LTREE-FUNCTIONS
  * @since 3.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

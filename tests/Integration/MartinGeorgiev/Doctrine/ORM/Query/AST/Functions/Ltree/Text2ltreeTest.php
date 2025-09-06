@@ -17,7 +17,7 @@ class Text2ltreeTest extends LtreeTestCase
     }
 
     #[Test]
-    public function casts_text_to_ltree(): void
+    public function can_cast_text_to_ltree(): void
     {
         $dql = "SELECT TEXT2LTREE('Top.Child1.Child2') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class Text2ltreeTest extends LtreeTestCase
     }
 
     #[Test]
-    public function casts_single_node_text_to_ltree(): void
+    public function can_cast_single_node_text_to_ltree(): void
     {
         $dql = "SELECT TEXT2LTREE('Root') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -33,7 +33,7 @@ class Text2ltreeTest extends LtreeTestCase
     }
 
     #[Test]
-    public function casts_empty_text_to_ltree(): void
+    public function can_cast_empty_text_to_ltree(): void
     {
         $dql = "SELECT TEXT2LTREE('') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1";
         $result = $this->executeDqlQuery($dql);

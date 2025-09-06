@@ -13,7 +13,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * If offset is negative, subpath starts that far from the end of the path.
  * If len is negative, leaves that many labels off the end of the path.
  *
- * @see https://www.postgresql.org/docs/current/ltree.html#LTREE-FUNCTIONS
+ * @see https://www.postgresql.org/docs/17/ltree.html#LTREE-FUNCTIONS
  * @since 3.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -25,7 +25,10 @@ class Subpath extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression'];
+        return [
+            'StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,SimpleArithmeticExpression',
+        ];
     }
 
     protected function getFunctionName(): string

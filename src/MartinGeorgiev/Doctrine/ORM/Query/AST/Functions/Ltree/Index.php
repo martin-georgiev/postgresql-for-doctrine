@@ -12,7 +12,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * Returns position of first occurrence of b in a, or -1 if not found.
  * The search starts at position offset; negative offset means start -offset labels from the end of the path.
  *
- * @see https://www.postgresql.org/docs/current/ltree.html#LTREE-FUNCTIONS
+ * @see https://www.postgresql.org/docs/17/ltree.html#LTREE-FUNCTIONS
  * @since 3.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -24,7 +24,10 @@ class Index extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,StringPrimary,SimpleArithmeticExpression'];
+        return [
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression',
+            'StringPrimary,StringPrimary',
+        ];
     }
 
     protected function getFunctionName(): string

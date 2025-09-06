@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Index;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
@@ -31,5 +32,23 @@ class IndexTest extends TestCase
             'finds position of ltree in another ltree' => \sprintf('SELECT INDEX(e.text1, e.text2) FROM %s e', ContainsTexts::class),
             'finds position with offset' => \sprintf('SELECT INDEX(e.text1, e.text2, -4) FROM %s e', ContainsTexts::class),
         ];
+    }
+
+    public function test_throws_exception_when_argument_count_is_too_low(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('index() requires at least 2 arguments');
+
+        $dql = \sprintf('SELECT INDEX(e.text1) FROM %s e', ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    public function test_throws_exception_when_argument_count_is_too_high(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('index() requires between 2 and 3 arguments');
+
+        $dql = \sprintf('SELECT INDEX(e.text1, e.text2, 0, 1) FROM %s e', ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }

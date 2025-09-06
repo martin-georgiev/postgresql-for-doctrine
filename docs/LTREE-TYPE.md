@@ -300,11 +300,6 @@ Computes the longest common ancestor of multiple paths (up to 8 arguments suppor
 
 ```php
 // DQL
-$dql = "SELECT LCA(e.path1, e.path2) FROM Entity e";
-// SQL: lca(e.path1, e.path2)
-// Example: lca('Top.Child1.Child2', 'Top.Child1') → 'Top'
-
-// With multiple paths
 $dql = "SELECT LCA(e.path1, e.path2, e.path3) FROM Entity e";
 // SQL: lca(e.path1, e.path2, e.path3)
 // Example: lca('Top.Child1.Child2', 'Top.Child1', 'Top.Child2.Child3') → 'Top'
