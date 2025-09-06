@@ -17,7 +17,7 @@ class SubpathTest extends LtreeTestCase
     }
 
     #[Test]
-    public function extracts_subpath_with_offset_and_length(): void
+    public function can_extract_with_offset_and_length(): void
     {
         $dql = 'SELECT SUBPATH(l.ltree1, 0, 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class SubpathTest extends LtreeTestCase
     }
 
     #[Test]
-    public function extracts_subpath_with_offset_only(): void
+    public function can_extract_with_offset_only(): void
     {
         $dql = 'SELECT SUBPATH(l.ltree1, 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -33,15 +33,15 @@ class SubpathTest extends LtreeTestCase
     }
 
     #[Test]
-    public function extracts_subpath_with_negative_offset(): void
+    public function can_extract_with_negative_offset(): void
     {
-        $dql = 'SELECT SUBPATH(l.ltree1, -2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
+        $dql = 'SELECT SUBPATH(l.ltree1, -1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('Child1.Child2', $result[0]['result']);
+        $this->assertSame('Child2', $result[0]['result']);
     }
 
     #[Test]
-    public function extracts_subpath_with_negative_length(): void
+    public function can_extract_with_negative_length(): void
     {
         $dql = 'SELECT SUBPATH(l.ltree1, 0, -1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);

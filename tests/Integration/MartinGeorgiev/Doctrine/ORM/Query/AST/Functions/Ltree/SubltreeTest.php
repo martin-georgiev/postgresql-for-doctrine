@@ -17,7 +17,7 @@ class SubltreeTest extends LtreeTestCase
     }
 
     #[Test]
-    public function extracts_subpath_from_ltree(): void
+    public function can_extract_subpath_from_an_arbitrary_position(): void
     {
         $dql = 'SELECT SUBLTREE(l.ltree1, 1, 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class SubltreeTest extends LtreeTestCase
     }
 
     #[Test]
-    public function extracts_subpath_from_ltree_with_different_positions(): void
+    public function can_extract_subpath_from_the_beginning(): void
     {
         $dql = 'SELECT SUBLTREE(l.ltree1, 0, 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);

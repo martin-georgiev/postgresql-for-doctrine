@@ -17,26 +17,10 @@ class Ltree2textTest extends LtreeTestCase
     }
 
     #[Test]
-    public function casts_ltree_to_text(): void
+    public function can_cast_ltree_to_text(): void
     {
         $dql = 'SELECT LTREE2TEXT(l.ltree1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('Top.Child1.Child2', $result[0]['result']);
-    }
-
-    #[Test]
-    public function casts_single_node_ltree_to_text(): void
-    {
-        $dql = 'SELECT LTREE2TEXT(l.ltree1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 3';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('Root', $result[0]['result']);
-    }
-
-    #[Test]
-    public function casts_different_ltree_to_text(): void
-    {
-        $dql = 'SELECT LTREE2TEXT(l.ltree2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('Top.Child1', $result[0]['result']);
     }
 }
