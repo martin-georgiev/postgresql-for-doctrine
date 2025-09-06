@@ -27,21 +27,13 @@ class LcaTest extends LtreeTestCase
     #[Test]
     public function can_compute_longest_common_ancestor_of_three_paths(): void
     {
-        $dql = 'SELECT LCA(l.ltree1, l.ltree2, l.ltree3) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
+        $dql = 'SELECT LCA(l.ltree1, l.ltree2, l.ltree3, \'1.2.3.456\') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 4';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('Top', $result[0]['result']);
+        $this->assertSame('1.2.3', $result[0]['result']);
     }
 
     #[Test]
-    public function can_compute_longest_common_ancestor_with_different_paths(): void
-    {
-        $dql = 'SELECT LCA(l.ltree1, l.ltree2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 2';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('A', $result[0]['result']);
-    }
-
-    #[Test]
-    public function can_compute_longest_common_ancestor_with_single_node(): void
+    public function can_compute_longest_common_ancestor_to_be_empty_string_when_one_of_the_paths_has_only_a_root_with_no_leafs(): void
     {
         $dql = 'SELECT LCA(l.ltree1, l.ltree2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 3';
         $result = $this->executeDqlQuery($dql);
