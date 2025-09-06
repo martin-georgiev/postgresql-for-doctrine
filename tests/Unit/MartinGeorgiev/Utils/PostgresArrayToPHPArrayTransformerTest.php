@@ -166,6 +166,10 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['  foo  '],
                 'postgresValue' => '{"  foo  "}',
             ],
+            'github #424 regression: numeric strings should be preserved as strings when unquoted' => [
+                'phpValue' => ['1', 'test', 'true'],
+                'postgresValue' => '{1,test,true}',
+            ],
         ];
     }
 

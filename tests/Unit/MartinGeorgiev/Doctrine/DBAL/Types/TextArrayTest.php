@@ -122,4 +122,61 @@ END,
 
         $this->assertEquals($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
+
+    #[DataProvider('provideGithubIssue424TestCases')]
+    #[Test]
+    public function can_preserve_string_types_retrieved_from_database_for_github_issue_424(string $testName, string $postgresValue, array $expectedResult): void
+    {
+        $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+
+        $this->assertSame($expectedResult, $result, $testName);
+
+        // Verify all values are strings
+        foreach ($result as $value) {
+            $this->assertIsString($value, $testName.' - all values should be strings');
+        }
+    }
+
+    /**
+     * @return list<array{
+     *     testName: string,
+     *     postgresValue: string,
+     *     expectedResult: array{string}
+     * }>
+     */
+    public static function provideGithubIssue424TestCases(): array
+    {
+        return [
+            [
+                'testName' => 'Numeric values should be preserved as strings',
+                'postgresValue' => '{1,test}',
+                'expectedResult' => ['1', 'test'],
+            ],
+            [
+                'testName' => 'Mixed values should be preserved as strings',
+                'postgresValue' => '{1,2.5,3.14,test,true,false}',
+                'expectedResult' => ['1', '2.5', '3.14', 'test', 'true', 'false'],
+            ],
+            [
+                'testName' => 'Boolean-like values should be converted to strings',
+                'postgresValue' => '{true,false}',
+                'expectedResult' => ['true', 'false'],
+            ],
+            [
+                'testName' => 'Quoted boolean-like values should remain as strings',
+                'postgresValue' => '{"true","false","t","f"}',
+                'expectedResult' => ['true', 'false', 't', 'f'],
+            ],
+            [
+                'testName' => 'Mixed quoted/unquoted values should all be strings',
+                'postgresValue' => '{1,"2",true,"false",3.14,"test"}',
+                'expectedResult' => ['1', '2', 'true', 'false', '3.14', 'test'],
+            ],
+            [
+                'testName' => 'Null values should be converted to strings',
+                'postgresValue' => '{"",null,"null","NULL"}',
+                'expectedResult' => ['', 'null', 'null', 'NULL'],
+            ],
+        ];
+    }
 }
