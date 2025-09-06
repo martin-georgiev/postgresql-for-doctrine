@@ -37,7 +37,6 @@ class JsonbArray extends BaseArray
             return [];
         }
 
-        // Standard array literal with quoted JSON elements
         return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
