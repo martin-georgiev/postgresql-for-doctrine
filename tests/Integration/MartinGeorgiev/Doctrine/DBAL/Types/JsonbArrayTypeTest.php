@@ -61,6 +61,16 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
                     'enabled' => true,
                 ],
             ]],
+            'jsonb array with big integers' => ['jsonb array with big integers', [
+                [
+                    'bigint' => '9223372036854775807', // PHP_INT_MAX as string
+                    'regular' => 123,
+                ],
+                [
+                    'huge_number' => '18446744073709551615', // Larger than PHP_INT_MAX
+                    'small' => 1,
+                ],
+            ]],
         ];
     }
 }

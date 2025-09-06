@@ -24,19 +24,16 @@ class JsonbArray extends BaseArray
     protected function transformArrayItemForPostgres(mixed $item): string
     {
         // Quote each JSON value as a PostgreSQL array element and escape inner quotes and backslashes
-        $json = $this->transformToPostgresJson($item);
-        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $json);
+        $escaped = \strtr(
+            $this->transformToPostgresJson($item),
+            ['\\' => '\\\\', '"' => '\\"']
+        );
 
         return '"'.$escaped.'"';
     }
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        $trimmed = \trim($postgresArray);
-        if ($trimmed === '{}') {
-            return [];
-        }
-
         return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
