@@ -49,6 +49,11 @@ Complete documentation for mathematical operations and utility functions.
 - **[Mathematical and Utility Functions](MATHEMATICAL-FUNCTIONS.md)**
 - Includes: Mathematical functions, type conversion functions, formatting functions, utility functions
 
+### **🌳 Ltree Functions**
+Complete documentation for PostgreSQL ltree (label tree) operations and hierarchical data processing.
+- **[Ltree Functions](LTREE-TYPE.md)**
+- Includes: Path manipulation functions, ancestor/descendant operations, type conversion functions
+
 ## 🚀 Quick Reference
 
 ### Most Commonly Used Functions
@@ -83,6 +88,13 @@ Complete documentation for mathematical operations and utility functions.
 - `ROUND` - Round numeric values
 - `RANDOM` - Generate random numbers
 
+**Ltree Operations:** ([Complete documentation](LTREE-TYPE.md))
+- `SUBLTREE` - Extract subpath from ltree
+- `SUBPATH` - Extract subpath with offset and length
+- `NLEVEL` - Get number of labels in path
+- `INDEX` - Find position of ltree in another ltree
+- `LCA` - Find longest common ancestor
+
 ## 📋 Summary of Available Function Categories
 
 ### **Array & JSON Functions**
@@ -111,6 +123,11 @@ Complete documentation for mathematical operations and utility functions.
 - **Aggregation**: Array and JSON aggregation functions
 - **Utility Functions**: Random numbers, rounding, type casting
 
+### **Ltree Functions**
+- **Path Operations**: Extract subpaths, manipulate hierarchical paths
+- **Ancestor Operations**: Find common ancestors, calculate path levels
+- **Type Conversion**: Convert between ltree and text types
+
 ### **Operators**
 - **Array Operators**: Contains, overlaps, element testing
 - **Spatial Operators**: Bounding box and distance operations
@@ -125,6 +142,7 @@ Complete documentation for mathematical operations and utility functions.
 4. **JSON functions** support both JSON and JSONB data types → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
 5. **Range functions** provide efficient storage and querying for value ranges → [Range Types](RANGE-TYPES.md)
 6. **Mathematical functions** work with numeric types and return appropriate precision → [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
+7. **Ltree functions** provide efficient hierarchical data operations and path manipulation → [Ltree Functions](LTREE-TYPE.md)
 
 ---
 

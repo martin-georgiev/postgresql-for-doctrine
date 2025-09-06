@@ -219,3 +219,158 @@ final readonly class MyEntityOnFlushListener
     }
 }
 ```
+
+## Ltree Functions
+
+This library provides DQL functions for all PostgreSQL ltree operations. These functions allow you to work with ltree data directly in your Doctrine queries.
+
+### Path Manipulation Functions
+
+#### `SUBLTREE(ltree, start, end)`
+Extracts a subpath from an ltree from position `start` to position `end-1` (counting from 0).
+
+```php
+// DQL
+$dql = "SELECT SUBLTREE(e.path, 1, 2) FROM Entity e";
+// SQL: subltree(e.path, 1, 2)
+// Example: subltree('Top.Child1.Child2', 1, 2) → 'Child1'
+```
+
+#### `SUBPATH(ltree, offset, len)`
+Extracts a subpath starting at position `offset` with length `len`. Supports negative values.
+
+```php
+// DQL
+$dql = "SELECT SUBPATH(e.path, 0, 2) FROM Entity e";
+// SQL: subpath(e.path, 0, 2)
+// Example: subpath('Top.Child1.Child2', 0, 2) → 'Top.Child1'
+
+// With negative offset
+$dql = "SELECT SUBPATH(e.path, -2) FROM Entity e";
+// SQL: subpath(e.path, -2)
+// Example: subpath('Top.Child1.Child2', -2) → 'Child1.Child2'
+```
+
+#### `SUBPATH(ltree, offset)`
+Extracts a subpath starting at position `offset` extending to the end of the path.
+
+```php
+// DQL
+$dql = "SELECT SUBPATH(e.path, 1) FROM Entity e";
+// SQL: subpath(e.path, 1)
+// Example: subpath('Top.Child1.Child2', 1) → 'Child1.Child2'
+```
+
+### Path Information Functions
+
+#### `NLEVEL(ltree)`
+Returns the number of labels in the path.
+
+```php
+// DQL
+$dql = "SELECT NLEVEL(e.path) FROM Entity e";
+// SQL: nlevel(e.path)
+// Example: nlevel('Top.Child1.Child2') → 3
+```
+
+#### `INDEX(a, b)`
+Returns the position of the first occurrence of `b` in `a`, or -1 if not found.
+
+```php
+// DQL
+$dql = "SELECT INDEX(e.path, 'Child1') FROM Entity e";
+// SQL: index(e.path, 'Child1')
+// Example: index('Top.Child1.Child2', 'Child1') → 1
+```
+
+#### `INDEX(a, b, offset)`
+Returns the position of the first occurrence of `b` in `a` starting at position `offset`.
+
+```php
+// DQL
+$dql = "SELECT INDEX(e.path, 'Child1', 1) FROM Entity e";
+// SQL: index(e.path, 'Child1', 1)
+// Example: index('Top.Child1.Child2', 'Child1', 1) → 1
+```
+
+### Ancestor Functions
+
+#### `LCA(ltree1, ltree2, ...)`
+Computes the longest common ancestor of multiple paths (up to 8 arguments supported).
+
+```php
+// DQL
+$dql = "SELECT LCA(e.path1, e.path2, e.path3) FROM Entity e";
+// SQL: lca(e.path1, e.path2, e.path3)
+// Example: lca('Top.Child1.Child2', 'Top.Child1', 'Top.Child2.Child3') → 'Top'
+```
+
+### Type Conversion Functions
+
+#### `TEXT2LTREE(text)`
+Casts text to ltree.
+
+```php
+// DQL
+$dql = "SELECT TEXT2LTREE('Top.Child1.Child2') FROM Entity e";
+// SQL: text2ltree('Top.Child1.Child2')
+// Example: text2ltree('Top.Child1.Child2') → 'Top.Child1.Child2'::ltree
+```
+
+#### `LTREE2TEXT(ltree)`
+Casts ltree to text.
+
+```php
+// DQL
+$dql = "SELECT LTREE2TEXT(e.path) FROM Entity e";
+// SQL: ltree2text(e.path)
+// Example: ltree2text('Top.Child1.Child2'::ltree) → 'Top.Child1.Child2'
+```
+
+### Usage Examples
+
+#### Finding Ancestors and Descendants
+
+```php
+// Find all descendants of a specific path
+$dql = "SELECT e FROM Entity e WHERE e.path <@ TEXT2LTREE('Top.Child1')";
+
+// Find all ancestors of a specific path
+$dql = "SELECT e FROM Entity e WHERE TEXT2LTREE('Top.Child1') <@ e.path";
+
+// Find the longest common ancestor of multiple entities
+$dql = "SELECT LCA(e1.path, e2.path) FROM Entity e1, Entity e2 WHERE e1.id = 1 AND e2.id = 2";
+```
+
+#### Path Analysis
+
+```php
+// Get the depth of a path
+$dql = "SELECT NLEVEL(e.path) FROM Entity e";
+
+// Extract the parent path (everything except the last label)
+$dql = "SELECT SUBPATH(e.path, 0, NLEVEL(e.path) - 1) FROM Entity e";
+
+// Extract the root label
+$dql = "SELECT SUBPATH(e.path, 0, 1) FROM Entity e";
+```
+
+#### Path Manipulation
+
+```php
+// Find entities at a specific level
+$dql = "SELECT e FROM Entity e WHERE NLEVEL(e.path) = 2";
+
+// Find entities with a specific parent
+$dql = "SELECT e FROM Entity e WHERE SUBPATH(e.path, 0, NLEVEL(e.path) - 1) = 'Top.Child1'";
+
+// Find entities that contain a specific label
+$dql = "SELECT e FROM Entity e WHERE INDEX(e.path, 'Child1') >= 0";
+```
+
+### Performance Considerations
+
+- Use GiST or GIN indexes on ltree columns for optimal performance
+- The `@>` and `<@` operators work automatically with ltree types
+- Consider using `SUBPATH` with negative offsets for efficient parent path extraction
+- `LCA` function is efficient for finding common ancestors in hierarchical data
