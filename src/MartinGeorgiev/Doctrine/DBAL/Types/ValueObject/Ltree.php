@@ -42,6 +42,7 @@ class Ltree implements \Stringable, \JsonSerializable
             return new static([]);
         }
 
+        /** @var list<non-empty-string> */
         $pathFromRoot = \explode('.', $ltree);
 
         return new static($pathFromRoot);

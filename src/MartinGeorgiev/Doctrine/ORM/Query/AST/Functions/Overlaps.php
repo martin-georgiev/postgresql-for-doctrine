@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
-
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
+namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
  * Implementation of PostgreSQL check if left side overlaps with right side (using &&).

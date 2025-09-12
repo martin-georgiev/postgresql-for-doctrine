@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
+namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\Overlaps;
-use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps;
 
 class OverlapsTest extends TestCase
 {
