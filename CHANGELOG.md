@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.5.0...v3.5.1) (2025-09-12)
+
+
+### Bug Fixes
+
+* **#446:** Restore `OVERLAPS` to its intended namespace and strengthen its test coverage ([#447](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/447)) ([6435f06](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/6435f0673250bd9e4f65b8918ff000c7b21b788a))
+
 ## [3.5.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.4.1...v3.5.0) (2025-09-06)
 
 
