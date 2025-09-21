@@ -21,7 +21,7 @@ class Inet extends BaseType
 {
     use InetValidationTrait;
 
-    protected const TYPE_NAME = 'inet';
+    public const TYPE_NAME = 'inet';
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
