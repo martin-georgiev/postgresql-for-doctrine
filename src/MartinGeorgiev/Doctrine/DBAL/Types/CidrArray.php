@@ -19,7 +19,7 @@ class CidrArray extends BaseNetworkTypeArray
 {
     use CidrValidationTrait;
 
-    protected const TYPE_NAME = 'cidr[]';
+    public const TYPE_NAME = 'cidr[]';
 
     protected function isValidNetworkAddress(string $value): bool
     {
