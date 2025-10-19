@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
- * Implementation of PostgreSql BIGINT[] data type.
+ * Implementation of PostgreSQL BIGINT[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.1
@@ -19,13 +19,13 @@ class BigIntArray extends BaseIntegerArray
      */
     protected const TYPE_NAME = 'bigint[]';
 
-    protected function getMinValue(): string
+    protected function getMinValue(): int
     {
-        return '-9223372036854775807';
+        return PHP_INT_MIN;
     }
 
-    protected function getMaxValue(): string
+    protected function getMaxValue(): int
     {
-        return '9223372036854775807';
+        return PHP_INT_MAX;
     }
 }

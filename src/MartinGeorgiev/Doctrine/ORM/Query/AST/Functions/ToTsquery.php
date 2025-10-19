@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql TO_TSQUERY().
+ * Implementation of PostgreSQL TO_TSQUERY().
  *
  * @see https://www.postgresql.org/docs/9.4/static/textsearch-controls.html
  * @since 0.1
@@ -14,8 +14,23 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class ToTsquery extends BaseVariadicFunction
 {
-    protected function customiseFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('to_tsquery(%s)');
+        return ['StringPrimary'];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'to_tsquery';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 1;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 2;
     }
 }

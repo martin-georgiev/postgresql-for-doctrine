@@ -1,0 +1,18 @@
+parameters:
+    ignoreErrors:
+        - '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
+        - '#Access to constant [A-Z_]+ on an unknown class Doctrine\\ORM\\Query\\TokenType#'
+        - '#Fetching deprecated class constant T_IDENTIFIER of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_OPEN_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_CLOSE_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_COMMA of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_ORDER of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_AS of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_NONE of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Fetching deprecated class constant T_DISTINCT of class Doctrine\\ORM\\Query\\Lexer#'
+        - '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
+        - '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<Doctrine\\ORM\\Query\\TokenType,string>::isNextToken\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
+        - '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects int\|string, mixed given.#'
+        - '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<int\|string,string>::isNextToken\(\) expects int\|string, mixed given.#'
+        - '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects 1\|2\|3\|4\|5\|6\|7\|8\|9\|10\|11\|12\|13\|14\|15\|16\|17\|18\|19\|100\|101\|102\|200\|201\|202\|203\|204\|205\|206\|207\|208\|209\|210\|211\|212\|213\|214\|215\|216\|217\|218\|219\|220\|221\|222\|223\|224\|225\|226\|227\|228\|229\|230\|231\|232\|233\|234\|235\|236\|237\|238\|239\|240\|241\|242\|243\|244\|245\|246\|247\|248\|249\|250\|251\|252\|253\|254\|255\|256, mixed given.#'
+        - '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer::isNextToken\(\) expects int\|string, mixed given.#'

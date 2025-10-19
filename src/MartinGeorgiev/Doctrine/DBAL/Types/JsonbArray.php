@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\UnexpectedTypeOfTransformedPHPValue;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
+use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
 /**
- * Implementation of PostgreSql JSONB[] data type.
+ * Implementation of PostgreSQL JSONB[] data type.
  *
- * @see https://www.postgresql.org/docs/9.4/static/arrays.html
+ * @see https://www.postgresql.org/docs/17/arrays.html
  * @since 0.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -18,28 +19,22 @@ class JsonbArray extends BaseArray
 {
     use JsonTransformer;
 
-    /**
-     * @var string
-     */
     protected const TYPE_NAME = 'jsonb[]';
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
-        return $this->transformToPostgresJson($item);
+        // Quote each JSON value as a PostgreSQL array element and escape inner quotes and backslashes
+        $escaped = \strtr(
+            $this->transformToPostgresJson($item),
+            ['\\' => '\\\\', '"' => '\\"']
+        );
+
+        return '"'.$escaped.'"';
     }
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        if ($postgresArray === '{}') {
-            return [];
-        }
-        $trimmedPostgresArray = \mb_substr($postgresArray, 2, -2);
-        $phpArray = \explode('},{', $trimmedPostgresArray);
-        foreach ($phpArray as &$item) {
-            $item = '{'.$item.'}';
-        }
-
-        return $phpArray;
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     /**
@@ -47,17 +42,6 @@ class JsonbArray extends BaseArray
      */
     public function transformArrayItemForPHP($item): array
     {
-        $transformedValue = null;
-
-        try {
-            $transformedValue = $this->transformFromPostgresJson($item);
-            if (!\is_array($transformedValue)) {
-                throw new UnexpectedTypeOfTransformedPHPValue($item, \gettype($transformedValue));
-            }
-        } catch (\JsonException) {
-            throw new UnexpectedTypeOfTransformedPHPValue($item, \gettype($transformedValue));
-        }
-
-        return $transformedValue;
+        return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item);
     }
 }

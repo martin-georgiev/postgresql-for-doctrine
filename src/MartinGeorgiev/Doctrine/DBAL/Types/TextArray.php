@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MartinGeorgiev\Utils\DataStructure;
+use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
- * Implementation of PostgreSql TEXT[] data type.
+ * Implementation of PostgreSQL TEXT[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.6
@@ -38,14 +39,11 @@ class TextArray extends BaseType
 
     protected function transformToPostgresTextArray(array $phpTextArray): string
     {
-        if (!\is_array($phpTextArray)) {
-            throw new \InvalidArgumentException(\sprintf('Value %s is not an array', \var_export($phpTextArray, true)));
-        }
         if ($phpTextArray === []) {
             return '{}';
         }
 
-        return DataStructure::transformPHPArrayToPostgresTextArray($phpTextArray);
+        return PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpTextArray);
     }
 
     /**
@@ -64,10 +62,31 @@ class TextArray extends BaseType
 
     protected function transformFromPostgresTextArray(string $postgresValue): array
     {
-        if ($postgresValue === '{}') {
-            return [];
+        $values = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue);
+
+        // No matter what the original PHP array items' data types were,
+        // once they are stored in PostgreSQL, all of them will become strings.
+        // Therefore, we need to ensure all items in the returned PHP array are strings.
+        foreach ($values as $key => $value) {
+            if (\is_string($value)) {
+                continue;
+            }
+
+            if (\is_bool($value)) {
+                $values[$key] = $value ? 'true' : 'false';
+
+                continue;
+            }
+
+            if ($value === null) {
+                $values[$key] = 'null';
+
+                continue;
+            }
+
+            $values[$key] = (string) $value; // @phpstan-ignore-line
         }
 
-        return DataStructure::transformPostgresTextArrayToPHPArray($postgresValue);
+        return $values;
     }
 }

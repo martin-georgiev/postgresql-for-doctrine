@@ -2,41 +2,55 @@
 
 declare(strict_types=1);
 
-use Rector\CodingStyle\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector;
+use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
-return static function (RectorConfig $rectorConfig): void {
-    $basePath = __DIR__.'/../../';
-    $paths = [
+$basePath = __DIR__.'/../../';
+
+return RectorConfig::configure()
+    ->withPaths([
         $basePath.'ci',
+        $basePath.'fixtures',
         $basePath.'src',
         $basePath.'tests',
-    ];
-    $rectorConfig->paths($paths);
-
-    $rectorConfig->parallel();
-    $rectorConfig->phpstanConfig($basePath.'ci/phpstan/config.neon');
-    $rectorConfig->skip([
-        ArraySpreadInsteadOfArrayMergeRector::class,
+    ])
+    ->withCache($basePath.'var/cache/rector/')
+    ->withParallel()
+    ->withPHPStanConfigs([$basePath.'ci/phpstan/config.neon'])
+    ->withComposerBased(
+        doctrine: true,
+        phpunit: true,
+    )
+    ->withSets([
+        SetList::CODE_QUALITY,
+        SetList::DEAD_CODE,
+        SetList::EARLY_RETURN,
+        SetList::NAMING,
+        SetList::PHP_80,
+        SetList::PHP_81,
+        SetList::TYPE_DECLARATION,
+        SetList::PRIVATIZATION,
+        SetList::CODING_STYLE,
+        DoctrineSetList::DOCTRINE_CODE_QUALITY,
+        LevelSetList::UP_TO_PHP_81,
+    ])
+    ->withRules([
+        PreferPHPUnitThisCallRector::class,
+    ])
+    ->withSkip([
         RenamePropertyToMatchTypeRector::class,
-    ]);
-    $rectorConfig->importShortClasses(false);
-    $rectorConfig->importNames(false, false); // @todo Enable once Rector introduces better support for function imports.
-
-    $rectorConfig->import(SetList::CODE_QUALITY);
-    $rectorConfig->import(SetList::DEAD_CODE);
-    $rectorConfig->import(SetList::EARLY_RETURN);
-    $rectorConfig->import(SetList::NAMING);
-    $rectorConfig->import(SetList::PHP_80);
-    $rectorConfig->import(SetList::PHP_81);
-    $rectorConfig->import(SetList::TYPE_DECLARATION);
-
-    $rectorConfig->import(DoctrineSetList::DOCTRINE_ORM_25);
-    $rectorConfig->import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
-
-    $rectorConfig->import(LevelSetList::UP_TO_PHP_81);
-};
+        FlipTypeControlToUseExclusiveTypeRector::class => [
+            $basePath.'src/MartinGeorgiev/Utils/DoctrineLexer.php',
+        ],
+    ])
+    ->withImportNames(
+        importNames: false,
+        importDocBlockNames: false,
+        importShortClasses: false,
+        removeUnusedImports: true,
+    );

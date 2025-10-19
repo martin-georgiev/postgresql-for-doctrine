@@ -1,18 +1,27 @@
 includes:
     - ../../vendor/ekino/phpstan-banned-code/extension.neon
+    - ../../vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - ../../vendor/phpstan/phpstan-doctrine/extension.neon
     - ../../vendor/phpstan/phpstan-phpunit/extension.neon
+    - ./baselines/deprecated-methods.neon
+    - ./baselines/lexer-variations.neon
+    - ./baselines/phpstan-identifiers.neon
+    - ./baselines/range-baseline.neon
+    - ./baselines/type-mismatches.neon
 
 parameters:
     level: max
     paths:
+        - ../../ci
+        - ../../fixtures
         - ../../src
         - ../../tests
 
-    checkMissingIterableValueType: false
+    tmpDir: ../../var/cache/phpstan
+
+    parallel:
+        maximumNumberOfProcesses: 4
+
+    errorFormat: table
     reportUnmatchedIgnoredErrors: false
-    ignoreErrors:
-        - '#Parameter \#1 \$phpArray of method MartinGeorgiev\\Doctrine\\DBAL\\Types\\BaseArray::convertToDatabaseValue\(\) expects array\|null, string given.#'
-        - '#Parameter \#1 \$postgresArray of method MartinGeorgiev\\Doctrine\\DBAL\\Types\\BaseArray::convertToPHPValue\(\) expects string\|null, int given.#'
-        - '#Property MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\Cast::\$sourceType \(Doctrine\\ORM\\Query\\AST\\Node\) does not accept Doctrine\\ORM\\Query\\AST\\Node\|string#'
-        - '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
-        - '#Access to constant [A-Z_]+ on an unknown class Doctrine\\ORM\\Query\\TokenType#'
+    treatPhpDocTypesAsCertain: false

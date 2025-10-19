@@ -1,0 +1,79 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
+
+use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
+use PHPUnit\Framework\Attributes\Test;
+
+class SmallIntArrayTest extends BaseIntegerArrayTestCase
+{
+    protected function setUp(): void
+    {
+        $this->fixture = new SmallIntArray();
+    }
+
+    #[Test]
+    public function has_name(): void
+    {
+        $this->assertEquals('smallint[]', $this->fixture->getName());
+    }
+
+    public static function provideInvalidDatabaseValueInputs(): array
+    {
+        return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
+            ['32768'],    // Greater than max smallint
+            ['-32769'],   // Less than min smallint
+            ['1.23e4'],   // Scientific notation
+            ['123.45'],   // Decimal number
+        ]);
+    }
+
+    /**
+     * @return list<array{
+     *     phpValue: int,
+     *     postgresValue: string
+     * }>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return [
+            [
+                'phpValue' => 32767,
+                'postgresValue' => '32767',
+            ],
+            [
+                'phpValue' => -32768,
+                'postgresValue' => '-32768',
+            ],
+            [
+                'phpValue' => 0,
+                'postgresValue' => '0',
+            ],
+            [
+                'phpValue' => 1,
+                'postgresValue' => '1',
+            ],
+            [
+                'phpValue' => -1,
+                'postgresValue' => '-1',
+            ],
+            [
+                'phpValue' => 9999,
+                'postgresValue' => '9999',
+            ],
+        ];
+    }
+
+    /**
+     * @return list<array{string}>
+     */
+    public static function provideOutOfRangeValues(): array
+    {
+        return [
+            ['32768'], // MAX_SMALLINT + 1
+            ['-32769'], // MIN_SMALLINT - 1
+        ];
+    }
+}

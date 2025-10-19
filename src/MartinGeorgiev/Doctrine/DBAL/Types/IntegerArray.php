@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
- * Implementation of PostgreSql INTEGER[] data type.
+ * Implementation of PostgreSQL INTEGER[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.1
@@ -19,13 +19,13 @@ class IntegerArray extends BaseIntegerArray
      */
     protected const TYPE_NAME = 'integer[]';
 
-    protected function getMinValue(): string
+    protected function getMinValue(): int
     {
-        return '-2147483648';
+        return -2147483648;
     }
 
-    protected function getMaxValue(): string
+    protected function getMaxValue(): int
     {
-        return '2147483647';
+        return 2147483647;
     }
 }

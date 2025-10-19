@@ -31,7 +31,8 @@
     "autoload-dev": {
         "psr-4": {
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
-            "Tests\\MartinGeorgiev\\": "tests/MartinGeorgiev/"
+            "Tests\\Integration\\MartinGeorgiev\\": "tests/Integration/MartinGeorgiev/",
+            "Tests\\Unit\\MartinGeorgiev\\": "tests/Unit/MartinGeorgiev/"
         }
     },
 
@@ -43,15 +44,16 @@
         "doctrine/dbal": "~2.10||~3.0||~4.0"
     },
     "require-dev": {
+        "deptrac/deptrac": "^4.0",
         "doctrine/orm": "~2.14||~3.0",
-        "ekino/phpstan-banned-code": "^1.0",
-        "friendsofphp/php-cs-fixer": "^3.65.0",
-        "php-coveralls/php-coveralls": "^2.7.0",
-        "phpstan/phpstan": "^1.12.11",
-        "phpstan/phpstan-phpunit": "^1.4.1",
-        "phpunit/phpunit": "^10.5.38",
-        "qossmic/deptrac": "^2.0.4",
-        "rector/rector": "^1.2.10",
+        "ekino/phpstan-banned-code": "^3.0",
+        "friendsofphp/php-cs-fixer": "^3.88.2",
+        "phpstan/phpstan": "^2.1.31",
+        "phpstan/phpstan-deprecation-rules": "^2.0.3",
+        "phpstan/phpstan-doctrine": "^2.0.10",
+        "phpstan/phpstan-phpunit": "^2.0.7",
+        "phpunit/phpunit": "^10.5.58",
+        "rector/rector": "^2.2.3",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
@@ -60,23 +62,49 @@
     },
 
     "scripts": {
+        "deptrac": [
+            "deptrac analyze --config-file=./ci/deptrac/config.yml --cache-file=./ci/deptrac/.cache --no-interaction --no-progress"
+        ],
+        "php-cs-fixer": [
+            "php-cs-fixer fix --config=./ci/php-cs-fixer/config.php --allow-unsupported-php-version=yes --show-progress=none --no-interaction --diff -v"
+        ],
+        "phpstan": [
+            "phpstan analyse --configuration=./ci/phpstan/config.neon"
+        ],
+        "phpunit": [
+            "XDEBUG_MODE=coverage phpunit"
+        ],
+        "phpunit:unit": [
+            "@phpunit --configuration=./ci/phpunit/config-unit.xml"
+        ],
+        "phpunit:integration": [
+            "@phpunit --configuration=./ci/phpunit/config-integration.xml"
+        ],
+        "rector": [
+            "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
+        ],
+
         "check-code-style": [
-            "php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --dry-run --no-interaction --diff -v",
-            "rector --config='./ci/rector/config.php' --ansi --no-progress-bar --dry-run"
+            "@php-cs-fixer --dry-run",
+            "@rector --dry-run"
         ],
         "fix-code-style": [
-            "rector --config='./ci/rector/config.php' --ansi --no-progress-bar",
-            "php-cs-fixer fix --config='./ci/php-cs-fixer/config.php' --show-progress=none --no-interaction --diff -v"
+            "@rector",
+            "@php-cs-fixer"
         ],
         "run-static-analysis": [
-            "phpstan analyse --configuration='./ci/phpstan/config.neon'",
-            "deptrac analyze --config-file='./ci/deptrac/config.yml' --cache-file='./ci/deptrac/.cache' --no-interaction --no-progress"
+            "@phpstan",
+            "@deptrac"
         ],
-        "run-tests": [
-            "phpunit --configuration='./ci/phpunit/config.xml'"
+        "run-integration-tests": [
+            "@phpunit:integration"
         ],
-        "run-tests-with-clover": [
-            "phpunit --configuration='./ci/phpunit/config.xml' --coverage-clover './build/logs/clover.xml'"
+        "run-unit-tests": [
+            "@phpunit:unit"
+        ],
+        "run-all-tests": [
+            "@run-unit-tests",
+            "@run-integration-tests"
         ]
     },
 

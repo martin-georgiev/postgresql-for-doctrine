@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql LEAST().
+ * Implementation of PostgreSQL LEAST().
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-conditional.html#FUNCTIONS-GREATEST-LEAST
  * @since 0.7
@@ -14,8 +14,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class Least extends BaseComparisonFunction
 {
-    protected function customiseFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('least(%s)');
+        return 'least';
     }
 }

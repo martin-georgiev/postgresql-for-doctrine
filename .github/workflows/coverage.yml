@@ -1,0 +1,43 @@
+name: Coverage
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/actions/release-please/**'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  checks: read
+  actions: read
+
+jobs:
+  wait-for-tests-worflows-before-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Unit and Integration jobs
+        uses: kachick/wait-other-jobs@755be1ff093bd2a6a82a24bfc50ef4d9fe491a59 # v3.8.1
+        with:
+          skip-same-workflow: 'true'
+          warmup-delay: 'PT2M'
+          retry-method: 'equal_intervals'
+          wait-list: |
+            [
+              {"workflowFile": "integration-tests.yml"},
+              {"workflowFile": "unit-tests.yml"}
+            ]
+        timeout-minutes: 20
+
+      - name: Finalize Coveralls parallel build
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
+        env:
+          COVERALLS_SERVICE_NAME: github
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
+          carryforward: "Integration,Unit"

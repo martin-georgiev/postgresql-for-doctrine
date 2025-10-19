@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Fixtures\MartinGeorgiev\Doctrine\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
 class ContainsJsons extends Entity
 {
-    #[ORM\Column(type: 'json')]
-    public array $object1;
+    #[ORM\Column(type: 'jsonb')]
+    public array $jsonbObject1;
 
-    #[ORM\Column(type: 'json')]
-    public array $object2;
+    #[ORM\Column(type: 'jsonb')]
+    public array $jsonbObject2;
+
+    #[ORM\Column(type: Types::JSON)]
+    public array $jsonObject1;
+
+    #[ORM\Column(type: Types::JSON)]
+    public array $jsonObject2;
 }

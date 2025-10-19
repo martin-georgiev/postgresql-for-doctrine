@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\ConversionException;
+use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
 /**
- * Helpers for converting PHP values into PostgreSql JSOn and vice versa.
+ * Helpers for converting PHP values into PostgreSQL JSON and vice versa.
  *
  * @since 0.1
  *
@@ -25,15 +26,14 @@ trait JsonTransformer
         try {
             $postgresValue = \json_encode($phpValue, JSON_THROW_ON_ERROR);
         } catch (\JsonException) {
-            throw new ConversionException(\sprintf('Value %s can\'t be resolved to valid JSON', \var_export($phpValue, true)));
+            throw new ConversionException(\sprintf("Value %s can't be resolved to valid JSON", \var_export($phpValue, true)));
         }
 
         return $postgresValue;
     }
 
-    protected function transformFromPostgresJson(string $postgresValue): null|array|bool|float|int|string
+    protected function transformFromPostgresJson(string $postgresValue): array|bool|float|int|string|null
     {
-        // @phpstan-ignore-next-line
-        return \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR);
+        return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue);
     }
 }

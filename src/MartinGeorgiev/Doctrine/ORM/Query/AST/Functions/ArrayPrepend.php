@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql ARRAY_PREPEND().
+ * Implementation of PostgreSQL ARRAY_PREPEND().
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-array.html
  * @since 0.1
@@ -14,10 +14,10 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class ArrayPrepend extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('array_prepend(%s, %s)');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('NewValue');
         $this->addNodeMapping('StringPrimary');
     }
 }

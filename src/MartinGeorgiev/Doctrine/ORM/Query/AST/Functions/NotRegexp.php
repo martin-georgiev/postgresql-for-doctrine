@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql case-sensitive not regular expression check (using !~).
+ * Implementation of PostgreSQL case-sensitive not regular expression check (using !~).
  *
  * @see https://www.postgresql.org/docs/9.3/functions-matching.html#FUNCTIONS-POSIX-REGEXP
  * @since 1.8
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class NotRegexp extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('(%s !~ %s)');
         $this->addNodeMapping('StringPrimary');

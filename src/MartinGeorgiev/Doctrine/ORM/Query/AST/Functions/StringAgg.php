@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Node;
-use Doctrine\ORM\Query\AST\OrderByClause;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\DistinctableTrait;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\OrderableTrait;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
- * Implementation of PostgreSql STRING_AGG().
+ * Implementation of PostgreSQL STRING_AGG().
  *
  * @see https://www.postgresql.org/docs/9.5/functions-aggregate.html
  * @since 1.4
@@ -22,41 +23,34 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  */
 class StringAgg extends BaseFunction
 {
-    private bool $isDistinct = false;
-
-    private Node $expression;
+    use OrderableTrait;
+    use DistinctableTrait;
 
     private Node $delimiter;
 
-    private OrderByClause $orderByClause;
-
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('string_agg(%s%s, %s%s)');
+        $this->addNodeMapping('StringPrimary');
+        $this->addNodeMapping('StringPrimary');
     }
 
     public function parse(Parser $parser): void
     {
         $shouldUseLexer = DoctrineOrm::isPre219();
 
-        $this->customiseFunction();
+        $this->customizeFunction();
 
         $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
         $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
 
-        $lexer = $parser->getLexer();
-        if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_DISTINCT : TokenType::T_DISTINCT)) {
-            $parser->match($shouldUseLexer ? Lexer::T_DISTINCT : TokenType::T_DISTINCT);
-            $this->isDistinct = true;
-        }
-
+        $this->parseDistinctClause($parser);
         $this->expression = $parser->StringPrimary();
-        $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
-        $this->delimiter = $parser->StringPrimary();
 
-        if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_ORDER : TokenType::T_ORDER)) {
-            $this->orderByClause = $parser->OrderByClause();
-        }
+        $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
+
+        $this->delimiter = $parser->StringPrimary();
+        $this->parseOrderByClause($parser);
 
         $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
     }
@@ -64,10 +58,10 @@ class StringAgg extends BaseFunction
     public function getSql(SqlWalker $sqlWalker): string
     {
         $dispatched = [
-            $this->isDistinct ? 'distinct ' : '',
+            $this->getOptionalDistinctClause(),
             $this->expression->dispatch($sqlWalker),
             $this->delimiter->dispatch($sqlWalker),
-            isset($this->orderByClause) ? $this->orderByClause->dispatch($sqlWalker) : '',
+            $this->getOptionalOrderByClause($sqlWalker),
         ];
 
         return \vsprintf($this->functionPrototype, $dispatched);

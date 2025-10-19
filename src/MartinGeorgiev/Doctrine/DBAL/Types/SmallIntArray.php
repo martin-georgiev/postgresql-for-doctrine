@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 /**
- * Implementation of PostgreSql SMALLINT[] data type.
+ * Implementation of PostgreSQL SMALLINT[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.1
@@ -19,13 +19,13 @@ class SmallIntArray extends BaseIntegerArray
      */
     protected const TYPE_NAME = 'smallint[]';
 
-    protected function getMinValue(): string
+    protected function getMinValue(): int
     {
-        return '-32768';
+        return -32768;
     }
 
-    protected function getMaxValue(): string
+    protected function getMaxValue(): int
     {
-        return '32767';
+        return 32767;
     }
 }

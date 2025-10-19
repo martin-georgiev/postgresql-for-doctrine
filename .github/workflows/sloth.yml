@@ -1,0 +1,40 @@
+name: Sloth
+
+on:
+  merge_group:
+  pull_request:
+
+permissions:
+  contents: read
+  checks: read
+
+jobs:
+  should-run:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - name: Skip for release-please
+        id: check
+        run: |
+          if [ "${{ github.event.pull_request.user.id }}" = "41898282" ]; then
+            echo "run=false" >> $GITHUB_OUTPUT
+            echo "::notice::Skipping Sloth - release-please PR"
+          else
+            echo "run=true" >> $GITHUB_OUTPUT
+            echo "::notice::Sloth will execute - the PR author is not the release-please bot"
+          fi
+
+  sloth:
+    needs: should-run
+    if: needs.should-run.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Sloth
+        uses: lendable/sloth@6d497936ec6468ac10ea587b46ac96f8fd7843bf # 0.2.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          interval: 10
+          ignored: |
+            CodeRabbit
+            Scrutinizer

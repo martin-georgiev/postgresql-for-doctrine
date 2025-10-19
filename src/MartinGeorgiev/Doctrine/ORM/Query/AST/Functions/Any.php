@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql ANY().
+ * Implementation of PostgreSQL ANY().
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-subquery.html#FUNCTIONS-SUBQUERY-ANY-SOME
  * @since 0.1
@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class Any extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('ANY(%s)');
         $this->addNodeMapping('StringPrimary');

@@ -1,48 +1,64 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-        "config:base",
+        "config:recommended",
         ":enableVulnerabilityAlerts",
         ":semanticCommitsDisabled",
-        ":prHourlyLimitNone",
-        ":prImmediately"
+        ":prImmediately",
+        "schedule:weekly",
+        "group:allNonMajor",
+        "helpers:pinGitHubActionDigests"
     ],
-
     "automerge": true,
     "automergeStrategy": "squash",
     "automergeType": "pr",
     "branchPrefix": "renovate/",
+    "commitMessagePrefix": "chore: ",
+    "dependencyDashboard": true,
     "lockFileMaintenance": {
-        "enabled": true,
-        "schedule": "before 11am every day"
+        "enabled": false
     },
+    "minimumReleaseAge": "3 days",
     "platformAutomerge": true,
-    "rangeStrategy": "in-range-only",
+    "rangeStrategy": "auto",
     "rebaseWhen": "conflicted",
     "recreateWhen": "never",
-
     "packageRules": [
         {
-            "matchPackagePatterns": ["*"],
-            "enabled": false
+            "enabled": false,
+            "matchPackageNames": [
+                "*"
+            ]
         },
         {
-            "matchManagers": ["composer"],
-            "matchDepTypes": ["require"],
+            "matchManagers": [
+                "composer"
+            ],
+            "matchDepTypes": [
+                "require"
+            ],
             "enabled": true,
             "groupName": "Composer runtime dependencies",
             "groupSlug": "composer-runtime"
         },
         {
-            "matchManagers": ["composer"],
-            "matchDepTypes": ["require-dev"],
+            "matchManagers": [
+                "composer"
+            ],
+            "matchDepTypes": [
+                "require-dev"
+            ],
             "enabled": true,
             "groupName": "Composer dev dependencies",
             "groupSlug": "composer-dev"
         },
         {
-            "matchManagers": ["composer"],
-            "matchDepTypes": ["require-dev"],
+            "matchManagers": [
+                "composer"
+            ],
+            "matchDepTypes": [
+                "require-dev"
+            ],
             "enabled": true,
             "groupName": "Composer QA tooling dependencies",
             "groupSlug": "composer-qa-tooling",
@@ -51,16 +67,16 @@
                 "friendsofphp/php-cs-fixer",
                 "ekino/phpstan-banned-code",
                 "qossmic/deptrac-shim",
-                "php-coveralls/php-coveralls"
-            ],
-            "matchPackagePatterns": [
-                "phpstan/*",
-                "phpunit/*",
-                "rector/*"
+                "php-coveralls/php-coveralls",
+                "/phpstan/*/",
+                "/phpunit/*/",
+                "/rector/*/"
             ]
         },
         {
-            "matchManagers": ["github-actions"],
+            "matchManagers": [
+                "github-actions"
+            ],
             "enabled": true,
             "groupName": "GitHub Actions dependencies",
             "groupSlug": "github-actions",

@@ -16,13 +16,16 @@ use Doctrine\DBAL\Types\Type;
  */
 abstract class BaseType extends Type
 {
-    protected const TYPE_NAME = null;
+    /**
+     * @var string
+     */
+    protected const TYPE_NAME = '';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         $this->throwExceptionIfTypeNameNotConfigured();
 
-        return $platform->getDoctrineTypeMapping(static::TYPE_NAME);
+        return \strtoupper($platform->getDoctrineTypeMapping(static::TYPE_NAME));
     }
 
     public function getName(): string
@@ -42,7 +45,7 @@ abstract class BaseType extends Type
 
     private function throwExceptionIfTypeNameNotConfigured(): void
     {
-        if (null === static::TYPE_NAME) {
+        if (static::TYPE_NAME === '') {
             throw new \LogicException(\sprintf('Doctrine type defined in class %s has no meaningful value for TYPE_NAME constant', self::class));
         }
     }

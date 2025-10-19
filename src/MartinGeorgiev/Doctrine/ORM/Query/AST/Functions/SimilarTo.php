@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql SIMILAR TO.
+ * Implementation of PostgreSQL SIMILAR TO.
  *
  * @see https://www.postgresql.org/docs/9.6/functions-matching.html
  *
@@ -13,7 +13,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class SimilarTo extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('%s similar to %s');
         $this->addNodeMapping('StringPrimary');

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
- * Implementation of PostgreSql JSONB data type.
+ * Implementation of PostgreSQL JSONB data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/datatype-json.html
  * @since 0.1
@@ -42,7 +42,7 @@ class Jsonb extends BaseType
      *
      * @param string|null $value the value to convert
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): null|array|bool|float|int|string
+    public function convertToPHPValue($value, AbstractPlatform $platform): array|bool|float|int|string|null
     {
         if ($value === null) {
             return null;

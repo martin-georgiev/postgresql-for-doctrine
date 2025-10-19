@@ -31,7 +31,28 @@ abstract class BaseFunction extends FunctionNode
      */
     protected array $nodes = [];
 
-    abstract protected function customiseFunction(): void;
+    /**
+     * This method is meant for internal use only, and it is not suggested that the forks of the library depend on it.
+     * It will be made abstract from version 3.0.
+     *
+     * @internal
+     *
+     * @see customiseFunction()
+     */
+    /* abstract */
+    protected function customizeFunction(): void
+    {
+        // Void
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function customiseFunction(): void
+    {
+        \trigger_error('The internal-use method of `customiseFunction()` is deprecated and is now renamed to `customizeFunction()`. `customiseFunction()` will be removed from version 3.0 onwards.', E_USER_DEPRECATED);
+        $this->customizeFunction();
+    }
 
     protected function setFunctionPrototype(string $functionPrototype): void
     {
@@ -47,7 +68,7 @@ abstract class BaseFunction extends FunctionNode
     {
         $shouldUseLexer = DoctrineOrm::isPre219();
 
-        $this->customiseFunction();
+        $this->customizeFunction();
 
         $parser->match($shouldUseLexer ? Lexer::T_IDENTIFIER : TokenType::T_IDENTIFIER);
         $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
@@ -64,6 +85,7 @@ abstract class BaseFunction extends FunctionNode
         $lastNode = $nodesMappingCount - 1;
         for ($i = 0; $i < $nodesMappingCount; $i++) {
             $parserMethod = $this->nodesMapping[$i];
+            // @phpstan-ignore-next-line
             $this->nodes[$i] = $parser->{$parserMethod}();
             if ($i < $lastNode) {
                 $parser->match(\class_exists(TokenType::class) ? TokenType::T_COMMA : Lexer::T_COMMA);

@@ -1,97 +1,154 @@
-# Available operators
+# Available Functions and Operators
 
-| PostgreSQL operator | Register for DQL as | Implemented by
-|---|---|---|
-| @> | CONTAINS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains` |
-| <@ | IS_CONTAINED_BY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy` |
-| && | OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps` |
-| ? | RIGHT_EXISTS_ON_LEFT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TheRightExistsOnTheLeft` |
-| ?& | ALL_ON_RIGHT_EXIST_ON_LEFT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AllOnTheRightExistOnTheLeft` |
-| ?\| | ANY_ON_RIGHT_EXISTS_ON_LEFT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyOnTheRightExistsOnTheLeft` |
-| @? | RETURNS_VALUE_FOR_JSON_VALUE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReturnsValueForJsonValue` |
-| #- | DELETE_AT_PATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath` |
-| -> | JSON_GET_FIELD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField` |
-| ->> | JSON_GET_FIELD_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText`|
-| #> | JSON_GET_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject` |
-| #>> | JSON_GET_OBJECT_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText` |
-| ilike | ILIKE ([Usage note](USE-CASES-AND-EXAMPLES.md)) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike` |
-| similar to | SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo` |
-| not similar to | NOT_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo` |
-| ~ | REGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp` |
-| ~* | IREGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp` |
-| !~ | NOT_REGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotRegexp` |
-| !~* | NOT_IREGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp` |
-| @@ | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` |
-| \|\| | STRCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat` |
+This document provides an overview of PostgreSQL functions and operators available in this library. For detailed documentation of specific function categories, see the specialized documentation files linked below.
 
-# Available functions
+## Operator Conflicts and Usage Notes
 
-| PostgreSQL functions | Register for DQL as | Implemented by
-|---|---|---|
-| all | ALL_OF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All` |
-| any | ANY_OF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any` |
-| array_agg | ARRAY_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg` |
-| array_append | ARRAY_APPEND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend` |
-| array_cat | ARRAY_CAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat` |
-| array_dims | ARRAY_DIMENSIONS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions` |
-| array_length | ARRAY_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength` |
-| array_ndims | ARRAY_NUMBER_OF_DIMENSIONS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions` |
-| array_prepend | ARRAY_PREPEND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend` |
-| array_remove | ARRAY_REMOVE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove` |
-| array_replace | ARRAY_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace` |
-| array_to_json | ARRAY_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson` |
-| array_to_string | ARRAY_TO_STRING | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString` |
-| cardinality | ARRAY_CARDINALITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cardinality` |
-| cast | CAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast` |
-| extract | DATE_EXTRACT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract` | 
-| greatest | GREATEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest` |
-| json_agg | JSON_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg` |
-| json_array_length | JSON_ARRAY_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength` |
-| json_each | JSON_EACH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach` |
-| json_each_text | JSON_EACH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText` |
-| json_object_agg | JSON_OBJECT_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg` |
-| json_object_keys | JSON_OBJECT_KEYS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectKeys` |
-| json_strip_nulls | JSON_STRIP_NULLS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonStripNulls` |
-| json_typeof | JSON_TYPEOF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonTypeof` |
-| jsonb_array_elements | JSONB_ARRAY_ELEMENTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements` |
-| jsonb_agg | JSONB_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg` |
-| jsonb_array_elements_text | JSONB_ARRAY_ELEMENTS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText` |
-| jsonb_array_length | JSONB_ARRAY_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength` |
-| jsonb_each | JSONB_EACH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach` |
-| jsonb_each_text | JSONB_EACH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText` |
-| jsonb_exists | JSONB_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists` |
-| jsonb_insert | JSONB_INSERT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert` |
-| jsonb_object_agg | JSONB_OBJECT_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg` |
-| jsonb_object_keys | JSONB_OBJECT_KEYS |`MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys` |
-| jsonb_pretty | JSONB_PRETTY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPretty` |
-| jsonb_set | JSONB_SET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet` |
-| jsonb_set_lax | JSONB_SET_LAX | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax` |
-| jsonb_strip_nulls | JSONB_STRIP_NULLS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls` |
-| least | LEAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least` |
-| overlaps | DATE_OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps` |
-| regexp_like (with flags) | FLAGGED_REGEXP_LIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpLike` |
-| regexp_like (with no flags) | REGEXP_LIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike` |
-| regexp_match (with flags) | FLAGGED_REGEXP_MATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpMatch` |
-| regexp_match (with no flags) | REGEXP_MATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch` |
-| regexp_replace (with flags) | FLAGGED_REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FlaggedRegexpReplace` |
-| regexp_replace (with no flags) | REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace` |
-| row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
-| split_part | SPLIT_PART | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart` |
-| starts_with | STARTS_WITH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith` |
-| string_agg | STRING_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg` |
-| string_to_array | STRING_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray` |
-| to_json | TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson` |
-| to_jsonb | TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb` |
-| to_tsquery | TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery` |
-| to_tsvector | TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector` |
-| unaccent | UNACCENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent` |
-| unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` |
+**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
+| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
+|---|---|---|---|
+| `@>` | `CONTAINS` (arrays contain elements) | Works automatically with geometry/geography | N/A |
+| `<@` | `IS_CONTAINED_BY` (element in array) | Works automatically with geometry/geography | N/A |
+| `@` | N/A | `SPATIAL_CONTAINED_BY` (bounding box contained) | N/A |
+| `~` | N/A | `SPATIAL_CONTAINS` (bounding box contains) | `REGEXP` (text pattern matching) |
+| `&&` | `OVERLAPS` (arrays/ranges overlap) | Works automatically with geometry/geography | N/A |
 
-# Bonus helpers
+**Usage Guidelines:**
+- **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
+- **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations → [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+- **Text**: Use `REGEXP`, `IREGEXP` for pattern matching → [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
+- **Boolean operators**: All spatial operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
 
-| PostgreSQL functions | Register for DQL as | Implemented by
-|---|---|---|
-| array | ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr` |
-| value = ANY(list of values) | IN_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray` |
-| CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` |
+## 📚 Function and Operator Categories
+
+This library provides comprehensive PostgreSQL function and operator support organized into the following categories:
+
+### **🔗 Array and JSON Functions**
+Complete documentation for array manipulation and JSON/JSONB operations.
+- **[Array and JSON Functions and Operators](ARRAY-AND-JSON-FUNCTIONS.md)**
+- Includes: Array operators (`@>`, `<@`, `&&`), JSON operators (`->`, `->>`, `#>`, `#>>`), array functions, JSON functions, JSONB functions
+
+### **🗺️ PostGIS Spatial Functions**
+Complete documentation for PostGIS spatial operations and geometry processing.
+- **[PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md)**
+- Includes: Bounding box operators, distance operators, spatial relationship functions, measurement functions, overlay functions, geometry processing functions
+
+### **📝 Text and Pattern Functions**
+Complete documentation for text processing, pattern matching, and regular expressions.
+- **[Text and Pattern Functions and Operators](TEXT-AND-PATTERN-FUNCTIONS.md)**
+- Includes: Text operators (`~`, `ilike`, `@@`), regular expression functions, text processing functions, full-text search functions
+
+### **📅 Date and Range Functions**
+Complete documentation for date/time operations and range type functions.
+- **[Date, Time, and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)**
+- Includes: Date/time functions, range creation functions, range operators, temporal operations
+
+### **🔢 Mathematical Functions**
+Complete documentation for mathematical operations and utility functions.
+- **[Mathematical and Utility Functions](MATHEMATICAL-FUNCTIONS.md)**
+- Includes: Mathematical functions, type conversion functions, formatting functions, utility functions
+
+### **🌳 Ltree Functions**
+Complete documentation for PostgreSQL ltree (label tree) operations and hierarchical data processing.
+- **[Ltree Functions](LTREE-TYPE.md)**
+- Includes: Path manipulation functions, ancestor/descendant operations, type conversion functions
+
+## 🚀 Quick Reference
+
+### Most Commonly Used Functions
+
+**Array Operations:** ([Complete documentation](ARRAY-AND-JSON-FUNCTIONS.md))
+- `CONTAINS` (`@>`) - Test if array/range contains elements
+- `OVERLAPS` (`&&`) - Test if arrays/ranges overlap
+- `ARRAY_AGG` - Aggregate values into arrays
+
+**JSON Operations:** ([Complete documentation](ARRAY-AND-JSON-FUNCTIONS.md))
+- `JSON_GET_FIELD_AS_TEXT` (`->>`) - Extract JSON field as text
+- `JSON_BUILD_OBJECT` - Build JSON objects
+- `JSONB_PATH_EXISTS` - Test JSON path existence
+
+**Spatial Operations:** ([Complete documentation](SPATIAL-FUNCTIONS-AND-OPERATORS.md))
+- `ST_INTERSECTS` - Test if geometries intersect
+- `ST_DISTANCE` - Calculate distance between geometries
+- `ST_CONTAINS` - Test spatial containment
+
+**Text Operations:** ([Complete documentation](TEXT-AND-PATTERN-FUNCTIONS.md))
+- `ILIKE` - Case-insensitive pattern matching
+- `REGEXP` (`~`) - Regular expression matching
+- `STARTS_WITH` - Test if text starts with substring
+
+**Date/Range Operations:** ([Complete documentation](DATE-AND-RANGE-FUNCTIONS.md))
+- `DATE_ADD` - Add interval to date
+- `DATE_EXTRACT` - Extract date components
+- `DATERANGE` - Create date ranges
+
+**Mathematical Operations:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
+- `GREATEST`/`LEAST` - Find maximum/minimum values
+- `ROUND` - Round numeric values
+- `RANDOM` - Generate random numbers
+
+**Ltree Operations:** ([Complete documentation](LTREE-TYPE.md))
+- `SUBLTREE` - Extract subpath from ltree
+- `SUBPATH` - Extract subpath with offset and length
+- `NLEVEL` - Get number of labels in path
+- `INDEX` - Find position of ltree in another ltree
+- `LCA` - Find longest common ancestor
+
+## 📋 Summary of Available Function Categories
+
+### **Array & JSON Functions**
+- **Array Operations**: Manipulate PostgreSQL arrays (append, remove, replace, shuffle)
+- **JSON Functions**: Work with JSON/JSONB data types
+- **JSONB Path Functions**: Advanced JSONB querying with path expressions
+
+### **Spatial Functions (PostGIS)**
+- **Relationship Functions**: Test spatial relationships between geometries
+- **Measurement Functions**: Calculate distances, areas, lengths, and angles
+- **Overlay Functions**: Perform geometric operations (intersection, union, difference)
+- **Processing Functions**: Transform, simplify, and modify geometries
+
+### **Text & Pattern Functions**
+- **Regexp Functions**: Pattern matching and replacement
+- **Text Functions**: String manipulation and searching
+- **Full-Text Search**: PostgreSQL's text search capabilities
+
+### **Date & Range Functions**
+- **Date Operations**: Add/subtract dates, extract components
+- **Range Types**: Create and work with various range types
+- **Overlap Testing**: Check if date ranges overlap
+
+### **Mathematical Functions**
+- **Basic Math**: Power, square root, trigonometric functions
+- **Aggregation**: Array and JSON aggregation functions
+- **Utility Functions**: Random numbers, rounding, type casting
+
+### **Ltree Functions**
+- **Path Operations**: Extract subpaths, manipulate hierarchical paths
+- **Ancestor Operations**: Find common ancestors, calculate path levels
+- **Type Conversion**: Convert between ltree and text types
+
+### **Operators**
+- **Array Operators**: Contains, overlaps, element testing
+- **Spatial Operators**: Bounding box and distance operations
+- **Text Operators**: Pattern matching and concatenation
+
+---
+
+**💡 Tips for Usage:**
+1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL → [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md)
+2. **Spatial functions** work best with proper geometry types and indexes → [Spatial Types](SPATIAL-TYPES.md)
+3. **Array functions** provide efficient PostgreSQL array operations → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
+4. **JSON functions** support both JSON and JSONB data types → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
+5. **Range functions** provide efficient storage and querying for value ranges → [Range Types](RANGE-TYPES.md)
+6. **Mathematical functions** work with numeric types and return appropriate precision → [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
+7. **Ltree functions** provide efficient hierarchical data operations and path manipulation → [Ltree Functions](LTREE-TYPE.md)
+
+---
+
+**📖 For More Information:**
+- [Available Types](AVAILABLE-TYPES.md) - PostgreSQL data types supported by this library
+- [Value Objects for Range Types](RANGE-TYPES.md) - Working with range value objects
+- [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) - Practical examples and patterns
+- [Spatial Types](SPATIAL-TYPES.md) - PostGIS geometry and geography types
+- [Geometry Arrays](GEOMETRY-ARRAYS.md) - Working with arrays of geometric types

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
 $basePath = __DIR__.'/../../';
 
 $finder = Finder::create()
     ->in($basePath.'ci')
+    ->in($basePath.'fixtures')
     ->in($basePath.'src')
     ->in($basePath.'tests');
 
-$config = new Config();
-
-return $config
+$config = (new Config())
     ->setRules(
         [
             '@PSR2' => true,
@@ -42,15 +42,24 @@ return $config
             'php_unit_internal_class' => false,
             'php_unit_method_casing' => ['case' => 'snake_case'],
             'php_unit_test_class_requires_covers' => false,
+            'phpdoc_align' => ['align' => 'left'],
             'phpdoc_types_order' => ['null_adjustment' => 'always_last'],
             'simplified_null_return' => false,
             'single_line_comment_style' => false,
             'static_lambda' => true,
+            'string_implicit_backslashes' => false,
             'yoda_style' => false,
         ]
     )
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
+
     ->setIndent('    ')
     ->setLineEnding("\n")
     ->setFinder($finder);
+
+if (\method_exists($config, 'setParallelConfig')) {
+    $config->setParallelConfig(ParallelConfigFactory::detect());
+}
+
+return $config;

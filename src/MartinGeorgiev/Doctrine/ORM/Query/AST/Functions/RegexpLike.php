@@ -5,19 +5,38 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql REGEXP_LIKE().
+ * Implementation of PostgreSQL REGEXP_LIKE().
  *
- * @see https://www.postgresql.org/docs/15/functions-matching.html#FUNCTIONS-POSIX-REGEXP
+ * Returns true if a string matches a POSIX regular expression pattern, or false if it does not.
+ *
+ * @see https://www.postgresql.org/docs/17/functions-matching.html#FUNCTIONS-POSIX-REGEXP
  * @since 2.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT REGEXP_LIKE(e.text, 'pattern', 'i') FROM Entity e"
  */
-class RegexpLike extends BaseFunction
+class RegexpLike extends BaseVariadicFunction
 {
-    protected function customiseFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('regexp_like(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return [
+            'StringPrimary',
+        ];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'regexp_like';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 3;
     }
 }

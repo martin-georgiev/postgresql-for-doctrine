@@ -6,7 +6,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 class StartsWith extends BaseFunction
 {
-    protected function customiseFunction(): void
+    protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('(STARTS_WITH(%s, %s))');
         $this->addNodeMapping('StringPrimary');

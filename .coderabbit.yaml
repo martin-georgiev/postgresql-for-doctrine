@@ -1,0 +1,37 @@
+early_access: true
+language: "en-US"
+chat:
+  auto_reply: true
+reviews:
+  auto_review:
+    base_branches: ["main"]
+    drafts: true
+    enabled: true
+    ignore_title_keywords: ["docs:", "release:"]
+  collapse_walkthrough: false
+  high_level_summary: true
+  path_instructions:
+    - path: "tests/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/**/*.php"
+      instructions: "Use the PostgreSQL official documentation to verify that tests include comprehensive use cases and example SQL queries for the tested SQL functions and operators."
+  poem: true
+  profile: "chill"
+  request_changes_workflow: true
+  review_status: false
+  suggested_reviewers: false
+  tools:
+    github-checks:
+      enabled: true
+    gitleaks:
+      enabled: true
+    languagetool:
+      enabled: true
+    markdownlint:
+      enabled: true
+    phpstan:
+      enabled: true
+      config_path: "ci/phpstan/config.neon"
+      level: "max"
+    shellcheck:
+      enabled: true
+    yamllint:
+      enabled: true

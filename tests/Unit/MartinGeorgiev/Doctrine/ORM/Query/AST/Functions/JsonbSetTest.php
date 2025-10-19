@@ -1,0 +1,73 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+
+use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet;
+use PHPUnit\Framework\Attributes\Test;
+
+class JsonbSetTest extends BaseVariadicFunctionTestCase
+{
+    protected function createFixture(): BaseVariadicFunction
+    {
+        return new JsonbSet('JSONB_SET');
+    }
+
+    protected function getStringFunctions(): array
+    {
+        return [
+            'JSONB_SET' => JsonbSet::class,
+        ];
+    }
+
+    protected function getExpectedSqlStatements(): array
+    {
+        return [
+            'basic usage' => "SELECT jsonb_set(c0_.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') AS sclr_0 FROM ContainsJsons c0_",
+            'with create-if-missing parameter' => "SELECT jsonb_set(c0_.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') AS sclr_0 FROM ContainsJsons c0_",
+        ];
+    }
+
+    protected function getDqlStatements(): array
+    {
+        return [
+            'basic usage' => \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') FROM %s e", ContainsJsons::class),
+            'with create-if-missing parameter' => \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'false') FROM %s e", ContainsJsons::class),
+        ];
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_boolean(): void
+    {
+        $this->expectException(InvalidBooleanException::class);
+        $this->expectExceptionMessage('Invalid boolean value "invalid" provided for jsonb_set. Must be "true" or "false".');
+
+        $dql = \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'invalid') FROM %s e", ContainsJsons::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
+    public function throws_exception_for_too_few_arguments(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('jsonb_set() requires at least 3 arguments');
+
+        $dql = \sprintf('SELECT JSONB_SET(e.jsonbObject1) FROM %s e', ContainsJsons::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
+    public function throws_exception_for_too_many_arguments(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('jsonb_set() requires between 3 and 4 arguments');
+
+        $dql = \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', 'true', 'extra_arg') FROM %s e", ContainsJsons::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+}

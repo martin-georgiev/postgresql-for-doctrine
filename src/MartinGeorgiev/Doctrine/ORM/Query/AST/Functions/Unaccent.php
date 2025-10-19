@@ -5,18 +5,31 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSql UNACCENT.
+ * Implementation of PostgreSQL UNACCENT.
  *
- * @see http://www.postgresql.org/docs/current/static/unaccent.html
+ * @see https://www.postgresql.org/docs/17/unaccent.html
  *
  * @author Martin Hasoň <martin.hason@gmail.com>
  */
 class Unaccent extends BaseVariadicFunction
 {
-    protected string $commonNodeMapping = 'StringPrimary';
-
-    protected function customiseFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('unaccent(%s)');
+        return ['StringPrimary'];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'unaccent';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 1;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 2;
     }
 }
