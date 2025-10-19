@@ -167,4 +167,134 @@ final class WktSpatialDataTest extends TestCase
             'srid with polygon zm' => ['SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'],
         ];
     }
+
+    #[DataProvider('provideFromComponentsData')]
+    #[Test]
+    public function can_create_from_components(
+        GeometryType $geometryType,
+        string $coordinates,
+        ?int $srid,
+        ?DimensionalModifier $dimensionalModifier,
+        string $expectedWkt
+    ): void {
+        $wktSpatialData = WktSpatialData::fromComponents($geometryType, $coordinates, $srid, $dimensionalModifier);
+
+        $this->assertSame($geometryType, $wktSpatialData->getGeometryType());
+        $this->assertSame($srid, $wktSpatialData->getSrid());
+        $this->assertSame($dimensionalModifier, $wktSpatialData->getDimensionalModifier());
+        $this->assertSame($expectedWkt, $wktSpatialData->getWkt());
+    }
+
+    /**
+     * @return array<string, array{GeometryType, string, int|null, DimensionalModifier|null, string}>
+     */
+    public static function provideFromComponentsData(): array
+    {
+        return [
+            'simple point' => [
+                GeometryType::POINT,
+                '1 2',
+                null,
+                null,
+                'POINT(1 2)',
+            ],
+            'point with srid' => [
+                GeometryType::POINT,
+                '-122.4194 37.7749',
+                4326,
+                null,
+                'SRID=4326;POINT(-122.4194 37.7749)',
+            ],
+            'linestring with dimensional modifier' => [
+                GeometryType::LINESTRING,
+                '0 0 1, 1 1 2',
+                null,
+                DimensionalModifier::M,
+                'LINESTRING M(0 0 1, 1 1 2)',
+            ],
+            'polygon with all parameters' => [
+                GeometryType::POLYGON,
+                '0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1',
+                4326,
+                DimensionalModifier::ZM,
+                'SRID=4326;POLYGON ZM(0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)',
+            ],
+        ];
+    }
+
+    #[DataProvider('provideInvalidCoordinatesData')]
+    #[Test]
+    public function from_components_throws_exception_for_invalid_coordinates(string $invalidCoordinates): void
+    {
+        $this->expectException(InvalidWktSpatialDataException::class);
+        WktSpatialData::fromComponents(GeometryType::POINT, $invalidCoordinates);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidCoordinatesData(): array
+    {
+        return [
+            'empty string' => [''],
+            'whitespace only' => ['  '],
+        ];
+    }
+
+    #[DataProvider('providePointData')]
+    #[Test]
+    public function can_create_point(
+        float|int|string $longitude,
+        float|int|string $latitude,
+        ?int $srid,
+        string $expectedWkt
+    ): void {
+        $wktSpatialData = WktSpatialData::point($longitude, $latitude, $srid);
+
+        $this->assertSame(GeometryType::POINT, $wktSpatialData->getGeometryType());
+        $this->assertSame($srid, $wktSpatialData->getSrid());
+        $this->assertNull($wktSpatialData->getDimensionalModifier());
+        $this->assertSame($expectedWkt, $wktSpatialData->getWkt());
+    }
+
+    /**
+     * @return array<string, array{float|int|string, float|int|string, int|null, string}>
+     */
+    public static function providePointData(): array
+    {
+        return [
+            'integer coordinates' => [1, 2, null, 'POINT(1 2)'],
+            'float coordinates' => [-122.4194, 37.7749, null, 'POINT(-122.4194 37.7749)'],
+            'string coordinates' => ['-122.4194', '37.7749', null, 'POINT(-122.4194 37.7749)'],
+            'with srid' => [-122.4194, 37.7749, 4326, 'SRID=4326;POINT(-122.4194 37.7749)'],
+        ];
+    }
+
+    #[DataProvider('providePoint3dData')]
+    #[Test]
+    public function can_create_3d_point(
+        float|int|string $longitude,
+        float|int|string $latitude,
+        float|int|string $elevation,
+        ?int $srid,
+        string $expectedWkt
+    ): void {
+        $wktSpatialData = WktSpatialData::point3d($longitude, $latitude, $elevation, $srid);
+
+        $this->assertSame(GeometryType::POINT, $wktSpatialData->getGeometryType());
+        $this->assertSame($srid, $wktSpatialData->getSrid());
+        $this->assertSame(DimensionalModifier::Z, $wktSpatialData->getDimensionalModifier());
+        $this->assertSame($expectedWkt, $wktSpatialData->getWkt());
+    }
+
+    /**
+     * @return array<string, array{float|int|string, float|int|string, float|int|string, int|null, string}>
+     */
+    public static function providePoint3dData(): array
+    {
+        return [
+            'simple 3d point' => [1, 2, 3, null, 'POINT Z(1 2 3)'],
+            'with srid' => [-122.4194, 37.7749, 100, 4326, 'SRID=4326;POINT Z(-122.4194 37.7749 100)'],
+        ];
+    }
 }
