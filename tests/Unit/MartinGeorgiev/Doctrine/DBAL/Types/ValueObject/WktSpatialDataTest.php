@@ -167,4 +167,136 @@ final class WktSpatialDataTest extends TestCase
             'srid with polygon zm' => ['SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'],
         ];
     }
+
+    #[Test]
+    public function can_create_from_components(): void
+    {
+        $wktSpatialData = WktSpatialData::fromComponents(
+            GeometryType::POINT,
+            '1 2'
+        );
+
+        $this->assertSame(GeometryType::POINT, $wktSpatialData->getGeometryType());
+        $this->assertNull($wktSpatialData->getSrid());
+        $this->assertNull($wktSpatialData->getDimensionalModifier());
+        $this->assertSame('POINT(1 2)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function can_create_from_components_with_srid(): void
+    {
+        $wktSpatialData = WktSpatialData::fromComponents(
+            GeometryType::POINT,
+            '-122.4194 37.7749',
+            4326
+        );
+
+        $this->assertSame(GeometryType::POINT, $wktSpatialData->getGeometryType());
+        $this->assertSame(4326, $wktSpatialData->getSrid());
+        $this->assertNull($wktSpatialData->getDimensionalModifier());
+        $this->assertSame('SRID=4326;POINT(-122.4194 37.7749)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function can_create_from_components_with_dimensional_modifier(): void
+    {
+        $wktSpatialData = WktSpatialData::fromComponents(
+            GeometryType::LINESTRING,
+            '0 0 1, 1 1 2',
+            null,
+            DimensionalModifier::M
+        );
+
+        $this->assertSame(GeometryType::LINESTRING, $wktSpatialData->getGeometryType());
+        $this->assertNull($wktSpatialData->getSrid());
+        $this->assertSame(DimensionalModifier::M, $wktSpatialData->getDimensionalModifier());
+        $this->assertSame('LINESTRING M(0 0 1, 1 1 2)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function can_create_from_components_with_all_parameters(): void
+    {
+        $wktSpatialData = WktSpatialData::fromComponents(
+            GeometryType::POLYGON,
+            '0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1',
+            4326,
+            DimensionalModifier::ZM
+        );
+
+        $this->assertSame(GeometryType::POLYGON, $wktSpatialData->getGeometryType());
+        $this->assertSame(4326, $wktSpatialData->getSrid());
+        $this->assertSame(DimensionalModifier::ZM, $wktSpatialData->getDimensionalModifier());
+        $this->assertSame('SRID=4326;POLYGON ZM(0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function from_components_throws_exception_for_empty_coordinates(): void
+    {
+        $this->expectException(InvalidWktSpatialDataException::class);
+        WktSpatialData::fromComponents(GeometryType::POINT, '');
+    }
+
+    #[Test]
+    public function from_components_throws_exception_for_whitespace_only_coordinates(): void
+    {
+        $this->expectException(InvalidWktSpatialDataException::class);
+        WktSpatialData::fromComponents(GeometryType::POINT, '   ');
+    }
+
+    #[Test]
+    public function can_create_point_from_coordinates(): void
+    {
+        $wktSpatialData = WktSpatialData::point(1, 2);
+
+        $this->assertSame(GeometryType::POINT, $wktSpatialData->getGeometryType());
+        $this->assertNull($wktSpatialData->getSrid());
+        $this->assertNull($wktSpatialData->getDimensionalModifier());
+        $this->assertSame('POINT(1 2)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function can_create_point_with_float_coordinates(): void
+    {
+        $wktSpatialData = WktSpatialData::point(-122.4194, 37.7749);
+
+        $this->assertSame('POINT(-122.4194 37.7749)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function can_create_point_with_string_coordinates(): void
+    {
+        $wktSpatialData = WktSpatialData::point('-122.4194', '37.7749');
+
+        $this->assertSame('POINT(-122.4194 37.7749)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function can_create_point_with_srid(): void
+    {
+        $wktSpatialData = WktSpatialData::point(-122.4194, 37.7749, 4326);
+
+        $this->assertSame(4326, $wktSpatialData->getSrid());
+        $this->assertSame('SRID=4326;POINT(-122.4194 37.7749)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function can_create_3d_point(): void
+    {
+        $wktSpatialData = WktSpatialData::point3d(1, 2, 3);
+
+        $this->assertSame(GeometryType::POINT, $wktSpatialData->getGeometryType());
+        $this->assertNull($wktSpatialData->getSrid());
+        $this->assertSame(DimensionalModifier::Z, $wktSpatialData->getDimensionalModifier());
+        $this->assertSame('POINT Z(1 2 3)', $wktSpatialData->getWkt());
+    }
+
+    #[Test]
+    public function can_create_3d_point_with_srid(): void
+    {
+        $wktSpatialData = WktSpatialData::point3d(-122.4194, 37.7749, 100, 4326);
+
+        $this->assertSame(4326, $wktSpatialData->getSrid());
+        $this->assertSame(DimensionalModifier::Z, $wktSpatialData->getDimensionalModifier());
+        $this->assertSame('SRID=4326;POINT Z(-122.4194 37.7749 100)', $wktSpatialData->getWkt());
+    }
 }
