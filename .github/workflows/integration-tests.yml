@@ -41,10 +41,20 @@ jobs:
       matrix:
         php: ['8.1', '8.2', '8.3', '8.4']
         postgis: ['3.4', '3.5']
-        postgres: ['16', '17', '18']
+        postgres: ['16', '17']
         include:
+          # PostgreSQL 18 requires PostGIS 3.6
+          - php: '8.1'
+            postgis: '3.6'
+            postgres: '18'
+          - php: '8.2'
+            postgis: '3.6'
+            postgres: '18'
+          - php: '8.3'
+            postgis: '3.6'
+            postgres: '18'
           - php: '8.4'
-            postgis: '3.5'
+            postgis: '3.6'
             postgres: '18'
             calculate-code-coverage: true
 

@@ -66,6 +66,6 @@ docker rm postgres-doctrine-test
 
 ## CI Integration
 
-These tests are automatically run in GitHub Actions against PostgreSQL 16, 17 & 18 with PostGIS 3.4 & 3.5 for all supported PHP versions.
+These tests are automatically run in GitHub Actions against PostgreSQL 16, 17 & 18 with PostGIS for all supported PHP versions.
 
 The workflow is defined in `.github/workflows/integration-tests.yml`.
