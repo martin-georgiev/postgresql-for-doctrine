@@ -18,7 +18,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class Geometry extends BaseType
+final class Geometry extends BaseSpatialType
 {
     protected const TYPE_NAME = 'geometry';
 
