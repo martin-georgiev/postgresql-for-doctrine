@@ -115,9 +115,9 @@ development environment:
 
 The provided environment includes:
 
-- PHP 8.1, which is the oldest PHP version supported by this project.
+- PHP 8.1, which is the oldest PHP version supported by this project.
 - Composer
-- PostgreSQL 17 with PostGIS 3.4, started by `devenv up`.
+- PostgreSQL 18 with PostGIS 3.5, started by `devenv up`.
 - Pre-commit hooks (PHP-CS-Fixer, PHPStan, Rector, deptrac, ...).
 
 ### Local development
@@ -128,7 +128,7 @@ Using local-only plaintext secrets here is acceptable.
 For example, this file:
 
 - Install [Harlequin](https://harlequin.sh/) database TUI.
-- Set PHP version to 8.4.
+- Set PHP version to 8.4.
 - Change PostgreSQL related environment variables.
 
 ```nix
