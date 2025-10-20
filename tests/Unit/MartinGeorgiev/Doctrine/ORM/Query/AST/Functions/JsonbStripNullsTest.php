@@ -19,14 +19,16 @@ class JsonbStripNullsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT jsonb_strip_nulls(c0_.jsonbObject1) AS sclr_0 FROM ContainsJsons c0_',
+            'strips nulls with one parameter' => 'SELECT jsonb_strip_nulls(c0_.jsonbObject1) AS sclr_0 FROM ContainsJsons c0_',
+            'strips nulls with null_value_treatment parameter' => "SELECT jsonb_strip_nulls(c0_.jsonbObject1, 'use_json_null') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSONB_STRIP_NULLS(e.jsonbObject1) FROM %s e', ContainsJsons::class),
+            'strips nulls with one parameter' => \sprintf('SELECT JSONB_STRIP_NULLS(e.jsonbObject1) FROM %s e', ContainsJsons::class),
+            'strips nulls with null_value_treatment parameter' => \sprintf("SELECT JSONB_STRIP_NULLS(e.jsonbObject1, 'use_json_null') FROM %s e", ContainsJsons::class),
         ];
     }
 }

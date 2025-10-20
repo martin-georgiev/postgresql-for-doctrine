@@ -7,16 +7,34 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL JSONB_STRIP_NULLS().
  *
- * @see https://www.postgresql.org/docs/9.6/static/functions-array.html
+ * Supports optional second parameter (PostgreSQL 18+) to control null stripping from arrays.
+ *
+ * @see https://www.postgresql.org/docs/18/functions-json.html
  * @since 0.10
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class JsonbStripNulls extends BaseFunction
+class JsonbStripNulls extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    protected function getFunctionName(): string
     {
-        $this->setFunctionPrototype('jsonb_strip_nulls(%s)');
-        $this->addNodeMapping('StringPrimary');
+        return 'jsonb_strip_nulls';
+    }
+
+    protected function getNodeMappingPattern(): array
+    {
+        return [
+            'StringPrimary',
+        ];
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 1;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 2;
     }
 }

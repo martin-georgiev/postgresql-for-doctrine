@@ -52,7 +52,9 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | array_prepend | ARRAY_PREPEND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend` |
 | array_remove | ARRAY_REMOVE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove` |
 | array_replace | ARRAY_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace` |
+| array_reverse | ARRAY_REVERSE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReverse` |
 | array_shuffle | ARRAY_SHUFFLE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle` |
+| array_sort | ARRAY_SORT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySort` |
 | array_to_json | ARRAY_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson` |
 | array_to_string | ARRAY_TO_STRING | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString` |
 | cardinality | ARRAY_CARDINALITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cardinality` |
