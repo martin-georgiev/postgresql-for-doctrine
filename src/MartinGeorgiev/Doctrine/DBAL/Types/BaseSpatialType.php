@@ -28,8 +28,8 @@ abstract class BaseSpatialType extends BaseType
      * - If SRID is 0 (no SRID), returns plain WKT: "POINT(1 2)"
      * - If SRID is set, returns EWKT with SRID prefix: "SRID=4326;POINT(1 2)"
      *
-     * @param non-empty-string $sqlExpr The SQL expression representing the spatial column
-     * @param AbstractPlatform $platform The database platform (not used, but required by parent signature)
+     * @param non-empty-string $sqlExpr
+     * @param AbstractPlatform $platform
      */
     public function convertToPHPValueSQL($sqlExpr, $platform): string
     {
