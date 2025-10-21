@@ -72,7 +72,7 @@
             "phpstan analyse --configuration=./ci/phpstan/config.neon"
         ],
         "phpunit": [
-            "XDEBUG_MODE=coverage phpunit"
+            "XDEBUG_MODE=${XDEBUG_MODE:-coverage} phpunit"
         ],
         "phpunit:unit": [
             "@phpunit --configuration=./ci/phpunit/config-unit.xml"
