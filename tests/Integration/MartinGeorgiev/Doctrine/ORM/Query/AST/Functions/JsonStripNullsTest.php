@@ -50,4 +50,3 @@ class JsonStripNullsTest extends JsonTestCase
         $this->assertIsString($result[0]['result']);
     }
 }
-
