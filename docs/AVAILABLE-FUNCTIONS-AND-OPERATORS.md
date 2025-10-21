@@ -74,6 +74,7 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `ST_CONTAINS` - Test spatial containment
 
 **Text Operations:** ([Complete documentation](TEXT-AND-PATTERN-FUNCTIONS.md))
+- `CASEFOLD` - Advanced case-insensitive text comparison with Unicode support
 - `ILIKE` - Case-insensitive pattern matching
 - `REGEXP` (`~`) - Regular expression matching
 - `STARTS_WITH` - Test if text starts with substring
@@ -84,7 +85,9 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `DATERANGE` - Create date ranges
 
 **Mathematical Operations:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
+- `GAMMA` - Gamma function for statistical calculations
 - `GREATEST`/`LEAST` - Find maximum/minimum values
+- `LGAMMA` - Natural logarithm of gamma function
 - `ROUND` - Round numeric values
 - `RANDOM` - Generate random numbers
 
@@ -94,6 +97,13 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `NLEVEL` - Get number of labels in path
 - `INDEX` - Find position of ltree in another ltree
 - `LCA` - Find longest common ancestor
+
+**Utility Operations:**
+- `CRC32` - CRC-32 checksum computation
+- `CRC32C` - CRC-32C checksum computation
+- `REVERSE_BYTES` - Reverse byte order for bytea values
+- `UUIDV4` - Explicit UUID version 4 generation
+- `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
 
 ## 📋 Summary of Available Function Categories
 

@@ -296,4 +296,50 @@ abstract class TestCase extends BaseTestCase
 
         return $query->getArrayResult(); // @phpstan-ignore-line
     }
+
+    /**
+     * Get the PostgreSQL server version as a numeric value (e.g., 160003 for 16.0.3, 180000 for 18.0.0).
+     */
+    protected function getPostgresVersion(): int
+    {
+        $result = $this->connection->fetchOne('SHOW server_version_num');
+        \assert(\is_string($result) || \is_int($result));
+
+        return (int) $result;
+    }
+
+    /**
+     * Skip the test if PostgreSQL version is less than the required version.
+     *
+     * @param int $requiredVersion The minimum required PostgreSQL version (e.g., 180000 for PostgreSQL 18)
+     * @param string $featureName Optional feature name to include in the skip message
+     */
+    protected function requirePostgresVersion(int $requiredVersion, string $featureName = ''): void
+    {
+        $currentVersion = $this->getPostgresVersion();
+
+        if ($currentVersion < $requiredVersion) {
+            $currentMajor = (int) ($currentVersion / 10000);
+            $currentMinor = (int) (($currentVersion % 10000) / 100);
+            $currentPatch = $currentVersion % 100;
+
+            $requiredMajor = (int) ($requiredVersion / 10000);
+            $requiredMinor = (int) (($requiredVersion % 10000) / 100);
+            $requiredPatch = $requiredVersion % 100;
+
+            $featureMessage = $featureName !== '' ? \sprintf(' (%s)', $featureName) : '';
+            $message = \sprintf(
+                'This test requires PostgreSQL %d.%d.%d or later%s. Current version: %d.%d.%d',
+                $requiredMajor,
+                $requiredMinor,
+                $requiredPatch,
+                $featureMessage,
+                $currentMajor,
+                $currentMinor,
+                $currentPatch
+            );
+
+            $this->markTestSkipped($message);
+        }
+    }
 }

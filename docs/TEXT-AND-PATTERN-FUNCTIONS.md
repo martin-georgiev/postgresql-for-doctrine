@@ -45,6 +45,7 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
+| casefold | CASEFOLD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Casefold` |
 | split_part | SPLIT_PART | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart` |
 | starts_with | STARTS_WITH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith` |
 | string_agg | STRING_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg` |
