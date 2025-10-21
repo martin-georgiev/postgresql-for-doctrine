@@ -24,6 +24,7 @@ class JsonbStripNulls extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
+            'StringPrimary,ScalarExpression',
             'StringPrimary',
         ];
     }
