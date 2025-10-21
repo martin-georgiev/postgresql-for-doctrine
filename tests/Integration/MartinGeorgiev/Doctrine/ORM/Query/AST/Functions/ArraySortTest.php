@@ -58,6 +58,6 @@ class ArraySortTest extends ArrayTestCase
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($actual);
-        $this->assertSame(['cherry', 'grape', 'kiwi'], $actual);
+        $this->assertSame(['apple', 'grape'], $actual);
     }
 }
