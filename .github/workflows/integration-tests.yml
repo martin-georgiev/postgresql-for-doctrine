@@ -137,6 +137,7 @@ jobs:
           POSTGRES_DB: postgres_doctrine_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          XDEBUG_MODE: ${{ matrix.calculate-code-coverage == true && 'coverage' || 'off' }}
 
       - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true
