@@ -32,11 +32,11 @@ class ReverseBytesTest extends TextTestCase
         $result = $this->executeDqlQuery($dql);
         $byteaResult = $result[0]['result'];
 
-        if (is_resource($byteaResult)) {
-            $byteaResult = stream_get_contents($byteaResult);
+        if (\is_resource($byteaResult)) {
+            $byteaResult = \stream_get_contents($byteaResult);
         }
 
         $this->assertIsString($byteaResult);
-        $this->assertSame('3412', bin2hex($byteaResult));
+        $this->assertSame('3412', \bin2hex($byteaResult));
     }
 }
