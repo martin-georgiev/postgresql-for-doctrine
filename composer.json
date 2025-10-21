@@ -71,14 +71,11 @@
         "phpstan": [
             "phpstan analyse --configuration=./ci/phpstan/config.neon"
         ],
-        "phpunit": [
-            "XDEBUG_MODE=${XDEBUG_MODE:-coverage} phpunit"
-        ],
         "phpunit:unit": [
-            "@phpunit --configuration=./ci/phpunit/config-unit.xml"
+            "XDEBUG_MODE=${XDEBUG_MODE:-coverage} phpunit --configuration=./ci/phpunit/config-unit.xml"
         ],
         "phpunit:integration": [
-            "@phpunit --configuration=./ci/phpunit/config-integration.xml"
+            "XDEBUG_MODE=${XDEBUG_MODE:-coverage} phpunit --configuration=./ci/phpunit/config-integration.xml"
         ],
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
