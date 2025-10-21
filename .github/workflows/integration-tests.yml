@@ -72,7 +72,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          --mount type=tmpfs,destination=/var/lib/postgresql/data
           -e POSTGRES_INITDB_ARGS="--data-checksums"
 
     steps:
