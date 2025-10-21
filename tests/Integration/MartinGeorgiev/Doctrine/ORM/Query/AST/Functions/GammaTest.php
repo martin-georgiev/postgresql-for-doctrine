@@ -23,7 +23,7 @@ class GammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_compute_gamma_of_a_integer(): void
+    public function can_compute_gamma_of_an_integer(): void
     {
         $dql = 'SELECT GAMMA(5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
