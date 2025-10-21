@@ -130,14 +130,18 @@ jobs:
           PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SELECT PostGIS_Version();"
 
       - name: Run integration test suite
-        run: composer run-integration-tests
+        run: |
+          if [ "${{ matrix.calculate-code-coverage }}" = "true" ]; then
+            XDEBUG_MODE=coverage composer run-integration-tests
+          else
+            composer run-integration-tests -- --no-coverage
+          fi
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
           POSTGRES_DB: postgres_doctrine_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          XDEBUG_MODE: ${{ matrix.calculate-code-coverage == true && 'coverage' || 'off' }}
 
       - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true

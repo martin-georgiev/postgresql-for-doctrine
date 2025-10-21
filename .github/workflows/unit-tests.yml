@@ -110,9 +110,12 @@ jobs:
         continue-on-error: ${{ matrix.continue-on-error || false }}
 
       - name: Run unit test suite
-        run: composer run-unit-tests
-        env:
-          XDEBUG_MODE: ${{ matrix.calculate-code-coverage == true && 'coverage' || 'off' }}
+        run: |
+          if [ "${{ matrix.calculate-code-coverage }}" = "true" ]; then
+            XDEBUG_MODE=coverage composer run-unit-tests
+          else
+            composer run-unit-tests -- --no-coverage
+          fi
 
       - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true

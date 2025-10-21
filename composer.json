@@ -72,10 +72,10 @@
             "phpstan analyse --configuration=./ci/phpstan/config.neon"
         ],
         "phpunit:unit": [
-            "XDEBUG_MODE=${XDEBUG_MODE:-coverage} phpunit --configuration=./ci/phpunit/config-unit.xml"
+            "phpunit --configuration=./ci/phpunit/config-unit.xml"
         ],
         "phpunit:integration": [
-            "XDEBUG_MODE=${XDEBUG_MODE:-coverage} phpunit --configuration=./ci/phpunit/config-integration.xml"
+            "phpunit --configuration=./ci/phpunit/config-integration.xml"
         ],
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
