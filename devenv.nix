@@ -29,7 +29,7 @@ in
   # https://devenv.sh/languages/
   languages.php = {
     enable = true;
-    # PHP 8.1 is this project least supported PHP version.
+    # PHP 8.1 is this project least supported PHP version.
     version = "8.1";
     extensions = [
       "ctype"
@@ -60,8 +60,8 @@ in
   services.postgres = {
     enable = true;
 
-    # Use PostgreSQL 17 to match Docker Compose and CI
-    package = pkgs.postgresql_17;
+    # Use PostgreSQL 18 to match Docker Compose and CI
+    package = pkgs.postgresql_18;
 
     listen_addresses = "127.0.0.1";
     port = config.env.POSTGRES_PORT;
@@ -98,7 +98,7 @@ in
   scripts.php-modules.exec = ''
     set -o 'errexit' -o 'pipefail'
 
-    echo 'Installed PHP modules'
+    echo 'Installed PHP modules'
     echo '---------------------'
 
     ${phpCommand} -m |
@@ -156,7 +156,7 @@ in
     # Conventional Commits
     commitizen.enable = true;
 
-    # Markdown files
+    # Markdown files
     # markdownlint.enable = true;
     # mdformat = rec {
     #   enable = true;
