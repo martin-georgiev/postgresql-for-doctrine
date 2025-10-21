@@ -40,22 +40,22 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.1', '8.2', '8.3', '8.4']
-        postgis: ['3.4', '3.5']
-        postgres: ['16', '17']
+        postgis: ['3.4', '3.5', '3.6']
+        postgres: ['16', '17', '18']
+        exclude:
+          # PostgreSQL 16: Docker images support only for PostGIS 3.4, 3.5
+          - postgres: '16'
+            postgis: '3.6'
+          # PostgreSQL 18: Docker images support only for PostGIS 3.6
+          - postgres: '18'
+            postgis: '3.4'
+          - postgres: '18'
+            postgis: '3.5'
         include:
-          # PostgreSQL 18 requires PostGIS 3.6
-          - php: '8.1'
-            postgis: '3.6'
-            postgres: '18'
-          - php: '8.2'
-            postgis: '3.6'
-            postgres: '18'
-          - php: '8.3'
-            postgis: '3.6'
-            postgres: '18'
+          # Code coverage on the latest stable combination
           - php: '8.4'
-            postgis: '3.6'
             postgres: '18'
+            postgis: '3.6'
             calculate-code-coverage: true
 
     services:
