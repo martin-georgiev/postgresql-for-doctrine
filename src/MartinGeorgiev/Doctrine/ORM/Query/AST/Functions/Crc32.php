@@ -16,7 +16,7 @@ class Crc32 extends BaseFunction
 {
     protected function customizeFunction(): void
     {
-        $this->setFunctionPrototype('crc32(%s)');
+        $this->setFunctionPrototype('crc32(%s::bytea)');
         $this->addNodeMapping('StringPrimary');
     }
 }

@@ -16,7 +16,7 @@ class ReverseBytes extends BaseFunction
 {
     protected function customizeFunction(): void
     {
-        $this->setFunctionPrototype('reverse(%s)');
+        $this->setFunctionPrototype('reverse(%s::bytea)');
         $this->addNodeMapping('StringPrimary');
     }
 }

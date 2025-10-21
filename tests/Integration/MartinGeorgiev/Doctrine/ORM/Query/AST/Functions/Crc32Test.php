@@ -43,6 +43,6 @@ class Crc32Test extends TextTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertIsInt($result[0]['result']);
-        $this->assertSame(2948041025, $result[0]['result']);
+        $this->assertSame(4236695221, $result[0]['result']);
     }
 }

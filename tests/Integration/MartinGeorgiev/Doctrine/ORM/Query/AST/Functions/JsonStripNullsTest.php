@@ -43,7 +43,7 @@ class JsonStripNullsTest extends JsonTestCase
     {
         $this->requirePostgresVersion(180000, 'null_value_treatment parameter for json_strip_nulls');
 
-        $dql = "SELECT JSON_STRIP_NULLS(t.jsonObject1, true) as result
+        $dql = "SELECT JSON_STRIP_NULLS(t.jsonObject1, 'true') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 5";
         $result = $this->executeDqlQuery($dql);
