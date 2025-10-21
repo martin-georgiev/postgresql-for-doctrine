@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use Doctrine\ORM\Query\AST\Node;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
+
 /**
  * Implementation of PostgreSQL JSONB_STRIP_NULLS().
  *
@@ -16,6 +19,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  */
 class JsonbStripNulls extends BaseVariadicFunction
 {
+    use BooleanValidationTrait;
+
     protected function getFunctionName(): string
     {
         return 'jsonb_strip_nulls';
@@ -24,7 +29,6 @@ class JsonbStripNulls extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,ScalarExpression',
             'StringPrimary',
         ];
     }
@@ -37,5 +41,14 @@ class JsonbStripNulls extends BaseVariadicFunction
     protected function getMaxArgumentCount(): int
     {
         return 2;
+    }
+
+    protected function validateArguments(Node ...$arguments): void
+    {
+        parent::validateArguments(...$arguments);
+
+        if (\count($arguments) === 2) {
+            $this->validateBoolean($arguments[1], $this->getFunctionName());
+        }
     }
 }
