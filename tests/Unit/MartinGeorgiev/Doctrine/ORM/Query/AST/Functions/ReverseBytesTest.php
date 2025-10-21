@@ -19,7 +19,7 @@ class ReverseBytesTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'reverses bytes' => "SELECT reverse('test') AS sclr_0 FROM ContainsArrays c0_",
+            'reverses bytes' => "SELECT reverse('test'::bytea) AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 

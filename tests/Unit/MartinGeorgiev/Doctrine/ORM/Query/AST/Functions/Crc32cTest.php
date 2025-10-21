@@ -19,8 +19,8 @@ class Crc32cTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'computes crc32c of a string' => "SELECT crc32c('Hello Doctrine') AS sclr_0 FROM ContainsTexts c0_",
-            'computes crc32c of text field' => 'SELECT crc32c(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            'computes crc32c of a string' => "SELECT crc32c('Hello Doctrine'::bytea) AS sclr_0 FROM ContainsTexts c0_",
+            'computes crc32c of text field' => 'SELECT crc32c(c0_.text1::bytea) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
