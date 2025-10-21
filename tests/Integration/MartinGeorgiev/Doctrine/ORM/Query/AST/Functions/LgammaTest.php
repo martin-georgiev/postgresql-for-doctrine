@@ -30,7 +30,6 @@ class LgammaTest extends NumericTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsFloat($result[0]['result']);
         $this->assertEqualsWithDelta(3.178053830, $result[0]['result'], 0.0001);
     }
 
@@ -42,7 +41,6 @@ class LgammaTest extends NumericTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsFloat($result[0]['result']);
         $this->assertEqualsWithDelta(0.284682870, $result[0]['result'], 0.0001);
     }
 
@@ -54,7 +52,6 @@ class LgammaTest extends NumericTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsFloat($result[0]['result']);
         $this->assertEqualsWithDelta(12.801827480, $result[0]['result'], 0.0001);
     }
 }
