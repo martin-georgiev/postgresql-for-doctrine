@@ -9,6 +9,12 @@ use PHPUnit\Framework\Attributes\Test;
 
 class ArraySortTest extends ArrayTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->requirePostgresVersion(180000, 'array_sort function');
+    }
+
     protected function getStringFunctions(): array
     {
         return [

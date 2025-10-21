@@ -9,6 +9,12 @@ use PHPUnit\Framework\Attributes\Test;
 
 class CasefoldTest extends TextTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->requirePostgresVersion(180000, 'casefold function');
+    }
+
     protected function getStringFunctions(): array
     {
         return [

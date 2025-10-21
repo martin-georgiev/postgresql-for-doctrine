@@ -9,6 +9,12 @@ use PHPUnit\Framework\Attributes\Test;
 
 class ArrayReverseTest extends ArrayTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->requirePostgresVersion(180000, 'array_reverse function');
+    }
+
     protected function getStringFunctions(): array
     {
         return [

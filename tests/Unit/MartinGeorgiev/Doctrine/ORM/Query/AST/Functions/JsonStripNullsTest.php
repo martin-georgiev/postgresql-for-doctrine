@@ -20,7 +20,7 @@ class JsonStripNullsTest extends TestCase
     {
         return [
             'strips nulls with one parameter' => 'SELECT json_strip_nulls(c0_.jsonObject1) AS sclr_0 FROM ContainsJsons c0_',
-            'strips nulls with null_value_treatment parameter' => "SELECT json_strip_nulls(c0_.jsonObject1, 'use_json_null') AS sclr_0 FROM ContainsJsons c0_",
+            'strips nulls with null_value_treatment parameter' => 'SELECT json_strip_nulls(c0_.jsonObject1, true) AS sclr_0 FROM ContainsJsons c0_',
         ];
     }
 
@@ -28,7 +28,7 @@ class JsonStripNullsTest extends TestCase
     {
         return [
             'strips nulls with one parameter' => \sprintf('SELECT JSON_STRIP_NULLS(e.jsonObject1) FROM %s e', ContainsJsons::class),
-            'strips nulls with null_value_treatment parameter' => \sprintf("SELECT JSON_STRIP_NULLS(e.jsonObject1, 'use_json_null') FROM %s e", ContainsJsons::class),
+            'strips nulls with null_value_treatment parameter' => \sprintf('SELECT JSON_STRIP_NULLS(e.jsonObject1, true) FROM %s e', ContainsJsons::class),
         ];
     }
 }

@@ -9,6 +9,12 @@ use PHPUnit\Framework\Attributes\Test;
 
 class Crc32Test extends TextTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->requirePostgresVersion(180000, 'crc32 function');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
