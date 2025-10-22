@@ -31,6 +31,7 @@ class UuidExtractTimestampTest extends NumericTestCase
 
         $result = $this->executeDqlQuery($dql);
         $timestamp = $result[0]['result'];
+        \assert(\is_string($timestamp));
 
         $this->assertStringStartsWith('1998-02-02 20:23:12.90287', $timestamp);
     }
@@ -44,6 +45,7 @@ class UuidExtractTimestampTest extends NumericTestCase
 
         $result = $this->executeDqlQuery($dql);
         $timestamp = $result[0]['result'];
+        \assert(\is_string($timestamp));
 
         $this->assertStringStartsWith('2024-03-27 04:44:49.346', $timestamp);
     }
