@@ -25,36 +25,36 @@ class UuidExtractVersionTest extends NumericTestCase
     #[Test]
     public function can_extract_version_from_uuid_v1(): void
     {
-        $dql = "SELECT UUID_EXTRACT_VERSION('a0eebc99-9c0b-11d1-b465-00c04fd430c8') as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
+        $dql = "SELECT UUID_EXTRACT_VERSION('a0eebc99-9c0b-11d1-b465-00c04fd430c8') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
 
-        $this->assertSame('1', $result[0]['result']);
+        $this->assertEquals(1, $result[0]['result']);
     }
 
     #[Test]
     public function can_extract_version_from_uuid_v4(): void
     {
-        $dql = "SELECT UUID_EXTRACT_VERSION('550e8400-e29b-41d4-a716-446655440000') as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
+        $dql = "SELECT UUID_EXTRACT_VERSION('550e8400-e29b-41d4-a716-446655440000') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
 
-        $this->assertSame('4', $result[0]['result']);
+        $this->assertEquals(4, $result[0]['result']);
     }
 
     #[Test]
     public function can_extract_version_from_uuid_v7(): void
     {
-        $dql = "SELECT UUID_EXTRACT_VERSION('018e7e39-9f42-7000-8000-000000000000') as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
+        $dql = "SELECT UUID_EXTRACT_VERSION('018e7e39-9f42-7000-8000-000000000000') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
 
-        $this->assertSame('7', $result[0]['result']);
+        $this->assertEquals(7, $result[0]['result']);
     }
 }

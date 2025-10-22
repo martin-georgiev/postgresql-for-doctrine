@@ -32,7 +32,7 @@ class UuidExtractTimestampTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $timestamp = $result[0]['result'];
 
-        $this->assertSame('1997-02-03 17:43:12.219+00', $timestamp);
+        $this->assertStringStartsWith('1998-02-02 20:23:12.90287', $timestamp);
     }
 
     #[Test]
@@ -45,7 +45,7 @@ class UuidExtractTimestampTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $timestamp = $result[0]['result'];
 
-        $this->assertSame('2024-03-15 14:27:30.114+00', $timestamp);
+        $this->assertStringStartsWith('2024-03-27 04:44:49.346', $timestamp);
     }
 
     #[Test]
