@@ -102,6 +102,8 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `CRC32` - CRC-32 checksum computation
 - `CRC32C` - CRC-32C checksum computation
 - `REVERSE_BYTES` - Reverse byte order for bytea values
+- `UUID_EXTRACT_TIMESTAMP` - Extract timestamp from UUID v1 or v7
+- `UUID_EXTRACT_VERSION` - Extract version number from UUID
 - `UUIDV4` - Explicit UUID version 4 generation
 - `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
 
