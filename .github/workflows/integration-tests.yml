@@ -57,7 +57,7 @@ jobs:
             postgis: '3.5'
         include:
           # Code coverage on the latest stable combination
-          - php: '8.4'
+          - php: '8.5'
             postgres: '18'
             postgis: '3.6'
             calculate-code-coverage: true
