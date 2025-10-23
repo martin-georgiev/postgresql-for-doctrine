@@ -260,6 +260,5 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
         $resource = \imagecreatetruecolor(1, 1);
         $result = PHPArrayToPostgresValueTransformer::transformToPostgresTextArray([$resource]);
         $this->assertStringContainsString('GdImage', $result);
-        \imagedestroy($resource);
     }
 }

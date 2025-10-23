@@ -44,8 +44,7 @@ abstract class BaseIntegerArray extends BaseArray
             throw InvalidIntegerArrayItemForDatabaseException::doesNotMatchRegex($item);
         }
 
-        $doesNotFitIntoPHPInteger = $stringValue !== (string) (int) $stringValue;
-        if ($doesNotFitIntoPHPInteger) {
+        if (!$this->fitsInPHPInteger($stringValue)) {
             throw InvalidIntegerArrayItemForDatabaseException::isOutOfRange($item);
         }
 
@@ -75,8 +74,7 @@ abstract class BaseIntegerArray extends BaseArray
             throw InvalidIntegerArrayItemForPHPException::forValueThatIsNotAValidPHPInteger($item, static::TYPE_NAME);
         }
 
-        $doesNotFitIntoPHPInteger = $stringValue !== (string) (int) $stringValue;
-        if ($doesNotFitIntoPHPInteger) {
+        if (!$this->fitsInPHPInteger($stringValue)) {
             throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInPHP($item, static::TYPE_NAME);
         }
 
@@ -87,5 +85,10 @@ abstract class BaseIntegerArray extends BaseArray
         }
 
         return $integerValue;
+    }
+
+    private function fitsInPHPInteger(string $value): bool
+    {
+        return \filter_var($value, \FILTER_VALIDATE_INT) !== false;
     }
 }
