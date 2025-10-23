@@ -47,9 +47,6 @@ jobs:
         doctrine-lexer: ['2.1', '3.0', 'latest']
         doctrine-orm: ['2.14', '2.18', '3.0', 'latest']
         include:
-          - php: '8.2'
-            doctrine-orm: '2.14'
-            doctrine-lexer: '1.2'
           - php: '8.5' # Run coverage report only based on the latest dependencies
             doctrine-lexer: 'latest'
             doctrine-orm: 'latest'
