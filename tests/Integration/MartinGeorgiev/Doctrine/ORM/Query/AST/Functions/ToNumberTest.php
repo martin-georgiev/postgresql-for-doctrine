@@ -27,6 +27,26 @@ class ToNumberTest extends TextTestCase
     }
 
     #[Test]
+    public function tonumber_converts_roman_numerals(): void
+    {
+        $this->requirePostgresVersion(180000, 'Roman numeral support in to_number');
+
+        $dql = "SELECT to_number('MCMXCIV', 'RN') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('1994', $result[0]['result']);
+    }
+
+    #[Test]
+    public function tonumber_converts_lowercase_roman_numerals(): void
+    {
+        $this->requirePostgresVersion(180000, 'Roman numeral support in to_number');
+
+        $dql = "SELECT to_number('xlii', 'rn') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('42', $result[0]['result']);
+    }
+
+    #[Test]
     public function tonumber_throws_with_invalid_format(): void
     {
         $this->expectException(Exception::class);
