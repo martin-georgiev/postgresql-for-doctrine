@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 final class GeometryTypeTest extends TestCase
 {
+    use OrmEntityPersistenceTrait;
+    use WktAssertionTrait;
+
     protected function getTypeName(): string
     {
         return 'geometry';
@@ -18,6 +22,43 @@ final class GeometryTypeTest extends TestCase
     protected function getPostgresTypeName(): string
     {
         return 'GEOMETRY';
+    }
+
+    protected function getEntityClass(): string
+    {
+        return ContainsGeometries::class;
+    }
+
+    protected function getEntityColumnName(): string
+    {
+        return 'geometry1';
+    }
+
+    protected function createTestTableForEntity(string $tableName): void
+    {
+        $this->dropTestTableIfItExists($tableName);
+
+        $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
+        $sql = \sprintf('
+            CREATE TABLE %s (
+                id SERIAL PRIMARY KEY,
+                geometry1 GEOMETRY,
+                geometry2 GEOMETRY,
+                geography1 GEOGRAPHY,
+                geography2 GEOGRAPHY
+            )
+        ', $fullTableName);
+
+        $this->connection->executeStatement($sql);
+    }
+
+    protected function assertOrmValueEquals(mixed $expected, mixed $actual, string $typeName): void
+    {
+        if (!$expected instanceof WktSpatialData || !$actual instanceof WktSpatialData) {
+            throw new \InvalidArgumentException('Expected WktSpatialData value objects.');
+        }
+
+        $this->assertWktEquals($expected, $actual);
     }
 
     protected function getSelectExpression(string $columnName): string
@@ -44,6 +85,26 @@ final class GeometryTypeTest extends TestCase
     public function can_handle_geometry_values(string $testName, WktSpatialData $wktSpatialData): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
+    }
+
+    #[Test]
+    public function can_retrieve_null_geometry_using_entity_manager_find(): void
+    {
+        $this->runOrmFindRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
+    }
+
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
+    public function can_retrieve_geometry_values_using_entity_manager_find(string $testName, WktSpatialData $wktSpatialData): void
+    {
+        $this->runOrmFindRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
+    }
+
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
+    public function can_retrieve_geometry_values_using_dql_select(string $testName, WktSpatialData $wktSpatialData): void
+    {
+        $this->runOrmDqlSelectRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
 
     /**

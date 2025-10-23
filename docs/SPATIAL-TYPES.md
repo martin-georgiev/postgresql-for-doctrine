@@ -27,6 +27,77 @@ Two enums drive normalization so the code and docs remain consistent:
 
 Regex patterns for geometry type detection and dimensional modifier handling are built from these enums instead of hardcoded strings.
 
+## Creating Spatial Data
+
+The `WktSpatialData` value object provides multiple ways to create spatial data:
+
+### From WKT String (Traditional)
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
+// Parse complete WKT/EWKT strings
+$point = WktSpatialData::fromWkt('POINT(1 2)');
+$pointWithSrid = WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)');
+$line = WktSpatialData::fromWkt('LINESTRING(0 0, 1 1, 2 2)');
+```
+
+### From Components (Programmatic)
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
+
+// Build from individual components
+$point = WktSpatialData::fromComponents(
+    GeometryType::POINT,
+    '1 2'
+);
+
+// With SRID
+$pointWithSrid = WktSpatialData::fromComponents(
+    GeometryType::POINT,
+    '-122.4194 37.7749',
+    4326
+);
+
+// With dimensional modifier
+$line3d = WktSpatialData::fromComponents(
+    GeometryType::LINESTRING,
+    '0 0 1, 1 1 2, 2 2 3',
+    null,
+    DimensionalModifier::Z
+);
+
+// With all parameters
+$polygon4d = WktSpatialData::fromComponents(
+    GeometryType::POLYGON,
+    '0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1',
+    4326,
+    DimensionalModifier::ZM
+);
+```
+
+### Convenience Methods for Points
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
+// Simple 2D point
+$point = WktSpatialData::point(1, 2);
+// Result: POINT(1 2)
+
+// Point with SRID (common for geographic coordinates)
+$location = WktSpatialData::point(-122.4194, 37.7749, 4326);
+// Result: SRID=4326;POINT(-122.4194 37.7749)
+
+// 3D point with elevation
+$point3d = WktSpatialData::point3d(-122.4194, 37.7749, 100);
+// Result: POINT Z(-122.4194 37.7749 100)
+
+// 3D point with SRID
+$location3d = WktSpatialData::point3d(-122.4194, 37.7749, 100, 4326);
+// Result: SRID=4326;POINT Z(-122.4194 37.7749 100)
+```
+
 ## Supported Geometry Types
 
 The library supports all PostGIS geometry types through the `GeometryType` enum:

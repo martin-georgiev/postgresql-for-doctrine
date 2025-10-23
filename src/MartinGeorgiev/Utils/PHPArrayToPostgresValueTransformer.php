@@ -36,7 +36,7 @@ class PHPArrayToPostgresValueTransformer
 
         /** @var array<int|string, string> */
         $processed = \array_map(
-            static fn (mixed $value): string => self::formatValue($value),
+            self::formatValue(...),
             $phpArray
         );
 

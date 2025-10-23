@@ -22,6 +22,7 @@ class ToNumberTest extends TestCase
     {
         return [
             'converts text to number using format pattern' => "SELECT to_number(c0_.text1, '99G999D9S') AS sclr_0 FROM ContainsTexts c0_",
+            'converts roman numerals to number' => "SELECT to_number(c0_.text1, 'RN') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
@@ -29,6 +30,7 @@ class ToNumberTest extends TestCase
     {
         return [
             'converts text to number using format pattern' => \sprintf("SELECT TO_NUMBER(e.text1, '99G999D9S') FROM %s e", ContainsTexts::class),
+            'converts roman numerals to number' => \sprintf("SELECT TO_NUMBER(e.text1, 'RN') FROM %s e", ContainsTexts::class),
         ];
     }
 

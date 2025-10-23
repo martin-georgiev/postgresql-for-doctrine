@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.6.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.5.1...v3.6.0) (2025-10-23)
+
+
+### Features
+
+* **#456:** Add convenience factory methods to `WktSpatialData` ([#459](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/459)) ([7242665](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7242665ff5cee24a80dddf85efe3b4a463ba3cbb))
+* **#458:** Ensure Doctrine returns PostgreSQL spatial data in text format (EWKT) instead of binary format (EWKB) ([#462](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/462)) ([8ac7a70](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8ac7a703c078a5845beee35e2f7f767cd563fbb4))
+* Add support for `uuid_extract_timestamp` and `uuid_extract_version` ([#466](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/466)) ([77a513f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/77a513fe4472bbcc7c001bd25648384c48b39b16))
+* Add support for some new functions from PostgreSQL 18 ([#464](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/464)) ([118bfa3](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/118bfa361ccbb776fe7832a05da357f5557568c5))
+
 ## [3.5.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.5.0...v3.5.1) (2025-09-12)
 
 

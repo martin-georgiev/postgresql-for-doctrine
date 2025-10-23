@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgis/postgis:${POSTGRES_VERSION:-17}-3.4
+    image: postgis/postgis:${POSTGRES_VERSION:-18}-${POSTGIS_VERSION:-3.6}-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}

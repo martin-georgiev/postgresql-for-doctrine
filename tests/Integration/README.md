@@ -21,7 +21,7 @@ docker-compose up -d
 Or use a plain Docker command:
 
 ```bash
-docker run --name postgres-doctrine-test -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres_doctrine_test -p 5432:5432 -d postgis/postgis:17-3.4
+docker run --name postgres-doctrine-test -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres_doctrine_test -p 5432:5432 -d postgis/postgis:18-3.6-alpine
 ```
 
 ### Run the Tests
@@ -66,6 +66,6 @@ docker rm postgres-doctrine-test
 
 ## CI Integration
 
-These tests are automatically run in GitHub Actions against PostgreSQL 16 and 17 with PostGIS 3.4 for all supported PHP versions.
+These tests are automatically run in GitHub Actions against PostgreSQL 16, 17 & 18 with PostGIS for all supported PHP versions.
 
 The workflow is defined in `.github/workflows/integration-tests.yml`.

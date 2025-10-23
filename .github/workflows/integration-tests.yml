@@ -10,6 +10,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 permissions:
   contents: read
 
@@ -40,17 +44,27 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.1', '8.2', '8.3', '8.4']
-        postgis: ['3.4', '3.5']
-        postgres: ['16', '17']
-        include:
-          - php: '8.4'
+        postgis: ['3.4', '3.5', '3.6']
+        postgres: ['16', '17', '18']
+        exclude:
+          # PostgreSQL 16: Docker images support only for PostGIS 3.4, 3.5
+          - postgres: '16'
+            postgis: '3.6'
+          # PostgreSQL 18: Docker images support only for PostGIS 3.6
+          - postgres: '18'
+            postgis: '3.4'
+          - postgres: '18'
             postgis: '3.5'
-            postgres: '17'
+        include:
+          # Code coverage on the latest stable combination
+          - php: '8.4'
+            postgres: '18'
+            postgis: '3.6'
             calculate-code-coverage: true
 
     services:
       postgres:
-        image: postgis/postgis:${{ matrix.postgres }}-${{ matrix.postgis }}
+        image: postgis/postgis:${{ matrix.postgres }}-${{ matrix.postgis }}-alpine
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
@@ -62,7 +76,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          --mount type=tmpfs,destination=/var/lib/postgresql/data
           -e POSTGRES_INITDB_ARGS="--data-checksums"
 
     steps:
@@ -72,7 +85,7 @@ jobs:
         uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: xdebug
+          coverage: ${{ matrix.calculate-code-coverage == true && 'xdebug' || 'none' }}
           extensions: ctype, json, mbstring, pdo_pgsql
           tools: composer
 
@@ -84,9 +97,10 @@ jobs:
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-pg-${{ matrix.postgres }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-
+            ${{ runner.os }}-php-${{ matrix.php }}-pg-${{ matrix.postgres }}-
+            ${{ runner.os }}-php-${{ matrix.php }}-
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
@@ -116,7 +130,12 @@ jobs:
           PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SELECT PostGIS_Version();"
 
       - name: Run integration test suite
-        run: composer run-integration-tests
+        run: |
+          if [ "${{ matrix.calculate-code-coverage }}" = "true" ]; then
+            XDEBUG_MODE=coverage composer run-integration-tests
+          else
+            composer run-integration-tests -- --no-coverage
+          fi
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
