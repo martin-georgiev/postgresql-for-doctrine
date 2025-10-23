@@ -200,7 +200,7 @@ abstract class SpatialDataArray extends BaseArray
             $wktItems[] = $currentWktItem;
         }
 
-        return \array_map('trim', $wktItems);
+        return \array_map(trim(...), $wktItems);
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
