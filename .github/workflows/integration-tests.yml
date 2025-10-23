@@ -43,7 +43,7 @@ jobs:
     strategy:
       fail-fast: ${{ github.event_name == 'pull_request' }}
       matrix:
-        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php: ['8.2', '8.3', '8.4', '8.5']
         postgis: ['3.4', '3.5', '3.6']
         postgres: ['16', '17', '18']
         exclude:
