@@ -145,18 +145,12 @@ abstract class Range implements \Stringable
         return new static(null, null, false, false);
     }
 
-    /**
-     * @return R|null
-     */
-    public function getLower(): int|float|\DateTimeInterface|null
+    public function getLower(): \DateTimeInterface|float|int|null
     {
         return $this->lower;
     }
 
-    /**
-     * @return R|null
-     */
-    public function getUpper(): int|float|\DateTimeInterface|null
+    public function getUpper(): \DateTimeInterface|float|int|null
     {
         return $this->upper;
     }

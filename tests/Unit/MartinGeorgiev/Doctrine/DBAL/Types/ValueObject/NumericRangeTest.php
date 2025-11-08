@@ -116,7 +116,7 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Lower bound must be numeric');
 
-        /** @phpstan-ignore-next-line Intentionally testing invalid input */
+        /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new NumericRange('invalid', 10);
     }
 
@@ -126,7 +126,7 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Upper bound must be numeric');
 
-        /** @phpstan-ignore-next-line Intentionally testing invalid input */
+        /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new NumericRange(1, 'invalid');
     }
 
