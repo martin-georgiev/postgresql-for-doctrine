@@ -23,6 +23,10 @@ abstract class Range implements \Stringable
 
     protected const EMPTY_RANGE_STRING = 'empty';
 
+    /**
+     * @param R|null $lower
+     * @param R|null $upper
+     */
     public function __construct(
         protected readonly mixed $lower,
         protected readonly mixed $upper,
@@ -139,5 +143,36 @@ abstract class Range implements \Stringable
     public static function infinite(): static
     {
         return new static(null, null, false, false);
+    }
+
+    /**
+     * @return R|null
+     */
+    public function getLower(): int|float|\DateTimeInterface|null
+    {
+        return $this->lower;
+    }
+
+    /**
+     * @return R|null
+     */
+    public function getUpper(): int|float|\DateTimeInterface|null
+    {
+        return $this->upper;
+    }
+
+    public function isLowerBracketInclusive(): bool
+    {
+        return $this->isLowerBracketInclusive;
+    }
+
+    public function isUpperBracketInclusive(): bool
+    {
+        return $this->isUpperBracketInclusive;
+    }
+
+    public function isExplicitlyEmpty(): bool
+    {
+        return $this->isExplicitlyEmpty;
     }
 }
