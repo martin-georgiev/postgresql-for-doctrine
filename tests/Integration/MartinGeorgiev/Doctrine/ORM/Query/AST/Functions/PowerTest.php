@@ -59,10 +59,20 @@ class PowerTest extends NumericTestCase
     #[Test]
     public function can_calculate_with_column_values(): void
     {
-        $dql = 'SELECT POWER(n.decimal1, n.decimal2) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
+        $dql = 'SELECT POWER(n.decimal1, n.decimal2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(859766721136081107225.6, $result[0]['result'], 0.0001);
+    }
+
+    #[Test]
+    public function can_calculate_with_arithmetic_expressions(): void
+    {
+        $dql = 'SELECT POWER(n.integer1 + n.integer2, n.integer1 / 5) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
+                WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(900, $result[0]['result'], 0.0001);
     }
 }

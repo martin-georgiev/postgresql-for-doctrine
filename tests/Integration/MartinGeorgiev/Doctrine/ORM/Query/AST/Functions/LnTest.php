@@ -31,4 +31,12 @@ class LnTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(2.3513752571634777, $result[0]['result'], 0.000001);
     }
+
+    #[Test]
+    public function can_calculate_natural_logarithm_of_arithmetic_expression(): void
+    {
+        $dql = 'SELECT LN(n.integer1 + n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(3.4011973816621555, $result[0]['result'], 0.000001);
+    }
 }

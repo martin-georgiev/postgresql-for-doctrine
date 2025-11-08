@@ -49,10 +49,20 @@ class CbrtTest extends NumericTestCase
     #[Test]
     public function can_calculate_cube_root_of_column_value(): void
     {
-        $dql = 'SELECT CBRT(n.decimal1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
+        $dql = 'SELECT CBRT(n.decimal1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(2.1897595699439445, $result[0]['result'], 0.0001);
+    }
+
+    #[Test]
+    public function can_calculate_cube_root_of_arithmetic_expression(): void
+    {
+        $dql = 'SELECT CBRT(n.integer1 + n.integer2 - 3) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
+                WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(3.0, $result[0]['result'], 0.0001);
     }
 }
