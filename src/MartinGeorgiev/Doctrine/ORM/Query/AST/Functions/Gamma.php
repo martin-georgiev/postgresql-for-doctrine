@@ -17,6 +17,6 @@ class Gamma extends BaseFunction
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('gamma(%s)');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }
