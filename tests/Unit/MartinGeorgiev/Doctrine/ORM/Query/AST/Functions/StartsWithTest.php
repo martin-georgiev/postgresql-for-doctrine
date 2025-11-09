@@ -19,14 +19,14 @@ class StartsWithTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (STARTS_WITH(c0_.text1, 'TEST')) AS sclr_0 FROM ContainsTexts c0_",
+            'checks if text starts with prefix' => "SELECT (STARTS_WITH(c0_.text1, 'TEST')) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT STARTS_WITH(e.text1,'TEST') FROM %s e", ContainsTexts::class),
+            'checks if text starts with prefix' => \sprintf("SELECT STARTS_WITH(e.text1,'TEST') FROM %s e", ContainsTexts::class),
         ];
     }
 }

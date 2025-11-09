@@ -142,8 +142,8 @@ final class DateRangeTest extends BaseRangeTestCase
         $date = new \DateTimeImmutable('2023-06-15');
         $dateRange = DateRange::singleDay($date);
 
-        self::assertEquals('[2023-06-15,2023-06-16)', (string) $dateRange);
-        self::assertFalse($dateRange->isEmpty());
+        $this->assertEquals('[2023-06-15,2023-06-16)', (string) $dateRange);
+        $this->assertFalse($dateRange->isEmpty());
     }
 
     #[Test]
@@ -151,8 +151,8 @@ final class DateRangeTest extends BaseRangeTestCase
     {
         $dateRange = DateRange::year(2023);
 
-        self::assertEquals('[2023-01-01,2024-01-01)', (string) $dateRange);
-        self::assertFalse($dateRange->isEmpty());
+        $this->assertEquals('[2023-01-01,2024-01-01)', (string) $dateRange);
+        $this->assertFalse($dateRange->isEmpty());
     }
 
     #[Test]
@@ -160,8 +160,8 @@ final class DateRangeTest extends BaseRangeTestCase
     {
         $dateRange = DateRange::month(2023, 6);
 
-        self::assertEquals('[2023-06-01,2023-07-01)', (string) $dateRange);
-        self::assertFalse($dateRange->isEmpty());
+        $this->assertEquals('[2023-06-01,2023-07-01)', (string) $dateRange);
+        $this->assertFalse($dateRange->isEmpty());
     }
 
     public static function provideContainsTestCases(): \Generator
@@ -234,6 +234,7 @@ final class DateRangeTest extends BaseRangeTestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Lower bound must be DateTimeInterface');
 
+        /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new DateRange('invalid', new \DateTimeImmutable('2023-12-31'));
     }
 
@@ -243,6 +244,7 @@ final class DateRangeTest extends BaseRangeTestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Upper bound must be DateTimeInterface');
 
+        /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new DateRange(new \DateTimeImmutable('2023-01-01'), 'invalid');
     }
 
@@ -273,10 +275,10 @@ final class DateRangeTest extends BaseRangeTestCase
     public function can_parse_various_date_formats_via_from_string(): void
     {
         $dateRange = DateRange::fromString('[2023-01-01,2023-12-31)');
-        self::assertStringContainsString('2023-01-01', (string) $dateRange);
+        $this->assertStringContainsString('2023-01-01', (string) $dateRange);
 
         $range2 = DateRange::fromString('[2023-12-31,2024-01-01)');
-        self::assertStringContainsString('2023-12-31', (string) $range2);
+        $this->assertStringContainsString('2023-12-31', (string) $range2);
     }
 
     #[Test]
@@ -289,11 +291,11 @@ final class DateRangeTest extends BaseRangeTestCase
         );
 
         $formatted = (string) $dateRange;
-        self::assertStringContainsString('2023-06-15', $formatted);
-        self::assertStringContainsString('2023-06-16', $formatted);
+        $this->assertStringContainsString('2023-06-15', $formatted);
+        $this->assertStringContainsString('2023-06-16', $formatted);
         // Should not contain time information
-        self::assertStringNotContainsString('14:30:00', $formatted);
-        self::assertStringNotContainsString('20:45:00', $formatted);
+        $this->assertStringNotContainsString('14:30:00', $formatted);
+        $this->assertStringNotContainsString('20:45:00', $formatted);
     }
 
     #[Test]
@@ -305,26 +307,26 @@ final class DateRangeTest extends BaseRangeTestCase
         // Test comparison logic through isEmpty() - more natural than reflection
         // When lower > upper, range should be empty
         $reverseRange = new DateRange($date2, $date1); // 20:00 to 10:00
-        self::assertTrue($reverseRange->isEmpty());
+        $this->assertTrue($reverseRange->isEmpty());
 
         // When lower < upper, range should not be empty
         $normalRange = new DateRange($date1, $date2); // 10:00 to 20:00
-        self::assertFalse($normalRange->isEmpty());
+        $this->assertFalse($normalRange->isEmpty());
 
         // When lower == upper with exclusive bounds, should be empty
         $equalExclusive = new DateRange($date1, $date1, false, false);
-        self::assertTrue($equalExclusive->isEmpty());
+        $this->assertTrue($equalExclusive->isEmpty());
 
         // When lower == upper with inclusive bounds, should not be empty
         $equalInclusive = new DateRange($date1, $date1, true, true);
-        self::assertFalse($equalInclusive->isEmpty());
+        $this->assertFalse($equalInclusive->isEmpty());
     }
 
     #[Test]
     #[DataProvider('provideLeapYearTestCases')]
     public function can_handle_leap_years(DateRange $dateRange, string $expectedString, string $description): void
     {
-        self::assertEquals($expectedString, (string) $dateRange, $description);
+        $this->assertEquals($expectedString, (string) $dateRange, $description);
     }
 
     public static function provideLeapYearTestCases(): \Generator
@@ -350,7 +352,7 @@ final class DateRangeTest extends BaseRangeTestCase
     #[DataProvider('provideEdgeCaseMonthTestCases')]
     public function can_handle_edge_case_months(DateRange $dateRange, string $expectedString, string $description): void
     {
-        self::assertEquals($expectedString, (string) $dateRange, $description);
+        $this->assertEquals($expectedString, (string) $dateRange, $description);
     }
 
     public static function provideEdgeCaseMonthTestCases(): \Generator

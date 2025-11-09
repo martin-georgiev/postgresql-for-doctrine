@@ -38,7 +38,7 @@ abstract class BaseRangeTestCase extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals($this->getExpectedTypeName(), $this->fixture->getName());
+        $this->assertEquals($this->getExpectedTypeName(), $this->fixture->getName());
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class BaseRangeTestCase extends TestCase
     #[Test]
     public function can_transform_from_php_value(?Range $range, ?string $postgresValue): void
     {
-        self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($range, $this->platform));
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($range, $this->platform));
     }
 
     /**
@@ -61,11 +61,11 @@ abstract class BaseRangeTestCase extends TestCase
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
 
         if (!$range instanceof Range) {
-            self::assertNull($result);
+            $this->assertNull($result);
         } else {
-            self::assertInstanceOf($this->getExpectedValueObjectClass(), $result);
-            self::assertEquals($range->__toString(), $result->__toString());
-            self::assertEquals($range->isEmpty(), $result->isEmpty());
+            $this->assertInstanceOf($this->getExpectedValueObjectClass(), $result);
+            $this->assertEquals($range->__toString(), $result->__toString());
+            $this->assertEquals($range->isEmpty(), $result->isEmpty());
         }
     }
 
@@ -79,7 +79,7 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $result = $this->fixture->convertToDatabaseValue(null, $this->platform);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     #[Test]
@@ -87,7 +87,7 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $result = $this->fixture->convertToPHPValue(null, $this->platform);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     #[Test]
@@ -95,9 +95,9 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $result = $this->fixture->convertToPHPValue('empty', $this->platform);
 
-        self::assertInstanceOf($this->getExpectedValueObjectClass(), $result);
-        self::assertEquals('empty', (string) $result);
-        self::assertTrue($result->isEmpty());
+        $this->assertInstanceOf($this->getExpectedValueObjectClass(), $result);
+        $this->assertEquals('empty', (string) $result);
+        $this->assertTrue($result->isEmpty());
     }
 
     #[Test]
@@ -105,25 +105,51 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $result = $this->fixture->convertToPHPValue('', $this->platform);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
+    #[DataProvider('provideInvalidDatabaseValues')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_type(): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $invalidValue): void
     {
         $this->expectException(InvalidRangeForDatabaseException::class);
         $this->expectExceptionMessage('Invalid type for range');
 
-        $this->fixture->convertToDatabaseValue('invalid', $this->platform); // @phpstan-ignore-line argument.type
+        $this->fixture->convertToDatabaseValue($invalidValue, $this->platform); // @phpstan-ignore-line argument.type
     }
 
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidDatabaseValues(): array
+    {
+        return [
+            'string value' => ['not_a_range'],
+            'integer value' => [123],
+            'array value' => [[1, 2, 3]],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValues')]
     #[Test]
-    public function throws_exception_for_invalid_sql_value_type(): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $invalidValue): void
     {
         $this->expectException(InvalidRangeForPHPException::class);
         $this->expectExceptionMessage('Invalid database value type for range conversion');
 
-        $this->fixture->convertToPHPValue([1, 2], $this->platform); // @phpstan-ignore-line argument.type
+        $this->fixture->convertToPHPValue($invalidValue, $this->platform); // @phpstan-ignore-line argument.type
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidPHPValues(): array
+    {
+        return [
+            'integer value' => [123],
+            'array value' => [['invalid']],
+            'boolean value' => [true],
+        ];
     }
 
     #[Test]

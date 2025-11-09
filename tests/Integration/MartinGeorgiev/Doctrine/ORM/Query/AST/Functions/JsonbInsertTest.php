@@ -6,6 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\DBAL\Exception;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbInsertTest extends JsonTestCase
 {
@@ -16,9 +17,10 @@ class JsonbInsertTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_insert_new_value(): void
+    #[Test]
+    public function can_insert_new_value(): void
     {
-        $dql = 'SELECT JSONB_INSERT(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -32,9 +34,10 @@ class JsonbInsertTest extends JsonTestCase
         $this->assertSame('john@example.com', $decoded['email']);
     }
 
-    public function test_jsonb_insert_nested_path(): void
+    #[Test]
+    public function can_insert_at_nested_path(): void
     {
-        $dql = 'SELECT JSONB_INSERT(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, [
@@ -50,10 +53,11 @@ class JsonbInsertTest extends JsonTestCase
         $this->assertSame('10001', $decoded['address']['zip']);
     }
 
-    public function test_throws_exception_when_inserting_at_existing_object_key(): void
+    #[Test]
+    public function throws_exception_when_inserting_at_existing_object_key(): void
     {
         $this->expectException(Exception::class);
-        $dql = 'SELECT JSONB_INSERT(t.object1, :path, :value) as result 
+        $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $this->executeDqlQuery($dql, [
@@ -62,11 +66,12 @@ class JsonbInsertTest extends JsonTestCase
         ]);
     }
 
-    public function test_throws_exception_when_inserting_at_existing_nested_path(): void
+    #[Test]
+    public function throws_exception_when_inserting_at_existing_nested_path(): void
     {
         $this->expectException(Exception::class);
 
-        $dql = 'SELECT JSONB_INSERT(t.object1, :path, :value) as result
+        $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 5';
 

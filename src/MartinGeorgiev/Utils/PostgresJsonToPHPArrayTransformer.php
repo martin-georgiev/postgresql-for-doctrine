@@ -39,7 +39,7 @@ class PostgresJsonToPHPArrayTransformer
     public static function transformPostgresJsonEncodedValueToPHPArray(string $postgresValue): array
     {
         try {
-            $transformedValue = \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR);
+            $transformedValue = \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
             if (!\is_array($transformedValue)) {
                 throw InvalidJsonArrayItemForPHPException::forInvalidType($postgresValue);
             }
@@ -53,11 +53,11 @@ class PostgresJsonToPHPArrayTransformer
     /**
      * @throws InvalidJsonItemForPHPException When the PostgreSQL value is not JSON-decodable
      */
-    public static function transformPostgresJsonEncodedValueToPHPValue(string $postgresValue): null|array|bool|float|int|string
+    public static function transformPostgresJsonEncodedValueToPHPValue(string $postgresValue): array|bool|float|int|string|null
     {
         try {
             // @phpstan-ignore-next-line
-            return \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR);
+            return \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
         } catch (\JsonException) {
             throw InvalidJsonItemForPHPException::forInvalidType($postgresValue);
         }

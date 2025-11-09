@@ -17,21 +17,24 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('integer[]', $this->fixture->getName());
+        $this->assertEquals('integer[]', $this->fixture->getName());
     }
 
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
-        return \array_merge(parent::provideInvalidPHPValuesForDatabaseTransformation(), [
-            ['2147483648'],   // Greater than max integer
-            ['-2147483649'],  // Less than min integer
-            ['1.23e6'],      // Scientific notation
-            ['123456.789'],   // Decimal number
+        return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
+            ['2147483648'], // Greater than max integer
+            ['-2147483649'], // Less than min integer
+            ['1.23e6'], // Scientific notation
+            ['123456.789'], // Decimal number
         ]);
     }
 
     /**
-     * @return array<int, array{phpValue: int, postgresValue: string}>
+     * @return list<array{
+     *     phpValue: int,
+     *     postgresValue: string
+     * }>
      */
     public static function provideValidTransformations(): array
     {
@@ -64,7 +67,7 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return array<array{string}>
+     * @return list<array{string}>
      */
     public static function provideOutOfRangeValues(): array
     {

@@ -1,4 +1,4 @@
-name: Integrations
+name: Integration Tests
 
 on:
   push:
@@ -9,6 +9,10 @@ on:
   pull_request:
     branches:
       - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read
@@ -34,17 +38,33 @@ jobs:
     needs: should-run
     if: needs.should-run.outputs.run == 'true'
     runs-on: ubuntu-latest
-    name: "PostgreSQL ${{ matrix.postgres }} + PHP ${{ matrix.php }}"
+    name: "PostgreSQL ${{ matrix.postgres }} + PostGIS ${{ matrix.postgis }} + PHP ${{ matrix.php }}"
 
     strategy:
-      fail-fast: false
+      fail-fast: ${{ github.event_name == 'pull_request' }}
       matrix:
-        php: ['8.1', '8.2', '8.3', '8.4']
-        postgres: ['16', '17']
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        postgis: ['3.4', '3.5', '3.6']
+        postgres: ['16', '17', '18']
+        exclude:
+          # PostgreSQL 16: Docker images support only for PostGIS 3.4, 3.5
+          - postgres: '16'
+            postgis: '3.6'
+          # PostgreSQL 18: Docker images support only for PostGIS 3.6
+          - postgres: '18'
+            postgis: '3.4'
+          - postgres: '18'
+            postgis: '3.5'
+        include:
+          # Code coverage on the latest stable combination
+          - php: '8.5'
+            postgres: '18'
+            postgis: '3.6'
+            calculate-code-coverage: true
 
     services:
       postgres:
-        image: postgres:${{ matrix.postgres }}
+        image: postgis/postgis:${{ matrix.postgres }}-${{ matrix.postgis }}-alpine
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
@@ -56,31 +76,36 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          --mount type=tmpfs,destination=/var/lib/postgresql/data
           -e POSTGRES_INITDB_ARGS="--data-checksums"
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Set up PHP
-        uses: shivammathur/setup-php@0f7f1d08e3e32076e51cae65eb0b0c871405b16e # v2
+        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: xdebug
+          coverage: ${{ matrix.calculate-code-coverage == true && 'xdebug' || 'none' }}
           extensions: ctype, json, mbstring, pdo_pgsql
           tools: composer
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
+      - name: Get composer cache directory
+        id: composer-cache-dir
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
       - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          path: |
+            ${{ steps.composer-cache-dir.outputs.dir }}
+            vendor
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-
+            ${{ runner.os }}-php-${{ matrix.php }}-composer-
+            ${{ runner.os }}-composer-
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
@@ -92,25 +117,31 @@ jobs:
 
       - name: Verify PostgreSQL connection and setup
         run: |
-          echo "Checking PostgreSQL version:"
-          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SELECT version();"
-
-          echo "\nChecking PostgreSQL configuration:"
-          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SHOW server_version;"
-          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SHOW max_connections;"
-          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SHOW shared_buffers;"
-
-          echo "\nCreating test schema:"
-          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "CREATE SCHEMA IF NOT EXISTS test;"
-
-          echo "\nListing available PostgreSQL extensions:"
-          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "SELECT * FROM pg_available_extensions;"
+          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "CREATE SCHEMA IF NOT EXISTS test; SELECT PostGIS_Version();"
 
       - name: Run integration test suite
-        run: composer run-integration-tests
+        run: |
+          if [ "${{ matrix.calculate-code-coverage }}" = "true" ]; then
+            XDEBUG_MODE=coverage composer run-integration-tests
+          else
+            composer run-integration-tests -- --no-coverage
+          fi
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
           POSTGRES_DB: postgres_doctrine_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+
+      - name: Upload coverage results to Coveralls
+        if: matrix.calculate-code-coverage == true
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
+        env:
+          COVERALLS_SERVICE_NAME: github
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./var/logs/test-coverage/integration/clover.xml
+          parallel: true
+          flag-name: "Integration"
+          fail-on-error: false

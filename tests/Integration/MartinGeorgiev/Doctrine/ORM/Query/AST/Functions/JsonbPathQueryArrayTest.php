@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryArray;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbPathQueryArrayTest extends JsonTestCase
 {
@@ -15,7 +16,8 @@ class JsonbPathQueryArrayTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_path_query_array_simple(): void
+    #[Test]
+    public function jsonb_path_query_array_simple(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -31,7 +33,8 @@ class JsonbPathQueryArrayTest extends JsonTestCase
         $this->assertSame(2, $decoded[0]);
     }
 
-    public function test_jsonb_path_query_array_multiple_values(): void
+    #[Test]
+    public function jsonb_path_query_array_multiple_values(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -47,7 +50,8 @@ class JsonbPathQueryArrayTest extends JsonTestCase
         $this->assertSame([1, 2, 3], $decoded);
     }
 
-    public function test_jsonb_path_query_array_with_filter(): void
+    #[Test]
+    public function jsonb_path_query_array_with_filter(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -64,10 +68,11 @@ class JsonbPathQueryArrayTest extends JsonTestCase
         $this->assertSame(['id' => 3], $decoded[1]);
     }
 
-    public function test_jsonb_path_query_array_with_column_reference(): void
+    #[Test]
+    public function jsonb_path_query_array_with_column_reference(): void
     {
-        $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(t.object1, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(t.jsonbObject1, :path) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql, ['path' => '$.tags[*]']);
         $this->assertIsString($result[0]['result']);

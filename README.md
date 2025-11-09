@@ -55,9 +55,13 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - MAC addresses (`macaddr`, `macaddr[]`)
 - **Geometric Types**
   - Point (`point`, `point[]`)
+  - PostGIS Geometry (`geometry`, `geometry[]`)
+  - PostGIS Geography (`geography`, `geography[]`)
 - **Range Types**
   - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
+- **Hierarchical Types**
+  - [ltree](https://www.postgresql.org/docs/16/ltree.html) (`ltree`)
 
 ### PostgreSQL Operators
 - **Array Operations**
@@ -72,11 +76,16 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Range Operations**
   - Containment checks (in PHP value objects and for DQL queries with `@>` and `<@`)
   - Overlaps (`&&`)
+- **PostGIS Spatial Operations**
+  - Bounding box relationships (`<<`, `>>`, `&<`, `&>`, `|&>`, `&<|`, `<<|`, `|>>`)
+  - Spatial containment (`@`, `~`)
+  - Distance calculations (`<->`, `<#>`, `<<->>`, `<<#>>`, `|=|`)
+  - N-dimensional operations (`&&&`)
 
 ### Functions
 - **Text Search**
   - Full text search (`to_tsvector`, `to_tsquery`)
-  - Pattern matching (`ILIKE`, `SIMILAR TO`)
+  - Pattern matching (`ilike`, `similar to`)
   - Regular expressions
 - **Array Functions**
   - Array aggregation (`array_agg`)
@@ -96,8 +105,15 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
-- [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md)
+- [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md) - Overview and cross-references
+  - [Array and JSON Functions](docs/ARRAY-AND-JSON-FUNCTIONS.md)
+  - [PostGIS Spatial Functions](docs/SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+  - [Text and Pattern Functions](docs/TEXT-AND-PATTERN-FUNCTIONS.md)
+  - [Date and Range Functions](docs/DATE-AND-RANGE-FUNCTIONS.md)
+  - [Mathematical Functions](docs/MATHEMATICAL-FUNCTIONS.md)
 - [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
+- [Spatial Types](docs/SPATIAL-TYPES.md)
+- [Geometry Arrays](docs/GEOMETRY-ARRAYS.md)
 
 ## 📦 Installation
 
@@ -114,6 +130,8 @@ composer require martin-georgiev/postgresql-for-doctrine
 ## 💡 Usage Examples
 See our [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md) for detailed code samples.
 
+See our [ltree type usage guide](docs/LTREE-TYPE.md) for an example of how to use the `ltree` type.
+
 ## 🧪 Testing
 
 ### Unit Tests
@@ -122,10 +140,10 @@ composer run-unit-tests
 ```
 
 ### PostgreSQL Integration Tests
-We also provide integration tests that run against a real PostgreSQL database to ensure compatibility:
+We also provide integration tests that run against a real PostgreSQL database with PostGIS to ensure compatibility:
 
 ```bash
-# Start PostgreSQL using Docker Compose
+# Start PostgreSQL with PostGIS using Docker Compose
 docker-compose up -d
 
 # Run integration tests
@@ -135,7 +153,7 @@ composer run-integration-tests
 docker-compose down -v
 ```
 
-See [tests-integration/README.md](tests-integration/README.md) for more details.
+See [tests/Integration/README.md](tests/Integration/README.md) for more details.
 
 ## ⭐ Support the Project
 

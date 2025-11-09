@@ -2,6 +2,8 @@
 
 PostgreSQL range types represent ranges of values of some element type (called the range's subtype). This library provides support for all PostgreSQL built-in range types.
 
+> 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions and operators in DQL queries
+
 ## Available Range Types
 
 | Range Type | PostgreSQL Type | Value Type | Description |
@@ -41,10 +43,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 class Product
 {
     #[ORM\Column(type: 'numrange')]
-    private ?NumericRange $priceRange = null;
+    private NumericRange $priceRange;
     
     #[ORM\Column(type: 'daterange')]
-    private ?DateRange $availabilityPeriod = null;
+    private DateRange $availabilityPeriod;
     
     public function setPriceRange(float $min, float $max): void
     {

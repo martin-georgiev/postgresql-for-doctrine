@@ -19,7 +19,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     #[Test]
     public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
     {
-        self::assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
+        $this->assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
     }
 
     /**
@@ -166,6 +166,10 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['  foo  '],
                 'postgresValue' => '{"  foo  "}',
             ],
+            'github #424 regression: numeric strings should be preserved as strings when unquoted' => [
+                'phpValue' => ['1', 'test', 'true'],
+                'postgresValue' => '{1,test,true}',
+            ],
         ];
     }
 
@@ -194,7 +198,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     #[Test]
     public function can_recover_from_json_decode_failure_and_transform_value_through_manual_parsing(array $phpValue, string $postgresValue): void
     {
-        self::assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
+        $this->assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
     }
 
     /**
@@ -222,14 +226,14 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     public function can_transform_escaped_quotes_with_backslashes(): void
     {
         $postgresArray = '{"\\\"quoted\\\""}';
-        self::assertSame(['\"quoted\"'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
+        $this->assertSame(['\"quoted\"'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
     #[Test]
     public function can_preserves_numeric_precision(): void
     {
         $postgresArray = '{"9223372036854775808","1.23456789012345"}';
-        self::assertSame(['9223372036854775808', '1.23456789012345'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
+        $this->assertSame(['9223372036854775808', '1.23456789012345'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
     #[DataProvider('provideInvalidPostgresArrays')]

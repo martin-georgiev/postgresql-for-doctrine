@@ -7,6 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Utils;
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\TestCase;
 
 class PostgresArrayToPHPArrayTransformerTest extends TestCase
@@ -23,7 +24,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      * @param array{description: string, input: array<int, string>} $testCase
      */
     #[DataProvider('provideArrayTestCases')]
-    public function test_array_round_trip(array $testCase): void
+    #[Test]
+    public function array_round_trip(array $testCase): void
     {
         $id = $this->insertArray($testCase['input']);
 
@@ -56,7 +58,8 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     #[DataProvider('provideInvalidArrayFormats')]
-    public function test_invalid_array_formats_throw_exceptions(array $testCase): void
+    #[Test]
+    public function invalid_array_formats_throw_exceptions(array $testCase): void
     {
         $this->expectException(InvalidArrayFormatException::class);
         PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($testCase['input']); // @phpstan-ignore-line
@@ -90,7 +93,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      * @template T
      *
      * @param array<string, mixed> $params
-     * @param callable(string): T  $transform
+     * @param callable(string): T $transform
      *
      * @return T
      */
@@ -165,18 +168,16 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      */
     private function assertArrayRoundTrip(int $id, array $expected, string $description): void
     {
-        // Test direct retrieval
         $retrieved = $this->retrieveArray($id);
-        self::assertEquals(
+        $this->assertEquals(
             $expected,
             $retrieved,
             \sprintf('Direct retrieval failed for %s', $description)
         );
 
-        // Test text representation
         $postgresText = $this->retrieveArrayAsText($id);
         $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresText);
-        self::assertEquals(
+        $this->assertEquals(
             $expected,
             $parsed,
             \sprintf('Text representation parsing failed for %s', $description)

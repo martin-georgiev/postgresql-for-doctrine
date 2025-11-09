@@ -7,6 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 
 /**
@@ -46,7 +47,7 @@ class Point extends BaseType
 
         try {
             return PointValueObject::fromString($value);
-        } catch (\InvalidArgumentException) {
+        } catch (InvalidPointException) {
             throw InvalidPointForDatabaseException::forInvalidFormat($value);
         }
     }

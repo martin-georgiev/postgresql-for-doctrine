@@ -8,9 +8,9 @@ build:
       tests:
         override:
           - php-scrutinizer-run
-          - command: composer run-unit-tests-with-clover
+          - command: XDEBUG_MODE=coverage composer run-unit-tests
             coverage:
-              file: var/logs/test-coverage/clover.xml
+              file: var/logs/test-coverage/unit/clover.xml
               format: clover
 
   dependencies:

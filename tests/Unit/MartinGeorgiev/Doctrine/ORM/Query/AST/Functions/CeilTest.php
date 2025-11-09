@@ -19,14 +19,14 @@ class CeilTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT CEIL(c0_.decimal1) AS sclr_0 FROM ContainsDecimals c0_',
+            'rounds decimal up to nearest integer' => 'SELECT CEIL(c0_.decimal1) AS sclr_0 FROM ContainsDecimals c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT CEIL(e.decimal1) FROM %s e', ContainsDecimals::class),
+            'rounds decimal up to nearest integer' => \sprintf('SELECT CEIL(e.decimal1) FROM %s e', ContainsDecimals::class),
         ];
     }
 }

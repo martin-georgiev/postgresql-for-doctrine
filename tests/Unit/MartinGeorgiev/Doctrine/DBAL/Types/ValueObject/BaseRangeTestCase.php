@@ -24,8 +24,8 @@ abstract class BaseRangeTestCase extends TestCase
         $range = $this->createSimpleRange();
         $expectedString = $this->getExpectedSimpleRangeString();
 
-        self::assertEquals($expectedString, (string) $range);
-        self::assertFalse($range->isEmpty());
+        $this->assertEquals($expectedString, (string) $range);
+        $this->assertFalse($range->isEmpty());
     }
 
     #[Test]
@@ -33,8 +33,8 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $range = $this->createEmptyRange();
 
-        self::assertEquals('empty', (string) $range);
-        self::assertTrue($range->isEmpty());
+        $this->assertEquals('empty', (string) $range);
+        $this->assertTrue($range->isEmpty());
     }
 
     #[Test]
@@ -42,8 +42,8 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $range = $this->createInfiniteRange();
 
-        self::assertEquals('(,)', (string) $range);
-        self::assertFalse($range->isEmpty());
+        $this->assertEquals('(,)', (string) $range);
+        $this->assertFalse($range->isEmpty());
     }
 
     #[Test]
@@ -52,8 +52,8 @@ abstract class BaseRangeTestCase extends TestCase
         $range = $this->createInclusiveRange();
         $expectedString = $this->getExpectedInclusiveRangeString();
 
-        self::assertEquals($expectedString, (string) $range);
-        self::assertFalse($range->isEmpty());
+        $this->assertEquals($expectedString, (string) $range);
+        $this->assertFalse($range->isEmpty());
     }
 
     /**
@@ -63,7 +63,7 @@ abstract class BaseRangeTestCase extends TestCase
     #[DataProvider('provideContainsTestCases')]
     public function can_check_contains(Range $range, mixed $value, bool $expected): void
     {
-        self::assertEquals($expected, $range->contains($value));
+        $this->assertEquals($expected, $range->contains($value));
     }
 
     /**
@@ -102,12 +102,67 @@ abstract class BaseRangeTestCase extends TestCase
         $testCases = $this->getComparisonTestCases();
 
         foreach ($testCases as $description => $testCase) {
-            self::assertEquals(
+            $this->assertEquals(
                 $testCase['expectedEmpty'],
                 $testCase['range']->isEmpty(),
                 'Comparison test failed: '.$description
             );
         }
+    }
+
+    #[Test]
+    public function can_get_lower_bound(): void
+    {
+        $range = $this->createSimpleRange();
+        $lower = $range->getLower();
+
+        $this->assertNotNull($lower, 'Simple range should have a lower bound');
+    }
+
+    #[Test]
+    public function can_get_upper_bound(): void
+    {
+        $range = $this->createSimpleRange();
+        $upper = $range->getUpper();
+
+        $this->assertNotNull($upper, 'Simple range should have an upper bound');
+    }
+
+    #[Test]
+    public function can_get_null_bounds_for_infinite_range(): void
+    {
+        $range = $this->createInfiniteRange();
+
+        $this->assertNull($range->getLower(), 'Infinite range should have null lower bound');
+        $this->assertNull($range->getUpper(), 'Infinite range should have null upper bound');
+    }
+
+    #[Test]
+    public function can_get_bracket_inclusivity(): void
+    {
+        $range = $this->createSimpleRange();
+
+        $this->assertTrue($range->isLowerBracketInclusive(), 'Simple range should have inclusive lower bracket');
+        $this->assertFalse($range->isUpperBracketInclusive(), 'Simple range should have exclusive upper bracket');
+    }
+
+    #[Test]
+    public function can_get_inclusive_bracket_state(): void
+    {
+        $range = $this->createInclusiveRange();
+
+        $this->assertTrue($range->isLowerBracketInclusive(), 'Inclusive range should have inclusive lower bracket');
+        $this->assertTrue($range->isUpperBracketInclusive(), 'Inclusive range should have inclusive upper bracket');
+    }
+
+    #[Test]
+    public function can_get_explicitly_empty_state(): void
+    {
+        $emptyRange = $this->createEmptyRange();
+        $normalRange = $this->createSimpleRange();
+
+        $this->assertTrue($emptyRange->isExplicitlyEmpty(), 'Empty range should be explicitly empty');
+        $this->assertFalse($normalRange->isExplicitlyEmpty(), 'Normal range should not be explicitly empty');
     }
 
     /**
@@ -184,20 +239,20 @@ abstract class BaseRangeTestCase extends TestCase
      */
     protected function assertRangeEquals(Range $expected, Range $actual, string $message = ''): void
     {
-        self::assertEquals($expected->__toString(), $actual->__toString(), $message.' (string representation)');
-        self::assertEquals($expected->isEmpty(), $actual->isEmpty(), $message.' (isEmpty state)');
+        $this->assertEquals($expected->__toString(), $actual->__toString(), $message.' (string representation)');
+        $this->assertEquals($expected->isEmpty(), $actual->isEmpty(), $message.' (isEmpty state)');
     }
 
     /**
      * Assert that a range contains all the given values.
      *
-     * @param Range<R>     $range
+     * @param Range<R> $range
      * @param array<mixed> $values
      */
     protected function assertRangeContainsAll(Range $range, array $values, string $message = ''): void
     {
         foreach ($values as $value) {
-            self::assertTrue(
+            $this->assertTrue(
                 $range->contains($value),
                 $message.' - Range should contain value: '.\var_export($value, true)
             );
@@ -207,13 +262,13 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * Assert that a range does not contain any of the given values.
      *
-     * @param Range<R>     $range
+     * @param Range<R> $range
      * @param array<mixed> $values
      */
     protected function assertRangeContainsNone(Range $range, array $values, string $message = ''): void
     {
         foreach ($values as $value) {
-            self::assertFalse(
+            $this->assertFalse(
                 $range->contains($value),
                 $message.' - Range should not contain value: '.\var_export($value, true)
             );
@@ -227,7 +282,7 @@ abstract class BaseRangeTestCase extends TestCase
      */
     protected function assertRangeStringEquals(string $expected, Range $range, string $message = ''): void
     {
-        self::assertEquals($expected, (string) $range, $message);
+        $this->assertEquals($expected, (string) $range, $message);
     }
 
     /**
@@ -237,8 +292,8 @@ abstract class BaseRangeTestCase extends TestCase
      */
     protected function assertRangeIsEmpty(Range $range, string $message = ''): void
     {
-        self::assertTrue($range->isEmpty(), $message.' - Range should be empty');
-        self::assertEquals('empty', (string) $range, $message.' - Empty range should have "empty" string representation');
+        $this->assertTrue($range->isEmpty(), $message.' - Range should be empty');
+        $this->assertEquals('empty', (string) $range, $message.' - Empty range should have "empty" string representation');
     }
 
     /**
@@ -248,20 +303,20 @@ abstract class BaseRangeTestCase extends TestCase
      */
     protected function assertRangeIsNotEmpty(Range $range, string $message = ''): void
     {
-        self::assertFalse($range->isEmpty(), $message.' - Range should not be empty');
-        self::assertNotEquals('empty', (string) $range, $message.' - Non-empty range should not have "empty" string representation');
+        $this->assertFalse($range->isEmpty(), $message.' - Range should not be empty');
+        $this->assertNotEquals('empty', (string) $range, $message.' - Non-empty range should not have "empty" string representation');
     }
 
     /**
      * Test boundary conditions for a range with known bounds.
      *
-     * @param Range<R>                                           $range
+     * @param Range<R> $range
      * @param array<string, array{value: mixed, expected: bool}> $testCases
      */
     protected function assertBoundaryConditions(Range $range, array $testCases, string $message = ''): void
     {
         foreach ($testCases as $description => $testCase) {
-            self::assertEquals(
+            $this->assertEquals(
                 $testCase['expected'],
                 $range->contains($testCase['value']),
                 $message.' - Boundary test failed: '.$description
@@ -299,17 +354,17 @@ abstract class BaseRangeTestCase extends TestCase
     protected function assertEqualBoundsHandling(callable $rangeFactory, mixed $value): void
     {
         $inclusiveEqual = $rangeFactory($value, $value, true, true);
-        self::assertFalse($inclusiveEqual->isEmpty(), 'Equal bounds with inclusive brackets should not be empty');
-        self::assertTrue($inclusiveEqual->contains($value), 'Equal bounds with inclusive brackets should contain the value');
+        $this->assertFalse($inclusiveEqual->isEmpty(), 'Equal bounds with inclusive brackets should not be empty');
+        $this->assertTrue($inclusiveEqual->contains($value), 'Equal bounds with inclusive brackets should contain the value');
 
         $exclusiveExclusive = $rangeFactory($value, $value, false, false);
-        self::assertTrue($exclusiveExclusive->isEmpty(), 'Equal bounds with exclusive brackets should be empty');
+        $this->assertTrue($exclusiveExclusive->isEmpty(), 'Equal bounds with exclusive brackets should be empty');
 
         $inclusiveExclusive = $rangeFactory($value, $value, true, false);
-        self::assertTrue($inclusiveExclusive->isEmpty(), 'Equal bounds with mixed brackets should be empty');
+        $this->assertTrue($inclusiveExclusive->isEmpty(), 'Equal bounds with mixed brackets should be empty');
 
         $exclusiveInclusive = $rangeFactory($value, $value, false, true);
-        self::assertTrue($exclusiveInclusive->isEmpty(), 'Equal bounds with mixed brackets should be empty');
+        $this->assertTrue($exclusiveInclusive->isEmpty(), 'Equal bounds with mixed brackets should be empty');
     }
 
     /**
@@ -320,6 +375,6 @@ abstract class BaseRangeTestCase extends TestCase
     protected function assertReverseBoundsHandling(callable $rangeFactory, mixed $lower, mixed $upper): void
     {
         $reverseRange = $rangeFactory($lower, $upper, true, false);
-        self::assertTrue($reverseRange->isEmpty(), 'Range with lower > upper should be empty');
+        $this->assertTrue($reverseRange->isEmpty(), 'Range with lower > upper should be empty');
     }
 }

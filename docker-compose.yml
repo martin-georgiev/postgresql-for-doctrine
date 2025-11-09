@@ -1,10 +1,11 @@
 services:
   postgres:
-    image: postgres:${POSTGRES_VERSION:-17}
+    image: postgis/postgis:${POSTGRES_VERSION:-18}-${POSTGIS_VERSION:-3.6}-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-postgres_doctrine_test}
+      TZ: UTC
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:

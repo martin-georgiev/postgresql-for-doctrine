@@ -19,12 +19,12 @@ class RealArrayTest extends BaseFloatArrayTestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('real[]', $this->fixture->getName());
+        $this->assertEquals('real[]', $this->fixture->getName());
     }
 
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
-        return \array_merge(parent::provideInvalidPHPValuesForDatabaseTransformation(), [
+        return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
             ['3.402823467E+38'], // Too large
             ['-3.402823467E+38'], // Too small
             ['1.1234567'], // Too many decimal places (>6)
@@ -35,7 +35,10 @@ class RealArrayTest extends BaseFloatArrayTestCase
     }
 
     /**
-     * @return array<int, array{phpValue: float, postgresValue: string}>
+     * @return list<array{
+     *     phpValue: float,
+     *     postgresValue: string
+     * }>
      */
     public static function provideValidTransformations(): array
     {

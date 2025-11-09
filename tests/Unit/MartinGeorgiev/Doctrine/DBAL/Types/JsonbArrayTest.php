@@ -31,25 +31,28 @@ class JsonbArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('jsonb[]', $this->fixture->getName());
+        $this->assertEquals('jsonb[]', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
-     * @return list<array<string, mixed>>
+     * @return list<array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
      */
     public static function provideValidTransformations(): array
     {
@@ -79,14 +82,14 @@ class JsonbArrayTest extends TestCase
                         'key5' => [304, 404, 504, 604],
                     ],
                 ],
-                'postgresValue' => '{{"key1":"value1","key2":false,"key3":"15","key4":15,"key5":[112,242,309,310]},{"key1":"value2","key2":true,"key3":"115","key4":115,"key5":[304,404,504,604]}}',
+                'postgresValue' => '{"{\"key1\":\"value1\",\"key2\":false,\"key3\":\"15\",\"key4\":15,\"key5\":[112,242,309,310]}","{\"key1\":\"value2\",\"key2\":true,\"key3\":\"115\",\"key4\":115,\"key5\":[304,404,504,604]}"}',
             ],
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
     {
         $this->expectException(InvalidJsonArrayItemForPHPException::class);
         $this->expectExceptionMessage('Invalid JSON format in array');
@@ -97,7 +100,7 @@ class JsonbArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'non-array json' => ['"a string encoded as json"'],

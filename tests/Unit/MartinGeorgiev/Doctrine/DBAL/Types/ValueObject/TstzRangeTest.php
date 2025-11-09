@@ -112,8 +112,8 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
         $end = $start->modify('+1 hour');
         $tstzRange = new TstzRange($start, $end);
 
-        self::assertEquals('[2023-01-01 14:00:00.000000+02:00,2023-01-01 15:00:00.000000+02:00)', (string) $tstzRange);
-        self::assertFalse($tstzRange->isEmpty());
+        $this->assertEquals('[2023-01-01 14:00:00.000000+02:00,2023-01-01 15:00:00.000000+02:00)', (string) $tstzRange);
+        $this->assertFalse($tstzRange->isEmpty());
     }
 
     public static function provideContainsTestCases(): \Generator
@@ -159,23 +159,23 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function handles_different_timezones(): void
+    public function can_handle_different_timezones(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00-05:00');
         $tstzRange = new TstzRange($start, $end);
 
-        self::assertEquals('[2023-01-01 10:00:00.000000+02:00,2023-01-01 18:00:00.000000-05:00)', (string) $tstzRange);
+        $this->assertEquals('[2023-01-01 10:00:00.000000+02:00,2023-01-01 18:00:00.000000-05:00)', (string) $tstzRange);
     }
 
     #[Test]
-    public function handles_microseconds_with_timezone(): void
+    public function can_handle_microseconds_with_timezone(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00.123456+00:00');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00.654321+00:00');
         $tstzRange = new TstzRange($start, $end);
 
-        self::assertEquals('[2023-01-01 10:00:00.123456+00:00,2023-01-01 18:00:00.654321+00:00)', (string) $tstzRange);
+        $this->assertEquals('[2023-01-01 10:00:00.123456+00:00,2023-01-01 18:00:00.654321+00:00)', (string) $tstzRange);
     }
 
     #[Test]
@@ -196,8 +196,8 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
         );
 
         $formatted = (string) $tstzRange;
-        self::assertStringContainsString('2023-06-15 14:30:25.123456+02:00', $formatted);
-        self::assertStringContainsString('2023-06-15 18:45:30.654321+02:00', $formatted);
+        $this->assertStringContainsString('2023-06-15 14:30:25.123456+02:00', $formatted);
+        $this->assertStringContainsString('2023-06-15 18:45:30.654321+02:00', $formatted);
     }
 
     #[Test]
@@ -210,7 +210,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
         $tstzRange = new TstzRange($utc, $later);
 
         // EST represents the same moment as the lower bound, so it should be contained (inclusive lower)
-        self::assertTrue($tstzRange->contains($est));
+        $this->assertTrue($tstzRange->contains($est));
     }
 
     #[Test]
@@ -219,8 +219,8 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
         $tstzRange = TstzRange::fromString('[2023-06-15 14:30:25.123456+02:00,2023-06-15 18:45:30.654321+02:00)');
 
         $formatted = (string) $tstzRange;
-        self::assertStringContainsString('2023-06-15 14:30:25.123456+02:00', $formatted);
-        self::assertStringContainsString('2023-06-15 18:45:30.654321+02:00', $formatted);
+        $this->assertStringContainsString('2023-06-15 14:30:25.123456+02:00', $formatted);
+        $this->assertStringContainsString('2023-06-15 18:45:30.654321+02:00', $formatted);
     }
 
     #[Test]
@@ -233,14 +233,14 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function preserves_timezone_information(): void
+    public function can_preserve_timezone_information(): void
     {
         $timestampWithTz = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');
         $tstzRange = new TstzRange($timestampWithTz, null);
 
         $formatted = (string) $tstzRange;
-        self::assertStringContainsString('+02:00', $formatted);
-        self::assertStringContainsString('2023-01-01 10:00:00.000000+02:00', $formatted);
+        $this->assertStringContainsString('+02:00', $formatted);
+        $this->assertStringContainsString('2023-01-01 10:00:00.000000+02:00', $formatted);
     }
 
     #[Test]
@@ -252,7 +252,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
         $tstzRange = new TstzRange($dateTime, $dateTimeImmutable);
         $formatted = (string) $tstzRange;
 
-        self::assertStringContainsString('+02:00', $formatted);
-        self::assertStringContainsString('-05:00', $formatted);
+        $this->assertStringContainsString('+02:00', $formatted);
+        $this->assertStringContainsString('-05:00', $formatted);
     }
 }

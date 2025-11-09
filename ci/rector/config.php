@@ -6,6 +6,7 @@ use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
@@ -37,6 +38,9 @@ return RectorConfig::configure()
         SetList::CODING_STYLE,
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
         LevelSetList::UP_TO_PHP_81,
+    ])
+    ->withRules([
+        PreferPHPUnitThisCallRector::class,
     ])
     ->withSkip([
         RenamePropertyToMatchTypeRector::class,

@@ -37,7 +37,7 @@
     },
 
     "require": {
-        "php": "^8.1",
+        "php": "^8.1 <8.6",
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -47,17 +47,17 @@
         "deptrac/deptrac": "^4.0",
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.0",
-        "friendsofphp/php-cs-fixer": "^3.84.0",
-        "phpstan/phpstan": "^2.1.19",
+        "friendsofphp/php-cs-fixer": "^3.89.1",
+        "phpstan/phpstan": "^2.1.31",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
-        "phpstan/phpstan-doctrine": "^2.0.4",
+        "phpstan/phpstan-doctrine": "^2.0.10",
         "phpstan/phpstan-phpunit": "^2.0.7",
-        "phpunit/phpunit": "^10.5.48",
-        "rector/rector": "^2.1.2",
+        "phpunit/phpunit": "^10.5.58",
+        "rector/rector": "^2.2.7",
         "symfony/cache": "^6.4||^7.0"
     },
     "suggest": {
-        "php": "^8.3",
+        "php": "^8.4",
         "doctrine/orm": "~2.14||~3.0"
     },
 
@@ -66,19 +66,16 @@
             "deptrac analyze --config-file=./ci/deptrac/config.yml --cache-file=./ci/deptrac/.cache --no-interaction --no-progress"
         ],
         "php-cs-fixer": [
-            "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --config=./ci/php-cs-fixer/config.php --show-progress=none --no-interaction --diff -v"
+            "php-cs-fixer fix --config=./ci/php-cs-fixer/config.php --allow-unsupported-php-version=yes --show-progress=none --no-interaction --diff -v"
         ],
         "phpstan": [
             "phpstan analyse --configuration=./ci/phpstan/config.neon"
         ],
-        "phpunit": [
-            "XDEBUG_MODE=coverage phpunit"
-        ],
         "phpunit:unit": [
-            "@phpunit --configuration=./ci/phpunit/config-unit.xml"
+            "phpunit --configuration=./ci/phpunit/config-unit.xml"
         ],
         "phpunit:integration": [
-            "@phpunit --configuration=./ci/phpunit/config-integration.xml"
+            "phpunit --configuration=./ci/phpunit/config-integration.xml"
         ],
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
@@ -101,9 +98,6 @@
         ],
         "run-unit-tests": [
             "@phpunit:unit"
-        ],
-        "run-unit-tests-with-clover": [
-            "@phpunit:unit --coverage-clover=./var/logs/test-coverage/clover.xml"
         ],
         "run-all-tests": [
             "@run-unit-tests",

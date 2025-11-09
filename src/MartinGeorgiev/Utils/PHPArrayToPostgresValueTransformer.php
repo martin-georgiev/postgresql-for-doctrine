@@ -30,13 +30,13 @@ class PHPArrayToPostgresValueTransformer
             return self::POSTGRESQL_EMPTY_ARRAY;
         }
 
-        if (\array_filter($phpArray, 'is_array')) {
+        if (\array_filter($phpArray, is_array(...))) {
             throw InvalidArrayFormatException::multiDimensionalArrayNotSupported();
         }
 
         /** @var array<int|string, string> */
         $processed = \array_map(
-            static fn (mixed $value): string => self::formatValue($value),
+            self::formatValue(...),
             $phpArray
         );
 

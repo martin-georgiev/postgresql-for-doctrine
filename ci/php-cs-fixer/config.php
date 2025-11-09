@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
 $basePath = __DIR__.'/../../';
 
@@ -13,13 +14,11 @@ $finder = Finder::create()
     ->in($basePath.'src')
     ->in($basePath.'tests');
 
-$config = new Config();
-
-return $config
+$config = (new Config())
     ->setRules(
         [
             '@PSR2' => true,
-            '@PHP71Migration' => true,
+            '@PHP7x1Migration' => true,
             '@DoctrineAnnotation' => true,
             '@PhpCsFixer' => true,
             'align_multiline_comment' => false,
@@ -43,6 +42,7 @@ return $config
             'php_unit_internal_class' => false,
             'php_unit_method_casing' => ['case' => 'snake_case'],
             'php_unit_test_class_requires_covers' => false,
+            'phpdoc_align' => ['align' => 'left'],
             'phpdoc_types_order' => ['null_adjustment' => 'always_last'],
             'simplified_null_return' => false,
             'single_line_comment_style' => false,
@@ -53,6 +53,13 @@ return $config
     )
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
+
     ->setIndent('    ')
     ->setLineEnding("\n")
     ->setFinder($finder);
+
+if (\method_exists($config, 'setParallelConfig')) {
+    $config->setParallelConfig(ParallelConfigFactory::detect());
+}
+
+return $config;

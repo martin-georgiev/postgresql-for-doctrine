@@ -21,14 +21,14 @@ class TheRightExistsOnTheLeftTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.object1 ?? ARRAY['test']) AS sclr_0 FROM ContainsJsons c0_",
+            'checks if right operand keys exist in left JSON object' => "SELECT (c0_.jsonbObject1 ?? ARRAY['test']) AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT RIGHT_EXISTS_ON_LEFT(e.object1, ARRAY('test')) FROM %s e", ContainsJsons::class),
+            'checks if right operand keys exist in left JSON object' => \sprintf("SELECT RIGHT_EXISTS_ON_LEFT(e.jsonbObject1, ARRAY('test')) FROM %s e", ContainsJsons::class),
         ];
     }
 }

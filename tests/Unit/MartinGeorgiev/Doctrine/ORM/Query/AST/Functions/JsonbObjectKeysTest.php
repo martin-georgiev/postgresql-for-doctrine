@@ -19,14 +19,14 @@ class JsonbObjectKeysTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'SELECT jsonb_object_keys(c0_.object1) AS sclr_0 FROM ContainsJsons c0_',
+            'SELECT jsonb_object_keys(c0_.jsonbObject1) AS sclr_0 FROM ContainsJsons c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf('SELECT JSONB_OBJECT_KEYS(e.object1) FROM %s e', ContainsJsons::class),
+            \sprintf('SELECT JSONB_OBJECT_KEYS(e.jsonbObject1) FROM %s e', ContainsJsons::class),
         ];
     }
 }

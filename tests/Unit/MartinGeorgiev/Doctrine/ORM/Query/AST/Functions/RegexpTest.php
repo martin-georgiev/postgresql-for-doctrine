@@ -19,14 +19,14 @@ class RegexpTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.text1 ~ '.*thomas.*') AS sclr_0 FROM ContainsTexts c0_",
+            'matches text against regular expression pattern' => "SELECT (c0_.text1 ~ '.*thomas.*') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT REGEXP(e.text1, '.*thomas.*') FROM %s e", ContainsTexts::class),
+            'matches text against regular expression pattern' => \sprintf("SELECT REGEXP(e.text1, '.*thomas.*') FROM %s e", ContainsTexts::class),
         ];
     }
 }

@@ -31,10 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Sloth
-        uses: lendable/sloth@6d497936ec6468ac10ea587b46ac96f8fd7843bf # 0.2.1
+        uses: lendable/sloth@1d0ce54a04a834366b4af63362ffd0a58fc447ad # 0.2.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          interval: 10
+          interval: 15
           ignored: |
             CodeRabbit
             Scrutinizer

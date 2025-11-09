@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayToStringTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_TO_STRING' => ArrayToString::class];
+        return [
+            'ARRAY_TO_STRING' => ArrayToString::class,
+        ];
     }
 
-    public function test_array_to_string_with_default_delimiter(): void
+    #[Test]
+    public function can_convert_to_string_with_comma_delimiter(): void
     {
         $dql = 'SELECT ARRAY_TO_STRING(t.textArray, \',\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -22,7 +26,8 @@ class ArrayToStringTest extends ArrayTestCase
         $this->assertSame('apple,banana,orange', $result[0]['result']);
     }
 
-    public function test_array_to_string_with_custom_delimiter(): void
+    #[Test]
+    public function can_convert_to_string_with_custom_delimiter(): void
     {
         $dql = 'SELECT ARRAY_TO_STRING(t.textArray, \' | \') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

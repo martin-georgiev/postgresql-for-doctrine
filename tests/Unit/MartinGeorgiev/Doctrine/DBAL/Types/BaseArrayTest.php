@@ -42,14 +42,14 @@ class BaseArrayTest extends TestCase
             ->method('isValidArrayItemForDatabase')
             ->willReturn(true);
 
-        self::assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
@@ -77,7 +77,7 @@ class BaseArrayTest extends TestCase
     }
 
     #[Test]
-    public function throws_invalid_argument_exception_when_php_value_is_not_array(): void
+    public function throws_exception_when_php_value_is_not_array(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/Given PHP value content type is not PHP array. Instead it is "\w+"./');
@@ -92,7 +92,7 @@ class BaseArrayTest extends TestCase
         $this->expectExceptionMessage("One or more of the items given doesn't look valid.");
 
         $this->fixture
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isValidArrayItemForDatabase')
             ->willReturn(false);
 

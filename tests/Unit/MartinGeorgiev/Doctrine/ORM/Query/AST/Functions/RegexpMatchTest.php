@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch;
+use PHPUnit\Framework\Attributes\Test;
 
 class RegexpMatchTest extends BaseVariadicFunctionTestCase
 {
@@ -39,7 +40,8 @@ class RegexpMatchTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    public function test_too_few_arguments_throws_exception(): void
+    #[Test]
+    public function throws_exception_for_too_few_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('regexp_match() requires at least 2 arguments');
@@ -48,7 +50,8 @@ class RegexpMatchTest extends BaseVariadicFunctionTestCase
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    public function test_too_many_arguments_throws_exception(): void
+    #[Test]
+    public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('regexp_match() requires between 2 and 3 arguments');

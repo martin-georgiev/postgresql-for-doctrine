@@ -30,25 +30,28 @@ class MacaddrArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        self::assertEquals('macaddr[]', $this->fixture->getName());
+        $this->assertEquals('macaddr[]', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        self::assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        self::assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
-     * @return array<string, array{phpValue: array|null, postgresValue: string|null}>
+     * @return array<string, array{
+     *     phpValue: array|null,
+     *     postgresValue: string|null
+     * }>
      */
     public static function provideValidTransformations(): array
     {
@@ -80,18 +83,18 @@ class MacaddrArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValuesForDatabaseTransformation')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_database_value(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
         $this->expectException(InvalidMacaddrArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPHPValuesForDatabaseTransformation(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'invalid type' => ['not-an-array'],
@@ -109,9 +112,9 @@ class MacaddrArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValuesForPHPTransformationForPHPTransformation')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_when_invalid_data_provided_to_convert_to_php_value(string $postgresValue): void
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
     {
         $this->expectException(InvalidMacaddrArrayItemForPHPException::class);
 
@@ -121,7 +124,7 @@ class MacaddrArrayTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidDatabaseValuesForPHPTransformationForPHPTransformation(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'invalid format' => ['{"invalid-mac"}'],

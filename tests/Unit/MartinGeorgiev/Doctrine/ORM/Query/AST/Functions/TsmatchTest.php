@@ -23,14 +23,14 @@ class TsmatchTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (to_tsvector(c0_.text1) @@ to_tsquery('testing')) AS sclr_0 FROM ContainsTexts c0_",
+            'matches tsvector against tsquery' => "SELECT (to_tsvector(c0_.text1) @@ to_tsquery('testing')) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT TSMATCH(TO_TSVECTOR(e.text1), TO_TSQUERY('testing')) FROM %s e", ContainsTexts::class),
+            'matches tsvector against tsquery' => \sprintf("SELECT TSMATCH(TO_TSVECTOR(e.text1), TO_TSQUERY('testing')) FROM %s e", ContainsTexts::class),
         ];
     }
 }

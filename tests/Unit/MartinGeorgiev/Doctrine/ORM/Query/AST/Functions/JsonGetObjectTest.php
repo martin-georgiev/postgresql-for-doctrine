@@ -19,14 +19,14 @@ class JsonGetObjectTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.object1 #> '{residency}') AS sclr_0 FROM ContainsJsons c0_",
+            'extracts JSON object at specified path' => "SELECT (c0_.jsonObject1 #> '{residency}') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT JSON_GET_OBJECT(e.object1, '{residency}') FROM %s e", ContainsJsons::class),
+            'extracts JSON object at specified path' => \sprintf("SELECT JSON_GET_OBJECT(e.jsonObject1, '{residency}') FROM %s e", ContainsJsons::class),
         ];
     }
 }

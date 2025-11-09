@@ -19,14 +19,14 @@ class IRegexpTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.text1 ~* '.*Thomas.*') AS sclr_0 FROM ContainsTexts c0_",
+            'case-insensitive regex pattern matching' => "SELECT (c0_.text1 ~* '.*Thomas.*') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT IREGEXP(e.text1, '.*Thomas.*') FROM %s e", ContainsTexts::class),
+            'case-insensitive regex pattern matching' => \sprintf("SELECT IREGEXP(e.text1, '.*Thomas.*') FROM %s e", ContainsTexts::class),
         ];
     }
 }

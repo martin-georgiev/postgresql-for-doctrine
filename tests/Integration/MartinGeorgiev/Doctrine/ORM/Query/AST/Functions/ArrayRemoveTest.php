@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayRemoveTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_REMOVE' => ArrayRemove::class];
+        return [
+            'ARRAY_REMOVE' => ArrayRemove::class,
+        ];
     }
 
-    public function test_array_remove_with_text_array(): void
+    #[Test]
+    public function can_remove_text_elements(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.textArray, \'banana\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -25,7 +29,8 @@ class ArrayRemoveTest extends ArrayTestCase
         $this->assertSame(['apple', 'orange'], $actual);
     }
 
-    public function test_array_remove_with_integer_array(): void
+    #[Test]
+    public function can_remove_integer_elements(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.integerArray, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -37,7 +42,8 @@ class ArrayRemoveTest extends ArrayTestCase
         $this->assertSame([1, 3], $actual);
     }
 
-    public function test_array_remove_with_boolean_array(): void
+    #[Test]
+    public function can_remove_boolean_elements(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.boolArray, false) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -49,7 +55,8 @@ class ArrayRemoveTest extends ArrayTestCase
         $this->assertSame([true, true], $actual);
     }
 
-    public function test_array_remove_with_not_found_element(): void
+    #[Test]
+    public function leaves_array_unchanged_when_element_not_found(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.textArray, \'mango\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

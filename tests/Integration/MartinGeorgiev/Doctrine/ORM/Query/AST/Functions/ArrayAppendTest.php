@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend;
+use PHPUnit\Framework\Attributes\Test;
 
 class ArrayAppendTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
-        return ['ARRAY_APPEND' => ArrayAppend::class];
+        return [
+            'ARRAY_APPEND' => ArrayAppend::class,
+        ];
     }
 
-    public function test_array_append_with_text_array(): void
+    #[Test]
+    public function can_append_to_text_array(): void
     {
         $dql = 'SELECT ARRAY_APPEND(t.textArray, \'orange\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -25,7 +29,8 @@ class ArrayAppendTest extends ArrayTestCase
         $this->assertSame(['apple', 'banana', 'orange', 'orange'], $actual);
     }
 
-    public function test_array_append_with_integer_array(): void
+    #[Test]
+    public function can_append_to_integer_array(): void
     {
         $dql = 'SELECT ARRAY_APPEND(t.integerArray, 3) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -37,7 +42,8 @@ class ArrayAppendTest extends ArrayTestCase
         $this->assertSame([1, 2, 3, 3], $actual);
     }
 
-    public function test_array_append_with_boolean_array(): void
+    #[Test]
+    public function can_append_to_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_APPEND(t.boolArray, true) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

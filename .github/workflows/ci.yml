@@ -10,6 +10,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 permissions:
   contents: read
 
@@ -30,39 +34,19 @@ jobs:
             echo "::notice::CI checks will execute - the actor is not the release-please bot"
           fi
 
-  tests:
+  code-quality:
     needs: should-run
     if: needs.should-run.outputs.run == 'true'
     runs-on: ubuntu-latest
-    name: "PHP ${{ matrix.php }} + Doctrine ORM ${{ matrix.doctrine-orm }} + Doctrine Lexer ${{ matrix.doctrine-lexer }}"
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ['8.1', '8.2', '8.3', '8.4']
-        doctrine-lexer: ['2.1', '3.0', 'latest']
-        doctrine-orm: ['2.14', '2.18', '3.0', 'latest']
-        include:
-          - php: '8.1'
-            doctrine-orm: '2.14'
-            doctrine-lexer: '1.2'
-          - php: '8.4' # Run coverage report only based on the latest dependencies
-            doctrine-lexer: 'latest'
-            doctrine-orm: 'latest'
-            calculate-code-coverage: true
-        exclude:
-          - doctrine-orm: '2.14'
-            doctrine-lexer: '3.0'
-          - doctrine-orm: '3.0'
-            doctrine-lexer: '2.1'
+    name: "Code Quality"
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
-      - name: Set up PHP with PECL extension
-        uses: shivammathur/setup-php@0f7f1d08e3e32076e51cae65eb0b0c871405b16e # v2
+      - name: Set up PHP
+        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2
         with:
-          php-version: ${{ matrix.php }}
-          coverage: xdebug
+          php-version: '8.5'
           extensions: ctype, json, mbstring
           tools: composer
 
@@ -71,55 +55,18 @@ jobs:
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
 
-      - name: Install Doctrine Lexer dependency
-        run: |
-          if [ "${{ matrix.doctrine-lexer }}" = "1.2" ]; then
-            composer require doctrine/lexer "~1.2" --dev --prefer-dist --no-interaction --no-progress
-          elif [ "${{ matrix.doctrine-lexer }}" = "2.1" ]; then
-            composer require doctrine/lexer "~2.1" --dev --prefer-dist --no-interaction --no-progress
-          elif [ "${{ matrix.doctrine-lexer }}" = "3.0" ]; then
-            composer require doctrine/lexer "~3.0" --dev --prefer-dist --no-interaction --no-progress
-          else
-            composer update --prefer-dist --no-interaction --no-progress
-          fi
-
-      - name: Install Doctrine ORM dependency
-        run: |
-          if [ "${{ matrix.doctrine-orm }}" = "2.14" ]; then
-            composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress --with-all-dependencies
-          elif [ "${{ matrix.doctrine-orm }}" = "2.18" ]; then
-            composer require doctrine/orm "~2.18" --prefer-dist --no-interaction --no-progress --with-all-dependencies
-          elif [ "${{ matrix.doctrine-orm }}" = "3.0" ]; then
-            composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress --with-all-dependencies
-          else
-            composer update --prefer-dist --no-interaction --no-progress
-          fi
-
-      - name: Run static analysis
-        run: composer run-static-analysis
-        continue-on-error: ${{ matrix.continue-on-error || false }}
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Check code style
         run: composer check-code-style
 
       - name: Check for security vulnerabilities in 3rd party dependencies
         run: composer audit
-
-      - name: Run unit test suite
-        run: composer run-unit-tests-with-clover
-
-      - name: Upload coverage results to Coveralls
-        if: matrix.calculate-code-coverage == true
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          fail-on-error: false
-          base-path: ./var/logs/test-coverage/
-          flag-name: "PHP ${{ matrix.php }}"

@@ -10,9 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity()]
 class ContainsJsons extends Entity
 {
-    #[ORM\Column(type: Types::JSON)]
-    public array $object1;
+    #[ORM\Column(type: 'jsonb')]
+    public array $jsonbObject1;
+
+    #[ORM\Column(type: 'jsonb')]
+    public array $jsonbObject2;
 
     #[ORM\Column(type: Types::JSON)]
-    public array $object2;
+    public array $jsonObject1;
+
+    #[ORM\Column(type: Types::JSON)]
+    public array $jsonObject2;
 }

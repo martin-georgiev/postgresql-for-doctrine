@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonbEachTextTest extends JsonTestCase
 {
@@ -15,9 +16,10 @@ class JsonbEachTextTest extends JsonTestCase
         ];
     }
 
-    public function test_jsonb_each_text(): void
+    #[Test]
+    public function extracts_key_value_pairs_from_standard_json_object(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -40,36 +42,40 @@ class JsonbEachTextTest extends JsonTestCase
         }
     }
 
-    public function test_jsonb_each_text_with_empty_object(): void
+    #[Test]
+    public function returns_empty_result_for_empty_object(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 4';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(0, $result);
     }
 
-    public function test_jsonb_each_text_with_different_object(): void
+    #[Test]
+    public function extracts_key_value_pairs_from_alternative_json_object(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(4, $result);
     }
 
-    public function test_jsonb_each_text_with_nulls(): void
+    #[Test]
+    public function extracts_key_value_pairs_when_json_contains_null_values(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 5';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(4, $result);
     }
 
-    public function test_jsonb_each_text_with_empty_tags_array(): void
+    #[Test]
+    public function extracts_key_value_pairs_when_json_contains_empty_array(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.object1) as result 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 3';
         $result = $this->executeDqlQuery($dql);

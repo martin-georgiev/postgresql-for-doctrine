@@ -41,6 +41,6 @@ class BooleanArray extends BaseArray
             return null;
         }
 
-        return \array_map(static fn ($value): ?bool => $platform->convertFromBoolean($value), $phpArray);
+        return \array_map($platform->convertFromBoolean(...), $phpArray);
     }
 }

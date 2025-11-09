@@ -19,14 +19,14 @@ class NotIRegexpTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            "SELECT (c0_.text1 !~* '.*Thomas.*') AS sclr_0 FROM ContainsTexts c0_",
+            'case-insensitive regex pattern non-matching' => "SELECT (c0_.text1 !~* '.*Thomas.*') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            \sprintf("SELECT NOT_IREGEXP(e.text1, '.*Thomas.*') FROM %s e", ContainsTexts::class),
+            'case-insensitive regex pattern non-matching' => \sprintf("SELECT NOT_IREGEXP(e.text1, '.*Thomas.*') FROM %s e", ContainsTexts::class),
         ];
     }
 }

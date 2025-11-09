@@ -42,7 +42,7 @@ class Jsonb extends BaseType
      *
      * @param string|null $value the value to convert
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): null|array|bool|float|int|string
+    public function convertToPHPValue($value, AbstractPlatform $platform): array|bool|float|int|string|null
     {
         if ($value === null) {
             return null;

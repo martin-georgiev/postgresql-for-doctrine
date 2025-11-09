@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp;
+use PHPUnit\Framework\Attributes\Test;
 
 class ExpTest extends NumericTestCase
 {
@@ -15,17 +16,27 @@ class ExpTest extends NumericTestCase
         ];
     }
 
-    public function test_exp(): void
+    #[Test]
+    public function can_calculate_exponential_of_one_to_euler_constant(): void
     {
         $dql = 'SELECT EXP(1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(2.718281828459, $result[0]['result'], 0.0001);
     }
 
-    public function test_exp_with_entity_property(): void
+    #[Test]
+    public function can_calculate_exponential_of_entity_decimal_value(): void
     {
         $dql = 'SELECT EXP(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(36315.502674246638, $result[0]['result'], 0.000001);
+    }
+
+    #[Test]
+    public function can_calculate_exponential_of_arithmetic_expression(): void
+    {
+        $dql = 'SELECT EXP(n.integer1 / 10) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(2.718281828459, $result[0]['result'], 0.0001);
     }
 }

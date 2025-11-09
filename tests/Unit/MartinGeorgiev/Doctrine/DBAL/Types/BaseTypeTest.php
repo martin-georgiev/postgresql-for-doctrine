@@ -49,40 +49,40 @@ class BaseTypeTest extends TestCase
     }
 
     #[Test]
-    public function returns_correct_type_name(): void
+    public function can_return_correct_type_name(): void
     {
         $type = new class extends BaseType {
             public const TYPE_NAME = 'custom_type';
         };
 
-        self::assertEquals('custom_type', $type->getName());
+        $this->assertEquals('custom_type', $type->getName());
     }
 
     #[Test]
-    public function gets_correct_sql_declaration(): void
+    public function can_get_correct_sql_declaration(): void
     {
         $type = new class extends BaseType {
             public const TYPE_NAME = 'custom_type';
         };
 
         $this->platform
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getDoctrineTypeMapping')
             ->with('custom_type')
             ->willReturn('CUSTOM_SQL_TYPE');
 
         $result = $type->getSQLDeclaration([], $this->platform);
-        self::assertEquals('CUSTOM_SQL_TYPE', $result);
+        $this->assertEquals('CUSTOM_SQL_TYPE', $result);
     }
 
     #[Test]
-    public function requires_sql_comment_hint_returns_false(): void
+    public function can_return_false_for_sql_comment_hint_requirement(): void
     {
         $type = new class extends BaseType {
             public const TYPE_NAME = 'custom_type';
         };
 
         // @phpstan-ignore-next-line Not all Doctrine version like this method as it's deprecated. For now, we ignore the deprecation.
-        self::assertFalse($type->requiresSQLCommentHint($this->platform));
+        $this->assertFalse($type->requiresSQLCommentHint($this->platform));
     }
 }
