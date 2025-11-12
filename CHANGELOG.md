@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.6.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.6.0...v3.6.1) (2025-11-08)
+
+
+### Bug Fixes
+
+* **#473:** Add public getter methods to `Range` value objects ([#477](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/477)) ([9ba319e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9ba319ea1d4cfeea48dfa6ab44d1820f51c689a9))
+* **#474:** Support usage of arithmetic expressions in mathematical functions ([#475](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/475)) ([75b025d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/75b025d636b52621b4be47bd94ea1f163017450e))
+
 ## [3.6.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.5.1...v3.6.0) (2025-10-23)
 
 

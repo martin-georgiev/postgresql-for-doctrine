@@ -31,4 +31,12 @@ class DegreesTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(601.6056848873644, $result[0]['result'], 0.000001);
     }
+
+    #[Test]
+    public function degrees_with_arithmetic_expression(): void
+    {
+        $dql = 'SELECT DEGREES(n.decimal1 / n.integer1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(60.16056848873644, $result[0]['result'], 0.000001);
+    }
 }

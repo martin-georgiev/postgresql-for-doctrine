@@ -17,6 +17,6 @@ class Lgamma extends BaseFunction
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('lgamma(%s)');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

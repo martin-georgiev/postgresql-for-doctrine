@@ -54,4 +54,15 @@ class GammaTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(362880.0, $result[0]['result'], 0.0001);
     }
+
+    #[Test]
+    public function can_compute_gamma_of_arithmetic_expression(): void
+    {
+        $dql = 'SELECT GAMMA(t.integer1 / 2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
+                WHERE t.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(24.0, $result[0]['result'], 0.0001);
+    }
 }

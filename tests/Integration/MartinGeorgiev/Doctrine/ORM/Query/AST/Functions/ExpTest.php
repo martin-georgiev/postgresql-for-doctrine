@@ -31,4 +31,12 @@ class ExpTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(36315.502674246638, $result[0]['result'], 0.000001);
     }
+
+    #[Test]
+    public function can_calculate_exponential_of_arithmetic_expression(): void
+    {
+        $dql = 'SELECT EXP(n.integer1 / 10) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(2.718281828459, $result[0]['result'], 0.0001);
+    }
 }

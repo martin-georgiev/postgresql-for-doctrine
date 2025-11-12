@@ -29,10 +29,20 @@ class SignTest extends NumericTestCase
     #[Test]
     public function sign_with_column_value(): void
     {
-        $dql = 'SELECT SIGN(n.decimal1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
+        $dql = 'SELECT SIGN(n.decimal1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1, $result[0]['result']);
+    }
+
+    #[Test]
+    public function sign_with_arithmetic_expression(): void
+    {
+        $dql = 'SELECT SIGN(n.integer1 - n.integer2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
+                WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(-1, $result[0]['result']);
     }
 }
