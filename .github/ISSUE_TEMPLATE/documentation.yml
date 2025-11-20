@@ -1,0 +1,140 @@
+name: Documentation Issue
+description: Report an issue with documentation or suggest improvements
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our documentation! Please fill out the form below.
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Documentation Issue Type
+      description: What type of documentation issue is this?
+      options:
+        - Missing Documentation
+        - Incorrect/Outdated Information
+        - Unclear/Confusing Explanation
+        - Broken Link
+        - Typo/Grammar
+        - Missing Example
+        - Improvement Suggestion
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-doc
+    attributes:
+      label: Affected Documentation
+      description: Which documentation is affected?
+      options:
+        - README.md
+        - AVAILABLE-TYPES.md
+        - RANGE-TYPES.md
+        - AVAILABLE-FUNCTIONS-AND-OPERATORS.md
+        - ARRAY-AND-JSON-FUNCTIONS.md
+        - SPATIAL-FUNCTIONS-AND-OPERATORS.md
+        - TEXT-AND-PATTERN-FUNCTIONS.md
+        - DATE-AND-RANGE-FUNCTIONS.md
+        - MATHEMATICAL-FUNCTIONS.md
+        - SPATIAL-TYPES.md
+        - GEOMETRY-ARRAYS.md
+        - LTREE-TYPE.md
+        - USE-CASES-AND-EXAMPLES.md
+        - INTEGRATING-WITH-SYMFONY.md
+        - INTEGRATING-WITH-LARAVEL.md
+        - INTEGRATING-WITH-DOCTRINE.md
+        - CONTRIBUTING.md
+        - UPGRADE.md
+        - Code Comments/PHPDoc
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: doc-location
+    attributes:
+      label: Specific Location
+      description: If applicable, provide the specific section, heading, or line number.
+      placeholder: "e.g., 'Quick Start section', 'Line 42', 'Range Types - Creating Ranges', etc."
+    validations:
+      required: false
+
+  - type: textarea
+    id: current-content
+    attributes:
+      label: Current Content
+      description: What does the documentation currently say? (copy/paste the relevant section)
+      placeholder: Paste the current documentation content here...
+    validations:
+      required: false
+
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: Issue Description
+      description: Describe the problem with the current documentation.
+      placeholder: |
+        What's wrong or missing?
+        Why is it confusing or incorrect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested-improvement
+    attributes:
+      label: Suggested Improvement
+      description: How should the documentation be improved?
+      placeholder: |
+        Describe what should be added, changed, or clarified...
+        
+        If you have specific wording suggestions, include them here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: example-code
+    attributes:
+      label: Example Code (if applicable)
+      description: If suggesting a code example, provide it here.
+      placeholder: |
+        ```php
+        // Your suggested example code
+        ```
+      render: php
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or references.
+      placeholder: Any additional information...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: willing-to-contribute
+    attributes:
+      label: Contribution
+      description: Would you be willing to submit a pull request to fix this documentation issue?
+      options:
+        - "Yes, I can submit a PR"
+        - "Yes, with guidance"
+        - "No"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have checked that this documentation issue hasn't been reported before
+          required: true
+

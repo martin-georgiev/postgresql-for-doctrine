@@ -1,0 +1,130 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for postgresql-for-doctrine
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please fill out the form below to help us understand your proposal.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem? Please describe what you're trying to accomplish.
+      placeholder: "I'm always frustrated when... / I need to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see implemented.
+      placeholder: Describe your proposed solution...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature are you requesting?
+      options:
+        - New PostgreSQL Type Support
+        - New PostgreSQL Function Support
+        - New PostgreSQL Operator Support
+        - New Value Object
+        - Framework Integration Enhancement
+        - API Enhancement
+        - Performance Improvement
+        - Developer Experience
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: postgresql-feature
+    attributes:
+      label: PostgreSQL Feature/Function/Type
+      description: If requesting support for a specific PostgreSQL feature, which one?
+      placeholder: "e.g., hstore, cube, earthdistance, pg_trgm, etc."
+    validations:
+      required: false
+
+  - type: input
+    id: postgresql-docs
+    attributes:
+      label: PostgreSQL Documentation Link
+      description: If applicable, provide a link to the PostgreSQL documentation for this feature.
+      placeholder: "https://www.postgresql.org/docs/..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Describe your use case and how this feature would benefit you and others.
+      placeholder: |
+        This would be useful for...
+        Example scenario:...
+    validations:
+      required: true
+
+  - type: textarea
+    id: code-example
+    attributes:
+      label: Example Usage
+      description: Show how you envision using this feature (pseudo-code is fine).
+      placeholder: |
+        ```php
+        // Example of how the feature would be used
+        ```
+      render: php
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative solutions or workarounds?
+      placeholder: Describe any alternatives you've considered...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: willing-to-contribute
+    attributes:
+      label: Contribution
+      description: Would you be willing to contribute this feature via a pull request?
+      options:
+        - "Yes, I can submit a PR"
+        - "Yes, with guidance"
+        - "No, but I can help test"
+        - "No"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or examples about the feature request.
+      placeholder: Any additional information...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues and discussions to ensure this feature hasn't been requested before
+          required: true
+        - label: This feature is related to PostgreSQL-specific functionality for Doctrine
+          required: true
+
