@@ -17,7 +17,7 @@ class BigIntArray extends BaseIntegerArray
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'bigint[]';
+    public const TYPE_NAME = 'bigint[]';
 
     protected function getMinValue(): int
     {
