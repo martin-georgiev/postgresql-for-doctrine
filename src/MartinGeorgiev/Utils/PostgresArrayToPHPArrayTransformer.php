@@ -24,9 +24,12 @@ class PostgresArrayToPHPArrayTransformer
      * This method supports only single-dimensional text arrays and
      * relies on the default escaping strategy in PostgreSQL (double quotes).
      *
+     * @param bool $preserveStringTypes When true, all unquoted values are preserved as strings without type inference.
+     *                                  This is useful for text arrays where PostgreSQL may omit quotes for values that look numeric.
+     *
      * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has an invalid format
      */
-    public static function transformPostgresArrayToPHPArray(string $postgresArray): array
+    public static function transformPostgresArrayToPHPArray(string $postgresArray, bool $preserveStringTypes = false): array
     {
         $trimmed = \trim($postgresArray);
 
@@ -70,32 +73,32 @@ class PostgresArrayToPHPArrayTransformer
             }
         }
 
-        // Check for unclosed quotes
         if ($inQuotes) {
             throw InvalidArrayFormatException::invalidFormat('Unclosed quotes in array');
         }
 
-        // First try with json_decode for properly quoted values
+        if ($preserveStringTypes) {
+            return self::parsePostgresArrayManually($content, true);
+        }
+
         $jsonArray = '['.\trim($trimmed, self::POSTGRESQL_EMPTY_ARRAY).']';
 
         /** @var array<int, mixed>|null $decoded */
         $decoded = \json_decode($jsonArray, true, 512, JSON_BIGINT_AS_STRING);
-
-        // If json_decode fails, try manual parsing for unquoted strings
-        if ($decoded === null && \json_last_error() !== JSON_ERROR_NONE) {
-            return self::parsePostgresArrayManually($content);
+        $jsonDecodingFailed = $decoded === null && \json_last_error() !== JSON_ERROR_NONE;
+        if ($jsonDecodingFailed) {
+            return self::parsePostgresArrayManually($content, false);
         }
 
         return (array) $decoded;
     }
 
-    private static function parsePostgresArrayManually(string $content): array
+    private static function parsePostgresArrayManually(string $content, bool $preserveStringTypes): array
     {
         if ($content === '') {
             return [];
         }
 
-        // Parse the array manually, handling quoted and unquoted values
         $result = [];
         $inQuotes = false;
         $currentValue = '';
@@ -125,7 +128,7 @@ class PostgresArrayToPHPArrayTransformer
                 $currentValue .= $char;
             } elseif ($char === ',' && !$inQuotes) {
                 // End of value
-                $result[] = self::processPostgresValue($currentValue);
+                $result[] = self::processPostgresValue($currentValue, $preserveStringTypes);
                 $currentValue = '';
             } else {
                 $currentValue .= $char;
@@ -134,7 +137,7 @@ class PostgresArrayToPHPArrayTransformer
 
         // Add the last value
         if ($currentValue !== '') {
-            $result[] = self::processPostgresValue($currentValue);
+            $result[] = self::processPostgresValue($currentValue, $preserveStringTypes);
         }
 
         return $result;
@@ -142,10 +145,20 @@ class PostgresArrayToPHPArrayTransformer
 
     /**
      * Process a single value from a PostgreSQL array.
+     *
+     * @param bool $preserveStringTypes When true, skip type inference for unquoted values
      */
-    private static function processPostgresValue(string $value): mixed
+    private static function processPostgresValue(string $value, bool $preserveStringTypes): mixed
     {
         $value = \trim($value);
+
+        if ($preserveStringTypes) {
+            if (self::isQuotedString($value)) {
+                return self::processQuotedString($value);
+            }
+
+            return $value;
+        }
 
         if (self::isNullValue($value)) {
             return null;
@@ -189,7 +202,6 @@ class PostgresArrayToPHPArrayTransformer
 
     private static function processQuotedString(string $value): string
     {
-        // Remove the quotes and unescape the string
         $unquoted = \substr($value, 1, -1);
 
         return self::unescapeString($unquoted);
@@ -202,7 +214,6 @@ class PostgresArrayToPHPArrayTransformer
 
     private static function processNumericValue(string $value): float|int
     {
-        // Convert to int or float as appropriate
         if (\str_contains($value, '.') || \stripos($value, 'e') !== false) {
             return (float) $value;
         }

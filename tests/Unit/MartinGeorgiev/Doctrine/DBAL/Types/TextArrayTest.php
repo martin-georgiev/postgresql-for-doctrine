@@ -179,4 +179,19 @@ END,
             ],
         ];
     }
+
+    #[Test]
+    public function can_preserve_trailing_zeros_in_strings_that_look_like_decimals(): void
+    {
+        $postgresValue = '{42.00,123.50,0.00,999.99,502.00,505.00}';
+        $expectedResult = ['42.00', '123.50', '0.00', '999.99', '502.00', '505.00'];
+
+        $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+
+        $this->assertSame($expectedResult, $result, 'Trailing zeros in decimal strings should be preserved');
+
+        foreach ($result as $value) {
+            $this->assertIsString($value, \sprintf('All values in text[] should be strings, but %s is not', $value));
+        }
+    }
 }
