@@ -246,6 +246,7 @@ return [
         'DATE_EXTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class,
         'DATE_OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class,
         'DATE_SUBTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class,
+        'DATE_TRUNC' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc::class,
 
         # range functions
         'DATERANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class,
