@@ -77,6 +77,10 @@ abstract class TestCase extends BaseTestCase
         $configuration->setProxyDir(self::FIXTURES_DIRECTORY.'/Proxies');
         $configuration->setProxyNamespace(self::FIXTURE_NAMESPACE.'\Proxy');
         $configuration->setAutoGenerateProxyClasses(true);
+        if (\PHP_VERSION_ID >= 80400 && \method_exists($configuration, 'enableNativeLazyObjects')) {
+            // @phpstan-ignore-next-line
+            $configuration->enableNativeLazyObjects(true);
+        }
         $this->setConfigurationCache($configuration);
 
         // Register the entity namespace for DQL short aliases

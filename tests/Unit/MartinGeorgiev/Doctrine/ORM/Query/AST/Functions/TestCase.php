@@ -28,6 +28,10 @@ abstract class TestCase extends BaseTestCase
         $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
         $configuration->setProxyNamespace('Fixtures\MartinGeorgiev\Doctrine\Entity\Proxy');
         $configuration->setAutoGenerateProxyClasses(true);
+        if (\PHP_VERSION_ID >= 80400 && \method_exists($configuration, 'enableNativeLazyObjects')) {
+            // @phpstan-ignore-next-line
+            $configuration->enableNativeLazyObjects(true);
+        }
         $this->setConfigurationCache($configuration);
 
         $this->configuration = $configuration;
