@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException;
 
 /**
@@ -21,12 +20,12 @@ final class GeometryArray extends SpatialDataArray
         return (string) $this->getValidatedArrayItem($item);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException
+    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeometryForPHPException
     {
         return InvalidGeometryForPHPException::forInvalidType($item);
     }
 
-    protected function createInvalidFormatExceptionForPHP(mixed $item): ConversionException
+    protected function createInvalidFormatExceptionForPHP(mixed $item): InvalidGeometryForPHPException
     {
         return InvalidGeometryForPHPException::forInvalidFormat($item);
     }
