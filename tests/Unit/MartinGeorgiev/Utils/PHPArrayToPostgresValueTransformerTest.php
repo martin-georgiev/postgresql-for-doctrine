@@ -152,7 +152,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     #[Test]
     public function can_transform_object_with_to_string_method(): void
     {
-        $object = new class {
+        $object = new class implements \Stringable {
             public function __toString(): string
             {
                 return 'object string representation';
@@ -199,7 +199,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
             1.5,
             true,
             null,
-            new class {
+            new class implements \Stringable {
                 public function __toString(): string
                 {
                     return 'object';
