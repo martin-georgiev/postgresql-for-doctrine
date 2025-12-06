@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
@@ -19,7 +20,7 @@ class JsonbArray extends BaseArray
 {
     use JsonTransformer;
 
-    protected const TYPE_NAME = 'jsonb[]';
+    protected const TYPE_NAME = Type::JSONB_ARRAY;
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {

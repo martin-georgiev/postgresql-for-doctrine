@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\CidrValidationTrait;
@@ -21,7 +22,7 @@ class Cidr extends BaseType
 {
     use CidrValidationTrait;
 
-    protected const TYPE_NAME = 'cidr';
+    protected const TYPE_NAME = Type::CIDR;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {

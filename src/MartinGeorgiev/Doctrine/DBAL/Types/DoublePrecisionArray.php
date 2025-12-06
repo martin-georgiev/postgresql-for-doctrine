@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
+
 /**
  * Implementation of PostgreSQL DOUBLE PRECISION[] data type.
  *
@@ -14,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
  */
 class DoublePrecisionArray extends BaseFloatArray
 {
-    protected const TYPE_NAME = 'double precision[]';
+    protected const TYPE_NAME = Type::DOUBLE_PRECISION_ARRAY;
 
     protected function getMinValue(): string
     {
