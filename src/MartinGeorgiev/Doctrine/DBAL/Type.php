@@ -39,4 +39,9 @@ final class Type
     public const NUMRANGE = 'numrange';
     public const TSRANGE = 'tsrange';
     public const TSTZRANGE = 'tstzrange';
+
+    private function __construct()
+    {
+        // Prevent instantiation
+    }
 }
