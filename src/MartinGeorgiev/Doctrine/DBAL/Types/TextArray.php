@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
@@ -21,7 +22,7 @@ class TextArray extends BaseType
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'text[]';
+    protected const TYPE_NAME = Type::TEXT_ARRAY;
 
     /**
      * Converts a value from its PHP representation to its database representation of the type.

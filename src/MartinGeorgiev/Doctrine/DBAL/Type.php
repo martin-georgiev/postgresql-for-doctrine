@@ -8,7 +8,7 @@ final class Type
 {
     // Array Types
     public const BIGINT_ARRAY = 'bigint[]';
-    public const BOOLEAN_ARRAY = 'bool[]';
+    public const BOOL_ARRAY = 'bool[]';
     public const CIDR_ARRAY = 'cidr[]';
     public const DOUBLE_PRECISION_ARRAY = 'double precision[]';
     public const GEOGRAPHY_ARRAY = 'geography[]';

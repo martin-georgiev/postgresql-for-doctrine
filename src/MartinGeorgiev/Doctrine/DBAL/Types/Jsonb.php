@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
@@ -21,7 +22,7 @@ class Jsonb extends BaseType
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'jsonb';
+    protected const TYPE_NAME = Type::JSONB;
 
     /**
      * Converts a value from its PHP representation to its database representation of the type.
