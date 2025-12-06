@@ -63,31 +63,9 @@ class TextArray extends BaseType
 
     protected function transformFromPostgresTextArray(string $postgresValue): array
     {
-        $values = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue);
-
-        // No matter what the original PHP array items' data types were,
-        // once they are stored in PostgreSQL, all of them will become strings.
-        // Therefore, we need to ensure all items in the returned PHP array are strings.
-        foreach ($values as $key => $value) {
-            if (\is_string($value)) {
-                continue;
-            }
-
-            if (\is_bool($value)) {
-                $values[$key] = $value ? 'true' : 'false';
-
-                continue;
-            }
-
-            if ($value === null) {
-                $values[$key] = 'null';
-
-                continue;
-            }
-
-            $values[$key] = (string) $value; // @phpstan-ignore-line
-        }
-
-        return $values;
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
+            $postgresValue,
+            preserveStringTypes: true
+        );
     }
 }

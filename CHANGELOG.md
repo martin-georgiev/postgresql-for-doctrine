@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.6.1...v3.6.2) (2025-11-25)
+
+
+### Bug Fixes
+
+* **#482:** Always preserve strings (even if they are obviously numerical) when transforming a `TEXTARRAY` value into a PHP array ([#488](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/488)) ([77eed3e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/77eed3eea3266b5f6b436f4bf624246299527d61))
+
 ## [3.6.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.6.0...v3.6.1) (2025-11-08)
 
 
