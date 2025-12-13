@@ -36,7 +36,6 @@ class DateTruncTest extends DateTestCase
      */
     public static function provideTruncFieldCases(): \Generator
     {
-        // Test data: datetime1 = '2023-06-15 10:30:00'
         yield 'microseconds' => ['microseconds', '2023-06-15 10:30:00'];
         yield 'milliseconds' => ['milliseconds', '2023-06-15 10:30:00'];
         yield 'second' => ['second', '2023-06-15 10:30:00'];
