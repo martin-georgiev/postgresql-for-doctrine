@@ -71,19 +71,6 @@ class DateTruncTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    /**
-     * @return array<string, array{string}>
-     */
-    public static function provideInvalidFieldValues(): array
-    {
-        return [
-            'empty string' => [''],
-            'whitespace only' => ['   '],
-            'numeric value' => ['123'],
-            'invalid field' => ['invalid'],
-        ];
-    }
-
     #[DataProvider('provideInvalidTimezoneValues')]
     #[Test]
     public function throws_exception_for_invalid_timezone(string $invalidTimezone): void
