@@ -29,8 +29,8 @@ class DateTruncTest extends BaseVariadicFunctionTestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'with timezone (3 arguments)' => /* @lang PostgreSQL */ "SELECT date_trunc('day', c0_.datetimetz1, 'Australia/Adelaide') AS sclr_0 FROM ContainsDates c0_",
-            'without timezone (2 arguments)' => /* @lang PostgreSQL */ "SELECT date_trunc('day', c0_.datetimetz1) AS sclr_0 FROM ContainsDates c0_",
+            'with timezone' => /* @lang PostgreSQL */ "SELECT date_trunc('day', c0_.datetimetz1, 'Australia/Adelaide') AS sclr_0 FROM ContainsDates c0_",
+            'without timezone' => /* @lang PostgreSQL */ "SELECT date_trunc('day', c0_.datetimetz1) AS sclr_0 FROM ContainsDates c0_",
             'used in WHERE clause' => /* @lang PostgreSQL */ "SELECT c0_.datetimetz1 AS datetimetz1_0 FROM ContainsDates c0_ WHERE date_trunc('day', c0_.datetimetz1) = '2023-01-02 00:00:00'",
         ];
     }
@@ -38,8 +38,8 @@ class DateTruncTest extends BaseVariadicFunctionTestCase
     protected function getDqlStatements(): array
     {
         return [
-            'with timezone (3 arguments)' => \sprintf("SELECT DATE_TRUNC('day', e.datetimetz1, 'Australia/Adelaide') FROM %s e", ContainsDates::class),
-            'without timezone (2 arguments)' => \sprintf("SELECT DATE_TRUNC('day', e.datetimetz1) FROM %s e", ContainsDates::class),
+            'with timezone' => \sprintf("SELECT DATE_TRUNC('day', e.datetimetz1, 'Australia/Adelaide') FROM %s e", ContainsDates::class),
+            'without timezone' => \sprintf("SELECT DATE_TRUNC('day', e.datetimetz1) FROM %s e", ContainsDates::class),
             'used in WHERE clause' => \sprintf("SELECT e.datetimetz1 FROM %s e WHERE DATE_TRUNC('day', e.datetimetz1) = '2023-01-02 00:00:00'", ContainsDates::class),
         ];
     }
