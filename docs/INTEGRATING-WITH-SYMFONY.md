@@ -65,58 +65,58 @@ doctrine:
             default:
                 mapping_types:
                     # Array type mappings
-                    'bool[]': 'bool[]'
-                    _bool: 'bool[]'
-                    'smallint[]': 'smallint[]'
-                    _int2: 'smallint[]'
-                    'integer[]': 'integer[]'
-                    _int4: 'integer[]'
-                    'bigint[]': 'bigint[]'
-                    _int8: 'bigint[]'
-                    'double precision[]': 'double precision[]'
-                    _float8: 'double precision[]'
-                    'real[]': 'real[]'
-                    _float4: 'real[]'
-                    'text[]': 'text[]'
-                    _text: 'text[]'
-
+                    'bool[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BOOL_ARRAY
+                    _bool: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BOOL_ARRAY
+                    'smallint[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::SMALLINT_ARRAY
+                    _int2: !php/const MartinGeorgiev\Doctrine\DBAL\Type::SMALLINT_ARRAY
+                    'integer[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTEGER_ARRAY
+                    _int4: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTEGER_ARRAY
+                    'bigint[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIGINT_ARRAY
+                    _int8: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIGINT_ARRAY
+                    'double precision[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DOUBLE_PRECISION_ARRAY
+                    _float8: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DOUBLE_PRECISION_ARRAY
+                    'real[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::REAL_ARRAY
+                    _float4: !php/const MartinGeorgiev\Doctrine\DBAL\Type::REAL_ARRAY
+                    'text[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
+                    _text: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
+        
                     # JSON type mappings
-                    jsonb: jsonb
-                    'jsonb[]': 'jsonb[]'
-                    _jsonb: 'jsonb[]'
-
+                    jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB
+                    'jsonb[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB_ARRAY
+                    _jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB_ARRAY
+        
                     # Network type mappings
-                    cidr: cidr
-                    'cidr[]': 'cidr[]'
-                    _cidr: 'cidr[]'
-                    inet: inet
-                    'inet[]': 'inet[]'
-                    _inet: 'inet[]'
-                    macaddr: macaddr
-                    'macaddr[]': 'macaddr[]'
-                    _macaddr: 'macaddr[]'
-
+                    cidr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CIDR
+                    'cidr[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::CIDR_ARRAY
+                    _cidr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CIDR_ARRAY
+                    inet: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INET
+                    'inet[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INET_ARRAY
+                    _inet: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INET_ARRAY
+                    macaddr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR
+                    'macaddr[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR_ARRAY
+                    _macaddr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR_ARRAY
+        
                     # Spatial type mappings
-                    point: point
-                    'point[]': 'point[]'
-                    _point: 'point[]'
-                    geometry: geometry
-                    'geometry[]': 'geometry[]'
-                    _geometry: 'geometry[]'
-                    geography: geography
-                    'geography[]': 'geography[]'
-                    _geography: 'geography[]'
-
+                    point: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT
+                    'point[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT_ARRAY
+                    _point: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT_ARRAY
+                    geometry: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY
+                    'geometry[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY_ARRAY
+                    _geometry: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY_ARRAY
+                    geography: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOGRAPHY
+                    'geography[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOGRAPHY_ARRAY
+                    _geography: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOGRAPHY_ARRAY
+        
                     # Range type mappings
-                    daterange: daterange
-                    int4range: int4range
-                    int8range: int8range
-                    numrange: numrange
-                    tsrange: tsrange
-                    tstzrange: tstzrange
-
+                    daterange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATERANGE
+                    int4range: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4RANGE
+                    int8range: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT8RANGE
+                    numrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMRANGE
+                    tsrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSRANGE
+                    tstzrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZRANGE
+        
                     # Hierarchical type mappings
-                    ltree: ltree
+                    ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
 ```
 
 
