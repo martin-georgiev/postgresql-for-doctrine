@@ -229,6 +229,7 @@ doctrine:
                         DATE_EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract
                         DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
                         DATE_SUBTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract
+                        DATE_TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc
 
                         # range functions
                         DATERANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange

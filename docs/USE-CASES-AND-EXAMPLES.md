@@ -104,6 +104,10 @@ SELECT DATE_ADD(e.timestampWithTz, '1 day', 'Europe/London') FROM Entity e
 -- Subtract an interval from a timestamp (timezone parameter is optional)
 SELECT DATE_SUBTRACT(e.timestampWithTz, '2 hours') FROM Entity e
 SELECT DATE_SUBTRACT(e.timestampWithTz, '2 hours', 'UTC') FROM Entity e
+
+-- Truncate a timestamp to a specified precision (timezone parameter is optional)
+SELECT DATE_TRUNC('day', e.timestampWithTz) FROM Entity e
+SELECT DATE_TRUNC('day', e.timestampWithTz, 'UTC') FROM Entity e
 ```
 
 Using Range Types
