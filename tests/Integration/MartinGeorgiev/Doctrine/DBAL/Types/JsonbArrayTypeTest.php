@@ -20,6 +20,7 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[DataProvider('provideValidTransformations')]
+    #[DataProvider('provideTypeInferenceTestCases')]
     #[Test]
     public function can_handle_array_values(string $testName, array $arrayValue): void
     {
@@ -69,6 +70,47 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
                 [
                     'huge_number' => '18446744073709551615', // Larger than PHP_INT_MAX
                     'small' => 1,
+                ],
+            ]],
+        ];
+    }
+
+    /**
+     * Verify that JsonbArray performs type inference correctly (default behavior) as
+     * JSON values should maintain their proper types (integers, floats, booleans, null).
+     */
+    public static function provideTypeInferenceTestCases(): array
+    {
+        return [
+            'numeric types preserved' => ['numeric types should be preserved correctly', [
+                [
+                    'integer' => 42,
+                    'float' => 3.14,
+                    'zero' => 0,
+                    'negative' => -123,
+                ],
+            ]],
+            'decimal numbers as floats' => ['decimal numbers should be floats', [
+                [
+                    'price' => 502.00,
+                    'tax' => 505.50,
+                    'discount' => 0.99,
+                ],
+            ]],
+            'boolean and null types' => ['boolean and null types should be preserved', [
+                [
+                    'active' => true,
+                    'deleted' => false,
+                    'metadata' => null,
+                ],
+            ]],
+            'mixed numeric and string types' => ['mixed types should maintain their types', [
+                [
+                    'id' => 123,
+                    'name' => 'Product',
+                    'price' => 99.99,
+                    'available' => true,
+                    'description' => null,
                 ],
             ]],
         ];

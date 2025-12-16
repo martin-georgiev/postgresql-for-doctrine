@@ -1,0 +1,197 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in postgresql-for-doctrine
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below to help us understand and reproduce the issue.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe the bug you encountered...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Describe what you expected to happen...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: Describe what actually happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Provide detailed steps to reproduce the issue.
+      placeholder: |
+        1. Configure Doctrine with...
+        2. Create an entity with...
+        3. Execute query...
+        4. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: code-sample
+    attributes:
+      label: Code Sample
+      description: Provide a minimal code sample that reproduces the issue.
+      placeholder: |
+        ```php
+        // Your code here
+        ```
+      render: php
+    validations:
+      required: false
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: Error Message / Stack Trace
+      description: If applicable, provide the complete error message and stack trace.
+      placeholder: |
+        Paste the error message and stack trace here...
+      render: shell
+    validations:
+      required: false
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which component is affected?
+      options:
+        - DBAL Types (Array, JSON, Network, Geometric, Range, etc.)
+        - DQL Functions
+        - DQL Operators
+        - Value Objects (Range, Point, etc.)
+        - Integration (Symfony, Laravel, Doctrine)
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: specific-type-function
+    attributes:
+      label: Specific Type/Function/Operator
+      description: If applicable, which specific type, function, or operator is affected?
+      placeholder: "e.g., jsonb, int4range, JSON_GET_FIELD, ST_Distance, etc."
+    validations:
+      required: false
+
+  - type: input
+    id: package-version
+    attributes:
+      label: Package Version
+      description: Which version of postgresql-for-doctrine are you using?
+      placeholder: "e.g., 3.0.0, 2.5.1, etc."
+    validations:
+      required: true
+
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP Version
+      description: Which PHP version are you using?
+      placeholder: "e.g., 8.1, 8.2, 8.3, 8.4, 8.5"
+    validations:
+      required: true
+
+  - type: input
+    id: doctrine-dbal-version
+    attributes:
+      label: Doctrine DBAL Version
+      description: Which Doctrine DBAL version are you using?
+      placeholder: "e.g., 3.0, 3.5, 4.0, etc."
+    validations:
+      required: true
+
+  - type: input
+    id: doctrine-orm-version
+    attributes:
+      label: Doctrine ORM Version
+      description: Which Doctrine ORM version are you using (if applicable)?
+      placeholder: "e.g., 2.14, 2.18, 3.0, etc."
+    validations:
+      required: false
+
+  - type: input
+    id: postgresql-version
+    attributes:
+      label: PostgreSQL Version
+      description: Which PostgreSQL version are you using?
+      placeholder: "e.g., 14.5, 15.2, 16.0, 17.0, 18.0, etc."
+    validations:
+      required: true
+
+  - type: input
+    id: postgis-version
+    attributes:
+      label: PostGIS Version
+      description: Which PostGIS version are you using (if applicable for spatial types/functions)?
+      placeholder: "e.g., 3.4, 3.5, 3.6, etc."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      description: Are you using a framework?
+      options:
+        - None (Plain Doctrine)
+        - Symfony
+        - Laravel
+        - Other
+    validations:
+      required: false
+
+  - type: input
+    id: framework-version
+    attributes:
+      label: Framework Version
+      description: If using a framework, which version?
+      placeholder: "e.g., Symfony 6.4, Laravel 10.x, etc."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here (configuration files, environment details, etc.).
+      placeholder: Any additional information that might help...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues to ensure this bug hasn't been reported before
+          required: true
+        - label: I have provided all the required version information
+          required: true
+        - label: I have included steps to reproduce the issue
+          required: true
+

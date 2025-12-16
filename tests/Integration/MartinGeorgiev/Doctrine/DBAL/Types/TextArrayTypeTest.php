@@ -21,6 +21,7 @@ class TextArrayTypeTest extends ArrayTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[DataProvider('provideGithubIssue424TestCases')]
+    #[DataProvider('provideGithubIssue482TestCases')]
     #[Test]
     public function can_handle_array_values(string $testName, array $arrayValue): void
     {
@@ -80,6 +81,27 @@ class TextArrayTypeTest extends ArrayTypeTestCase
             'null values' => [
                 'Null values should be converted to strings',
                 ['', 'null', 'NULL'],
+            ],
+        ];
+    }
+
+    /**
+     * This test scenarios specifically verify the fix for GitHub issue #482
+     * where decimal strings with trailing zeros (e.g., "502.00", "505.00") were
+     * being truncated to "502" and "505" when round-tripping through the database.
+     * PostgreSQL returns these unquoted as {502.00,505.00}, and the fix ensures
+     * they are preserved as strings with trailing zeros intact.
+     */
+    public static function provideGithubIssue482TestCases(): array
+    {
+        return [
+            'mixed decimal formats' => [
+                'Mixed decimal formats should be preserved',
+                ['42.00', '123.50', '0.00', '999.99', '1.0', '2.000'],
+            ],
+            'decimal zero variations' => [
+                'Decimal zero variations should be preserved',
+                ['0.0', '0.00', '0.000'],
             ],
         ];
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\MacaddrValidationTrait;
@@ -21,7 +22,7 @@ class Macaddr extends BaseType
 {
     use MacaddrValidationTrait;
 
-    protected const TYPE_NAME = 'macaddr';
+    protected const TYPE_NAME = Type::MACADDR;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {

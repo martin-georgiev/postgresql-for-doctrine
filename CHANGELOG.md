@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.7.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.6.2...v3.7.0) (2025-12-13)
+
+
+### Features
+
+* Add support for `DATE_TRUNC` ([#493](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/493)) ([01b564a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/01b564a3e6bd8b7c4a55c8c11a56c851e670c7b0))
+* Improve accidental misconfiguration through the use of constants for all DBAL types ([#486](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/486)) ([2fcdf95](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2fcdf95dee307319655acbec7f43e4c59c7e19d8))
+
+## [3.6.2](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.6.1...v3.6.2) (2025-11-25)
+
+
+### Bug Fixes
+
+* **#482:** Always preserve strings (even if they are obviously numerical) when transforming a `TEXTARRAY` value into a PHP array ([#488](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/488)) ([77eed3e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/77eed3eea3266b5f6b436f4bf624246299527d61))
+
 ## [3.6.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.6.0...v3.6.1) (2025-11-08)
 
 

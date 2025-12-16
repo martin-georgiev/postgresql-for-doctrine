@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\InetValidationTrait;
@@ -21,7 +22,7 @@ class Inet extends BaseType
 {
     use InetValidationTrait;
 
-    protected const TYPE_NAME = 'inet';
+    protected const TYPE_NAME = Type::INET;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {

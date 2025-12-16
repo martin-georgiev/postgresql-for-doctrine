@@ -1,0 +1,172 @@
+name: Security Vulnerability
+description: Report a security vulnerability (please use responsibly)
+title: "[Security]: "
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚠️ Security Vulnerability Report
+        
+        **IMPORTANT**: If this is a critical security vulnerability that could be exploited, please consider reporting it privately first:
+        - Email: martin.georgiev@gmail.com
+        - GitHub Security Advisories: https://github.com/martin-georgiev/postgresql-for-doctrine/security/advisories/new
+        
+        Only use this public issue form for:
+        - Low-severity security concerns
+        - Security-related questions
+        - Security best practices discussions
+        
+        For critical vulnerabilities, private disclosure helps protect users until a fix is available.
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity Level
+      description: How severe do you consider this vulnerability?
+      options:
+        - Critical (Immediate exploitation possible)
+        - High (Exploitation likely with some effort)
+        - Medium (Exploitation possible under specific conditions)
+        - Low (Theoretical or requires unusual circumstances)
+        - Informational (Security best practice suggestion)
+    validations:
+      required: true
+
+  - type: textarea
+    id: vulnerability-description
+    attributes:
+      label: Vulnerability Description
+      description: Describe the security vulnerability. Be as detailed as possible without providing exploit code.
+      placeholder: |
+        Describe the vulnerability...
+        What security principle is violated?
+        What could an attacker potentially do?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: vulnerability-type
+    attributes:
+      label: Vulnerability Type
+      description: What type of security issue is this?
+      options:
+        - SQL Injection
+        - Code Injection
+        - Information Disclosure
+        - Denial of Service
+        - Authentication/Authorization
+        - Data Validation
+        - Dependency Vulnerability
+        - Configuration Issue
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected-component
+    attributes:
+      label: Affected Component
+      description: Which part of the library is affected?
+      placeholder: |
+        e.g., Specific DBAL type, DQL function, value object, etc.
+        Include file paths if known.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What is the potential impact of this vulnerability?
+      placeholder: |
+        Who is affected?
+        What data or systems are at risk?
+        What are the potential consequences?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Provide steps to reproduce the vulnerability (without providing a full exploit).
+      placeholder: |
+        1. Configure...
+        2. Create entity with...
+        3. Execute query...
+        4. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proof-of-concept
+    attributes:
+      label: Proof of Concept
+      description: If safe to share publicly, provide a minimal proof of concept. DO NOT include actual exploit code.
+      placeholder: |
+        ```php
+        // Minimal example demonstrating the issue
+        // (without providing a weaponized exploit)
+        ```
+      render: php
+    validations:
+      required: false
+
+  - type: input
+    id: package-version
+    attributes:
+      label: Affected Package Version(s)
+      description: Which version(s) of postgresql-for-doctrine are affected?
+      placeholder: "e.g., 3.0.0, 2.x, all versions, etc."
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Provide relevant environment information.
+      placeholder: |
+        - PHP version:
+        - Doctrine DBAL version:
+        - PostgreSQL version:
+        - Framework (if applicable):
+    validations:
+      required: false
+
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Suggested Mitigation
+      description: If you have suggestions for fixing this vulnerability, please share them.
+      placeholder: |
+        How could this be fixed?
+        Are there any workarounds users can apply now?
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Provide any relevant references (CVEs, security advisories, research papers, etc.).
+      placeholder: |
+        - CVE-XXXX-XXXXX
+        - https://...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: responsible-disclosure
+    attributes:
+      label: Responsible Disclosure
+      description: Please confirm your understanding of responsible disclosure
+      options:
+        - label: I understand that critical vulnerabilities should be reported privately first
+          required: true
+        - label: I have not publicly disclosed detailed exploit code for this vulnerability
+          required: true
+        - label: I am reporting this to help improve the security of the project
+          required: true
+

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 
 /**
  * Implementation of PostgreSQL BOOL[] data type.
@@ -19,7 +20,7 @@ class BooleanArray extends BaseArray
     /**
      * @var string
      */
-    protected const TYPE_NAME = 'bool[]';
+    protected const TYPE_NAME = Type::BOOL_ARRAY;
 
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
     {

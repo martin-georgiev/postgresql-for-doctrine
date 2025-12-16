@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointException;
@@ -20,7 +21,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
  */
 class Point extends BaseType
 {
-    protected const TYPE_NAME = 'point';
+    protected const TYPE_NAME = Type::POINT;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
