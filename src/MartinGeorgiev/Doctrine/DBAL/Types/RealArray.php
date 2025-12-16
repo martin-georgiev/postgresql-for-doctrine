@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
+
 /**
  * Implementation of PostgreSQL REAL[] data type.
  *
@@ -14,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
  */
 class RealArray extends BaseFloatArray
 {
-    protected const TYPE_NAME = 'real[]';
+    protected const TYPE_NAME = Type::REAL_ARRAY;
 
     protected function getMinValue(): string
     {

@@ -110,6 +110,61 @@ abstract class BaseRangeTestCase extends TestCase
         }
     }
 
+    #[Test]
+    public function can_get_lower_bound(): void
+    {
+        $range = $this->createSimpleRange();
+        $lower = $range->getLower();
+
+        $this->assertNotNull($lower, 'Simple range should have a lower bound');
+    }
+
+    #[Test]
+    public function can_get_upper_bound(): void
+    {
+        $range = $this->createSimpleRange();
+        $upper = $range->getUpper();
+
+        $this->assertNotNull($upper, 'Simple range should have an upper bound');
+    }
+
+    #[Test]
+    public function can_get_null_bounds_for_infinite_range(): void
+    {
+        $range = $this->createInfiniteRange();
+
+        $this->assertNull($range->getLower(), 'Infinite range should have null lower bound');
+        $this->assertNull($range->getUpper(), 'Infinite range should have null upper bound');
+    }
+
+    #[Test]
+    public function can_get_bracket_inclusivity(): void
+    {
+        $range = $this->createSimpleRange();
+
+        $this->assertTrue($range->isLowerBracketInclusive(), 'Simple range should have inclusive lower bracket');
+        $this->assertFalse($range->isUpperBracketInclusive(), 'Simple range should have exclusive upper bracket');
+    }
+
+    #[Test]
+    public function can_get_inclusive_bracket_state(): void
+    {
+        $range = $this->createInclusiveRange();
+
+        $this->assertTrue($range->isLowerBracketInclusive(), 'Inclusive range should have inclusive lower bracket');
+        $this->assertTrue($range->isUpperBracketInclusive(), 'Inclusive range should have inclusive upper bracket');
+    }
+
+    #[Test]
+    public function can_get_explicitly_empty_state(): void
+    {
+        $emptyRange = $this->createEmptyRange();
+        $normalRange = $this->createSimpleRange();
+
+        $this->assertTrue($emptyRange->isExplicitlyEmpty(), 'Empty range should be explicitly empty');
+        $this->assertFalse($normalRange->isExplicitlyEmpty(), 'Normal range should not be explicitly empty');
+    }
+
     /**
      * Create a simple range for basic testing.
      *

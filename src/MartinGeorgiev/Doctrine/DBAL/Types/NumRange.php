@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 
@@ -18,7 +19,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
  */
 class NumRange extends BaseRangeType
 {
-    protected const TYPE_NAME = 'numrange';
+    protected const TYPE_NAME = Type::NUMRANGE;
 
     protected function createFromString(string $value): Range
     {

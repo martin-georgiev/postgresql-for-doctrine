@@ -39,4 +39,12 @@ class CeilTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(11, $result[0]['result']);
     }
+
+    #[Test]
+    public function ceil_with_arithmetic_expression(): void
+    {
+        $dql = 'SELECT CEIL(t.decimal1 * t.decimal2 / t.integer1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(22, $result[0]['result']);
+    }
 }

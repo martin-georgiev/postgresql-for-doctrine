@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
@@ -20,7 +21,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
  */
 final class Geography extends BaseSpatialType
 {
-    protected const TYPE_NAME = 'geography';
+    protected const TYPE_NAME = Type::GEOGRAPHY;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {

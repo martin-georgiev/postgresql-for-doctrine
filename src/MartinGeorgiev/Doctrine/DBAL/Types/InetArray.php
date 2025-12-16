@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\InetValidationTrait;
 
@@ -19,7 +20,7 @@ class InetArray extends BaseNetworkTypeArray
 {
     use InetValidationTrait;
 
-    protected const TYPE_NAME = 'inet[]';
+    protected const TYPE_NAME = Type::INET_ARRAY;
 
     protected function isValidNetworkAddress(string $value): bool
     {

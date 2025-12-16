@@ -61,10 +61,10 @@ jobs:
             doctrine-lexer: '2.1'
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
 
       - name: Set up PHP with PECL extension
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2
         with:
           php-version: ${{ matrix.php }}
           coverage: ${{ matrix.calculate-code-coverage == true && 'xdebug' || 'none' }}
@@ -124,7 +124,7 @@ jobs:
 
       - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2
         env:
           COVERALLS_SERVICE_NAME: github
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }}

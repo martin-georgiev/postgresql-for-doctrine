@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPException;
 
 /**
@@ -16,7 +17,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPE
  */
 class MacaddrArray extends BaseNetworkTypeArray
 {
-    protected const TYPE_NAME = 'macaddr[]';
+    protected const TYPE_NAME = Type::MACADDR_ARRAY;
 
     protected function isValidNetworkAddress(string $value): bool
     {

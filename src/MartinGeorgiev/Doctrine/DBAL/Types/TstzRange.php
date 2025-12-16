@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange as TstzRangeValueObject;
 
@@ -18,7 +19,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange as TstzRangeValueOb
  */
 class TstzRange extends BaseRangeType
 {
-    protected const TYPE_NAME = 'tstzrange';
+    protected const TYPE_NAME = Type::TSTZRANGE;
 
     protected function createFromString(string $value): Range
     {

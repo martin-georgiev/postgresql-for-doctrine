@@ -31,4 +31,12 @@ class WidthBucketTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(3, $result[0]['result']);
     }
+
+    #[Test]
+    public function width_bucket_with_arithmetic_expressions(): void
+    {
+        $dql = 'SELECT WIDTH_BUCKET(n.integer1 / 2, n.integer1 - 10, n.integer2 + 10, n.integer1 / 2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(1, $result[0]['result']);
+    }
 }
