@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.7.0...v4.0.0) (2025-12-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for PHP 8.1 ([#468](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/468))
+* remove deprecations scheduled for v4.0 ([#469](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/469))
+
+### Features
+
+* Drop support for PHP 8.1 ([#468](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/468)) ([94f2ed8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/94f2ed83ee9f44d76c0937cbe9494f267ade3efe))
+* Remove deprecations scheduled for v4.0 ([#469](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/469)) ([73585aa](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/73585aa299e528450c8159517f0819dba6806319))
+
 ## [3.7.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.6.2...v3.7.0) (2025-12-13)
 
 
