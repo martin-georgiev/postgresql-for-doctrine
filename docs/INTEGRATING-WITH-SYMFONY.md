@@ -229,6 +229,7 @@ doctrine:
                         DATE_EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract
                         DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
                         DATE_SUBTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract
+                        DATE_TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc
 
                         # range functions
                         DATERANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange
@@ -301,6 +302,7 @@ Once configured, you can use the PostgreSQL types in your Symfony entities:
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
@@ -316,25 +318,25 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'jsonb')]
+    #[ORM\Column(type: Type::JSONB)]
     private array $specifications = [];
 
-    #[ORM\Column(type: 'text[]')]
+    #[ORM\Column(type: Type::TEXT_ARRAY)]
     private array $categories = [];
 
-    #[ORM\Column(type: 'point')]
+    #[ORM\Column(type: Type::POINT)]
     private Point $manufacturingLocation;
 
-    #[ORM\Column(type: 'numrange')]
+    #[ORM\Column(type: Type::NUMRANGE)]
     private NumericRange $priceRange;
 
-    #[ORM\Column(type: 'daterange')]
+    #[ORM\Column(type: Type::DATERANGE)]
     private DateRange $availabilityPeriod;
 
-    #[ORM\Column(type: 'inet')]
+    #[ORM\Column(type: Type::INET)]
     private string $originServerIp;
 
-    #[ORM\Column(type: 'ltree')]
+    #[ORM\Column(type: Type::LTREE)]
     private Ltree $pathFromRoot;
 }
 ```
@@ -377,6 +379,8 @@ If you need to register types programmatically (e.g., in a bundle), you can do s
 namespace App\Service;
 
 use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
 #[Autoconfigure(lazy: true)]
@@ -384,8 +388,8 @@ class DoctrineTypeRegistrar
 {
     public function registerTypes(): void
     {
-        if (!Type::hasType('jsonb')) {
-            Type::addType('jsonb', \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class);
+        if (!Type::hasType(Type::JSONB)) {
+            Type::addType(Type::JSONB, Jsonb::class);
         }
 
         // Register other types as needed...

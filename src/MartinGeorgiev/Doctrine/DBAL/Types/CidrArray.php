@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\CidrValidationTrait;
 
@@ -19,7 +20,7 @@ class CidrArray extends BaseNetworkTypeArray
 {
     use CidrValidationTrait;
 
-    protected const TYPE_NAME = 'cidr[]';
+    protected const TYPE_NAME = Type::CIDR_ARRAY;
 
     protected function isValidNetworkAddress(string $value): bool
     {

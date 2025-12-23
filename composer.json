@@ -37,7 +37,7 @@
     },
 
     "require": {
-        "php": "^8.1 <8.6",
+        "php": "^8.2 <8.6",
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -47,13 +47,13 @@
         "deptrac/deptrac": "^4.0",
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.0",
-        "friendsofphp/php-cs-fixer": "^3.90.0",
-        "phpstan/phpstan": "^2.1.32",
+        "friendsofphp/php-cs-fixer": "^3.92.3",
+        "phpstan/phpstan": "^2.1.33",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
-        "phpstan/phpstan-doctrine": "^2.0.11",
-        "phpstan/phpstan-phpunit": "^2.0.8",
+        "phpstan/phpstan-doctrine": "^2.0.12",
+        "phpstan/phpstan-phpunit": "^2.0.11",
         "phpunit/phpunit": "^12.4.5",
-        "rector/rector": "^2.2.8",
+        "rector/rector": "^2.2.14",
         "symfony/cache": "^6.4||^7.0",
         "symfony/var-exporter": "^6.4||^7.0"
     },

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 
@@ -18,7 +19,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
  */
 class Int8Range extends BaseRangeType
 {
-    protected const TYPE_NAME = 'int8range';
+    protected const TYPE_NAME = Type::INT8RANGE;
 
     protected function createFromString(string $value): Range
     {

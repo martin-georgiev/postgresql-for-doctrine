@@ -90,13 +90,13 @@ class TextArrayTest extends TestCase
                     'some text here',
                     'and some here',
                     <<<'END'
-''"quotes"'' ain't no """worry""", '''right''' Alexander O'Vechkin?
-END,
+                        ''"quotes"'' ain't no """worry""", '''right''' Alexander O'Vechkin?
+                        END,
                     'and "double-quotes"',
                 ],
                 'postgresValue' => <<<'END'
-{1,"2",3.4,"5.6","text","some text here","and some here","''\"quotes\"'' ain't no \"\"\"worry\"\"\", '''right''' Alexander O'Vechkin?","and \"double-quotes\""}
-END,
+                    {1,"2",3.4,"5.6","text","some text here","and some here","''\"quotes\"'' ain't no \"\"\"worry\"\"\", '''right''' Alexander O'Vechkin?","and \"double-quotes\""}
+                    END,
             ],
             [
                 'phpValue' => ['STRING_A', 'STRING_B', 'STRING_C', 'STRING_D'],

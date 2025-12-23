@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPException;
 
 /**
@@ -13,7 +14,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPExceptio
  */
 final class GeographyArray extends SpatialDataArray
 {
-    protected const TYPE_NAME = 'geography[]';
+    protected const TYPE_NAME = Type::GEOGRAPHY_ARRAY;
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
