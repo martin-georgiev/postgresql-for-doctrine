@@ -22,9 +22,9 @@ class ST_LineExtend extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
+        return [
+            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
             'StringPrimary,ArithmeticPrimary',
-            'StringPrimary,',
         ];
     }
 
