@@ -118,6 +118,12 @@ abstract class SpatialOperatorTestCase extends BaseTestCase
                 'geography1' => 'SRID=4326;POINT(-9.1393 38.7223)',
                 'geography2' => 'SRID=4326;POINT(-0.1276 51.5074)',
             ],
+            'id=14 (compound curve with 3 components)' => [
+                'geometry1' => 'COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1), (3 1, 4 0))',
+                'geometry2' => 'COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))',
+                'geography1' => 'SRID=4326;POINT(-9.1393 38.7223)',
+                'geography2' => 'SRID=4326;POINT(-0.1276 51.5074)',
+            ],
         ];
 
         $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, self::TABLE_NAME);

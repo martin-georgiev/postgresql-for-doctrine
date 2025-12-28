@@ -46,3 +46,24 @@ bin/phpunit --filter "ST_HasZ" --configuration ci/phpunit/config-integration.xml
 ```
 instead of running the full integration test suite.
 
+## PostGIS Geometry Result Assertions
+PostGIS functions that return geometry types produce WKB (Well-Known Binary) hex format in query results, not WKT text. Do NOT assert directly on geometry string content.
+
+**Instead, use these patterns**:
+1. **Comparison functions**: `ST_EQUALS(geom1, geom2)` returns boolean
+2. **Measurement functions**: `ST_LENGTH(geom)`, `ST_AREA(geom)`, `ST_DISTANCE(geom1, geom2)` return numeric values
+3. **Relationship functions**: `ST_CONTAINS`, `ST_INTERSECTS`, `ST_RELATE` return boolean or DE-9IM strings
+4. **Null checks**: For functions that may return null, assert `assertNull()` or `assertNotNull()`
+
+**Do**:
+```php
+$dql = 'SELECT ST_LENGTH(ST_CURVEN(g.geometry1, 1)) as result FROM ...';
+$this->assertEqualsWithDelta(1.4142, $result[0]['result'], 0.001);
+```
+
+**Don't**:
+```php
+$dql = 'SELECT ST_CURVEN(g.geometry1, 1) as result FROM ...';
+$this->assertStringContainsString('LINESTRING', $result[0]['result']); // Returns WKB hex, not WKT!
+```
+
