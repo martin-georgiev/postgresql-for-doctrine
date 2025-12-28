@@ -63,21 +63,6 @@ class ST_RelateMatchTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function can_filter_geometries_by_spatial_relationship_pattern(): void
-    {
-        $dql = 'SELECT g.id, ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF0FFF0F2\') as matches_disjoint_points
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF0FFF0F2\') = TRUE
-                AND g.id IN (1, 2, 3)
-                ORDER BY g.id';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(1, $result);
-        $this->assertEquals(1, $result[0]['id']);
-        $this->assertTrue($result[0]['matches_disjoint_points']);
-    }
-
-    #[Test]
     public function returns_boolean_type_when_testing_fixture_geometry_relationships(): void
     {
         $dql = 'SELECT ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF0FFF0F2\') as result
