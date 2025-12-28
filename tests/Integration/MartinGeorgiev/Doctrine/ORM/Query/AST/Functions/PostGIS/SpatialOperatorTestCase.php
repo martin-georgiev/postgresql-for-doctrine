@@ -112,6 +112,12 @@ abstract class SpatialOperatorTestCase extends BaseTestCase
                 'geography1' => 'SRID=4326;POINT(-9.1393 38.7223)',
                 'geography2' => 'SRID=4326;POINT(-0.1276 51.5074)',
             ],
+            'id=13 (polygon adjacent to id=4)' => [
+                'geometry1' => 'POLYGON((2 0, 2 2, 4 2, 4 0, 2 0))',
+                'geometry2' => 'POLYGON((0 0, 0 2, 2 2, 2 0, 0 0))',
+                'geography1' => 'SRID=4326;POINT(-9.1393 38.7223)',
+                'geography2' => 'SRID=4326;POINT(-0.1276 51.5074)',
+            ],
         ];
 
         $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, self::TABLE_NAME);

@@ -33,17 +33,16 @@ class ST_CoverageUnionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function computes_union_of_multiple_polygons(): void
+    public function computes_union_of_adjacent_polygons(): void
     {
-        // Union of two overlapping polygons: 4x4 (area=16) and 2x2 (area=4) with overlap
-        // id=2: POLYGON((0 0, 0 4, 4 4, 4 0, 0 0)) - 4x4 polygon
-        // id=4: POLYGON((0 0, 0 2, 2 2, 2 0, 0 0)) - 2x2 polygon (fully contained in id=2)
-        // Combined area should be 16 (the larger polygon contains the smaller one)
+        // id=4: POLYGON((0 0, 0 2, 2 2, 2 0, 0 0)) - 2x2 polygon (area=4)
+        // id=13: POLYGON((2 0, 2 2, 4 2, 4 0, 2 0)) - adjacent 2x2 polygon (area=4)
+        // Together they form a valid coverage with combined area=8
         $dql = 'SELECT ST_AREA(ST_COVERAGEUNION(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id IN (2, 4)';
+                WHERE g.id IN (4, 13)';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(20, $result[0]['result'], 'coverage union of 4x4 and 2x2 non-overlapping polygons should have combined area');
+        $this->assertEquals(8, $result[0]['result']);
     }
 }
