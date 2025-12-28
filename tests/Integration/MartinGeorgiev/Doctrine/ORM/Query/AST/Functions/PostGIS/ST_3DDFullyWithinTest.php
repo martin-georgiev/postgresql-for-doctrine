@@ -43,7 +43,7 @@ class ST_3DDFullyWithinTest extends SpatialOperatorTestCase
     {
         $dql = 'SELECT ST_3DDFULLYWITHIN(g.geometry1, g.geometry2, 10.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE ST_3DDFULLYWITHIN(g.geometry1, g.geometry2, 10.0) = TRUE';
+                WHERE ST_3DDFULLYWITHIN(g.geometry1, g.geometry2, 10.0) = TRUE AND g.id IN (1, 2, 3)';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
