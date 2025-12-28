@@ -41,7 +41,7 @@ class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16.0, $result[0]['result']);
+        $this->assertEquals(16.0, $result[0]['result'], 'outer hull of 4x4 polygon should have area 16');
     }
 
     #[Test]
