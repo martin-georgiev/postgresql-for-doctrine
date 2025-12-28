@@ -309,6 +309,22 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Get the PostGIS version as a numeric value (e.g., 30400 for 3.4.0, 30500 for 3.5.0).
+     */
+    protected function getPostgisVersion(): int
+    {
+        $result = $this->connection->fetchOne('SELECT postgis_lib_version()');
+        \assert(\is_string($result));
+
+        $parts = \explode('.', $result);
+        $major = (int) ($parts[0] ?? 0);
+        $minor = (int) ($parts[1] ?? 0);
+        $patch = (int) ($parts[2] ?? 0);
+
+        return $major * 10000 + $minor * 100 + $patch;
+    }
+
+    /**
      * Skip the test if PostgreSQL version is less than the required version.
      *
      * @param int $requiredVersion The minimum required PostgreSQL version (e.g., 180000 for PostgreSQL 18)
@@ -316,30 +332,47 @@ abstract class TestCase extends BaseTestCase
      */
     protected function requirePostgresVersion(int $requiredVersion, string $featureName = ''): void
     {
-        $currentVersion = $this->getPostgresVersion();
+        $this->requireVersion('PostgreSQL', $this->getPostgresVersion(), $requiredVersion, $featureName);
+    }
 
-        if ($currentVersion < $requiredVersion) {
-            $currentMajor = (int) ($currentVersion / 10000);
-            $currentMinor = (int) (($currentVersion % 10000) / 100);
-            $currentPatch = $currentVersion % 100;
+    /**
+     * Skip the test if PostGIS version is less than the required version.
+     *
+     * @param int $requiredVersion The minimum required PostGIS version (e.g., 30400 for PostGIS 3.4.0)
+     * @param string $featureName Optional feature name to include in the skip message
+     */
+    protected function requirePostgisVersion(int $requiredVersion, string $featureName = ''): void
+    {
+        $this->requireVersion('PostGIS', $this->getPostgisVersion(), $requiredVersion, $featureName);
+    }
 
-            $requiredMajor = (int) ($requiredVersion / 10000);
-            $requiredMinor = (int) (($requiredVersion % 10000) / 100);
-            $requiredPatch = $requiredVersion % 100;
-
-            $featureMessage = $featureName !== '' ? \sprintf(' (%s)', $featureName) : '';
-            $message = \sprintf(
-                'This test requires PostgreSQL %d.%d.%d or later%s. Current version: %d.%d.%d',
-                $requiredMajor,
-                $requiredMinor,
-                $requiredPatch,
-                $featureMessage,
-                $currentMajor,
-                $currentMinor,
-                $currentPatch
-            );
-
-            $this->markTestSkipped($message);
+    private function requireVersion(string $product, int $currentVersion, int $requiredVersion, string $featureName): void
+    {
+        if ($currentVersion >= $requiredVersion) {
+            return;
         }
+
+        $currentMajor = (int) ($currentVersion / 10000);
+        $currentMinor = (int) (($currentVersion % 10000) / 100);
+        $currentPatch = $currentVersion % 100;
+
+        $requiredMajor = (int) ($requiredVersion / 10000);
+        $requiredMinor = (int) (($requiredVersion % 10000) / 100);
+        $requiredPatch = $requiredVersion % 100;
+
+        $featureMessage = $featureName !== '' ? \sprintf(' (%s)', $featureName) : '';
+        $message = \sprintf(
+            'This test requires %s %d.%d.%d or later%s. Current version: %d.%d.%d',
+            $product,
+            $requiredMajor,
+            $requiredMinor,
+            $requiredPatch,
+            $featureMessage,
+            $currentMajor,
+            $currentMinor,
+            $currentPatch
+        );
+
+        $this->markTestSkipped($message);
     }
 }

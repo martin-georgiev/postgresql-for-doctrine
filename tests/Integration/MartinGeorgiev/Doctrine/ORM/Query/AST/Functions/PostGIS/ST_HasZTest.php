@@ -9,6 +9,12 @@ use PHPUnit\Framework\Attributes\Test;
 
 class ST_HasZTest extends SpatialOperatorTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->requirePostgisVersion(30500, 'ST_HasZ');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
