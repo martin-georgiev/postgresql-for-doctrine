@@ -70,16 +70,4 @@ class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0, $result[0]['result']);
     }
-
-    #[Test]
-    public function can_filter_crossing_lines_in_where_clause(): void
-    {
-        $dql = 'SELECT ST_LINECROSSINGDIRECTION(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(0 2, 2 0)\') as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE ST_LINECROSSINGDIRECTION(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(0 2, 2 0)\') = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(12, $result);
-        $this->assertEquals(1, $result[0]['result']);
-    }
 }

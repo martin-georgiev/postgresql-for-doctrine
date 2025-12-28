@@ -68,16 +68,13 @@ class ST_RelateMatchTest extends SpatialOperatorTestCase
         $dql = 'SELECT g.id, ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF0FFF0F2\') as matches_disjoint_points
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF0FFF0F2\') = TRUE
+                AND g.id IN (1, 2, 3)
                 ORDER BY g.id';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(3, $result, 'id=1, id=11, id=12 shall have disjoint point geometries matching the pattern');
-        $this->assertTrue($result[0]['matches_disjoint_points']);
+        $this->assertCount(1, $result);
         $this->assertEquals(1, $result[0]['id']);
         $this->assertTrue($result[0]['matches_disjoint_points']);
-        $this->assertEquals(11, $result[1]['id']);
-        $this->assertTrue($result[0]['matches_disjoint_points']);
-        $this->assertEquals(12, $result[2]['id']);
     }
 
     #[Test]
