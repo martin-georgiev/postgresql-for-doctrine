@@ -30,7 +30,7 @@ class GammaTest extends NumericTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(24.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(24.0, $result[0]['result']);
     }
 
     #[Test]
@@ -52,7 +52,7 @@ class GammaTest extends NumericTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(362880.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(362880.0, $result[0]['result']);
     }
 
     #[Test]
@@ -63,6 +63,6 @@ class GammaTest extends NumericTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(24.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(24.0, $result[0]['result']);
     }
 }

@@ -41,7 +41,7 @@ class ST_ScaleTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(36, $result[0]['result'], 0.000000000000001, 'should scale polygon area by factor squared (16 * 1.5 * 1.5 = 36)');
+        $this->assertEquals(36, $result[0]['result'], 'should scale polygon area by factor squared (16 * 1.5 * 1.5 = 36)');
     }
 
     #[Test]

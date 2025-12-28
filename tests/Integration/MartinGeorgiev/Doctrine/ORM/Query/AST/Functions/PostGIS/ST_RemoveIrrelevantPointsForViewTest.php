@@ -34,7 +34,7 @@ class ST_RemoveIrrelevantPointsForViewTest extends SpatialOperatorTestCase
                 WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(16.0, $result[0]['result'], 0.001);
+        $this->assertEquals(16.0, $result[0]['result']);
     }
 
     #[Test]

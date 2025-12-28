@@ -33,14 +33,14 @@ class PowerTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(3.0, $result[0]['result']);
     }
 
     #[Test]
     public function can_calculate_with_negative_base(): void
     {
-        $dql = 'SELECT POWER((-2), 3) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
+        $dql = 'SELECT POWER((-2), 3) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(-8, $result[0]['result']);
@@ -49,11 +49,11 @@ class PowerTest extends NumericTestCase
     #[Test]
     public function can_calculate_with_negative_exponent(): void
     {
-        $dql = 'SELECT POWER(2, (-2)) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
+        $dql = 'SELECT POWER(2, (-2)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.25, $result[0]['result'], 0.0001);
+        $this->assertEquals(0.25, $result[0]['result']);
     }
 
     #[Test]
@@ -73,6 +73,6 @@ class PowerTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(900, $result[0]['result'], 0.0001);
+        $this->assertEquals(900, $result[0]['result']);
     }
 }

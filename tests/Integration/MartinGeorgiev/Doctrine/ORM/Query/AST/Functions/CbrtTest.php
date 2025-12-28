@@ -23,14 +23,14 @@ class CbrtTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(3.0, $result[0]['result']);
     }
 
     #[Test]
     public function can_calculate_cube_root_of_non_perfect_cube(): void
     {
-        $dql = 'SELECT CBRT(10.0) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
+        $dql = 'SELECT CBRT(10.0) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(2.1544, $result[0]['result'], 0.0001);
@@ -39,11 +39,11 @@ class CbrtTest extends NumericTestCase
     #[Test]
     public function can_calculate_cube_root_of_negative_number(): void
     {
-        $dql = 'SELECT CBRT((-27.0)) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
+        $dql = 'SELECT CBRT((-27.0)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(-3.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(-3.0, $result[0]['result']);
     }
 
     #[Test]
@@ -63,6 +63,6 @@ class CbrtTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(3.0, $result[0]['result']);
     }
 }
