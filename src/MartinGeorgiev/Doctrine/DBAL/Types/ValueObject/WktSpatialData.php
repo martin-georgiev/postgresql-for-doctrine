@@ -19,13 +19,13 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialD
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class WktSpatialData implements \Stringable
+final readonly class WktSpatialData implements \Stringable
 {
     private function __construct(
-        private readonly ?int $srid,
-        private readonly GeometryType $geometryType,
-        private readonly string $wktBody,
-        private readonly ?DimensionalModifier $dimensionalModifier = null
+        private ?int $srid,
+        private GeometryType $geometryType,
+        private string $wktBody,
+        private ?DimensionalModifier $dimensionalModifier = null
     ) {}
 
     public function __toString(): string

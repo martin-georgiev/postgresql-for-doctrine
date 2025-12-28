@@ -7,7 +7,7 @@ This directory contains integration tests that run against a real PostgreSQL dat
 ### Prerequisites
 
 - Docker (for running PostgreSQL with PostGIS)
-- PHP 8.1+ with the `pdo_pgsql` extension
+- PHP 8.2+ with the `pdo_pgsql` extension
 
 ### Start PostgreSQL with PostGIS
 
