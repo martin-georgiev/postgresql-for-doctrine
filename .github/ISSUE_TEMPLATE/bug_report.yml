@@ -111,7 +111,7 @@ body:
     attributes:
       label: PHP Version
       description: Which PHP version are you using?
-      placeholder: "e.g., 8.1, 8.2, 8.3, 8.4, 8.5"
+      placeholder: "e.g., 8.2, 8.3, 8.4, 8.5"
     validations:
       required: true
 

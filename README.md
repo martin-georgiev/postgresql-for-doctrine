@@ -5,7 +5,7 @@
 
 # PostgreSQL for Doctrine
 
-Enhances Doctrine with PostgreSQL-specific features and functions. Supports PostgreSQL 9.4+ and PHP 8.1+.
+Enhances Doctrine with PostgreSQL-specific features and functions. Supports PostgreSQL 9.4+ and PHP 8.2+.
 
 ## Quick Start
 
