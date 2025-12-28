@@ -79,7 +79,7 @@ class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
                 WHERE ST_LINECROSSINGDIRECTION(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(0 2, 2 0)\') = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(10, $result);
+        $this->assertCount(12, $result);
         $this->assertEquals(1, $result[0]['result']);
     }
 }
