@@ -78,6 +78,15 @@ These functions determine spatial relationships between geometries. Most return 
 | ST_Touches | ST_TOUCHES | Tests if two geometries have at least one point in common, but their interiors do not intersect | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Touches` |
 | ST_Within | ST_WITHIN | Tests if every point of A lies in B, and their interiors have a point in common | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Within` |
 
+## PostGIS Geometry Accessor Functions
+
+These functions return properties and information about geometries.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_HasM | ST_HASM | Returns true if the geometry has an M (measure) coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasM` |
+| ST_HasZ | ST_HASZ | Returns true if the geometry has a Z coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ` |
+
 ## PostGIS Measurement Functions
 
 These functions calculate various measurements of geometries including lengths, areas, distances, and angles.
@@ -117,6 +126,14 @@ These functions perform geometric operations between geometries including inters
 | ST_CollectionExtract | ST_COLLECTIONEXTRACT | Extracts a specific type from a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionExtract` |
 | ST_CollectionHomogenize | ST_COLLECTIONHOMOGENIZE | Homogenizes a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionHomogenize` |
 
+## PostGIS Coverage Functions
+
+These functions work with polygonal coverages (sets of non-overlapping polygons that share edges).
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_CoverageUnion | ST_COVERAGEUNION | Computes the union of a set of polygons forming a coverage by removing shared edges | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion` |
+
 ## PostGIS Geometry Processing Functions
 
 These functions modify and transform geometries including buffering, simplification, coordinate system changes, and geometric transformations.
@@ -136,6 +153,7 @@ These functions modify and transform geometries including buffering, simplificat
 | ST_Force3D | ST_FORCE3D | Forces geometry to 3D by adding Z coordinate if needed | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force3D` |
 | ST_Force4D | ST_FORCE4D | Forces geometry to 4D by adding Z and M coordinates if needed | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force4D` |
 | ST_CurveToLine | ST_CURVETOLINE | Converts curved geometries to linear geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveToLine` |
+| ST_LineExtend | ST_LINEEXTEND | Returns a line extended forwards and backwards by specified distances | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineExtend` |
 | ST_LineToCurve | ST_LINETOCURVE | Converts linear geometries to curved geometries where possible | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineToCurve` |
 | ST_Scale | ST_SCALE | Scales a geometry by given factors | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Scale` |
 | ST_Rotate | ST_ROTATE | Rotates a geometry by given angle | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Rotate` |
