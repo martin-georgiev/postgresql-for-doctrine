@@ -43,7 +43,7 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         RenamePropertyToMatchTypeRector::class,
-        RemoveParentDelegatingConstructorRector::class,
+        RemoveParentDelegatingConstructorRector::class, # skip as it removes the intended type narrowing for constructor arguments (like in BaseTimestampRange)
         FlipTypeControlToUseExclusiveTypeRector::class => [
             $basePath.'src/MartinGeorgiev/Utils/DoctrineLexer.php',
         ],
