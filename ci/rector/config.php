@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\ClassMethod\RemoveParentDelegatingConstructorRector;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
@@ -31,19 +32,18 @@ return RectorConfig::configure()
         SetList::DEAD_CODE,
         SetList::EARLY_RETURN,
         SetList::NAMING,
-        SetList::PHP_80,
-        SetList::PHP_81,
         SetList::TYPE_DECLARATION,
         SetList::PRIVATIZATION,
         SetList::CODING_STYLE,
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
-        LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_82,
     ])
     ->withRules([
         PreferPHPUnitThisCallRector::class,
     ])
     ->withSkip([
         RenamePropertyToMatchTypeRector::class,
+        RemoveParentDelegatingConstructorRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class => [
             $basePath.'src/MartinGeorgiev/Utils/DoctrineLexer.php',
         ],
