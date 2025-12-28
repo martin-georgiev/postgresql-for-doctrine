@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Contains;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPolygonHull;
 use PHPUnit\Framework\Attributes\Test;
@@ -16,6 +17,7 @@ class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
         return [
             'ST_SIMPLIFYPOLYGONHULL' => ST_SimplifyPolygonHull::class,
             'ST_AREA' => ST_Area::class,
+            'ST_CONTAINS' => ST_Contains::class,
             'ST_EQUALS' => ST_Equals::class,
         ];
     }
@@ -39,6 +41,17 @@ class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'outer hull of 4x4 polygon should have area 16');
+        $this->assertEquals(16.0, $result[0]['result'], 'outer hull of 4x4 polygon should have area 16');
+    }
+
+    #[Test]
+    public function inner_hull_is_contained_by_original(): void
+    {
+        $dql = "SELECT ST_CONTAINS(g.geometry1, ST_SIMPLIFYPOLYGONHULL(g.geometry1, 0.5, 'false')) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
     }
 }

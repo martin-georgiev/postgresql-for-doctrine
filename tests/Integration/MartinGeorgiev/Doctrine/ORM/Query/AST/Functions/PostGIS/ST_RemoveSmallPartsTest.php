@@ -45,6 +45,6 @@ class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.001);
+        $this->assertEquals(0.0, $result[0]['result']);
     }
 }

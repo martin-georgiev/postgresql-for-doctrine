@@ -21,7 +21,7 @@ class LogTest extends NumericTestCase
     {
         $dql = 'SELECT LOG(10, 100) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(2.0, $result[0]['result']);
     }
 
     #[Test]
