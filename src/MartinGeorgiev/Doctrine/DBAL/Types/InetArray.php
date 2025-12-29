@@ -37,8 +37,8 @@ class InetArray extends BaseNetworkTypeArray
         throw InvalidInetArrayItemForPHPException::forInvalidFormat($value);
     }
 
-    protected function throwInvalidItemException(): never
+    protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidInetArrayItemForPHPException::forInvalidFormat('');
+        throw InvalidInetArrayItemForPHPException::forInvalidFormat($item);
     }
 }

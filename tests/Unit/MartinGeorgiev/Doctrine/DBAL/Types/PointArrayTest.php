@@ -214,7 +214,7 @@ class PointArrayTest extends TestCase
     public function throws_exception_for_invalid_point_array_items(array $invalidArray): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
-        $this->expectExceptionMessage('Array contains invalid point items');
+        $this->expectExceptionMessage('Invalid point format in array');
 
         $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
     }
