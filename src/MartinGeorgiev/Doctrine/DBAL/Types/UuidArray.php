@@ -32,6 +32,10 @@ class UuidArray extends BaseArray
             throw InvalidUuidArrayItemForDatabaseException::forInvalidType($item);
         }
 
+        if (!$this->isValidUuid($item)) {
+            throw InvalidUuidArrayItemForDatabaseException::forInvalidFormat($item);
+        }
+
         return '"'.$item.'"';
     }
 
@@ -70,7 +74,7 @@ class UuidArray extends BaseArray
 
     protected function throwInvalidItemException(): never
     {
-        throw InvalidUuidArrayItemForPHPException::forInvalidFormat('');
+        throw InvalidUuidArrayItemForDatabaseException::forInvalidFormat('');
     }
 
     private function isValidUuid(string $value): bool

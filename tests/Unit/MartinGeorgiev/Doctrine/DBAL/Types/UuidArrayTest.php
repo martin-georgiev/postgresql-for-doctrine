@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUuidArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUuidArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -94,9 +95,9 @@ class UuidArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[DataProvider('provideInvalidDatabaseValueTypes')]
     #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_types(mixed $phpValue): void
     {
         $this->expectException(InvalidUuidArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
@@ -105,10 +106,27 @@ class UuidArrayTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValueInputs(): array
+    public static function provideInvalidDatabaseValueTypes(): array
     {
         return [
             'invalid type' => ['not-an-array'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidDatabaseValueFormats')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_formats(array $phpValue): void
+    {
+        $this->expectException(InvalidUuidArrayItemForDatabaseException::class);
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{array<mixed>}>
+     */
+    public static function provideInvalidDatabaseValueFormats(): array
+    {
+        return [
             'invalid UUID format' => [['not-a-uuid']],
             'too short' => [['550e8400-e29b-41d4-a716']],
             'too long' => [['550e8400-e29b-41d4-a716-446655440000-extra']],
