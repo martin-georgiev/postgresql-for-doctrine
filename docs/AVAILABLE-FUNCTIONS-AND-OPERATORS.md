@@ -98,6 +98,13 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `INDEX` - Find position of ltree in another ltree
 - `LCA` - Find longest common ancestor
 
+**Hashing & Cryptographic Functions:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
+- `MD5`
+- `SHA224`
+- `SHA256`
+- `SHA384`
+- `SHA512`
+
 **Utility Operations:**
 - `CRC32` - CRC-32 checksum computation
 - `CRC32C` - CRC-32C checksum computation

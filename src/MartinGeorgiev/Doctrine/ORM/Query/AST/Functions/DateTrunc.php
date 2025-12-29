@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\TimezoneValidationTra
 /**
  * Implementation of PostgreSQL DATE_TRUNC().
  *
- * @see https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-TRUNC
+ * @see https://www.postgresql.org/docs/16/functions-datetime.html#FUNCTIONS-DATETIME-TRUNC
  * @since 3.7
  *
  * @author Jan Klan <jan@klan.com.au>
