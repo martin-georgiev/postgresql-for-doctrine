@@ -38,6 +38,16 @@ This document covers PostgreSQL mathematical, utility, and miscellaneous functio
 
 **Note**: `TO_NUMBER` supports Roman numeral conversion via the `RN` pattern (PostgreSQL 18+).
 
+## Hashing & Cryptographic Functions
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| md5 | MD5 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5` |
+| sha224 | SHA224 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha224` |
+| sha256 | SHA256 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256` |
+| sha384 | SHA384 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384` |
+| sha512 | SHA512 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512` |
+
 ## Utility and Miscellaneous Functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
