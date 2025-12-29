@@ -2,6 +2,8 @@
 
 ## When Adding New Functionality
 
+NEVER guess or assume version numbers. ALWAYS check GitHub for open release PRs before adding any `@since` annotation.
+
 Before adding `@since` tags to new code in the `src/` directory, determine the correct version number:
 
 ### 1. Check GitHub for Version Context

@@ -47,6 +47,8 @@ return [
                 '_float4' => 'real[]',
                 '_text' => 'text[]',
                 'text[]' => 'text[]',
+                'uuid[]' => 'uuid[]',
+                '_uuid' => 'uuid[]',
 
                 // JSON type mappings
                 'jsonb' => 'jsonb',
@@ -98,6 +100,7 @@ return [
         'double precision[]' => MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class,
         'real[]' => MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class,
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
+        'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
 
         // JSON types
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
@@ -358,6 +361,7 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->addTypeIfNotExists('double precision[]', \MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class);
         $this->addTypeIfNotExists('real[]', \MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class);
         $this->addTypeIfNotExists('text[]', \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class);
+        $this->addTypeIfNotExists('uuid[]', \MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class);
     }
 
     private function registerJsonTypes(): void

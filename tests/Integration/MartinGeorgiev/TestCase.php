@@ -41,6 +41,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -221,6 +222,7 @@ abstract class TestCase extends BaseTestCase
             'text[]' => TextArray::class,
             'tsrange' => TsRange::class,
             'tstzrange' => TstzRange::class,
+            'uuid[]' => UuidArray::class,
         ];
 
         foreach ($typesMap as $typeName => $typeClass) {

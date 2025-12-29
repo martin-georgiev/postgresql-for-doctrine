@@ -20,6 +20,7 @@ trait ByteaAssertionTrait
         $byteaContent = $actual;
 
         if (\is_resource($byteaContent)) {
+            \rewind($byteaContent);
             $byteaContent = \stream_get_contents($byteaContent);
         }
 

@@ -19,6 +19,7 @@ doctrine:
             'double precision[]': MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray
             'real[]': MartinGeorgiev\Doctrine\DBAL\Types\RealArray
             'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
+            'uuid[]': MartinGeorgiev\Doctrine\DBAL\Types\UuidArray
 
             # JSON types
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
@@ -79,6 +80,8 @@ doctrine:
                     _float4: 'real[]'
                     'text[]': 'text[]'
                     _text: 'text[]'
+                    'uuid[]': 'uuid[]'
+                    _uuid: 'uuid[]'
 
                     # JSON type mappings
                     jsonb: jsonb
