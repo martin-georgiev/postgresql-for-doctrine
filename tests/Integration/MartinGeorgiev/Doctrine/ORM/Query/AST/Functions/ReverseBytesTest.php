@@ -31,7 +31,6 @@ class ReverseBytesTest extends TextTestCase
 
         $result = $this->executeDqlQuery($dql);
         $byteaResult = $result[0]['result'];
-
         if (\is_resource($byteaResult)) {
             $byteaResult = \stream_get_contents($byteaResult);
         }
