@@ -103,4 +103,38 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $node = $this->createMock(Node::class);
         $reflectionMethod->invoke($function, $node, $node, $node); // 3 arguments when max 2 are required
     }
+
+    #[Test]
+    public function throws_exact_count_exception_when_min_equals_max(): void
+    {
+        $function = new class('TEST') extends BaseVariadicFunction {
+            protected function getFunctionName(): string
+            {
+                return 'TEST';
+            }
+
+            protected function getNodeMappingPattern(): array
+            {
+                return ['StringPrimary'];
+            }
+
+            protected function getMinArgumentCount(): int
+            {
+                return 2;
+            }
+
+            protected function getMaxArgumentCount(): int
+            {
+                return 2;
+            }
+        };
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('TEST() requires exactly 2 arguments');
+
+        $reflectionClass = new \ReflectionClass($function);
+        $reflectionMethod = $reflectionClass->getMethod('validateArguments');
+
+        $node = $this->createMock(Node::class);
+        $reflectionMethod->invoke($function, $node); // 1 argument when exactly 2 are required
+    }
 }
