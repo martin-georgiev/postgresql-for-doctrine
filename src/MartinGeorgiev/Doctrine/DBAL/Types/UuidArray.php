@@ -7,6 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUuidArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUuidArrayItemForPHPException;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL UUID[] data type.
@@ -28,24 +29,26 @@ class UuidArray extends BaseArray
             return 'NULL';
         }
 
-        if (!\is_string($item)) {
-            throw InvalidUuidArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        if (!$this->isValidUuid($item)) {
-            throw InvalidUuidArrayItemForDatabaseException::forInvalidFormat($item);
-        }
-
+        /** @var string $item validated by isValidArrayItemForDatabase */
         return '"'.$item.'"';
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
+        if ($item === null) {
+            return true;
+        }
+
         if (!\is_string($item)) {
             return false;
         }
 
         return $this->isValidUuid($item);
+    }
+
+    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    {
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?string
@@ -58,13 +61,11 @@ class UuidArray extends BaseArray
             throw InvalidUuidArrayItemForPHPException::forInvalidType($item);
         }
 
-        $unquotedItem = \trim($item, '"');
-
-        if (!$this->isValidUuid($unquotedItem)) {
+        if (!$this->isValidUuid($item)) {
             throw InvalidUuidArrayItemForPHPException::forInvalidFormat($item);
         }
 
-        return $unquotedItem;
+        return $item;
     }
 
     protected function throwInvalidTypeException(mixed $value): never

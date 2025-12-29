@@ -160,4 +160,42 @@ class UuidArrayTest extends TestCase
             'invalid item in array' => ['{"550e8400-e29b-41d4-a716-446655440000","invalid-uuid"}'],
         ];
     }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_in_array(): void
+    {
+        $this->expectException(InvalidUuidArrayItemForDatabaseException::class);
+        $this->fixture->convertToDatabaseValue([123], $this->platform);
+    }
+
+    #[Test]
+    public function can_validate_array_item_for_database(): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase('550e8400-e29b-41d4-a716-446655440000'));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase('invalid-uuid'));
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase(123));
+    }
+
+    #[Test]
+    public function can_convert_array_with_null_to_database(): void
+    {
+        $phpValue = ['550e8400-e29b-41d4-a716-446655440000', null, 'a0eebc99-9c0b-11d1-b465-00c04fd430c8'];
+        $expected = '{"550e8400-e29b-41d4-a716-446655440000",NULL,"a0eebc99-9c0b-11d1-b465-00c04fd430c8"}';
+
+        $this->assertEquals($expected, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidUuidArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
+    }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUuidArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUuidArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -49,11 +49,22 @@ class UuidArrayTypeTest extends ArrayTypeTestCase
     #[Test]
     public function can_handle_invalid_uuids(): void
     {
-        $this->expectException(InvalidUuidArrayItemForPHPException::class);
+        $this->expectException(InvalidUuidArrayItemForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
         $this->runDbalBindingRoundTrip($typeName, $columnType, ['invalid-uuid', '550e8400-e29b-41d4-a716-446655440000']);
+    }
+
+    #[Test]
+    public function can_handle_array_with_null_elements(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $inputValue = ['550e8400-e29b-41d4-a716-446655440000', null, 'a0eebc99-9c0b-11d1-b465-00c04fd430c8'];
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $inputValue);
     }
 }
