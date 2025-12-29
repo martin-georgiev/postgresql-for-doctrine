@@ -25,11 +25,13 @@ class JsonSerializeTest extends JsonTestCase
     #[Test]
     public function can_serialize_json_to_text(): void
     {
-        $dql = 'SELECT JSON_SERIALIZE(t.jsonObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSON_SERIALIZE(t.jsonObject1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
         $this->assertSame('John', $decoded['name']);
         $this->assertSame(30, $decoded['age']);
     }

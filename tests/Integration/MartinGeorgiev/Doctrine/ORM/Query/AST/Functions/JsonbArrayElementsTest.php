@@ -27,7 +27,11 @@ class JsonbArrayElementsTest extends JsonTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(2, $result);
 
-        $values = \array_map(static fn (array $row): mixed => \json_decode((string) $row['result'], true), $result);
+        $values = [];
+        foreach ($result as $row) {
+            $this->assertIsString($row['result']);
+            $values[] = \json_decode($row['result'], true);
+        }
         $this->assertContains('developer', $values);
         $this->assertContains('manager', $values);
     }

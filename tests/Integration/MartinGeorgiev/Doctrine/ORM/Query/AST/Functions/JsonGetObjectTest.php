@@ -19,11 +19,13 @@ class JsonGetObjectTest extends JsonTestCase
     #[Test]
     public function can_get_nested_object_by_path(): void
     {
-        $dql = "SELECT JSON_GET_OBJECT(t.jsonObject1, '{address}') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
+        $dql = "SELECT JSON_GET_OBJECT(t.jsonObject1, '{address}') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $decoded = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($decoded);
         $this->assertSame('New York', $decoded['city']);
     }
 

@@ -19,30 +19,33 @@ class DateAddTest extends DateTestCase
     #[Test]
     public function can_add_interval_to_timestamp(): void
     {
-        $dql = "SELECT DATE_ADD(t.datetimetz1, '1 day') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
+        $dql = "SELECT DATE_ADD(t.datetimetz1, '1 day') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $this->assertStringContainsString('2023-06-16', $result[0]['result']);
     }
 
     #[Test]
     public function can_add_hours_to_timestamp(): void
     {
-        $dql = "SELECT DATE_ADD(t.datetimetz1, '2 hours') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
+        $dql = "SELECT DATE_ADD(t.datetimetz1, '2 hours') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $this->assertStringContainsString('12:30:00', $result[0]['result']);
     }
 
     #[Test]
     public function can_add_interval_with_timezone(): void
     {
-        $dql = "SELECT DATE_ADD(t.datetimetz1, '1 day', 'UTC') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
+        $dql = "SELECT DATE_ADD(t.datetimetz1, '1 day', 'UTC') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $this->assertStringContainsString('2023-06-16', $result[0]['result']);
     }
 }

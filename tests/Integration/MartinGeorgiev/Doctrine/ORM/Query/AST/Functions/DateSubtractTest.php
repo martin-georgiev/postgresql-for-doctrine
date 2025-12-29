@@ -19,30 +19,33 @@ class DateSubtractTest extends DateTestCase
     #[Test]
     public function can_subtract_interval_from_timestamp(): void
     {
-        $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '1 day') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
+        $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '1 day') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $this->assertStringContainsString('2023-06-14', $result[0]['result']);
     }
 
     #[Test]
     public function can_subtract_hours_from_timestamp(): void
     {
-        $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '2 hours') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
+        $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '2 hours') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $this->assertStringContainsString('08:30:00', $result[0]['result']);
     }
 
     #[Test]
     public function can_subtract_interval_with_timezone(): void
     {
-        $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '1 day', 'UTC') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
+        $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '1 day', 'UTC') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
         $this->assertStringContainsString('2023-06-14', $result[0]['result']);
     }
 }
