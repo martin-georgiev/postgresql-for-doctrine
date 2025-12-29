@@ -49,4 +49,3 @@ class JsonObjectKeysTest extends JsonTestCase
         $this->assertCount(0, $result);
     }
 }
-

@@ -29,7 +29,7 @@ class JsonQueryTest extends JsonTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode($result[0]['result'], true);
+        $decoded = \json_decode((string) $result[0]['result'], true);
         $this->assertSame('New York', $decoded['city']);
     }
 
@@ -40,9 +40,8 @@ class JsonQueryTest extends JsonTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode($result[0]['result'], true);
+        $decoded = \json_decode((string) $result[0]['result'], true);
         $this->assertContains('developer', $decoded);
         $this->assertContains('manager', $decoded);
     }
 }
-

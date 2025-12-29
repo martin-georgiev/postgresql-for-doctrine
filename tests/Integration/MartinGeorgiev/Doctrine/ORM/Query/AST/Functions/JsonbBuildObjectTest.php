@@ -23,7 +23,7 @@ class JsonbBuildObjectTest extends JsonTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode($result[0]['result'], true);
+        $decoded = \json_decode((string) $result[0]['result'], true);
         $this->assertSame('test', $decoded['name']);
         $this->assertSame('123', $decoded['value']);
     }
@@ -35,11 +35,10 @@ class JsonbBuildObjectTest extends JsonTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $decoded = \json_decode($result[0]['result'], true);
+        $decoded = \json_decode((string) $result[0]['result'], true);
         $this->assertCount(3, $decoded);
         $this->assertSame('1', $decoded['a']);
         $this->assertSame('2', $decoded['b']);
         $this->assertSame('3', $decoded['c']);
     }
 }
-

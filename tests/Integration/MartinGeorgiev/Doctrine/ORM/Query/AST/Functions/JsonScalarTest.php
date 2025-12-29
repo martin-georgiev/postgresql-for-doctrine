@@ -4,41 +4,41 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExists;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonScalar;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonExistsTest extends JsonTestCase
+class JsonScalarTest extends JsonTestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
-        $this->requirePostgresVersion(170000, 'JSON_EXISTS function');
+        $this->requirePostgresVersion(170000, 'JSON_SCALAR function');
     }
 
     protected function getStringFunctions(): array
     {
         return [
-            'JSON_EXISTS' => JsonExists::class,
+            'JSON_SCALAR' => JsonScalar::class,
         ];
     }
 
     #[Test]
-    public function returns_true_when_path_exists(): void
+    public function can_convert_string_to_json_scalar(): void
     {
-        $dql = "SELECT JSON_EXISTS(t.jsonObject1, '$.name') as result 
+        $dql = "SELECT JSON_SCALAR('hello') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertSame('"hello"', $result[0]['result']);
     }
 
     #[Test]
-    public function returns_false_when_path_does_not_exist(): void
+    public function can_convert_number_to_json_scalar(): void
     {
-        $dql = "SELECT JSON_EXISTS(t.jsonObject1, '$.nonexistent') as result 
+        $dql = "SELECT JSON_SCALAR('42') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
+        $this->assertSame('"42"', $result[0]['result']);
     }
 }

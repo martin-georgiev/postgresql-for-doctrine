@@ -36,4 +36,3 @@ class JsonGetObjectAsTextTest extends JsonTestCase
         $this->assertSame('John', $result[0]['result']);
     }
 }
-
