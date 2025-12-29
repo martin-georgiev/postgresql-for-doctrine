@@ -42,9 +42,9 @@ class BaseNetworkTypeArrayTest extends TestCase
                 throw new \InvalidArgumentException('Invalid format');
             }
 
-            protected function throwInvalidItemException(): never
+            protected function throwInvalidItemException(mixed $item): never
             {
-                throw new \InvalidArgumentException('Invalid item');
+                throw new \InvalidArgumentException('Invalid item: '.\var_export($item, true));
             }
         };
     }

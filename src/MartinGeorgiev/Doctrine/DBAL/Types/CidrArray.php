@@ -37,8 +37,8 @@ class CidrArray extends BaseNetworkTypeArray
         throw InvalidCidrArrayItemForPHPException::forInvalidFormat($value);
     }
 
-    protected function throwInvalidItemException(): never
+    protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidCidrArrayItemForPHPException::forInvalidFormat('');
+        throw InvalidCidrArrayItemForPHPException::forInvalidFormat($item);
     }
 }

@@ -41,8 +41,8 @@ class MacaddrArray extends BaseNetworkTypeArray
         throw InvalidMacaddrArrayItemForPHPException::forInvalidFormat($value);
     }
 
-    protected function throwInvalidItemException(): never
+    protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidMacaddrArrayItemForPHPException::forInvalidFormat('');
+        throw InvalidMacaddrArrayItemForPHPException::forInvalidFormat($item);
     }
 }

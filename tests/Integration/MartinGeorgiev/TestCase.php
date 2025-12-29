@@ -226,10 +226,13 @@ abstract class TestCase extends BaseTestCase
         ];
 
         foreach ($typesMap as $typeName => $typeClass) {
-            if (!Type::hasType($typeName)) {
+            if (Type::hasType($typeName)) {
+                Type::overrideType($typeName, $typeClass);
+            } else {
                 Type::addType($typeName, $typeClass);
-                self::$registeredTypes[] = $typeName;
             }
+
+            self::$registeredTypes[] = $typeName;
         }
     }
 

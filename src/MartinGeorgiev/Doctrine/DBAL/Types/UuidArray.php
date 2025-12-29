@@ -72,9 +72,9 @@ class UuidArray extends BaseArray
         throw InvalidUuidArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidItemException(): never
+    protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidUuidArrayItemForDatabaseException::forInvalidFormat('');
+        throw InvalidUuidArrayItemForDatabaseException::forInvalidFormat($item);
     }
 
     private function isValidUuid(string $value): bool
