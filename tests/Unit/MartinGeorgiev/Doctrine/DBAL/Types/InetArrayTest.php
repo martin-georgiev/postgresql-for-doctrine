@@ -113,7 +113,6 @@ class InetArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            'invalid type' => ['not-an-array'],
             'invalid IPv4' => [['256.256.256.256']],
             'invalid IPv6' => [['2001:xyz::1']],
             'invalid CIDR format' => [['192.168.1.0/xyz']],
@@ -128,6 +127,24 @@ class InetArrayTest extends TestCase
             'malformed CIDR with spaces' => [['192.168.1.0 / 24']],
             'IPv6 with invalid segment count' => [['2001:db8:1:2:3:4:5:6:7']],
             'IPv6 with invalid segment length' => [['2001:db8:xyz:1:1:1:1:1']],
+        ];
+    }
+
+    #[DataProvider('provideInvalidTypeInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
+    {
+        $this->expectException(InvalidInetArrayItemForPHPException::class);
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputs(): array
+    {
+        return [
+            'string instead of array' => ['not-an-array'],
         ];
     }
 
@@ -156,5 +173,62 @@ class InetArrayTest extends TestCase
             'incomplete IPv4 in array' => ['{"192.168.1"}'],
             'incomplete IPv6 in array' => ['{"2001:db8"}'],
         ];
+    }
+
+    #[DataProvider('provideValidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_valid_array_item_for_database(mixed $value): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'IPv4 address' => ['192.168.1.1'],
+            'IPv4 CIDR' => ['192.168.0.0/24'],
+            'IPv6 address' => ['2001:db8::1'],
+            'IPv6 CIDR' => ['2001:db8::/32'],
+            'loopback IPv4' => ['127.0.0.1'],
+            'loopback IPv6' => ['::1'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    {
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidArrayItemsForDatabase(): array
+    {
+        return [
+            'invalid IP' => ['invalid-ip'],
+            'out of range IPv4' => ['256.256.256.256'],
+            'integer' => [123],
+            'null' => [null],
+            'empty string' => [''],
+            'boolean' => [true],
+        ];
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidInetArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
     }
 }

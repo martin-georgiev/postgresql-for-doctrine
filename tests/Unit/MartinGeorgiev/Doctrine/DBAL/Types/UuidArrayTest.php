@@ -162,13 +162,46 @@ class UuidArrayTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_array_item_for_database(): void
+    public function can_validate_valid_array_item_for_database(mixed $value): void
     {
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase('550e8400-e29b-41d4-a716-446655440000'));
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
-        $this->assertFalse($this->fixture->isValidArrayItemForDatabase('invalid-uuid'));
-        $this->assertFalse($this->fixture->isValidArrayItemForDatabase(123));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'lowercase UUID' => ['550e8400-e29b-41d4-a716-446655440000'],
+            'uppercase UUID' => ['550E8400-E29B-41D4-A716-446655440000'],
+            'mixed case UUID' => ['A0eeBc99-9C0b-11D1-B465-00c04FD430c8'],
+            'null value' => [null],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    {
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidArrayItemsForDatabase(): array
+    {
+        return [
+            'invalid UUID' => ['invalid-uuid'],
+            'integer' => [123],
+            'empty string' => [''],
+            'boolean' => [true],
+            'too short' => ['550e8400-e29b-41d4-a716'],
+            'no hyphens' => ['550e8400e29b41d4a716446655440000'],
+        ];
     }
 
     #[Test]

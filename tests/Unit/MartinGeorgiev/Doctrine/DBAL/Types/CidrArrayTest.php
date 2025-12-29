@@ -93,20 +93,37 @@ class CidrArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            'invalid type' => ['not-an-array'],
             'invalid IPv4' => [['256.256.256.0/24']],
             'invalid IPv6' => [['2001:xyz::/32']],
             'missing netmask' => [['192.168.1.0']],
             'invalid netmask IPv4' => [['192.168.1.0/33']],
             'invalid netmask IPv6' => [['2001:db8::/129']],
-            'mixed valid and invalid' => [['192.168.1.0/24', '256.256.256.0/24']], // Mixed valid/invalid values
-            'empty string' => [['']], // Empty string in array
-            'whitespace only' => [[' ']], // Whitespace string in array
-            'malformed CIDR with spaces' => [['192.168.1.0 / 24']], // Space in CIDR notation
+            'mixed valid and invalid' => [['192.168.1.0/24', '256.256.256.0/24']],
+            'empty string' => [['']],
+            'whitespace only' => [[' ']],
+            'malformed CIDR with spaces' => [['192.168.1.0 / 24']],
             'valid value mixed with null array item' => [['192.168.1.0/24', null]],
             'valid value mixed with integer array item' => [['192.168.1.0/24', 123]],
             'valid value mixed with boolean array item' => [['192.168.1.0/24', true]],
             'valid value mixed with object array item' => [['192.168.1.0/24', new \stdClass()]],
+        ];
+    }
+
+    #[DataProvider('provideInvalidTypeInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
+    {
+        $this->expectException(InvalidCidrArrayItemForPHPException::class);
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputs(): array
+    {
+        return [
+            'string instead of array' => ['not-an-array'],
         ];
     }
 
@@ -132,5 +149,60 @@ class CidrArrayTest extends TestCase
             'missing netmask in array' => ['{"192.168.1.0"}'],
             'invalid netmask in array' => ['{"192.168.1.0/33"}'],
         ];
+    }
+
+    #[DataProvider('provideValidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_valid_array_item_for_database(mixed $value): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'IPv4 CIDR' => ['192.168.1.0/24'],
+            'IPv6 CIDR' => ['2001:db8::/32'],
+            'IPv4 host CIDR' => ['10.0.0.1/32'],
+            'IPv6 host CIDR' => ['::1/128'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    {
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidArrayItemsForDatabase(): array
+    {
+        return [
+            'invalid CIDR' => ['invalid-cidr'],
+            'IP without netmask' => ['192.168.1.0'],
+            'integer' => [123],
+            'null' => [null],
+            'empty string' => [''],
+            'boolean' => [true],
+        ];
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidCidrArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
     }
 }
