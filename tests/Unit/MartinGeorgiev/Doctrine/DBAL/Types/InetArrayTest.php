@@ -231,4 +231,11 @@ class InetArrayTest extends TestCase
         $this->expectException(InvalidInetArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP(123);
     }
+
+    #[Test]
+    public function can_transform_null_item_for_postgres(): void
+    {
+        $result = $this->fixture->convertToDatabaseValue([null], $this->platform);
+        $this->assertSame('{NULL}', $result);
+    }
 }

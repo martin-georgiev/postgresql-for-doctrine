@@ -56,6 +56,16 @@ class JsonbPathQueryArrayTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
+    public function throws_exception_for_non_constant_boolean_parameter(): void
+    {
+        $this->expectException(InvalidBooleanException::class);
+        $this->expectExceptionMessage('The boolean parameter for jsonb_path_query_array must be a string literal');
+
+        $dql = \sprintf("SELECT JSONB_PATH_QUERY_ARRAY(e.jsonbObject1, '$.items[*].id', '{\"strict\": false}', e.jsonbObject1) FROM %s e", ContainsJsons::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
     public function throws_exception_for_too_few_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
