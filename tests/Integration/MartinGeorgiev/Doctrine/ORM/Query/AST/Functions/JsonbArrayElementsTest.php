@@ -32,6 +32,7 @@ class JsonbArrayElementsTest extends JsonTestCase
             $this->assertIsString($row['result']);
             $values[] = \json_decode($row['result'], true);
         }
+
         $this->assertContains('developer', $values);
         $this->assertContains('manager', $values);
     }
