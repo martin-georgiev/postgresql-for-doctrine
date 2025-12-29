@@ -12,6 +12,7 @@
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
 | text[] | _text | `MartinGeorgiev\Doctrine\DBAL\Types\TextArray` |
+| uuid[] | _uuid | `MartinGeorgiev\Doctrine\DBAL\Types\UuidArray` |
 |---|---|---|
 | cidr | cidr | `MartinGeorgiev\Doctrine\DBAL\Types\Cidr` |
 | cidr[] | _cidr | `MartinGeorgiev\Doctrine\DBAL\Types\CidrArray` |

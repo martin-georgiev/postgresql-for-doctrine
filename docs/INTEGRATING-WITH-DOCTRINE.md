@@ -19,6 +19,7 @@ Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
 Type::addType('double precision[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DoublePrecisionArray");
 Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
 
 // JSON types
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
@@ -250,6 +251,8 @@ $platform->registerDoctrineTypeMapping('real[]', 'real[]');
 $platform->registerDoctrineTypeMapping('_float4', 'real[]');
 $platform->registerDoctrineTypeMapping('text[]', 'text[]');
 $platform->registerDoctrineTypeMapping('_text', 'text[]');
+$platform->registerDoctrineTypeMapping('uuid[]', 'uuid[]');
+$platform->registerDoctrineTypeMapping('_uuid', 'uuid[]');
 
 // JSON type mappings
 $platform->registerDoctrineTypeMapping('jsonb', 'jsonb');
