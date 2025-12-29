@@ -95,36 +95,18 @@ class UuidArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValueTypes')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_database_value_types(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidUuidArrayItemForPHPException::class);
+        $this->expectException(InvalidUuidArrayItemForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
     }
 
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValueTypes(): array
-    {
-        return [
-            'invalid type' => ['not-an-array'],
-        ];
-    }
-
-    #[DataProvider('provideInvalidDatabaseValueFormats')]
-    #[Test]
-    public function throws_exception_for_invalid_database_value_formats(array $phpValue): void
-    {
-        $this->expectException(InvalidUuidArrayItemForDatabaseException::class);
-        $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{array<mixed>}>
-     */
-    public static function provideInvalidDatabaseValueFormats(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'invalid UUID format' => [['not-a-uuid']],
@@ -136,6 +118,7 @@ class UuidArrayTest extends TestCase
             'mixed valid and invalid' => [['550e8400-e29b-41d4-a716-446655440000', 'invalid-uuid']],
             'empty string' => [['']],
             'whitespace only' => [[' ']],
+            'non-string item' => [[123]],
         ];
     }
 
@@ -161,11 +144,22 @@ class UuidArrayTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideInvalidTypeInputs')]
     #[Test]
-    public function throws_exception_for_non_string_item_in_array(): void
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidUuidArrayItemForDatabaseException::class);
-        $this->fixture->convertToDatabaseValue([123], $this->platform);
+        $this->expectException(InvalidUuidArrayItemForPHPException::class);
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputs(): array
+    {
+        return [
+            'string instead of array' => ['not-an-array'],
+        ];
     }
 
     #[Test]

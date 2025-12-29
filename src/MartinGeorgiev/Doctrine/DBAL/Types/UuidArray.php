@@ -29,7 +29,7 @@ class UuidArray extends BaseArray
             return 'NULL';
         }
 
-        /** @var string $item validated by isValidArrayItemForDatabase */
+        /* @var string $item validated by isValidArrayItemForDatabase */
         return '"'.$item.'"';
     }
 
