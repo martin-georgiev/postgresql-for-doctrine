@@ -9,6 +9,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class Sha256Test extends TextTestCase
 {
+    use ByteaAssertionTrait;
+
     protected function getStringFunctions(): array
     {
         return [
@@ -24,12 +26,7 @@ class Sha256Test extends TextTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $byteaResult = $result[0]['result'];
-        if (\is_resource($byteaResult)) {
-            $byteaResult = \stream_get_contents($byteaResult);
-        }
-
-        $this->assertSame('d750212353191efa677931636671789003eb7229e5a1f003e851b213aa5cb8a6', \bin2hex((string) $byteaResult));
+        $this->assertByteaEquals('d750212353191efa677931636671789003eb7229e5a1f003e851b213aa5cb8a6', $result[0]['result']);
     }
 
     #[Test]
@@ -40,11 +37,6 @@ class Sha256Test extends TextTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $byteaResult = $result[0]['result'];
-        if (\is_resource($byteaResult)) {
-            $byteaResult = \stream_get_contents($byteaResult);
-        }
-
-        $this->assertSame('f6774519d1c7a3389ef327e9c04766b999db8cdfb85d1346c471ee86d65885bc', \bin2hex((string) $byteaResult));
+        $this->assertByteaEquals('f6774519d1c7a3389ef327e9c04766b999db8cdfb85d1346c471ee86d65885bc', $result[0]['result']);
     }
 }
