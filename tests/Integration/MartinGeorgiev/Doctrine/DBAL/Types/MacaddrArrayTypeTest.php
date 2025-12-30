@@ -28,7 +28,7 @@ class MacaddrArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string>}>
+     * @return array<string, array{string, array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -44,6 +44,7 @@ class MacaddrArrayTypeTest extends ArrayTypeTestCase
                 '0a:0b:0c:0d:0e:0f',
             ]],
             'empty macaddr array' => ['empty macaddr array', []],
+            'macaddr array with null item' => ['macaddr array with null item', ['08:00:2b:01:02:03', null, '00:11:22:33:44:55']],
         ];
     }
 

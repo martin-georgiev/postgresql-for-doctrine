@@ -102,7 +102,6 @@ class CidrArrayTest extends TestCase
             'empty string' => [['']],
             'whitespace only' => [[' ']],
             'malformed CIDR with spaces' => [['192.168.1.0 / 24']],
-            'valid value mixed with null array item' => [['192.168.1.0/24', null]],
             'valid value mixed with integer array item' => [['192.168.1.0/24', 123]],
             'valid value mixed with boolean array item' => [['192.168.1.0/24', true]],
             'valid value mixed with object array item' => [['192.168.1.0/24', new \stdClass()]],
@@ -168,6 +167,7 @@ class CidrArrayTest extends TestCase
             'IPv6 CIDR' => ['2001:db8::/32'],
             'IPv4 host CIDR' => ['10.0.0.1/32'],
             'IPv6 host CIDR' => ['::1/128'],
+            'null' => [null],
         ];
     }
 
@@ -187,7 +187,6 @@ class CidrArrayTest extends TestCase
             'invalid CIDR' => ['invalid-cidr'],
             'IP without netmask' => ['192.168.1.0'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

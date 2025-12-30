@@ -170,6 +170,7 @@ class MacaddrArrayTest extends TestCase
             'colon separated mixed case' => ['00:0c:29:Aa:Bb:CC'],
             'all zeros' => ['00:00:00:00:00:00'],
             'all ones' => ['ff:ff:ff:ff:ff:ff'],
+            'null' => [null],
         ];
     }
 
@@ -189,7 +190,6 @@ class MacaddrArrayTest extends TestCase
             'invalid MAC' => ['invalid-mac'],
             'too short' => ['00:11:22:33:44'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

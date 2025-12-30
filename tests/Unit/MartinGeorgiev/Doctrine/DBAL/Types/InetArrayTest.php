@@ -194,6 +194,7 @@ class InetArrayTest extends TestCase
             'IPv6 CIDR' => ['2001:db8::/32'],
             'loopback IPv4' => ['127.0.0.1'],
             'loopback IPv6' => ['::1'],
+            'null' => [null],
         ];
     }
 
@@ -213,7 +214,6 @@ class InetArrayTest extends TestCase
             'invalid IP' => ['invalid-ip'],
             'out of range IPv4' => ['256.256.256.256'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

@@ -28,7 +28,7 @@ class InetArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string>}>
+     * @return array<string, array{string, array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -46,6 +46,7 @@ class InetArrayTypeTest extends ArrayTypeTestCase
                 '::1',
             ]],
             'empty inet array' => ['empty inet array', []],
+            'inet array with null item' => ['inet array with null item', ['192.168.1.1', null, '10.0.0.1']],
         ];
     }
 
