@@ -7,6 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
@@ -138,17 +139,24 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->expectException(InvalidRangeForPHPException::class);
         $this->expectExceptionMessage('Range bound must be numeric');
 
-        // Test compareBounds error through contains() - natural public API
         $numericRange->contains('invalid');
     }
 
     #[Test]
-    public function throws_exception_for_invalid_parse_value_via_from_string(): void
+    #[DataProvider('provideInvalidFromStringInputs')]
+    public function throws_exception_for_invalid_from_string_input(string $input, string $expectedMessage): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid numeric value');
+        $this->expectExceptionMessage($expectedMessage);
 
-        NumericRange::fromString('[not_numeric,10)');
+        NumericRange::fromString($input);
+    }
+
+    public static function provideInvalidFromStringInputs(): \Generator
+    {
+        yield 'non-numeric value' => ['[not_numeric,10)', 'Invalid numeric value'];
+        yield 'invalid format' => ['invalid_format', 'Invalid range format'];
+        yield 'missing brackets' => ['1,10', 'Invalid range format'];
     }
 
     #[Test]

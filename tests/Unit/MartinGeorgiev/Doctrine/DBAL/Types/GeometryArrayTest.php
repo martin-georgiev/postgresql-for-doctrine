@@ -408,4 +408,28 @@ final class GeometryArrayTest extends TestCase
             'complex geometry with no-space modifier' => ['MULTIPOLYGONZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))', 'MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'],
         ];
     }
+
+    #[Test]
+    public function throws_exception_for_ewkt_missing_semicolon(): void
+    {
+        $this->expectException(InvalidGeometryForPHPException::class);
+
+        $this->type->transformArrayItemForPHP('SRID=4326POINT(1 2)');
+    }
+
+    #[Test]
+    public function can_handle_empty_quoted_array_content(): void
+    {
+        $result = $this->type->convertToPHPValue('{""}', $this->platform);
+
+        $this->assertSame([], $result);
+    }
+
+    #[Test]
+    public function can_handle_whitespace_only_array(): void
+    {
+        $result = $this->type->convertToPHPValue('  ', $this->platform);
+
+        $this->assertSame([], $result);
+    }
 }
