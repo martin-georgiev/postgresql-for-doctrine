@@ -33,6 +33,10 @@ abstract class BaseNetworkTypeArray extends BaseArray
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
+        if ($item === null) {
+            return true;
+        }
+
         if (!\is_string($item)) {
             return false;
         }
@@ -42,7 +46,7 @@ abstract class BaseNetworkTypeArray extends BaseArray
 
     public function transformArrayItemForPHP(mixed $item): ?string
     {
-        if ($item === null) {
+        if ($item === null || $item === 'NULL') {
             return null;
         }
 

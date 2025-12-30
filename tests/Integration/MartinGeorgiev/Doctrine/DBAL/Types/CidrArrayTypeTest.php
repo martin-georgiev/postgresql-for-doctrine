@@ -28,7 +28,7 @@ class CidrArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string>}>
+     * @return array<string, array{string, array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -47,6 +47,7 @@ class CidrArrayTypeTest extends ArrayTypeTestCase
                 '2001:db8::1/128',
             ]],
             'empty cidr array' => ['empty cidr array', []],
+            'cidr array with null item' => ['cidr array with null item', ['192.168.0.0/24', null, '10.0.0.0/8']],
         ];
     }
 
