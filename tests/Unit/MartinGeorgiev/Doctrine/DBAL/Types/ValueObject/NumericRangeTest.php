@@ -138,7 +138,6 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->expectException(InvalidRangeForPHPException::class);
         $this->expectExceptionMessage('Range bound must be numeric');
 
-        // Test compareBounds error through contains() - natural public API
         $numericRange->contains('invalid');
     }
 
@@ -204,5 +203,23 @@ final class NumericRangeTest extends BaseRangeTestCase
 
         $range3 = new NumericRange(-2.5, 0);
         $this->assertStringContainsString('-2.5', (string) $range3);
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_range_format_via_from_string(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid range format');
+
+        NumericRange::fromString('invalid_format');
+    }
+
+    #[Test]
+    public function throws_exception_for_missing_brackets_via_from_string(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid range format');
+
+        NumericRange::fromString('1,10');
     }
 }
