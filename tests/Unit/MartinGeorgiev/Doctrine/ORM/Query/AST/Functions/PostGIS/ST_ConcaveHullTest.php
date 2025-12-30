@@ -44,4 +44,14 @@ class ST_ConcaveHullTest extends TestCase
         $dql = \sprintf("SELECT ST_CONCAVEHULL(g.geometry1, 0.99, 'invalid') FROM %s g", ContainsGeometries::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
+
+    #[Test]
+    public function throws_exception_for_non_constant_boolean_parameter(): void
+    {
+        $this->expectException(InvalidBooleanException::class);
+        $this->expectExceptionMessage('The boolean parameter for ST_ConcaveHull must be a string literal');
+
+        $dql = \sprintf('SELECT ST_CONCAVEHULL(g.geometry1, 0.99, g.geometry1) FROM %s g', ContainsGeometries::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
 }

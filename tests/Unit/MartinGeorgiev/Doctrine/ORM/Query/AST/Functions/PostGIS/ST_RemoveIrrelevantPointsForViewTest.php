@@ -44,4 +44,14 @@ class ST_RemoveIrrelevantPointsForViewTest extends TestCase
         $dql = \sprintf("SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)', 'invalid') FROM %s g", ContainsGeometries::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
+
+    #[Test]
+    public function throws_exception_for_non_constant_boolean_parameter(): void
+    {
+        $this->expectException(InvalidBooleanException::class);
+        $this->expectExceptionMessage('The boolean parameter for ST_RemoveIrrelevantPointsForView must be a string literal');
+
+        $dql = \sprintf("SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)', g.geometry1) FROM %s g", ContainsGeometries::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
 }

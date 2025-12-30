@@ -52,6 +52,16 @@ class ArrayToJsonTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
+    public function throws_exception_for_non_constant_boolean_parameter(): void
+    {
+        $this->expectException(InvalidBooleanException::class);
+        $this->expectExceptionMessage('The boolean parameter for array_to_json must be a string literal');
+
+        $dql = \sprintf('SELECT ARRAY_TO_JSON(e.textArray, e.textArray) FROM %s e', ContainsArrays::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
     public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
