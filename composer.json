@@ -1,7 +1,7 @@
 {
     "name": "martin-georgiev/postgresql-for-doctrine",
     "type": "library",
-    "description": "Extends Doctrine with native PostgreSQL support for arrays, JSONB, ranges, PostGIS geometries, test search, ltree, uuid, and 100+ PostgreSQL-specific functions.",
+    "description": "Extends Doctrine with native PostgreSQL support for arrays, JSONB, ranges, PostGIS geometries, text search, ltree, uuid, and 100+ PostgreSQL-specific functions.",
     "keywords": [
         "martin-georgiev",
         "postgresql",
