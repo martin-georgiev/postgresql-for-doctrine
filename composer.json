@@ -59,7 +59,7 @@
         "deptrac/deptrac": "^4.0",
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.0",
-        "friendsofphp/php-cs-fixer": "^3.92.3",
+        "friendsofphp/php-cs-fixer": "^3.92.5",
         "phpstan/phpstan": "^2.1.33",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
         "phpstan/phpstan-doctrine": "^2.0.12",
