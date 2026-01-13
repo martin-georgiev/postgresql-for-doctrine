@@ -107,7 +107,9 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'inclusive range' => ['[1,10]', new NumericRange(1, 10, true, true)];
         yield 'exclusive range' => ['(1,10)', new NumericRange(1, 10, false, false)];
         yield 'infinite lower' => ['[,10)', new NumericRange(null, 10)];
+        yield 'bounded infinite lower' => ['[-Infinity,10)', new NumericRange(null, 10)];
         yield 'infinite upper' => ['[1,)', new NumericRange(1, null)];
+        yield 'bounded infinite upper' => ['[1,Infinity)', new NumericRange(1, null)];
         yield 'empty range' => ['empty', NumericRange::empty()];
     }
 
