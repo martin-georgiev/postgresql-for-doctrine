@@ -61,8 +61,12 @@ final class DateRange extends Range
         return $value->format('Y-m-d');
     }
 
-    protected static function parseValue(string $value): \DateTimeImmutable
+    protected static function parseValue(string $value): ?\DateTimeImmutable
     {
+        if (static::isInfinityString($value)) {
+            return null;
+        }
+
         try {
             return new \DateTimeImmutable($value);
         } catch (\Exception $exception) {

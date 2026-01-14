@@ -26,6 +26,8 @@ abstract class Range implements \Stringable
     /**
      * @param R|null $lower
      * @param R|null $upper
+     * @param bool $isLowerBoundedInfinity For types supporting infinity (timestamps, dates, numeric), indicates lower bound is explicitly infinity
+     * @param bool $isUpperBoundedInfinity For types supporting infinity (timestamps, dates, numeric), indicates upper bound is explicitly infinity
      */
     public function __construct(
         protected readonly mixed $lower,
@@ -33,6 +35,8 @@ abstract class Range implements \Stringable
         protected readonly bool $isLowerBracketInclusive = true,
         protected readonly bool $isUpperBracketInclusive = false,
         protected readonly bool $isExplicitlyEmpty = false,
+        protected readonly bool $isLowerBoundedInfinity = false,
+        protected readonly bool $isUpperBoundedInfinity = false,
     ) {}
 
     public function __toString(): string
@@ -44,8 +48,8 @@ abstract class Range implements \Stringable
         $lowerBracket = $this->isLowerBracketInclusive ? self::BRACKET_LOWER_INCLUSIVE : self::BRACKET_LOWER_EXCLUSIVE;
         $upperBracket = $this->isUpperBracketInclusive ? self::BRACKET_UPPER_INCLUSIVE : self::BRACKET_UPPER_EXCLUSIVE;
 
-        $formattedLowerBound = $this->lower === null ? '' : $this->formatValue($this->lower);
-        $formattedUpperBound = $this->upper === null ? '' : $this->formatValue($this->upper);
+        $formattedLowerBound = $this->isLowerBoundedInfinity ? '-infinity' : ($this->lower === null ? '' : $this->formatValue($this->lower));
+        $formattedUpperBound = $this->isUpperBoundedInfinity ? 'infinity' : ($this->upper === null ? '' : $this->formatValue($this->upper));
 
         return $lowerBracket.$formattedLowerBound.','.$formattedUpperBound.$upperBracket;
     }
@@ -77,6 +81,12 @@ abstract class Range implements \Stringable
 
     abstract protected function formatValue(mixed $value): string;
 
+    protected static function isInfinityString(string $value): bool
+    {
+        $normalized = \strtolower($value);
+        return $normalized === 'infinity' || $normalized === '-infinity';
+    }
+
     /**
      * @param string $rangeString The PostgreSQL range string (e.g., '[1,10)', 'empty')
      */
@@ -98,10 +108,26 @@ abstract class Range implements \Stringable
 
         $isLowerBracketInclusive = $matches[1] === self::BRACKET_LOWER_INCLUSIVE;
         $isUpperBracketInclusive = $matches[4] === self::BRACKET_UPPER_INCLUSIVE;
-        $lowerBoundValue = $matches[2] === '' ? null : static::parseValue(\trim($matches[2], '"'));
-        $upperBoundValue = $matches[3] === '' ? null : static::parseValue(\trim($matches[3], '"'));
 
-        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive);
+        $lowerBoundString = \trim($matches[2], '"');
+        $upperBoundString = \trim($matches[3], '"');
+
+        $isLowerBoundedInfinity = false;
+        $isUpperBoundedInfinity = false;
+        $lowerBoundValue = null;
+        $upperBoundValue = null;
+
+        if ($matches[2] !== '') {
+            $isLowerBoundedInfinity = static::isInfinityString($lowerBoundString);
+            $lowerBoundValue = static::parseValue($lowerBoundString);
+        }
+
+        if ($matches[3] !== '') {
+            $isUpperBoundedInfinity = static::isInfinityString($upperBoundString);
+            $upperBoundValue = static::parseValue($upperBoundString);
+        }
+
+        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive, false, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
     }
 
     abstract protected static function parseValue(string $value): mixed;
@@ -168,5 +194,15 @@ abstract class Range implements \Stringable
     public function isExplicitlyEmpty(): bool
     {
         return $this->isExplicitlyEmpty;
+    }
+
+    public function isLowerBoundedInfinity(): bool
+    {
+        return $this->isLowerBoundedInfinity;
+    }
+
+    public function isUpperBoundedInfinity(): bool
+    {
+        return $this->isUpperBoundedInfinity;
     }
 }

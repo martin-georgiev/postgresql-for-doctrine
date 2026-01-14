@@ -23,6 +23,8 @@ final class Int4Range extends BaseIntegerRange
         bool $isLowerBracketInclusive = true,
         bool $isUpperBracketInclusive = false,
         bool $isExplicitlyEmpty = false,
+        bool $isLowerBoundedInfinity = false,
+        bool $isUpperBoundedInfinity = false,
     ) {
         if ($lower !== null && ($lower < self::MIN_INT4_VALUE || $lower > self::MAX_INT4_VALUE)) {
             throw new \InvalidArgumentException(
@@ -36,6 +38,6 @@ final class Int4Range extends BaseIntegerRange
             );
         }
 
-        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
+        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
     }
 }

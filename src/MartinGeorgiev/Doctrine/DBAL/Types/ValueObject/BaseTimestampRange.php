@@ -44,8 +44,12 @@ abstract class BaseTimestampRange extends Range
         return (int) $a->format('u') <=> (int) $b->format('u');
     }
 
-    protected static function parseValue(string $value): \DateTimeImmutable
+    protected static function parseValue(string $value): ?\DateTimeImmutable
     {
+        if (static::isInfinityString($value)) {
+            return null;
+        }
+
         try {
             return new \DateTimeImmutable($value);
         } catch (\Exception $exception) {

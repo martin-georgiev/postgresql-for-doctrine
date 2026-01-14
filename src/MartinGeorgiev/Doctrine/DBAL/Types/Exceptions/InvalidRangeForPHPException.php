@@ -42,4 +42,14 @@ class InvalidRangeForPHPException extends ConversionException
     {
         return new self(\sprintf('Invalid range format from database: %s', $value));
     }
+
+    public static function forUnsupportedBoundedInfinity(string $rangeType): self
+    {
+        return new self(
+            \sprintf(
+                'Bounded infinity is not supported for %s. Integer ranges do not have a concept of infinity in PostgreSQL. Use unbounded ranges (null bounds) instead.',
+                $rangeType
+            )
+        );
+    }
 }
