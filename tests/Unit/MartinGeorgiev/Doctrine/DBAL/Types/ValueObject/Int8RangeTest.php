@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
@@ -117,5 +119,50 @@ final class Int8RangeTest extends BaseRangeTestCase
         yield 'infinite upper' => ['[1,)', new Int8Range(1, null)];
         yield 'empty' => ['empty', Int8Range::empty()];
         yield 'large values' => ['['.PHP_INT_MIN.','.PHP_INT_MAX.')', new Int8Range(PHP_INT_MIN, PHP_INT_MAX)];
+    }
+
+    #[Test]
+    #[DataProvider('provideBoundedInfinityConstructorCases')]
+    public function throws_for_unsupported_bounded_infinity_from_constructor(
+        ?int $lower,
+        ?int $upper,
+        bool $isLowerBracketInclusive,
+        bool $isUpperBracketInclusive,
+        bool $isExplicitlyEmpty,
+        bool $isLowerBoundedInfinity,
+        bool $isUpperBoundedInfinity,
+    ): void {
+        $this->expectException(InvalidRangeForPHPException::class);
+        $this->expectExceptionMessage('Integer ranges do not have a concept of infinity');
+
+        new Int8Range($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
+    }
+
+    public static function provideBoundedInfinityConstructorCases(): \Generator
+    {
+        yield 'lower bounded infinity' => [null, 100, true, false, false, true, false];
+        yield 'upper bounded infinity' => [0, null, true, false, false, false, true];
+        yield 'both bounds infinity' => [null, null, true, false, false, true, true];
+    }
+
+    #[Test]
+    #[DataProvider('provideBoundedInfinityStringCases')]
+    public function throws_for_unsupported_bounded_infinity_from_string(string $input): void
+    {
+        $this->expectException(InvalidRangeForPHPException::class);
+        $this->expectExceptionMessage('Integer ranges do not have a concept of infinity');
+
+        Int8Range::fromString($input);
+    }
+
+    public static function provideBoundedInfinityStringCases(): \Generator
+    {
+        yield 'lower bounded infinity' => ['[-infinity,100)'];
+        yield 'upper bounded infinity' => ['[0,infinity)'];
+        yield 'both bounds infinity' => ['[-infinity,infinity)'];
+        yield 'lower bounded infinity uppercase' => ['[-INFINITY,100)'];
+        yield 'upper bounded infinity uppercase' => ['[0,INFINITY)'];
+        yield 'lower bounded infinity mixed case' => ['[-Infinity,100)'];
+        yield 'upper bounded infinity mixed case' => ['[0,Infinity)'];
     }
 }
