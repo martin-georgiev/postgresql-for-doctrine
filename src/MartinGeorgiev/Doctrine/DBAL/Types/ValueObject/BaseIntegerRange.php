@@ -28,7 +28,7 @@ abstract class BaseIntegerRange extends Range
             throw InvalidRangeForPHPException::forUnsupportedBoundedInfinity(static::class);
         }
 
-        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, false, false);
+        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
     }
 
     protected function compareBounds(mixed $a, mixed $b): int

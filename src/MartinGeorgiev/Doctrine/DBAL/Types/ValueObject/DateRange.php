@@ -63,7 +63,7 @@ final class DateRange extends Range
 
     protected static function parseValue(string $value): ?\DateTimeImmutable
     {
-        if (static::isInfinityString($value)) {
+        if (self::isInfinityString($value)) {
             return null;
         }
 

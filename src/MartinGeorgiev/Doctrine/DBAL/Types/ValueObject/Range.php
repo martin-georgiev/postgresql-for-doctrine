@@ -84,6 +84,7 @@ abstract class Range implements \Stringable
     protected static function isInfinityString(string $value): bool
     {
         $normalized = \strtolower($value);
+
         return $normalized === 'infinity' || $normalized === '-infinity';
     }
 

@@ -76,7 +76,7 @@ final class NumericRange extends Range
 
     protected static function parseValue(string $value): float|int|null
     {
-        if (static::isInfinityString($value)) {
+        if (self::isInfinityString($value)) {
             return null;
         }
 
