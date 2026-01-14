@@ -42,24 +42,30 @@ class NumRangeTypeTest extends RangeTypeTestCase
     }
 
     #[Test]
-    public function can_handle_infinite_ranges(): void
+    #[DataProvider('provideInfinityAndSpecialCases')]
+    public function can_handle_infinity_and_special_cases(string $testName, NumRangeValueObject $numRangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $numericRange = new NumRangeValueObject(null, null, false, false);
-        $this->runDbalBindingRoundTrip($typeName, $columnType, $numericRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $numRangeValueObject);
     }
 
-    #[Test]
-    public function can_handle_empty_ranges(): void
+    /**
+     * @return array<string, array{string, NumRangeValueObject}>
+     */
+    public static function provideInfinityAndSpecialCases(): array
     {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        // lower > upper shall result in an empty range
-        $numericRange = new NumRangeValueObject(10.5, 5.7, false, false);
-        $this->runDbalBindingRoundTrip($typeName, $columnType, $numericRange);
+        return [
+            'unbounded range' => ['unbounded range', new NumRangeValueObject(null, null, false, false)],
+            'lower bounded infinity' => ['lower bounded infinity', new NumRangeValueObject(null, 100, true, false, false, true, false)],
+            'upper bounded infinity' => ['upper bounded infinity', new NumRangeValueObject(0, null, true, false, false, false, true)],
+            'both bounds infinity' => ['both bounds infinity', new NumRangeValueObject(null, null, true, false, false, true, true)],
+            'php inf constant upper' => ['php inf constant upper', new NumRangeValueObject(0, INF)],
+            'php inf constant lower' => ['php inf constant lower', new NumRangeValueObject(-INF, 100)],
+            'php inf constant both' => ['php inf constant both', new NumRangeValueObject(-INF, INF)],
+            'empty range' => ['empty range', new NumRangeValueObject(10.5, 5.7, false, false)],
+        ];
     }
 
     /**

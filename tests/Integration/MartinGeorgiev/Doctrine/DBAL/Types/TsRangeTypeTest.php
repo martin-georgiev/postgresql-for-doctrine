@@ -61,30 +61,35 @@ class TsRangeTypeTest extends RangeTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInfinityAndSpecialCases')]
     #[Test]
-    public function can_handle_infinite_ranges(): void
+    public function can_handle_infinity_and_special_cases(string $testName, TsRangeValueObject $tsRangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $tsRange = new TsRangeValueObject(null, null, false, false);
-        $this->runDbalBindingRoundTrip($typeName, $columnType, $tsRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $tsRangeValueObject);
     }
 
-    #[Test]
-    public function can_handle_empty_ranges(): void
+    /**
+     * @return array<string, array{string, TsRangeValueObject}>
+     */
+    public static function provideInfinityAndSpecialCases(): array
     {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        // lower > upper shall result in an empty range
-        $tsRange = new TsRangeValueObject(
-            new \DateTimeImmutable('2023-01-01 18:00:00'),
-            new \DateTimeImmutable('2023-01-01 10:00:00'),
-            false,
-            false
-        );
-        $this->runDbalBindingRoundTrip($typeName, $columnType, $tsRange);
+        return [
+            'unbounded range' => ['unbounded range', new TsRangeValueObject(null, null, false, false)],
+            'unbounded lower' => ['unbounded lower', new TsRangeValueObject(null, new \DateTimeImmutable('2024-12-31 23:59:59'), true, false)],
+            'unbounded upper' => ['unbounded upper', new TsRangeValueObject(new \DateTimeImmutable('2024-01-01 00:00:00'), null, true, false)],
+            'lower bounded infinity' => ['lower bounded infinity', new TsRangeValueObject(null, new \DateTimeImmutable('2024-12-31 23:59:59'), true, false, false, true, false)],
+            'upper bounded infinity' => ['upper bounded infinity', new TsRangeValueObject(new \DateTimeImmutable('2024-01-01 00:00:00'), null, true, false, false, false, true)],
+            'both bounds infinity' => ['both bounds infinity', new TsRangeValueObject(null, null, true, false, false, true, true)],
+            'empty range' => ['empty range', new TsRangeValueObject(
+                new \DateTimeImmutable('2023-01-01 18:00:00'),
+                new \DateTimeImmutable('2023-01-01 10:00:00'),
+                false,
+                false
+            )],
+        ];
     }
 
     /**
