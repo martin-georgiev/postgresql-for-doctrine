@@ -78,7 +78,7 @@ class DateRangeTypeTest extends RangeTypeTestCase
     {
         return [
             'unbounded range' => ['unbounded range', new DateRangeValueObject(null, null, false, false)],
-            'unbounded lower' => ['unbounded lower', new DateRangeValueObject(null, new \DateTimeImmutable('2024-12-31'), true, false)],
+            'unbounded lower' => ['unbounded lower', new DateRangeValueObject(null, new \DateTimeImmutable('2024-12-31'), false, false)],
             'unbounded upper' => ['unbounded upper', new DateRangeValueObject(new \DateTimeImmutable('2024-01-01'), null, true, false)],
             'lower bounded infinity' => ['lower bounded infinity', new DateRangeValueObject(null, new \DateTimeImmutable('2024-12-31'), true, false, false, true, false)],
             'upper bounded infinity' => ['upper bounded infinity', new DateRangeValueObject(new \DateTimeImmutable('2024-01-01'), null, true, false, false, false, true)],

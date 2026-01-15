@@ -78,8 +78,8 @@ class TsRangeTypeTest extends RangeTypeTestCase
     {
         return [
             'unbounded range' => ['unbounded range', new TsRangeValueObject(null, null, false, false)],
-            'unbounded lower' => ['unbounded lower', new TsRangeValueObject(null, new \DateTimeImmutable('2024-12-31 23:59:59'), true, false)],
-            'unbounded upper' => ['unbounded upper', new TsRangeValueObject(new \DateTimeImmutable('2024-01-01 00:00:00'), null, true, false)],
+            'unbounded lower' => ['unbounded lower', new TsRangeValueObject(null, new \DateTimeImmutable('2024-12-31 23:59:59'), false, false)],
+            'unbounded upper' => ['unbounded upper', new TsRangeValueObject(new \DateTimeImmutable('2024-01-01 00:00:00'), null, false, false)],
             'lower bounded infinity' => ['lower bounded infinity', new TsRangeValueObject(null, new \DateTimeImmutable('2024-12-31 23:59:59'), true, false, false, true, false)],
             'upper bounded infinity' => ['upper bounded infinity', new TsRangeValueObject(new \DateTimeImmutable('2024-01-01 00:00:00'), null, true, false, false, false, true)],
             'both bounds infinity' => ['both bounds infinity', new TsRangeValueObject(null, null, true, false, false, true, true)],

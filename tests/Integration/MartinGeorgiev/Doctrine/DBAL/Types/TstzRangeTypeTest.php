@@ -72,8 +72,8 @@ class TstzRangeTypeTest extends RangeTypeTestCase
     {
         return [
             'unbounded range' => ['unbounded range', new TstzRangeValueObject(null, null, false, false)],
-            'unbounded lower' => ['unbounded lower', new TstzRangeValueObject(null, new \DateTimeImmutable('2024-12-31 23:59:59+00:00'), true, false)],
-            'unbounded upper' => ['unbounded upper', new TstzRangeValueObject(new \DateTimeImmutable('2024-01-01 00:00:00+00:00'), null, true, false)],
+            'unbounded lower' => ['unbounded lower', new TstzRangeValueObject(null, new \DateTimeImmutable('2024-12-31 23:59:59+00:00'), false, false)],
+            'unbounded upper' => ['unbounded upper', new TstzRangeValueObject(new \DateTimeImmutable('2024-01-01 00:00:00+00:00'), null, false, false)],
             'lower bounded infinity' => ['lower bounded infinity', new TstzRangeValueObject(null, new \DateTimeImmutable('2024-12-31 23:59:59+00:00'), true, false, false, true, false)],
             'upper bounded infinity' => ['upper bounded infinity', new TstzRangeValueObject(new \DateTimeImmutable('2024-01-01 00:00:00+00:00'), null, true, false, false, false, true)],
             'both bounds infinity' => ['both bounds infinity', new TstzRangeValueObject(null, null, true, false, false, true, true)],
