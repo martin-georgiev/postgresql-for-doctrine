@@ -23,6 +23,8 @@ final class DateRange extends Range
         bool $isLowerBracketInclusive = true,
         bool $isUpperBracketInclusive = false,
         bool $isExplicitlyEmpty = false,
+        bool $isLowerBoundedInfinity = false,
+        bool $isUpperBoundedInfinity = false,
     ) {
         if ($lower !== null && !$lower instanceof \DateTimeInterface) {
             throw new \InvalidArgumentException(
@@ -36,7 +38,7 @@ final class DateRange extends Range
             );
         }
 
-        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
+        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
     }
 
     protected function compareBounds(mixed $a, mixed $b): int
@@ -61,8 +63,12 @@ final class DateRange extends Range
         return $value->format('Y-m-d');
     }
 
-    protected static function parseValue(string $value): \DateTimeImmutable
+    protected static function parseValue(string $value): ?\DateTimeImmutable
     {
+        if (self::isInfinityString($value)) {
+            return null;
+        }
+
         try {
             return new \DateTimeImmutable($value);
         } catch (\Exception $exception) {

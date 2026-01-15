@@ -23,20 +23,33 @@ final class NumericRange extends Range
         bool $isLowerBracketInclusive = true,
         bool $isUpperBracketInclusive = false,
         bool $isExplicitlyEmpty = false,
+        bool $isLowerBoundedInfinity = false,
+        bool $isUpperBoundedInfinity = false,
     ) {
-        if ($lower !== null && !\is_numeric($lower)) {
+        $normalizedLower = $lower;
+        $normalizedUpper = $upper;
+        $inferredLowerBoundedInfinityFlag = $isLowerBoundedInfinity;
+        $inferredUpperBoundedInfinityFlag = $isUpperBoundedInfinity;
+
+        if ($lower !== null && \is_float($lower) && \is_infinite($lower)) {
+            $normalizedLower = null;
+            $inferredLowerBoundedInfinityFlag = true;
+        } elseif ($lower !== null && !\is_numeric($lower)) {
             throw new \InvalidArgumentException(
                 \sprintf('Lower bound must be numeric, %s given', \gettype($lower))
             );
         }
 
-        if ($upper !== null && !\is_numeric($upper)) {
+        if ($upper !== null && \is_float($upper) && \is_infinite($upper)) {
+            $normalizedUpper = null;
+            $inferredUpperBoundedInfinityFlag = true;
+        } elseif ($upper !== null && !\is_numeric($upper)) {
             throw new \InvalidArgumentException(
                 \sprintf('Upper bound must be numeric, %s given', \gettype($upper))
             );
         }
 
-        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
+        parent::__construct($normalizedLower, $normalizedUpper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $inferredLowerBoundedInfinityFlag, $inferredUpperBoundedInfinityFlag);
     }
 
     protected function compareBounds(mixed $a, mixed $b): int
@@ -61,8 +74,12 @@ final class NumericRange extends Range
         return (string) $value;
     }
 
-    protected static function parseValue(string $value): float|int
+    protected static function parseValue(string $value): float|int|null
     {
+        if (self::isInfinityString($value)) {
+            return null;
+        }
+
         if (!\is_numeric($value)) {
             throw new \InvalidArgumentException(
                 \sprintf('Invalid numeric value: %s', $value)

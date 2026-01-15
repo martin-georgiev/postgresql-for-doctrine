@@ -21,7 +21,13 @@ abstract class BaseIntegerRange extends Range
         bool $isLowerBracketInclusive = true,
         bool $isUpperBracketInclusive = false,
         bool $isExplicitlyEmpty = false,
+        bool $isLowerBoundedInfinity = false,
+        bool $isUpperBoundedInfinity = false,
     ) {
+        if ($isLowerBoundedInfinity || $isUpperBoundedInfinity) {
+            throw InvalidRangeForPHPException::forUnsupportedBoundedInfinity(static::class);
+        }
+
         parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
     }
 
@@ -41,6 +47,10 @@ abstract class BaseIntegerRange extends Range
 
     protected static function parseValue(string $value): int
     {
+        if (self::isInfinityString($value)) {
+            throw InvalidRangeForPHPException::forUnsupportedBoundedInfinity(static::class);
+        }
+
         $intValue = (int) $value;
         if ((string) $intValue !== $value) {
             throw new \InvalidArgumentException(

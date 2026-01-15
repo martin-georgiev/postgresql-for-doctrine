@@ -21,8 +21,10 @@ abstract class BaseTimestampRange extends Range
         bool $isLowerBracketInclusive = true,
         bool $isUpperBracketInclusive = false,
         bool $isExplicitlyEmpty = false,
+        bool $isLowerBoundedInfinity = false,
+        bool $isUpperBoundedInfinity = false,
     ) {
-        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
+        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
     }
 
     protected function compareBounds(mixed $a, mixed $b): int
@@ -44,8 +46,12 @@ abstract class BaseTimestampRange extends Range
         return (int) $a->format('u') <=> (int) $b->format('u');
     }
 
-    protected static function parseValue(string $value): \DateTimeImmutable
+    protected static function parseValue(string $value): ?\DateTimeImmutable
     {
+        if (static::isInfinityString($value)) {
+            return null;
+        }
+
         try {
             return new \DateTimeImmutable($value);
         } catch (\Exception $exception) {

@@ -106,8 +106,10 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'simple range' => ['[1.5,10.7)', new NumericRange(1.5, 10.7)];
         yield 'inclusive range' => ['[1,10]', new NumericRange(1, 10, true, true)];
         yield 'exclusive range' => ['(1,10)', new NumericRange(1, 10, false, false)];
-        yield 'infinite lower' => ['[,10)', new NumericRange(null, 10)];
-        yield 'infinite upper' => ['[1,)', new NumericRange(1, null)];
+        yield 'unbounded lower' => ['[,10)', new NumericRange(null, 10)];
+        yield 'bounded by negative infinity' => ['[-Infinity,10)', new NumericRange(-INF, 10)];
+        yield 'unbounded upper' => ['[1,)', new NumericRange(1, null)];
+        yield 'bounded by positive infinity' => ['[1,Infinity)', new NumericRange(1, INF)];
         yield 'empty range' => ['empty', NumericRange::empty()];
     }
 
@@ -212,5 +214,38 @@ final class NumericRangeTest extends BaseRangeTestCase
 
         $range3 = new NumericRange(-2.5, 0);
         $this->assertStringContainsString('-2.5', (string) $range3);
+    }
+
+    #[Test]
+    #[DataProvider('providePhpInfConstantCases')]
+    public function can_create_range_with_php_inf_constant(
+        float|int|null $lower,
+        float|int|null $upper,
+        string $expectedString,
+        bool $expectedLowerBoundedInfinity,
+        bool $expectedUpperBoundedInfinity,
+    ): void {
+        $numericRange = new NumericRange($lower, $upper);
+
+        $this->assertEquals($expectedString, (string) $numericRange);
+        $this->assertEquals($expectedLowerBoundedInfinity, $numericRange->isLowerBoundedInfinity());
+        $this->assertEquals($expectedUpperBoundedInfinity, $numericRange->isUpperBoundedInfinity());
+    }
+
+    public static function providePhpInfConstantCases(): \Generator
+    {
+        yield 'upper bounded infinity' => [0, INF, '[0,infinity)', false, true];
+        yield 'lower bounded infinity' => [-INF, 100, '[-infinity,100)', true, false];
+        yield 'both bounds infinity' => [-INF, INF, '[-infinity,infinity)', true, true];
+    }
+
+    #[Test]
+    public function php_inf_constant_is_equivalent_to_infinity_flags(): void
+    {
+        $rangeWithInf = new NumericRange(0, INF);
+        $rangeWithFlag = new NumericRange(0, null, true, false, false, false, true);
+
+        $this->assertEquals((string) $rangeWithInf, (string) $rangeWithFlag);
+        $this->assertEquals($rangeWithInf->isUpperBoundedInfinity(), $rangeWithFlag->isUpperBoundedInfinity());
     }
 }
