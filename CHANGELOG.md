@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.0.0...v4.1.0) (2026-01-15)
+
+
+### Features
+
+* **#522:** Support bounded infinity values in range types ([#523](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/523)) ([6e568d1](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/6e568d1bed8b29ec552bf603c01eeb735ef6ecdf))
+
 ## [4.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.7.0...v4.0.0) (2025-12-30)
 
 
