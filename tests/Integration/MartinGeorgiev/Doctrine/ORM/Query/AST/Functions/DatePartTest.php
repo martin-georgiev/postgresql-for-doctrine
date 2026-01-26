@@ -19,11 +19,50 @@ class DatePartTest extends DateTestCase
     #[Test]
     public function can_extract_year(): void
     {
-        $dql = "SELECT DATE_PART('year', t.datetime1) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
+        $dql = "SELECT DATE_PART('year', t.datetime1) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('2023', $result[0]['result']);
+        $this->assertEquals(2023, $result[0]['result']);
+    }
+
+    #[Test]
+    public function can_extract_month(): void
+    {
+        $dql = "SELECT DATE_PART('month', t.datetime1) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
+                WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(6, $result[0]['result']);
+    }
+
+    #[Test]
+    public function can_extract_day(): void
+    {
+        $dql = "SELECT DATE_PART('day', t.datetime1) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
+                WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(15, $result[0]['result']);
+    }
+
+    #[Test]
+    public function can_extract_hour(): void
+    {
+        $dql = "SELECT DATE_PART('hour', t.datetime1) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
+                WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(10, $result[0]['result']);
+    }
+
+    #[Test]
+    public function can_extract_minute(): void
+    {
+        $dql = "SELECT DATE_PART('minute', t.datetime1) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
+                WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(30, $result[0]['result']);
     }
 }
-

@@ -24,4 +24,3 @@ class MakeDate extends BaseFunction
         $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }
-

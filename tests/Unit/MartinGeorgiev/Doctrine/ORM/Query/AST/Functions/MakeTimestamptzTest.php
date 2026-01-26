@@ -32,4 +32,3 @@ class MakeTimestamptzTest extends TestCase
         ];
     }
 }
-

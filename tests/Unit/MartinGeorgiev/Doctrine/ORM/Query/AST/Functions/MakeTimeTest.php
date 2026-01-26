@@ -30,4 +30,3 @@ class MakeTimeTest extends TestCase
         ];
     }
 }
-

@@ -27,4 +27,3 @@ class MakeTimestamp extends BaseFunction
         $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }
-

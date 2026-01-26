@@ -30,4 +30,3 @@ class MakeTimestampTest extends TestCase
         ];
     }
 }
-

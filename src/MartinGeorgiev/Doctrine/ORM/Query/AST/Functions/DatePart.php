@@ -23,4 +23,3 @@ class DatePart extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-

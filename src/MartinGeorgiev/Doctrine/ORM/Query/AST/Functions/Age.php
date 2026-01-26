@@ -36,4 +36,3 @@ class Age extends BaseVariadicFunction
         return 2;
     }
 }
-

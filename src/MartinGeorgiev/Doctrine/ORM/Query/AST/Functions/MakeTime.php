@@ -24,4 +24,3 @@ class MakeTime extends BaseFunction
         $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }
-

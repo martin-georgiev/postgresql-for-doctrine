@@ -39,4 +39,3 @@ class MakeTimestamptz extends BaseVariadicFunction
         return 7;
     }
 }
-

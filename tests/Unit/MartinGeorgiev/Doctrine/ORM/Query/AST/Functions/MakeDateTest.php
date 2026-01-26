@@ -30,4 +30,3 @@ class MakeDateTest extends TestCase
         ];
     }
 }
-

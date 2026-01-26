@@ -30,4 +30,3 @@ class DatePartTest extends TestCase
         ];
     }
 }
-
