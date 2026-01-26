@@ -46,6 +46,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | array_cat | ARRAY_CAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat` |
 | array_dims | ARRAY_DIMENSIONS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions` |
 | array_length | ARRAY_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength` |
+| array_lower | ARRAY_LOWER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLower` |
 | array_ndims | ARRAY_NUMBER_OF_DIMENSIONS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions` |
 | array_position | ARRAY_POSITION | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition` |
 | array_positions | ARRAY_POSITIONS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions` |
@@ -57,6 +58,8 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | array_sort | ARRAY_SORT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySort` |
 | array_to_json | ARRAY_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson` |
 | array_to_string | ARRAY_TO_STRING | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString` |
+| array_trim | ARRAY_TRIM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayTrim` |
+| array_upper | ARRAY_UPPER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper` |
 | cardinality | ARRAY_CARDINALITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cardinality` |
 | string_to_array | STRING_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray` |
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` |
