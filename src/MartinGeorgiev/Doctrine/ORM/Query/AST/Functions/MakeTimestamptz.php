@@ -19,8 +19,8 @@ class MakeTimestamptz extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression,StringPrimary',
-            'SimpleArithmeticExpression',
+            'ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,StringPrimary',
+            'ArithmeticPrimary',
         ];
     }
 

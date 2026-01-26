@@ -19,14 +19,23 @@ class AgeTest extends DateTestCase
     #[Test]
     public function can_calculate_age_between_timestamps(): void
     {
-        $dql = 'SELECT AGE(t.datetime2, t.datetime1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t 
+        $dql = 'SELECT AGE(t.datetime2, t.datetime1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t
+                WHERE t.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('1 day 01:15:00', $result[0]['result']);
+    }
+
+    #[Test]
+    public function can_calculate_age_from_current_timestamp(): void
+    {
+        $dql = 'SELECT AGE(t.datetime1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('1 day', $result[0]['result']);
-        $this->assertStringContainsString('01:15:00', $result[0]['result']);
+        $this->assertMatchesRegularExpression('/\d+ years? \d+ mons? \d+ days?/', $result[0]['result']);
     }
 }
-
