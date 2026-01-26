@@ -21,4 +21,3 @@ class ArrayLower extends BaseFunction
         $this->addNodeMapping('ArithmeticPrimary');
     }
 }
-

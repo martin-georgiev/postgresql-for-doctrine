@@ -40,4 +40,3 @@ class ArrayUpperTest extends ArrayTestCase
         $this->assertSame(3, $result[0]['result']);
     }
 }
-

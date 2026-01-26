@@ -20,4 +20,3 @@ class JsonbToArray extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-

@@ -20,4 +20,3 @@ class ArrayCompact extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-

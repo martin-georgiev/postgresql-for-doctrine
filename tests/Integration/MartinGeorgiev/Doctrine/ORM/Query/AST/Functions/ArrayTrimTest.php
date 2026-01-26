@@ -42,4 +42,3 @@ class ArrayTrimTest extends ArrayTestCase
         $this->assertSame([1, 2, 3], $actual);
     }
 }
-

@@ -26,4 +26,3 @@ class ArraySample extends BaseFunction
         $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }
-

@@ -19,9 +19,9 @@ class ArrayFillTest extends ArrayTestCase
     #[Test]
     public function can_fill_array_with_value(): void
     {
-        $dql = "SELECT ARRAY_FILL(7, ARRAY[3]) as result 
+        $dql = 'SELECT ARRAY_FILL(7, ARRAY[3]) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1";
+                WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);

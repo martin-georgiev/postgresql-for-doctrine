@@ -22,3 +22,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .github/actions/release-please/config.json
           manifest-file: .github/actions/release-please/manifest.json
+
+  purge-camo-cache:
+    runs-on: ubuntu-latest
+    name: Purge Camo's cache for README images
+    permissions: {}
+    steps:
+      - uses: kevincobain2000/action-camo-purge@0b70f4d64c9828aace7bbbf1931a646957734ef3 # v1

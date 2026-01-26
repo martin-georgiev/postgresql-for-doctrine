@@ -34,4 +34,3 @@ class JsonBuildArray extends BaseVariadicFunction
         return PHP_INT_MAX;
     }
 }
-

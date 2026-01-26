@@ -32,4 +32,3 @@ class ArrayLowerTest extends TestCase
         ];
     }
 }
-

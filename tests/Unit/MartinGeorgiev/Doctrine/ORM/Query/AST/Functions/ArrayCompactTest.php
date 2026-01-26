@@ -32,4 +32,3 @@ class ArrayCompactTest extends TestCase
         ];
     }
 }
-

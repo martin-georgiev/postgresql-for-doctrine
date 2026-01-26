@@ -21,4 +21,3 @@ class ArrayTrim extends BaseFunction
         $this->addNodeMapping('ArithmeticPrimary');
     }
 }
-

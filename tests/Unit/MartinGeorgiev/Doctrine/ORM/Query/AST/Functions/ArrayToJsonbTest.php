@@ -32,4 +32,3 @@ class ArrayToJsonbTest extends TestCase
         ];
     }
 }
-

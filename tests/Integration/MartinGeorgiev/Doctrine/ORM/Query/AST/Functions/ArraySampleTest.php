@@ -55,4 +55,3 @@ class ArraySampleTest extends ArrayTestCase
         $this->assertCount(1, $sampledArray);
     }
 }
-

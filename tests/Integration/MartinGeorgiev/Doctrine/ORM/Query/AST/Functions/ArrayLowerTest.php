@@ -40,4 +40,3 @@ class ArrayLowerTest extends ArrayTestCase
         $this->assertSame(1, $result[0]['result']);
     }
 }
-

@@ -21,4 +21,3 @@ class ArrayUpper extends BaseFunction
         $this->addNodeMapping('ArithmeticPrimary');
     }
 }
-

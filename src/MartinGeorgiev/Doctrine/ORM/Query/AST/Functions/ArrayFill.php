@@ -21,4 +21,3 @@ class ArrayFill extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-
