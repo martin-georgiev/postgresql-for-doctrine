@@ -25,33 +25,41 @@ class ArraySampleTest extends ArrayTestCase
     #[Test]
     public function can_sample_elements_from_array_field(): void
     {
-        $dql = 'SELECT ARRAY_SAMPLE(a.textArray, 2) as result
+        $dql = 'SELECT a.textArray as source, ARRAY_SAMPLE(a.textArray, 3) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a
                 WHERE a.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertNotNull($result[0]['result']);
-        $this->assertIsString($result[0]['result']);
 
-        // Parse the PostgreSQL array result
+        $this->assertIsArray($result[0]['source']);
+
+        $this->assertIsString($result[0]['result']);
         $sampledArray = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($sampledArray);
-        $this->assertCount(2, $sampledArray);
+
+        $this->assertCount(3, $sampledArray);
+        foreach ($sampledArray as $element) {
+            $this->assertContains($element, $result[0]['source']);
+        }
     }
 
     #[Test]
     public function can_sample_single_element(): void
     {
-        $dql = 'SELECT ARRAY_SAMPLE(a.textArray, 1) as result
+        $dql = 'SELECT a.textArray as source, ARRAY_SAMPLE(a.textArray, 1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a
                 WHERE a.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertNotNull($result[0]['result']);
-        $this->assertIsString($result[0]['result']);
 
+        $this->assertIsArray($result[0]['source']);
+
+        $this->assertIsString($result[0]['result']);
         $sampledArray = $this->transformPostgresArray($result[0]['result']);
+
         $this->assertIsArray($sampledArray);
+
         $this->assertCount(1, $sampledArray);
+        $this->assertContains($sampledArray[0], $result[0]['source']);
     }
 }

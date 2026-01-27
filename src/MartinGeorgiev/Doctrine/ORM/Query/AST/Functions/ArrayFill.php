@@ -7,9 +7,9 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL ARRAY_FILL().
  *
- * Creates an array filled with copies of the given value, with dimensions specified by the second argument.
+ * Creates an array filled with copies of the given text value, with dimensions specified by the second argument.
  *
- * @see https://www.postgresql.org/docs/17/functions-array.html
+ * @see https://www.postgresql.org/docs/18/functions-array.html
  * @since 4.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -20,7 +20,7 @@ class ArrayFill extends BaseFunction
 {
     protected function customizeFunction(): void
     {
-        $this->setFunctionPrototype('array_fill(%s, %s)');
+        $this->setFunctionPrototype('array_fill(%s::text, %s::int[])');
         $this->addNodeMapping('NewValue');
         $this->addNodeMapping('StringPrimary');
     }

@@ -10,7 +10,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Returns an array of n randomly selected elements from the input array.
  * The result may contain duplicates if the input array does.
  *
- * @see https://www.postgresql.org/docs/17/functions-array.html
+ * @see https://www.postgresql.org/docs/16/functions-array.html
  * @since 4.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

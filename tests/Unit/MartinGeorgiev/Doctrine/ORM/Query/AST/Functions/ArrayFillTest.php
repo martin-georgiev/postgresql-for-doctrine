@@ -21,8 +21,8 @@ class ArrayFillTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'fills array with value' => "SELECT array_fill('test', ARRAY['3']) AS sclr_0 FROM ContainsArrays c0_",
-            'fills array with string integer' => "SELECT array_fill('42', ARRAY['5']) AS sclr_0 FROM ContainsArrays c0_",
+            'fills array with value' => "SELECT array_fill('test'::text, ARRAY['3']::int[]) AS sclr_0 FROM ContainsArrays c0_",
+            'fills array with string integer' => "SELECT array_fill('42'::text, ARRAY['5']::int[]) AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 

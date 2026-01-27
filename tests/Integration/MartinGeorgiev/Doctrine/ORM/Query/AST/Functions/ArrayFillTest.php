@@ -19,15 +19,15 @@ class ArrayFillTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_fill_array_with_value(): void
+    public function can_fill_array_with_string_value(): void
     {
-        $dql = "SELECT ARRAY_FILL('7', ARRAY('3')) as result
+        $dql = "SELECT ARRAY_FILL('x', ARRAY('3')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertIsArray($actual);
-        $this->assertSame(['7', '7', '7'], $actual);
+        $this->assertSame(['x', 'x', 'x'], $actual);
     }
 }
