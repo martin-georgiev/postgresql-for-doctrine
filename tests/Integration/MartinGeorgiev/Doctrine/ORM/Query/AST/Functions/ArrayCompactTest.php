@@ -23,10 +23,36 @@ class ArrayCompactTest extends ArrayTestCase
     }
 
     #[Test]
+    public function can_compact_text_array_field(): void
+    {
+        $dql = 'SELECT ARRAY_COMPACT(t.textArray) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
+                WHERE t.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertIsArray($actual);
+        $this->assertSame(['apple', 'banana', 'orange'], $actual);
+    }
+
+    #[Test]
+    public function can_compact_integer_array_field(): void
+    {
+        $dql = 'SELECT ARRAY_COMPACT(t.integerArray) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
+                WHERE t.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertIsArray($actual);
+        $this->assertSame([1, 2, 3], $actual);
+    }
+
+    #[Test]
     public function can_compact_array_with_nulls(): void
     {
-        $dql = "SELECT ARRAY_COMPACT(ARRAY['a', null, 'b', null, 'c']) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
+        $dql = "SELECT ARRAY_COMPACT(ARRAY['a', null, 'b', null, 'c']) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);

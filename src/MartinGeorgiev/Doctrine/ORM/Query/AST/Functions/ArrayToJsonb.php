@@ -14,7 +14,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  * Line feeds will be added between dimension-1 elements if pretty_bool is true.
  *
  * @see https://www.postgresql.org/docs/17/functions-json.html
- * @since 4.0
+ * @since 4.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *

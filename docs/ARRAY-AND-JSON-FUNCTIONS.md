@@ -44,7 +44,9 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | array_agg | ARRAY_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg` |
 | array_append | ARRAY_APPEND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend` |
 | array_cat | ARRAY_CAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat` |
+| array_compact | ARRAY_COMPACT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCompact` |
 | array_dims | ARRAY_DIMENSIONS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions` |
+| array_fill | ARRAY_FILL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayFill` |
 | array_length | ARRAY_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength` |
 | array_lower | ARRAY_LOWER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLower` |
 | array_ndims | ARRAY_NUMBER_OF_DIMENSIONS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions` |
@@ -54,9 +56,11 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | array_remove | ARRAY_REMOVE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove` |
 | array_replace | ARRAY_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace` |
 | array_reverse | ARRAY_REVERSE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReverse` |
+| array_sample | ARRAY_SAMPLE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample` |
 | array_shuffle | ARRAY_SHUFFLE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle` |
 | array_sort | ARRAY_SORT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySort` |
 | array_to_json | ARRAY_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson` |
+| array_to_jsonb | ARRAY_TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJsonb` |
 | array_to_string | ARRAY_TO_STRING | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString` |
 | array_trim | ARRAY_TRIM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayTrim` |
 | array_upper | ARRAY_UPPER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper` |
@@ -70,6 +74,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 |---|---|---|
 | json_agg | JSON_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg` |
 | json_array_length | JSON_ARRAY_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength` |
+| json_build_array | JSON_BUILD_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray` |
 | json_build_object | JSON_BUILD_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject` |
 | json_each | JSON_EACH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach` |
 | json_each_text | JSON_EACH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText` |
@@ -93,6 +98,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | jsonb_agg | JSONB_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg` |
 | jsonb_array_elements_text | JSONB_ARRAY_ELEMENTS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText` |
 | jsonb_array_length | JSONB_ARRAY_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength` |
+| jsonb_build_array | JSONB_BUILD_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildArray` |
 | jsonb_build_object | JSONB_BUILD_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject` |
 | jsonb_each | JSONB_EACH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach` |
 | jsonb_each_text | JSONB_EACH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText` |
@@ -109,6 +115,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | jsonb_set | JSONB_SET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet` |
 | jsonb_set_lax | JSONB_SET_LAX | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax` |
 | jsonb_strip_nulls | JSONB_STRIP_NULLS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls` |
+| jsonb_to_array | JSONB_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbToArray` |
 
 ## Bonus Helpers
 

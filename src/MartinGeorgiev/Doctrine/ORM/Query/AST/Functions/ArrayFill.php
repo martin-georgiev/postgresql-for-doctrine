@@ -8,7 +8,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Implementation of PostgreSQL ARRAY_FILL().
  *
  * @see https://www.postgresql.org/docs/17/functions-array.html
- * @since 4.0
+ * @since 4.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */

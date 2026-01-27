@@ -8,7 +8,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Implementation of PostgreSQL JSON_BUILD_ARRAY().
  *
  * @see https://www.postgresql.org/docs/17/functions-json.html
- * @since 4.0
+ * @since 4.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
