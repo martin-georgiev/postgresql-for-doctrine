@@ -76,6 +76,8 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | json_each | JSON_EACH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach` |
 | json_each_text | JSON_EACH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText` |
 | json_exists | JSON_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExists` |
+| json_extract_path | JSON_EXTRACT_PATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExtractPath` |
+| json_extract_path_text | JSON_EXTRACT_PATH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExtractPathText` |
 | json_object_agg | JSON_OBJECT_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg` |
 | json_object_keys | JSON_OBJECT_KEYS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectKeys` |
 | json_query | JSON_QUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonQuery` |
@@ -100,6 +102,8 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | jsonb_each | JSONB_EACH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach` |
 | jsonb_each_text | JSONB_EACH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText` |
 | jsonb_exists | JSONB_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists` |
+| jsonb_extract_path | JSONB_EXTRACT_PATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExtractPath` |
+| jsonb_extract_path_text | JSONB_EXTRACT_PATH_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExtractPathText` |
 | jsonb_insert | JSONB_INSERT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert` |
 | jsonb_object_agg | JSONB_OBJECT_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg` |
 | jsonb_object_keys | JSONB_OBJECT_KEYS |`MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys` |
@@ -112,6 +116,8 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | jsonb_set | JSONB_SET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet` |
 | jsonb_set_lax | JSONB_SET_LAX | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax` |
 | jsonb_strip_nulls | JSONB_STRIP_NULLS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls` |
+| jsonb_to_tsvector | JSONB_TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbToTsvector` |
+| jsonb_typeof | JSONB_TYPEOF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbTypeof` |
 
 ## Bonus Helpers
 
