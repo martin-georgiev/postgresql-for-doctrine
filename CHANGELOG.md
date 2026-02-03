@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.1.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.0.0...v4.1.0) (2026-02-03)
+
+
+### Features
+
+* **#522:** Support bounded infinity values in range types ([#523](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/523)) ([6e568d1](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/6e568d1bed8b29ec552bf603c01eeb735ef6ecdf))
+* Add support for `AGE`, `DATE_PART`, `MAKE_DATE`, `MAKE_TIMESTAMP`, `MAKE_TIMESTAMPTZ`, `MAKE_TIME` ([#528](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/528)) ([5e6956a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5e6956ac5acdad1f7ed8870d5fecb5851c1bb868))
+* Add support for `ARRAY_FILL`, `ARRAY_LOWER`, `ARRAY_SAMPLE`, `ARRAY_UPPER`, `JSONB_BUILD_ARRAY`, `JSON_BUILD_ARRAY` ([#530](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/530)) ([a2091e8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a2091e86c868bf1ac5ac477210db1eafa53bfe5d))
+* Add support for `CONCAT_WS`, `FORMAT`, `LEFT`, `REPEAT`, `REVERSE`, `RIGHT` ([#533](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/533)) ([83678f5](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/83678f5276ea8a51eaaaaff7e31fed64ecaee870))
+* Add support for `JSONB_EXTRACT_PATH`, `JSON_EXTRACT_PATH`, `JSONB_EXTRACT_PATH_TEXT`, `JSON_EXTRACT_PATH_TEXT`, `JSONB_TO_TSVECTOR`, `JSONB_TYPEOF` ([#535](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/535)) ([578e528](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/578e5287fe060dc8d78104556be411bbe1d24f04))
+
 ## [4.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.7.0...v4.0.0) (2025-12-30)
 
 
