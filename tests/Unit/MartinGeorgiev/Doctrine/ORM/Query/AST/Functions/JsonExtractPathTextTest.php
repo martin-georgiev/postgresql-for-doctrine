@@ -19,14 +19,14 @@ class JsonExtractPathTextTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'extracts path text from json' => "SELECT json_extract_path_text(c0_.jsonbObject1, 'key1', 'key2') AS sclr_0 FROM ContainsJsons c0_",
+            'extracts path text from json' => "SELECT json_extract_path_text(c0_.jsonObject1, 'key1', 'key2') AS sclr_0 FROM ContainsJsons c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'extracts path text from json' => \sprintf("SELECT JSON_EXTRACT_PATH_TEXT(e.jsonbObject1, 'key1', 'key2') FROM %s e", ContainsJsons::class),
+            'extracts path text from json' => \sprintf("SELECT JSON_EXTRACT_PATH_TEXT(e.jsonObject1, 'key1', 'key2') FROM %s e", ContainsJsons::class),
         ];
     }
 }
