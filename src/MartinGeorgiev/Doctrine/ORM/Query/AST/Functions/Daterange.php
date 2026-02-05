@@ -7,10 +7,14 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL DATERANGE().
  *
+ * Creates a date range.
+ *
  * @see https://www.postgresql.org/docs/17/rangetypes.html
  * @since 2.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT DATERANGE('2024-01-01', '2024-12-31') FROM Entity e"
  */
 class Daterange extends BaseVariadicFunction
 {

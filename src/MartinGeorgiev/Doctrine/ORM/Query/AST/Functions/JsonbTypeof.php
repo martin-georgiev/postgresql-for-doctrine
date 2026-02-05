@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL JSONB_TYPEOF().
  *
+ * Returns the type of a JSONB value.
+ *
  * @see https://www.postgresql.org/docs/17/functions-json.html
  * @since 4.1
  *

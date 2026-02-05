@@ -7,10 +7,14 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL FLOOR().
  *
+ * Rounds a number down to the nearest integer.
+ *
  * @see https://www.postgresql.org/docs/17/functions-math.html
  * @since 3.2
  *
  * @author Jan Klan <jan@klan.com.au>
+ *
+ * @example Using it in DQL: "SELECT FLOOR(e.value) FROM Entity e"
  */
 class Floor extends BaseArithmeticFunction
 {

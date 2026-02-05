@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL JSON_EXTRACT_PATH().
  *
+ * Extracts a value at a specified path in a JSON object.
+ *
  * @see https://www.postgresql.org/docs/17/functions-json.html
  * @since 4.1
  *

@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL FORMAT().
  *
+ * Formats a string using printf-style formatting.
+ *
  * @see https://www.postgresql.org/docs/17/functions-string.html
  * @since 4.1
  *
