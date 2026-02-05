@@ -7,10 +7,14 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL ARRAY_NDIMS().
  *
+ * Returns the number of dimensions of an array.
+ *
  * @see https://www.postgresql.org/docs/9.6/static/functions-array.html
  * @since 0.10
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT ARRAY_NDIMS(e.array) FROM Entity e"
  */
 class ArrayNumberOfDimensions extends BaseFunction
 {

@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL ARRAY_UPPER().
  *
+ * Returns the upper bound of a specified dimension of an array.
+ *
  * @see https://www.postgresql.org/docs/17/functions-array.html
  * @since 4.1
  *
