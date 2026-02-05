@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL with boolean comparison: "WHERE SPATIAL_SAME(g1.geometry, g2.geometry) = TRUE"
- * Returns boolean, must be used with "= TRUE" or "= FALSE" in DQL.
  */
 class SpatialSame extends BaseFunction
 {

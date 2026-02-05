@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_PROJECT(g.geometry, :distance, :azimuth) FROM Entity g"
- * Returns projected point.
  */
 class ST_Project extends BaseFunction
 {

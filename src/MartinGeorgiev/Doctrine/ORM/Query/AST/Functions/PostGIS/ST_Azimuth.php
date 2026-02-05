@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_AZIMUTH(g.geometry1, g.geometry2) FROM Entity g"
- * Returns azimuth angle in radians.
  */
 class ST_Azimuth extends BaseFunction
 {

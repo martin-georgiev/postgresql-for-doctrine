@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_ENVELOPE(g.geometry) FROM Entity g"
- * Returns bounding box polygon.
  */
 class ST_Envelope extends BaseFunction
 {

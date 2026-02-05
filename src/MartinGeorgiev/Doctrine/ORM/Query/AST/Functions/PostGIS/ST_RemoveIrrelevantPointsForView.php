@@ -21,7 +21,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  *
  * @example Using it in DQL: "SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry, box) FROM Entity g"
  * @example Using it in DQL: "SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry, box, 'true') FROM Entity g"
- * Returns geometry with irrelevant points removed.
  */
 class ST_RemoveIrrelevantPointsForView extends BaseVariadicFunction
 {

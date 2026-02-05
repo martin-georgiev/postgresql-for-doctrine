@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "WHERE ST_Relate(g.geometry1, g.geometry2, 'T*T***T**') = TRUE"
- * Returns boolean when 3 arguments provided, string (intersection matrix) when 2 arguments provided.
  */
 class ST_Relate extends BaseVariadicFunction
 {

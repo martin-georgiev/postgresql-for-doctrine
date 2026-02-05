@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "WHERE ST_PointInsideCircle(g.point, 0, 0, 1000) = TRUE"
- * Returns boolean, must be used with "= TRUE" or "= FALSE" in DQL.
  */
 class ST_PointInsideCircle extends BaseFunction
 {

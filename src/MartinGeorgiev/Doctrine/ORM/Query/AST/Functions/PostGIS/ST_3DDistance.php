@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_3DDISTANCE(g1.geometry, g2.geometry) FROM Entity g1, Entity g2"
- * Returns numeric 3D distance value.
  */
 class ST_3DDistance extends BaseFunction
 {

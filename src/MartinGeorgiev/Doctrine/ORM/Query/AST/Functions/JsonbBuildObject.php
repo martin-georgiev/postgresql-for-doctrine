@@ -10,10 +10,14 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 /**
  * Implementation of PostgreSQL JSONB_BUILD_OBJECT().
  *
+ * Constructs a JSONB object from key-value pairs.
+ *
  * @see https://www.postgresql.org/docs/17/functions-json.html
  * @since 2.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT JSONB_BUILD_OBJECT('key', e.value) FROM Entity e"
  */
 class JsonbBuildObject extends BaseVariadicFunction
 {

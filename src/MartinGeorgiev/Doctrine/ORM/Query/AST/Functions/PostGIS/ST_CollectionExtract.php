@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_COLLECTIONEXTRACT(g.geometry, 1) FROM Entity g"
- * Returns collection with extracted geometry type.
  */
 class ST_CollectionExtract extends BaseFunction
 {

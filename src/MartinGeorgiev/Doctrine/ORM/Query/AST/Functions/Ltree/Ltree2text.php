@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT LTREE2TEXT(e.path) FROM Entity e"
- * Returns text, converted from ltree.
  */
 class Ltree2text extends BaseFunction
 {
