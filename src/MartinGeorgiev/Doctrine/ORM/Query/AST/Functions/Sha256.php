@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL SHA256().
  *
+ * Calculates the SHA256 hash of a string.
+ *
  * @see https://www.postgresql.org/docs/17/functions-binarystring.html
  * @since 4.0
  *

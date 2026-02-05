@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL SHA384().
  *
+ * Calculates the SHA384 hash of a string.
+ *
  * @see https://www.postgresql.org/docs/17/functions-binarystring.html
  * @since 4.0
  *
