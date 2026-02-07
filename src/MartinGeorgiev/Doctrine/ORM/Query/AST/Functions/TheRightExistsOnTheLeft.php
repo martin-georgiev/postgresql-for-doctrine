@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL check if the right-side text exists on the left-side JSONB (using ?).
+ * Implementation of PostgreSQL ? operator.
+ *
+ * Checks if a key exists in a JSONB object.
  *
  * @see https://www.postgresql.org/docs/14/functions-json.html
  * @since 2.3
