@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL check if left side overlaps with right side (using &&).
+ * Implementation of PostgreSQL && operator.
+ *
+ * Checks if left side overlaps with right side.
  *
  * @see https://www.postgresql.org/docs/9.6/static/functions-array.html
  * @since 0.10

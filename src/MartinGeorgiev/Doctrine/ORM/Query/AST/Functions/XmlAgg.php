@@ -14,10 +14,14 @@ use MartinGeorgiev\Utils\DoctrineOrm;
 /**
  * Implementation of PostgreSQL XMLAGG().
  *
+ * Aggregates XML values.
+ *
  * @see https://www.postgresql.org/docs/17/functions-aggregate.html
  * @since 3.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT XML_AGG(e.xml_data) FROM Entity e"
  */
 class XmlAgg extends BaseFunction
 {
