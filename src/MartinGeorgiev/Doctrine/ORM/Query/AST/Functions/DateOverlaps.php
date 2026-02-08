@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Ramil Gallyamov <gallyamow@gmail.com>
  *
- * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE (e.start_date, e.end_date) OVERLAPS ('2024-01-01', '2024-12-31')"
+ * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE DATE_OVERLAPS(e.startDate, e.endDate, '2024-01-01', '2024-12-31') = TRUE"
  */
 class DateOverlaps extends BaseFunction
 {

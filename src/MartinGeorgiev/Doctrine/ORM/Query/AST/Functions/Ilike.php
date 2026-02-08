@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author llaakkkk <lenakirichokv@gmail.com>
  *
- * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE e.name ILIKE '%john%'"
+ * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE ILIKE(e.name, '%john%') = TRUE"
  */
 class Ilike extends BaseFunction
 {
