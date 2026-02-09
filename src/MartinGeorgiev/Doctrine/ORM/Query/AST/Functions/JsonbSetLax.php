@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT JSONB_SET_LAX(e.data, ARRAY['key'], 'value') FROM Entity e"
+ * @example Using it in DQL: "SELECT JSONB_SET_LAX(e.jsonbObject, '{key}', '\"value\"') FROM Entity e"
  */
 class JsonbSetLax extends BaseFunction
 {

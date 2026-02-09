@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL POWER() function.
+ * Implementation of PostgreSQL POWER().
  *
  * Raises a number to a specified power.
  *
