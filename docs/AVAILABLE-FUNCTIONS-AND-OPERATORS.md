@@ -37,7 +37,7 @@ Complete documentation for PostGIS spatial operations and geometry processing.
 ### **📝 Text and Pattern Functions**
 Complete documentation for text processing, pattern matching, and regular expressions.
 - **[Text and Pattern Functions and Operators](TEXT-AND-PATTERN-FUNCTIONS.md)**
-- Includes: Text operators (`~`, `ilike`, `@@`), regular expression functions, text processing functions, full-text search functions
+- Includes: Text operators (`~`, `ilike`, `@@`), regular expression functions, text processing functions, full-text search functions, fuzzy string matching functions
 
 ### **📅 Date and Range Functions**
 Complete documentation for date/time operations and range type functions.
@@ -78,6 +78,8 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `ILIKE` - Case-insensitive pattern matching
 - `REGEXP` (`~`) - Regular expression matching
 - `STARTS_WITH` - Test if text starts with substring
+- `LEVENSHTEIN` - Calculate edit distance between strings (fuzzy matching)
+- `SOUNDEX` - Phonetic encoding for similarity matching
 
 **Date/Range Operations:** ([Complete documentation](DATE-AND-RANGE-FUNCTIONS.md))
 - `DATE_ADD` - Add interval to date
@@ -131,6 +133,7 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - **Regexp Functions**: Pattern matching and replacement
 - **Text Functions**: String manipulation and searching
 - **Full-Text Search**: PostgreSQL's text search capabilities
+- **Fuzzy String Matching**: Phonetic and edit distance algorithms (fuzzystrmatch extension)
 
 ### **Date & Range Functions**
 - **Date Operations**: Add/subtract dates, extract components

@@ -66,6 +66,21 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 | to_tsvector | TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector` |
 | websearch_to_tsquery | WEBSEARCH_TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery` |
 
+## Fuzzy String Matching Functions (fuzzystrmatch extension)
+
+> ⚠️ **Note**: These functions require the PostgreSQL `fuzzystrmatch` extension to be installed and enabled in your database.
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| daitch_mokotoff | DAITCH_MOKOTOFF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DaitchMokotoff` |
+| difference | DIFFERENCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Difference` |
+| dmetaphone | DMETAPHONE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Dmetaphone` |
+| dmetaphone_alt | DMETAPHONE_ALT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DmetaphoneAlt` |
+| levenshtein | LEVENSHTEIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Levenshtein` |
+| levenshtein_less_equal | LEVENSHTEIN_LESS_EQUAL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\LevenshteinLessEqual` |
+| metaphone | METAPHONE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Metaphone` |
+| soundex | SOUNDEX | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Soundex` |
+
 ## Usage Examples
 
 ```sql
@@ -124,12 +139,17 @@ SELECT e FROM Entity e WHERE NOT_SIMILAR_TO(e.code, '[A-Z]{2}[0-9]{4}') = TRUE
 
 -- Full-text search setup
 SELECT e FROM Entity e WHERE TSMATCH(TO_TSVECTOR(e.content), TO_TSQUERY('search & terms')) = TRUE
+
+-- Fuzzy string matching (requires fuzzystrmatch extension)
+-- Calculate Levenshtein distance between strings
+SELECT e, LEVENSHTEIN(e.name, 'target') as distance FROM Entity e
 ```
 
 **💡 Tips for Usage:**
 1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
 2. **Regular expressions** use PostgreSQL's POSIX regular expression syntax
 3. **Full-text search** requires proper text search configuration and indexes
-4. **ILIKE** provides case-insensitive pattern matching similar to LIKE
-5. **UNACCENT** requires the unaccent extension to be installed in PostgreSQL
-6. **String aggregation** with STRING_AGG allows custom separators and ordering
+4. **ILIKE** provides case-insensitive pattern matching similar to `LIKE`
+5. **UNACCENT** requires the `unaccent` extension to be installed in PostgreSQL
+6. **String aggregation** with `STRING_AGG` allows custom separators and ordering
+7. **Fuzzy string matching** functions require the `fuzzystrmatch` extension to be installed in PostgreSQL
