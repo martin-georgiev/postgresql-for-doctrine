@@ -55,4 +55,14 @@ class DifferenceTest extends TestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(0, $result[0]['result']);
     }
+
+    #[Test]
+    public function can_compute_difference_from_text_fields(): void
+    {
+        $dql = 'SELECT DIFFERENCE(t.text1, t.text2) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(0, $result[0]['result']);
+    }
 }
