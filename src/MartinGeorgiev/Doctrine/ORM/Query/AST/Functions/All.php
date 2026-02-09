@@ -7,10 +7,14 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL ALL().
  *
+ * Evaluates to true if all subquery rows satisfy the condition.
+ *
  * @see https://www.postgresql.org/docs/9.4/static/functions-subquery.html#FUNCTIONS-SUBQUERY-ALL
  * @since 0.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE e.value > ALL(SELECT value FROM OtherEntity)"
  */
 class All extends BaseFunction
 {

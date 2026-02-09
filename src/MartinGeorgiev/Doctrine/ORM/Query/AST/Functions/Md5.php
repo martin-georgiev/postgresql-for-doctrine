@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL MD5().
  *
+ * Calculates the MD5 hash of a string.
+ *
  * @see https://www.postgresql.org/docs/17/functions-string.html
  * @since 4.0
  *

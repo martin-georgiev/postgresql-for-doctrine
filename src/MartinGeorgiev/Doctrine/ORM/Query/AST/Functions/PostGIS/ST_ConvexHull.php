@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_CONVEXHULL(g.geometry) FROM Entity g"
- * Returns convex hull geometry.
  */
 class ST_ConvexHull extends BaseFunction
 {

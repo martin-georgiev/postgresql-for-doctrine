@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT TRAJECTORY_DISTANCE(t1.trajectory, t2.trajectory) FROM Entity t1, Entity t2"
- * Returns numeric distance value.
  */
 class TrajectoryDistance extends BaseFunction
 {

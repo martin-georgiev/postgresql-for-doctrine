@@ -21,7 +21,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  *
  * @example Using it in DQL: "SELECT ST_CONCAVEHULL(g.geometry, 0.9) FROM Entity g"
  * @example Using it in DQL: "SELECT ST_CONCAVEHULL(g.geometry, 0.9, 'true') FROM Entity g"
- * Returns a concave hull polygon.
  */
 class ST_ConcaveHull extends BaseVariadicFunction
 {

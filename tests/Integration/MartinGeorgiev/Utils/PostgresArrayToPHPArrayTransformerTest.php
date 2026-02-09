@@ -126,7 +126,6 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
             throw new \RuntimeException(\sprintf('Expected string for test_array, got %s', \gettype($row['test_array'])));
         }
 
-        /** @var string $postgresArray */
         $postgresArray = $row['test_array'];
 
         return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray); // @phpstan-ignore-line

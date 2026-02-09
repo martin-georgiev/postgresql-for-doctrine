@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_CLIPBYBOX2D(g.geometry, ST_Envelope(g.geometry)) FROM Entity g"
- * Returns clipped geometry.
  */
 class ST_ClipByBox2D extends BaseFunction
 {

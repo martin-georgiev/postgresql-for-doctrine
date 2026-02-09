@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
  * Implementation of PostgreSQL BOOL[] data type.
  *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
- * @since 1.5.3
+ * @since 1.6
  *
  * @author Antonio J. García Lagar <aj@garcialagar.es>
  */

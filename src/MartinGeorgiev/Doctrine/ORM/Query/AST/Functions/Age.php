@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL AGE().
  *
+ * Calculates the time interval between two timestamps.
+ *
  * @see https://www.postgresql.org/docs/17/functions-datetime.html
  * @since 4.1
  *

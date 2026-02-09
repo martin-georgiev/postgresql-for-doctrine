@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_TRIANGULATEPOLYGON(g.geometry) FROM Entity g"
- * Returns a geometry collection of triangles.
  */
 class ST_TriangulatePolygon extends BaseFunction
 {

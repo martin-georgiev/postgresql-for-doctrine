@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_CURVEN(g.geometry, 1) FROM Entity g"
- * Returns the first curve component.
  */
 class ST_CurveN extends BaseFunction
 {

@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_FORCE2D(g.geometry) FROM Entity g"
- * Returns 2D geometry with Z and M coordinates removed.
  */
 class ST_Force2D extends BaseFunction
 {

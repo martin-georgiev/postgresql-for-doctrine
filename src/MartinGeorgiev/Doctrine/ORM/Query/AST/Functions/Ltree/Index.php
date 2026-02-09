@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT INDEX(e.path, 'Child1') FROM Entity e"
- * Returns integer, position of first occurrence or -1 if not found.
  */
 class Index extends BaseVariadicFunction
 {

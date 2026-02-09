@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL MAKE_DATE().
  *
+ * Creates a date from year, month, and day values.
+ *
  * @see https://www.postgresql.org/docs/17/functions-datetime.html
  * @since 4.1
  *

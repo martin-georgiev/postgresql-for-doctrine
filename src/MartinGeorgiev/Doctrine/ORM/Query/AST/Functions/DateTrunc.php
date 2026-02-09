@@ -10,6 +10,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\TimezoneValidationTra
 /**
  * Implementation of PostgreSQL DATE_TRUNC().
  *
+ * Truncates a timestamp to a specified precision.
+ *
  * @see https://www.postgresql.org/docs/16/functions-datetime.html#FUNCTIONS-DATETIME-TRUNC
  * @since 3.7
  *

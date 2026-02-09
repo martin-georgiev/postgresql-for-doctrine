@@ -17,7 +17,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL with boolean comparison: "WHERE STRICTLY_RIGHT(g1.geometry, g2.geometry) = TRUE"
- * Returns boolean, must be used with "= TRUE" or "= FALSE" in DQL.
+ * Returns boolean, must be used with "= TRUE" or "= FALSE" when used in WHERE clause in DQL.
  */
 class StrictlyRight extends BaseFunction
 {

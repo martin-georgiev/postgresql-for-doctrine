@@ -10,6 +10,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\TimezoneValidationTra
 /**
  * Implementation of PostgreSQL MAKE_TIMESTAMPTZ().
  *
+ * Creates a timestamp with timezone from date and time components.
+ *
  * @see https://www.postgresql.org/docs/17/functions-datetime.html
  * @since 4.1
  *

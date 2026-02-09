@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT NLEVEL(e.path) FROM Entity e"
- * Returns integer, number of labels in path.
  */
 class Nlevel extends BaseFunction
 {

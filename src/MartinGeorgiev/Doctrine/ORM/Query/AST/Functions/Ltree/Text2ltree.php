@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT TEXT2LTREE('Top.Child1.Child2') FROM Entity e"
- * Returns ltree, converted from text.
  */
 class Text2ltree extends BaseFunction
 {

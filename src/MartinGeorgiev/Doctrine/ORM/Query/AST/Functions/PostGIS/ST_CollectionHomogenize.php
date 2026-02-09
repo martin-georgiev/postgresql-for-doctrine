@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_COLLECTIONHOMOGENIZE(g.geometry) FROM Entity g"
- * Returns homogenized geometry.
  */
 class ST_CollectionHomogenize extends BaseFunction
 {

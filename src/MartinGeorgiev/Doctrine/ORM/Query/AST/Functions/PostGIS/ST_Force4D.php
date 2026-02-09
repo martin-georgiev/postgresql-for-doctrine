@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_FORCE4D(g.geometry) FROM Entity g"
- * Returns 4D geometry.
  */
 class ST_Force4D extends BaseFunction
 {

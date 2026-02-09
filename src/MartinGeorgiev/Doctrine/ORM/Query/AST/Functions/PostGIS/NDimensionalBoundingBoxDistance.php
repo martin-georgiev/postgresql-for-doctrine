@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ND_BOUNDING_BOX_DISTANCE(g1.geometry, g2.geometry) FROM Entity g1, Entity g2"
- * Returns numeric distance value.
  */
 class NDimensionalBoundingBoxDistance extends BaseFunction
 {
