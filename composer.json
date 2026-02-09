@@ -60,7 +60,7 @@
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.0",
         "friendsofphp/php-cs-fixer": "^3.93.1",
-        "phpstan/phpstan": "^2.1.37",
+        "phpstan/phpstan": "^2.1.38",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
         "phpstan/phpstan-doctrine": "^2.0.14",
         "phpstan/phpstan-phpunit": "^2.0.12",
