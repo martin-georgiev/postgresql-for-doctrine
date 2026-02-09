@@ -14,7 +14,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author llaakkkk <lenakirichokv@gmail.com>
  *
- * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE ILIKE(e.name, '%john%') = TRUE"
+ * @example Using it in DQL with boolean comparison: "WHERE ILIKE(e.name, '%john%') = TRUE"
+ * Returns boolean, must be used with "= TRUE" or "= FALSE" when used in WHERE clause in DQL.
  */
 class Ilike extends BaseFunction
 {

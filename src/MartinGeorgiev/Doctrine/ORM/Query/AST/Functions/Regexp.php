@@ -14,7 +14,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Ian Jenkins <ian@jenko.me>
  *
- * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE"
+ * @example Using it in DQL with boolean comparison: "WHERE REGEXP(e.text, 'pattern') = TRUE"
+ * Returns boolean, must be used with "= TRUE" or "= FALSE" when used in WHERE clause in DQL.
  */
 class Regexp extends BaseFunction
 {

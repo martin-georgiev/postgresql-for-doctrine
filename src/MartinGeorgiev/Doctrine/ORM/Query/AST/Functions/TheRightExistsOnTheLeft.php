@@ -15,7 +15,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL with boolean comparison: "WHERE RIGHT_EXISTS_ON_LEFT(e.jsonbData, 'key') = TRUE"
- * Returns boolean, must be used with "= TRUE" or "= FALSE" in DQL.
+ * Returns boolean, must be used with "= TRUE" or "= FALSE" when used in WHERE clause in DQL.
  */
 class TheRightExistsOnTheLeft extends BaseFunction
 {

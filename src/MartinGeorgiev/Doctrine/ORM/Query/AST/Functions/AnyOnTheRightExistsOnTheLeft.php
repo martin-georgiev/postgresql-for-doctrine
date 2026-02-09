@@ -14,7 +14,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT ANY_ON_RIGHT_EXISTS_ON_LEFT(e.jsonbObject, ARR('key1', 'key2')) FROM Entity e"
+ * @example Using it in DQL with boolean comparison: "WHERE ANY_ON_RIGHT_EXISTS_ON_LEFT(e.jsonbObject, ARR('key1', 'key2')) = TRUE"
+ * Returns boolean, must be used with "= TRUE" or "= FALSE" when used in WHERE clause in DQL.
  */
 class AnyOnTheRightExistsOnTheLeft extends BaseFunction
 {
