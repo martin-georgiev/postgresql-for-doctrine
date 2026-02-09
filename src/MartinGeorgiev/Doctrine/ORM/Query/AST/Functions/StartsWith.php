@@ -15,7 +15,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @author Alexander Dmitryuk <xakzona@bk.ru>
  *
  * @example Using it in DQL with boolean comparison: "WHERE STARTS_WITH(e.text, 'prefix') = TRUE"
- * Returns boolean, must be used with "= TRUE" or "= FALSE" in DQL.
+ * Returns boolean, must be used with "= TRUE" or "= FALSE" when used in WHERE clause in DQL.
  */
 class StartsWith extends BaseFunction
 {
