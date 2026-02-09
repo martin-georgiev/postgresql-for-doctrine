@@ -29,4 +29,3 @@ class Difference extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-

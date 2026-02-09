@@ -62,4 +62,3 @@ class LevenshteinLessEqual extends BaseVariadicFunction
         }
     }
 }
-

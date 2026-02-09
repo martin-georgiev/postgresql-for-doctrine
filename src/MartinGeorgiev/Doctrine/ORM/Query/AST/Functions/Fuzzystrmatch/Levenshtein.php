@@ -62,4 +62,3 @@ class Levenshtein extends BaseVariadicFunction
         }
     }
 }
-

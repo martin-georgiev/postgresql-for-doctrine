@@ -29,4 +29,3 @@ class DmetaphoneAlt extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-

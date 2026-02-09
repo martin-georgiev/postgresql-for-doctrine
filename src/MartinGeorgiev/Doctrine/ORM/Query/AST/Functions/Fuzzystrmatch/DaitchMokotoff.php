@@ -28,4 +28,3 @@ class DaitchMokotoff extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-

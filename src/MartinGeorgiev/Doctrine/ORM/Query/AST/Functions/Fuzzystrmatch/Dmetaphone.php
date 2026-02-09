@@ -28,4 +28,3 @@ class Dmetaphone extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-

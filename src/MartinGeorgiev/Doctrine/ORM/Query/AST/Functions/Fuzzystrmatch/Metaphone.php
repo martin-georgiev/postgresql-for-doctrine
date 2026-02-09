@@ -29,4 +29,3 @@ class Metaphone extends BaseFunction
         $this->addNodeMapping('ArithmeticPrimary');
     }
 }
-

@@ -27,4 +27,3 @@ class Soundex extends BaseFunction
         $this->addNodeMapping('StringPrimary');
     }
 }
-
