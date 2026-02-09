@@ -10,12 +10,16 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
 /**
  * Implementation of PostgreSQL JSON_STRIP_NULLS().
  *
- * Supports optional second parameter (PostgreSQL 18+) to control null stripping from arrays.
+ *  Removes all object fields with null values from the given JSON value.
+ *  Optionally controls whether to strip nulls from arrays (PostgreSQL 18+).
  *
  * @see https://www.postgresql.org/docs/18/functions-json.html
  * @since 0.10
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL with basic usage: "SELECT JSON_STRIP_NULLS(e.data) FROM Entity e"
+ * @example Using it in DQL with null stripping from arrays (PostgreSQL 18+): "SELECT JSON_STRIP_NULLS(e.data, 'true') FROM Entity e"
  */
 class JsonStripNulls extends BaseVariadicFunction
 {

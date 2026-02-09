@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL json field retrieval as integer, filtered by key (using ->> and type casting to BIGINT).
+ * DQL wrapper for PostgreSQL ->> operator with BIGINT casting.
  *
- * Supports both string keys for object property access and integer indices for array element access:
- * - JSON_GET_FIELD_AS_INTEGER(json_column, 'property_name') -> CAST(json_column->>'property_name' as BIGINT)
- * - JSON_GET_FIELD_AS_INTEGER(json_column, 0) -> CAST(json_column->>0 as BIGINT)
+ * Extracts a JSON field as text and casts it to BIGINT.
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-json.html
  * @since 0.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL with property name: "SELECT JSON_GET_FIELD_AS_INTEGER(e.jsonData, 'age') FROM Entity e"
+ * @example Using it in DQL with array index: "SELECT JSON_GET_FIELD_AS_INTEGER(e.jsonData, 0) FROM Entity e"
  */
 class JsonGetFieldAsInteger extends JsonGetField
 {
