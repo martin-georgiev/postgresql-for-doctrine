@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_NUMCURVES(g.geometry) FROM Entity g"
- * Returns the number of curve components.
  */
 class ST_NumCurves extends BaseFunction
 {

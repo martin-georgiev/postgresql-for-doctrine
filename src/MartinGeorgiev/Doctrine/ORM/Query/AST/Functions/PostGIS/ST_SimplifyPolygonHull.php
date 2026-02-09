@@ -21,7 +21,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  *
  * @example Using it in DQL: "SELECT ST_SIMPLIFYPOLYGONHULL(g.geometry, 0.5) FROM Entity g"
  * @example Using it in DQL: "SELECT ST_SIMPLIFYPOLYGONHULL(g.geometry, 0.5, 'false') FROM Entity g"
- * Returns a simplified polygon hull.
  */
 class ST_SimplifyPolygonHull extends BaseVariadicFunction
 {

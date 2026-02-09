@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_SPLIT(g.geometry, g.blade) FROM Entity g"
- * Returns geometry collection representing the split result.
  */
 class ST_Split extends BaseFunction
 {

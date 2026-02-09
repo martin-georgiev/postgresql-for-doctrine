@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT SUBLTREE(e.path, 1, 2) FROM Entity e"
- * Returns ltree, subpath from position start to position end-1.
  */
 class Subltree extends BaseFunction
 {

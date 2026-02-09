@@ -16,7 +16,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "WHERE ST_Equals(g.geometry1, g.geometry2) = TRUE"
+ * @example Using it in DQL with boolean comparison: "WHERE ST_Equals(g.geometry1, g.geometry2) = TRUE"
  * Returns boolean, must be used with "= TRUE" or "= FALSE" in DQL.
  */
 class ST_Equals extends BaseFunction

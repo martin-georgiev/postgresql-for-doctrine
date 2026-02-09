@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL DATE_PART().
  *
+ * Extracts a field from a date or timestamp.
+ *
  * @see https://www.postgresql.org/docs/17/functions-datetime.html
  * @since 4.1
  *

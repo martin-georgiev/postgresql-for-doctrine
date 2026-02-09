@@ -16,10 +16,14 @@ use MartinGeorgiev\Utils\DoctrineOrm;
 /**
  * Implementation of PostgreSQL STRING_AGG().
  *
+ * Aggregates strings with a separator.
+ *
  * @see https://www.postgresql.org/docs/9.5/functions-aggregate.html
  * @since 1.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT STRING_AGG(e.name, ',') FROM Entity e"
  */
 class StringAgg extends BaseFunction
 {

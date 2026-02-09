@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL MAKE_TIME().
  *
+ * Creates a time from hour, minute, and second values.
+ *
  * @see https://www.postgresql.org/docs/17/functions-datetime.html
  * @since 4.1
  *

@@ -20,7 +20,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_BOUNDARY(g.geometry) FROM Entity g"
- * Returns geometry representing the boundary.
  */
 class ST_Boundary extends BaseFunction
 {

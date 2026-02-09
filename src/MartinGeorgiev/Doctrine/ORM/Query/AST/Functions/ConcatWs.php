@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL CONCAT_WS().
  *
+ * Concatenates strings with a separator, skipping null values.
+ *
  * @see https://www.postgresql.org/docs/17/functions-string.html
  * @since 4.1
  *

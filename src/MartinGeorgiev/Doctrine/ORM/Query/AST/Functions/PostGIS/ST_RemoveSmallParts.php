@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_REMOVESMALLPARTS(g.geometry, 100, 10) FROM Entity g"
- * Returns geometry with small parts removed.
  */
 class ST_RemoveSmallParts extends BaseFunction
 {

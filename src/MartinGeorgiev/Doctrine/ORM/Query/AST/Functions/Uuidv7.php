@@ -7,10 +7,14 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL UUIDV7().
  *
+ * Generates a time-based UUID v7.
+ *
  * @see https://www.postgresql.org/docs/18/functions-uuid.html
  * @since 3.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT UUIDV7() FROM Entity e"
  */
 class Uuidv7 extends BaseFunction
 {

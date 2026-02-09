@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL JSONB_BUILD_ARRAY().
  *
+ * Constructs a JSONB array from arguments.
+ *
  * @see https://www.postgresql.org/docs/17/functions-json.html
  * @since 4.1
  *

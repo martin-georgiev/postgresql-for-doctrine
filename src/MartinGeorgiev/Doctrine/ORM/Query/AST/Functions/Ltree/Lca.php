@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT LCA(e.path1, e.path2) FROM Entity e"
- * Returns ltree, longest common ancestor of paths.
  */
 class Lca extends BaseVariadicFunction
 {

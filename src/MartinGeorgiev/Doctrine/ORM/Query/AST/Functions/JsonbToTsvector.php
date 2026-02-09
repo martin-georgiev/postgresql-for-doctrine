@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL JSONB_TO_TSVECTOR().
  *
+ * Converts a JSONB value to a text search vector.
+ *
  * @see https://www.postgresql.org/docs/17/functions-textsearch.html
  * @since 4.1
  *

@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL check if left date interval overlaps with right interval.
+ * Implementation of PostgreSQL OVERLAPS operator.
+ *
+ * Checks if left date interval overlaps with right interval.
  *
  * @see https://www.postgresql.org/docs/9.6/functions-datetime.html
- * @since 1.7.0
+ * @since 1.7
  *
  * @author Ramil Gallyamov <gallyamow@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE DATE_OVERLAPS(e.startDate, e.endDate, '2024-01-01', '2024-12-31') = TRUE"
  */
 class DateOverlaps extends BaseFunction
 {

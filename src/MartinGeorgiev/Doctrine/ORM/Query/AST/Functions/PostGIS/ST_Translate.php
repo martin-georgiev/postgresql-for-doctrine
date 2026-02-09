@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_TRANSLATE(g.geometry, 10, 20) FROM Entity g"
- * Returns translated geometry.
  */
 class ST_Translate extends BaseFunction
 {

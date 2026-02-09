@@ -19,7 +19,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  *
  * @example Using it in DQL: "SELECT ST_LETTERS('PostGIS') FROM Entity g"
  * @example Using it in DQL: "SELECT ST_LETTERS('PostGIS', :font) FROM Entity g"
- * Returns a geometry collection of letter shapes.
  */
 class ST_Letters extends BaseVariadicFunction
 {
