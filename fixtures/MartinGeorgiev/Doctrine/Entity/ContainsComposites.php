@@ -19,4 +19,7 @@ class ContainsComposites extends Entity
 
     #[ORM\Column(type: Types::STRING)]
     public string $address;
+
+    #[ORM\Column(type: Types::STRING)]
+    public string $special;
 }
