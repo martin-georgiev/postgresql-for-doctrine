@@ -108,6 +108,7 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `SHA512`
 
 **Utility Operations:**
+- `COMPOSITE_FIELD` - Access a field from a PostgreSQL composite type column → [Use Cases and Examples](USE-CASES-AND-EXAMPLES.md#using-postgresql-composite-types)
 - `CRC32` - CRC-32 checksum computation
 - `CRC32C` - CRC-32C checksum computation
 - `REVERSE_BYTES` - Reverse byte order for bytea values

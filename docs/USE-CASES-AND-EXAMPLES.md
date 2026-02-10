@@ -155,6 +155,62 @@ SELECT p FROM Product p WHERE p.priceRange @> 25.0
 ```
 
 
+Using PostgreSQL Composite Types
+---
+
+PostgreSQL composite types allow you to define custom structured types with named fields. This library provides the `COMPOSITE_FIELD` function to access fields from composite type columns in DQL.
+
+> 📖 **See also**: [PostgreSQL Composite Types Documentation](https://www.postgresql.org/docs/17/rowtypes.html)
+
+### Creating Composite Types in PostgreSQL
+
+```sql
+-- Create a composite type for inventory items
+CREATE TYPE inventory_item AS (
+    name TEXT,
+    supplier_id INTEGER,
+    price NUMERIC(10,2)
+);
+
+-- Create a table using the composite type
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    item inventory_item
+);
+
+-- Insert data using ROW constructor
+INSERT INTO products (item) VALUES (ROW('Widget', 1, 9.99));
+```
+
+### Accessing Composite Fields in DQL
+
+```sql
+-- Access a field from a composite type
+SELECT COMPOSITE_FIELD(p.item, 'name') FROM Product p
+
+-- Use composite fields in WHERE clauses
+SELECT p FROM Product p WHERE COMPOSITE_FIELD(p.item, 'price') > 10.00
+```
+
+### Entity Configuration
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Product
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    // Map composite type column as string - the actual type is handled by PostgreSQL
+    #[ORM\Column(type: 'string')]
+    private string $item;
+}
+```
+
 Using PostGIS Types
 ---
 
