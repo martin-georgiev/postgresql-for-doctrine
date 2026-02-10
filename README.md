@@ -65,6 +65,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
 - **Hierarchical Types**
   - [ltree](https://www.postgresql.org/docs/16/ltree.html) (`ltree`)
+- **Composite Types**
+  - Access fields from [user-defined composite types](https://www.postgresql.org/docs/17/rowtypes.html) via `COMPOSITE_FIELD()` function
 
 ### PostgreSQL Operators
 - **Array Operations**
