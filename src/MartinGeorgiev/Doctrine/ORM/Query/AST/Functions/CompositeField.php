@@ -9,6 +9,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidFieldNameException;
 use MartinGeorgiev\Utils\DoctrineLexer;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
@@ -48,7 +49,7 @@ class CompositeField extends BaseFunction
 
         $fieldName = DoctrineLexer::getTokenValue($parser->getLexer());
         if (!\is_string($fieldName)) {
-            return;
+            throw InvalidFieldNameException::forNonStringValue('COMPOSITE_FIELD');
         }
 
         $this->fieldName = $fieldName;
@@ -60,6 +61,6 @@ class CompositeField extends BaseFunction
     {
         $columnSql = $this->compositeColumn->dispatch($sqlWalker);
 
-        return \sprintf('(%s).%s', $columnSql, $this->fieldName);
+        return \sprintf('(%s)."%s"', $columnSql, $this->fieldName);
     }
 }

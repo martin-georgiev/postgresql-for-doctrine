@@ -19,7 +19,7 @@ class CompositeFieldTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'accesses field from composite type' => 'SELECT (c0_.item).name AS sclr_0 FROM ContainsComposites c0_',
+            'accesses field from composite type' => 'SELECT (c0_.item)."name" AS sclr_0 FROM ContainsComposites c0_',
         ];
     }
 
