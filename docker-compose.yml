@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgis/postgis:${POSTGRES_VERSION:-18}-${POSTGIS_VERSION:-3.6}-alpine
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
