@@ -136,6 +136,13 @@ These functions work with polygonal coverages (sets of non-overlapping polygons 
 |---|---|---|---|
 | ST_CoverageUnion | ST_COVERAGEUNION | Computes the union of a set of polygons forming a coverage by removing shared edges | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion` |
 
+## PostGIS GeoJSON functions
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_GeomFromGeoJSON | ST_GEOMFROMGEOJSON | Creates a geometry from a GeoJSON representation | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromGeoJSON` |
+| ST_AsGeoJSON | ST_ASGEOJSON | Returns the geometry as a GeoJSON element | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON` |
+
 ## PostGIS Geometry Processing Functions
 
 These functions modify and transform geometries including buffering, simplification, coordinate system changes, and geometric transformations.
@@ -231,6 +238,20 @@ FROM Entity e ORDER BY distance LIMIT 10
 SELECT e, ST_Azimuth(e.point1, e.point2) as azimuth_radians,
        DEGREES(ST_Azimuth(e.point1, e.point2)) as azimuth_degrees
 FROM Entity e WHERE e.point1 IS NOT NULL AND e.point2 IS NOT NULL
+
+-- GeoJSON conversion
+-- Convert geometry to GeoJSON
+SELECT e, ST_AsGeoJSON(e.geometry) as geojson FROM Entity e
+
+-- Convert geometry to GeoJSON with limited decimal precision
+SELECT e, ST_AsGeoJSON(e.geometry, 6) as geojson FROM Entity e
+
+-- Convert geometry to GeoJSON with bounding box (options=1)
+SELECT e, ST_AsGeoJSON(e.geometry, 9, 1) as geojson_with_bbox FROM Entity e
+
+-- Create geometry from GeoJSON
+SELECT e FROM Entity e
+WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
 
 -- Geometric operations and transformations
 -- Create buffer around geometry
