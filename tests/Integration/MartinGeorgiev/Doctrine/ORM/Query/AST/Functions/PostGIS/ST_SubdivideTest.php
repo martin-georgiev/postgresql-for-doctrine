@@ -54,4 +54,26 @@ class ST_SubdivideTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function will_preserve_a_subdivided_polygon_area_with_parameter(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1, :maxVertices)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql, ['maxVertices' => 10]);
+        $this->assertEquals(16, $result[0]['result']);
+    }
+
+    #[Test]
+    public function will_preserve_a_subdivided_polygon_area_with_function_expression(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1, ABS(10))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
 }

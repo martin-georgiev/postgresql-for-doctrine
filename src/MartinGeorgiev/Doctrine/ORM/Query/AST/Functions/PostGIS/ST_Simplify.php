@@ -25,6 +25,6 @@ class ST_Simplify extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Simplify(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

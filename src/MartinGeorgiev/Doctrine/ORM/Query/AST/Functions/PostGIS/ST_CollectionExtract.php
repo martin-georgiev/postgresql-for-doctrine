@@ -25,6 +25,6 @@ class ST_CollectionExtract extends BaseFunction
     {
         $this->setFunctionPrototype('ST_CollectionExtract(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

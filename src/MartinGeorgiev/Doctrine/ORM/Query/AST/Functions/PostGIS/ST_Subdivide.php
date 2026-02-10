@@ -25,6 +25,6 @@ class ST_Subdivide extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Subdivide(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

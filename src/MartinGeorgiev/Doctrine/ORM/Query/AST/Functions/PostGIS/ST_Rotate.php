@@ -25,6 +25,6 @@ class ST_Rotate extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Rotate(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }
