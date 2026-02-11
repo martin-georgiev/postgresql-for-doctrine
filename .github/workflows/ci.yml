@@ -63,7 +63,9 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: |
+          composer remove --dev brianium/paratest
+          composer install --prefer-dist --no-interaction --no-progress
 
       - name: Check code style
         run: composer check-code-style

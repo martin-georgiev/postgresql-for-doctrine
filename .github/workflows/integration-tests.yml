@@ -146,6 +146,10 @@ jobs:
         id: composer-cache-dir
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
+      - name: Remove paratest when necessary
+        if: matrix.php == '8.2' || matrix.php == '8.3'
+        run: composer remove --dev brianium/paratest
+
       - name: Cache Composer packages
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5
         with:
@@ -171,10 +175,15 @@ jobs:
 
       - name: Run integration test suite
         run: |
-          if [ "${{ matrix.calculate-code-coverage }}" = "true" ]; then
-            XDEBUG_MODE=coverage composer run-integration-tests
+          if [ "${{ matrix.php }}" = "8.2" ] || [ "${{ matrix.php }}" = "8.3" ]; then
+            COMMAND="run-integration-tests"
           else
-            composer run-integration-tests -- --no-coverage
+            COMMAND="run-integration-tests:paratest"
+          fi
+          if [ "${{ matrix.calculate-code-coverage }}" = "true" ]; then
+            XDEBUG_MODE=coverage composer $COMMAND
+          else
+            composer $COMMAND -- --no-coverage
           fi
         env:
           POSTGRES_HOST: localhost
