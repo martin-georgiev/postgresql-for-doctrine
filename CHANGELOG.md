@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.2.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.1.0...v4.2.0) (2026-02-11)
+
+
+### Features
+
+* **#538:** Add support for accessing field from a composite type ([#542](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/542)) ([34bf515](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/34bf515d4a58afaf0c14992b50c8ca4946c7b4da))
+* **#538:** Add support for the functions provided by `fuzzystrmatch` extension ([#540](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/540)) ([c8073c6](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c8073c6810f1b0796d28d47ae84b44c6838e716c))
+* Add support for `ST_GeomFromGeoJSON` and `ST_AsGeoJSON` ([#545](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/545)) ([e7f4df1](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e7f4df11b48f258595166b43e5621140460a037b))
+* Support binding input arguments to several PostGIS functions ([#543](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/543)) ([161f74b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/161f74bca557d8f5178a313b3b30208272bfeea1))
+
 ## [4.1.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.0.0...v4.1.0) (2026-02-03)
 
 
