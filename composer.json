@@ -56,6 +56,7 @@
         "doctrine/dbal": "~2.10||~3.0||~4.0"
     },
     "require-dev": {
+        "brianium/paratest": "^5.0||^6.0||^7.0",
         "deptrac/deptrac": "^4.0",
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.0",
@@ -93,7 +94,6 @@
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
         ],
-
         "check-code-style": [
             "@php-cs-fixer --dry-run",
             "@rector --dry-run"

@@ -29,6 +29,19 @@ $connectionParams = [
 
 try {
     $connection = DriverManager::getConnection($connectionParams);
+
+    // UNIQUE_TEST_TOKEN set by Paratest, see https://github.com/paratestphp/paratest/blob/7.x/README.md
+    if (false !== \getenv('UNIQUE_TEST_TOKEN')) {
+        $dbname .= '_'.\getenv('UNIQUE_TEST_TOKEN');
+        $connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s;', $dbname));
+        $connection->executeStatement(\sprintf('CREATE DATABASE %s;', $dbname));
+        $connection->close();
+
+        $connectionParams['dbname'] = $dbname;
+
+        $connection = DriverManager::getConnection($connectionParams);
+    }
+
     $connection->executeStatement('CREATE SCHEMA IF NOT EXISTS test');
     $connection->close();
 } catch (Exception $exception) {
