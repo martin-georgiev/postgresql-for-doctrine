@@ -87,7 +87,7 @@ doctrine:
                     jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB
                     'jsonb[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB_ARRAY
                     _jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB_ARRAY
-        
+
                     # Network type mappings
                     cidr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CIDR
                     'cidr[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::CIDR_ARRAY
@@ -98,7 +98,7 @@ doctrine:
                     macaddr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR
                     'macaddr[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR_ARRAY
                     _macaddr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR_ARRAY
-        
+
                     # Spatial type mappings
                     point: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT
                     'point[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT_ARRAY
@@ -109,7 +109,7 @@ doctrine:
                     geography: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOGRAPHY
                     'geography[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOGRAPHY_ARRAY
                     _geography: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOGRAPHY_ARRAY
-        
+
                     # Range type mappings
                     daterange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATERANGE
                     int4range: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4RANGE
@@ -117,7 +117,7 @@ doctrine:
                     numrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMRANGE
                     tsrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSRANGE
                     tstzrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZRANGE
-        
+
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
 ```
