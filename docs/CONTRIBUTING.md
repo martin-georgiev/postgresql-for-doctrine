@@ -199,6 +199,12 @@ and can easily be run from project's root:
   ```bash
   composer run-all-tests
   ```
+  
+**Alternatively**, simply run all of the important things at once:
+
+  ```bash
+  composer run-contributor-checks
+  ```
 
 ## Coding practices
 
@@ -266,8 +272,8 @@ This project has a rich, well-structured test suite consisting of fast unit test
 - Code style and refactoring: PHP-CS-Fixer, Rector
 
 Composer scripts:
-- Run unit tests: `composer run-unit-tests` (uses ci/phpunit/config-unit.xml)
-- Run integration tests: `composer run-integration-tests` (uses ci/phpunit/config-integration.xml)
+- Run unit tests: `composer paratest:unit` (uses ci/phpunit/config-unit.xml)
+- Run integration tests: `composer paratest:integration` (uses ci/phpunit/config-integration.xml)
 - Run both suites: `composer run-all-tests`
 - Static analysis: `composer run-static-analysis`
 

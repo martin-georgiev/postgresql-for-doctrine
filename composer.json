@@ -91,11 +91,19 @@
         "phpunit:integration": [
             "phpunit --configuration=./ci/phpunit/config-integration.xml"
         ],
+        "phpunit": [
+            "@phpunit:unit",
+            "@phpunit:integration"
+        ],
         "paratest:unit": [
             "paratest --configuration=./ci/phpunit/config-unit.xml"
         ],
         "paratest:integration": [
             "paratest --configuration=./ci/phpunit/config-integration.xml"
+        ],
+        "run-all-tests": [
+            "@paratest:unit",
+            "@paratest:integration"
         ],
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
@@ -105,25 +113,17 @@
             "@rector --dry-run"
         ],
         "fix-code-style": [
-            "@rector",
-            "@php-cs-fixer"
+            "@php-cs-fixer",
+            "@rector"
         ],
         "run-static-analysis": [
             "@phpstan",
             "@deptrac"
         ],
-        "run-integration-tests": [
-            "@phpunit:integration"
-        ],
-        "run-integration-tests:paratest": [
-            "@paratest:integration"
-        ],
-        "run-unit-tests": [
-            "@phpunit:unit"
-        ],
-        "run-all-tests:paratest": [
-            "@paratest:unit",
-            "@paratest:integration"
+        "run-contributor-checks": [
+            "@fix-code-style",
+            "@run-static-analysis",
+            "@paratest"
         ]
     },
 
