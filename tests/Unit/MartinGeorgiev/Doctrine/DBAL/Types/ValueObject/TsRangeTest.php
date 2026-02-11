@@ -215,6 +215,22 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
                 true
             ),
         ];
+        yield 'unbounded lower' => [
+            '[,2023-01-01 18:00:00.000000)',
+            new TsRange(null, new \DateTimeImmutable('2023-01-01 18:00:00')),
+        ];
+        yield 'unbounded upper' => [
+            '[2023-01-01 10:00:00.000000,)',
+            new TsRange(new \DateTimeImmutable('2023-01-01 10:00:00'), null),
+        ];
+        yield 'bounded by negative infinity' => [
+            '[-infinity,2023-01-01 18:00:00.000000)',
+            new TsRange(null, new \DateTimeImmutable('2023-01-01 18:00:00'), true, false, false, true, false),
+        ];
+        yield 'bounded by positive infinity' => [
+            '[2023-01-01 10:00:00.000000,infinity)',
+            new TsRange(new \DateTimeImmutable('2023-01-01 10:00:00'), null, true, false, false, false, true),
+        ];
         yield 'empty range' => ['empty', TsRange::empty()];
     }
 

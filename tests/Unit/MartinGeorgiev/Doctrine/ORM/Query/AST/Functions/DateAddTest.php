@@ -87,4 +87,14 @@ class DateAddTest extends BaseVariadicFunctionTestCase
             'invalid timezone' => ['Invalid/Timezone'],
         ];
     }
+
+    #[Test]
+    public function throws_exception_for_non_constant_timezone_parameter(): void
+    {
+        $this->expectException(InvalidTimezoneException::class);
+        $this->expectExceptionMessage('The timezone parameter for date_add must be a string literal');
+
+        $dql = \sprintf("SELECT DATE_ADD(e.datetimetz1, '1 day', e.datetimetz1) FROM %s e", ContainsDates::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
 }

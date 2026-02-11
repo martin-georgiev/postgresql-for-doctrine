@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_SUBDIVIDE(g.geometry, 256) FROM Entity g"
- * Returns set of subdivided geometries.
  */
 class ST_Subdivide extends BaseFunction
 {
@@ -26,6 +25,6 @@ class ST_Subdivide extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Subdivide(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

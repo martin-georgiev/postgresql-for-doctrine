@@ -1,5 +1,36 @@
 # Changelog
 
+## [4.1.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.0.0...v4.1.0) (2026-02-03)
+
+
+### Features
+
+* **#522:** Support bounded infinity values in range types ([#523](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/523)) ([6e568d1](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/6e568d1bed8b29ec552bf603c01eeb735ef6ecdf))
+* Add support for `AGE`, `DATE_PART`, `MAKE_DATE`, `MAKE_TIMESTAMP`, `MAKE_TIMESTAMPTZ`, `MAKE_TIME` ([#528](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/528)) ([5e6956a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5e6956ac5acdad1f7ed8870d5fecb5851c1bb868))
+* Add support for `ARRAY_FILL`, `ARRAY_LOWER`, `ARRAY_SAMPLE`, `ARRAY_UPPER`, `JSONB_BUILD_ARRAY`, `JSON_BUILD_ARRAY` ([#530](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/530)) ([a2091e8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a2091e86c868bf1ac5ac477210db1eafa53bfe5d))
+* Add support for `CONCAT_WS`, `FORMAT`, `LEFT`, `REPEAT`, `REVERSE`, `RIGHT` ([#533](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/533)) ([83678f5](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/83678f5276ea8a51eaaaaff7e31fed64ecaee870))
+* Add support for `JSONB_EXTRACT_PATH`, `JSON_EXTRACT_PATH`, `JSONB_EXTRACT_PATH_TEXT`, `JSON_EXTRACT_PATH_TEXT`, `JSONB_TO_TSVECTOR`, `JSONB_TYPEOF` ([#535](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/535)) ([578e528](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/578e5287fe060dc8d78104556be411bbe1d24f04))
+
+## [4.0.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.7.0...v4.0.0) (2025-12-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* modernize with PHP 8.2 features (like read-only classes) ([#503](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/503))
+* drop support for PHP 8.1 ([#468](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/468))
+* remove deprecations scheduled for v4.0 ([#469](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/469))
+
+### Features
+
+* **#510:** Add support for `UUID[]` data type ([#511](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/511)) ([1c9cafb](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1c9cafb0a57c8fc3f7e1cf441de1908d032c8562))
+* Add support for hashing and cryptographic functions `MD5`, `SHA224`, `SHA256`, `SHA384`, `SHA512` ([#507](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/507)) ([3e42396](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3e42396f2dabf7b93cd912d2ade802d635b40c53))
+* Add support for PostGIS functions `ST_ConcaveHull`, `ST_CurveN`, `ST_Letters`, `ST_NumCurves`, `ST_RemoveIrrelevantPointsForView`, `ST_RemoveSmallParts`, `ST_SimplifyPolygonHull`, `ST_TriangulatePolygon` ([#505](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/505)) ([2992811](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/299281132db21bb7ed1f564a13515525598866a7))
+* Add support for PostGIS functions `ST_HasZ`, `ST_HasM`, `ST_CoverageUnion`, `ST_LineExtend` ([#504](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/504)) ([826ffef](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/826ffef1a9b62fff1bb7eea250b085a4711da551))
+* Add the missing support for `null` values in the network array data types ([#517](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/517)) ([7fb6dc7](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7fb6dc764391a708fca205755e79f2c827c2806f))
+* Drop support for PHP 8.1 ([#468](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/468)) ([94f2ed8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/94f2ed83ee9f44d76c0937cbe9494f267ade3efe))
+* Modernize with PHP 8.2 features (like read-only classes) ([#503](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/503)) ([20b29b1](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/20b29b101e3adf0bac6a9ac9f58e529f9e905068))
+* Remove deprecations scheduled for v4.0 ([#469](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/469)) ([73585aa](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/73585aa299e528450c8159517f0819dba6806319))
+
 ## [3.7.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v3.6.2...v3.7.0) (2025-12-13)
 
 

@@ -51,7 +51,7 @@ class PointArray extends BaseArray
         }
 
         if (!\is_string($item)) {
-            $this->throwInvalidTypeException($item);
+            throw InvalidPointArrayItemForPHPException::forInvalidType($item);
         }
 
         try {
@@ -68,7 +68,7 @@ class PointArray extends BaseArray
 
     protected function throwInvalidTypeException(mixed $value): never
     {
-        throw InvalidPointArrayItemForPHPException::forInvalidType($value);
+        throw InvalidPointArrayItemForPHPException::forInvalidArrayType($value);
     }
 
     protected function throwInvalidFormatException(mixed $value): never
@@ -76,8 +76,8 @@ class PointArray extends BaseArray
         throw InvalidPointArrayItemForPHPException::forInvalidFormat($value);
     }
 
-    protected function throwInvalidItemException(): never
+    protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidPointArrayItemForPHPException::forInvalidFormat('Array contains invalid point items');
+        throw InvalidPointArrayItemForPHPException::forInvalidFormat($item);
     }
 }

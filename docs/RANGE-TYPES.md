@@ -235,6 +235,46 @@ $dateRange = DateRange::fromString('[2024-01-01,2024-12-31)');
 $emptyRange = NumericRange::fromString('empty');
 ```
 
+### Infinity Support
+
+PostgreSQL distinguishes between **unbounded** ranges and ranges **bounded by infinity**:
+
+- **Unbounded**: `[0,)` - no upper bound
+- **Bounded by infinity**: `[0,infinity)` - explicitly bounded by the infinity value
+
+All range types that support infinity (NUMRANGE, TSRANGE, TSTZRANGE, DATERANGE) provide a unified API:
+
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+
+// Using infinity flags in constructor (7th parameter = upper infinity)
+$numRange = new NumericRange(0, null, true, false, false, false, true);
+$dateRange = new DateRange(new \DateTimeImmutable('2024-01-01'), null, true, false, false, false, true);
+
+echo $numRange;   // [0,infinity)
+echo $dateRange;  // [2024-01-01,infinity)
+
+// Parsing from PostgreSQL format
+$range = NumericRange::fromString('[0,infinity)');
+$range->isUpperBoundedInfinity(); // true
+$range->isLowerBoundedInfinity(); // false
+```
+
+**NumericRange convenience**: Accepts PHP's `INF` constant as shorthand:
+
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
+
+$range = new NumericRange(0, INF);
+echo $range; // [0,infinity)
+
+// Equivalent to using flags explicitly
+$same = new NumericRange(0, null, true, false, false, false, true);
+```
+
+**Note**: Integer ranges (INT4RANGE, INT8RANGE) do not support infinity values in PostgreSQL.
+
 ## DQL Usage with Range Functions
 
 Register range functions for DQL queries:

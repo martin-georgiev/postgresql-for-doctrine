@@ -47,6 +47,8 @@ return [
                 '_float4' => 'real[]',
                 '_text' => 'text[]',
                 'text[]' => 'text[]',
+                'uuid[]' => 'uuid[]',
+                '_uuid' => 'uuid[]',
 
                 // JSON type mappings
                 'jsonb' => 'jsonb',
@@ -98,6 +100,7 @@ return [
         'double precision[]' => MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class,
         'real[]' => MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class,
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
+        'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
 
         // JSON types
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
@@ -179,16 +182,20 @@ return [
         'ARRAY_CARDINALITY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality::class,
         'ARRAY_CAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat::class,
         'ARRAY_DIMENSIONS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions::class,
+        'ARRAY_FILL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayFill::class,
         'ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength::class,
+        'ARRAY_LOWER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLower::class,
         'ARRAY_NUMBER_OF_DIMENSIONS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions::class,
         'ARRAY_POSITION' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition::class,
         'ARRAY_POSITIONS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions::class,
         'ARRAY_PREPEND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend::class,
         'ARRAY_REMOVE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove::class,
         'ARRAY_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class,
+        'ARRAY_SAMPLE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample::class,
         'ARRAY_SHUFFLE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle::class,
         'ARRAY_TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson::class,
         'ARRAY_TO_STRING' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString::class,
+        'ARRAY_UPPER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper::class,
         'SPLIT_PART' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class,
         'STARTS_WITH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class,
         'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
@@ -196,6 +203,7 @@ return [
 
         # json specific functions
         'JSON_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class,
+        'JSON_BUILD_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray::class,
         'JSON_BUILD_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class,
         'JSON_EACH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach::class,
         'JSON_EACH_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText::class,
@@ -218,6 +226,7 @@ return [
         'JSONB_ARRAY_ELEMENTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements::class,
         'JSONB_ARRAY_ELEMENTS_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText::class,
         'JSONB_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength::class,
+        'JSONB_BUILD_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildArray::class,
         'JSONB_BUILD_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject::class,
         'JSONB_EACH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach::class,
         'JSONB_EACH_TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText::class,
@@ -358,6 +367,7 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->addTypeIfNotExists('double precision[]', \MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class);
         $this->addTypeIfNotExists('real[]', \MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class);
         $this->addTypeIfNotExists('text[]', \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class);
+        $this->addTypeIfNotExists('uuid[]', \MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class);
     }
 
     private function registerJsonTypes(): void

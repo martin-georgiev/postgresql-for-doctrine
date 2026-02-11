@@ -7,10 +7,14 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL INT4RANGE().
  *
+ * Creates an integer range.
+ *
  * @see https://www.postgresql.org/docs/17/rangetypes.html
  * @since 2.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT INT4RANGE(1, 10) FROM Entity e"
  */
 class Int4range extends BaseVariadicFunction
 {

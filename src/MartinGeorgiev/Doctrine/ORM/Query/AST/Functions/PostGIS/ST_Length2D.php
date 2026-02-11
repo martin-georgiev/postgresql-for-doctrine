@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_LENGTH2D(g.geometry) FROM Entity g"
- * Returns 2D length as numeric value.
  */
 class ST_Length2D extends BaseFunction
 {

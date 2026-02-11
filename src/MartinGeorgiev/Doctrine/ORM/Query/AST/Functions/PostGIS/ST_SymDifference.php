@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_SYMDIFFERENCE(g1.geometry, g2.geometry) FROM Entity g1, Entity g2"
- * Returns geometry representing the symmetric difference.
  */
 class ST_SymDifference extends BaseFunction
 {

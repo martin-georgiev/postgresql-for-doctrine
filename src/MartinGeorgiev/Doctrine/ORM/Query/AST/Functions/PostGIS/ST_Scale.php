@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_SCALE(g.geometry, 2, 2) FROM Entity g"
- * Returns scaled geometry.
  */
 class ST_Scale extends BaseFunction
 {
@@ -26,7 +25,7 @@ class ST_Scale extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Scale(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

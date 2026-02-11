@@ -54,6 +54,16 @@ class RowToJsonTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
+    public function throws_exception_for_non_constant_boolean_parameter(): void
+    {
+        $this->expectException(InvalidBooleanException::class);
+        $this->expectExceptionMessage('The boolean parameter for row_to_json must be a string literal');
+
+        $dql = \sprintf('SELECT ROW_TO_JSON(e.text1, e.text1) FROM %s e', ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
     public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);

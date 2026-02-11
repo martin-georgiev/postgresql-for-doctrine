@@ -24,14 +24,67 @@ jobs:
       run: ${{ steps.check.outputs.run }}
     steps:
       - name: Skip for release-please
-        id: check
+        id: release-please-check
         run: |
           if [ "${{ github.event.pull_request.user.id }}" = "41898282" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "::notice::Skipping unit tests - this is a release-please bot's interaction"
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout for file change detection
+        if: steps.release-please-check.outputs.skip != 'true'
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - name: Check for src changes
+        if: steps.release-please-check.outputs.skip != 'true'
+        id: src-changes
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            BASE_SHA="${{ github.event.before }}"
+            HEAD_SHA="${{ github.sha }}"
+          else
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          fi
+
+          CHANGED_FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || echo "")
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "src_changed=true" >> $GITHUB_OUTPUT
+            echo "::notice::Could not determine changed files, running unit tests"
+          elif echo "$CHANGED_FILES" | grep -q "^src/"; then
+            echo "src_changed=true" >> $GITHUB_OUTPUT
+            echo "::notice::Source files changed, unit tests will run"
+          elif echo "$CHANGED_FILES" | grep -q "^tests/Unit/"; then
+            echo "src_changed=true" >> $GITHUB_OUTPUT
+            echo "::notice::Unit test files changed, unit tests will run"
+          elif echo "$CHANGED_FILES" | grep -q "^fixtures/"; then
+            echo "src_changed=true" >> $GITHUB_OUTPUT
+            echo "::notice::Fixture files changed, unit tests will run"
+          elif echo "$CHANGED_FILES" | grep -q "^\.github/"; then
+            echo "src_changed=true" >> $GITHUB_OUTPUT
+            echo "::notice::GitHub workflow files changed, unit tests will run"
+          elif echo "$CHANGED_FILES" | grep -q "^composer\.json$"; then
+            echo "src_changed=true" >> $GITHUB_OUTPUT
+            echo "::notice::composer.json changed, unit tests will run"
+          else
+            echo "src_changed=false" >> $GITHUB_OUTPUT
+            echo "::notice::No relevant changes detected, skipping unit tests"
+          fi
+
+      - name: Determine if tests should run
+        id: check
+        run: |
+          if [ "${{ steps.release-please-check.outputs.skip }}" = "true" ]; then
             echo "run=false" >> $GITHUB_OUTPUT
-            echo "::notice::Skipping unit tests - this a release-please bot's interaction"
+          elif [ "${{ steps.src-changes.outputs.src_changed }}" = "false" ]; then
+            echo "run=false" >> $GITHUB_OUTPUT
           else
             echo "run=true" >> $GITHUB_OUTPUT
-            echo "::notice::Unit tests will execute - the actor is not the release-please bot"
           fi
 
   unit-tests:
@@ -43,13 +96,10 @@ jobs:
     strategy:
       fail-fast: ${{ github.event_name == 'pull_request' }}
       matrix:
-        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php: ['8.2', '8.3', '8.4', '8.5']
         doctrine-lexer: ['2.1', '3.0', 'latest']
         doctrine-orm: ['2.14', '2.18', '3.0', 'latest']
         include:
-          - php: '8.1'
-            doctrine-orm: '2.14'
-            doctrine-lexer: '1.2'
           - php: '8.5' # Run coverage report only based on the latest dependencies
             doctrine-lexer: 'latest'
             doctrine-orm: 'latest'
@@ -61,7 +111,7 @@ jobs:
             doctrine-lexer: '2.1'
 
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up PHP with PECL extension
         uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2
@@ -76,7 +126,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer packages
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5
         with:
           path: |
             ${{ steps.composer-cache-dir.outputs.dir }}

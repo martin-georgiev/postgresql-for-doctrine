@@ -97,7 +97,6 @@ class MacaddrArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            'invalid type' => ['not-an-array'],
             'invalid MAC format' => [['00:11:22:33:44:ZZ']],
             'too short' => [['00:11:22:33:44']],
             'too long' => [['00:11:22:33:44:55:66']],
@@ -109,6 +108,24 @@ class MacaddrArrayTest extends TestCase
             'whitespace only' => [[' ']],
             'malformed with spaces' => [['08:00 :2b:01:02:03']],
             'mixed case invalid chars' => [['GG:hh:II:jj:KK:ll']],
+        ];
+    }
+
+    #[DataProvider('provideInvalidTypeInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
+    {
+        $this->expectException(InvalidMacaddrArrayItemForPHPException::class);
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputs(): array
+    {
+        return [
+            'string instead of array' => ['not-an-array'],
         ];
     }
 
@@ -133,5 +150,61 @@ class MacaddrArrayTest extends TestCase
             'empty item in array' => ['{"08:00:2b:01:02:03",""}'],
             'invalid item in array' => ['{"08:00:2b:01:02:03","invalid-mac"}'],
         ];
+    }
+
+    #[DataProvider('provideValidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_valid_array_item_for_database(mixed $value): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'colon separated lowercase' => ['08:00:2b:01:02:03'],
+            'hyphen separated lowercase' => ['08-00-2b-01-02-03'],
+            'colon separated mixed case' => ['00:0c:29:Aa:Bb:CC'],
+            'all zeros' => ['00:00:00:00:00:00'],
+            'all ones' => ['ff:ff:ff:ff:ff:ff'],
+            'null' => [null],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    {
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidArrayItemsForDatabase(): array
+    {
+        return [
+            'invalid MAC' => ['invalid-mac'],
+            'too short' => ['00:11:22:33:44'],
+            'integer' => [123],
+            'empty string' => [''],
+            'boolean' => [true],
+        ];
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidMacaddrArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
     }
 }

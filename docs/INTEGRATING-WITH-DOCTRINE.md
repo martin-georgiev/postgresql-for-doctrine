@@ -19,6 +19,7 @@ Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
 Type::addType('double precision[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DoublePrecisionArray");
 Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
 
 // JSON types
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
@@ -93,16 +94,20 @@ $configuration->addCustomStringFunction('ARRAY_APPEND', MartinGeorgiev\Doctrine\
 $configuration->addCustomStringFunction('ARRAY_CARDINALITY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality::class);
 $configuration->addCustomStringFunction('ARRAY_CAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat::class);
 $configuration->addCustomStringFunction('ARRAY_DIMENSIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions::class);
+$configuration->addCustomStringFunction('ARRAY_FILL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayFill::class);
 $configuration->addCustomStringFunction('ARRAY_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength::class);
+$configuration->addCustomStringFunction('ARRAY_LOWER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLower::class);
 $configuration->addCustomStringFunction('ARRAY_NUMBER_OF_DIMENSIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions::class);
 $configuration->addCustomStringFunction('ARRAY_POSITION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition::class);
 $configuration->addCustomStringFunction('ARRAY_POSITIONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions::class);
 $configuration->addCustomStringFunction('ARRAY_PREPEND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend::class);
 $configuration->addCustomStringFunction('ARRAY_REMOVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove::class);
 $configuration->addCustomStringFunction('ARRAY_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class);
+$configuration->addCustomStringFunction('ARRAY_SAMPLE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample::class);
 $configuration->addCustomStringFunction('ARRAY_SHUFFLE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle::class);
 $configuration->addCustomStringFunction('ARRAY_TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson::class);
 $configuration->addCustomStringFunction('ARRAY_TO_STRING', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString::class);
+$configuration->addCustomStringFunction('ARRAY_UPPER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper::class);
 $configuration->addCustomStringFunction('SPLIT_PART', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class);
 $configuration->addCustomStringFunction('STARTS_WITH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class);
 $configuration->addCustomStringFunction('STRING_TO_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class);
@@ -110,6 +115,7 @@ $configuration->addCustomStringFunction('UNNEST', MartinGeorgiev\Doctrine\ORM\Qu
 
 # json specific functions
 $configuration->addCustomStringFunction('JSON_ARRAY_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class);
+$configuration->addCustomStringFunction('JSON_BUILD_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray::class);
 $configuration->addCustomStringFunction('JSON_BUILD_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class);
 $configuration->addCustomStringFunction('JSON_EACH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach::class);
 $configuration->addCustomStringFunction('JSON_EACH_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText::class);
@@ -133,6 +139,7 @@ $configuration->addCustomStringFunction('ROW_TO_JSON', MartinGeorgiev\Doctrine\O
 $configuration->addCustomStringFunction('JSONB_ARRAY_ELEMENTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements::class);
 $configuration->addCustomStringFunction('JSONB_ARRAY_ELEMENTS_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText::class);
 $configuration->addCustomStringFunction('JSONB_ARRAY_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength::class);
+$configuration->addCustomStringFunction('JSONB_BUILD_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildArray::class);
 $configuration->addCustomStringFunction('JSONB_BUILD_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject::class);
 $configuration->addCustomStringFunction('JSONB_EACH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach::class);
 $configuration->addCustomStringFunction('JSONB_EACH_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText::class);
@@ -250,6 +257,8 @@ $platform->registerDoctrineTypeMapping('real[]', 'real[]');
 $platform->registerDoctrineTypeMapping('_float4', 'real[]');
 $platform->registerDoctrineTypeMapping('text[]', 'text[]');
 $platform->registerDoctrineTypeMapping('_text', 'text[]');
+$platform->registerDoctrineTypeMapping('uuid[]', 'uuid[]');
+$platform->registerDoctrineTypeMapping('_uuid', 'uuid[]');
 
 // JSON type mappings
 $platform->registerDoctrineTypeMapping('jsonb', 'jsonb');

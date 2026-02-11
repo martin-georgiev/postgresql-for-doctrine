@@ -78,6 +78,17 @@ These functions determine spatial relationships between geometries. Most return 
 | ST_Touches | ST_TOUCHES | Tests if two geometries have at least one point in common, but their interiors do not intersect | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Touches` |
 | ST_Within | ST_WITHIN | Tests if every point of A lies in B, and their interiors have a point in common | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Within` |
 
+## PostGIS Geometry Accessor Functions
+
+These functions return properties and information about geometries.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_CurveN | ST_CURVEN | Returns the Nth curve of a CompoundCurve | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveN` |
+| ST_HasM | ST_HASM | Returns true if the geometry has an M (measure) coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasM` |
+| ST_HasZ | ST_HASZ | Returns true if the geometry has a Z coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ` |
+| ST_NumCurves | ST_NUMCURVES | Returns the number of curves in a CompoundCurve | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumCurves` |
+
 ## PostGIS Measurement Functions
 
 These functions calculate various measurements of geometries including lengths, areas, distances, and angles.
@@ -117,29 +128,51 @@ These functions perform geometric operations between geometries including inters
 | ST_CollectionExtract | ST_COLLECTIONEXTRACT | Extracts a specific type from a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionExtract` |
 | ST_CollectionHomogenize | ST_COLLECTIONHOMOGENIZE | Homogenizes a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionHomogenize` |
 
+## PostGIS Coverage Functions
+
+These functions work with polygonal coverages (sets of non-overlapping polygons that share edges).
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_CoverageUnion | ST_COVERAGEUNION | Computes the union of a set of polygons forming a coverage by removing shared edges | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion` |
+
+## PostGIS GeoJSON functions
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_GeomFromGeoJSON | ST_GEOMFROMGEOJSON | Creates a geometry from a GeoJSON representation | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromGeoJSON` |
+| ST_AsGeoJSON | ST_ASGEOJSON | Returns the geometry as a GeoJSON element | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON` |
+
 ## PostGIS Geometry Processing Functions
 
 These functions modify and transform geometries including buffering, simplification, coordinate system changes, and geometric transformations.
 
 | PostgreSQL functions | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
-| ST_Buffer | ST_BUFFER | Creates a buffer around a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Buffer` |
-| ST_Simplify | ST_SIMPLIFY | Simplifies geometry using Douglas-Peucker algorithm | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Simplify` |
-| ST_SimplifyPreserveTopology | ST_SIMPLIFYPRESERVETOPOLOGY | Simplifies geometry while preserving topology | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPreserveTopology` |
-| ST_SimplifyVW | ST_SIMPLIFYVW | Simplifies geometry using Visvalingam-Whyatt algorithm | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyVW` |
-| ST_ConvexHull | ST_CONVEXHULL | Returns the convex hull of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConvexHull` |
-| ST_Envelope | ST_ENVELOPE | Returns the bounding box as a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope` |
 | ST_Boundary | ST_BOUNDARY | Returns the boundary of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Boundary` |
-| ST_Transform | ST_TRANSFORM | Transforms geometry to different coordinate system | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Transform` |
-| ST_Reverse | ST_REVERSE | Reverses the order of points in a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Reverse` |
+| ST_Buffer | ST_BUFFER | Creates a buffer around a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Buffer` |
+| ST_ConcaveHull | ST_CONCAVEHULL | Returns a possibly concave geometry that encloses all input geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConcaveHull` |
+| ST_ConvexHull | ST_CONVEXHULL | Returns the convex hull of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConvexHull` |
+| ST_CurveToLine | ST_CURVETOLINE | Converts curved geometries to linear geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveToLine` |
+| ST_Envelope | ST_ENVELOPE | Returns the bounding box as a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope` |
 | ST_Force2D | ST_FORCE2D | Forces geometry to 2D by removing Z/M coordinates | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force2D` |
 | ST_Force3D | ST_FORCE3D | Forces geometry to 3D by adding Z coordinate if needed | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force3D` |
 | ST_Force4D | ST_FORCE4D | Forces geometry to 4D by adding Z and M coordinates if needed | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force4D` |
-| ST_CurveToLine | ST_CURVETOLINE | Converts curved geometries to linear geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveToLine` |
+| ST_Letters | ST_LETTERS | Creates geometries that look like letters | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Letters` |
+| ST_LineExtend | ST_LINEEXTEND | Returns a line extended forwards and backwards by specified distances | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineExtend` |
 | ST_LineToCurve | ST_LINETOCURVE | Converts linear geometries to curved geometries where possible | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineToCurve` |
-| ST_Scale | ST_SCALE | Scales a geometry by given factors | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Scale` |
+| ST_RemoveIrrelevantPointsForView | ST_REMOVEIRRELEVANTPOINTSFORVIEW | Removes points that are irrelevant for rendering a geometry at a given view | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveIrrelevantPointsForView` |
+| ST_RemoveSmallParts | ST_REMOVESMALLPARTS | Removes small polygon rings and linestrings from a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveSmallParts` |
+| ST_Reverse | ST_REVERSE | Reverses the order of points in a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Reverse` |
 | ST_Rotate | ST_ROTATE | Rotates a geometry by given angle | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Rotate` |
+| ST_Scale | ST_SCALE | Scales a geometry by given factors | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Scale` |
+| ST_Simplify | ST_SIMPLIFY | Simplifies geometry using Douglas-Peucker algorithm | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Simplify` |
+| ST_SimplifyPolygonHull | ST_SIMPLIFYPOLYGONHULL | Computes a simplified topology-preserving outer or inner hull of a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPolygonHull` |
+| ST_SimplifyPreserveTopology | ST_SIMPLIFYPRESERVETOPOLOGY | Simplifies geometry while preserving topology | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPreserveTopology` |
+| ST_SimplifyVW | ST_SIMPLIFYVW | Simplifies geometry using Visvalingam-Whyatt algorithm | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyVW` |
+| ST_Transform | ST_TRANSFORM | Transforms geometry to different coordinate system | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Transform` |
 | ST_Translate | ST_TRANSLATE | Translates a geometry by given offsets | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Translate` |
+| ST_TriangulatePolygon | ST_TRIANGULATEPOLYGON | Computes the constrained Delaunay triangulation of a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TriangulatePolygon` |
 
 ## Usage Examples
 
@@ -205,6 +238,20 @@ FROM Entity e ORDER BY distance LIMIT 10
 SELECT e, ST_Azimuth(e.point1, e.point2) as azimuth_radians,
        DEGREES(ST_Azimuth(e.point1, e.point2)) as azimuth_degrees
 FROM Entity e WHERE e.point1 IS NOT NULL AND e.point2 IS NOT NULL
+
+-- GeoJSON conversion
+-- Convert geometry to GeoJSON
+SELECT e, ST_AsGeoJSON(e.geometry) as geojson FROM Entity e
+
+-- Convert geometry to GeoJSON with limited decimal precision
+SELECT e, ST_AsGeoJSON(e.geometry, 6) as geojson FROM Entity e
+
+-- Convert geometry to GeoJSON with bounding box (options=1)
+SELECT e, ST_AsGeoJSON(e.geometry, 9, 1) as geojson_with_bbox FROM Entity e
+
+-- Create geometry from GeoJSON
+SELECT e FROM Entity e
+WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
 
 -- Geometric operations and transformations
 -- Create buffer around geometry

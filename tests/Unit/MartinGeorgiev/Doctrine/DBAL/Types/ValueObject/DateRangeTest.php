@@ -217,13 +217,21 @@ final class DateRangeTest extends BaseRangeTestCase
                 true
             ),
         ];
-        yield 'infinite lower' => [
+        yield 'unbounded lower' => [
             '[,2023-12-31)',
             new DateRange(null, new \DateTimeImmutable('2023-12-31')),
         ];
-        yield 'infinite upper' => [
+        yield 'unbounded upper' => [
             '[2023-01-01,)',
             new DateRange(new \DateTimeImmutable('2023-01-01'), null),
+        ];
+        yield 'bounded by negative infinity' => [
+            '[-infinity,2023-12-31)',
+            new DateRange(null, new \DateTimeImmutable('2023-12-31'), true, false, false, true, false),
+        ];
+        yield 'bounded by positive infinity' => [
+            '[2023-01-01,infinity)',
+            new DateRange(new \DateTimeImmutable('2023-01-01'), null, true, false, false, false, true),
         ];
         yield 'empty range' => ['empty', DateRange::empty()];
     }

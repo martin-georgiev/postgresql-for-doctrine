@@ -19,6 +19,7 @@ doctrine:
             'double precision[]': MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray
             'real[]': MartinGeorgiev\Doctrine\DBAL\Types\RealArray
             'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
+            'uuid[]': MartinGeorgiev\Doctrine\DBAL\Types\UuidArray
 
             # JSON types
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
@@ -79,7 +80,9 @@ doctrine:
                     _float4: !php/const MartinGeorgiev\Doctrine\DBAL\Type::REAL_ARRAY
                     'text[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
                     _text: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
-        
+                    'uuid[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
+                    _uuid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
+
                     # JSON type mappings
                     jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB
                     'jsonb[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB_ARRAY
@@ -161,16 +164,20 @@ doctrine:
                         ARRAY_CARDINALITY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality
                         ARRAY_CAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat
                         ARRAY_DIMENSIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions
+                        ARRAY_FILL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayFill
                         ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength
+                        ARRAY_LOWER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLower
                         ARRAY_NUMBER_OF_DIMENSIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayNumberOfDimensions
                         ARRAY_POSITION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPosition
                         ARRAY_POSITIONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions
                         ARRAY_PREPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend
                         ARRAY_REMOVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove
                         ARRAY_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace
+                        ARRAY_SAMPLE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample
                         ARRAY_SHUFFLE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle
                         ARRAY_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson
                         ARRAY_TO_STRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString
+                        ARRAY_UPPER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper
                         SPLIT_PART: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart
                         STARTS_WITH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
@@ -178,6 +185,7 @@ doctrine:
 
                         # json specific functions
                         JSON_ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength
+                        JSON_BUILD_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray
                         JSON_BUILD_OBJECT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject
                         JSON_EACH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach
                         JSON_EACH_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText
@@ -201,6 +209,7 @@ doctrine:
                         JSONB_ARRAY_ELEMENTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements
                         JSONB_ARRAY_ELEMENTS_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText
                         JSONB_ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength
+                        JSONB_BUILD_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildArray
                         JSONB_BUILD_OBJECT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject
                         JSONB_EACH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach
                         JSONB_EACH_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText

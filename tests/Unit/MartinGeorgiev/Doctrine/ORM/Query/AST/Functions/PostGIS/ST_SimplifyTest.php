@@ -20,6 +20,8 @@ class ST_SimplifyTest extends TestCase
     {
         return [
             'SELECT ST_Simplify(c0_.geometry1, 0.5) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_Simplify(c0_.geometry1, ?) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_Simplify(c0_.geometry1, MIN(1)) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -27,6 +29,8 @@ class ST_SimplifyTest extends TestCase
     {
         return [
             'SELECT ST_SIMPLIFY(g.geometry1, 0.5) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_SIMPLIFY(g.geometry1, :dql_parameter) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_SIMPLIFY(g.geometry1, MIN(1)) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

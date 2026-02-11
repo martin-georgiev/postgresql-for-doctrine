@@ -11,16 +11,17 @@ use Doctrine\ORM\Query\TokenType;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
- * Implementation of PostgreSQL json field retrieval, filtered by key (using ->).
+ * Implementation of PostgreSQL -> operator.
  *
- * Supports both string keys for object property access and integer indices for array element access:
- * - JSON_GET_FIELD(json_column, 'property_name') -> json_column->'property_name'
- * - JSON_GET_FIELD(json_column, 0) -> json_column->0
+ * Extracts a JSON field.
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-json.html
  * @since 0.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL with property name: "SELECT JSON_GET_FIELD(e.jsonData, 'name') FROM Entity e"
+ * @example Using it in DQL with array index: "SELECT JSON_GET_FIELD(e.jsonData, 0) FROM Entity e"
  */
 class JsonGetField extends BaseFunction
 {

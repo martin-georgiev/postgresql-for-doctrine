@@ -16,11 +16,15 @@ use MartinGeorgiev\Utils\DoctrineOrm;
 /**
  * Implementation of PostgreSQL CAST().
  *
+ * Converts a value to a specified data type.
+ *
  * @see https://www.postgresql.org/docs/17/sql-createcast.html
  * @see https://github.com/beberlei/DoctrineExtensions/blob/f3536d881637f6ddc7ca1d6595d18c15e06eb1d9/src/Query/Mysql/Cast.php
  * @since 2.0
  *
  * @author Mathieu Piot <https://github.com/mpiot>
+ *
+ * @example Using it in DQL: "SELECT CAST(e.value AS VARCHAR) FROM Entity e"
  */
 class Cast extends FunctionNode
 {

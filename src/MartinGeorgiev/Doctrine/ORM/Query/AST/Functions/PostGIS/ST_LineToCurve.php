@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_LINETOCURVE(g.geometry) FROM Entity g"
- * Returns curved geometry where possible.
  */
 class ST_LineToCurve extends BaseFunction
 {

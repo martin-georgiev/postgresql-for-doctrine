@@ -37,7 +37,7 @@ Complete documentation for PostGIS spatial operations and geometry processing.
 ### **📝 Text and Pattern Functions**
 Complete documentation for text processing, pattern matching, and regular expressions.
 - **[Text and Pattern Functions and Operators](TEXT-AND-PATTERN-FUNCTIONS.md)**
-- Includes: Text operators (`~`, `ilike`, `@@`), regular expression functions, text processing functions, full-text search functions
+- Includes: Text operators (`~`, `ilike`, `@@`), regular expression functions, text processing functions, full-text search functions, fuzzy string matching functions
 
 ### **📅 Date and Range Functions**
 Complete documentation for date/time operations and range type functions.
@@ -78,6 +78,8 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `ILIKE` - Case-insensitive pattern matching
 - `REGEXP` (`~`) - Regular expression matching
 - `STARTS_WITH` - Test if text starts with substring
+- `LEVENSHTEIN` - Calculate edit distance between strings (fuzzy matching)
+- `SOUNDEX` - Phonetic encoding for similarity matching
 
 **Date/Range Operations:** ([Complete documentation](DATE-AND-RANGE-FUNCTIONS.md))
 - `DATE_ADD` - Add interval to date
@@ -98,7 +100,15 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `INDEX` - Find position of ltree in another ltree
 - `LCA` - Find longest common ancestor
 
+**Hashing & Cryptographic Functions:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
+- `MD5`
+- `SHA224`
+- `SHA256`
+- `SHA384`
+- `SHA512`
+
 **Utility Operations:**
+- `COMPOSITE_FIELD` - Access a field from a PostgreSQL composite type column → [Use Cases and Examples](USE-CASES-AND-EXAMPLES.md#using-postgresql-composite-types)
 - `CRC32` - CRC-32 checksum computation
 - `CRC32C` - CRC-32C checksum computation
 - `REVERSE_BYTES` - Reverse byte order for bytea values
@@ -124,6 +134,7 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - **Regexp Functions**: Pattern matching and replacement
 - **Text Functions**: String manipulation and searching
 - **Full-Text Search**: PostgreSQL's text search capabilities
+- **Fuzzy String Matching**: Phonetic and edit distance algorithms (fuzzystrmatch extension)
 
 ### **Date & Range Functions**
 - **Date Operations**: Add/subtract dates, extract components

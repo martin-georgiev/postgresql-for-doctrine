@@ -23,6 +23,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @since 2.10
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT JSON_VALUE(e.data, '$.key') FROM Entity e"
  */
 class JsonValue extends BaseFunction
 {

@@ -64,12 +64,15 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
                 return 3;
             }
         };
+
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('TEST() requires at least 2 arguments');
+
         $reflectionClass = new \ReflectionClass($function);
         $reflectionMethod = $reflectionClass->getMethod('validateArguments');
 
         $node = $this->createMock(Node::class);
-        $reflectionMethod->invoke($function, $node); // 1 argument when min 2 are required
+        $reflectionMethod->invoke($function, $node);
     }
 
     #[Test]
@@ -96,11 +99,118 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
                 return 2;
             }
         };
+
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('TEST() requires between 1 and 2 arguments');
+
         $reflectionClass = new \ReflectionClass($function);
         $reflectionMethod = $reflectionClass->getMethod('validateArguments');
 
         $node = $this->createMock(Node::class);
-        $reflectionMethod->invoke($function, $node, $node, $node); // 3 arguments when max 2 are required
+        $reflectionMethod->invoke($function, $node, $node, $node);
+    }
+
+    #[Test]
+    public function throws_exception_when_exact_count_is_required(): void
+    {
+        $function = new class('TEST') extends BaseVariadicFunction {
+            protected function getFunctionName(): string
+            {
+                return 'TEST';
+            }
+
+            protected function getNodeMappingPattern(): array
+            {
+                return ['StringPrimary'];
+            }
+
+            protected function getMinArgumentCount(): int
+            {
+                return 2;
+            }
+
+            protected function getMaxArgumentCount(): int
+            {
+                return 2;
+            }
+        };
+
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('TEST() requires exactly 2 arguments');
+
+        $reflectionClass = new \ReflectionClass($function);
+        $reflectionMethod = $reflectionClass->getMethod('validateArguments');
+
+        $node = $this->createMock(Node::class);
+        $reflectionMethod->invoke($function, $node);
+    }
+
+    #[Test]
+    public function throws_exception_with_singular_argument_for_exact_count(): void
+    {
+        $function = new class('TEST') extends BaseVariadicFunction {
+            protected function getFunctionName(): string
+            {
+                return 'TEST';
+            }
+
+            protected function getNodeMappingPattern(): array
+            {
+                return ['StringPrimary'];
+            }
+
+            protected function getMinArgumentCount(): int
+            {
+                return 1;
+            }
+
+            protected function getMaxArgumentCount(): int
+            {
+                return 1;
+            }
+        };
+
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('TEST() requires exactly 1 argument');
+
+        $reflectionClass = new \ReflectionClass($function);
+        $reflectionMethod = $reflectionClass->getMethod('validateArguments');
+
+        $node = $this->createMock(Node::class);
+        $reflectionMethod->invoke($function, $node, $node);
+    }
+
+    #[Test]
+    public function throws_exception_with_singular_argument_for_at_least(): void
+    {
+        $function = new class('TEST') extends BaseVariadicFunction {
+            protected function getFunctionName(): string
+            {
+                return 'TEST';
+            }
+
+            protected function getNodeMappingPattern(): array
+            {
+                return ['StringPrimary'];
+            }
+
+            protected function getMinArgumentCount(): int
+            {
+                return 1;
+            }
+
+            protected function getMaxArgumentCount(): int
+            {
+                return 3;
+            }
+        };
+
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('TEST() requires at least 1 argument');
+
+        $reflectionClass = new \ReflectionClass($function);
+        $reflectionMethod = $reflectionClass->getMethod('validateArguments');
+
+        $reflectionMethod->invoke($function);
     }
 }

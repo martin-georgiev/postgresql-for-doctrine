@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_TRANSFORM(g.geometry, 4326) FROM Entity g"
- * Returns transformed geometry in the specified SRID.
  */
 class ST_Transform extends BaseFunction
 {
@@ -26,6 +25,6 @@ class ST_Transform extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Transform(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

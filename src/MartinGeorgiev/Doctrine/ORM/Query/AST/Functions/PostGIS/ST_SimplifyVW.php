@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_SIMPLIFYVW(g.geometry, 0.5) FROM Entity g"
- * Returns simplified geometry using Visvalingam-Whyatt algorithm.
  */
 class ST_SimplifyVW extends BaseFunction
 {
@@ -26,6 +25,6 @@ class ST_SimplifyVW extends BaseFunction
     {
         $this->setFunctionPrototype('ST_SimplifyVW(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

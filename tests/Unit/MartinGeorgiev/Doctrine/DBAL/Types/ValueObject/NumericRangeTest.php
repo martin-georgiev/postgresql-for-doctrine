@@ -7,6 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
@@ -105,8 +106,10 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'simple range' => ['[1.5,10.7)', new NumericRange(1.5, 10.7)];
         yield 'inclusive range' => ['[1,10]', new NumericRange(1, 10, true, true)];
         yield 'exclusive range' => ['(1,10)', new NumericRange(1, 10, false, false)];
-        yield 'infinite lower' => ['[,10)', new NumericRange(null, 10)];
-        yield 'infinite upper' => ['[1,)', new NumericRange(1, null)];
+        yield 'unbounded lower' => ['[,10)', new NumericRange(null, 10)];
+        yield 'bounded by negative infinity' => ['[-Infinity,10)', new NumericRange(-INF, 10)];
+        yield 'unbounded upper' => ['[1,)', new NumericRange(1, null)];
+        yield 'bounded by positive infinity' => ['[1,Infinity)', new NumericRange(1, INF)];
         yield 'empty range' => ['empty', NumericRange::empty()];
     }
 
@@ -138,17 +141,24 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->expectException(InvalidRangeForPHPException::class);
         $this->expectExceptionMessage('Range bound must be numeric');
 
-        // Test compareBounds error through contains() - natural public API
         $numericRange->contains('invalid');
     }
 
     #[Test]
-    public function throws_exception_for_invalid_parse_value_via_from_string(): void
+    #[DataProvider('provideInvalidFromStringInputs')]
+    public function throws_exception_for_invalid_from_string_input(string $input, string $expectedMessage): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid numeric value');
+        $this->expectExceptionMessage($expectedMessage);
 
-        NumericRange::fromString('[not_numeric,10)');
+        NumericRange::fromString($input);
+    }
+
+    public static function provideInvalidFromStringInputs(): \Generator
+    {
+        yield 'non-numeric value' => ['[not_numeric,10)', 'Invalid numeric value'];
+        yield 'invalid format' => ['invalid_format', 'Invalid range format'];
+        yield 'missing brackets' => ['1,10', 'Invalid range format'];
     }
 
     #[Test]
@@ -204,5 +214,38 @@ final class NumericRangeTest extends BaseRangeTestCase
 
         $range3 = new NumericRange(-2.5, 0);
         $this->assertStringContainsString('-2.5', (string) $range3);
+    }
+
+    #[Test]
+    #[DataProvider('providePhpInfConstantCases')]
+    public function can_create_range_with_php_inf_constant(
+        float|int|null $lower,
+        float|int|null $upper,
+        string $expectedString,
+        bool $expectedLowerBoundedInfinity,
+        bool $expectedUpperBoundedInfinity,
+    ): void {
+        $numericRange = new NumericRange($lower, $upper);
+
+        $this->assertEquals($expectedString, (string) $numericRange);
+        $this->assertEquals($expectedLowerBoundedInfinity, $numericRange->isLowerBoundedInfinity());
+        $this->assertEquals($expectedUpperBoundedInfinity, $numericRange->isUpperBoundedInfinity());
+    }
+
+    public static function providePhpInfConstantCases(): \Generator
+    {
+        yield 'upper bounded infinity' => [0, INF, '[0,infinity)', false, true];
+        yield 'lower bounded infinity' => [-INF, 100, '[-infinity,100)', true, false];
+        yield 'both bounds infinity' => [-INF, INF, '[-infinity,infinity)', true, true];
+    }
+
+    #[Test]
+    public function php_inf_constant_is_equivalent_to_infinity_flags(): void
+    {
+        $rangeWithInf = new NumericRange(0, INF);
+        $rangeWithFlag = new NumericRange(0, null, true, false, false, false, true);
+
+        $this->assertEquals((string) $rangeWithInf, (string) $rangeWithFlag);
+        $this->assertEquals($rangeWithInf->isUpperBoundedInfinity(), $rangeWithFlag->isUpperBoundedInfinity());
     }
 }

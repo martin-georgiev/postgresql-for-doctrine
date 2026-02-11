@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_BUFFER(g.geometry, 10) FROM Entity g"
- * Returns buffered geometry.
  */
 class ST_Buffer extends BaseFunction
 {
@@ -26,6 +25,6 @@ class ST_Buffer extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Buffer(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -363,6 +364,24 @@ final class GeometryArrayTest extends TestCase
         $this->assertNull($result);
     }
 
+    #[Test]
+    public function throws_exception_for_invalid_type_from_database(): void
+    {
+        $this->expectException(InvalidGeometryForPHPException::class);
+        $this->expectExceptionMessage('must be a Geometry value object');
+
+        $this->type->transformArrayItemForPHP(123);
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_format_from_database(): void
+    {
+        $this->expectException(InvalidGeometryForPHPException::class);
+        $this->expectExceptionMessage('Invalid Geometry value object format');
+
+        $this->type->transformArrayItemForPHP('INVALID_WKT_FORMAT');
+    }
+
     #[DataProvider('provideDimensionalModifierNormalization')]
     #[Test]
     public function can_normalize_dimensional_modifiers(string $input, string $expected): void
@@ -388,5 +407,29 @@ final class GeometryArrayTest extends TestCase
             'srid with no-space modifier' => ['SRID=4326;POINTZ(1 2 3)', 'SRID=4326;POINT Z(1 2 3)'],
             'complex geometry with no-space modifier' => ['MULTIPOLYGONZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))', 'MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'],
         ];
+    }
+
+    #[Test]
+    public function throws_exception_for_ewkt_missing_semicolon(): void
+    {
+        $this->expectException(InvalidGeometryForPHPException::class);
+
+        $this->type->transformArrayItemForPHP('SRID=4326POINT(1 2)');
+    }
+
+    #[Test]
+    public function can_handle_empty_quoted_array_content(): void
+    {
+        $result = $this->type->convertToPHPValue('{""}', $this->platform);
+
+        $this->assertSame([], $result);
+    }
+
+    #[Test]
+    public function can_handle_whitespace_only_array(): void
+    {
+        $result = $this->type->convertToPHPValue('  ', $this->platform);
+
+        $this->assertSame([], $result);
     }
 }

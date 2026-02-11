@@ -41,7 +41,7 @@ class ST_ScaleTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(36, $result[0]['result'], 0.000000000000001, 'should scale polygon area by factor squared (16 * 1.5 * 1.5 = 36)');
+        $this->assertEquals(36, $result[0]['result'], 'should scale polygon area by factor squared (16 * 1.5 * 1.5 = 36)');
     }
 
     #[Test]
@@ -53,5 +53,27 @@ class ST_ScaleTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.000000000000001, 'should scale linestring length by factor (2.828... * 0.5 = 1.414...)');
+    }
+
+    #[Test]
+    public function scales_polygon_with_parameters(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_SCALE(g.geometry1, (:xFactor + 0.0), (:yFactor + 0.0))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql, ['xFactor' => 1.5, 'yFactor' => 1.5]);
+        $this->assertEquals(36, $result[0]['result']);
+    }
+
+    #[Test]
+    public function scales_polygon_with_function_expressions(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_SCALE(g.geometry1, ABS(1.5), ABS(1.5))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(36, $result[0]['result']);
     }
 }

@@ -54,4 +54,26 @@ class ST_SimplifyTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result'], 'should return unchanged point for point geometries');
     }
+
+    #[Test]
+    public function returns_simplified_linestring_with_parameter(): void
+    {
+        $dql = 'SELECT ST_LENGTH(ST_SIMPLIFY(g.geometry1, :tolerance)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3';
+
+        $result = $this->executeDqlQuery($dql, ['tolerance' => 0.1]);
+        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001);
+    }
+
+    #[Test]
+    public function returns_simplified_linestring_with_function_expression(): void
+    {
+        $dql = 'SELECT ST_LENGTH(ST_SIMPLIFY(g.geometry1, ABS(0.1))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001);
+    }
 }

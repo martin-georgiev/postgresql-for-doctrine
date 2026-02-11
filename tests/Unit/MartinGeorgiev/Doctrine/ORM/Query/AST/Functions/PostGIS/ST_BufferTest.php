@@ -20,6 +20,8 @@ class ST_BufferTest extends TestCase
     {
         return [
             'SELECT ST_Buffer(c0_.geometry1, 10) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_Buffer(c0_.geometry1, ?) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_Buffer(c0_.geometry1, MIN(1)) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -27,6 +29,8 @@ class ST_BufferTest extends TestCase
     {
         return [
             'SELECT ST_BUFFER(g.geometry1, 10) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_BUFFER(g.geometry1, :dql_parameter) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_BUFFER(g.geometry1, MIN(1)) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

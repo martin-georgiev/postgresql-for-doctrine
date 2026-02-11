@@ -22,7 +22,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT GEOMETRY_DISTANCE(g1.geometry, g2.geometry) FROM Entity g1, Entity g2"
- * Returns numeric distance value.
  */
 class GeometryDistance extends BaseFunction
 {

@@ -52,6 +52,16 @@ class JsonbSetTest extends BaseVariadicFunctionTestCase
     }
 
     #[Test]
+    public function throws_exception_for_non_constant_boolean_parameter(): void
+    {
+        $this->expectException(InvalidBooleanException::class);
+        $this->expectExceptionMessage('The boolean parameter for jsonb_set must be a string literal');
+
+        $dql = \sprintf("SELECT JSONB_SET(e.jsonbObject1, '{country}', '{\"iso_3166_a3_code\":\"bgr\"}', e.jsonbObject1) FROM %s e", ContainsJsons::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
     public function throws_exception_for_too_few_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);

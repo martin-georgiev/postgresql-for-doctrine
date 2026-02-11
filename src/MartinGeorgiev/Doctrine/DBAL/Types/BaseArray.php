@@ -36,7 +36,7 @@ abstract class BaseArray extends BaseType
 
         foreach ($phpArray as &$item) {
             if (!$this->isValidArrayItemForDatabase($item)) {
-                $this->throwInvalidItemException();
+                $this->throwInvalidItemException($item);
             }
 
             $item = $this->transformArrayItemForPostgres($item);
@@ -56,7 +56,7 @@ abstract class BaseArray extends BaseType
     /**
      * @throws ConversionException
      */
-    protected function throwInvalidItemException(): never
+    protected function throwInvalidItemException(mixed $item): never
     {
         throw $this->createInvalidItemException();
     }

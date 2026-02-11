@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -291,6 +292,24 @@ final class GeographyArrayTest extends TestCase
                 'item' => [],
             ],
         ];
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_type_from_database(): void
+    {
+        $this->expectException(InvalidGeographyForPHPException::class);
+        $this->expectExceptionMessage('must be a Geography value object');
+
+        $this->type->transformArrayItemForPHP(123);
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_format_from_database(): void
+    {
+        $this->expectException(InvalidGeographyForPHPException::class);
+        $this->expectExceptionMessage('Invalid Geography value object format');
+
+        $this->type->transformArrayItemForPHP('INVALID_WKT_FORMAT');
     }
 
     #[DataProvider('provideDimensionalModifierNormalization')]

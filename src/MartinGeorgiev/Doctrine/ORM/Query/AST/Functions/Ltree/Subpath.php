@@ -19,7 +19,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT SUBPATH(e.path, 0, 2) FROM Entity e"
- * Returns ltree, subpath starting at position offset, with length len.
  */
 class Subpath extends BaseVariadicFunction
 {

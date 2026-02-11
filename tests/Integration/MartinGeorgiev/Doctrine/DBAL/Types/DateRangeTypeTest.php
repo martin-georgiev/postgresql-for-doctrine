@@ -61,30 +61,35 @@ class DateRangeTypeTest extends RangeTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInfinityAndSpecialCases')]
     #[Test]
-    public function can_handle_infinite_ranges(): void
+    public function can_handle_infinity_and_special_cases(string $testName, DateRangeValueObject $dateRangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $dateRange = new DateRangeValueObject(null, null, false, false);
-        $this->runDbalBindingRoundTrip($typeName, $columnType, $dateRange);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $dateRangeValueObject);
     }
 
-    #[Test]
-    public function can_handle_empty_ranges(): void
+    /**
+     * @return array<string, array{string, DateRangeValueObject}>
+     */
+    public static function provideInfinityAndSpecialCases(): array
     {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        // lower > upper shall result in an empty range
-        $dateRange = new DateRangeValueObject(
-            new \DateTimeImmutable('2023-12-31'),
-            new \DateTimeImmutable('2023-01-01'),
-            false,
-            false
-        );
-        $this->runDbalBindingRoundTrip($typeName, $columnType, $dateRange);
+        return [
+            'unbounded range' => ['unbounded range', new DateRangeValueObject(null, null, false, false)],
+            'unbounded lower' => ['unbounded lower', new DateRangeValueObject(null, new \DateTimeImmutable('2024-12-31'), false, false)],
+            'unbounded upper' => ['unbounded upper', new DateRangeValueObject(new \DateTimeImmutable('2024-01-01'), null, true, false)],
+            'lower bounded infinity' => ['lower bounded infinity', new DateRangeValueObject(null, new \DateTimeImmutable('2024-12-31'), true, false, false, true, false)],
+            'upper bounded infinity' => ['upper bounded infinity', new DateRangeValueObject(new \DateTimeImmutable('2024-01-01'), null, true, false, false, false, true)],
+            'both bounds infinity' => ['both bounds infinity', new DateRangeValueObject(null, null, true, false, false, true, true)],
+            'empty range' => ['empty range', new DateRangeValueObject(
+                new \DateTimeImmutable('2023-12-31'),
+                new \DateTimeImmutable('2023-01-01'),
+                false,
+                false
+            )],
+        ];
     }
 
     /**

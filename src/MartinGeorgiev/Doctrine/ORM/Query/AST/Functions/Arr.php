@@ -7,10 +7,14 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL ARRAY[].
  *
+ * Constructs an array from individual elements.
+ *
  * @see https://www.postgresql.org/docs/9.4/static/arrays.html
  * @since 0.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT ARR(1, 2, 3) FROM Entity e"
  */
 class Arr extends BaseVariadicFunction
 {

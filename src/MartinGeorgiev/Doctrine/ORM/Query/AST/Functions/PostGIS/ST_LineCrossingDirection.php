@@ -17,7 +17,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_LineCrossingDirection(g.geometry1, g.geometry2) as result"
- * Returns integer: 0 (no crossing), 1 (left to right), -1 (right to left), 2 (multiple crossings).
  */
 class ST_LineCrossingDirection extends BaseFunction
 {

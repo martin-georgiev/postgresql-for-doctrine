@@ -18,7 +18,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_3DPERIMETER(g.geometry) FROM Entity g"
- * Returns numeric 3D perimeter value.
  */
 class ST_3DPerimeter extends BaseFunction
 {

@@ -100,6 +100,30 @@ abstract class SpatialOperatorTestCase extends BaseTestCase
                 'geography1' => 'SRID=4326;POLYGON((-9.2 38.6, -9.2 38.8, -9.0 38.8, -9.0 38.6, -9.2 38.6))', // Lisbon area
                 'geography2' => 'SRID=4326;POLYGON((-0.2 51.4, -0.2 51.6, 0.0 51.6, 0.0 51.4, -0.2 51.4))', // London area
             ],
+            'id=11 (3D geometry with Z coordinate)' => [
+                'geometry1' => 'POINT Z(0 0 5)',
+                'geometry2' => 'POINT Z(1 1 10)',
+                'geography1' => 'SRID=4326;POINT(-9.1393 38.7223)',
+                'geography2' => 'SRID=4326;POINT(-0.1276 51.5074)',
+            ],
+            'id=12 (geometry with M coordinate)' => [
+                'geometry1' => 'POINT M(0 0 5)',
+                'geometry2' => 'POINT M(1 1 10)',
+                'geography1' => 'SRID=4326;POINT(-9.1393 38.7223)',
+                'geography2' => 'SRID=4326;POINT(-0.1276 51.5074)',
+            ],
+            'id=13 (polygon adjacent to id=4)' => [
+                'geometry1' => 'POLYGON((2 0, 2 2, 4 2, 4 0, 2 0))',
+                'geometry2' => 'POLYGON((0 0, 0 2, 2 2, 2 0, 0 0))',
+                'geography1' => 'SRID=4326;POINT(-9.1393 38.7223)',
+                'geography2' => 'SRID=4326;POINT(-0.1276 51.5074)',
+            ],
+            'id=14 (compound curve with 3 components)' => [
+                'geometry1' => 'COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1), (3 1, 4 0))',
+                'geometry2' => 'COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))',
+                'geography1' => 'SRID=4326;POINT(-9.1393 38.7223)',
+                'geography2' => 'SRID=4326;POINT(-0.1276 51.5074)',
+            ],
         ];
 
         $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, self::TABLE_NAME);

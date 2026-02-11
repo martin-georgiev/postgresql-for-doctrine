@@ -100,7 +100,6 @@ class PointArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            'not an array' => ['string value'],
             'array containing non-Point items' => [[1, 2, 3]],
             'invalid nested point' => [['(1.23,4.56)']],
             'mixed array (valid and invalid points)' => [
@@ -109,6 +108,24 @@ class PointArrayTest extends TestCase
                     'invalid',
                 ],
             ],
+        ];
+    }
+
+    #[DataProvider('provideInvalidTypeInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
+    {
+        $this->expectException(InvalidPointArrayItemForPHPException::class);
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputs(): array
+    {
+        return [
+            'string instead of array' => ['string value'],
         ];
     }
 
@@ -214,7 +231,7 @@ class PointArrayTest extends TestCase
     public function throws_exception_for_invalid_point_array_items(array $invalidArray): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
-        $this->expectExceptionMessage('Array contains invalid point items');
+        $this->expectExceptionMessage('Invalid point format in array');
 
         $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
     }
@@ -230,6 +247,48 @@ class PointArrayTest extends TestCase
             'boolean item' => [[true]],
             'object item' => [[new \stdClass()]],
             'mixed invalid items' => [[123, 'not-a-point', true]],
+        ];
+    }
+
+    #[DataProvider('provideValidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_valid_array_item_for_database(mixed $value): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'positive coordinates' => [new Point(1.23, 4.56)],
+            'origin point' => [new Point(0.0, 0.0)],
+            'negative coordinates' => [new Point(-7.89, -0.12)],
+            'large coordinates' => [new Point(180.0, 90.0)],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    {
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidArrayItemsForDatabase(): array
+    {
+        return [
+            'string point format' => ['(1.23, 4.56)'],
+            'invalid string' => ['invalid'],
+            'integer' => [123],
+            'null' => [null],
+            'empty string' => [''],
+            'boolean' => [true],
         ];
     }
 }

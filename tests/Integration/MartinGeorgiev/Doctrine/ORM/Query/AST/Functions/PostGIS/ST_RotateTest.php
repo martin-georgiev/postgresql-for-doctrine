@@ -54,4 +54,26 @@ class ST_RotateTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.000000000000001, 'should preserve linestring length');
     }
+
+    #[Test]
+    public function rotates_polygon_with_parameter(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_ROTATE(g.geometry1, :angle)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql, ['angle' => 1.570796]);
+        $this->assertEqualsWithDelta(16, $result[0]['result'], 0.000000000000002);
+    }
+
+    #[Test]
+    public function rotates_polygon_with_function_expression(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_ROTATE(g.geometry1, ABS(1.570796))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(16, $result[0]['result'], 0.000000000000002);
+    }
 }

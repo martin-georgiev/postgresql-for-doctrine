@@ -35,6 +35,8 @@ final class Type
 
     public const TEXT_ARRAY = 'text[]';
 
+    public const UUID_ARRAY = 'uuid[]';
+
     // Scalar Types
     public const CIDR = 'cidr';
 

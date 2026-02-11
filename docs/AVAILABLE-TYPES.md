@@ -12,6 +12,7 @@
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
 | text[] | _text | `MartinGeorgiev\Doctrine\DBAL\Types\TextArray` |
+| uuid[] | _uuid | `MartinGeorgiev\Doctrine\DBAL\Types\UuidArray` (see [note](#uuid-array-type)) |
 |---|---|---|
 | cidr | cidr | `MartinGeorgiev\Doctrine\DBAL\Types\Cidr` |
 | cidr[] | _cidr | `MartinGeorgiev\Doctrine\DBAL\Types\CidrArray` |
@@ -35,3 +36,25 @@
 | point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
+
+---
+
+## UUID Array Type
+
+The `uuid[]` type validates UUID format and returns `string[]` rather than UUID value objects. This design decision keeps the library lightweight and framework-agnostic:
+
+- **No additional dependencies** - Works without requiring `ramsey/uuid` or `symfony/uid`
+- **Consistent with other array types** - Follows the same pattern as `TextArray`, `IntegerArray`, etc.
+- **Framework agnostic** - Compatible with any UUID library of your choice
+
+If you need UUID objects, you can easily convert the strings:
+
+```php
+// With ramsey/uuid
+use Ramsey\Uuid\Uuid;
+$uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuidArray());
+
+// With symfony/uid
+use Symfony\Component\Uid\Uuid;
+$uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuidArray());
+```
