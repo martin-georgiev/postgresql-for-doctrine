@@ -30,7 +30,7 @@ docker run --name postgres-doctrine-test -e POSTGRES_PASSWORD=postgres -e POSTGR
 # Install the latest dependencies
 composer update
 # Run the integration tests
-composer run-integration-tests
+composer paratest:integration
 ```
 
 ### Environment Variables
@@ -46,7 +46,7 @@ The tests use the following environment variables which can be customized:
 You can set these variables before running the tests:
 
 ```bash
-POSTGRES_HOST=custom-host POSTGRES_PORT=5433 composer run-integration-tests
+POSTGRES_HOST=custom-host POSTGRES_PORT=5433 composer paratest:integration
 ```
 
 ### Cleanup

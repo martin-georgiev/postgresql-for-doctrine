@@ -167,9 +167,9 @@ jobs:
       - name: Run unit test suite
         run: |
           if [ "${{ matrix.calculate-code-coverage }}" = "true" ]; then
-            XDEBUG_MODE=coverage composer run-unit-tests
+            XDEBUG_MODE=coverage composer paratest:unit
           else
-            composer run-unit-tests -- --no-coverage
+            composer paratest:unit -- --no-coverage
           fi
 
       - name: Upload coverage results to Coveralls

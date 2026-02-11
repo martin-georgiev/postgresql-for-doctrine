@@ -139,9 +139,13 @@ See our [ltree type usage guide](docs/LTREE-TYPE.md) for an example of how to us
 
 ## 🧪 Testing
 
+This package uses [paratestphp/paratest](https://github.com/paratestphp/paratest) to run PHPUnit test cases in paralel. All `paratest:*` commands below have a `phpunit:*` alternative should you opt to run the tests the old-fashioned way, in series. 
+
+Using paratest is the default and recommended way as it greatly reduces the time required to run all the tests.  
+
 ### Unit Tests
 ```bash
-composer run-unit-tests
+composer paratest:unit
 ```
 
 ### PostgreSQL Integration Tests
@@ -152,7 +156,7 @@ We also provide integration tests that run against a real PostgreSQL database wi
 docker-compose up -d
 
 # Run integration tests
-composer run-integration-tests
+composer paratest:integration
 
 # Stop PostgreSQL
 docker-compose down -v

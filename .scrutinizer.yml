@@ -8,7 +8,7 @@ build:
       tests:
         override:
           - php-scrutinizer-run
-          - command: XDEBUG_MODE=coverage composer run-unit-tests
+          - command: XDEBUG_MODE=coverage composer paratest:unit
             coverage:
               file: var/logs/test-coverage/unit/clover.xml
               format: clover

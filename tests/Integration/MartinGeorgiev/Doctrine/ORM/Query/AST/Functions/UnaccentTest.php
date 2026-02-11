@@ -26,6 +26,7 @@ class UnaccentTest extends TextTestCase
     {
         try {
             $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS unaccent');
+            $this->connection->executeStatement(\sprintf('ALTER EXTENSION unaccent SET SCHEMA %s', self::DATABASE_SCHEMA));
         } catch (\Exception) {
             $this->markTestSkipped('unaccent extension is not available');
         }

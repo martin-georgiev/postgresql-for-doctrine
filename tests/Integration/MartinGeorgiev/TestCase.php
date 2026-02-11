@@ -66,6 +66,8 @@ abstract class TestCase extends BaseTestCase
 
     protected static array $registeredTypes = [];
 
+    private static bool $initialized = false;
+
     protected function setUp(): void
     {
         // Set up a driver chain
@@ -155,7 +157,34 @@ abstract class TestCase extends BaseTestCase
             'password' => $password,
         ];
 
+        // The UNIQUE_TEST_TOKEN indicates the test case is executed via paratest, and we have to do a few extra things in that case
+        $plainPHPUnit = false === \getenv('UNIQUE_TEST_TOKEN');
+
+        // If it's either plain PHPUnit or this is the first call of this method in the current Paratest thread, we'll connect to the pre-existing database
+        if ($plainPHPUnit || !self::$initialized) {
+            $this->connection = DriverManager::getConnection($connectionParams);
+        }
+
+        // If this is plain PHPUnit, the work stops here, we can start testing
+        if ($plainPHPUnit) {
+            return;
+        }
+
+        // Each paratest thread needs its own database, for which paratest provides the name for us:
+        $dbname .= '_'.\getenv('UNIQUE_TEST_TOKEN');
+
+        // If the paratest thread was not yet initialised, we'll have to create the thread-specific database
+        if (!self::$initialized) {
+            $this->connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s;', $dbname));
+            $this->connection->executeStatement(\sprintf('CREATE DATABASE %s;', $dbname));
+            $this->connection->close();
+        }
+
+        // And then we'll have to switch over to the working database:
+        $connectionParams['dbname'] = $dbname;
         $this->connection = DriverManager::getConnection($connectionParams);
+
+        self::$initialized = true;
     }
 
     protected function createTestSchema(): void

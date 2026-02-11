@@ -172,9 +172,9 @@ jobs:
       - name: Run integration test suite
         run: |
           if [ "${{ matrix.calculate-code-coverage }}" = "true" ]; then
-            XDEBUG_MODE=coverage composer run-integration-tests
+            XDEBUG_MODE=coverage composer paratest:integration
           else
-            composer run-integration-tests -- --no-coverage
+            composer paratest:integration -- --no-coverage
           fi
         env:
           POSTGRES_HOST: localhost
