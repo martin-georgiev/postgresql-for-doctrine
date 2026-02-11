@@ -25,7 +25,7 @@ class ST_Translate extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Translate(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

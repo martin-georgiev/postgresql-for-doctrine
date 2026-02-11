@@ -25,6 +25,6 @@ class ST_SimplifyPreserveTopology extends BaseFunction
     {
         $this->setFunctionPrototype('ST_SimplifyPreserveTopology(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

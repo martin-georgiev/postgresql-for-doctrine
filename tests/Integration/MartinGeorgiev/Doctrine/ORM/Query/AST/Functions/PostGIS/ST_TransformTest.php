@@ -50,4 +50,26 @@ class ST_TransformTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result'], 'transformation to same SRID should return identical geometry');
     }
+
+    #[Test]
+    public function returns_transformed_point_with_parameter(): void
+    {
+        $dql = 'SELECT ST_EQUALS(g.geometry1, ST_TRANSFORM(g.geometry1, (:srid + 0))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql, ['srid' => 4326]);
+        $this->assertTrue($result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_transformed_point_with_function_expression(): void
+    {
+        $dql = 'SELECT ST_EQUALS(g.geometry1, ST_TRANSFORM(g.geometry1, ABS(4326))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

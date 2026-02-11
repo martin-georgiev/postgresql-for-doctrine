@@ -25,6 +25,6 @@ class ST_SimplifyVW extends BaseFunction
     {
         $this->setFunctionPrototype('ST_SimplifyVW(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }
