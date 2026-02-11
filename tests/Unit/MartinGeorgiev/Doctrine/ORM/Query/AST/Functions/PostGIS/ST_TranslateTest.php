@@ -20,6 +20,8 @@ class ST_TranslateTest extends TestCase
     {
         return [
             'SELECT ST_Translate(c0_.geometry1, 1, 1) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_Translate(c0_.geometry1, ?, ?) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_Translate(c0_.geometry1, MIN(1), MIN(1)) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -27,6 +29,8 @@ class ST_TranslateTest extends TestCase
     {
         return [
             'SELECT ST_TRANSLATE(g.geometry1, 1, 1) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_TRANSLATE(g.geometry1, :dql_parameter, :dql_parameter) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_TRANSLATE(g.geometry1, MIN(1), MIN(1)) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

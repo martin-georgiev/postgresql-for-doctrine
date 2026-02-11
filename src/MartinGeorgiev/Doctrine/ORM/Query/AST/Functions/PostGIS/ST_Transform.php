@@ -25,6 +25,6 @@ class ST_Transform extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Transform(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

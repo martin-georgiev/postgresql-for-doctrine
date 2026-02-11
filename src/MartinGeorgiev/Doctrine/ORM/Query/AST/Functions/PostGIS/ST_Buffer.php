@@ -25,6 +25,6 @@ class ST_Buffer extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Buffer(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('Literal');
+        $this->addNodeMapping('ArithmeticPrimary');
     }
 }

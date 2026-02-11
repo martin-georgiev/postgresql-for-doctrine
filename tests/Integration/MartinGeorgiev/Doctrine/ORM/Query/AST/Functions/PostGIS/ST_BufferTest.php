@@ -50,4 +50,26 @@ class ST_BufferTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(1.2562286559887985, $result[0]['result'], 0.0000000000000001, 'Buffer of 0.2 around LINESTRING(0 0, 1 1, 2 2) creates a polygon with specific area');
     }
+
+    #[Test]
+    public function returns_buffered_point_with_parameter(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_BUFFER(g.geometry1, :radius)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql, ['radius' => 1]);
+        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.0000000000000001);
+    }
+
+    #[Test]
+    public function returns_buffered_point_with_function_expression(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_BUFFER(g.geometry1, ABS(1))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.0000000000000001);
+    }
 }
