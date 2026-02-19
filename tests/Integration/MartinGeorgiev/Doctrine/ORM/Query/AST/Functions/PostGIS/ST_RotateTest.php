@@ -78,7 +78,7 @@ class ST_RotateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function rotates_point_around_custom_origin(): void
+    public function rotates_polygon_around_custom_origin(): void
     {
         $dql = 'SELECT ST_AREA(ST_ROTATE(g.geometry1, 1.570796, 21, 22)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
