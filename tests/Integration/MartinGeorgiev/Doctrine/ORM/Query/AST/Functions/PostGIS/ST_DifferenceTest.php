@@ -28,7 +28,7 @@ class ST_DifferenceTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(12, $result[0]['result'], 'should calculate correct  difference area: outer polygon minus inner polygon');
+        $this->assertEquals(12, $result[0]['result'], 'should calculate correct difference area: outer polygon minus inner polygon');
     }
 
     #[Test]
@@ -39,7 +39,7 @@ class ST_DifferenceTest extends SpatialOperatorTestCase
                 WHERE g.id = 4';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3, $result[0]['result'], 'should calculate correct  difference area: smaller polygon minus overlapping larger polygon');
+        $this->assertEquals(3, $result[0]['result'], 'should calculate correct difference area: smaller polygon minus overlapping larger polygon');
     }
 
     #[Test]

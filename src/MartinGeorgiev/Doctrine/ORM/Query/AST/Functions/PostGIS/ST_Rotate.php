@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
  * Implementation of PostGIS ST_Rotate() function.
@@ -18,13 +18,32 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_ROTATE(g.geometry, 1.5708) FROM Entity g"
+ * @example Using it in DQL with origin: "SELECT ST_ROTATE(g.geometry, 1.5708, 0, 0) FROM Entity g"
+ * @example Using it in DQL with point origin: "SELECT ST_ROTATE(g.geometry, 1.5708, g.centroid) FROM Entity g"
  */
-class ST_Rotate extends BaseFunction
+class ST_Rotate extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('ST_Rotate(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        return [
+            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary',
+            'StringPrimary,ArithmeticPrimary,StringPrimary',
+            'StringPrimary,ArithmeticPrimary',
+        ];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'ST_Rotate';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 4;
     }
 }

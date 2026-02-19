@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
  * Implementation of PostGIS ST_HausdorffDistance() function.
@@ -18,13 +18,27 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_HAUSDORFFDISTANCE(g1.geometry, g2.geometry) FROM Entity g1, Entity g2"
+ * @example Using it in DQL with densify: "SELECT ST_HAUSDORFFDISTANCE(g1.geometry, g2.geometry, 0.5) FROM Entity g1, Entity g2"
  */
-class ST_HausdorffDistance extends BaseFunction
+class ST_HausdorffDistance extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('ST_HausdorffDistance(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return ['StringPrimary,StringPrimary,ArithmeticPrimary'];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'ST_HausdorffDistance';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 3;
     }
 }

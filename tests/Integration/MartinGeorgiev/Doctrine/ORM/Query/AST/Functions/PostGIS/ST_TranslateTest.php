@@ -30,7 +30,7 @@ class ST_TranslateTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(14.142135623730951, $result[0]['result'], 0.0000000000000001, 'ST_Translate should move point by expected distance');
+        $this->assertEqualsWithDelta(14.142135623730951, $result[0]['result'], 0.0000000000000001, 'should move point by expected distance');
     }
 
     #[Test]
@@ -41,7 +41,7 @@ class ST_TranslateTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'ST_Translate should preserve polygon area');
+        $this->assertEquals(16, $result[0]['result'], 'should preserve polygon area');
     }
 
     #[Test]
@@ -52,7 +52,7 @@ class ST_TranslateTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001, 'ST_Translate should preserve linestring length');
+        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001, 'should preserve linestring length');
     }
 
     #[Test]
@@ -70,6 +70,17 @@ class ST_TranslateTest extends SpatialOperatorTestCase
     public function translates_polygon_with_function_expressions(): void
     {
         $dql = 'SELECT ST_AREA(ST_TRANSLATE(g.geometry1, ABS(5.0), ABS(5.0))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
+
+    #[Test]
+    public function translates_polygon_with_deltaz_parameter(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_TRANSLATE(g.geometry1, 1, 2, 3)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 

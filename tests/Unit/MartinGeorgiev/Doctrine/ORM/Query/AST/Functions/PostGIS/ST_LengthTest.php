@@ -20,6 +20,7 @@ class ST_LengthTest extends TestCase
     {
         return [
             'SELECT ST_Length(c0_.geometry1) AS sclr_0 FROM ContainsGeometries c0_',
+            "SELECT ST_Length(c0_.geometry1, 'true') AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
@@ -27,6 +28,7 @@ class ST_LengthTest extends TestCase
     {
         return [
             'SELECT ST_LENGTH(g.geometry1) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_LENGTH(g.geometry1, \'true\') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

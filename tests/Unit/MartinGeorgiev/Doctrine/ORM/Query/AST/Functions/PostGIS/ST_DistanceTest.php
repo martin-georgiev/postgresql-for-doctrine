@@ -20,6 +20,7 @@ class ST_DistanceTest extends TestCase
     {
         return [
             'SELECT ST_Distance(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_',
+            "SELECT ST_Distance(c0_.geometry1, c0_.geometry2, 'true') AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
@@ -27,6 +28,7 @@ class ST_DistanceTest extends TestCase
     {
         return [
             'SELECT ST_DISTANCE(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_DISTANCE(g.geometry1, g.geometry2, \'true\') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

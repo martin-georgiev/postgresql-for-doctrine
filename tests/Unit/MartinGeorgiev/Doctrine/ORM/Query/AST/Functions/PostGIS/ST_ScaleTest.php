@@ -22,6 +22,7 @@ class ST_ScaleTest extends TestCase
             'SELECT ST_Scale(c0_.geometry1, 2, 2) AS sclr_0 FROM ContainsGeometries c0_',
             'SELECT ST_Scale(c0_.geometry1, ?, ?) AS sclr_0 FROM ContainsGeometries c0_',
             'SELECT ST_Scale(c0_.geometry1, MIN(1), MIN(1)) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_Scale(c0_.geometry1, 2, 2, 1) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -31,6 +32,7 @@ class ST_ScaleTest extends TestCase
             'SELECT ST_SCALE(g.geometry1, 2, 2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             'SELECT ST_SCALE(g.geometry1, :dql_parameter1, :dql_parameter2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             'SELECT ST_SCALE(g.geometry1, MIN(1), MIN(1)) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_SCALE(g.geometry1, 2, 2, 1) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

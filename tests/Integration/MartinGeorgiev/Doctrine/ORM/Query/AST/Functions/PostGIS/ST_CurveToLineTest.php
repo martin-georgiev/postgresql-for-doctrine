@@ -34,6 +34,17 @@ class ST_CurveToLineTest extends SpatialOperatorTestCase
     }
 
     #[Test]
+    public function converts_curve_with_tolerance_parameters(): void
+    {
+        $dql = 'SELECT ST_LENGTH(ST_CURVETOLINE(g.geometry1, 0.01, 1, 0)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.000000000000001);
+    }
+
+    #[Test]
     public function handles_polygon_geometry(): void
     {
         $dql = 'SELECT ST_AREA(ST_CURVETOLINE(g.geometry1)) as result

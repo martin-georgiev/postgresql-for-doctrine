@@ -22,6 +22,9 @@ class ST_TransformTest extends TestCase
             'SELECT ST_Transform(c0_.geometry1, 4326) AS sclr_0 FROM ContainsGeometries c0_',
             'SELECT ST_Transform(c0_.geometry1, ?) AS sclr_0 FROM ContainsGeometries c0_',
             'SELECT ST_Transform(c0_.geometry1, MIN(1)) AS sclr_0 FROM ContainsGeometries c0_',
+            "SELECT ST_Transform(c0_.geometry1, '+proj=longlat') AS sclr_0 FROM ContainsGeometries c0_",
+            "SELECT ST_Transform(c0_.geometry1, '+proj=utm', '+proj=longlat') AS sclr_0 FROM ContainsGeometries c0_",
+            "SELECT ST_Transform(c0_.geometry1, '+proj=utm', 4326) AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
@@ -31,6 +34,9 @@ class ST_TransformTest extends TestCase
             'SELECT ST_TRANSFORM(g.geometry1, 4326) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             'SELECT ST_TRANSFORM(g.geometry1, :dql_parameter) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             'SELECT ST_TRANSFORM(g.geometry1, MIN(1)) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_TRANSFORM(g.geometry1, \'+proj=longlat\') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_TRANSFORM(g.geometry1, \'+proj=utm\', \'+proj=longlat\') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_TRANSFORM(g.geometry1, \'+proj=utm\', 4326) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

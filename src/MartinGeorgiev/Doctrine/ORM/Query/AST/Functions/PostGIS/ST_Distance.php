@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
+use Doctrine\ORM\Query\AST\Node;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
 
 /**
  * Implementation of PostGIS ST_Distance() function.
@@ -18,13 +20,38 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_DISTANCE(g1.geometry, g2.geometry) FROM Entity g1, Entity g2"
+ * @example Using it in DQL (geography): "SELECT ST_DISTANCE(g1.geography, g2.geography, TRUE) FROM Entity g1, Entity g2"
  */
-class ST_Distance extends BaseFunction
+class ST_Distance extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    use BooleanValidationTrait;
+
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('ST_Distance(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return ['StringPrimary'];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'ST_Distance';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 3;
+    }
+
+    protected function validateArguments(Node ...$arguments): void
+    {
+        parent::validateArguments(...$arguments);
+
+        if (\count($arguments) === 3) {
+            $this->validateBoolean($arguments[2], $this->getFunctionName());
+        }
     }
 }

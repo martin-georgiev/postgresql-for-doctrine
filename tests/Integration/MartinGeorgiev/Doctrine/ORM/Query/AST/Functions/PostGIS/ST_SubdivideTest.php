@@ -76,4 +76,15 @@ class ST_SubdivideTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
     }
+
+    #[Test]
+    public function will_preserve_area_with_grid_size_parameter(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1, 9, 128)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
 }

@@ -20,6 +20,7 @@ class ST_FrechetDistanceTest extends TestCase
     {
         return [
             'SELECT ST_FrechetDistance(c0_.geometry1, c0_.geometry2) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_FrechetDistance(c0_.geometry1, c0_.geometry2, 0.5) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ class ST_FrechetDistanceTest extends TestCase
     {
         return [
             'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2, 0.5) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }
