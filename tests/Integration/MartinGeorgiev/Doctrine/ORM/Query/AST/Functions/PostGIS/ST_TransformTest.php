@@ -28,9 +28,15 @@ class ST_TransformTest extends SpatialOperatorTestCase
                 WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
-        $geojson = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $geojson = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($geojson);
         $this->assertSame('Polygon', $geojson['type']);
-        $vertex = $geojson['coordinates'][0][2];
+        $this->assertIsArray($geojson['coordinates']);
+        $outerRing = $geojson['coordinates'][0];
+        $this->assertIsArray($outerRing);
+        $vertex = $outerRing[2];
+        $this->assertIsArray($vertex);
         $this->assertEqualsWithDelta(445277.96, $vertex[0], 1.0);
         $this->assertEqualsWithDelta(445640.11, $vertex[1], 1.0);
     }
@@ -43,12 +49,20 @@ class ST_TransformTest extends SpatialOperatorTestCase
                 WHERE g.id = 10";
 
         $result = $this->executeDqlQuery($dql);
-        $geojson = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $geojson = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($geojson);
         $this->assertSame('LineString', $geojson['type']);
-        $this->assertEqualsWithDelta(0.0, $geojson['coordinates'][0][0], 0.01);
-        $this->assertEqualsWithDelta(0.0, $geojson['coordinates'][0][1], 0.01);
-        $this->assertEqualsWithDelta(0.00898, $geojson['coordinates'][1][0], 0.001);
-        $this->assertEqualsWithDelta(0.0, $geojson['coordinates'][1][1], 0.01);
+        $this->assertIsArray($geojson['coordinates']);
+        $coords = $geojson['coordinates'];
+        $firstPoint = $coords[0];
+        $secondPoint = $coords[1];
+        $this->assertIsArray($firstPoint);
+        $this->assertIsArray($secondPoint);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 0.01);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[1], 0.01);
+        $this->assertEqualsWithDelta(0.00898, $secondPoint[0], 0.001);
+        $this->assertEqualsWithDelta(0.0, $secondPoint[1], 0.01);
     }
 
     #[Test]
@@ -60,12 +74,24 @@ class ST_TransformTest extends SpatialOperatorTestCase
                 WHERE g.id = 10";
 
         $result = $this->executeDqlQuery($dql);
-        $original = \json_decode((string) $result[0]['original'], true);
-        $transformed = \json_decode((string) $result[0]['transformed'], true);
+        $this->assertIsString($result[0]['original']);
+        $this->assertIsString($result[0]['transformed']);
+        $original = \json_decode($result[0]['original'], true);
+        $transformed = \json_decode($result[0]['transformed'], true);
+        $this->assertIsArray($original);
+        $this->assertIsArray($transformed);
+        $this->assertIsArray($original['coordinates']);
+        $this->assertIsArray($transformed['coordinates']);
+        $origCoords = $original['coordinates'];
+        $transCoords = $transformed['coordinates'];
+        $origFirstPoint = $origCoords[0];
+        $transFirstPoint = $transCoords[0];
+        $this->assertIsArray($origFirstPoint);
+        $this->assertIsArray($transFirstPoint);
 
         $this->assertSame($original['type'], $transformed['type']);
-        $this->assertEqualsWithDelta($original['coordinates'][0][0], $transformed['coordinates'][0][0], 0.01);
-        $this->assertEqualsWithDelta($original['coordinates'][0][1], $transformed['coordinates'][0][1], 0.01);
+        $this->assertEqualsWithDelta($origFirstPoint[0], $transFirstPoint[0], 0.01);
+        $this->assertEqualsWithDelta($origFirstPoint[1], $transFirstPoint[1], 0.01);
     }
 
     #[Test]
@@ -77,15 +103,32 @@ class ST_TransformTest extends SpatialOperatorTestCase
                 WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
-        $original = \json_decode((string) $result[0]['original'], true);
-        $transformed = \json_decode((string) $result[0]['transformed'], true);
+        $this->assertIsString($result[0]['original']);
+        $this->assertIsString($result[0]['transformed']);
+        $original = \json_decode($result[0]['original'], true);
+        $transformed = \json_decode($result[0]['transformed'], true);
+        $this->assertIsArray($original);
+        $this->assertIsArray($transformed);
+        $this->assertIsArray($original['coordinates']);
+        $this->assertIsArray($transformed['coordinates']);
+        $origRing = $original['coordinates'][0];
+        $transRing = $transformed['coordinates'][0];
+        $this->assertIsArray($origRing);
+        $this->assertIsArray($transRing);
+        $originalVertex = $origRing[2];
+        $transformedVertex = $transRing[2];
+        $this->assertIsArray($originalVertex);
+        $this->assertIsArray($transformedVertex);
+
+        $origX = $originalVertex[0];
+        $origY = $originalVertex[1];
+        $transX = $transformedVertex[0];
+        $transY = $transformedVertex[1];
 
         $this->assertSame('Polygon', $original['type']);
         $this->assertSame('Polygon', $transformed['type']);
-        $originalVertex = $original['coordinates'][0][2];
-        $transformedVertex = $transformed['coordinates'][0][2];
-        $this->assertNotEquals($originalVertex[0], $transformedVertex[0]);
-        $this->assertNotEquals($originalVertex[1], $transformedVertex[1]);
+        $this->assertNotEquals($origX, $transX);
+        $this->assertNotEquals($origY, $transY);
     }
 
     #[Test]
@@ -96,9 +139,15 @@ class ST_TransformTest extends SpatialOperatorTestCase
                 WHERE g.id = 10";
 
         $result = $this->executeDqlQuery($dql);
-        $geojson = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $geojson = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($geojson);
         $this->assertSame('LineString', $geojson['type']);
-        $this->assertEqualsWithDelta(0.0, $geojson['coordinates'][0][0], 0.01);
+        $this->assertIsArray($geojson['coordinates']);
+        $coords = $geojson['coordinates'];
+        $firstPoint = $coords[0];
+        $this->assertIsArray($firstPoint);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 0.01);
     }
 
     #[Test]
@@ -109,9 +158,15 @@ class ST_TransformTest extends SpatialOperatorTestCase
                 WHERE g.id = 10";
 
         $result = $this->executeDqlQuery($dql);
-        $geojson = \json_decode((string) $result[0]['result'], true);
+        $this->assertIsString($result[0]['result']);
+        $geojson = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($geojson);
         $this->assertSame('LineString', $geojson['type']);
-        $this->assertEqualsWithDelta(0.0, $geojson['coordinates'][0][0], 0.01);
-        $this->assertEqualsWithDelta(0.0, $geojson['coordinates'][0][1], 0.01);
+        $this->assertIsArray($geojson['coordinates']);
+        $coords = $geojson['coordinates'];
+        $firstPoint = $coords[0];
+        $this->assertIsArray($firstPoint);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 0.01);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[1], 0.01);
     }
 }
