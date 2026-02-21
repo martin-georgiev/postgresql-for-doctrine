@@ -111,24 +111,24 @@ class ST_TransformTest extends SpatialOperatorTestCase
         $this->assertIsArray($transformed);
         $this->assertIsArray($original['coordinates']);
         $this->assertIsArray($transformed['coordinates']);
-        $origRing = $original['coordinates'][0];
-        $transRing = $transformed['coordinates'][0];
-        $this->assertIsArray($origRing);
-        $this->assertIsArray($transRing);
-        $originalVertex = $origRing[2];
-        $transformedVertex = $transRing[2];
+        $originalRing = $original['coordinates'][0];
+        $transformedRing = $transformed['coordinates'][0];
+        $this->assertIsArray($originalRing);
+        $this->assertIsArray($transformedRing);
+        $originalVertex = $originalRing[2];
+        $transformedVertex = $transformedRing[2];
         $this->assertIsArray($originalVertex);
         $this->assertIsArray($transformedVertex);
 
-        $origX = $originalVertex[0];
-        $origY = $originalVertex[1];
-        $transX = $transformedVertex[0];
-        $transY = $transformedVertex[1];
+        $originalX = $originalVertex[0];
+        $originalY = $originalVertex[1];
+        $transformedX = $transformedVertex[0];
+        $transformedY = $transformedVertex[1];
 
         $this->assertSame('Polygon', $original['type']);
         $this->assertSame('Polygon', $transformed['type']);
-        $this->assertNotEquals($origX, $transX);
-        $this->assertNotEquals($origY, $transY);
+        $this->assertNotEquals($originalX, $transformedX);
+        $this->assertNotEquals($originalY, $transformedY);
     }
 
     #[Test]
