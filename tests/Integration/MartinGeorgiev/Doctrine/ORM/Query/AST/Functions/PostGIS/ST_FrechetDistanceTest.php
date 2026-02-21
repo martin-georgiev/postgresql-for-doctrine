@@ -17,14 +17,25 @@ class ST_FrechetDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_frechet_distance_between_linestrings(): void
+    public function returns_frechet_distance_between_disjoint_linestrings(): void
     {
         $dql = 'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(4.242640687119285, $result[0]['result'], 0.000000000000001, 'should return correct distance between disjoint linestrings');
+        $this->assertEqualsWithDelta(4.242640687119285, $result[0]['result'], 0.000000000000001);
+    }
+
+    #[Test]
+    public function returns_frechet_distance_between_disjoint_linestrings_with_densify_frac_parameter(): void
+    {
+        $dql = 'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2, 0.85) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(4.242640687119285, $result[0]['result'], 0.000000000000001);
     }
 
     #[Test]

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
  * Implementation of PostGIS ST_CurveToLine() function.
  *
  * Converts curved geometries to linear geometries.
- * Useful for converting CircularString, CompoundCurve, etc. to LineString.
  *
  * @see https://postgis.net/docs/ST_CurveToLine.html
  * @since 3.5
@@ -18,12 +17,32 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_CURVETOLINE(g.geometry) FROM Entity g"
+ * @example Using it in DQL with options: "SELECT ST_CURVETOLINE(g.geometry, 0.01, 1, 0) FROM Entity g"
  */
-class ST_CurveToLine extends BaseFunction
+class ST_CurveToLine extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('ST_CurveToLine(%s)');
-        $this->addNodeMapping('StringPrimary');
+        return [
+            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary',
+            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
+            'StringPrimary,ArithmeticPrimary',
+            'StringPrimary',
+        ];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'ST_CurveToLine';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 1;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 4;
     }
 }

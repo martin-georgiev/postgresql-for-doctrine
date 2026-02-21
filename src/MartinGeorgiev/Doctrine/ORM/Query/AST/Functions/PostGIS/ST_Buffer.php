@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
  * Implementation of PostGIS ST_Buffer() function.
@@ -18,13 +18,32 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_BUFFER(g.geometry, 10) FROM Entity g"
+ * @example Using it in DQL with quad_segs: "SELECT ST_BUFFER(g.geometry, 10, 32) FROM Entity g"
+ * @example Using it in DQL with buffer style: "SELECT ST_BUFFER(g.geometry, 10, 'quad_segs=8') FROM Entity g"
  */
-class ST_Buffer extends BaseFunction
+class ST_Buffer extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('ST_Buffer(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        return [
+            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
+            'StringPrimary,ArithmeticPrimary,StringPrimary',
+            'StringPrimary,ArithmeticPrimary',
+        ];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'ST_Buffer';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 3;
     }
 }

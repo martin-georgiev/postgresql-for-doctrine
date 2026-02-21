@@ -76,4 +76,15 @@ class ST_ScaleTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(36, $result[0]['result']);
     }
+
+    #[Test]
+    public function scales_polygon_with_z_factor_parameter(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_SCALE(g.geometry1, 2, 3, 15)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(96.0, $result[0]['result']);
+    }
 }

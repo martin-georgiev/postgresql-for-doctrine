@@ -20,6 +20,7 @@ class ST_CurveToLineTest extends TestCase
     {
         return [
             'SELECT ST_CurveToLine(c0_.geometry1) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_CurveToLine(c0_.geometry1, 0.01, 1, 0) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ class ST_CurveToLineTest extends TestCase
     {
         return [
             'SELECT ST_CURVETOLINE(g.geometry1) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_CURVETOLINE(g.geometry1, 0.01, 1, 0) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

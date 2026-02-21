@@ -72,4 +72,26 @@ class ST_BufferTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.0000000000000001);
     }
+
+    #[Test]
+    public function returns_buffered_point_with_quad_segs_parameter(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_BUFFER(g.geometry1, 1, 32)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(3.1403311569547543, $result[0]['result'], 0.0000000000000001);
+    }
+
+    #[Test]
+    public function returns_buffered_point_with_buffer_style_parameter(): void
+    {
+        $dql = "SELECT ST_AREA(ST_BUFFER(g.geometry1, 1, 'quad_segs=8')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.0000000000000001);
+    }
 }

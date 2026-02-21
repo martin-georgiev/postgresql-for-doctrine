@@ -70,4 +70,15 @@ class ST_LengthTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0, $result[0]['result'], 'PostGIS design mandates that ST_Length is for linear geometries only, so this is not expected to compute a length');
     }
+
+    #[Test]
+    public function returns_length_for_geography_linestring_with_use_spheroid(): void
+    {
+        $dql = "SELECT ST_LENGTH(g.geography1, 'true') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(1410.1406247192313, $result[0]['result'], 0.0000000000001);
+    }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
  * Implementation of PostGIS ST_Subdivide() function.
@@ -18,13 +18,27 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_SUBDIVIDE(g.geometry, 256) FROM Entity g"
+ * @example Using it in DQL with gridSize: "SELECT ST_SUBDIVIDE(g.geometry, 256, 0.5) FROM Entity g"
  */
-class ST_Subdivide extends BaseFunction
+class ST_Subdivide extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('ST_Subdivide(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        return ['StringPrimary,ArithmeticPrimary,ArithmeticPrimary'];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'ST_Subdivide';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 3;
     }
 }
