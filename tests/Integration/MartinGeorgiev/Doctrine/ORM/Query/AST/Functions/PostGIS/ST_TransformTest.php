@@ -44,7 +44,7 @@ class ST_TransformTest extends SpatialOperatorTestCase
     #[Test]
     public function transforms_linestring_from_web_mercator_to_wgs84(): void
     {
-        $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, ABS(4326))) as result
+        $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, 4326)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 10";
 
@@ -68,8 +68,8 @@ class ST_TransformTest extends SpatialOperatorTestCase
     #[Test]
     public function round_trip_transform_returns_equivalent_geometry(): void
     {
-        $dql = "SELECT ST_ASGEOJSON(g.geometry1) as original, 
-                       ST_ASGEOJSON(ST_TRANSFORM(ST_TRANSFORM(g.geometry1, ABS(4326)), ABS(3857))) as transformed
+        $dql = "SELECT ST_ASGEOJSON(g.geometry1) as original,
+                       ST_ASGEOJSON(ST_TRANSFORM(ST_TRANSFORM(g.geometry1, 4326), 3857)) as transformed
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 10";
 
@@ -134,7 +134,7 @@ class ST_TransformTest extends SpatialOperatorTestCase
     #[Test]
     public function transforms_with_function_expression(): void
     {
-        $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, ABS(4326))) as result
+        $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, 4326)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 10";
 
