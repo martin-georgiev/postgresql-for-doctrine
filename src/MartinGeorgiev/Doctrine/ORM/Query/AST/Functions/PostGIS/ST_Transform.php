@@ -26,10 +26,8 @@ class ST_Transform extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,StringPrimary,StringPrimary',
-            'StringPrimary,StringPrimary,ArithmeticPrimary',
+            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
             'StringPrimary,ArithmeticPrimary',
-            'StringPrimary,StringPrimary',
         ];
     }
 
