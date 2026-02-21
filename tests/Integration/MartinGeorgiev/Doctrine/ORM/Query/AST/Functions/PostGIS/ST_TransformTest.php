@@ -23,7 +23,7 @@ class ST_TransformTest extends SpatialOperatorTestCase
     #[Test]
     public function transforms_polygon_from_wgs84_to_web_mercator(): void
     {
-        $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, ABS(3857))) as result
+        $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, 3857)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2";
 
@@ -82,23 +82,23 @@ class ST_TransformTest extends SpatialOperatorTestCase
         $this->assertIsArray($transformed);
         $this->assertIsArray($original['coordinates']);
         $this->assertIsArray($transformed['coordinates']);
-        $origCoords = $original['coordinates'];
-        $transCoords = $transformed['coordinates'];
-        $origFirstPoint = $origCoords[0];
-        $transFirstPoint = $transCoords[0];
-        $this->assertIsArray($origFirstPoint);
-        $this->assertIsArray($transFirstPoint);
+        $originalCoordinates = $original['coordinates'];
+        $transformedCoordinates = $transformed['coordinates'];
+        $originalFirstPoint = $originalCoordinates[0];
+        $transformedFirstPoint = $transformedCoordinates[0];
+        $this->assertIsArray($originalFirstPoint);
+        $this->assertIsArray($transformedFirstPoint);
 
         $this->assertSame($original['type'], $transformed['type']);
-        $this->assertEqualsWithDelta($origFirstPoint[0], $transFirstPoint[0], 0.01);
-        $this->assertEqualsWithDelta($origFirstPoint[1], $transFirstPoint[1], 0.01);
+        $this->assertEqualsWithDelta($originalFirstPoint[0], $transformedFirstPoint[0], 0.01);
+        $this->assertEqualsWithDelta($originalFirstPoint[1], $transformedFirstPoint[1], 0.01);
     }
 
     #[Test]
     public function cross_srid_transform_changes_coordinates(): void
     {
         $dql = "SELECT ST_ASGEOJSON(g.geometry1) as original,
-                       ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, ABS(3857))) as transformed
+                       ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, 3857)) as transformed
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2";
 
