@@ -1,3 +1,11 @@
+---
+description: "Domain-specific exception patterns for DBAL types: naming, location, factory methods"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # Exception Handling
 
 ## Use Domain-Specific Exceptions

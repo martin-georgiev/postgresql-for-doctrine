@@ -1,3 +1,11 @@
+---
+description: "Variadic DQL functions: boolean StringPrimary, BooleanValidationTrait, node pattern ordering"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # Variadic Function Development
 
 ## Boolean Parameters in DQL

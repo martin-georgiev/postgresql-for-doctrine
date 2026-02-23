@@ -1,3 +1,11 @@
+---
+description: "Testing: version checks, targeted test runs, 3-attempt failure limit, WKB geometry assertions"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # Testing and Iteration
 
 ## Handle Version-Specific Features

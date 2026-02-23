@@ -1,3 +1,11 @@
+---
+description: "Decision making: drop problematic features early, ask before expanding scope"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # Decision Making
 
 ## Drop Problematic Features Early

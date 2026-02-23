@@ -1,3 +1,11 @@
+---
+description: "Integration test fixtures: use central data, design resilient to fixture growth"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # Test Data Management
 
 ## Use Central Fixture Data
