@@ -1,3 +1,11 @@
+---
+description: "PHPStan level max compliance: always use project config, type-assert mixed query results"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # PHPStan Compliance
 
 ## Always Run PHPStan with Project Configuration

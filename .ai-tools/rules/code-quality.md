@@ -1,3 +1,11 @@
+---
+description: "Code quality standards: avoid obvious comments, use strong assertions"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # Code Quality
 
 ## Remove Obvious Comments

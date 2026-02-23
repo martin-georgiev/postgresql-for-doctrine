@@ -1,3 +1,11 @@
+---
+description: "@since version annotations: check GitHub for next release version before adding tags"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # @since Version Annotations
 
 ## When Adding New Functionality

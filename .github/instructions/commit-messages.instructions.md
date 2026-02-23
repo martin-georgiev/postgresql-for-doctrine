@@ -1,0 +1,1 @@
+../../.ai-tools/rules/commit-messages.md

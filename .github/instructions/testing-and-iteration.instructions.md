@@ -1,0 +1,1 @@
+../../.ai-tools/rules/testing-and-iteration.md

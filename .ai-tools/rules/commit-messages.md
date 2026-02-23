@@ -1,3 +1,11 @@
+---
+description: "Conventional commits format, types, changelog visibility, and PR title rules"
+alwaysApply: true
+trigger: always_on
+applyTo: "**"
+type: always_apply
+---
+
 # Commit Messages
 
 ## Conventional Commits Format
