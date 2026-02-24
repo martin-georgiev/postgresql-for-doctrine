@@ -36,53 +36,53 @@ class Macaddr8Test extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?string $phpInput, ?string $postgresValueAfterNormalization, ?string $phpValueAfterRetrievalFromDatabase): void
+    public function can_transform_from_php_value(?string $phpValue, ?string $postgresValue, ?string $platformValue): void
     {
-        $this->assertEquals($postgresValueAfterNormalization, $this->fixture->convertToDatabaseValue($phpInput, $this->platform));
+        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?string $phpInput, ?string $postgresValueAfterNormalization, ?string $phpValueAfterRetrievalFromDatabase): void
+    public function can_transform_to_php_value(?string $phpValue, ?string $postgresValue, ?string $platformValue): void
     {
-        $this->assertEquals($phpValueAfterRetrievalFromDatabase, $this->fixture->convertToPHPValue($postgresValueAfterNormalization, $this->platform));
+        $this->assertEquals($platformValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
-     * @return array<string, array{phpInput: string|null, postgresValueAfterNormalization: string|null, phpValueAfterRetrievalFromDatabase: string|null}>
+     * @return array<string, array{phpValue: string|null, postgresValue: string|null, platformValue: string|null}>
      */
     public static function provideValidTransformations(): array
     {
         return [
             'null' => [
-                'phpInput' => null,
-                'postgresValueAfterNormalization' => null,
-                'phpValueAfterRetrievalFromDatabase' => null,
+                'phpValue' => null,
+                'postgresValue' => null,
+                'platformValue' => null,
             ],
             'colon-separated lowercase' => [
-                'phpInput' => '08:00:2b:ff:fe:01:02:03',
-                'postgresValueAfterNormalization' => '08:00:2b:ff:fe:01:02:03',
-                'phpValueAfterRetrievalFromDatabase' => '08:00:2b:ff:fe:01:02:03',
+                'phpValue' => '08:00:2b:ff:fe:01:02:03',
+                'postgresValue' => '08:00:2b:ff:fe:01:02:03',
+                'platformValue' => '08:00:2b:ff:fe:01:02:03',
             ],
             'colon-separated uppercase' => [
-                'phpInput' => '08:00:2B:FF:FE:01:02:03',
-                'postgresValueAfterNormalization' => '08:00:2b:ff:fe:01:02:03',
-                'phpValueAfterRetrievalFromDatabase' => '08:00:2b:ff:fe:01:02:03',
+                'phpValue' => '08:00:2B:FF:FE:01:02:03',
+                'postgresValue' => '08:00:2b:ff:fe:01:02:03',
+                'platformValue' => '08:00:2b:ff:fe:01:02:03',
             ],
             'hyphen-separated' => [
-                'phpInput' => '08-00-2b-ff-fe-01-02-03',
-                'postgresValueAfterNormalization' => '08:00:2b:ff:fe:01:02:03',
-                'phpValueAfterRetrievalFromDatabase' => '08:00:2b:ff:fe:01:02:03',
+                'phpValue' => '08-00-2b-ff-fe-01-02-03',
+                'postgresValue' => '08:00:2b:ff:fe:01:02:03',
+                'platformValue' => '08:00:2b:ff:fe:01:02:03',
             ],
             'dot notation' => [
-                'phpInput' => '0800.2bff.fe01.0203',
-                'postgresValueAfterNormalization' => '08:00:2b:ff:fe:01:02:03',
-                'phpValueAfterRetrievalFromDatabase' => '08:00:2b:ff:fe:01:02:03',
+                'phpValue' => '0800.2bff.fe01.0203',
+                'postgresValue' => '08:00:2b:ff:fe:01:02:03',
+                'platformValue' => '08:00:2b:ff:fe:01:02:03',
             ],
             'no separator' => [
-                'phpInput' => '08002BFFFE010203',
-                'postgresValueAfterNormalization' => '08:00:2b:ff:fe:01:02:03',
-                'phpValueAfterRetrievalFromDatabase' => '08:00:2b:ff:fe:01:02:03',
+                'phpValue' => '08002BFFFE010203',
+                'postgresValue' => '08:00:2b:ff:fe:01:02:03',
+                'platformValue' => '08:00:2b:ff:fe:01:02:03',
             ],
         ];
     }

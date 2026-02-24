@@ -39,7 +39,6 @@ class Macaddr8TypeTest extends ScalarTypeTestCase
             'standard EUI-64' => ['08:00:2b:ff:fe:01:02:03'],
             'all zeros' => ['00:00:00:00:00:00:00:00'],
             'all ff' => ['ff:ff:ff:ff:ff:ff:ff:ff'],
-            'mixed case' => ['08:00:2B:FF:FE:01:02:03'],
         ];
     }
 
