@@ -1,0 +1,22 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Multirange\<R of MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\>\:\:fromString\(\) should return static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Multirange\<R of MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\>\) but returns static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Multirange\<MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\>\)\.$#'
+			identifier: return.type
+			count: 2
+			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Multirange.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Multirange.php
+
+		# Temporary suppression for PHPStan's lack of covariant generics support
+		-
+			message: '#.*Template type R on class.*Multirange is not covariant#'
+			path: ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/
+
+		-
+			message: '#.*extends generic class.*but does not specify its types#'
+			path: ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/
