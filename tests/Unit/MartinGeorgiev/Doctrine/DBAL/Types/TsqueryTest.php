@@ -45,7 +45,7 @@ class TsqueryTest extends TestCase
     #[Test]
     public function can_transform_to_php_value(?string $phpValue, ?string $databaseValue): void
     {
-        $this->assertEquals($databaseValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
+        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
     }
 
     /**

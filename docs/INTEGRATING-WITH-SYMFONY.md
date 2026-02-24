@@ -49,6 +49,10 @@ doctrine:
             tsrange: MartinGeorgiev\Doctrine\DBAL\Types\TsRange
             tstzrange: MartinGeorgiev\Doctrine\DBAL\Types\TstzRange
 
+            # Text search types
+            tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
+            tsvector: MartinGeorgiev\Doctrine\DBAL\Types\Tsvector
+
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
 ```
@@ -117,6 +121,10 @@ doctrine:
                     numrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMRANGE
                     tsrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSRANGE
                     tstzrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZRANGE
+
+                    # Text search type mappings
+                    tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY
+                    tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR
 
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
