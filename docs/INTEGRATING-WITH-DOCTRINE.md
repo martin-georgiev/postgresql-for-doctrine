@@ -49,6 +49,10 @@ Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
 Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 
+// Text search types
+Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
+Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
+
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 ```
@@ -294,6 +298,10 @@ $platform->registerDoctrineTypeMapping('int8range', 'int8range');
 $platform->registerDoctrineTypeMapping('numrange', 'numrange');
 $platform->registerDoctrineTypeMapping('tsrange', 'tsrange');
 $platform->registerDoctrineTypeMapping('tstzrange', 'tstzrange');
+
+// Text search type mappings
+$platform->registerDoctrineTypeMapping('tsquery', 'tsquery');
+$platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
 
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');

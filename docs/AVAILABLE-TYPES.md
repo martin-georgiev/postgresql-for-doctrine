@@ -21,6 +21,9 @@
 | macaddr | macaddr | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr` |
 | macaddr[] | _macaddr | `MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray` |
 |---|---|---|
+| tsquery | tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\Tsquery` |
+| tsvector | tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\Tsvector` |
+|---|---|---|
 | daterange | daterange | `MartinGeorgiev\Doctrine\DBAL\Types\DateRange` |
 | int4range | int4range | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Range` |
 | int8range | int8range | `MartinGeorgiev\Doctrine\DBAL\Types\Int8Range` |

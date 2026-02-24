@@ -85,6 +85,10 @@ return [
                 'tsrange' => 'tsrange',
                 'tstzrange' => 'tstzrange',
 
+                // Text search type mappings
+                'tsquery' => 'tsquery',
+                'tsvector' => 'tsvector',
+
                 // Hierarchical type mappings
                 'ltree' => 'ltree'
             ],
@@ -129,6 +133,10 @@ return [
         'numrange' => MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class,
         'tsrange' => MartinGeorgiev\Doctrine\DBAL\Types\TsRange::class,
         'tstzrange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class,
+
+        // Text search types
+        'tsquery' => MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,
+        'tsvector' => MartinGeorgiev\Doctrine\DBAL\Types\Tsvector::class,
 
         // Hierarchical types
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
