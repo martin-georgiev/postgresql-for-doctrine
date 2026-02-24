@@ -20,6 +20,8 @@
 | inet[] | _inet | `MartinGeorgiev\Doctrine\DBAL\Types\InetArray` |
 | macaddr | macaddr | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr` |
 | macaddr[] | _macaddr | `MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray` |
+| macaddr8 | macaddr8 | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8` |
+| macaddr8[] | _macaddr8 | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array` |
 |---|---|---|
 | tsquery | tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\Tsquery` |
 | tsvector | tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\Tsvector` |

@@ -16,7 +16,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsqueryForPHPException;
  * be searched for, and may combine them using boolean operators & (AND), |
  * (OR), and ! (NOT), as well as the phrase search operator <-> (FOLLOWED BY).
  *
- * @see https://www.postgresql.org/docs/current/datatype-textsearch.html
+ * @see https://www.postgresql.org/docs/18/datatype-textsearch.html
  * @since 4.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
