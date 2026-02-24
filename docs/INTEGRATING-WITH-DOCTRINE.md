@@ -49,6 +49,11 @@ Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
 Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 
+// Multirange types
+Type::addType('int4multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Multirange");
+Type::addType('int8multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Multirange");
+Type::addType('nummultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirange");
+
 // Text search types
 Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
 Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
@@ -298,6 +303,11 @@ $platform->registerDoctrineTypeMapping('int8range', 'int8range');
 $platform->registerDoctrineTypeMapping('numrange', 'numrange');
 $platform->registerDoctrineTypeMapping('tsrange', 'tsrange');
 $platform->registerDoctrineTypeMapping('tstzrange', 'tstzrange');
+
+// Multirange type mappings
+$platform->registerDoctrineTypeMapping('int4multirange', 'int4multirange');
+$platform->registerDoctrineTypeMapping('int8multirange', 'int8multirange');
+$platform->registerDoctrineTypeMapping('nummultirange', 'nummultirange');
 
 // Text search type mappings
 $platform->registerDoctrineTypeMapping('tsquery', 'tsquery');
