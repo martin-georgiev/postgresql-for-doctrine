@@ -13,7 +13,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\Macaddr8ValidationTrait;
 /**
  * Implementation of PostgreSQL MACADDR8 data type (EUI-64 format).
  *
- * @see https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR8
+ * @see https://www.postgresql.org/docs/18/datatype-net-types.html#DATATYPE-MACADDR8
  * @since 4.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

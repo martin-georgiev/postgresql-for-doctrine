@@ -32,7 +32,6 @@ Type::addType('inet', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Inet");
 Type::addType('inet[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\InetArray");
 Type::addType('macaddr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr");
 Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray");
-
 Type::addType('macaddr8', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8");
 Type::addType('macaddr8[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8Array");
 
