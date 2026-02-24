@@ -27,6 +27,8 @@ final class Type
 
     public const MACADDR_ARRAY = 'macaddr[]';
 
+    public const MACADDR8_ARRAY = 'macaddr8[]';
+
     public const POINT_ARRAY = 'point[]';
 
     public const REAL_ARRAY = 'real[]';
@@ -51,6 +53,8 @@ final class Type
     public const LTREE = 'ltree';
 
     public const MACADDR = 'macaddr';
+
+    public const MACADDR8 = 'macaddr8';
 
     public const POINT = 'point';
 

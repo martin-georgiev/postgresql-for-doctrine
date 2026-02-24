@@ -32,6 +32,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
+use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
+use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
@@ -215,6 +217,8 @@ abstract class TestCase extends BaseTestCase
             'jsonb[]' => JsonbArray::class,
             'ltree' => Ltree::class,
             'macaddr' => Macaddr::class,
+            'macaddr8' => Macaddr8::class,
+            'macaddr8[]' => Macaddr8Array::class,
             'macaddr[]' => MacaddrArray::class,
             'numrange' => NumRange::class,
             'point' => Point::class,
