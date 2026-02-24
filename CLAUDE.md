@@ -19,8 +19,8 @@ ci/
 
 ## Key Workflows
 
-**Run unit tests**: `composer test:unit`
-**Run integration tests**: `composer test:integration` (requires Docker)
+**Run unit tests**: `composer run-unit-tests`
+**Run integration tests**: `composer run-integration-tests` (requires Docker)
 **PHPStan**: `./bin/phpstan analyse --configuration=ci/phpstan/config.neon <files> --memory-limit=512M`
 
 ## Rules
