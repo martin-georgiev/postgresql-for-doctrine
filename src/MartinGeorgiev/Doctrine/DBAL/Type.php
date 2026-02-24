@@ -54,6 +54,10 @@ final class Type
 
     public const POINT = 'point';
 
+    public const TSQUERY = 'tsquery';
+
+    public const TSVECTOR = 'tsvector';
+
     // Range Types
     public const DATERANGE = 'daterange';
 
