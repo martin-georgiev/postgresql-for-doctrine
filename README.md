@@ -55,7 +55,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Network Types**
   - IP addresses (`inet`, `inet[]`)
   - Network CIDR notation (`cidr`, `cidr[]`)
-  - MAC addresses (`macaddr`, `macaddr[]`)
+  - MAC addresses (`macaddr`, `macaddr[]`, `macaddr8`, `macaddr8[]`)
 - **Geometric Types**
   - Point (`point`, `point[]`)
   - PostGIS Geometry (`geometry`, `geometry[]`)

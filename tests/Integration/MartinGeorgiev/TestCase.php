@@ -34,6 +34,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
+use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
+use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
@@ -220,6 +222,8 @@ abstract class TestCase extends BaseTestCase
             'int4multirange' => Int4Multirange::class,
             'int8multirange' => Int8Multirange::class,
             'macaddr' => Macaddr::class,
+            'macaddr8' => Macaddr8::class,
+            'macaddr8[]' => Macaddr8Array::class,
             'macaddr[]' => MacaddrArray::class,
             'numrange' => NumRange::class,
             'nummultirange' => NumMultirange::class,

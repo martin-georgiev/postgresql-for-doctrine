@@ -65,6 +65,9 @@ return [
                 'macaddr' => 'macaddr',
                 'macaddr[]' => 'macaddr[]',
                 '_macaddr' => 'macaddr[]',
+                'macaddr8' => 'macaddr8',
+                'macaddr8[]' => 'macaddr8[]',
+                '_macaddr8' => 'macaddr8[]',
 
                 // Spatial type mappings
                 'point' => 'point',
@@ -122,6 +125,8 @@ return [
         'inet[]' => MartinGeorgiev\Doctrine\DBAL\Types\InetArray::class,
         'macaddr' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr::class,
         'macaddr[]' => MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray::class,
+        'macaddr8' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8::class,
+        'macaddr8[]' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array::class,
 
         // Spatial types
         'point' => MartinGeorgiev\Doctrine\DBAL\Types\Point::class,

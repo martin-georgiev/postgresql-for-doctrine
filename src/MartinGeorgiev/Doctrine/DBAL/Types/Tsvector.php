@@ -16,7 +16,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorForPHPException
  * the value on write (lowercasing, stemming, stop-word removal), so the value
  * retrieved from the database may differ from the value that was stored.
  *
- * @see https://www.postgresql.org/docs/current/datatype-textsearch.html
+ * @see https://www.postgresql.org/docs/18/datatype-textsearch.html
  * @since 4.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

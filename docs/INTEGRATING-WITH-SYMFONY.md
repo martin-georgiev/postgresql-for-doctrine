@@ -32,6 +32,8 @@ doctrine:
             'inet[]': MartinGeorgiev\Doctrine\DBAL\Types\InetArray
             macaddr: MartinGeorgiev\Doctrine\DBAL\Types\Macaddr
             'macaddr[]': MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray
+            macaddr8: MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8
+            'macaddr8[]': MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array
 
             # Spatial types
             point: MartinGeorgiev\Doctrine\DBAL\Types\Point
@@ -107,6 +109,9 @@ doctrine:
                     macaddr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR
                     'macaddr[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR_ARRAY
                     _macaddr: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR_ARRAY
+                    macaddr8: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR8
+                    'macaddr8[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR8_ARRAY
+                    _macaddr8: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR8_ARRAY
 
                     # Spatial type mappings
                     point: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT
