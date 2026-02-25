@@ -106,4 +106,12 @@ class NumMultirangeTest extends TestCase
 
         $this->fixture->convertToPHPValue(123, $this->platform); // @phpstan-ignore-line
     }
+
+    #[Test]
+    public function throws_exception_for_invalid_php_value_format(): void
+    {
+        $this->expectException(InvalidMultirangeForPHPException::class);
+
+        $this->fixture->convertToPHPValue('invalid-multirange-format', $this->platform);
+    }
 }

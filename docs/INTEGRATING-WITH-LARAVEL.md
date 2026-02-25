@@ -378,6 +378,7 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->registerNetworkTypes();
         $this->registerSpatialTypes();
         $this->registerRangeTypes();
+        $this->registerMultirangeTypes();
         $this->registerHierarchicalTypes();
     }
 
@@ -427,6 +428,13 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->addTypeIfNotExists('numrange', \MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class);
         $this->addTypeIfNotExists('tsrange', \MartinGeorgiev\Doctrine\DBAL\Types\TsRange::class);
         $this->addTypeIfNotExists('tstzrange', \MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class);
+    }
+
+    private function registerMultirangeTypes(): void
+    {
+        $this->addTypeIfNotExists('int4multirange', \MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class);
+        $this->addTypeIfNotExists('int8multirange', \MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class);
+        $this->addTypeIfNotExists('nummultirange', \MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class);
     }
 
     private function registerHierarchicalTypes(): void

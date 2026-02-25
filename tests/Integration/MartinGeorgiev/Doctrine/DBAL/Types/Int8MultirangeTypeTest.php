@@ -42,6 +42,9 @@ class Int8MultirangeTypeTest extends MultirangeTypeTestCase
             'two non-overlapping ranges' => [
                 new Int8MultirangeVO([new Int8Range(1, 1000), new Int8Range(2000, 3000)]),
             ],
+            'int64-only values exceeding int32 range' => [
+                new Int8MultirangeVO([new Int8Range(2147483648, 9223372036854775807)]),
+            ],
         ];
     }
 

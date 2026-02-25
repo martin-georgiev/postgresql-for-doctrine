@@ -75,6 +75,7 @@ class Int4MultirangeTest extends TestCase
     public static function provideInvalidFromStringCases(): array
     {
         return [
+            'empty string' => [''],
             'missing braces' => ['[1,5),[10,20)'],
             'only opening brace' => ['{[1,5)'],
         ];

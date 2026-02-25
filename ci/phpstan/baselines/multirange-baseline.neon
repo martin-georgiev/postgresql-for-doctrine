@@ -6,9 +6,4 @@ parameters:
 			count: 2
 			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Multirange.php
 
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Multirange.php
 

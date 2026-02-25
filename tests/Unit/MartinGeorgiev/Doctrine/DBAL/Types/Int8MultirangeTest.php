@@ -33,7 +33,7 @@ class Int8MultirangeTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('int8multirange', $this->fixture->getName());
+        $this->assertSame('int8multirange', $this->fixture->getName());
     }
 
     #[Test]
@@ -87,6 +87,12 @@ class Int8MultirangeTest extends TestCase
     }
 
     #[Test]
+    public function converts_empty_string_from_database_to_null(): void
+    {
+        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
+    }
+
+    #[Test]
     public function throws_exception_for_invalid_database_value_type(): void
     {
         $this->expectException(InvalidMultirangeForDatabaseException::class);
@@ -100,5 +106,13 @@ class Int8MultirangeTest extends TestCase
         $this->expectException(InvalidMultirangeForPHPException::class);
 
         $this->fixture->convertToPHPValue(123, $this->platform); // @phpstan-ignore-line
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_php_value_format(): void
+    {
+        $this->expectException(InvalidMultirangeForPHPException::class);
+
+        $this->fixture->convertToPHPValue('invalid-multirange-format', $this->platform);
     }
 }

@@ -12,6 +12,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  *
  * @template R of Range
  *
+ * @phpstan-consistent-constructor
+ *
  * @since 4.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
