@@ -115,16 +115,20 @@ abstract class Range implements \Stringable
 
         $isLowerBoundedInfinity = false;
         $isUpperBoundedInfinity = false;
+        /** @var R|null $lowerBoundValue */
         $lowerBoundValue = null;
+        /** @var R|null $upperBoundValue */
         $upperBoundValue = null;
 
         if ($matches[2] !== '') {
             $isLowerBoundedInfinity = static::isInfinityString($lowerBoundString);
+            /** @var R|null $lowerBoundValue */
             $lowerBoundValue = static::parseValue($lowerBoundString);
         }
 
         if ($matches[3] !== '') {
             $isUpperBoundedInfinity = static::isInfinityString($upperBoundString);
+            /** @var R|null $upperBoundValue */
             $upperBoundValue = static::parseValue($upperBoundString);
         }
 

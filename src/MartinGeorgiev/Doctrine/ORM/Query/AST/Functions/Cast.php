@@ -28,7 +28,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  */
 class Cast extends FunctionNode
 {
-    public Node $sourceType;
+    public Node|string $sourceType;
 
     public string $targetType;
 
@@ -88,6 +88,8 @@ class Cast extends FunctionNode
 
     public function getSql(SqlWalker $sqlWalker): string
     {
-        return \sprintf('cast(%s as %s)', $this->sourceType->dispatch($sqlWalker), $this->targetType);
+        $source = $this->sourceType instanceof Node ? $this->sourceType->dispatch($sqlWalker) : $this->sourceType;
+
+        return \sprintf('cast(%s as %s)', $source, $this->targetType);
     }
 }

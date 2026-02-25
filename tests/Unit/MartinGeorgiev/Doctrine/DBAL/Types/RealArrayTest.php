@@ -71,7 +71,7 @@ class RealArrayTest extends BaseFloatArrayTestCase
     }
 
     #[Test]
-    public function throws_domain_exception_when_value_too_close_to_zero(): void
+    public function throws_domain_exception_when_value_is_too_close_to_zero(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('is too close to zero for PostgreSQL real[] type');

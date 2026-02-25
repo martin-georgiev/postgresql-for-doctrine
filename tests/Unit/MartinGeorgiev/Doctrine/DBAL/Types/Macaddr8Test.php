@@ -143,6 +143,7 @@ class Macaddr8Test extends TestCase
     public function throws_exception_for_invalid_php_value_formats(string $value): void
     {
         $this->expectException(InvalidMacaddr8ForDatabaseException::class);
+        $this->expectExceptionMessage('Invalid EUI-64 MAC address format in database');
 
         $this->fixture->convertToPHPValue($value, $this->platform);
     }

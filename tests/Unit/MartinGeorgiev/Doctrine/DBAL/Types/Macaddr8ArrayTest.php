@@ -30,7 +30,7 @@ class Macaddr8ArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('macaddr8[]', $this->fixture->getName());
+        $this->assertSame('macaddr8[]', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -134,6 +134,19 @@ class Macaddr8ArrayTest extends TestCase
             'too short in array' => ['{"08:00:2b:01:02:03"}'],
             'malformed array' => ['not-an-array'],
         ];
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidMacaddr8ArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

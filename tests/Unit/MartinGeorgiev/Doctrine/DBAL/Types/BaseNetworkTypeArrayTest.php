@@ -85,7 +85,7 @@ class BaseNetworkTypeArrayTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid type');
-        $this->fixture->convertToDatabaseValue('not_an_array', $this->platform);
+        $this->fixture->convertToDatabaseValue('not_an_array', $this->platform); // @phpstan-ignore argument.type
     }
 
     #[Test]
