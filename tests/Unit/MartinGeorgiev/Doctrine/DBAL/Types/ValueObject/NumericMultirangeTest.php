@@ -25,6 +25,7 @@ class NumericMultirangeTest extends TestCase
     {
         $numericMultirange = new NumericMultirange([new NumericRange(1.5, 10.5)]);
         $this->assertSame('{[1.5,10.5)}', (string) $numericMultirange);
+        $this->assertFalse($numericMultirange->isEmpty());
     }
 
     #[Test]
@@ -55,6 +56,8 @@ class NumericMultirangeTest extends TestCase
             'single integer range' => ['{[1,10)}', '{[1,10)}'],
             'two decimal ranges' => ['{[1.5,5.5),[10.5,20.5)}', '{[1.5,5.5),[10.5,20.5)}'],
             'mixed integer and decimal' => ['{[1,5),[10.5,20.5)}', '{[1,5),[10.5,20.5)}'],
+            'inclusive upper bound' => ['{[1.5,5.5]}', '{[1.5,5.5]}'],
+            'exclusive lower bound' => ['{(1.5,5.5)}', '{(1.5,5.5)}'],
         ];
     }
 

@@ -31,21 +31,21 @@ class Macaddr8Test extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('macaddr8', $this->fixture->getName());
+        $this->assertSame('macaddr8', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?string $phpValue, ?string $postgresValue, ?string $platformValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?string $phpValue, ?string $postgresValue, ?string $platformValue): void
     {
-        $this->assertEquals($platformValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($platformValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
@@ -143,6 +143,7 @@ class Macaddr8Test extends TestCase
     public function throws_exception_for_invalid_php_value_formats(string $value): void
     {
         $this->expectException(InvalidMacaddr8ForDatabaseException::class);
+        $this->expectExceptionMessage('Invalid EUI-64 MAC address format in database');
 
         $this->fixture->convertToPHPValue($value, $this->platform);
     }

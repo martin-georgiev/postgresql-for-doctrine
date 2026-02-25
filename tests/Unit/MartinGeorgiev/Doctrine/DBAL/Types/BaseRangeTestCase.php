@@ -38,7 +38,7 @@ abstract class BaseRangeTestCase extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals($this->getExpectedTypeName(), $this->fixture->getName());
+        $this->assertSame($this->getExpectedTypeName(), $this->fixture->getName());
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class BaseRangeTestCase extends TestCase
     #[Test]
     public function can_transform_from_php_value(?Range $range, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($range, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($range, $this->platform));
     }
 
     /**
@@ -64,8 +64,8 @@ abstract class BaseRangeTestCase extends TestCase
             $this->assertNull($result);
         } else {
             $this->assertInstanceOf($this->getExpectedValueObjectClass(), $result);
-            $this->assertEquals($range->__toString(), $result->__toString());
-            $this->assertEquals($range->isEmpty(), $result->isEmpty());
+            $this->assertSame($range->__toString(), $result->__toString());
+            $this->assertSame($range->isEmpty(), $result->isEmpty());
         }
     }
 
@@ -96,7 +96,7 @@ abstract class BaseRangeTestCase extends TestCase
         $result = $this->fixture->convertToPHPValue('empty', $this->platform);
 
         $this->assertInstanceOf($this->getExpectedValueObjectClass(), $result);
-        $this->assertEquals('empty', (string) $result);
+        $this->assertSame('empty', (string) $result);
         $this->assertTrue($result->isEmpty());
     }
 

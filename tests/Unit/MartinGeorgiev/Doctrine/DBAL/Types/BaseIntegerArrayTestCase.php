@@ -51,7 +51,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     #[Test]
     public function can_transform_to_php_value(int $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
+        $this->assertSame($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
     }
 
     /**

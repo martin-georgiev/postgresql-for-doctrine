@@ -30,21 +30,21 @@ class Macaddr8ArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('macaddr8[]', $this->fixture->getName());
+        $this->assertSame('macaddr8[]', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
@@ -177,5 +177,18 @@ class Macaddr8ArrayTest extends TestCase
             'empty string' => [''],
             'boolean' => [true],
         ];
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidMacaddr8ArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
     }
 }

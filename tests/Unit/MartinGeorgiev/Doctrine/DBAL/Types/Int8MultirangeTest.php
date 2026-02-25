@@ -63,6 +63,10 @@ class Int8MultirangeTest extends TestCase
         return [
             'empty multirange' => [new Int8MultirangeVO([]), '{}'],
             'single range' => [new Int8MultirangeVO([new Int8Range(1, 1000000000)]), '{[1,1000000000)}'],
+            'two ranges' => [
+                new Int8MultirangeVO([new Int8Range(1, 1000), new Int8Range(2000, 3000)]),
+                '{[1,1000),[2000,3000)}',
+            ],
         ];
     }
 
@@ -83,6 +87,7 @@ class Int8MultirangeTest extends TestCase
         return [
             'empty multirange' => ['{}', '{}'],
             'single range' => ['{[1,1000000000)}', '{[1,1000000000)}'],
+            'two ranges' => ['{[1,1000),[2000,3000)}', '{[1,1000),[2000,3000)}'],
         ];
     }
 

@@ -50,7 +50,7 @@ abstract class BaseFloatArrayTestCase extends TestCase
     #[Test]
     public function can_transform_to_php_value(float $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
+        $this->assertSame($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
     }
 
     /**

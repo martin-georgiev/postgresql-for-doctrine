@@ -31,7 +31,7 @@ final class GeographyArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('geography[]', $this->type->getName());
+        $this->assertSame('geography[]', $this->type->getName());
     }
 
     #[Test]
@@ -319,7 +319,7 @@ final class GeographyArrayTest extends TestCase
         $result = $this->type->transformArrayItemForPHP($input);
 
         $this->assertInstanceOf(WktSpatialData::class, $result);
-        $this->assertEquals($expected, (string) $result);
+        $this->assertSame($expected, (string) $result);
     }
 
     /**

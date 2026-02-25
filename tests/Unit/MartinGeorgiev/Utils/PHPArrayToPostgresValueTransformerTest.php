@@ -19,7 +19,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     #[Test]
     public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpValue));
+        $this->assertSame($postgresValue, PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpValue));
     }
 
     /**
@@ -208,7 +208,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
             '',
         ];
 
-        $this->assertEquals('{"string",123,1.5,true,NULL,"object",""}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($input));
+        $this->assertSame('{"string",123,1.5,true,NULL,"object",""}', PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($input));
     }
 
     /**

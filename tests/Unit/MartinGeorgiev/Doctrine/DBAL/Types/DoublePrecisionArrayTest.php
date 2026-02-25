@@ -20,7 +20,7 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('double precision[]', $this->fixture->getName());
+        $this->assertSame('double precision[]', $this->fixture->getName());
     }
 
     public static function provideInvalidDatabaseValueInputs(): array
