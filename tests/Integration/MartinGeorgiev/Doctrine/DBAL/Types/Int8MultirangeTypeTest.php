@@ -44,4 +44,30 @@ class Int8MultirangeTypeTest extends MultirangeTypeTestCase
             ],
         ];
     }
+
+    #[Test]
+    public function can_normalizes_exclusive_lower_bound_to_inclusive(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $input = new Int8MultirangeVO([new Int8Range(1, 10, false, false)]);
+        $expected = new Int8MultirangeVO([new Int8Range(2, 10)]);
+
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $input, $typeName)
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+            $this->assertInstanceOf(Int8MultirangeVO::class, $retrieved);
+            $this->assertSame((string) $expected, (string) $retrieved);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
 }
