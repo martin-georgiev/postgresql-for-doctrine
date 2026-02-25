@@ -33,7 +33,7 @@ class Int4MultirangeTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('int4multirange', $this->fixture->getName());
+        $this->assertSame('int4multirange', $this->fixture->getName());
     }
 
     #[Test]
@@ -89,6 +89,12 @@ class Int4MultirangeTest extends TestCase
             'single range' => ['{[1,10)}', '{[1,10)}'],
             'two ranges' => ['{[1,5),[10,20)}', '{[1,5),[10,20)}'],
         ];
+    }
+
+    #[Test]
+    public function converts_empty_string_from_database_to_null(): void
+    {
+        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
     #[Test]

@@ -25,6 +25,17 @@ class Int8MultirangeTest extends TestCase
     {
         $int8Multirange = new Int8Multirange([new Int8Range(1, 10)]);
         $this->assertSame('{[1,10)}', (string) $int8Multirange);
+        $this->assertFalse($int8Multirange->isEmpty());
+    }
+
+    #[Test]
+    public function multiple_ranges_produce_correct_string(): void
+    {
+        $int8Multirange = new Int8Multirange([
+            new Int8Range(1, 5),
+            new Int8Range(10, 20),
+        ]);
+        $this->assertSame('{[1,5),[10,20)}', (string) $int8Multirange);
     }
 
     #[Test]
@@ -53,5 +64,38 @@ class Int8MultirangeTest extends TestCase
             'two ranges' => ['{[1,5),[10,20)}', '{[1,5),[10,20)}'],
             'large values' => ['{[1000000000,9999999999)}', '{[1000000000,9999999999)}'],
         ];
+    }
+
+    #[DataProvider('provideInvalidFromStringCases')]
+    #[Test]
+    public function throws_on_invalid_format(string $input): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Int8Multirange::fromString($input);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidFromStringCases(): array
+    {
+        return [
+            'empty string' => [''],
+            'missing braces' => ['[1,5),[10,20)'],
+            'only opening brace' => ['{[1,5)'],
+        ];
+    }
+
+    #[Test]
+    public function get_ranges_returns_all_ranges(): void
+    {
+        $r1 = new Int8Range(1, 5);
+        $r2 = new Int8Range(10, 20);
+        $int8Multirange = new Int8Multirange([$r1, $r2]);
+
+        $this->assertCount(2, $int8Multirange->getRanges());
+        $this->assertSame($r1, $int8Multirange->getRanges()[0]);
+        $this->assertSame($r2, $int8Multirange->getRanges()[1]);
     }
 }

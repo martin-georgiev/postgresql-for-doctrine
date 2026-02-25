@@ -57,4 +57,37 @@ class NumericMultirangeTest extends TestCase
             'mixed integer and decimal' => ['{[1,5),[10.5,20.5)}', '{[1,5),[10.5,20.5)}'],
         ];
     }
+
+    #[DataProvider('provideInvalidFromStringCases')]
+    #[Test]
+    public function throws_on_invalid_format(string $input): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        NumericMultirange::fromString($input);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidFromStringCases(): array
+    {
+        return [
+            'empty string' => [''],
+            'missing braces' => ['[1.5,5.5),[10.5,20.5)'],
+            'only opening brace' => ['{[1.5,5.5)'],
+        ];
+    }
+
+    #[Test]
+    public function get_ranges_returns_all_ranges(): void
+    {
+        $r1 = new NumericRange(1.5, 5.5);
+        $r2 = new NumericRange(10.5, 20.5);
+        $numericMultirange = new NumericMultirange([$r1, $r2]);
+
+        $this->assertCount(2, $numericMultirange->getRanges());
+        $this->assertSame($r1, $numericMultirange->getRanges()[0]);
+        $this->assertSame($r2, $numericMultirange->getRanges()[1]);
+    }
 }

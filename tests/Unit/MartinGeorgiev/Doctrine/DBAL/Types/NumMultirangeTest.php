@@ -33,7 +33,7 @@ class NumMultirangeTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('nummultirange', $this->fixture->getName());
+        $this->assertSame('nummultirange', $this->fixture->getName());
     }
 
     #[Test]
@@ -89,6 +89,12 @@ class NumMultirangeTest extends TestCase
             'single decimal range' => ['{[1.5,10.5)}', '{[1.5,10.5)}'],
             'two ranges' => ['{[1,5),[10.5,20.5)}', '{[1,5),[10.5,20.5)}'],
         ];
+    }
+
+    #[Test]
+    public function converts_empty_string_from_database_to_null(): void
+    {
+        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
     #[Test]
