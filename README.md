@@ -63,7 +63,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Range Types**
   - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
-  - Multiranges (`int4multirange`, `int8multirange`, `nummultirange`)
+  - Multiranges (`nummultirange`, `int4multirange`, `int8multirange`)
 - **Text Search Types**
   - Full-text search document (`tsvector`)
   - Full-text search query (`tsquery`)
