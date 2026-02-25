@@ -42,9 +42,32 @@ class Int4MultirangeTypeTest extends MultirangeTypeTestCase
             'two non-overlapping ranges' => [
                 new Int4MultirangeVO([new Int4Range(1, 5), new Int4Range(10, 20)]),
             ],
-            'range with exclusive lower bound' => [
-                new Int4MultirangeVO([new Int4Range(1, 10, false, false)]),
-            ],
         ];
+    }
+
+    #[Test]
+    public function can_normalizes_exclusive_lower_bound_to_inclusive(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $input = new Int4MultirangeVO([new Int4Range(1, 10, false, false)]);
+        $expected = new Int4MultirangeVO([new Int4Range(2, 10)]);
+
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $input, $typeName)
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+            $this->assertInstanceOf(Int4MultirangeVO::class, $retrieved);
+            $this->assertSame((string) $expected, (string) $retrieved);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
     }
 }
