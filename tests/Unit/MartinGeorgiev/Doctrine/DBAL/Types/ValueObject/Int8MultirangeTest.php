@@ -23,8 +23,8 @@ class Int8MultirangeTest extends TestCase
     #[Test]
     public function single_range_produces_correct_string(): void
     {
-        $int8Multirange = new Int8Multirange([new Int8Range(1, 10)]);
-        $this->assertSame('{[1,10)}', (string) $int8Multirange);
+        $int8Multirange = new Int8Multirange([new Int8Range(1000000000, 9999999999)]);
+        $this->assertSame('{[1000000000,9999999999)}', (string) $int8Multirange);
         $this->assertFalse($int8Multirange->isEmpty());
     }
 
@@ -39,10 +39,10 @@ class Int8MultirangeTest extends TestCase
     }
 
     #[Test]
-    public function handles_large_bigint_values(): void
+    public function handles_negative_values(): void
     {
-        $int8Multirange = new Int8Multirange([new Int8Range(1000000000, 9999999999)]);
-        $this->assertSame('{[1000000000,9999999999)}', (string) $int8Multirange);
+        $int8Multirange = new Int8Multirange([new Int8Range(-9999999999, -1)]);
+        $this->assertSame('{[-9999999999,-1)}', (string) $int8Multirange);
     }
 
     #[DataProvider('provideValidFromStringCases')]
@@ -62,6 +62,8 @@ class Int8MultirangeTest extends TestCase
             'empty multirange' => ['{}', '{}'],
             'single range' => ['{[1,10)}', '{[1,10)}'],
             'two ranges' => ['{[1,5),[10,20)}', '{[1,5),[10,20)}'],
+            'inclusive upper bound' => ['{[1,5]}', '{[1,5]}'],
+            'exclusive lower bound' => ['{(1,5)}', '{(1,5)}'],
             'large values' => ['{[1000000000,9999999999)}', '{[1000000000,9999999999)}'],
         ];
     }
@@ -84,6 +86,8 @@ class Int8MultirangeTest extends TestCase
             'empty string' => [''],
             'missing braces' => ['[1,5),[10,20)'],
             'only opening brace' => ['{[1,5)'],
+            'empty segment between commas' => ['{,}'],
+            'empty leading segment' => ['{,[1,5)}'],
         ];
     }
 

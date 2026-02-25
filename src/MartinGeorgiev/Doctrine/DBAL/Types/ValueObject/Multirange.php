@@ -91,19 +91,34 @@ abstract class Multirange implements \Stringable
                 $depth--;
                 $current .= $char;
             } elseif ($char === ',' && $depth === 0) {
-                if ($current !== '') {
-                    $ranges[] = \trim($current);
+                $trimmedRange = \trim($current);
+                if ($trimmedRange === '') {
+                    throw new \InvalidArgumentException(
+                        \sprintf('Invalid multirange format: empty range segment in "%s"', $inner)
+                    );
                 }
 
+                $ranges[] = $trimmedRange;
                 $current = '';
             } else {
                 $current .= $char;
             }
         }
 
-        if ($current !== '') {
-            $ranges[] = \trim($current);
+        if ($depth !== 0) {
+            throw new \InvalidArgumentException(
+                \sprintf('Invalid multirange format: unbalanced brackets in "%s"', $inner)
+            );
         }
+
+        $trimmedRange = \trim($current);
+        if ($trimmedRange === '') {
+            throw new \InvalidArgumentException(
+                \sprintf('Invalid multirange format: empty range segment in "%s"', $inner)
+            );
+        }
+
+        $ranges[] = $trimmedRange;
 
         return $ranges;
     }

@@ -38,6 +38,13 @@ class Int4MultirangeTest extends TestCase
         $this->assertSame('{[1,5),[10,20)}', (string) $int4Multirange);
     }
 
+    #[Test]
+    public function handles_negative_values(): void
+    {
+        $int4Multirange = new Int4Multirange([new Int4Range(-9999, -1)]);
+        $this->assertSame('{[-9999,-1)}', (string) $int4Multirange);
+    }
+
     #[DataProvider('provideValidFromStringCases')]
     #[Test]
     public function can_parse_from_string(string $input, string $expectedString): void
@@ -78,6 +85,8 @@ class Int4MultirangeTest extends TestCase
             'empty string' => [''],
             'missing braces' => ['[1,5),[10,20)'],
             'only opening brace' => ['{[1,5)'],
+            'empty segment between commas' => ['{,}'],
+            'empty leading segment' => ['{,[1,5)}'],
         ];
     }
 

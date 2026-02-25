@@ -76,6 +76,8 @@ class NumericMultirangeTest extends TestCase
             'empty string' => [''],
             'missing braces' => ['[1.5,5.5),[10.5,20.5)'],
             'only opening brace' => ['{[1.5,5.5)'],
+            'empty segment between commas' => ['{,}'],
+            'empty leading segment' => ['{,[1.5,5.5)}'],
         ];
     }
 
