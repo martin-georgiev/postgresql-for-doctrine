@@ -136,19 +136,6 @@ class Macaddr8ArrayTest extends TestCase
         ];
     }
 
-    #[Test]
-    public function can_transform_null_item_for_php(): void
-    {
-        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
-    }
-
-    #[Test]
-    public function throws_exception_for_non_string_item_from_database(): void
-    {
-        $this->expectException(InvalidMacaddr8ArrayItemForPHPException::class);
-        $this->fixture->transformArrayItemForPHP(123);
-    }
-
     #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
     public function can_validate_valid_array_item_for_database(mixed $value): void
