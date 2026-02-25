@@ -30,14 +30,14 @@ class TextArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('text[]', $this->fixture->getName());
+        $this->assertSame('text[]', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -111,7 +111,7 @@ class TextArrayTest extends TestCase
         $postgresValue = '{STRING_A,STRING_B,STRING_C,STRING_D}';
         $expectedPhpValue = ['STRING_A', 'STRING_B', 'STRING_C', 'STRING_D'];
 
-        $this->assertEquals($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     #[Test]
@@ -120,7 +120,7 @@ class TextArrayTest extends TestCase
         $postgresValue = '{"simple\\\backslash"}';
         $expectedPhpValue = ['simple\backslash'];
 
-        $this->assertEquals($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     #[DataProvider('provideGithubIssue424TestCases')]

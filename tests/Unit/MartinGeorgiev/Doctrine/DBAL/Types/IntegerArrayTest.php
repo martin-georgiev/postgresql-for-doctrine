@@ -17,7 +17,7 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('integer[]', $this->fixture->getName());
+        $this->assertSame('integer[]', $this->fixture->getName());
     }
 
     public static function provideInvalidDatabaseValueInputs(): array

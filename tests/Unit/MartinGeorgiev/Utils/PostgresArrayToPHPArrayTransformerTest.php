@@ -198,7 +198,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     #[Test]
     public function can_recover_from_json_decode_failure_and_transform_value_through_manual_parsing(array $phpValue, string $postgresValue): void
     {
-        $this->assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
+        $this->assertSame($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
     }
 
     /**

@@ -31,14 +31,14 @@ class PointArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('point[]', $this->fixture->getName());
+        $this->assertSame('point[]', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -197,9 +197,9 @@ class PointArrayTest extends TestCase
         $result2 = $this->fixture->convertToPHPValue('{invalid}', $this->platform);
         $result3 = $this->fixture->convertToPHPValue('{""}', $this->platform);
 
-        $this->assertEquals([], $result1);
-        $this->assertEquals([], $result2);
-        $this->assertEquals([], $result3);
+        $this->assertSame([], $result1);
+        $this->assertSame([], $result2);
+        $this->assertSame([], $result3);
     }
 
     #[Test]
@@ -208,8 +208,8 @@ class PointArrayTest extends TestCase
         $result1 = $this->fixture->convertToPHPValue('[test]', $this->platform);
         $result2 = $this->fixture->convertToPHPValue('not-an-array', $this->platform);
 
-        $this->assertEquals([], $result1);
-        $this->assertEquals([], $result2);
+        $this->assertSame([], $result1);
+        $this->assertSame([], $result2);
     }
 
     #[Test]

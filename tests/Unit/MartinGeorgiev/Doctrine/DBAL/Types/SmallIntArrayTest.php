@@ -17,7 +17,7 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('smallint[]', $this->fixture->getName());
+        $this->assertSame('smallint[]', $this->fixture->getName());
     }
 
     public static function provideInvalidDatabaseValueInputs(): array

@@ -19,7 +19,7 @@ class RealArrayTest extends BaseFloatArrayTestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('real[]', $this->fixture->getName());
+        $this->assertSame('real[]', $this->fixture->getName());
     }
 
     public static function provideInvalidDatabaseValueInputs(): array

@@ -31,21 +31,21 @@ class UuidArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('uuid[]', $this->fixture->getName());
+        $this->assertSame('uuid[]', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
@@ -210,7 +210,7 @@ class UuidArrayTest extends TestCase
         $phpValue = ['550e8400-e29b-41d4-a716-446655440000', null, 'a0eebc99-9c0b-11d1-b465-00c04fd430c8'];
         $expected = '{"550e8400-e29b-41d4-a716-446655440000",NULL,"a0eebc99-9c0b-11d1-b465-00c04fd430c8"}';
 
-        $this->assertEquals($expected, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($expected, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[Test]

@@ -24,7 +24,7 @@ abstract class BaseRangeTestCase extends TestCase
         $range = $this->createSimpleRange();
         $expectedString = $this->getExpectedSimpleRangeString();
 
-        $this->assertEquals($expectedString, (string) $range);
+        $this->assertSame($expectedString, (string) $range);
         $this->assertFalse($range->isEmpty());
     }
 
@@ -33,7 +33,7 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $range = $this->createEmptyRange();
 
-        $this->assertEquals('empty', (string) $range);
+        $this->assertSame('empty', (string) $range);
         $this->assertTrue($range->isEmpty());
     }
 
@@ -42,7 +42,7 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $range = $this->createInfiniteRange();
 
-        $this->assertEquals('(,)', (string) $range);
+        $this->assertSame('(,)', (string) $range);
         $this->assertFalse($range->isEmpty());
     }
 
@@ -52,7 +52,7 @@ abstract class BaseRangeTestCase extends TestCase
         $range = $this->createInclusiveRange();
         $expectedString = $this->getExpectedInclusiveRangeString();
 
-        $this->assertEquals($expectedString, (string) $range);
+        $this->assertSame($expectedString, (string) $range);
         $this->assertFalse($range->isEmpty());
     }
 
@@ -63,7 +63,7 @@ abstract class BaseRangeTestCase extends TestCase
     #[DataProvider('provideContainsTestCases')]
     public function can_check_contains(Range $range, mixed $value, bool $expected): void
     {
-        $this->assertEquals($expected, $range->contains($value));
+        $this->assertSame($expected, $range->contains($value));
     }
 
     /**
@@ -102,7 +102,7 @@ abstract class BaseRangeTestCase extends TestCase
         $testCases = $this->getComparisonTestCases();
 
         foreach ($testCases as $description => $testCase) {
-            $this->assertEquals(
+            $this->assertSame(
                 $testCase['expectedEmpty'],
                 $testCase['range']->isEmpty(),
                 'Comparison test failed: '.$description
@@ -239,8 +239,8 @@ abstract class BaseRangeTestCase extends TestCase
      */
     protected function assertRangeEquals(Range $expected, Range $actual, string $message = ''): void
     {
-        $this->assertEquals($expected->__toString(), $actual->__toString(), $message.' (string representation)');
-        $this->assertEquals($expected->isEmpty(), $actual->isEmpty(), $message.' (isEmpty state)');
+        $this->assertSame($expected->__toString(), $actual->__toString(), $message.' (string representation)');
+        $this->assertSame($expected->isEmpty(), $actual->isEmpty(), $message.' (isEmpty state)');
     }
 
     /**
@@ -282,7 +282,7 @@ abstract class BaseRangeTestCase extends TestCase
      */
     protected function assertRangeStringEquals(string $expected, Range $range, string $message = ''): void
     {
-        $this->assertEquals($expected, (string) $range, $message);
+        $this->assertSame($expected, (string) $range, $message);
     }
 
     /**
@@ -293,7 +293,7 @@ abstract class BaseRangeTestCase extends TestCase
     protected function assertRangeIsEmpty(Range $range, string $message = ''): void
     {
         $this->assertTrue($range->isEmpty(), $message.' - Range should be empty');
-        $this->assertEquals('empty', (string) $range, $message.' - Empty range should have "empty" string representation');
+        $this->assertSame('empty', (string) $range, $message.' - Empty range should have "empty" string representation');
     }
 
     /**
@@ -304,7 +304,7 @@ abstract class BaseRangeTestCase extends TestCase
     protected function assertRangeIsNotEmpty(Range $range, string $message = ''): void
     {
         $this->assertFalse($range->isEmpty(), $message.' - Range should not be empty');
-        $this->assertNotEquals('empty', (string) $range, $message.' - Non-empty range should not have "empty" string representation');
+        $this->assertNotSame('empty', (string) $range, $message.' - Non-empty range should not have "empty" string representation');
     }
 
     /**
@@ -316,7 +316,7 @@ abstract class BaseRangeTestCase extends TestCase
     protected function assertBoundaryConditions(Range $range, array $testCases, string $message = ''): void
     {
         foreach ($testCases as $description => $testCase) {
-            $this->assertEquals(
+            $this->assertSame(
                 $testCase['expected'],
                 $range->contains($testCase['value']),
                 $message.' - Boundary test failed: '.$description

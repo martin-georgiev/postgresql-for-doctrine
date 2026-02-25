@@ -52,14 +52,14 @@ class BaseNetworkTypeArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('test_network_array', $this->fixture->getName());
+        $this->assertSame('test_network_array', $this->fixture->getName());
     }
 
     #[Test]
     #[DataProvider('provideValidTransformations')]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     public static function provideValidTransformations(): array

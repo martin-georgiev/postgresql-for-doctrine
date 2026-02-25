@@ -181,10 +181,10 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function can_handle_mixed_integer_and_float_ranges(): void
     {
         $range = new NumericRange(1, 10.5);
-        $this->assertEquals('[1,10.5)', (string) $range);
+        $this->assertSame('[1,10.5)', (string) $range);
 
         $range2 = new NumericRange(1.5, 10);
-        $this->assertEquals('[1.5,10)', (string) $range2);
+        $this->assertSame('[1.5,10)', (string) $range2);
     }
 
     #[Test]
@@ -227,9 +227,9 @@ final class NumericRangeTest extends BaseRangeTestCase
     ): void {
         $numericRange = new NumericRange($lower, $upper);
 
-        $this->assertEquals($expectedString, (string) $numericRange);
-        $this->assertEquals($expectedLowerBoundedInfinity, $numericRange->isLowerBoundedInfinity());
-        $this->assertEquals($expectedUpperBoundedInfinity, $numericRange->isUpperBoundedInfinity());
+        $this->assertSame($expectedString, (string) $numericRange);
+        $this->assertSame($expectedLowerBoundedInfinity, $numericRange->isLowerBoundedInfinity());
+        $this->assertSame($expectedUpperBoundedInfinity, $numericRange->isUpperBoundedInfinity());
     }
 
     public static function providePhpInfConstantCases(): \Generator
@@ -245,7 +245,7 @@ final class NumericRangeTest extends BaseRangeTestCase
         $rangeWithInf = new NumericRange(0, INF);
         $rangeWithFlag = new NumericRange(0, null, true, false, false, false, true);
 
-        $this->assertEquals((string) $rangeWithInf, (string) $rangeWithFlag);
-        $this->assertEquals($rangeWithInf->isUpperBoundedInfinity(), $rangeWithFlag->isUpperBoundedInfinity());
+        $this->assertSame((string) $rangeWithInf, (string) $rangeWithFlag);
+        $this->assertSame($rangeWithInf->isUpperBoundedInfinity(), $rangeWithFlag->isUpperBoundedInfinity());
     }
 }
