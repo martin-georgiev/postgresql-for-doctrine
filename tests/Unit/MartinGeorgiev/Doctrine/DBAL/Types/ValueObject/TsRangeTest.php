@@ -172,7 +172,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
         $end = $start->modify('+1 hour');
         $tsRange = new TsRange($start, $end);
 
-        $this->assertEquals('[2023-01-01 14:00:00.000000,2023-01-01 15:00:00.000000)', (string) $tsRange);
+        $this->assertSame('[2023-01-01 14:00:00.000000,2023-01-01 15:00:00.000000)', (string) $tsRange);
         $this->assertFalse($tsRange->isEmpty());
     }
 
@@ -241,7 +241,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
         $end = new \DateTimeImmutable('2023-01-01 18:00:00.654321');
         $tsRange = new TsRange($start, $end);
 
-        $this->assertEquals('[2023-01-01 10:00:00.123456,2023-01-01 18:00:00.654321)', (string) $tsRange);
+        $this->assertSame('[2023-01-01 10:00:00.123456,2023-01-01 18:00:00.654321)', (string) $tsRange);
     }
 
     #[Test]
@@ -274,7 +274,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
             new \DateTimeImmutable('2023-01-01 18:00:00.654321')
         );
 
-        $this->assertEquals('[2023-01-01 10:00:00.123456,2023-01-01 18:00:00.654321)', (string) $tsRange);
+        $this->assertSame('[2023-01-01 10:00:00.123456,2023-01-01 18:00:00.654321)', (string) $tsRange);
     }
 
     #[Test]

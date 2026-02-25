@@ -32,14 +32,14 @@ class PointTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('point', $this->fixture->getName());
+        $this->assertSame('point', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?PointValueObject $pointValueObject, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($pointValueObject, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($pointValueObject, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]

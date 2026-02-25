@@ -31,21 +31,21 @@ class TsqueryTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('tsquery', $this->fixture->getName());
+        $this->assertSame('tsquery', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?string $phpValue, ?string $databaseValue): void
     {
-        $this->assertEquals($databaseValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($databaseValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?string $phpValue, ?string $databaseValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
     }
 
     /**

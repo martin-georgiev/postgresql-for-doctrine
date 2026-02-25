@@ -31,21 +31,21 @@ class JsonbArrayTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('jsonb[]', $this->fixture->getName());
+        $this->assertSame('jsonb[]', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**

@@ -19,7 +19,7 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('bigint[]', $this->fixture->getName());
+        $this->assertSame('bigint[]', $this->fixture->getName());
     }
 
     public static function provideInvalidDatabaseValueInputs(): array

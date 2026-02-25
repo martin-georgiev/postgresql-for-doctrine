@@ -55,7 +55,7 @@ class BaseTypeTest extends TestCase
             protected const TYPE_NAME = 'custom_type';
         };
 
-        $this->assertEquals('custom_type', $type->getName());
+        $this->assertSame('custom_type', $type->getName());
     }
 
     #[Test]
@@ -72,7 +72,7 @@ class BaseTypeTest extends TestCase
             ->willReturn('CUSTOM_SQL_TYPE');
 
         $result = $type->getSQLDeclaration([], $this->platform);
-        $this->assertEquals('CUSTOM_SQL_TYPE', $result);
+        $this->assertSame('CUSTOM_SQL_TYPE', $result);
     }
 
     #[Test]

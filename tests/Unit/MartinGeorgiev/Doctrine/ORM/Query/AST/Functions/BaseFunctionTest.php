@@ -54,7 +54,7 @@ class BaseFunctionTest extends TestCase
         $sqlWalker = $this->createMock(SqlWalker::class);
 
         $result = $function->getSql($sqlWalker);
-        $this->assertEquals('TEST(arg1, arg2)', $result);
+        $this->assertSame('TEST(arg1, arg2)', $result);
     }
 
     #[Test]
@@ -89,6 +89,6 @@ class BaseFunctionTest extends TestCase
         $sqlWalker = $this->createMock(SqlWalker::class);
 
         $result = $function->getSql($sqlWalker);
-        $this->assertEquals('TEST(null)', $result);
+        $this->assertSame('TEST(null)', $result);
     }
 }

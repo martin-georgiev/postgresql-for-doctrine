@@ -142,7 +142,7 @@ final class DateRangeTest extends BaseRangeTestCase
         $date = new \DateTimeImmutable('2023-06-15');
         $dateRange = DateRange::singleDay($date);
 
-        $this->assertEquals('[2023-06-15,2023-06-16)', (string) $dateRange);
+        $this->assertSame('[2023-06-15,2023-06-16)', (string) $dateRange);
         $this->assertFalse($dateRange->isEmpty());
     }
 
@@ -151,7 +151,7 @@ final class DateRangeTest extends BaseRangeTestCase
     {
         $dateRange = DateRange::year(2023);
 
-        $this->assertEquals('[2023-01-01,2024-01-01)', (string) $dateRange);
+        $this->assertSame('[2023-01-01,2024-01-01)', (string) $dateRange);
         $this->assertFalse($dateRange->isEmpty());
     }
 
@@ -160,7 +160,7 @@ final class DateRangeTest extends BaseRangeTestCase
     {
         $dateRange = DateRange::month(2023, 6);
 
-        $this->assertEquals('[2023-06-01,2023-07-01)', (string) $dateRange);
+        $this->assertSame('[2023-06-01,2023-07-01)', (string) $dateRange);
         $this->assertFalse($dateRange->isEmpty());
     }
 
@@ -334,7 +334,7 @@ final class DateRangeTest extends BaseRangeTestCase
     #[DataProvider('provideLeapYearTestCases')]
     public function can_handle_leap_years(DateRange $dateRange, string $expectedString, string $description): void
     {
-        $this->assertEquals($expectedString, (string) $dateRange, $description);
+        $this->assertSame($expectedString, (string) $dateRange, $description);
     }
 
     public static function provideLeapYearTestCases(): \Generator
@@ -360,7 +360,7 @@ final class DateRangeTest extends BaseRangeTestCase
     #[DataProvider('provideEdgeCaseMonthTestCases')]
     public function can_handle_edge_case_months(DateRange $dateRange, string $expectedString, string $description): void
     {
-        $this->assertEquals($expectedString, (string) $dateRange, $description);
+        $this->assertSame($expectedString, (string) $dateRange, $description);
     }
 
     public static function provideEdgeCaseMonthTestCases(): \Generator

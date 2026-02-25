@@ -32,14 +32,14 @@ final class GeometryTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('geometry', $this->fixture->getName());
+        $this->assertSame('geometry', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?WktSpatialData $wktSpatialData, ?string $postgresValue): void
     {
-        $this->assertEquals($postgresValue, $this->fixture->convertToDatabaseValue($wktSpatialData, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($wktSpatialData, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -54,7 +54,7 @@ final class GeometryTest extends TestCase
         }
 
         $this->assertInstanceOf(WktSpatialData::class, $result);
-        $this->assertEquals((string) $wktSpatialData, (string) $result);
+        $this->assertSame((string) $wktSpatialData, (string) $result);
     }
 
     /**

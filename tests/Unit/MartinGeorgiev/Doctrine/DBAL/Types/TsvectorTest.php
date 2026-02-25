@@ -31,21 +31,21 @@ class TsvectorTest extends TestCase
     #[Test]
     public function has_name(): void
     {
-        $this->assertEquals('tsvector', $this->fixture->getName());
+        $this->assertSame('tsvector', $this->fixture->getName());
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?string $phpValue, ?string $databaseValue): void
     {
-        $this->assertEquals($databaseValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame($databaseValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_to_php_value(?string $phpValue, ?string $databaseValue): void
     {
-        $this->assertEquals($databaseValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
+        $this->assertSame($databaseValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
     }
 
     /**
