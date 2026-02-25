@@ -178,4 +178,17 @@ class Macaddr8ArrayTest extends TestCase
             'boolean' => [true],
         ];
     }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidMacaddr8ArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
+    }
 }

@@ -45,7 +45,7 @@ class TsvectorTest extends TestCase
     #[Test]
     public function can_transform_to_php_value(?string $phpValue, ?string $databaseValue): void
     {
-        $this->assertSame($databaseValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
     }
 
     /**
