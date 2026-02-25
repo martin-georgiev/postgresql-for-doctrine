@@ -25,7 +25,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Geometry;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Inet;
 use MartinGeorgiev\Doctrine\DBAL\Types\InetArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
+use MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
@@ -35,6 +37,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
@@ -216,11 +219,14 @@ abstract class TestCase extends BaseTestCase
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
             'ltree' => Ltree::class,
+            'int4multirange' => Int4Multirange::class,
+            'int8multirange' => Int8Multirange::class,
             'macaddr' => Macaddr::class,
             'macaddr8' => Macaddr8::class,
             'macaddr8[]' => Macaddr8Array::class,
             'macaddr[]' => MacaddrArray::class,
             'numrange' => NumRange::class,
+            'nummultirange' => NumMultirange::class,
             'point' => Point::class,
             'point[]' => PointArray::class,
             'real[]' => RealArray::class,

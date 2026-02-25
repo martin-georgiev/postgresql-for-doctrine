@@ -75,6 +75,13 @@ final class Type
 
     public const TSTZRANGE = 'tstzrange';
 
+    // Multirange Types
+    public const INT4MULTIRANGE = 'int4multirange';
+
+    public const INT8MULTIRANGE = 'int8multirange';
+
+    public const NUMMULTIRANGE = 'nummultirange';
+
     private function __construct()
     {
         // Prevent instantiation
