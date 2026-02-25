@@ -82,7 +82,7 @@ class BaseArrayTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/Given PHP value content type is not PHP array. Instead it is "\w+"./');
 
-        $this->fixture->convertToDatabaseValue('invalid-php-value-type', $this->platform);
+        $this->fixture->convertToDatabaseValue('invalid-php-value-type', $this->platform); // @phpstan-ignore argument.type
     }
 
     #[Test]
@@ -105,6 +105,6 @@ class BaseArrayTest extends TestCase
         $this->expectException(ConversionException::class);
         $this->expectExceptionMessageMatches('/Given PostgreSQL value content type is not PHP string. Instead it is "\w+"./');
 
-        $this->fixture->convertToPHPValue(681, $this->platform);
+        $this->fixture->convertToPHPValue(681, $this->platform); // @phpstan-ignore argument.type
     }
 }

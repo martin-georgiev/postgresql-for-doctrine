@@ -1,9 +1,0 @@
-parameters:
-	ignoreErrors:
-		-
-			message: '#^Method MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Multirange\<R of MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\>\:\:fromString\(\) should return static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Multirange\<R of MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\>\) but returns static\(MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Multirange\<MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Range\>\)\.$#'
-			identifier: return.type
-			count: 2
-			path: ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Multirange.php
-
-

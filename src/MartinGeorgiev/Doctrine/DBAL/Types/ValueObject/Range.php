@@ -96,8 +96,7 @@ abstract class Range implements \Stringable
         $rangeString = \trim($rangeString);
 
         if ($rangeString === self::EMPTY_RANGE_STRING) {
-            // PostgreSQL's explicit empty state rather than mathematical tricks
-            return new static(null, null, true, false, true);
+            return static::empty();
         }
 
         $pattern = '/^('.\preg_quote(self::BRACKET_LOWER_INCLUSIVE, '/').'|'.\preg_quote(self::BRACKET_LOWER_EXCLUSIVE, '/').')("?[^",]*"?),("?[^",]*"?)('.\preg_quote(self::BRACKET_UPPER_INCLUSIVE, '/').'|'.\preg_quote(self::BRACKET_UPPER_EXCLUSIVE, '/').')$/';
@@ -115,20 +114,24 @@ abstract class Range implements \Stringable
 
         $isLowerBoundedInfinity = false;
         $isUpperBoundedInfinity = false;
+        /** @var R|null $lowerBoundValue */
         $lowerBoundValue = null;
+        /** @var R|null $upperBoundValue */
         $upperBoundValue = null;
 
         if ($matches[2] !== '') {
             $isLowerBoundedInfinity = static::isInfinityString($lowerBoundString);
+            /** @var R|null $lowerBoundValue */
             $lowerBoundValue = static::parseValue($lowerBoundString);
         }
 
         if ($matches[3] !== '') {
             $isUpperBoundedInfinity = static::isInfinityString($upperBoundString);
+            /** @var R|null $upperBoundValue */
             $upperBoundValue = static::parseValue($upperBoundString);
         }
 
-        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive, false, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
+        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive, false, $isLowerBoundedInfinity, $isUpperBoundedInfinity); // @phpstan-ignore new.static, return.type
     }
 
     abstract protected static function parseValue(string $value): mixed;
@@ -164,12 +167,12 @@ abstract class Range implements \Stringable
 
     public static function empty(): static
     {
-        return new static(null, null, true, false, true);
+        return new static(null, null, true, false, true); // @phpstan-ignore new.static, return.type
     }
 
     public static function infinite(): static
     {
-        return new static(null, null, false, false);
+        return new static(null, null, false, false); // @phpstan-ignore new.static, return.type
     }
 
     public function getLower(): \DateTimeInterface|float|int|null

@@ -66,7 +66,10 @@ abstract class Multirange implements \Stringable
         $inner = \substr($value, 1, -1);
         $ranges = static::splitRanges($inner);
 
-        return new static(\array_map(static::parseRange(...), $ranges));
+        /** @var R[] $parsedRanges */
+        $parsedRanges = \array_map(static::parseRange(...), $ranges);
+
+        return new static($parsedRanges);
     }
 
     /**
