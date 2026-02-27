@@ -16,6 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT TS_RANK(TO_TSVECTOR(e.text), TO_TSQUERY(:query)) FROM Entity e"
  * @example Using it in DQL with normalization: "SELECT TS_RANK(TO_TSVECTOR(e.text), TO_TSQUERY(:query), 1) FROM Entity e"
+ * @example Using it in DQL with weights: "SELECT TS_RANK('{0.1,0.2,0.4,1.0}', TO_TSVECTOR(e.text), TO_TSQUERY(:query)) FROM Entity e"
  * @example Using it in DQL with weights and normalization: "SELECT TS_RANK('{0.1,0.2,0.4,1.0}', TO_TSVECTOR(e.text), TO_TSQUERY(:query), 1) FROM Entity e"
  */
 class TsRank extends BaseVariadicFunction

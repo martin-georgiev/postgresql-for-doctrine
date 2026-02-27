@@ -29,6 +29,7 @@ class TsRankTest extends BaseVariadicFunctionTestCase
         return [
             'ranks two text fields' => 'SELECT ts_rank(c0_.text1, c0_.text2) AS sclr_0 FROM ContainsTexts c0_',
             'ranks with normalization flag' => 'SELECT ts_rank(c0_.text1, c0_.text2, 1) AS sclr_0 FROM ContainsTexts c0_',
+            'ranks with weights' => 'SELECT ts_rank(c0_.text1, c0_.text2, c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
             'ranks with weights and normalization flag' => "SELECT ts_rank('{0.1,0.2,0.4,1.0}', c0_.text2, c0_.text1, 1) AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
@@ -38,6 +39,7 @@ class TsRankTest extends BaseVariadicFunctionTestCase
         return [
             'ranks two text fields' => \sprintf('SELECT TS_RANK(e.text1, e.text2) FROM %s e', ContainsTexts::class),
             'ranks with normalization flag' => \sprintf('SELECT TS_RANK(e.text1, e.text2, 1) FROM %s e', ContainsTexts::class),
+            'ranks with weights' => \sprintf('SELECT TS_RANK(e.text1, e.text2, e.text1) FROM %s e', ContainsTexts::class),
             'ranks with weights and normalization flag' => \sprintf("SELECT TS_RANK('{0.1,0.2,0.4,1.0}', e.text2, e.text1, 1) FROM %s e", ContainsTexts::class),
         ];
     }
