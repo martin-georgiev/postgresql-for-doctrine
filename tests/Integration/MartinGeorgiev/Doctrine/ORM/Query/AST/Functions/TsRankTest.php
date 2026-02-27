@@ -45,6 +45,14 @@ class TsRankTest extends TextTestCase
     }
 
     #[Test]
+    public function can_rank_with_weights_and_normalization(): void
+    {
+        $dql = "SELECT TS_RANK('{1,1,1,1}', TO_TSVECTOR(t.text1), TO_TSQUERY('lorem'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0.30396354, $result[0]['result']);
+    }
+
+    #[Test]
     public function can_rank_with_language_config(): void
     {
         $dql = "SELECT TS_RANK(TO_TSVECTOR('english', t.text1), TO_TSQUERY('english', 'lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";

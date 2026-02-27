@@ -45,6 +45,14 @@ class TsRankCdTest extends TextTestCase
     }
 
     #[Test]
+    public function can_rank_with_weights_and_normalization(): void
+    {
+        $dql = "SELECT TS_RANK_CD('{1,1,1,1}', TO_TSVECTOR(t.text1), TO_TSQUERY('lorem'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0.7213475, $result[0]['result']);
+    }
+
+    #[Test]
     public function can_rank_literal_document_using_cover_density(): void
     {
         $dql = "SELECT TS_RANK_CD(TO_TSVECTOR('lorem ipsum dolor'), TO_TSQUERY('lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
