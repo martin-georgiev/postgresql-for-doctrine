@@ -169,9 +169,21 @@ $configuration->addCustomStringFunction('JSONB_STRIP_NULLS', MartinGeorgiev\Doct
 $configuration->addCustomStringFunction('TO_JSONB', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb::class);
 
 # text search specific
+$configuration->addCustomStringFunction('ARRAY_TO_TSVECTOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToTsvector::class);
+$configuration->addCustomStringFunction('JSON_TO_TSVECTOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonToTsvector::class);
+$configuration->addCustomStringFunction('PHRASETO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PhrasetoTsquery::class);
+$configuration->addCustomStringFunction('PLAINTO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PlaintoTsquery::class);
+$configuration->addCustomStringFunction('SETWEIGHT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Setweight::class);
+$configuration->addCustomStringFunction('STRIP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strip::class);
 $configuration->addCustomStringFunction('TO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery::class);
 $configuration->addCustomStringFunction('TO_TSVECTOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector::class);
+$configuration->addCustomStringFunction('TS_HEADLINE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsHeadline::class);
+$configuration->addCustomStringFunction('TS_RANK', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRank::class);
+$configuration->addCustomStringFunction('TS_RANK_CD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRankCd::class);
 $configuration->addCustomStringFunction('TSMATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch::class);
+$configuration->addCustomStringFunction('TSQUERY_PHRASE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsqueryPhrase::class);
+$configuration->addCustomStringFunction('TSVECTOR_TO_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsvectorToArray::class);
+$configuration->addCustomStringFunction('WEBSEARCH_TO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery::class);
 
 # date specific functions
 $configuration->addCustomStringFunction('DATE_ADD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class);
