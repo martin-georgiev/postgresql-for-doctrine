@@ -19,7 +19,7 @@ class ArrayToTsvectorTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-           'SELECT array_to_tsvector(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            'SELECT array_to_tsvector(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
