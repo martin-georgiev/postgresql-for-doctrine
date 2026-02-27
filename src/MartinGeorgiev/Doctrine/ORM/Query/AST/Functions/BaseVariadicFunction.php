@@ -37,15 +37,145 @@ abstract class BaseVariadicFunction extends BaseFunction
 
     protected function feedParserWithNodes(Parser $parser): void
     {
-        foreach ($this->getNodeMappingPattern() as $nodeMappingPattern) {
+        $patterns = $this->getNodeMappingPattern();
+
+        if (\count($patterns) > 1) {
+            $resolved = $this->resolvePatternByTokenAnalysis($parser->getLexer(), $patterns);
+            if ($resolved !== null) {
+                $this->feedParserWithNodesForNodeMappingPattern($parser, $resolved);
+
+                return;
+            }
+        }
+
+        foreach ($patterns as $pattern) {
             try {
-                $this->feedParserWithNodesForNodeMappingPattern($parser, $nodeMappingPattern);
+                $this->feedParserWithNodesForNodeMappingPattern($parser, $pattern);
 
                 break;
             } catch (ParserException) {
                 // swallow and continue with next pattern
             }
         }
+    }
+
+    /**
+     * Peeks at tokens ahead of parsing to select the correct pattern when multiple
+     * patterns share the same prefix but diverge on argument types.
+     *
+     * @param array<string> $patterns
+     */
+    private function resolvePatternByTokenAnalysis(Lexer $lexer, array $patterns): ?string
+    {
+        $argumentTokenTypes = $this->peekArgumentTokenTypes($lexer);
+        $argumentCount = \count($argumentTokenTypes);
+
+        if ($argumentCount === 0) {
+            return null;
+        }
+
+        $candidates = [];
+        foreach ($patterns as $pattern) {
+            $nodeMapping = \explode(',', $pattern);
+            $patternNodeCount = \count($nodeMapping);
+
+            if ($patternNodeCount < $argumentCount) {
+                continue;
+            }
+
+            $compatible = true;
+            for ($i = 0; $i < $argumentCount; $i++) {
+                if (!$this->isTokenCompatibleWithNodeType($argumentTokenTypes[$i], $nodeMapping[$i])) {
+                    $compatible = false;
+
+                    break;
+                }
+            }
+
+            if ($compatible) {
+                $candidates[] = $pattern;
+            }
+        }
+
+        if (\count($candidates) === 1) {
+            return $candidates[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * Peeks at tokens to determine the first token type of each function argument.
+     * Tracks parenthesis depth to correctly handle nested function calls.
+     *
+     * @return list<mixed>
+     */
+    private function peekArgumentTokenTypes(Lexer $lexer): array
+    {
+        $firstArgumentType = DoctrineLexer::getLookaheadType($lexer);
+        if ($firstArgumentType === null) {
+            return [];
+        }
+
+        $types = [$firstArgumentType];
+        $depth = 0;
+
+        $shouldUseLexer = DoctrineOrm::isPre219();
+        $commaType = $shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA;
+        $openParenthesisType = $shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS;
+        $closeParenthesisType = $shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS;
+
+        while (true) {
+            $token = $lexer->peek();
+            if ($token === null) {
+                break;
+            }
+
+            $tokenType = \is_array($token) ? $token['type'] : $token->type; // @phpstan-ignore-line
+
+            if ($tokenType === $openParenthesisType) {
+                $depth++;
+            } elseif ($tokenType === $closeParenthesisType) {
+                if ($depth === 0) {
+                    break;
+                }
+
+                $depth--;
+            } elseif ($tokenType === $commaType && $depth === 0) {
+                $nextToken = $lexer->peek();
+                if ($nextToken !== null) {
+                    $types[] = \is_array($nextToken) ? $nextToken['type'] : $nextToken->type; // @phpstan-ignore-line
+                }
+            }
+        }
+
+        $lexer->resetPeek();
+
+        return $types;
+    }
+
+    /**
+     * Determines if a token type is compatible with a node mapping type.
+     *
+     * Numeric literals (T_INTEGER/T_FLOAT) are only compatible with ArithmeticPrimary.
+     * String literals (T_STRING) are only compatible with StringPrimary.
+     * Identifiers, parameters, and function calls are compatible with all node types.
+     */
+    private function isTokenCompatibleWithNodeType(mixed $tokenType, string $nodeType): bool
+    {
+        $shouldUseLexer = DoctrineOrm::isPre219();
+        $integerType = $shouldUseLexer ? Lexer::T_INTEGER : TokenType::T_INTEGER;
+        $floatType = $shouldUseLexer ? Lexer::T_FLOAT : TokenType::T_FLOAT;
+        $stringLiteralType = $shouldUseLexer ? Lexer::T_STRING : TokenType::T_STRING;
+
+        $isNumericToken = ($tokenType === $integerType || $tokenType === $floatType);
+        $isStringLiteralToken = ($tokenType === $stringLiteralType);
+
+        if ($isNumericToken && $nodeType === 'StringPrimary') {
+            return false;
+        }
+
+        return !($isStringLiteralToken && \in_array($nodeType, ['ArithmeticPrimary', 'SimpleArithmeticExpression'], true));
     }
 
     /**
