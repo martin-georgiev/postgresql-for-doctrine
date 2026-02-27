@@ -26,7 +26,7 @@ class ArrTest extends ArrayTestCase
                 WHERE CONTAINS(t.textArray, ARR('apple', 'banana')) = true 
                 AND t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(1, $result);
+        $this->assertSame(1, $result[0]['result']);
     }
 
     #[Test]
