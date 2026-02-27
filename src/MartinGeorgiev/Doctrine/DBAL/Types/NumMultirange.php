@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericMultirange as NumericM
 /**
  * Implementation of PostgreSQL NUMMULTIRANGE data type (PostgreSQL 14+).
  *
- * @see https://www.postgresql.org/docs/current/rangetypes.html
+ * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.3
  *
  * @phpstan-extends BaseMultirangeType<NumericMultirangeValueObject>
