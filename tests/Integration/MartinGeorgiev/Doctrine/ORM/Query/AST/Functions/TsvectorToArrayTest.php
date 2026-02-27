@@ -38,6 +38,6 @@ class TsvectorToArrayTest extends TextTestCase
         $this->assertIsString($result[0]['result']);
 
         $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($result[0]['result']);
-        $this->assertSame(['borum', 'morum', 'forum'], $parsed);
+        $this->assertSame(['borum', 'forum', 'morum'], $parsed);
     }
 }
