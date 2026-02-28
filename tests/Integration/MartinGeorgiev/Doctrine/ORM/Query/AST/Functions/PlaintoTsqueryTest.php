@@ -21,7 +21,7 @@ class PlaintoTsqueryTest extends TextTestCase
     {
         $dql = "SELECT PLAINTO_TSQUERY('morum ipsum') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame("'morum' & 'lorem'", $result[0]['result']);
+        $this->assertSame("'morum' & 'ipsum'", $result[0]['result']);
     }
 
     #[Test]
@@ -29,7 +29,7 @@ class PlaintoTsqueryTest extends TextTestCase
     {
         $dql = "SELECT PLAINTO_TSQUERY('english', 'lorem ipsum') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame("'ipsum' & 'lorem'", $result[0]['result']);
+        $this->assertSame("'lorem' & 'ipsum'", $result[0]['result']);
     }
 
     #[Test]
@@ -37,6 +37,6 @@ class PlaintoTsqueryTest extends TextTestCase
     {
         $dql = 'SELECT PLAINTO_TSQUERY(t.text1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame("'dolor' & 'ipsum' & 'lorem'", $result[0]['result']);
+        $this->assertSame("'lorem' & 'ipsum' & 'dolor'", $result[0]['result']);
     }
 }
