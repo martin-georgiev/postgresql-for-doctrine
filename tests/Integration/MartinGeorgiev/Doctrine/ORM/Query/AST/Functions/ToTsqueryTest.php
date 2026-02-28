@@ -28,7 +28,7 @@ class ToTsqueryTest extends TextTestCase
                 WHERE TSMATCH(TO_TSVECTOR(t.text1), TO_TSQUERY('test')) = true 
                 AND t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(1, $result);
+        $this->assertSame(1, $result[0]['result']);
     }
 
     #[Test]
@@ -39,7 +39,7 @@ class ToTsqueryTest extends TextTestCase
                 WHERE TSMATCH(TO_TSVECTOR('english', t.text1), TO_TSQUERY('english', 'test')) = true 
                 AND t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(1, $result);
+        $this->assertSame(1, $result[0]['result']);
     }
 
     #[Test]

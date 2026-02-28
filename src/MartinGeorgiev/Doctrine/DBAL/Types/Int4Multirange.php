@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Multirange as Int4Multira
 /**
  * Implementation of PostgreSQL INT4MULTIRANGE data type.
  *
- * @see https://www.postgresql.org/docs/current/rangetypes.html
+ * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.3
  *
  * @phpstan-extends BaseMultirangeType<Int4MultirangeValueObject>

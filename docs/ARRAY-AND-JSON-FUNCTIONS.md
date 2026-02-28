@@ -132,10 +132,10 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 ```sql
 -- Array and JSON operations
 -- Check if array contains specific elements
-SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY['important', 'urgent']) = TRUE
+SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('important', 'urgent')) = TRUE
 
 -- Find entities with overlapping arrays
-SELECT e FROM Entity e WHERE OVERLAPS(e.categories, ARRAY['admin', 'user']) = TRUE
+SELECT e FROM Entity e WHERE OVERLAPS(e.categories, ARRAY('admin', 'user')) = TRUE
 
 -- Extract JSON field values
 SELECT e, JSON_GET_FIELD_AS_TEXT(e.metadata, 'status') as status FROM Entity e

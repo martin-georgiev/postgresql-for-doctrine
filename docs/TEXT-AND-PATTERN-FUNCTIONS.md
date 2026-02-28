@@ -62,8 +62,19 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
+| array_to_tsvector | ARRAY_TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToTsvector` |
+| json_to_tsvector | JSON_TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonToTsvector` |
+| phraseto_tsquery | PHRASETO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PhrasetoTsquery` |
+| plainto_tsquery | PLAINTO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PlaintoTsquery` |
+| setweight | SETWEIGHT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Setweight` |
+| strip | STRIP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strip` |
 | to_tsquery | TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery` |
 | to_tsvector | TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector` |
+| ts_headline | TS_HEADLINE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsHeadline` |
+| ts_rank | TS_RANK | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRank` |
+| ts_rank_cd | TS_RANK_CD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRankCd` |
+| tsquery_phrase | TSQUERY_PHRASE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsqueryPhrase` |
+| tsvector_to_array | TSVECTOR_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsvectorToArray` |
 | websearch_to_tsquery | WEBSEARCH_TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery` |
 
 ## Fuzzy String Matching Functions (fuzzystrmatch extension)
@@ -139,6 +150,9 @@ SELECT e FROM Entity e WHERE NOT_SIMILAR_TO(e.code, '[A-Z]{2}[0-9]{4}') = TRUE
 
 -- Full-text search setup
 SELECT e FROM Entity e WHERE TSMATCH(TO_TSVECTOR(e.content), TO_TSQUERY('search & terms')) = TRUE
+
+-- Rank results by relevance
+SELECT e, TS_RANK(TO_TSVECTOR(e.content), TO_TSQUERY('search')) as rank FROM Entity e ORDER BY rank DESC
 
 -- Fuzzy string matching (requires fuzzystrmatch extension)
 -- Calculate Levenshtein distance between strings

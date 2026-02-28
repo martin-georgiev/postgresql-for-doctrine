@@ -251,9 +251,21 @@ doctrine:
                         TO_JSONB: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb
 
                         # text search specific
+                        ARRAY_TO_TSVECTOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToTsvector
+                        JSON_TO_TSVECTOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonToTsvector
+                        PHRASETO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PhrasetoTsquery
+                        PLAINTO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PlaintoTsquery
+                        SETWEIGHT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Setweight
+                        STRIP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strip
                         TO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery
                         TO_TSVECTOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector
+                        TS_HEADLINE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsHeadline
+                        TS_RANK: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRank
+                        TS_RANK_CD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRankCd
                         TSMATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch
+                        TSQUERY_PHRASE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsqueryPhrase
+                        TSVECTOR_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsvectorToArray
+                        WEBSEARCH_TO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery
 
                         # date specific functions
                         DATE_ADD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd

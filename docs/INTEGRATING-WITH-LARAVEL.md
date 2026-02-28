@@ -268,9 +268,21 @@ return [
         'TO_JSONB' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb::class,
 
         # text search specific
+        'ARRAY_TO_TSVECTOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToTsvector::class,
+        'JSON_TO_TSVECTOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonToTsvector::class,
+        'PHRASETO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PhrasetoTsquery::class,
+        'PLAINTO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PlaintoTsquery::class,
+        'SETWEIGHT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Setweight::class,
+        'STRIP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strip::class,
         'TO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery::class,
         'TO_TSVECTOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector::class,
+        'TS_HEADLINE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsHeadline::class,
+        'TS_RANK' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRank::class,
+        'TS_RANK_CD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRankCd::class,
         'TSMATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch::class,
+        'TSQUERY_PHRASE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsqueryPhrase::class,
+        'TSVECTOR_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsvectorToArray::class,
+        'WEBSEARCH_TO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery::class,
 
         # date specific functions
         'DATE_ADD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class,
