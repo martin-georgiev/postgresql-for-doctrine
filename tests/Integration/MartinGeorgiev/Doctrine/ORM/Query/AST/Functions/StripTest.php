@@ -29,14 +29,11 @@ class StripTest extends TextTestCase
     #[Test]
     public function stripped_tsvector_differs_from_original(): void
     {
-        $dql = 'SELECT TO_TSVECTOR(t.text1) as original, STRIP(TO_TSVECTOR(t.text1)) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
-        $stripped = $this->executeDqlQuery($dql);
+        $dql = 'SELECT TO_TSVECTOR(t.text1) as original, STRIP(TO_TSVECTOR(t.text1)) as stripped FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
+        $result = $this->executeDqlQuery($dql);
 
-        $dql = 'SELECT FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
-        $original = $this->executeDqlQuery($dql);
-
-        $this->assertSame("'dolor' 'ipsum' 'lorem'", $stripped[0]['result']);
-        $this->assertNotSame($original[0]['original'], $original[0]['result']);
+        $this->assertSame("'dolor' 'ipsum' 'lorem'", $result[0]['stripped']);
+        $this->assertNotSame($result[0]['original'], $result[0]['stripped']);
     }
 
     #[Test]
