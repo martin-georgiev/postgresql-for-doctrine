@@ -197,6 +197,35 @@ final class DateRangeTest extends BaseRangeTestCase
             false,
         ];
         yield 'does not contain null' => [$dateRange, null, false];
+        yield 'empty range excludes any value' => [
+            DateRange::empty(),
+            new \DateTimeImmutable('2023-06-15'),
+            false,
+        ];
+
+        $unboundedLower = new DateRange(null, new \DateTimeImmutable('2023-12-31'));
+        yield 'unbounded lower contains value in range' => [
+            $unboundedLower,
+            new \DateTimeImmutable('2023-06-15'),
+            true,
+        ];
+        yield 'unbounded lower excludes upper bound' => [
+            $unboundedLower,
+            new \DateTimeImmutable('2023-12-31'),
+            false,
+        ];
+
+        $unboundedUpper = new DateRange(new \DateTimeImmutable('2023-01-01'), null);
+        yield 'unbounded upper contains value in range' => [
+            $unboundedUpper,
+            new \DateTimeImmutable('2024-06-15'),
+            true,
+        ];
+        yield 'unbounded upper excludes below lower' => [
+            $unboundedUpper,
+            new \DateTimeImmutable('2022-12-31'),
+            false,
+        ];
     }
 
     public static function provideFromStringTestCases(): \Generator
