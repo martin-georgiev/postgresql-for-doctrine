@@ -179,7 +179,7 @@ abstract class TestCase extends BaseTestCase
         $workerDbname = $dbname.'_'.$uniqueTestToken;
 
         if (!self::$initialized) {
-            $quotedWorkerDbname = $this->connection->quoteIdentifier($workerDbname);
+            $quotedWorkerDbname = $this->connection->quoteSingleIdentifier($workerDbname);
             $this->connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $quotedWorkerDbname));
             $this->connection->executeStatement(\sprintf('CREATE DATABASE %s', $quotedWorkerDbname));
             $this->connection->close();

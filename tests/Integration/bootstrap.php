@@ -33,8 +33,8 @@ try {
     $uniqueTestToken = \getenv('UNIQUE_TEST_TOKEN');
     if ($uniqueTestToken !== false) {
         $workerDbname = $dbname.'_'.$uniqueTestToken;
-        $connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $connection->quoteIdentifier($workerDbname)));
-        $connection->executeStatement(\sprintf('CREATE DATABASE %s', $connection->quoteIdentifier($workerDbname)));
+        $connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $connection->quoteSingleIdentifier($workerDbname)));
+        $connection->executeStatement(\sprintf('CREATE DATABASE %s', $connection->quoteSingleIdentifier($workerDbname)));
         $connection->close();
 
         $connectionParams['dbname'] = $workerDbname;
