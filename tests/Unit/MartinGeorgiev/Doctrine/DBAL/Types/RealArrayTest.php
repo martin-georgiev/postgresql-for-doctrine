@@ -80,6 +80,15 @@ class RealArrayTest extends BaseFloatArrayTestCase
     }
 
     #[Test]
+    public function throws_domain_exception_when_value_exceeds_range(): void
+    {
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+        $this->expectExceptionMessage('cannot be transformed to valid PHP float');
+
+        $this->fixture->transformArrayItemForPHP('9999999999999999999999999999999999999999');
+    }
+
+    #[Test]
     public function throws_domain_exception_when_value_exceeds_precision_limit(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);

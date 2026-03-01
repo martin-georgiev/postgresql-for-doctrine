@@ -99,6 +99,7 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'excludes below range' => [$numericRange, 0, false];
         yield 'excludes above range' => [$numericRange, 11, false];
         yield 'excludes null' => [$numericRange, null, false];
+        yield 'empty range excludes any value' => [NumericRange::empty(), 5, false];
     }
 
     public static function provideFromStringTestCases(): \Generator
