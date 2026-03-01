@@ -22,20 +22,20 @@ abstract class BaseFloatArrayTestCase extends TestCase
     }
 
     /**
-     * @return list<mixed>
+     * @return array<string, array{mixed}>
      */
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            [true],
-            [null],
-            ['string'],
-            [[]],
-            [new \stdClass()],
-            ['1e'], // Invalid scientific notation format
-            ['e1'], // Invalid scientific notation format
-            ['1.23.45'], // Invalid number format
-            ['not_a_number'],
+            'boolean' => [true],
+            'null' => [null],
+            'string' => ['string'],
+            'array' => [[]],
+            'object' => [new \stdClass()],
+            'invalid scientific notation (trailing e)' => ['1e'],
+            'invalid scientific notation (leading e)' => ['e1'],
+            'invalid number format' => ['1.23.45'],
+            'not a number' => ['not_a_number'],
         ];
     }
 
@@ -68,5 +68,37 @@ abstract class BaseFloatArrayTestCase extends TestCase
         $this->expectExceptionMessage('cannot be transformed to valid PHP float');
 
         $this->fixture->transformArrayItemForPHP('1.e234');
+    }
+
+    #[Test]
+    public function returns_null_when_transforming_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[DataProvider('provideInvalidTypeInputsForPHP')]
+    #[Test]
+    public function throws_exception_when_transforming_non_numeric_type_for_php(mixed $value): void
+    {
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+
+        $this->fixture->transformArrayItemForPHP($value);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputsForPHP(): array
+    {
+        return [
+            'boolean' => [true],
+            'array' => [[]],
+            'object' => [new \stdClass()],
+            'string' => ['string'],
+            'invalid scientific notation (trailing e)' => ['1e'],
+            'invalid scientific notation (leading e)' => ['e1'],
+            'invalid number format' => ['1.23.45'],
+            'not a number' => ['not_a_number'],
+        ];
     }
 }

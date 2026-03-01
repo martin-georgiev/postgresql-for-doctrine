@@ -23,10 +23,10 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
-            ['2147483648'], // Greater than max integer
-            ['-2147483649'], // Less than min integer
-            ['1.23e6'], // Scientific notation
-            ['123456.789'], // Decimal number
+            'greater than max integer' => ['2147483648'],
+            'less than min integer' => ['-2147483649'],
+            'scientific notation' => ['1.23e6'],
+            'decimal number' => ['123456.789'],
         ]);
     }
 
@@ -67,13 +67,13 @@ class IntegerArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return list<array{string}>
+     * @return array<string, array{string}>
      */
     public static function provideOutOfRangeValues(): array
     {
         return [
-            ['2147483648'], // MAX_INTEGER + 1
-            ['-2147483649'], // MIN_INTEGER - 1
+            'above max integer' => ['2147483648'],
+            'below min integer' => ['-2147483649'],
         ];
     }
 }

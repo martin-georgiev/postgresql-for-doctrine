@@ -23,10 +23,10 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
-            ['32768'],    // Greater than max smallint
-            ['-32769'],   // Less than min smallint
-            ['1.23e4'],   // Scientific notation
-            ['123.45'],   // Decimal number
+            'greater than max smallint' => ['32768'],
+            'less than min smallint' => ['-32769'],
+            'scientific notation' => ['1.23e4'],
+            'decimal number' => ['123.45'],
         ]);
     }
 
@@ -67,13 +67,13 @@ class SmallIntArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return list<array{string}>
+     * @return array<string, array{string}>
      */
     public static function provideOutOfRangeValues(): array
     {
         return [
-            ['32768'], // MAX_SMALLINT + 1
-            ['-32769'], // MIN_SMALLINT - 1
+            'above max smallint' => ['32768'],
+            'below min smallint' => ['-32769'],
         ];
     }
 }

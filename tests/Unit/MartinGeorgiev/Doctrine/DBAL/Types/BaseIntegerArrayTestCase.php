@@ -22,21 +22,21 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     }
 
     /**
-     * @return list<mixed>
+     * @return array<string, array{mixed}>
      */
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            [true],
-            [null],
-            ['string'],
-            [[]],
-            [new \stdClass()],
-            ['1.23'],
-            ['not_a_number'],
-            ['1e2'],
-            ['0xFF'],
-            ['123abc'],
+            'boolean' => [true],
+            'null' => [null],
+            'string' => ['string'],
+            'array' => [[]],
+            'object' => [new \stdClass()],
+            'decimal' => ['1.23'],
+            'not a number' => ['not_a_number'],
+            'scientific notation' => ['1e2'],
+            'hex notation' => ['0xFF'],
+            'alphanumeric' => ['123abc'],
         ];
     }
 
@@ -73,7 +73,40 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     }
 
     /**
-     * @return array<array{string}>
+     * @return array<string, array{string}>
      */
     abstract public static function provideOutOfRangeValues(): array;
+
+    #[Test]
+    public function returns_null_when_transforming_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[DataProvider('provideInvalidTypeInputsForPHP')]
+    #[Test]
+    public function throws_exception_when_transforming_non_integer_type_for_php(mixed $value): void
+    {
+        $this->expectException(InvalidIntegerArrayItemForPHPException::class);
+
+        $this->fixture->transformArrayItemForPHP($value);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputsForPHP(): array
+    {
+        return [
+            'boolean' => [true],
+            'array' => [[]],
+            'object' => [new \stdClass()],
+            'string' => ['string'],
+            'decimal' => ['1.23'],
+            'not a number' => ['not_a_number'],
+            'scientific notation' => ['1e2'],
+            'hex notation' => ['0xFF'],
+            'alphanumeric' => ['123abc'],
+        ];
+    }
 }

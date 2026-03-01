@@ -25,12 +25,12 @@ class RealArrayTest extends BaseFloatArrayTestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
-            ['3.402823467E+38'], // Too large
-            ['-3.402823467E+38'], // Too small
-            ['1.1234567'], // Too many decimal places (>6)
-            ['1e38'], // Scientific notation not allowed
-            ['1.17E-38'], // Too close to zero
-            ['-1.17E-38'], // Too close to zero (negative)
+            'too large' => ['3.402823467E+38'],
+            'too small' => ['-3.402823467E+38'],
+            'too many decimal places' => ['1.1234567'],
+            'scientific notation not allowed' => ['1e38'],
+            'too close to zero' => ['1.17E-38'],
+            'too close to zero (negative)' => ['-1.17E-38'],
         ]);
     }
 
@@ -77,6 +77,15 @@ class RealArrayTest extends BaseFloatArrayTestCase
         $this->expectExceptionMessage('is too close to zero for PostgreSQL real[] type');
 
         $this->fixture->transformArrayItemForPHP('1.17E-38');
+    }
+
+    #[Test]
+    public function throws_domain_exception_when_value_exceeds_range(): void
+    {
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+        $this->expectExceptionMessage('cannot be transformed to valid PHP float');
+
+        $this->fixture->transformArrayItemForPHP('9999999999999999999999999999999999999999');
     }
 
     #[Test]

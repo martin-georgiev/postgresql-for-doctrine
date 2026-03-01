@@ -25,10 +25,10 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
-            ['9223372036854775808'], // Greater than PHP_INT_MAX
-            ['-9223372036854775809'], // Less than PHP_INT_MIN
-            ['1.23e10'], // Scientific notation
-            ['12345.67890'], // Decimal number
+            'greater than PHP_INT_MAX' => ['9223372036854775808'],
+            'less than PHP_INT_MIN' => ['-9223372036854775809'],
+            'scientific notation' => ['1.23e10'],
+            'decimal number' => ['12345.67890'],
         ]);
     }
 
@@ -79,13 +79,13 @@ class BigIntArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return list<array{string}>
+     * @return array<string, array{string}>
      */
     public static function provideOutOfRangeValues(): array
     {
         return [
-            ['9223372036854775808'], // PHP_INT_MAX + 1
-            ['-9223372036854775809'], // PHP_INT_MIN - 1
+            'above PHP_INT_MAX' => ['9223372036854775808'],
+            'below PHP_INT_MIN' => ['-9223372036854775809'],
         ];
     }
 }

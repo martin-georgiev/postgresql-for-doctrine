@@ -195,6 +195,31 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
             false,
         ];
         yield 'does not contain null' => [$tsRange, null, false];
+        yield 'empty range excludes any value' => [
+            TsRange::empty(),
+            new \DateTimeImmutable('2023-01-01 14:00:00'),
+            false,
+        ];
+
+        $unboundedLower = new TsRange(null, $end);
+        yield 'unbounded lower contains value in range' => [
+            $unboundedLower,
+            new \DateTimeImmutable('2023-01-01 14:00:00'),
+            true,
+        ];
+        yield 'unbounded lower excludes upper bound' => [$unboundedLower, $end, false];
+
+        $unboundedUpper = new TsRange($start, null);
+        yield 'unbounded upper contains value in range' => [
+            $unboundedUpper,
+            new \DateTimeImmutable('2024-01-01 10:00:00'),
+            true,
+        ];
+        yield 'unbounded upper excludes below lower' => [
+            $unboundedUpper,
+            new \DateTimeImmutable('2022-01-01 10:00:00'),
+            false,
+        ];
     }
 
     public static function provideFromStringTestCases(): \Generator

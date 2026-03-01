@@ -99,6 +99,15 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'excludes below range' => [$numericRange, 0, false];
         yield 'excludes above range' => [$numericRange, 11, false];
         yield 'excludes null' => [$numericRange, null, false];
+        yield 'empty range excludes any value' => [NumericRange::empty(), 5, false];
+
+        $unboundedLower = new NumericRange(null, 10);
+        yield 'unbounded lower contains value in range' => [$unboundedLower, 5, true];
+        yield 'unbounded lower excludes upper bound' => [$unboundedLower, 10, false];
+
+        $unboundedUpper = new NumericRange(1, null);
+        yield 'unbounded upper contains value in range' => [$unboundedUpper, 100, true];
+        yield 'unbounded upper excludes below lower' => [$unboundedUpper, 0, false];
     }
 
     public static function provideFromStringTestCases(): \Generator

@@ -26,11 +26,11 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
-            ['1.7976931348623157E+309'], // Too large
-            ['-1.7976931348623157E+309'], // Too small
-            ['1.123456789012345678'], // Too many decimal places (>15)
-            ['2.2250738585072014E-309'], // Too close to zero
-            ['-2.2250738585072014E-309'], // Too close to zero (negative)
+            'too large' => ['1.7976931348623157E+309'],
+            'too small' => ['-1.7976931348623157E+309'],
+            'too many decimal places' => ['1.123456789012345678'],
+            'too close to zero' => ['2.2250738585072014E-309'],
+            'too close to zero (negative)' => ['-2.2250738585072014E-309'],
         ]);
     }
 
