@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.3.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.2.0...v4.3.0) (2026-03-01)
+
+
+### Features
+
+* **#544:** Add support for optional arguments to PostGIS functions (`ST_Buffer`, `ST_Translate`, `ST_Scale`, `ST_Rotate`, `ST_Subdivide`, `ST_CurveToLine`, `ST_Distance`, `ST_Length`, `ST_Area`, `ST_HausdorffDistance`, `ST_FrechetDistance`, `ST_Transform`) ([#549](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/549)) ([c1a6062](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c1a6062443cff89973fc8d4706a8d9523a032045))
+* Add support for `int4multirange`, `int8multirange` and `nummultirange` data types ([#555](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/555)) ([8773862](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/877386217cf69334a30b1a5c47915edf9d0730cb))
+* Add support for `macaddr8` and `macaddr8[]` data types ([#554](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/554)) ([af6678e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/af6678e2b61d4bec11b128ab32bf12410aef0fb7))
+* Add support for `tsvector` and `tsquery` data types ([#553](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/553)) ([d45bbd8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d45bbd81dcab059a64fb69f7debe45cdb462080b))
+* Extend support for PostgreSQL full-text search functions ([#558](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/558)) ([d68a334](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d68a334a99805fffa994b295a98cbab4ea71761f))
+
 ## [4.2.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.1.0...v4.2.0) (2026-02-11)
 
 
