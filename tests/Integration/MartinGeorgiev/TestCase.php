@@ -73,6 +73,8 @@ abstract class TestCase extends BaseTestCase
 
     protected static array $registeredTypes = [];
 
+    private static bool $initialized = false;
+
     protected function setUp(): void
     {
         // Set up a driver chain
@@ -162,7 +164,30 @@ abstract class TestCase extends BaseTestCase
             'password' => $password,
         ];
 
+        $uniqueTestToken = \getenv('UNIQUE_TEST_TOKEN');
+        $isRunningThroughParatest = $uniqueTestToken !== false;
+        $shallInitiateDbConnection = !$isRunningThroughParatest || !self::$initialized;
+
+        if ($shallInitiateDbConnection) {
+            $this->connection = DriverManager::getConnection($connectionParams);
+        }
+
+        if (!$isRunningThroughParatest) {
+            return;
+        }
+
+        $workerDbname = $dbname.'_'.$uniqueTestToken;
+
+        if (!self::$initialized) {
+            $quotedWorkerDbname = $this->connection->quoteIdentifier($workerDbname);
+            $this->connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $quotedWorkerDbname));
+            $this->connection->executeStatement(\sprintf('CREATE DATABASE %s', $quotedWorkerDbname));
+            $this->connection->close();
+        }
+
+        $connectionParams['dbname'] = $workerDbname;
         $this->connection = DriverManager::getConnection($connectionParams);
+        self::$initialized = true;
     }
 
     protected function createTestSchema(): void
