@@ -88,6 +88,8 @@ class Int8MultirangeTest extends TestCase
             'only opening brace' => ['{[1,5)'],
             'empty segment between commas' => ['{,}'],
             'empty leading segment' => ['{,[1,5)}'],
+            'unbalanced brackets' => ['{[1,5}'],
+            'trailing empty segment' => ['{[1,5),}'],
         ];
     }
 
