@@ -73,7 +73,7 @@ abstract class BaseIntegerArrayTestCase extends TestCase
     }
 
     /**
-     * @return array<array{string}>
+     * @return array<string, array{string}>
      */
     abstract public static function provideOutOfRangeValues(): array;
 
