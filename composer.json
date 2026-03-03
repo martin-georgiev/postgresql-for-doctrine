@@ -6,24 +6,43 @@
         "martin-georgiev",
         "postgresql",
         "postgres",
+        "pgsql",
         "postgres-extension",
         "postgis",
         "postgis-geometry",
         "doctrine",
         "doctrine-orm",
         "doctrine-dbal",
+        "doctrine-dql",
         "doctrine-types",
         "dbal",
+        "dql",
         "json",
         "jsonb",
         "json-data",
+        "jsonpath",
         "text-search",
+        "full-text-search",
         "tsvector",
+        "tsquery",
         "arrays",
         "array-data-types",
         "uuid",
         "range",
+        "multirange",
+        "inet",
+        "cidr",
+        "macaddr",
+        "network-types",
+        "fuzzystrmatch",
+        "levenshtein",
+        "soundex",
         "spatial",
+        "gis",
+        "geo",
+        "geospatial",
+        "geometry",
+        "geography",
         "ltree"
     ],
     "license": "MIT",
@@ -56,6 +75,7 @@
         "doctrine/dbal": "~2.10||~3.0||~4.0"
     },
     "require-dev": {
+        "brianium/paratest": "^7.0",
         "deptrac/deptrac": "^4.0",
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.0",
@@ -64,7 +84,7 @@
         "phpstan/phpstan-deprecation-rules": "^2.0.4",
         "phpstan/phpstan-doctrine": "^2.0.18",
         "phpstan/phpstan-phpunit": "^2.0.16",
-        "phpunit/phpunit": "^10.5.63",
+        "phpunit/phpunit": "^10.5.63||^11.5",
         "rector/rector": "^2.3.8",
         "symfony/cache": "^6.4||^7.0",
         "symfony/var-exporter": "^6.4||^7.0"
@@ -90,6 +110,12 @@
         "phpunit:integration": [
             "phpunit --configuration=./ci/phpunit/config-integration.xml"
         ],
+        "paratest:unit": [
+            "paratest --configuration=./ci/phpunit/config-unit.xml"
+        ],
+        "paratest:integration": [
+            "paratest --configuration=./ci/phpunit/config-integration.xml"
+        ],
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
         ],
@@ -107,10 +133,10 @@
             "@deptrac"
         ],
         "run-integration-tests": [
-            "@phpunit:integration"
+            "@paratest:integration"
         ],
         "run-unit-tests": [
-            "@phpunit:unit"
+            "@paratest:unit"
         ],
         "run-all-tests": [
             "@run-unit-tests",

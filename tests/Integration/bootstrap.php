@@ -29,6 +29,19 @@ $connectionParams = [
 
 try {
     $connection = DriverManager::getConnection($connectionParams);
+
+    $uniqueTestToken = \getenv('UNIQUE_TEST_TOKEN');
+    if ($uniqueTestToken !== false) {
+        $workerDbName = $dbname.'_'.(int) $uniqueTestToken;
+        $quotedWorkerDbName = '"'.$workerDbName.'"';
+        $connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $quotedWorkerDbName));
+        $connection->executeStatement(\sprintf('CREATE DATABASE %s', $quotedWorkerDbName));
+        $connection->close();
+
+        $connectionParams['dbname'] = $workerDbName;
+        $connection = DriverManager::getConnection($connectionParams);
+    }
+
     $connection->executeStatement('CREATE SCHEMA IF NOT EXISTS test');
     $connection->close();
 } catch (Exception $exception) {
