@@ -176,16 +176,16 @@ abstract class TestCase extends BaseTestCase
             return;
         }
 
-        $workerDbname = $dbname.'_'.$uniqueTestToken;
+        $workerDbName = $dbname.'_'.(int) $uniqueTestToken;
+        $quotedWorkerDbName = '"'.$workerDbName.'"';
 
         if (!self::$initialized) {
-            $quotedWorkerDbname = $this->connection->quoteSingleIdentifier($workerDbname);
-            $this->connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $quotedWorkerDbname));
-            $this->connection->executeStatement(\sprintf('CREATE DATABASE %s', $quotedWorkerDbname));
+            $this->connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $quotedWorkerDbName));
+            $this->connection->executeStatement(\sprintf('CREATE DATABASE %s', $quotedWorkerDbName));
             $this->connection->close();
         }
 
-        $connectionParams['dbname'] = $workerDbname;
+        $connectionParams['dbname'] = $workerDbName;
         $this->connection = DriverManager::getConnection($connectionParams);
         self::$initialized = true;
     }

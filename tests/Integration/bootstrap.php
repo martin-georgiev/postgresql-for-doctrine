@@ -32,12 +32,13 @@ try {
 
     $uniqueTestToken = \getenv('UNIQUE_TEST_TOKEN');
     if ($uniqueTestToken !== false) {
-        $workerDbname = $dbname.'_'.$uniqueTestToken;
-        $connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $connection->quoteSingleIdentifier($workerDbname)));
-        $connection->executeStatement(\sprintf('CREATE DATABASE %s', $connection->quoteSingleIdentifier($workerDbname)));
+        $workerDbName = $dbname.'_'.(int) $uniqueTestToken;
+        $quotedWorkerDbName = '"'.$workerDbName.'"';
+        $connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $quotedWorkerDbName));
+        $connection->executeStatement(\sprintf('CREATE DATABASE %s', $quotedWorkerDbName));
         $connection->close();
 
-        $connectionParams['dbname'] = $workerDbname;
+        $connectionParams['dbname'] = $workerDbName;
         $connection = DriverManager::getConnection($connectionParams);
     }
 
