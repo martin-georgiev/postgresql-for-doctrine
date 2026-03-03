@@ -1,3 +1,8 @@
+/.ai-tools          export-ignore
+/.augment           export-ignore
+/.claude            export-ignore
+/.cursor            export-ignore
+/.windsurf          export-ignore
 /.github            export-ignore
 /ci                 export-ignore
 /docs               export-ignore
