@@ -73,7 +73,7 @@ final readonly class WktSpatialData implements \Stringable
         }
 
         $typeString = $matches[1];
-        $dimensionalModifier = empty($matches[2]) ? null : DimensionalModifier::tryFrom($matches[2]);
+        $dimensionalModifier = $matches[2] === '' ? null : DimensionalModifier::tryFrom($matches[2]);
         $body = \trim($matches[3]);
         if ($body === '') {
             throw InvalidWktSpatialDataException::forEmptyCoordinateSection();

@@ -32,7 +32,7 @@ private NumericRange $priceRange;
 $query = $em->createQuery('
     SELECT e
     FROM App\Entity\Post e
-    WHERE CONTAINS(e.tags, ARRAY[:tags]) = TRUE
+    WHERE CONTAINS(e.tags, ARRAY(:tags)) = TRUE
     AND JSON_GET_FIELD(e.data, :field) = :value
 ');
 ```

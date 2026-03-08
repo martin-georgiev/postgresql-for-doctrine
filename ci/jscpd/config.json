@@ -1,0 +1,9 @@
+{
+    "languages": ["php"],
+    "minLines": 20,
+    "minTokens": 80,
+    "mode": "mild",
+    "threshold": 0,
+    "reporters": ["consoleFull", "xml"],
+    "output": "var/logs/cpd"
+}
