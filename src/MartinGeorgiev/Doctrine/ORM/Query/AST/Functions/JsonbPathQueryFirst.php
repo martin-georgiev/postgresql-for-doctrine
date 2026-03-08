@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
 
 /**
  * Implementation of PostgreSQL JSONB_PATH_QUERY_FIRST().
@@ -20,10 +18,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  *
  * @example Using it in DQL: "SELECT JSONB_PATH_QUERY_FIRST(e.jsonbData, '$.items[*] ? (@.price > 100)') FROM Entity e"
  */
-class JsonbPathQueryFirst extends BaseVariadicFunction
+class JsonbPathQueryFirst extends BaseVariadicFunctionWithOptionalBoolean
 {
-    use BooleanValidationTrait;
-
     protected function getNodeMappingPattern(): array
     {
         return ['StringPrimary'];
@@ -44,13 +40,4 @@ class JsonbPathQueryFirst extends BaseVariadicFunction
         return 4;
     }
 
-    protected function validateArguments(Node ...$arguments): void
-    {
-        parent::validateArguments(...$arguments);
-
-        // Validate that the fourth parameter is a valid boolean if provided
-        if (\count($arguments) === 4) {
-            $this->validateBoolean($arguments[3], $this->getFunctionName());
-        }
-    }
 }

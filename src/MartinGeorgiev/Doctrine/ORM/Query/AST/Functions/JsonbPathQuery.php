@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
-
 /**
  * Implementation of PostgreSQL JSONB_PATH_QUERY().
  *
@@ -20,10 +17,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  *
  * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE e.id IN (SELECT JSONB_PATH_QUERY(e2.jsonbData, '$.items[*].id') FROM Entity2 e2)"
  */
-class JsonbPathQuery extends BaseVariadicFunction
+class JsonbPathQuery extends BaseVariadicFunctionWithOptionalBoolean
 {
-    use BooleanValidationTrait;
-
     protected function getNodeMappingPattern(): array
     {
         return ['StringPrimary'];
@@ -42,15 +37,5 @@ class JsonbPathQuery extends BaseVariadicFunction
     protected function getMaxArgumentCount(): int
     {
         return 4;
-    }
-
-    protected function validateArguments(Node ...$arguments): void
-    {
-        parent::validateArguments(...$arguments);
-
-        // Validate that the fourth parameter is a valid boolean if provided
-        if (\count($arguments) === 4) {
-            $this->validateBoolean($arguments[3], $this->getFunctionName());
-        }
     }
 }

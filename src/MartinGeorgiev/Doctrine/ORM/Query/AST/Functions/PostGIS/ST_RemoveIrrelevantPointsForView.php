@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBoolean;
 
 /**
  * Implementation of PostGIS ST_RemoveIrrelevantPointsForView() function.
@@ -22,10 +20,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  * @example Using it in DQL: "SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry, box) FROM Entity g"
  * @example Using it in DQL: "SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry, box, 'true') FROM Entity g"
  */
-class ST_RemoveIrrelevantPointsForView extends BaseVariadicFunction
+class ST_RemoveIrrelevantPointsForView extends BaseVariadicFunctionWithOptionalBoolean
 {
-    use BooleanValidationTrait;
-
     protected function getNodeMappingPattern(): array
     {
         return [
@@ -47,14 +43,5 @@ class ST_RemoveIrrelevantPointsForView extends BaseVariadicFunction
     protected function getMaxArgumentCount(): int
     {
         return 3;
-    }
-
-    protected function validateArguments(Node ...$arguments): void
-    {
-        parent::validateArguments(...$arguments);
-
-        if (\count($arguments) === 3) {
-            $this->validateBoolean($arguments[2], $this->getFunctionName());
-        }
     }
 }

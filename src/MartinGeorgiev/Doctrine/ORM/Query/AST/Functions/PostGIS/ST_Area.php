@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBoolean;
 
 /**
  * Implementation of PostGIS ST_Area() function.
@@ -22,10 +20,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  * @example Using it in DQL (geometry): "SELECT ST_AREA(g.geometry) FROM Entity g"
  * @example Using it in DQL (geography): "SELECT ST_AREA(g.geography, TRUE) FROM Entity g"
  */
-class ST_Area extends BaseVariadicFunction
+class ST_Area extends BaseVariadicFunctionWithOptionalBoolean
 {
-    use BooleanValidationTrait;
-
     protected function getNodeMappingPattern(): array
     {
         return ['StringPrimary'];
@@ -44,14 +40,5 @@ class ST_Area extends BaseVariadicFunction
     protected function getMaxArgumentCount(): int
     {
         return 2;
-    }
-
-    protected function validateArguments(Node ...$arguments): void
-    {
-        parent::validateArguments(...$arguments);
-
-        if (\count($arguments) === 2) {
-            $this->validateBoolean($arguments[1], $this->getFunctionName());
-        }
     }
 }
