@@ -28,7 +28,7 @@ jobs:
         run: |
           if [ "${{ github.event.pull_request.user.id }}" = "41898282" ]; then
             echo "run=false" >> $GITHUB_OUTPUT
-            echo "::notice::Skipping CI checks - this a release-please bot's interaction"
+            echo "::notice::Skipping CI checks - this is a release-please bot's interaction"
           else
             echo "run=true" >> $GITHUB_OUTPUT
             echo "::notice::CI checks will execute - the actor is not the release-please bot"
@@ -39,6 +39,9 @@ jobs:
     if: needs.should-run.outputs.run == 'true'
     runs-on: ubuntu-latest
     name: "Code Quality"
+    env:
+      JSCPD_CONFIG: ci/jscpd/config.json
+      JSCPD_REPORT: var/logs/cpd/jscpd-report.xml
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -70,3 +73,36 @@ jobs:
 
       - name: Check for security vulnerabilities in 3rd party dependencies
         run: composer audit
+
+      - name: Create CPD log directory
+        run: mkdir -p $(dirname $JSCPD_REPORT)
+
+      - name: Detect duplicated code
+        id: jscpd
+        run: npx --yes jscpd@4 src/ tests/ --config $JSCPD_CONFIG --exitCode 1
+        continue-on-error: true # Informational until thresholds are confirmed; switch to false once reviewed
+
+      - name: Write CPD summary to job log
+        if: always()
+        run: |
+          MIN_LINES=$(jq -r '.minLines' $JSCPD_CONFIG)
+          MIN_TOKENS=$(jq -r '.minTokens' $JSCPD_CONFIG)
+          MODE=$(jq -r '.mode' $JSCPD_CONFIG)
+          echo "## Duplicate code detection (jscpd)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.jscpd.outcome }}" = "success" ]; then
+            echo ":white_check_mark: No duplicated blocks found above the configured thresholds (min ${MIN_LINES} lines / ${MIN_TOKENS} tokens)." >> $GITHUB_STEP_SUMMARY
+          else
+            echo ":warning: Duplicated blocks detected. Download the \`cpd-report\` artifact for the full XML report." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Config: \`${JSCPD_CONFIG}\` — min-lines: ${MIN_LINES}, min-tokens: ${MIN_TOKENS}, mode: ${MODE}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload CPD report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cpd-report
+          path: ${{ env.JSCPD_REPORT }}
+          retention-days: 30
+          if-no-files-found: ignore
