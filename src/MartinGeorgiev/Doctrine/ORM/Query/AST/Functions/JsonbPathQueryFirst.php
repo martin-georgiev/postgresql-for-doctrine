@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-
 /**
  * Implementation of PostgreSQL JSONB_PATH_QUERY_FIRST().
  *
@@ -39,5 +38,4 @@ class JsonbPathQueryFirst extends BaseVariadicFunctionWithOptionalBoolean
     {
         return 4;
     }
-
 }
