@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector;
 
-use Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TextTestCase;
+use Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NumericTestCase;
 
-abstract class TestCase extends TextTestCase
+abstract class TestCase extends NumericTestCase
 {
     protected function setUp(): void
     {
