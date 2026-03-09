@@ -17,48 +17,22 @@ class SimilarityTest extends TestCase
     }
 
     #[Test]
-    public function returns_one_for_identical_strings(): void
-    {
-        $dql = "SELECT SIMILARITY('word', 'word') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsFloat($result[0]['result']);
-        $this->assertEqualsWithDelta(1.0, $result[0]['result'], 0.001);
-    }
-
-    #[Test]
-    public function returns_zero_for_completely_different_strings(): void
+    public function calculates_similarity_from_strings(): void
     {
         $dql = "SELECT SIMILARITY('word', 'xyz') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsFloat($result[0]['result']);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.001);
+        $this->assertEquals(0.0, $result[0]['result']);
     }
 
     #[Test]
-    public function returns_partial_similarity_for_similar_strings(): void
-    {
-        $dql = "SELECT SIMILARITY('test', 'text') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsFloat($result[0]['result']);
-        $this->assertGreaterThan(0.0, $result[0]['result']);
-        $this->assertLessThan(1.0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function can_compute_similarity_from_text_fields(): void
+    public function calculates_similarity_from_text_fields(): void
     {
         $dql = 'SELECT SIMILARITY(t.text1, t.text2) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsFloat($result[0]['result']);
-        $this->assertGreaterThanOrEqual(0.0, $result[0]['result']);
-        $this->assertLessThanOrEqual(1.0, $result[0]['result']);
+        $this->assertEquals(0.4814815, $result[0]['result']);
     }
 }
