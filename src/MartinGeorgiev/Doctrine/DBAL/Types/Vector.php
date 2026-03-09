@@ -13,7 +13,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidVectorForPHPException;
  * Implementation of the pgvector vector data type.
  *
  * Stores a fixed-dimension floating-point vector.
- * Requires the pgvector extension.
  *
  * @see https://github.com/pgvector/pgvector
  * @since 4.4
@@ -24,10 +23,6 @@ class Vector extends BaseType
 {
     protected const TYPE_NAME = Type::VECTOR;
 
-    /**
-     * @param list<float>|null $value
-     */
-    #[\Override]
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -44,13 +39,9 @@ class Vector extends BaseType
             }
         }
 
-        return '[' . \implode(',', $value) . ']';
+        return '['.\implode(',', $value).']';
     }
 
-    /**
-     * @return list<float>|null
-     */
-    #[\Override]
     public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {
         if ($value === null) {
@@ -72,6 +63,7 @@ class Vector extends BaseType
             if (!\is_numeric($part)) {
                 throw InvalidVectorForPHPException::forInvalidFormat($value);
             }
+
             $result[] = (float) $part;
         }
 

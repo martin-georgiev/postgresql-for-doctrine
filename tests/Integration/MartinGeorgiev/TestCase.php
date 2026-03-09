@@ -49,6 +49,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Vector;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -262,6 +263,7 @@ abstract class TestCase extends BaseTestCase
             'tstzrange' => TstzRange::class,
             'tsvector' => Tsvector::class,
             'uuid[]' => UuidArray::class,
+            'vector' => Vector::class,
         ];
 
         foreach ($typesMap as $typeName => $typeClass) {

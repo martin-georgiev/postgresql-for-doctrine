@@ -19,20 +19,20 @@ class InnerProductTest extends TestCase
     #[Test]
     public function returns_correct_inner_product(): void
     {
-        $dql = "SELECT INNER_PRODUCT('[1,2,3]', '[1,2,3]') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t
+        $dql = "SELECT INNER_PRODUCT(t.vector1, '[1,2,3]') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(14.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(14.0, $result[0]['result']);
     }
 
     #[Test]
     public function returns_zero_for_orthogonal_vectors(): void
     {
-        $dql = "SELECT INNER_PRODUCT('[1,0,0]', '[0,1,0]') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t
-                WHERE t.id = 1";
+        $dql = 'SELECT INNER_PRODUCT(t.vector1, t.vector2) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t
+                WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(0.0, $result[0]['result']);
     }
 }

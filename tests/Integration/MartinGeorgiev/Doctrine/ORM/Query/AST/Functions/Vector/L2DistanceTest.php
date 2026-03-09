@@ -19,20 +19,20 @@ class L2DistanceTest extends TestCase
     #[Test]
     public function returns_zero_for_identical_vectors(): void
     {
-        $dql = "SELECT L2_DISTANCE('[1,2,3]', '[1,2,3]') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t
+        $dql = "SELECT L2_DISTANCE(t.vector1, '[1,2,3]') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(0.0, $result[0]['result']);
     }
 
     #[Test]
     public function returns_positive_distance_for_different_vectors(): void
     {
-        $dql = "SELECT L2_DISTANCE('[1,0,0]', '[0,1,0]') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t
-                WHERE t.id = 1";
+        $dql = 'SELECT L2_DISTANCE(t.vector1, t.vector2) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t
+                WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142, $result[0]['result'], 0.001);
+        $this->assertEquals(1.4142, $result[0]['result']);
     }
 }
