@@ -92,6 +92,16 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 | metaphone | METAPHONE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Metaphone` |
 | soundex | SOUNDEX | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Soundex` |
 
+## Trigram Similarity Functions (pg_trgm extension)
+
+> ⚠️ **Note**: These functions require the PostgreSQL `pg_trgm` extension to be installed and enabled in your database.
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| similarity | SIMILARITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\Similarity` |
+| strict_word_similarity | STRICT_WORD_SIMILARITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarity` |
+| word_similarity | WORD_SIMILARITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarity` |
+
 ## Usage Examples
 
 ```sql
