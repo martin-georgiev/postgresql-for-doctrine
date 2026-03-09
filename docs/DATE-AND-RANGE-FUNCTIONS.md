@@ -23,6 +23,13 @@ This document covers PostgreSQL date, time, and range functions available in thi
 | to_date | TO_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate` |
 | to_timestamp | TO_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp` |
 
+## Date and Time Operators
+
+| PostgreSQL operator | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| at time zone | AT_TIME_ZONE | Converts time data between different time zones (behavior depends on whether the input has a time zone offset)
+ | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone` |
+
 ## Range Functions
 
 PostgreSQL provides several range types for representing ranges of values. These functions create and work with range types.
