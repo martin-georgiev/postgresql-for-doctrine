@@ -13,7 +13,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * The range is zero (completely dissimilar) to one (identical).
  * Requires the pg_trgm extension.
  *
- * @see https://www.postgresql.org/docs/current/pgtrgm.html
+ * @see https://www.postgresql.org/docs/17/pgtrgm.html
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
