@@ -98,7 +98,10 @@ return [
                 'tsvector' => 'tsvector',
 
                 // Hierarchical type mappings
-                'ltree' => 'ltree'
+                'ltree' => 'ltree',
+
+                // Vector type mappings
+                'vector' => 'vector'
             ],
         ],
     ],
@@ -155,6 +158,9 @@ return [
 
         // Hierarchical types
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
+
+        // Vector types
+        'vector' => MartinGeorgiev\Doctrine\DBAL\Types\Vector::class,
     ],
 
     // ... other configuration
@@ -336,6 +342,11 @@ return [
         'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
         'ROW' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class,
         'DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class,
+
+        # vector distance functions
+        'COSINE_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\CosineDistance::class,
+        'INNER_PRODUCT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class,
+        'L2_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class,
 
         # aggregation functions
         'ARRAY_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class,

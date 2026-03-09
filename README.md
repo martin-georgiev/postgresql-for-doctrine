@@ -69,6 +69,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Full-text search query (`tsquery`)
 - **Hierarchical Types**
   - [ltree](https://www.postgresql.org/docs/16/ltree.html) (`ltree`)
+- **Vector Types** (requires [pgvector](https://github.com/pgvector/pgvector) extension)
+  - Fixed-dimension float vector (`vector`)
 - **Composite Types**
   - Access fields from [user-defined composite types](https://www.postgresql.org/docs/17/rowtypes.html) via `COMPOSITE_FIELD()` function
 
@@ -110,6 +112,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Mathematical/Arithmetic Functions**
 - **Range Functions**
 - **Data Type Formatting Functions**
+- **Vector Distance Functions**
 
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
