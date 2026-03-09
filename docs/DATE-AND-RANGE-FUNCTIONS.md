@@ -19,10 +19,18 @@ This document covers PostgreSQL date, time, and range functions available in thi
 | make_time | MAKE_TIME | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime` |
 | make_timestamp | MAKE_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp` |
 | make_timestamptz | MAKE_TIMESTAMPTZ | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz` |
-| at time zone | AT_TIME_ZONE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone` |
 | overlaps | DATE_OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps` |
 | to_date | TO_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate` |
 | to_timestamp | TO_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp` |
+
+## Date and Time Operators
+
+Range types work with the general operators for containment and overlap testing:
+
+| PostgreSQL operator | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| at time zone | AT_TIME_ZONE | Converts time data between different time zones (behavior depends on whether the input has a time zone offset)
+ | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone` |
 
 ## Range Functions
 
