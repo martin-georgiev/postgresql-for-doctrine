@@ -186,9 +186,9 @@ abstract class BaseSpatialTypeTestCase extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[DataProvider('provideInvalidPhpValues')]
     #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
+    public function throws_exception_for_invalid_php_value_when_converting_to_database_value(mixed $phpValue): void
     {
         $this->expectException($this->getForPHPExceptionClass());
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
@@ -197,7 +197,7 @@ abstract class BaseSpatialTypeTestCase extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValueInputs(): array
+    public static function provideInvalidPhpValues(): array
     {
         return [
             'random string' => ['foo'],
@@ -208,9 +208,9 @@ abstract class BaseSpatialTypeTestCase extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[DataProvider('provideInvalidDatabaseValues')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_inputs(mixed $postgresValue): void
+    public function throws_exception_for_invalid_database_value_when_converting_to_php_value(mixed $postgresValue): void
     {
         $this->expectException($this->getForDatabaseExceptionClass());
         $this->fixture->convertToPHPValue($postgresValue, $this->platform);
@@ -219,7 +219,7 @@ abstract class BaseSpatialTypeTestCase extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPHPValueInputs(): array
+    public static function provideInvalidDatabaseValues(): array
     {
         return [
             'empty string' => [''],
