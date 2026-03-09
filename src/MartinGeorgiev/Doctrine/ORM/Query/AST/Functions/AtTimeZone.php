@@ -11,7 +11,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * When applied to a timestamp without time zone, it assumes the given timezone.
  * When applied to a timestamp with time zone, it converts to the given timezone.
  *
- * @see https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT
+ * @see https://www.postgresql.org/docs/17/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
