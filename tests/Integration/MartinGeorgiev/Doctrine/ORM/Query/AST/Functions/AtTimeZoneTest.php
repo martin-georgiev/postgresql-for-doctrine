@@ -19,12 +19,11 @@ class AtTimeZoneTest extends DateTestCase
     #[Test]
     public function converts_timestamptz_to_local_timezone(): void
     {
-        $dql = "SELECT AT_TIME_ZONE(t.datetimetz1, 'America/New_York') as result
+        $dql = "SELECT AT_TIME_ZONE(t.datetimetz1, 'Europe/Athens') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        // datetimetz1 = '2023-06-15 10:30:00+00' (UTC); New York is UTC-4 in June → 06:30:00
-        $this->assertSame('2023-06-15 06:30:00', $result[0]['result']);
+        $this->assertSame('2023-06-15 13:30:00', $result[0]['result']);
     }
 
     #[Test]
@@ -34,7 +33,6 @@ class AtTimeZoneTest extends DateTestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        // datetime1 = '2023-06-15 10:30:00' (no tz); interpreting as UTC → timestamptz '2023-06-15 10:30:00+00'
         $this->assertSame('2023-06-15 10:30:00+00', $result[0]['result']);
     }
 }
