@@ -25,8 +25,6 @@ This document covers PostgreSQL date, time, and range functions available in thi
 
 ## Date and Time Operators
 
-Range types work with the general operators for containment and overlap testing:
-
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
 | at time zone | AT_TIME_ZONE | Converts time data between different time zones (behavior depends on whether the input has a time zone offset)
