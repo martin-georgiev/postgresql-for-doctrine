@@ -23,7 +23,6 @@ final class Ltree extends BaseType
 {
     protected const TYPE_NAME = Type::LTREE;
 
-    #[\Override]
     public function convertToPHPValue($value, AbstractPlatform $platform): ?LtreeValueObject
     {
         if (null === $value) {
@@ -41,7 +40,6 @@ final class Ltree extends BaseType
         throw InvalidLtreeForDatabaseException::forInvalidType($value);
     }
 
-    #[\Override]
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (null === $value) {

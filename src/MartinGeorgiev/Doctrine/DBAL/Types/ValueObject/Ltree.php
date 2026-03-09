@@ -27,7 +27,6 @@ class Ltree implements \Stringable, \JsonSerializable
         self::assertListOfValidLtreeNodes($pathFromRoot);
     }
 
-    #[\Override]
     public function __toString(): string
     {
         return \implode('.', $this->pathFromRoot);
@@ -51,7 +50,6 @@ class Ltree implements \Stringable, \JsonSerializable
     /**
      * @return list<non-empty-string>
      */
-    #[\Override]
     public function jsonSerialize(): array
     {
         return $this->getPathFromRoot();
