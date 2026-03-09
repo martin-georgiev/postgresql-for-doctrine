@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree;
 
-use Tests\Integration\MartinGeorgiev\TestCase;
+use Tests\Integration\MartinGeorgiev\TestCase as BaseTestCase;
 
-abstract class LtreeTestCase extends TestCase
+abstract class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {

@@ -45,6 +45,8 @@
 | point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
+|---|---|---|
+| vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` |
 
 ---
 

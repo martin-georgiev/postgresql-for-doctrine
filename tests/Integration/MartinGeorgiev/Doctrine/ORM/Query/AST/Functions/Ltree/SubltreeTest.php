@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltre
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subltree;
 use PHPUnit\Framework\Attributes\Test;
 
-class SubltreeTest extends LtreeTestCase
+class SubltreeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltre
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Index;
 use PHPUnit\Framework\Attributes\Test;
 
-class IndexTest extends LtreeTestCase
+class IndexTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

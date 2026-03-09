@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltre
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Lca;
 use PHPUnit\Framework\Attributes\Test;
 
-class LcaTest extends LtreeTestCase
+class LcaTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

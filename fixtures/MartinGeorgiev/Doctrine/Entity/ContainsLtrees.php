@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Fixtures\MartinGeorgiev\Doctrine\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 
 #[ORM\Entity()]
 class ContainsLtrees extends Entity
 {
-    #[ORM\Column(type: 'ltree')]
+    #[ORM\Column(type: Type::LTREE)]
     public string $ltree1;
 
-    #[ORM\Column(type: 'ltree')]
+    #[ORM\Column(type: Type::LTREE)]
     public string $ltree2;
 
-    #[ORM\Column(type: 'ltree')]
+    #[ORM\Column(type: Type::LTREE)]
     public string $ltree3;
 }

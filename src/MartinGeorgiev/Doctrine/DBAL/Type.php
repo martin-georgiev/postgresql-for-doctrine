@@ -6,28 +6,59 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
-    // Array Types
     public const BIGINT_ARRAY = 'bigint[]';
 
     public const BOOL_ARRAY = 'bool[]';
 
+    public const CIDR = 'cidr';
+
     public const CIDR_ARRAY = 'cidr[]';
+
+    public const DATERANGE = 'daterange';
 
     public const DOUBLE_PRECISION_ARRAY = 'double precision[]';
 
+    public const GEOGRAPHY = 'geography';
+
     public const GEOGRAPHY_ARRAY = 'geography[]';
+
+    public const GEOMETRY = 'geometry';
 
     public const GEOMETRY_ARRAY = 'geometry[]';
 
+    public const INET = 'inet';
+
     public const INET_ARRAY = 'inet[]';
+
+    public const INT4MULTIRANGE = 'int4multirange';
+
+    public const INT4RANGE = 'int4range';
+
+    public const INT8MULTIRANGE = 'int8multirange';
+
+    public const INT8RANGE = 'int8range';
 
     public const INTEGER_ARRAY = 'integer[]';
 
+    public const JSONB = 'jsonb';
+
     public const JSONB_ARRAY = 'jsonb[]';
+
+    public const LTREE = 'ltree';
+
+    public const MACADDR = 'macaddr';
+
+    public const MACADDR8 = 'macaddr8';
+
+    public const MACADDR8_ARRAY = 'macaddr8[]';
 
     public const MACADDR_ARRAY = 'macaddr[]';
 
-    public const MACADDR8_ARRAY = 'macaddr8[]';
+    public const NUMMULTIRANGE = 'nummultirange';
+
+    public const NUMRANGE = 'numrange';
+
+    public const POINT = 'point';
 
     public const POINT_ARRAY = 'point[]';
 
@@ -37,50 +68,17 @@ final class Type
 
     public const TEXT_ARRAY = 'text[]';
 
-    public const UUID_ARRAY = 'uuid[]';
-
-    // Scalar Types
-    public const CIDR = 'cidr';
-
-    public const GEOGRAPHY = 'geography';
-
-    public const GEOMETRY = 'geometry';
-
-    public const INET = 'inet';
-
-    public const JSONB = 'jsonb';
-
-    public const LTREE = 'ltree';
-
-    public const MACADDR = 'macaddr';
-
-    public const MACADDR8 = 'macaddr8';
-
-    public const POINT = 'point';
-
     public const TSQUERY = 'tsquery';
-
-    public const TSVECTOR = 'tsvector';
-
-    // Range Types
-    public const DATERANGE = 'daterange';
-
-    public const INT4RANGE = 'int4range';
-
-    public const INT8RANGE = 'int8range';
-
-    public const NUMRANGE = 'numrange';
 
     public const TSRANGE = 'tsrange';
 
+    public const TSVECTOR = 'tsvector';
+
     public const TSTZRANGE = 'tstzrange';
 
-    // Multirange Types
-    public const INT4MULTIRANGE = 'int4multirange';
+    public const UUID_ARRAY = 'uuid[]';
 
-    public const INT8MULTIRANGE = 'int8multirange';
-
-    public const NUMMULTIRANGE = 'nummultirange';
+    public const VECTOR = 'vector';
 
     private function __construct()
     {

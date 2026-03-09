@@ -54,6 +54,12 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - **[Ltree Functions](LTREE-TYPE.md)**
 - Includes: Path manipulation functions, ancestor/descendant operations, type conversion functions
 
+### **🔢 Vector Distance Functions** (requires [pgvector](https://github.com/pgvector/pgvector) extension)
+Distance functions for fixed-dimension float vectors stored with the `vector` type.
+- `L2_DISTANCE` — Euclidean (L2) distance between two vectors
+- `COSINE_DISTANCE` — Cosine distance between two vectors
+- `INNER_PRODUCT` — Inner (dot) product of two vectors
+
 ## 🚀 Quick Reference
 
 ### Most Commonly Used Functions
@@ -99,6 +105,11 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 - `NLEVEL` - Get number of labels in path
 - `INDEX` - Find position of ltree in another ltree
 - `LCA` - Find longest common ancestor
+
+**Vector Distance Operations:**
+- `L2_DISTANCE` - Euclidean distance between vectors
+- `COSINE_DISTANCE` - Cosine distance between vectors
+- `INNER_PRODUCT` - Inner product of two vectors
 
 **Hashing & Cryptographic Functions:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
 - `MD5`
