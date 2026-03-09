@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltre
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Ltree2text;
 use PHPUnit\Framework\Attributes\Test;
 
-class Ltree2textTest extends LtreeTestCase
+class Ltree2textTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

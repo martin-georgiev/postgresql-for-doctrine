@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltre
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subpath;
 use PHPUnit\Framework\Attributes\Test;
 
-class SubpathTest extends LtreeTestCase
+class SubpathTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
