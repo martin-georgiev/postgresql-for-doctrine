@@ -75,6 +75,9 @@ final class Type
 
     public const TSTZRANGE = 'tstzrange';
 
+    // Extension Types
+    public const VECTOR = 'vector';
+
     // Multirange Types
     public const INT4MULTIRANGE = 'int4multirange';
 
