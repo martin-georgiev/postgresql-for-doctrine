@@ -62,6 +62,9 @@ doctrine:
 
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
+
+            # Vector types
+            vector: MartinGeorgiev\Doctrine\DBAL\Types\Vector
 ```
 
 
@@ -143,6 +146,9 @@ doctrine:
 
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
+
+                    # Vector type mappings
+                    vector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::VECTOR
 ```
 
 
@@ -319,6 +325,11 @@ doctrine:
                         ROW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row
                         STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
                         DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance
+
+                        # vector distance functions
+                        COSINE_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\CosineDistance
+                        INNER_PRODUCT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct
+                        L2_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance
 
                         # aggregation functions
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg

@@ -62,6 +62,9 @@ Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
 
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
+
+// Vector types
+Type::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
 ```
 
 
@@ -238,6 +241,11 @@ $configuration->addCustomStringFunction('REGEXP_REPLACE', MartinGeorgiev\Doctrin
 $configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
 $configuration->addCustomStringFunction('DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class);
 
+# vector distance functions
+$configuration->addCustomStringFunction('COSINE_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\CosineDistance::class);
+$configuration->addCustomStringFunction('INNER_PRODUCT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class);
+$configuration->addCustomStringFunction('L2_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class);
+
 # aggregation functions
 $configuration->addCustomStringFunction('ARRAY_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class);
 $configuration->addCustomStringFunction('JSON_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class);
@@ -332,6 +340,9 @@ $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
 
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');
+
+// Vector mappings
+$platform->registerDoctrineTypeMapping('vector', 'vector');
 ```
 
 ### Usage in Entities

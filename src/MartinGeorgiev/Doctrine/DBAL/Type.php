@@ -78,6 +78,8 @@ final class Type
 
     public const UUID_ARRAY = 'uuid[]';
 
+    public const VECTOR = 'vector';
+
     private function __construct()
     {
         // Prevent instantiation

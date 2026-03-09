@@ -43,7 +43,11 @@
         "geospatial",
         "geometry",
         "geography",
-        "ltree"
+        "ltree",
+        "vector",
+        "pgvector",
+        "vector-search",
+        "embeddings"
     ],
     "license": "MIT",
     "authors": [
