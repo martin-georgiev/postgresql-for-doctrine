@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBoolean;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
  * Implementation of PostGIS ST_SimplifyPolygonHull() function.
@@ -20,7 +20,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOpti
  * @example Using it in DQL: "SELECT ST_SIMPLIFYPOLYGONHULL(g.geometry, 0.5) FROM Entity g"
  * @example Using it in DQL: "SELECT ST_SIMPLIFYPOLYGONHULL(g.geometry, 0.5, 'false') FROM Entity g"
  */
-class ST_SimplifyPolygonHull extends BaseVariadicFunctionWithOptionalBoolean
+class ST_SimplifyPolygonHull extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

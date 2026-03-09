@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBoolean;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
  * Implementation of PostGIS ST_Distance() function.
@@ -20,7 +20,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOpti
  * @example Using it in DQL: "SELECT ST_DISTANCE(g1.geometry, g2.geometry) FROM Entity g1, Entity g2"
  * @example Using it in DQL (geography): "SELECT ST_DISTANCE(g1.geography, g2.geography, TRUE) FROM Entity g1, Entity g2"
  */
-class ST_Distance extends BaseVariadicFunctionWithOptionalBoolean
+class ST_Distance extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

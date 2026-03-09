@@ -17,7 +17,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT JSONB_PATH_QUERY_FIRST(e.jsonbData, '$.items[*] ? (@.price > 100)') FROM Entity e"
  */
-class JsonbPathQueryFirst extends BaseVariadicFunctionWithOptionalBoolean
+class JsonbPathQueryFirst extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

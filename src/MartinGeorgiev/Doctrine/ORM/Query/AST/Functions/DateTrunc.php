@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT DATE_TRUNC('day', e.timestampWithTz, 'Australia/Adelaide') FROM Entity e"
  */
-class DateTrunc extends BaseVariadicFunctionWithOptionalTimezone
+class DateTrunc extends BaseVariadicFunctionWithOptionalTimezoneLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

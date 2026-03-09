@@ -18,7 +18,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT JSONB_PATH_MATCH(e.jsonbData, 'exists($.a[*] ? (@ >= 2 && @ <= 4))')"
  */
-class JsonbPathMatch extends BaseVariadicFunctionWithOptionalBoolean
+class JsonbPathMatch extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

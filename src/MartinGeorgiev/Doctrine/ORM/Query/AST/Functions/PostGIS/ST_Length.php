@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBoolean;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
  * Implementation of PostGIS ST_Length() function.
@@ -20,7 +20,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOpti
  * @example Using it in DQL: "SELECT ST_LENGTH(g.geometry) FROM Entity g"
  * @example Using it in DQL (geography): "SELECT ST_LENGTH(g.geography, TRUE) FROM Entity g"
  */
-class ST_Length extends BaseVariadicFunctionWithOptionalBoolean
+class ST_Length extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

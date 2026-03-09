@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBoolean;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
  * Implementation of PostGIS ST_Area() function.
@@ -20,7 +20,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOpti
  * @example Using it in DQL (geometry): "SELECT ST_AREA(g.geometry) FROM Entity g"
  * @example Using it in DQL (geography): "SELECT ST_AREA(g.geography, TRUE) FROM Entity g"
  */
-class ST_Area extends BaseVariadicFunctionWithOptionalBoolean
+class ST_Area extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

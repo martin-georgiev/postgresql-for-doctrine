@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBoolean;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
  * Implementation of PostGIS ST_ConcaveHull() function.
@@ -20,7 +20,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOpti
  * @example Using it in DQL: "SELECT ST_CONCAVEHULL(g.geometry, 0.9) FROM Entity g"
  * @example Using it in DQL: "SELECT ST_CONCAVEHULL(g.geometry, 0.9, 'true') FROM Entity g"
  */
-class ST_ConcaveHull extends BaseVariadicFunctionWithOptionalBoolean
+class ST_ConcaveHull extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

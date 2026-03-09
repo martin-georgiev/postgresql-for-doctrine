@@ -17,7 +17,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE e.id IN (SELECT JSONB_PATH_QUERY(e2.jsonbData, '$.items[*].id') FROM Entity2 e2)"
  */
-class JsonbPathQuery extends BaseVariadicFunctionWithOptionalBoolean
+class JsonbPathQuery extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

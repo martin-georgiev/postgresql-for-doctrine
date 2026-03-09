@@ -17,7 +17,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT DATE_SUBTRACT(e.timestampWithTz, '1 day', 'Europe/Sofia') FROM Entity e"
  */
-class DateSubtract extends BaseVariadicFunctionWithOptionalTimezone
+class DateSubtract extends BaseVariadicFunctionWithOptionalTimezoneLastArgument
 {
     protected function getNodeMappingPattern(): array
     {

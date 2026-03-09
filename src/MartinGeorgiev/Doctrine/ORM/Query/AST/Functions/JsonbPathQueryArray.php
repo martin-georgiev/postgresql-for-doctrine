@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT JSONB_PATH_QUERY_ARRAY(e.jsonbData, '$.items[*].id') FROM Entity e"
  */
-class JsonbPathQueryArray extends BaseVariadicFunctionWithOptionalBoolean
+class JsonbPathQueryArray extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
     protected function getNodeMappingPattern(): array
     {
