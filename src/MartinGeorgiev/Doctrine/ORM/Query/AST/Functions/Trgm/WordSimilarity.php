@@ -11,7 +11,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * Returns a number indicating the greatest similarity between the set of trigrams in the first string
  * and any continuous extent of an ordered set of trigrams in the second string.
- * Requires the pg_trgm extension.
  *
  * @see https://www.postgresql.org/docs/17/pgtrgm.html
  * @since 4.4

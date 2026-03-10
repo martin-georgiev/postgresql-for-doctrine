@@ -11,7 +11,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * Returns a number indicating the greatest similarity between the first string and any continuous extent
  * of words of the second string, forcing extent boundaries to match word boundaries.
- * Requires the pg_trgm extension.
  *
  * @see https://www.postgresql.org/docs/17/pgtrgm.html
  * @since 4.4
