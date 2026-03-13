@@ -17,22 +17,22 @@ class SimilarityDistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_zero_for_identical_strings(): void
+    public function calculates_distance_from_strings(): void
     {
-        $dql = "SELECT SIMILARITY_DISTANCE('word', 'word') as result
+        $dql = "SELECT SIMILARITY_DISTANCE('word', 'xyz') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.0, $result[0]['result']);
+        $this->assertEquals(1.0, $result[0]['result']);
     }
 
     #[Test]
-    public function calculates_distance_from_entity_fields(): void
+    public function calculates_distance_from_text_fields(): void
     {
         $dql = 'SELECT SIMILARITY_DISTANCE(t.text1, t.text2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
-                WHERE t.id = 3';
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1.0, $result[0]['result']);
+        $this->assertEquals(0.5185185, $result[0]['result']);
     }
 }

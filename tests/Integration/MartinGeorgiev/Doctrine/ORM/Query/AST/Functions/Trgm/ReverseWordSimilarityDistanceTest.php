@@ -17,22 +17,22 @@ class ReverseWordSimilarityDistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_zero_when_haystack_contains_needle_as_word(): void
+    public function calculates_distance_from_strings(): void
     {
-        $dql = "SELECT REVERSE_WORD_SIMILARITY_DISTANCE('this is a test string', 'test') as result
+        $dql = "SELECT REVERSE_WORD_SIMILARITY_DISTANCE('xyz', 'word') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.0, $result[0]['result']);
+        $this->assertEquals(1.0, $result[0]['result']);
     }
 
     #[Test]
-    public function calculates_distance_from_entity_fields(): void
+    public function calculates_distance_from_text_fields(): void
     {
-        $dql = 'SELECT REVERSE_WORD_SIMILARITY_DISTANCE(t.text1, t.text2) as result
+        $dql = 'SELECT REVERSE_WORD_SIMILARITY_DISTANCE(t.text2, t.text1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
-                WHERE t.id = 3';
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1.0, $result[0]['result']);
+        $this->assertEquals(0.4, $result[0]['result']);
     }
 }
