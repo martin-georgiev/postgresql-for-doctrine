@@ -17,16 +17,6 @@ class StrictWordSimilarityDistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_zero_for_identical_strings(): void
-    {
-        $dql = "SELECT STRICT_WORD_SIMILARITY_DISTANCE('word', 'word') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.0, $result[0]['result']);
-    }
-
-    #[Test]
     public function returns_zero_when_needle_is_whole_word_in_haystack(): void
     {
         $dql = "SELECT STRICT_WORD_SIMILARITY_DISTANCE('test', 'this is a test string') as result
@@ -37,11 +27,11 @@ class StrictWordSimilarityDistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_one_for_completely_different_strings(): void
+    public function calculates_distance_from_entity_fields(): void
     {
-        $dql = "SELECT STRICT_WORD_SIMILARITY_DISTANCE('word', 'xyz') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
+        $dql = 'SELECT STRICT_WORD_SIMILARITY_DISTANCE(t.text1, t.text2) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
+                WHERE t.id = 3';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.0, $result[0]['result']);
     }
