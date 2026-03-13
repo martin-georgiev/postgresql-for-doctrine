@@ -18,7 +18,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT IS_WORD_SIMILAR_TO(e.name, :search) FROM Entity e"
+ * @example Using it in DQL with boolean comparison: "WHERE IS_WORD_SIMILAR_TO(:search, e.name) = TRUE"
  */
 class IsWordSimilarTo extends BaseFunction
 {

@@ -17,7 +17,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT ARE_SIMILAR(e.name, :search) FROM Entity e"
+ * @example Using it in DQL with boolean comparison: "WHERE ARE_SIMILAR(e.name, :search) = TRUE"
  */
 class AreSimilar extends BaseFunction
 {
