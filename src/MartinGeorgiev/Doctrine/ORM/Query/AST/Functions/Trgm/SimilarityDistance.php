@@ -16,7 +16,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT SIMILARITY_DISTANCE(e.name, :search) FROM Entity e ORDER BY DISTANCE(e.name, :search)"
+ * @example Using it in DQL: "SELECT SIMILARITY_DISTANCE(e.name, :search) FROM Entity e ORDER BY SIMILARITY_DISTANCE(e.name, :search)"
  */
 class SimilarityDistance extends BaseFunction
 {

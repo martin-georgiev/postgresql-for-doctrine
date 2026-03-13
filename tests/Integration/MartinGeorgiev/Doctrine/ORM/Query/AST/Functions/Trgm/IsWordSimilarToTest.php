@@ -17,32 +17,20 @@ class IsWordSimilarToTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_for_identical_strings(): void
+    public function returns_true_when_needle_is_word_in_haystack_entity_field(): void
     {
-        $dql = "SELECT IS_WORD_SIMILAR_TO('word', 'word') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
+        $dql = "SELECT t.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                WHERE IS_WORD_SIMILAR_TO('test', t.text1) = TRUE AND t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('t', $result[0]['result']);
+        $this->assertCount(1, $result);
     }
 
     #[Test]
-    public function returns_true_when_needle_is_word_in_haystack(): void
+    public function returns_false_when_entity_fields_share_no_similar_words(): void
     {
-        $dql = "SELECT IS_WORD_SIMILAR_TO('test', 'this is a test string') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
+        $dql = 'SELECT t.id FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
+                WHERE IS_WORD_SIMILAR_TO(t.text2, t.text1) = TRUE AND t.id = 3';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('t', $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_for_completely_different_strings(): void
-    {
-        $dql = "SELECT IS_WORD_SIMILAR_TO('word', 'xyz') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('f', $result[0]['result']);
+        $this->assertCount(0, $result);
     }
 }

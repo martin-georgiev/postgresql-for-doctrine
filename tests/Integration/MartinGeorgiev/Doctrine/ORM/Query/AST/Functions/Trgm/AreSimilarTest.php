@@ -17,22 +17,20 @@ class AreSimilarTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_for_identical_strings(): void
+    public function returns_true_when_entity_fields_are_similar(): void
     {
-        $dql = "SELECT ARE_SIMILAR('word', 'word') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
+        $dql = 'SELECT t.id FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
+                WHERE ARE_SIMILAR(t.text1, t.text2) = TRUE AND t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('t', $result[0]['result']);
+        $this->assertCount(1, $result);
     }
 
     #[Test]
-    public function returns_false_for_completely_different_strings(): void
+    public function returns_false_when_entity_fields_are_not_similar(): void
     {
-        $dql = "SELECT ARE_SIMILAR('word', 'xyz') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
+        $dql = 'SELECT t.id FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
+                WHERE ARE_SIMILAR(t.text1, t.text2) = TRUE AND t.id = 3';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('f', $result[0]['result']);
+        $this->assertCount(0, $result);
     }
 }

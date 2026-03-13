@@ -100,9 +100,9 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 | PostgreSQL function | Register for DQL as | Implemented by |
 |---|---|---|
-| similarity` | `SIMILARITY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\Similarity` |
-| word_similarity` | `WORD_SIMILARITY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarity` |
-| strict_word_similarity` | `STRICT_WORD_SIMILARITY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarity` |
+| similarity | `SIMILARITY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\Similarity` |
+| word_similarity | `WORD_SIMILARITY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarity` |
+| strict_word_similarity | `STRICT_WORD_SIMILARITY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarity` |
 
 ### Similarity threshold operators
 
