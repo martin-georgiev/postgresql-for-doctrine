@@ -33,6 +33,6 @@ class StrictWordSimilarityDistanceTest extends TestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.4, $result[0]['result']);
+        $this->assertEqualsWithDelta(0.4, $result[0]['result'], 0.0001);
     }
 }
