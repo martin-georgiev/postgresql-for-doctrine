@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL host() function.
+ * Implementation of PostgreSQL HOST().
  *
  * Returns the IP address as text, ignoring the netmask.
  *

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL netmask() function.
+ * Implementation of PostgreSQL NETMASK().
  *
  * Returns the network mask for the network, in the same family as the address.
  *

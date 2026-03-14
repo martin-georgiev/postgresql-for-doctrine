@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL abbrev() function.
+ * Implementation of PostgreSQL ABBREV().
  *
  * Returns the abbreviated text form of the IP address or CIDR block, omitting the netmask if it is the default.
  *

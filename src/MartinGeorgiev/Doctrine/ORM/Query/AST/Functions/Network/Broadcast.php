@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL broadcast() function.
+ * Implementation of PostgreSQL BROADCAST().
  *
  * Returns the broadcast address for the network.
  *

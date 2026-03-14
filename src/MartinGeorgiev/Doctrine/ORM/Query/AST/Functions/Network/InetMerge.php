@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL inet_merge() function.
+ * Implementation of PostgreSQL INET_MERGE().
  *
  * Returns the smallest network that includes both of the given networks.
  *

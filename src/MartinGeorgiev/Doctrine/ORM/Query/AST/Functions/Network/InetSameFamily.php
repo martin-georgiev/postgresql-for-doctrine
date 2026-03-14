@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL inet_same_family() function.
+ * Implementation of PostgreSQL INET_SAME_FAMILY().
  *
  * Returns true if the two addresses belong to the same IP address family (both IPv4 or both IPv6).
  *

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL family() function.
+ * Implementation of PostgreSQL FAMILY().
  *
  * Returns the address family of the IP address: 4 for IPv4, 6 for IPv6.
  *
