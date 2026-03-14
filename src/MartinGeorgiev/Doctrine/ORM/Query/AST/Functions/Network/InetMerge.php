@@ -14,7 +14,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @see https://www.postgresql.org/docs/18/functions-net.html
  * @since 4.4
  *
- *
  * @example Using it in DQL: "SELECT INET_MERGE(e.ip1, e.ip2) FROM Entity e"
  */
 class InetMerge extends BaseFunction

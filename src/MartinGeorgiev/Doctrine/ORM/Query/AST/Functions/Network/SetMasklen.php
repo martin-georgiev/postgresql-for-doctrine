@@ -14,7 +14,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @see https://www.postgresql.org/docs/18/functions-net.html
  * @since 4.4
  *
- *
  * @example Using it in DQL: "SELECT SET_MASKLEN(e.ipAddress, 16) FROM Entity e"
  */
 class SetMasklen extends BaseFunction

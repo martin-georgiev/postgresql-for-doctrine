@@ -14,7 +14,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @see https://www.postgresql.org/docs/18/functions-net.html
  * @since 4.4
  *
- *
  * @example Using it in DQL: "SELECT FAMILY(e.ipAddress) FROM Entity e"
  */
 class Family extends BaseFunction

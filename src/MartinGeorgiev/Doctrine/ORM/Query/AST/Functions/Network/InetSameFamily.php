@@ -14,7 +14,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * @see https://www.postgresql.org/docs/18/functions-net.html
  * @since 4.4
  *
- *
  * @example Using it in DQL with boolean comparison: "WHERE INET_SAME_FAMILY(e.ip1, e.ip2) = TRUE"
  */
 class InetSameFamily extends BaseFunction
