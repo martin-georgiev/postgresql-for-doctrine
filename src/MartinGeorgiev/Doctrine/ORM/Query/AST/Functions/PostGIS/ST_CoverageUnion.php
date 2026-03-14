@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_CoverageUnion() aggregate function.
+ * Implementation of PostGIS ST_CoverageUnion().
  *
  * Computes the union of a set of polygons forming a coverage by removing shared edges.
  * Much faster than ST_Union when input forms a valid coverage.
