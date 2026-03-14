@@ -45,7 +45,7 @@ PostgreSQL provides several range types for representing ranges of values. These
 
 ## Range Aggregate Functions
 
-These aggregate functions operate on range values. Requires PostgreSQL 14+.
+These aggregate functions operate on range values.
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -107,12 +107,6 @@ SELECT e, INT4RANGE(e.min_value, e.max_value) as int_range FROM Entity e
 
 -- Create numeric ranges
 SELECT e, NUMRANGE(e.min_price, e.max_price) as price_range FROM Entity e
-
--- Aggregate ranges into a multirange (union of all ranges)
-SELECT RANGE_AGG(e.dateRange) as coverage FROM Entity e
-
--- Compute intersection of all ranges
-SELECT RANGE_INTERSECT_AGG(e.dateRange) as overlap FROM Entity e
 
 -- Test if range contains value
 SELECT e FROM Entity e WHERE CONTAINS(e.age_range, 25) = TRUE
