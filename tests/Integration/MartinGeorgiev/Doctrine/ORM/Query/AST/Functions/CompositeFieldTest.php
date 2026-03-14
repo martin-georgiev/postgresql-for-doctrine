@@ -108,7 +108,7 @@ class CompositeFieldTest extends BaseTestCase
         $dql = "SELECT COMPOSITE_FIELD(t.item, 'price') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 3";
         $result = $this->executeDqlQuery($dql);
         $this->assertIsNumeric($result[0]['result']);
-        $this->assertEqualsWithDelta(29.99, (float) $result[0]['result'], 0.001);
+        $this->assertEquals(29.99, $result[0]['result']);
     }
 
     #[Test]

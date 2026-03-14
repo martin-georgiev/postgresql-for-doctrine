@@ -94,13 +94,35 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 ## Trigram Similarity Functions (pg_trgm extension)
 
-> ⚠️ **Note**: These functions require the PostgreSQL `pg_trgm` extension to be installed and enabled in your database.
+> ⚠️ **Note**: These functions and operators require the PostgreSQL `pg_trgm` extension to be installed and enabled.
 
-| PostgreSQL functions | Register for DQL as | Implemented by |
+### Similarity functions
+
+| PostgreSQL function | Register for DQL as | Implemented by |
 |---|---|---|
 | similarity | SIMILARITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\Similarity` |
-| strict_word_similarity | STRICT_WORD_SIMILARITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarity` |
 | word_similarity | WORD_SIMILARITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarity` |
+| strict_word_similarity | STRICT_WORD_SIMILARITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarity` |
+
+### Similarity threshold operators
+
+| PostgreSQL operator | Register for DQL as | Implemented by |
+|---|---|---|
+| % | ARE_SIMILAR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\AreSimilar` |
+| <% | IS_WORD_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\IsWordSimilarTo` |
+| %> | CONTAINS_WORD_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ContainsWordSimilarTo` |
+| <<% | IS_STRICT_WORD_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\IsStrictWordSimilarTo` |
+| %>> | CONTAINS_STRICT_WORD_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ContainsStrictWordSimilarTo` |
+
+### Distance operators
+
+| PostgreSQL operator | Register for DQL as | Implemented by |
+|---|---|---|
+| <-> | SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\SimilarityDistance` |
+| <<-> | WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarityDistance` |
+| <->> | REVERSE_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseWordSimilarityDistance` |
+| <<<-> | STRICT_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarityDistance` |
+| <->>> | REVERSE_STRICT_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseStrictWordSimilarityDistance` |
 
 ## Usage Examples
 

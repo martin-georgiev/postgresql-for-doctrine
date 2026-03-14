@@ -11,7 +11,6 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * Returns a number indicating how similar the two arguments are.
  * The range is zero (completely dissimilar) to one (identical).
- * Requires the pg_trgm extension.
  *
  * @see https://www.postgresql.org/docs/17/pgtrgm.html
  * @since 4.4
