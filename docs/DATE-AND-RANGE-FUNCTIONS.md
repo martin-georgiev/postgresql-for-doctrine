@@ -43,6 +43,15 @@ PostgreSQL provides several range types for representing ranges of values. These
 | tsrange | TSRANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange` |
 | tstzrange | TSTZRANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange` |
 
+## Range Aggregate Functions
+
+These aggregate functions operate on range values.
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| range_agg | RANGE_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeAgg` |
+| range_intersect_agg | RANGE_INTERSECT_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeIntersectAgg` |
+
 ## Range Operators
 
 Range types work with the general operators for containment and overlap testing:
