@@ -10,9 +10,9 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 #[ORM\Entity()]
 class ContainsNetworks extends Entity
 {
-    #[ORM\Column(type: Type::INET, nullable: true)]
-    public ?string $ip;
+    #[ORM\Column(type: Type::INET)]
+    public string $ip;
 
-    #[ORM\Column(type: Type::CIDR, nullable: true)]
-    public ?string $cidr;
+    #[ORM\Column(type: Type::CIDR)]
+    public string $cidr;
 }
