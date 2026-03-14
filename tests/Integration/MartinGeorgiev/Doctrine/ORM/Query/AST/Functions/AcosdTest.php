@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosd;
+use PHPUnit\Framework\Attributes\Test;
+
+class AcosdTest extends NumericTestCase
+{
+    protected function getStringFunctions(): array
+    {
+        return [
+            'ACOSD' => Acosd::class,
+        ];
+    }
+
+    #[Test]
+    public function acosd_of_one(): void
+    {
+        $dql = 'SELECT ACOSD(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.000001);
+    }
+
+    #[Test]
+    public function acosd_with_entity_property(): void
+    {
+        $dql = 'SELECT ACOSD(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(78.170500951321, $result[0]['result'], 0.000001);
+    }
+}

@@ -4,6 +4,40 @@ This document covers PostgreSQL mathematical, utility, and miscellaneous functio
 
 > 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
 
+## Trigonometric Functions
+
+### Radian-based functions
+
+| PostgreSQL function | Register for DQL as | Implemented by |
+|---|---|---|
+| sin | SIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sin` |
+| cos | COS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cos` |
+| tan | TAN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tan` |
+| cot | COT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cot` |
+| asin | ASIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asin` |
+| acos | ACOS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acos` |
+| atan | ATAN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan` |
+| atan2 | ATAN2 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2` |
+| sinh | SINH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sinh` |
+| cosh | COSH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosh` |
+| tanh | TANH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh` |
+| asinh | ASINH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asinh` |
+| acosh | ACOSH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosh` |
+| atanh | ATANH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atanh` |
+
+### Degree-based functions
+
+| PostgreSQL function | Register for DQL as | Implemented by |
+|---|---|---|
+| sind | SIND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sind` |
+| cosd | COSD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosd` |
+| tand | TAND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tand` |
+| cotd | COTD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cotd` |
+| asind | ASIND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asind` |
+| acosd | ACOSD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosd` |
+| atand | ATAND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atand` |
+| atan2d | ATAN2D | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2d` |
+
 ## Mathematical Functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |

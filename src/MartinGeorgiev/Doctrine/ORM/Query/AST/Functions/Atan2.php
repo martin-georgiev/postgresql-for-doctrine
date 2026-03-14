@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+
+/**
+ * Implementation of PostgreSQL atan2() function.
+ *
+ * Returns the inverse tangent of y/x (result in radians), using the signs of the two arguments
+ * to determine the quadrant of the result.
+ *
+ * @see https://www.postgresql.org/docs/18/functions-math.html
+ * @since 4.4
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
+ * @example Using it in DQL: "SELECT ATAN2(e.y, e.x) FROM Entity e"
+ */
+class Atan2 extends BaseVariadicFunction
+{
+    protected function getNodeMappingPattern(): array
+    {
+        return ['ArithmeticPrimary,ArithmeticPrimary'];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'ATAN2';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 2;
+    }
+}
