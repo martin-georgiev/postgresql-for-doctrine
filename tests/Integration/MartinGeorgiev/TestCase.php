@@ -17,6 +17,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
 use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geography;
@@ -45,7 +46,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsquery;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
@@ -232,6 +235,7 @@ abstract class TestCase extends BaseTestCase
             'cidr' => Cidr::class,
             'cidr[]' => CidrArray::class,
             'daterange' => DateRange::class,
+            'datemultirange' => DateMultirange::class,
             'double precision[]' => DoublePrecisionArray::class,
             'geography' => Geography::class,
             'geography[]' => GeographyArray::class,
@@ -259,7 +263,9 @@ abstract class TestCase extends BaseTestCase
             'smallint[]' => SmallIntArray::class,
             'text[]' => TextArray::class,
             'tsquery' => Tsquery::class,
+            'tsmultirange' => TsMultirange::class,
             'tsrange' => TsRange::class,
+            'tstzmultirange' => TstzMultirange::class,
             'tstzrange' => TstzRange::class,
             'tsvector' => Tsvector::class,
             'uuid[]' => UuidArray::class,

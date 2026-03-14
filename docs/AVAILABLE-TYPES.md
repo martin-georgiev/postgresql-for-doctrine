@@ -33,9 +33,12 @@
 | tsrange | tsrange | `MartinGeorgiev\Doctrine\DBAL\Types\TsRange` |
 | tstzrange | tstzrange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzRange` |
 |---|---|---|
+| datemultirange | datemultirange | `MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange` |
 | int4multirange | int4multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange` |
 | int8multirange | int8multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange` |
 | nummultirange | nummultirange | `MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange` |
+| tsmultirange | tsmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange` |
+| tstzmultirange | tstzmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange` |
 |---|---|---|
 | geography | geography | `MartinGeorgiev\Doctrine\DBAL\Types\Geography` |
 | geography[] | _geography | `MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray` |
