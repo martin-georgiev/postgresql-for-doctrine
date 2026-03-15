@@ -21,7 +21,7 @@ class InetSameFamilyTest extends TestCase
     {
         return [
             "SELECT inet_same_family('192.168.1.5', '10.0.0.1') AS sclr_0 FROM ContainsNetworks c0_",
-            'SELECT inet_same_family(c0_.ip, c0_.cidr_block) AS sclr_0 FROM ContainsNetworks c0_',
+            'SELECT inet_same_family(c0_.ip, c0_.cidr) AS sclr_0 FROM ContainsNetworks c0_',
         ];
     }
 
