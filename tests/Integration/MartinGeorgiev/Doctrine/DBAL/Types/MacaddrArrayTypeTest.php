@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPException;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class MacaddrArrayTypeTest extends ArrayTypeTestCase
@@ -18,13 +17,6 @@ class MacaddrArrayTypeTest extends ArrayTypeTestCase
     protected function getPostgresTypeName(): string
     {
         return 'MACADDR[]';
-    }
-
-    #[DataProvider('provideValidTransformations')]
-    #[Test]
-    public function can_handle_array_values(string $testName, array $arrayValue): void
-    {
-        parent::can_handle_array_values($testName, $arrayValue);
     }
 
     /**

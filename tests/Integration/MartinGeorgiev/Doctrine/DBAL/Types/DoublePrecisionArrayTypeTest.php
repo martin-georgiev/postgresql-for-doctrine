@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
-
 class DoublePrecisionArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
@@ -17,13 +14,6 @@ class DoublePrecisionArrayTypeTest extends ArrayTypeTestCase
     protected function getPostgresTypeName(): string
     {
         return 'DOUBLE PRECISION[]';
-    }
-
-    #[DataProvider('provideValidTransformations')]
-    #[Test]
-    public function can_handle_array_values(string $testName, array $arrayValue): void
-    {
-        parent::can_handle_array_values($testName, $arrayValue);
     }
 
     /**
