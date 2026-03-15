@@ -89,9 +89,12 @@ return [
                 'tstzrange' => 'tstzrange',
 
                 // Multirange type mappings
+                'datemultirange' => 'datemultirange',
                 'int4multirange' => 'int4multirange',
                 'int8multirange' => 'int8multirange',
                 'nummultirange' => 'nummultirange',
+                'tsmultirange' => 'tsmultirange',
+                'tstzmultirange' => 'tstzmultirange',
 
                 // Text search type mappings
                 'tsquery' => 'tsquery',
@@ -148,9 +151,12 @@ return [
         'tstzrange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class,
 
         // Multirange types
+        'datemultirange' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class,
         'int4multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class,
         'int8multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class,
         'nummultirange' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class,
+        'tsmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
+        'tstzmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
 
         // Text search types
         'tsquery' => MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,
@@ -455,9 +461,12 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
 
     private function registerMultirangeTypes(): void
     {
+        $this->addTypeIfNotExists('datemultirange', \MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class);
         $this->addTypeIfNotExists('int4multirange', \MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class);
         $this->addTypeIfNotExists('int8multirange', \MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class);
         $this->addTypeIfNotExists('nummultirange', \MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class);
+        $this->addTypeIfNotExists('tsmultirange', \MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class);
+        $this->addTypeIfNotExists('tstzmultirange', \MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class);
     }
 
     private function registerHierarchicalTypes(): void
@@ -584,6 +593,12 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'text[]' => \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
             'point' => \MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
             'numrange' => \MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class,
+            'datemultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class,
+            'int4multirange' => \MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class,
+            'int8multirange' => \MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class,
+            'nummultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class,
+            'tsmultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
+            'tstzmultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
             'ltree' => \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
             // Add other types as needed...
         ];
@@ -606,6 +621,12 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'point' => 'point',
             '_point' => 'point[]',
             'numrange' => 'numrange',
+            'datemultirange' => 'datemultirange',
+            'int4multirange' => 'int4multirange',
+            'int8multirange' => 'int8multirange',
+            'nummultirange' => 'nummultirange',
+            'tsmultirange' => 'tsmultirange',
+            'tstzmultirange' => 'tstzmultirange',
             'ltree' => 'ltree',
             // Add other mappings as needed...
         ];

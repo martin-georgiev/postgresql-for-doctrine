@@ -16,6 +16,8 @@ final class Type
 
     public const DATERANGE = 'daterange';
 
+    public const DATEMULTIRANGE = 'datemultirange';
+
     public const DOUBLE_PRECISION_ARRAY = 'double precision[]';
 
     public const GEOGRAPHY = 'geography';
@@ -72,9 +74,13 @@ final class Type
 
     public const TSRANGE = 'tsrange';
 
+    public const TSMULTIRANGE = 'tsmultirange';
+
     public const TSVECTOR = 'tsvector';
 
     public const TSTZRANGE = 'tstzrange';
+
+    public const TSTZMULTIRANGE = 'tstzmultirange';
 
     public const UUID_ARRAY = 'uuid[]';
 

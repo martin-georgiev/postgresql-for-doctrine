@@ -5,10 +5,27 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Multirange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 abstract class MultirangeTypeTestCase extends TestCase
 {
+    /**
+     * @param Multirange<Range<\DateTimeInterface|float|int>> $multirange
+     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
+    public function can_transform_multirange_value(Multirange $multirange): void
+    {
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $multirange);
+    }
+
+    /**
+     * @return array<string, array{Multirange<Range<\DateTimeInterface|float|int>>}>
+     */
+    abstract public static function provideValidTransformations(): array;
+
     #[Test]
     public function can_handle_null_values(): void
     {

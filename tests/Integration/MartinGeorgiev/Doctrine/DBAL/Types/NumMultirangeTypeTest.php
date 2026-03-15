@@ -6,8 +6,6 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericMultirange as NumericMultirangeVO;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 
 class NumMultirangeTypeTest extends MultirangeTypeTestCase
 {
@@ -19,16 +17,6 @@ class NumMultirangeTypeTest extends MultirangeTypeTestCase
     protected function getPostgresTypeName(): string
     {
         return 'NUMMULTIRANGE';
-    }
-
-    #[DataProvider('provideValidTransformations')]
-    #[Test]
-    public function can_transform_multirange_value(NumericMultirangeVO $numericMultirangeVO): void
-    {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, $numericMultirangeVO);
     }
 
     /**

@@ -52,9 +52,12 @@ doctrine:
             tstzrange: MartinGeorgiev\Doctrine\DBAL\Types\TstzRange
 
             # Multirange types
+            datemultirange: MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange
             int4multirange: MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange
             int8multirange: MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange
             nummultirange: MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange
+            tsmultirange: MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange
+            tstzmultirange: MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange
 
             # Text search types
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
@@ -136,9 +139,12 @@ doctrine:
                     tstzrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZRANGE
 
                     # Multirange type mappings
+                    datemultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATEMULTIRANGE
                     int4multirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4MULTIRANGE
                     int8multirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT8MULTIRANGE
                     nummultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMMULTIRANGE
+                    tsmultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSMULTIRANGE
+                    tstzmultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZMULTIRANGE
 
                     # Text search type mappings
                     tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY
