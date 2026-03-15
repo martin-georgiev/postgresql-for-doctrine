@@ -49,6 +49,11 @@ Complete documentation for mathematical operations and utility functions.
 - **[Mathematical and Utility Functions](MATHEMATICAL-FUNCTIONS.md)**
 - Includes: Mathematical functions, type conversion functions, formatting functions, utility functions
 
+### **🌐 Network Address Functions**
+Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
+- **[Network Address Functions](NETWORK-FUNCTIONS.md)**
+- Includes: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK`, `FAMILY`, `MASKLEN`, `ABBREV`, `INET_MERGE`, `INET_SAME_FAMILY`, `SET_MASKLEN`
+
 ### **🌳 Ltree Functions**
 Complete documentation for PostgreSQL ltree (label tree) operations and hierarchical data processing.
 - **[Ltree Functions](LTREE-TYPE.md)**
@@ -83,7 +88,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `CASEFOLD` - Advanced case-insensitive text comparison with Unicode support
 - `ILIKE` - Case-insensitive pattern matching
 - `REGEXP` (`~`) - Regular expression matching
-- `STARTS_WITH` - Test if text starts with substring
+- `STARTS_WITH` - Test if text starts with a substring
 - `LEVENSHTEIN` - Calculate edit distance between strings (fuzzy matching)
 - `SOUNDEX` - Phonetic encoding for similarity matching
 
@@ -98,6 +103,11 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `LGAMMA` - Natural logarithm of gamma function
 - `ROUND` - Round numeric values
 - `RANDOM` - Generate random numbers
+
+**Network Address Operations:** ([Complete documentation](NETWORK-FUNCTIONS.md))
+- `HOST`/`NETWORK`/`BROADCAST` - Extract address parts
+- `MASKLEN`/`NETMASK`/`HOSTMASK` - Mask information
+- `INET_MERGE` - Smallest network containing two addresses
 
 **Ltree Operations:** ([Complete documentation](LTREE-TYPE.md))
 - `SUBLTREE` - Extract subpath from ltree
@@ -152,15 +162,21 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **Range Types**: Create and work with various range types
 - **Overlap Testing**: Check if date ranges overlap
 
+### **Ltree Functions**
+- **Path Operations**: Extract subpaths, manipulate hierarchical paths
+- **Ancestor Operations**: Find common ancestors, calculate path levels
+- **Type Conversion**: Convert between `ltree` and text types
+
 ### **Mathematical Functions**
 - **Basic Math**: Power, square root, trigonometric functions
 - **Aggregation**: Array and JSON aggregation functions
 - **Utility Functions**: Random numbers, rounding, type casting
 
-### **Ltree Functions**
-- **Path Operations**: Extract subpaths, manipulate hierarchical paths
-- **Ancestor Operations**: Find common ancestors, calculate path levels
-- **Type Conversion**: Convert between ltree and text types
+### **Network Address Functions**
+- **Extraction**: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK` — decompose `inet`/`cidr` types
+- **Inspection**: `FAMILY`, `MASKLEN`, `ABBREV` — address metadata
+- **Multi-address**: `INET_MERGE`, `INET_SAME_FAMILY` — compare or combine addresses
+- **Modification**: `SET_MASKLEN` — adjust subnet mask length
 
 ### **Operators**
 - **Array Operators**: Contains, overlaps, element testing
