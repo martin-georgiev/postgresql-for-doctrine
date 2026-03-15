@@ -78,6 +78,29 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Perform a round-trip where the stored value differs from the expected retrieved value (e.g. bound normalization).
+     */
+    protected function runDbalBindingRoundTripExpectingDifferentRetrievedValue(string $typeName, string $columnType, mixed $inputValue, mixed $expectedValue): void
+    {
+        $this->assertNotEquals($inputValue, $expectedValue);
+
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $inputValue, $typeName)
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+            $this->assertRoundTrip($typeName, $expectedValue, $retrieved);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
+    /**
      * Perform a round-trip using DBAL parameter binding for insertion.
      */
     protected function runDbalBindingRoundTrip(string $typeName, string $columnType, mixed $value): void

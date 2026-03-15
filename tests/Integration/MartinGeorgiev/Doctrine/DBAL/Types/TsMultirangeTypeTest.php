@@ -6,8 +6,6 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsMultirange as TsMultirangeVO;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 
 class TsMultirangeTypeTest extends MultirangeTypeTestCase
 {
@@ -19,16 +17,6 @@ class TsMultirangeTypeTest extends MultirangeTypeTestCase
     protected function getPostgresTypeName(): string
     {
         return 'TSMULTIRANGE';
-    }
-
-    #[DataProvider('provideValidTransformations')]
-    #[Test]
-    public function can_transform_multirange_value(TsMultirangeVO $tsMultirangeVO): void
-    {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, $tsMultirangeVO);
     }
 
     /**
