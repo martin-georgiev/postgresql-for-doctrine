@@ -114,6 +114,15 @@ class TsMultirangeTest extends TestCase
         $this->fixture->convertToDatabaseValue('not-a-multirange', $this->platform); // @phpstan-ignore-line
     }
 
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_type(mixed $input): void
+    {
+        $this->expectException(InvalidMultirangeForPHPException::class);
+
+        $this->fixture->convertToPHPValue($input, $this->platform); // @phpstan-ignore argument.type
+    }
+
     /**
      * @return array<string, array{mixed}>
      */
@@ -126,15 +135,6 @@ class TsMultirangeTest extends TestCase
             'object' => [new \stdClass()],
             'bool' => [true],
         ];
-    }
-
-    #[DataProvider('provideInvalidPHPValueInputs')]
-    #[Test]
-    public function throws_exception_for_invalid_php_value_type(mixed $input): void
-    {
-        $this->expectException(InvalidMultirangeForPHPException::class);
-
-        $this->fixture->convertToPHPValue($input, $this->platform); // @phpstan-ignore argument.type
     }
 
     #[Test]
