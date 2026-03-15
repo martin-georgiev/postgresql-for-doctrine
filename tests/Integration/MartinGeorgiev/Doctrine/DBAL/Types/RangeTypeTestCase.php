@@ -133,11 +133,10 @@ abstract class RangeTypeTestCase extends TestCase
     }
 
     /**
-     * Data-driven test for Range value objects.
-     * Subclasses should add #[DataProvider('provideValidTransformations')].
-     *
      * @param RangeValueObject<\DateTimeInterface|float|int> $rangeValueObject
      */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_handle_range_values(string $testName, RangeValueObject $rangeValueObject): void
     {
         $typeName = $this->getTypeName();
@@ -145,6 +144,11 @@ abstract class RangeTypeTestCase extends TestCase
 
         $this->runDbalBindingRoundTrip($typeName, $columnType, $rangeValueObject);
     }
+
+    /**
+     * @return array<string, array{string, RangeValueObject<\DateTimeInterface|float|int>}>
+     */
+    abstract public static function provideValidTransformations(): array;
 
     /**
      * @param array<int> $expectedIds

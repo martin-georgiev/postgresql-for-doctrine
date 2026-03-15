@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 abstract class ArrayTypeTestCase extends TestCase
@@ -26,10 +27,8 @@ abstract class ArrayTypeTestCase extends TestCase
         $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
-    /**
-     * Data-driven test for array values.
-     * Subclasses should add #[DataProvider('provideValidTransformations')].
-     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
     public function can_handle_array_values(string $testName, array $arrayValue): void
     {
         $typeName = $this->getTypeName();
@@ -37,4 +36,9 @@ abstract class ArrayTypeTestCase extends TestCase
 
         $this->runDbalBindingRoundTrip($typeName, $columnType, $arrayValue);
     }
+
+    /**
+     * @return array<string, array{string, array<mixed>}>
+     */
+    abstract public static function provideValidTransformations(): array;
 }
