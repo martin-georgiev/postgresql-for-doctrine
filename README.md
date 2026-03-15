@@ -124,6 +124,7 @@ Full documentation:
   - [Text and Pattern Functions](docs/TEXT-AND-PATTERN-FUNCTIONS.md)
   - [Date and Range Functions](docs/DATE-AND-RANGE-FUNCTIONS.md)
   - [Mathematical Functions](docs/MATHEMATICAL-FUNCTIONS.md)
+  - [Network Address Functions](docs/NETWORK-FUNCTIONS.md)
 - [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
 - [Spatial Types](docs/SPATIAL-TYPES.md)
 - [Geometry Arrays](docs/GEOMETRY-ARRAYS.md)
