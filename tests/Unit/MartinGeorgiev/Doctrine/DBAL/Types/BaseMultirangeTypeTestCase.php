@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\BaseMultirangeType;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMultirangeForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMultirangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Multirange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -63,6 +64,11 @@ abstract class BaseMultirangeTypeTestCase extends TestCase
         $this->assertSame($expectedString, $this->fixture->convertToDatabaseValue($multirange, $this->platform));
     }
 
+    /**
+     * @return array<string, array{Multirange<Range<\DateTimeInterface|float|int>>, string}>
+     */
+    abstract public static function provideValidDatabaseConversions(): array;
+
     #[DataProvider('provideValidPHPConversions')]
     #[Test]
     public function can_convert_to_php_value(string $input, string $expectedString): void
@@ -71,6 +77,11 @@ abstract class BaseMultirangeTypeTestCase extends TestCase
         $this->assertInstanceOf($this->getExpectedValueObjectClass(), $result);
         $this->assertSame($expectedString, (string) $result);
     }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    abstract public static function provideValidPHPConversions(): array;
 
     #[Test]
     public function converts_empty_string_from_database_to_null(): void

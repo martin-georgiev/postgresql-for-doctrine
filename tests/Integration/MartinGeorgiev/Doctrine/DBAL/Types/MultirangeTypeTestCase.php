@@ -21,6 +21,11 @@ abstract class MultirangeTypeTestCase extends TestCase
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $multirange);
     }
 
+    /**
+     * @return array<string, array{Multirange<Range<\DateTimeInterface|float|int>>}>
+     */
+    abstract public static function provideValidTransformations(): array;
+
     #[Test]
     public function can_handle_null_values(): void
     {
