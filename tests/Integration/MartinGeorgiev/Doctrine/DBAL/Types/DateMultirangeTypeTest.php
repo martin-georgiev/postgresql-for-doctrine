@@ -49,4 +49,30 @@ class DateMultirangeTypeTest extends MultirangeTypeTestCase
             ],
         ];
     }
+
+    #[Test]
+    public function can_normalizes_exclusive_lower_bound_to_inclusive(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $input = new DateMultirangeVO([new DateRange(new \DateTimeImmutable('2024-01-01'), new \DateTimeImmutable('2024-06-30'), false, false)]);
+        $expected = new DateMultirangeVO([new DateRange(new \DateTimeImmutable('2024-01-02'), new \DateTimeImmutable('2024-06-30'))]);
+
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $input, $typeName)
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+            $this->assertInstanceOf(DateMultirangeVO::class, $retrieved);
+            $this->assertSame((string) $expected, (string) $retrieved);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
 }

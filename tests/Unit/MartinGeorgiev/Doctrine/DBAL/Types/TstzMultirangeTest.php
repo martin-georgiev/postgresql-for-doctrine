@@ -106,20 +106,44 @@ class TstzMultirangeTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidDatabaseValueInputs(): array
+    {
+        return [
+            'string' => ['not-a-multirange'],
+            'integer' => [123],
+        ];
+    }
+
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_database_value_type(): void
+    public function throws_exception_for_invalid_database_value_type(mixed $input): void
     {
         $this->expectException(InvalidMultirangeForDatabaseException::class);
 
-        $this->fixture->convertToDatabaseValue('not-a-multirange', $this->platform); // @phpstan-ignore-line
+        $this->fixture->convertToDatabaseValue($input, $this->platform); // @phpstan-ignore argument.type
     }
 
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return [
+            'string' => ['not-a-multirange'],
+            'integer' => [123],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_type(): void
+    public function throws_exception_for_invalid_php_value_type(mixed $input): void
     {
         $this->expectException(InvalidMultirangeForPHPException::class);
 
-        $this->fixture->convertToPHPValue(123, $this->platform); // @phpstan-ignore-line
+        $this->fixture->convertToPHPValue($input, $this->platform); // @phpstan-ignore argument.type
     }
 
     #[Test]
