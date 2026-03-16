@@ -20,6 +20,6 @@ class InvalidIntervalForPHPException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Value must be a string interval representation, %s given', \gettype($value));
+        return self::create('Value must be a string interval representation, %s given', $value);
     }
 }

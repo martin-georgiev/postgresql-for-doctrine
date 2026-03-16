@@ -20,6 +20,6 @@ class InvalidIntervalForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be an Interval object or null, %s given', \gettype($value));
+        return self::create('Database value must be an Interval object, a DateInterval, a string, or null, %s given', $value);
     }
 }
