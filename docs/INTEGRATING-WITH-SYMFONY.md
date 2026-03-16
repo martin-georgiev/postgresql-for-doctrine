@@ -63,8 +63,14 @@ doctrine:
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
             tsvector: MartinGeorgiev\Doctrine\DBAL\Types\Tsvector
 
+            # Monetary types
+            money: MartinGeorgiev\Doctrine\DBAL\Types\Money
+
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
+
+            # XML types
+            xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
 
             # Vector types
             vector: MartinGeorgiev\Doctrine\DBAL\Types\Vector
@@ -150,8 +156,14 @@ doctrine:
                     tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY
                     tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR
 
+                    # Monetary type mappings
+                    money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY
+
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
+
+                    # XML type mappings
+                    xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
 
                     # Vector type mappings
                     vector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::VECTOR
@@ -397,8 +409,14 @@ class Product
     #[ORM\Column(type: Type::INET)]
     private string $originServerIp;
 
+    #[ORM\Column(type: Type::MONEY)]
+    private string $price;
+
     #[ORM\Column(type: Type::LTREE)]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: Type::XML)]
+    private string $configXml;
 }
 ```
 
