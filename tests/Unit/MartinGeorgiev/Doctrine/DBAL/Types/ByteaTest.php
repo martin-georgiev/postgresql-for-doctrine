@@ -1,0 +1,160 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
+
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Bytea;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidByteaForDatabaseException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidByteaForPHPException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+
+final class ByteaTest extends TestCase
+{
+    /**
+     * @var AbstractPlatform&MockObject
+     */
+    private MockObject $platform;
+
+    private Bytea $fixture;
+
+    protected function setUp(): void
+    {
+        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->fixture = new Bytea();
+    }
+
+    #[Test]
+    public function has_name(): void
+    {
+        $this->assertSame('bytea', $this->fixture->getName());
+    }
+
+    #[Test]
+    public function converts_null_to_database_value(): void
+    {
+        $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
+    }
+
+    #[Test]
+    public function converts_null_to_php_value(): void
+    {
+        $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
+    }
+
+    #[Test]
+    public function converts_empty_string_from_database_to_null(): void
+    {
+        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
+    }
+
+    /**
+     * @return array<string, array{hexInput: string, expectedBinary: string}>
+     */
+    public static function provideHexFormatDecoding(): array
+    {
+        return [
+            'ASCII string Hello' => ['hexInput' => '\\x48656c6c6f', 'expectedBinary' => 'Hello'],
+            'null byte' => ['hexInput' => '\\x00', 'expectedBinary' => "\x00"],
+            'empty hex after prefix' => ['hexInput' => '\\x', 'expectedBinary' => ''],
+            'binary data' => ['hexInput' => '\\xff00ab', 'expectedBinary' => "\xff\x00\xab"],
+        ];
+    }
+
+    #[DataProvider('provideHexFormatDecoding')]
+    #[Test]
+    public function decodes_hex_format_from_database(string $hexInput, string $expectedBinary): void
+    {
+        $this->assertSame($expectedBinary, $this->fixture->convertToPHPValue($hexInput, $this->platform));
+    }
+
+    /**
+     * @return array<string, array{rawBinary: string}>
+     */
+    public static function provideNonHexPassthrough(): array
+    {
+        return [
+            'raw ASCII string' => ['rawBinary' => 'raw binary'],
+            'escape format style' => ['rawBinary' => "Hello\x00World"],
+            'plain text' => ['rawBinary' => 'some data'],
+        ];
+    }
+
+    #[DataProvider('provideNonHexPassthrough')]
+    #[Test]
+    public function passes_through_non_hex_strings_from_database(string $rawBinary): void
+    {
+        $this->assertSame($rawBinary, $this->fixture->convertToPHPValue($rawBinary, $this->platform));
+    }
+
+    /**
+     * @return array<string, array{rawBinary: string}>
+     */
+    public static function provideValidDatabaseValues(): array
+    {
+        return [
+            'binary string' => ['rawBinary' => 'binary data'],
+            'empty-like binary' => ['rawBinary' => "\x01\x02\x03"],
+        ];
+    }
+
+    #[DataProvider('provideValidDatabaseValues')]
+    #[Test]
+    public function passes_through_valid_strings_to_database(string $rawBinary): void
+    {
+        $this->assertSame($rawBinary, $this->fixture->convertToDatabaseValue($rawBinary, $this->platform));
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_hex_string(): void
+    {
+        $this->expectException(InvalidByteaForPHPException::class);
+        $this->fixture->convertToPHPValue('\\xZZ', $this->platform);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return [
+            'integer input' => [42],
+            'float input' => [3.14],
+            'array input' => [['data']],
+            'object input' => [new \stdClass()],
+            'boolean true' => [true],
+            'boolean false' => [false],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
+    {
+        $this->expectException(InvalidByteaForPHPException::class);
+        $this->fixture->convertToPHPValue($value, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidDatabaseValueInputs(): array
+    {
+        return [
+            'integer input' => [42],
+            'array input' => [['data']],
+        ];
+    }
+
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
+    {
+        $this->expectException(InvalidByteaForDatabaseException::class);
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
+    }
+}
