@@ -65,6 +65,14 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
+    public function throws_exception_for_invalid_iso_8601(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid ISO 8601 interval string');
+        Interval::fromString('Pinvalid');
+    }
+
+    #[Test]
     public function can_create_from_date_interval(): void
     {
         $dateInterval = new \DateInterval('P1Y2M3DT4H5M6S');

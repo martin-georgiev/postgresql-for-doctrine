@@ -12,7 +12,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  * - Verbose: 1 year 2 months 3 days 4 hours 5 minutes 6 seconds
  * - PostgreSQL output: 1 year 2 mons 3 days 04:05:06
  *
- * @see https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
+ * @see https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -69,75 +69,76 @@ class Interval implements \Stringable
             $value = \substr($value, 1);
         }
 
-        $dateInterval = new \DateInterval($value);
-        if ($invert) {
-            $dateInterval->y *= -1;
-            $dateInterval->m *= -1;
-            $dateInterval->d *= -1;
-            $dateInterval->h *= -1;
-            $dateInterval->i *= -1;
-            $dateInterval->s *= -1;
-            $dateInterval->f *= -1;
+        try {
+            $dateInterval = new \DateInterval($value);
+        } catch (\Exception $exception) {
+            throw new \InvalidArgumentException(\sprintf('Invalid ISO 8601 interval string: %s', $value), 0, $exception);
         }
 
-        return $dateInterval;
+        if ($invert) {
+            $dateInterval->invert = 1;
+        }
+
+        return self::cloneWithInvertApplied($dateInterval);
     }
 
     private static function parsePostgresFormat(string $value): \DateInterval
     {
-        $years = 0;
-        $months = 0;
-        $days = 0;
-        $hours = 0;
-        $minutes = 0;
+        [$years, $months, $days] = self::parseDateParts($value);
+        [$hours, $minutes, $seconds, $microseconds] = self::parseTimeParts($value);
+
+        return self::createInterval($years, $months, $days, $hours, $minutes, $seconds, $microseconds);
+    }
+
+    /**
+     * @return array{int, int, int}
+     */
+    private static function parseDateParts(string $value): array
+    {
+        // sql_standard format: "Y-M [D]" (e.g., "1-2", "1-2 3 4:05:06")
+        if (\preg_match('/^(-?\d+)-(\d+)(?:\s+(-?\d+))?/', $value, $m)) {
+            return [(int) $m[1], (int) $m[2], isset($m[3]) ? (int) $m[3] : 0];
+        }
+
+        $years = \preg_match('/(-?\d+)\s+years?/i', $value, $m) ? (int) $m[1] : 0;
+        $months = \preg_match('/(-?\d+)\s+mons?(?:ths?)?/i', $value, $m) ? (int) $m[1] : 0;
+        $days = \preg_match('/(-?\d+)\s+days?/i', $value, $m) ? (int) $m[1] : 0;
+
+        return [$years, $months, $days];
+    }
+
+    /**
+     * @return array{int, int, int, float}
+     */
+    private static function parseTimeParts(string $value): array
+    {
+        // HH:MM:SS[.fraction] format with optional +/- sign
+        if (\preg_match('/([+-]?)(\d+):(\d{2}):(\d{2})(?:\.(\d+))?/', $value, $m)) {
+            $sign = $m[1] === '-' ? -1 : 1;
+            $microseconds = isset($m[5])
+                ? $sign * (int) \str_pad(\substr($m[5], 0, 6), 6, '0') / 1_000_000
+                : 0.0;
+
+            return [$sign * (int) $m[2], $sign * (int) $m[3], $sign * (int) $m[4], $microseconds];
+        }
+
+        // Verbose: "N hours N minutes N seconds"
+        $hours = \preg_match('/(-?\d+)\s+hours?/i', $value, $m) ? (int) $m[1] : 0;
+        $minutes = \preg_match('/(-?\d+)\s+minutes?/i', $value, $m) ? (int) $m[1] : 0;
         $seconds = 0;
         $microseconds = 0.0;
 
-        // sql_standard format: "Y-M [D [H:M:S]]" (e.g., "1-2", "1-2 3 4:05:06")
-        if (\preg_match('/^(-?\d+)-(\d+)(?:\s+(-?\d+))?/', $value, $m)) {
-            $years = (int) $m[1];
-            $months = (int) $m[2];
-            if (isset($m[3])) {
-                $days = (int) $m[3];
-            }
-        } else {
-            if (\preg_match('/(-?\d+)\s+years?/i', $value, $m)) {
-                $years = (int) $m[1];
-            }
-
-            if (\preg_match('/(-?\d+)\s+mons?(?:ths?)?/i', $value, $m)) {
-                $months = (int) $m[1];
-            }
-
-            if (\preg_match('/(-?\d+)\s+days?/i', $value, $m)) {
-                $days = (int) $m[1];
-            }
+        if (\preg_match('/(-?\d+(?:\.\d+)?)\s+seconds?/i', $value, $m)) {
+            $secondsFloat = (float) $m[1];
+            $seconds = (int) $secondsFloat;
+            $microseconds = $secondsFloat - $seconds;
         }
 
-        if (\preg_match('/([+-]?)(\d+):(\d{2}):(\d{2})(?:\.(\d+))?/', $value, $m)) {
-            $sign = $m[1] === '-' ? -1 : 1;
-            $hours = $sign * (int) $m[2];
-            $minutes = $sign * (int) $m[3];
-            $seconds = $sign * (int) $m[4];
-            if (isset($m[5])) {
-                $microseconds = $sign * (int) \str_pad(\substr($m[5], 0, 6), 6, '0') / 1_000_000;
-            }
-        } else {
-            if (\preg_match('/(-?\d+)\s+hours?/i', $value, $m)) {
-                $hours = (int) $m[1];
-            }
+        return [$hours, $minutes, $seconds, $microseconds];
+    }
 
-            if (\preg_match('/(-?\d+)\s+minutes?/i', $value, $m)) {
-                $minutes = (int) $m[1];
-            }
-
-            if (\preg_match('/(-?\d+(?:\.\d+)?)\s+seconds?/i', $value, $m)) {
-                $secondsFloat = (float) $m[1];
-                $seconds = (int) $secondsFloat;
-                $microseconds = $secondsFloat - $seconds;
-            }
-        }
-
+    private static function createInterval(int $years, int $months, int $days, int $hours, int $minutes, int $seconds, float $microseconds): \DateInterval
+    {
         $dateInterval = new \DateInterval('PT0S');
         $dateInterval->y = $years;
         $dateInterval->m = $months;
@@ -150,14 +151,22 @@ class Interval implements \Stringable
         return $dateInterval;
     }
 
-    /**
-     * Formats a DateInterval in PostgreSQL's default output style.
-     *
-     * Matches PostgreSQL's "postgres" intervalstyle output:
-     * - "1 year 2 mons 3 days 04:05:06"
-     * - "00:00:00" for zero interval
-     */
     private function formatForPostgres(\DateInterval $dateInterval): string
+    {
+        $parts = $this->formatDateParts($dateInterval);
+        $timePart = $this->formatTimePart($dateInterval);
+
+        if ($timePart !== null) {
+            $parts[] = $timePart;
+        }
+
+        return $parts === [] ? '00:00:00' : \implode(' ', $parts);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function formatDateParts(\DateInterval $dateInterval): array
     {
         $parts = [];
 
@@ -173,45 +182,40 @@ class Interval implements \Stringable
             $parts[] = $dateInterval->d.' day'.(\abs($dateInterval->d) !== 1 ? 's' : '');
         }
 
-        if ($dateInterval->h !== 0 || $dateInterval->i !== 0 || $dateInterval->s !== 0 || $dateInterval->f != 0) {
-            $timeIsNegative = $dateInterval->h < 0 || $dateInterval->i < 0 || $dateInterval->s < 0 || $dateInterval->f < 0;
-            $hasNegativeDateParts = $dateInterval->y < 0 || $dateInterval->m < 0 || $dateInterval->d < 0;
-            $prefix = $timeIsNegative ? '-' : ($hasNegativeDateParts ? '+' : '');
-            $timeStr = \sprintf(
-                '%s%02d:%02d:%02d',
-                $prefix,
-                \abs($dateInterval->h),
-                \abs($dateInterval->i),
-                \abs($dateInterval->s),
-            );
+        return $parts;
+    }
 
-            if ($dateInterval->f != 0) {
-                $frac = \rtrim(\sprintf('%06d', (int) \round(\abs($dateInterval->f) * 1_000_000)), '0');
-                $timeStr .= '.'.$frac;
-            }
-
-            $parts[] = $timeStr;
+    private function formatTimePart(\DateInterval $dateInterval): ?string
+    {
+        if ($dateInterval->h === 0 && $dateInterval->i === 0 && $dateInterval->s === 0 && $dateInterval->f == 0) {
+            return null;
         }
 
-        if ($parts === []) {
-            return '00:00:00';
+        $timeIsNegative = $dateInterval->h < 0 || $dateInterval->i < 0 || $dateInterval->s < 0 || $dateInterval->f < 0;
+        $hasNegativeDateParts = $dateInterval->y < 0 || $dateInterval->m < 0 || $dateInterval->d < 0;
+        $prefix = $timeIsNegative ? '-' : ($hasNegativeDateParts ? '+' : '');
+
+        $result = \sprintf('%s%02d:%02d:%02d', $prefix, \abs($dateInterval->h), \abs($dateInterval->i), \abs($dateInterval->s));
+
+        if ($dateInterval->f != 0) {
+            $result .= '.'.\rtrim(\sprintf('%06d', (int) \round(\abs($dateInterval->f) * 1_000_000)), '0');
         }
 
-        return \implode(' ', $parts);
+        return $result;
     }
 
     private static function cloneWithInvertApplied(\DateInterval $dateInterval): \DateInterval
     {
-        $interval = new \DateInterval('PT0S');
-        $multiplier = $dateInterval->invert ? -1 : 1;
-        $interval->y = $multiplier * $dateInterval->y;
-        $interval->m = $multiplier * $dateInterval->m;
-        $interval->d = $multiplier * $dateInterval->d;
-        $interval->h = $multiplier * $dateInterval->h;
-        $interval->i = $multiplier * $dateInterval->i;
-        $interval->s = $multiplier * $dateInterval->s;
-        $interval->f = $multiplier * $dateInterval->f;
+        $sign = $dateInterval->invert ? -1 : 1;
 
-        return $interval;
+        return self::createInterval(
+            $sign * $dateInterval->y,
+            $sign * $dateInterval->m,
+            $sign * $dateInterval->d,
+            $sign * $dateInterval->h,
+            $sign * $dateInterval->i,
+            $sign * $dateInterval->s,
+            $sign * $dateInterval->f,
+        );
     }
 }
