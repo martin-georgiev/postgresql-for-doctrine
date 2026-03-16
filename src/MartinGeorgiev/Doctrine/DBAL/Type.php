@@ -8,6 +8,10 @@ final class Type
 {
     public const BIGINT_ARRAY = 'bigint[]';
 
+    public const BIT = 'bit';
+
+    public const BIT_VARYING = 'bit varying';
+
     public const BOOL_ARRAY = 'bool[]';
 
     public const CIDR = 'cidr';
