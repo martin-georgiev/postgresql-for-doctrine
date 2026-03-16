@@ -67,6 +67,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 - **Text Search Types**
   - Full-text search document (`tsvector`)
   - Full-text search query (`tsquery`)
+- **Monetary Types**
+  - Currency amounts (`money`)
 - **XML Types**
   - Native XML document storage (`xml`)
 - **Hierarchical Types**

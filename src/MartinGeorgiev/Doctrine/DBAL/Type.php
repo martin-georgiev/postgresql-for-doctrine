@@ -56,6 +56,8 @@ final class Type
 
     public const MACADDR_ARRAY = 'macaddr[]';
 
+    public const MONEY = 'money';
+
     public const NUMMULTIRANGE = 'nummultirange';
 
     public const NUMRANGE = 'numrange';

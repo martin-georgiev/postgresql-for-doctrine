@@ -38,6 +38,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Money;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
@@ -256,6 +257,7 @@ abstract class TestCase extends BaseTestCase
             'macaddr8' => Macaddr8::class,
             'macaddr8[]' => Macaddr8Array::class,
             'macaddr[]' => MacaddrArray::class,
+            'money' => Money::class,
             'numrange' => NumRange::class,
             'nummultirange' => NumMultirange::class,
             'point' => Point::class,
