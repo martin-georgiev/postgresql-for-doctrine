@@ -11,27 +11,40 @@ use PHPUnit\Framework\TestCase;
 
 final class IntervalTest extends TestCase
 {
-    #[DataProvider('provideValidIntervalStrings')]
+    #[DataProvider('provideParsingAndFormatting')]
     #[Test]
-    public function can_create_from_valid_string(string $value): void
+    public function can_parse_and_format(string $input, string $expectedOutput): void
     {
-        $interval = Interval::fromString($value);
+        $interval = Interval::fromString($input);
 
-        $this->assertSame($value, $interval->getValue());
-        $this->assertSame($value, (string) $interval);
+        $this->assertSame($expectedOutput, (string) $interval);
     }
 
     /**
-     * @return array<string, array{value: string}>
+     * @return array<string, array{string, string}>
      */
-    public static function provideValidIntervalStrings(): array
+    public static function provideParsingAndFormatting(): array
     {
         return [
-            'ISO 8601 years only' => ['value' => 'P1Y'],
-            'ISO 8601 full' => ['value' => 'P1Y2M3DT4H5M6S'],
-            'verbose single year' => ['value' => '1 year'],
-            'PostgreSQL style' => ['value' => '1-2'],
-            'PostgreSQL style with days and time' => ['value' => '1-2 3 4:05:06'],
+            'postgres style: year' => ['1 year', '1 year'],
+            'postgres style: years' => ['2 years', '2 years'],
+            'postgres style: mon' => ['1 mon', '1 mon'],
+            'postgres style: mons' => ['2 mons', '2 mons'],
+            'postgres style: day' => ['1 day', '1 day'],
+            'postgres style: days' => ['3 days', '3 days'],
+            'postgres style: time only' => ['04:05:06', '04:05:06'],
+            'postgres style: full' => ['1 year 2 mons 3 days 04:05:06', '1 year 2 mons 3 days 04:05:06'],
+            'postgres style: zero' => ['00:00:00', '00:00:00'],
+            'postgres style: negative time' => ['-04:05:06', '-04:05:06'],
+            'postgres style: negative year' => ['-1 year', '-1 year'],
+            'postgres style: fractional seconds' => ['00:00:01.5', '00:00:01.5'],
+            'verbose: months' => ['2 months', '2 mons'],
+            'verbose: month' => ['1 month', '1 mon'],
+            'verbose: full' => ['1 year 2 months 3 days 4 hours 5 minutes 6 seconds', '1 year 2 mons 3 days 04:05:06'],
+            'ISO 8601: year' => ['P1Y', '1 year'],
+            'ISO 8601: full' => ['P1Y2M3DT4H5M6S', '1 year 2 mons 3 days 04:05:06'],
+            'ISO 8601: time only' => ['PT4H5M6S', '04:05:06'],
+            'ISO 8601: negative' => ['-P1Y2M', '-1 year -2 mons'],
         ];
     }
 
@@ -43,18 +56,45 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function get_value_returns_stored_string(): void
+    public function can_create_from_date_interval(): void
     {
-        $interval = new Interval('P1Y2M3DT4H5M6S');
+        $dateInterval = new \DateInterval('P1Y2M3DT4H5M6S');
+        $interval = Interval::fromDateInterval($dateInterval);
 
-        $this->assertSame('P1Y2M3DT4H5M6S', $interval->getValue());
+        $this->assertSame('1 year 2 mons 3 days 04:05:06', (string) $interval);
     }
 
     #[Test]
-    public function to_string_returns_stored_string(): void
+    public function can_create_from_inverted_date_interval(): void
     {
-        $interval = new Interval('1 year 2 months');
+        $dateInterval = new \DateInterval('P1Y');
+        $dateInterval->invert = 1;
 
-        $this->assertSame('1 year 2 months', (string) $interval);
+        $interval = Interval::fromDateInterval($dateInterval);
+
+        $this->assertSame('-1 year', (string) $interval);
+    }
+
+    #[Test]
+    public function can_convert_to_date_interval(): void
+    {
+        $interval = Interval::fromString('1 year 2 mons 3 days 04:05:06');
+        $dateInterval = $interval->toDateInterval();
+
+        $this->assertSame(1, $dateInterval->y);
+        $this->assertSame(2, $dateInterval->m);
+        $this->assertSame(3, $dateInterval->d);
+        $this->assertSame(4, $dateInterval->h);
+        $this->assertSame(5, $dateInterval->i);
+        $this->assertSame(6, $dateInterval->s);
+    }
+
+    #[Test]
+    public function to_date_interval_returns_clone(): void
+    {
+        $interval = Interval::fromString('1 year');
+
+        $this->assertNotSame($interval->toDateInterval(), $interval->toDateInterval());
+        $this->assertEquals($interval->toDateInterval(), $interval->toDateInterval());
     }
 }

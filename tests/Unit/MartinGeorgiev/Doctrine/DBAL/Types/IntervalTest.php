@@ -56,50 +56,82 @@ final class IntervalTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
-    #[DataProvider('provideValidIntervalStrings')]
+    #[DataProvider('provideValidPostgresOutputStrings')]
     #[Test]
-    public function can_transform_to_php_value(string $intervalString): void
+    public function can_transform_to_php_value(string $postgresOutput): void
     {
-        $result = $this->fixture->convertToPHPValue($intervalString, $this->platform);
+        $result = $this->fixture->convertToPHPValue($postgresOutput, $this->platform);
 
         $this->assertInstanceOf(IntervalValueObject::class, $result);
-        $this->assertSame($intervalString, $result->getValue());
+        $this->assertSame($postgresOutput, (string) $result);
     }
 
-    #[DataProvider('provideValidIntervalStrings')]
+    #[DataProvider('provideValidPostgresOutputStrings')]
     #[Test]
-    public function can_transform_from_php_value_with_value_object(string $intervalString): void
+    public function can_transform_from_php_value_with_value_object(string $postgresOutput): void
     {
-        $interval = IntervalValueObject::fromString($intervalString);
+        $interval = IntervalValueObject::fromString($postgresOutput);
         $result = $this->fixture->convertToDatabaseValue($interval, $this->platform);
 
-        $this->assertSame($intervalString, $result);
+        $this->assertSame($postgresOutput, $result);
     }
 
-    #[DataProvider('provideValidIntervalStrings')]
+    #[DataProvider('provideValidPostgresOutputStrings')]
     #[Test]
-    public function can_transform_from_php_value_with_string(string $intervalString): void
+    public function can_transform_from_php_value_with_string(string $postgresOutput): void
     {
-        $result = $this->fixture->convertToDatabaseValue($intervalString, $this->platform);
+        $result = $this->fixture->convertToDatabaseValue($postgresOutput, $this->platform);
 
-        $this->assertSame($intervalString, $result);
+        $this->assertSame($postgresOutput, $result);
     }
 
     /**
-     * @return array<string, array{intervalString: string}>
+     * @return array<string, array{string}>
      */
-    public static function provideValidIntervalStrings(): array
+    public static function provideValidPostgresOutputStrings(): array
     {
         return [
-            'ISO 8601 full' => ['intervalString' => 'P1Y2M3DT4H5M6S'],
-            'ISO 8601 years only' => ['intervalString' => 'P1Y'],
-            'ISO 8601 time only' => ['intervalString' => 'PT4H5M6S'],
-            'verbose single year' => ['intervalString' => '1 year'],
-            'verbose combined' => ['intervalString' => '1 year 2 months 3 days'],
-            'verbose with time' => ['intervalString' => '1 year 2 months 3 days 4 hours 5 minutes 6 seconds'],
-            'PostgreSQL style' => ['intervalString' => '1-2'],
-            'PostgreSQL style with days and time' => ['intervalString' => '1-2 3 4:05:06'],
-            'time only' => ['intervalString' => '04:05:06'],
+            'year' => ['1 year'],
+            'years' => ['2 years'],
+            'mons' => ['2 mons'],
+            'days' => ['3 days'],
+            'time only' => ['04:05:06'],
+            'full' => ['1 year 2 mons 3 days 04:05:06'],
+            'zero' => ['00:00:00'],
+            'negative time' => ['-04:05:06'],
+            'negative year' => ['-1 year'],
+        ];
+    }
+
+    #[Test]
+    public function can_transform_from_php_value_with_date_interval(): void
+    {
+        $dateInterval = new \DateInterval('P1Y2M3DT4H5M6S');
+        $result = $this->fixture->convertToDatabaseValue($dateInterval, $this->platform);
+
+        $this->assertSame('1 year 2 mons 3 days 04:05:06', $result);
+    }
+
+    #[DataProvider('provideNormalizedInputStrings')]
+    #[Test]
+    public function normalizes_various_input_formats(string $input, string $expectedOutput): void
+    {
+        $result = $this->fixture->convertToDatabaseValue($input, $this->platform);
+
+        $this->assertSame($expectedOutput, $result);
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideNormalizedInputStrings(): array
+    {
+        return [
+            'ISO 8601 full' => ['P1Y2M3DT4H5M6S', '1 year 2 mons 3 days 04:05:06'],
+            'ISO 8601 years only' => ['P1Y', '1 year'],
+            'ISO 8601 time only' => ['PT4H5M6S', '04:05:06'],
+            'verbose months' => ['2 months', '2 mons'],
+            'verbose full' => ['1 year 2 months 3 days 4 hours 5 minutes 6 seconds', '1 year 2 mons 3 days 04:05:06'],
         ];
     }
 

@@ -22,14 +22,8 @@ final class IntervalTypeTest extends TestCase
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
-        if (!$actual instanceof IntervalValueObject) {
-            throw new \InvalidArgumentException('IntervalTypeTest expects actual value to be an Interval object');
-        }
-
-        if (!$expected instanceof IntervalValueObject && !\is_string($expected)) {
-            throw new \InvalidArgumentException('IntervalTypeTest expects expected value to be an Interval object or string');
-        }
-
+        $this->assertInstanceOf(IntervalValueObject::class, $expected);
+        $this->assertInstanceOf(IntervalValueObject::class, $actual);
         $this->assertSame((string) $expected, (string) $actual);
     }
 
@@ -54,31 +48,75 @@ final class IntervalTypeTest extends TestCase
         return [
             'one year' => [IntervalValueObject::fromString('1 year')],
             'time only' => [IntervalValueObject::fromString('04:05:06')],
+            'full' => [IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06')],
+            'negative time' => [IntervalValueObject::fromString('-04:05:06')],
+            'zero' => [IntervalValueObject::fromString('00:00:00')],
         ];
     }
 
-    #[DataProvider('provideNormalizedTransformations')]
+    #[DataProvider('provideVariousInputFormats')]
     #[Test]
-    public function can_handle_postgresql_normalization_on_storage(string $inputValue, string $expectedValue): void
+    public function can_round_trip_various_input_formats(string $input, string $expectedOutput): void
     {
-        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
-            $this->getTypeName(),
-            $this->getPostgresTypeName(),
-            IntervalValueObject::fromString($inputValue),
-            IntervalValueObject::fromString($expectedValue)
-        );
+        $inputInterval = IntervalValueObject::fromString($input);
+
+        [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $inputInterval, $this->getTypeName())
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($this->getTypeName(), $tableName, $columnName);
+
+            $this->assertInstanceOf(IntervalValueObject::class, $retrieved);
+            $this->assertSame($expectedOutput, (string) $retrieved);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
     }
 
     /**
      * @return array<string, array{string, string}>
      */
-    public static function provideNormalizedTransformations(): array
+    public static function provideVariousInputFormats(): array
     {
         return [
-            'ISO 8601 gets normalized to verbose' => ['P1Y', '1 year'],
-            'ISO 8601 full gets normalized' => ['P1Y2M3DT4H5M6S', '1 year 2 mons 3 days 04:05:06'],
-            'verbose months gets abbreviated' => ['1 year 2 months 3 days', '1 year 2 mons 3 days'],
-            'verbose time parts get compacted' => ['1 year 2 months 3 days 4 hours 5 minutes 6 seconds', '1 year 2 mons 3 days 04:05:06'],
+            'ISO 8601 year' => ['P1Y', '1 year'],
+            'ISO 8601 full' => ['P1Y2M3DT4H5M6S', '1 year 2 mons 3 days 04:05:06'],
+            'verbose months' => ['1 year 2 months 3 days', '1 year 2 mons 3 days'],
+            'verbose full' => ['1 year 2 months 3 days 4 hours 5 minutes 6 seconds', '1 year 2 mons 3 days 04:05:06'],
         ];
+    }
+
+    #[Test]
+    public function exposes_date_interval(): void
+    {
+        $inputInterval = IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06');
+
+        [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $inputInterval, $this->getTypeName())
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($this->getTypeName(), $tableName, $columnName);
+
+            $this->assertInstanceOf(IntervalValueObject::class, $retrieved);
+            $dateInterval = $retrieved->toDateInterval();
+            $this->assertSame(1, $dateInterval->y);
+            $this->assertSame(2, $dateInterval->m);
+            $this->assertSame(3, $dateInterval->d);
+            $this->assertSame(4, $dateInterval->h);
+            $this->assertSame(5, $dateInterval->i);
+            $this->assertSame(6, $dateInterval->s);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
     }
 }

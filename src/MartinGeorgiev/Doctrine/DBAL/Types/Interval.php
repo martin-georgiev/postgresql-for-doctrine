@@ -50,6 +50,10 @@ final class Interval extends BaseType
             $value = IntervalValueObject::fromString($value);
         }
 
+        if ($value instanceof \DateInterval) {
+            $value = IntervalValueObject::fromDateInterval($value);
+        }
+
         if ($value instanceof IntervalValueObject) {
             return (string) $value;
         }
