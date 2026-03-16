@@ -6,6 +6,8 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
+
+    public const  MONEY = 'money';
     public const BIGINT_ARRAY = 'bigint[]';
 
     public const BOOL_ARRAY = 'bool[]';
