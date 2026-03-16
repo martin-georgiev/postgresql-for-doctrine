@@ -100,6 +100,9 @@ return [
                 'tsquery' => 'tsquery',
                 'tsvector' => 'tsvector',
 
+                // Monetary type mappings
+                'money' => 'money',
+
                 // Hierarchical type mappings
                 'ltree' => 'ltree',
 
@@ -161,6 +164,9 @@ return [
         // Text search types
         'tsquery' => MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,
         'tsvector' => MartinGeorgiev\Doctrine\DBAL\Types\Tsvector::class,
+
+        // Monetary types
+        'money' => MartinGeorgiev\Doctrine\DBAL\Types\Money::class,
 
         // Hierarchical types
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
@@ -550,6 +556,9 @@ class Product
 
     #[ORM\Column(type: 'inet')]
     private string $originServerIp;
+
+    #[ORM\Column(type: 'money')]
+    private string $price;
 
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;

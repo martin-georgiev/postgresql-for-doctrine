@@ -49,6 +49,8 @@
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 |---|---|---|
+| money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` |
+|---|---|---|
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` |
 
 ---
