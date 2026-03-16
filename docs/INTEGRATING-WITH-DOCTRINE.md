@@ -66,6 +66,9 @@ Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 
+// XML types
+Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
+
 // Vector types
 Type::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
 ```
@@ -347,6 +350,9 @@ $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');
 
+// XML mappings
+$platform->registerDoctrineTypeMapping('xml', 'xml');
+
 // Vector mappings
 $platform->registerDoctrineTypeMapping('vector', 'vector');
 ```
@@ -391,5 +397,8 @@ class MyEntity
 
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: 'xml')]
+    private string $configXml;
 }
 ```

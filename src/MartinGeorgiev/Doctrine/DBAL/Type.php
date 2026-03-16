@@ -86,6 +86,8 @@ final class Type
 
     public const VECTOR = 'vector';
 
+    public const XML = 'xml';
+
     private function __construct()
     {
         // Prevent instantiation

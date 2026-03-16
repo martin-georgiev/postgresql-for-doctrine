@@ -49,6 +49,8 @@
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 |---|---|---|
+| xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
+|---|---|---|
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` |
 
 ---
