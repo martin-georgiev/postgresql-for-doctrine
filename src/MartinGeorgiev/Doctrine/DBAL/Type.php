@@ -6,6 +6,8 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
+
+    public const  BOX = 'box' CIRCLE='circle' LINE='line' LSEG='lseg' PATH='path' POLYGON='polygon';
     public const BIGINT_ARRAY = 'bigint[]';
 
     public const BOOL_ARRAY = 'bool[]';
