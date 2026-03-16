@@ -106,6 +106,9 @@ return [
                 // Hierarchical type mappings
                 'ltree' => 'ltree',
 
+                // XML type mappings
+                'xml' => 'xml',
+
                 // Vector type mappings
                 'vector' => 'vector'
             ],
@@ -170,6 +173,9 @@ return [
 
         // Hierarchical types
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
+
+        // XML types
+        'xml' => MartinGeorgiev\Doctrine\DBAL\Types\Xml::class,
 
         // Vector types
         'vector' => MartinGeorgiev\Doctrine\DBAL\Types\Vector::class,
@@ -562,6 +568,9 @@ class Product
 
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: 'xml')]
+    private string $configXml;
 }
 ```
 

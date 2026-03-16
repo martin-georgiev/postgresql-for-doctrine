@@ -69,6 +69,9 @@ Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 
+// XML types
+Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
+
 // Vector types
 Type::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
 ```
@@ -353,6 +356,9 @@ $platform->registerDoctrineTypeMapping('money', 'money');
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');
 
+// XML mappings
+$platform->registerDoctrineTypeMapping('xml', 'xml');
+
 // Vector mappings
 $platform->registerDoctrineTypeMapping('vector', 'vector');
 ```
@@ -400,5 +406,8 @@ class MyEntity
 
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: 'xml')]
+    private string $configXml;
 }
 ```

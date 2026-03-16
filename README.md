@@ -69,6 +69,8 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Full-text search query (`tsquery`)
 - **Monetary Types**
   - Currency amounts (`money`)
+- **XML Types**
+  - Native XML document storage (`xml`)
 - **Hierarchical Types**
   - [ltree](https://www.postgresql.org/docs/16/ltree.html) (`ltree`)
 - **Vector Types** (requires [pgvector](https://github.com/pgvector/pgvector) extension)

@@ -69,6 +69,9 @@ doctrine:
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
 
+            # XML types
+            xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
+
             # Vector types
             vector: MartinGeorgiev\Doctrine\DBAL\Types\Vector
 ```
@@ -158,6 +161,9 @@ doctrine:
 
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
+
+                    # XML type mappings
+                    xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
 
                     # Vector type mappings
                     vector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::VECTOR
@@ -408,6 +414,9 @@ class Product
 
     #[ORM\Column(type: Type::LTREE)]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: Type::XML)]
+    private string $configXml;
 }
 ```
 
