@@ -53,9 +53,7 @@ final class IntervalTypeTest extends TestCase
     {
         return [
             'one year' => [IntervalValueObject::fromString('1 year')],
-            'combined date parts' => [IntervalValueObject::fromString('1 year 2 months 3 days')],
             'time only' => [IntervalValueObject::fromString('04:05:06')],
-            'full verbose' => [IntervalValueObject::fromString('1 year 2 months 3 days 4 hours 5 minutes 6 seconds')],
         ];
     }
 
@@ -79,6 +77,8 @@ final class IntervalTypeTest extends TestCase
         return [
             'ISO 8601 gets normalized to verbose' => ['P1Y', '1 year'],
             'ISO 8601 full gets normalized' => ['P1Y2M3DT4H5M6S', '1 year 2 mons 3 days 04:05:06'],
+            'verbose months gets abbreviated' => ['1 year 2 months 3 days', '1 year 2 mons 3 days'],
+            'verbose time parts get compacted' => ['1 year 2 months 3 days 4 hours 5 minutes 6 seconds', '1 year 2 mons 3 days 04:05:06'],
         ];
     }
 }
