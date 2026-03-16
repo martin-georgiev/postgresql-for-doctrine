@@ -45,6 +45,12 @@ final class IntervalTest extends TestCase
             'ISO 8601: full' => ['P1Y2M3DT4H5M6S', '1 year 2 mons 3 days 04:05:06'],
             'ISO 8601: time only' => ['PT4H5M6S', '04:05:06'],
             'ISO 8601: negative' => ['-P1Y2M', '-1 year -2 mons'],
+            'postgres style: negative year with positive time' => ['-1 years +04:05:06', '-1 year +04:05:06'],
+            'postgres style: negative days with positive time' => ['-3 days +02:00:00', '-3 days +02:00:00'],
+            'postgres style: all negative' => ['-1 years -2 mons -3 days -04:05:06', '-1 year -2 mons -3 days -04:05:06'],
+            'postgres style: large hours' => ['100:00:00', '100:00:00'],
+            'postgres style: fractional seconds full precision' => ['00:00:01.123456', '00:00:01.123456'],
+            'postgres style: days only' => ['30 days', '30 days'],
         ];
     }
 

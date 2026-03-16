@@ -88,6 +88,13 @@ final class IntervalTypeTest extends TestCase
             'ISO 8601 full' => ['P1Y2M3DT4H5M6S', '1 year 2 mons 3 days 04:05:06'],
             'verbose months' => ['1 year 2 months 3 days', '1 year 2 mons 3 days'],
             'verbose full' => ['1 year 2 months 3 days 4 hours 5 minutes 6 seconds', '1 year 2 mons 3 days 04:05:06'],
+            'mixed signs: negative year positive time' => ['-1 years +04:05:06', '-1 year +04:05:06'],
+            'mixed signs: negative days positive time' => ['-3 days +02:00:00', '-3 days +02:00:00'],
+            'all negative' => ['-1 years -2 mons -3 days -04:05:06', '-1 year -2 mons -3 days -04:05:06'],
+            'large hours' => ['100:00:00', '100:00:00'],
+            'fractional seconds' => ['00:00:01.123456', '00:00:01.123456'],
+            'days only' => ['30 days', '30 days'],
+            'PG normalizes month overflow' => ['1 year 14 mons', '2 years 2 mons'],
         ];
     }
 

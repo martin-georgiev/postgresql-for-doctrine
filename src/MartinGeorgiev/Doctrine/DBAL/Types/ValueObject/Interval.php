@@ -114,7 +114,7 @@ class Interval implements \Stringable
             }
         }
 
-        if (\preg_match('/(-?)(\d{1,2}):(\d{2}):(\d{2})(?:\.(\d+))?/', $value, $m)) {
+        if (\preg_match('/([+-]?)(\d+):(\d{2}):(\d{2})(?:\.(\d+))?/', $value, $m)) {
             $sign = $m[1] === '-' ? -1 : 1;
             $hours = $sign * (int) $m[2];
             $minutes = $sign * (int) $m[3];
@@ -174,10 +174,12 @@ class Interval implements \Stringable
         }
 
         if ($dateInterval->h !== 0 || $dateInterval->i !== 0 || $dateInterval->s !== 0 || $dateInterval->f != 0) {
-            $negative = $dateInterval->h < 0 || $dateInterval->i < 0 || $dateInterval->s < 0 || $dateInterval->f < 0;
+            $timeIsNegative = $dateInterval->h < 0 || $dateInterval->i < 0 || $dateInterval->s < 0 || $dateInterval->f < 0;
+            $hasNegativeDateParts = $dateInterval->y < 0 || $dateInterval->m < 0 || $dateInterval->d < 0;
+            $prefix = $timeIsNegative ? '-' : ($hasNegativeDateParts ? '+' : '');
             $timeStr = \sprintf(
                 '%s%02d:%02d:%02d',
-                $negative ? '-' : '',
+                $prefix,
                 \abs($dateInterval->h),
                 \abs($dateInterval->i),
                 \abs($dateInterval->s),
