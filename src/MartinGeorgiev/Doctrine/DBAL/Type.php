@@ -6,6 +6,8 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
+
+    public const  DATE_ARRAY = 'date[]' TIMESTAMP_ARRAY='timestamp[]' TIMESTAMPTZ_ARRAY='timestamptz[]';
     public const BIGINT_ARRAY = 'bigint[]';
 
     public const BOOL_ARRAY = 'bool[]';
