@@ -52,19 +52,6 @@ final class MoneyTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
-    /**
-     * @return array<string, array{moneyString: string}>
-     */
-    public static function provideValidMoneyStrings(): array
-    {
-        return [
-            'USD with thousands separator' => ['moneyString' => '$1,234.56'],
-            'zero value' => ['moneyString' => '$0.00'],
-            'negative USD' => ['moneyString' => '-$99.99'],
-            'GBP with European format' => ['moneyString' => '£1.234,56'],
-        ];
-    }
-
     #[DataProvider('provideValidMoneyStrings')]
     #[Test]
     public function round_trips_valid_money_strings_through_php(string $moneyString): void
@@ -77,6 +64,52 @@ final class MoneyTest extends TestCase
     public function round_trips_valid_money_strings_to_database(string $moneyString): void
     {
         $this->assertSame($moneyString, $this->fixture->convertToDatabaseValue($moneyString, $this->platform));
+    }
+
+    /**
+     * @return array<string, array{moneyString: string}>
+     */
+    public static function provideValidMoneyStrings(): array
+    {
+        return [
+            'USD with American thousands separator' => ['moneyString' => '$1,234.56'],
+            'zero value' => ['moneyString' => '$0.00'],
+            'negative USD' => ['moneyString' => '-$99.99'],
+            'EUR with European thousands separator' => ['moneyString' => '1.234,56 €'],
+            'plain numeric' => ['moneyString' => '1234.56'],
+            'integer value' => ['moneyString' => '100'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidMoneyStrings')]
+    #[Test]
+    public function throws_exception_for_invalid_money_format_in_database_value(string $value): void
+    {
+        $this->expectException(InvalidMoneyForDatabaseException::class);
+
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidMoneyStrings(): array
+    {
+        return [
+            'alphabetic text' => ['not money'],
+            'currency symbol only' => ['$'],
+            'empty-looking string' => ['---'],
+            'special characters only' => ['@#!'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
+    {
+        $this->expectException(InvalidMoneyForPHPException::class);
+
+        $this->fixture->convertToPHPValue($value, $this->platform);
     }
 
     /**
@@ -93,13 +126,13 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
         $this->expectException(InvalidMoneyForDatabaseException::class);
 
-        $this->fixture->convertToPHPValue($value, $this->platform);
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 
     /**
@@ -111,14 +144,5 @@ final class MoneyTest extends TestCase
             'integer input' => [42],
             'array input' => [['$1.00']],
         ];
-    }
-
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
-    #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
-    {
-        $this->expectException(InvalidMoneyForPHPException::class);
-
-        $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 }

@@ -38,6 +38,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Money;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
@@ -270,6 +271,7 @@ abstract class TestCase extends BaseTestCase
             'tsvector' => Tsvector::class,
             'uuid[]' => UuidArray::class,
             'vector' => Vector::class,
+            'money' => Money::class,
         ];
 
         foreach ($typesMap as $typeName => $typeClass) {

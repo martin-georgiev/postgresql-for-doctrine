@@ -12,11 +12,15 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyForPHPException;
 /**
  * Implementation of PostgreSQL MONEY data type.
  *
- * Maps to PHP string to avoid locale-dependent parsing issues. PostgreSQL
- * formats money values according to the lc_monetary locale setting, producing
- * locale-specific representations such as "$1,234.56" or "1.234,56 €".
+ * Maps to PHP string to avoid locale-dependent parsing issues.
+ * PostgreSQL formats money values according to the lc_monetary locale setting,
+ * producing locale-specific representations such as "$1,234.56" or "1.234,56 €".
  *
- * @see https://www.postgresql.org/docs/current/datatype-money.html
+ * Validates that values contain at least one digit on write.
+ * Full format validation is deferred to PostgreSQL since the accepted format depends
+ * on the server's lc_monetary locale setting.
+ *
+ * @see https://www.postgresql.org/docs/18/datatype-money.html
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -37,7 +41,7 @@ final class Money extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidMoneyForDatabaseException::forInvalidType($value);
+            throw InvalidMoneyForPHPException::forInvalidType($value);
         }
 
         return $value;
@@ -50,9 +54,18 @@ final class Money extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidMoneyForPHPException::forInvalidType($value);
+            throw InvalidMoneyForDatabaseException::forInvalidType($value);
+        }
+
+        if (!$this->isValidMoneyValue($value)) {
+            throw InvalidMoneyForDatabaseException::forInvalidFormat($value);
         }
 
         return $value;
+    }
+
+    private function isValidMoneyValue(string $value): bool
+    {
+        return \preg_match('/\d/', $value) === 1;
     }
 }

@@ -20,6 +20,11 @@ class InvalidMoneyForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be a money string representation, %s given', \gettype($value));
+        return self::create('Database value must be a string, %s given', $value);
+    }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Invalid money format in database: %s', $value);
     }
 }
