@@ -38,11 +38,21 @@ class XmlTypeTest extends ScalarTypeTestCase
         return [
             'self-closing root element' => ['<root/>'],
             'nested elements' => ['<root><child>text</child></root>'],
-            'xml declaration with root' => ['<?xml version="1.0"?><root/>'],
             'element with attributes' => ['<root id="1"><item key="value"/></root>'],
             'element with namespace' => ['<root xmlns="http://example.com"><child/></root>'],
             'element with CDATA section' => ['<root><![CDATA[some <raw> text]]></root>'],
         ];
+    }
+
+    #[Test]
+    public function postgresql_strips_xml_declaration_on_storage(): void
+    {
+        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
+            $this->getTypeName(),
+            $this->getPostgresTypeName(),
+            '<?xml version="1.0"?><root/>',
+            '<root/>'
+        );
     }
 
     #[Test]
