@@ -36,6 +36,13 @@ class AgeTest extends DateTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertMatchesRegularExpression('/\d+ years? \d+ mons? \d+ days?/', $result[0]['result']);
+
+        $postgresIntervalPattern = '/^'
+            .'(\d+ years? )?'
+            .'(\d+ mons? )?'
+            .'(\d+ days? )?'
+            .'(\d{1,2}:\d{2}:\d{2}(\.\d+)?)?'
+            .'$/';
+        $this->assertMatchesRegularExpression($postgresIntervalPattern, $result[0]['result']);
     }
 }
