@@ -22,4 +22,9 @@ class InvalidXmlForDatabaseException extends ConversionException
     {
         return self::create('Database value must be a string, %s given', $value);
     }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Invalid XML format in database: %s', $value);
+    }
 }

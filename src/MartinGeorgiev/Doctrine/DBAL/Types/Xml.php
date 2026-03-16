@@ -12,10 +12,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlForPHPException;
 /**
  * Implementation of PostgreSQL XML data type.
  *
- * Maps PostgreSQL xml to PHP string. XML well-formedness is enforced by
- * PostgreSQL on write; this type only handles the string conversion.
- *
- * @see https://www.postgresql.org/docs/current/datatype-xml.html
+ * @see https://www.postgresql.org/docs/18/datatype-xml.html
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -39,6 +36,10 @@ final class Xml extends BaseType
             throw InvalidXmlForPHPException::forInvalidType($value);
         }
 
+        if (!$this->isValidXml($value)) {
+            throw InvalidXmlForPHPException::forInvalidFormat($value);
+        }
+
         return $value;
     }
 
@@ -52,6 +53,25 @@ final class Xml extends BaseType
             throw InvalidXmlForDatabaseException::forInvalidType($value);
         }
 
+        if (!$this->isValidXml($value)) {
+            throw InvalidXmlForDatabaseException::forInvalidFormat($value);
+        }
+
         return $value;
+    }
+
+    private function isValidXml(string $value): bool
+    {
+        $previousUseInternalErrors = \libxml_use_internal_errors(true);
+
+        try {
+            $domDocument = new \DOMDocument();
+            $loaded = $domDocument->loadXML($value);
+
+            return $loaded && \libxml_get_errors() === [];
+        } finally {
+            \libxml_clear_errors();
+            \libxml_use_internal_errors($previousUseInternalErrors);
+        }
     }
 }

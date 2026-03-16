@@ -6,8 +6,6 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
-
-    public const  XML = 'xml';
     public const BIGINT_ARRAY = 'bigint[]';
 
     public const BOOL_ARRAY = 'bool[]';
@@ -87,6 +85,8 @@ final class Type
     public const UUID_ARRAY = 'uuid[]';
 
     public const VECTOR = 'vector';
+
+    public const XML = 'xml';
 
     private function __construct()
     {

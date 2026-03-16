@@ -52,6 +52,14 @@ class XmlTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
+    #[DataProvider('provideValidXmlStrings')]
+    #[Test]
+    public function can_round_trip_valid_xml_strings(string $xml): void
+    {
+        $this->assertSame($xml, $this->fixture->convertToDatabaseValue($xml, $this->platform));
+        $this->assertSame($xml, $this->fixture->convertToPHPValue($xml, $this->platform));
+    }
+
     /**
      * @return array<string, array{string}>
      */
@@ -62,15 +70,51 @@ class XmlTest extends TestCase
             'nested elements' => ['<root><child>text</child></root>'],
             'xml declaration with root' => ['<?xml version="1.0"?><root/>'],
             'element with attributes' => ['<root id="1" class="main"><item key="value"/></root>'],
+            'element with namespace' => ['<root xmlns="http://example.com"><child/></root>'],
+            'element with CDATA section' => ['<root><![CDATA[some <raw> text]]></root>'],
         ];
     }
 
-    #[DataProvider('provideValidXmlStrings')]
+    #[DataProvider('provideMalformedXmlStrings')]
     #[Test]
-    public function can_round_trip_valid_xml_strings(string $xml): void
+    public function throws_exception_for_malformed_xml_in_database_value(string $invalidXml): void
     {
-        $this->assertSame($xml, $this->fixture->convertToDatabaseValue($xml, $this->platform));
-        $this->assertSame($xml, $this->fixture->convertToPHPValue($xml, $this->platform));
+        $this->expectException(InvalidXmlForDatabaseException::class);
+
+        $this->fixture->convertToDatabaseValue($invalidXml, $this->platform);
+    }
+
+    #[DataProvider('provideMalformedXmlStrings')]
+    #[Test]
+    public function throws_exception_for_malformed_xml_in_php_value(string $invalidXml): void
+    {
+        $this->expectException(InvalidXmlForPHPException::class);
+
+        $this->fixture->convertToPHPValue($invalidXml, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideMalformedXmlStrings(): array
+    {
+        return [
+            'unclosed tag' => ['<root>'],
+            'mismatched tags' => ['<root><child></root>'],
+            'invalid tag name' => ['<123invalid/>'],
+            'plain text' => ['not xml at all'],
+            'multiple root elements' => ['<root/><root/>'],
+            'unescaped ampersand' => ['<root>a & b</root>'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
+    {
+        $this->expectException(InvalidXmlForPHPException::class);
+
+        $this->fixture->convertToPHPValue($value, $this->platform);
     }
 
     /**
@@ -87,13 +131,13 @@ class XmlTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
-        $this->expectException(InvalidXmlForPHPException::class);
+        $this->expectException(InvalidXmlForDatabaseException::class);
 
-        $this->fixture->convertToPHPValue($value, $this->platform);
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 
     /**
@@ -105,14 +149,5 @@ class XmlTest extends TestCase
             'integer input' => [42],
             'array input' => [['not', 'a', 'string']],
         ];
-    }
-
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
-    #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
-    {
-        $this->expectException(InvalidXmlForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 }
