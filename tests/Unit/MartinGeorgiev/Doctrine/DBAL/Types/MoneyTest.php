@@ -60,14 +60,14 @@ final class MoneyTest extends TestCase
 
     #[DataProvider('provideValidMoneyStrings')]
     #[Test]
-    public function round_trips_valid_money_strings_through_php(string $moneyString): void
+    public function can_transform_to_php_value(string $moneyString): void
     {
         $this->assertSame($moneyString, $this->fixture->convertToPHPValue($moneyString, $this->platform));
     }
 
     #[DataProvider('provideValidMoneyStrings')]
     #[Test]
-    public function round_trips_valid_money_strings_to_database(string $moneyString): void
+    public function can_transform_from_php_value(string $moneyString): void
     {
         $this->assertSame($moneyString, $this->fixture->convertToDatabaseValue($moneyString, $this->platform));
     }

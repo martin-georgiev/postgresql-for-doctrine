@@ -22,7 +22,7 @@ class MoneyTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidRoundTrips')]
     #[Test]
-    public function can_round_trip_locale_formatted_values(string $testValue): void
+    public function can_transform_from_php_value(string $testValue): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $testValue);
     }
@@ -41,7 +41,7 @@ class MoneyTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideNormalizedTransformations')]
     #[Test]
-    public function postgresql_normalizes_money_format_on_storage(string $inputValue, string $expectedValue): void
+    public function can_handle_postgresql_normalization_on_storage(string $inputValue, string $expectedValue): void
     {
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $this->getTypeName(),
