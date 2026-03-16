@@ -14,7 +14,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObje
  * Implementation of PostgreSQL INTERVAL data type.
  *
  * @see https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
- *
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -22,6 +21,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObje
 final class Interval extends BaseType
 {
     protected const TYPE_NAME = Type::INTERVAL;
+
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    {
+        return 'INTERVAL';
+    }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?IntervalValueObject
     {
@@ -40,6 +44,10 @@ final class Interval extends BaseType
     {
         if (null === $value) {
             return null;
+        }
+
+        if (\is_string($value)) {
+            $value = IntervalValueObject::fromString($value);
         }
 
         if ($value instanceof IntervalValueObject) {

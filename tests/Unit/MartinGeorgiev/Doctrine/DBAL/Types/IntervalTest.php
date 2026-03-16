@@ -33,6 +33,12 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
+    public function returns_correct_sql_declaration(): void
+    {
+        $this->assertSame('INTERVAL', $this->fixture->getSQLDeclaration([], $this->platform));
+    }
+
+    #[Test]
     public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
@@ -48,6 +54,35 @@ final class IntervalTest extends TestCase
     public function converts_empty_string_to_null(): void
     {
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
+    }
+
+    #[DataProvider('provideValidIntervalStrings')]
+    #[Test]
+    public function can_transform_to_php_value(string $intervalString): void
+    {
+        $result = $this->fixture->convertToPHPValue($intervalString, $this->platform);
+
+        $this->assertInstanceOf(IntervalValueObject::class, $result);
+        $this->assertSame($intervalString, $result->getValue());
+    }
+
+    #[DataProvider('provideValidIntervalStrings')]
+    #[Test]
+    public function can_transform_from_php_value_with_value_object(string $intervalString): void
+    {
+        $interval = IntervalValueObject::fromString($intervalString);
+        $result = $this->fixture->convertToDatabaseValue($interval, $this->platform);
+
+        $this->assertSame($intervalString, $result);
+    }
+
+    #[DataProvider('provideValidIntervalStrings')]
+    #[Test]
+    public function can_transform_from_php_value_with_string(string $intervalString): void
+    {
+        $result = $this->fixture->convertToDatabaseValue($intervalString, $this->platform);
+
+        $this->assertSame($intervalString, $result);
     }
 
     /**
@@ -68,24 +103,12 @@ final class IntervalTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideValidIntervalStrings')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function converts_valid_interval_string_to_php_value(string $intervalString): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
     {
-        $result = $this->fixture->convertToPHPValue($intervalString, $this->platform);
-
-        $this->assertInstanceOf(IntervalValueObject::class, $result);
-        $this->assertSame($intervalString, $result->getValue());
-    }
-
-    #[DataProvider('provideValidIntervalStrings')]
-    #[Test]
-    public function converts_interval_value_object_to_database_value(string $intervalString): void
-    {
-        $interval = IntervalValueObject::fromString($intervalString);
-        $result = $this->fixture->convertToDatabaseValue($interval, $this->platform);
-
-        $this->assertSame($intervalString, $result);
+        $this->expectException(InvalidIntervalForPHPException::class);
+        $this->fixture->convertToPHPValue($value, $this->platform);
     }
 
     /**
@@ -102,12 +125,12 @@ final class IntervalTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
-        $this->expectException(InvalidIntervalForPHPException::class);
-        $this->fixture->convertToPHPValue($value, $this->platform);
+        $this->expectException(InvalidIntervalForDatabaseException::class);
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 
     /**
@@ -116,7 +139,6 @@ final class IntervalTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            'string input' => ['P1Y'],
             'integer input' => [42],
             'float input' => [1.5],
             'boolean input' => [true],
@@ -125,11 +147,10 @@ final class IntervalTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
+    public function throws_exception_for_empty_string_database_value(): void
     {
-        $this->expectException(InvalidIntervalForDatabaseException::class);
-        $this->fixture->convertToDatabaseValue($value, $this->platform);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->fixture->convertToDatabaseValue('', $this->platform);
     }
 }

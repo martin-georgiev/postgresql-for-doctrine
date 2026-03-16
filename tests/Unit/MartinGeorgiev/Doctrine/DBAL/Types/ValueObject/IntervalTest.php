@@ -11,6 +11,16 @@ use PHPUnit\Framework\TestCase;
 
 final class IntervalTest extends TestCase
 {
+    #[DataProvider('provideValidIntervalStrings')]
+    #[Test]
+    public function can_create_from_valid_string(string $value): void
+    {
+        $interval = Interval::fromString($value);
+
+        $this->assertSame($value, $interval->getValue());
+        $this->assertSame($value, (string) $interval);
+    }
+
     /**
      * @return array<string, array{value: string}>
      */
@@ -23,16 +33,6 @@ final class IntervalTest extends TestCase
             'PostgreSQL style' => ['value' => '1-2'],
             'PostgreSQL style with days and time' => ['value' => '1-2 3 4:05:06'],
         ];
-    }
-
-    #[DataProvider('provideValidIntervalStrings')]
-    #[Test]
-    public function can_create_from_valid_string(string $value): void
-    {
-        $interval = Interval::fromString($value);
-
-        $this->assertSame($value, $interval->getValue());
-        $this->assertSame($value, (string) $interval);
     }
 
     #[Test]

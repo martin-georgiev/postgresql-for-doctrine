@@ -6,8 +6,6 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
-
-    public const  INTERVAL = 'interval';
     public const BIGINT_ARRAY = 'bigint[]';
 
     public const BOOL_ARRAY = 'bool[]';
@@ -43,6 +41,8 @@ final class Type
     public const INT8RANGE = 'int8range';
 
     public const INTEGER_ARRAY = 'integer[]';
+
+    public const INTERVAL = 'interval';
 
     public const JSONB = 'jsonb';
 

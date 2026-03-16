@@ -13,7 +13,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  * - PostgreSQL: 1-2 3 4:05:06
  *
  * @see https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
- *
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -24,7 +23,11 @@ class Interval implements \Stringable
 {
     public function __construct(
         private readonly string $value,
-    ) {
+    ) {}
+
+    public function __toString(): string
+    {
+        return $this->value;
     }
 
     /**
@@ -40,11 +43,6 @@ class Interval implements \Stringable
     }
 
     public function getValue(): string
-    {
-        return $this->value;
-    }
-
-    public function __toString(): string
     {
         return $this->value;
     }
