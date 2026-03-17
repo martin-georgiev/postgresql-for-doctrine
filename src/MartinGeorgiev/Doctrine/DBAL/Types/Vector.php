@@ -38,6 +38,7 @@ class Vector extends BaseType
             if (!\is_float($item) && !\is_int($item)) {
                 throw InvalidVectorForDatabaseException::forInvalidItemType($item);
             }
+
             $stringItems[] = (string) $item;
         }
 
