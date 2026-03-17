@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidVectorForDatabaseExcept
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidVectorForPHPException;
 
 /**
- * Implementation of the pgvector vector data type.
+ * Implementation of the pgvector VECTOR data type.
  *
  * Stores a fixed-dimension floating-point vector.
  *

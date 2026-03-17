@@ -7,14 +7,8 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-final class VectorTypeTest extends TestCase
+final class VectorTypeTest extends VectorTypeTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->ensureVectorExtension();
-    }
-
     protected function getTypeName(): string
     {
         return 'vector';
@@ -49,14 +43,5 @@ final class VectorTypeTest extends TestCase
             'negative values' => [[-1.5, 0.0, 1.5]],
             'zero vector' => [[0.0, 0.0, 0.0]],
         ];
-    }
-
-    private function ensureVectorExtension(): void
-    {
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS vector');
-        } catch (\Exception) {
-            $this->markTestSkipped('pgvector extension is not available');
-        }
     }
 }

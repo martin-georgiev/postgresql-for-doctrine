@@ -62,18 +62,16 @@ final readonly class Sparsevec implements \Stringable
             throw InvalidSparsevecForPHPException::forInvalidFormat($value);
         }
 
-        $dimensionsRaw = $matches[2];
-        $dimensions = (int) $dimensionsRaw;
-
+        $dimensions = (int) $matches[2];
         if ($dimensions <= 0) {
             throw InvalidSparsevecForPHPException::forInvalidFormat($value);
         }
 
-        $elementsRaw = $matches[1];
+        $rawElements = $matches[1];
         $elements = [];
 
-        if ($elementsRaw !== '') {
-            $pairs = \explode(',', $elementsRaw);
+        if ($rawElements !== '') {
+            $pairs = \explode(',', $rawElements);
             foreach ($pairs as $pair) {
                 if (!\preg_match('/^(\d+):(.+)$/', $pair, $pairMatches)) {
                     throw InvalidSparsevecForPHPException::forInvalidFormat($value);

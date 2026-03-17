@@ -8,14 +8,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec as SparsevecValueOb
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-final class SparsevecTypeTest extends TestCase
+final class SparsevecTypeTest extends VectorTypeTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->ensureVectorExtension();
-    }
-
     protected function getTypeName(): string
     {
         return 'sparsevec';
@@ -57,14 +51,5 @@ final class SparsevecTypeTest extends TestCase
             'empty elements' => [new SparsevecValueObject([], 5)],
             'negative value' => [new SparsevecValueObject([1 => -0.5], 5)],
         ];
-    }
-
-    private function ensureVectorExtension(): void
-    {
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS vector');
-        } catch (\Exception) {
-            $this->markTestSkipped('pgvector extension is not available');
-        }
     }
 }

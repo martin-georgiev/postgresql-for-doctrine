@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHalfvecForDatabaseExcep
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHalfvecForPHPException;
 
 /**
- * Implementation of the pgvector halfvec data type.
+ * Implementation of the pgvector HALFVEC data type.
  *
  * Stores a fixed-dimension half-precision floating-point vector.
  *

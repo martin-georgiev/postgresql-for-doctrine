@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForPHPExceptio
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec as SparsevecValueObject;
 
 /**
- * Implementation of the pgvector sparsevec data type.
+ * Implementation of the pgvector SPARSEVEC data type.
  *
  * Stores a sparse vector using the format `{index:value,...}/dimensions`.
  *
