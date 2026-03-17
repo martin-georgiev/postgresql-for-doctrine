@@ -27,7 +27,7 @@ class Interval implements \Stringable
 
     public function __toString(): string
     {
-        return $this->formatForPostgres($this->dateInterval);
+        return $this->formatForPostgres();
     }
 
     /**
@@ -129,9 +129,9 @@ class Interval implements \Stringable
         $microseconds = 0.0;
 
         if (\preg_match('/(-?\d+(?:\.\d+)?)\s+seconds?/i', $value, $m)) {
-            $secondsFloat = (float) $m[1];
-            $seconds = (int) $secondsFloat;
-            $microseconds = $secondsFloat - $seconds;
+            $secondsAsFloat = (float) $m[1];
+            $seconds = (int) $m[1];
+            $microseconds = $secondsAsFloat - $seconds;
         }
 
         return [$hours, $minutes, $seconds, $microseconds];
@@ -151,10 +151,10 @@ class Interval implements \Stringable
         return $dateInterval;
     }
 
-    private function formatForPostgres(\DateInterval $dateInterval): string
+    private function formatForPostgres(): string
     {
-        $parts = $this->formatDateParts($dateInterval);
-        $timePart = $this->formatTimePart($dateInterval);
+        $parts = $this->formatDateParts();
+        $timePart = $this->formatTimePart();
 
         if ($timePart !== null) {
             $parts[] = $timePart;
@@ -166,8 +166,9 @@ class Interval implements \Stringable
     /**
      * @return list<string>
      */
-    private function formatDateParts(\DateInterval $dateInterval): array
+    private function formatDateParts(): array
     {
+        $dateInterval = $this->dateInterval;
         $parts = [];
 
         if ($dateInterval->y !== 0) {
@@ -185,9 +186,12 @@ class Interval implements \Stringable
         return $parts;
     }
 
-    private function formatTimePart(\DateInterval $dateInterval): ?string
+    private function formatTimePart(): ?string
     {
-        if ($dateInterval->h === 0 && $dateInterval->i === 0 && $dateInterval->s === 0 && $dateInterval->f == 0) {
+        $dateInterval = $this->dateInterval;
+        $hasMicroseconds = $dateInterval->f != 0;
+
+        if ($dateInterval->h === 0 && $dateInterval->i === 0 && $dateInterval->s === 0 && !$hasMicroseconds) {
             return null;
         }
 
@@ -197,7 +201,7 @@ class Interval implements \Stringable
 
         $result = \sprintf('%s%02d:%02d:%02d', $prefix, \abs($dateInterval->h), \abs($dateInterval->i), \abs($dateInterval->s));
 
-        if ($dateInterval->f != 0) {
+        if ($hasMicroseconds) {
             $result .= '.'.\rtrim(\sprintf('%06d', (int) \round(\abs($dateInterval->f) * 1_000_000)), '0');
         }
 

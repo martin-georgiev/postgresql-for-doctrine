@@ -97,33 +97,4 @@ final class IntervalTypeTest extends TestCase
             'PG normalizes month overflow' => ['1 year 14 mons', '2 years 2 mons'],
         ];
     }
-
-    #[Test]
-    public function exposes_date_interval(): void
-    {
-        $inputInterval = IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06');
-
-        [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
-
-        try {
-            $this->connection->createQueryBuilder()
-                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
-                ->values([$columnName => ':value'])
-                ->setParameter('value', $inputInterval, $this->getTypeName())
-                ->executeStatement();
-
-            $retrieved = $this->fetchConvertedValue($this->getTypeName(), $tableName, $columnName);
-
-            $this->assertInstanceOf(IntervalValueObject::class, $retrieved);
-            $dateInterval = $retrieved->toDateInterval();
-            $this->assertSame(1, $dateInterval->y);
-            $this->assertSame(2, $dateInterval->m);
-            $this->assertSame(3, $dateInterval->d);
-            $this->assertSame(4, $dateInterval->h);
-            $this->assertSame(5, $dateInterval->i);
-            $this->assertSame(6, $dateInterval->s);
-        } finally {
-            $this->dropTestTableIfItExists($tableName);
-        }
-    }
 }

@@ -107,7 +107,7 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function to_date_interval_returns_clone(): void
+    public function can_return_independent_date_interval_clones(): void
     {
         $interval = Interval::fromString('1 year');
 
