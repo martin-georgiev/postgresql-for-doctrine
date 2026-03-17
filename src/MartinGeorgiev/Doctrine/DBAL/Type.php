@@ -80,11 +80,15 @@ final class Type
 
     public const TSQUERY = 'tsquery';
 
+    public const TSQUERY_ARRAY = 'tsquery[]';
+
     public const TSRANGE = 'tsrange';
 
     public const TSMULTIRANGE = 'tsmultirange';
 
     public const TSVECTOR = 'tsvector';
+
+    public const TSVECTOR_ARRAY = 'tsvector[]';
 
     public const TSTZRANGE = 'tstzrange';
 
