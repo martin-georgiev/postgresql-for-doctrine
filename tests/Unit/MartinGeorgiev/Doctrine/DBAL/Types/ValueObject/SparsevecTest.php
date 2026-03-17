@@ -115,6 +115,8 @@ final class SparsevecTest extends TestCase
             'empty string' => [''],
             'wrong format' => ['[1,2,3]'],
             'zero dimensions' => ['{1:1.5}/0'],
+            'index below range' => ['{0:1.5}/3'],
+            'index above range' => ['{4:1.5}/3'],
         ];
     }
 
@@ -137,6 +139,20 @@ final class SparsevecTest extends TestCase
     {
         $this->expectException(InvalidSparsevecException::class);
         new Sparsevec([4 => 1.0], 3);
+    }
+
+    #[Test]
+    public function throws_exception_for_non_numeric_element_value(): void
+    {
+        $this->expectException(InvalidSparsevecException::class);
+        new Sparsevec([1 => 'not-a-number'], 3); // @phpstan-ignore argument.type
+    }
+
+    #[Test]
+    public function can_normalize_integer_element_values_to_float(): void
+    {
+        $sparsevec = new Sparsevec([1 => 1, 3 => 2], 5);
+        $this->assertSame([1 => 1.0, 3 => 2.0], $sparsevec->getElements());
     }
 
     #[Test]

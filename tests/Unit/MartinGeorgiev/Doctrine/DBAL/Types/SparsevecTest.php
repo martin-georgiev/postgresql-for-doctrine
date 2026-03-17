@@ -112,4 +112,23 @@ final class SparsevecTest extends TestCase
         $this->expectException(InvalidSparsevecForPHPException::class);
         $this->fixture->convertToPHPValue('invalid-format', $this->platform);
     }
+
+    #[DataProvider('provideOutOfRangeIndexInputs')]
+    #[Test]
+    public function throws_exception_for_out_of_range_index(string $input): void
+    {
+        $this->expectException(InvalidSparsevecForPHPException::class);
+        $this->fixture->convertToPHPValue($input, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideOutOfRangeIndexInputs(): array
+    {
+        return [
+            'index below range' => ['{0:1.5}/3'],
+            'index above range' => ['{4:1.5}/3'],
+        ];
+    }
 }

@@ -29,4 +29,13 @@ final class InvalidSparsevecException extends \InvalidArgumentException
             $key
         ));
     }
+
+    public static function forInvalidElementValue(int $key, mixed $value): self
+    {
+        return new self(\sprintf(
+            'Element value at key %d must be int or float, got %s',
+            $key,
+            \var_export($value, true)
+        ));
+    }
 }

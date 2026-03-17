@@ -20,24 +20,38 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidSparsevecEx
 final readonly class Sparsevec implements \Stringable
 {
     /**
+     * @var array<int, float>
+     */
+    private array $elements;
+
+    /**
      * @param array<int, float> $elements 1-based index => float value (only non-zero elements)
      * @param positive-int $dimensions total number of dimensions
      *
-     * @throws InvalidSparsevecException if dimensions is not positive or element keys are out of range
+     * @throws InvalidSparsevecException if dimensions is not positive, element keys are out of range, or values are not numeric
      */
     public function __construct(
-        private array $elements,
+        array $elements,
         private int $dimensions,
     ) {
         if ($dimensions <= 0) {
             throw InvalidSparsevecException::forNonPositiveDimensions($dimensions);
         }
 
-        foreach (\array_keys($elements) as $key) {
+        $normalized = [];
+        foreach ($elements as $key => $value) {
             if ($key < 1 || $key > $dimensions) {
                 throw InvalidSparsevecException::forElementKeyOutOfRange($key, $dimensions);
             }
+
+            if (!\is_float($value) && !\is_int($value)) {
+                throw InvalidSparsevecException::forInvalidElementValue($key, $value);
+            }
+
+            $normalized[$key] = (float) $value;
         }
+
+        $this->elements = $normalized;
     }
 
     public function __toString(): string
@@ -92,6 +106,10 @@ final readonly class Sparsevec implements \Stringable
 
                 $index = (int) $pairMatches[1];
                 $elementValue = $pairMatches[2];
+
+                if ($index < 1 || $index > $dimensions) {
+                    throw InvalidSparsevecForPHPException::forInvalidFormat($value);
+                }
 
                 if (!\is_numeric($elementValue)) {
                     throw InvalidSparsevecForPHPException::forInvalidFormat($value);
