@@ -53,12 +53,14 @@ class Cast extends FunctionNode
         if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS)) {
             $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
-            $parameters = [$parameter->value];
+            \assert(\is_scalar($parameter->value));
+            $parameters = [(string) $parameter->value];
             if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA)) {
                 while ($lexer->isNextToken($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA)) {
                     $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
                     $parameter = $parser->Literal();
-                    $parameters[] = $parameter->value;
+                    \assert(\is_scalar($parameter->value));
+                    $parameters[] = (string) $parameter->value;
                 }
             }
 
