@@ -6,8 +6,6 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
-
-    public const  HALFVEC = 'halfvec' SPARSEVEC='sparsevec';
     public const BIGINT_ARRAY = 'bigint[]';
 
     public const BOOL_ARRAY = 'bool[]';
@@ -29,6 +27,8 @@ final class Type
     public const GEOMETRY = 'geometry';
 
     public const GEOMETRY_ARRAY = 'geometry[]';
+
+    public const HALFVEC = 'halfvec';
 
     public const INET = 'inet';
 
@@ -71,6 +71,8 @@ final class Type
     public const REAL_ARRAY = 'real[]';
 
     public const SMALLINT_ARRAY = 'smallint[]';
+
+    public const SPARSEVEC = 'sparsevec';
 
     public const TEXT_ARRAY = 'text[]';
 

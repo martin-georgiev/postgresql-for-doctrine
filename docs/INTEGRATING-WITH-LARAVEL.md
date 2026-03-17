@@ -110,6 +110,8 @@ return [
                 'xml' => 'xml',
 
                 // Vector type mappings
+                'halfvec' => 'halfvec',
+                'sparsevec' => 'sparsevec',
                 'vector' => 'vector'
             ],
         ],
@@ -178,6 +180,8 @@ return [
         'xml' => MartinGeorgiev\Doctrine\DBAL\Types\Xml::class,
 
         // Vector types
+        'halfvec' => MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class,
+        'sparsevec' => MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec::class,
         'vector' => MartinGeorgiev\Doctrine\DBAL\Types\Vector::class,
     ],
 

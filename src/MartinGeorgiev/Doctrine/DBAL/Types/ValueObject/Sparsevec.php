@@ -16,16 +16,25 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForPHPExceptio
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class Sparsevec implements \Stringable
+final readonly class Sparsevec implements \Stringable
 {
     /**
      * @param array<int, float> $elements 1-based index => float value (only non-zero elements)
-     * @param positive-int      $dimensions total number of dimensions
+     * @param positive-int $dimensions total number of dimensions
      */
     public function __construct(
-        private readonly array $elements,
-        private readonly int $dimensions,
-    ) {
+        private array $elements,
+        private int $dimensions,
+    ) {}
+
+    public function __toString(): string
+    {
+        $parts = [];
+        foreach ($this->elements as $index => $value) {
+            $parts[] = $index.':'.$value;
+        }
+
+        return '{'.\implode(',', $parts).'}/'.$this->dimensions;
     }
 
     /**
@@ -42,16 +51,6 @@ final class Sparsevec implements \Stringable
     public function getDimensions(): int
     {
         return $this->dimensions;
-    }
-
-    public function __toString(): string
-    {
-        $parts = [];
-        foreach ($this->elements as $index => $value) {
-            $parts[] = $index.':'.$value;
-        }
-
-        return '{'.implode(',', $parts).'}'.'/'.$this->dimensions;
     }
 
     /**
@@ -91,7 +90,7 @@ final class Sparsevec implements \Stringable
             }
         }
 
-        /** @var positive-int $dimensions */
-        return new static($elements, $dimensions);
+        /* @var positive-int $dimensions */
+        return new self($elements, $dimensions);
     }
 }

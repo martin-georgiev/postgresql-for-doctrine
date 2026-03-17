@@ -20,11 +20,11 @@ final class InvalidHalfvecForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be an array of floats, %s given', \gettype($value));
+        return self::create('Database value must be an array of floats, %s given', $value);
     }
 
     public static function forInvalidItemType(mixed $value): self
     {
-        return self::create('Array items must be numeric, %s given', \gettype($value));
+        return self::create('Array items must be numeric, %s given', $value);
     }
 }

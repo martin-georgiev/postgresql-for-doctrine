@@ -73,6 +73,8 @@ Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
 
 // Vector types
+Type::addType('halfvec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Halfvec");
+Type::addType('sparsevec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Sparsevec");
 Type::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
 ```
 
@@ -360,6 +362,8 @@ $platform->registerDoctrineTypeMapping('ltree','ltree');
 $platform->registerDoctrineTypeMapping('xml', 'xml');
 
 // Vector mappings
+$platform->registerDoctrineTypeMapping('halfvec', 'halfvec');
+$platform->registerDoctrineTypeMapping('sparsevec', 'sparsevec');
 $platform->registerDoctrineTypeMapping('vector', 'vector');
 ```
 

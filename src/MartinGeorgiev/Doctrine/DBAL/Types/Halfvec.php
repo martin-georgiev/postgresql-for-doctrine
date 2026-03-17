@@ -33,13 +33,16 @@ class Halfvec extends BaseType
             throw InvalidHalfvecForDatabaseException::forInvalidType($value);
         }
 
+        $stringItems = [];
         foreach ($value as $item) {
             if (!\is_float($item) && !\is_int($item)) {
                 throw InvalidHalfvecForDatabaseException::forInvalidItemType($item);
             }
+
+            $stringItems[] = (string) $item;
         }
 
-        return '['.\implode(',', $value).']';
+        return '['.\implode(',', $stringItems).']';
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?array

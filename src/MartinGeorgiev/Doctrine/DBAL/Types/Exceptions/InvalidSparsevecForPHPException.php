@@ -20,7 +20,7 @@ final class InvalidSparsevecForPHPException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Value must be a sparsevec string, %s given', \gettype($value));
+        return self::create('Value must be a sparsevec string, %s given', $value);
     }
 
     public static function forInvalidFormat(mixed $value): self

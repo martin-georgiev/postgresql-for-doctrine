@@ -30,7 +30,7 @@ class Sparsevec extends BaseType
             return null;
         }
 
-        if (!($value instanceof SparsevecValueObject)) {
+        if (!$value instanceof SparsevecValueObject) {
             throw InvalidSparsevecForDatabaseException::forInvalidType($value);
         }
 

@@ -73,6 +73,8 @@ doctrine:
             xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
 
             # Vector types
+            halfvec: MartinGeorgiev\Doctrine\DBAL\Types\Halfvec
+            sparsevec: MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec
             vector: MartinGeorgiev\Doctrine\DBAL\Types\Vector
 ```
 
@@ -166,6 +168,8 @@ doctrine:
                     xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
 
                     # Vector type mappings
+                    halfvec: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HALFVEC
+                    sparsevec: !php/const MartinGeorgiev\Doctrine\DBAL\Type::SPARSEVEC
                     vector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::VECTOR
 ```
 

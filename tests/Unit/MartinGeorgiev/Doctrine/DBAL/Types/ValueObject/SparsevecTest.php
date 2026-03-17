@@ -30,7 +30,7 @@ final class SparsevecTest extends TestCase
 
     #[DataProvider('provideToStringCases')]
     #[Test]
-    public function converts_to_string(Sparsevec $sparsevec, string $expected): void
+    public function can_convert_to_string(Sparsevec $sparsevec, string $expected): void
     {
         $this->assertSame($expected, (string) $sparsevec);
     }
@@ -118,7 +118,7 @@ final class SparsevecTest extends TestCase
     }
 
     #[Test]
-    public function roundtrip_from_string_to_string(): void
+    public function can_roundtrip_from_string_to_string(): void
     {
         $original = '{1:1.5,3:2}/5';
         $sparsevec = Sparsevec::fromString($original);
