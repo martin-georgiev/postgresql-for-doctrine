@@ -48,6 +48,10 @@ final readonly class Sparsevec implements \Stringable
                 throw InvalidSparsevecException::forInvalidElementValue($key, $value);
             }
 
+            if (\is_float($value) && !\is_finite($value)) {
+                throw InvalidSparsevecException::forInvalidElementValue($key, $value);
+            }
+
             $normalized[$key] = (float) $value;
         }
 

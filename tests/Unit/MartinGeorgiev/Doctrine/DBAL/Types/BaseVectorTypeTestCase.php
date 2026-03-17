@@ -152,6 +152,26 @@ abstract class BaseVectorTypeTestCase extends TestCase
         $this->fixture->convertToDatabaseValue(['not', 'floats'], $this->platform);
     }
 
+    #[DataProvider('provideNonFiniteValues')]
+    #[Test]
+    public function throws_exception_for_non_finite_value(float $nonFiniteValue): void
+    {
+        $this->expectException($this->getDatabaseExceptionClass());
+        $this->fixture->convertToDatabaseValue([$nonFiniteValue], $this->platform);
+    }
+
+    /**
+     * @return array<string, array{float}>
+     */
+    public static function provideNonFiniteValues(): array
+    {
+        return [
+            'NAN' => [\NAN],
+            'INF' => [\INF],
+            'negative INF' => [-\INF],
+        ];
+    }
+
     #[DataProvider('provideInvalidPHPInputs')]
     #[Test]
     public function throws_exception_for_invalid_php_value(mixed $postgresValue): void

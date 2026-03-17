@@ -44,6 +44,10 @@ abstract class BaseVector extends BaseType
                 $this->throwInvalidItemTypeForDatabase($item);
             }
 
+            if (\is_float($item) && !\is_finite($item)) {
+                $this->throwInvalidItemTypeForDatabase($item);
+            }
+
             $stringItems[] = (string) $item;
         }
 

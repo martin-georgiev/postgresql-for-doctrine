@@ -120,32 +120,28 @@ final class SparsevecTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideInvalidConstructorInputs')]
     #[Test]
-    public function throws_exception_for_non_positive_dimensions(): void
+    public function throws_exception_for_invalid_constructor_input(array $elements, int $dimensions): void
     {
         $this->expectException(InvalidSparsevecException::class);
-        new Sparsevec([1 => 1.0], 0); // @phpstan-ignore argument.type
+        new Sparsevec($elements, $dimensions); // @phpstan-ignore-line
     }
 
-    #[Test]
-    public function throws_exception_for_element_key_below_range(): void
+    /**
+     * @return array<string, array{elements: array<int, mixed>, dimensions: int}>
+     */
+    public static function provideInvalidConstructorInputs(): array
     {
-        $this->expectException(InvalidSparsevecException::class);
-        new Sparsevec([0 => 1.0], 3);
-    }
-
-    #[Test]
-    public function throws_exception_for_element_key_above_range(): void
-    {
-        $this->expectException(InvalidSparsevecException::class);
-        new Sparsevec([4 => 1.0], 3);
-    }
-
-    #[Test]
-    public function throws_exception_for_non_numeric_element_value(): void
-    {
-        $this->expectException(InvalidSparsevecException::class);
-        new Sparsevec([1 => 'not-a-number'], 3); // @phpstan-ignore argument.type
+        return [
+            'non-positive dimensions' => ['elements' => [1 => 1.0], 'dimensions' => 0],
+            'key below range' => ['elements' => [0 => 1.0], 'dimensions' => 3],
+            'key above range' => ['elements' => [4 => 1.0], 'dimensions' => 3],
+            'non-numeric value' => ['elements' => [1 => 'not-a-number'], 'dimensions' => 3],
+            'NAN value' => ['elements' => [1 => \NAN], 'dimensions' => 3],
+            'INF value' => ['elements' => [1 => \INF], 'dimensions' => 3],
+            'negative INF value' => ['elements' => [1 => -\INF], 'dimensions' => 3],
+        ];
     }
 
     #[Test]
