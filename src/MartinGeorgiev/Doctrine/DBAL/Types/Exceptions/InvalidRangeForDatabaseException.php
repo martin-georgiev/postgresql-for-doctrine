@@ -20,7 +20,7 @@ final class InvalidRangeForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be a Range object or string, %s given', $value);
+        return self::create('Database value must be a Range object, %s given', $value);
     }
 
     public static function forInvalidFormat(string $value): self
