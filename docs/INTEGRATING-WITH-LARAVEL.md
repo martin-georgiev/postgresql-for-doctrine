@@ -671,6 +671,9 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'tsmultirange' => 'tsmultirange',
             'tstzmultirange' => 'tstzmultirange',
             'ltree' => 'ltree',
+            'halfvec' => 'halfvec',
+            'sparsevec' => 'sparsevec',
+            'vector' => 'vector',
             // Add other mappings as needed...
         ];
 
