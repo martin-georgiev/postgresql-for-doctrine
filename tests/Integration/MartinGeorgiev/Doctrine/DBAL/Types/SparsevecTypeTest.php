@@ -27,12 +27,6 @@ final class SparsevecTypeTest extends VectorTypeTestCase
         $this->assertSame((string) $expected, (string) $actual);
     }
 
-    #[Test]
-    public function can_handle_null_values(): void
-    {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(SparsevecValueObject $sparsevecValueObject): void

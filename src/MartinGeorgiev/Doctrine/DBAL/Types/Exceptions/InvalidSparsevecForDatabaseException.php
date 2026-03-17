@@ -20,6 +20,6 @@ final class InvalidSparsevecForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be a Sparsevec instance, %s given', $value);
+        return self::create('Expected a Sparsevec instance for database conversion, %s given', $value);
     }
 }

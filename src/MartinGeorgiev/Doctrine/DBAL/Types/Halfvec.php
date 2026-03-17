@@ -33,6 +33,10 @@ class Halfvec extends BaseType
             throw InvalidHalfvecForDatabaseException::forInvalidType($value);
         }
 
+        if (!\array_is_list($value)) {
+            throw InvalidHalfvecForDatabaseException::forInvalidType($value);
+        }
+
         $stringItems = [];
         foreach ($value as $item) {
             if (!\is_float($item) && !\is_int($item)) {

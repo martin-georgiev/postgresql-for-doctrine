@@ -141,6 +141,7 @@ abstract class BaseVectorTypeTestCase extends TestCase
             'integer input' => [42],
             'boolean input' => [true],
             'object input' => [new \stdClass()],
+            'non-list array' => [[2 => 0.5]],
         ];
     }
 

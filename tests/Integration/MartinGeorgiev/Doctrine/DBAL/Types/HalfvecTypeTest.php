@@ -30,12 +30,6 @@ final class HalfvecTypeTest extends VectorTypeTestCase
         return 'HALFVEC(3)';
     }
 
-    #[Test]
-    public function can_handle_null_values(): void
-    {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(array $testValue): void

@@ -156,7 +156,7 @@ final class SparsevecTest extends TestCase
     }
 
     #[Test]
-    public function can_roundtrip_from_string_to_string(): void
+    public function can_round_trip_from_string_to_string(): void
     {
         $original = '{1:1.5,3:2}/5';
         $sparsevec = Sparsevec::fromString($original);

@@ -33,6 +33,10 @@ class Vector extends BaseType
             throw InvalidVectorForDatabaseException::forInvalidType($value);
         }
 
+        if (!\array_is_list($value)) {
+            throw InvalidVectorForDatabaseException::forInvalidType($value);
+        }
+
         $stringItems = [];
         foreach ($value as $item) {
             if (!\is_float($item) && !\is_int($item)) {
