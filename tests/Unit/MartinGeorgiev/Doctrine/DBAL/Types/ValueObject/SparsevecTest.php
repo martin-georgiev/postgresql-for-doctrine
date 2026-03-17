@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidSparsevecException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -115,6 +116,27 @@ final class SparsevecTest extends TestCase
             'wrong format' => ['[1,2,3]'],
             'zero dimensions' => ['{1:1.5}/0'],
         ];
+    }
+
+    #[Test]
+    public function throws_exception_for_non_positive_dimensions(): void
+    {
+        $this->expectException(InvalidSparsevecException::class);
+        new Sparsevec([1 => 1.0], 0); // @phpstan-ignore argument.type
+    }
+
+    #[Test]
+    public function throws_exception_for_element_key_below_range(): void
+    {
+        $this->expectException(InvalidSparsevecException::class);
+        new Sparsevec([0 => 1.0], 3);
+    }
+
+    #[Test]
+    public function throws_exception_for_element_key_above_range(): void
+    {
+        $this->expectException(InvalidSparsevecException::class);
+        new Sparsevec([4 => 1.0], 3);
     }
 
     #[Test]

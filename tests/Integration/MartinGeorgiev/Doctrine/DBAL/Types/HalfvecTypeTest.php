@@ -9,6 +9,17 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class HalfvecTypeTest extends VectorTypeTestCase
 {
+    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
+    {
+        $this->assertIsArray($expected);
+        $this->assertIsArray($actual);
+        $this->assertCount(\count($expected), $actual);
+
+        foreach ($expected as $i => $expectedValue) {
+            $this->assertEqualsWithDelta($expectedValue, $actual[$i], 0.01, \sprintf('Element %d of %s round-trip failed', $i, $typeName));
+        }
+    }
+
     protected function getTypeName(): string
     {
         return 'halfvec';

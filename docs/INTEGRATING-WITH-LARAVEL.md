@@ -431,6 +431,7 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->registerRangeTypes();
         $this->registerMultirangeTypes();
         $this->registerHierarchicalTypes();
+        $this->registerVectorTypes();
     }
 
     private function registerArrayTypes(): void
@@ -494,6 +495,13 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
     private function registerHierarchicalTypes(): void
     {
         $this->addTypeIfNotExists('ltree', \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class);
+    }
+
+    private function registerVectorTypes(): void
+    {
+        $this->addTypeIfNotExists('halfvec', \MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class);
+        $this->addTypeIfNotExists('sparsevec', \MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec::class);
+        $this->addTypeIfNotExists('vector', \MartinGeorgiev\Doctrine\DBAL\Types\Vector::class);
     }
 
     private function addTypeIfNotExists(string $name, string $className): void
@@ -632,6 +640,9 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'tsmultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
             'tstzmultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
             'ltree' => \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
+            'halfvec' => \MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class,
+            'sparsevec' => \MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec::class,
+            'vector' => \MartinGeorgiev\Doctrine\DBAL\Types\Vector::class,
             // Add other types as needed...
         ];
 

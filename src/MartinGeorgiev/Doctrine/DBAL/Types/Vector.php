@@ -55,7 +55,11 @@ class Vector extends BaseType
             throw InvalidVectorForPHPException::forInvalidType($value);
         }
 
-        $trimmed = \trim($value, '[]');
+        if (\strlen($value) < 2 || $value[0] !== '[' || $value[\strlen($value) - 1] !== ']') {
+            throw InvalidVectorForPHPException::forInvalidFormat($value);
+        }
+
+        $trimmed = \substr($value, 1, -1);
         if ($trimmed === '') {
             return [];
         }

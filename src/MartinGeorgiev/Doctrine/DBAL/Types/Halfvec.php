@@ -55,7 +55,11 @@ class Halfvec extends BaseType
             throw InvalidHalfvecForPHPException::forInvalidType($value);
         }
 
-        $trimmed = \trim($value, '[]');
+        if (\strlen($value) < 2 || $value[0] !== '[' || $value[\strlen($value) - 1] !== ']') {
+            throw InvalidHalfvecForPHPException::forInvalidFormat($value);
+        }
+
+        $trimmed = \substr($value, 1, -1);
         if ($trimmed === '') {
             return [];
         }

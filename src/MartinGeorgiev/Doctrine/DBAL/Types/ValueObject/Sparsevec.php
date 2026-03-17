@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidSparsevecException;
 
 /**
  * Value object representing a pgvector sparsevec value.
@@ -21,11 +22,23 @@ final readonly class Sparsevec implements \Stringable
     /**
      * @param array<int, float> $elements 1-based index => float value (only non-zero elements)
      * @param positive-int $dimensions total number of dimensions
+     *
+     * @throws InvalidSparsevecException if dimensions is not positive or element keys are out of range
      */
     public function __construct(
         private array $elements,
         private int $dimensions,
-    ) {}
+    ) {
+        if ($dimensions <= 0) {
+            throw InvalidSparsevecException::forNonPositiveDimensions($dimensions);
+        }
+
+        foreach (\array_keys($elements) as $key) {
+            if ($key < 1 || $key > $dimensions) {
+                throw InvalidSparsevecException::forElementKeyOutOfRange($key, $dimensions);
+            }
+        }
+    }
 
     public function __toString(): string
     {
