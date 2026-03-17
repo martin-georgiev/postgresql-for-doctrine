@@ -63,6 +63,9 @@ Type::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMult
 Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
 Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
 
+// Interval types
+Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
+
 // Monetary types
 Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
 
@@ -352,6 +355,9 @@ $platform->registerDoctrineTypeMapping('tstzmultirange', 'tstzmultirange');
 $platform->registerDoctrineTypeMapping('tsquery', 'tsquery');
 $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
 
+// Interval type mappings
+$platform->registerDoctrineTypeMapping('interval', 'interval');
+
 // Monetary type mappings
 $platform->registerDoctrineTypeMapping('money', 'money');
 
@@ -376,6 +382,7 @@ Once types are registered, you can use them in your Doctrine entities:
 
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -404,6 +411,9 @@ class MyEntity
 
     #[ORM\Column(type: 'inet')]
     private string $ipAddress;
+
+    #[ORM\Column(type: 'interval')]
+    private Interval $duration;
 
     #[ORM\Column(type: 'money')]
     private string $price;

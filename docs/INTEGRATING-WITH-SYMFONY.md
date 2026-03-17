@@ -63,6 +63,9 @@ doctrine:
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
             tsvector: MartinGeorgiev\Doctrine\DBAL\Types\Tsvector
 
+            # Interval types
+            interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
+
             # Monetary types
             money: MartinGeorgiev\Doctrine\DBAL\Types\Money
 
@@ -157,6 +160,9 @@ doctrine:
                     # Text search type mappings
                     tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY
                     tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR
+
+                    # Interval type mappings
+                    interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
 
                     # Monetary type mappings
                     money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY
@@ -381,6 +387,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -412,6 +419,9 @@ class Product
 
     #[ORM\Column(type: Type::INET)]
     private string $originServerIp;
+
+    #[ORM\Column(type: Type::INTERVAL)]
+    private Interval $duration;
 
     #[ORM\Column(type: Type::MONEY)]
     private string $price;

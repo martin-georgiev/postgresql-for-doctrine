@@ -47,6 +47,8 @@
 | point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
 | point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
 |---|---|---|
+| interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
+|---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 |---|---|---|
 | money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
