@@ -25,6 +25,6 @@ class InvalidMultirangeForPHPException extends ConversionException
 
     public static function forInvalidFormat(string $value): self
     {
-        return new self(\sprintf('Invalid multirange format from database: %s', $value));
+        return self::create('Invalid multirange format from database: %s', $value);
     }
 }

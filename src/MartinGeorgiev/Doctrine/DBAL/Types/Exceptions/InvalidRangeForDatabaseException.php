@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 
+use Doctrine\DBAL\Types\ConversionException;
+
 /**
  * @since 3.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class InvalidRangeForDatabaseException extends \InvalidArgumentException
+final class InvalidRangeForDatabaseException extends ConversionException
 {
+    private static function create(string $message, mixed $value): self
+    {
+        return new self(\sprintf($message, \var_export($value, true)));
+    }
+
     public static function forInvalidType(mixed $value): self
     {
-        return new self(
-            \sprintf(
-                'Invalid type for range. Expected Range object or string, got %s',
-                \get_debug_type($value)
-            )
-        );
+        return self::create('Database value must be a Range object or string, %s given', $value);
     }
 
     public static function forInvalidFormat(string $value): self
     {
-        return new self(
-            \sprintf('Invalid range format: %s', $value)
-        );
+        return self::create('Invalid range format: %s', $value);
     }
 }
