@@ -55,6 +55,8 @@
 |---|---|---|
 | xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
 |---|---|---|
+| halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` |
+| sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` |
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` |
 
 ---

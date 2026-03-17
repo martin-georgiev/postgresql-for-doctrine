@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\ConversionException;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class InvalidVectorForDatabaseException extends ConversionException
+final class InvalidSparsevecForDatabaseException extends ConversionException
 {
     private static function create(string $message, mixed $value): self
     {
@@ -20,11 +20,6 @@ final class InvalidVectorForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be an array of floats, %s given', $value);
-    }
-
-    public static function forInvalidItemType(mixed $value): self
-    {
-        return self::create('Array items must be numeric, %s given', $value);
+        return self::create('Expected a Sparsevec instance for database conversion, %s given', $value);
     }
 }

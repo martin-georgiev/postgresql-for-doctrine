@@ -28,6 +28,8 @@ final class Type
 
     public const GEOMETRY_ARRAY = 'geometry[]';
 
+    public const HALFVEC = 'halfvec';
+
     public const INET = 'inet';
 
     public const INET_ARRAY = 'inet[]';
@@ -71,6 +73,8 @@ final class Type
     public const REAL_ARRAY = 'real[]';
 
     public const SMALLINT_ARRAY = 'smallint[]';
+
+    public const SPARSEVEC = 'sparsevec';
 
     public const TEXT_ARRAY = 'text[]';
 

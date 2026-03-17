@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\ConversionException;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class InvalidVectorForDatabaseException extends ConversionException
+final class InvalidHalfvecForDatabaseException extends ConversionException
 {
     private static function create(string $message, mixed $value): self
     {
