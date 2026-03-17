@@ -38,6 +38,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Money;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
@@ -53,6 +54,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Vector;
+use MartinGeorgiev\Doctrine\DBAL\Types\Xml;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -255,6 +257,7 @@ abstract class TestCase extends BaseTestCase
             'macaddr8' => Macaddr8::class,
             'macaddr8[]' => Macaddr8Array::class,
             'macaddr[]' => MacaddrArray::class,
+            'money' => Money::class,
             'numrange' => NumRange::class,
             'nummultirange' => NumMultirange::class,
             'point' => Point::class,
@@ -270,6 +273,7 @@ abstract class TestCase extends BaseTestCase
             'tsvector' => Tsvector::class,
             'uuid[]' => UuidArray::class,
             'vector' => Vector::class,
+            'xml' => Xml::class,
         ];
 
         foreach ($typesMap as $typeName => $typeClass) {

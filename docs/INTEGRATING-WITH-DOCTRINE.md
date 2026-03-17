@@ -63,8 +63,14 @@ Type::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMult
 Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
 Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
 
+// Monetary types
+Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
+
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
+
+// XML types
+Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
 
 // Vector types
 Type::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
@@ -344,8 +350,14 @@ $platform->registerDoctrineTypeMapping('tstzmultirange', 'tstzmultirange');
 $platform->registerDoctrineTypeMapping('tsquery', 'tsquery');
 $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
 
+// Monetary type mappings
+$platform->registerDoctrineTypeMapping('money', 'money');
+
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');
+
+// XML mappings
+$platform->registerDoctrineTypeMapping('xml', 'xml');
 
 // Vector mappings
 $platform->registerDoctrineTypeMapping('vector', 'vector');
@@ -389,7 +401,13 @@ class MyEntity
     #[ORM\Column(type: 'inet')]
     private string $ipAddress;
 
+    #[ORM\Column(type: 'money')]
+    private string $price;
+
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: 'xml')]
+    private string $configXml;
 }
 ```
