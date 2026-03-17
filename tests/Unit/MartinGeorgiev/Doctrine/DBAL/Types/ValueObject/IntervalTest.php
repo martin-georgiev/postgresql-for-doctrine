@@ -73,6 +73,14 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
+    public function throws_exception_for_unrecognized_postgres_format(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Cannot parse interval string');
+        Interval::fromString('not-an-interval');
+    }
+
+    #[Test]
     public function can_create_from_date_interval(): void
     {
         $dateInterval = new \DateInterval('P1Y2M3DT4H5M6S');

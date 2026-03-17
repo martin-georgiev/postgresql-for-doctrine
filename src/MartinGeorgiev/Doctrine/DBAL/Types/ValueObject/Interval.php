@@ -87,6 +87,13 @@ class Interval implements \Stringable
         [$years, $months, $days] = self::parseDateParts($value);
         [$hours, $minutes, $seconds, $microseconds] = self::parseTimeParts($value);
 
+        if ($years === 0 && $months === 0 && $days === 0 && $hours === 0 && $minutes === 0 && $seconds === 0 && $microseconds == 0.0) {
+            $hasTimeComponent = (bool) \preg_match('/\d+:\d{2}:\d{2}/', $value);
+            if (!$hasTimeComponent) {
+                throw new \InvalidArgumentException(\sprintf('Cannot parse interval string: %s', $value));
+            }
+        }
+
         return self::createInterval($years, $months, $days, $hours, $minutes, $seconds, $microseconds);
     }
 
