@@ -25,6 +25,7 @@
 |---|---|---|
 | tsquery | tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\Tsquery` |
 | tsvector | tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\Tsvector` |
+| tsvector[] | _tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray` |
 |---|---|---|
 | daterange | daterange | `MartinGeorgiev\Doctrine\DBAL\Types\DateRange` |
 | int4range | int4range | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Range` |

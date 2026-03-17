@@ -53,6 +53,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Vector;
 use MartinGeorgiev\Doctrine\DBAL\Types\Xml;
@@ -273,6 +274,7 @@ abstract class TestCase extends BaseTestCase
             'tstzmultirange' => TstzMultirange::class,
             'tstzrange' => TstzRange::class,
             'tsvector' => Tsvector::class,
+            'tsvector[]' => TsvectorArray::class,
             'uuid[]' => UuidArray::class,
             'vector' => Vector::class,
             'xml' => Xml::class,
