@@ -18,6 +18,7 @@ trait XmlValidationTrait
         }
 
         $previousUseInternalErrors = \libxml_use_internal_errors(true);
+        \libxml_clear_errors();
 
         try {
             $domDocument = new \DOMDocument();
