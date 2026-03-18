@@ -35,6 +35,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
+use MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
@@ -253,6 +254,7 @@ abstract class TestCase extends BaseTestCase
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
             'ltree' => Ltree::class,
+            'ltree[]' => LtreeArray::class,
             'int4multirange' => Int4Multirange::class,
             'int8multirange' => Int8Multirange::class,
             'macaddr' => Macaddr::class,
