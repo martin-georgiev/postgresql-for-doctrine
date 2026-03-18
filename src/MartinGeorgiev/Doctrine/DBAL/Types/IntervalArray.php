@@ -77,6 +77,10 @@ class IntervalArray extends BaseArray
             return null;
         }
 
+        if ($item instanceof IntervalValueObject) {
+            return $item;
+        }
+
         if (!\is_string($item)) {
             throw InvalidIntervalArrayItemForPHPException::forInvalidType($item);
         }

@@ -246,6 +246,15 @@ class IntervalArrayTest extends TestCase
     }
 
     #[Test]
+    public function transform_array_item_for_php_returns_same_instance_for_value_object(): void
+    {
+        $interval = IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06');
+        $result = $this->fixture->transformArrayItemForPHP($interval);
+
+        $this->assertSame($interval, $result);
+    }
+
+    #[Test]
     public function transform_array_item_for_php_throws_for_non_string(): void
     {
         $this->expectException(InvalidIntervalArrayItemForPHPException::class);
