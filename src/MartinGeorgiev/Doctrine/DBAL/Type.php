@@ -62,6 +62,8 @@ final class Type
 
     public const MONEY = 'money';
 
+    public const MONEY_ARRAY = 'money[]';
+
     public const NUMMULTIRANGE = 'nummultirange';
 
     public const NUMRANGE = 'numrange';

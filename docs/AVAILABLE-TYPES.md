@@ -52,6 +52,7 @@
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 |---|---|---|
 | money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
+| money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |
 |---|---|---|
 | xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
 | xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
