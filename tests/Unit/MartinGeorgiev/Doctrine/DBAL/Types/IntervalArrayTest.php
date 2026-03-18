@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class IntervalArrayTest extends TestCase
+class IntervalArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObject;
 
-final class IntervalArrayTypeTest extends ArrayTypeTestCase
+class IntervalArrayTypeTest extends ArrayTypeTestCase
 {
     use IntervalAssertionTrait;
 

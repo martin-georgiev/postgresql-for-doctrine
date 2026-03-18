@@ -18,7 +18,7 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class IntervalArray extends BaseArray
+class IntervalArray extends BaseArray
 {
     protected const TYPE_NAME = Type::INTERVAL_ARRAY;
 

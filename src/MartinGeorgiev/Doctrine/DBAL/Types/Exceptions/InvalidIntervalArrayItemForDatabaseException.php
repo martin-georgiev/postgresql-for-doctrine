@@ -8,8 +8,10 @@ use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * @since 4.4
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class InvalidIntervalArrayItemForDatabaseException extends ConversionException
+class InvalidIntervalArrayItemForDatabaseException extends ConversionException
 {
     private static function create(string $message, mixed $value): self
     {
