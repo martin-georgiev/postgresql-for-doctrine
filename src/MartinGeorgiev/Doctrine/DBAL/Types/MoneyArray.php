@@ -7,6 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\MoneyValidationTrait;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
@@ -22,6 +23,8 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 class MoneyArray extends BaseArray
 {
+    use MoneyValidationTrait;
+
     protected const TYPE_NAME = Type::MONEY_ARRAY;
 
     protected function transformArrayItemForPostgres(mixed $item): string
@@ -78,10 +81,5 @@ class MoneyArray extends BaseArray
     protected function throwInvalidItemException(mixed $item): never
     {
         throw InvalidMoneyArrayItemForDatabaseException::forInvalidFormat($item);
-    }
-
-    private function isValidMoneyValue(string $value): bool
-    {
-        return \preg_match('/\d/', $value) === 1;
     }
 }

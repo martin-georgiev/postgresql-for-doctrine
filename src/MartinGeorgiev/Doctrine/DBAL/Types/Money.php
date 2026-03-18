@@ -8,6 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\MoneyValidationTrait;
 
 /**
  * Implementation of PostgreSQL MONEY data type.
@@ -27,6 +28,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyForPHPException;
  */
 final class Money extends BaseType
 {
+    use MoneyValidationTrait;
+
     protected const TYPE_NAME = Type::MONEY;
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
@@ -62,10 +65,5 @@ final class Money extends BaseType
         }
 
         return $value;
-    }
-
-    private function isValidMoneyValue(string $value): bool
-    {
-        return \preg_match('/\d/', $value) === 1;
     }
 }
