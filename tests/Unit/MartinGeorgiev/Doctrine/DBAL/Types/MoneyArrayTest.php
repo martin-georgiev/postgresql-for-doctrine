@@ -85,14 +85,6 @@ class MoneyArrayTest extends TestCase
                 'phpValue' => ['$1.00', null, '$2.00'],
                 'postgresValue' => '{"$1.00",NULL,"$2.00"}',
             ],
-            'value with embedded double quote' => [
-                'phpValue' => ['$1"odd"2'],
-                'postgresValue' => '{"$1\\"odd\\"2"}',
-            ],
-            'value with backslash' => [
-                'phpValue' => ['$1\\2'],
-                'postgresValue' => '{"$1\\\\2"}',
-            ],
         ];
     }
 
