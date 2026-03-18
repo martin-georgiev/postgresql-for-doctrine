@@ -55,6 +55,7 @@
 | money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |
 |---|---|---|
 | xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
+| xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
 |---|---|---|
 | halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` |
 | sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` |

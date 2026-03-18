@@ -98,6 +98,8 @@ final class Type
 
     public const XML = 'xml';
 
+    public const XML_ARRAY = 'xml[]';
+
     private function __construct()
     {
         // Prevent instantiation
