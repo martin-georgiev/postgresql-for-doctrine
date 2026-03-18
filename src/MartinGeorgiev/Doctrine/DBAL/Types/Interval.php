@@ -33,6 +33,10 @@ final class Interval extends BaseType
             return null;
         }
 
+        if ($value instanceof IntervalValueObject) {
+            return $value;
+        }
+
         if (!\is_string($value)) {
             throw InvalidIntervalForPHPException::forInvalidType($value);
         }

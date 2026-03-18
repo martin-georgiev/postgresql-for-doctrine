@@ -104,6 +104,15 @@ class IntervalTest extends TestCase
     }
 
     #[Test]
+    public function can_transform_to_php_value_with_value_object(): void
+    {
+        $interval = IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06');
+        $result = $this->fixture->convertToPHPValue($interval, $this->platform);
+
+        $this->assertSame($interval, $result);
+    }
+
+    #[Test]
     public function can_transform_from_php_value_with_date_interval(): void
     {
         $dateInterval = new \DateInterval('P1Y2M3DT4H5M6S');
