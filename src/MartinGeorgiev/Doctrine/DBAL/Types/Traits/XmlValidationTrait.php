@@ -22,7 +22,7 @@ trait XmlValidationTrait
 
         try {
             $domDocument = new \DOMDocument();
-            $loaded = $domDocument->loadXML($value);
+            $loaded = $domDocument->loadXML($value, \LIBXML_NONET);
 
             return $loaded && \libxml_get_errors() === [];
         } finally {

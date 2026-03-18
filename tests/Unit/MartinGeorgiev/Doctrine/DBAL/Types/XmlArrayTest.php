@@ -162,6 +162,7 @@ class XmlArrayTest extends TestCase
             'self-closing element' => ['<root/>'],
             'element with content' => ['<item>value</item>'],
             'element with attributes' => ['<item id="1">text</item>'],
+            'external network entity declaration (LIBXML_NONET blocks resolution, XML remains structurally valid)' => ['<?xml version="1.0"?><!DOCTYPE test [<!ENTITY ext SYSTEM "http://example.com">]><test>&ext;</test>'],
             'null value' => [null],
         ];
     }
