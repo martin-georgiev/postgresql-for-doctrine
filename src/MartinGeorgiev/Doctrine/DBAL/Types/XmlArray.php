@@ -27,7 +27,8 @@ class XmlArray extends BaseArray
             return 'NULL';
         }
 
-        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item); // @phpstan-ignore-line $item validated by isValidArrayItemForDatabase
+        \assert(\is_string($item));
+        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
 
         return '"'.$escaped.'"';
     }
