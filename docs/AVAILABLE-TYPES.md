@@ -24,7 +24,9 @@
 | macaddr8[] | _macaddr8 | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array` |
 |---|---|---|
 | tsquery | tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\Tsquery` |
+| tsquery[] | _tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray` |
 | tsvector | tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\Tsvector` |
+| tsvector[] | _tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray` |
 |---|---|---|
 | daterange | daterange | `MartinGeorgiev\Doctrine\DBAL\Types\DateRange` |
 | int4range | int4range | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Range` |
@@ -53,8 +55,10 @@
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 |---|---|---|
 | money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
+| money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |
 |---|---|---|
 | xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
+| xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
 |---|---|---|
 | halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` |
 | sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` |
