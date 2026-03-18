@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class IntervalTest extends TestCase
+class IntervalTest extends TestCase
 {
     private MockObject&PostgreSQLPlatform $platform;
 
@@ -154,6 +154,7 @@ final class IntervalTest extends TestCase
             'boolean input' => [true],
             'array input' => [['1 year']],
             'object input' => [new \stdClass()],
+            'invalid string' => ['not-an-interval'],
         ];
     }
 
@@ -176,13 +177,8 @@ final class IntervalTest extends TestCase
             'boolean input' => [true],
             'array input' => [['1 year']],
             'object input' => [new \stdClass()],
+            'empty string' => [''],
+            'invalid string' => ['not-an-interval'],
         ];
-    }
-
-    #[Test]
-    public function throws_exception_for_empty_string_database_value(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->fixture->convertToDatabaseValue('', $this->platform);
     }
 }

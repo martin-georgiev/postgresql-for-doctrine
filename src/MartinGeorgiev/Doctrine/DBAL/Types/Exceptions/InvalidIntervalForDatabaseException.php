@@ -22,4 +22,9 @@ class InvalidIntervalForDatabaseException extends ConversionException
     {
         return self::create('Value must be an Interval object, a DateInterval, a string, or null, %s given', $value);
     }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Value %s is not a valid interval', $value);
+    }
 }
