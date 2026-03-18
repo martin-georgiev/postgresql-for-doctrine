@@ -66,10 +66,6 @@ class MoneyArray extends BaseArray
             throw InvalidMoneyArrayItemForPHPException::forInvalidType($item);
         }
 
-        if (!$this->isValidMoneyValue($item)) {
-            throw InvalidMoneyArrayItemForPHPException::forInvalidFormat($item);
-        }
-
         return $item;
     }
 
