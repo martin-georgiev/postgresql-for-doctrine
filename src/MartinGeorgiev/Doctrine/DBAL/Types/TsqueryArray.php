@@ -28,8 +28,9 @@ class TsqueryArray extends BaseArray
         }
 
         \assert(\is_string($item));
+        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
 
-        return '"'.$item.'"';
+        return '"'.$escaped.'"';
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
@@ -58,10 +59,6 @@ class TsqueryArray extends BaseArray
 
         if (!\is_string($item)) {
             throw InvalidTsqueryArrayItemForPHPException::forInvalidType($item);
-        }
-
-        if ($item === '') {
-            throw InvalidTsqueryArrayItemForPHPException::forInvalidFormat($item);
         }
 
         return $item;
