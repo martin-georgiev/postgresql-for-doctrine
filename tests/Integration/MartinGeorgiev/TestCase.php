@@ -50,6 +50,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsquery;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
@@ -273,6 +274,7 @@ abstract class TestCase extends BaseTestCase
             'text[]' => TextArray::class,
             'tsmultirange' => TsMultirange::class,
             'tsquery' => Tsquery::class,
+            'tsquery[]' => TsqueryArray::class,
             'tsrange' => TsRange::class,
             'tstzmultirange' => TstzMultirange::class,
             'tstzrange' => TstzRange::class,
