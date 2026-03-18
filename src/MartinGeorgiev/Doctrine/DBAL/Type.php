@@ -88,6 +88,8 @@ final class Type
 
     public const TSVECTOR = 'tsvector';
 
+    public const TSVECTOR_ARRAY = 'tsvector[]';
+
     public const TSTZRANGE = 'tstzrange';
 
     public const TSTZMULTIRANGE = 'tstzmultirange';
