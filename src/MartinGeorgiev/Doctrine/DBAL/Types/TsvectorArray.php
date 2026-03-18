@@ -28,8 +28,9 @@ class TsvectorArray extends BaseArray
         }
 
         \assert(\is_string($item));
+        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
 
-        return '"'.$item.'"';
+        return '"'.$escaped.'"';
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
@@ -58,10 +59,6 @@ class TsvectorArray extends BaseArray
 
         if (!\is_string($item)) {
             throw InvalidTsvectorArrayItemForPHPException::forInvalidType($item);
-        }
-
-        if ($item === '') {
-            throw InvalidTsvectorArrayItemForPHPException::forInvalidFormat($item);
         }
 
         return $item;
