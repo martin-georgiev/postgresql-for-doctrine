@@ -46,6 +46,8 @@ final class Type
 
     public const INTERVAL = 'interval';
 
+    public const INTERVAL_ARRAY = 'interval[]';
+
     public const JSONB = 'jsonb';
 
     public const JSONB_ARRAY = 'jsonb[]';

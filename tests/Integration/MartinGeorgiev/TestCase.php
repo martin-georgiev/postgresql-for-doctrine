@@ -32,6 +32,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Interval;
+use MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
@@ -250,6 +251,7 @@ abstract class TestCase extends BaseTestCase
             'int8range' => Int8Range::class,
             'integer[]' => IntegerArray::class,
             'interval' => Interval::class,
+            'interval[]' => IntervalArray::class,
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
             'ltree' => Ltree::class,
