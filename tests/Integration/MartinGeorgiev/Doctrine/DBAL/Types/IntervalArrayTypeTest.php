@@ -64,6 +64,7 @@ final class IntervalArrayTypeTest extends ArrayTypeTestCase
         $this->assertCount(\count($expected), $actual, \sprintf('Interval array count mismatch for type %s', $typeName));
 
         foreach ($expected as $index => $expectedItem) {
+            $this->assertInstanceOf(IntervalValueObject::class, $expectedItem);
             $this->assertIntervalEquals($expectedItem, $actual[$index], $typeName);
         }
     }
