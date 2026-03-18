@@ -34,8 +34,9 @@ class MoneyArray extends BaseArray
         }
 
         \assert(\is_string($item));
+        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
 
-        return '"'.$item.'"';
+        return '"'.$escaped.'"';
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
