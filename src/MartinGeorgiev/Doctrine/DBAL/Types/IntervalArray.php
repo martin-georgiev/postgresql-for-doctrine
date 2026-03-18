@@ -30,6 +30,7 @@ class IntervalArray extends BaseArray
 
         if (\is_string($item)) {
             $originalString = $item;
+
             try {
                 $item = IntervalValueObject::fromString($item);
             } catch (\Throwable) {

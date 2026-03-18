@@ -52,6 +52,7 @@ final class Interval extends BaseType
 
         if (\is_string($value)) {
             $originalString = $value;
+
             try {
                 $value = IntervalValueObject::fromString($value);
             } catch (\Throwable) {
