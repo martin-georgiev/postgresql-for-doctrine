@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class MoneyTest extends TestCase
+class MoneyTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -104,6 +104,7 @@ final class MoneyTest extends TestCase
         return [
             'alphabetic text' => ['not money'],
             'currency symbol only' => ['$'],
+            'empty string' => [''],
             'empty-looking string' => ['---'],
             'special characters only' => ['@#!'],
         ];
