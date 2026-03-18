@@ -54,6 +54,7 @@
 | money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
 |---|---|---|
 | xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
+| xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
 |---|---|---|
 | halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` |
 | sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` |
