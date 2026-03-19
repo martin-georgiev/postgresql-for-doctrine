@@ -42,7 +42,7 @@ class IntervalArray extends BaseArray
 
         \assert($item instanceof IntervalValueObject);
 
-        return '"'.(string) $item.'"';
+        return '"'.$item.'"';
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
