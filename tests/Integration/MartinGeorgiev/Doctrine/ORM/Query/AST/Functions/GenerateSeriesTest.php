@@ -27,14 +27,11 @@ class GenerateSeriesTest extends DateTestCase
 
         $this->assertCount(2, $result);
 
-        $dates = [];
-        foreach ($result as $row) {
-            $this->assertIsString($row['result']);
-            $dates[] = \substr($row['result'], 0, 10);
-        }
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('2023-06-15 00:00:00', $result[0]['result']);
 
-        $this->assertContains('2023-06-15', $dates);
-        $this->assertContains('2023-06-16', $dates);
+        $this->assertIsString($result[1]['result']);
+        $this->assertSame('2023-06-16 00:00:00', $result[1]['result']);
     }
 
     #[Test]
@@ -47,5 +44,14 @@ class GenerateSeriesTest extends DateTestCase
         $result = $this->executeDqlQuery($dql);
 
         $this->assertCount(3, $result);
+
+        $this->assertIsString($result[0]['result']);
+        $this->assertSame('2023-06-15 10:30:00', $result[0]['result']);
+
+        $this->assertIsString($result[1]['result']);
+        $this->assertSame('2023-06-15 22:30:00', $result[1]['result']);
+
+        $this->assertIsString($result[2]['result']);
+        $this->assertSame('2023-06-16 10:30:00', $result[2]['result']);
     }
 }
