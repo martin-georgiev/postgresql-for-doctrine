@@ -28,10 +28,10 @@ class GenerateTimeSeriesTest extends DateTestCase
         $this->assertCount(2, $result);
 
         $this->assertIsString($result[0]['result']);
-        $this->assertSame('2023-06-15 00:00:00', $result[0]['result']);
+        $this->assertSame('2023-06-15 00:00:00+00', $result[0]['result']);
 
         $this->assertIsString($result[1]['result']);
-        $this->assertSame('2023-06-16 00:00:00', $result[1]['result']);
+        $this->assertSame('2023-06-16 00:00:00+00', $result[1]['result']);
     }
 
     #[Test]
