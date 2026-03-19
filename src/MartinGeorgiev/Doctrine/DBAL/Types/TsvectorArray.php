@@ -7,7 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorArrayItemForPHPException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL TSVECTOR[] data type.
@@ -17,20 +16,9 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class TsvectorArray extends BaseArray
+class TsvectorArray extends BaseStringArray
 {
     protected const TYPE_NAME = Type::TSVECTOR_ARRAY;
-
-    protected function transformArrayItemForPostgres(mixed $item): string
-    {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        \assert(\is_string($item));
-
-        return $this->quoteAndEscapeArrayItem($item);
-    }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
@@ -45,22 +33,9 @@ class TsvectorArray extends BaseArray
         return $item !== '';
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidTsvectorArrayItemForPHPException
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-    }
-
-    public function transformArrayItemForPHP(mixed $item): ?string
-    {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidTsvectorArrayItemForPHPException::forInvalidType($item);
-        }
-
-        return $item;
+        return InvalidTsvectorArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
