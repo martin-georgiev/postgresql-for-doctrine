@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObje
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
- * Implementation of PostgreSQL interval[] (array of interval) data type.
+ * Implementation of PostgreSQL INTERVAL[] data type.
  *
  * @see https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
  * @since 4.4
