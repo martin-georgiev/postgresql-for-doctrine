@@ -22,7 +22,7 @@ class GenerateNumericSeries extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary'];
+        return ['ArithmeticPrimary'];
     }
 
     protected function getFunctionName(): string
