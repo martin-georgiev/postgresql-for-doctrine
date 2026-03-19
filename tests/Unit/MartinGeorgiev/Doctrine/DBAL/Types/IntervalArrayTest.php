@@ -82,8 +82,14 @@ class IntervalArrayTest extends TestCase
         $this->assertCount(\count($phpValue), $actual);
 
         foreach ($phpValue as $index => $expectedItem) {
-            $this->assertInstanceOf(IntervalValueObject::class, $expectedItem);
             $actualItem = $actual[$index];
+            if ($expectedItem === null) {
+                $this->assertNull($actualItem);
+
+                continue;
+            }
+
+            $this->assertInstanceOf(IntervalValueObject::class, $expectedItem);
             $this->assertInstanceOf(IntervalValueObject::class, $actualItem);
             $this->assertSame((string) $expectedItem, (string) $actualItem);
         }
