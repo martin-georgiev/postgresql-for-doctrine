@@ -40,9 +40,7 @@ class IntervalArray extends BaseArray
             $item = IntervalValueObject::fromDateInterval($item);
         }
 
-        if (!$item instanceof IntervalValueObject) {
-            throw InvalidIntervalArrayItemForDatabaseException::forInvalidType($item);
-        }
+        \assert($item instanceof IntervalValueObject);
 
         return '"'.(string) $item.'"';
     }
