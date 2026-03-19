@@ -35,12 +35,6 @@ class XmlTest extends TestCase
     }
 
     #[Test]
-    public function returns_correct_sql_declaration(): void
-    {
-        $this->assertSame('XML', $this->fixture->getSQLDeclaration([], $this->platform));
-    }
-
-    #[Test]
     public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
