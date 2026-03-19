@@ -91,7 +91,7 @@ class IntervalArrayTest extends TestCase
 
     /**
      * @return array<string, array{
-     *     phpValue: array<IntervalValueObject>|null,
+     *     phpValue: array<IntervalValueObject|null>|null,
      *     postgresValue: string|null
      * }>
      */
@@ -128,6 +128,10 @@ class IntervalArrayTest extends TestCase
             'zero interval' => [
                 'phpValue' => [IntervalValueObject::fromString('00:00:00')],
                 'postgresValue' => '{"00:00:00"}',
+            ],
+            'array with null item' => [
+                'phpValue' => [null, IntervalValueObject::fromString('1 year')],
+                'postgresValue' => '{NULL,"1 year"}',
             ],
         ];
     }

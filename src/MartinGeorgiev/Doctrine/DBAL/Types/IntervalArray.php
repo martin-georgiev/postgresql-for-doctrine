@@ -29,13 +29,7 @@ class IntervalArray extends BaseArray
         }
 
         if (\is_string($item)) {
-            $originalString = $item;
-
-            try {
-                $item = IntervalValueObject::fromString($item);
-            } catch (\Throwable) {
-                throw InvalidIntervalArrayItemForDatabaseException::forInvalidFormat($originalString);
-            }
+            $item = IntervalValueObject::fromString($item);
         } elseif ($item instanceof \DateInterval) {
             $item = IntervalValueObject::fromDateInterval($item);
         }
