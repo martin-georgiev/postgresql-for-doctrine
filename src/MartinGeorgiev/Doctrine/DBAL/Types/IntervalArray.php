@@ -44,7 +44,7 @@ class IntervalArray extends BaseArray
             throw InvalidIntervalArrayItemForDatabaseException::forInvalidType($item);
         }
 
-        return '"'.$item.'"';
+        return '"'.(string) $item.'"';
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
