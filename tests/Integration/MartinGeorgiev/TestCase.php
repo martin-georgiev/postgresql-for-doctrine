@@ -288,12 +288,16 @@ abstract class TestCase extends BaseTestCase
             'xml[]' => XmlArray::class,
         ];
 
+        $platform = $this->connection->getDatabasePlatform();
+
         foreach ($typesMap as $typeName => $typeClass) {
             if (Type::hasType($typeName)) {
                 Type::overrideType($typeName, $typeClass);
             } else {
                 Type::addType($typeName, $typeClass);
             }
+
+            $platform->registerDoctrineTypeMapping($typeName, $typeName);
 
             self::$registeredTypes[] = $typeName;
         }

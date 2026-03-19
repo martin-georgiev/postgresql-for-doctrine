@@ -8,7 +8,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\MoneyValidationTrait;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL MONEY[] data type.
@@ -21,23 +20,11 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class MoneyArray extends BaseArray
+class MoneyArray extends BaseStringArray
 {
     use MoneyValidationTrait;
 
     protected const TYPE_NAME = Type::MONEY_ARRAY;
-
-    protected function transformArrayItemForPostgres(mixed $item): string
-    {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        \assert(\is_string($item));
-        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
-
-        return '"'.$escaped.'"';
-    }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
@@ -52,22 +39,9 @@ class MoneyArray extends BaseArray
         return $this->isValidMoneyValue($item);
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidMoneyArrayItemForPHPException
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-    }
-
-    public function transformArrayItemForPHP(mixed $item): ?string
-    {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidMoneyArrayItemForPHPException::forInvalidType($item);
-        }
-
-        return $item;
+        return InvalidMoneyArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

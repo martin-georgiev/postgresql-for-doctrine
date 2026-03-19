@@ -22,11 +22,6 @@ final class Interval extends BaseType
 {
     protected const TYPE_NAME = Type::INTERVAL;
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        return 'INTERVAL';
-    }
-
     public function convertToPHPValue($value, AbstractPlatform $platform): ?IntervalValueObject
     {
         if (null === $value || '' === $value) {

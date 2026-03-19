@@ -7,7 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsqueryArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsqueryArrayItemForPHPException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL TSQUERY[] data type.
@@ -17,21 +16,9 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class TsqueryArray extends BaseArray
+class TsqueryArray extends BaseStringArray
 {
     protected const TYPE_NAME = Type::TSQUERY_ARRAY;
-
-    protected function transformArrayItemForPostgres(mixed $item): string
-    {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        \assert(\is_string($item));
-        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
-
-        return '"'.$escaped.'"';
-    }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
@@ -46,22 +33,9 @@ class TsqueryArray extends BaseArray
         return $item !== '';
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidTsqueryArrayItemForPHPException
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-    }
-
-    public function transformArrayItemForPHP(mixed $item): ?string
-    {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidTsqueryArrayItemForPHPException::forInvalidType($item);
-        }
-
-        return $item;
+        return InvalidTsqueryArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

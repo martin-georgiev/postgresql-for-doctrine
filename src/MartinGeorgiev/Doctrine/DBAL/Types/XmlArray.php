@@ -8,7 +8,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\XmlValidationTrait;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL XML[] data type.
@@ -18,23 +17,11 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class XmlArray extends BaseArray
+class XmlArray extends BaseStringArray
 {
     use XmlValidationTrait;
 
     protected const TYPE_NAME = Type::XML_ARRAY;
-
-    protected function transformArrayItemForPostgres(mixed $item): string
-    {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        \assert(\is_string($item));
-        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
-
-        return '"'.$escaped.'"';
-    }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
@@ -49,26 +36,20 @@ class XmlArray extends BaseArray
         return $this->isValidXml($item);
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-    }
-
     public function transformArrayItemForPHP(mixed $item): ?string
     {
-        if ($item === null) {
-            return null;
-        }
+        $result = parent::transformArrayItemForPHP($item);
 
-        if (!\is_string($item)) {
-            throw InvalidXmlArrayItemForPHPException::forInvalidType($item);
-        }
-
-        if (!$this->isValidXml($item)) {
+        if ($result !== null && !$this->isValidXml($result)) {
             throw InvalidXmlArrayItemForPHPException::forInvalidFormat($item);
         }
 
-        return $item;
+        return $result;
+    }
+
+    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidXmlArrayItemForPHPException
+    {
+        return InvalidXmlArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

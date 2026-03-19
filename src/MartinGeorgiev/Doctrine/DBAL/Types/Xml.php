@@ -24,11 +24,6 @@ final class Xml extends BaseType
 
     protected const TYPE_NAME = Type::XML;
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        return 'XML';
-    }
-
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null || $value === '') {

@@ -32,11 +32,6 @@ final class Money extends BaseType
 
     protected const TYPE_NAME = Type::MONEY;
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        return 'MONEY';
-    }
-
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null || $value === '') {
