@@ -31,9 +31,8 @@ class XmlArray extends BaseArray
         }
 
         \assert(\is_string($item));
-        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
 
-        return '"'.$escaped.'"';
+        return $this->quoteAndEscapeArrayItem($item);
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool

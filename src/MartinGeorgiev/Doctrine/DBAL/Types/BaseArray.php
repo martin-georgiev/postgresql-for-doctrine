@@ -104,6 +104,13 @@ abstract class BaseArray extends BaseType
         return $item;
     }
 
+    protected function quoteAndEscapeArrayItem(string $item): string
+    {
+        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
+
+        return '"'.$escaped.'"';
+    }
+
     /**
      * Converts a value from its PostgreSQL representation to its PHP representation of this type.
      *
