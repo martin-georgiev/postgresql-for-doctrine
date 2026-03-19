@@ -50,6 +50,7 @@
 | point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
 |---|---|---|
 | interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
+| interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 |---|---|---|

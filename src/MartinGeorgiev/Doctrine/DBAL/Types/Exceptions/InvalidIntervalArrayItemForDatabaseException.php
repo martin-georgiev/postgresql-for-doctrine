@@ -11,20 +11,15 @@ use Doctrine\DBAL\Types\ConversionException;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class InvalidIntervalForDatabaseException extends ConversionException
+class InvalidIntervalArrayItemForDatabaseException extends ConversionException
 {
     private static function create(string $message, mixed $value): self
     {
         return new self(\sprintf($message, \var_export($value, true)));
     }
 
-    public static function forInvalidType(mixed $value): self
-    {
-        return self::create('Value must be an Interval object, a DateInterval, a string, or null, %s given', $value);
-    }
-
     public static function forInvalidFormat(mixed $value): self
     {
-        return self::create('Value %s is not a valid interval', $value);
+        return self::create('Cannot convert interval array item to database value. Value %s is not a valid interval.', $value);
     }
 }

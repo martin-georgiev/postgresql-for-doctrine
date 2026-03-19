@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class IntervalTypeTest extends TestCase
 {
+    use IntervalAssertionTrait;
+
     protected function getTypeName(): string
     {
         return 'interval';
@@ -23,8 +25,7 @@ final class IntervalTypeTest extends TestCase
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
         $this->assertInstanceOf(IntervalValueObject::class, $expected);
-        $this->assertInstanceOf(IntervalValueObject::class, $actual);
-        $this->assertSame((string) $expected, (string) $actual);
+        $this->assertIntervalEquals($expected, $actual, $typeName);
     }
 
     #[Test]

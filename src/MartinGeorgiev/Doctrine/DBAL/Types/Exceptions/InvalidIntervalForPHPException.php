@@ -22,4 +22,9 @@ class InvalidIntervalForPHPException extends ConversionException
     {
         return self::create('Value must be a string interval representation, %s given', $value);
     }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Value %s is not a valid interval', $value);
+    }
 }
