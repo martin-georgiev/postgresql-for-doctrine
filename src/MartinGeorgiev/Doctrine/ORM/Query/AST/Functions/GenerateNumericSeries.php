@@ -5,19 +5,20 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL GENERATE_SERIES().
+ * Implementation of PostgreSQL GENERATE_SERIES() for integer and numeric types.
  *
- * Generates a set of values from start to stop, with an optional step.
+ * Generates a set of values from start to stop with an optional step (defaults to 1).
+ * Supports integer, bigint, and numeric types.
  *
  * @see https://www.postgresql.org/docs/18/functions-srf.html
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT GENERATE_SERIES(e.date1, e.date2, '1 day') FROM Entity e"
- * @example Using it in DQL: "SELECT GENERATE_SERIES(e.date1, e.date2) FROM Entity e"
+ * @example Using it in DQL: "SELECT GENERATE_NUMERIC_SERIES(e.start, e.stop) FROM Entity e"
+ * @example Using it in DQL: "SELECT GENERATE_NUMERIC_SERIES(e.start, e.stop, e.step) FROM Entity e"
  */
-class GenerateSeries extends BaseVariadicFunction
+class GenerateNumericSeries extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
