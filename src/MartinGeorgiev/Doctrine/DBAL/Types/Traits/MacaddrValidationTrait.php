@@ -5,13 +5,18 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 
 /**
- * Common validation logic for MAC addresses.
+ * Common validation logic for 6-byte MAC addresses.
  *
  * @since 3.0
  */
 trait MacaddrValidationTrait
 {
     protected function isValidMacAddress(string $value): bool
+    {
+        return $this->isValid6ByteMacAddress($value);
+    }
+
+    private function isValid6ByteMacAddress(string $value): bool
     {
         return (bool) \preg_match(
             '/^(?:'
