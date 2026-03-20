@@ -6,6 +6,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 
 use Doctrine\DBAL\Types\ConversionException;
 
+/**
+ * @since 3.0
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ */
 class InvalidJsonItemForPHPException extends ConversionException
 {
     private static function create(string $message, mixed $value): self

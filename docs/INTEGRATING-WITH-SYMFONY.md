@@ -1,4 +1,4 @@
-## Integration with Symfony
+# Integration with Symfony
 
 This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle. For older Symfony versions, please refer to previous documentation versions.
 
@@ -63,10 +63,21 @@ doctrine:
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
             tsvector: MartinGeorgiev\Doctrine\DBAL\Types\Tsvector
 
+            # Interval types
+            interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
+
+            # Monetary types
+            money: MartinGeorgiev\Doctrine\DBAL\Types\Money
+
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
 
+            # XML types
+            xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
+
             # Vector types
+            halfvec: MartinGeorgiev\Doctrine\DBAL\Types\Halfvec
+            sparsevec: MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec
             vector: MartinGeorgiev\Doctrine\DBAL\Types\Vector
 ```
 
@@ -150,10 +161,21 @@ doctrine:
                     tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY
                     tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR
 
+                    # Interval type mappings
+                    interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
+
+                    # Monetary type mappings
+                    money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY
+
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
 
+                    # XML type mappings
+                    xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
+
                     # Vector type mappings
+                    halfvec: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HALFVEC
+                    sparsevec: !php/const MartinGeorgiev\Doctrine\DBAL\Type::SPARSEVEC
                     vector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::VECTOR
 ```
 
@@ -365,6 +387,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -397,8 +420,17 @@ class Product
     #[ORM\Column(type: Type::INET)]
     private string $originServerIp;
 
+    #[ORM\Column(type: Type::INTERVAL)]
+    private Interval $duration;
+
+    #[ORM\Column(type: Type::MONEY)]
+    private string $price;
+
     #[ORM\Column(type: Type::LTREE)]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: Type::XML)]
+    private string $configXml;
 }
 ```
 

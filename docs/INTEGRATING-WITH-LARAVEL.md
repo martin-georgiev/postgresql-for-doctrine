@@ -1,4 +1,4 @@
-## Integration with Laravel
+# Integration with Laravel
 
 This guide covers integration with Laravel 11.x using the community-supported [Laravel Doctrine](https://www.laraveldoctrine.org/) package. Laravel doesn't provide official Doctrine integration, but Laravel Doctrine provides excellent support for modern Laravel versions.
 
@@ -100,10 +100,21 @@ return [
                 'tsquery' => 'tsquery',
                 'tsvector' => 'tsvector',
 
+                // Interval type mappings
+                'interval' => 'interval',
+
+                // Monetary type mappings
+                'money' => 'money',
+
                 // Hierarchical type mappings
                 'ltree' => 'ltree',
 
+                // XML type mappings
+                'xml' => 'xml',
+
                 // Vector type mappings
+                'halfvec' => 'halfvec',
+                'sparsevec' => 'sparsevec',
                 'vector' => 'vector'
             ],
         ],
@@ -162,10 +173,21 @@ return [
         'tsquery' => MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,
         'tsvector' => MartinGeorgiev\Doctrine\DBAL\Types\Tsvector::class,
 
+        // Interval types
+        'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
+
+        // Monetary types
+        'money' => MartinGeorgiev\Doctrine\DBAL\Types\Money::class,
+
         // Hierarchical types
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
 
+        // XML types
+        'xml' => MartinGeorgiev\Doctrine\DBAL\Types\Xml::class,
+
         // Vector types
+        'halfvec' => MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class,
+        'sparsevec' => MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec::class,
         'vector' => MartinGeorgiev\Doctrine\DBAL\Types\Vector::class,
     ],
 
@@ -409,6 +431,7 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->registerRangeTypes();
         $this->registerMultirangeTypes();
         $this->registerHierarchicalTypes();
+        $this->registerVectorTypes();
     }
 
     private function registerArrayTypes(): void
@@ -474,6 +497,13 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->addTypeIfNotExists('ltree', \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class);
     }
 
+    private function registerVectorTypes(): void
+    {
+        $this->addTypeIfNotExists('halfvec', \MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class);
+        $this->addTypeIfNotExists('sparsevec', \MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec::class);
+        $this->addTypeIfNotExists('vector', \MartinGeorgiev\Doctrine\DBAL\Types\Vector::class);
+    }
+
     private function addTypeIfNotExists(string $name, string $className): void
     {
         if (!Type::hasType($name)) {
@@ -516,6 +546,7 @@ namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -551,8 +582,17 @@ class Product
     #[ORM\Column(type: 'inet')]
     private string $originServerIp;
 
+    #[ORM\Column(type: 'interval')]
+    private Interval $duration;
+
+    #[ORM\Column(type: 'money')]
+    private string $price;
+
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: 'xml')]
+    private string $configXml;
 }
 ```
 
@@ -600,6 +640,9 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'tsmultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
             'tstzmultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
             'ltree' => \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
+            'halfvec' => \MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class,
+            'sparsevec' => \MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec::class,
+            'vector' => \MartinGeorgiev\Doctrine\DBAL\Types\Vector::class,
             // Add other types as needed...
         ];
 
@@ -628,6 +671,9 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'tsmultirange' => 'tsmultirange',
             'tstzmultirange' => 'tstzmultirange',
             'ltree' => 'ltree',
+            'halfvec' => 'halfvec',
+            'sparsevec' => 'sparsevec',
+            'vector' => 'vector',
             // Add other mappings as needed...
         ];
 

@@ -18,8 +18,8 @@ class InvalidPointArrayItemForDatabaseException extends ConversionException
         return new self(\sprintf($message, \var_export($value, true)));
     }
 
-    public static function isNotAPoint(mixed $value): self
+    public static function forInvalidType(mixed $value): self
     {
-        return self::create('Given value of %s is not a point.', $value);
+        return self::create('Array items must be Point instances, %s given', $value);
     }
 }

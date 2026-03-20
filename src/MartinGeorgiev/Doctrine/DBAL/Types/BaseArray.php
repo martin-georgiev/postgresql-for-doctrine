@@ -34,15 +34,18 @@ abstract class BaseArray extends BaseType
             $this->throwInvalidTypeException($phpArray);
         }
 
-        foreach ($phpArray as &$item) {
+        $transformedItems = [];
+        foreach ($phpArray as $item) {
             if (!$this->isValidArrayItemForDatabase($item)) {
                 $this->throwInvalidItemException($item);
             }
 
-            $item = $this->transformArrayItemForPostgres($item);
+            $transformed = $this->transformArrayItemForPostgres($item);
+            \assert(\is_scalar($transformed) || $transformed instanceof \Stringable);
+            $transformedItems[] = (string) $transformed;
         }
 
-        return '{'.\implode(',', $phpArray).'}';
+        return '{'.\implode(',', $transformedItems).'}';
     }
 
     /**
@@ -99,6 +102,13 @@ abstract class BaseArray extends BaseType
     protected function transformArrayItemForPostgres(mixed $item)
     {
         return $item;
+    }
+
+    protected function quoteAndEscapeArrayItem(string $item): string
+    {
+        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
+
+        return '"'.$escaped.'"';
     }
 
     /**

@@ -24,13 +24,7 @@ class JsonbArray extends BaseArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
-        // Quote each JSON value as a PostgreSQL array element and escape inner quotes and backslashes
-        $escaped = \strtr(
-            $this->transformToPostgresJson($item),
-            ['\\' => '\\\\', '"' => '\\"']
-        );
-
-        return '"'.$escaped.'"';
+        return $this->quoteAndEscapeArrayItem($this->transformToPostgresJson($item));
     }
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array

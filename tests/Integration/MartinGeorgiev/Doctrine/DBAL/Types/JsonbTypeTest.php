@@ -72,4 +72,25 @@ class JsonbTypeTest extends TestCase
             ]],
         ];
     }
+
+    #[DataProvider('provideScalarTransformations')]
+    #[Test]
+    public function can_handle_scalar_json_values(mixed $value): void
+    {
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $value);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideScalarTransformations(): array
+    {
+        return [
+            'integer' => [42],
+            'float' => [3.14],
+            'boolean true' => [true],
+            'boolean false' => [false],
+            'string' => ['hello world'],
+        ];
+    }
 }

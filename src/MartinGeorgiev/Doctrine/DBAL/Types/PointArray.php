@@ -24,7 +24,7 @@ class PointArray extends BaseArray
     protected function transformArrayItemForPostgres(mixed $item): string
     {
         if (!$item instanceof PointValueObject) {
-            throw InvalidPointArrayItemForDatabaseException::isNotAPoint($item);
+            throw InvalidPointArrayItemForDatabaseException::forInvalidType($item);
         }
 
         return '"'.$item.'"';

@@ -1,4 +1,4 @@
-## Integration with Doctrine
+# Integration with Doctrine
 
 This guide covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For older versions, please refer to previous documentation versions.
 
@@ -63,10 +63,21 @@ Type::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMult
 Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
 Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
 
+// Interval types
+Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
+
+// Monetary types
+Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
+
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 
+// XML types
+Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
+
 // Vector types
+Type::addType('halfvec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Halfvec");
+Type::addType('sparsevec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Sparsevec");
 Type::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
 ```
 
@@ -344,10 +355,21 @@ $platform->registerDoctrineTypeMapping('tstzmultirange', 'tstzmultirange');
 $platform->registerDoctrineTypeMapping('tsquery', 'tsquery');
 $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
 
+// Interval type mappings
+$platform->registerDoctrineTypeMapping('interval', 'interval');
+
+// Monetary type mappings
+$platform->registerDoctrineTypeMapping('money', 'money');
+
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');
 
+// XML mappings
+$platform->registerDoctrineTypeMapping('xml', 'xml');
+
 // Vector mappings
+$platform->registerDoctrineTypeMapping('halfvec', 'halfvec');
+$platform->registerDoctrineTypeMapping('sparsevec', 'sparsevec');
 $platform->registerDoctrineTypeMapping('vector', 'vector');
 ```
 
@@ -360,6 +382,7 @@ Once types are registered, you can use them in your Doctrine entities:
 
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -389,7 +412,16 @@ class MyEntity
     #[ORM\Column(type: 'inet')]
     private string $ipAddress;
 
+    #[ORM\Column(type: 'interval')]
+    private Interval $duration;
+
+    #[ORM\Column(type: 'money')]
+    private string $price;
+
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: 'xml')]
+    private string $configXml;
 }
 ```

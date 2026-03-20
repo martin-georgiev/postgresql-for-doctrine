@@ -31,13 +31,18 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Interval;
+use MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
+use MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Money;
+use MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
@@ -47,12 +52,16 @@ use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsquery;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Vector;
+use MartinGeorgiev\Doctrine\DBAL\Types\Xml;
+use MartinGeorgiev\Doctrine\DBAL\Types\XmlArray;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -246,15 +255,20 @@ abstract class TestCase extends BaseTestCase
             'int4range' => Int4Range::class,
             'int8range' => Int8Range::class,
             'integer[]' => IntegerArray::class,
+            'interval' => Interval::class,
+            'interval[]' => IntervalArray::class,
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
             'ltree' => Ltree::class,
+            'ltree[]' => LtreeArray::class,
             'int4multirange' => Int4Multirange::class,
             'int8multirange' => Int8Multirange::class,
             'macaddr' => Macaddr::class,
             'macaddr8' => Macaddr8::class,
             'macaddr8[]' => Macaddr8Array::class,
             'macaddr[]' => MacaddrArray::class,
+            'money' => Money::class,
+            'money[]' => MoneyArray::class,
             'numrange' => NumRange::class,
             'nummultirange' => NumMultirange::class,
             'point' => Point::class,
@@ -264,13 +278,19 @@ abstract class TestCase extends BaseTestCase
             'text[]' => TextArray::class,
             'tsmultirange' => TsMultirange::class,
             'tsquery' => Tsquery::class,
+            'tsquery[]' => TsqueryArray::class,
             'tsrange' => TsRange::class,
             'tstzmultirange' => TstzMultirange::class,
             'tstzrange' => TstzRange::class,
             'tsvector' => Tsvector::class,
+            'tsvector[]' => TsvectorArray::class,
             'uuid[]' => UuidArray::class,
             'vector' => Vector::class,
+            'xml' => Xml::class,
+            'xml[]' => XmlArray::class,
         ];
+
+        $platform = $this->connection->getDatabasePlatform();
 
         foreach ($typesMap as $typeName => $typeClass) {
             if (Type::hasType($typeName)) {
@@ -278,6 +298,8 @@ abstract class TestCase extends BaseTestCase
             } else {
                 Type::addType($typeName, $typeClass);
             }
+
+            $platform->registerDoctrineTypeMapping($typeName, $typeName);
 
             self::$registeredTypes[] = $typeName;
         }

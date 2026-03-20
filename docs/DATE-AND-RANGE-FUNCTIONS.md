@@ -15,6 +15,7 @@ This document covers PostgreSQL date, time, and range functions available in thi
 | date_subtract | DATE_SUBTRACT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract` |
 | date_trunc | DATE_TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc` |
 | extract | DATE_EXTRACT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract` |
+| generate_series | GENERATE_TIME_SERIES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateTimeSeries` |
 | make_date | MAKE_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate` |
 | make_time | MAKE_TIME | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime` |
 | make_timestamp | MAKE_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp` |
@@ -85,6 +86,12 @@ SELECT e, TO_DATE(e.date_string, 'YYYY-MM-DD') as parsed_date FROM Entity e
 
 -- Convert string to timestamp
 SELECT e, TO_TIMESTAMP(e.timestamp_string, 'YYYY-MM-DD HH24:MI:SS') as parsed_timestamp FROM Entity e
+
+-- Generate a series of dates between two date columns
+SELECT GENERATE_TIME_SERIES(e.start_date, e.end_date, '1 day') as day FROM Entity e WHERE e.id = 1
+
+-- Generate a series of timestamptz values with output in a specific timezone
+SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 hour', 'Europe/Sofia') as hour FROM Entity e WHERE e.id = 1
 
 -- Bin dates into intervals
 SELECT e, DATE_BIN('1 day', e.created_at, '2023-01-01') as day_bin FROM Entity e

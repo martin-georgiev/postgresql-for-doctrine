@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidVectorForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidVectorForPHPException;
 
 /**
- * Implementation of the pgvector vector data type.
+ * Implementation of the pgvector VECTOR data type.
  *
  * Stores a fixed-dimension floating-point vector.
  *
@@ -19,54 +18,27 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidVectorForPHPException;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Vector extends BaseType
+class Vector extends BaseVector
 {
     protected const TYPE_NAME = Type::VECTOR;
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    protected function throwInvalidTypeForDatabase(mixed $value): never
     {
-        if ($value === null) {
-            return null;
-        }
-
-        if (!\is_array($value)) {
-            throw InvalidVectorForDatabaseException::forInvalidType($value);
-        }
-
-        foreach ($value as $item) {
-            if (!\is_float($item) && !\is_int($item)) {
-                throw InvalidVectorForDatabaseException::forInvalidItemType($item);
-            }
-        }
-
-        return '['.\implode(',', $value).']';
+        throw InvalidVectorForDatabaseException::forInvalidType($value);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?array
+    protected function throwInvalidItemTypeForDatabase(mixed $value): never
     {
-        if ($value === null) {
-            return null;
-        }
+        throw InvalidVectorForDatabaseException::forInvalidItemType($value);
+    }
 
-        if (!\is_string($value)) {
-            throw InvalidVectorForPHPException::forInvalidType($value);
-        }
+    protected function throwInvalidTypeForPHP(mixed $value): never
+    {
+        throw InvalidVectorForPHPException::forInvalidType($value);
+    }
 
-        $trimmed = \trim($value, '[]');
-        if ($trimmed === '') {
-            return [];
-        }
-
-        $parts = \explode(',', $trimmed);
-        $result = [];
-        foreach ($parts as $part) {
-            if (!\is_numeric($part)) {
-                throw InvalidVectorForPHPException::forInvalidFormat($value);
-            }
-
-            $result[] = (float) $part;
-        }
-
-        return $result;
+    protected function throwInvalidFormatForPHP(mixed $value): never
+    {
+        throw InvalidVectorForPHPException::forInvalidFormat($value);
     }
 }
