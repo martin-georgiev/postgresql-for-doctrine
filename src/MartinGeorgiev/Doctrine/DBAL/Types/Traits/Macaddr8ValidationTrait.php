@@ -11,28 +11,49 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
  */
 trait Macaddr8ValidationTrait
 {
-    protected function isValidMacaddr8Address(string $value): bool
+    protected function isValidMacAddress(string $value): bool
     {
-        // Colon-separated: 08:00:2b:ff:fe:01:02:03
-        if (\preg_match('/^([0-9A-Fa-f]{2}:){7}[0-9A-Fa-f]{2}$/', $value)) {
+        if ($this->isValid8ByteMacAddress($value)) {
             return true;
         }
 
-        // Hyphen-separated: 08-00-2b-ff-fe-01-02-03
-        if (\preg_match('/^([0-9A-Fa-f]{2}-){7}[0-9A-Fa-f]{2}$/', $value)) {
-            return true;
-        }
-
-        // Dot notation (groups of 4): 0800.2bff.fe01.0203
-        if (\preg_match('/^[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}$/', $value)) {
-            return true;
-        }
-
-        // No separator: 08002bfffe010203 (16 hex chars)
-        return (bool) \preg_match('/^[0-9A-Fa-f]{16}$/', $value);
+        return (bool) $this->isValid6ByteMacAddress($value);
     }
 
-    protected function normalizeMacaddr8Format(string $value): string
+    private function isValid8ByteMacAddress(string $value): bool
+    {
+        return (bool) \preg_match(
+            '/^(?:'
+            .'[0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){7}'
+            .'|[0-9A-Fa-f]{2}(?:-[0-9A-Fa-f]{2}){7}'
+            .'|[0-9A-Fa-f]{6}:[0-9A-Fa-f]{10}'
+            .'|[0-9A-Fa-f]{6}-[0-9A-Fa-f]{10}'
+            .'|[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}'
+            .'|[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}'
+            .'|[0-9A-Fa-f]{8}:[0-9A-Fa-f]{8}'
+            .'|[0-9A-Fa-f]{16}'
+            .')$/',
+            $value
+        );
+    }
+
+    private function isValid6ByteMacAddress(string $value): bool
+    {
+        return (bool) \preg_match(
+            '/^(?:'
+            .'[0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5}'
+            .'|[0-9A-Fa-f]{2}(?:-[0-9A-Fa-f]{2}){5}'
+            .'|[0-9A-Fa-f]{6}:[0-9A-Fa-f]{6}'
+            .'|[0-9A-Fa-f]{6}-[0-9A-Fa-f]{6}'
+            .'|[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}'
+            .'|[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}'
+            .'|[0-9A-Fa-f]{12}'
+            .')$/',
+            $value
+        );
+    }
+
+    protected function normalize8ByteMacFormat(string $value): string
     {
         $clean = \strtolower(\str_replace([':', '-', '.'], '', $value));
 
