@@ -61,19 +61,25 @@ doctrine:
 
             # Text search types
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
+            'tsquery[]': MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray
             tsvector: MartinGeorgiev\Doctrine\DBAL\Types\Tsvector
+            'tsvector[]': MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray
 
             # Interval types
             interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
+            'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
 
             # Monetary types
             money: MartinGeorgiev\Doctrine\DBAL\Types\Money
+            'money[]': MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray
 
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
+            'ltree[]': MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray
 
             # XML types
             xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
+            'xml[]': MartinGeorgiev\Doctrine\DBAL\Types\XmlArray
 
             # Vector types
             halfvec: MartinGeorgiev\Doctrine\DBAL\Types\Halfvec
@@ -159,19 +165,31 @@ doctrine:
 
                     # Text search type mappings
                     tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY
+                    'tsquery[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY_ARRAY
+                    _tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY_ARRAY
                     tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR
+                    'tsvector[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR_ARRAY
+                    _tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR_ARRAY
 
                     # Interval type mappings
                     interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
+                    'interval[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
+                    _interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
 
                     # Monetary type mappings
                     money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY
+                    'money[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY_ARRAY
+                    _money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY_ARRAY
 
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
+                    'ltree[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
+                    _ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
 
                     # XML type mappings
                     xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
+                    'xml[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML_ARRAY
+                    _xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML_ARRAY
 
                     # Vector type mappings
                     halfvec: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HALFVEC

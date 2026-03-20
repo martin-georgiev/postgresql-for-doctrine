@@ -98,19 +98,31 @@ return [
 
                 // Text search type mappings
                 'tsquery' => 'tsquery',
+                'tsquery[]' => 'tsquery[]',
+                '_tsquery' => 'tsquery[]',
                 'tsvector' => 'tsvector',
+                'tsvector[]' => 'tsvector[]',
+                '_tsvector' => 'tsvector[]',
 
                 // Interval type mappings
                 'interval' => 'interval',
+                'interval[]' => 'interval[]',
+                '_interval' => 'interval[]',
 
                 // Monetary type mappings
                 'money' => 'money',
+                'money[]' => 'money[]',
+                '_money' => 'money[]',
 
                 // Hierarchical type mappings
                 'ltree' => 'ltree',
+                'ltree[]' => 'ltree[]',
+                '_ltree' => 'ltree[]',
 
                 // XML type mappings
                 'xml' => 'xml',
+                'xml[]' => 'xml[]',
+                '_xml' => 'xml[]',
 
                 // Vector type mappings
                 'halfvec' => 'halfvec',
@@ -171,19 +183,25 @@ return [
 
         // Text search types
         'tsquery' => MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,
+        'tsquery[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray::class,
         'tsvector' => MartinGeorgiev\Doctrine\DBAL\Types\Tsvector::class,
+        'tsvector[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray::class,
 
         // Interval types
         'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
+        'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
 
         // Monetary types
         'money' => MartinGeorgiev\Doctrine\DBAL\Types\Money::class,
+        'money[]' => MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray::class,
 
         // Hierarchical types
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
+        'ltree[]' => MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray::class,
 
         // XML types
         'xml' => MartinGeorgiev\Doctrine\DBAL\Types\Xml::class,
+        'xml[]' => MartinGeorgiev\Doctrine\DBAL\Types\XmlArray::class,
 
         // Vector types
         'halfvec' => MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class,
@@ -430,7 +448,11 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->registerSpatialTypes();
         $this->registerRangeTypes();
         $this->registerMultirangeTypes();
+        $this->registerTextSearchTypes();
+        $this->registerIntervalTypes();
+        $this->registerMonetaryTypes();
         $this->registerHierarchicalTypes();
+        $this->registerXmlTypes();
         $this->registerVectorTypes();
     }
 
@@ -460,6 +482,8 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->addTypeIfNotExists('inet[]', \MartinGeorgiev\Doctrine\DBAL\Types\InetArray::class);
         $this->addTypeIfNotExists('macaddr', \MartinGeorgiev\Doctrine\DBAL\Types\Macaddr::class);
         $this->addTypeIfNotExists('macaddr[]', \MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray::class);
+        $this->addTypeIfNotExists('macaddr8', \MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8::class);
+        $this->addTypeIfNotExists('macaddr8[]', \MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array::class);
     }
 
     private function registerSpatialTypes(): void
@@ -492,9 +516,36 @@ class PostgreSQLTypesSubscriber implements EventSubscriber
         $this->addTypeIfNotExists('tstzmultirange', \MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class);
     }
 
+    private function registerTextSearchTypes(): void
+    {
+        $this->addTypeIfNotExists('tsquery', \MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class);
+        $this->addTypeIfNotExists('tsquery[]', \MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray::class);
+        $this->addTypeIfNotExists('tsvector', \MartinGeorgiev\Doctrine\DBAL\Types\Tsvector::class);
+        $this->addTypeIfNotExists('tsvector[]', \MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray::class);
+    }
+
+    private function registerIntervalTypes(): void
+    {
+        $this->addTypeIfNotExists('interval', \MartinGeorgiev\Doctrine\DBAL\Types\Interval::class);
+        $this->addTypeIfNotExists('interval[]', \MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class);
+    }
+
+    private function registerMonetaryTypes(): void
+    {
+        $this->addTypeIfNotExists('money', \MartinGeorgiev\Doctrine\DBAL\Types\Money::class);
+        $this->addTypeIfNotExists('money[]', \MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray::class);
+    }
+
     private function registerHierarchicalTypes(): void
     {
         $this->addTypeIfNotExists('ltree', \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class);
+        $this->addTypeIfNotExists('ltree[]', \MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray::class);
+    }
+
+    private function registerXmlTypes(): void
+    {
+        $this->addTypeIfNotExists('xml', \MartinGeorgiev\Doctrine\DBAL\Types\Xml::class);
+        $this->addTypeIfNotExists('xml[]', \MartinGeorgiev\Doctrine\DBAL\Types\XmlArray::class);
     }
 
     private function registerVectorTypes(): void
@@ -632,14 +683,30 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'jsonb' => \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
             'text[]' => \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
             'point' => \MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
+            'daterange' => \MartinGeorgiev\Doctrine\DBAL\Types\DateRange::class,
+            'int4range' => \MartinGeorgiev\Doctrine\DBAL\Types\Int4Range::class,
+            'int8range' => \MartinGeorgiev\Doctrine\DBAL\Types\Int8Range::class,
             'numrange' => \MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class,
+            'tsrange' => \MartinGeorgiev\Doctrine\DBAL\Types\TsRange::class,
+            'tstzrange' => \MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class,
             'datemultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class,
             'int4multirange' => \MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class,
             'int8multirange' => \MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class,
             'nummultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class,
             'tsmultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
             'tstzmultirange' => \MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
+            'tsquery' => \MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,
+            'tsquery[]' => \MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray::class,
+            'tsvector' => \MartinGeorgiev\Doctrine\DBAL\Types\Tsvector::class,
+            'tsvector[]' => \MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray::class,
+            'interval' => \MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
+            'interval[]' => \MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
+            'money' => \MartinGeorgiev\Doctrine\DBAL\Types\Money::class,
+            'money[]' => \MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray::class,
             'ltree' => \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
+            'ltree[]' => \MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray::class,
+            'xml' => \MartinGeorgiev\Doctrine\DBAL\Types\Xml::class,
+            'xml[]' => \MartinGeorgiev\Doctrine\DBAL\Types\XmlArray::class,
             'halfvec' => \MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class,
             'sparsevec' => \MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec::class,
             'vector' => \MartinGeorgiev\Doctrine\DBAL\Types\Vector::class,
@@ -663,14 +730,36 @@ class PostgreSQLDoctrineServiceProvider extends ServiceProvider
             'text[]' => 'text[]',
             'point' => 'point',
             '_point' => 'point[]',
+            'daterange' => 'daterange',
+            'int4range' => 'int4range',
+            'int8range' => 'int8range',
             'numrange' => 'numrange',
+            'tsrange' => 'tsrange',
+            'tstzrange' => 'tstzrange',
             'datemultirange' => 'datemultirange',
             'int4multirange' => 'int4multirange',
             'int8multirange' => 'int8multirange',
             'nummultirange' => 'nummultirange',
             'tsmultirange' => 'tsmultirange',
             'tstzmultirange' => 'tstzmultirange',
+            'tsquery' => 'tsquery',
+            'tsquery[]' => 'tsquery[]',
+            '_tsquery' => 'tsquery[]',
+            'tsvector' => 'tsvector',
+            'tsvector[]' => 'tsvector[]',
+            '_tsvector' => 'tsvector[]',
+            'interval' => 'interval',
+            'interval[]' => 'interval[]',
+            '_interval' => 'interval[]',
+            'money' => 'money',
+            'money[]' => 'money[]',
+            '_money' => 'money[]',
             'ltree' => 'ltree',
+            'ltree[]' => 'ltree[]',
+            '_ltree' => 'ltree[]',
+            'xml' => 'xml',
+            'xml[]' => 'xml[]',
+            '_xml' => 'xml[]',
             'halfvec' => 'halfvec',
             'sparsevec' => 'sparsevec',
             'vector' => 'vector',
