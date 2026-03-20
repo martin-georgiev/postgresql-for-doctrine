@@ -1,6 +1,6 @@
 # Integration with Symfony
 
-This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle. For older Symfony versions, please refer to previous documentation versions.
+This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle.
 
 ### Register DBAL Types
 
@@ -61,19 +61,25 @@ doctrine:
 
             # Text search types
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
+            'tsquery[]': MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray
             tsvector: MartinGeorgiev\Doctrine\DBAL\Types\Tsvector
+            'tsvector[]': MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray
 
             # Interval types
             interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
+            'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
 
             # Monetary types
             money: MartinGeorgiev\Doctrine\DBAL\Types\Money
+            'money[]': MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray
 
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
+            'ltree[]': MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray
 
             # XML types
             xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
+            'xml[]': MartinGeorgiev\Doctrine\DBAL\Types\XmlArray
 
             # Vector types
             halfvec: MartinGeorgiev\Doctrine\DBAL\Types\Halfvec
@@ -159,19 +165,31 @@ doctrine:
 
                     # Text search type mappings
                     tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY
+                    'tsquery[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY_ARRAY
+                    _tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY_ARRAY
                     tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR
+                    'tsvector[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR_ARRAY
+                    _tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR_ARRAY
 
                     # Interval type mappings
                     interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
+                    'interval[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
+                    _interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
 
                     # Monetary type mappings
                     money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY
+                    'money[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY_ARRAY
+                    _money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY_ARRAY
 
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
+                    'ltree[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
+                    _ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
 
                     # XML type mappings
                     xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
+                    'xml[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML_ARRAY
+                    _xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML_ARRAY
 
                     # Vector type mappings
                     halfvec: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HALFVEC
@@ -434,58 +452,3 @@ class Product
 }
 ```
 
-### Environment-Specific Configuration
-
-For different environments, you can override configuration in environment-specific files:
-
-```yaml
-# config/packages/dev/doctrine.yaml
-doctrine:
-    dbal:
-        logging: true
-        profiling: true
-    orm:
-        auto_generate_proxy_classes: true
-
-# config/packages/prod/doctrine.yaml
-doctrine:
-    orm:
-        auto_generate_proxy_classes: false
-        metadata_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        query_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        result_cache_driver:
-            type: pool
-            pool: doctrine.result_cache_pool
-```
-
-### Service Container Integration
-
-If you need to register types programmatically (e.g., in a bundle), you can do so in a service:
-
-```php
-<?php
-
-namespace App\Service;
-
-use Doctrine\DBAL\Types\Type;
-use MartinGeorgiev\Doctrine\DBAL\Type;
-use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
-use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
-
-#[Autoconfigure(lazy: true)]
-class DoctrineTypeRegistrar
-{
-    public function registerTypes(): void
-    {
-        if (!Type::hasType(Type::JSONB)) {
-            Type::addType(Type::JSONB, Jsonb::class);
-        }
-
-        // Register other types as needed...
-    }
-}
-```

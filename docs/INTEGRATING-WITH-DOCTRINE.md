@@ -61,19 +61,25 @@ Type::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMult
 
 // Text search types
 Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
+Type::addType('tsquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsqueryArray");
 Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
+Type::addType('tsvector[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsvectorArray");
 
 // Interval types
 Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
+Type::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
 
 // Monetary types
 Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
+Type::addType('money[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MoneyArray");
 
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
+Type::addType('ltree[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtreeArray");
 
 // XML types
 Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
+Type::addType('xml[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\XmlArray");
 
 // Vector types
 Type::addType('halfvec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Halfvec");
@@ -94,9 +100,14 @@ Register the functions you'll use in your DQL queries. The full set of available
 ```php
 <?php
 
-use Doctrine\ORM\Configuration;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
 
-$configuration = new Configuration();
+$configuration = ORMSetup::createAttributeMetadataConfiguration(
+    paths: [__DIR__ . '/src'],
+    isDevMode: true,
+);
 
 # alternative implementation of ALL() and ANY() where subquery is not required, useful for arrays
 $configuration->addCustomStringFunction('ALL_OF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All::class);
@@ -275,7 +286,12 @@ $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Q
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
 $configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class);
 
-$em = EntityManager::create($dbParams, $configuration);
+$connection = DriverManager::getConnection([
+    'driver' => 'pdo_pgsql',
+    // ... your connection parameters
+], $configuration);
+
+$em = new EntityManager($connection, $configuration);
 ```
 
 ### Register Platform Type Mappings
@@ -353,19 +369,31 @@ $platform->registerDoctrineTypeMapping('tstzmultirange', 'tstzmultirange');
 
 // Text search type mappings
 $platform->registerDoctrineTypeMapping('tsquery', 'tsquery');
+$platform->registerDoctrineTypeMapping('tsquery[]', 'tsquery[]');
+$platform->registerDoctrineTypeMapping('_tsquery', 'tsquery[]');
 $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
+$platform->registerDoctrineTypeMapping('tsvector[]', 'tsvector[]');
+$platform->registerDoctrineTypeMapping('_tsvector', 'tsvector[]');
 
 // Interval type mappings
 $platform->registerDoctrineTypeMapping('interval', 'interval');
+$platform->registerDoctrineTypeMapping('interval[]', 'interval[]');
+$platform->registerDoctrineTypeMapping('_interval', 'interval[]');
 
 // Monetary type mappings
 $platform->registerDoctrineTypeMapping('money', 'money');
+$platform->registerDoctrineTypeMapping('money[]', 'money[]');
+$platform->registerDoctrineTypeMapping('_money', 'money[]');
 
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');
+$platform->registerDoctrineTypeMapping('ltree[]', 'ltree[]');
+$platform->registerDoctrineTypeMapping('_ltree', 'ltree[]');
 
 // XML mappings
 $platform->registerDoctrineTypeMapping('xml', 'xml');
+$platform->registerDoctrineTypeMapping('xml[]', 'xml[]');
+$platform->registerDoctrineTypeMapping('_xml', 'xml[]');
 
 // Vector mappings
 $platform->registerDoctrineTypeMapping('halfvec', 'halfvec');
