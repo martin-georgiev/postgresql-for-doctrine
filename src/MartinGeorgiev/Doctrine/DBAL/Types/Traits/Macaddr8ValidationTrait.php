@@ -17,7 +17,7 @@ trait Macaddr8ValidationTrait
             return true;
         }
 
-        return (bool) $this->isValid6ByteMacAddress($value);
+        return $this->isValid6ByteMacAddress($value);
     }
 
     private function isValid8ByteMacAddress(string $value): bool
@@ -53,7 +53,7 @@ trait Macaddr8ValidationTrait
         );
     }
 
-    protected function normalize8ByteMacFormat(string $value): string
+    protected function normalizeMacAddressFormat(string $value): string
     {
         $clean = \strtolower(\str_replace([':', '-', '.'], '', $value));
 

@@ -27,12 +27,10 @@ trait MacaddrValidationTrait
         );
     }
 
-    protected function normalizeFormat(string $value): string
+    protected function normalizeMacAddressFormat(string $value): string
     {
-        // Remove all delimiters and convert to lowercase
         $clean = \strtolower(\str_replace([':', '-', '.'], '', $value));
 
-        // Insert colons every 2 characters
         return \implode(':', \str_split($clean, 2));
     }
 }

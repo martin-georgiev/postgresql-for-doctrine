@@ -38,7 +38,7 @@ final class Macaddr8 extends BaseType
             throw InvalidMacaddr8ForPHPException::forInvalidFormat($value);
         }
 
-        return $this->normalize8ByteMacFormat($value);
+        return $this->normalizeMacAddressFormat($value);
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
