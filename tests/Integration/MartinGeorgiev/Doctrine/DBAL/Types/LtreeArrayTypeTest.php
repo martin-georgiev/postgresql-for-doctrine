@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
+use PHPUnit\Framework\Attributes\Test;
 
 class LtreeArrayTypeTest extends ArrayTypeTestCase
 {
@@ -37,8 +39,29 @@ class LtreeArrayTypeTest extends ArrayTypeTestCase
             'single element ltree array' => ['single element ltree array', [
                 new LtreeValueObject(['root']),
             ]],
+            'ltree array with null item' => ['ltree array with null item', [
+                new LtreeValueObject(['foo', 'bar']),
+                null,
+                new LtreeValueObject(['baz']),
+            ]],
             'empty ltree array' => ['empty ltree array', []],
         ];
+    }
+
+    #[Test]
+    public function rejects_string_instead_of_ltree_instance(): void
+    {
+        $this->expectException(InvalidLtreeArrayItemForDatabaseException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['Top.Sports']);
+    }
+
+    #[Test]
+    public function rejects_integer_instead_of_ltree_instance(): void
+    {
+        $this->expectException(InvalidLtreeArrayItemForDatabaseException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), [123]);
     }
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void

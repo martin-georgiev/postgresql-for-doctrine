@@ -133,17 +133,23 @@ class LtreeArrayTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function can_transform_null_item_for_php(): void
-    {
-        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
-    }
-
-    #[Test]
-    public function throws_exception_for_non_string_item_from_database(): void
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
     {
         $this->expectException(InvalidLtreeArrayItemForPHPException::class);
-        $this->fixture->transformArrayItemForPHP(123);
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return [
+            'empty label in array' => ['{foo..bar}'],
+            'leading dot in array' => ['{.foo}'],
+        ];
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]
@@ -185,5 +191,18 @@ class LtreeArrayTest extends TestCase
             'empty string' => [''],
             'object' => [new \stdClass()],
         ];
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidLtreeArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
     }
 }
