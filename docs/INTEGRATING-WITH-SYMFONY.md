@@ -1,4 +1,4 @@
-## Integration with Symfony
+# Integration with Symfony
 
 This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle. For older Symfony versions, please refer to previous documentation versions.
 

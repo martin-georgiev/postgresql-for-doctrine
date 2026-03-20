@@ -1,4 +1,4 @@
-# Available types
+# Available Types
 
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
 |---|---|---|

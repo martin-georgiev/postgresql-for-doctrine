@@ -13,8 +13,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
 /**
  * Implementation of PostgreSQL LTREE[] data type.
  *
- * Requires the ltree extension to be installed.
- *
  * @see https://www.postgresql.org/docs/13/ltree.html
  * @since 4.4
  *

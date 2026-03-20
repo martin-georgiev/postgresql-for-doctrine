@@ -1,4 +1,4 @@
-## Integration with Laravel
+# Integration with Laravel
 
 This guide covers integration with Laravel 11.x using the community-supported [Laravel Doctrine](https://www.laraveldoctrine.org/) package. Laravel doesn't provide official Doctrine integration, but Laravel Doctrine provides excellent support for modern Laravel versions.
 

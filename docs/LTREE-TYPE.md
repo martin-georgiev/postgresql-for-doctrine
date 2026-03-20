@@ -1,263 +1,122 @@
-# ltree type usage
+# PostgreSQL ltree Types
+
+PostgreSQL's `ltree` extension stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST/GIN indexes.
+
+> 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) | [Ltree Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) | [Hierarchical Data with `ltree`](USE-CASES-AND-EXAMPLES.md#hierarchical-data-with-ltree)
 
 ## Requirements
 
-The `ltree` data type requires enabling the [`ltree` extension](https://www.postgresql.org/docs/16/ltree.html)
-in PostgreSQL.
+The `ltree` extension must be enabled in PostgreSQL:
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS ltree;
 ```
 
-For [Symfony](https://symfony.com/),
-customize the migration that introduces the `ltree` field by adding this line
-at the beginning of the `up()` method:
+In Symfony, add this to the beginning of the `up()` method in any migration that introduces an `ltree` column:
 
 ```php
 $this->addSql('CREATE EXTENSION IF NOT EXISTS ltree');
 ```
 
-## Usage
-
-An example implementation (for a Symfony project) is:
+## Registration
 
 ```php
-<?php
+use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
+use MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray;
 
-declare(strict_types=1);
-
-namespace App\Entity;
-
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
-use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Uid\Uuid;
-
-/**
- * Manually edit `my_entity_path_gist_idx` in migration to use GIST.
- * Declaring the index using Doctrine attributes prevents its removal during migrations.
- */
-#[ORM\Entity()]
-#[ORM\Index(columns: ['path'], name: 'my_entity_path_gist_idx')]
-class MyEntity implements \Stringable
-{
-    #[ORM\Column(type: UuidType::NAME)]
-    #[ORM\GeneratedValue(strategy: 'NONE')]
-    #[ORM\Id()]
-    private Uuid $id;
-
-    #[ORM\Column(type: 'ltree')]
-    private Ltree $path;
-
-    /**
-     * @var Collection<array-key,MyEntity> $children
-     */
-    #[ORM\OneToMany(targetEntity: MyEntity::class, mappedBy: 'parent')]
-    private Collection $children;
-
-    public function __construct(
-        #[ORM\Column(unique: true, length: 128)]
-        private string $name,
-
-        #[ORM\ManyToOne(targetEntity: MyEntity::class, inversedBy: 'children')]
-        private ?MyEntity $parent = null,
-    ) {
-        $this->id = Uuid::v7();
-        $this->children = new ArrayCollection();
-
-        $this->path = Ltree::fromString($this->id->toBase58());
-        if ($parent instanceof MyEntity) {
-            // Initialize the path using the parent.
-            $this->setParent($parent);
-        }
-    }
-
-    public function __toString(): string
-    {
-        return $this->name;
-    }
-
-    public function getId(): Uuid
-    {
-        return $this->id;
-    }
-
-    public function getParent(): ?MyEntity
-    {
-        return $this->parent;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getPath(): Ltree
-    {
-        return $this->path;
-    }
-
-    /**
-     * @return Collection<array-key,MyEntity>
-     */
-    public function getChildren(): Collection
-    {
-        return $this->children;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function setParent(MyEntity $parent): void
-    {
-        if ($parent->getId()->equals($this->id)) {
-            throw new \InvalidArgumentException("Parent MyEntity can't be self");
-        }
-
-        // Prevent cycles: the parent can't be a descendant of the current node.
-        if ($parent->getPath()->isDescendantOf($this->getPath())) {
-            throw new \InvalidArgumentException("Parent MyEntity can't be a descendant of the current MyEntity");
-        }
-
-        $this->parent = $parent;
-
-        // Use withLeaf() to create a new Ltree instance
-        // with the parent's path and the current entity's ID.
-        $this->path = $parent->getPath()->withLeaf($this->id->toBase58());
-    }
-}
+Type::addType(Type::LTREE, Ltree::class);
+Type::addType(Type::LTREE_ARRAY, LtreeArray::class);
 ```
 
-🗃️ Doctrine's schema tool can't define PostgreSQL [GiST](https://www.postgresql.org/docs/16/gist.html)
-or [GIN](https://www.postgresql.org/docs/16/gin.html) indexes with the required ltree operator classes.
-Create the index via a manual `CREATE INDEX` statement in your migration:
+## ltree
+
+Stores a single hierarchical path. Maps to `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree` in PHP.
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
+
+#[ORM\Entity]
+class Category
+{
+    #[ORM\Column(type: Type::LTREE)]
+    private Ltree $path;
+}
+
+// Setting a path
+$category->path = Ltree::fromString('Top.Sports.Football');
+
+// Working with paths
+$path = Ltree::fromString('Top.Sports.Football');
+$path->isDescendantOf(Ltree::fromString('Top.Sports')); // true
+$path->getParent();                                     // Top.Sports
+$path->withLeaf('UEFA');                                // Top.Sports.Football.UEFA
+```
+
+🗃️ Doctrine can't define GiST or GIN indexes with the required ltree operator classes. Create the index manually in a migration:
 
 ```sql
--- Example GiST index for ltree with a custom signature length (must be a multiple of 4)
-CREATE INDEX my_entity_path_gist_idx
-    ON my_entity USING GIST (path gist_ltree_ops(siglen = 100));
--- Alternative: GIN index for ltree
-CREATE INDEX my_entity_path_gin_idx
-    ON my_entity USING GIN (path gin_ltree_ops);
+CREATE INDEX category_path_gist_idx ON category USING GIST (path gist_ltree_ops(siglen=100));
+-- or
+CREATE INDEX category_path_gin_idx ON category USING GIN (path gin_ltree_ops);
 ```
 
-⚠️ **Important**: Changing an entity's parent requires cascading the change
-to all its children.
-This is not handled automatically by Doctrine.
-Implement an [onFlush](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/events.html#reference-events-on-flush)
-[Doctrine entity listener](https://symfony.com/doc/7.3/doctrine/events.html#doctrine-lifecycle-listeners)
-to handle updating the `path` column of the updated entity's children
-when `path` is present in the change set:
+## ltree[]
+
+Stores an array of ltree paths. Maps to `array<Ltree>` in PHP. Null elements are supported.
 
 ```php
-<?php
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 
-declare(strict_types=1);
-
-namespace App\EventListener;
-
-use App\Entity\MyEntity;
-use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
-use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\UnitOfWork;
-
-#[AsDoctrineListener(event: Events::onFlush, priority: 500, connection: 'default')]
-final readonly class MyEntityOnFlushListener
+#[ORM\Entity]
+class Article
 {
-    public function onFlush(OnFlushEventArgs $eventArgs): void
-    {
-        $entityManager = $eventArgs->getObjectManager();
-        $unitOfWork = $entityManager->getUnitOfWork();
-        $entityMetadata = $entityManager->getClassMetadata(MyEntity::class);
-
-        foreach ($unitOfWork->getScheduledEntityUpdates() as $entity) {
-            $this->processEntity($entity, $entityMetadata, $unitOfWork);
-        }
-    }
-
-    /**
-     * @param ClassMetadata<MyEntity> $entityMetadata
-     */
-    private function processEntity(object $entity, ClassMetadata $entityMetadata, UnitOfWork $unitOfWork): void
-    {
-        if (!$entity instanceof MyEntity) {
-            return;
-        }
-
-        $changeset = $unitOfWork->getEntityChangeSet($entity);
-
-        // check if $entity->path has changed
-        // If the path stays the same, no need to update children
-        if (!isset($changeset['path'])) {
-            return;
-        }
-
-        $this->updateChildrenPaths($entity, $entityMetadata, $unitOfWork);
-    }
-
-    /**
-     * @param ClassMetadata<MyEntity> $entityMetadata
-     */
-    private function updateChildrenPaths(MyEntity $entity, ClassMetadata $entityMetadata, UnitOfWork $unitOfWork): void
-    {
-        foreach ($entity->getChildren() as $child) {
-            // call the setParent method on the child, which recomputes its Ltree path.
-            $child->setParent($entity);
-
-            $unitOfWork->recomputeSingleEntityChangeSet($entityMetadata, $child);
-
-            // cascade the update to the child's children
-            $this->updateChildrenPaths($child, $entityMetadata, $unitOfWork);
-        }
-    }
+    #[ORM\Column(type: Type::LTREE_ARRAY)]
+    private array $tags = [];
 }
+
+// Setting paths
+$article->tags = [
+    Ltree::fromString('Top.Sports.Football'),
+    Ltree::fromString('Top.Sports.Basketball'),
+];
 ```
 
-## Ltree Functions
+## Label-tree Functions
 
-This library provides DQL functions for all PostgreSQL ltree operations. These functions allow you to work with ltree data directly in your Doctrine queries.
+> 📖 **See also**: [AVAILABLE-FUNCTIONS-AND-OPERATORS.md](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) for the full function index
 
 ### Path Manipulation Functions
 
 #### `SUBLTREE(ltree, start, end)`
-Extracts a subpath from an ltree from position `start` to position `end-1` (counting from 0).
+Extracts a subpath from position `start` to `end-1` (counting from 0).
 
 ```php
-// DQL
 $dql = "SELECT SUBLTREE(e.path, 1, 2) FROM Entity e";
-// SQL: subltree(e.path, 1, 2)
-// Example: subltree('Top.Child1.Child2', 1, 2) → 'Child1'
+// subltree('Top.Child1.Child2', 1, 2) → 'Child1'
 ```
 
 #### `SUBPATH(ltree, offset, len)`
-Extracts a subpath starting at position `offset` with length `len`. Supports negative values.
+Extracts a subpath starting at `offset` with length `len`. Supports negative values.
 
 ```php
-// DQL
 $dql = "SELECT SUBPATH(e.path, 0, 2) FROM Entity e";
-// SQL: subpath(e.path, 0, 2)
-// Example: subpath('Top.Child1.Child2', 0, 2) → 'Top.Child1'
+// subpath('Top.Child1.Child2', 0, 2) → 'Top.Child1'
 
-// With negative offset
 $dql = "SELECT SUBPATH(e.path, -2) FROM Entity e";
-// SQL: subpath(e.path, -2)
-// Example: subpath('Top.Child1.Child2', -2) → 'Child1.Child2'
+// subpath('Top.Child1.Child2', -2) → 'Child1.Child2'
 ```
 
 #### `SUBPATH(ltree, offset)`
-Extracts a subpath starting at position `offset` extending to the end of the path.
+Extracts from `offset` to the end.
 
 ```php
-// DQL
 $dql = "SELECT SUBPATH(e.path, 1) FROM Entity e";
-// SQL: subpath(e.path, 1)
-// Example: subpath('Top.Child1.Child2', 1) → 'Child1.Child2'
+// subpath('Top.Child1.Child2', 1) → 'Child1.Child2'
 ```
 
 ### Path Information Functions
@@ -266,42 +125,33 @@ $dql = "SELECT SUBPATH(e.path, 1) FROM Entity e";
 Returns the number of labels in the path.
 
 ```php
-// DQL
 $dql = "SELECT NLEVEL(e.path) FROM Entity e";
-// SQL: nlevel(e.path)
-// Example: nlevel('Top.Child1.Child2') → 3
+// nlevel('Top.Child1.Child2') → 3
 ```
 
 #### `INDEX(a, b)`
 Returns the position of the first occurrence of `b` in `a`, or -1 if not found.
 
 ```php
-// DQL
 $dql = "SELECT INDEX(e.path, 'Child1') FROM Entity e";
-// SQL: index(e.path, 'Child1')
-// Example: index('Top.Child1.Child2', 'Child1') → 1
+// index('Top.Child1.Child2', 'Child1') → 1
 ```
 
 #### `INDEX(a, b, offset)`
-Returns the position of the first occurrence of `b` in `a` starting at position `offset`.
+Same as above, but starts searching from `offset`.
 
 ```php
-// DQL
 $dql = "SELECT INDEX(e.path, 'Child1', 1) FROM Entity e";
-// SQL: index(e.path, 'Child1', 1)
-// Example: index('Top.Child1.Child2', 'Child1', 1) → 1
 ```
 
 ### Ancestor Functions
 
 #### `LCA(ltree1, ltree2, ...)`
-Computes the longest common ancestor of multiple paths (up to 8 arguments supported).
+Computes the longest common ancestor (up to 8 arguments).
 
 ```php
-// DQL
 $dql = "SELECT LCA(e.path1, e.path2, e.path3) FROM Entity e";
-// SQL: lca(e.path1, e.path2, e.path3)
-// Example: lca('Top.Child1.Child2', 'Top.Child1', 'Top.Child2.Child3') → 'Top'
+// lca('Top.Child1.Child2', 'Top.Child1', 'Top.Child2') → 'Top'
 ```
 
 ### Type Conversion Functions
@@ -310,66 +160,38 @@ $dql = "SELECT LCA(e.path1, e.path2, e.path3) FROM Entity e";
 Casts text to ltree.
 
 ```php
-// DQL
-$dql = "SELECT TEXT2LTREE('Top.Child1.Child2') FROM Entity e";
-// SQL: text2ltree('Top.Child1.Child2')
-// Example: text2ltree('Top.Child1.Child2') → 'Top.Child1.Child2'::ltree
+$dql = "SELECT e FROM Entity e WHERE e.path <@ TEXT2LTREE('Top.Sports')";
 ```
 
 #### `LTREE2TEXT(ltree)`
 Casts ltree to text.
 
 ```php
-// DQL
 $dql = "SELECT LTREE2TEXT(e.path) FROM Entity e";
-// SQL: ltree2text(e.path)
-// Example: ltree2text('Top.Child1.Child2'::ltree) → 'Top.Child1.Child2'
 ```
 
-### Usage Examples
-
-#### Finding Ancestors and Descendants
+### DQL Examples
 
 ```php
-// Find all descendants of a specific path
-$dql = "SELECT e FROM Entity e WHERE e.path <@ TEXT2LTREE('Top.Child1')";
+// All descendants of Top.Sports
+$dql = "SELECT e FROM Entity e WHERE e.path <@ TEXT2LTREE('Top.Sports')";
 
-// Find all ancestors of a specific path
-$dql = "SELECT e FROM Entity e WHERE TEXT2LTREE('Top.Child1') <@ e.path";
+// All ancestors of a given path
+$dql = "SELECT e FROM Entity e WHERE TEXT2LTREE('Top.Sports.Football') <@ e.path";
 
-// Find the longest common ancestor of multiple entities
+// Entities at depth 2
+$dql = "SELECT e FROM Entity e WHERE NLEVEL(e.path) = 2";
+
+// Parent path
+$dql = "SELECT SUBPATH(e.path, 0, NLEVEL(e.path) - 1) FROM Entity e";
+
+// Longest common ancestor of two entities
 $dql = "SELECT LCA(e1.path, e2.path) FROM Entity e1, Entity e2 WHERE e1.id = 1 AND e2.id = 2";
 ```
 
-#### Path Analysis
+### Performance
 
-```php
-// Get the depth of a path
-$dql = "SELECT NLEVEL(e.path) FROM Entity e";
-
-// Extract the parent path (everything except the last label)
-$dql = "SELECT SUBPATH(e.path, 0, NLEVEL(e.path) - 1) FROM Entity e";
-
-// Extract the root label
-$dql = "SELECT SUBPATH(e.path, 0, 1) FROM Entity e";
-```
-
-#### Path Manipulation
-
-```php
-// Find entities at a specific level
-$dql = "SELECT e FROM Entity e WHERE NLEVEL(e.path) = 2";
-
-// Find entities with a specific parent
-$dql = "SELECT e FROM Entity e WHERE SUBPATH(e.path, 0, NLEVEL(e.path) - 1) = 'Top.Child1'";
-
-// Find entities that contain a specific label
-$dql = "SELECT e FROM Entity e WHERE INDEX(e.path, 'Child1') >= 0";
-```
-
-### Performance Considerations
-
-- Use GiST or GIN indexes on ltree columns for optimal performance
-- The `@>` and `<@` operators work automatically with ltree types
-- Consider using `SUBPATH` with negative offsets for efficient parent path extraction
-- `LCA` function is efficient for finding common ancestors in hierarchical data
+- Use GiST or GIN indexes on `ltree` columns
+- `<@` and `@>` operators use those indexes automatically
+- `SUBPATH` with negative offsets is efficient for parent extraction
+- `LCA` is well-suited for finding shared ancestors in hierarchical queries
