@@ -46,6 +46,8 @@ final class Type
 
     public const INTERVAL = 'interval';
 
+    public const INTERVAL_ARRAY = 'interval[]';
+
     public const JSONB = 'jsonb';
 
     public const JSONB_ARRAY = 'jsonb[]';
@@ -63,6 +65,8 @@ final class Type
     public const MACADDR_ARRAY = 'macaddr[]';
 
     public const MONEY = 'money';
+
+    public const MONEY_ARRAY = 'money[]';
 
     public const NUMMULTIRANGE = 'nummultirange';
 
@@ -82,11 +86,15 @@ final class Type
 
     public const TSQUERY = 'tsquery';
 
+    public const TSQUERY_ARRAY = 'tsquery[]';
+
     public const TSRANGE = 'tsrange';
 
     public const TSMULTIRANGE = 'tsmultirange';
 
     public const TSVECTOR = 'tsvector';
+
+    public const TSVECTOR_ARRAY = 'tsvector[]';
 
     public const TSTZRANGE = 'tstzrange';
 
@@ -97,6 +105,8 @@ final class Type
     public const VECTOR = 'vector';
 
     public const XML = 'xml';
+
+    public const XML_ARRAY = 'xml[]';
 
     private function __construct()
     {

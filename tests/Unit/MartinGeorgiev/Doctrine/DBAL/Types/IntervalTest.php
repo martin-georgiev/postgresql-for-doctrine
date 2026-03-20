@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class IntervalTest extends TestCase
+class IntervalTest extends TestCase
 {
     private MockObject&PostgreSQLPlatform $platform;
 
@@ -30,12 +30,6 @@ final class IntervalTest extends TestCase
     public function has_name(): void
     {
         $this->assertSame('interval', $this->fixture->getName());
-    }
-
-    #[Test]
-    public function returns_correct_sql_declaration(): void
-    {
-        $this->assertSame('INTERVAL', $this->fixture->getSQLDeclaration([], $this->platform));
     }
 
     #[Test]
@@ -104,6 +98,15 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
+    public function can_transform_to_php_value_with_value_object(): void
+    {
+        $interval = IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06');
+        $result = $this->fixture->convertToPHPValue($interval, $this->platform);
+
+        $this->assertSame($interval, $result);
+    }
+
+    #[Test]
     public function can_transform_from_php_value_with_date_interval(): void
     {
         $dateInterval = new \DateInterval('P1Y2M3DT4H5M6S');
@@ -154,6 +157,7 @@ final class IntervalTest extends TestCase
             'boolean input' => [true],
             'array input' => [['1 year']],
             'object input' => [new \stdClass()],
+            'invalid string' => ['not-an-interval'],
         ];
     }
 
@@ -176,13 +180,8 @@ final class IntervalTest extends TestCase
             'boolean input' => [true],
             'array input' => [['1 year']],
             'object input' => [new \stdClass()],
+            'empty string' => [''],
+            'invalid string' => ['not-an-interval'],
         ];
-    }
-
-    #[Test]
-    public function throws_exception_for_empty_string_database_value(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->fixture->convertToDatabaseValue('', $this->platform);
     }
 }

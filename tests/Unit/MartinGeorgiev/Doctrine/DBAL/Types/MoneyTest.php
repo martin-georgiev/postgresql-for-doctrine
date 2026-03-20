@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class MoneyTest extends TestCase
+class MoneyTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -32,12 +32,6 @@ final class MoneyTest extends TestCase
     public function has_name(): void
     {
         $this->assertSame('money', $this->fixture->getName());
-    }
-
-    #[Test]
-    public function returns_correct_sql_declaration(): void
-    {
-        $this->assertSame('MONEY', $this->fixture->getSQLDeclaration([], $this->platform));
     }
 
     #[Test]
@@ -104,6 +98,7 @@ final class MoneyTest extends TestCase
         return [
             'alphabetic text' => ['not money'],
             'currency symbol only' => ['$'],
+            'empty string' => [''],
             'empty-looking string' => ['---'],
             'special characters only' => ['@#!'],
         ];

@@ -22,22 +22,25 @@ final class Interval extends BaseType
 {
     protected const TYPE_NAME = Type::INTERVAL;
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        return 'INTERVAL';
-    }
-
     public function convertToPHPValue($value, AbstractPlatform $platform): ?IntervalValueObject
     {
         if (null === $value || '' === $value) {
             return null;
         }
 
+        if ($value instanceof IntervalValueObject) {
+            return $value;
+        }
+
         if (!\is_string($value)) {
             throw InvalidIntervalForPHPException::forInvalidType($value);
         }
 
-        return IntervalValueObject::fromString($value);
+        try {
+            return IntervalValueObject::fromString($value);
+        } catch (\Throwable) {
+            throw InvalidIntervalForPHPException::forInvalidFormat($value);
+        }
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
@@ -47,7 +50,13 @@ final class Interval extends BaseType
         }
 
         if (\is_string($value)) {
-            $value = IntervalValueObject::fromString($value);
+            $originalString = $value;
+
+            try {
+                $value = IntervalValueObject::fromString($value);
+            } catch (\Throwable) {
+                throw InvalidIntervalForDatabaseException::forInvalidFormat($originalString);
+            }
         }
 
         if ($value instanceof \DateInterval) {

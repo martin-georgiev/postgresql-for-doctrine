@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class IntervalTypeTest extends TestCase
 {
+    use IntervalAssertionTrait;
+
     protected function getTypeName(): string
     {
         return 'interval';
@@ -23,8 +25,7 @@ final class IntervalTypeTest extends TestCase
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
         $this->assertInstanceOf(IntervalValueObject::class, $expected);
-        $this->assertInstanceOf(IntervalValueObject::class, $actual);
-        $this->assertSame((string) $expected, (string) $actual);
+        $this->assertIntervalEquals($expected, $actual, $typeName);
     }
 
     #[Test]
@@ -56,30 +57,27 @@ final class IntervalTypeTest extends TestCase
 
     #[DataProvider('provideVariousInputFormats')]
     #[Test]
-    public function can_round_trip_various_input_formats(string $input, string $expectedOutput): void
+    public function can_round_trip_for_various_input_formats(\DateInterval|IntervalValueObject|string $input, string $expectedOutput): void
     {
-        $inputInterval = IntervalValueObject::fromString($input);
-
         [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
 
         try {
             $this->connection->createQueryBuilder()
                 ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
                 ->values([$columnName => ':value'])
-                ->setParameter('value', $inputInterval, $this->getTypeName())
+                ->setParameter('value', $input, $this->getTypeName())
                 ->executeStatement();
 
             $retrieved = $this->fetchConvertedValue($this->getTypeName(), $tableName, $columnName);
 
-            $this->assertInstanceOf(IntervalValueObject::class, $retrieved);
-            $this->assertSame($expectedOutput, (string) $retrieved);
+            $this->assertIntervalEquals($expectedOutput, $retrieved, $this->getTypeName());
         } finally {
             $this->dropTestTableIfItExists($tableName);
         }
     }
 
     /**
-     * @return array<string, array{string, string}>
+     * @return array<string, array{\DateInterval|IntervalValueObject|string, string}>
      */
     public static function provideVariousInputFormats(): array
     {
@@ -95,6 +93,8 @@ final class IntervalTypeTest extends TestCase
             'fractional seconds' => ['00:00:01.123456', '00:00:01.123456'],
             'days only' => ['30 days', '30 days'],
             'PG normalizes month overflow' => ['1 year 14 mons', '2 years 2 mons'],
+            'DateInterval' => [new \DateInterval('P1Y2M3D'), '1 year 2 mons 3 days'],
+            'IntervalValueObject' => [IntervalValueObject::fromString('1 year 2 months 3 days'), '1 year 2 mons 3 days'],
         ];
     }
 }

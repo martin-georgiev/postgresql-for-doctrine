@@ -8,6 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\XmlValidationTrait;
 
 /**
  * Implementation of PostgreSQL XML data type.
@@ -19,12 +20,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlForPHPException;
  */
 final class Xml extends BaseType
 {
-    protected const TYPE_NAME = Type::XML;
+    use XmlValidationTrait;
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        return 'XML';
-    }
+    protected const TYPE_NAME = Type::XML;
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
@@ -58,20 +56,5 @@ final class Xml extends BaseType
         }
 
         return $value;
-    }
-
-    private function isValidXml(string $value): bool
-    {
-        $previousUseInternalErrors = \libxml_use_internal_errors(true);
-
-        try {
-            $domDocument = new \DOMDocument();
-            $loaded = $domDocument->loadXML($value);
-
-            return $loaded && \libxml_get_errors() === [];
-        } finally {
-            \libxml_clear_errors();
-            \libxml_use_internal_errors($previousUseInternalErrors);
-        }
     }
 }

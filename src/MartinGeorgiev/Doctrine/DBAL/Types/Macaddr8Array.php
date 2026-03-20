@@ -24,7 +24,7 @@ final class Macaddr8Array extends BaseNetworkTypeArray
 
     protected function isValidNetworkAddress(string $value): bool
     {
-        return $this->isValidMacaddr8Address($value);
+        return $this->isValidMacAddress($value);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
