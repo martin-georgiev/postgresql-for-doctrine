@@ -9,23 +9,23 @@ Enhances Doctrine with PostgreSQL-specific features and functions. Supports Post
 
 ## Quick Start
 
-
 ```php
-use MartinGeorgiev\Doctrine\DBAL\Type;
+use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Type as PostgresType;
 
 // Register types with Doctrine
-Type::addType(Type::JSONB, "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
-Type::addType(Type::TEXT_ARRAY, "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
-Type::addType(Type::NUMRANGE, "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
+Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 
 // Use in your Doctrine entities
-#[ORM\Column(type: Type::JSONB)]
+#[ORM\Column(type: PostgresType::JSONB)]
 private array $data;
 
-#[ORM\Column(type: Type::TEXT_ARRAY)]
+#[ORM\Column(type: PostgresType::TEXT_ARRAY)]
 private array $tags;
 
-#[ORM\Column(type: Type::NUMRANGE)]
+#[ORM\Column(type: PostgresType::NUMRANGE)]
 private NumericRange $priceRange;
 
 // Use in DQL
@@ -38,8 +38,6 @@ $query = $em->createQuery('
 ```
 
 ## 🚀 Features Highlight
-
-This package provides comprehensive Doctrine support for PostgreSQL features:
 
 ### Data Types
 - **Array Types**
@@ -161,17 +159,17 @@ composer run-unit-tests
 ```
 
 ### PostgreSQL Integration Tests
-We also provide integration tests that run against a real PostgreSQL database with PostGIS to ensure compatibility:
+We also provide integration tests that run against a real PostgreSQL database with PostGIS:
 
 ```bash
 # Start PostgreSQL with PostGIS using Docker Compose
-docker-compose up -d
+docker compose up -d
 
 # Run integration tests
 composer run-integration-tests
 
 # Stop PostgreSQL
-docker-compose down -v
+docker compose down -v
 ```
 
 See [tests/Integration/README.md](tests/Integration/README.md) for more details.
