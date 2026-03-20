@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class LtreeTypeTest extends TestCase
 {
+    use LtreeAssertionTrait;
+
     protected function getTypeName(): string
     {
         return 'ltree';
@@ -75,11 +77,5 @@ final class LtreeTypeTest extends TestCase
             'ltree single numeric' => [new LtreeValueObject(['1'])],
             'ltree empty' => [new LtreeValueObject([])],
         ];
-    }
-
-    private function assertLtreeEquals(LtreeValueObject|string $ltreeValueObject, mixed $actual, string $typeName): void
-    {
-        $this->assertInstanceOf(LtreeValueObject::class, $actual, 'Failed asserting that value is a Ltree object for type '.$typeName);
-        $this->assertSame((string) $ltreeValueObject, (string) $actual, 'Failed asserting that ltree string representations are identical for type '.$typeName);
     }
 }

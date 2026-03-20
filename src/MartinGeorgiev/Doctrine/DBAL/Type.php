@@ -54,6 +54,8 @@ final class Type
 
     public const LTREE = 'ltree';
 
+    public const LTREE_ARRAY = 'ltree[]';
+
     public const MACADDR = 'macaddr';
 
     public const MACADDR8 = 'macaddr8';

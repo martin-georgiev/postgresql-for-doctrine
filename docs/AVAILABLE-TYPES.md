@@ -1,4 +1,4 @@
-# Available types
+# Available Types
 
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
 |---|---|---|
@@ -53,6 +53,7 @@
 | interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
+| ltree[] | _ltree | `MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray` |
 |---|---|---|
 | money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
 | money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |

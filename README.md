@@ -65,16 +65,16 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
   - Multiranges (`nummultirange`, `int4multirange`, `int8multirange`)
 - **Interval Types**
-  - Time durations with `DateInterval` support (`interval`)
+  - Time durations with `DateInterval` support (`interval`, `interval[]`)
 - **Text Search Types**
-  - Full-text search document (`tsvector`)
-  - Full-text search query (`tsquery`)
+  - Full-text search document (`tsvector`, `tsvector[]`)
+  - Full-text search query (`tsquery`, `tsquery[]`)
 - **Monetary Types**
-  - Currency amounts (`money`)
+  - Currency amounts (`money`, `money[]`)
 - **XML Types**
-  - Native XML document storage (`xml`)
+  - Native XML document storage (`xml`, `xml[]`)
 - **Hierarchical Types**
-  - [ltree](https://www.postgresql.org/docs/16/ltree.html) (`ltree`)
+  - Label-tree data (`ltree`, `ltree[]`)
 - **Vector Types** (requires [pgvector](https://github.com/pgvector/pgvector) extension)
   - Fixed-dimension float vector (`vector`)
   - Half-precision float vector (`halfvec`)
@@ -126,6 +126,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
+- [PostgreSQL ltree Types](docs/LTREE-TYPE.md)
 - [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md) - Overview and cross-references
   - [Array and JSON Functions](docs/ARRAY-AND-JSON-FUNCTIONS.md)
   - [PostGIS Spatial Functions](docs/SPATIAL-FUNCTIONS-AND-OPERATORS.md)
@@ -151,8 +152,6 @@ composer require martin-georgiev/postgresql-for-doctrine
 
 ## 💡 Usage Examples
 See our [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md) for detailed code samples.
-
-See our [ltree type usage guide](docs/LTREE-TYPE.md) for an example of how to use the `ltree` type.
 
 ## 🧪 Testing
 

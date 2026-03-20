@@ -1,4 +1,4 @@
-## Integration with Doctrine
+# Integration with Doctrine
 
 This guide covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For older versions, please refer to previous documentation versions.
 

@@ -1,5 +1,6 @@
-Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and some other operator-like functions
----
+# Common Use Cases and Examples
+
+## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
 
 `Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'"` (or similar) is probably one of the most common DQL errors you may experience when working with this library. The cause for is that when parsing the DQL Doctrine won't recognize `ILIKE` as a known operator. In fact `ILIKE` is registered as a boolean function.
 Doctrine doesn't provide easy support for implementing custom operators. This may change in the future but for now it is easier to trick the DQL parser with a boolean expression.
@@ -23,8 +24,7 @@ FROM EmailEntity e
 WHERE ILIKE(e.subject, 'Test email') = TRUE
 ```
 
-Using JSON_BUILD_OBJECT and JSONB_BUILD_OBJECT
----
+## Using JSON_BUILD_OBJECT and JSONB_BUILD_OBJECT
 
 These functions currently only support string literals and object references as arguments. Here are some valid examples:
 
@@ -44,8 +44,7 @@ SELECT JSONB_BUILD_OBJECT('number', 123)     -- All number types, NULL and boole
 
 Note: Keys must always be string literals, while values can be either string literals or object property references.
 
-Using JSON Path Functions
----
+## Using JSON Path Functions
 
 PostgreSQL 14+ introduced JSON path functions that provide a powerful way to query JSON data. Here are some examples:
 
@@ -68,8 +67,7 @@ SELECT e.id, JSONB_PATH_QUERY_ARRAY(e.jsonData, '$.items[*].id') FROM Entity e
 SELECT e.id, JSONB_PATH_QUERY_FIRST(e.jsonData, '$.items[*] ? (@.featured == true)') FROM Entity e
 ```
 
-Using Regular Expression Functions
----
+## Using Regular Expression Functions
 
 PostgreSQL 15+ introduced additional regular expression functions that provide more flexibility when working with text data:
 
@@ -86,8 +84,7 @@ SELECT e.id, REGEXP_INSTR(e.text, 'important') as position FROM Entity e
 SELECT e.id, REGEXP_SUBSTR(e.text, 'https?://[\w.-]+') as url FROM Entity e
 ```
 
-Using Date Functions
----
+## Using Date Functions
 
 PostgreSQL 14+ introduced additional date functions that provide more flexibility when working with dates and timestamps:
 
@@ -110,8 +107,7 @@ SELECT DATE_TRUNC('day', e.timestampWithTz) FROM Entity e
 SELECT DATE_TRUNC('day', e.timestampWithTz, 'UTC') FROM Entity e
 ```
 
-Using Range Types
----
+## Using Range Types
 
 PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:
 
@@ -155,8 +151,7 @@ SELECT p FROM Product p WHERE p.priceRange @> 25.0
 ```
 
 
-Using PostgreSQL Composite Types
----
+## Using PostgreSQL Composite Types
 
 PostgreSQL composite types allow you to define custom structured types with named fields. This library provides the `COMPOSITE_FIELD` function to access fields from composite type columns in DQL.
 
@@ -211,8 +206,7 @@ class Product
 }
 ```
 
-Using PostGIS Types
----
+## Using PostGIS Types
 
 
 ### Using PostGIS Types with Doctrine DBAL (Geometry/Geography)
@@ -354,3 +348,149 @@ $entity->setLocation($location);
 Notes:
 - Values round-trip as EWKT/WKT strings at the database boundary.
 - Integration tests automatically enable the `postgis` extension; ensure PostGIS is available in your environment.
+
+## Hierarchical Data with ltree
+
+> 📖 **See also**: [`ltree` Types](LTREE-TYPE.md) for type reference and DQL functions
+
+This example shows a self-referential entity with ltree path management and cascading path updates in Symfony.
+
+### Entity
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
+
+/**
+ * Manually edit `my_entity_path_gist_idx` in migration to use GiST.
+ * Declaring the index using Doctrine attributes prevents its removal during migrations.
+ */
+#[ORM\Entity]
+#[ORM\Index(columns: ['path'], name: 'my_entity_path_gist_idx')]
+class MyEntity implements \Stringable
+{
+    #[ORM\Column(type: UuidType::NAME)]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\Id]
+    private Uuid $id;
+
+    #[ORM\Column(type: 'ltree')]
+    private Ltree $path;
+
+    /** @var Collection<array-key, MyEntity> */
+    #[ORM\OneToMany(targetEntity: MyEntity::class, mappedBy: 'parent')]
+    private Collection $children;
+
+    public function __construct(
+        #[ORM\Column(unique: true, length: 128)]
+        private string $name,
+
+        #[ORM\ManyToOne(targetEntity: MyEntity::class, inversedBy: 'children')]
+        private ?MyEntity $parent = null,
+    ) {
+        $this->id = Uuid::v7();
+        $this->children = new ArrayCollection();
+        $this->path = Ltree::fromString($this->id->toBase58());
+
+        if ($parent instanceof MyEntity) {
+            $this->setParent($parent);
+        }
+    }
+
+    public function __toString(): string { return $this->name; }
+    public function getId(): Uuid { return $this->id; }
+    public function getParent(): ?MyEntity { return $this->parent; }
+    public function getName(): string { return $this->name; }
+    public function getPath(): Ltree { return $this->path; }
+
+    /** @return Collection<array-key, MyEntity> */
+    public function getChildren(): Collection { return $this->children; }
+
+    public function setName(string $name): void { $this->name = $name; }
+
+    public function setParent(MyEntity $parent): void
+    {
+        if ($parent->getId()->equals($this->id)) {
+            throw new \InvalidArgumentException("Parent can't be self");
+        }
+
+        if ($parent->getPath()->isDescendantOf($this->getPath())) {
+            throw new \InvalidArgumentException("Parent can't be a descendant of the current node");
+        }
+
+        $this->parent = $parent;
+        $this->path = $parent->getPath()->withLeaf($this->id->toBase58());
+    }
+}
+```
+
+🗃️ Create the GiST index manually in a migration — Doctrine can't generate ltree-specific operator class syntax:
+
+```sql
+CREATE INDEX my_entity_path_gist_idx ON my_entity USING GIST (path gist_ltree_ops(siglen=100));
+-- Alternative: GIN index
+CREATE INDEX my_entity_path_gin_idx ON my_entity USING GIN (path gin_ltree_ops);
+```
+
+### Cascading Path Updates
+
+⚠️ Changing an entity's parent requires cascading the path change to all descendants — Doctrine does not handle this automatically. Use an `onFlush` listener:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\EventListener;
+
+use App\Entity\MyEntity;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\UnitOfWork;
+
+#[AsDoctrineListener(event: Events::onFlush, priority: 500, connection: 'default')]
+final readonly class MyEntityOnFlushListener
+{
+    public function onFlush(OnFlushEventArgs $eventArgs): void
+    {
+        $entityManager = $eventArgs->getObjectManager();
+        $unitOfWork = $entityManager->getUnitOfWork();
+        $entityMetadata = $entityManager->getClassMetadata(MyEntity::class);
+
+        foreach ($unitOfWork->getScheduledEntityUpdates() as $entity) {
+            $this->processEntity($entity, $entityMetadata, $unitOfWork);
+        }
+    }
+
+    /** @param ClassMetadata<MyEntity> $entityMetadata */
+    private function processEntity(object $entity, ClassMetadata $entityMetadata, UnitOfWork $unitOfWork): void
+    {
+        if (!$entity instanceof MyEntity || !isset($unitOfWork->getEntityChangeSet($entity)['path'])) {
+            return;
+        }
+
+        $this->updateChildrenPaths($entity, $entityMetadata, $unitOfWork);
+    }
+
+    /** @param ClassMetadata<MyEntity> $entityMetadata */
+    private function updateChildrenPaths(MyEntity $entity, ClassMetadata $entityMetadata, UnitOfWork $unitOfWork): void
+    {
+        foreach ($entity->getChildren() as $child) {
+            $child->setParent($entity);
+            $unitOfWork->recomputeSingleEntityChangeSet($entityMetadata, $child);
+            $this->updateChildrenPaths($child, $entityMetadata, $unitOfWork);
+        }
+    }
+}
