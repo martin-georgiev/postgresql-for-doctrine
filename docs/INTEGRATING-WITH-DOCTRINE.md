@@ -100,9 +100,14 @@ Register the functions you'll use in your DQL queries. The full set of available
 ```php
 <?php
 
-use Doctrine\ORM\Configuration;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
 
-$configuration = new Configuration();
+$configuration = ORMSetup::createAttributeMetadataConfiguration(
+    paths: [__DIR__ . '/src'],
+    isDevMode: true,
+);
 
 # alternative implementation of ALL() and ANY() where subquery is not required, useful for arrays
 $configuration->addCustomStringFunction('ALL_OF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All::class);
@@ -281,7 +286,12 @@ $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Q
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
 $configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class);
 
-$em = EntityManager::create($dbParams, $configuration);
+$connection = DriverManager::getConnection([
+    'driver' => 'pdo_pgsql',
+    // ... your connection parameters
+], $configuration);
+
+$em = new EntityManager($connection, $configuration);
 ```
 
 ### Register Platform Type Mappings

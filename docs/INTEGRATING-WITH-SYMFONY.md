@@ -1,6 +1,6 @@
 # Integration with Symfony
 
-This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle. For older Symfony versions, please refer to previous documentation versions.
+This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle.
 
 ### Register DBAL Types
 
@@ -452,58 +452,3 @@ class Product
 }
 ```
 
-### Environment-Specific Configuration
-
-For different environments, you can override configuration in environment-specific files:
-
-```yaml
-# config/packages/dev/doctrine.yaml
-doctrine:
-    dbal:
-        logging: true
-        profiling: true
-    orm:
-        auto_generate_proxy_classes: true
-
-# config/packages/prod/doctrine.yaml
-doctrine:
-    orm:
-        auto_generate_proxy_classes: false
-        metadata_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        query_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        result_cache_driver:
-            type: pool
-            pool: doctrine.result_cache_pool
-```
-
-### Service Container Integration
-
-If you need to register types programmatically (e.g., in a bundle), you can do so in a service:
-
-```php
-<?php
-
-namespace App\Service;
-
-use Doctrine\DBAL\Types\Type;
-use MartinGeorgiev\Doctrine\DBAL\Type;
-use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
-use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
-
-#[Autoconfigure(lazy: true)]
-class DoctrineTypeRegistrar
-{
-    public function registerTypes(): void
-    {
-        if (!Type::hasType(Type::JSONB)) {
-            Type::addType(Type::JSONB, Jsonb::class);
-        }
-
-        // Register other types as needed...
-    }
-}
-```
