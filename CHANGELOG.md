@@ -1,5 +1,37 @@
 # Changelog
 
+## [4.4.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.3.0...v4.4.0) (2026-03-21)
+
+
+### Features
+
+* **#590:** Add support for `GENERATE_SERIES` through the introduction of `GENERATE_NUMERIC_SERIES` and `GENERATE_TIME_SERIES` ([#592](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/592)) ([c1b8b44](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c1b8b444ebd22f7113537734fec16178dc9af071))
+* Add support for `AT TIME ZONE` operator as a DQL function (enabling timezone conversion of timestamp values) ([#567](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/567)) ([3ab1d69](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3ab1d69a5ef1f0552853e6fe331f754b463d0551))
+* Add support for `date[]`, `timestamp[]`, and `timestamptz[]` DBAL types ([#597](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/597)) ([989771e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/989771e759144229827675173dfbd04f9e9702e9))
+* Add support for `interval[]` DBAL type ([#591](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/591)) ([7fc59d0](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7fc59d0eae4340a2e42edc05651a67d5d0454cfc))
+* Add support for `interval` DBAL type ([#582](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/582)) ([fa71e78](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/fa71e78fb69ce4d45cdfb6e86e332645c6b021e0))
+* Add support for `ltree[]` DBAL type ([#595](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/595)) ([29c28ef](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/29c28ef6ee6977d127733aee24557e05130392f3))
+* Add support for `money[]` DBAL type ([#588](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/588)) ([84e5163](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/84e51638bdb98146cac2b795c0d2b18a58131cb0))
+* Add support for `money` DBAL type ([#577](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/577)) ([95b27a5](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/95b27a516793971acaded03d1c143772a510dcd7))
+* Add support for `range_agg` and `range_intersect_agg` ([#573](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/573)) ([c0ca299](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c0ca29971b69c40f39104b2ba738d34d20be7cca))
+* Add support for `tsquery[]` DBAL type ([#586](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/586)) ([f25d137](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/f25d13712f1d1febf6a0a744786f72f72137b0fe))
+* Add support for `tsvector[]` DBAL type  ([#587](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/587)) ([9d45e7d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9d45e7d80254e1e55e9caec10bb9a67ef264fcc6))
+* Add support for `xml[]` DBAL type ([#589](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/589)) ([84bfe50](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/84bfe50b0d8a4f08d5de3901d0140f0649468638))
+* Add support for `xml` DBAL type ([#578](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/578)) ([5c9590c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5c9590c291a233b0b61c0fb8f8fce846e431e405))
+* Add support for network address DQL functions ([#574](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/574)) ([46a622f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/46a622f4565ca41e156ba94196f11f5b8eed1853))
+* Add support for pg_trgm operators (similarity threshold and distance) ([#572](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/572)) ([103a574](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/103a574e830276f5f020577c703048dca2c3136b))
+* Add support for pg_trgm's extension functions (`SIMILARITY`, `STRICT_WORD_SIMILARITYz` and `WORD_SIMILARITY`) ([#571](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/571)) ([9715b70](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9715b70eb408ed4cb9ced0ca66a272fddf003a68))
+* Add support for pgvector's extension `HALFVEC` and `SPARSEVEC` types ([#584](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/584)) ([c7d83ae](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c7d83aee128c77466af08ec918c94a7661dcb3d3))
+* Add support for pgvector's extension `VECTOR` type and distance functions (`COSINE_DISTANCE`, `INNER_PRODUCT`, `L2_DISTANCE`) ([#570](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/570)) ([43acc91](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/43acc914a4a79c5c2233e9e1ebc599e508300956))
+* аdd support for `datemultirange`, `tsmultirange`, and `tstzmultirange` DBAL types ([#575](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/575)) ([fac1ff6](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/fac1ff634accc9604b97ff2278fb542a5a49cb49))
+
+
+### Bug Fixes
+
+* Align domain exceptions with consistent patterns (parent class, method naming, PHPDoc, message formatting) ([#585](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/585)) ([c7e2d51](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c7e2d51967b00119e4da5389d5d13627cf115bfa))
+* Expand the list of supported MAC address formats ([#594](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/594)) ([223649c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/223649cd575f7c35b67b06ac4c411b4ffdf497a7))
+* Resolve PHPStan type errors with `mixed` array items ([#583](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/583)) ([c7f2625](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c7f2625b6edd52504df109b77929fa58db906e50))
+
 ## [4.3.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.2.0...v4.3.0) (2026-03-01)
 
 
