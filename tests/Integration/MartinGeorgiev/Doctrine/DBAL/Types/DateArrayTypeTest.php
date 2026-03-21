@@ -69,6 +69,7 @@ class DateArrayTypeTest extends ArrayTypeTestCase
             if ($expectedItem === null) {
                 $this->assertNull($actual[$index]);
             } else {
+                $this->assertInstanceOf(\DateTimeImmutable::class, $expectedItem);
                 $actualItem = $actual[$index];
                 $this->assertInstanceOf(\DateTimeImmutable::class, $actualItem);
                 $this->assertSame(
