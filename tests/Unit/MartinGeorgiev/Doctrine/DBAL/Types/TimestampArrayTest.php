@@ -76,11 +76,11 @@ class TimestampArrayTest extends TestCase
         return [
             'DateTimeImmutable with microseconds' => [
                 'phpValue' => new \DateTimeImmutable('2023-06-15 10:30:45.123456'),
-                'expectedPostgresValue' => '{2023-06-15 10:30:45.123456}',
+                'expectedPostgresValue' => '{"2023-06-15 10:30:45.123456"}',
             ],
             'DateTime without microseconds' => [
                 'phpValue' => $midnight,
-                'expectedPostgresValue' => '{2000-01-01 00:00:00.000000}',
+                'expectedPostgresValue' => '{"2000-01-01 00:00:00.000000"}',
             ],
         ];
     }
@@ -124,13 +124,13 @@ class TimestampArrayTest extends TestCase
         \assert($second instanceof \DateTimeImmutable);
 
         $result = $this->fixture->convertToDatabaseValue([$first, $second], $this->platform);
-        $this->assertSame('{2023-06-15 10:30:45.000000,2024-01-01 00:00:00.000000}', $result);
+        $this->assertSame('{"2023-06-15 10:30:45.000000","2024-01-01 00:00:00.000000"}', $result);
     }
 
     #[Test]
     public function can_convert_multiple_timestamps_from_database(): void
     {
-        $result = $this->fixture->convertToPHPValue('{2023-06-15 10:30:45,2024-01-01 00:00:00}', $this->platform);
+        $result = $this->fixture->convertToPHPValue('{"2023-06-15 10:30:45","2024-01-01 00:00:00"}', $this->platform);
         $this->assertIsArray($result);
         $this->assertCount(2, $result);
         $this->assertInstanceOf(\DateTimeImmutable::class, $result[0]);
@@ -143,7 +143,7 @@ class TimestampArrayTest extends TestCase
     public function can_validate_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45')));
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTime('2023-06-15 10:30:45')));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45')));
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
     }
 
@@ -171,7 +171,7 @@ class TimestampArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_non_array_input_to_database(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidTimestampArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 

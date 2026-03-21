@@ -7,6 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampArrayItemForPHPException;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL TIMESTAMP[] data type.
@@ -35,8 +36,14 @@ class TimestampArray extends BaseArray
             return 'NULL';
         }
 
-        /** @var \DateTimeInterface $item */
-        return $item->format('Y-m-d H:i:s.u');
+        \assert($item instanceof \DateTimeInterface);
+
+        return '"'.$item->format('Y-m-d H:i:s.u').'"';
+    }
+
+    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    {
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?\DateTimeImmutable
@@ -63,9 +70,7 @@ class TimestampArray extends BaseArray
 
     protected function throwInvalidTypeException(mixed $value): never
     {
-        throw new \InvalidArgumentException(
-            \sprintf('Given PHP value content type is not PHP array. Instead it is "%s".', \gettype($value))
-        );
+        throw InvalidTimestampArrayItemForPHPException::forInvalidArrayType($value);
     }
 
     protected function throwInvalidItemException(mixed $item): never

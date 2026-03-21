@@ -35,7 +35,8 @@ class DateArray extends BaseArray
             return 'NULL';
         }
 
-        /** @var \DateTimeInterface $item */
+        \assert($item instanceof \DateTimeInterface);
+
         return $item->format('Y-m-d');
     }
 
@@ -59,9 +60,7 @@ class DateArray extends BaseArray
 
     protected function throwInvalidTypeException(mixed $value): never
     {
-        throw new \InvalidArgumentException(
-            \sprintf('Given PHP value content type is not PHP array. Instead it is "%s".', \gettype($value))
-        );
+        throw InvalidDateArrayItemForPHPException::forInvalidArrayType($value);
     }
 
     protected function throwInvalidItemException(mixed $item): never

@@ -27,4 +27,9 @@ class InvalidDateArrayItemForPHPException extends ConversionException
     {
         return self::create('Invalid date format in array: %s', $value);
     }
+
+    public static function forInvalidArrayType(mixed $value): self
+    {
+        return self::create('Value must be an array, %s given', $value);
+    }
 }

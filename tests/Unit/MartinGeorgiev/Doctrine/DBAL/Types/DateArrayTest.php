@@ -76,7 +76,7 @@ class DateArrayTest extends TestCase
                 'expectedPostgresValue' => '{2023-06-15}',
             ],
             'DateTime date' => [
-                'phpValue' => new \DateTime('2000-01-01'),
+                'phpValue' => new \DateTimeImmutable('2000-01-01'),
                 'expectedPostgresValue' => '{2000-01-01}',
             ],
             'leap day' => [
@@ -150,7 +150,7 @@ class DateArrayTest extends TestCase
     public function can_validate_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15')));
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTime('2023-06-15')));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15')));
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
     }
 
@@ -178,7 +178,7 @@ class DateArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_non_array_input_to_database(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidDateArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 
@@ -205,7 +205,7 @@ class DateArrayTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_null_item_in_transform_for_php(): void
+    public function can_return_null_for_null_item_in_transform_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }

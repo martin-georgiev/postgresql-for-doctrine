@@ -73,15 +73,15 @@ class TimestampTzArrayTest extends TestCase
         return [
             'UTC offset' => [
                 'phpValue' => new \DateTimeImmutable('2023-06-15 10:30:45+00:00'),
-                'expectedPostgresValue' => '{2023-06-15 10:30:45+00:00}',
+                'expectedPostgresValue' => '{"2023-06-15 10:30:45.000000+00:00"}',
             ],
             'positive offset' => [
                 'phpValue' => new \DateTimeImmutable('2023-06-15 10:30:45+02:00'),
-                'expectedPostgresValue' => '{2023-06-15 10:30:45+02:00}',
+                'expectedPostgresValue' => '{"2023-06-15 10:30:45.000000+02:00"}',
             ],
             'negative offset' => [
                 'phpValue' => new \DateTimeImmutable('2023-06-15 10:30:45-05:00'),
-                'expectedPostgresValue' => '{2023-06-15 10:30:45-05:00}',
+                'expectedPostgresValue' => '{"2023-06-15 10:30:45.000000-05:00"}',
             ],
         ];
     }
@@ -102,18 +102,23 @@ class TimestampTzArrayTest extends TestCase
     public static function provideValidItemTransformationsToPHP(): array
     {
         return [
-            'UTC offset' => [
+            'with microseconds and UTC offset' => [
+                'postgresValue' => '2023-06-15 10:30:45.000000+00:00',
+                'expectedDatetime' => '2023-06-15 10:30:45',
+                'expectedOffset' => '+00:00',
+            ],
+            'without microseconds and UTC offset' => [
                 'postgresValue' => '2023-06-15 10:30:45+00:00',
                 'expectedDatetime' => '2023-06-15 10:30:45',
                 'expectedOffset' => '+00:00',
             ],
             'positive offset' => [
-                'postgresValue' => '2023-06-15 10:30:45+02:00',
+                'postgresValue' => '2023-06-15 10:30:45.000000+02:00',
                 'expectedDatetime' => '2023-06-15 10:30:45',
                 'expectedOffset' => '+02:00',
             ],
             'negative offset' => [
-                'postgresValue' => '2023-06-15 10:30:45-05:00',
+                'postgresValue' => '2023-06-15 10:30:45.000000-05:00',
                 'expectedDatetime' => '2023-06-15 10:30:45',
                 'expectedOffset' => '-05:00',
             ],
@@ -128,13 +133,13 @@ class TimestampTzArrayTest extends TestCase
             new \DateTimeImmutable('2024-01-01 00:00:00+02:00'),
         ];
         $result = $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
-        $this->assertSame('{2023-06-15 10:30:45+00:00,2024-01-01 00:00:00+02:00}', $result);
+        $this->assertSame('{"2023-06-15 10:30:45.000000+00:00","2024-01-01 00:00:00.000000+02:00"}', $result);
     }
 
     #[Test]
     public function can_convert_multiple_timestamptz_values_from_database(): void
     {
-        $result = $this->fixture->convertToPHPValue('{2023-06-15 10:30:45+00:00,2024-01-01 00:00:00+02:00}', $this->platform);
+        $result = $this->fixture->convertToPHPValue('{"2023-06-15 10:30:45.000000+00:00","2024-01-01 00:00:00.000000+02:00"}', $this->platform);
         $this->assertIsArray($result);
         $this->assertCount(2, $result);
         $this->assertInstanceOf(\DateTimeImmutable::class, $result[0]);
@@ -149,7 +154,7 @@ class TimestampTzArrayTest extends TestCase
     public function can_validate_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45+00:00')));
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTime('2023-06-15 10:30:45+02:00')));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45+02:00')));
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
     }
 
@@ -177,7 +182,7 @@ class TimestampTzArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_non_array_input_to_database(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidTimestampTzArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 

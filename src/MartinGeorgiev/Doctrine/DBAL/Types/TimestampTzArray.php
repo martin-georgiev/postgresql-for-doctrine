@@ -7,6 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampTzArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampTzArrayItemForPHPException;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL TIMESTAMPTZ[] data type.
@@ -35,8 +36,14 @@ class TimestampTzArray extends BaseArray
             return 'NULL';
         }
 
-        /** @var \DateTimeInterface $item */
-        return $item->format('Y-m-d H:i:sP');
+        \assert($item instanceof \DateTimeInterface);
+
+        return '"'.$item->format('Y-m-d H:i:s.uP').'"';
+    }
+
+    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    {
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?\DateTimeImmutable
@@ -49,9 +56,9 @@ class TimestampTzArray extends BaseArray
             throw InvalidTimestampTzArrayItemForPHPException::forInvalidType($item);
         }
 
-        $timestamp = \DateTimeImmutable::createFromFormat('Y-m-d H:i:sP', $item);
+        $timestamp = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.uP', $item);
         if ($timestamp === false) {
-            $timestamp = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.uP', $item);
+            $timestamp = \DateTimeImmutable::createFromFormat('Y-m-d H:i:sP', $item);
         }
 
         if ($timestamp === false) {
@@ -63,9 +70,7 @@ class TimestampTzArray extends BaseArray
 
     protected function throwInvalidTypeException(mixed $value): never
     {
-        throw new \InvalidArgumentException(
-            \sprintf('Given PHP value content type is not PHP array. Instead it is "%s".', \gettype($value))
-        );
+        throw InvalidTimestampTzArrayItemForPHPException::forInvalidArrayType($value);
     }
 
     protected function throwInvalidItemException(mixed $item): never
