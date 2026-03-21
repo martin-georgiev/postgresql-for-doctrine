@@ -7,6 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateArrayItemForPHPException;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL DATE[] data type.
@@ -38,6 +39,11 @@ class DateArray extends BaseArray
         \assert($item instanceof \DateTimeInterface);
 
         return $item->format('Y-m-d');
+    }
+
+    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    {
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?\DateTimeImmutable
