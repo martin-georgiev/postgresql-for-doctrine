@@ -27,7 +27,7 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     /**
      * @return class-string<\Throwable>
      */
-    abstract protected static function getPhpExceptionClass(): string;
+    abstract protected static function getPHPExceptionClass(): string;
 
     /**
      * @return class-string<\Throwable>
@@ -106,7 +106,7 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     #[Test]
     public function throws_exception_for_non_array_input_to_database(): void
     {
-        $this->expectException(static::getPhpExceptionClass());
+        $this->expectException(static::getPHPExceptionClass());
         $this->fixture->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 
@@ -136,7 +136,7 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     #[Test]
     public function throws_exception_for_invalid_type_input_for_php(mixed $value): void
     {
-        $this->expectException(static::getPhpExceptionClass());
+        $this->expectException(static::getPHPExceptionClass());
         $this->fixture->transformArrayItemForPHP($value);
     }
 
@@ -157,7 +157,7 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     #[Test]
     public function throws_exception_for_invalid_format_input_for_php(string $value): void
     {
-        $this->expectException(static::getPhpExceptionClass());
+        $this->expectException(static::getPHPExceptionClass());
         $this->fixture->transformArrayItemForPHP($value);
     }
 

@@ -26,16 +26,16 @@ abstract class BaseDateTimeArray extends BaseArray
      *
      * @return non-empty-list<string>
      */
-    abstract protected function getPhpFormats(): array;
+    abstract protected function getPHPFormats(): array;
 
     protected function transformParsedValueForPHP(\DateTimeImmutable $value): \DateTimeImmutable
     {
         return $value;
     }
 
-    abstract protected function throwInvalidPhpTypeException(mixed $item): never;
+    abstract protected function throwInvalidPHPTypeException(mixed $item): never;
 
-    abstract protected function throwInvalidPhpFormatException(mixed $item): never;
+    abstract protected function throwInvalidPHPFormatException(mixed $item): never;
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
@@ -69,16 +69,16 @@ abstract class BaseDateTimeArray extends BaseArray
         }
 
         if (!\is_string($item)) {
-            $this->throwInvalidPhpTypeException($item);
+            $this->throwInvalidPHPTypeException($item);
         }
 
-        foreach ($this->getPhpFormats() as $format) {
+        foreach ($this->getPHPFormats() as $format) {
             $parsed = \DateTimeImmutable::createFromFormat($format, $item);
             if ($parsed !== false) {
                 return $this->transformParsedValueForPHP($parsed);
             }
         }
 
-        $this->throwInvalidPhpFormatException($item);
+        $this->throwInvalidPHPFormatException($item);
     }
 }

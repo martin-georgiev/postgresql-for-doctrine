@@ -23,7 +23,7 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
         return 'date[]';
     }
 
-    protected static function getPhpExceptionClass(): string
+    protected static function getPHPExceptionClass(): string
     {
         return InvalidDateArrayItemForPHPException::class;
     }
@@ -67,34 +67,34 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
 
     #[DataProvider('provideValidItemTransformationsToPHP')]
     #[Test]
-    public function can_transform_date_item_for_php(string $postgresValue, \DateTimeImmutable $expectedPhpValue): void
+    public function can_transform_date_item_for_php(string $postgresValue, \DateTimeImmutable $expectedValue): void
     {
         $result = $this->fixture->transformArrayItemForPHP($postgresValue);
         $this->assertInstanceOf(\DateTimeImmutable::class, $result);
-        $this->assertSame($expectedPhpValue->format('Y-m-d'), $result->format('Y-m-d'));
+        $this->assertSame($expectedValue->format('Y-m-d'), $result->format('Y-m-d'));
     }
 
     /**
-     * @return array<string, array{postgresValue: string, expectedPhpValue: \DateTimeImmutable}>
+     * @return array<string, array{postgresValue: string, expectedValue: \DateTimeImmutable}>
      */
     public static function provideValidItemTransformationsToPHP(): array
     {
         return [
             'standard date' => [
                 'postgresValue' => '2023-06-15',
-                'expectedPhpValue' => new \DateTimeImmutable('2023-06-15'),
+                'expectedValue' => new \DateTimeImmutable('2023-06-15'),
             ],
             'first day of year' => [
                 'postgresValue' => '2000-01-01',
-                'expectedPhpValue' => new \DateTimeImmutable('2000-01-01'),
+                'expectedValue' => new \DateTimeImmutable('2000-01-01'),
             ],
             'leap day' => [
                 'postgresValue' => '2024-02-29',
-                'expectedPhpValue' => new \DateTimeImmutable('2024-02-29'),
+                'expectedValue' => new \DateTimeImmutable('2024-02-29'),
             ],
             'last day of year' => [
                 'postgresValue' => '2023-12-31',
-                'expectedPhpValue' => new \DateTimeImmutable('2023-12-31'),
+                'expectedValue' => new \DateTimeImmutable('2023-12-31'),
             ],
         ];
     }

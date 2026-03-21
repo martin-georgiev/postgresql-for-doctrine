@@ -25,7 +25,7 @@ class TimestampArray extends BaseDateTimeArray
         return 'Y-m-d H:i:s.u';
     }
 
-    protected function getPhpFormats(): array
+    protected function getPHPFormats(): array
     {
         return ['Y-m-d H:i:s.u', 'Y-m-d H:i:s'];
     }
@@ -40,12 +40,12 @@ class TimestampArray extends BaseDateTimeArray
         throw InvalidTimestampArrayItemForDatabaseException::forInvalidType($item);
     }
 
-    protected function throwInvalidPhpTypeException(mixed $item): never
+    protected function throwInvalidPHPTypeException(mixed $item): never
     {
         throw InvalidTimestampArrayItemForPHPException::forInvalidType($item);
     }
 
-    protected function throwInvalidPhpFormatException(mixed $item): never
+    protected function throwInvalidPHPFormatException(mixed $item): never
     {
         throw InvalidTimestampArrayItemForPHPException::forInvalidFormat($item);
     }

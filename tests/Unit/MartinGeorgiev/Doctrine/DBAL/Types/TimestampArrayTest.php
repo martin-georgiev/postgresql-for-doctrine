@@ -23,7 +23,7 @@ class TimestampArrayTest extends BaseDateTimeArrayTestCase
         return 'timestamp[]';
     }
 
-    protected static function getPhpExceptionClass(): string
+    protected static function getPHPExceptionClass(): string
     {
         return InvalidTimestampArrayItemForPHPException::class;
     }

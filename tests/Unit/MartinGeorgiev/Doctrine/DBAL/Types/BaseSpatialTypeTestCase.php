@@ -197,7 +197,7 @@ abstract class BaseSpatialTypeTestCase extends TestCase
         );
     }
 
-    #[DataProvider('provideInvalidPhpValues')]
+    #[DataProvider('provideInvalidInputValues')]
     #[Test]
     public function throws_exception_for_invalid_php_value_when_converting_to_database_value(mixed $phpValue): void
     {
@@ -208,7 +208,7 @@ abstract class BaseSpatialTypeTestCase extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPhpValues(): array
+    public static function provideInvalidInputValues(): array
     {
         return [
             'random string' => ['foo'],
