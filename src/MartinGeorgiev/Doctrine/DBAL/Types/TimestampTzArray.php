@@ -12,7 +12,7 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 /**
  * Implementation of PostgreSQL TIMESTAMPTZ[] data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-datetime.html
+ * @see https://www.postgresql.org/docs/18/datatype-datetime.html
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

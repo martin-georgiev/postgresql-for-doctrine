@@ -45,6 +45,7 @@ $query = $em->createQuery('
   - Float arrays (`real[]`, `double precision[]`)
   - Text arrays (`text[]`)
   - Boolean arrays (`bool[]`)
+  - Date arrays (`date[]`, `timestamp[]`, `timestamptz[]`)
   - JSONB arrays (`jsonb[]`)
 - **JSON Types**
   - Native JSONB support

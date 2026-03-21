@@ -69,10 +69,11 @@ class DateArrayTypeTest extends ArrayTypeTestCase
             if ($expectedItem === null) {
                 $this->assertNull($actual[$index]);
             } else {
-                $this->assertInstanceOf(\DateTimeImmutable::class, $actual[$index]);
+                $actualItem = $actual[$index];
+                $this->assertInstanceOf(\DateTimeImmutable::class, $actualItem);
                 $this->assertSame(
                     $expectedItem->format('Y-m-d'),
-                    $actual[$index]->format('Y-m-d'),
+                    $actualItem->format('Y-m-d'),
                     \sprintf('Date mismatch at index %d for type %s', $index, $typeName)
                 );
             }
