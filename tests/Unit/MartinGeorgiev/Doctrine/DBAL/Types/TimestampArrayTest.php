@@ -4,58 +4,33 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\BaseDateTimeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 
-class TimestampArrayTest extends TestCase
+class TimestampArrayTest extends BaseDateTimeArrayTestCase
 {
-    /**
-     * @var AbstractPlatform&MockObject
-     */
-    private MockObject $platform;
-
-    private TimestampArray $fixture;
-
-    protected function setUp(): void
+    protected function createFixture(): BaseDateTimeArray
     {
-        $this->platform = $this->createMock(AbstractPlatform::class);
-        $this->fixture = new TimestampArray();
+        return new TimestampArray();
     }
 
-    #[Test]
-    public function has_name(): void
+    protected function getExpectedTypeName(): string
     {
-        $this->assertSame('timestamp[]', $this->fixture->getName());
+        return 'timestamp[]';
     }
 
-    #[Test]
-    public function can_convert_null_to_database_value(): void
+    protected static function getPhpExceptionClass(): string
     {
-        $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
+        return InvalidTimestampArrayItemForPHPException::class;
     }
 
-    #[Test]
-    public function can_convert_null_to_php_value(): void
+    protected static function getDatabaseExceptionClass(): string
     {
-        $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
-    }
-
-    #[Test]
-    public function can_convert_empty_array_to_database_value(): void
-    {
-        $this->assertSame('{}', $this->fixture->convertToDatabaseValue([], $this->platform));
-    }
-
-    #[Test]
-    public function can_convert_empty_postgres_array_to_php_value(): void
-    {
-        $this->assertSame([], $this->fixture->convertToPHPValue('{}', $this->platform));
+        return InvalidTimestampArrayItemForDatabaseException::class;
     }
 
     #[DataProvider('provideValidItemTransformationsToPostgres')]
@@ -144,92 +119,6 @@ class TimestampArrayTest extends TestCase
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45')));
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45')));
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
-    }
-
-    #[DataProvider('provideInvalidArrayItemsForDatabase')]
-    #[Test]
-    public function can_detect_invalid_array_item_for_database(mixed $value): void
-    {
-        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidArrayItemsForDatabase(): array
-    {
-        return [
-            'string' => ['2023-06-15 10:30:45'],
-            'integer' => [20230615],
-            'boolean' => [true],
-            'array' => [[]],
-            'object' => [new \stdClass()],
-        ];
-    }
-
-    #[Test]
-    public function throws_exception_for_non_array_input_to_database(): void
-    {
-        $this->expectException(InvalidTimestampArrayItemForPHPException::class);
-        $this->fixture->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
-    }
-
-    #[DataProvider('provideInvalidItemsForDatabase')]
-    #[Test]
-    public function throws_exception_for_invalid_item_in_database_array(mixed $item): void
-    {
-        $this->expectException(InvalidTimestampArrayItemForDatabaseException::class);
-        $this->fixture->convertToDatabaseValue([$item], $this->platform);
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidItemsForDatabase(): array
-    {
-        return [
-            'string timestamp' => ['2023-06-15 10:30:45'],
-            'integer' => [20230615],
-            'boolean' => [true],
-            'array' => [[]],
-            'object' => [new \stdClass()],
-        ];
-    }
-
-    #[Test]
-    public function can_return_null_for_null_item_in_transform_for_php(): void
-    {
-        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
-    }
-
-    #[DataProvider('provideInvalidTypeInputsForPHP')]
-    #[Test]
-    public function throws_exception_for_invalid_type_input_for_php(mixed $value): void
-    {
-        $this->expectException(InvalidTimestampArrayItemForPHPException::class);
-        $this->fixture->transformArrayItemForPHP($value);
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidTypeInputsForPHP(): array
-    {
-        return [
-            'integer' => [20230615],
-            'boolean' => [true],
-            'array' => [[]],
-            'object' => [new \stdClass()],
-        ];
-    }
-
-    #[DataProvider('provideInvalidFormatInputsForPHP')]
-    #[Test]
-    public function throws_exception_for_invalid_format_input_for_php(string $value): void
-    {
-        $this->expectException(InvalidTimestampArrayItemForPHPException::class);
-        $this->fixture->transformArrayItemForPHP($value);
     }
 
     /**

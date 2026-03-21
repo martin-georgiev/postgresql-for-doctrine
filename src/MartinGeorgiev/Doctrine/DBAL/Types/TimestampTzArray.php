@@ -7,7 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampTzArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampTzArrayItemForPHPException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL TIMESTAMPTZ[] data type.
@@ -17,55 +16,18 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class TimestampTzArray extends BaseArray
+class TimestampTzArray extends BaseDateTimeArray
 {
     protected const TYPE_NAME = Type::TIMESTAMPTZ_ARRAY;
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function getPostgresFormat(): string
     {
-        if ($item === null) {
-            return true;
-        }
-
-        return $item instanceof \DateTimeInterface;
+        return 'Y-m-d H:i:s.uP';
     }
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function getPhpFormats(): array
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        \assert($item instanceof \DateTimeInterface);
-
-        return '"'.$item->format('Y-m-d H:i:s.uP').'"';
-    }
-
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-    }
-
-    public function transformArrayItemForPHP(mixed $item): ?\DateTimeImmutable
-    {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidTimestampTzArrayItemForPHPException::forInvalidType($item);
-        }
-
-        $timestamp = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.uP', $item);
-        if ($timestamp === false) {
-            $timestamp = \DateTimeImmutable::createFromFormat('Y-m-d H:i:sP', $item);
-        }
-
-        if ($timestamp === false) {
-            throw InvalidTimestampTzArrayItemForPHPException::forInvalidFormat($item);
-        }
-
-        return $timestamp;
+        return ['Y-m-d H:i:s.uP', 'Y-m-d H:i:sP'];
     }
 
     protected function throwInvalidTypeException(mixed $value): never
@@ -76,5 +38,15 @@ class TimestampTzArray extends BaseArray
     protected function throwInvalidItemException(mixed $item): never
     {
         throw InvalidTimestampTzArrayItemForDatabaseException::forInvalidType($item);
+    }
+
+    protected function throwInvalidPhpTypeException(mixed $item): never
+    {
+        throw InvalidTimestampTzArrayItemForPHPException::forInvalidType($item);
+    }
+
+    protected function throwInvalidPhpFormatException(mixed $item): never
+    {
+        throw InvalidTimestampTzArrayItemForPHPException::forInvalidFormat($item);
     }
 }

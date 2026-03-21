@@ -7,7 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateArrayItemForPHPException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL DATE[] data type.
@@ -17,51 +16,23 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class DateArray extends BaseArray
+class DateArray extends BaseDateTimeArray
 {
     protected const TYPE_NAME = Type::DATE_ARRAY;
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function getPostgresFormat(): string
     {
-        if ($item === null) {
-            return true;
-        }
-
-        return $item instanceof \DateTimeInterface;
+        return 'Y-m-d';
     }
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function getPhpFormats(): array
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        \assert($item instanceof \DateTimeInterface);
-
-        return $item->format('Y-m-d');
+        return ['Y-m-d'];
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function transformParsedValueForPHP(\DateTimeImmutable $value): \DateTimeImmutable
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-    }
-
-    public function transformArrayItemForPHP(mixed $item): ?\DateTimeImmutable
-    {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidDateArrayItemForPHPException::forInvalidType($item);
-        }
-
-        $date = \DateTimeImmutable::createFromFormat('Y-m-d', $item);
-        if ($date === false) {
-            throw InvalidDateArrayItemForPHPException::forInvalidFormat($item);
-        }
-
-        return $date->setTime(0, 0, 0);
+        return $value->setTime(0, 0, 0);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
@@ -72,5 +43,15 @@ class DateArray extends BaseArray
     protected function throwInvalidItemException(mixed $item): never
     {
         throw InvalidDateArrayItemForDatabaseException::forInvalidType($item);
+    }
+
+    protected function throwInvalidPhpTypeException(mixed $item): never
+    {
+        throw InvalidDateArrayItemForPHPException::forInvalidType($item);
+    }
+
+    protected function throwInvalidPhpFormatException(mixed $item): never
+    {
+        throw InvalidDateArrayItemForPHPException::forInvalidFormat($item);
     }
 }
