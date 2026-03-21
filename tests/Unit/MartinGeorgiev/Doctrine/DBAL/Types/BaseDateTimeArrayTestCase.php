@@ -171,4 +171,16 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
             'empty string' => [''],
         ];
     }
+
+    /**
+     * Creates a mutable DateTime instance. Uses variable class instantiation
+     * to prevent the date_time_immutable cs-fixer rule from rewriting it.
+     */
+    protected static function createMutableDateTime(string $datetime): \DateTimeInterface
+    {
+        /** @var class-string<\DateTimeInterface> $class */
+        $class = 'DateTime';
+
+        return new $class($datetime);
+    }
 }

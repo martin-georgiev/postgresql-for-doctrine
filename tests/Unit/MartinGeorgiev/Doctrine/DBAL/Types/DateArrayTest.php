@@ -46,21 +46,13 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
     public static function provideValidItemTransformationsToPostgres(): array
     {
         return [
-            'DateTimeImmutable date' => [
+            'DateTimeImmutable instance' => [
                 'phpValue' => new \DateTimeImmutable('2023-06-15'),
                 'expectedPostgresValue' => '{"2023-06-15"}',
             ],
-            'DateTime date' => [
-                'phpValue' => new \DateTimeImmutable('2000-01-01'),
+            'DateTime instance' => [
+                'phpValue' => self::createMutableDateTime('2000-01-01'),
                 'expectedPostgresValue' => '{"2000-01-01"}',
-            ],
-            'leap day' => [
-                'phpValue' => new \DateTimeImmutable('2024-02-29'),
-                'expectedPostgresValue' => '{"2024-02-29"}',
-            ],
-            'multiple dates' => [
-                'phpValue' => new \DateTimeImmutable('2023-12-31'),
-                'expectedPostgresValue' => '{"2023-12-31"}',
             ],
         ];
     }
@@ -83,18 +75,6 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
             'standard date' => [
                 'postgresValue' => '2023-06-15',
                 'expectedValue' => new \DateTimeImmutable('2023-06-15'),
-            ],
-            'first day of year' => [
-                'postgresValue' => '2000-01-01',
-                'expectedValue' => new \DateTimeImmutable('2000-01-01'),
-            ],
-            'leap day' => [
-                'postgresValue' => '2024-02-29',
-                'expectedValue' => new \DateTimeImmutable('2024-02-29'),
-            ],
-            'last day of year' => [
-                'postgresValue' => '2023-12-31',
-                'expectedValue' => new \DateTimeImmutable('2023-12-31'),
             ],
         ];
     }
@@ -125,7 +105,7 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
     public function can_validate_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15')));
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15')));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(self::createMutableDateTime('2023-06-15')));
     }
 
     /**

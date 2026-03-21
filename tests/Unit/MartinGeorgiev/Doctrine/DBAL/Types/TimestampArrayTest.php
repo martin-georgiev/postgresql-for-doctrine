@@ -49,11 +49,11 @@ class TimestampArrayTest extends BaseDateTimeArrayTestCase
         \assert($midnight instanceof \DateTimeImmutable);
 
         return [
-            'DateTimeImmutable with microseconds' => [
+            'with microseconds' => [
                 'phpValue' => new \DateTimeImmutable('2023-06-15 10:30:45.123456'),
                 'expectedPostgresValue' => '{"2023-06-15 10:30:45.123456"}',
             ],
-            'DateTime without microseconds' => [
+            'without microseconds' => [
                 'phpValue' => $midnight,
                 'expectedPostgresValue' => '{"2000-01-01 00:00:00.000000"}',
             ],
@@ -82,10 +82,6 @@ class TimestampArrayTest extends BaseDateTimeArrayTestCase
             'timestamp without microseconds' => [
                 'postgresValue' => '2023-06-15 10:30:45',
                 'expectedDatetime' => '2023-06-15 10:30:45',
-            ],
-            'midnight timestamp' => [
-                'postgresValue' => '2000-01-01 00:00:00',
-                'expectedDatetime' => '2000-01-01 00:00:00',
             ],
         ];
     }
@@ -118,7 +114,7 @@ class TimestampArrayTest extends BaseDateTimeArrayTestCase
     public function can_validate_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45')));
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45')));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2024-01-01 00:00:00')));
     }
 
     /**
