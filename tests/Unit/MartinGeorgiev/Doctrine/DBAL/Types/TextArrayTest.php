@@ -109,18 +109,18 @@ class TextArrayTest extends TestCase
     public function can_transform_unquoted_postgres_array_to_php(): void
     {
         $postgresValue = '{STRING_A,STRING_B,STRING_C,STRING_D}';
-        $expectedPhpValue = ['STRING_A', 'STRING_B', 'STRING_C', 'STRING_D'];
+        $expectedValue = ['STRING_A', 'STRING_B', 'STRING_C', 'STRING_D'];
 
-        $this->assertSame($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($expectedValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     #[Test]
     public function can_handle_backslashes_correctly(): void
     {
         $postgresValue = '{"simple\\\backslash"}';
-        $expectedPhpValue = ['simple\backslash'];
+        $expectedValue = ['simple\backslash'];
 
-        $this->assertSame($expectedPhpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame($expectedValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     #[DataProvider('provideGithubIssue424TestCases')]

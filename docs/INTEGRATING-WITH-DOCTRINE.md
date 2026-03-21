@@ -21,6 +21,13 @@ Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
 
+// Datetime array types
+Type::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
+Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
+Type::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
+Type::addType('timestamp[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampArray");
+Type::addType('timestamptz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTzArray");
+
 // JSON types
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
 Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
@@ -64,10 +71,6 @@ Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
 Type::addType('tsquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsqueryArray");
 Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
 Type::addType('tsvector[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsvectorArray");
-
-// Interval types
-Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
-Type::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
 
 // Monetary types
 Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
@@ -321,6 +324,17 @@ $platform->registerDoctrineTypeMapping('_text', 'text[]');
 $platform->registerDoctrineTypeMapping('uuid[]', 'uuid[]');
 $platform->registerDoctrineTypeMapping('_uuid', 'uuid[]');
 
+// Datetime array type mappings
+$platform->registerDoctrineTypeMapping('date[]', 'date[]');
+$platform->registerDoctrineTypeMapping('_date', 'date[]');
+$platform->registerDoctrineTypeMapping('interval', 'interval');
+$platform->registerDoctrineTypeMapping('interval[]', 'interval[]');
+$platform->registerDoctrineTypeMapping('_interval', 'interval[]');
+$platform->registerDoctrineTypeMapping('timestamp[]', 'timestamp[]');
+$platform->registerDoctrineTypeMapping('_timestamp', 'timestamp[]');
+$platform->registerDoctrineTypeMapping('timestamptz[]', 'timestamptz[]');
+$platform->registerDoctrineTypeMapping('_timestamptz', 'timestamptz[]');
+
 // JSON type mappings
 $platform->registerDoctrineTypeMapping('jsonb', 'jsonb');
 $platform->registerDoctrineTypeMapping('jsonb[]', 'jsonb[]');
@@ -374,11 +388,6 @@ $platform->registerDoctrineTypeMapping('_tsquery', 'tsquery[]');
 $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
 $platform->registerDoctrineTypeMapping('tsvector[]', 'tsvector[]');
 $platform->registerDoctrineTypeMapping('_tsvector', 'tsvector[]');
-
-// Interval type mappings
-$platform->registerDoctrineTypeMapping('interval', 'interval');
-$platform->registerDoctrineTypeMapping('interval[]', 'interval[]');
-$platform->registerDoctrineTypeMapping('_interval', 'interval[]');
 
 // Monetary type mappings
 $platform->registerDoctrineTypeMapping('money', 'money');

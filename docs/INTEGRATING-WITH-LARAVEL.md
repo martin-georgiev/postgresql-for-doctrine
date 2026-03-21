@@ -50,6 +50,17 @@ return [
                 'uuid[]' => 'uuid[]',
                 '_uuid' => 'uuid[]',
 
+                // Datetime array type mappings
+                'date[]' => 'date[]',
+                '_date' => 'date[]',
+                'interval' => 'interval',
+                'interval[]' => 'interval[]',
+                '_interval' => 'interval[]',
+                'timestamp[]' => 'timestamp[]',
+                '_timestamp' => 'timestamp[]',
+                'timestamptz[]' => 'timestamptz[]',
+                '_timestamptz' => 'timestamptz[]',
+
                 // JSON type mappings
                 'jsonb' => 'jsonb',
                 '_jsonb' => 'jsonb[]',
@@ -104,11 +115,6 @@ return [
                 'tsvector[]' => 'tsvector[]',
                 '_tsvector' => 'tsvector[]',
 
-                // Interval type mappings
-                'interval' => 'interval',
-                'interval[]' => 'interval[]',
-                '_interval' => 'interval[]',
-
                 // Monetary type mappings
                 'money' => 'money',
                 'money[]' => 'money[]',
@@ -142,6 +148,13 @@ return [
         'real[]' => MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class,
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
+
+        // Datetime array types
+        'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
+        'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
+        'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
+        'timestamp[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray::class,
+        'timestamptz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray::class,
 
         // JSON types
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
@@ -186,10 +199,6 @@ return [
         'tsquery[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray::class,
         'tsvector' => MartinGeorgiev\Doctrine\DBAL\Types\Tsvector::class,
         'tsvector[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray::class,
-
-        // Interval types
-        'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
-        'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
 
         // Monetary types
         'money' => MartinGeorgiev\Doctrine\DBAL\Types\Money::class,

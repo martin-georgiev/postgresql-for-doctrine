@@ -21,6 +21,13 @@ doctrine:
             'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             'uuid[]': MartinGeorgiev\Doctrine\DBAL\Types\UuidArray
 
+            # Datetime array types
+            'date[]': MartinGeorgiev\Doctrine\DBAL\Types\DateArray
+            interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
+            'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
+            'timestamp[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray
+            'timestamptz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray
+
             # JSON types
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
             'jsonb[]': MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
@@ -64,10 +71,6 @@ doctrine:
             'tsquery[]': MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray
             tsvector: MartinGeorgiev\Doctrine\DBAL\Types\Tsvector
             'tsvector[]': MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray
-
-            # Interval types
-            interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
-            'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
 
             # Monetary types
             money: MartinGeorgiev\Doctrine\DBAL\Types\Money
@@ -116,6 +119,17 @@ doctrine:
                     _text: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
                     'uuid[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
                     _uuid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
+
+                    # Datetime array type mappings
+                    'date[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY
+                    _date: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY
+                    interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
+                    'interval[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
+                    _interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
+                    'timestamp[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
+                    _timestamp: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
+                    'timestamptz[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
+                    _timestamptz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
 
                     # JSON type mappings
                     jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB
@@ -170,11 +184,6 @@ doctrine:
                     tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR
                     'tsvector[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR_ARRAY
                     _tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR_ARRAY
-
-                    # Interval type mappings
-                    interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
-                    'interval[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
-                    _interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
 
                     # Monetary type mappings
                     money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY

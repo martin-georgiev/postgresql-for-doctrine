@@ -9,6 +9,12 @@
 | real[] | _float4 | `MartinGeorgiev\Doctrine\DBAL\Types\RealArray` |
 | double precision[] | _float8 | `MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray` |
 |---|---|---|
+| date[] | _date | `MartinGeorgiev\Doctrine\DBAL\Types\DateArray` |
+| interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
+| interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
+| timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` |
+| timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` |
+|---|---|---|
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
 | text[] | _text | `MartinGeorgiev\Doctrine\DBAL\Types\TextArray` |
@@ -48,9 +54,6 @@
 | geometry[] | _geometry | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
 | point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
 | point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
-|---|---|---|
-| interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
-| interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 | ltree[] | _ltree | `MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray` |

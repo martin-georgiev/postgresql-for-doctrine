@@ -17,6 +17,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
 use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\DateArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
@@ -50,6 +51,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsquery;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray;
@@ -243,6 +246,7 @@ abstract class TestCase extends BaseTestCase
             'bool[]' => BooleanArray::class,
             'cidr' => Cidr::class,
             'cidr[]' => CidrArray::class,
+            'date[]' => DateArray::class,
             'daterange' => DateRange::class,
             'datemultirange' => DateMultirange::class,
             'double precision[]' => DoublePrecisionArray::class,
@@ -276,6 +280,8 @@ abstract class TestCase extends BaseTestCase
             'real[]' => RealArray::class,
             'smallint[]' => SmallIntArray::class,
             'text[]' => TextArray::class,
+            'timestamp[]' => TimestampArray::class,
+            'timestamptz[]' => TimestampTzArray::class,
             'tsmultirange' => TsMultirange::class,
             'tsquery' => Tsquery::class,
             'tsquery[]' => TsqueryArray::class,

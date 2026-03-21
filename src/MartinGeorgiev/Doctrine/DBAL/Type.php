@@ -14,9 +14,11 @@ final class Type
 
     public const CIDR_ARRAY = 'cidr[]';
 
-    public const DATERANGE = 'daterange';
+    public const DATE_ARRAY = 'date[]';
 
     public const DATEMULTIRANGE = 'datemultirange';
+
+    public const DATERANGE = 'daterange';
 
     public const DOUBLE_PRECISION_ARRAY = 'double precision[]';
 
@@ -83,6 +85,10 @@ final class Type
     public const SPARSEVEC = 'sparsevec';
 
     public const TEXT_ARRAY = 'text[]';
+
+    public const TIMESTAMP_ARRAY = 'timestamp[]';
+
+    public const TIMESTAMPTZ_ARRAY = 'timestamptz[]';
 
     public const TSQUERY = 'tsquery';
 

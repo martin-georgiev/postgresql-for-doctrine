@@ -13,7 +13,7 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 /**
  * Implementation of PostgreSQL INTERVAL[] data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
+ * @see https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

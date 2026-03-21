@@ -150,16 +150,16 @@ final class GeographyArrayTest extends TestCase
 
     #[DataProvider('provideValidPostgresArraysForPHP')]
     #[Test]
-    public function can_convert_valid_postgres_arrays_to_php_value(string $postgresArray, array $expectedPhpArray): void
+    public function can_convert_valid_postgres_arrays_to_php_value(string $postgresArray, array $expectedPHPArray): void
     {
         $result = $this->type->convertToPHPValue($postgresArray, $this->platform);
 
         $this->assertIsArray($result);
-        $this->assertCount(\count($expectedPhpArray), $result);
+        $this->assertCount(\count($expectedPHPArray), $result);
 
         foreach ($result as $index => $item) {
             $this->assertInstanceOf(WktSpatialData::class, $item);
-            $this->assertSame($expectedPhpArray[$index], (string) $item);
+            $this->assertSame($expectedPHPArray[$index], (string) $item);
         }
     }
 
