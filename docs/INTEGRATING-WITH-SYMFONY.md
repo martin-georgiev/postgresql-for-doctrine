@@ -1,6 +1,6 @@
-## Integration with Symfony
+# Integration with Symfony
 
-This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle. For older Symfony versions, please refer to previous documentation versions.
+This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle.
 
 ### Register DBAL Types
 
@@ -20,6 +20,13 @@ doctrine:
             'real[]': MartinGeorgiev\Doctrine\DBAL\Types\RealArray
             'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             'uuid[]': MartinGeorgiev\Doctrine\DBAL\Types\UuidArray
+
+            # Datetime array types
+            'date[]': MartinGeorgiev\Doctrine\DBAL\Types\DateArray
+            interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
+            'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
+            'timestamp[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray
+            'timestamptz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray
 
             # JSON types
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
@@ -61,12 +68,25 @@ doctrine:
 
             # Text search types
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
+            'tsquery[]': MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray
             tsvector: MartinGeorgiev\Doctrine\DBAL\Types\Tsvector
+            'tsvector[]': MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray
+
+            # Monetary types
+            money: MartinGeorgiev\Doctrine\DBAL\Types\Money
+            'money[]': MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray
 
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
+            'ltree[]': MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray
+
+            # XML types
+            xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
+            'xml[]': MartinGeorgiev\Doctrine\DBAL\Types\XmlArray
 
             # Vector types
+            halfvec: MartinGeorgiev\Doctrine\DBAL\Types\Halfvec
+            sparsevec: MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec
             vector: MartinGeorgiev\Doctrine\DBAL\Types\Vector
 ```
 
@@ -99,6 +119,17 @@ doctrine:
                     _text: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
                     'uuid[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
                     _uuid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
+
+                    # Datetime array type mappings
+                    'date[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY
+                    _date: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY
+                    interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
+                    'interval[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
+                    _interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
+                    'timestamp[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
+                    _timestamp: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
+                    'timestamptz[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
+                    _timestamptz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
 
                     # JSON type mappings
                     jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB
@@ -148,12 +179,30 @@ doctrine:
 
                     # Text search type mappings
                     tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY
+                    'tsquery[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY_ARRAY
+                    _tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY_ARRAY
                     tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR
+                    'tsvector[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR_ARRAY
+                    _tsvector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSVECTOR_ARRAY
+
+                    # Monetary type mappings
+                    money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY
+                    'money[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY_ARRAY
+                    _money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY_ARRAY
 
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
+                    'ltree[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
+                    _ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
+
+                    # XML type mappings
+                    xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
+                    'xml[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML_ARRAY
+                    _xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML_ARRAY
 
                     # Vector type mappings
+                    halfvec: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HALFVEC
+                    sparsevec: !php/const MartinGeorgiev\Doctrine\DBAL\Type::SPARSEVEC
                     vector: !php/const MartinGeorgiev\Doctrine\DBAL\Type::VECTOR
 ```
 
@@ -365,6 +414,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -397,63 +447,17 @@ class Product
     #[ORM\Column(type: Type::INET)]
     private string $originServerIp;
 
+    #[ORM\Column(type: Type::INTERVAL)]
+    private Interval $duration;
+
+    #[ORM\Column(type: Type::MONEY)]
+    private string $price;
+
     #[ORM\Column(type: Type::LTREE)]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: Type::XML)]
+    private string $configXml;
 }
 ```
 
-### Environment-Specific Configuration
-
-For different environments, you can override configuration in environment-specific files:
-
-```yaml
-# config/packages/dev/doctrine.yaml
-doctrine:
-    dbal:
-        logging: true
-        profiling: true
-    orm:
-        auto_generate_proxy_classes: true
-
-# config/packages/prod/doctrine.yaml
-doctrine:
-    orm:
-        auto_generate_proxy_classes: false
-        metadata_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        query_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        result_cache_driver:
-            type: pool
-            pool: doctrine.result_cache_pool
-```
-
-### Service Container Integration
-
-If you need to register types programmatically (e.g., in a bundle), you can do so in a service:
-
-```php
-<?php
-
-namespace App\Service;
-
-use Doctrine\DBAL\Types\Type;
-use MartinGeorgiev\Doctrine\DBAL\Type;
-use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
-use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
-
-#[Autoconfigure(lazy: true)]
-class DoctrineTypeRegistrar
-{
-    public function registerTypes(): void
-    {
-        if (!Type::hasType(Type::JSONB)) {
-            Type::addType(Type::JSONB, Jsonb::class);
-        }
-
-        // Register other types as needed...
-    }
-}
-```

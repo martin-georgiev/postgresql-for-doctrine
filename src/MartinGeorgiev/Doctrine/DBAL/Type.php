@@ -16,9 +16,11 @@ final class Type
 
     public const CIDR_ARRAY = 'cidr[]';
 
-    public const DATERANGE = 'daterange';
+    public const DATE_ARRAY = 'date[]';
 
     public const DATEMULTIRANGE = 'datemultirange';
+
+    public const DATERANGE = 'daterange';
 
     public const DOUBLE_PRECISION_ARRAY = 'double precision[]';
 
@@ -29,6 +31,8 @@ final class Type
     public const GEOMETRY = 'geometry';
 
     public const GEOMETRY_ARRAY = 'geometry[]';
+
+    public const HALFVEC = 'halfvec';
 
     public const INET = 'inet';
 
@@ -44,11 +48,17 @@ final class Type
 
     public const INTEGER_ARRAY = 'integer[]';
 
+    public const INTERVAL = 'interval';
+
+    public const INTERVAL_ARRAY = 'interval[]';
+
     public const JSONB = 'jsonb';
 
     public const JSONB_ARRAY = 'jsonb[]';
 
     public const LTREE = 'ltree';
+
+    public const LTREE_ARRAY = 'ltree[]';
 
     public const MACADDR = 'macaddr';
 
@@ -57,6 +67,10 @@ final class Type
     public const MACADDR8_ARRAY = 'macaddr8[]';
 
     public const MACADDR_ARRAY = 'macaddr[]';
+
+    public const MONEY = 'money';
+
+    public const MONEY_ARRAY = 'money[]';
 
     public const NUMMULTIRANGE = 'nummultirange';
 
@@ -70,15 +84,25 @@ final class Type
 
     public const SMALLINT_ARRAY = 'smallint[]';
 
+    public const SPARSEVEC = 'sparsevec';
+
     public const TEXT_ARRAY = 'text[]';
 
+    public const TIMESTAMP_ARRAY = 'timestamp[]';
+
+    public const TIMESTAMPTZ_ARRAY = 'timestamptz[]';
+
     public const TSQUERY = 'tsquery';
+
+    public const TSQUERY_ARRAY = 'tsquery[]';
 
     public const TSRANGE = 'tsrange';
 
     public const TSMULTIRANGE = 'tsmultirange';
 
     public const TSVECTOR = 'tsvector';
+
+    public const TSVECTOR_ARRAY = 'tsvector[]';
 
     public const TSTZRANGE = 'tstzrange';
 
@@ -87,6 +111,10 @@ final class Type
     public const UUID_ARRAY = 'uuid[]';
 
     public const VECTOR = 'vector';
+
+    public const XML = 'xml';
+
+    public const XML_ARRAY = 'xml[]';
 
     private function __construct()
     {

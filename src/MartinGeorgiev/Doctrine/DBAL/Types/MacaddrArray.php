@@ -6,6 +6,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\MacaddrValidationTrait;
 
 /**
  * Implementation of PostgreSQL MACADDR[] data type.
@@ -17,18 +18,13 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPE
  */
 class MacaddrArray extends BaseNetworkTypeArray
 {
+    use MacaddrValidationTrait;
+
     protected const TYPE_NAME = Type::MACADDR_ARRAY;
 
     protected function isValidNetworkAddress(string $value): bool
     {
-        // Check if it's using colons consistently
-        if (\preg_match('/^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/', $value)) {
-            return true;
-        }
-
-        // Check if it's using hyphens consistently
-        // PostgreSQL requires MAC addresses to have separators
-        return (bool) \preg_match('/^([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}$/', $value);
+        return $this->isValidMacAddress($value);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

@@ -1,4 +1,4 @@
-## Integration with Doctrine
+# Integration with Doctrine
 
 This guide covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For older versions, please refer to previous documentation versions.
 
@@ -20,6 +20,13 @@ Type::addType('double precision[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Doub
 Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
+
+// Datetime array types
+Type::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
+Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
+Type::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
+Type::addType('timestamp[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampArray");
+Type::addType('timestamptz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTzArray");
 
 // JSON types
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
@@ -61,12 +68,25 @@ Type::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMult
 
 // Text search types
 Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
+Type::addType('tsquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsqueryArray");
 Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
+Type::addType('tsvector[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsvectorArray");
+
+// Monetary types
+Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
+Type::addType('money[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MoneyArray");
 
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
+Type::addType('ltree[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtreeArray");
+
+// XML types
+Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
+Type::addType('xml[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\XmlArray");
 
 // Vector types
+Type::addType('halfvec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Halfvec");
+Type::addType('sparsevec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Sparsevec");
 Type::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
 ```
 
@@ -83,9 +103,14 @@ Register the functions you'll use in your DQL queries. The full set of available
 ```php
 <?php
 
-use Doctrine\ORM\Configuration;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
 
-$configuration = new Configuration();
+$configuration = ORMSetup::createAttributeMetadataConfiguration(
+    paths: [__DIR__ . '/src'],
+    isDevMode: true,
+);
 
 # alternative implementation of ALL() and ANY() where subquery is not required, useful for arrays
 $configuration->addCustomStringFunction('ALL_OF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All::class);
@@ -264,7 +289,12 @@ $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Q
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
 $configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class);
 
-$em = EntityManager::create($dbParams, $configuration);
+$connection = DriverManager::getConnection([
+    'driver' => 'pdo_pgsql',
+    // ... your connection parameters
+], $configuration);
+
+$em = new EntityManager($connection, $configuration);
 ```
 
 ### Register Platform Type Mappings
@@ -293,6 +323,17 @@ $platform->registerDoctrineTypeMapping('text[]', 'text[]');
 $platform->registerDoctrineTypeMapping('_text', 'text[]');
 $platform->registerDoctrineTypeMapping('uuid[]', 'uuid[]');
 $platform->registerDoctrineTypeMapping('_uuid', 'uuid[]');
+
+// Datetime array type mappings
+$platform->registerDoctrineTypeMapping('date[]', 'date[]');
+$platform->registerDoctrineTypeMapping('_date', 'date[]');
+$platform->registerDoctrineTypeMapping('interval', 'interval');
+$platform->registerDoctrineTypeMapping('interval[]', 'interval[]');
+$platform->registerDoctrineTypeMapping('_interval', 'interval[]');
+$platform->registerDoctrineTypeMapping('timestamp[]', 'timestamp[]');
+$platform->registerDoctrineTypeMapping('_timestamp', 'timestamp[]');
+$platform->registerDoctrineTypeMapping('timestamptz[]', 'timestamptz[]');
+$platform->registerDoctrineTypeMapping('_timestamptz', 'timestamptz[]');
 
 // JSON type mappings
 $platform->registerDoctrineTypeMapping('jsonb', 'jsonb');
@@ -342,12 +383,30 @@ $platform->registerDoctrineTypeMapping('tstzmultirange', 'tstzmultirange');
 
 // Text search type mappings
 $platform->registerDoctrineTypeMapping('tsquery', 'tsquery');
+$platform->registerDoctrineTypeMapping('tsquery[]', 'tsquery[]');
+$platform->registerDoctrineTypeMapping('_tsquery', 'tsquery[]');
 $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
+$platform->registerDoctrineTypeMapping('tsvector[]', 'tsvector[]');
+$platform->registerDoctrineTypeMapping('_tsvector', 'tsvector[]');
+
+// Monetary type mappings
+$platform->registerDoctrineTypeMapping('money', 'money');
+$platform->registerDoctrineTypeMapping('money[]', 'money[]');
+$platform->registerDoctrineTypeMapping('_money', 'money[]');
 
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');
+$platform->registerDoctrineTypeMapping('ltree[]', 'ltree[]');
+$platform->registerDoctrineTypeMapping('_ltree', 'ltree[]');
+
+// XML mappings
+$platform->registerDoctrineTypeMapping('xml', 'xml');
+$platform->registerDoctrineTypeMapping('xml[]', 'xml[]');
+$platform->registerDoctrineTypeMapping('_xml', 'xml[]');
 
 // Vector mappings
+$platform->registerDoctrineTypeMapping('halfvec', 'halfvec');
+$platform->registerDoctrineTypeMapping('sparsevec', 'sparsevec');
 $platform->registerDoctrineTypeMapping('vector', 'vector');
 ```
 
@@ -360,6 +419,7 @@ Once types are registered, you can use them in your Doctrine entities:
 
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -389,7 +449,16 @@ class MyEntity
     #[ORM\Column(type: 'inet')]
     private string $ipAddress;
 
+    #[ORM\Column(type: 'interval')]
+    private Interval $duration;
+
+    #[ORM\Column(type: 'money')]
+    private string $price;
+
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: 'xml')]
+    private string $configXml;
 }
 ```

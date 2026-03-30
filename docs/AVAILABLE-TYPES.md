@@ -1,4 +1,4 @@
-# Available types
+# Available Types
 
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
 |---|---|---|
@@ -8,6 +8,12 @@
 | bigint[] | _int8 | `MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray` |
 | real[] | _float4 | `MartinGeorgiev\Doctrine\DBAL\Types\RealArray` |
 | double precision[] | _float8 | `MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray` |
+|---|---|---|
+| date[] | _date | `MartinGeorgiev\Doctrine\DBAL\Types\DateArray` |
+| interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
+| interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
+| timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` |
+| timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` |
 |---|---|---|
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
@@ -24,7 +30,9 @@
 | macaddr8[] | _macaddr8 | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array` |
 |---|---|---|
 | tsquery | tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\Tsquery` |
+| tsquery[] | _tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray` |
 | tsvector | tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\Tsvector` |
+| tsvector[] | _tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray` |
 |---|---|---|
 | daterange | daterange | `MartinGeorgiev\Doctrine\DBAL\Types\DateRange` |
 | int4range | int4range | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Range` |
@@ -48,7 +56,16 @@
 | point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
+| ltree[] | _ltree | `MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray` |
 |---|---|---|
+| money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
+| money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |
+|---|---|---|
+| xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
+| xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
+|---|---|---|
+| halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` |
+| sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` |
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` |
 
 ---
@@ -72,3 +89,31 @@ $uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuid
 use Symfony\Component\Uid\Uuid;
 $uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuidArray());
 ```
+
+---
+
+## Money Type
+
+The `money` type maps PostgreSQL's [`money`](https://www.postgresql.org/docs/18/datatype-money.html) data type and returns locale-formatted strings (e.g. `$1,234.56`). PostgreSQL formats money values according to the server's `lc_monetary` locale setting, so the exact output format depends on your database configuration.
+
+**Important considerations:**
+
+- PostgreSQL's `money` type does **not** store currency information — the currency symbol is purely a formatting artifact of the server locale
+- If you need multi-currency support, consider using `numeric` with application-level currency handling instead
+- Values written to the database must contain at least one digit; full format validation is deferred to PostgreSQL
+
+If you need rich money objects for arithmetic or multi-currency support, you can convert the string after retrieval:
+
+```php
+// With moneyphp/money (requires parsing the locale-formatted string)
+use Money\Money;
+use Money\Currency;
+$amount = (int) round((float) preg_replace('/[^0-9.\-]/', '', $entity->getPrice()) * 100);
+$money = new Money($amount, new Currency('USD'));
+
+// With brick/money
+use Brick\Money\Money;
+$money = Money::of(preg_replace('/[^0-9.\-]/', '', $entity->getPrice()), 'USD');
+```
+
+Note that both examples above assume USD — you must know the currency independently since PostgreSQL does not store it.

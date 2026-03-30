@@ -16,11 +16,6 @@ final class GeographyArray extends SpatialDataArray
 {
     protected const TYPE_NAME = Type::GEOGRAPHY_ARRAY;
 
-    protected function transformArrayItemForPostgres(mixed $item): string
-    {
-        return (string) $this->getValidatedArrayItem($item);
-    }
-
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeographyForPHPException
     {
         return InvalidGeographyForPHPException::forInvalidType($item);
