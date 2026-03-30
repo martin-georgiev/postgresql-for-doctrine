@@ -14,11 +14,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleExcep
 /**
  * Implementation of PostgreSQL CIRCLE data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-CIRCLE
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-CIRCLE
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Circle extends BaseType
+final class Circle extends BaseType
 {
     protected const TYPE_NAME = Type::CIRCLE;
 

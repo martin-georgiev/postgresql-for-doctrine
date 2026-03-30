@@ -14,11 +14,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Lseg as LsegValueObject;
 /**
  * Implementation of PostgreSQL LSEG data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-LSEG
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-LSEG
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Lseg extends BaseType
+final class Lseg extends BaseType
 {
     protected const TYPE_NAME = Type::LSEG;
 

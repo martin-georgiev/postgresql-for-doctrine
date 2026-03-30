@@ -14,11 +14,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Line as LineValueObject;
 /**
  * Implementation of PostgreSQL LINE data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-LINE
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-LINE
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Line extends BaseType
+final class Line extends BaseType
 {
     protected const TYPE_NAME = Type::LINE;
 

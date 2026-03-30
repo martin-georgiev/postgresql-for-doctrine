@@ -14,11 +14,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Polygon as PolygonValueObject
 /**
  * Implementation of PostgreSQL POLYGON data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-POLYGON
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-POLYGON
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Polygon extends BaseType
+final class Polygon extends BaseType
 {
     protected const TYPE_NAME = Type::POLYGON;
 

@@ -7,7 +7,9 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * @since 4.4
+ * @since 4.5
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 class InvalidLsegForPHPException extends ConversionException
 {
@@ -18,6 +20,6 @@ class InvalidLsegForPHPException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Value must be a lseg, %s given', $value);
+        return self::create('Value must be an lseg, %s given', $value);
     }
 }

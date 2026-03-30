@@ -11,9 +11,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLsegExcepti
  *
  * Format: [(x1,y1),(x2,y2)] — finite line segment defined by two endpoints.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-LSEG
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-LSEG
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final readonly class Lseg implements \Stringable
 {
@@ -34,6 +35,6 @@ final readonly class Lseg implements \Stringable
 
     public static function fromString(string $value): static
     {
-        return new static($value);
+        return new self($value);
     }
 }

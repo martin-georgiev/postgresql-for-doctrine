@@ -14,11 +14,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidBoxExceptio
 /**
  * Implementation of PostgreSQL BOX data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Box extends BaseType
+final class Box extends BaseType
 {
     protected const TYPE_NAME = Type::BOX;
 

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
 /**
  * Exception thrown when creating or manipulating Lseg value objects with invalid data.
  *
- * @since 4.4
+ * @since 4.5
  */
 final class InvalidLsegException extends \InvalidArgumentException
 {

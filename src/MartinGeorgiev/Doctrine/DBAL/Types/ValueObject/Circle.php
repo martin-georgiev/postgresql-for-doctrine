@@ -11,9 +11,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleExcep
  *
  * Format: <(x,y),r> — center point and radius.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-CIRCLE
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-CIRCLE
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final readonly class Circle implements \Stringable
 {
@@ -34,6 +35,6 @@ final readonly class Circle implements \Stringable
 
     public static function fromString(string $value): static
     {
-        return new static($value);
+        return new self($value);
     }
 }

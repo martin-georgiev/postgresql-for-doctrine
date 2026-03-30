@@ -11,9 +11,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLineExcepti
  *
  * Format: {A,B,C} — infinite line defined by equation Ax + By + C = 0.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-LINE
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-LINE
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final readonly class Line implements \Stringable
 {
@@ -34,6 +35,6 @@ final readonly class Line implements \Stringable
 
     public static function fromString(string $value): static
     {
-        return new static($value);
+        return new self($value);
     }
 }

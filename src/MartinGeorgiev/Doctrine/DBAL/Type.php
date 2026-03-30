@@ -6,15 +6,17 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
-
-    public const  BOX = 'box' CIRCLE='circle' LINE='line' LSEG='lseg' PATH='path' POLYGON='polygon';
     public const BIGINT_ARRAY = 'bigint[]';
 
     public const BOOL_ARRAY = 'bool[]';
 
+    public const BOX = 'box';
+
     public const CIDR = 'cidr';
 
     public const CIDR_ARRAY = 'cidr[]';
+
+    public const CIRCLE = 'circle';
 
     public const DATE_ARRAY = 'date[]';
 
@@ -56,6 +58,10 @@ final class Type
 
     public const JSONB_ARRAY = 'jsonb[]';
 
+    public const LINE = 'line';
+
+    public const LSEG = 'lseg';
+
     public const LTREE = 'ltree';
 
     public const LTREE_ARRAY = 'ltree[]';
@@ -76,9 +82,13 @@ final class Type
 
     public const NUMRANGE = 'numrange';
 
+    public const PATH = 'path';
+
     public const POINT = 'point';
 
     public const POINT_ARRAY = 'point[]';
+
+    public const POLYGON = 'polygon';
 
     public const REAL_ARRAY = 'real[]';
 

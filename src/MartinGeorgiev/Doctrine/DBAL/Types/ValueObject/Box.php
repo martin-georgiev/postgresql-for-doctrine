@@ -11,9 +11,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidBoxExceptio
  *
  * Format: (x1,y1),(x2,y2) — upper-right and lower-left corners.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final readonly class Box implements \Stringable
 {
@@ -34,6 +35,6 @@ final readonly class Box implements \Stringable
 
     public static function fromString(string $value): static
     {
-        return new static($value);
+        return new self($value);
     }
 }

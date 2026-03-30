@@ -7,7 +7,9 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * @since 4.4
+ * @since 4.5
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 class InvalidPathForPHPException extends ConversionException
 {

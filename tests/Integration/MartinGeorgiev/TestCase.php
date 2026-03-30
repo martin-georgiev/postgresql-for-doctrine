@@ -15,8 +15,10 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Box;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
 use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Circle;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
@@ -36,6 +38,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Line;
+use MartinGeorgiev\Doctrine\DBAL\Types\Lseg;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
@@ -46,8 +50,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Money;
 use MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\Path;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Polygon;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
@@ -244,7 +250,9 @@ abstract class TestCase extends BaseTestCase
         $typesMap = [
             'bigint[]' => BigIntArray::class,
             'bool[]' => BooleanArray::class,
+            'box' => Box::class,
             'cidr' => Cidr::class,
+            'circle' => Circle::class,
             'cidr[]' => CidrArray::class,
             'date[]' => DateArray::class,
             'daterange' => DateRange::class,
@@ -263,6 +271,8 @@ abstract class TestCase extends BaseTestCase
             'interval[]' => IntervalArray::class,
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
+            'line' => Line::class,
+            'lseg' => Lseg::class,
             'ltree' => Ltree::class,
             'ltree[]' => LtreeArray::class,
             'int4multirange' => Int4Multirange::class,
@@ -275,8 +285,10 @@ abstract class TestCase extends BaseTestCase
             'money[]' => MoneyArray::class,
             'numrange' => NumRange::class,
             'nummultirange' => NumMultirange::class,
+            'path' => Path::class,
             'point' => Point::class,
             'point[]' => PointArray::class,
+            'polygon' => Polygon::class,
             'real[]' => RealArray::class,
             'smallint[]' => SmallIntArray::class,
             'text[]' => TextArray::class,

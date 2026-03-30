@@ -13,9 +13,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPathExcepti
  * - Open path: [(x1,y1),(x2,y2),...]
  * - Closed path: ((x1,y1),(x2,y2),...)
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#id-1.5.7.16.9
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-PATHS
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final readonly class Path implements \Stringable
 {
@@ -40,6 +41,6 @@ final readonly class Path implements \Stringable
 
     public static function fromString(string $value): static
     {
-        return new static($value);
+        return new self($value);
     }
 }

@@ -14,11 +14,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Path as PathValueObject;
 /**
  * Implementation of PostgreSQL PATH data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-geometric.html#id-1.5.7.16.9
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-PATHS
+ * @since 4.5
  *
- * @since 4.4
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Path extends BaseType
+final class Path extends BaseType
 {
     protected const TYPE_NAME = Type::PATH;
 
