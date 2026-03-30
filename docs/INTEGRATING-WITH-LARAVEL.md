@@ -80,10 +80,30 @@ return [
                 'macaddr8[]' => 'macaddr8[]',
                 '_macaddr8' => 'macaddr8[]',
 
-                // Spatial type mappings
+                // Geometric type mappings
+                'box' => 'box',
+                'box[]' => 'box[]',
+                '_box' => 'box[]',
+                'circle' => 'circle',
+                'circle[]' => 'circle[]',
+                '_circle' => 'circle[]',
+                'line' => 'line',
+                'line[]' => 'line[]',
+                '_line' => 'line[]',
+                'lseg' => 'lseg',
+                'lseg[]' => 'lseg[]',
+                '_lseg' => 'lseg[]',
+                'path' => 'path',
+                'path[]' => 'path[]',
+                '_path' => 'path[]',
                 'point' => 'point',
                 'point[]' => 'point[]',
                 '_point' => 'point[]',
+                'polygon' => 'polygon',
+                'polygon[]' => 'polygon[]',
+                '_polygon' => 'polygon[]',
+
+                // PostGIS spatial type mappings
                 'geometry' => 'geometry',
                 'geometry[]' => 'geometry[]',
                 '_geometry' => 'geometry[]',
@@ -170,9 +190,23 @@ return [
         'macaddr8' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8::class,
         'macaddr8[]' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array::class,
 
-        // Spatial types
+        // Geometric types
+        'box' => MartinGeorgiev\Doctrine\DBAL\Types\Box::class,
+        'box[]' => MartinGeorgiev\Doctrine\DBAL\Types\BoxArray::class,
+        'circle' => MartinGeorgiev\Doctrine\DBAL\Types\Circle::class,
+        'circle[]' => MartinGeorgiev\Doctrine\DBAL\Types\CircleArray::class,
+        'line' => MartinGeorgiev\Doctrine\DBAL\Types\Line::class,
+        'line[]' => MartinGeorgiev\Doctrine\DBAL\Types\LineArray::class,
+        'lseg' => MartinGeorgiev\Doctrine\DBAL\Types\Lseg::class,
+        'lseg[]' => MartinGeorgiev\Doctrine\DBAL\Types\LsegArray::class,
+        'path' => MartinGeorgiev\Doctrine\DBAL\Types\Path::class,
+        'path[]' => MartinGeorgiev\Doctrine\DBAL\Types\PathArray::class,
         'point' => MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
         'point[]' => MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class,
+        'polygon' => MartinGeorgiev\Doctrine\DBAL\Types\Polygon::class,
+        'polygon[]' => MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray::class,
+
+        // PostGIS spatial types
         'geometry' => MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class,
         'geometry[]' => MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray::class,
         'geography' => MartinGeorgiev\Doctrine\DBAL\Types\Geography::class,

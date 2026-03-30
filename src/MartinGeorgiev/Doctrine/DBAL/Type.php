@@ -12,11 +12,15 @@ final class Type
 
     public const BOX = 'box';
 
+    public const BOX_ARRAY = 'box[]';
+
     public const CIDR = 'cidr';
 
     public const CIDR_ARRAY = 'cidr[]';
 
     public const CIRCLE = 'circle';
+
+    public const CIRCLE_ARRAY = 'circle[]';
 
     public const DATE_ARRAY = 'date[]';
 
@@ -60,7 +64,11 @@ final class Type
 
     public const LINE = 'line';
 
+    public const LINE_ARRAY = 'line[]';
+
     public const LSEG = 'lseg';
+
+    public const LSEG_ARRAY = 'lseg[]';
 
     public const LTREE = 'ltree';
 
@@ -84,11 +92,15 @@ final class Type
 
     public const PATH = 'path';
 
+    public const PATH_ARRAY = 'path[]';
+
     public const POINT = 'point';
 
     public const POINT_ARRAY = 'point[]';
 
     public const POLYGON = 'polygon';
+
+    public const POLYGON_ARRAY = 'polygon[]';
 
     public const REAL_ARRAY = 'real[]';
 

@@ -56,7 +56,13 @@ $query = $em->createQuery('
   - Network CIDR notation (`cidr`, `cidr[]`)
   - MAC addresses (`macaddr`, `macaddr[]`, `macaddr8`, `macaddr8[]`)
 - **Geometric Types**
+  - Box (`box`, `box[]`)
+  - Circle (`circle`, `circle[]`)
+  - Line (`line`, `line[]`)
+  - Line segment (`lseg`, `lseg[]`)
+  - Path (`path`, `path[]`)
   - Point (`point`, `point[]`)
+  - Polygon (`polygon`, `polygon[]`)
   - PostGIS Geometry (`geometry`, `geometry[]`)
   - PostGIS Geography (`geography`, `geography[]`)
 - **Range Types**

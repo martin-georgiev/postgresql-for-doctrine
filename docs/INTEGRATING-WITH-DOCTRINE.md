@@ -42,9 +42,23 @@ Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray"
 Type::addType('macaddr8', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8");
 Type::addType('macaddr8[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8Array");
 
-// Spatial types
+// Geometric types
+Type::addType('box', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Box");
+Type::addType('box[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BoxArray");
+Type::addType('circle', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Circle");
+Type::addType('circle[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CircleArray");
+Type::addType('line', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Line");
+Type::addType('line[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LineArray");
+Type::addType('lseg', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Lseg");
+Type::addType('lseg[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LsegArray");
+Type::addType('path', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Path");
+Type::addType('path[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PathArray");
 Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
 Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
+Type::addType('polygon', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Polygon");
+Type::addType('polygon[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PolygonArray");
+
+// PostGIS spatial types
 Type::addType('geometry', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geometry");
 Type::addType('geometry[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeometryArray");
 Type::addType('geography', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geography");

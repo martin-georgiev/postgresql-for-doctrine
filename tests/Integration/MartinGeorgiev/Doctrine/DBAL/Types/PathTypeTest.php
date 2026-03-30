@@ -22,8 +22,9 @@ final class PathTypeTest extends TestCase
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
+        $this->assertInstanceOf(PathValueObject::class, $expected);
         $this->assertInstanceOf(PathValueObject::class, $actual);
-        $this->assertSame((string) $expected, (string) $actual, \sprintf('Type %s round-trip failed', $typeName));
+        $this->assertSame($expected->__toString(), $actual->__toString(), \sprintf('Type %s round-trip failed', $typeName));
     }
 
     #[Test]

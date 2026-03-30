@@ -22,8 +22,9 @@ final class LineTypeTest extends TestCase
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
+        $this->assertInstanceOf(LineValueObject::class, $expected);
         $this->assertInstanceOf(LineValueObject::class, $actual);
-        $this->assertSame((string) $expected, (string) $actual, \sprintf('Type %s round-trip failed', $typeName));
+        $this->assertSame($expected->__toString(), $actual->__toString(), \sprintf('Type %s round-trip failed', $typeName));
     }
 
     #[Test]
