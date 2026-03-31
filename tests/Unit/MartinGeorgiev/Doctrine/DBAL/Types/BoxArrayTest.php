@@ -68,7 +68,7 @@ class BoxArrayTest extends TestCase
             ],
             'single box' => [
                 'phpValue' => [BoxValueObject::fromString('(1,2),(3,4)')],
-                'postgresValue' => '{"(1,2),(3,4)"}',
+                'postgresValue' => '{(1,2),(3,4)}',
             ],
             'multiple boxes' => [
                 'phpValue' => [
@@ -76,7 +76,7 @@ class BoxArrayTest extends TestCase
                     BoxValueObject::fromString('(0,0),(1,1)'),
                     BoxValueObject::fromString('(-1,-2),(-3,-4)'),
                 ],
-                'postgresValue' => '{"(1,2),(3,4)","(0,0),(1,1)","(-1,-2),(-3,-4)"}',
+                'postgresValue' => '{(1,2),(3,4);(0,0),(1,1);(-1,-2),(-3,-4)}',
             ],
         ];
     }
@@ -138,9 +138,9 @@ class BoxArrayTest extends TestCase
     public static function provideInvalidPHPValueInputs(): array
     {
         return [
-            'missing coordinates' => ['{"(1,2)"}'],
-            'non-numeric values' => ['{"(abc,2),(3,4)"}'],
-            'invalid format' => ['{"not a box"}'],
+            'missing coordinates' => ['{(1,2)}'],
+            'non-numeric values' => ['{(abc,2),(3,4)}'],
+            'invalid format' => ['{not a box}'],
         ];
     }
 
@@ -151,15 +151,10 @@ class BoxArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_edge_case_with_empty_and_malformed_arrays(): void
+    public function can_handle_empty_array(): void
     {
-        $result1 = $this->fixture->convertToPHPValue('{}', $this->platform);
-        $result2 = $this->fixture->convertToPHPValue('{invalid}', $this->platform);
-        $result3 = $this->fixture->convertToPHPValue('{""}', $this->platform);
-
-        $this->assertSame([], $result1);
-        $this->assertSame([], $result2);
-        $this->assertSame([], $result3);
+        $result = $this->fixture->convertToPHPValue('{}', $this->platform);
+        $this->assertSame([], $result);
     }
 
     #[DataProvider('provideInvalidPHPValueTypes')]
@@ -193,7 +188,7 @@ class BoxArrayTest extends TestCase
     public function throws_exception_for_malformed_box_strings_in_database(): void
     {
         $this->expectException(InvalidBoxArrayItemForPHPException::class);
-        $this->fixture->convertToPHPValue('{"(invalid,box)"}', $this->platform);
+        $this->fixture->convertToPHPValue('{(invalid,box)}', $this->platform);
     }
 
     #[DataProvider('provideInvalidBoxArrayItems')]

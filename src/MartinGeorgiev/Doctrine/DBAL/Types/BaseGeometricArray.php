@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
-
 /**
- * Abstract handling of PostgreSQL geometric array data types.
- *
- * Geometric types contain commas in their string representations (e.g. "(1,2),(3,4)" for box),
- * so arrays must use quoted format: {"(1,2),(3,4)","(5,6),(7,8)"}.
+ * Base class of PostgreSQL geometric array data types.
  *
  * @see https://www.postgresql.org/docs/18/datatype-geometric.html
  * @since 4.5

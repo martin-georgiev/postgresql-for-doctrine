@@ -52,6 +52,7 @@ class CircleTest extends TestCase
         yield 'box format' => ['(1,2),(3,4)'];
         yield 'line format' => ['{1,2,3}'];
         yield 'only center, no radius' => ['<(1,2)>'];
+        yield 'negative radius' => ['<(0,0),-1>'];
     }
 
     #[Test]
@@ -75,5 +76,12 @@ class CircleTest extends TestCase
     {
         $this->expectException(InvalidCircleException::class);
         new Circle(new Point(0.0, 0.0), 1.1234567);
+    }
+
+    #[Test]
+    public function throws_exception_for_negative_radius(): void
+    {
+        $this->expectException(InvalidCircleException::class);
+        new Circle(new Point(0.0, 0.0), -1.0);
     }
 }

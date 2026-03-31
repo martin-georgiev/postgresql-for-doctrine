@@ -71,6 +71,7 @@ class LineTest extends TestCase
         yield 'too many coefficients' => ['{1,2,3,4}'];
         yield 'box format' => ['(1,2),(3,4)'];
         yield 'circle format' => ['<(1,2),3>'];
+        yield 'degenerate line' => ['{0,0,1}'];
     }
 
     #[Test]

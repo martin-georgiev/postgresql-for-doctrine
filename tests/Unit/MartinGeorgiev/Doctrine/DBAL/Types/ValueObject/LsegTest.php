@@ -68,6 +68,8 @@ class LsegTest extends TestCase
         yield 'single point' => ['(1,2)'];
         yield 'circle format' => ['<(1,2),3>'];
         yield 'line format' => ['{1,2,3}'];
+        yield 'mismatched opening bracket only' => ['[(1,2),(3,4)'];
+        yield 'mismatched closing bracket only' => ['(1,2),(3,4)]'];
     }
 
     #[Test]

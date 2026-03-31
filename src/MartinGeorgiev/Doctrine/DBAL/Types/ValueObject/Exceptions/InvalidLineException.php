@@ -28,4 +28,9 @@ final class InvalidLineException extends \InvalidArgumentException
             \var_export($value, true)
         ));
     }
+
+    public static function forDegenerateLine(): self
+    {
+        return new self('Degenerate line: coefficients A and B cannot both be zero');
+    }
 }

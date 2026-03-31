@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBoxArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBoxArrayItemForPHPException;
@@ -29,6 +30,39 @@ class BoxArray extends BaseGeometricArray
     protected function createValueObjectFromString(string $value): BoxValueObject
     {
         return BoxValueObject::fromString($value);
+    }
+
+    public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
+    {
+        if ($phpArray === null) {
+            return null;
+        }
+
+        if (!\is_array($phpArray)) {
+            $this->throwInvalidTypeException($phpArray);
+        }
+
+        $transformedItems = [];
+        foreach ($phpArray as $item) {
+            if (!$this->isValidArrayItemForDatabase($item)) {
+                $this->throwInvalidItemException($item);
+            }
+
+            \assert($item instanceof BoxValueObject);
+            $transformedItems[] = $item->__toString();
+        }
+
+        return '{'.\implode(';', $transformedItems).'}';
+    }
+
+    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    {
+        $trimmed = \mb_substr($postgresArray, 1, -1);
+        if ($trimmed === '') {
+            return [];
+        }
+
+        return \explode(';', $trimmed);
     }
 
     protected function throwTypedInvalidArrayTypeException(mixed $value): never

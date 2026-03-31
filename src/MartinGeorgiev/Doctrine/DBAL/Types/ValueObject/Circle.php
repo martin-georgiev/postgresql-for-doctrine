@@ -20,7 +20,9 @@ final readonly class Circle implements \Stringable
 {
     private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
 
-    private const CIRCLE_REGEX = '/^<\(('.self::COORDINATE_PATTERN.'),('.self::COORDINATE_PATTERN.')\),('.self::COORDINATE_PATTERN.')>$/';
+    private const RADIUS_PATTERN = '\d+(?:\.\d{1,6})?';
+
+    private const CIRCLE_REGEX = '/^<\(('.self::COORDINATE_PATTERN.'),('.self::COORDINATE_PATTERN.')\),('.self::RADIUS_PATTERN.')>$/';
 
     public function __construct(
         private Point $center,
@@ -60,7 +62,7 @@ final readonly class Circle implements \Stringable
     {
         $stringValue = (string) $value;
 
-        $floatRegex = '/^'.self::COORDINATE_PATTERN.'$/';
+        $floatRegex = '/^'.self::RADIUS_PATTERN.'$/';
         if (!\preg_match($floatRegex, $stringValue)) {
             throw InvalidCircleException::forInvalidCoordinate('radius', $stringValue);
         }

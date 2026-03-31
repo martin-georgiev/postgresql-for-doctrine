@@ -27,6 +27,10 @@ final readonly class Line implements \Stringable
         private float $b,
         private float $c,
     ) {
+        if ($a == 0 && $b == 0) {
+            throw InvalidLineException::forDegenerateLine();
+        }
+
         $this->validateCoordinate($a, 'a');
         $this->validateCoordinate($b, 'b');
         $this->validateCoordinate($c, 'c');
