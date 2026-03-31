@@ -13,12 +13,20 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointExcept
  */
 final readonly class Point extends BaseGeometricValue
 {
-    private const POINT_REGEX = '/\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)/';
+    private const POINT_REGEX = '/^\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)$/';
 
     public function __construct(
         private float $x,
         private float $y,
-    ) {}
+    ) {
+        if (!\is_finite($x)) {
+            throw InvalidPointException::forNonFiniteCoordinate($x);
+        }
+
+        if (!\is_finite($y)) {
+            throw InvalidPointException::forNonFiniteCoordinate($y);
+        }
+    }
 
     public function __toString(): string
     {

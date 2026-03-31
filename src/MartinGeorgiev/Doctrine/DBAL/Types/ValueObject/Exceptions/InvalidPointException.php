@@ -24,4 +24,20 @@ final class InvalidPointException extends \InvalidArgumentException
             \var_export($pointString, true)
         ));
     }
+
+    public static function forNonFiniteCoordinate(float $value): self
+    {
+        if (\is_nan($value)) {
+            $representation = 'NAN';
+        } elseif ($value > 0) {
+            $representation = 'INF';
+        } else {
+            $representation = '-INF';
+        }
+
+        return new self(\sprintf(
+            'Point coordinates must be finite numbers, got: %s',
+            $representation
+        ));
+    }
 }

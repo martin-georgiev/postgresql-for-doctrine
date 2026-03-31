@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -90,7 +91,7 @@ class PointArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidPointArrayItemForPHPException::class);
+        $this->expectException(InvalidPointArrayItemForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
     }
 
@@ -151,9 +152,9 @@ class PointArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueTypes')]
+    #[DataProvider('provideNonArrayInputs')]
     #[Test]
-    public function throws_exception_for_non_string_inputs_to_database_conversion(mixed $value): void
+    public function throws_exception_for_non_array_inputs_to_database_conversion(mixed $value): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue($value, $this->platform); // @phpstan-ignore-line
@@ -162,14 +163,20 @@ class PointArrayTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPHPValueTypes(): array
+    public static function provideNonArrayInputs(): array
     {
         return [
             'integer' => [123],
-            'array' => [['(1.23, 4.56)']],
             'object' => [new \stdClass()],
             'boolean' => [true],
         ];
+    }
+
+    #[Test]
+    public function throws_exception_for_array_with_string_items_in_database_conversion(): void
+    {
+        $this->expectException(InvalidPointArrayItemForDatabaseException::class);
+        $this->fixture->convertToDatabaseValue(['(1.23, 4.56)'], $this->platform);
     }
 
     #[Test]
@@ -219,19 +226,31 @@ class PointArrayTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('provideInvalidPHPValueTypes')]
+    #[DataProvider('provideNonStringPHPValues')]
     public function can_transform_array_item_for_php_throwing_for_invalid_type(mixed $value): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP($value);
     }
 
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideNonStringPHPValues(): array
+    {
+        return [
+            'integer' => [123],
+            'array' => [['(1.23, 4.56)']],
+            'object' => [new \stdClass()],
+            'boolean' => [true],
+        ];
+    }
+
     #[DataProvider('provideInvalidPointArrayItems')]
     #[Test]
     public function throws_exception_for_invalid_point_array_items(array $invalidArray): void
     {
-        $this->expectException(InvalidPointArrayItemForPHPException::class);
-        $this->expectExceptionMessage('Invalid point format in array');
+        $this->expectException(InvalidPointArrayItemForDatabaseException::class);
 
         $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
     }

@@ -60,6 +60,7 @@ class LineTest extends TestCase
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
         $this->assertInstanceOf(LineValueObject::class, $result);
+        $this->assertEquals($lineValueObject, $result);
         $this->assertSame($postgresValue, (string) $result);
     }
 
