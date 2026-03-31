@@ -24,13 +24,4 @@ final class InvalidPointException extends \InvalidArgumentException
             \var_export($pointString, true)
         ));
     }
-
-    public static function forInvalidCoordinate(string $coordinateName, string $value): self
-    {
-        return new self(\sprintf(
-            'Invalid %s coordinate format: %s',
-            \var_export($coordinateName, true),
-            \var_export($value, true)
-        ));
-    }
 }

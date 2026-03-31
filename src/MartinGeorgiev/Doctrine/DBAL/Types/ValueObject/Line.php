@@ -16,10 +16,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLineExcepti
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Line implements \Stringable
+final readonly class Line extends BaseGeometricValue
 {
-    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
-
     private const LINE_REGEX = '/^\{\s*('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\s*\}$/';
 
     public function __construct(
@@ -30,10 +28,6 @@ final readonly class Line implements \Stringable
         if ($a == 0 && $b == 0) {
             throw InvalidLineException::forDegenerateLine();
         }
-
-        $this->validateCoordinate($a, 'a');
-        $this->validateCoordinate($b, 'b');
-        $this->validateCoordinate($c, 'c');
     }
 
     public function __toString(): string
@@ -63,21 +57,5 @@ final readonly class Line implements \Stringable
         }
 
         return new self((float) $matches[1], (float) $matches[2], (float) $matches[3]);
-    }
-
-    /**
-     * Validates that a coordinate value matches COORDINATE_PATTERN (at most 6 decimal places).
-     *
-     * PHP float-to-string conversion can produce scientific notation for very small/large values
-     * (e.g., "1.0E-7") which will not match the regex. Tests enforce this precision constraint.
-     */
-    private function validateCoordinate(float $value, string $name): void
-    {
-        $stringValue = (string) $value;
-
-        $floatRegex = '/^'.self::COORDINATE_PATTERN.'$/';
-        if (!\preg_match($floatRegex, $stringValue)) {
-            throw InvalidLineException::forInvalidCoordinate($name, $stringValue);
-        }
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleException;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointException;
 
 /**
  * Represents a PostgreSQL circle geometric type.
@@ -17,11 +16,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointExcept
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Circle implements \Stringable
+final readonly class Circle extends BaseGeometricValue
 {
-    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
-
-    private const RADIUS_PATTERN = '\d+(?:\.\d{1,6})?';
+    private const RADIUS_PATTERN = '\d+(?:\.\d+)?(?:[eE][+-]?\d+)?';
 
     private const CIRCLE_REGEX = '/^<\s*\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
 
@@ -29,7 +26,9 @@ final readonly class Circle implements \Stringable
         private Point $center,
         private float $radius,
     ) {
-        $this->validateRadius($radius);
+        if ($radius < 0) {
+            throw InvalidCircleException::forNegativeRadius($radius);
+        }
     }
 
     public function __toString(): string
@@ -53,22 +52,6 @@ final readonly class Circle implements \Stringable
             throw InvalidCircleException::forInvalidFormat($value, self::CIRCLE_REGEX);
         }
 
-        try {
-            $point = new Point((float) $matches[1], (float) $matches[2]);
-        } catch (InvalidPointException $invalidPointException) {
-            throw InvalidCircleException::forInvalidFormat($value, self::CIRCLE_REGEX, $invalidPointException);
-        }
-
-        return new self($point, (float) $matches[3]);
-    }
-
-    private function validateRadius(float $value): void
-    {
-        $stringValue = (string) $value;
-
-        $floatRegex = '/^'.self::RADIUS_PATTERN.'$/';
-        if (!\preg_match($floatRegex, $stringValue)) {
-            throw InvalidCircleException::forInvalidCoordinate('radius', $stringValue);
-        }
+        return new self(new Point((float) $matches[1], (float) $matches[2]), (float) $matches[3]);
     }
 }

@@ -75,17 +75,16 @@ class LineTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_coordinate_with_more_than_six_decimal_places(): void
-    {
-        $this->expectException(InvalidLineException::class);
-        $this->expectExceptionMessage("Invalid 'a' coordinate format: '1.1234567'");
-        new Line(1.1234567, 2.0, 3.0);
-    }
-
-    #[Test]
     public function preserves_string_representation(): void
     {
         $line = new Line(1.0, 2.0, 3.0);
         $this->assertSame('{1,2,3}', (string) $line);
+    }
+
+    #[Test]
+    public function accepts_high_precision_coordinates(): void
+    {
+        $line = new Line(1.1234567890123, 2.0, 3.0);
+        $this->assertSame(1.1234567890123, $line->getA());
     }
 }

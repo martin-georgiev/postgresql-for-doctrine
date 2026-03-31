@@ -72,13 +72,6 @@ class CircleTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_radius_with_too_many_decimal_places(): void
-    {
-        $this->expectException(InvalidCircleException::class);
-        new Circle(new Point(0.0, 0.0), 1.1234567);
-    }
-
-    #[Test]
     public function throws_exception_for_negative_radius(): void
     {
         $this->expectException(InvalidCircleException::class);

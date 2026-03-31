@@ -20,15 +20,6 @@ final class InvalidLineException extends \InvalidArgumentException
         ));
     }
 
-    public static function forInvalidCoordinate(string $coordinateName, string $value): self
-    {
-        return new self(\sprintf(
-            'Invalid %s coordinate format: %s',
-            \var_export($coordinateName, true),
-            \var_export($value, true)
-        ));
-    }
-
     public static function forDegenerateLine(): self
     {
         return new self('Degenerate line: coefficients A and B cannot both be zero');

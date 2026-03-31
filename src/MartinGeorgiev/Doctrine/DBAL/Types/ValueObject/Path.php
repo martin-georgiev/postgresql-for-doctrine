@@ -18,17 +18,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPathExcepti
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Path implements \Stringable
+final readonly class Path extends BaseGeometricValue
 {
-    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
-
-    private const POINT_PATTERN = '\(\s*'.self::COORDINATE_PATTERN.'\s*,\s*'.self::COORDINATE_PATTERN.'\s*\)';
-
     private const OPEN_PATH_REGEX = '/^\[\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\]$/';
 
     private const CLOSED_PATH_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\)$/';
-
-    private const POINT_CAPTURE_REGEX = '/\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)/';
 
     /** @var list<Point> */
     private array $points;
@@ -73,13 +67,6 @@ final readonly class Path implements \Stringable
             throw InvalidPathException::forInvalidFormat($value, $regex);
         }
 
-        \preg_match_all(self::POINT_CAPTURE_REGEX, $value, $matches, PREG_SET_ORDER);
-
-        $points = [];
-        foreach ($matches as $match) {
-            $points[] = new Point((float) $match[1], (float) $match[2]);
-        }
-
-        return new self($isOpen, ...$points);
+        return new self($isOpen, ...self::extractPoints($value));
     }
 }

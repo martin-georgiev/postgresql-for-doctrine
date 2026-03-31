@@ -16,17 +16,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLsegExcepti
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Lseg implements \Stringable
+final readonly class Lseg extends BaseGeometricValue
 {
-    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
-
-    private const POINT_PATTERN = '\(\s*'.self::COORDINATE_PATTERN.'\s*,\s*'.self::COORDINATE_PATTERN.'\s*\)';
-
     private const BRACKETED_LSEG_REGEX = '/^\[\s*'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'\s*\]$/';
 
     private const UNBRACKETED_LSEG_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
-
-    private const POINT_CAPTURE_REGEX = '/\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)/';
 
     public function __construct(
         private Point $start,
@@ -60,11 +54,8 @@ final readonly class Lseg implements \Stringable
             throw InvalidLsegException::forInvalidFormat($value, self::BRACKETED_LSEG_REGEX);
         }
 
-        \preg_match_all(self::POINT_CAPTURE_REGEX, $value, $matches, PREG_SET_ORDER);
+        $points = self::extractPoints($value);
 
-        return new self(
-            new Point((float) $matches[0][1], (float) $matches[0][2]),
-            new Point((float) $matches[1][1], (float) $matches[1][2])
-        );
+        return new self($points[0], $points[1]);
     }
 }

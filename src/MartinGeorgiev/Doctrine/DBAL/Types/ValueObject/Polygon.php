@@ -16,15 +16,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPolygonExce
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Polygon implements \Stringable
+final readonly class Polygon extends BaseGeometricValue
 {
-    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
-
-    private const POINT_PATTERN = '\(\s*'.self::COORDINATE_PATTERN.'\s*,\s*'.self::COORDINATE_PATTERN.'\s*\)';
-
     private const POLYGON_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.'){1,}\s*\)$/';
-
-    private const POINT_CAPTURE_REGEX = '/\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)/';
 
     /** @var list<Point> */
     private array $vertices;
@@ -63,13 +57,6 @@ final readonly class Polygon implements \Stringable
             throw InvalidPolygonException::forInvalidFormat($value, self::POLYGON_REGEX);
         }
 
-        \preg_match_all(self::POINT_CAPTURE_REGEX, $value, $matches, PREG_SET_ORDER);
-
-        $vertices = [];
-        foreach ($matches as $match) {
-            $vertices[] = new Point((float) $match[1], (float) $match[2]);
-        }
-
-        return new self(...$vertices);
+        return new self(...self::extractPoints($value));
     }
 }

@@ -128,6 +128,7 @@ class LineTest extends TestCase
             'invalid format' => ['not a line'],
             'missing braces' => ['1,2,3'],
             'too few coefficients' => ['{1,2}'],
+            'degenerate line' => ['{0,0,1}'],
             'integer input' => [123],
             'array input' => [['not', 'line']],
             'boolean input' => [false],

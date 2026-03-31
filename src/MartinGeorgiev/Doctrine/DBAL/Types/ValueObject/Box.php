@@ -16,11 +16,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidBoxExceptio
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Box implements \Stringable
+final readonly class Box extends BaseGeometricValue
 {
-    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
-
-    private const BOX_REGEX = '/^\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)\s*,\s*\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)$/';
+    private const BOX_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
 
     public function __construct(
         private Point $upperRight,
@@ -50,13 +48,12 @@ final readonly class Box implements \Stringable
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::BOX_REGEX, $value, $matches)) {
+        if (!\preg_match(self::BOX_REGEX, $value)) {
             throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
         }
 
-        return new self(
-            new Point((float) $matches[1], (float) $matches[2]),
-            new Point((float) $matches[3], (float) $matches[4])
-        );
+        $points = self::extractPoints($value);
+
+        return new self($points[0], $points[1]);
     }
 }

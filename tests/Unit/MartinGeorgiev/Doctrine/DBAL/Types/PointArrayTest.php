@@ -67,21 +67,21 @@ class PointArrayTest extends TestCase
             ],
             'single point' => [
                 'phpValue' => [new Point(1.23, 4.56)],
-                'postgresValue' => '{"(1.230000, 4.560000)"}',
+                'postgresValue' => '{"(1.23,4.56)"}',
             ],
             'multiple points' => [
                 'phpValue' => [
                     new Point(1.23, 4.56),
                     new Point(-7.89, 0.12),
                 ],
-                'postgresValue' => '{"(1.230000, 4.560000)","(-7.890000, 0.120000)"}',
+                'postgresValue' => '{"(1.23,4.56)","(-7.89,0.12)"}',
             ],
             'points with zero values' => [
                 'phpValue' => [
                     new Point(0.0, 0.0),
                     new Point(10.5, -3.7),
                 ],
-                'postgresValue' => '{"(0.000000, 0.000000)","(10.500000, -3.700000)"}',
+                'postgresValue' => '{"(0,0)","(10.5,-3.7)"}',
             ],
         ];
     }

@@ -28,7 +28,7 @@ final class BoxTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_box_values(string $testName, BoxValueObject $inputValue, BoxValueObject $expectedValue): void
+    public function can_handle_box_values(BoxValueObject $inputValue, BoxValueObject $expectedValue): void
     {
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $this->getTypeName(),
@@ -39,23 +39,20 @@ final class BoxTypeTest extends TestCase
     }
 
     /**
-     * @return array<string, array{string, BoxValueObject, BoxValueObject}>
+     * @return array<string, array{BoxValueObject, BoxValueObject}>
      */
     public static function provideValidTransformations(): array
     {
         return [
             'unit box at origin' => [
-                'unit box at origin',
                 BoxValueObject::fromString('(0,0),(1,1)'),
                 BoxValueObject::fromString('(1,1),(0,0)'),
             ],
             'box with floats' => [
-                'box with floats',
                 BoxValueObject::fromString('(1.5,2.5),(3.5,4.5)'),
                 BoxValueObject::fromString('(3.5,4.5),(1.5,2.5)'),
             ],
             'box with negative coordinates' => [
-                'box with negative coordinates',
                 BoxValueObject::fromString('(-3,-4),(-1,-2)'),
                 BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ],

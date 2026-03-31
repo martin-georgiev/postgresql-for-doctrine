@@ -20,12 +20,11 @@ final class InvalidCircleException extends \InvalidArgumentException
         ), 0, $throwable);
     }
 
-    public static function forInvalidCoordinate(string $coordinateName, string $value): self
+    public static function forNegativeRadius(float $radius): self
     {
         return new self(\sprintf(
-            'Invalid %s coordinate format: %s',
-            \var_export($coordinateName, true),
-            \var_export($value, true)
+            'Circle radius must be non-negative, got: %s',
+            $radius
         ));
     }
 }
