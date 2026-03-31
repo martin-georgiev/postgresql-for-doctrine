@@ -14,22 +14,41 @@ class LineTest extends TestCase
 {
     #[DataProvider('provideValidLineStrings')]
     #[Test]
-    public function can_create_from_string(string $value): void
+    public function can_create_from_string(string $input, string $expectedOutput): void
     {
-        $line = Line::fromString($value);
-        $this->assertSame($value, (string) $line);
+        $line = Line::fromString($input);
+        $this->assertSame($expectedOutput, (string) $line);
     }
 
     /**
-     * @return iterable<string, array{string}>
+     * @return iterable<string, array{string, string}>
      */
     public static function provideValidLineStrings(): iterable
     {
-        yield 'basic line' => ['{1,2,3}'];
-        yield 'line with floats' => ['{1.5,2.5,3.5}'];
-        yield 'line with negative coefficients' => ['{-1,-2,-3}'];
-        yield 'line through origin' => ['{1,2,0}'];
-        yield 'line with zero A' => ['{0,1,-2}'];
+        yield 'basic line' => ['{1,2,3}', '{1,2,3}'];
+        yield 'line with floats' => ['{1.5,2.5,3.5}', '{1.5,2.5,3.5}'];
+        yield 'line with negative coefficients' => ['{-1,-2,-3}', '{-1,-2,-3}'];
+        yield 'line through origin' => ['{1,2,0}', '{1,2,0}'];
+        yield 'line with zero A' => ['{0,1,-2}', '{0,1,-2}'];
+    }
+
+    #[Test]
+    public function returns_correct_coefficients_via_getters(): void
+    {
+        $line = Line::fromString('{1.5,-2.5,3}');
+        $this->assertSame(1.5, $line->getA());
+        $this->assertSame(-2.5, $line->getB());
+        $this->assertSame(3.0, $line->getC());
+    }
+
+    #[Test]
+    public function can_be_constructed_with_float_values(): void
+    {
+        $line = new Line(1.5, -2.5, 3.0);
+        $this->assertSame(1.5, $line->getA());
+        $this->assertSame(-2.5, $line->getB());
+        $this->assertSame(3.0, $line->getC());
+        $this->assertSame('{1.5,-2.5,3}', (string) $line);
     }
 
     #[DataProvider('provideInvalidLineStrings')]
@@ -55,10 +74,16 @@ class LineTest extends TestCase
     }
 
     #[Test]
+    public function throws_exception_for_invalid_coordinate(): void
+    {
+        $this->expectException(InvalidLineException::class);
+        new Line(1.1234567, 2.0, 3.0);
+    }
+
+    #[Test]
     public function preserves_string_representation(): void
     {
-        $value = '{1,2,3}';
-        $line = new Line($value);
-        $this->assertSame($value, (string) $line);
+        $line = new Line(1.0, 2.0, 3.0);
+        $this->assertSame('{1,2,3}', (string) $line);
     }
 }

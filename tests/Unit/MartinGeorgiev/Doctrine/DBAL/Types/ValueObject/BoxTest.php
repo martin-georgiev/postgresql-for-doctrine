@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Box;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidBoxException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -14,22 +15,22 @@ class BoxTest extends TestCase
 {
     #[DataProvider('provideValidBoxStrings')]
     #[Test]
-    public function can_create_from_string(string $value): void
+    public function can_create_from_string(string $value, string $expectedOutput): void
     {
         $box = Box::fromString($value);
-        $this->assertSame($value, (string) $box);
+        $this->assertSame($expectedOutput, (string) $box);
     }
 
     /**
-     * @return iterable<string, array{string}>
+     * @return iterable<string, array{string, string}>
      */
     public static function provideValidBoxStrings(): iterable
     {
-        yield 'basic integer coordinates' => ['(1,2),(3,4)'];
-        yield 'float coordinates' => ['(1.5,2.5),(3.5,4.5)'];
-        yield 'negative coordinates' => ['(-1,-2),(-3,-4)'];
-        yield 'zero coordinates' => ['(0,0),(1,1)'];
-        yield 'mixed positive and negative' => ['(-1,2),(3,-4)'];
+        yield 'basic integer coordinates' => ['(1,2),(3,4)', '(1,2),(3,4)'];
+        yield 'float coordinates' => ['(1.5,2.5),(3.5,4.5)', '(1.5,2.5),(3.5,4.5)'];
+        yield 'negative coordinates' => ['(-1,-2),(-3,-4)', '(-1,-2),(-3,-4)'];
+        yield 'zero coordinates' => ['(0,0),(1,1)', '(0,0),(1,1)'];
+        yield 'mixed positive and negative' => ['(-1,2),(3,-4)', '(-1,2),(3,-4)'];
     }
 
     #[DataProvider('provideInvalidBoxStrings')]
@@ -54,10 +55,19 @@ class BoxTest extends TestCase
     }
 
     #[Test]
-    public function preserves_string_representation(): void
+    public function getters_return_point_values(): void
     {
-        $value = '(1,2),(3,4)';
-        $box = new Box($value);
-        $this->assertSame($value, (string) $box);
+        $box = Box::fromString('(1.5,2.5),(3.5,4.5)');
+        $this->assertSame(1.5, $box->getUpperRight()->getX());
+        $this->assertSame(2.5, $box->getUpperRight()->getY());
+        $this->assertSame(3.5, $box->getLowerLeft()->getX());
+        $this->assertSame(4.5, $box->getLowerLeft()->getY());
+    }
+
+    #[Test]
+    public function can_construct_from_points(): void
+    {
+        $box = new Box(new Point(1.0, 2.0), new Point(3.0, 4.0));
+        $this->assertSame('(1,2),(3,4)', (string) $box);
     }
 }

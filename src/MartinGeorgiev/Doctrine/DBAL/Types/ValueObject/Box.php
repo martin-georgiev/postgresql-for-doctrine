@@ -18,23 +18,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidBoxExceptio
  */
 final readonly class Box implements \Stringable
 {
-    private const BOX_REGEX = '/^\(?\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*\)\s*,\s*\(?\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*\)?$/';
+    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
+
+    private const BOX_REGEX = '/^\(('.self::COORDINATE_PATTERN.'),('.self::COORDINATE_PATTERN.')\),\(('.self::COORDINATE_PATTERN.'),('.self::COORDINATE_PATTERN.')\)$/';
 
     public function __construct(
-        private string $value,
+        private Point $upperRight,
+        private Point $lowerLeft,
     ) {
-        if (!\preg_match(self::BOX_REGEX, $value)) {
-            throw InvalidBoxException::forInvalidFormat($value);
-        }
     }
 
     public function __toString(): string
     {
-        return $this->value;
+        return \sprintf(
+            '(%s,%s),(%s,%s)',
+            $this->upperRight->getX(),
+            $this->upperRight->getY(),
+            $this->lowerLeft->getX(),
+            $this->lowerLeft->getY()
+        );
     }
 
-    public static function fromString(string $value): static
+    public function getUpperRight(): Point
     {
-        return new self($value);
+        return $this->upperRight;
+    }
+
+    public function getLowerLeft(): Point
+    {
+        return $this->lowerLeft;
+    }
+
+    public static function fromString(string $value): self
+    {
+        if (!\preg_match(self::BOX_REGEX, $value, $matches)) {
+            throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
+        }
+
+        return new self(
+            new Point((float) $matches[1], (float) $matches[2]),
+            new Point((float) $matches[3], (float) $matches[4])
+        );
     }
 }

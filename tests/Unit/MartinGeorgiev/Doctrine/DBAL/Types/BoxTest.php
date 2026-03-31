@@ -70,19 +70,19 @@ class BoxTest extends TestCase
     {
         return [
             'basic box' => [
-                'boxValueObject' => new BoxValueObject('(1,2),(3,4)'),
+                'boxValueObject' => BoxValueObject::fromString('(1,2),(3,4)'),
                 'postgresValue' => '(1,2),(3,4)',
             ],
             'box with floats' => [
-                'boxValueObject' => new BoxValueObject('(1.5,2.5),(3.5,4.5)'),
+                'boxValueObject' => BoxValueObject::fromString('(1.5,2.5),(3.5,4.5)'),
                 'postgresValue' => '(1.5,2.5),(3.5,4.5)',
             ],
             'box with negative coordinates' => [
-                'boxValueObject' => new BoxValueObject('(-1,-2),(-3,-4)'),
+                'boxValueObject' => BoxValueObject::fromString('(-1,-2),(-3,-4)'),
                 'postgresValue' => '(-1,-2),(-3,-4)',
             ],
             'box with zero coordinates' => [
-                'boxValueObject' => new BoxValueObject('(0,0),(1,1)'),
+                'boxValueObject' => BoxValueObject::fromString('(0,0),(1,1)'),
                 'postgresValue' => '(0,0),(1,1)',
             ],
         ];

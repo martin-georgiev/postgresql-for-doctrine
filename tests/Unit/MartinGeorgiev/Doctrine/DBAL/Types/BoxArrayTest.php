@@ -67,14 +67,14 @@ class BoxArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'single box' => [
-                'phpValue' => [new BoxValueObject('(1,2),(3,4)')],
+                'phpValue' => [BoxValueObject::fromString('(1,2),(3,4)')],
                 'postgresValue' => '{"(1,2),(3,4)"}',
             ],
             'multiple boxes' => [
                 'phpValue' => [
-                    new BoxValueObject('(1,2),(3,4)'),
-                    new BoxValueObject('(0,0),(1,1)'),
-                    new BoxValueObject('(-1,-2),(-3,-4)'),
+                    BoxValueObject::fromString('(1,2),(3,4)'),
+                    BoxValueObject::fromString('(0,0),(1,1)'),
+                    BoxValueObject::fromString('(-1,-2),(-3,-4)'),
                 ],
                 'postgresValue' => '{"(1,2),(3,4)","(0,0),(1,1)","(-1,-2),(-3,-4)"}',
             ],
@@ -99,7 +99,7 @@ class BoxArrayTest extends TestCase
             'invalid nested box' => [['(1,2),(3,4)']],
             'mixed array (valid and invalid)' => [
                 [
-                    new BoxValueObject('(1,2),(3,4)'),
+                    BoxValueObject::fromString('(1,2),(3,4)'),
                     'invalid',
                 ],
             ],
@@ -232,9 +232,9 @@ class BoxArrayTest extends TestCase
     public static function provideValidArrayItemsForDatabase(): array
     {
         return [
-            'standard box' => [new BoxValueObject('(1,2),(3,4)')],
-            'zero coordinates' => [new BoxValueObject('(0,0),(1,1)')],
-            'negative coordinates' => [new BoxValueObject('(-1,-2),(-3,-4)')],
+            'standard box' => [BoxValueObject::fromString('(1,2),(3,4)')],
+            'zero coordinates' => [BoxValueObject::fromString('(0,0),(1,1)')],
+            'negative coordinates' => [BoxValueObject::fromString('(-1,-2),(-3,-4)')],
         ];
     }
 

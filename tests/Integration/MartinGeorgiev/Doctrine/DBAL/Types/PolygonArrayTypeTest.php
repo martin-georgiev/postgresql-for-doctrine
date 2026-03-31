@@ -25,11 +25,11 @@ class PolygonArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'single triangle' => ['single triangle', [
-                new PolygonValueObject('((0,0),(1,1),(2,0))'),
+                PolygonValueObject::fromString('((0,0),(1,1),(2,0))'),
             ]],
             'multiple polygons' => ['multiple polygons', [
-                new PolygonValueObject('((0,0),(0,1),(1,1),(1,0))'),
-                new PolygonValueObject('((-1,-2),(-3,-4),(-5,-6))'),
+                PolygonValueObject::fromString('((0,0),(0,1),(1,1),(1,0))'),
+                PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))'),
             ]],
         ];
     }

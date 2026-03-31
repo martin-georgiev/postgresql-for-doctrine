@@ -67,14 +67,14 @@ class LineArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'single line' => [
-                'phpValue' => [new LineValueObject('{1,0,0}')],
+                'phpValue' => [LineValueObject::fromString('{1,0,0}')],
                 'postgresValue' => '{"{1,0,0}"}',
             ],
             'multiple lines' => [
                 'phpValue' => [
-                    new LineValueObject('{1,0,0}'),
-                    new LineValueObject('{1.5,2.5,3.5}'),
-                    new LineValueObject('{-1,-2,-3}'),
+                    LineValueObject::fromString('{1,0,0}'),
+                    LineValueObject::fromString('{1.5,2.5,3.5}'),
+                    LineValueObject::fromString('{-1,-2,-3}'),
                 ],
                 'postgresValue' => '{"{1,0,0}","{1.5,2.5,3.5}","{-1,-2,-3}"}',
             ],
@@ -99,7 +99,7 @@ class LineArrayTest extends TestCase
             'invalid nested line' => [['{1,0,0}']],
             'mixed array (valid and invalid)' => [
                 [
-                    new LineValueObject('{1,0,0}'),
+                    LineValueObject::fromString('{1,0,0}'),
                     'invalid',
                 ],
             ],
@@ -232,9 +232,9 @@ class LineArrayTest extends TestCase
     public static function provideValidArrayItemsForDatabase(): array
     {
         return [
-            'standard line' => [new LineValueObject('{1,0,0}')],
-            'decimal values' => [new LineValueObject('{1.5,2.5,3.5}')],
-            'negative coefficients' => [new LineValueObject('{-1,-2,-3}')],
+            'standard line' => [LineValueObject::fromString('{1,0,0}')],
+            'decimal values' => [LineValueObject::fromString('{1.5,2.5,3.5}')],
+            'negative coefficients' => [LineValueObject::fromString('{-1,-2,-3}')],
         ];
     }
 

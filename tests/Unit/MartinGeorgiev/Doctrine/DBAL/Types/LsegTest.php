@@ -70,20 +70,20 @@ class LsegTest extends TestCase
     {
         return [
             'basic lseg with brackets' => [
-                'lsegValueObject' => new LsegValueObject('[(1,2),(3,4)]'),
+                'lsegValueObject' => LsegValueObject::fromString('[(1,2),(3,4)]'),
                 'postgresValue' => '[(1,2),(3,4)]',
             ],
             'lseg with floats' => [
-                'lsegValueObject' => new LsegValueObject('[(1.5,2.5),(3.5,4.5)]'),
+                'lsegValueObject' => LsegValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
                 'postgresValue' => '[(1.5,2.5),(3.5,4.5)]',
             ],
             'lseg with negative coordinates' => [
-                'lsegValueObject' => new LsegValueObject('[(-1,-2),(-3,-4)]'),
+                'lsegValueObject' => LsegValueObject::fromString('[(-1,-2),(-3,-4)]'),
                 'postgresValue' => '[(-1,-2),(-3,-4)]',
             ],
             'lseg without brackets' => [
-                'lsegValueObject' => new LsegValueObject('(1,2),(3,4)'),
-                'postgresValue' => '(1,2),(3,4)',
+                'lsegValueObject' => LsegValueObject::fromString('(1,2),(3,4)'),
+                'postgresValue' => '[(1,2),(3,4)]',
             ],
         ];
     }

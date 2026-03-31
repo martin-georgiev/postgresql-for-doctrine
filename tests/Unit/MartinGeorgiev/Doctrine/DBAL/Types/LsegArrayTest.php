@@ -67,14 +67,14 @@ class LsegArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'single lseg' => [
-                'phpValue' => [new LsegValueObject('[(0,0),(1,1)]')],
+                'phpValue' => [LsegValueObject::fromString('[(0,0),(1,1)]')],
                 'postgresValue' => '{"[(0,0),(1,1)]"}',
             ],
             'multiple lsegs' => [
                 'phpValue' => [
-                    new LsegValueObject('[(0,0),(1,1)]'),
-                    new LsegValueObject('[(1.5,2.5),(3.5,4.5)]'),
-                    new LsegValueObject('[(-1,-2),(-3,-4)]'),
+                    LsegValueObject::fromString('[(0,0),(1,1)]'),
+                    LsegValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
+                    LsegValueObject::fromString('[(-1,-2),(-3,-4)]'),
                 ],
                 'postgresValue' => '{"[(0,0),(1,1)]","[(1.5,2.5),(3.5,4.5)]","[(-1,-2),(-3,-4)]"}',
             ],
@@ -99,7 +99,7 @@ class LsegArrayTest extends TestCase
             'invalid nested lseg' => [['[(0,0),(1,1)]']],
             'mixed array (valid and invalid)' => [
                 [
-                    new LsegValueObject('[(0,0),(1,1)]'),
+                    LsegValueObject::fromString('[(0,0),(1,1)]'),
                     'invalid',
                 ],
             ],
@@ -232,9 +232,9 @@ class LsegArrayTest extends TestCase
     public static function provideValidArrayItemsForDatabase(): array
     {
         return [
-            'standard lseg' => [new LsegValueObject('[(0,0),(1,1)]')],
-            'decimal values' => [new LsegValueObject('[(1.5,2.5),(3.5,4.5)]')],
-            'negative coordinates' => [new LsegValueObject('[(-1,-2),(-3,-4)]')],
+            'standard lseg' => [LsegValueObject::fromString('[(0,0),(1,1)]')],
+            'decimal values' => [LsegValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
+            'negative coordinates' => [LsegValueObject::fromString('[(-1,-2),(-3,-4)]')],
         ];
     }
 

@@ -11,11 +11,20 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
  */
 final class InvalidPolygonException extends \InvalidArgumentException
 {
-    public static function forInvalidFormat(string $value): self
+    public static function forInvalidFormat(string $value, string $expectedPattern): self
     {
         return new self(\sprintf(
-            'Invalid polygon format. Expected format "((x1,y1),(x2,y2),...)", got: %s',
+            'Invalid polygon format. Expected format matching %s, got: %s',
+            \var_export($expectedPattern, true),
             \var_export($value, true)
+        ));
+    }
+
+    public static function forTooFewVertices(int $count): self
+    {
+        return new self(\sprintf(
+            'A polygon requires at least 2 vertices, got %d',
+            $count
         ));
     }
 }

@@ -67,14 +67,14 @@ class CircleArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'single circle' => [
-                'phpValue' => [new CircleValueObject('<(0,0),1>')],
+                'phpValue' => [CircleValueObject::fromString('<(0,0),1>')],
                 'postgresValue' => '{"<(0,0),1>"}',
             ],
             'multiple circles' => [
                 'phpValue' => [
-                    new CircleValueObject('<(0,0),1>'),
-                    new CircleValueObject('<(1.5,2.5),3.5>'),
-                    new CircleValueObject('<(-10,-20),5>'),
+                    CircleValueObject::fromString('<(0,0),1>'),
+                    CircleValueObject::fromString('<(1.5,2.5),3.5>'),
+                    CircleValueObject::fromString('<(-10,-20),5>'),
                 ],
                 'postgresValue' => '{"<(0,0),1>","<(1.5,2.5),3.5>","<(-10,-20),5>"}',
             ],
@@ -99,7 +99,7 @@ class CircleArrayTest extends TestCase
             'invalid nested circle' => [['<(1,2),3>']],
             'mixed array (valid and invalid)' => [
                 [
-                    new CircleValueObject('<(0,0),1>'),
+                    CircleValueObject::fromString('<(0,0),1>'),
                     'invalid',
                 ],
             ],
@@ -232,9 +232,9 @@ class CircleArrayTest extends TestCase
     public static function provideValidArrayItemsForDatabase(): array
     {
         return [
-            'standard circle' => [new CircleValueObject('<(0,0),1>')],
-            'decimal values' => [new CircleValueObject('<(1.5,2.5),3.5>')],
-            'negative coordinates' => [new CircleValueObject('<(-10,-20),5>')],
+            'standard circle' => [CircleValueObject::fromString('<(0,0),1>')],
+            'decimal values' => [CircleValueObject::fromString('<(1.5,2.5),3.5>')],
+            'negative coordinates' => [CircleValueObject::fromString('<(-10,-20),5>')],
         ];
     }
 

@@ -11,10 +11,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
  */
 final class InvalidLsegException extends \InvalidArgumentException
 {
-    public static function forInvalidFormat(string $value): self
+    public static function forInvalidFormat(string $value, string $expectedPattern): self
     {
         return new self(\sprintf(
-            'Invalid lseg format. Expected format "[(x1,y1),(x2,y2)]", got: %s',
+            'Invalid lseg format. Expected format matching %s, got: %s',
+            \var_export($expectedPattern, true),
             \var_export($value, true)
         ));
     }

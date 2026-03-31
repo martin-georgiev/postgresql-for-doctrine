@@ -18,25 +18,58 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPolygonExce
  */
 final readonly class Polygon implements \Stringable
 {
-    private const POINT_PATTERN = '\(\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*\)';
+    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
+
+    private const POINT_PATTERN = '\(\s*'.self::COORDINATE_PATTERN.'\s*,\s*'.self::COORDINATE_PATTERN.'\s*\)';
 
     private const POLYGON_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.'){1,}\s*\)$/';
 
+    private const POINT_CAPTURE_REGEX = '/\(('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\)/';
+
+    /** @var list<Point> */
+    private array $vertices;
+
     public function __construct(
-        private string $value,
+        Point ...$vertices,
     ) {
-        if (!\preg_match(self::POLYGON_REGEX, $value)) {
-            throw InvalidPolygonException::forInvalidFormat($value);
+        if (\count($vertices) < 2) {
+            throw InvalidPolygonException::forTooFewVertices(\count($vertices));
         }
+
+        $this->vertices = \array_values($vertices);
     }
 
     public function __toString(): string
     {
-        return $this->value;
+        $vertexStrings = \array_map(
+            static fn (Point $vertex): string => \sprintf('(%s,%s)', $vertex->getX(), $vertex->getY()),
+            $this->vertices
+        );
+
+        return '('.\implode(',', $vertexStrings).')';
     }
 
-    public static function fromString(string $value): static
+    /**
+     * @return list<Point>
+     */
+    public function getVertices(): array
     {
-        return new self($value);
+        return $this->vertices;
+    }
+
+    public static function fromString(string $value): self
+    {
+        if (!\preg_match(self::POLYGON_REGEX, $value)) {
+            throw InvalidPolygonException::forInvalidFormat($value, self::POLYGON_REGEX);
+        }
+
+        \preg_match_all(self::POINT_CAPTURE_REGEX, $value, $matches, PREG_SET_ORDER);
+
+        $vertices = [];
+        foreach ($matches as $match) {
+            $vertices[] = new Point((float) $match[1], (float) $match[2]);
+        }
+
+        return new self(...$vertices);
     }
 }

@@ -20,27 +20,66 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPathExcepti
  */
 final readonly class Path implements \Stringable
 {
-    private const POINT_PATTERN = '\(\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*\)';
+    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
+
+    private const POINT_PATTERN = '\(\s*'.self::COORDINATE_PATTERN.'\s*,\s*'.self::COORDINATE_PATTERN.'\s*\)';
 
     private const OPEN_PATH_REGEX = '/^\[\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\]$/';
 
     private const CLOSED_PATH_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\)$/';
 
+    private const POINT_CAPTURE_REGEX = '/\(('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\)/';
+
+    /** @var list<Point> */
+    private array $points;
+
     public function __construct(
-        private string $value,
+        private bool $isOpen,
+        Point ...$points,
     ) {
-        if (!\preg_match(self::OPEN_PATH_REGEX, $value) && !\preg_match(self::CLOSED_PATH_REGEX, $value)) {
-            throw InvalidPathException::forInvalidFormat($value);
-        }
+        $this->points = \array_values($points);
     }
 
     public function __toString(): string
     {
-        return $this->value;
+        $pointStrings = \array_map(
+            static fn (Point $point): string => \sprintf('(%s,%s)', $point->getX(), $point->getY()),
+            $this->points
+        );
+        $inner = \implode(',', $pointStrings);
+
+        return $this->isOpen ? '['.$inner.']' : '('.$inner.')';
     }
 
-    public static function fromString(string $value): static
+    /**
+     * @return list<Point>
+     */
+    public function getPoints(): array
     {
-        return new self($value);
+        return $this->points;
+    }
+
+    public function isOpen(): bool
+    {
+        return $this->isOpen;
+    }
+
+    public static function fromString(string $value): self
+    {
+        $isOpen = \str_starts_with($value, '[');
+
+        $regex = $isOpen ? self::OPEN_PATH_REGEX : self::CLOSED_PATH_REGEX;
+        if (!\preg_match($regex, $value)) {
+            throw InvalidPathException::forInvalidFormat($value, $regex);
+        }
+
+        \preg_match_all(self::POINT_CAPTURE_REGEX, $value, $matches, PREG_SET_ORDER);
+
+        $points = [];
+        foreach ($matches as $match) {
+            $points[] = new Point((float) $match[1], (float) $match[2]);
+        }
+
+        return new self($isOpen, ...$points);
     }
 }

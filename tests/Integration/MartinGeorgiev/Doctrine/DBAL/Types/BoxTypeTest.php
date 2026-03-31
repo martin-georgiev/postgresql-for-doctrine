@@ -53,18 +53,18 @@ final class BoxTypeTest extends TestCase
         return [
             'unit box at origin' => [
                 'unit box at origin',
-                new BoxValueObject('(0,0),(1,1)'),
-                new BoxValueObject('(1,1),(0,0)'),
+                BoxValueObject::fromString('(0,0),(1,1)'),
+                BoxValueObject::fromString('(1,1),(0,0)'),
             ],
             'box with floats' => [
                 'box with floats',
-                new BoxValueObject('(1.5,2.5),(3.5,4.5)'),
-                new BoxValueObject('(3.5,4.5),(1.5,2.5)'),
+                BoxValueObject::fromString('(1.5,2.5),(3.5,4.5)'),
+                BoxValueObject::fromString('(3.5,4.5),(1.5,2.5)'),
             ],
             'box with negative coordinates' => [
                 'box with negative coordinates',
-                new BoxValueObject('(-3,-4),(-1,-2)'),
-                new BoxValueObject('(-1,-2),(-3,-4)'),
+                BoxValueObject::fromString('(-3,-4),(-1,-2)'),
+                BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ],
         ];
     }

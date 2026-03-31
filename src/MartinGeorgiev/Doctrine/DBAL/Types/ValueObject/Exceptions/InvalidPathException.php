@@ -11,10 +11,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
  */
 final class InvalidPathException extends \InvalidArgumentException
 {
-    public static function forInvalidFormat(string $value): self
+    public static function forInvalidFormat(string $value, string $expectedPattern): self
     {
         return new self(\sprintf(
-            'Invalid path format. Expected format "[(x1,y1),...]" (open) or "((x1,y1),...)" (closed), got: %s',
+            'Invalid path format. Expected format matching %s, got: %s',
+            \var_export($expectedPattern, true),
             \var_export($value, true)
         ));
     }

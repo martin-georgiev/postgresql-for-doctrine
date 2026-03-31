@@ -25,11 +25,11 @@ class PathArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'single open path' => ['single open path', [
-                new PathValueObject('[(0,0),(1,1),(2,0)]'),
+                PathValueObject::fromString('[(0,0),(1,1),(2,0)]'),
             ]],
             'open and closed paths' => ['open and closed paths', [
-                new PathValueObject('[(1.5,2.5),(3.5,4.5)]'),
-                new PathValueObject('((0,0),(1,1),(2,0))'),
+                PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
+                PathValueObject::fromString('((0,0),(1,1),(2,0))'),
             ]],
         ];
     }

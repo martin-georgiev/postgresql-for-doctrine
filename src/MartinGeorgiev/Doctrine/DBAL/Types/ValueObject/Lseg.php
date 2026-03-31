@@ -18,23 +18,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLsegExcepti
  */
 final readonly class Lseg implements \Stringable
 {
-    private const LSEG_REGEX = '/^\[?\s*\(\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*\)\s*,\s*\(\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*\)\s*\]?$/';
+    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
+
+    private const LSEG_REGEX = '/^\[?\s*\(('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\)\s*,\s*\(('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\)\s*\]?$/';
 
     public function __construct(
-        private string $value,
+        private Point $start,
+        private Point $end,
     ) {
-        if (!\preg_match(self::LSEG_REGEX, $value)) {
-            throw InvalidLsegException::forInvalidFormat($value);
-        }
     }
 
     public function __toString(): string
     {
-        return $this->value;
+        return \sprintf(
+            '[(%s,%s),(%s,%s)]',
+            $this->start->getX(),
+            $this->start->getY(),
+            $this->end->getX(),
+            $this->end->getY()
+        );
     }
 
-    public static function fromString(string $value): static
+    public function getStart(): Point
     {
-        return new self($value);
+        return $this->start;
+    }
+
+    public function getEnd(): Point
+    {
+        return $this->end;
+    }
+
+    public static function fromString(string $value): self
+    {
+        if (!\preg_match(self::LSEG_REGEX, $value, $matches)) {
+            throw InvalidLsegException::forInvalidFormat($value, self::LSEG_REGEX);
+        }
+
+        return new self(
+            new Point((float) $matches[1], (float) $matches[2]),
+            new Point((float) $matches[3], (float) $matches[4])
+        );
     }
 }

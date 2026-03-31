@@ -46,10 +46,10 @@ final class PolygonTypeTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            'triangle' => ['triangle', new PolygonValueObject('((0,0),(1,1),(2,0))')],
-            'square' => ['square', new PolygonValueObject('((0,0),(0,1),(1,1),(1,0))')],
-            'polygon with floats' => ['polygon with floats', new PolygonValueObject('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
-            'polygon with negative coordinates' => ['polygon with negative coordinates', new PolygonValueObject('((-1,-2),(-3,-4),(-5,-6))')],
+            'triangle' => ['triangle', PolygonValueObject::fromString('((0,0),(1,1),(2,0))')],
+            'square' => ['square', PolygonValueObject::fromString('((0,0),(0,1),(1,1),(1,0))')],
+            'polygon with floats' => ['polygon with floats', PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
+            'polygon with negative coordinates' => ['polygon with negative coordinates', PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))')],
         ];
     }
 }

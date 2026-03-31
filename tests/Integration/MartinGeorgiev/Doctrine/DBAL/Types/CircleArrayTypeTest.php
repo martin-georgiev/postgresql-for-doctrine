@@ -25,11 +25,11 @@ class CircleArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'single circle' => ['single circle', [
-                new CircleValueObject('<(0,0),1>'),
+                CircleValueObject::fromString('<(0,0),1>'),
             ]],
             'multiple circles' => ['multiple circles', [
-                new CircleValueObject('<(1.5,2.5),3.5>'),
-                new CircleValueObject('<(-10,-20),5>'),
+                CircleValueObject::fromString('<(1.5,2.5),3.5>'),
+                CircleValueObject::fromString('<(-10,-20),5>'),
             ]],
         ];
     }

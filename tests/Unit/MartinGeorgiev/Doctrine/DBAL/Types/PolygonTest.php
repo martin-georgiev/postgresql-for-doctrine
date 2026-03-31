@@ -70,19 +70,19 @@ class PolygonTest extends TestCase
     {
         return [
             'triangle' => [
-                'polygonValueObject' => new PolygonValueObject('((0,0),(1,0),(0,1))'),
+                'polygonValueObject' => PolygonValueObject::fromString('((0,0),(1,0),(0,1))'),
                 'postgresValue' => '((0,0),(1,0),(0,1))',
             ],
             'square' => [
-                'polygonValueObject' => new PolygonValueObject('((0,0),(1,0),(1,1),(0,1))'),
+                'polygonValueObject' => PolygonValueObject::fromString('((0,0),(1,0),(1,1),(0,1))'),
                 'postgresValue' => '((0,0),(1,0),(1,1),(0,1))',
             ],
             'polygon with floats' => [
-                'polygonValueObject' => new PolygonValueObject('((1.5,2.5),(3.5,4.5),(5.5,6.5))'),
+                'polygonValueObject' => PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))'),
                 'postgresValue' => '((1.5,2.5),(3.5,4.5),(5.5,6.5))',
             ],
             'polygon with negative coordinates' => [
-                'polygonValueObject' => new PolygonValueObject('((-1,-2),(-3,-4),(-5,-6))'),
+                'polygonValueObject' => PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))'),
                 'postgresValue' => '((-1,-2),(-3,-4),(-5,-6))',
             ],
         ];

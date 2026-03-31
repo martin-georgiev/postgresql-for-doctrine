@@ -46,9 +46,9 @@ final class CircleTypeTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            'unit circle at origin' => ['unit circle at origin', new CircleValueObject('<(0,0),1>')],
-            'circle with floats' => ['circle with floats', new CircleValueObject('<(1.5,2.5),3.5>')],
-            'circle with negative center' => ['circle with negative center', new CircleValueObject('<(-10,-20),5>')],
+            'unit circle at origin' => ['unit circle at origin', CircleValueObject::fromString('<(0,0),1>')],
+            'circle with floats' => ['circle with floats', CircleValueObject::fromString('<(1.5,2.5),3.5>')],
+            'circle with negative center' => ['circle with negative center', CircleValueObject::fromString('<(-10,-20),5>')],
         ];
     }
 }

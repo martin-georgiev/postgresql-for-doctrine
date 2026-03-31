@@ -67,14 +67,14 @@ class PolygonArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'single polygon' => [
-                'phpValue' => [new PolygonValueObject('((0,0),(1,1),(2,0))')],
+                'phpValue' => [PolygonValueObject::fromString('((0,0),(1,1),(2,0))')],
                 'postgresValue' => '{"((0,0),(1,1),(2,0))"}',
             ],
             'multiple polygons' => [
                 'phpValue' => [
-                    new PolygonValueObject('((0,0),(1,1),(2,0))'),
-                    new PolygonValueObject('((1.5,2.5),(3.5,4.5),(5.5,6.5))'),
-                    new PolygonValueObject('((-1,-2),(-3,-4),(-5,-6))'),
+                    PolygonValueObject::fromString('((0,0),(1,1),(2,0))'),
+                    PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))'),
+                    PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))'),
                 ],
                 'postgresValue' => '{"((0,0),(1,1),(2,0))","((1.5,2.5),(3.5,4.5),(5.5,6.5))","((-1,-2),(-3,-4),(-5,-6))"}',
             ],
@@ -99,7 +99,7 @@ class PolygonArrayTest extends TestCase
             'invalid nested polygon' => [['((0,0),(1,1),(2,0))']],
             'mixed array (valid and invalid)' => [
                 [
-                    new PolygonValueObject('((0,0),(1,1),(2,0))'),
+                    PolygonValueObject::fromString('((0,0),(1,1),(2,0))'),
                     'invalid',
                 ],
             ],
@@ -232,9 +232,9 @@ class PolygonArrayTest extends TestCase
     public static function provideValidArrayItemsForDatabase(): array
     {
         return [
-            'triangle' => [new PolygonValueObject('((0,0),(1,1),(2,0))')],
-            'decimal values' => [new PolygonValueObject('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
-            'negative coordinates' => [new PolygonValueObject('((-1,-2),(-3,-4),(-5,-6))')],
+            'triangle' => [PolygonValueObject::fromString('((0,0),(1,1),(2,0))')],
+            'decimal values' => [PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
+            'negative coordinates' => [PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))')],
         ];
     }
 

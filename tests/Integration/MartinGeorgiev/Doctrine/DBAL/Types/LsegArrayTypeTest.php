@@ -25,11 +25,11 @@ class LsegArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'single segment' => ['single segment', [
-                new LsegValueObject('[(0,0),(1,1)]'),
+                LsegValueObject::fromString('[(0,0),(1,1)]'),
             ]],
             'multiple segments' => ['multiple segments', [
-                new LsegValueObject('[(1.5,2.5),(3.5,4.5)]'),
-                new LsegValueObject('[(-1,-2),(-3,-4)]'),
+                LsegValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
+                LsegValueObject::fromString('[(-1,-2),(-3,-4)]'),
             ]],
         ];
     }

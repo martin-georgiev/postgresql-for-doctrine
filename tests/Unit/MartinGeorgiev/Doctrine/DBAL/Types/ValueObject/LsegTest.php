@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLsegException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Lseg;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -14,22 +15,39 @@ class LsegTest extends TestCase
 {
     #[DataProvider('provideValidLsegStrings')]
     #[Test]
-    public function can_create_from_string(string $value): void
+    public function can_create_from_string(string $input, string $expectedOutput): void
     {
-        $lseg = Lseg::fromString($value);
-        $this->assertSame($value, (string) $lseg);
+        $lseg = Lseg::fromString($input);
+        $this->assertSame($expectedOutput, (string) $lseg);
     }
 
     /**
-     * @return iterable<string, array{string}>
+     * @return iterable<string, array{string, string}>
      */
     public static function provideValidLsegStrings(): iterable
     {
-        yield 'with square brackets' => ['[(1,2),(3,4)]'];
-        yield 'without brackets' => ['(1,2),(3,4)'];
-        yield 'with floats' => ['[(1.5,2.5),(3.5,4.5)]'];
-        yield 'with negative coordinates' => ['[(-1,-2),(-3,-4)]'];
-        yield 'from origin' => ['[(0,0),(1,1)]'];
+        yield 'with square brackets' => ['[(1,2),(3,4)]', '[(1,2),(3,4)]'];
+        yield 'without brackets' => ['(1,2),(3,4)', '[(1,2),(3,4)]'];
+        yield 'with floats' => ['[(1.5,2.5),(3.5,4.5)]', '[(1.5,2.5),(3.5,4.5)]'];
+        yield 'with negative coordinates' => ['[(-1,-2),(-3,-4)]', '[(-1,-2),(-3,-4)]'];
+        yield 'from origin' => ['[(0,0),(1,1)]', '[(0,0),(1,1)]'];
+    }
+
+    #[Test]
+    public function getters_return_point_values(): void
+    {
+        $lseg = Lseg::fromString('[(1.5,-2.5),(3,4)]');
+        $this->assertSame(1.5, $lseg->getStart()->getX());
+        $this->assertSame(-2.5, $lseg->getStart()->getY());
+        $this->assertSame(3.0, $lseg->getEnd()->getX());
+        $this->assertSame(4.0, $lseg->getEnd()->getY());
+    }
+
+    #[Test]
+    public function can_construct_from_points(): void
+    {
+        $lseg = new Lseg(new Point(1.5, -2.5), new Point(3.0, 4.0));
+        $this->assertSame('[(1.5,-2.5),(3,4)]', (string) $lseg);
     }
 
     #[DataProvider('provideInvalidLsegStrings')]
@@ -53,10 +71,9 @@ class LsegTest extends TestCase
     }
 
     #[Test]
-    public function preserves_string_representation(): void
+    public function normalizes_bracketless_input_to_bracketed_output(): void
     {
-        $value = '[(1,2),(3,4)]';
-        $lseg = new Lseg($value);
-        $this->assertSame($value, (string) $lseg);
+        $lseg = Lseg::fromString('(1,2),(3,4)');
+        $this->assertSame('[(1,2),(3,4)]', (string) $lseg);
     }
 }

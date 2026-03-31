@@ -70,19 +70,19 @@ class CircleTest extends TestCase
     {
         return [
             'basic circle' => [
-                'circleValueObject' => new CircleValueObject('<(1,2),3>'),
+                'circleValueObject' => CircleValueObject::fromString('<(1,2),3>'),
                 'postgresValue' => '<(1,2),3>',
             ],
             'circle with floats' => [
-                'circleValueObject' => new CircleValueObject('<(1.5,2.5),3.5>'),
+                'circleValueObject' => CircleValueObject::fromString('<(1.5,2.5),3.5>'),
                 'postgresValue' => '<(1.5,2.5),3.5>',
             ],
             'circle with negative center' => [
-                'circleValueObject' => new CircleValueObject('<(-1,-2),5>'),
+                'circleValueObject' => CircleValueObject::fromString('<(-1,-2),5>'),
                 'postgresValue' => '<(-1,-2),5>',
             ],
             'circle at origin' => [
-                'circleValueObject' => new CircleValueObject('<(0,0),1>'),
+                'circleValueObject' => CircleValueObject::fromString('<(0,0),1>'),
                 'postgresValue' => '<(0,0),1>',
             ],
         ];

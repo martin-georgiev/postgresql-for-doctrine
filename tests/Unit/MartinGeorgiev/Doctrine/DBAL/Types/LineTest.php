@@ -70,19 +70,19 @@ class LineTest extends TestCase
     {
         return [
             'basic line' => [
-                'lineValueObject' => new LineValueObject('{1,2,3}'),
+                'lineValueObject' => LineValueObject::fromString('{1,2,3}'),
                 'postgresValue' => '{1,2,3}',
             ],
             'line with floats' => [
-                'lineValueObject' => new LineValueObject('{1.5,2.5,3.5}'),
+                'lineValueObject' => LineValueObject::fromString('{1.5,2.5,3.5}'),
                 'postgresValue' => '{1.5,2.5,3.5}',
             ],
             'line with negative coefficients' => [
-                'lineValueObject' => new LineValueObject('{-1,-2,-3}'),
+                'lineValueObject' => LineValueObject::fromString('{-1,-2,-3}'),
                 'postgresValue' => '{-1,-2,-3}',
             ],
             'line with zero constant' => [
-                'lineValueObject' => new LineValueObject('{1,2,0}'),
+                'lineValueObject' => LineValueObject::fromString('{1,2,0}'),
                 'postgresValue' => '{1,2,0}',
             ],
         ];

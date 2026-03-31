@@ -46,9 +46,9 @@ final class LineTypeTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            'simple line' => ['simple line', new LineValueObject('{1,0,0}')],
-            'line with floats' => ['line with floats', new LineValueObject('{1.5,2.5,3.5}')],
-            'line with negative coefficients' => ['line with negative coefficients', new LineValueObject('{-1,-2,-3}')],
+            'simple line' => ['simple line', LineValueObject::fromString('{1,0,0}')],
+            'line with floats' => ['line with floats', LineValueObject::fromString('{1.5,2.5,3.5}')],
+            'line with negative coefficients' => ['line with negative coefficients', LineValueObject::fromString('{-1,-2,-3}')],
         ];
     }
 }

@@ -18,23 +18,51 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleExcep
  */
 final readonly class Circle implements \Stringable
 {
-    private const CIRCLE_REGEX = '/^<\s*\(\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*\)\s*,\s*-?\d+(?:\.\d+)?\s*>$/';
+    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
+
+    private const CIRCLE_REGEX = '/^<\(('.self::COORDINATE_PATTERN.'),('.self::COORDINATE_PATTERN.')\),('.self::COORDINATE_PATTERN.')>$/';
 
     public function __construct(
-        private string $value,
+        private Point $center,
+        private float $radius,
     ) {
-        if (!\preg_match(self::CIRCLE_REGEX, $value)) {
-            throw InvalidCircleException::forInvalidFormat($value);
-        }
+        $this->validateRadius($radius);
     }
 
     public function __toString(): string
     {
-        return $this->value;
+        return \sprintf('<(%s,%s),%s>', $this->center->getX(), $this->center->getY(), $this->radius);
     }
 
-    public static function fromString(string $value): static
+    public function getCenter(): Point
     {
-        return new self($value);
+        return $this->center;
+    }
+
+    public function getRadius(): float
+    {
+        return $this->radius;
+    }
+
+    public static function fromString(string $value): self
+    {
+        if (!\preg_match(self::CIRCLE_REGEX, $value, $matches)) {
+            throw InvalidCircleException::forInvalidFormat($value, self::CIRCLE_REGEX);
+        }
+
+        return new self(
+            new Point((float) $matches[1], (float) $matches[2]),
+            (float) $matches[3]
+        );
+    }
+
+    private function validateRadius(float $value): void
+    {
+        $stringValue = (string) $value;
+
+        $floatRegex = '/^'.self::COORDINATE_PATTERN.'$/';
+        if (!\preg_match($floatRegex, $stringValue)) {
+            throw InvalidCircleException::forInvalidCoordinate('radius', $stringValue);
+        }
     }
 }

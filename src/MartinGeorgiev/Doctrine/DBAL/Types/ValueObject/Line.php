@@ -18,23 +18,56 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLineExcepti
  */
 final readonly class Line implements \Stringable
 {
-    private const LINE_REGEX = '/^\{\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\s*\}$/';
+    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
+
+    private const LINE_REGEX = '/^\{\s*('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\s*\}$/';
 
     public function __construct(
-        private string $value,
+        private float $a,
+        private float $b,
+        private float $c,
     ) {
-        if (!\preg_match(self::LINE_REGEX, $value)) {
-            throw InvalidLineException::forInvalidFormat($value);
-        }
+        $this->validateCoordinate($a, 'a');
+        $this->validateCoordinate($b, 'b');
+        $this->validateCoordinate($c, 'c');
     }
 
     public function __toString(): string
     {
-        return $this->value;
+        return \sprintf('{%s,%s,%s}', (string) $this->a, (string) $this->b, (string) $this->c);
     }
 
-    public static function fromString(string $value): static
+    public function getA(): float
     {
-        return new self($value);
+        return $this->a;
+    }
+
+    public function getB(): float
+    {
+        return $this->b;
+    }
+
+    public function getC(): float
+    {
+        return $this->c;
+    }
+
+    public static function fromString(string $value): self
+    {
+        if (!\preg_match(self::LINE_REGEX, $value, $matches)) {
+            throw InvalidLineException::forInvalidFormat($value, self::LINE_REGEX);
+        }
+
+        return new self((float) $matches[1], (float) $matches[2], (float) $matches[3]);
+    }
+
+    private function validateCoordinate(float $value, string $name): void
+    {
+        $stringValue = (string) $value;
+
+        $floatRegex = '/^'.self::COORDINATE_PATTERN.'$/';
+        if (!\preg_match($floatRegex, $stringValue)) {
+            throw InvalidLineException::forInvalidCoordinate($name, $stringValue);
+        }
     }
 }

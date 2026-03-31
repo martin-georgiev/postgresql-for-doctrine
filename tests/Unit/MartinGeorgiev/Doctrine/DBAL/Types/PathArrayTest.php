@@ -67,14 +67,14 @@ class PathArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'single open path' => [
-                'phpValue' => [new PathValueObject('[(0,0),(1,1)]')],
+                'phpValue' => [PathValueObject::fromString('[(0,0),(1,1)]')],
                 'postgresValue' => '{"[(0,0),(1,1)]"}',
             ],
             'multiple paths (open and closed)' => [
                 'phpValue' => [
-                    new PathValueObject('[(0,0),(1,1)]'),
-                    new PathValueObject('((1,2),(3,4))'),
-                    new PathValueObject('[(1.5,2.5),(3.5,4.5)]'),
+                    PathValueObject::fromString('[(0,0),(1,1)]'),
+                    PathValueObject::fromString('((1,2),(3,4))'),
+                    PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
                 ],
                 'postgresValue' => '{"[(0,0),(1,1)]","((1,2),(3,4))","[(1.5,2.5),(3.5,4.5)]"}',
             ],
@@ -99,7 +99,7 @@ class PathArrayTest extends TestCase
             'invalid nested path' => [['[(0,0),(1,1)]']],
             'mixed array (valid and invalid)' => [
                 [
-                    new PathValueObject('[(0,0),(1,1)]'),
+                    PathValueObject::fromString('[(0,0),(1,1)]'),
                     'invalid',
                 ],
             ],
@@ -232,9 +232,9 @@ class PathArrayTest extends TestCase
     public static function provideValidArrayItemsForDatabase(): array
     {
         return [
-            'open path' => [new PathValueObject('[(0,0),(1,1)]')],
-            'closed path' => [new PathValueObject('((1,2),(3,4))')],
-            'decimal values' => [new PathValueObject('[(1.5,2.5),(3.5,4.5)]')],
+            'open path' => [PathValueObject::fromString('[(0,0),(1,1)]')],
+            'closed path' => [PathValueObject::fromString('((1,2),(3,4))')],
+            'decimal values' => [PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
         ];
     }
 

@@ -70,23 +70,23 @@ class PathTest extends TestCase
     {
         return [
             'open path with two points' => [
-                'pathValueObject' => new PathValueObject('[(1,2),(3,4)]'),
+                'pathValueObject' => PathValueObject::fromString('[(1,2),(3,4)]'),
                 'postgresValue' => '[(1,2),(3,4)]',
             ],
             'closed path with two points' => [
-                'pathValueObject' => new PathValueObject('((1,2),(3,4))'),
+                'pathValueObject' => PathValueObject::fromString('((1,2),(3,4))'),
                 'postgresValue' => '((1,2),(3,4))',
             ],
             'open path with three points' => [
-                'pathValueObject' => new PathValueObject('[(1,2),(3,4),(5,6)]'),
+                'pathValueObject' => PathValueObject::fromString('[(1,2),(3,4),(5,6)]'),
                 'postgresValue' => '[(1,2),(3,4),(5,6)]',
             ],
             'path with floats' => [
-                'pathValueObject' => new PathValueObject('[(1.5,2.5),(3.5,4.5)]'),
+                'pathValueObject' => PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
                 'postgresValue' => '[(1.5,2.5),(3.5,4.5)]',
             ],
             'path with negative coordinates' => [
-                'pathValueObject' => new PathValueObject('[(-1,-2),(-3,-4)]'),
+                'pathValueObject' => PathValueObject::fromString('[(-1,-2),(-3,-4)]'),
                 'postgresValue' => '[(-1,-2),(-3,-4)]',
             ],
         ];

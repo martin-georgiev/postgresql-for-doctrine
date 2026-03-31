@@ -25,11 +25,11 @@ class LineArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'single line' => ['single line', [
-                new LineValueObject('{1,0,0}'),
+                LineValueObject::fromString('{1,0,0}'),
             ]],
             'multiple lines' => ['multiple lines', [
-                new LineValueObject('{1.5,2.5,3.5}'),
-                new LineValueObject('{-1,-2,-3}'),
+                LineValueObject::fromString('{1.5,2.5,3.5}'),
+                LineValueObject::fromString('{-1,-2,-3}'),
             ]],
         ];
     }

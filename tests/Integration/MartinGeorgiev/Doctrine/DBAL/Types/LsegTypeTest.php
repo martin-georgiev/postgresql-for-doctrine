@@ -46,9 +46,9 @@ final class LsegTypeTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            'simple segment' => ['simple segment', new LsegValueObject('[(0,0),(1,1)]')],
-            'segment with floats' => ['segment with floats', new LsegValueObject('[(1.5,2.5),(3.5,4.5)]')],
-            'segment with negative coordinates' => ['segment with negative coordinates', new LsegValueObject('[(-1,-2),(-3,-4)]')],
+            'simple segment' => ['simple segment', LsegValueObject::fromString('[(0,0),(1,1)]')],
+            'segment with floats' => ['segment with floats', LsegValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
+            'segment with negative coordinates' => ['segment with negative coordinates', LsegValueObject::fromString('[(-1,-2),(-3,-4)]')],
         ];
     }
 }
