@@ -31,6 +31,11 @@ class LsegTest extends TestCase
         yield 'with floats' => ['[(1.5,2.5),(3.5,4.5)]', '[(1.5,2.5),(3.5,4.5)]'];
         yield 'with negative coordinates' => ['[(-1,-2),(-3,-4)]', '[(-1,-2),(-3,-4)]'];
         yield 'from origin' => ['[(0,0),(1,1)]', '[(0,0),(1,1)]'];
+        yield 'with whitespace inside point parentheses' => ['[( 1 , 2 ),( 3 , 4 )]', '[(1,2),(3,4)]'];
+        yield 'with whitespace after opening bracket' => ['[ (1,2),(3,4)]', '[(1,2),(3,4)]'];
+        yield 'with whitespace before closing bracket' => ['[(1,2),(3,4) ]', '[(1,2),(3,4)]'];
+        yield 'with whitespace around comma between points' => ['[(1,2) , (3,4)]', '[(1,2),(3,4)]'];
+        yield 'with mixed whitespace variations' => ['[ ( 1 , 2 ) , ( 3 , 4 ) ]', '[(1,2),(3,4)]'];
     }
 
     #[Test]

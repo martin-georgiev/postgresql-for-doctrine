@@ -40,7 +40,7 @@ class BoxArrayTypeTest extends ArrayTypeTestCase
         $this->assertIsArray($actual);
         $this->assertCount(\count($expected), $actual, \sprintf('Array count mismatch for type %s', $typeName));
 
-        foreach ($actual as $index => $item) {
+        foreach ($actual as $item) {
             $this->assertInstanceOf(BoxValueObject::class, $item);
         }
     }

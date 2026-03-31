@@ -38,13 +38,6 @@ final class BoxTypeTest extends TestCase
         );
     }
 
-    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
-    {
-        $this->assertInstanceOf(BoxValueObject::class, $expected);
-        $this->assertInstanceOf(BoxValueObject::class, $actual);
-        $this->assertSame($expected->__toString(), $actual->__toString(), \sprintf('Type %s round-trip failed', $typeName));
-    }
-
     /**
      * @return array<string, array{string, BoxValueObject, BoxValueObject}>
      */
@@ -67,5 +60,12 @@ final class BoxTypeTest extends TestCase
                 BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ],
         ];
+    }
+
+    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
+    {
+        $this->assertInstanceOf(BoxValueObject::class, $expected);
+        $this->assertInstanceOf(BoxValueObject::class, $actual);
+        $this->assertSame($expected->__toString(), $actual->__toString(), \sprintf('Type %s round-trip failed', $typeName));
     }
 }

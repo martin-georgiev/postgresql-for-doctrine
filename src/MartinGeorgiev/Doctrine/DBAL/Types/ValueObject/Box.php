@@ -20,13 +20,12 @@ final readonly class Box implements \Stringable
 {
     private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
 
-    private const BOX_REGEX = '/^\(('.self::COORDINATE_PATTERN.'),('.self::COORDINATE_PATTERN.')\),\(('.self::COORDINATE_PATTERN.'),('.self::COORDINATE_PATTERN.')\)$/';
+    private const BOX_REGEX = '/^\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)\s*,\s*\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)$/';
 
     public function __construct(
         private Point $upperRight,
         private Point $lowerLeft,
-    ) {
-    }
+    ) {}
 
     public function __toString(): string
     {

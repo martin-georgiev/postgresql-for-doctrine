@@ -26,13 +26,12 @@ final readonly class Lseg implements \Stringable
 
     private const UNBRACKETED_LSEG_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
 
-    private const POINT_CAPTURE_REGEX = '/\(('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\)/';
+    private const POINT_CAPTURE_REGEX = '/\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)/';
 
     public function __construct(
         private Point $start,
         private Point $end,
-    ) {
-    }
+    ) {}
 
     public function __toString(): string
     {

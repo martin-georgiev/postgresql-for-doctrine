@@ -65,6 +65,12 @@ final readonly class Line implements \Stringable
         return new self((float) $matches[1], (float) $matches[2], (float) $matches[3]);
     }
 
+    /**
+     * Validates that a coordinate value matches COORDINATE_PATTERN (at most 6 decimal places).
+     *
+     * PHP float-to-string conversion can produce scientific notation for very small/large values
+     * (e.g., "1.0E-7") which will not match the regex. Tests enforce this precision constraint.
+     */
     private function validateCoordinate(float $value, string $name): void
     {
         $stringValue = (string) $value;

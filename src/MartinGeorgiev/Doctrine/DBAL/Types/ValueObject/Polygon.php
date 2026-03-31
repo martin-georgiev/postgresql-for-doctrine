@@ -24,7 +24,7 @@ final readonly class Polygon implements \Stringable
 
     private const POLYGON_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.'){1,}\s*\)$/';
 
-    private const POINT_CAPTURE_REGEX = '/\(('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\)/';
+    private const POINT_CAPTURE_REGEX = '/\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)/';
 
     /** @var list<Point> */
     private array $vertices;
@@ -42,7 +42,7 @@ final readonly class Polygon implements \Stringable
     public function __toString(): string
     {
         $vertexStrings = \array_map(
-            static fn (Point $vertex): string => \sprintf('(%s,%s)', $vertex->getX(), $vertex->getY()),
+            static fn (Point $point): string => \sprintf('(%s,%s)', $point->getX(), $point->getY()),
             $this->vertices
         );
 

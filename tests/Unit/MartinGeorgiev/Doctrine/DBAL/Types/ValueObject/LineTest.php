@@ -75,9 +75,10 @@ class LineTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_invalid_coordinate(): void
+    public function throws_exception_for_coordinate_with_more_than_six_decimal_places(): void
     {
         $this->expectException(InvalidLineException::class);
+        $this->expectExceptionMessage("Invalid 'a' coordinate format: '1.1234567'");
         new Line(1.1234567, 2.0, 3.0);
     }
 

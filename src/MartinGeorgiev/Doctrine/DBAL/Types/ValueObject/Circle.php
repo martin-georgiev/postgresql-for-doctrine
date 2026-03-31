@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointException;
 
 /**
  * Represents a PostgreSQL circle geometric type.
@@ -22,7 +23,7 @@ final readonly class Circle implements \Stringable
 
     private const RADIUS_PATTERN = '\d+(?:\.\d{1,6})?';
 
-    private const CIRCLE_REGEX = '/^<\(('.self::COORDINATE_PATTERN.'),('.self::COORDINATE_PATTERN.')\),('.self::RADIUS_PATTERN.')>$/';
+    private const CIRCLE_REGEX = '/^<\s*\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
 
     public function __construct(
         private Point $center,
@@ -52,10 +53,13 @@ final readonly class Circle implements \Stringable
             throw InvalidCircleException::forInvalidFormat($value, self::CIRCLE_REGEX);
         }
 
-        return new self(
-            new Point((float) $matches[1], (float) $matches[2]),
-            (float) $matches[3]
-        );
+        try {
+            $point = new Point((float) $matches[1], (float) $matches[2]);
+        } catch (InvalidPointException $invalidPointException) {
+            throw InvalidCircleException::forInvalidFormat($value, self::CIRCLE_REGEX, $invalidPointException);
+        }
+
+        return new self($point, (float) $matches[3]);
     }
 
     private function validateRadius(float $value): void
