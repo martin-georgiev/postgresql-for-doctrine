@@ -15,6 +15,8 @@ use MartinGeorgiev\Utils\DoctrineLexer;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
+ * @since 0.7
+ *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 abstract class BaseVariadicFunction extends BaseFunction
