@@ -19,16 +19,9 @@ class Jsonb extends BaseType
 {
     use JsonTransformer;
 
-    /**
-     * @var string
-     */
     protected const TYPE_NAME = Type::JSONB;
 
-    /**
-     * Converts a value from its PHP representation to its database representation of the type.
-     *
-     * @param array|bool|float|int|string|null $value the value to convert
-     */
+    /** @param array|bool|float|int|string|null $value */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -38,11 +31,7 @@ class Jsonb extends BaseType
         return $this->transformToPostgresJson($value);
     }
 
-    /**
-     * Converts a value from its database representation to its PHP representation of this type.
-     *
-     * @param string|null $value the value to convert
-     */
+    /** @param string|null $value */
     public function convertToPHPValue($value, AbstractPlatform $platform): array|bool|float|int|string|null
     {
         if ($value === null) {

@@ -19,16 +19,9 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 class TextArray extends BaseType
 {
-    /**
-     * @var string
-     */
     protected const TYPE_NAME = Type::TEXT_ARRAY;
 
-    /**
-     * Converts a value from its PHP representation to its database representation of the type.
-     *
-     * @param array|null $value the value to convert
-     */
+    /** @param array|null $value */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -47,11 +40,7 @@ class TextArray extends BaseType
         return PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpTextArray);
     }
 
-    /**
-     * Converts a value from its database representation to its PHP representation of this type.
-     *
-     * @param string|null $value the value to convert
-     */
+    /** @param string|null $value */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {
         if ($value === null) {

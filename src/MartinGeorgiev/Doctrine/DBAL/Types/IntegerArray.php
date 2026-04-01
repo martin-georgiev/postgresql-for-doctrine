@@ -16,9 +16,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
  */
 class IntegerArray extends BaseIntegerArray
 {
-    /**
-     * @var string
-     */
     protected const TYPE_NAME = Type::INTEGER_ARRAY;
 
     protected function getMinValue(): int

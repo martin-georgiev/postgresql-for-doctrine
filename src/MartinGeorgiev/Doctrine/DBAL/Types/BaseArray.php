@@ -17,13 +17,7 @@ use Doctrine\DBAL\Types\ConversionException;
  */
 abstract class BaseArray extends BaseType
 {
-    /**
-     * Converts a value from its PHP representation to its PostgreSQL representation of the type.
-     *
-     * @param array|null $phpArray the value to convert
-     *
-     * @throws ConversionException When passed argument is not PHP array OR When invalid array items are detected
-     */
+    /** @param array|null $phpArray */
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
     {
         if ($phpArray === null) {
@@ -111,11 +105,7 @@ abstract class BaseArray extends BaseType
         return '"'.$escaped.'"';
     }
 
-    /**
-     * Converts a value from its PostgreSQL representation to its PHP representation of this type.
-     *
-     * @param string|null $postgresArray the value to convert
-     */
+    /** @param string|null $postgresArray */
     public function convertToPHPValue($postgresArray, AbstractPlatform $platform): ?array
     {
         if ($postgresArray === null) {

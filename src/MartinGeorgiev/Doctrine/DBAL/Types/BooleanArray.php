@@ -17,9 +17,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
  */
 class BooleanArray extends BaseArray
 {
-    /**
-     * @var string
-     */
     protected const TYPE_NAME = Type::BOOL_ARRAY;
 
     public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
