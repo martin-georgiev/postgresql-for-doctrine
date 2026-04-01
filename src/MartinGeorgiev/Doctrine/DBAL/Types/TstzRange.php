@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange as TstzRangeValueOb
  */
 class TstzRange extends BaseRangeType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::TSTZRANGE;
 
     protected function createFromString(string $value): Range

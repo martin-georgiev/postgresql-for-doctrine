@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Polygon as PolygonValueObject
  */
 final class Polygon extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::POLYGON;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

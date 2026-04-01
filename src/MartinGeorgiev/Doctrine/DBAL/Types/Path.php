@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Path as PathValueObject;
  */
 final class Path extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::PATH;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

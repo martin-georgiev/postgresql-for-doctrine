@@ -11,10 +11,19 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  */
 abstract readonly class BaseGeometricValue implements \Stringable
 {
+    /**
+     * @var string
+     */
     protected const COORDINATE_PATTERN = '-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?';
 
+    /**
+     * @var string
+     */
     protected const POINT_PATTERN = '\(\s*'.self::COORDINATE_PATTERN.'\s*,\s*'.self::COORDINATE_PATTERN.'\s*\)';
 
+    /**
+     * @var string
+     */
     protected const POINT_CAPTURE_REGEX = '/\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)/';
 
     /**

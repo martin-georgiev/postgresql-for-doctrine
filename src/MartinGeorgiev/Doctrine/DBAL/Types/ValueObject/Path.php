@@ -20,8 +20,14 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPathExcepti
  */
 final readonly class Path extends BaseGeometricValue
 {
+    /**
+     * @var string
+     */
     private const OPEN_PATH_REGEX = '/^\[\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\]$/';
 
+    /**
+     * @var string
+     */
     private const CLOSED_PATH_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\)$/';
 
     /** @var list<Point> */

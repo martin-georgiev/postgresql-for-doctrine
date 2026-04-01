@@ -18,8 +18,14 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLsegExcepti
  */
 final readonly class Lseg extends BaseGeometricValue
 {
+    /**
+     * @var string
+     */
     private const BRACKETED_LSEG_REGEX = '/^\[\s*'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'\s*\]$/';
 
+    /**
+     * @var string
+     */
     private const UNBRACKETED_LSEG_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
 
     public function __construct(

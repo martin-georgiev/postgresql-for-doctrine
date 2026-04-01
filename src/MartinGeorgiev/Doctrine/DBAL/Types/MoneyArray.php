@@ -24,6 +24,9 @@ class MoneyArray extends BaseStringArray
 {
     use MoneyValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::MONEY_ARRAY;
 
     public function isValidArrayItemForDatabase(mixed $item): bool

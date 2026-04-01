@@ -13,14 +13,29 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  */
 abstract class Range implements \Stringable
 {
+    /**
+     * @var string
+     */
     protected const BRACKET_LOWER_INCLUSIVE = '[';
 
+    /**
+     * @var string
+     */
     protected const BRACKET_LOWER_EXCLUSIVE = '(';
 
+    /**
+     * @var string
+     */
     protected const BRACKET_UPPER_INCLUSIVE = ']';
 
+    /**
+     * @var string
+     */
     protected const BRACKET_UPPER_EXCLUSIVE = ')';
 
+    /**
+     * @var string
+     */
     protected const EMPTY_RANGE_STRING = 'empty';
 
     /**

@@ -18,6 +18,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLineExcepti
  */
 final readonly class Line extends BaseGeometricValue
 {
+    /**
+     * @var string
+     */
     private const LINE_REGEX = '/^\{\s*('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\s*\}$/';
 
     public function __construct(

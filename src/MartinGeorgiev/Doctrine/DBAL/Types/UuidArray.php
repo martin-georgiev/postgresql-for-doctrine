@@ -19,8 +19,14 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 class UuidArray extends BaseArray
 {
+    /**
+     * @var string
+     */
     private const UUID_REGEX = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i';
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::UUID_ARRAY;
 
     protected function transformArrayItemForPostgres(mixed $item): string

@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Lseg as LsegValueObject;
  */
 final class Lseg extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::LSEG;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

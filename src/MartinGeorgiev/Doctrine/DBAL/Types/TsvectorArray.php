@@ -18,6 +18,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorArrayItemForPHP
  */
 class TsvectorArray extends BaseStringArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::TSVECTOR_ARRAY;
 
     public function isValidArrayItemForDatabase(mixed $item): bool

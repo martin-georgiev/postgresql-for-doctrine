@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidBoxExceptio
  */
 final class Box extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::BOX;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

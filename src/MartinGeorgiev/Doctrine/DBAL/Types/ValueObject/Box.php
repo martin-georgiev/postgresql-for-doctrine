@@ -18,6 +18,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidBoxExceptio
  */
 final readonly class Box extends BaseGeometricValue
 {
+    /**
+     * @var string
+     */
     private const BOX_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
 
     public function __construct(

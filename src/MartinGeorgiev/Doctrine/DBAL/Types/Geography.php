@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
  */
 final class Geography extends BaseSpatialType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::GEOGRAPHY;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

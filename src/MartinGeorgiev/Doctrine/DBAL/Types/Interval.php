@@ -20,6 +20,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObje
  */
 final class Interval extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::INTERVAL;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

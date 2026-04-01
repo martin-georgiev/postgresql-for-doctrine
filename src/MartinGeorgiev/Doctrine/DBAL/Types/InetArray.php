@@ -20,6 +20,9 @@ class InetArray extends BaseNetworkTypeArray
 {
     use InetValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::INET_ARRAY;
 
     protected function isValidNetworkAddress(string $value): bool

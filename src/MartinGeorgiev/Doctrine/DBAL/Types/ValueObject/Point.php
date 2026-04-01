@@ -13,6 +13,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointExcept
  */
 final readonly class Point extends BaseGeometricValue
 {
+    /**
+     * @var string
+     */
     private const POINT_REGEX = '/^\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)$/';
 
     public function __construct(

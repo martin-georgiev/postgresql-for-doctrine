@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Multirange as Int8Multira
  */
 final class Int8Multirange extends BaseMultirangeType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::INT8MULTIRANGE;
 
     protected function createFromString(string $value): Int8MultirangeValueObject

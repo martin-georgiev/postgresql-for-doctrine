@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Line as LineValueObject;
  */
 final class Line extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::LINE;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

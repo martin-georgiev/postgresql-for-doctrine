@@ -20,6 +20,9 @@ class MacaddrArray extends BaseNetworkTypeArray
 {
     use MacaddrValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::MACADDR_ARRAY;
 
     protected function isValidNetworkAddress(string $value): bool

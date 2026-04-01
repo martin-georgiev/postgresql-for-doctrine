@@ -14,6 +14,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPExc
  */
 abstract class BaseFloatArray extends BaseArray
 {
+    /**
+     * @var string
+     */
     private const FLOAT_REGEX = '/^-?\d*\.?\d+(?:[eE][-+]?\d+)?$/';
 
     abstract protected function getMinValue(): string;
