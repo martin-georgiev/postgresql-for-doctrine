@@ -33,7 +33,7 @@ final class Ltree extends BaseType
             try {
                 $value = LtreeValueObject::fromString($value);
             } catch (InvalidLtreeException) {
-                throw InvalidLtreeForPHPException::forInvalidFormat($value);
+                throw InvalidLtreeForDatabaseException::forInvalidFormat($value);
             }
         }
 
@@ -41,7 +41,7 @@ final class Ltree extends BaseType
             return (string) $value;
         }
 
-        throw InvalidLtreeForPHPException::forInvalidType($value);
+        throw InvalidLtreeForDatabaseException::forInvalidType($value);
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?LtreeValueObject
@@ -54,10 +54,10 @@ final class Ltree extends BaseType
             try {
                 return LtreeValueObject::fromString($value);
             } catch (InvalidLtreeException) {
-                throw InvalidLtreeForDatabaseException::forInvalidFormat($value);
+                throw InvalidLtreeForPHPException::forInvalidFormat($value);
             }
         }
 
-        throw InvalidLtreeForDatabaseException::forInvalidType($value);
+        throw InvalidLtreeForPHPException::forInvalidType($value);
     }
 }
