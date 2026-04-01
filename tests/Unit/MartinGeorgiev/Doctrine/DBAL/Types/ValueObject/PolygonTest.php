@@ -56,7 +56,7 @@ class PolygonTest extends TestCase
     }
 
     #[Test]
-    public function returns_vertices_as_point_objects(): void
+    public function can_return_vertices_as_point_objects(): void
     {
         $polygon = Polygon::fromString('((0,0),(1,0),(0,1))');
         $vertices = $polygon->getVertices();

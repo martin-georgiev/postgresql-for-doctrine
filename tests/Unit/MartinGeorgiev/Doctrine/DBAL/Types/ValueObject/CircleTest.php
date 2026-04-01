@@ -56,7 +56,7 @@ class CircleTest extends TestCase
     }
 
     #[Test]
-    public function getters_return_correct_values(): void
+    public function can_return_correct_values_via_getters(): void
     {
         $circle = Circle::fromString('<(1.5,2.5),3.5>');
         $this->assertSame(1.5, $circle->getCenter()->getX());

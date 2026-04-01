@@ -55,7 +55,7 @@ class BoxTest extends TestCase
     }
 
     #[Test]
-    public function getters_return_point_values(): void
+    public function can_return_point_values_via_getters(): void
     {
         $box = Box::fromString('(1.5,2.5),(3.5,4.5)');
         $this->assertSame(1.5, $box->getUpperRight()->getX());

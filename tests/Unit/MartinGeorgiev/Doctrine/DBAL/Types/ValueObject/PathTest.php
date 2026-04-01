@@ -57,7 +57,7 @@ class PathTest extends TestCase
     }
 
     #[Test]
-    public function returns_points_as_point_objects(): void
+    public function can_return_points_as_point_objects(): void
     {
         $path = Path::fromString('[(1,2),(3,4),(5,6)]');
         $points = $path->getPoints();
@@ -69,14 +69,14 @@ class PathTest extends TestCase
     }
 
     #[Test]
-    public function returns_is_open_for_open_path(): void
+    public function can_detect_open_path(): void
     {
         $path = Path::fromString('[(1,2),(3,4)]');
         $this->assertTrue($path->isOpen());
     }
 
     #[Test]
-    public function returns_is_open_for_closed_path(): void
+    public function can_detect_closed_path(): void
     {
         $path = Path::fromString('((1,2),(3,4))');
         $this->assertFalse($path->isOpen());

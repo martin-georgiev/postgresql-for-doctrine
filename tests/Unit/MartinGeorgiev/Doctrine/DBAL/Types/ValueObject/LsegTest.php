@@ -39,7 +39,7 @@ class LsegTest extends TestCase
     }
 
     #[Test]
-    public function getters_return_point_values(): void
+    public function can_return_point_values_via_getters(): void
     {
         $lseg = Lseg::fromString('[(1.5,-2.5),(3,4)]');
         $this->assertSame(1.5, $lseg->getStart()->getX());
@@ -78,7 +78,7 @@ class LsegTest extends TestCase
     }
 
     #[Test]
-    public function normalizes_bracketless_input_to_bracketed_output(): void
+    public function can_normalize_bracketless_input_to_bracketed_output(): void
     {
         $lseg = Lseg::fromString('(1,2),(3,4)');
         $this->assertSame('[(1,2),(3,4)]', (string) $lseg);

@@ -34,7 +34,7 @@ class PointTest extends TestCase
     }
 
     #[Test]
-    public function returns_correct_coordinates_via_getters(): void
+    public function can_return_correct_coordinates_via_getters(): void
     {
         $point = Point::fromString('(1.5,-2.5)');
         $this->assertSame(1.5, $point->getX());
@@ -95,14 +95,14 @@ class PointTest extends TestCase
     }
 
     #[Test]
-    public function preserves_string_representation(): void
+    public function can_preserve_string_representation(): void
     {
         $point = new Point(1.0, 2.0);
         $this->assertSame('(1,2)', (string) $point);
     }
 
     #[Test]
-    public function accepts_high_precision_coordinates(): void
+    public function can_accept_high_precision_coordinates(): void
     {
         $point = new Point(45.123456789012, 179.987654321098);
         $this->assertSame(45.123456789012, $point->getX());
