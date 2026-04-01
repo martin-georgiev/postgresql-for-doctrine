@@ -18,8 +18,14 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleExcep
  */
 final readonly class Circle extends BaseGeometricValue
 {
+    /**
+     * @var string
+     */
     private const RADIUS_PATTERN = '\d+(?:\.\d+)?(?:[eE][+-]?\d+)?';
 
+    /**
+     * @var string
+     */
     private const CIRCLE_REGEX = '/^<\s*\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
 
     public function __construct(

@@ -15,6 +15,9 @@ use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
  */
 class PHPArrayToPostgresValueTransformer
 {
+    /**
+     * @var string
+     */
     private const POSTGRESQL_EMPTY_ARRAY = '{}';
 
     /**

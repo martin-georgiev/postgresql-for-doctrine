@@ -18,6 +18,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPolygonExce
  */
 final readonly class Polygon extends BaseGeometricValue
 {
+    /**
+     * @var string
+     */
     private const POLYGON_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.'){1,}\s*\)$/';
 
     /** @var list<Point> */
