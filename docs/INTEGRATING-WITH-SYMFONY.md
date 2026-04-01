@@ -42,9 +42,23 @@ doctrine:
             macaddr8: MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8
             'macaddr8[]': MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array
 
-            # Spatial types
+            # Geometric types
+            box: MartinGeorgiev\Doctrine\DBAL\Types\Box
+            'box[]': MartinGeorgiev\Doctrine\DBAL\Types\BoxArray
+            circle: MartinGeorgiev\Doctrine\DBAL\Types\Circle
+            'circle[]': MartinGeorgiev\Doctrine\DBAL\Types\CircleArray
+            line: MartinGeorgiev\Doctrine\DBAL\Types\Line
+            'line[]': MartinGeorgiev\Doctrine\DBAL\Types\LineArray
+            lseg: MartinGeorgiev\Doctrine\DBAL\Types\Lseg
+            'lseg[]': MartinGeorgiev\Doctrine\DBAL\Types\LsegArray
+            path: MartinGeorgiev\Doctrine\DBAL\Types\Path
+            'path[]': MartinGeorgiev\Doctrine\DBAL\Types\PathArray
             point: MartinGeorgiev\Doctrine\DBAL\Types\Point
             'point[]': MartinGeorgiev\Doctrine\DBAL\Types\PointArray
+            polygon: MartinGeorgiev\Doctrine\DBAL\Types\Polygon
+            'polygon[]': MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray
+
+            # PostGIS spatial types
             geometry: MartinGeorgiev\Doctrine\DBAL\Types\Geometry
             'geometry[]': MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray
             geography: MartinGeorgiev\Doctrine\DBAL\Types\Geography
@@ -150,10 +164,30 @@ doctrine:
                     'macaddr8[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR8_ARRAY
                     _macaddr8: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MACADDR8_ARRAY
 
-                    # Spatial type mappings
+                    # Geometric type mappings
+                    box: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BOX
+                    'box[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BOX_ARRAY
+                    _box: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BOX_ARRAY
+                    circle: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CIRCLE
+                    'circle[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::CIRCLE_ARRAY
+                    _circle: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CIRCLE_ARRAY
+                    line: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LINE
+                    'line[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LINE_ARRAY
+                    _line: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LINE_ARRAY
+                    lseg: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LSEG
+                    'lseg[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LSEG_ARRAY
+                    _lseg: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LSEG_ARRAY
+                    path: !php/const MartinGeorgiev\Doctrine\DBAL\Type::PATH
+                    'path[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::PATH_ARRAY
+                    _path: !php/const MartinGeorgiev\Doctrine\DBAL\Type::PATH_ARRAY
                     point: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT
                     'point[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT_ARRAY
                     _point: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POINT_ARRAY
+                    polygon: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POLYGON
+                    'polygon[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::POLYGON_ARRAY
+                    _polygon: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POLYGON_ARRAY
+
+                    # PostGIS spatial type mappings
                     geometry: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY
                     'geometry[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY_ARRAY
                     _geometry: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY_ARRAY

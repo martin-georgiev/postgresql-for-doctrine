@@ -25,12 +25,19 @@ final class InvalidPointException extends \InvalidArgumentException
         ));
     }
 
-    public static function forInvalidCoordinate(string $coordinateName, string $value): self
+    public static function forNonFiniteCoordinate(float $value): self
     {
+        if (\is_nan($value)) {
+            $representation = 'NAN';
+        } elseif ($value > 0) {
+            $representation = 'INF';
+        } else {
+            $representation = '-INF';
+        }
+
         return new self(\sprintf(
-            'Invalid %s coordinate format: %s',
-            \var_export($coordinateName, true),
-            \var_export($value, true)
+            'Point coordinates must be finite numbers, got: %s',
+            $representation
         ));
     }
 }

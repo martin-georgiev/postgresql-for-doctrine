@@ -48,12 +48,25 @@
 | tsmultirange | tsmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange` |
 | tstzmultirange | tstzmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange` |
 |---|---|---|
+| box | box | `MartinGeorgiev\Doctrine\DBAL\Types\Box` |
+| box[] | _box | `MartinGeorgiev\Doctrine\DBAL\Types\BoxArray` |
+| circle | circle | `MartinGeorgiev\Doctrine\DBAL\Types\Circle` |
+| circle[] | _circle | `MartinGeorgiev\Doctrine\DBAL\Types\CircleArray` |
+| line | line | `MartinGeorgiev\Doctrine\DBAL\Types\Line` |
+| line[] | _line | `MartinGeorgiev\Doctrine\DBAL\Types\LineArray` |
+| lseg | lseg | `MartinGeorgiev\Doctrine\DBAL\Types\Lseg` |
+| lseg[] | _lseg | `MartinGeorgiev\Doctrine\DBAL\Types\LsegArray` |
+| path | path | `MartinGeorgiev\Doctrine\DBAL\Types\Path` |
+| path[] | _path | `MartinGeorgiev\Doctrine\DBAL\Types\PathArray` |
+| point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
+| point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
+| polygon | polygon | `MartinGeorgiev\Doctrine\DBAL\Types\Polygon` |
+| polygon[] | _polygon | `MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray` |
+|---|---|---|
 | geography | geography | `MartinGeorgiev\Doctrine\DBAL\Types\Geography` |
 | geography[] | _geography | `MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray` |
 | geometry | geometry | `MartinGeorgiev\Doctrine\DBAL\Types\Geometry` |
 | geometry[] | _geometry | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
-| point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
-| point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 | ltree[] | _ltree | `MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray` |

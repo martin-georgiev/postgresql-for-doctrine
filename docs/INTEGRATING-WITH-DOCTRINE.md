@@ -42,9 +42,23 @@ Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray"
 Type::addType('macaddr8', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8");
 Type::addType('macaddr8[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8Array");
 
-// Spatial types
+// Geometric types
+Type::addType('box', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Box");
+Type::addType('box[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BoxArray");
+Type::addType('circle', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Circle");
+Type::addType('circle[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CircleArray");
+Type::addType('line', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Line");
+Type::addType('line[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LineArray");
+Type::addType('lseg', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Lseg");
+Type::addType('lseg[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LsegArray");
+Type::addType('path', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Path");
+Type::addType('path[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PathArray");
 Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
 Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
+Type::addType('polygon', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Polygon");
+Type::addType('polygon[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PolygonArray");
+
+// PostGIS spatial types
 Type::addType('geometry', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geometry");
 Type::addType('geometry[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeometryArray");
 Type::addType('geography', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geography");
@@ -354,10 +368,30 @@ $platform->registerDoctrineTypeMapping('macaddr8', 'macaddr8');
 $platform->registerDoctrineTypeMapping('macaddr8[]', 'macaddr8[]');
 $platform->registerDoctrineTypeMapping('_macaddr8', 'macaddr8[]');
 
-// Spatial type mappings
+// Geometric type mappings
+$platform->registerDoctrineTypeMapping('box', 'box');
+$platform->registerDoctrineTypeMapping('box[]', 'box[]');
+$platform->registerDoctrineTypeMapping('_box', 'box[]');
+$platform->registerDoctrineTypeMapping('circle', 'circle');
+$platform->registerDoctrineTypeMapping('circle[]', 'circle[]');
+$platform->registerDoctrineTypeMapping('_circle', 'circle[]');
+$platform->registerDoctrineTypeMapping('line', 'line');
+$platform->registerDoctrineTypeMapping('line[]', 'line[]');
+$platform->registerDoctrineTypeMapping('_line', 'line[]');
+$platform->registerDoctrineTypeMapping('lseg', 'lseg');
+$platform->registerDoctrineTypeMapping('lseg[]', 'lseg[]');
+$platform->registerDoctrineTypeMapping('_lseg', 'lseg[]');
+$platform->registerDoctrineTypeMapping('path', 'path');
+$platform->registerDoctrineTypeMapping('path[]', 'path[]');
+$platform->registerDoctrineTypeMapping('_path', 'path[]');
 $platform->registerDoctrineTypeMapping('point', 'point');
 $platform->registerDoctrineTypeMapping('point[]', 'point[]');
 $platform->registerDoctrineTypeMapping('_point', 'point[]');
+$platform->registerDoctrineTypeMapping('polygon', 'polygon');
+$platform->registerDoctrineTypeMapping('polygon[]', 'polygon[]');
+$platform->registerDoctrineTypeMapping('_polygon', 'polygon[]');
+
+// PostGIS spatial type mappings
 $platform->registerDoctrineTypeMapping('geometry', 'geometry');
 $platform->registerDoctrineTypeMapping('geometry[]', 'geometry[]');
 $platform->registerDoctrineTypeMapping('_geometry', 'geometry[]');

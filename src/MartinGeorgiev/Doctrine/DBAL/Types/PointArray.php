@@ -17,67 +17,32 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
  *
  * @author Sébastien Jean <sebastien.jean76@gmail.com>
  */
-class PointArray extends BaseArray
+class PointArray extends BaseGeometricArray
 {
     protected const TYPE_NAME = Type::POINT_ARRAY;
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function getValueObjectClass(): string
     {
-        if (!$item instanceof PointValueObject) {
-            throw InvalidPointArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        return '"'.$item.'"';
+        return PointValueObject::class;
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function createValueObjectFromString(string $value): PointValueObject
     {
-        if (!\str_starts_with($postgresArray, '{"') || !\str_ends_with($postgresArray, '"}')) {
-            return [];
-        }
-
-        $trimmedPostgresArray = \mb_substr($postgresArray, 2, -2);
-        if ($trimmedPostgresArray === '') {
-            return [];
-        }
-
-        return \explode('","', $trimmedPostgresArray);
+        return PointValueObject::fromString($value);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?PointValueObject
-    {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidPointArrayItemForPHPException::forInvalidType($item);
-        }
-
-        try {
-            return PointValueObject::fromString($item);
-        } catch (\InvalidArgumentException) {
-            $this->throwInvalidFormatException($item);
-        }
-    }
-
-    public function isValidArrayItemForDatabase(mixed $item): bool
-    {
-        return $item instanceof PointValueObject;
-    }
-
-    protected function throwInvalidTypeException(mixed $value): never
+    protected function throwTypedInvalidArrayTypeException(mixed $value): never
     {
         throw InvalidPointArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidFormatException(mixed $value): never
+    protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never
     {
         throw InvalidPointArrayItemForPHPException::forInvalidFormat($value);
     }
 
-    protected function throwInvalidItemException(mixed $item): never
+    protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never
     {
-        throw InvalidPointArrayItemForPHPException::forInvalidFormat($item);
+        throw InvalidPointArrayItemForDatabaseException::forInvalidType($item);
     }
 }
