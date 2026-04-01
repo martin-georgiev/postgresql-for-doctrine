@@ -20,13 +20,6 @@ final class LsegTypeTest extends TestCase
         return 'LSEG';
     }
 
-    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
-    {
-        $this->assertInstanceOf(LsegValueObject::class, $expected);
-        $this->assertInstanceOf(LsegValueObject::class, $actual);
-        $this->assertSame($expected->__toString(), $actual->__toString(), \sprintf('Type %s round-trip failed', $typeName));
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

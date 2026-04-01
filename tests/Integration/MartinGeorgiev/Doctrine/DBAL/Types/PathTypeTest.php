@@ -20,13 +20,6 @@ final class PathTypeTest extends TestCase
         return 'PATH';
     }
 
-    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
-    {
-        $this->assertInstanceOf(PathValueObject::class, $expected);
-        $this->assertInstanceOf(PathValueObject::class, $actual);
-        $this->assertSame($expected->__toString(), $actual->__toString(), \sprintf('Type %s round-trip failed', $typeName));
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

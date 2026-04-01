@@ -20,13 +20,6 @@ final class PolygonTypeTest extends TestCase
         return 'POLYGON';
     }
 
-    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
-    {
-        $this->assertInstanceOf(PolygonValueObject::class, $expected);
-        $this->assertInstanceOf(PolygonValueObject::class, $actual);
-        $this->assertSame($expected->__toString(), $actual->__toString(), \sprintf('Type %s round-trip failed', $typeName));
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

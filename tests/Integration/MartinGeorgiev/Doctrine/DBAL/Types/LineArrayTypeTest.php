@@ -33,17 +33,4 @@ class LineArrayTypeTest extends ArrayTypeTestCase
             ]],
         ];
     }
-
-    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
-    {
-        $this->assertIsArray($expected);
-        $this->assertIsArray($actual);
-        $this->assertCount(\count($expected), $actual, \sprintf('Array count mismatch for type %s', $typeName));
-
-        foreach ($expected as $index => $expectedItem) {
-            $this->assertInstanceOf(LineValueObject::class, $expectedItem);
-            $this->assertInstanceOf(LineValueObject::class, $actual[$index]);
-            $this->assertSame($expectedItem->__toString(), $actual[$index]->__toString());
-        }
-    }
 }

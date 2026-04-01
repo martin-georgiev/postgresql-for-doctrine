@@ -20,13 +20,6 @@ final class CircleTypeTest extends TestCase
         return 'CIRCLE';
     }
 
-    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
-    {
-        $this->assertInstanceOf(CircleValueObject::class, $expected);
-        $this->assertInstanceOf(CircleValueObject::class, $actual);
-        $this->assertSame($expected->__toString(), $actual->__toString(), \sprintf('Type %s round-trip failed', $typeName));
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {
