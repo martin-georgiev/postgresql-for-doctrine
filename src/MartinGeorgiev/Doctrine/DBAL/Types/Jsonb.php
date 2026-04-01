@@ -21,7 +21,9 @@ class Jsonb extends BaseType
 
     protected const TYPE_NAME = Type::JSONB;
 
-    /** @param array|bool|float|int|string|null $value */
+    /**
+     * @param array|bool|float|int|string|null $value
+     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -31,7 +33,9 @@ class Jsonb extends BaseType
         return $this->transformToPostgresJson($value);
     }
 
-    /** @param string|null $value */
+    /**
+     * @param string|null $value
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform): array|bool|float|int|string|null
     {
         if ($value === null) {

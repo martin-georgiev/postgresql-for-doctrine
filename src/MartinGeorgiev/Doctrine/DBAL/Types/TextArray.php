@@ -21,7 +21,9 @@ class TextArray extends BaseType
 {
     protected const TYPE_NAME = Type::TEXT_ARRAY;
 
-    /** @param array|null $value */
+    /**
+     * @param array|null $value
+     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -40,7 +42,9 @@ class TextArray extends BaseType
         return PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpTextArray);
     }
 
-    /** @param string|null $value */
+    /**
+     * @param string|null $value
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {
         if ($value === null) {

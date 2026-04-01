@@ -32,7 +32,9 @@ class JsonbArray extends BaseArray
         return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
-    /** @param string $item */
+    /**
+     * @param string $item
+     */
     public function transformArrayItemForPHP($item): array
     {
         return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item);
