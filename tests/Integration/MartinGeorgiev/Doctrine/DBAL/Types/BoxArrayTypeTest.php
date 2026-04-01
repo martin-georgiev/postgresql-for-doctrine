@@ -25,10 +25,10 @@ class BoxArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'single box' => ['single box', [
-                BoxValueObject::fromString('(1,2),(3,4)'),
+                BoxValueObject::fromString('(3,4),(1,2)'),
             ]],
             'multiple boxes' => ['multiple boxes', [
-                BoxValueObject::fromString('(0,0),(1,1)'),
+                BoxValueObject::fromString('(1,1),(0,0)'),
                 BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ]],
         ];

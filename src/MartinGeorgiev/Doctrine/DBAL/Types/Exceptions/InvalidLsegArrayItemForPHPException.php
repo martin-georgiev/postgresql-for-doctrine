@@ -18,11 +18,6 @@ class InvalidLsegArrayItemForPHPException extends ConversionException
         return new self(\sprintf($message, \var_export($value, true)));
     }
 
-    public static function forInvalidType(mixed $value): self
-    {
-        return self::create('Cannot convert lseg array item to PHP value. Expected a string or null, got %s.', $value);
-    }
-
     public static function forInvalidFormat(mixed $value): self
     {
         return self::create('Cannot convert lseg array item to PHP value. Value %s is not a valid lseg.', $value);
