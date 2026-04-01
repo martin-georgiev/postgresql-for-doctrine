@@ -22,7 +22,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  * @see https://github.com/beberlei/DoctrineExtensions/blob/f3536d881637f6ddc7ca1d6595d18c15e06eb1d9/src/Query/Mysql/Cast.php
  * @since 2.0
  *
- * @author Mathieu Piot <https://github.com/mpiot>
+ * @author Mathieu Piot
  *
  * @example Using it in DQL: "SELECT CAST(e.value AS VARCHAR) FROM Entity e"
  */

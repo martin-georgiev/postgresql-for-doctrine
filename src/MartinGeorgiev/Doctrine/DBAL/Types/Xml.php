@@ -27,23 +27,6 @@ final class Xml extends BaseType
      */
     protected const TYPE_NAME = Type::XML;
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-
-        if (!\is_string($value)) {
-            throw InvalidXmlForPHPException::forInvalidType($value);
-        }
-
-        if (!$this->isValidXml($value)) {
-            throw InvalidXmlForPHPException::forInvalidFormat($value);
-        }
-
-        return $value;
-    }
-
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -56,6 +39,23 @@ final class Xml extends BaseType
 
         if (!$this->isValidXml($value)) {
             throw InvalidXmlForDatabaseException::forInvalidFormat($value);
+        }
+
+        return $value;
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (!\is_string($value)) {
+            throw InvalidXmlForPHPException::forInvalidType($value);
+        }
+
+        if (!$this->isValidXml($value)) {
+            throw InvalidXmlForPHPException::forInvalidFormat($value);
         }
 
         return $value;

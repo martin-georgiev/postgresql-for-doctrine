@@ -26,23 +26,6 @@ final class Ltree extends BaseType
      */
     protected const TYPE_NAME = Type::LTREE;
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?LtreeValueObject
-    {
-        if (null === $value) {
-            return null;
-        }
-
-        if (\is_string($value)) {
-            try {
-                return LtreeValueObject::fromString($value);
-            } catch (InvalidLtreeException) {
-                throw InvalidLtreeForDatabaseException::forInvalidFormat($value);
-            }
-        }
-
-        throw InvalidLtreeForDatabaseException::forInvalidType($value);
-    }
-
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (null === $value) {
@@ -53,12 +36,29 @@ final class Ltree extends BaseType
             try {
                 $value = LtreeValueObject::fromString($value);
             } catch (InvalidLtreeException) {
-                throw InvalidLtreeForPHPException::forInvalidFormat($value);
+                throw InvalidLtreeForDatabaseException::forInvalidFormat($value);
             }
         }
 
         if ($value instanceof LtreeValueObject) {
             return (string) $value;
+        }
+
+        throw InvalidLtreeForDatabaseException::forInvalidType($value);
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?LtreeValueObject
+    {
+        if (null === $value) {
+            return null;
+        }
+
+        if (\is_string($value)) {
+            try {
+                return LtreeValueObject::fromString($value);
+            } catch (InvalidLtreeException) {
+                throw InvalidLtreeForPHPException::forInvalidFormat($value);
+            }
         }
 
         throw InvalidLtreeForPHPException::forInvalidType($value);
