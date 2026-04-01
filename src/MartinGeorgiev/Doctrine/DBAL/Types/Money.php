@@ -32,19 +32,6 @@ final class Money extends BaseType
 
     protected const TYPE_NAME = Type::MONEY;
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-
-        if (!\is_string($value)) {
-            throw InvalidMoneyForPHPException::forInvalidType($value);
-        }
-
-        return $value;
-    }
-
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -57,6 +44,19 @@ final class Money extends BaseType
 
         if (!$this->isValidMoneyValue($value)) {
             throw InvalidMoneyForDatabaseException::forInvalidFormat($value);
+        }
+
+        return $value;
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (!\is_string($value)) {
+            throw InvalidMoneyForPHPException::forInvalidType($value);
         }
 
         return $value;
