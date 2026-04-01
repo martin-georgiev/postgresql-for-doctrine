@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Line as LineValueObject;
  */
 class LineArray extends BaseGeometricArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::LINE_ARRAY;
 
     protected function getValueObjectClass(): string

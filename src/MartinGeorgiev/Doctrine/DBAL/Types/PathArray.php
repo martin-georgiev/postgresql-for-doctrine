@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Path as PathValueObject;
  */
 class PathArray extends BaseGeometricArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::PATH_ARRAY;
 
     protected function getValueObjectClass(): string

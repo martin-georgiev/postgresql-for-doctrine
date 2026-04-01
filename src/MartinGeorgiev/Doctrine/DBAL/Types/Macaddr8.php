@@ -22,6 +22,9 @@ final class Macaddr8 extends BaseType
 {
     use Macaddr8ValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::MACADDR8;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

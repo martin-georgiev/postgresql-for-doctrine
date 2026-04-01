@@ -18,6 +18,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsqueryArrayItemForPHPE
  */
 class TsqueryArray extends BaseStringArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::TSQUERY_ARRAY;
 
     public function isValidArrayItemForDatabase(mixed $item): bool

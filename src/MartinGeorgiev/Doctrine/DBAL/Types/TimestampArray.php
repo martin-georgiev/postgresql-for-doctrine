@@ -18,6 +18,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampArrayItemForPH
  */
 class TimestampArray extends BaseDateTimeArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::TIMESTAMP_ARRAY;
 
     protected function getPostgresFormat(): string

@@ -20,6 +20,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHalfvecForPHPException;
  */
 class Halfvec extends BaseVector
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::HALFVEC;
 
     protected function throwInvalidTypeForDatabase(mixed $value): never

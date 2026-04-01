@@ -20,6 +20,9 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 class IntervalArray extends BaseArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::INTERVAL_ARRAY;
 
     protected function transformArrayItemForPostgres(mixed $item): string

@@ -19,6 +19,9 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 class TextArray extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::TEXT_ARRAY;
 
     /**

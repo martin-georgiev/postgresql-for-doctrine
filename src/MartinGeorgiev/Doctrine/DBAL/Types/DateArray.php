@@ -18,6 +18,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateArrayItemForPHPExce
  */
 class DateArray extends BaseDateTimeArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::DATE_ARRAY;
 
     protected function getPostgresFormat(): string

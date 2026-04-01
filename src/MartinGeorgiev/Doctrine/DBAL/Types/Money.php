@@ -30,6 +30,9 @@ final class Money extends BaseType
 {
     use MoneyValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::MONEY;
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string

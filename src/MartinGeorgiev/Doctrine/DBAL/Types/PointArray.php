@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
  */
 class PointArray extends BaseGeometricArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::POINT_ARRAY;
 
     protected function getValueObjectClass(): string

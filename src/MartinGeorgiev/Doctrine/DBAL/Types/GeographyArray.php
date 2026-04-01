@@ -14,6 +14,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPExceptio
  */
 final class GeographyArray extends SpatialDataArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::GEOGRAPHY_ARRAY;
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeographyForPHPException

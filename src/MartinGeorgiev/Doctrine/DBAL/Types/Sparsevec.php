@@ -22,6 +22,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec as SparsevecValueOb
  */
 class Sparsevec extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::SPARSEVEC;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

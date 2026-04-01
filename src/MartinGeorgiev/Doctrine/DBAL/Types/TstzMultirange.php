@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzMultirange as TstzMultira
  */
 final class TstzMultirange extends BaseMultirangeType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::TSTZMULTIRANGE;
 
     protected function createFromString(string $value): TstzMultirangeValueObject

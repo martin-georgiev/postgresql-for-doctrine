@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Polygon as PolygonValueObject
  */
 class PolygonArray extends BaseGeometricArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::POLYGON_ARRAY;
 
     protected function getValueObjectClass(): string

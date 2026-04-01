@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleExcep
  */
 final class Circle extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::CIRCLE;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

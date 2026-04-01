@@ -20,6 +20,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Box as BoxValueObject;
  */
 class BoxArray extends BaseGeometricArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::BOX_ARRAY;
 
     protected function getValueObjectClass(): string

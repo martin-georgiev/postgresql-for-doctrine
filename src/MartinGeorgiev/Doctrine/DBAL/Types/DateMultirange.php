@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateMultirange as DateMultira
  */
 final class DateMultirange extends BaseMultirangeType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::DATEMULTIRANGE;
 
     protected function createFromString(string $value): DateMultirangeValueObject

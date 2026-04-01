@@ -19,6 +19,9 @@ class Jsonb extends BaseType
 {
     use JsonTransformer;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::JSONB;
 
     /**

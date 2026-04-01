@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Circle as CircleValueObject;
  */
 class CircleArray extends BaseGeometricArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::CIRCLE_ARRAY;
 
     protected function getValueObjectClass(): string

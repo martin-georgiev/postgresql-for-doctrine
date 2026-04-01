@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
  */
 final class Ltree extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::LTREE;
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?LtreeValueObject

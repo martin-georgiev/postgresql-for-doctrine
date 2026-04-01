@@ -14,6 +14,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException
  */
 final class GeometryArray extends SpatialDataArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::GEOMETRY_ARRAY;
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeometryForPHPException

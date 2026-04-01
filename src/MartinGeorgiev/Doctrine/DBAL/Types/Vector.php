@@ -20,6 +20,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidVectorForPHPException;
  */
 class Vector extends BaseVector
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::VECTOR;
 
     protected function throwInvalidTypeForDatabase(mixed $value): never

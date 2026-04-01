@@ -20,6 +20,9 @@ class CidrArray extends BaseNetworkTypeArray
 {
     use CidrValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::CIDR_ARRAY;
 
     protected function isValidNetworkAddress(string $value): bool

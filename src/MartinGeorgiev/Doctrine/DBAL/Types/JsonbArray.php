@@ -20,6 +20,9 @@ class JsonbArray extends BaseArray
 {
     use JsonTransformer;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::JSONB_ARRAY;
 
     protected function transformArrayItemForPostgres(mixed $item): string

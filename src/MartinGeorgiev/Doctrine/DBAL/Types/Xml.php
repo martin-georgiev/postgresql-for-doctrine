@@ -22,6 +22,9 @@ final class Xml extends BaseType
 {
     use XmlValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::XML;
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string

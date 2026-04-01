@@ -16,6 +16,9 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
  */
 class DoublePrecisionArray extends BaseFloatArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::DOUBLE_PRECISION_ARRAY;
 
     protected function getMinValue(): string

@@ -20,6 +20,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
  */
 class LtreeArray extends BaseArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::LTREE_ARRAY;
 
     protected function transformArrayItemForPostgres(mixed $item): string
