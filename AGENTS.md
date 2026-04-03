@@ -29,7 +29,7 @@ ci/
 ## Key Workflows
 
 **Unit tests**: `composer run-unit-tests`
-**Integration tests**: `composer run-integration-tests` (requires Docker)
+**Integration tests**: `docker compose up -d && composer run-integration-tests` (starts PostgreSQL+PostGIS via Docker, then runs tests)
 **PHPStan**: `./bin/phpstan analyse --configuration=ci/phpstan/config.neon <files> --memory-limit=512M`
 **Code style check**: `composer check-code-style`
 **Code style fix**: `composer fix-code-style`

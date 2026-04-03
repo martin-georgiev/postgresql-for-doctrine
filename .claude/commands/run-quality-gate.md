@@ -1,29 +1,29 @@
 # Run quality gate on changed files
 
-Run the full quality gate to verify code is ready for PR.
+Run the same checks CI will run, using the project's composer targets.
 
 ## Steps
 
-1. **Identify changed files**:
-   ```bash
-   git diff --name-only main -- '*.php'
-   ```
-
-2. **Fix code style** (auto-fix mode):
+1. **Fix code style** (rector + php-cs-fixer):
    ```bash
    composer fix-code-style
    ```
 
-3. **Run PHPStan** on changed source files:
+2. **Run static analysis** (PHPStan + deptrac):
    ```bash
-   ./bin/phpstan analyse --configuration=ci/phpstan/config.neon <changed-src-files> --memory-limit=512M
+   composer run-static-analysis
    ```
-   If new types or functions were added, include their exception files too.
 
-4. **Run targeted unit tests** for changed files:
+3. **Run unit tests** (parallel via paratest):
    ```bash
-   ./bin/phpunit --filter "<TestClassNames>" --configuration ci/phpunit/config-unit.xml
+   composer run-unit-tests
    ```
-   Map changed source files to their test counterparts (same path under `tests/Unit/`).
+
+4. **Run integration tests** (if changes affect DBAL types or DQL functions that interact with the database):
+   ```bash
+   docker compose up -d
+   composer run-integration-tests
+   ```
+   Skip if Docker is not available or changes are unit-test-only.
 
 If any step fails, fix the issues and re-run that step. Max 3 attempts per step before asking for guidance.
