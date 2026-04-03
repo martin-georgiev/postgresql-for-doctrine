@@ -1,28 +1,37 @@
 # Run quality gate on changed files
 
-Run the same checks CI will run, using the project's composer targets.
+Run the same checks CI will run, scoped to changed files for speed.
 
 ## Steps
 
-1. **Fix code style** (rector + php-cs-fixer):
+1. **Identify changed PHP files**:
+   ```bash
+   git diff --name-only main -- '*.php'
+   ```
+
+2. **Fix code style** (rector + php-cs-fixer — runs on full codebase, fast enough):
    ```bash
    composer fix-code-style
    ```
 
-2. **Run static analysis** (PHPStan + deptrac):
+3. **Run PHPStan** on changed source files only:
    ```bash
-   composer run-static-analysis
+   ./bin/phpstan analyse --configuration=ci/phpstan/config.neon <changed-src-files> --memory-limit=512M
    ```
 
-3. **Run unit tests** (parallel via paratest):
+4. **Run deptrac** (architecture analysis — runs on full codebase, fast):
    ```bash
-   composer run-unit-tests
+   ./bin/deptrac analyze --config-file=./ci/deptrac/config.yml --no-interaction --no-progress
    ```
 
-4. **Run integration tests** (if changes affect DBAL types or DQL functions that interact with the database):
+5. **Run targeted unit tests** for changed files:
    ```bash
-   docker compose up -d
-   composer run-integration-tests
+   ./bin/phpunit --filter "<TestClassNames>" --configuration ci/phpunit/config-unit.xml
+   ```
+
+6. **Run integration tests** (if changes affect DBAL types or DQL functions):
+   ```bash
+   docker compose up -d && ./bin/phpunit --filter "<TestClassNames>" --configuration ci/phpunit/config-integration.xml
    ```
    Skip if Docker is not available or changes are unit-test-only.
 
