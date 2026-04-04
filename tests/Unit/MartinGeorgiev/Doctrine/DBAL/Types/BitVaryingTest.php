@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class BitVaryingTest extends TestCase
+class BitVaryingTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -32,6 +32,24 @@ final class BitVaryingTest extends TestCase
     public function has_name(): void
     {
         $this->assertSame('bit varying', $this->fixture->getName());
+    }
+
+    #[Test]
+    public function returns_bit_varying_without_length_by_default(): void
+    {
+        $this->assertSame('BIT VARYING', $this->fixture->getSQLDeclaration([], $this->platform));
+    }
+
+    #[Test]
+    public function returns_bit_varying_with_length_when_specified(): void
+    {
+        $this->assertSame('BIT VARYING(5)', $this->fixture->getSQLDeclaration(['length' => 5], $this->platform));
+    }
+
+    #[Test]
+    public function returns_bit_varying_with_length_one_for_minimum(): void
+    {
+        $this->assertSame('BIT VARYING(1)', $this->fixture->getSQLDeclaration(['length' => 1], $this->platform));
     }
 
     #[Test]
@@ -54,59 +72,41 @@ final class BitVaryingTest extends TestCase
 
     #[DataProvider('provideValidBitStrings')]
     #[Test]
-    public function can_convert_valid_bit_string_to_database_value(string $bitString): void
+    public function can_round_trip_valid_bit_strings(string $bitString): void
     {
         $this->assertSame($bitString, $this->fixture->convertToDatabaseValue($bitString, $this->platform));
-    }
-
-    #[DataProvider('provideValidBitStrings')]
-    #[Test]
-    public function can_convert_valid_bit_string_to_php_value(string $bitString): void
-    {
         $this->assertSame($bitString, $this->fixture->convertToPHPValue($bitString, $this->platform));
     }
 
     /**
-     * @return array<string, array{bitString: string}>
+     * @return array<string, array{string}>
      */
     public static function provideValidBitStrings(): array
     {
         return [
-            'single zero' => ['bitString' => '0'],
-            'single one' => ['bitString' => '1'],
-            'mixed bits' => ['bitString' => '10110'],
-            'all zeros' => ['bitString' => '00000000'],
-            'all ones' => ['bitString' => '11111111'],
-        ];
-    }
-
-    #[DataProvider('provideInvalidPhpInputs')]
-    #[Test]
-    public function throws_exception_for_non_string_php_value(mixed $value): void
-    {
-        $this->expectException(InvalidBitVaryingForPHPException::class);
-        $this->fixture->convertToPHPValue($value, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidPhpInputs(): array
-    {
-        return [
-            'integer input' => [42],
-            'array input' => [['0', '1']],
-            'object input' => [new \stdClass()],
-            'boolean true' => [true],
-            'boolean false' => [false],
+            'single zero' => ['0'],
+            'single one' => ['1'],
+            'mixed bits' => ['10110'],
+            'all zeros' => ['00000000'],
+            'all ones' => ['11111111'],
         ];
     }
 
     #[DataProvider('provideInvalidFormatStrings')]
     #[Test]
-    public function throws_exception_for_invalid_format_php_value(string $value): void
+    public function throws_exception_for_invalid_format_in_database_value(string $value): void
+    {
+        $this->expectException(InvalidBitVaryingForDatabaseException::class);
+
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
+    }
+
+    #[DataProvider('provideInvalidFormatStrings')]
+    #[Test]
+    public function throws_exception_for_invalid_format_in_php_value(string $value): void
     {
         $this->expectException(InvalidBitVaryingForPHPException::class);
+
         $this->fixture->convertToPHPValue($value, $this->platform);
     }
 
@@ -122,24 +122,46 @@ final class BitVaryingTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseInputs')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_database_value(mixed $value): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
+    {
+        $this->expectException(InvalidBitVaryingForPHPException::class);
+
+        $this->fixture->convertToPHPValue($value, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return [
+            'integer input' => [42],
+            'float input' => [3.14],
+            'array input' => [['0', '1']],
+            'object input' => [new \stdClass()],
+            'boolean input' => [true],
+        ];
+    }
+
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
         $this->expectException(InvalidBitVaryingForDatabaseException::class);
+
         $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseInputs(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'integer input' => [42],
             'array input' => [['0', '1']],
-            'invalid format' => ['abc'],
-            'digit two' => ['2'],
         ];
     }
 }

@@ -34,6 +34,18 @@ class BitArrayTest extends TestCase
         $this->assertSame('bit[]', $this->fixture->getName());
     }
 
+    #[Test]
+    public function returns_bit_array_without_length_by_default(): void
+    {
+        $this->assertSame('BIT[]', $this->fixture->getSQLDeclaration([], $this->platform));
+    }
+
+    #[Test]
+    public function returns_bit_array_with_element_length_when_specified(): void
+    {
+        $this->assertSame('BIT(3)[]', $this->fixture->getSQLDeclaration(['length' => 3], $this->platform));
+    }
+
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void

@@ -34,6 +34,18 @@ class BitVaryingArrayTest extends TestCase
         $this->assertSame('bit varying[]', $this->fixture->getName());
     }
 
+    #[Test]
+    public function returns_bit_varying_array_without_length_by_default(): void
+    {
+        $this->assertSame('BIT VARYING[]', $this->fixture->getSQLDeclaration([], $this->platform));
+    }
+
+    #[Test]
+    public function returns_bit_varying_array_with_element_length_when_specified(): void
+    {
+        $this->assertSame('BIT VARYING(5)[]', $this->fixture->getSQLDeclaration(['length' => 5], $this->platform));
+    }
+
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void

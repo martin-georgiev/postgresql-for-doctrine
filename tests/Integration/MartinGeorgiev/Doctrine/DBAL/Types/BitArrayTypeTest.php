@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitArrayItemForDatabaseException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class BitArrayTypeTest extends ArrayTypeTestCase
@@ -32,6 +33,40 @@ class BitArrayTypeTest extends ArrayTypeTestCase
             'all ones' => ['all ones', ['11111111']],
             'array with null item' => ['array with null item', ['101', null, '010']],
             'empty array' => ['empty array', []],
+        ];
+    }
+
+    #[DataProvider('provideFixedLengthTransformations')]
+    #[Test]
+    public function can_round_trip_with_fixed_element_length(array $inputValue): void
+    {
+        $tableName = 'test_type_bit_array_fixed';
+        $columnName = 'test_column';
+        $this->createTestTableForDataType($tableName, $columnName, 'BIT(3)[]');
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $inputValue, $this->getTypeName())
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($this->getTypeName(), $tableName, $columnName);
+            $this->assertSame($inputValue, $retrieved);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
+    /**
+     * @return array<string, array{array<int, string|null>}>
+     */
+    public static function provideFixedLengthTransformations(): array
+    {
+        return [
+            'single element' => [['101']],
+            'multiple elements' => [['101', '110', '000']],
+            'with null' => [['101', null, '010']],
         ];
     }
 

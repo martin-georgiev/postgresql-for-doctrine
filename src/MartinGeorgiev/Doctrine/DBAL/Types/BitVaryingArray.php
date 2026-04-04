@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingArrayItemForPHPException;
@@ -26,6 +27,17 @@ class BitVaryingArray extends BaseStringArray
      * @var string
      */
     protected const TYPE_NAME = Type::BIT_VARYING_ARRAY;
+
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    {
+        $length = $fieldDeclaration['length'] ?? null;
+
+        if (\is_int($length)) {
+            return \sprintf('BIT VARYING(%d)[]', $length);
+        }
+
+        return \strtoupper(self::TYPE_NAME);
+    }
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
