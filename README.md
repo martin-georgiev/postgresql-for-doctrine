@@ -9,23 +9,23 @@ Enhances Doctrine with PostgreSQL-specific features and functions. Supports Post
 
 ## Quick Start
 
-
 ```php
-use MartinGeorgiev\Doctrine\DBAL\Type;
+use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Type as PostgresType;
 
 // Register types with Doctrine
-Type::addType(Type::JSONB, "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
-Type::addType(Type::TEXT_ARRAY, "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
-Type::addType(Type::NUMRANGE, "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
+Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 
 // Use in your Doctrine entities
-#[ORM\Column(type: Type::JSONB)]
+#[ORM\Column(type: PostgresType::JSONB)]
 private array $data;
 
-#[ORM\Column(type: Type::TEXT_ARRAY)]
+#[ORM\Column(type: PostgresType::TEXT_ARRAY)]
 private array $tags;
 
-#[ORM\Column(type: Type::NUMRANGE)]
+#[ORM\Column(type: PostgresType::NUMRANGE)]
 private NumericRange $priceRange;
 
 // Use in DQL
@@ -39,15 +39,17 @@ $query = $em->createQuery('
 
 ## 🚀 Features Highlight
 
-This package provides comprehensive Doctrine support for PostgreSQL features:
-
 ### Data Types
 - **Array Types**
   - Integer arrays (`int[]`, `smallint[]`, `bigint[]`)
   - Float arrays (`real[]`, `double precision[]`)
   - Text arrays (`text[]`)
   - Boolean arrays (`bool[]`)
+  - Date arrays (`date[]`, `timestamp[]`, `timestamptz[]`)
   - JSONB arrays (`jsonb[]`)
+- **Bit String Types**
+  - Fixed-length bit strings (`bit`, `bit[]`)
+  - Variable-length bit strings (`bit varying`, `bit varying[]`)
 - **JSON Types**
   - Native JSONB support
   - JSON field operations
@@ -57,20 +59,34 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
   - Network CIDR notation (`cidr`, `cidr[]`)
   - MAC addresses (`macaddr`, `macaddr[]`, `macaddr8`, `macaddr8[]`)
 - **Geometric Types**
+  - Box (`box`, `box[]`)
+  - Circle (`circle`, `circle[]`)
+  - Line (`line`, `line[]`)
+  - Line segment (`lseg`, `lseg[]`)
+  - Path (`path`, `path[]`)
   - Point (`point`, `point[]`)
+  - Polygon (`polygon`, `polygon[]`)
   - PostGIS Geometry (`geometry`, `geometry[]`)
   - PostGIS Geography (`geography`, `geography[]`)
 - **Range Types**
   - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
   - Multiranges (`nummultirange`, `int4multirange`, `int8multirange`)
+- **Interval Types**
+  - Time durations with `DateInterval` support (`interval`, `interval[]`)
 - **Text Search Types**
-  - Full-text search document (`tsvector`)
-  - Full-text search query (`tsquery`)
+  - Full-text search document (`tsvector`, `tsvector[]`)
+  - Full-text search query (`tsquery`, `tsquery[]`)
+- **Monetary Types**
+  - Currency amounts (`money`, `money[]`)
+- **XML Types**
+  - Native XML document storage (`xml`, `xml[]`)
 - **Hierarchical Types**
-  - [ltree](https://www.postgresql.org/docs/16/ltree.html) (`ltree`)
+  - Label-tree data (`ltree`, `ltree[]`)
 - **Vector Types** (requires [pgvector](https://github.com/pgvector/pgvector) extension)
   - Fixed-dimension float vector (`vector`)
+  - Half-precision float vector (`halfvec`)
+  - Sparse vector (`sparsevec`)
 - **Composite Types**
   - Access fields from [user-defined composite types](https://www.postgresql.org/docs/17/rowtypes.html) via `COMPOSITE_FIELD()` function
 
@@ -118,6 +134,7 @@ This package provides comprehensive Doctrine support for PostgreSQL features:
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
+- [PostgreSQL ltree Types](docs/LTREE-TYPE.md)
 - [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md) - Overview and cross-references
   - [Array and JSON Functions](docs/ARRAY-AND-JSON-FUNCTIONS.md)
   - [PostGIS Spatial Functions](docs/SPATIAL-FUNCTIONS-AND-OPERATORS.md)
@@ -144,8 +161,6 @@ composer require martin-georgiev/postgresql-for-doctrine
 ## 💡 Usage Examples
 See our [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md) for detailed code samples.
 
-See our [ltree type usage guide](docs/LTREE-TYPE.md) for an example of how to use the `ltree` type.
-
 ## 🧪 Testing
 
 ### Unit Tests
@@ -154,17 +169,17 @@ composer run-unit-tests
 ```
 
 ### PostgreSQL Integration Tests
-We also provide integration tests that run against a real PostgreSQL database with PostGIS to ensure compatibility:
+We also provide integration tests that run against a real PostgreSQL database with PostGIS:
 
 ```bash
 # Start PostgreSQL with PostGIS using Docker Compose
-docker-compose up -d
+docker compose up -d
 
 # Run integration tests
 composer run-integration-tests
 
 # Stop PostgreSQL
-docker-compose down -v
+docker compose down -v
 ```
 
 See [tests/Integration/README.md](tests/Integration/README.md) for more details.

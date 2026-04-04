@@ -52,6 +52,20 @@ final class BitTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
+    #[DataProvider('provideValidBitStrings')]
+    #[Test]
+    public function can_convert_valid_bit_string_to_database_value(string $bitString): void
+    {
+        $this->assertSame($bitString, $this->fixture->convertToDatabaseValue($bitString, $this->platform));
+    }
+
+    #[DataProvider('provideValidBitStrings')]
+    #[Test]
+    public function can_convert_valid_bit_string_to_php_value(string $bitString): void
+    {
+        $this->assertSame($bitString, $this->fixture->convertToPHPValue($bitString, $this->platform));
+    }
+
     /**
      * @return array<string, array{bitString: string}>
      */
@@ -66,18 +80,12 @@ final class BitTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideValidBitStrings')]
+    #[DataProvider('provideInvalidPhpInputs')]
     #[Test]
-    public function can_convert_valid_bit_string_to_database_value(string $bitString): void
+    public function throws_exception_for_non_string_php_value(mixed $value): void
     {
-        $this->assertSame($bitString, $this->fixture->convertToDatabaseValue($bitString, $this->platform));
-    }
-
-    #[DataProvider('provideValidBitStrings')]
-    #[Test]
-    public function can_convert_valid_bit_string_to_php_value(string $bitString): void
-    {
-        $this->assertSame($bitString, $this->fixture->convertToPHPValue($bitString, $this->platform));
+        $this->expectException(InvalidBitForPHPException::class);
+        $this->fixture->convertToPHPValue($value, $this->platform);
     }
 
     /**
@@ -94,9 +102,9 @@ final class BitTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPhpInputs')]
+    #[DataProvider('provideInvalidFormatStrings')]
     #[Test]
-    public function throws_exception_for_non_string_php_value(mixed $value): void
+    public function throws_exception_for_invalid_format_php_value(string $value): void
     {
         $this->expectException(InvalidBitForPHPException::class);
         $this->fixture->convertToPHPValue($value, $this->platform);
@@ -114,12 +122,12 @@ final class BitTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidFormatStrings')]
+    #[DataProvider('provideInvalidDatabaseInputs')]
     #[Test]
-    public function throws_exception_for_invalid_format_php_value(string $value): void
+    public function throws_exception_for_invalid_database_value(mixed $value): void
     {
-        $this->expectException(InvalidBitForPHPException::class);
-        $this->fixture->convertToPHPValue($value, $this->platform);
+        $this->expectException(InvalidBitForDatabaseException::class);
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 
     /**
@@ -131,13 +139,5 @@ final class BitTest extends TestCase
             'integer input' => [42],
             'array input' => [['0', '1']],
         ];
-    }
-
-    #[DataProvider('provideInvalidDatabaseInputs')]
-    #[Test]
-    public function throws_exception_for_invalid_database_value(mixed $value): void
-    {
-        $this->expectException(InvalidBitForDatabaseException::class);
-        $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 }

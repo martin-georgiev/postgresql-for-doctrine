@@ -13,8 +13,14 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  */
 final class Int4Range extends BaseIntegerRange
 {
+    /**
+     * @var int
+     */
     private const MIN_INT4_VALUE = -2147483648;
 
+    /**
+     * @var int
+     */
     private const MAX_INT4_VALUE = 2147483647;
 
     public function __construct(

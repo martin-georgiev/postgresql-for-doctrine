@@ -19,6 +19,10 @@ devenv.local.nix
 !.augment/rules
 !.claude/
 !.claude/rules
+!.claude/settings.json
+!.claude/notepad.md
+!.claude/hooks/
+!.claude/commands/
 !.cursor/
 !.cursor/rules
 !.windsurf/

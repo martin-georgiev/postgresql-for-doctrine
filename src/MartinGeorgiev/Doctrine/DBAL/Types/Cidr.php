@@ -22,6 +22,9 @@ class Cidr extends BaseType
 {
     use CidrValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::CIDR;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

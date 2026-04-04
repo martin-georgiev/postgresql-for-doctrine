@@ -143,7 +143,16 @@ abstract class TestCase extends BaseTestCase
 
         $this->assertTrue(Type::hasType($typeName), \sprintf('Type %s should be registered', $typeName));
 
-        Type::getType($typeName);
+        $type = Type::getType($typeName);
+
+        $platform = $this->connection->getDatabasePlatform();
+
+        $this->assertSame(\strtoupper($typeName), $type->getSQLDeclaration([], $platform));
+
+        // Not all Doctrine versions expose this method as it's deprecated. For now, we ignore the deprecation.
+        if (\method_exists($type, 'requiresSQLCommentHint')) {
+            $this->assertFalse($type->requiresSQLCommentHint($platform)); // @phpstan-ignore-line
+        }
     }
 
     protected function getSelectExpression(string $columnName): string

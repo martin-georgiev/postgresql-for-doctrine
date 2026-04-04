@@ -22,6 +22,9 @@ class Inet extends BaseType
 {
     use InetValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::INET;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

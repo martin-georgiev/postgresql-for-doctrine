@@ -107,4 +107,33 @@ class BaseArrayTest extends TestCase
 
         $this->fixture->convertToPHPValue(681, $this->platform); // @phpstan-ignore argument.type
     }
+
+    #[DataProvider('provideQuoteAndEscapeArrayItemCases')]
+    #[Test]
+    public function can_quote_and_escape_array_item(string $input, string $expected): void
+    {
+        $type = new class extends BaseArray {
+            protected const TYPE_NAME = 'test';
+
+            public function quoteAndEscapeArrayItem(string $item): string
+            {
+                return parent::quoteAndEscapeArrayItem($item);
+            }
+        };
+
+        $this->assertSame($expected, $type->quoteAndEscapeArrayItem($input));
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideQuoteAndEscapeArrayItemCases(): array
+    {
+        return [
+            'plain string' => ['hello', '"hello"'],
+            'string with double quote' => ['say "hi"', '"say \\"hi\\""'],
+            'string with backslash' => ['back\\slash', '"back\\\\slash"'],
+            'string with both' => ['a\\b"c', '"a\\\\b\\"c"'],
+        ];
+    }
 }

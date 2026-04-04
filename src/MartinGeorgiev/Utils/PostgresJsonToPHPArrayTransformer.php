@@ -16,6 +16,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonItemForPHPException
  */
 class PostgresJsonToPHPArrayTransformer
 {
+    /**
+     * @var string
+     */
     private const POSTGRESQL_EMPTY_ARRAY = '{}';
 
     public static function transformPostgresArrayToPHPArray(string $postgresValue): array

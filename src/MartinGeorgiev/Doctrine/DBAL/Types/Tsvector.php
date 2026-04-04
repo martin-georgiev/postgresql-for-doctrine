@@ -23,6 +23,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorForPHPException
  */
 final class Tsvector extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::TSVECTOR;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

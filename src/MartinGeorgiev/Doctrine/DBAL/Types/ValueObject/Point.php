@@ -11,23 +11,29 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointExcept
  *
  * @author Sébastien Jean <sebastien.jean76@gmail.com>
  */
-final readonly class Point implements \Stringable
+final readonly class Point extends BaseGeometricValue
 {
-    private const COORDINATE_PATTERN = '-?\d+(?:\.\d{1,6})?';
-
-    private const POINT_REGEX = '/\(('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\)/';
+    /**
+     * @var string
+     */
+    private const POINT_REGEX = '/^\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)$/';
 
     public function __construct(
         private float $x,
         private float $y,
     ) {
-        $this->validateCoordinate($x, 'x');
-        $this->validateCoordinate($y, 'y');
+        if (!\is_finite($x)) {
+            throw InvalidPointException::forNonFiniteCoordinate($x);
+        }
+
+        if (!\is_finite($y)) {
+            throw InvalidPointException::forNonFiniteCoordinate($y);
+        }
     }
 
     public function __toString(): string
     {
-        return \sprintf('(%f, %f)', $this->x, $this->y);
+        return \sprintf('(%s,%s)', $this->x, $this->y);
     }
 
     public function getX(): float
@@ -47,15 +53,5 @@ final readonly class Point implements \Stringable
         }
 
         return new self((float) $matches[1], (float) $matches[2]);
-    }
-
-    private function validateCoordinate(float $value, string $name): void
-    {
-        $stringValue = (string) $value;
-
-        $floatRegex = '/^'.self::COORDINATE_PATTERN.'$/';
-        if (!\preg_match($floatRegex, $stringValue)) {
-            throw InvalidPointException::forInvalidCoordinate($name, $stringValue);
-        }
     }
 }

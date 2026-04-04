@@ -186,7 +186,18 @@ abstract class BaseSpatialTypeTestCase extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPhpValues')]
+    #[Test]
+    public function can_wrap_sql_expression_for_ewkt_conversion(): void
+    {
+        $sql = $this->fixture->convertToPHPValueSQL('geom_col', $this->platform);
+
+        $this->assertSame(
+            "CASE WHEN ST_SRID(geom_col) = 0 THEN ST_AsText(geom_col) ELSE 'SRID=' || ST_SRID(geom_col) || ';' || ST_AsText(geom_col) END",
+            $sql
+        );
+    }
+
+    #[DataProvider('provideInvalidInputValues')]
     #[Test]
     public function throws_exception_for_invalid_php_value_when_converting_to_database_value(mixed $phpValue): void
     {
@@ -197,7 +208,7 @@ abstract class BaseSpatialTypeTestCase extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPhpValues(): array
+    public static function provideInvalidInputValues(): array
     {
         return [
             'random string' => ['foo'],

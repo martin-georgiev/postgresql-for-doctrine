@@ -5,20 +5,27 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
 
 /**
  * Implementation of PostgreSQL BIT VARYING data type.
  *
  * @see https://www.postgresql.org/docs/current/datatype-bit.html
- * @since 4.4
+ * @since 4.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final class BitVarying extends BaseType
 {
-    protected const TYPE_NAME = 'bit varying';
+    use BitValidationTrait;
+
+    /**
+     * @var string
+     */
+    protected const TYPE_NAME = Type::BIT_VARYING;
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
@@ -35,7 +42,7 @@ final class BitVarying extends BaseType
             throw InvalidBitVaryingForPHPException::forInvalidType($value);
         }
 
-        if (!\preg_match('/^[01]+$/', $value)) {
+        if (!$this->isValidBitString($value)) {
             throw InvalidBitVaryingForPHPException::forInvalidFormat($value);
         }
 
@@ -52,7 +59,7 @@ final class BitVarying extends BaseType
             throw InvalidBitVaryingForDatabaseException::forInvalidType($value);
         }
 
-        if (!\preg_match('/^[01]+$/', $value)) {
+        if (!$this->isValidBitString($value)) {
             throw InvalidBitVaryingForDatabaseException::forInvalidFormat($value);
         }
 

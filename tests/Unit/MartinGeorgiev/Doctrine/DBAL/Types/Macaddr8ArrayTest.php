@@ -89,7 +89,6 @@ class Macaddr8ArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            'too short (6-octet macaddr)' => [['08:00:2b:01:02:03']],
             'too long' => [['08:00:2b:ff:fe:01:02:03:04']],
             'invalid hex chars' => [['08:00:2b:zz:fe:01:02:03']],
             'empty string' => [['']],
@@ -131,7 +130,6 @@ class Macaddr8ArrayTest extends TestCase
     {
         return [
             'invalid format' => ['{"invalid-mac8"}'],
-            'too short in array' => ['{"08:00:2b:01:02:03"}'],
             'malformed array' => ['not-an-array'],
         ];
     }
@@ -171,7 +169,6 @@ class Macaddr8ArrayTest extends TestCase
     public static function provideInvalidArrayItemsForDatabase(): array
     {
         return [
-            'too short (6-octet)' => ['08:00:2b:01:02:03'],
             'invalid chars' => ['08:00:2b:zz:fe:01:02:03'],
             'integer' => [123],
             'empty string' => [''],

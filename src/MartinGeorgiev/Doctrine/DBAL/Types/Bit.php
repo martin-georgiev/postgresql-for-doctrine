@@ -5,20 +5,27 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
 
 /**
  * Implementation of PostgreSQL BIT data type.
  *
  * @see https://www.postgresql.org/docs/current/datatype-bit.html
- * @since 4.4
+ * @since 4.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final class Bit extends BaseType
 {
-    protected const TYPE_NAME = 'bit';
+    use BitValidationTrait;
+
+    /**
+     * @var string
+     */
+    protected const TYPE_NAME = Type::BIT;
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
@@ -35,7 +42,7 @@ final class Bit extends BaseType
             throw InvalidBitForPHPException::forInvalidType($value);
         }
 
-        if (!\preg_match('/^[01]+$/', $value)) {
+        if (!$this->isValidBitString($value)) {
             throw InvalidBitForPHPException::forInvalidFormat($value);
         }
 
@@ -52,7 +59,7 @@ final class Bit extends BaseType
             throw InvalidBitForDatabaseException::forInvalidType($value);
         }
 
-        if (!\preg_match('/^[01]+$/', $value)) {
+        if (!$this->isValidBitString($value)) {
             throw InvalidBitForDatabaseException::forInvalidFormat($value);
         }
 
