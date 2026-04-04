@@ -8,6 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL BIT[] data type.
@@ -26,6 +27,11 @@ class BitArray extends BaseStringArray
      */
     protected const TYPE_NAME = Type::BIT_ARRAY;
 
+    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    {
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, true);
+    }
+
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
         if ($item === null) {
@@ -41,6 +47,10 @@ class BitArray extends BaseStringArray
 
     public function transformArrayItemForPHP(mixed $item): ?string
     {
+        if ($item === null || $item === 'NULL') {
+            return null;
+        }
+
         $result = parent::transformArrayItemForPHP($item);
 
         if ($result !== null && !$this->isValidBitString($result)) {

@@ -23,7 +23,7 @@ Read your chosen reference file AND its base class AND its tests before writing 
 
 ## 2. Update the type constant
 
-Check `src/MartinGeorgiev/Doctrine/DBAL/Type.php`. Add the PostgreSQL type name if not listed.
+Check `src/MartinGeorgiev/Doctrine/DBAL/Type`. Add the PostgreSQL type name if not listed.
 
 ## 3. Create source files
 
@@ -35,11 +35,11 @@ All exceptions in `src/.../Types/Exceptions/`, extend `ConversionException`, use
 
 If the reference type has a value object, create one following the same pattern.
 
-**Adding an array variant of an existing scalar type**: Extract shared validation logic from the scalar type into a `src/.../Types/Traits/{TypeName}ValidationTrait.php` and refactor the scalar type to use it. The array type then also uses the same trait. See `MoneyValidationTrait`, `XmlValidationTrait` for examples. This modifies the existing scalar type and its tests.
+**Adding an array variant of an existing scalar type**: Extract shared validation logic from the scalar type into `src/.../Types/Traits/{TypeName}ValidationTrait` and refactor the scalar type to use it. The array type then also uses the same trait. See `MoneyValidationTrait`, `XmlValidationTrait` for examples. This modifies the existing scalar type and its tests.
 
 ## 4. Register the type for integration tests
 
-Add the new type to `tests/Integration/MartinGeorgiev/TestCase.php`:
+Add the new type to `tests/Integration/MartinGeorgiev/TestCase`:
 - Add a `use` import for the type class
 - Add an entry to the `$typesMap` array (alphabetical order by key)
 
@@ -51,25 +51,28 @@ Check: `gh pr list --repo martin-georgiev/postgresql-for-doctrine --state open -
 
 ## 6. Create tests
 
-Every new type **must** have unit and integration tests. Read existing tests for the same base class to match patterns. If adding the first type in a new family (e.g., first datetime array), check if a shared `Base{Family}TestCase` should be created.
+Both unit AND integration tests are **required** for every new type. Before writing, read the matching reference test from the same domain group — copy its structure exactly.
 
-### Unit tests
-Create in `tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/`.
+### Unit tests → `tests/Unit/.../Types/`
 
-### Integration tests
-Create in `tests/Integration/MartinGeorgiev/Doctrine/DBAL/Types/`.
+Cover: type name, null handling, valid round-trips (data provider), invalid types, invalid formats. Array types also: `isValidArrayItemForDatabase()`, `transformArrayItemForPHP()`.
 
-**Scalar types**: extend `ScalarTypeTestCase`, which provides `can_handle_null_values()` automatically. Add:
-- `getTypeName()` / `getPostgresTypeName()` — abstract methods from base
-- `provideValidTransformations()` data provider + test for round-trip
-- At least one rejection test for invalid input
+Reference by group: `XmlTest`/`XmlArrayTest` (string-based), `MoneyTest`/`MoneyArrayTest`, `MacaddrTest`/`MacaddrArrayTest` (network), `PointTest`/`PointArrayTest` (geometric), `BaseRangeTestCase` (range), `BaseFloatArrayTestCase`/`BaseIntegerArrayTestCase` (numeric arrays).
 
-**Array types**: extend `ArrayTypeTestCase`, which provides `can_handle_empty_array()`, `can_handle_null_values()`, and the `can_handle_array_values()` data-driven test. Add:
-- `getTypeName()` / `getPostgresTypeName()` — abstract methods from base
-- `provideValidTransformations()` — data provider returning `array<string, array{string, array<mixed>}>`
-- At least one rejection test for invalid items
+### Integration tests → `tests/Integration/.../Types/`
 
-**Reference files**: read `XmlTypeTest.php` / `XmlArrayTypeTest.php` or `MoneyTypeTest.php` / `MoneyArrayTypeTest.php` for the exact patterns.
+Extend the base class matching your group. Each provides common tests automatically — you add `getTypeName()`, `getPostgresTypeName()`, a `provideValidTransformations()` data provider, and at least one rejection test.
+
+| Group | Extend |
+|-------|--------|
+| Scalar | `ScalarTypeTestCase` |
+| Array | `ArrayTypeTestCase` |
+| Range | `RangeTypeTestCase` |
+| Multirange | `MultirangeTypeTestCase` |
+| Vector | `VectorTypeTestCase` |
+| Spatial array | `SpatialArrayTypeTestCase` |
+
+Reference: `XmlTypeTest`/`XmlArrayTypeTest`, `MoneyTypeTest`, `BitTypeTest`/`BitArrayTypeTest`.
 
 ## 7. Update documentation
 

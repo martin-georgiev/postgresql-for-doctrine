@@ -19,8 +19,8 @@ Follow the reference function's structure. Key rules from `.ai-tools/rules/varia
 
 **Unit test** in `tests/Unit/.../Functions/{Group}/`. Read existing tests in the same directory to match patterns.
 
-**Integration test** in `tests/Integration/.../Functions/{Group}/`. Check if a group-specific `TestCase.php` exists in that directory — it registers the DQL functions via `getStringFunctions()`. If you're adding a function to an existing group, extend that TestCase. If creating a new group:
-- Create `tests/Integration/.../Functions/{Group}/TestCase.php` extending the base integration TestCase
+**Integration test** in `tests/Integration/.../Functions/{Group}/`. Check if a group-specific `TestCase` exists in that directory — it registers the DQL functions via `getStringFunctions()`. If you're adding a function to an existing group, extend that TestCase. If creating a new group:
+- Create `tests/Integration/.../Functions/{Group}/TestCase` extending the base integration TestCase
 - Override `getStringFunctions()` to register the new functions
 - If the group operates on a data type that has no fixture entity, create one in `fixtures/MartinGeorgiev/Doctrine/Entity/`
 

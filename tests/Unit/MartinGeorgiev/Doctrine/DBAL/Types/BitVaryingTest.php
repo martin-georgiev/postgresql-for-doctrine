@@ -138,6 +138,8 @@ final class BitVaryingTest extends TestCase
         return [
             'integer input' => [42],
             'array input' => [['0', '1']],
+            'invalid format' => ['abc'],
+            'digit two' => ['2'],
         ];
     }
 }

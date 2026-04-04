@@ -27,11 +27,6 @@ final class BitVarying extends BaseType
      */
     protected const TYPE_NAME = Type::BIT_VARYING;
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        return 'BIT VARYING';
-    }
-
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null || $value === '') {

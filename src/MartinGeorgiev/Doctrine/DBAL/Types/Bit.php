@@ -27,11 +27,6 @@ final class Bit extends BaseType
      */
     protected const TYPE_NAME = Type::BIT;
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        return 'BIT';
-    }
-
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null || $value === '') {
