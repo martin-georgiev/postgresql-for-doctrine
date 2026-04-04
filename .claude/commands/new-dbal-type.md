@@ -51,9 +51,25 @@ Check: `gh pr list --repo martin-georgiev/postgresql-for-doctrine --state open -
 
 ## 6. Create tests
 
-Unit tests: mirror source structure in `tests/Unit/`. Read existing tests for the same base class to match patterns. If adding the first type in a new family (e.g., first datetime array), check if a shared `Base{Family}TestCase` should be created.
+Every new type **must** have unit and integration tests. Read existing tests for the same base class to match patterns. If adding the first type in a new family (e.g., first datetime array), check if a shared `Base{Family}TestCase` should be created.
 
-Integration tests: create in `tests/Integration/`. Read existing integration tests for the same group.
+### Unit tests
+Create in `tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/`.
+
+### Integration tests
+Create in `tests/Integration/MartinGeorgiev/Doctrine/DBAL/Types/`.
+
+**Scalar types**: extend `ScalarTypeTestCase`, which provides `can_handle_null_values()` automatically. Add:
+- `getTypeName()` / `getPostgresTypeName()` — abstract methods from base
+- `provideValidTransformations()` data provider + test for round-trip
+- At least one rejection test for invalid input
+
+**Array types**: extend `ArrayTypeTestCase`, which provides `can_handle_empty_array()`, `can_handle_null_values()`, and the `can_handle_array_values()` data-driven test. Add:
+- `getTypeName()` / `getPostgresTypeName()` — abstract methods from base
+- `provideValidTransformations()` — data provider returning `array<string, array{string, array<mixed>}>`
+- At least one rejection test for invalid items
+
+**Reference files**: read `XmlTypeTest.php` / `XmlArrayTypeTest.php` or `MoneyTypeTest.php` / `MoneyArrayTypeTest.php` for the exact patterns.
 
 ## 7. Update documentation
 
@@ -69,7 +85,8 @@ Read each doc before editing to match the existing format.
 
 ## 8. Verify
 
-1. `./bin/phpstan analyse --configuration=ci/phpstan/config.neon <all-new-src-files> --memory-limit=512M`
-2. `./bin/phpunit --filter "{TypeName}" --configuration ci/phpunit/config-unit.xml`
+1. `composer dump-autoload` — ensure autoloader knows about new classes
+2. `./bin/phpstan analyse --configuration=ci/phpstan/config.neon <all-new-src-and-test-files> --memory-limit=512M`
+3. `./bin/phpunit --filter "{TypeName}" --configuration ci/phpunit/config-unit.xml`
 
 Max 3 attempts before asking for guidance.

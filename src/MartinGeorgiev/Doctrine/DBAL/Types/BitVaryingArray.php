@@ -12,7 +12,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
 /**
  * Implementation of PostgreSQL BIT VARYING[] data type.
  *
- * @see https://www.postgresql.org/docs/current/datatype-bit.html
+ * @see https://www.postgresql.org/docs/18/datatype-bit.html
  * @since 4.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
