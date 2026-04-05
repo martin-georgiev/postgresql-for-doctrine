@@ -12,11 +12,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidByteaForPHPException;
 /**
  * Implementation of PostgreSQL BYTEA data type.
  *
- * Maps to PHP string (raw binary). PostgreSQL returns bytea values in hex format
- * by default (since PostgreSQL 9.0), prefixed with \x. This type handles decoding
- * that hex format transparently.
- *
- * @see https://www.postgresql.org/docs/current/datatype-binary.html
+ * @see https://www.postgresql.org/docs/18/datatype-binary.html
  * @since 4.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -30,7 +26,7 @@ final class Bytea extends BaseType
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
-        return 'BYTEA';
+        return \strtoupper(self::TYPE_NAME);
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string

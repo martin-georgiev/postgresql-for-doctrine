@@ -52,6 +52,13 @@ class ByteaTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
+    #[DataProvider('provideHexFormatDecoding')]
+    #[Test]
+    public function decodes_hex_format_from_database(string $hexInput, string $expectedBinary): void
+    {
+        $this->assertSame($expectedBinary, $this->fixture->convertToPHPValue($hexInput, $this->platform));
+    }
+
     /**
      * @return array<string, array{hexInput: string, expectedBinary: string}>
      */
@@ -65,11 +72,11 @@ class ByteaTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideHexFormatDecoding')]
+    #[DataProvider('provideNonHexPassthrough')]
     #[Test]
-    public function decodes_hex_format_from_database(string $hexInput, string $expectedBinary): void
+    public function passes_through_non_hex_strings_from_database(string $rawBinary): void
     {
-        $this->assertSame($expectedBinary, $this->fixture->convertToPHPValue($hexInput, $this->platform));
+        $this->assertSame($rawBinary, $this->fixture->convertToPHPValue($rawBinary, $this->platform));
     }
 
     /**
@@ -84,11 +91,11 @@ class ByteaTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideNonHexPassthrough')]
+    #[DataProvider('provideValidDatabaseValues')]
     #[Test]
-    public function passes_through_non_hex_strings_from_database(string $rawBinary): void
+    public function encodes_binary_to_hex_for_database(string $input, string $expectedHex): void
     {
-        $this->assertSame($rawBinary, $this->fixture->convertToPHPValue($rawBinary, $this->platform));
+        $this->assertSame($expectedHex, $this->fixture->convertToDatabaseValue($input, $this->platform));
     }
 
     /**
@@ -101,13 +108,6 @@ class ByteaTest extends TestCase
             'binary data' => ['input' => "\xff\x00\xab", 'expectedHex' => '\\xff00ab'],
             'null byte' => ['input' => "\x00", 'expectedHex' => '\\x00'],
         ];
-    }
-
-    #[DataProvider('provideValidDatabaseValues')]
-    #[Test]
-    public function encodes_binary_to_hex_for_database(string $input, string $expectedHex): void
-    {
-        $this->assertSame($expectedHex, $this->fixture->convertToDatabaseValue($input, $this->platform));
     }
 
     #[Test]
@@ -180,6 +180,15 @@ class ByteaTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
+    {
+        $this->expectException(InvalidByteaForDatabaseException::class);
+
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
+    }
+
     /**
      * @return array<string, array{mixed}>
      */
@@ -189,14 +198,5 @@ class ByteaTest extends TestCase
             'integer input' => [42],
             'array input' => [['data']],
         ];
-    }
-
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
-    #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
-    {
-        $this->expectException(InvalidByteaForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 }
