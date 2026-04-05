@@ -17,7 +17,7 @@ class BitArrayTypeTest extends ArrayTypeTestCase
 
     protected function getPostgresTypeName(): string
     {
-        return 'BIT VARYING[]';
+        return 'BIT[]';
     }
 
     /**
