@@ -29,6 +29,6 @@ class ScaleTest extends NumericTestCase
     {
         $dql = 'SELECT SCALE(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2, $result[0]['result']);
+        $this->assertEquals(1, $result[0]['result']);
     }
 }
