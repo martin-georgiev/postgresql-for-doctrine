@@ -30,7 +30,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function buildTableName(string $columnType): string
     {
-        return 'test_type_'.\strtolower(\str_replace([' ', '[]', '()'], ['_', '_array', ''], $columnType));
+        return 'test_type_'.\strtolower(\str_replace([' ', '[]', '()', '(', ')'], ['_', '_array', '', '', ''], $columnType));
     }
 
     /**
