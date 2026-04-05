@@ -11,6 +11,12 @@ Register the DBAL types you plan to use. The full set of available types can be 
 doctrine:
     dbal:
         types:
+            # Bit types
+            bit: MartinGeorgiev\Doctrine\DBAL\Types\Bit
+            'bit[]': MartinGeorgiev\Doctrine\DBAL\Types\BitArray
+            'bit varying': MartinGeorgiev\Doctrine\DBAL\Types\BitVarying
+            'bit varying[]': MartinGeorgiev\Doctrine\DBAL\Types\BitVaryingArray
+
             # Array types
             'bool[]': MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray
             'smallint[]': MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
@@ -116,6 +122,15 @@ doctrine:
         connections:
             default:
                 mapping_types:
+                    # Bit type mappings
+                    bit: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT
+                    'bit[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT_ARRAY
+                    _bit: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT_ARRAY
+                    'bit varying': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT_VARYING
+                    varbit: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT_VARYING
+                    'bit varying[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT_VARYING_ARRAY
+                    _varbit: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT_VARYING_ARRAY
+
                     # Array type mappings
                     'bool[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BOOL_ARRAY
                     _bool: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BOOL_ARRAY

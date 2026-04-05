@@ -11,6 +11,12 @@ Register the DBAL types you plan to use. The **full set** of available types can
 
 use Doctrine\DBAL\Types\Type;
 
+// Bit types
+Type::addType('bit', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Bit");
+Type::addType('bit[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitArray");
+Type::addType('bit varying', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitVarying");
+Type::addType('bit varying[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitVaryingArray");
+
 // Array types
 Type::addType('bool[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BooleanArray");
 Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
@@ -319,6 +325,15 @@ Register type mappings between PostgreSQL and Doctrine types. This is required f
 <?php
 
 $platform = $em->getConnection()->getDatabasePlatform();
+
+// Bit type mappings
+$platform->registerDoctrineTypeMapping('bit', 'bit');
+$platform->registerDoctrineTypeMapping('bit[]', 'bit[]');
+$platform->registerDoctrineTypeMapping('_bit', 'bit[]');
+$platform->registerDoctrineTypeMapping('bit varying', 'bit varying');
+$platform->registerDoctrineTypeMapping('varbit', 'bit varying');
+$platform->registerDoctrineTypeMapping('bit varying[]', 'bit varying[]');
+$platform->registerDoctrineTypeMapping('_varbit', 'bit varying[]');
 
 // Array type mappings
 $platform->registerDoctrineTypeMapping('bool[]', 'bool[]');

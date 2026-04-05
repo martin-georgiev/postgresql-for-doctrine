@@ -14,6 +14,10 @@ use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Bit;
+use MartinGeorgiev\Doctrine\DBAL\Types\BitArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\BitVarying;
+use MartinGeorgiev\Doctrine\DBAL\Types\BitVaryingArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Box;
 use MartinGeorgiev\Doctrine\DBAL\Types\BoxArray;
@@ -255,6 +259,10 @@ abstract class TestCase extends BaseTestCase
     {
         $typesMap = [
             'bigint[]' => BigIntArray::class,
+            'bit' => Bit::class,
+            'bit[]' => BitArray::class,
+            'bit varying' => BitVarying::class,
+            'bit varying[]' => BitVaryingArray::class,
             'bool[]' => BooleanArray::class,
             'box' => Box::class,
             'box[]' => BoxArray::class,

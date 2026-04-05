@@ -2,6 +2,11 @@
 
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
 |---|---|---|
+| bit | bit | `MartinGeorgiev\Doctrine\DBAL\Types\Bit` (see [note](#bit-string-types) |
+| bit[] | _bit | `MartinGeorgiev\Doctrine\DBAL\Types\BitArray` |
+| bit varying | varbit | `MartinGeorgiev\Doctrine\DBAL\Types\BitVarying` (see [note](#bit-string-types) |
+| bit varying[] | _varbit | `MartinGeorgiev\Doctrine\DBAL\Types\BitVaryingArray` |
+|---|---|---|
 | bool[] | _bool | `MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray` |
 | smallint[] | _int2 | `MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray` |
 | integer[] | _int4 | `MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray` |
@@ -80,6 +85,38 @@
 | halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` |
 | sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` |
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` |
+
+---
+
+## Bit String Types
+
+The `bit` and `bit varying` types support an optional `length` parameter via column attribute:
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Permissions
+{
+    // BIT(1) — fixed single bit (default when no length specified)
+    #[ORM\Column(type: 'bit')]
+    private string $active;
+
+    // BIT(8) — fixed 8-bit flags
+    #[ORM\Column(type: 'bit', length: 8)]
+    private string $flags;
+
+    // BIT VARYING — unlimited length (default when no length specified)
+    #[ORM\Column(type: 'bit varying')]
+    private string $mask;
+
+    // BIT VARYING(64) — variable length, up to 64 bits
+    #[ORM\Column(type: 'bit varying', length: 64)]
+    private string $features;
+}
+```
+
+**Important:** `BIT` without a length defaults to `BIT(1)` in PostgreSQL, which stores exactly one bit. Use `BIT VARYING` for variable-length bit strings, or specify an explicit length with `BIT(n)`.
 
 ---
 

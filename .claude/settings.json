@@ -2,15 +2,24 @@
   "hooks": {
     "PostCompact": [
       {
-        "type": "command",
-        "command": ".claude/hooks/post-compact.sh"
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-compact.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
       {
-        "type": "command",
-        "command": ".claude/hooks/post-tool-use-format.sh $TOOL_INPUT_FILE",
-        "toolNames": ["Edit", "Write"]
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-tool-use-format.sh $TOOL_INPUT_FILE"
+          }
+        ]
       }
     ]
   },

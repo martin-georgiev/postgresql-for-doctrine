@@ -14,6 +14,26 @@ final class Type
     /**
      * @var string
      */
+    public const BIT = 'bit';
+
+    /**
+     * @var string
+     */
+    public const BIT_ARRAY = 'bit[]';
+
+    /**
+     * @var string
+     */
+    public const BIT_VARYING = 'bit varying';
+
+    /**
+     * @var string
+     */
+    public const BIT_VARYING_ARRAY = 'bit varying[]';
+
+    /**
+     * @var string
+     */
     public const BOOL_ARRAY = 'bool[]';
 
     /**

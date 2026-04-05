@@ -32,6 +32,15 @@ return [
             // ... other configuration
 
             'type_mappings' => [
+                // Bit type mappings
+                'bit' => 'bit',
+                'bit[]' => 'bit[]',
+                '_bit' => 'bit[]',
+                'bit varying' => 'bit varying',
+                'varbit' => 'bit varying',
+                'bit varying[]' => 'bit varying[]',
+                '_varbit' => 'bit varying[]',
+
                 // Array type mappings
                 '_bool' => 'bool[]',
                 'bool[]' => 'bool[]',
@@ -159,6 +168,12 @@ return [
     ],
 
     'custom_types' => [
+        // Bit types
+        'bit' => MartinGeorgiev\Doctrine\DBAL\Types\Bit::class,
+        'bit[]' => MartinGeorgiev\Doctrine\DBAL\Types\BitArray::class,
+        'bit varying' => MartinGeorgiev\Doctrine\DBAL\Types\BitVarying::class,
+        'bit varying[]' => MartinGeorgiev\Doctrine\DBAL\Types\BitVaryingArray::class,
+
         // Array types
         'bool[]' => MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray::class,
         'bigint[]' => MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class,
