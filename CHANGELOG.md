@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.5.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.4.0...v4.5.0) (2026-04-05)
+
+
+### Features
+
+* Add support for `bit` and `bit varying` DBAL types and their array variations ([#608](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/608)) ([9f8fed1](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9f8fed18d8865575687fa3128b998eeb3190bca6))
+* Add support for geometric DBAL types (`box`, `circle`, `line`, `lseg`, `path`, `polygon`) and their array variations ([#601](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/601)) ([5e29747](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5e297473e35f0cd9af789fea2aaea432390227cb))
+* Add support for hyperbolic, number theory, statistical and trigonometric DQL functions ([#611](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/611)) ([9a191d0](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9a191d0c65e9c3ca7c654d8dc4628258945b411a))
+
 ## [4.4.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.3.0...v4.4.0) (2026-03-21)
 
 
