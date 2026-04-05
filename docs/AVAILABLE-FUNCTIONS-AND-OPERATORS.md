@@ -98,11 +98,12 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `DATERANGE` - Create date ranges
 
 **Mathematical Operations:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
-- `GAMMA` - Gamma function for statistical calculations
+- `DIV`/`GCD`/`LCM`/`FACTORIAL` - Integer arithmetic functions
+- `ERF`/`ERFC` - Error and complementary error functions
+- `GAMMA`/`LGAMMA` - Gamma function for statistical calculations
 - `GREATEST`/`LEAST` - Find maximum/minimum values
-- `LGAMMA` - Natural logarithm of gamma function
-- `ROUND` - Round numeric values
-- `RANDOM` - Generate random numbers
+- `ROUND`/`SCALE`/`MIN_SCALE`/`TRIM_SCALE` - Numeric precision functions
+- `RANDOM`/`RANDOM_NORMAL` - Generate random numbers
 
 **Network Address Operations:** ([Complete documentation](NETWORK-FUNCTIONS.md))
 - `HOST`/`NETWORK`/`BROADCAST` - Extract address parts

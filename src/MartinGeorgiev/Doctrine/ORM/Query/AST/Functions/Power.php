@@ -16,20 +16,10 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT POWER(e.base, e.exponent) FROM Entity e"
  */
-class Power extends BaseArithmeticFunction
+class Power extends BaseDyadicArithmeticFunction
 {
     protected function getFunctionName(): string
     {
         return 'POWER';
-    }
-
-    protected function getMinArgumentCount(): int
-    {
-        return 2;
-    }
-
-    protected function getMaxArgumentCount(): int
-    {
-        return 2;
     }
 }

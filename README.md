@@ -127,6 +127,10 @@ $query = $em->createQuery('
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
   - Special aggregates (`any_value`, `xmlagg`)
 - **Mathematical/Arithmetic Functions**
+  - Trigonometric functions (`sin`, `cos`, `tan`, `asin`, `acos`, `atan`, degree variants)
+  - Hyperbolic functions (`sinh`, `cosh`, `tanh`, `asinh`, `acosh`, `atanh`)
+  - Number theory functions (`gcd`, `lcm`, `factorial`, `div`)
+  - Statistical functions (`erf`, `erfc`, `random_normal`)
 - **Range Functions**
 - **Data Type Formatting Functions**
 - **Vector Distance Functions**

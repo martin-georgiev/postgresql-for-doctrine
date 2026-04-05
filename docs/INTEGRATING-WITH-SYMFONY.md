@@ -397,18 +397,52 @@ doctrine:
                         CBRT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt
                         CEIL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil
                         DEGREES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees
+                        DIV: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Div
+                        ERF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Erf
+                        ERFC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Erfc
                         EXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp
+                        FACTORIAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Factorial
                         FLOOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor
+                        GCD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gcd
+                        LCM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lcm
                         LN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln
                         LOG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log
+                        MIN_SCALE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MinScale
                         PI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi
                         POWER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power
                         RADIANS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians
                         RANDOM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random
+                        RANDOM_NORMAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RandomNormal
                         ROUND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round
+                        SCALE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Scale
                         SIGN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign
+                        TRIM_SCALE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimScale
                         TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc
                         WIDTH_BUCKET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket
+
+                        # Trigonometric functions
+                        ACOS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acos
+                        ACOSD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosd
+                        ACOSH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosh
+                        ASIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asin
+                        ASIND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asind
+                        ASINH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asinh
+                        ATAN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan
+                        ATAN2: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2
+                        ATAN2D: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2d
+                        ATAND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atand
+                        ATANH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atanh
+                        COS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cos
+                        COSD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosd
+                        COSH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosh
+                        COT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cot
+                        COTD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cotd
+                        SIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sin
+                        SIND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sind
+                        SINH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sinh
+                        TAN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tan
+                        TAND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tand
+                        TANH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh
 
                         # other operators
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast

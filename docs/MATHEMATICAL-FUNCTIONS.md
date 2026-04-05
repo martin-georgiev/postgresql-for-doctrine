@@ -4,6 +4,40 @@ This document covers PostgreSQL mathematical, utility, and miscellaneous functio
 
 > 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
 
+## Trigonometric Functions
+
+### Radian-based functions
+
+| PostgreSQL function | Register for DQL as | Implemented by |
+|---|---|---|
+| sin | SIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sin` |
+| cos | COS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cos` |
+| tan | TAN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tan` |
+| cot | COT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cot` |
+| asin | ASIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asin` |
+| acos | ACOS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acos` |
+| atan | ATAN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan` |
+| atan2 | ATAN2 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2` |
+| sinh | SINH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sinh` |
+| cosh | COSH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosh` |
+| tanh | TANH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh` |
+| asinh | ASINH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asinh` |
+| acosh | ACOSH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosh` |
+| atanh | ATANH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atanh` |
+
+### Degree-based functions
+
+| PostgreSQL function | Register for DQL as | Implemented by |
+|---|---|---|
+| sind | SIND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sind` |
+| cosd | COSD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosd` |
+| tand | TAND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tand` |
+| cotd | COTD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cotd` |
+| asind | ASIND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asind` |
+| acosd | ACOSD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosd` |
+| atand | ATAND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atand` |
+| atan2d | ATAN2D | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2d` |
+
 ## Mathematical Functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
@@ -11,21 +45,31 @@ This document covers PostgreSQL mathematical, utility, and miscellaneous functio
 | cbrt | CBRT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt` |
 | ceil | CEIL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil` |
 | degrees | DEGREES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees` |
+| div | DIV | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Div` |
+| erf | ERF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Erf` |
+| erfc | ERFC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Erfc` |
 | exp | EXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp` |
+| factorial | FACTORIAL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Factorial` |
 | floor | FLOOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor` |
 | gamma | GAMMA | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gamma` |
+| gcd | GCD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gcd` |
 | generate_series | GENERATE_NUMERIC_SERIES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateNumericSeries` |
 | greatest | GREATEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest` |
+| lcm | LCM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lcm` |
 | least | LEAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least` |
 | lgamma | LGAMMA | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lgamma` |
 | ln | LN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln` |
 | log | LOG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log` |
+| min_scale | MIN_SCALE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MinScale` |
 | pi | PI | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi` |
 | power | POWER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power` |
 | radians | RADIANS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians` |
 | random | RANDOM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random` |
+| random_normal | RANDOM_NORMAL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RandomNormal` |
 | round | ROUND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round` |
+| scale | SCALE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Scale` |
 | sign | SIGN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign` |
+| trim_scale | TRIM_SCALE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimScale` |
 | trunc | TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc` |
 | width_bucket | WIDTH_BUCKET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket` |
 
