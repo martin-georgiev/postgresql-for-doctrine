@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class BitVaryingTypeTest extends ScalarTypeTestCase
 {
+    use BitLengthRoundTripTrait;
+
     protected function getTypeName(): string
     {
         return 'bit varying';
@@ -18,6 +20,11 @@ class BitVaryingTypeTest extends ScalarTypeTestCase
     protected function getPostgresTypeName(): string
     {
         return 'BIT VARYING';
+    }
+
+    protected static function getLengthColumnType(): string
+    {
+        return 'BIT VARYING(5)';
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -41,11 +48,36 @@ class BitVaryingTypeTest extends ScalarTypeTestCase
         ];
     }
 
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideLengthRoundTripValues(): array
+    {
+        return [
+            'short value' => ['00'],
+            'exact length' => ['10101'],
+            'single bit' => ['1'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidBitStrings')]
     #[Test]
-    public function rejects_invalid_bit_string_before_database_write(): void
+    public function rejects_invalid_bit_string_before_database_write(string $value): void
     {
         $this->expectException(InvalidBitVaryingForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), 'abc');
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $value);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidBitStrings(): array
+    {
+        return [
+            'alphabetic' => ['abc'],
+            'digit two' => ['2'],
+            'with space' => ['1 0'],
+        ];
     }
 }

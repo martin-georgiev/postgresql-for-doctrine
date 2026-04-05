@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class BitArrayTypeTest extends ArrayTypeTestCase
 {
+    use BitLengthRoundTripTrait;
+
     protected function getTypeName(): string
     {
         return 'bit[]';
@@ -19,6 +21,11 @@ class BitArrayTypeTest extends ArrayTypeTestCase
     protected function getPostgresTypeName(): string
     {
         return 'BIT[]';
+    }
+
+    protected static function getLengthColumnType(): string
+    {
+        return 'BIT(3)[]';
     }
 
     /**
@@ -35,32 +42,10 @@ class BitArrayTypeTest extends ArrayTypeTestCase
         ];
     }
 
-    #[DataProvider('provideFixedLengthTransformations')]
-    #[Test]
-    public function can_round_trip_with_fixed_element_length(array $inputValue): void
-    {
-        $tableName = 'test_type_bit_array_fixed';
-        $columnName = 'test_column';
-        $this->createTestTableForDataType($tableName, $columnName, 'BIT(3)[]');
-
-        try {
-            $this->connection->createQueryBuilder()
-                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
-                ->values([$columnName => ':value'])
-                ->setParameter('value', $inputValue, $this->getTypeName())
-                ->executeStatement();
-
-            $retrieved = $this->fetchConvertedValue($this->getTypeName(), $tableName, $columnName);
-            $this->assertSame($inputValue, $retrieved);
-        } finally {
-            $this->dropTestTableIfItExists($tableName);
-        }
-    }
-
     /**
      * @return array<string, array{array<int, string|null>}>
      */
-    public static function provideFixedLengthTransformations(): array
+    public static function provideLengthRoundTripValues(): array
     {
         return [
             'single element' => [['101']],
@@ -91,19 +76,25 @@ class BitArrayTypeTest extends ArrayTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInvalidBitArrayItems')]
     #[Test]
-    public function rejects_invalid_bit_string(): void
+    public function rejects_invalid_bit_array_items(array $inputValue): void
     {
         $this->expectException(InvalidBitArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['abc']);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $inputValue);
     }
 
-    #[Test]
-    public function rejects_non_bit_digit(): void
+    /**
+     * @return array<string, array{array<int, mixed>}>
+     */
+    public static function provideInvalidBitArrayItems(): array
     {
-        $this->expectException(InvalidBitArrayItemForDatabaseException::class);
-
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['2']);
+        return [
+            'alphabetic string' => [['abc']],
+            'digit two' => [['2']],
+            'with space' => [['1 0']],
+            'empty string' => [['']],
+        ];
     }
 }
