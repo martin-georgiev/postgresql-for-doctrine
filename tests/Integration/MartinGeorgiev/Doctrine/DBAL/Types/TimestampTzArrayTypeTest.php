@@ -21,30 +21,30 @@ class TimestampTzArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, \DateTimeImmutable|null>}>
+     * @return array<string, array{array<int, \DateTimeImmutable|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single UTC timestamp' => ['single UTC timestamp', [
+            'single UTC timestamp' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45+00:00'),
             ]],
-            'positive timezone offset' => ['positive timezone offset', [
+            'positive timezone offset' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45+02:00'),
             ]],
-            'negative timezone offset' => ['negative timezone offset', [
+            'negative timezone offset' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45-05:00'),
             ]],
-            'multiple timestamptz values' => ['multiple timestamptz values', [
+            'multiple timestamptz values' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45+00:00'),
                 new \DateTimeImmutable('2024-01-01 00:00:00+02:00'),
             ]],
-            'timestamptz with null item' => ['timestamptz with null item', [
+            'timestamptz with null item' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45+00:00'),
                 null,
                 new \DateTimeImmutable('2024-01-01 00:00:00-05:00'),
             ]],
-            'empty timestamptz array' => ['empty timestamptz array', []],
+            'empty timestamptz array' => [[]],
         ];
     }
 

@@ -20,25 +20,25 @@ class InetArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple inet array' => ['simple inet array', ['192.168.1.1', '10.0.0.1']],
-            'inet array with IPv6' => ['inet array with IPv6', ['2001:db8::1', '::1']],
-            'inet array with mixed addresses' => ['inet array with mixed addresses', [
+            'simple inet array' => [['192.168.1.1', '10.0.0.1']],
+            'inet array with IPv6' => [['2001:db8::1', '::1']],
+            'inet array with mixed addresses' => [[
                 '192.168.1.1',
                 '172.16.0.1',
                 '10.0.0.1',
                 '2001:db8::1',
             ]],
-            'inet array with localhost' => ['inet array with localhost', [
+            'inet array with localhost' => [[
                 '127.0.0.1',
                 '::1',
             ]],
-            'empty inet array' => ['empty inet array', []],
-            'inet array with null item' => ['inet array with null item', ['192.168.1.1', null, '10.0.0.1']],
+            'empty inet array' => [[]],
+            'inet array with null item' => [['192.168.1.1', null, '10.0.0.1']],
         ];
     }
 

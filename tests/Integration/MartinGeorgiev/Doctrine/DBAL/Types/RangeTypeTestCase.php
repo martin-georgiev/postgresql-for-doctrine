@@ -137,7 +137,7 @@ abstract class RangeTypeTestCase extends TestCase
      */
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_range_values(string $testName, RangeValueObject $rangeValueObject): void
+    public function can_handle_range_values(RangeValueObject $rangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -146,7 +146,7 @@ abstract class RangeTypeTestCase extends TestCase
     }
 
     /**
-     * @return array<string, array{string, RangeValueObject<\DateTimeInterface|float|int>}>
+     * @return array<string, array{RangeValueObject<\DateTimeInterface|float|int>}>
      */
     abstract public static function provideValidTransformations(): array;
 
@@ -155,14 +155,14 @@ abstract class RangeTypeTestCase extends TestCase
      */
     #[DataProvider('provideOperatorScenarios')]
     #[Test]
-    public function can_evaluate_operator_scenarios(string $name, string $dql, array $expectedIds): void
+    public function can_evaluate_operator_scenarios(string $dql, array $expectedIds): void
     {
         $result = $this->executeDqlQuery($dql);
         $this->assertIds($expectedIds, $result);
     }
 
     /**
-     * @return array<string, array{string, string, array<int>}> [name, dql, expectedIds]
+     * @return array<string, array{string, array<int>}> [dql, expectedIds]
      */
     abstract public static function provideOperatorScenarios(): array;
 }

@@ -28,18 +28,18 @@ class BitVaryingArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single zero' => ['single zero', ['0']],
-            'single one' => ['single one', ['1']],
-            'varying length bits' => ['varying length bits', ['1', '10', '101']],
-            'all zeros' => ['all zeros', ['00000000']],
-            'all ones' => ['all ones', ['11111111']],
-            'array with null item' => ['array with null item', ['101', null, '010']],
-            'empty array' => ['empty array', []],
+            'single zero' => [['0']],
+            'single one' => [['1']],
+            'varying length bits' => [['1', '10', '101']],
+            'all zeros' => [['00000000']],
+            'all ones' => [['11111111']],
+            'array with null item' => [['101', null, '010']],
+            'empty array' => [[]],
         ];
     }
 

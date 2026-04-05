@@ -22,32 +22,32 @@ class IntervalArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, IntervalValueObject>}>
+     * @return array<string, array{array<int, IntervalValueObject>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single year interval' => ['single year interval', [
+            'single year interval' => [[
                 IntervalValueObject::fromString('1 year'),
             ]],
-            'time-only interval' => ['time-only interval', [
+            'time-only interval' => [[
                 IntervalValueObject::fromString('04:05:06'),
             ]],
-            'full interval' => ['full interval', [
+            'full interval' => [[
                 IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06'),
             ]],
-            'multiple intervals' => ['multiple intervals', [
+            'multiple intervals' => [[
                 IntervalValueObject::fromString('1 year'),
                 IntervalValueObject::fromString('2 mons'),
                 IntervalValueObject::fromString('04:05:06'),
             ]],
-            'negative interval' => ['negative interval', [
+            'negative interval' => [[
                 IntervalValueObject::fromString('-04:05:06'),
             ]],
-            'zero interval' => ['zero interval', [
+            'zero interval' => [[
                 IntervalValueObject::fromString('00:00:00'),
             ]],
-            'days only' => ['days only', [
+            'days only' => [[
                 IntervalValueObject::fromString('30 days'),
             ]],
         ];

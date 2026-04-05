@@ -125,21 +125,19 @@ class TextArrayTest extends TestCase
 
     #[DataProvider('provideGithubIssue424TestCases')]
     #[Test]
-    public function can_preserve_string_types_retrieved_from_database_for_github_issue_424(string $testName, string $postgresValue, array $expectedResult): void
+    public function can_preserve_string_types_retrieved_from_database_for_github_issue_424(string $postgresValue, array $expectedResult): void
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
 
-        $this->assertSame($expectedResult, $result, $testName);
+        $this->assertSame($expectedResult, $result);
 
-        // Verify all values are strings
         foreach ($result as $value) {
-            $this->assertIsString($value, $testName.' - all values should be strings');
+            $this->assertIsString($value);
         }
     }
 
     /**
-     * @return list<array{
-     *     testName: string,
+     * @return array<string, array{
      *     postgresValue: string,
      *     expectedResult: array{string}
      * }>
@@ -147,33 +145,27 @@ class TextArrayTest extends TestCase
     public static function provideGithubIssue424TestCases(): array
     {
         return [
-            [
-                'testName' => 'Numeric values should be preserved as strings',
+            'numeric values should be preserved as strings' => [
                 'postgresValue' => '{1,test}',
                 'expectedResult' => ['1', 'test'],
             ],
-            [
-                'testName' => 'Mixed values should be preserved as strings',
+            'mixed values should be preserved as strings' => [
                 'postgresValue' => '{1,2.5,3.14,test,true,false}',
                 'expectedResult' => ['1', '2.5', '3.14', 'test', 'true', 'false'],
             ],
-            [
-                'testName' => 'Boolean-like values should be converted to strings',
+            'boolean-like values should be converted to strings' => [
                 'postgresValue' => '{true,false}',
                 'expectedResult' => ['true', 'false'],
             ],
-            [
-                'testName' => 'Quoted boolean-like values should remain as strings',
+            'quoted boolean-like values should remain as strings' => [
                 'postgresValue' => '{"true","false","t","f"}',
                 'expectedResult' => ['true', 'false', 't', 'f'],
             ],
-            [
-                'testName' => 'Mixed quoted/unquoted values should all be strings',
+            'mixed quoted/unquoted values should all be strings' => [
                 'postgresValue' => '{1,"2",true,"false",3.14,"test"}',
                 'expectedResult' => ['1', '2', 'true', 'false', '3.14', 'test'],
             ],
-            [
-                'testName' => 'Null values should be converted to strings',
+            'null values should be converted to strings' => [
                 'postgresValue' => '{"",null,"null","NULL"}',
                 'expectedResult' => ['', 'null', 'null', 'NULL'],
             ],

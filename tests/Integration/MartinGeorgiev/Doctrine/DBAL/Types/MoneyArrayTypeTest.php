@@ -20,17 +20,17 @@ class MoneyArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single money value' => ['single money value', ['$0.00']],
-            'multiple money values' => ['multiple money values', ['$1.00', '$2.50', '$100.00']],
-            'negative value' => ['negative value', ['-$99.99']],
-            'large value with thousands separator' => ['large value with thousands separator', ['$1,234.56']],
-            'empty money array' => ['empty money array', []],
-            'money array with null item' => ['money array with null item', ['$1.00', null, '$2.00']],
+            'single money value' => [['$0.00']],
+            'multiple money values' => [['$1.00', '$2.50', '$100.00']],
+            'negative value' => [['-$99.99']],
+            'large value with thousands separator' => [['$1,234.56']],
+            'empty money array' => [[]],
+            'money array with null item' => [['$1.00', null, '$2.00']],
         ];
     }
 

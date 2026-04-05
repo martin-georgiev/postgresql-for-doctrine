@@ -20,23 +20,23 @@ class MacaddrArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple macaddr array' => ['simple macaddr array', ['08:00:2b:01:02:03', '00:0c:29:aa:bb:cc']],
-            'macaddr array with zeros' => ['macaddr array with zeros', ['00:00:00:00:00:00', 'ff:ff:ff:ff:ff:ff']],
-            'macaddr array with mixed case' => ['macaddr array with mixed case', [
+            'simple macaddr array' => [['08:00:2b:01:02:03', '00:0c:29:aa:bb:cc']],
+            'macaddr array with zeros' => [['00:00:00:00:00:00', 'ff:ff:ff:ff:ff:ff']],
+            'macaddr array with mixed case' => [[
                 '08:00:2b:01:02:03',
                 '00:0c:29:aa:bb:cc',
             ]],
-            'macaddr array with single digits' => ['macaddr array with single digits', [
+            'macaddr array with single digits' => [[
                 '01:02:03:04:05:06',
                 '0a:0b:0c:0d:0e:0f',
             ]],
-            'empty macaddr array' => ['empty macaddr array', []],
-            'macaddr array with null item' => ['macaddr array with null item', ['08:00:2b:01:02:03', null, '00:11:22:33:44:55']],
+            'empty macaddr array' => [[]],
+            'macaddr array with null item' => [['08:00:2b:01:02:03', null, '00:11:22:33:44:55']],
         ];
     }
 

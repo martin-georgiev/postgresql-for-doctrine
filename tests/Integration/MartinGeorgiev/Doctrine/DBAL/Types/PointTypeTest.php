@@ -45,7 +45,7 @@ class PointTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_point_values(string $testName, PointValueObject $pointValueObject): void
+    public function can_handle_point_values(PointValueObject $pointValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -54,16 +54,16 @@ class PointTypeTest extends TestCase
     }
 
     /**
-     * @return array<string, array{string, PointValueObject}>
+     * @return array<string, array{PointValueObject}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple point' => ['simple point', new PointValueObject(1.23, 4.56)],
-            'zero coordinates' => ['zero coordinates', new PointValueObject(0.0, 0.0)],
-            'negative coordinates' => ['negative coordinates', new PointValueObject(-10.5, -20.75)],
-            'high precision' => ['high precision', new PointValueObject(123.456789, -987.654321)],
-            'integer coordinates' => ['integer coordinates', new PointValueObject(100, 200)],
+            'simple point' => [new PointValueObject(1.23, 4.56)],
+            'zero coordinates' => [new PointValueObject(0.0, 0.0)],
+            'negative coordinates' => [new PointValueObject(-10.5, -20.75)],
+            'high precision' => [new PointValueObject(123.456789, -987.654321)],
+            'integer coordinates' => [new PointValueObject(100, 200)],
         ];
     }
 }

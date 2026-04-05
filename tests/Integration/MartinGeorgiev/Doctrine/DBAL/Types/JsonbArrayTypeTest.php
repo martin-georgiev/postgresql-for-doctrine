@@ -22,32 +22,32 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
     #[DataProvider('provideValidTransformations')]
     #[DataProvider('provideTypeInferenceTestCases')]
     #[Test]
-    public function can_handle_array_values(string $testName, array $arrayValue): void
+    public function can_handle_array_values(array $arrayValue): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $arrayValue);
     }
 
     /**
-     * @return array<string, array{string, array<int, array<string, mixed>>}>
+     * @return array<string, array{array<int, array<string, mixed>>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple jsonb array' => ['simple jsonb array', [
+            'simple jsonb array' => [[
                 ['key1' => 'value1', 'key2' => false],
                 ['key1' => 'value2', 'key2' => true],
             ]],
-            'jsonb array with nested structures' => ['jsonb array with nested structures', [
+            'jsonb array with nested structures' => [[
                 [
                     'user' => ['id' => 1, 'name' => 'John'],
-                    'meta' => ['active' => true, 'roles' => ['admin', 'user']],
+                    'meta' => ['active' => true, 'roles' => ['user']],
                 ],
                 [
                     'user' => ['id' => 2, 'name' => 'Jane'],
                     'meta' => ['active' => false, 'roles' => ['user']],
                 ],
             ]],
-            'jsonb array with mixed types' => ['jsonb array with mixed types', [
+            'jsonb array with mixed types' => [[
                 [
                     'string' => 'value',
                     'number' => 42,
@@ -62,7 +62,7 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
                     'enabled' => true,
                 ],
             ]],
-            'jsonb array with big integers' => ['jsonb array with big integers', [
+            'jsonb array with big integers' => [[
                 [
                     'bigint' => '9223372036854775807', // PHP_INT_MAX as string
                     'regular' => 123,
@@ -82,7 +82,7 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
     public static function provideTypeInferenceTestCases(): array
     {
         return [
-            'numeric types preserved' => ['numeric types should be preserved correctly', [
+            'numeric types preserved' => [[
                 [
                     'integer' => 42,
                     'float' => 3.14,
@@ -90,21 +90,21 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
                     'negative' => -123,
                 ],
             ]],
-            'decimal numbers as floats' => ['decimal numbers should be floats', [
+            'decimal numbers as floats' => [[
                 [
                     'price' => 502.00,
                     'tax' => 505.50,
                     'discount' => 0.99,
                 ],
             ]],
-            'boolean and null types' => ['boolean and null types should be preserved', [
+            'boolean and null types' => [[
                 [
                     'active' => true,
                     'deleted' => false,
                     'metadata' => null,
                 ],
             ]],
-            'mixed numeric and string types' => ['mixed types should maintain their types', [
+            'mixed numeric and string types' => [[
                 [
                     'id' => 123,
                     'name' => 'Product',

@@ -75,7 +75,7 @@ final class GeographyTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_geography_values(string $testName, WktSpatialData $wktSpatialData): void
+    public function can_handle_geography_values(WktSpatialData $wktSpatialData): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
@@ -88,31 +88,31 @@ final class GeographyTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_retrieve_geography_values_using_entity_manager_find(string $testName, WktSpatialData $wktSpatialData): void
+    public function can_retrieve_geography_values_using_entity_manager_find(WktSpatialData $wktSpatialData): void
     {
         $this->runOrmFindRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_retrieve_geography_values_using_dql_select(string $testName, WktSpatialData $wktSpatialData): void
+    public function can_retrieve_geography_values_using_dql_select(WktSpatialData $wktSpatialData): void
     {
         $this->runOrmDqlSelectRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
 
     /**
-     * @return array<string, array{string, WktSpatialData}>
+     * @return array<string, array{WktSpatialData}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'point' => ['point', WktSpatialData::fromWkt('POINT(1 2)')],
-            'linestring' => ['linestring', WktSpatialData::fromWkt('LINESTRING(0 0,1 1,2 2)')],
-            'polygon' => ['polygon', WktSpatialData::fromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))')],
-            'geometrycollection' => ['geometrycollection', WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
-            'point z' => ['point z', WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)')],
-            'linestring m' => ['linestring m', WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
-            'polygon zm' => ['polygon zm', WktSpatialData::fromWkt('POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],
+            'point' => [WktSpatialData::fromWkt('POINT(1 2)')],
+            'linestring' => [WktSpatialData::fromWkt('LINESTRING(0 0,1 1,2 2)')],
+            'polygon' => [WktSpatialData::fromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))')],
+            'geometrycollection' => [WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
+            'point z' => [WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)')],
+            'linestring m' => [WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
+            'polygon zm' => [WktSpatialData::fromWkt('POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],
         ];
     }
 }

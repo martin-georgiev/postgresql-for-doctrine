@@ -19,15 +19,15 @@ class LsegArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, LsegValueObject>}>
+     * @return array<string, array{array<int, LsegValueObject>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single segment' => ['single segment', [
+            'single segment' => [[
                 LsegValueObject::fromString('[(0,0),(1,1)]'),
             ]],
-            'multiple segments' => ['multiple segments', [
+            'multiple segments' => [[
                 LsegValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
                 LsegValueObject::fromString('[(-1,-2),(-3,-4)]'),
             ]],
