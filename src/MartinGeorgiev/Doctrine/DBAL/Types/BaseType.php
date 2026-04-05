@@ -16,9 +16,7 @@ use Doctrine\DBAL\Types\Type;
  */
 abstract class BaseType extends Type
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected const TYPE_NAME = '';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string

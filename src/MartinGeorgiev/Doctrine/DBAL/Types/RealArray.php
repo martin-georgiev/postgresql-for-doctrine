@@ -16,6 +16,9 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
  */
 class RealArray extends BaseFloatArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::REAL_ARRAY;
 
     protected function getMinValue(): string

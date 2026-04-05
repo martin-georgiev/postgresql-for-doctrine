@@ -1,0 +1,47 @@
+{
+  "hooks": {
+    "PostCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-compact.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-tool-use-format.sh $TOOL_INPUT_FILE"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(composer run-unit-tests*)",
+      "Bash(composer run-integration-tests*)",
+      "Bash(composer run-static-analysis*)",
+      "Bash(composer run-all-tests*)",
+      "Bash(composer check-code-style*)",
+      "Bash(composer fix-code-style*)",
+      "Bash(./bin/phpstan analyse:*)",
+      "Bash(./bin/phpunit:*)",
+      "Bash(./bin/php-cs-fixer fix:*)",
+      "Bash(bin/phpunit:*)",
+      "Bash(git:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh api:*)",
+      "Bash(gh release:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(docker compose:*)"
+    ]
+  }
+}

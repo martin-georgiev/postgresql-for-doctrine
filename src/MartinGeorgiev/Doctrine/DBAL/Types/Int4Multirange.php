@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Multirange as Int4Multira
  */
 final class Int4Multirange extends BaseMultirangeType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::INT4MULTIRANGE;
 
     protected function createFromString(string $value): Int4MultirangeValueObject

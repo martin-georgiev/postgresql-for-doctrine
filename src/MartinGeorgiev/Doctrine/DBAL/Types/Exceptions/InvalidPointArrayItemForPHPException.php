@@ -18,11 +18,6 @@ class InvalidPointArrayItemForPHPException extends ConversionException
         return new self(\sprintf($message, \var_export($value, true)));
     }
 
-    public static function forInvalidType(mixed $value): self
-    {
-        return self::create('Array values must be strings, %s given', $value);
-    }
-
     public static function forInvalidFormat(mixed $value): self
     {
         return self::create('Invalid point format in array: %s', $value);

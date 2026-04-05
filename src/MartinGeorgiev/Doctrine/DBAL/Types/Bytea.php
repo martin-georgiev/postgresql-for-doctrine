@@ -17,12 +17,15 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidByteaForPHPException;
  * that hex format transparently.
  *
  * @see https://www.postgresql.org/docs/current/datatype-binary.html
- * @since 4.4
+ * @since 4.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final class Bytea extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::BYTEA;
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
@@ -36,6 +39,15 @@ final class Bytea extends BaseType
             return null;
         }
 
+        if (\is_resource($value)) {
+            \rewind($value);
+            $value = \stream_get_contents($value);
+
+            if ($value === false) {
+                return null;
+            }
+        }
+
         if (!\is_string($value)) {
             throw InvalidByteaForPHPException::forInvalidType($value);
         }
@@ -47,7 +59,7 @@ final class Bytea extends BaseType
                 return '';
             }
 
-            if (!\ctype_xdigit($hex)) {
+            if (!\ctype_xdigit($hex) || \strlen($hex) % 2 !== 0) {
                 throw InvalidByteaForPHPException::forInvalidHexFormat($value);
             }
 
@@ -73,6 +85,6 @@ final class Bytea extends BaseType
             throw InvalidByteaForDatabaseException::forInvalidType($value);
         }
 
-        return $value;
+        return '\\x'.\bin2hex($value);
     }
 }

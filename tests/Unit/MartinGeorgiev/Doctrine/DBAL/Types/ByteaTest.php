@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class ByteaTest extends TestCase
+class ByteaTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -92,28 +92,78 @@ final class ByteaTest extends TestCase
     }
 
     /**
-     * @return array<string, array{rawBinary: string}>
+     * @return array<string, array{input: string, expectedHex: string}>
      */
     public static function provideValidDatabaseValues(): array
     {
         return [
-            'binary string' => ['rawBinary' => 'binary data'],
-            'empty-like binary' => ['rawBinary' => "\x01\x02\x03"],
+            'ASCII string' => ['input' => 'Hello', 'expectedHex' => '\\x48656c6c6f'],
+            'binary data' => ['input' => "\xff\x00\xab", 'expectedHex' => '\\xff00ab'],
+            'null byte' => ['input' => "\x00", 'expectedHex' => '\\x00'],
         ];
     }
 
     #[DataProvider('provideValidDatabaseValues')]
     #[Test]
-    public function passes_through_valid_strings_to_database(string $rawBinary): void
+    public function encodes_binary_to_hex_for_database(string $input, string $expectedHex): void
     {
-        $this->assertSame($rawBinary, $this->fixture->convertToDatabaseValue($rawBinary, $this->platform));
+        $this->assertSame($expectedHex, $this->fixture->convertToDatabaseValue($input, $this->platform));
     }
 
     #[Test]
-    public function throws_exception_for_invalid_hex_string(): void
+    public function decodes_stream_resource_from_database(): void
+    {
+        $stream = \fopen('php://memory', 'r+');
+        \assert($stream !== false);
+        \fwrite($stream, '\\x48656c6c6f');
+        \rewind($stream);
+
+        $this->assertSame('Hello', $this->fixture->convertToPHPValue($stream, $this->platform));
+
+        \fclose($stream);
+    }
+
+    #[Test]
+    public function passes_through_raw_binary_stream_from_database(): void
+    {
+        $stream = \fopen('php://memory', 'r+');
+        \assert($stream !== false);
+        \fwrite($stream, 'raw binary');
+        \rewind($stream);
+
+        $this->assertSame('raw binary', $this->fixture->convertToPHPValue($stream, $this->platform));
+
+        \fclose($stream);
+    }
+
+    #[DataProvider('provideInvalidHexFormats')]
+    #[Test]
+    public function throws_exception_for_invalid_hex_format(string $value): void
     {
         $this->expectException(InvalidByteaForPHPException::class);
-        $this->fixture->convertToPHPValue('\\xZZ', $this->platform);
+
+        $this->fixture->convertToPHPValue($value, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidHexFormats(): array
+    {
+        return [
+            'non-hex characters' => ['\\xZZ'],
+            'odd-length hex' => ['\\xABC'],
+            'mixed invalid' => ['\\xGG00'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
+    {
+        $this->expectException(InvalidByteaForPHPException::class);
+
+        $this->fixture->convertToPHPValue($value, $this->platform);
     }
 
     /**
@@ -126,17 +176,8 @@ final class ByteaTest extends TestCase
             'float input' => [3.14],
             'array input' => [['data']],
             'object input' => [new \stdClass()],
-            'boolean true' => [true],
-            'boolean false' => [false],
+            'boolean input' => [true],
         ];
-    }
-
-    #[DataProvider('provideInvalidPHPValueInputs')]
-    #[Test]
-    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
-    {
-        $this->expectException(InvalidByteaForPHPException::class);
-        $this->fixture->convertToPHPValue($value, $this->platform);
     }
 
     /**
@@ -155,6 +196,7 @@ final class ByteaTest extends TestCase
     public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
         $this->expectException(InvalidByteaForDatabaseException::class);
+
         $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
 }

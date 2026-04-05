@@ -22,7 +22,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  * @see https://github.com/beberlei/DoctrineExtensions/blob/f3536d881637f6ddc7ca1d6595d18c15e06eb1d9/src/Query/Mysql/Cast.php
  * @since 2.0
  *
- * @author Mathieu Piot <https://github.com/mpiot>
+ * @author Mathieu Piot
  *
  * @example Using it in DQL: "SELECT CAST(e.value AS VARCHAR) FROM Entity e"
  */
@@ -53,12 +53,14 @@ class Cast extends FunctionNode
         if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS)) {
             $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
-            $parameters = [$parameter->value];
+            \assert(\is_scalar($parameter->value));
+            $parameters = [(string) $parameter->value];
             if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA)) {
                 while ($lexer->isNextToken($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA)) {
                     $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
                     $parameter = $parser->Literal();
-                    $parameters[] = $parameter->value;
+                    \assert(\is_scalar($parameter->value));
+                    $parameters[] = (string) $parameter->value;
                 }
             }
 

@@ -13,8 +13,13 @@ use Doctrine\DBAL\Types\ConversionException;
  */
 class InvalidUuidArrayItemForDatabaseException extends ConversionException
 {
+    private static function create(string $message, mixed $value): self
+    {
+        return new self(\sprintf($message, \var_export($value, true)));
+    }
+
     public static function forInvalidFormat(mixed $value): self
     {
-        return new self(\sprintf('Invalid UUID format in array: %s', \var_export($value, true)));
+        return self::create('Invalid UUID format in array: %s', $value);
     }
 }

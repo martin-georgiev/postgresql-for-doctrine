@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
  */
 class NumRange extends BaseRangeType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::NUMRANGE;
 
     protected function createFromString(string $value): Range
