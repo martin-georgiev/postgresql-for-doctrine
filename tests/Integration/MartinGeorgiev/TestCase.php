@@ -14,9 +14,19 @@ use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Bit;
+use MartinGeorgiev\Doctrine\DBAL\Types\BitArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\BitVarying;
+use MartinGeorgiev\Doctrine\DBAL\Types\BitVaryingArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Box;
+use MartinGeorgiev\Doctrine\DBAL\Types\BoxArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
 use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Circle;
+use MartinGeorgiev\Doctrine\DBAL\Types\CircleArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\DateArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geography;
@@ -30,26 +40,47 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Interval;
+use MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Line;
+use MartinGeorgiev\Doctrine\DBAL\Types\LineArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Lseg;
+use MartinGeorgiev\Doctrine\DBAL\Types\LsegArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
+use MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Money;
+use MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\Path;
+use MartinGeorgiev\Doctrine\DBAL\Types\PathArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\PointArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Polygon;
+use MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsquery;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Vector;
+use MartinGeorgiev\Doctrine\DBAL\Types\Xml;
+use MartinGeorgiev\Doctrine\DBAL\Types\XmlArray;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -228,10 +259,20 @@ abstract class TestCase extends BaseTestCase
     {
         $typesMap = [
             'bigint[]' => BigIntArray::class,
+            'bit' => Bit::class,
+            'bit[]' => BitArray::class,
+            'bit varying' => BitVarying::class,
+            'bit varying[]' => BitVaryingArray::class,
             'bool[]' => BooleanArray::class,
+            'box' => Box::class,
+            'box[]' => BoxArray::class,
             'cidr' => Cidr::class,
+            'circle' => Circle::class,
+            'circle[]' => CircleArray::class,
             'cidr[]' => CidrArray::class,
+            'date[]' => DateArray::class,
             'daterange' => DateRange::class,
+            'datemultirange' => DateMultirange::class,
             'double precision[]' => DoublePrecisionArray::class,
             'geography' => Geography::class,
             'geography[]' => GeographyArray::class,
@@ -242,29 +283,52 @@ abstract class TestCase extends BaseTestCase
             'int4range' => Int4Range::class,
             'int8range' => Int8Range::class,
             'integer[]' => IntegerArray::class,
+            'interval' => Interval::class,
+            'interval[]' => IntervalArray::class,
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
+            'line' => Line::class,
+            'line[]' => LineArray::class,
+            'lseg' => Lseg::class,
+            'lseg[]' => LsegArray::class,
             'ltree' => Ltree::class,
+            'ltree[]' => LtreeArray::class,
             'int4multirange' => Int4Multirange::class,
             'int8multirange' => Int8Multirange::class,
             'macaddr' => Macaddr::class,
             'macaddr8' => Macaddr8::class,
             'macaddr8[]' => Macaddr8Array::class,
             'macaddr[]' => MacaddrArray::class,
+            'money' => Money::class,
+            'money[]' => MoneyArray::class,
             'numrange' => NumRange::class,
             'nummultirange' => NumMultirange::class,
+            'path' => Path::class,
+            'path[]' => PathArray::class,
             'point' => Point::class,
             'point[]' => PointArray::class,
+            'polygon' => Polygon::class,
+            'polygon[]' => PolygonArray::class,
             'real[]' => RealArray::class,
             'smallint[]' => SmallIntArray::class,
             'text[]' => TextArray::class,
+            'timestamp[]' => TimestampArray::class,
+            'timestamptz[]' => TimestampTzArray::class,
+            'tsmultirange' => TsMultirange::class,
             'tsquery' => Tsquery::class,
+            'tsquery[]' => TsqueryArray::class,
             'tsrange' => TsRange::class,
+            'tstzmultirange' => TstzMultirange::class,
             'tstzrange' => TstzRange::class,
             'tsvector' => Tsvector::class,
+            'tsvector[]' => TsvectorArray::class,
             'uuid[]' => UuidArray::class,
             'vector' => Vector::class,
+            'xml' => Xml::class,
+            'xml[]' => XmlArray::class,
         ];
+
+        $platform = $this->connection->getDatabasePlatform();
 
         foreach ($typesMap as $typeName => $typeClass) {
             if (Type::hasType($typeName)) {
@@ -272,6 +336,8 @@ abstract class TestCase extends BaseTestCase
             } else {
                 Type::addType($typeName, $typeClass);
             }
+
+            $platform->registerDoctrineTypeMapping($typeName, $typeName);
 
             self::$registeredTypes[] = $typeName;
         }

@@ -84,6 +84,11 @@ class Macaddr8Test extends TestCase
                 'postgresValue' => '08:00:2b:ff:fe:01:02:03',
                 'platformValue' => '08:00:2b:ff:fe:01:02:03',
             ],
+            '6-byte colon-separated (auto-expanded by PostgreSQL)' => [
+                'phpValue' => '08:00:2b:01:02:03',
+                'postgresValue' => '08:00:2b:01:02:03',
+                'platformValue' => '08:00:2b:01:02:03',
+            ],
         ];
     }
 
@@ -103,7 +108,6 @@ class Macaddr8Test extends TestCase
     {
         return [
             'empty string' => [''],
-            'too short (6-octet macaddr)' => ['08:00:2b:01:02:03'],
             'too long (9 octets)' => ['08:00:2b:ff:fe:01:02:03:04'],
             'invalid hex chars' => ['08:00:2b:zz:fe:01:02:03'],
             'mixed separators' => ['08:00-2b:ff:fe:01:02:03'],
@@ -154,7 +158,6 @@ class Macaddr8Test extends TestCase
     public static function provideInvalidPHPValueFormats(): array
     {
         return [
-            'too short' => ['08:00:2b:01:02:03'],
             'invalid format' => ['not-a-mac-address'],
             'empty string' => [''],
         ];

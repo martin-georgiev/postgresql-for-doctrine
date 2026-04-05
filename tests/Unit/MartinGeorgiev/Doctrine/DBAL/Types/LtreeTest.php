@@ -85,7 +85,7 @@ final class LtreeTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidLtreeForPHPException::class);
+        $this->expectException(InvalidLtreeForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
     }
 
@@ -107,7 +107,7 @@ final class LtreeTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidLtreeForDatabaseException::class);
+        $this->expectException(InvalidLtreeForPHPException::class);
         $this->fixture->convertToPHPValue($phpValue, $this->platform);
     }
 

@@ -265,11 +265,11 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
 
     #[DataProvider('providePreserveStringTypesTestCases')]
     #[Test]
-    public function can_preserve_string_types_when_requested(array $expectedPhpValue, string $postgresValue): void
+    public function can_preserve_string_types_when_requested(array $expectedValue, string $postgresValue): void
     {
         $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue, preserveStringTypes: true);
 
-        $this->assertSame($expectedPhpValue, $result);
+        $this->assertSame($expectedValue, $result);
 
         // Verify all values are strings when preserveStringTypes is true
         foreach ($result as $value) {
@@ -278,49 +278,49 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
-     * @return array<string, array{expectedPhpValue: array, postgresValue: string}>
+     * @return array<string, array{expectedValue: array, postgresValue: string}>
      */
     public static function providePreserveStringTypesTestCases(): array
     {
         return [
             'floats with trailing zeros - issue #482' => [
-                'expectedPhpValue' => ['502.00', '505.00', '123.50'],
+                'expectedValue' => ['502.00', '505.00', '123.50'],
                 'postgresValue' => '{502.00,505.00,123.50}',
             ],
             'zero with decimals' => [
-                'expectedPhpValue' => ['0.00', '0.0', '0.000'],
+                'expectedValue' => ['0.00', '0.0', '0.000'],
                 'postgresValue' => '{0.00,0.0,0.000}',
             ],
             'mixed numeric-looking and text values' => [
-                'expectedPhpValue' => ['502.00', 'some text', '123.50', 'another'],
+                'expectedValue' => ['502.00', 'some text', '123.50', 'another'],
                 'postgresValue' => '{502.00,some text,123.50,another}',
             ],
             'scientific notation as strings' => [
-                'expectedPhpValue' => ['1.23e10', '4.56E-5', '7.89e+3'],
+                'expectedValue' => ['1.23e10', '4.56E-5', '7.89e+3'],
                 'postgresValue' => '{1.23e10,4.56E-5,7.89e+3}',
             ],
             'already quoted values with decimals' => [
-                'expectedPhpValue' => ['502.00', '123.50'],
+                'expectedValue' => ['502.00', '123.50'],
                 'postgresValue' => '{"502.00","123.50"}',
             ],
             'mixed quoted and unquoted with decimals' => [
-                'expectedPhpValue' => ['502.00', '123.50', 'text', '789.00'],
+                'expectedValue' => ['502.00', '123.50', 'text', '789.00'],
                 'postgresValue' => '{502.00,"123.50",text,"789.00"}',
             ],
             'integers should remain as strings' => [
-                'expectedPhpValue' => ['1', '2', '3', '100'],
+                'expectedValue' => ['1', '2', '3', '100'],
                 'postgresValue' => '{1,2,3,100}',
             ],
             'boolean-like values as strings' => [
-                'expectedPhpValue' => ['true', 'false', 't', 'f'],
+                'expectedValue' => ['true', 'false', 't', 'f'],
                 'postgresValue' => '{true,false,t,f}',
             ],
             'null values as strings' => [
-                'expectedPhpValue' => ['null', 'NULL'],
+                'expectedValue' => ['null', 'NULL'],
                 'postgresValue' => '{null,NULL}',
             ],
             'empty strings preserved' => [
-                'expectedPhpValue' => ['', 'text', ''],
+                'expectedValue' => ['', 'text', ''],
                 'postgresValue' => '{"",text,""}',
             ],
         ];

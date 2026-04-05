@@ -1,6 +1,11 @@
-# Available types
+# Available Types
 
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
+|---|---|---|
+| bit | bit | `MartinGeorgiev\Doctrine\DBAL\Types\Bit` (see [note](#bit-string-types) |
+| bit[] | _bit | `MartinGeorgiev\Doctrine\DBAL\Types\BitArray` |
+| bit varying | varbit | `MartinGeorgiev\Doctrine\DBAL\Types\BitVarying` (see [note](#bit-string-types) |
+| bit varying[] | _varbit | `MartinGeorgiev\Doctrine\DBAL\Types\BitVaryingArray` |
 |---|---|---|
 | bool[] | _bool | `MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray` |
 | smallint[] | _int2 | `MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray` |
@@ -8,6 +13,12 @@
 | bigint[] | _int8 | `MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray` |
 | real[] | _float4 | `MartinGeorgiev\Doctrine\DBAL\Types\RealArray` |
 | double precision[] | _float8 | `MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray` |
+|---|---|---|
+| date[] | _date | `MartinGeorgiev\Doctrine\DBAL\Types\DateArray` |
+| interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
+| interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
+| timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` |
+| timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` |
 |---|---|---|
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
@@ -24,7 +35,9 @@
 | macaddr8[] | _macaddr8 | `MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array` |
 |---|---|---|
 | tsquery | tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\Tsquery` |
+| tsquery[] | _tsquery | `MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray` |
 | tsvector | tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\Tsvector` |
+| tsvector[] | _tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray` |
 |---|---|---|
 | daterange | daterange | `MartinGeorgiev\Doctrine\DBAL\Types\DateRange` |
 | int4range | int4range | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Range` |
@@ -33,20 +46,77 @@
 | tsrange | tsrange | `MartinGeorgiev\Doctrine\DBAL\Types\TsRange` |
 | tstzrange | tstzrange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzRange` |
 |---|---|---|
+| datemultirange | datemultirange | `MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange` |
 | int4multirange | int4multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange` |
 | int8multirange | int8multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange` |
 | nummultirange | nummultirange | `MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange` |
+| tsmultirange | tsmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange` |
+| tstzmultirange | tstzmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange` |
+|---|---|---|
+| box | box | `MartinGeorgiev\Doctrine\DBAL\Types\Box` |
+| box[] | _box | `MartinGeorgiev\Doctrine\DBAL\Types\BoxArray` |
+| circle | circle | `MartinGeorgiev\Doctrine\DBAL\Types\Circle` |
+| circle[] | _circle | `MartinGeorgiev\Doctrine\DBAL\Types\CircleArray` |
+| line | line | `MartinGeorgiev\Doctrine\DBAL\Types\Line` |
+| line[] | _line | `MartinGeorgiev\Doctrine\DBAL\Types\LineArray` |
+| lseg | lseg | `MartinGeorgiev\Doctrine\DBAL\Types\Lseg` |
+| lseg[] | _lseg | `MartinGeorgiev\Doctrine\DBAL\Types\LsegArray` |
+| path | path | `MartinGeorgiev\Doctrine\DBAL\Types\Path` |
+| path[] | _path | `MartinGeorgiev\Doctrine\DBAL\Types\PathArray` |
+| point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
+| point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
+| polygon | polygon | `MartinGeorgiev\Doctrine\DBAL\Types\Polygon` |
+| polygon[] | _polygon | `MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray` |
 |---|---|---|
 | geography | geography | `MartinGeorgiev\Doctrine\DBAL\Types\Geography` |
 | geography[] | _geography | `MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray` |
 | geometry | geometry | `MartinGeorgiev\Doctrine\DBAL\Types\Geometry` |
 | geometry[] | _geometry | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
-| point | point | `MartinGeorgiev\Doctrine\DBAL\Types\Point` |
-| point[] | _point | `MartinGeorgiev\Doctrine\DBAL\Types\PointArray` |
 |---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
+| ltree[] | _ltree | `MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray` |
 |---|---|---|
+| money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
+| money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |
+|---|---|---|
+| xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
+| xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
+|---|---|---|
+| halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` |
+| sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` |
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` |
+
+---
+
+## Bit String Types
+
+The `bit` and `bit varying` types support an optional `length` parameter via column attribute:
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Permissions
+{
+    // BIT(1) — fixed single bit (default when no length specified)
+    #[ORM\Column(type: 'bit')]
+    private string $active;
+
+    // BIT(8) — fixed 8-bit flags
+    #[ORM\Column(type: 'bit', length: 8)]
+    private string $flags;
+
+    // BIT VARYING — unlimited length (default when no length specified)
+    #[ORM\Column(type: 'bit varying')]
+    private string $mask;
+
+    // BIT VARYING(64) — variable length, up to 64 bits
+    #[ORM\Column(type: 'bit varying', length: 64)]
+    private string $features;
+}
+```
+
+**Important:** `BIT` without a length defaults to `BIT(1)` in PostgreSQL, which stores exactly one bit. Use `BIT VARYING` for variable-length bit strings, or specify an explicit length with `BIT(n)`.
 
 ---
 
@@ -69,3 +139,31 @@ $uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuid
 use Symfony\Component\Uid\Uuid;
 $uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuidArray());
 ```
+
+---
+
+## Money Type
+
+The `money` type maps PostgreSQL's [`money`](https://www.postgresql.org/docs/18/datatype-money.html) data type and returns locale-formatted strings (e.g. `$1,234.56`). PostgreSQL formats money values according to the server's `lc_monetary` locale setting, so the exact output format depends on your database configuration.
+
+**Important considerations:**
+
+- PostgreSQL's `money` type does **not** store currency information — the currency symbol is purely a formatting artifact of the server locale
+- If you need multi-currency support, consider using `numeric` with application-level currency handling instead
+- Values written to the database must contain at least one digit; full format validation is deferred to PostgreSQL
+
+If you need rich money objects for arithmetic or multi-currency support, you can convert the string after retrieval:
+
+```php
+// With moneyphp/money (requires parsing the locale-formatted string)
+use Money\Money;
+use Money\Currency;
+$amount = (int) round((float) preg_replace('/[^0-9.\-]/', '', $entity->getPrice()) * 100);
+$money = new Money($amount, new Currency('USD'));
+
+// With brick/money
+use Brick\Money\Money;
+$money = Money::of(preg_replace('/[^0-9.\-]/', '', $entity->getPrice()), 'USD');
+```
+
+Note that both examples above assume USD — you must know the currency independently since PostgreSQL does not store it.

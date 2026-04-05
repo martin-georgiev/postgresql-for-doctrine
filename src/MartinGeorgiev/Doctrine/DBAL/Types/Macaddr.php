@@ -22,6 +22,9 @@ class Macaddr extends BaseType
 {
     use MacaddrValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::MACADDR;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
@@ -38,7 +41,7 @@ class Macaddr extends BaseType
             throw InvalidMacaddrForPHPException::forInvalidFormat($value);
         }
 
-        return $this->normalizeFormat($value);
+        return $this->normalizeMacAddressFormat($value);
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string

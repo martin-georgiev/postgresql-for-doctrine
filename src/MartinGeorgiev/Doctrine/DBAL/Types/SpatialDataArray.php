@@ -63,6 +63,11 @@ abstract class SpatialDataArray extends BaseArray
         ];
     }
 
+    protected function transformArrayItemForPostgres(mixed $item): string
+    {
+        return (string) $this->getValidatedArrayItem($item);
+    }
+
     protected function getValidatedArrayItem(mixed $item): WktSpatialData
     {
         if ($this->isValidArrayItemForDatabase($item)) {

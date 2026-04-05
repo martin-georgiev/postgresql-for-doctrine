@@ -19,6 +19,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericMultirange as NumericM
  */
 final class NumMultirange extends BaseMultirangeType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::NUMMULTIRANGE;
 
     protected function createFromString(string $value): NumericMultirangeValueObject

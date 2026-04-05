@@ -100,8 +100,7 @@ class MacaddrArrayTest extends TestCase
             'invalid MAC format' => [['00:11:22:33:44:ZZ']],
             'too short' => [['00:11:22:33:44']],
             'too long' => [['00:11:22:33:44:55:66']],
-            'no separators' => [['000011223344']],
-            'wrong separator' => [['00.11.22.33.44.55']],
+            'mixed separators' => [['00:11-22:33-44:55']],
             'non-hex characters' => [['GG:HH:II:JJ:KK:LL']],
             'mixed valid and invalid' => [['08:00:2b:01:02:03', 'invalid-mac']],
             'empty string' => [['']],
@@ -170,6 +169,9 @@ class MacaddrArrayTest extends TestCase
             'colon separated mixed case' => ['00:0c:29:Aa:Bb:CC'],
             'all zeros' => ['00:00:00:00:00:00'],
             'all ones' => ['ff:ff:ff:ff:ff:ff'],
+            'no separators' => ['000011223344'],
+            'dot-separated' => ['0800.2b01.0203'],
+            'half colon' => ['08002b:010203'],
             'null' => [null],
         ];
     }

@@ -14,12 +14,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException
  */
 final class GeometryArray extends SpatialDataArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::GEOMETRY_ARRAY;
-
-    protected function transformArrayItemForPostgres(mixed $item): string
-    {
-        return (string) $this->getValidatedArrayItem($item);
-    }
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeometryForPHPException
     {

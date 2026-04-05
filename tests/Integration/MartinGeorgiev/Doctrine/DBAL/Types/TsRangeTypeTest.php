@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range as RangeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange as TsRangeValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -19,13 +18,6 @@ class TsRangeTypeTest extends RangeTypeTestCase
     protected function getPostgresTypeName(): string
     {
         return 'TSRANGE';
-    }
-
-    #[DataProvider('provideValidTransformations')]
-    #[Test]
-    public function can_handle_range_values(string $testName, RangeValueObject $rangeValueObject): void
-    {
-        parent::can_handle_range_values($testName, $rangeValueObject);
     }
 
     /**

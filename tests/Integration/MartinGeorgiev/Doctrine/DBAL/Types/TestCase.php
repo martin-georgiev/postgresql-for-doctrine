@@ -30,7 +30,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function buildTableName(string $columnType): string
     {
-        return 'test_type_'.\strtolower(\str_replace([' ', '[]', '()'], ['_', '_array', ''], $columnType));
+        return 'test_type_'.\strtolower(\str_replace([' ', '[]', '()', '(', ')'], ['_', '_array', '', '', ''], $columnType));
     }
 
     /**
@@ -78,6 +78,29 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Perform a round-trip where the stored value differs from the expected retrieved value (e.g. bound normalization).
+     */
+    protected function runDbalBindingRoundTripExpectingDifferentRetrievedValue(string $typeName, string $columnType, mixed $inputValue, mixed $expectedValue): void
+    {
+        $this->assertNotEquals($inputValue, $expectedValue);
+
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $inputValue, $typeName)
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+            $this->assertRoundTrip($typeName, $expectedValue, $retrieved);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
+    /**
      * Perform a round-trip using DBAL parameter binding for insertion.
      */
     protected function runDbalBindingRoundTrip(string $typeName, string $columnType, mixed $value): void
@@ -120,7 +143,16 @@ abstract class TestCase extends BaseTestCase
 
         $this->assertTrue(Type::hasType($typeName), \sprintf('Type %s should be registered', $typeName));
 
-        Type::getType($typeName);
+        $type = Type::getType($typeName);
+
+        $platform = $this->connection->getDatabasePlatform();
+
+        $this->assertSame(\strtoupper($typeName), $type->getSQLDeclaration([], $platform));
+
+        // Not all Doctrine versions expose this method as it's deprecated. For now, we ignore the deprecation.
+        if (\method_exists($type, 'requiresSQLCommentHint')) {
+            $this->assertFalse($type->requiresSQLCommentHint($platform)); // @phpstan-ignore-line
+        }
     }
 
     protected function getSelectExpression(string $columnName): string

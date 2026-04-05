@@ -21,6 +21,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
  */
 class Point extends BaseType
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::POINT;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string

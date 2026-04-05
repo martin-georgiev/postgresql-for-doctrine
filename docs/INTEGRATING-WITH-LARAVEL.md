@@ -1,6 +1,6 @@
-## Integration with Laravel
+# Integration with Laravel
 
-This guide covers integration with Laravel 11.x using the community-supported [Laravel Doctrine](https://www.laraveldoctrine.org/) package. Laravel doesn't provide official Doctrine integration, but Laravel Doctrine provides excellent support for modern Laravel versions.
+This guide covers integration with Laravel 11.x+ using the community-supported [Laravel Doctrine](https://www.laraveldoctrine.org/) package (`laravel-doctrine/orm` v3.x).
 
 ### Installation
 
@@ -32,6 +32,15 @@ return [
             // ... other configuration
 
             'type_mappings' => [
+                // Bit type mappings
+                'bit' => 'bit',
+                'bit[]' => 'bit[]',
+                '_bit' => 'bit[]',
+                'bit varying' => 'bit varying',
+                'varbit' => 'bit varying',
+                'bit varying[]' => 'bit varying[]',
+                '_varbit' => 'bit varying[]',
+
                 // Array type mappings
                 '_bool' => 'bool[]',
                 'bool[]' => 'bool[]',
@@ -49,6 +58,17 @@ return [
                 'text[]' => 'text[]',
                 'uuid[]' => 'uuid[]',
                 '_uuid' => 'uuid[]',
+
+                // Datetime array type mappings
+                'date[]' => 'date[]',
+                '_date' => 'date[]',
+                'interval' => 'interval',
+                'interval[]' => 'interval[]',
+                '_interval' => 'interval[]',
+                'timestamp[]' => 'timestamp[]',
+                '_timestamp' => 'timestamp[]',
+                'timestamptz[]' => 'timestamptz[]',
+                '_timestamptz' => 'timestamptz[]',
 
                 // JSON type mappings
                 'jsonb' => 'jsonb',
@@ -69,10 +89,30 @@ return [
                 'macaddr8[]' => 'macaddr8[]',
                 '_macaddr8' => 'macaddr8[]',
 
-                // Spatial type mappings
+                // Geometric type mappings
+                'box' => 'box',
+                'box[]' => 'box[]',
+                '_box' => 'box[]',
+                'circle' => 'circle',
+                'circle[]' => 'circle[]',
+                '_circle' => 'circle[]',
+                'line' => 'line',
+                'line[]' => 'line[]',
+                '_line' => 'line[]',
+                'lseg' => 'lseg',
+                'lseg[]' => 'lseg[]',
+                '_lseg' => 'lseg[]',
+                'path' => 'path',
+                'path[]' => 'path[]',
+                '_path' => 'path[]',
                 'point' => 'point',
                 'point[]' => 'point[]',
                 '_point' => 'point[]',
+                'polygon' => 'polygon',
+                'polygon[]' => 'polygon[]',
+                '_polygon' => 'polygon[]',
+
+                // PostGIS spatial type mappings
                 'geometry' => 'geometry',
                 'geometry[]' => 'geometry[]',
                 '_geometry' => 'geometry[]',
@@ -89,24 +129,51 @@ return [
                 'tstzrange' => 'tstzrange',
 
                 // Multirange type mappings
+                'datemultirange' => 'datemultirange',
                 'int4multirange' => 'int4multirange',
                 'int8multirange' => 'int8multirange',
                 'nummultirange' => 'nummultirange',
+                'tsmultirange' => 'tsmultirange',
+                'tstzmultirange' => 'tstzmultirange',
 
                 // Text search type mappings
                 'tsquery' => 'tsquery',
+                'tsquery[]' => 'tsquery[]',
+                '_tsquery' => 'tsquery[]',
                 'tsvector' => 'tsvector',
+                'tsvector[]' => 'tsvector[]',
+                '_tsvector' => 'tsvector[]',
+
+                // Monetary type mappings
+                'money' => 'money',
+                'money[]' => 'money[]',
+                '_money' => 'money[]',
 
                 // Hierarchical type mappings
                 'ltree' => 'ltree',
+                'ltree[]' => 'ltree[]',
+                '_ltree' => 'ltree[]',
+
+                // XML type mappings
+                'xml' => 'xml',
+                'xml[]' => 'xml[]',
+                '_xml' => 'xml[]',
 
                 // Vector type mappings
+                'halfvec' => 'halfvec',
+                'sparsevec' => 'sparsevec',
                 'vector' => 'vector'
             ],
         ],
     ],
 
     'custom_types' => [
+        // Bit types
+        'bit' => MartinGeorgiev\Doctrine\DBAL\Types\Bit::class,
+        'bit[]' => MartinGeorgiev\Doctrine\DBAL\Types\BitArray::class,
+        'bit varying' => MartinGeorgiev\Doctrine\DBAL\Types\BitVarying::class,
+        'bit varying[]' => MartinGeorgiev\Doctrine\DBAL\Types\BitVaryingArray::class,
+
         // Array types
         'bool[]' => MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray::class,
         'bigint[]' => MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class,
@@ -116,6 +183,13 @@ return [
         'real[]' => MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class,
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
+
+        // Datetime array types
+        'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
+        'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
+        'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
+        'timestamp[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray::class,
+        'timestamptz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray::class,
 
         // JSON types
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
@@ -131,9 +205,23 @@ return [
         'macaddr8' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8::class,
         'macaddr8[]' => MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array::class,
 
-        // Spatial types
+        // Geometric types
+        'box' => MartinGeorgiev\Doctrine\DBAL\Types\Box::class,
+        'box[]' => MartinGeorgiev\Doctrine\DBAL\Types\BoxArray::class,
+        'circle' => MartinGeorgiev\Doctrine\DBAL\Types\Circle::class,
+        'circle[]' => MartinGeorgiev\Doctrine\DBAL\Types\CircleArray::class,
+        'line' => MartinGeorgiev\Doctrine\DBAL\Types\Line::class,
+        'line[]' => MartinGeorgiev\Doctrine\DBAL\Types\LineArray::class,
+        'lseg' => MartinGeorgiev\Doctrine\DBAL\Types\Lseg::class,
+        'lseg[]' => MartinGeorgiev\Doctrine\DBAL\Types\LsegArray::class,
+        'path' => MartinGeorgiev\Doctrine\DBAL\Types\Path::class,
+        'path[]' => MartinGeorgiev\Doctrine\DBAL\Types\PathArray::class,
         'point' => MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
         'point[]' => MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class,
+        'polygon' => MartinGeorgiev\Doctrine\DBAL\Types\Polygon::class,
+        'polygon[]' => MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray::class,
+
+        // PostGIS spatial types
         'geometry' => MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class,
         'geometry[]' => MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray::class,
         'geography' => MartinGeorgiev\Doctrine\DBAL\Types\Geography::class,
@@ -148,18 +236,34 @@ return [
         'tstzrange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class,
 
         // Multirange types
+        'datemultirange' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class,
         'int4multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class,
         'int8multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class,
         'nummultirange' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class,
+        'tsmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
+        'tstzmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
 
         // Text search types
         'tsquery' => MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,
+        'tsquery[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray::class,
         'tsvector' => MartinGeorgiev\Doctrine\DBAL\Types\Tsvector::class,
+        'tsvector[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray::class,
+
+        // Monetary types
+        'money' => MartinGeorgiev\Doctrine\DBAL\Types\Money::class,
+        'money[]' => MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray::class,
 
         // Hierarchical types
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
+        'ltree[]' => MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray::class,
+
+        // XML types
+        'xml' => MartinGeorgiev\Doctrine\DBAL\Types\Xml::class,
+        'xml[]' => MartinGeorgiev\Doctrine\DBAL\Types\XmlArray::class,
 
         // Vector types
+        'halfvec' => MartinGeorgiev\Doctrine\DBAL\Types\Halfvec::class,
+        'sparsevec' => MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec::class,
         'vector' => MartinGeorgiev\Doctrine\DBAL\Types\Vector::class,
     ],
 
@@ -369,133 +473,6 @@ return [
 ```
 
 
-### Alternative: Event Subscriber for Type Registration
-
-If you prefer to register types programmatically, you can create an event subscriber:
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace App\Doctrine\EventSubscribers;
-
-use Doctrine\Common\EventSubscriber;
-use Doctrine\DBAL\Event\ConnectionEventArgs;
-use Doctrine\DBAL\Events;
-use Doctrine\DBAL\Types\Type;
-
-class PostgreSQLTypesSubscriber implements EventSubscriber
-{
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::postConnect,
-        ];
-    }
-
-    public function postConnect(ConnectionEventArgs $args): void
-    {
-        $this->registerArrayTypes();
-        $this->registerJsonTypes();
-        $this->registerNetworkTypes();
-        $this->registerSpatialTypes();
-        $this->registerRangeTypes();
-        $this->registerMultirangeTypes();
-        $this->registerHierarchicalTypes();
-    }
-
-    private function registerArrayTypes(): void
-    {
-        $this->addTypeIfNotExists('bool[]', \MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray::class);
-        $this->addTypeIfNotExists('bigint[]', \MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray::class);
-        $this->addTypeIfNotExists('integer[]', \MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class);
-        $this->addTypeIfNotExists('smallint[]', \MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class);
-        $this->addTypeIfNotExists('double precision[]', \MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class);
-        $this->addTypeIfNotExists('real[]', \MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class);
-        $this->addTypeIfNotExists('text[]', \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class);
-        $this->addTypeIfNotExists('uuid[]', \MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class);
-    }
-
-    private function registerJsonTypes(): void
-    {
-        $this->addTypeIfNotExists('jsonb', \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class);
-        $this->addTypeIfNotExists('jsonb[]', \MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class);
-    }
-
-    private function registerNetworkTypes(): void
-    {
-        $this->addTypeIfNotExists('cidr', \MartinGeorgiev\Doctrine\DBAL\Types\Cidr::class);
-        $this->addTypeIfNotExists('cidr[]', \MartinGeorgiev\Doctrine\DBAL\Types\CidrArray::class);
-        $this->addTypeIfNotExists('inet', \MartinGeorgiev\Doctrine\DBAL\Types\Inet::class);
-        $this->addTypeIfNotExists('inet[]', \MartinGeorgiev\Doctrine\DBAL\Types\InetArray::class);
-        $this->addTypeIfNotExists('macaddr', \MartinGeorgiev\Doctrine\DBAL\Types\Macaddr::class);
-        $this->addTypeIfNotExists('macaddr[]', \MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray::class);
-    }
-
-    private function registerSpatialTypes(): void
-    {
-        $this->addTypeIfNotExists('point', \MartinGeorgiev\Doctrine\DBAL\Types\Point::class);
-        $this->addTypeIfNotExists('point[]', \MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class);
-        $this->addTypeIfNotExists('geometry', \MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
-        $this->addTypeIfNotExists('geometry[]', \MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray::class);
-        $this->addTypeIfNotExists('geography', \MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
-        $this->addTypeIfNotExists('geography[]', \MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray::class);
-    }
-
-    private function registerRangeTypes(): void
-    {
-        $this->addTypeIfNotExists('daterange', \MartinGeorgiev\Doctrine\DBAL\Types\DateRange::class);
-        $this->addTypeIfNotExists('int4range', \MartinGeorgiev\Doctrine\DBAL\Types\Int4Range::class);
-        $this->addTypeIfNotExists('int8range', \MartinGeorgiev\Doctrine\DBAL\Types\Int8Range::class);
-        $this->addTypeIfNotExists('numrange', \MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class);
-        $this->addTypeIfNotExists('tsrange', \MartinGeorgiev\Doctrine\DBAL\Types\TsRange::class);
-        $this->addTypeIfNotExists('tstzrange', \MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class);
-    }
-
-    private function registerMultirangeTypes(): void
-    {
-        $this->addTypeIfNotExists('int4multirange', \MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class);
-        $this->addTypeIfNotExists('int8multirange', \MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class);
-        $this->addTypeIfNotExists('nummultirange', \MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class);
-    }
-
-    private function registerHierarchicalTypes(): void
-    {
-        $this->addTypeIfNotExists('ltree', \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class);
-    }
-
-    private function addTypeIfNotExists(string $name, string $className): void
-    {
-        if (!Type::hasType($name)) {
-            Type::addType($name, $className);
-        }
-    }
-}
-```
-
-Register this subscriber in your `config/doctrine.php`:
-
-```php
-// config/doctrine.php
-return [
-    // ... other configuration
-
-    'managers' => [
-        'default' => [
-            // ... other configuration
-
-            'events' => [
-                'subscribers' => [
-                    \App\Doctrine\EventSubscribers\PostgreSQLTypesSubscriber::class,
-                ],
-            ],
-        ],
-    ],
-];
-```
-
-
 ### Usage in Entities
 
 Once configured, you can use PostgreSQL types in your Laravel entities:
@@ -507,6 +484,7 @@ namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
@@ -542,105 +520,16 @@ class Product
     #[ORM\Column(type: 'inet')]
     private string $originServerIp;
 
+    #[ORM\Column(type: 'interval')]
+    private Interval $duration;
+
+    #[ORM\Column(type: 'money')]
+    private string $price;
+
     #[ORM\Column(type: 'ltree')]
     private Ltree $pathFromRoot;
+
+    #[ORM\Column(type: 'xml')]
+    private string $configXml;
 }
-```
-
-### Service Provider for Advanced Configuration
-
-If you need more control over the type registration, you can create a custom service provider:
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace App\Providers;
-
-use Doctrine\DBAL\Types\Type;
-use Illuminate\Support\ServiceProvider;
-use LaravelDoctrine\ORM\DoctrineServiceProvider;
-
-class PostgreSQLDoctrineServiceProvider extends ServiceProvider
-{
-    public function register(): void
-    {
-        $this->app->resolving('em', function ($entityManager) {
-            $this->registerPlatformTypeMappings($entityManager);
-        });
-    }
-
-    public function boot(): void
-    {
-        $this->registerCustomTypes();
-    }
-
-    private function registerCustomTypes(): void
-    {
-        // Register types if not already registered
-        $types = [
-            'jsonb' => \MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
-            'text[]' => \MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
-            'point' => \MartinGeorgiev\Doctrine\DBAL\Types\Point::class,
-            'numrange' => \MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class,
-            'ltree' => \MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
-            // Add other types as needed...
-        ];
-
-        foreach ($types as $name => $class) {
-            if (!Type::hasType($name)) {
-                Type::addType($name, $class);
-            }
-        }
-    }
-
-    private function registerPlatformTypeMappings($entityManager): void
-    {
-        $platform = $entityManager->getConnection()->getDatabasePlatform();
-
-        $mappings = [
-            'jsonb' => 'jsonb',
-            '_text' => 'text[]',
-            'text[]' => 'text[]',
-            'point' => 'point',
-            '_point' => 'point[]',
-            'numrange' => 'numrange',
-            'ltree' => 'ltree',
-            // Add other mappings as needed...
-        ];
-
-        foreach ($mappings as $dbType => $doctrineType) {
-            $platform->registerDoctrineTypeMapping($dbType, $doctrineType);
-        }
-    }
-}
-```
-
-Register this provider in `config/app.php`:
-
-```php
-// config/app.php
-'providers' => [
-    // ... other providers
-    App\Providers\PostgreSQLDoctrineServiceProvider::class,
-],
-```
-
-### Artisan Commands
-
-You can use Laravel Doctrine's Artisan commands for schema management:
-
-```bash
-# Generate migrations
-php artisan doctrine:migrations:diff
-
-# Run migrations
-php artisan doctrine:migrations:migrate
-
-# Generate entities from database
-php artisan doctrine:generate:entities
-
-# Validate schema
-php artisan doctrine:schema:validate
 ```

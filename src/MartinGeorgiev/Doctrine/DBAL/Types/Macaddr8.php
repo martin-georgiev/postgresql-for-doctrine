@@ -22,6 +22,9 @@ final class Macaddr8 extends BaseType
 {
     use Macaddr8ValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::MACADDR8;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
@@ -34,11 +37,11 @@ final class Macaddr8 extends BaseType
             throw InvalidMacaddr8ForPHPException::forInvalidType($value);
         }
 
-        if (!$this->isValidMacaddr8Address($value)) {
+        if (!$this->isValidMacAddress($value)) {
             throw InvalidMacaddr8ForPHPException::forInvalidFormat($value);
         }
 
-        return $this->normalizeMacaddr8Format($value);
+        return $this->normalizeMacAddressFormat($value);
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
@@ -51,7 +54,7 @@ final class Macaddr8 extends BaseType
             throw InvalidMacaddr8ForDatabaseException::forInvalidType($value);
         }
 
-        if (!$this->isValidMacaddr8Address($value)) {
+        if (!$this->isValidMacAddress($value)) {
             throw InvalidMacaddr8ForDatabaseException::forInvalidFormat($value);
         }
 

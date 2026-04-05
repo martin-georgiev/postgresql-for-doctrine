@@ -89,6 +89,26 @@ class MacaddrTest extends TestCase
                 'postgresValue' => '08:00:2b:01:02:03',
                 'platformValue' => '08:00:2b:01:02:03',
             ],
+            'dot-separated' => [
+                'phpValue' => '0800.2b01.0203',
+                'postgresValue' => '08:00:2b:01:02:03',
+                'platformValue' => '08:00:2b:01:02:03',
+            ],
+            'half colon' => [
+                'phpValue' => '08002b:010203',
+                'postgresValue' => '08:00:2b:01:02:03',
+                'platformValue' => '08:00:2b:01:02:03',
+            ],
+            'half hyphen' => [
+                'phpValue' => '08002b-010203',
+                'postgresValue' => '08:00:2b:01:02:03',
+                'platformValue' => '08:00:2b:01:02:03',
+            ],
+            'groups hyphen' => [
+                'phpValue' => '0800-2b01-0203',
+                'postgresValue' => '08:00:2b:01:02:03',
+                'platformValue' => '08:00:2b:01:02:03',
+            ],
         ];
     }
 
@@ -113,7 +133,6 @@ class MacaddrTest extends TestCase
             'invalid characters' => ['00:11:22:gg:hh:ii'],
             'too short' => ['00:11:22:33:44'],
             'too long' => ['00:11:22:33:44:55:66'],
-            'invalid separator' => ['00.11.22.33.44.55'],
             'non-hex characters' => ['GG:HH:II:JJ:KK:LL'],
             'wrong format' => ['not-a-mac-address'],
             'mixed separators' => ['00:11-22:33-44:55'],

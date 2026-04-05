@@ -48,6 +48,7 @@ This document covers PostgreSQL mathematical, utility, and miscellaneous functio
 | exp | EXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp` |
 | floor | FLOOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor` |
 | gamma | GAMMA | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gamma` |
+| generate_series | GENERATE_NUMERIC_SERIES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateNumericSeries` |
 | greatest | GREATEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest` |
 | least | LEAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Least` |
 | lgamma | LGAMMA | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lgamma` |

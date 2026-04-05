@@ -24,7 +24,7 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
     #[Test]
     public function can_handle_array_values(string $testName, array $arrayValue): void
     {
-        parent::can_handle_array_values($testName, $arrayValue);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $arrayValue);
     }
 
     /**

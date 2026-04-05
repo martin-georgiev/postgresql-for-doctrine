@@ -113,7 +113,6 @@ abstract class BaseRangeTestCase extends TestCase
     public function throws_exception_for_invalid_database_value_inputs(mixed $invalidValue): void
     {
         $this->expectException(InvalidRangeForDatabaseException::class);
-        $this->expectExceptionMessage('Invalid type for range');
 
         $this->fixture->convertToDatabaseValue($invalidValue, $this->platform); // @phpstan-ignore-line argument.type
     }

@@ -15,8 +15,14 @@ use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
  */
 class PostgresArrayToPHPArrayTransformer
 {
+    /**
+     * @var string
+     */
     private const POSTGRESQL_EMPTY_ARRAY = '{}';
 
+    /**
+     * @var string
+     */
     private const POSTGRESQL_NULL_VALUE = 'null';
 
     /**

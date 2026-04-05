@@ -20,11 +20,14 @@ final class Macaddr8Array extends BaseNetworkTypeArray
 {
     use Macaddr8ValidationTrait;
 
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = Type::MACADDR8_ARRAY;
 
     protected function isValidNetworkAddress(string $value): bool
     {
-        return $this->isValidMacaddr8Address($value);
+        return $this->isValidMacAddress($value);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
