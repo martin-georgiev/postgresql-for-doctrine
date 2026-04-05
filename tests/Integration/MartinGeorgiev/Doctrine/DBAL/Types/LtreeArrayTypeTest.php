@@ -23,28 +23,28 @@ class LtreeArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, LtreeValueObject|null>}>
+     * @return array<string, array{array<int, LtreeValueObject|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple ltree array' => ['simple ltree array', [
+            'simple ltree array' => [[
                 new LtreeValueObject(['foo', 'bar', 'baz']),
                 new LtreeValueObject(['root', 'child']),
             ]],
-            'numeric ltree array' => ['numeric ltree array', [
+            'numeric ltree array' => [[
                 new LtreeValueObject(['1', '2', '3']),
                 new LtreeValueObject(['4', '5']),
             ]],
-            'single element ltree array' => ['single element ltree array', [
+            'single element ltree array' => [[
                 new LtreeValueObject(['root']),
             ]],
-            'ltree array with null item' => ['ltree array with null item', [
+            'ltree array with null item' => [[
                 new LtreeValueObject(['foo', 'bar']),
                 null,
                 new LtreeValueObject(['baz']),
             ]],
-            'empty ltree array' => ['empty ltree array', []],
+            'empty ltree array' => [[]],
         ];
     }
 

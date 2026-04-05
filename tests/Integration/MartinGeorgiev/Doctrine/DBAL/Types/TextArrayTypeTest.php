@@ -23,7 +23,7 @@ class TextArrayTypeTest extends ArrayTypeTestCase
     #[DataProvider('provideGithubIssue424TestCases')]
     #[DataProvider('provideGithubIssue482TestCases')]
     #[Test]
-    public function can_handle_array_values(string $testName, array $arrayValue): void
+    public function can_handle_array_values(array $arrayValue): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $arrayValue);
     }
@@ -32,27 +32,21 @@ class TextArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'simple text array' => [
-                'simple text array',
                 ['foo', 'bar', 'baz'],
             ],
             'text array with special chars' => [
-                'text array with special chars',
                 ['foo"bar', 'baz\qux', 'with,comma'],
             ],
             'text array with empty strings' => [
-                'text array with empty strings',
                 ['', 'not empty', ''],
             ],
             'text array with unicode' => [
-                'text array with unicode',
                 ['café', 'naïve', 'résumé'],
             ],
             'text array with numbers as strings' => [
-                'text array with numbers as strings',
                 ['123', '456', '789'],
             ],
             'text array with null element as string' => [
-                'text array with null elements',
                 ['foo', 'null', 'baz'],
             ],
         ];
@@ -67,19 +61,15 @@ class TextArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'numeric values' => [
-                'Numeric values should be preserved as strings',
                 ['1', 'test'],
             ],
             'mixed values' => [
-                'Mixed numeric values should be preserved as strings',
                 ['1', '2.5', '3.14', 'test', 'true', ''],
             ],
             'boolean values' => [
-                'Boolean values should be converted to strings',
                 ['1', '', '1', ''],
             ],
             'null values' => [
-                'Null values should be converted to strings',
                 ['', 'null', 'NULL'],
             ],
         ];
@@ -96,11 +86,9 @@ class TextArrayTypeTest extends ArrayTypeTestCase
     {
         return [
             'mixed decimal formats' => [
-                'Mixed decimal formats should be preserved',
                 ['42.00', '123.50', '0.00', '999.99', '1.0', '2.000'],
             ],
             'decimal zero variations' => [
-                'Decimal zero variations should be preserved',
                 ['0.0', '0.00', '0.000'],
             ],
         ];

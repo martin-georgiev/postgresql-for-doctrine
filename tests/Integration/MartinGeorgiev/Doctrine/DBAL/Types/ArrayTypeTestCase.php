@@ -29,7 +29,7 @@ abstract class ArrayTypeTestCase extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_array_values(string $testName, array $arrayValue): void
+    public function can_handle_array_values(array $arrayValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -38,7 +38,7 @@ abstract class ArrayTypeTestCase extends TestCase
     }
 
     /**
-     * @return array<string, array{string, array<mixed>}>
+     * @return array<string, array{array<mixed>}>
      */
     abstract public static function provideValidTransformations(): array;
 }

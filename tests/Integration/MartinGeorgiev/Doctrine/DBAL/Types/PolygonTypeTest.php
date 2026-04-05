@@ -28,21 +28,21 @@ final class PolygonTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_polygon_values(string $testName, PolygonValueObject $polygonValueObject): void
+    public function can_handle_polygon_values(PolygonValueObject $polygonValueObject): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $polygonValueObject);
     }
 
     /**
-     * @return array<string, array{string, PolygonValueObject}>
+     * @return array<string, array{PolygonValueObject}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'triangle' => ['triangle', PolygonValueObject::fromString('((0,0),(1,1),(2,0))')],
-            'square' => ['square', PolygonValueObject::fromString('((0,0),(0,1),(1,1),(1,0))')],
-            'polygon with floats' => ['polygon with floats', PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
-            'polygon with negative coordinates' => ['polygon with negative coordinates', PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))')],
+            'triangle' => [PolygonValueObject::fromString('((0,0),(1,1),(2,0))')],
+            'square' => [PolygonValueObject::fromString('((0,0),(0,1),(1,1),(1,0))')],
+            'polygon with floats' => [PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
+            'polygon with negative coordinates' => [PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))')],
         ];
     }
 }

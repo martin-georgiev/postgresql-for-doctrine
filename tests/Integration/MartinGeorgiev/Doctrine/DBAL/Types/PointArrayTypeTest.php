@@ -21,28 +21,28 @@ class PointArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, PointValueObject>}>
+     * @return array<string, array{array<int, PointValueObject>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple point array' => ['simple point array', [
+            'simple point array' => [[
                 new PointValueObject(1.23, 4.56),
                 new PointValueObject(-10.5, -20.75),
             ]],
-            'point array with zero coordinates' => ['point array with zero coordinates', [
+            'point array with zero coordinates' => [[
                 new PointValueObject(0.0, 0.0),
                 new PointValueObject(100.0, 200.0),
             ]],
-            'point array with high precision' => ['point array with high precision', [
+            'point array with high precision' => [[
                 new PointValueObject(123.456789, -987.654321),
                 new PointValueObject(0.123456, 0.987654),
             ]],
-            'point array with integer coordinates' => ['point array with integer coordinates', [
+            'point array with integer coordinates' => [[
                 new PointValueObject(100, 200),
                 new PointValueObject(-50, -100),
             ]],
-            'empty point array' => ['empty point array', []],
+            'empty point array' => [[]],
         ];
     }
 

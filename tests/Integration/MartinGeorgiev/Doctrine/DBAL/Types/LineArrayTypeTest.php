@@ -19,15 +19,15 @@ class LineArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, LineValueObject>}>
+     * @return array<string, array{array<int, LineValueObject>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single line' => ['single line', [
+            'single line' => [[
                 LineValueObject::fromString('{1,0,0}'),
             ]],
-            'multiple lines' => ['multiple lines', [
+            'multiple lines' => [[
                 LineValueObject::fromString('{1.5,2.5,3.5}'),
                 LineValueObject::fromString('{-1,-2,-3}'),
             ]],

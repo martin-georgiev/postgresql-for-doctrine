@@ -20,21 +20,21 @@ class UuidArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string>}>
+     * @return array<string, array{array<int, string>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single UUID' => ['single UUID', ['550e8400-e29b-41d4-a716-446655440000']],
-            'multiple UUIDs' => ['multiple UUIDs', [
+            'single UUID' => [['550e8400-e29b-41d4-a716-446655440000']],
+            'multiple UUIDs' => [[
                 '550e8400-e29b-41d4-a716-446655440000',
                 'a0eebc99-9c0b-11d1-b465-00c04fd430c8',
                 '018e7e39-9f42-7000-8000-000000000000',
             ]],
-            'UUID v1' => ['UUID v1', ['a0eebc99-9c0b-11d1-b465-00c04fd430c8']],
-            'UUID v4' => ['UUID v4', ['550e8400-e29b-41d4-a716-446655440000']],
-            'UUID v7' => ['UUID v7', ['018e7e39-9f42-7000-8000-000000000000']],
-            'empty UUID array' => ['empty UUID array', []],
+            'UUID v1' => [['a0eebc99-9c0b-11d1-b465-00c04fd430c8']],
+            'UUID v4' => [['550e8400-e29b-41d4-a716-446655440000']],
+            'UUID v7' => [['018e7e39-9f42-7000-8000-000000000000']],
+            'empty UUID array' => [[]],
         ];
     }
 

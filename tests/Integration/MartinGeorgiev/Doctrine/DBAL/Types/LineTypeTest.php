@@ -28,20 +28,20 @@ final class LineTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_line_values(string $testName, LineValueObject $lineValueObject): void
+    public function can_handle_line_values(LineValueObject $lineValueObject): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $lineValueObject);
     }
 
     /**
-     * @return array<string, array{string, LineValueObject}>
+     * @return array<string, array{LineValueObject}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple line' => ['simple line', LineValueObject::fromString('{1,0,0}')],
-            'line with floats' => ['line with floats', LineValueObject::fromString('{1.5,2.5,3.5}')],
-            'line with negative coefficients' => ['line with negative coefficients', LineValueObject::fromString('{-1,-2,-3}')],
+            'simple line' => [LineValueObject::fromString('{1,0,0}')],
+            'line with floats' => [LineValueObject::fromString('{1.5,2.5,3.5}')],
+            'line with negative coefficients' => [LineValueObject::fromString('{-1,-2,-3}')],
         ];
     }
 }

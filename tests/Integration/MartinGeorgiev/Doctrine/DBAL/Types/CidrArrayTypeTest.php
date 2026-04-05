@@ -20,26 +20,26 @@ class CidrArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple cidr array' => ['simple cidr array', ['192.168.1.0/24', '10.0.0.0/8']],
-            'cidr array with IPv6' => ['cidr array with IPv6', ['2001:db8::/32', '2001:db8::/64']],
-            'cidr array with mixed networks' => ['cidr array with mixed networks', [
+            'simple cidr array' => [['192.168.1.0/24', '10.0.0.0/8']],
+            'cidr array with IPv6' => [['2001:db8::/32', '2001:db8::/64']],
+            'cidr array with mixed networks' => [[
                 '192.168.1.0/24',
                 '172.16.0.0/16',
                 '10.0.0.0/8',
                 '2001:db8::/32',
             ]],
-            'cidr array with single hosts' => ['cidr array with single hosts', [
+            'cidr array with single hosts' => [[
                 '192.168.1.1/32',
                 '10.0.0.1/32',
                 '2001:db8::1/128',
             ]],
-            'empty cidr array' => ['empty cidr array', []],
-            'cidr array with null item' => ['cidr array with null item', ['192.168.0.0/24', null, '10.0.0.0/8']],
+            'empty cidr array' => [[]],
+            'cidr array with null item' => [['192.168.0.0/24', null, '10.0.0.0/8']],
         ];
     }
 
