@@ -21,25 +21,25 @@ class DateArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, \DateTimeImmutable|null>}>
+     * @return array<string, array{array<int, \DateTimeImmutable|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single date' => ['single date', [
+            'single date' => [[
                 new \DateTimeImmutable('2023-06-15'),
             ]],
-            'multiple dates' => ['multiple dates', [
+            'multiple dates' => [[
                 new \DateTimeImmutable('2023-06-15'),
                 new \DateTimeImmutable('2024-02-29'),
                 new \DateTimeImmutable('2000-01-01'),
             ]],
-            'date with null item' => ['date with null item', [
+            'date with null item' => [[
                 new \DateTimeImmutable('2023-06-15'),
                 null,
                 new \DateTimeImmutable('2024-02-29'),
             ]],
-            'empty date array' => ['empty date array', []],
+            'empty date array' => [[]],
         ];
     }
 

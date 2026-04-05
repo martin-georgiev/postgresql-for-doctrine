@@ -20,18 +20,18 @@ class XmlArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'self-closing element' => ['self-closing element', ['<root/>']],
-            'element with content' => ['element with content', ['<item>value</item>']],
-            'multiple xml elements' => ['multiple xml elements', ['<a/>', '<b/>', '<c/>']],
-            'nested xml' => ['nested xml', ['<root><child>text</child></root>']],
-            'xml with namespace' => ['xml with namespace', ['<ns:root xmlns:ns="http://example.com"/>']],
-            'xml array with null item' => ['xml array with null item', ['<a/>', null, '<b/>']],
-            'empty xml array' => ['empty xml array', []],
+            'self-closing element' => [['<root/>']],
+            'element with content' => [['<item>value</item>']],
+            'multiple xml elements' => [['<a/>', '<b/>', '<c/>']],
+            'nested xml' => [['<root><child>text</child></root>']],
+            'xml with namespace' => [['<ns:root xmlns:ns="http://example.com"/>']],
+            'xml array with null item' => [['<a/>', null, '<b/>']],
+            'empty xml array' => [[]],
         ];
     }
 

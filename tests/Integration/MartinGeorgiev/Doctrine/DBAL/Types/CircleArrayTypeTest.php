@@ -19,15 +19,15 @@ class CircleArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, CircleValueObject>}>
+     * @return array<string, array{array<int, CircleValueObject>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single circle' => ['single circle', [
+            'single circle' => [[
                 CircleValueObject::fromString('<(0,0),1>'),
             ]],
-            'multiple circles' => ['multiple circles', [
+            'multiple circles' => [[
                 CircleValueObject::fromString('<(1.5,2.5),3.5>'),
                 CircleValueObject::fromString('<(-10,-20),5>'),
             ]],

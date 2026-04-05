@@ -28,21 +28,21 @@ final class PathTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_path_values(string $testName, PathValueObject $pathValueObject): void
+    public function can_handle_path_values(PathValueObject $pathValueObject): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $pathValueObject);
     }
 
     /**
-     * @return array<string, array{string, PathValueObject}>
+     * @return array<string, array{PathValueObject}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'open path' => ['open path', PathValueObject::fromString('[(0,0),(1,1),(2,0)]')],
-            'closed path' => ['closed path', PathValueObject::fromString('((0,0),(1,1),(2,0))')],
-            'path with floats' => ['path with floats', PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
-            'path with negative coordinates' => ['path with negative coordinates', PathValueObject::fromString('[(-1,-2),(-3,-4)]')],
+            'open path' => [PathValueObject::fromString('[(0,0),(1,1),(2,0)]')],
+            'closed path' => [PathValueObject::fromString('((0,0),(1,1),(2,0))')],
+            'path with floats' => [PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
+            'path with negative coordinates' => [PathValueObject::fromString('[(-1,-2),(-3,-4)]')],
         ];
     }
 }

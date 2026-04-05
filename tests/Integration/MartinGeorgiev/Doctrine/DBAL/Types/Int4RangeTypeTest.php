@@ -20,15 +20,15 @@ class Int4RangeTypeTest extends RangeTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, Int4RangeValueObject}>
+     * @return array<string, array{Int4RangeValueObject}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple int4range' => ['simple int4range', new Int4RangeValueObject(1, 10, true, false)],
-            'int4range with inclusive bounds' => ['int4range with inclusive bounds', new Int4RangeValueObject(5, 15, true, false)],
-            'int4range with negative values' => ['int4range with negative values', new Int4RangeValueObject(-100, 100, true, false)],
-            'int4range with max values' => ['int4range with max values', new Int4RangeValueObject(-2147483648, 2147483647, true, false)],
+            'simple int4range' => [new Int4RangeValueObject(1, 10, true, false)],
+            'int4range with inclusive bounds' => [new Int4RangeValueObject(5, 15, true, false)],
+            'int4range with negative values' => [new Int4RangeValueObject(-100, 100, true, false)],
+            'int4range with max values' => [new Int4RangeValueObject(-2147483648, 2147483647, true, false)],
         ];
     }
 
@@ -54,14 +54,14 @@ class Int4RangeTypeTest extends RangeTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, string, array<int>}> [name, dql, expectedIds]
+     * @return array<string, array{string, array<int>}> [dql, expectedIds]
      */
     public static function provideOperatorScenarios(): array
     {
         return [
-            'contains int4range' => ['contains int4range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE CONTAINS(r.int4Range, \'[3,7)\') = TRUE', [1]],
-            'is contained by int4range' => ['is contained by int4range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE IS_CONTAINED_BY(\'[3,7)\', r.int4Range) = TRUE', [1]],
-            'overlaps int4range' => ['overlaps int4range', 'SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE OVERLAPS(r.int4Range, \'[8,12)\') = TRUE', [1, 2]],
+            'contains int4range' => ['SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE CONTAINS(r.int4Range, \'[3,7)\') = TRUE', [1]],
+            'is contained by int4range' => ['SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE IS_CONTAINED_BY(\'[3,7)\', r.int4Range) = TRUE', [1]],
+            'overlaps int4range' => ['SELECT r.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsRanges r WHERE OVERLAPS(r.int4Range, \'[8,12)\') = TRUE', [1, 2]],
         ];
     }
 }

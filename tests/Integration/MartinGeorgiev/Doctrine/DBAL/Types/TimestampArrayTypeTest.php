@@ -21,27 +21,27 @@ class TimestampArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, \DateTimeImmutable|null>}>
+     * @return array<string, array{array<int, \DateTimeImmutable|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single timestamp' => ['single timestamp', [
+            'single timestamp' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45'),
             ]],
-            'timestamp with microseconds' => ['timestamp with microseconds', [
+            'timestamp with microseconds' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45.123456'),
             ]],
-            'multiple timestamps' => ['multiple timestamps', [
+            'multiple timestamps' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45'),
                 new \DateTimeImmutable('2024-01-01 00:00:00'),
             ]],
-            'timestamp with null item' => ['timestamp with null item', [
+            'timestamp with null item' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45'),
                 null,
                 new \DateTimeImmutable('2024-01-01 00:00:00'),
             ]],
-            'empty timestamp array' => ['empty timestamp array', []],
+            'empty timestamp array' => [[]],
         ];
     }
 

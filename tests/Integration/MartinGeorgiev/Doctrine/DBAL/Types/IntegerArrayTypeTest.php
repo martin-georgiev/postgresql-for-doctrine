@@ -19,9 +19,9 @@ class IntegerArrayTypeTest extends ArrayTypeTestCase
     public static function provideValidTransformations(): array
     {
         return [
-            'simple integer array' => ['simple integer array', [1, 2, 3, 4, 5]],
-            'integer array with negatives' => ['integer array with negatives', [-1, 0, 1, -100, 100]],
-            'integer array with max values' => ['integer array with max values', [2147483647, -2147483648, 0]],
+            'simple integer array' => [[1, 2, 3, 4, 5]],
+            'integer array with negatives' => [[-1, 0, 1, -100, 100]],
+            'integer array with max values' => [[2147483647, -2147483648, 0]],
         ];
     }
 }

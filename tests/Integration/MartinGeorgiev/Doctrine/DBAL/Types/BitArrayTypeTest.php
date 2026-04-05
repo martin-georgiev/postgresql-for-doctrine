@@ -29,16 +29,16 @@ class BitArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single zero' => ['single zero', ['0']],
-            'single one' => ['single one', ['1']],
-            'multiple single bits' => ['multiple single bits', ['0', '1', '0']],
-            'array with null item' => ['array with null item', ['1', null, '0']],
-            'empty array' => ['empty array', []],
+            'single zero' => [['0']],
+            'single one' => [['1']],
+            'multiple single bits' => [['0', '1', '0']],
+            'array with null item' => [['1', null, '0']],
+            'empty array' => [[]],
         ];
     }
 

@@ -20,17 +20,17 @@ class TsvectorArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single lexeme' => ['single lexeme', ["'cat'"]],
-            'multiple lexemes' => ['multiple lexemes', ["'cat' 'dog'"]],
-            'lexeme with position' => ['lexeme with position', ["'cat':1 'dog':2"]],
-            'lexeme with weight' => ['lexeme with weight', ["'cat':1A 'dog':2B"]],
-            'multiple tsvectors' => ['multiple tsvectors', ["'cat' 'dog'", "'bird' 'fish'"]],
-            'array with null item' => ['array with null item', ["'cat'", null, "'dog'"]],
+            'single lexeme' => [["'cat'"]],
+            'multiple lexemes' => [["'cat' 'dog'"]],
+            'lexeme with position' => [["'cat':1 'dog':2"]],
+            'lexeme with weight' => [["'cat':1A 'dog':2B"]],
+            'multiple tsvectors' => [["'cat' 'dog'", "'bird' 'fish'"]],
+            'array with null item' => [["'cat'", null, "'dog'"]],
         ];
     }
 

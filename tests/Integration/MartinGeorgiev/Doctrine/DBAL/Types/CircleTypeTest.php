@@ -28,20 +28,20 @@ final class CircleTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_circle_values(string $testName, CircleValueObject $circleValueObject): void
+    public function can_handle_circle_values(CircleValueObject $circleValueObject): void
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $circleValueObject);
     }
 
     /**
-     * @return array<string, array{string, CircleValueObject}>
+     * @return array<string, array{CircleValueObject}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'unit circle at origin' => ['unit circle at origin', CircleValueObject::fromString('<(0,0),1>')],
-            'circle with floats' => ['circle with floats', CircleValueObject::fromString('<(1.5,2.5),3.5>')],
-            'circle with negative center' => ['circle with negative center', CircleValueObject::fromString('<(-10,-20),5>')],
+            'unit circle at origin' => [CircleValueObject::fromString('<(0,0),1>')],
+            'circle with floats' => [CircleValueObject::fromString('<(1.5,2.5),3.5>')],
+            'circle with negative center' => [CircleValueObject::fromString('<(-10,-20),5>')],
         ];
     }
 }

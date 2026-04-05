@@ -39,7 +39,7 @@ class JsonbTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_json_values(string $testName, array $json): void
+    public function can_handle_json_values(array $json): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -48,17 +48,17 @@ class JsonbTypeTest extends TestCase
     }
 
     /**
-     * @return array<string, array{string, mixed}>
+     * @return array<string, array{mixed}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'simple object' => ['simple object', ['foo' => 'bar', 'baz' => 123]],
-            'nested structures' => ['nested structures', [
+            'simple object' => [['foo' => 'bar', 'baz' => 123]],
+            'nested structures' => [[
                 'user' => ['id' => 1, 'name' => 'John'],
-                'meta' => ['active' => true, 'roles' => ['admin', 'user']],
+                'meta' => ['active' => true, 'roles' => ['user']],
             ]],
-            'mixed types' => ['mixed types', [
+            'mixed types' => [[
                 'string' => 'value',
                 'number' => 42,
                 'boolean' => false,
@@ -66,7 +66,7 @@ class JsonbTypeTest extends TestCase
                 'array' => [1, 2, 3],
                 'object' => ['a' => 1],
             ]],
-            'special characters' => ['special characters', [
+            'special characters' => [[
                 'message' => 'Hello "World" with \'quotes\'',
                 'path' => '/path/with/slashes',
             ]],

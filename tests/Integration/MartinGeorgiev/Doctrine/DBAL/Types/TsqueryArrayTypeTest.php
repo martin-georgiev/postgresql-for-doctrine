@@ -20,19 +20,19 @@ class TsqueryArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, string|null>}>
+     * @return array<string, array{array<int, string|null>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single term' => ['single term', ["'cat'"]],
-            'AND query' => ['AND query', ["'fat' & 'cat'"]],
-            'OR query' => ['OR query', ["'cat' | 'dog'"]],
-            'NOT query' => ['NOT query', ["!'cat'"]],
-            'complex query' => ['complex query', ["'fat' & ( 'cat' | 'rat' )"]],
-            'multiple queries' => ['multiple queries', ["'cat'", "'dog' & 'bone'", "'fish' | 'bird'"]],
-            'phrase search' => ['phrase search', ["'quick' <-> 'fox'"]],
-            'array with null item' => ['array with null item', ["'cat'", null, "'dog'"]],
+            'single term' => [["'cat'"]],
+            'AND query' => [["'fat' & 'cat'"]],
+            'OR query' => [["'cat' | 'dog'"]],
+            'NOT query' => [["!'cat'"]],
+            'complex query' => [["'fat' & ( 'cat' | 'rat' )"]],
+            'multiple queries' => [["'cat'", "'dog' & 'bone'", "'fish' | 'bird'"]],
+            'phrase search' => [["'quick' <-> 'fox'"]],
+            'array with null item' => [["'cat'", null, "'dog'"]],
         ];
     }
 

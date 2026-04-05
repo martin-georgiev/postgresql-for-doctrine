@@ -19,15 +19,15 @@ class BoxArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{string, array<int, BoxValueObject>}>
+     * @return array<string, array{array<int, BoxValueObject>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'single box' => ['single box', [
+            'single box' => [[
                 BoxValueObject::fromString('(3,4),(1,2)'),
             ]],
-            'multiple boxes' => ['multiple boxes', [
+            'multiple boxes' => [[
                 BoxValueObject::fromString('(1,1),(0,0)'),
                 BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ]],
