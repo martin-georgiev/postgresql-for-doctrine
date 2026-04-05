@@ -17,7 +17,7 @@ class TandTest extends NumericTestCase
     }
 
     #[Test]
-    public function tand_of_45_degrees(): void
+    public function can_calculate_tand_of_literal(): void
     {
         $dql = 'SELECT TAND(45.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class TandTest extends NumericTestCase
     }
 
     #[Test]
-    public function tand_with_entity_property(): void
+    public function can_calculate_tand_with_entity_property(): void
     {
         $dql = 'SELECT TAND(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

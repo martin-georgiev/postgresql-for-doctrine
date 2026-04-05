@@ -17,7 +17,7 @@ class CotTest extends NumericTestCase
     }
 
     #[Test]
-    public function cot_of_pi_over_4(): void
+    public function can_calculate_cot_of_literal(): void
     {
         $dql = 'SELECT COT(0.7853981633974483) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class CotTest extends NumericTestCase
     }
 
     #[Test]
-    public function cot_with_entity_property(): void
+    public function can_calculate_cot_with_entity_property(): void
     {
         $dql = 'SELECT COT(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

@@ -17,7 +17,7 @@ class AtanhTest extends NumericTestCase
     }
 
     #[Test]
-    public function atanh_of_zero(): void
+    public function can_calculate_atanh_of_literal(): void
     {
         $dql = 'SELECT ATANH(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class AtanhTest extends NumericTestCase
     }
 
     #[Test]
-    public function atanh_with_entity_property(): void
+    public function can_calculate_atanh_with_entity_property(): void
     {
         $dql = 'SELECT ATANH(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

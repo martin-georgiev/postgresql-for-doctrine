@@ -256,18 +256,52 @@ $configuration->addCustomStringFunction('TSTZRANGE', MartinGeorgiev\Doctrine\ORM
 $configuration->addCustomStringFunction('CBRT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt::class);
 $configuration->addCustomStringFunction('CEIL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ceil::class);
 $configuration->addCustomStringFunction('DEGREES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees::class);
+$configuration->addCustomStringFunction('DIV', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Div::class);
+$configuration->addCustomStringFunction('ERF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Erf::class);
+$configuration->addCustomStringFunction('ERFC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Erfc::class);
 $configuration->addCustomStringFunction('EXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp::class);
+$configuration->addCustomStringFunction('FACTORIAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Factorial::class);
 $configuration->addCustomStringFunction('FLOOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor::class);
+$configuration->addCustomStringFunction('GCD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gcd::class);
+$configuration->addCustomStringFunction('LCM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lcm::class);
 $configuration->addCustomStringFunction('LN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln::class);
 $configuration->addCustomStringFunction('LOG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log::class);
+$configuration->addCustomStringFunction('MIN_SCALE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MinScale::class);
 $configuration->addCustomStringFunction('PI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi::class);
 $configuration->addCustomStringFunction('POWER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power::class);
 $configuration->addCustomStringFunction('RADIANS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians::class);
 $configuration->addCustomStringFunction('RANDOM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random::class);
+$configuration->addCustomStringFunction('RANDOM_NORMAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RandomNormal::class);
 $configuration->addCustomStringFunction('ROUND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round::class);
+$configuration->addCustomStringFunction('SCALE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Scale::class);
 $configuration->addCustomStringFunction('SIGN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign::class);
+$configuration->addCustomStringFunction('TRIM_SCALE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimScale::class);
 $configuration->addCustomStringFunction('TRUNC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc::class);
 $configuration->addCustomStringFunction('WIDTH_BUCKET', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket::class);
+
+# Trigonometric functions
+$configuration->addCustomStringFunction('ACOS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acos::class);
+$configuration->addCustomStringFunction('ACOSD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosd::class);
+$configuration->addCustomStringFunction('ACOSH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosh::class);
+$configuration->addCustomStringFunction('ASIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asin::class);
+$configuration->addCustomStringFunction('ASIND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asind::class);
+$configuration->addCustomStringFunction('ASINH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asinh::class);
+$configuration->addCustomStringFunction('ATAN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan::class);
+$configuration->addCustomStringFunction('ATAN2', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2::class);
+$configuration->addCustomStringFunction('ATAN2D', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2d::class);
+$configuration->addCustomStringFunction('ATAND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atand::class);
+$configuration->addCustomStringFunction('ATANH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atanh::class);
+$configuration->addCustomStringFunction('COS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cos::class);
+$configuration->addCustomStringFunction('COSD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosd::class);
+$configuration->addCustomStringFunction('COSH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosh::class);
+$configuration->addCustomStringFunction('COT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cot::class);
+$configuration->addCustomStringFunction('COTD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cotd::class);
+$configuration->addCustomStringFunction('SIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sin::class);
+$configuration->addCustomStringFunction('SIND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sind::class);
+$configuration->addCustomStringFunction('SINH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sinh::class);
+$configuration->addCustomStringFunction('TAN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tan::class);
+$configuration->addCustomStringFunction('TAND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tand::class);
+$configuration->addCustomStringFunction('TANH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh::class);
 
 # other operators
 $configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);

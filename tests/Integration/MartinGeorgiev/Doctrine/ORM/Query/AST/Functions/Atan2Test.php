@@ -17,7 +17,7 @@ class Atan2Test extends NumericTestCase
     }
 
     #[Test]
-    public function atan2_of_one_one(): void
+    public function can_calculate_atan2_of_literals(): void
     {
         $dql = 'SELECT ATAN2(1.0, 1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class Atan2Test extends NumericTestCase
     }
 
     #[Test]
-    public function atan2_with_entity_properties(): void
+    public function can_calculate_atan2_with_entity_properties(): void
     {
         $dql = 'SELECT ATAN2(n.decimal1, n.decimal2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

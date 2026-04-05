@@ -17,7 +17,7 @@ class CoshTest extends NumericTestCase
     }
 
     #[Test]
-    public function cosh_of_zero(): void
+    public function can_calculate_cosh_of_literal(): void
     {
         $dql = 'SELECT COSH(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class CoshTest extends NumericTestCase
     }
 
     #[Test]
-    public function cosh_with_entity_property(): void
+    public function can_calculate_cosh_with_entity_property(): void
     {
         $dql = 'SELECT COSH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

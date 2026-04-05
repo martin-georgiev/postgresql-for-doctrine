@@ -17,7 +17,7 @@ class AsinTest extends NumericTestCase
     }
 
     #[Test]
-    public function asin_of_one(): void
+    public function can_calculate_asin_of_literal(): void
     {
         $dql = 'SELECT ASIN(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class AsinTest extends NumericTestCase
     }
 
     #[Test]
-    public function asin_with_entity_property(): void
+    public function can_calculate_asin_with_entity_property(): void
     {
         $dql = 'SELECT ASIN(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

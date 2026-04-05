@@ -17,7 +17,7 @@ class CotdTest extends NumericTestCase
     }
 
     #[Test]
-    public function cotd_of_45_degrees(): void
+    public function can_calculate_cotd_of_literal(): void
     {
         $dql = 'SELECT COTD(45.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class CotdTest extends NumericTestCase
     }
 
     #[Test]
-    public function cotd_with_entity_property(): void
+    public function can_calculate_cotd_with_entity_property(): void
     {
         $dql = 'SELECT COTD(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

@@ -17,7 +17,7 @@ class AsindTest extends NumericTestCase
     }
 
     #[Test]
-    public function asind_of_one(): void
+    public function can_calculate_asind_of_literal(): void
     {
         $dql = 'SELECT ASIND(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class AsindTest extends NumericTestCase
     }
 
     #[Test]
-    public function asind_with_entity_property(): void
+    public function can_calculate_asind_with_entity_property(): void
     {
         $dql = 'SELECT ASIND(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

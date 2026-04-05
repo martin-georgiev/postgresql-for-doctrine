@@ -17,7 +17,7 @@ class AcosdTest extends NumericTestCase
     }
 
     #[Test]
-    public function acosd_of_one(): void
+    public function can_calculate_acosd_of_literal(): void
     {
         $dql = 'SELECT ACOSD(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class AcosdTest extends NumericTestCase
     }
 
     #[Test]
-    public function acosd_with_entity_property(): void
+    public function can_calculate_acosd_with_entity_property(): void
     {
         $dql = 'SELECT ACOSD(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

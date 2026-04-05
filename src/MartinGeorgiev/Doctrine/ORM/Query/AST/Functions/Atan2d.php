@@ -17,25 +17,10 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT ATAN2D(e.y, e.x) FROM Entity e"
  */
-class Atan2d extends BaseVariadicFunction
+class Atan2d extends BaseDyadicArithmeticFunction
 {
-    protected function getNodeMappingPattern(): array
-    {
-        return ['ArithmeticPrimary,ArithmeticPrimary'];
-    }
-
     protected function getFunctionName(): string
     {
         return 'ATAN2D';
-    }
-
-    protected function getMinArgumentCount(): int
-    {
-        return 2;
-    }
-
-    protected function getMaxArgumentCount(): int
-    {
-        return 2;
     }
 }

@@ -47,6 +47,8 @@
         "xml",
         "money",
         "date-interval",
+        "math-functions",
+        "trigonometry",
         "vector",
         "pgvector",
         "vector-search",
