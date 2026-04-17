@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\LengthAwareSQLDeclarationTrait;
 
 /**
  * Shared implementation for pgvector dense float vector types (VECTOR, HALFVEC).
@@ -16,6 +17,8 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  */
 abstract class BaseVector extends BaseType
 {
+    use LengthAwareSQLDeclarationTrait;
+
     abstract protected function throwInvalidTypeForDatabase(mixed $value): never;
 
     abstract protected function throwInvalidItemTypeForDatabase(mixed $value): never;

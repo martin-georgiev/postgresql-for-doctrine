@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\LengthAwareSQLDeclarationTrait;
 
 /**
  * Implementation of PostgreSQL BIT data type.
@@ -21,22 +22,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
 final class Bit extends BaseType
 {
     use BitValidationTrait;
+    use LengthAwareSQLDeclarationTrait;
 
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::BIT;
-
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        $length = $fieldDeclaration['length'] ?? null;
-
-        if (\is_int($length)) {
-            return \sprintf('%s(%d)', \strtoupper(self::TYPE_NAME), $length);
-        }
-
-        return \strtoupper(self::TYPE_NAME);
-    }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {

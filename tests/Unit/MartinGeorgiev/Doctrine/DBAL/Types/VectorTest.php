@@ -15,6 +15,11 @@ final class VectorTest extends BaseVectorTypeTestCase
         return 'vector';
     }
 
+    protected function getExpectedSQLTypeName(): string
+    {
+        return 'VECTOR';
+    }
+
     protected function createFixture(): Vector
     {
         return new Vector();

@@ -23,6 +23,8 @@ abstract class BaseVectorTypeTestCase extends TestCase
 
     abstract protected function getExpectedTypeName(): string;
 
+    abstract protected function getExpectedSQLTypeName(): string;
+
     abstract protected function createFixture(): BaseType;
 
     /**
@@ -45,6 +47,21 @@ abstract class BaseVectorTypeTestCase extends TestCase
     public function has_name(): void
     {
         $this->assertSame($this->getExpectedTypeName(), $this->fixture->getName());
+    }
+
+    #[Test]
+    public function returns_type_without_length_by_default(): void
+    {
+        $this->assertSame($this->getExpectedSQLTypeName(), $this->fixture->getSQLDeclaration([], $this->platform));
+    }
+
+    #[Test]
+    public function returns_type_with_length_when_specified(): void
+    {
+        $this->assertSame(
+            $this->getExpectedSQLTypeName().'(1024)',
+            $this->fixture->getSQLDeclaration(['length' => 1024], $this->platform),
+        );
     }
 
     #[DataProvider('provideValidPHPToDatabase')]

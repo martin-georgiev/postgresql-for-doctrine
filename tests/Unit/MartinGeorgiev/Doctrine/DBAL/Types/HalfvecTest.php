@@ -15,6 +15,11 @@ final class HalfvecTest extends BaseVectorTypeTestCase
         return 'halfvec';
     }
 
+    protected function getExpectedSQLTypeName(): string
+    {
+        return 'HALFVEC';
+    }
+
     protected function createFixture(): Halfvec
     {
         return new Halfvec();

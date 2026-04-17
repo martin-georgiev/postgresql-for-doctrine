@@ -36,6 +36,18 @@ final class SparsevecTest extends TestCase
     }
 
     #[Test]
+    public function returns_type_without_length_by_default(): void
+    {
+        $this->assertSame('SPARSEVEC', $this->fixture->getSQLDeclaration([], $this->platform));
+    }
+
+    #[Test]
+    public function returns_type_with_length_when_specified(): void
+    {
+        $this->assertSame('SPARSEVEC(1024)', $this->fixture->getSQLDeclaration(['length' => 1024], $this->platform));
+    }
+
+    #[Test]
     public function can_transform_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
