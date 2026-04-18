@@ -58,7 +58,7 @@ instead of running the full integration test suite.
 
 Integration tests create tables with raw SQL (e.g., `CREATE TABLE ... (col VECTOR(3))`) and test PHP↔DB value conversion. They **never call `getSQLDeclaration()`**. Schema generation bugs — where a type emits `VECTOR` instead of `VECTOR(1024)` — are completely invisible to them.
 
-**Every DBAL type that maps to a parameterised PostgreSQL type must override `getSQLDeclaration()` and have unit tests for it.**
+**Every DBAL type that maps to a parameterised PostgreSQL type must provide a proper SQL declaration and have unit tests for it.**
 
 Common PostgreSQL parameterisation patterns:
 
@@ -69,7 +69,8 @@ Common PostgreSQL parameterisation patterns:
 | `TYPE(p)` — fractional-second precision | `TIMESTAMP(p)`, `TIMESTAMPTZ(p)`, `TIME(p)` |
 | `TYPE(subtype, srid)` — PostGIS | `GEOMETRY(type, srid)`, `GEOGRAPHY(type, srid)` |
 
-For `TYPE(n)` cases use the existing `LengthAwareSQLDeclarationTrait` (`src/.../Types/Traits/`) via `fieldDeclaration['length']`. For other parameterisations write a custom override reading the relevant `$fieldDeclaration` keys (`'precision'`, `'scale'`, `'srid'`, etc.).
+- **`TYPE(n)` cases**: use `LengthAwareSQLDeclarationTrait` (`src/.../Types/Traits/`) — it reads `fieldDeclaration['length']` and fulfils the override requirement without writing the method manually.
+- **Other parameterisations** (precision/scale, SRID, etc.): override `getSQLDeclaration()` directly and read the appropriate `$fieldDeclaration` keys (`'precision'`, `'scale'`, `'srid'`, etc.).
 
 Required unit tests for any override:
 1. No parameters → bare type name
