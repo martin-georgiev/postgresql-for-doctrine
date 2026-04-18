@@ -1,5 +1,5 @@
 ---
-description: "Testing: version checks, targeted test runs, 3-attempt failure limit, WKB geometry assertions"
+description: "Testing: version checks, targeted test runs, 3-attempt failure limit, WKB geometry assertions, getSQLDeclaration blind spot"
 alwaysApply: true
 trigger: always_on
 applyTo: "**"
@@ -53,6 +53,27 @@ When tests fail after your changes:
 bin/phpunit --filter "ST_HasZ" --configuration ci/phpunit/config-integration.xml
 ```
 instead of running the full integration test suite.
+
+## DBAL Types: `getSQLDeclaration()` Is Not Tested by Integration Tests
+
+Integration tests create tables with raw SQL (e.g., `CREATE TABLE ... (col VECTOR(3))`) and test PHP↔DB value conversion. They **never call `getSQLDeclaration()`**. Schema generation bugs — where a type emits `VECTOR` instead of `VECTOR(1024)` — are completely invisible to them.
+
+**Every DBAL type that maps to a parameterised PostgreSQL type must override `getSQLDeclaration()` and have unit tests for it.**
+
+Common PostgreSQL parameterisation patterns:
+
+| Pattern | Examples |
+|---------|---------|
+| `TYPE(n)` — length / dimensions | `BIT(n)`, `VARCHAR(n)`, `VECTOR(n)`, `HALFVEC(n)`, `SPARSEVEC(n)` |
+| `TYPE(p, s)` — precision + scale | `NUMERIC(p, s)`, `DECIMAL(p, s)` |
+| `TYPE(p)` — fractional-second precision | `TIMESTAMP(p)`, `TIMESTAMPTZ(p)`, `TIME(p)` |
+| `TYPE(subtype, srid)` — PostGIS | `GEOMETRY(type, srid)`, `GEOGRAPHY(type, srid)` |
+
+For `TYPE(n)` cases use the existing `LengthAwareSQLDeclarationTrait` (`src/.../Types/Traits/`) via `fieldDeclaration['length']`. For other parameterisations write a custom override reading the relevant `$fieldDeclaration` keys (`'precision'`, `'scale'`, `'srid'`, etc.).
+
+Required unit tests for any override:
+1. No parameters → bare type name
+2. Parameters provided → correct parameterised form (e.g. `VECTOR(1024)`)
 
 ## PostGIS Geometry Result Assertions
 PostGIS functions that return geometry types produce WKB (Well-Known Binary) hex format in query results, not WKT text. Do NOT assert directly on geometry string content.
