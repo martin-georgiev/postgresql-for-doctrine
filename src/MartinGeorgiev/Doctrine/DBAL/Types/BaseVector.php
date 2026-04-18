@@ -10,6 +10,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\LengthAwareSQLDeclarationTrait;
 /**
  * Shared implementation for pgvector dense float vector types (VECTOR, HALFVEC).
  *
+ * Use the `length` column option to specify the number of dimensions (e.g. `length: 1024`).
+ * Omitting `length` produces a dimensionless column, which is valid DDL but cannot be indexed.
+ *
  * @see https://github.com/pgvector/pgvector
  * @since 4.4
  *

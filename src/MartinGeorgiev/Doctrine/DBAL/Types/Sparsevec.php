@@ -15,6 +15,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec as SparsevecValueOb
  * Implementation of the pgvector SPARSEVEC data type.
  *
  * Stores a sparse vector using the format `{index:value,...}/dimensions`.
+ * Use the `length` column option to specify the number of dimensions (e.g. `length: 1024`).
+ * Omitting `length` produces a dimensionless column, which is valid DDL but cannot be indexed.
  *
  * @see https://github.com/pgvector/pgvector
  * @since 4.4
