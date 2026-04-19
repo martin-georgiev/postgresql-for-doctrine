@@ -82,9 +82,36 @@
 | xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
 | xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
 |---|---|---|
-| halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` |
-| sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` |
-| vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` |
+| halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` (see [note](#pgvector-types)) |
+| sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` (see [note](#pgvector-types)) |
+| vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` (see [note](#pgvector-types)) |
+
+## pgvector Types
+
+The `vector`, `halfvec`, and `sparsevec` types use the `length` column option to specify the number of dimensions:
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec;
+
+#[ORM\Entity]
+class Embedding
+{
+    // VECTOR(1536) — fixed 1536-dimensional float vector
+    #[ORM\Column(type: 'vector', length: 1536)]
+    private array $embedding;
+
+    // HALFVEC(1024) — half-precision float vector
+    #[ORM\Column(type: 'halfvec', length: 1024)]
+    private array $smallEmbedding;
+
+    // SPARSEVEC(4096) — sparse vector with up to 4096 dimensions
+    #[ORM\Column(type: 'sparsevec', length: 4096)]
+    private Sparsevec $sparseEmbedding;
+}
+```
+
+**Important:** Omitting `length` produces a dimensionless column (`VECTOR` with no size), which is valid DDL but cannot be indexed with HNSW or IVFFlat indexes. Always specify `length` for production use.
 
 ---
 

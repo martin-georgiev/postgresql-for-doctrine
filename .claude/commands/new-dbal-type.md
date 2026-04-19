@@ -57,6 +57,8 @@ Both unit AND integration tests are **required** for every new type. Before writ
 
 Cover: type name, null handling, valid round-trips (data provider), invalid types, invalid formats. Array types also: `isValidArrayItemForDatabase()`, `transformArrayItemForPHP()`.
 
+If the PostgreSQL type accepts parameters (length, dimensions, precision, scale, SRID, etc.) also test `getSQLDeclaration()`: once with no parameters (bare type name) and once with parameters (e.g. `VECTOR(1024)`). Integration tests never call `getSQLDeclaration()` — without these unit tests schema generation bugs are invisible. For `TYPE(n)` types use `LengthAwareSQLDeclarationTrait`; other parameterisations need a custom override.
+
 Reference by group: `XmlTest`/`XmlArrayTest` (string-based), `MoneyTest`/`MoneyArrayTest`, `MacaddrTest`/`MacaddrArrayTest` (network), `PointTest`/`PointArrayTest` (geometric), `BaseRangeTestCase` (range), `BaseFloatArrayTestCase`/`BaseIntegerArrayTestCase` (numeric arrays).
 
 ### Integration tests → `tests/Integration/.../Types/`

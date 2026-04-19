@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\LengthAwareSQLDeclarationTrait;
 
 /**
  * Implementation of PostgreSQL BIT VARYING data type.
@@ -21,22 +22,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
 final class BitVarying extends BaseType
 {
     use BitValidationTrait;
+    use LengthAwareSQLDeclarationTrait;
 
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::BIT_VARYING;
-
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
-    {
-        $length = $fieldDeclaration['length'] ?? null;
-
-        if (\is_int($length)) {
-            return \sprintf('%s(%d)', \strtoupper(self::TYPE_NAME), $length);
-        }
-
-        return \strtoupper(self::TYPE_NAME);
-    }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {

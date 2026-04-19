@@ -35,6 +35,49 @@ final class SparsevecTest extends TestCase
         $this->assertSame('sparsevec', $this->fixture->getName());
     }
 
+    #[DataProvider('provideFieldDeclarationsWithDimensions')]
+    #[Test]
+    public function returns_type_with_dimensions_when_positive_length_specified(int $length): void
+    {
+        $this->assertSame(\sprintf('SPARSEVEC(%d)', $length), $this->fixture->getSQLDeclaration(['length' => $length], $this->platform));
+    }
+
+    /**
+     * @return array<string, array{int}>
+     */
+    public static function provideFieldDeclarationsWithDimensions(): array
+    {
+        return [
+            '1 dimension' => [1],
+            '3 dimensions' => [3],
+            '1024 dimensions' => [1024],
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $fieldDeclaration
+     */
+    #[DataProvider('provideFieldDeclarationsReturningBareType')]
+    #[Test]
+    public function returns_bare_type_for_invalid_or_missing_length(array $fieldDeclaration): void
+    {
+        $this->assertSame('SPARSEVEC', $this->fixture->getSQLDeclaration($fieldDeclaration, $this->platform));
+    }
+
+    /**
+     * @return array<string, array{array<string, mixed>}>
+     */
+    public static function provideFieldDeclarationsReturningBareType(): array
+    {
+        return [
+            'no length key' => [[]],
+            'null length' => [['length' => null]],
+            'non-integer length' => [['length' => 'abc']],
+            'zero length' => [['length' => 0]],
+            'negative length' => [['length' => -1]],
+        ];
+    }
+
     #[Test]
     public function can_transform_null_to_database_value(): void
     {
