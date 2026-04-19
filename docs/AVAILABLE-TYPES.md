@@ -82,9 +82,9 @@
 | xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
 | xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
 |---|---|---|
-| halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` (see [note](#pgvector-types) |
-| sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` (see [note](#pgvector-types) |
-| vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` (see [note](#pgvector-types) |
+| halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` (see [note](#pgvector-types)) |
+| sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` (see [note](#pgvector-types)) |
+| vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` (see [note](#pgvector-types)) |
 
 ## pgvector Types
 
