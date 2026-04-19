@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.5.0...v4.5.1) (2026-04-19)
+
+
+### Bug Fixes
+
+* **#616:** Add length/dimension support to pgvector types' SQL declaration ([#617](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/617)) ([82583f2](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/82583f2de33779bcc6f0cea3832a6ea62bd0a058))
+
 ## [4.5.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.4.0...v4.5.0) (2026-04-05)
 
 
