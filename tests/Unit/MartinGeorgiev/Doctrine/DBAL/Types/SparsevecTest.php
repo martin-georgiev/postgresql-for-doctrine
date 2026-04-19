@@ -54,6 +54,9 @@ final class SparsevecTest extends TestCase
         ];
     }
 
+    /**
+     * @param array<string, mixed> $fieldDeclaration
+     */
     #[DataProvider('provideFieldDeclarationsReturningBareType')]
     #[Test]
     public function returns_bare_type_for_invalid_or_missing_length(array $fieldDeclaration): void
