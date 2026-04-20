@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Create new release PR
     steps:
-      - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4
+      - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .github/actions/release-please/config.json
