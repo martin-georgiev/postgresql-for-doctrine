@@ -16,9 +16,20 @@ abstract class TestCase extends BaseTestCase
     abstract protected function getTypeName(): string;
 
     /**
-     * The PostgreSQL column type name.
+     * @return array<string, mixed>
      */
-    abstract protected function getPostgresTypeName(): string;
+    protected function getFieldDeclaration(): array
+    {
+        return [];
+    }
+
+    protected function getPostgresTypeName(): string
+    {
+        $type = Type::getType($this->getTypeName());
+        $platform = $this->connection->getDatabasePlatform();
+
+        return $type->getSQLDeclaration($this->getFieldDeclaration(), $platform);
+    }
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {

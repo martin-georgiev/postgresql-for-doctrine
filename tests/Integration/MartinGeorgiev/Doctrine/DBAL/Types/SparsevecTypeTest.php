@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec as SparsevecValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,9 +16,19 @@ final class SparsevecTypeTest extends VectorTypeTestCase
         return 'sparsevec';
     }
 
-    protected function getPostgresTypeName(): string
+    protected function getFieldDeclaration(): array
     {
-        return 'SPARSEVEC(5)';
+        return ['length' => 5];
+    }
+
+    /**
+     * @param positive-int $declaredDimension
+     */
+    protected function getValueWithMismatchedDimension(int $declaredDimension): SparsevecValueObject
+    {
+        $largerDimension = $declaredDimension + 2;
+
+        return new SparsevecValueObject([1 => 1.0], $largerDimension);
     }
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
@@ -44,6 +55,27 @@ final class SparsevecTypeTest extends VectorTypeTestCase
             'multiple elements' => [new SparsevecValueObject([1 => 1.5, 3 => 2.0], 5)],
             'empty elements' => [new SparsevecValueObject([], 5)],
             'negative value' => [new SparsevecValueObject([1 => -0.5], 5)],
+        ];
+    }
+
+    #[DataProvider('provideInvalidSparsevecValues')]
+    #[Test]
+    public function throws_exception_for_invalid_value_before_database_write(mixed $value): void
+    {
+        $this->expectException(InvalidSparsevecForDatabaseException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $value);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidSparsevecValues(): array
+    {
+        return [
+            'plain string' => ['not a value object'],
+            'plain array' => [[1.0, 2.0, 3.0]],
+            'integer' => [42],
         ];
     }
 }

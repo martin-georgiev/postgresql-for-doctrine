@@ -76,6 +76,14 @@ Required unit tests for any override:
 1. No parameters → bare type name
 2. Parameters provided → correct parameterised form (e.g. `VECTOR(1024)`)
 
+### Integration regression guard for parameterised declarations
+Unit tests verify the string output of `getSQLDeclaration()`, but a passing unit test does not prove that the integration tests would catch a regression that drops the parameters at runtime. To guard against recurrence:
+
+1. Route the test column type through `getSQLDeclaration()` (override `getFieldDeclaration()` on the integration test) so the production declaration is exercised end-to-end against a real database.
+2. Add at least one integration test that inserts a value that would only be rejected when the constraint is present (e.g. a vector with a mismatched dimension, or a bit string longer than the declared width). Expect a `Doctrine\DBAL\Exception\DriverException`.
+
+A regression that emits a bare `TYPE` would silently accept such values, so a `expectException`-style test will fail — making the regression visible.
+
 ## PostGIS Geometry Result Assertions
 PostGIS functions that return geometry types produce WKB (Well-Known Binary) hex format in query results, not WKT text. Do NOT assert directly on geometry string content.
 
