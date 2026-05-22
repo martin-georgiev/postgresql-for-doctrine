@@ -60,7 +60,7 @@ final class SparsevecTypeTest extends VectorTypeTestCase
 
     #[DataProvider('provideInvalidSparsevecValues')]
     #[Test]
-    public function throws_exception_for_invalid_value_before_database_write(mixed $value): void
+    public function rejects_invalid_value_before_database_write(mixed $value): void
     {
         $this->expectException(InvalidSparsevecForDatabaseException::class);
 

@@ -24,7 +24,7 @@ class BitArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<int, string>
+     * @return list<string>
      */
     protected static function getValueExceedingLength(): array
     {

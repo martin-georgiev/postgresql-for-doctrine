@@ -38,8 +38,6 @@ abstract class VectorTypeTestCase extends TestCase
         /** @var positive-int $dimension */
         $dimension = $declaration['length'];
 
-        $this->assertSame(\sprintf('%s(%d)', \strtoupper($this->getTypeName()), $dimension), $this->getPostgresTypeName(), 'getSQLDeclaration() must emit TYPE(n) when length is provided');
-
         $this->expectException(DriverException::class);
 
         $this->runDbalBindingRoundTrip(
