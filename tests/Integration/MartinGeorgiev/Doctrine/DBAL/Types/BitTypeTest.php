@@ -17,14 +17,14 @@ class BitTypeTest extends ScalarTypeTestCase
         return 'bit';
     }
 
-    protected function getPostgresTypeName(): string
+    protected static function getFieldDeclarationForLengthRoundTrip(): array
     {
-        return 'BIT';
+        return ['length' => 3];
     }
 
-    protected static function getLengthColumnType(): string
+    protected static function getValueExceedingLength(): string
     {
-        return 'BIT(3)';
+        return '10101';
     }
 
     #[DataProvider('provideValidTransformations')]

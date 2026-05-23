@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Exception\DriverException;
 use PHPUnit\Framework\Attributes\Test;
 
 abstract class VectorTypeTestCase extends TestCase
@@ -19,6 +20,41 @@ abstract class VectorTypeTestCase extends TestCase
     {
         $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
     }
+
+    /**
+     * Guards the dimension-aware `getSQLDeclaration()` contract end-to-end:
+     * with `length` declared the column must enforce the dimension at insert time.
+     * A regression that drops `(n)` from the declaration would silently let
+     * any-width vectors through, so we prove the dimension constraint exists by
+     * asserting PostgreSQL rejects a value whose dimension does not match.
+     */
+    #[Test]
+    public function column_enforces_declared_dimension(): void
+    {
+        $declaration = $this->getFieldDeclaration();
+        $this->assertArrayHasKey('length', $declaration, 'Vector tests must declare a length to exercise the dimension-aware SQL declaration');
+        $this->assertIsInt($declaration['length']);
+        $this->assertGreaterThan(0, $declaration['length']);
+        /** @var positive-int $dimension */
+        $dimension = $declaration['length'];
+
+        $this->assertSame(\sprintf('%s(%d)', \strtoupper($this->getTypeName()), $dimension), $this->getPostgresTypeName(), 'getSQLDeclaration() must emit TYPE(n) when length is provided');
+
+        $this->expectException(DriverException::class);
+
+        $this->runDbalBindingRoundTrip(
+            $this->getTypeName(),
+            $this->getPostgresTypeName(),
+            $this->getValueWithMismatchedDimension($dimension),
+        );
+    }
+
+    /**
+     * A value whose serialized dimension does not match the declared length.
+     *
+     * @param positive-int $declaredDimension
+     */
+    abstract protected function getValueWithMismatchedDimension(int $declaredDimension): mixed;
 
     private function ensureVectorExtension(): void
     {

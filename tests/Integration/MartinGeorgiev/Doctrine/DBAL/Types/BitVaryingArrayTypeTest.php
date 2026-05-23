@@ -17,14 +17,17 @@ class BitVaryingArrayTypeTest extends ArrayTypeTestCase
         return 'bit varying[]';
     }
 
-    protected function getPostgresTypeName(): string
+    protected static function getFieldDeclarationForLengthRoundTrip(): array
     {
-        return 'BIT VARYING[]';
+        return ['length' => 5];
     }
 
-    protected static function getLengthColumnType(): string
+    /**
+     * @return array<int, string>
+     */
+    protected static function getValueExceedingLength(): array
     {
-        return 'BIT VARYING(5)[]';
+        return ['101010'];
     }
 
     /**

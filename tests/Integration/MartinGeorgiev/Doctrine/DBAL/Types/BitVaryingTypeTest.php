@@ -17,14 +17,14 @@ class BitVaryingTypeTest extends ScalarTypeTestCase
         return 'bit varying';
     }
 
-    protected function getPostgresTypeName(): string
+    protected static function getFieldDeclarationForLengthRoundTrip(): array
     {
-        return 'BIT VARYING';
+        return ['length' => 5];
     }
 
-    protected static function getLengthColumnType(): string
+    protected static function getValueExceedingLength(): string
     {
-        return 'BIT VARYING(5)';
+        return '101010';
     }
 
     #[DataProvider('provideValidTransformations')]
