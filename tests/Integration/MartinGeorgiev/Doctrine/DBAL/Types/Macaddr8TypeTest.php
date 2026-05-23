@@ -38,7 +38,7 @@ class Macaddr8TypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function can_handle_invalid_addresses(): void
+    public function rejects_invalid_address(): void
     {
         $this->expectException(InvalidMacaddr8ForPHPException::class);
 

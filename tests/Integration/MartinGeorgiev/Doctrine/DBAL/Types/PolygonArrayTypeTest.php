@@ -33,10 +33,13 @@ class PolygonArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function rejects_raw_string_instead_of_value_object(): void
+    public function rejects_string_instead_of_value_object(): void
     {
         $this->expectException(InvalidPolygonArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['((0,0),(1,1),(2,0))']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['((0,0),(1,1),(2,0))']);
     }
 }

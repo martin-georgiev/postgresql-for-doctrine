@@ -6,6 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class LtreeArrayTypeTest extends ArrayTypeTestCase
@@ -43,20 +44,27 @@ class LtreeArrayTypeTest extends ArrayTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInvalidItems')]
     #[Test]
-    public function rejects_string_instead_of_ltree_instance(): void
+    public function rejects_non_ltree_item(mixed $value): void
     {
         $this->expectException(InvalidLtreeArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['Top.Sports']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, [$value]);
     }
 
-    #[Test]
-    public function rejects_integer_instead_of_ltree_instance(): void
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidItems(): array
     {
-        $this->expectException(InvalidLtreeArrayItemForDatabaseException::class);
-
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), [123]);
+        return [
+            'string value' => ['Top.Sports'],
+            'integer value' => [123],
+        ];
     }
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void

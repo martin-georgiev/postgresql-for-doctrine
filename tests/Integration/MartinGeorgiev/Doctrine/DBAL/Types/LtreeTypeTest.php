@@ -77,11 +77,14 @@ final class LtreeTypeTest extends TestCase
 
     #[DataProvider('provideInvalidValues')]
     #[Test]
-    public function rejects_invalid_value_before_database_write(mixed $value): void
+    public function rejects_invalid_value(mixed $value): void
     {
         $this->expectException(InvalidLtreeForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $value);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $value);
     }
 
     /**

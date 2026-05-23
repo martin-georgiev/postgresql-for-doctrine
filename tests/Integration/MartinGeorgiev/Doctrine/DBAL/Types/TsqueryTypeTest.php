@@ -40,10 +40,13 @@ class TsqueryTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function rejects_empty_string_before_database_write(): void
+    public function rejects_empty_string(): void
     {
         $this->expectException(InvalidTsqueryForPHPException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '');
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, '');
     }
 }

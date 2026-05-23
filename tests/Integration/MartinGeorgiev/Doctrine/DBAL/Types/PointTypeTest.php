@@ -64,10 +64,13 @@ class PointTypeTest extends TestCase
     }
 
     #[Test]
-    public function rejects_non_value_object_before_database_write(): void
+    public function rejects_string_instead_of_value_object(): void
     {
         $this->expectException(InvalidPointForPHPException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '(1.0,2.0)');
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, '(1.0,2.0)');
     }
 }

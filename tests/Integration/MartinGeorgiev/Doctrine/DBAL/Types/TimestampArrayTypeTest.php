@@ -6,6 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampArrayItemForDatabaseException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class TimestampArrayTypeTest extends ArrayTypeTestCase
@@ -40,20 +41,27 @@ class TimestampArrayTypeTest extends ArrayTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInvalidItems')]
     #[Test]
-    public function rejects_string_instead_of_datetime_instance(): void
+    public function rejects_non_datetime_item(mixed $value): void
     {
         $this->expectException(InvalidTimestampArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['2023-06-15 10:30:45']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, [$value]);
     }
 
-    #[Test]
-    public function rejects_integer_instead_of_datetime_instance(): void
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidItems(): array
     {
-        $this->expectException(InvalidTimestampArrayItemForDatabaseException::class);
-
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), [20230615]);
+        return [
+            'string value' => ['2023-06-15 10:30:45'],
+            'integer value' => [20230615],
+        ];
     }
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void

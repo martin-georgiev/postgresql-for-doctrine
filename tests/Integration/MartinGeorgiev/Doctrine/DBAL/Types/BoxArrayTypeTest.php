@@ -33,10 +33,13 @@ class BoxArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function rejects_raw_string_instead_of_value_object(): void
+    public function rejects_string_instead_of_value_object(): void
     {
         $this->expectException(InvalidBoxArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['(1,1),(0,0)']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['(1,1),(0,0)']);
     }
 }

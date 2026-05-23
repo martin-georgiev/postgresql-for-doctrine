@@ -38,10 +38,13 @@ class InetArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function rejects_invalid_address(): void
+    public function rejects_invalid_address_item(): void
     {
         $this->expectException(InvalidInetArrayItemForPHPException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['invalid-address', '192.168.1.1']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['invalid-address', '192.168.1.1']);
     }
 }

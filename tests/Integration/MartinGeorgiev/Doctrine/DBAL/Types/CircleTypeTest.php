@@ -42,10 +42,13 @@ final class CircleTypeTest extends TestCase
     }
 
     #[Test]
-    public function rejects_non_value_object_before_database_write(): void
+    public function rejects_string_instead_of_value_object(): void
     {
         $this->expectException(InvalidCircleForPHPException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '<(0,0),1>');
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, '<(0,0),1>');
     }
 }

@@ -37,6 +37,9 @@ class TsqueryArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidTsqueryArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['']);
     }
 }
