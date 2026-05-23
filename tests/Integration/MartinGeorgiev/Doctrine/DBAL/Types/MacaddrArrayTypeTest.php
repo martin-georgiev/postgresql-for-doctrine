@@ -36,13 +36,10 @@ class MacaddrArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_invalid_addresses(): void
+    public function rejects_invalid_address(): void
     {
         $this->expectException(InvalidMacaddrArrayItemForPHPException::class);
 
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, ['invalid-mac', '08:00:2b:01:02:03']);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['invalid-mac', '08:00:2b:01:02:03']);
     }
 }

@@ -39,6 +39,9 @@ class TimestampTzArrayTypeTest extends ArrayTypeTestCase
                 null,
                 new \DateTimeImmutable('2024-01-01 00:00:00-05:00'),
             ]],
+            'timestamptz with microseconds' => [[
+                new \DateTimeImmutable('2023-06-15 10:30:45.123456+00:00'),
+            ]],
             'empty timestamptz array' => [[]],
         ];
     }
@@ -76,6 +79,11 @@ class TimestampTzArrayTypeTest extends ArrayTypeTestCase
                     $expectedItem->getTimestamp(),
                     $actualItem->getTimestamp(),
                     \sprintf('TimestampTz mismatch at index %d for type %s', $index, $typeName)
+                );
+                $this->assertSame(
+                    (int) $expectedItem->format('u'),
+                    (int) $actualItem->format('u'),
+                    \sprintf('TimestampTz microseconds mismatch at index %d for type %s', $index, $typeName)
                 );
             }
         }

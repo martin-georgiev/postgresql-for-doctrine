@@ -34,14 +34,11 @@ class UuidArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_invalid_uuids(): void
+    public function rejects_invalid_uuid(): void
     {
         $this->expectException(InvalidUuidArrayItemForDatabaseException::class);
 
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, ['invalid-uuid', '550e8400-e29b-41d4-a716-446655440000']);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['invalid-uuid', '550e8400-e29b-41d4-a716-446655440000']);
     }
 
     #[Test]

@@ -39,13 +39,10 @@ class CidrArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_invalid_networks(): void
+    public function rejects_invalid_network_address(): void
     {
         $this->expectException(InvalidCidrArrayItemForPHPException::class);
 
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, ['invalid-network', '192.168.1.0/24']);
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['invalid-network', '192.168.1.0/24']);
     }
 }
