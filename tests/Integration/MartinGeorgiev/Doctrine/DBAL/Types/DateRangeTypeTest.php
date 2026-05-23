@@ -45,6 +45,9 @@ class DateRangeTypeTest extends RangeTypeTestCase
                 true,
                 false
             )],
+            'daterange via singleDay factory' => [DateRangeValueObject::singleDay(new \DateTimeImmutable('2023-09-20'))],
+            'daterange via year factory' => [DateRangeValueObject::year(2023)],
+            'daterange via month factory' => [DateRangeValueObject::month(2023, 6)],
         ];
     }
 

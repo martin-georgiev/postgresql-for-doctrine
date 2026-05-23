@@ -219,6 +219,10 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['backslash\\', 'another\one'],
                 'postgresValue' => '{backslash\,another\one}',
             ],
+            'manual parsing with float value' => [
+                'phpValue' => ['unquoted text', 1.5],
+                'postgresValue' => '{unquoted text,1.5}',
+            ],
         ];
     }
 
