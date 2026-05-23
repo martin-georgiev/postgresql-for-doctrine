@@ -34,7 +34,7 @@ class UuidArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_invalid_uuids(): void
+    public function rejects_invalid_uuid_item(): void
     {
         $this->expectException(InvalidUuidArrayItemForDatabaseException::class);
 

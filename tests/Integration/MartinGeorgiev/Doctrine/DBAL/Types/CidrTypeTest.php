@@ -41,7 +41,7 @@ class CidrTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function can_handle_invalid_networks(): void
+    public function rejects_invalid_network(): void
     {
         $this->expectException(InvalidCidrForPHPException::class);
 

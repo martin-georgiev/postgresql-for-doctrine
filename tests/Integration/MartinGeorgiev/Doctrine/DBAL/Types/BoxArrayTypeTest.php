@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBoxArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Box as BoxValueObject;
+use PHPUnit\Framework\Attributes\Test;
 
 class BoxArrayTypeTest extends ArrayTypeTestCase
 {
@@ -26,6 +28,18 @@ class BoxArrayTypeTest extends ArrayTypeTestCase
                 BoxValueObject::fromString('(1,1),(0,0)'),
                 BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ]],
+            'empty box array' => [[]],
         ];
+    }
+
+    #[Test]
+    public function rejects_string_instead_of_value_object(): void
+    {
+        $this->expectException(InvalidBoxArrayItemForDatabaseException::class);
+
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['(1,1),(0,0)']);
     }
 }

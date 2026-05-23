@@ -28,11 +28,12 @@ class TsqueryArrayTypeTest extends ArrayTypeTestCase
             'multiple queries' => [["'cat'", "'dog' & 'bone'", "'fish' | 'bird'"]],
             'phrase search' => [["'quick' <-> 'fox'"]],
             'array with null item' => [["'cat'", null, "'dog'"]],
+            'empty tsquery array' => [[]],
         ];
     }
 
     #[Test]
-    public function can_handle_invalid_tsquery_format(): void
+    public function rejects_empty_string_item(): void
     {
         $this->expectException(InvalidTsqueryArrayItemForDatabaseException::class);
 

@@ -40,25 +40,26 @@ class InetTypeTest extends ScalarTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInvalidValues')]
     #[Test]
-    public function can_handle_invalid_addresses(): void
+    public function rejects_invalid_value(string $value): void
     {
         $this->expectException(InvalidInetForPHPException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runDbalBindingRoundTrip($typeName, $columnType, 'invalid-address');
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $value);
     }
 
-    #[Test]
-    public function can_handle_empty_string(): void
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidValues(): array
     {
-        $this->expectException(InvalidInetForPHPException::class);
-
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, '');
+        return [
+            'invalid address format' => ['invalid-address'],
+            'empty string' => [''],
+        ];
     }
 }

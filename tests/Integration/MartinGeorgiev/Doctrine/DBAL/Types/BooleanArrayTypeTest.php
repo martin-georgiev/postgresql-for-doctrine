@@ -21,6 +21,7 @@ class BooleanArrayTypeTest extends ArrayTypeTestCase
             'boolean array with all true' => [[true, true, true]],
             'boolean array with all false' => [[false, false, false]],
             'boolean array mixed' => [[true, false, true, false, true]],
+            'empty boolean array' => [[]],
         ];
     }
 }

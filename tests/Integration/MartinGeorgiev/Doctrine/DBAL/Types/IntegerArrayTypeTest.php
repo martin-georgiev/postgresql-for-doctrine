@@ -11,6 +11,9 @@ class IntegerArrayTypeTest extends ArrayTypeTestCase
         return 'integer[]';
     }
 
+    /**
+     * @return array<string, array{array<int, int>}>
+     */
     public static function provideValidTransformations(): array
     {
         return [

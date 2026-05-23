@@ -38,7 +38,7 @@ class InetArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_invalid_addresses(): void
+    public function rejects_invalid_address_item(): void
     {
         $this->expectException(InvalidInetArrayItemForPHPException::class);
 

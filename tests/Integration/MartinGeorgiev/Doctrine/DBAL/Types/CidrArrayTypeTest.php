@@ -39,7 +39,7 @@ class CidrArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_invalid_networks(): void
+    public function rejects_invalid_network_item(): void
     {
         $this->expectException(InvalidCidrArrayItemForPHPException::class);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -35,5 +36,16 @@ class TsvectorTypeTest extends ScalarTypeTestCase
             'lexemes with positions' => ["'cat':3 'fat':2 'rat':1"],
             'lexemes with weights' => ["'important':1A 'secondary':2B"],
         ];
+    }
+
+    #[Test]
+    public function rejects_empty_string(): void
+    {
+        $this->expectException(InvalidTsvectorForPHPException::class);
+
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, '');
     }
 }

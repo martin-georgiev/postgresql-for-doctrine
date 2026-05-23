@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBoxForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Box as BoxValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -52,5 +53,16 @@ final class BoxTypeTest extends TestCase
                 BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ],
         ];
+    }
+
+    #[Test]
+    public function rejects_string_instead_of_value_object(): void
+    {
+        $this->expectException(InvalidBoxForPHPException::class);
+
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, '(0,0),(1,1)');
     }
 }

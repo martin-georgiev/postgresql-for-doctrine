@@ -26,6 +26,7 @@ class TsvectorArrayTypeTest extends ArrayTypeTestCase
             'lexeme with weight' => [["'cat':1A 'dog':2B"]],
             'multiple tsvectors' => [["'cat' 'dog'", "'bird' 'fish'"]],
             'array with null item' => [["'cat'", null, "'dog'"]],
+            'empty tsvector array' => [[]],
         ];
     }
 
