@@ -13,11 +13,6 @@ class LsegArrayTypeTest extends ArrayTypeTestCase
         return 'lseg[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'LSEG[]';
-    }
-
     /**
      * @return array<string, array{array<int, LsegValueObject>}>
      */

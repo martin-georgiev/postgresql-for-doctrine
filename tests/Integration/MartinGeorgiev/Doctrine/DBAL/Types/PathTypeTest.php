@@ -15,11 +15,6 @@ final class PathTypeTest extends TestCase
         return 'path';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'PATH';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

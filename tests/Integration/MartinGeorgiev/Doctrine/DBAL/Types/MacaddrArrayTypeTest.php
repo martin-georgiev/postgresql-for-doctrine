@@ -14,11 +14,6 @@ class MacaddrArrayTypeTest extends ArrayTypeTestCase
         return 'macaddr[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'MACADDR[]';
-    }
-
     /**
      * @return array<string, array{array<int, string|null>}>
      */

@@ -19,11 +19,6 @@ final class GeometryTypeTest extends TestCase
         return 'geometry';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'GEOMETRY';
-    }
-
     protected function getEntityClass(): string
     {
         return ContainsGeometries::class;

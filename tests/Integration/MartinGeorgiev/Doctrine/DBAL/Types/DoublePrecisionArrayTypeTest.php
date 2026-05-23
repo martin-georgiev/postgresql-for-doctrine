@@ -11,11 +11,6 @@ class DoublePrecisionArrayTypeTest extends ArrayTypeTestCase
         return 'double precision[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'DOUBLE PRECISION[]';
-    }
-
     /**
      * @return array<string, array{array<int, float>}>
      */

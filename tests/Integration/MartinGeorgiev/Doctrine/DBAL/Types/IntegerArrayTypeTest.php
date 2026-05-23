@@ -11,11 +11,6 @@ class IntegerArrayTypeTest extends ArrayTypeTestCase
         return 'integer[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'INTEGER[]';
-    }
-
     public static function provideValidTransformations(): array
     {
         return [

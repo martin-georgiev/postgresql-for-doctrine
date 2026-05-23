@@ -11,11 +11,6 @@ class RealArrayTypeTest extends ArrayTypeTestCase
         return 'real[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'REAL[]';
-    }
-
     /**
      * @return array<string, array{array<int, float>}>
      */

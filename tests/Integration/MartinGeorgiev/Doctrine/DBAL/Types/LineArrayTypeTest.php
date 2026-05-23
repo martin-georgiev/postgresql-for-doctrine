@@ -13,11 +13,6 @@ class LineArrayTypeTest extends ArrayTypeTestCase
         return 'line[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'LINE[]';
-    }
-
     /**
      * @return array<string, array{array<int, LineValueObject>}>
      */

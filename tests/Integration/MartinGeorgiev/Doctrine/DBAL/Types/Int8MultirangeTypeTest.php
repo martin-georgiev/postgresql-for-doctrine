@@ -15,11 +15,6 @@ class Int8MultirangeTypeTest extends MultirangeTypeTestCase
         return 'int8multirange';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'INT8MULTIRANGE';
-    }
-
     /**
      * @return array<string, array{Int8MultirangeVO}>
      */

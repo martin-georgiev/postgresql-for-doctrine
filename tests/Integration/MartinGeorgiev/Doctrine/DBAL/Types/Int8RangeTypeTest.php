@@ -14,11 +14,6 @@ class Int8RangeTypeTest extends RangeTypeTestCase
         return 'int8range';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'INT8RANGE';
-    }
-
     /**
      * @return array<string, array{Int8RangeValueObject}>
      */

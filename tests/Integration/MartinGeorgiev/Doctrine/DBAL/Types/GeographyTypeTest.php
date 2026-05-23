@@ -19,11 +19,6 @@ final class GeographyTypeTest extends TestCase
         return 'geography';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'GEOGRAPHY';
-    }
-
     protected function getEntityClass(): string
     {
         return ContainsGeometries::class;

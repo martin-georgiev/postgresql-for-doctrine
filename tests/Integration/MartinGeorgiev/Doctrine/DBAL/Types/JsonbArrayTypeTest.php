@@ -14,11 +14,6 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
         return 'jsonb[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'JSONB[]';
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[DataProvider('provideTypeInferenceTestCases')]
     #[Test]

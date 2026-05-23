@@ -14,11 +14,6 @@ class NumMultirangeTypeTest extends MultirangeTypeTestCase
         return 'nummultirange';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'NUMMULTIRANGE';
-    }
-
     /**
      * @return array<string, array{NumericMultirangeVO}>
      */

@@ -15,11 +15,6 @@ class PointArrayTypeTest extends ArrayTypeTestCase
         return 'point[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'POINT[]';
-    }
-
     /**
      * @return array<string, array{array<int, PointValueObject>}>
      */

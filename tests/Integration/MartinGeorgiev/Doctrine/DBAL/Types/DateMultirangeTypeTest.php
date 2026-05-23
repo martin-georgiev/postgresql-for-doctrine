@@ -15,11 +15,6 @@ class DateMultirangeTypeTest extends MultirangeTypeTestCase
         return 'datemultirange';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'DATEMULTIRANGE';
-    }
-
     /**
      * @return array<string, array{DateMultirangeVO}>
      */

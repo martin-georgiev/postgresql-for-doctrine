@@ -14,11 +14,6 @@ class MoneyArrayTypeTest extends ArrayTypeTestCase
         return 'money[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'MONEY[]';
-    }
-
     /**
      * @return array<string, array{array<int, string|null>}>
      */

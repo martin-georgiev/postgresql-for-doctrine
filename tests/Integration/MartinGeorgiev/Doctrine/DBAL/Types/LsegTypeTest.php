@@ -15,11 +15,6 @@ final class LsegTypeTest extends TestCase
         return 'lseg';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'LSEG';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

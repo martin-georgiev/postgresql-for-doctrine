@@ -17,11 +17,6 @@ final class IntervalTypeTest extends TestCase
         return 'interval';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'INTERVAL';
-    }
-
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
         $this->assertInstanceOf(IntervalValueObject::class, $expected);

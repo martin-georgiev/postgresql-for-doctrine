@@ -11,11 +11,6 @@ class SmallIntArrayTypeTest extends ArrayTypeTestCase
         return 'smallint[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'SMALLINT[]';
-    }
-
     /**
      * @return array<string, array{array<int, int>}>
      */

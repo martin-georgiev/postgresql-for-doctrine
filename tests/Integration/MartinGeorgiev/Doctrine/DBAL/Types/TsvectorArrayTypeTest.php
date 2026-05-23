@@ -14,11 +14,6 @@ class TsvectorArrayTypeTest extends ArrayTypeTestCase
         return 'tsvector[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'TSVECTOR[]';
-    }
-
     /**
      * @return array<string, array{array<int, string|null>}>
      */

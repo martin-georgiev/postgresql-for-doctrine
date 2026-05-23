@@ -14,11 +14,6 @@ class TsqueryTypeTest extends ScalarTypeTestCase
         return 'tsquery';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'TSQUERY';
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(string $testValue): void

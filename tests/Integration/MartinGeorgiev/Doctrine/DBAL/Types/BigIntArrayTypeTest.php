@@ -11,11 +11,6 @@ class BigIntArrayTypeTest extends ArrayTypeTestCase
         return 'bigint[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'BIGINT[]';
-    }
-
     /**
      * @return array<string, array{array<int, int>}>
      */

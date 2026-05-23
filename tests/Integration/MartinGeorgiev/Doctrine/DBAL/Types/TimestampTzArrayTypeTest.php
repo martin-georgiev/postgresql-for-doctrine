@@ -15,11 +15,6 @@ class TimestampTzArrayTypeTest extends ArrayTypeTestCase
         return Type::TIMESTAMPTZ_ARRAY;
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'TIMESTAMPTZ[]';
-    }
-
     /**
      * @return array<string, array{array<int, \DateTimeImmutable|null>}>
      */

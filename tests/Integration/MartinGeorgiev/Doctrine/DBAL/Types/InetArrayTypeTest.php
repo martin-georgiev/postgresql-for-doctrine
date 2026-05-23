@@ -14,11 +14,6 @@ class InetArrayTypeTest extends ArrayTypeTestCase
         return 'inet[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'INET[]';
-    }
-
     /**
      * @return array<string, array{array<int, string|null>}>
      */
