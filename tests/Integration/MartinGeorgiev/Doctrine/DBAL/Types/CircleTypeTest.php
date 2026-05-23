@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCircleForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Circle as CircleValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,11 +14,6 @@ final class CircleTypeTest extends TestCase
     protected function getTypeName(): string
     {
         return 'circle';
-    }
-
-    protected function getPostgresTypeName(): string
-    {
-        return 'CIRCLE';
     }
 
     #[Test]
@@ -43,5 +39,13 @@ final class CircleTypeTest extends TestCase
             'circle with floats' => [CircleValueObject::fromString('<(1.5,2.5),3.5>')],
             'circle with negative center' => [CircleValueObject::fromString('<(-10,-20),5>')],
         ];
+    }
+
+    #[Test]
+    public function rejects_non_value_object_before_database_write(): void
+    {
+        $this->expectException(InvalidCircleForPHPException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '<(0,0),1>');
     }
 }

@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForDatabaseException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+
 class RealArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
         return 'real[]';
-    }
-
-    protected function getPostgresTypeName(): string
-    {
-        return 'REAL[]';
     }
 
     /**
@@ -33,6 +32,26 @@ class RealArrayTypeTest extends ArrayTypeTestCase
             'real array with zero' => [[0.0, 1.5, -1.5]],
             'empty real array' => [[]],
             'real array with large numbers' => [[3.402823e+6, -3.402823e+6]],
+        ];
+    }
+
+    #[DataProvider('provideInvalidItems')]
+    #[Test]
+    public function rejects_invalid_item(mixed $item): void
+    {
+        $this->expectException(InvalidFloatArrayItemForDatabaseException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), [$item]);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidItems(): array
+    {
+        return [
+            'non-numeric boolean' => [true],
+            'excess decimal precision' => ['1.1234567'],
         ];
     }
 }

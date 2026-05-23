@@ -14,11 +14,6 @@ class TextArrayTypeTest extends ArrayTypeTestCase
         return 'text[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'TEXT[]';
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[DataProvider('provideGithubIssue424TestCases')]
     #[DataProvider('provideGithubIssue482TestCases')]

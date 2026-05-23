@@ -14,11 +14,6 @@ class TsqueryArrayTypeTest extends ArrayTypeTestCase
         return 'tsquery[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'TSQUERY[]';
-    }
-
     /**
      * @return array<string, array{array<int, string|null>}>
      */

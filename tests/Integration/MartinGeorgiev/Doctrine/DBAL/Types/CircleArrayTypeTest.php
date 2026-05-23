@@ -13,11 +13,6 @@ class CircleArrayTypeTest extends ArrayTypeTestCase
         return 'circle[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'CIRCLE[]';
-    }
-
     /**
      * @return array<string, array{array<int, CircleValueObject>}>
      */

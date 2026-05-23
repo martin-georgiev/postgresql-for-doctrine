@@ -15,11 +15,6 @@ class CidrTypeTest extends ScalarTypeTestCase
         return 'cidr';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'CIDR';
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(string $testValue): void

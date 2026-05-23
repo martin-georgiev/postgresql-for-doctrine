@@ -15,11 +15,6 @@ class NumRangeTypeTest extends RangeTypeTestCase
         return 'numrange';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'NUMRANGE';
-    }
-
     /**
      * @return array<string, array{NumRangeValueObject}>
      */

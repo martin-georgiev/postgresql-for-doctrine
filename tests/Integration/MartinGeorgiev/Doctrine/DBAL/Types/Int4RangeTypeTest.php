@@ -14,11 +14,6 @@ class Int4RangeTypeTest extends RangeTypeTestCase
         return 'int4range';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'INT4RANGE';
-    }
-
     /**
      * @return array<string, array{Int4RangeValueObject}>
      */

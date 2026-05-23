@@ -14,11 +14,6 @@ class JsonbTypeTest extends TestCase
         return 'jsonb';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'JSONB';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

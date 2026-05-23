@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsqueryForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -12,11 +13,6 @@ class TsqueryTypeTest extends ScalarTypeTestCase
     protected function getTypeName(): string
     {
         return 'tsquery';
-    }
-
-    protected function getPostgresTypeName(): string
-    {
-        return 'TSQUERY';
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -41,5 +37,13 @@ class TsqueryTypeTest extends ScalarTypeTestCase
             'NOT query' => ["!'cat'"],
             'complex query' => ["'fat' & ( 'cat' | 'rat' )"],
         ];
+    }
+
+    #[Test]
+    public function rejects_empty_string_before_database_write(): void
+    {
+        $this->expectException(InvalidTsqueryForPHPException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '');
     }
 }

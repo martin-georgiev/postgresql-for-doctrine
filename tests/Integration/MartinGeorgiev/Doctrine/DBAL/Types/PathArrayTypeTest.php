@@ -13,11 +13,6 @@ class PathArrayTypeTest extends ArrayTypeTestCase
         return 'path[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'PATH[]';
-    }
-
     /**
      * @return array<string, array{array<int, PathValueObject>}>
      */

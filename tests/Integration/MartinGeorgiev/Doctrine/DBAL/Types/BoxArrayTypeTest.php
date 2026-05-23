@@ -13,11 +13,6 @@ class BoxArrayTypeTest extends ArrayTypeTestCase
         return 'box[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'BOX[]';
-    }
-
     /**
      * @return array<string, array{array<int, BoxValueObject>}>
      */

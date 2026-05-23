@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLsegForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Lseg as LsegValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,11 +14,6 @@ final class LsegTypeTest extends TestCase
     protected function getTypeName(): string
     {
         return 'lseg';
-    }
-
-    protected function getPostgresTypeName(): string
-    {
-        return 'LSEG';
     }
 
     #[Test]
@@ -43,5 +39,13 @@ final class LsegTypeTest extends TestCase
             'segment with floats' => [LsegValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
             'segment with negative coordinates' => [LsegValueObject::fromString('[(-1,-2),(-3,-4)]')],
         ];
+    }
+
+    #[Test]
+    public function rejects_non_value_object_before_database_write(): void
+    {
+        $this->expectException(InvalidLsegForPHPException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '[(0,0),(1,1)]');
     }
 }

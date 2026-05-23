@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,11 +16,6 @@ class PointTypeTest extends TestCase
     protected function getTypeName(): string
     {
         return 'point';
-    }
-
-    protected function getPostgresTypeName(): string
-    {
-        return 'POINT';
     }
 
     #[Test]
@@ -65,5 +61,13 @@ class PointTypeTest extends TestCase
             'high precision' => [new PointValueObject(123.456789, -987.654321)],
             'integer coordinates' => [new PointValueObject(100, 200)],
         ];
+    }
+
+    #[Test]
+    public function rejects_non_value_object_before_database_write(): void
+    {
+        $this->expectException(InvalidPointForPHPException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '(1.0,2.0)');
     }
 }

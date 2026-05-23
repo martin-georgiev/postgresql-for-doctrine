@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLtreeForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,11 +16,6 @@ final class LtreeTypeTest extends TestCase
     protected function getTypeName(): string
     {
         return 'ltree';
-    }
-
-    protected function getPostgresTypeName(): string
-    {
-        return 'LTREE';
     }
 
     #[Test]
@@ -76,6 +72,26 @@ final class LtreeTypeTest extends TestCase
             'ltree simple numeric' => [new LtreeValueObject(['1', '2', '3'])],
             'ltree single numeric' => [new LtreeValueObject(['1'])],
             'ltree empty' => [new LtreeValueObject([])],
+        ];
+    }
+
+    #[DataProvider('provideInvalidValues')]
+    #[Test]
+    public function rejects_invalid_value_before_database_write(mixed $value): void
+    {
+        $this->expectException(InvalidLtreeForDatabaseException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $value);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidValues(): array
+    {
+        return [
+            'consecutive dots produce an empty label' => ['root..child'],
+            'non-string value' => [42],
         ];
     }
 }

@@ -14,11 +14,6 @@ class TstzMultirangeTypeTest extends MultirangeTypeTestCase
         return 'tstzmultirange';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'TSTZMULTIRANGE';
-    }
-
     /**
      * @return array<string, array{TstzMultirangeVO}>
      */
