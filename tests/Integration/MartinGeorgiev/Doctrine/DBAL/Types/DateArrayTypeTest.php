@@ -29,6 +29,9 @@ class DateArrayTypeTest extends ArrayTypeTestCase
                 new \DateTimeImmutable('2024-02-29'),
                 new \DateTimeImmutable('2000-01-01'),
             ]],
+            'date with time component stripped' => [[
+                new \DateTimeImmutable('2023-06-15 15:30:45'),
+            ]],
             'date with null item' => [[
                 new \DateTimeImmutable('2023-06-15'),
                 null,
@@ -71,6 +74,11 @@ class DateArrayTypeTest extends ArrayTypeTestCase
                     $expectedItem->format('Y-m-d'),
                     $actualItem->format('Y-m-d'),
                     \sprintf('Date mismatch at index %d for type %s', $index, $typeName)
+                );
+                $this->assertSame(
+                    '00:00:00',
+                    $actualItem->format('H:i:s'),
+                    \sprintf('Time component must be zeroed at index %d for type %s', $index, $typeName)
                 );
             }
         }

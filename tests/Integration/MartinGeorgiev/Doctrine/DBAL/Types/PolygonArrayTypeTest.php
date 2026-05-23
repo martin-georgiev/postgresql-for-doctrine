@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPolygonArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Polygon as PolygonValueObject;
+use PHPUnit\Framework\Attributes\Test;
 
 class PolygonArrayTypeTest extends ArrayTypeTestCase
 {
@@ -26,6 +28,15 @@ class PolygonArrayTypeTest extends ArrayTypeTestCase
                 PolygonValueObject::fromString('((0,0),(0,1),(1,1),(1,0))'),
                 PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))'),
             ]],
+            'empty polygon array' => [[]],
         ];
+    }
+
+    #[Test]
+    public function rejects_raw_string_instead_of_value_object(): void
+    {
+        $this->expectException(InvalidPolygonArrayItemForDatabaseException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['((0,0),(1,1),(2,0))']);
     }
 }

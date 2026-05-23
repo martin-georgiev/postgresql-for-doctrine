@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
+use PHPUnit\Framework\Attributes\Test;
 
 class PointArrayTypeTest extends ArrayTypeTestCase
 {
@@ -39,6 +41,14 @@ class PointArrayTypeTest extends ArrayTypeTestCase
             ]],
             'empty point array' => [[]],
         ];
+    }
+
+    #[Test]
+    public function rejects_raw_string_instead_of_value_object(): void
+    {
+        $this->expectException(InvalidPointArrayItemForDatabaseException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['(1.0,2.0)']);
     }
 
     /**

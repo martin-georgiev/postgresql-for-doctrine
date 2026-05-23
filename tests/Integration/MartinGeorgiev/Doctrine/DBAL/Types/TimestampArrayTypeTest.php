@@ -70,8 +70,8 @@ class TimestampArrayTypeTest extends ArrayTypeTestCase
                 $actualItem = $actual[$index];
                 $this->assertInstanceOf(\DateTimeImmutable::class, $actualItem);
                 $this->assertSame(
-                    $expectedItem->format('Y-m-d H:i:s'),
-                    $actualItem->format('Y-m-d H:i:s'),
+                    $expectedItem->format('Y-m-d H:i:s.u'),
+                    $actualItem->format('Y-m-d H:i:s.u'),
                     \sprintf('Timestamp mismatch at index %d for type %s', $index, $typeName)
                 );
             }

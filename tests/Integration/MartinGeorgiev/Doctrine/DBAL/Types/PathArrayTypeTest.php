@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPathArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Path as PathValueObject;
+use PHPUnit\Framework\Attributes\Test;
 
 class PathArrayTypeTest extends ArrayTypeTestCase
 {
@@ -26,6 +28,15 @@ class PathArrayTypeTest extends ArrayTypeTestCase
                 PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
                 PathValueObject::fromString('((0,0),(1,1),(2,0))'),
             ]],
+            'empty path array' => [[]],
         ];
+    }
+
+    #[Test]
+    public function rejects_raw_string_instead_of_value_object(): void
+    {
+        $this->expectException(InvalidPathArrayItemForDatabaseException::class);
+
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['[(0,0),(1,1),(2,0)]']);
     }
 }
