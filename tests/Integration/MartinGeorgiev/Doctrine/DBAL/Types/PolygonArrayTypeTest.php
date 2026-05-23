@@ -13,11 +13,6 @@ class PolygonArrayTypeTest extends ArrayTypeTestCase
         return 'polygon[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'POLYGON[]';
-    }
-
     /**
      * @return array<string, array{array<int, PolygonValueObject>}>
      */

@@ -15,11 +15,6 @@ final class BoxTypeTest extends TestCase
         return 'box';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'BOX';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

@@ -14,11 +14,6 @@ class UuidArrayTypeTest extends ArrayTypeTestCase
         return 'uuid[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'UUID[]';
-    }
-
     /**
      * @return array<string, array{array<int, string>}>
      */

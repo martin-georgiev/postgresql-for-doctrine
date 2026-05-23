@@ -15,11 +15,6 @@ class MoneyTypeTest extends ScalarTypeTestCase
         return 'money';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'MONEY';
-    }
-
     #[DataProvider('provideValidRoundTrips')]
     #[Test]
     public function can_transform_from_php_value(string $testValue): void

@@ -15,11 +15,6 @@ final class LineTypeTest extends TestCase
         return 'line';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'LINE';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

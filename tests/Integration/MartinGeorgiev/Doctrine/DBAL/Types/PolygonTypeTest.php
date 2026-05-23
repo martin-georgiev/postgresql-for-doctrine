@@ -15,11 +15,6 @@ final class PolygonTypeTest extends TestCase
         return 'polygon';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'POLYGON';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

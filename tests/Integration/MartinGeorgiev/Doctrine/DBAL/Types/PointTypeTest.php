@@ -17,11 +17,6 @@ class PointTypeTest extends TestCase
         return 'point';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'POINT';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

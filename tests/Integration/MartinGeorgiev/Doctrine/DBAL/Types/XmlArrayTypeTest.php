@@ -14,11 +14,6 @@ class XmlArrayTypeTest extends ArrayTypeTestCase
         return 'xml[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'XML[]';
-    }
-
     /**
      * @return array<string, array{array<int, string|null>}>
      */

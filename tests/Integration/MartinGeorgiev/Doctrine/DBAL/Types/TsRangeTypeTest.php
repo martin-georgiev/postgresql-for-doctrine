@@ -15,11 +15,6 @@ class TsRangeTypeTest extends RangeTypeTestCase
         return 'tsrange';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'TSRANGE';
-    }
-
     /**
      * @return array<string, array{TsRangeValueObject}>
      */

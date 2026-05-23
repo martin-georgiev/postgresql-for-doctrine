@@ -15,11 +15,6 @@ class DateArrayTypeTest extends ArrayTypeTestCase
         return Type::DATE_ARRAY;
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'DATE[]';
-    }
-
     /**
      * @return array<string, array{array<int, \DateTimeImmutable|null>}>
      */

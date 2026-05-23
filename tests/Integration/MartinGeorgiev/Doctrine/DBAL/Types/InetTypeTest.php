@@ -15,11 +15,6 @@ class InetTypeTest extends ScalarTypeTestCase
         return 'inet';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'INET';
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(string $testValue): void

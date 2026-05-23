@@ -15,11 +15,6 @@ class MacaddrTypeTest extends ScalarTypeTestCase
         return 'macaddr';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'MACADDR';
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(string $testValue): void

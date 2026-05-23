@@ -15,11 +15,6 @@ final class CircleTypeTest extends TestCase
         return 'circle';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'CIRCLE';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

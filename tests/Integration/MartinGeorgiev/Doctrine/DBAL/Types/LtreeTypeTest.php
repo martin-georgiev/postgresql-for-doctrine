@@ -17,11 +17,6 @@ final class LtreeTypeTest extends TestCase
         return 'ltree';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'LTREE';
-    }
-
     #[Test]
     public function can_handle_null_values(): void
     {

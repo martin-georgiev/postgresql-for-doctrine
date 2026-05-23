@@ -16,11 +16,6 @@ class IntervalArrayTypeTest extends ArrayTypeTestCase
         return Type::INTERVAL_ARRAY;
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'INTERVAL[]';
-    }
-
     /**
      * @return array<string, array{array<int, IntervalValueObject>}>
      */

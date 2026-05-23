@@ -17,11 +17,6 @@ class LtreeArrayTypeTest extends ArrayTypeTestCase
         return 'ltree[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'LTREE[]';
-    }
-
     /**
      * @return array<string, array{array<int, LtreeValueObject|null>}>
      */

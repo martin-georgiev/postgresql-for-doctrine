@@ -11,11 +11,6 @@ class BooleanArrayTypeTest extends ArrayTypeTestCase
         return 'bool[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'BOOL[]';
-    }
-
     /**
      * @return array<string, array{array<int, bool>}>
      */

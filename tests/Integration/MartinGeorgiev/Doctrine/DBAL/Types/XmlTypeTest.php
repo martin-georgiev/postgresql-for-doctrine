@@ -15,11 +15,6 @@ class XmlTypeTest extends ScalarTypeTestCase
         return 'xml';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'XML';
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(string $testValue): void

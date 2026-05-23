@@ -14,11 +14,6 @@ class CidrArrayTypeTest extends ArrayTypeTestCase
         return 'cidr[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'CIDR[]';
-    }
-
     /**
      * @return array<string, array{array<int, string|null>}>
      */

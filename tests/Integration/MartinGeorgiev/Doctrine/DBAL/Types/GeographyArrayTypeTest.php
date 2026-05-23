@@ -15,11 +15,6 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
         return 'geography[]';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'GEOGRAPHY[]';
-    }
-
     protected function getSelectExpression(string $columnName): string
     {
         return \sprintf(

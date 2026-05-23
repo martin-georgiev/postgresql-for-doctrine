@@ -15,11 +15,6 @@ class DateRangeTypeTest extends RangeTypeTestCase
         return 'daterange';
     }
 
-    protected function getPostgresTypeName(): string
-    {
-        return 'DATERANGE';
-    }
-
     /**
      * @return array<string, array{DateRangeValueObject}>
      */
