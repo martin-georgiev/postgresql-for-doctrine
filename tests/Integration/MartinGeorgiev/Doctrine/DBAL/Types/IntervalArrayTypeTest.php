@@ -57,17 +57,12 @@ class IntervalArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_string_item(): void
+    public function can_handle_string_items(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
-            $typeName,
-            $columnType,
-            ['1 year'],
-            [IntervalValueObject::fromString('1 year')]
-        );
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['1 year', '1 hour']);
     }
 
     #[DataProvider('provideInvalidItems')]
@@ -106,6 +101,12 @@ class IntervalArrayTypeTest extends ArrayTypeTestCase
         foreach ($expected as $index => $expectedItem) {
             if ($expectedItem === null) {
                 $this->assertNull($actual[$index]);
+
+                continue;
+            }
+
+            if (\is_string($expectedItem)) {
+                $this->assertIntervalEquals($expectedItem, $actual[$index], $typeName);
 
                 continue;
             }
