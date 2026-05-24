@@ -31,6 +31,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForPHPException;
  */
 abstract class Enum extends BaseType
 {
+    /**
+     * @return class-string<\BackedEnum>
+     */
     abstract protected function getEnumClass(): string;
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string

@@ -8,6 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Fixtures\MartinGeorgiev\Doctrine\Colors;
 use Fixtures\MartinGeorgiev\Doctrine\ConcreteColorType;
 use Fixtures\MartinGeorgiev\Doctrine\Sizes;
+use MartinGeorgiev\Doctrine\DBAL\Types\Enum;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -131,5 +132,22 @@ class EnumTest extends TestCase
         $this->expectException(InvalidEnumForPHPException::class);
 
         $this->fixture->convertToPHPValue('purple', $this->platform);
+    }
+
+    #[Test]
+    public function throws_for_non_backed_enum_class_in_php_value(): void
+    {
+        $type = new class extends Enum {
+            protected const TYPE_NAME = 'test_non_backed';
+
+            protected function getEnumClass(): string
+            {
+                return \stdClass::class; // @phpstan-ignore-line
+            }
+        };
+
+        $this->expectException(InvalidEnumForPHPException::class);
+
+        $type->convertToPHPValue('any_value', $this->platform);
     }
 }
