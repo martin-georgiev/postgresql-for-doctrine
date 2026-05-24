@@ -59,6 +59,16 @@ final class Type
     /**
      * @var string
      */
+    public const CITEXT = 'citext';
+
+    /**
+     * @var string
+     */
+    public const CITEXT_ARRAY = 'citext[]';
+
+    /**
+     * @var string
+     */
     public const CIDR = 'cidr';
 
     /**
