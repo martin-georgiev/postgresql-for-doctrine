@@ -177,4 +177,24 @@ class ByteaArrayTest extends TestCase
             'boolean' => [true],
         ];
     }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
+    {
+        $this->expectException(InvalidBytesArrayItemForPHPException::class);
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return [
+            'non-string item' => ['{42}'],
+            'without hex prefix' => ['{"hello"}'],
+            'invalid hex content' => ['{"\\\\xZZZZ"}'],
+        ];
+    }
 }

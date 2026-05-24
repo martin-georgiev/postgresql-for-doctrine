@@ -47,13 +47,17 @@ class ByteaArray extends BaseStringArray
             return null;
         }
 
-        if (\str_starts_with($result, '\\x')) {
-            $decoded = \hex2bin(\substr($result, 2));
-
-            return $decoded !== false ? $decoded : $result;
+        if (!\str_starts_with($result, '\\x')) {
+            throw InvalidBytesArrayItemForPHPException::forInvalidFormat($result);
         }
 
-        return $result;
+        $decoded = @\hex2bin(\substr($result, 2));
+
+        if ($decoded === false) {
+            throw InvalidBytesArrayItemForPHPException::forInvalidFormat($result);
+        }
+
+        return $decoded;
     }
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidBytesArrayItemForPHPException

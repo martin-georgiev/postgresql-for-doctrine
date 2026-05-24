@@ -27,4 +27,9 @@ class InvalidBytesArrayItemForPHPException extends ConversionException
     {
         return self::create('Value must be an array, %s given', $value);
     }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Array values must be hex-encoded bytea strings starting with \\x, %s given', $value);
+    }
 }

@@ -148,6 +148,8 @@ class ByteaTest extends TestCase
             'array input' => [['not', 'a', 'string']],
             'object input' => [new \stdClass()],
             'boolean input' => [true],
+            'string without hex prefix' => ['hello'],
+            'string with invalid hex content' => ['\\xZZZZ'],
         ];
     }
 }

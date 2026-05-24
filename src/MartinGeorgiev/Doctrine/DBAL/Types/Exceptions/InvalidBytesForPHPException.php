@@ -22,4 +22,9 @@ class InvalidBytesForPHPException extends ConversionException
     {
         return self::create('Value must be a string, %s given', $value);
     }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Value must be a hex-encoded bytea string starting with \\x, %s given', $value);
+    }
 }

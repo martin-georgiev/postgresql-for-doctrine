@@ -54,12 +54,16 @@ final class Bytea extends BaseType
             throw InvalidBytesForPHPException::forInvalidType($value);
         }
 
-        if (\str_starts_with($value, '\\x')) {
-            $decoded = \hex2bin(\substr($value, 2));
-
-            return $decoded !== false ? $decoded : $value;
+        if (!\str_starts_with($value, '\\x')) {
+            throw InvalidBytesForPHPException::forInvalidFormat($value);
         }
 
-        return $value;
+        $decoded = @\hex2bin(\substr($value, 2));
+
+        if ($decoded === false) {
+            throw InvalidBytesForPHPException::forInvalidFormat($value);
+        }
+
+        return $decoded;
     }
 }
