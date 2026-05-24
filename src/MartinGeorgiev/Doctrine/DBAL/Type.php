@@ -124,6 +124,16 @@ final class Type
     /**
      * @var string
      */
+    public const HSTORE = 'hstore';
+
+    /**
+     * @var string
+     */
+    public const HSTORE_ARRAY = 'hstore[]';
+
+    /**
+     * @var string
+     */
     public const INET = 'inet';
 
     /**
