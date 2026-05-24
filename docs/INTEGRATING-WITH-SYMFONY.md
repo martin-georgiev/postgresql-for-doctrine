@@ -489,6 +489,16 @@ doctrine:
                         INNER_PRODUCT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct
                         L2_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance
 
+                        # hstore functions
+                        HSTORE_AKEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreAkeys
+                        HSTORE_AVALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreAvals
+                        HSTORE_DEFINED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreDefined
+                        HSTORE_DELETE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreDelete
+                        HSTORE_SKEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreSkeys
+                        HSTORE_SVALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreSvals
+                        HSTORE_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreToJson
+                        HSTORE_TO_JSON_LOOSE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreToJsonLoose
+
                         # aggregation functions
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg
                         JSON_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg

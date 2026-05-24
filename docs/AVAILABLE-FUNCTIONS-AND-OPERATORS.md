@@ -54,6 +54,11 @@ Complete documentation for PostgreSQL network address operations on `inet` and `
 - **[Network Address Functions](NETWORK-FUNCTIONS.md)**
 - Includes: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK`, `FAMILY`, `MASKLEN`, `ABBREV`, `INET_MERGE`, `INET_SAME_FAMILY`, `SET_MASKLEN`
 
+### **🗃️ Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
+Key-value store operations using the PostgreSQL `hstore` type.
+- **[Hstore Functions](TEXT-AND-PATTERN-FUNCTIONS.md#hstore-functions)**
+- Includes: `HSTORE_AKEYS`, `HSTORE_AVALS`, `HSTORE_SKEYS`, `HSTORE_SVALS`, `HSTORE_TO_JSON`, `HSTORE_TO_JSON_LOOSE`, `HSTORE_DEFINED`, `HSTORE_DELETE`
+
 ### **🌳 Ltree Functions**
 Complete documentation for PostgreSQL ltree (label tree) operations and hierarchical data processing.
 - **[Ltree Functions](LTREE-TYPE.md)**
@@ -110,6 +115,12 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `MASKLEN`/`NETMASK`/`HOSTMASK` - Mask information
 - `INET_MERGE` - Smallest network containing two addresses
 
+**Hstore Operations:** ([Complete documentation](TEXT-AND-PATTERN-FUNCTIONS.md#hstore-functions))
+- `HSTORE_AKEYS` - Return hstore keys as an array
+- `HSTORE_AVALS` - Return hstore values as an array
+- `HSTORE_DEFINED` - Check if key exists and is not NULL
+- `HSTORE_DELETE` - Delete key from hstore
+
 **Ltree Operations:** ([Complete documentation](LTREE-TYPE.md))
 - `SUBLTREE` - Extract subpath from ltree
 - `SUBPATH` - Extract subpath with offset and length
@@ -162,6 +173,13 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **Date Operations**: Add/subtract dates, extract components
 - **Range Types**: Create and work with various range types
 - **Overlap Testing**: Check if date ranges overlap
+
+### **Hstore Functions** (requires hstore extension)
+- **Key Operations**: Get keys as array or set (`akeys`, `skeys`)
+- **Value Operations**: Get values as array or set (`avals`, `svals`)
+- **Inspection**: Check if key is defined and non-NULL (`defined`)
+- **Manipulation**: Delete key from hstore (`delete`)
+- **Conversion**: Convert hstore to JSON, with strict or loose typing (`hstore_to_json`, `hstore_to_json_loose`)
 
 ### **Ltree Functions**
 - **Path Operations**: Extract subpaths, manipulate hierarchical paths

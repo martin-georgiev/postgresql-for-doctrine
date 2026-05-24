@@ -132,6 +132,11 @@ $query = $em->createQuery('
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
   - Special aggregates (`any_value`, `xmlagg`)
+- **Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
+  - Key and value extraction (`akeys`, `avals`, `skeys`, `svals`)
+  - Key inspection (`defined`)
+  - Key deletion (`delete`)
+  - JSON conversion (`hstore_to_json`, `hstore_to_json_loose`)
 - **Mathematical/Arithmetic Functions**
   - Trigonometric functions (`sin`, `cos`, `tan`, `asin`, `acos`, `atan`, degree variants)
   - Hyperbolic functions (`sinh`, `cosh`, `tanh`, `asinh`, `acosh`, `atanh`)

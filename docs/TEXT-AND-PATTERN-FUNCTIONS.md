@@ -41,6 +41,21 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 | regexp_replace | REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace` |
 | regexp_substr | REGEXP_SUBSTR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr` |
 
+## Hstore Functions
+
+> ⚠️ **Note**: These functions require the PostgreSQL `hstore` extension. Enable with `CREATE EXTENSION IF NOT EXISTS hstore;`
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| akeys | HSTORE_AKEYS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreAkeys` |
+| avals | HSTORE_AVALS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreAvals` |
+| defined | HSTORE_DEFINED | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreDefined` |
+| delete | HSTORE_DELETE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreDelete` |
+| hstore_to_json | HSTORE_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreToJson` |
+| hstore_to_json_loose | HSTORE_TO_JSON_LOOSE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreToJsonLoose` |
+| skeys | HSTORE_SKEYS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreSkeys` |
+| svals | HSTORE_SVALS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreSvals` |
+
 ## Text Processing Functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
