@@ -93,6 +93,13 @@ class TsMultirangeArrayTest extends TestCase
                 'phpValue' => [new TsMultirangeValueObject([new TsRange(new \DateTimeImmutable('2024-01-01 09:00:00'), new \DateTimeImmutable('2024-01-01 17:00:00'))]), null],
                 'postgresValue' => '{"{[2024-01-01 09:00:00.000000,2024-01-01 17:00:00.000000)}",NULL}',
             ],
+            'multiple multiranges' => [
+                'phpValue' => [
+                    new TsMultirangeValueObject([new TsRange(new \DateTimeImmutable('2024-01-01 09:00:00'), new \DateTimeImmutable('2024-01-01 17:00:00'))]),
+                    new TsMultirangeValueObject([new TsRange(new \DateTimeImmutable('2024-01-02 10:00:00'), new \DateTimeImmutable('2024-01-02 18:00:00'))]),
+                ],
+                'postgresValue' => '{"{[2024-01-01 09:00:00.000000,2024-01-01 17:00:00.000000)}","{[2024-01-02 10:00:00.000000,2024-01-02 18:00:00.000000)}"}',
+            ],
         ];
     }
 
