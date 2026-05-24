@@ -154,6 +154,11 @@ return [
                 'money[]' => 'money[]',
                 '_money' => 'money[]',
 
+                // Key-value type mappings
+                'hstore' => 'hstore',
+                'hstore[]' => 'hstore[]',
+                '_hstore' => 'hstore[]',
+
                 // Hierarchical type mappings
                 'ltree' => 'ltree',
                 'ltree[]' => 'ltree[]',
@@ -261,6 +266,10 @@ return [
         // Monetary types
         'money' => MartinGeorgiev\Doctrine\DBAL\Types\Money::class,
         'money[]' => MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray::class,
+
+        // Key-value types
+        'hstore' => MartinGeorgiev\Doctrine\DBAL\Types\Hstore::class,
+        'hstore[]' => MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray::class,
 
         // Hierarchical types
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,

@@ -76,6 +76,9 @@
 | geometry | geometry | `MartinGeorgiev\Doctrine\DBAL\Types\Geometry` |
 | geometry[] | _geometry | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
 |---|---|---|
+| hstore | hstore | `MartinGeorgiev\Doctrine\DBAL\Types\Hstore` (see [note](#hstore-type)) |
+| hstore[] | _hstore | `MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray` |
+|---|---|---|
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 | ltree[] | _ltree | `MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray` |
 |---|---|---|
@@ -197,3 +200,15 @@ $money = Money::of(preg_replace('/[^0-9.\-]/', '', $entity->getPrice()), 'USD');
 ```
 
 Note that both examples above assume USD — you must know the currency independently since PostgreSQL does not store it.
+
+---
+
+## Hstore Type
+
+The `hstore` type requires the PostgreSQL [`hstore`](https://www.postgresql.org/docs/18/hstore.html) extension. Enable it with:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS hstore;
+```
+
+It maps to `array<string, string|null>` in PHP. Keys and values are always strings; a `NULL` value in hstore is represented as `null` in PHP.
