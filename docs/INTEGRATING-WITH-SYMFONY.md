@@ -100,6 +100,10 @@ doctrine:
             money: MartinGeorgiev\Doctrine\DBAL\Types\Money
             'money[]': MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray
 
+            # Key-value types
+            hstore: MartinGeorgiev\Doctrine\DBAL\Types\Hstore
+            'hstore[]': MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray
+
             # Hierarchical types
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
             'ltree[]': MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray
@@ -249,6 +253,11 @@ doctrine:
                     money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY
                     'money[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY_ARRAY
                     _money: !php/const MartinGeorgiev\Doctrine\DBAL\Type::MONEY_ARRAY
+
+                    # Key-value type mappings
+                    hstore: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HSTORE
+                    'hstore[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::HSTORE_ARRAY
+                    _hstore: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HSTORE_ARRAY
 
                     # Hierarchical type mappings
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE

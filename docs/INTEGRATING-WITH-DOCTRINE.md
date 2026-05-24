@@ -100,6 +100,10 @@ Type::addType('tsvector[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsvectorArra
 Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
 Type::addType('money[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MoneyArray");
 
+// Key-value types
+Type::addType('hstore', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Hstore");
+Type::addType('hstore[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\HstoreArray");
+
 // Hierarchical types
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 Type::addType('ltree[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtreeArray");
@@ -480,6 +484,11 @@ $platform->registerDoctrineTypeMapping('_tsvector', 'tsvector[]');
 $platform->registerDoctrineTypeMapping('money', 'money');
 $platform->registerDoctrineTypeMapping('money[]', 'money[]');
 $platform->registerDoctrineTypeMapping('_money', 'money[]');
+
+// Key-value type mappings
+$platform->registerDoctrineTypeMapping('hstore', 'hstore');
+$platform->registerDoctrineTypeMapping('hstore[]', 'hstore[]');
+$platform->registerDoctrineTypeMapping('_hstore', 'hstore[]');
 
 // Hierarchical mappings
 $platform->registerDoctrineTypeMapping('ltree','ltree');

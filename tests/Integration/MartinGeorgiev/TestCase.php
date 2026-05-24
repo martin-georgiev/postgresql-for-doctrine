@@ -35,6 +35,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Geography;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geometry;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Hstore;
+use MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Inet;
 use MartinGeorgiev\Doctrine\DBAL\Types\InetArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange;
@@ -282,6 +284,8 @@ abstract class TestCase extends BaseTestCase
             'geography[]' => GeographyArray::class,
             'geometry' => Geometry::class,
             'geometry[]' => GeometryArray::class,
+            'hstore' => Hstore::class,
+            'hstore[]' => HstoreArray::class,
             'inet' => Inet::class,
             'inet[]' => InetArray::class,
             'int4range' => Int4Range::class,
