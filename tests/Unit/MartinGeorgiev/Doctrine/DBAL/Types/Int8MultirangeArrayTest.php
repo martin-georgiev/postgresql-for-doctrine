@@ -156,4 +156,11 @@ class Int8MultirangeArrayTest extends TestCase
             'invalid format in array' => ['{"not-a-multirange"}'],
         ];
     }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidInt8MultirangeArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(42);
+    }
 }
