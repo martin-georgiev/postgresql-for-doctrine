@@ -56,6 +56,13 @@
 | tsmultirange | tsmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange` |
 | tstzmultirange | tstzmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange` |
 |---|---|---|
+| datemultirange[] | _datemultirange | `MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray` |
+| int4multirange[] | _int4multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int4MultirangeArray` |
+| int8multirange[] | _int8multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int8MultirangeArray` |
+| nummultirange[] | _nummultirange | `MartinGeorgiev\Doctrine\DBAL\Types\NumMultirangeArray` |
+| tsmultirange[] | _tsmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TsMultirangeArray` |
+| tstzmultirange[] | _tstzmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirangeArray` |
+|---|---|---|
 | box | box | `MartinGeorgiev\Doctrine\DBAL\Types\Box` |
 | box[] | _box | `MartinGeorgiev\Doctrine\DBAL\Types\BoxArray` |
 | circle | circle | `MartinGeorgiev\Doctrine\DBAL\Types\Circle` |
