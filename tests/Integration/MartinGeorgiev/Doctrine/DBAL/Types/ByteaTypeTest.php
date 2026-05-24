@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -56,11 +57,13 @@ class ByteaTypeTest extends ScalarTypeTestCase
         try {
             $this->connection->executeStatement(
                 \sprintf(
-                    "INSERT INTO %s.%s (\"%s\") VALUES ('\\x68656c6c6f')",
+                    'INSERT INTO %s.%s ("%s") VALUES (?)',
                     self::DATABASE_SCHEMA,
                     $tableName,
                     $columnName
-                )
+                ),
+                [\hex2bin('68656c6c6f')],
+                [ParameterType::BINARY]
             );
 
             $retrieved = $this->fetchConvertedValue($this->getTypeName(), $tableName, $columnName);
