@@ -91,6 +91,8 @@
 | halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` (see [note](#pgvector-types)) |
 | sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` (see [note](#pgvector-types)) |
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` (see [note](#pgvector-types)) |
+|---|---|---|
+| *(user-defined enum)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Enum` (see [Enum Types](ENUM-TYPE.md)) |
 
 ## pgvector Types
 
