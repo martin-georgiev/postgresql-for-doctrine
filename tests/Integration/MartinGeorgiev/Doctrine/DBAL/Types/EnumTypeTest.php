@@ -32,6 +32,7 @@ class EnumTypeTest extends TestCase
         } else {
             Type::overrideType(self::DBAL_TYPE_NAME, ConcreteColorType::class);
         }
+
         $this->connection->getDatabasePlatform()->registerDoctrineTypeMapping(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME);
     }
 
@@ -67,9 +68,9 @@ class EnumTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_php_enum_to_database_and_back(Colors $color): void
+    public function can_transform_php_enum_to_database_and_back(Colors $colors): void
     {
-        $this->runDbalBindingRoundTrip(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME, $color);
+        $this->runDbalBindingRoundTrip(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME, $colors);
     }
 
     /**
