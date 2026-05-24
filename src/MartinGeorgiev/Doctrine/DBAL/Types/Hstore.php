@@ -47,7 +47,7 @@ final class Hstore extends BaseType
         return $this->buildHstoreString($value);
     }
 
-    protected function createInvalidHstoreValueTypeException(mixed $value): ConversionException
+    protected function createInvalidHstoreValueTypeException(mixed $value): InvalidHstoreForDatabaseException
     {
         return InvalidHstoreForDatabaseException::forInvalidType($value);
     }

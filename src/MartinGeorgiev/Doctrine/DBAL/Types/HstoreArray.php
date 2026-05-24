@@ -35,7 +35,7 @@ class HstoreArray extends BaseArray
         return $item === null || \is_array($item);
     }
 
-    protected function createInvalidHstoreValueTypeException(mixed $value): ConversionException
+    protected function createInvalidHstoreValueTypeException(mixed $value): InvalidHstoreArrayItemForDatabaseException
     {
         return InvalidHstoreArrayItemForDatabaseException::forInvalidType($value);
     }
