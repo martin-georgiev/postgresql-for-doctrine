@@ -73,6 +73,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Timetz;
+use MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsquery;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray;
@@ -322,6 +324,8 @@ abstract class TestCase extends BaseTestCase
             'text[]' => TextArray::class,
             'timestamp[]' => TimestampArray::class,
             'timestamptz[]' => TimestampTzArray::class,
+            'timetz' => Timetz::class,
+            'timetz[]' => TimetzArray::class,
             'tsmultirange' => TsMultirange::class,
             'tsquery' => Tsquery::class,
             'tsquery[]' => TsqueryArray::class,
