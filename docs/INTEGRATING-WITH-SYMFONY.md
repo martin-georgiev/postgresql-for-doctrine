@@ -498,6 +498,13 @@ doctrine:
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
                         XML_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
 
+                        # XML functions
+                        XML_IS_WELL_FORMED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed
+                        XMLCOMMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment
+                        XMLCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat
+                        XPATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath
+                        XPATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists
+
                         # data type formatting functions
                         TO_CHAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar
                         TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate

@@ -515,6 +515,13 @@ return [
         'STRING_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class,
         'XML_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class,
 
+        # XML functions
+        'XML_IS_WELL_FORMED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class,
+        'XMLCOMMENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment::class,
+        'XMLCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat::class,
+        'XPATH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class,
+        'XPATH_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class,
+
         # data type formatting functions
         'TO_CHAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class,
         'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,

@@ -138,6 +138,11 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `UUID_EXTRACT_VERSION` - Extract version number from UUID
 - `UUIDV4` - Explicit UUID version 4 generation
 - `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
+- `XML_IS_WELL_FORMED` - Check whether a text string is well-formed XML
+- `XMLCOMMENT` - Create an XML comment
+- `XMLCONCAT` - Concatenate multiple XML values into a single XML value
+- `XPATH` - Evaluate an XPath expression against an XML value
+- `XPATH_EXISTS` - Test if an XPath expression matches any node in an XML value
 
 ## 📋 Summary of Available Function Categories
 

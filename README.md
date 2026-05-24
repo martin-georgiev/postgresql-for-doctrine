@@ -132,6 +132,10 @@ $query = $em->createQuery('
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
   - Special aggregates (`any_value`, `xmlagg`)
+- **XML Functions**
+  - XML creation and manipulation (`xmlcomment`, `xmlconcat`)
+  - XML validation (`xml_is_well_formed`)
+  - XPath querying (`xpath`, `xpath_exists`)
 - **Mathematical/Arithmetic Functions**
   - Trigonometric functions (`sin`, `cos`, `tan`, `asin`, `acos`, `atan`, degree variants)
   - Hyperbolic functions (`sinh`, `cosh`, `tanh`, `asinh`, `acosh`, `atanh`)

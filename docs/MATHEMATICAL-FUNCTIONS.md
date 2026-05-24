@@ -107,7 +107,12 @@ This document covers PostgreSQL mathematical, utility, and miscellaneous functio
 | uuid_extract_version | UUID_EXTRACT_VERSION | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion` |
 | uuidv4 | UUIDV4 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4` |
 | uuidv7 | UUIDV7 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7` |
+| xml_is_well_formed | XML_IS_WELL_FORMED | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed` |
 | xmlagg | XML_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
+| xmlcomment | XMLCOMMENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment` |
+| xmlconcat | XMLCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat` |
+| xpath | XPATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath` |
+| xpath_exists | XPATH_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists` |
 
 ## Usage Examples
 
