@@ -74,6 +74,9 @@ return [
                 '_timestamp' => 'timestamp[]',
                 'timestamptz[]' => 'timestamptz[]',
                 '_timestamptz' => 'timestamptz[]',
+                'timetz' => 'timetz',
+                'timetz[]' => 'timetz[]',
+                '_timetz' => 'timetz[]',
 
                 // JSON type mappings
                 'jsonb' => 'jsonb',
@@ -204,6 +207,8 @@ return [
         'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
         'timestamp[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray::class,
         'timestamptz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray::class,
+        'timetz' => MartinGeorgiev\Doctrine\DBAL\Types\Timetz::class,
+        'timetz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray::class,
 
         // JSON types
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,

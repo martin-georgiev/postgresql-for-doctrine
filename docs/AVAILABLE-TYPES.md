@@ -22,6 +22,8 @@
 | interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
 | timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` |
 | timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` |
+| timetz | timetz | `MartinGeorgiev\Doctrine\DBAL\Types\Timetz` |
+| timetz[] | _timetz | `MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray` |
 |---|---|---|
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
