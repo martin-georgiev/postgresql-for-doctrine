@@ -135,23 +135,21 @@ return [
 
                 // Multirange type mappings
                 'datemultirange' => 'datemultirange',
-                'int4multirange' => 'int4multirange',
-                'int8multirange' => 'int8multirange',
-                'nummultirange' => 'nummultirange',
-                'tsmultirange' => 'tsmultirange',
-                'tstzmultirange' => 'tstzmultirange',
-
-                // Multirange array type mappings
                 'datemultirange[]' => 'datemultirange[]',
                 '_datemultirange' => 'datemultirange[]',
+                'int4multirange' => 'int4multirange',
                 'int4multirange[]' => 'int4multirange[]',
                 '_int4multirange' => 'int4multirange[]',
+                'int8multirange' => 'int8multirange',
                 'int8multirange[]' => 'int8multirange[]',
                 '_int8multirange' => 'int8multirange[]',
+                'nummultirange' => 'nummultirange',
                 'nummultirange[]' => 'nummultirange[]',
                 '_nummultirange' => 'nummultirange[]',
+                'tsmultirange' => 'tsmultirange',
                 'tsmultirange[]' => 'tsmultirange[]',
                 '_tsmultirange' => 'tsmultirange[]',
+                'tstzmultirange' => 'tstzmultirange',
                 'tstzmultirange[]' => 'tstzmultirange[]',
                 '_tstzmultirange' => 'tstzmultirange[]',
 
@@ -265,18 +263,16 @@ return [
 
         // Multirange types
         'datemultirange' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class,
-        'int4multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class,
-        'int8multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class,
-        'nummultirange' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class,
-        'tsmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
-        'tstzmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
-
-        // Multirange array types
         'datemultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray::class,
+        'int4multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class,
         'int4multirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int4MultirangeArray::class,
+        'int8multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class,
         'int8multirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int8MultirangeArray::class,
+        'nummultirange' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class,
         'nummultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirangeArray::class,
+        'tsmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
         'tsmultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirangeArray::class,
+        'tstzmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
         'tstzmultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirangeArray::class,
 
         // Text search types
