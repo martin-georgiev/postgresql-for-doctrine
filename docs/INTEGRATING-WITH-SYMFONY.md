@@ -31,7 +31,7 @@ doctrine:
             'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             'uuid[]': MartinGeorgiev\Doctrine\DBAL\Types\UuidArray
 
-            # Datetime array types
+            # Date and time types
             'date[]': MartinGeorgiev\Doctrine\DBAL\Types\DateArray
             interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
             'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray

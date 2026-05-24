@@ -201,7 +201,7 @@ return [
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
 
-        // Datetime array types
+        // Date and time types
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
         'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
         'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
