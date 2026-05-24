@@ -73,7 +73,7 @@ $query = $em->createQuery('
 - **Range Types**
   - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
   - Numeric ranges (`numrange`, `int4range`, `int8range`)
-  - Multirange arrays (`datemultirange`, `datemultirange[]`, `int4multirange`, `int4multirange[]`, `int8multirange`, `int8multirange[]`, `nummultirange`, `nummultirange[]`, `tsmultirange`, `tsmultirange[]`, `tstzmultirange`, `tstzmultirange[]`)
+  - Multiranges (`datemultirange`, `datemultirange[]`, `int4multirange`, `int4multirange[]`, `int8multirange`, `int8multirange[]`, `nummultirange`, `nummultirange[]`, `tsmultirange`, `tsmultirange[]`, `tstzmultirange`, `tstzmultirange[]`)
 - **Interval Types**
   - Time durations with `DateInterval` support (`interval`, `interval[]`)
 - **Text Search Types**
