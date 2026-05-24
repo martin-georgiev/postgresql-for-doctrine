@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 class EnumTypeTest extends TestCase
 {
-    private const DBAL_TYPE_NAME = 'test_colors';
+    private const DBAL_TYPE_NAME = 'test_color';
 
     protected function setUp(): void
     {
