@@ -11,6 +11,10 @@ Register the DBAL types you plan to use. The **full set** of available types can
 
 use Doctrine\DBAL\Types\Type;
 
+// Binary types
+Type::addType('bytea', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Bytea");
+Type::addType('bytea[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\ByteaArray");
+
 // Bit types
 Type::addType('bit', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Bit");
 Type::addType('bit[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitArray");

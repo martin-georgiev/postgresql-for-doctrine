@@ -49,6 +49,16 @@ final class Type
     /**
      * @var string
      */
+    public const BYTEA = 'bytea';
+
+    /**
+     * @var string
+     */
+    public const BYTEA_ARRAY = 'bytea[]';
+
+    /**
+     * @var string
+     */
     public const CIDR = 'cidr';
 
     /**

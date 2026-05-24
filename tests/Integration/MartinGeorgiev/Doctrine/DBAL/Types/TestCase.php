@@ -93,7 +93,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function runDbalBindingRoundTripExpectingDifferentRetrievedValue(string $typeName, string $columnType, mixed $inputValue, mixed $expectedValue): void
     {
-        $this->assertNotEquals($inputValue, $expectedValue);
+        $this->assertNotSame($inputValue, $expectedValue);
 
         [$tableName, $columnName] = $this->prepareTestTable($columnType);
 

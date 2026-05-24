@@ -32,6 +32,11 @@ return [
             // ... other configuration
 
             'type_mappings' => [
+                // Binary type mappings
+                'bytea' => 'bytea',
+                'bytea[]' => 'bytea[]',
+                '_bytea' => 'bytea[]',
+
                 // Bit type mappings
                 'bit' => 'bit',
                 'bit[]' => 'bit[]',
@@ -168,6 +173,10 @@ return [
     ],
 
     'custom_types' => [
+        // Binary types
+        'bytea' => MartinGeorgiev\Doctrine\DBAL\Types\Bytea::class,
+        'bytea[]' => MartinGeorgiev\Doctrine\DBAL\Types\ByteaArray::class,
+
         // Bit types
         'bit' => MartinGeorgiev\Doctrine\DBAL\Types\Bit::class,
         'bit[]' => MartinGeorgiev\Doctrine\DBAL\Types\BitArray::class,
