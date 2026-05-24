@@ -497,6 +497,37 @@ $platform->registerDoctrineTypeMapping('sparsevec', 'sparsevec');
 $platform->registerDoctrineTypeMapping('vector', 'vector');
 ```
 
+### Mapping User-Defined PostgreSQL Enum Types
+
+For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above. See [ENUM-TYPES.md](ENUM-TYPES.md) for a full example.
+
+
+```php
+<?php
+
+use MartinGeorgiev\Doctrine\DBAL\Types\Enum;
+
+enum Status: string
+{
+    case ACTIVE = 'active';
+    case INACTIVE = 'inactive';
+}
+
+final class StatusType extends Enum
+{
+    protected const TYPE_NAME = 'status'; // must match PostgreSQL enum type name exactly
+
+    protected function getEnumClass(): string
+    {
+        return Status::class;
+    }
+}
+
+// Register like any other type
+Type::addType('status', StatusType::class);
+$platform->registerDoctrineTypeMapping('status', 'status');
+```
+
 ### Usage in Entities
 
 Once types are registered, you can use them in your Doctrine entities:
