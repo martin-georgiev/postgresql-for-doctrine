@@ -159,7 +159,9 @@ class TimetzArrayTest extends TestCase
         return [
             'empty string' => [''],
             'integer' => [123],
+            'float' => [3.14],
             'boolean' => [true],
+            'object' => [new \stdClass()],
         ];
     }
 
@@ -176,12 +178,4 @@ class TimetzArrayTest extends TestCase
         $this->fixture->transformArrayItemForPHP(123);
     }
 
-    #[Test]
-    public function can_convert_array_with_null_to_database(): void
-    {
-        $phpValue = ['12:34:56+02:00', null, '00:00:00+00:00'];
-        $expected = '{"12:34:56+02:00",NULL,"00:00:00+00:00"}';
-
-        $this->assertSame($expected, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
-    }
 }

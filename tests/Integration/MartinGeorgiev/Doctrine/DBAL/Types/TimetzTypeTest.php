@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class TimetzTypeTest extends ScalarTypeTestCase
@@ -13,15 +14,23 @@ class TimetzTypeTest extends ScalarTypeTestCase
         return 'timetz';
     }
 
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_time_with_timezone(): void
+    public function can_transform_from_php_value(string $testValue): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '10:30:00+00');
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $testValue);
     }
 
-    #[Test]
-    public function can_handle_time_with_positive_offset(): void
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideValidTransformations(): array
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), '14:45:00+02');
+        return [
+            'UTC time' => ['10:30:00+00'],
+            'positive offset' => ['14:45:00+02'],
+            'negative offset' => ['08:00:00-05'],
+            'with microseconds' => ['12:34:56.123456+02'],
+        ];
     }
 }
