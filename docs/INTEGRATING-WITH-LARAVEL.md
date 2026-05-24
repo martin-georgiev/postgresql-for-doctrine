@@ -280,7 +280,7 @@ return [
 ];
 ```
 
-> **User-defined enum types**: For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above. See [ENUM-TYPES.md](ENUM-TYPES.md) for a full example.
+> **User-defined enum types**: For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above. See [ENUM-TYPE.md](ENUM-TYPE.md) for a full example.
 
 
 ### Register DQL Functions

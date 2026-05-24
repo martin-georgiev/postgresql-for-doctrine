@@ -499,7 +499,7 @@ $platform->registerDoctrineTypeMapping('vector', 'vector');
 
 ### Mapping User-Defined PostgreSQL Enum Types
 
-For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above. See [ENUM-TYPES.md](ENUM-TYPES.md) for a full example.
+For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above. See [ENUM-TYPE.md](ENUM-TYPE.md) for a full example.
 
 
 ```php
