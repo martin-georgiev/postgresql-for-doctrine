@@ -49,6 +49,13 @@
 | tsrange | tsrange | `MartinGeorgiev\Doctrine\DBAL\Types\TsRange` |
 | tstzrange | tstzrange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzRange` |
 |---|---|---|
+| daterange[] | _daterange | `MartinGeorgiev\Doctrine\DBAL\Types\DateRangeArray` |
+| int4range[] | _int4range | `MartinGeorgiev\Doctrine\DBAL\Types\Int4RangeArray` |
+| int8range[] | _int8range | `MartinGeorgiev\Doctrine\DBAL\Types\Int8RangeArray` |
+| numrange[] | _numrange | `MartinGeorgiev\Doctrine\DBAL\Types\NumRangeArray` |
+| tsrange[] | _tsrange | `MartinGeorgiev\Doctrine\DBAL\Types\TsRangeArray` |
+| tstzrange[] | _tstzrange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzRangeArray` |
+|---|---|---|
 | datemultirange | datemultirange | `MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange` |
 | int4multirange | int4multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange` |
 | int8multirange | int8multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange` |

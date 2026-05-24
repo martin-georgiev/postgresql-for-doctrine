@@ -133,6 +133,20 @@ return [
                 'tsrange' => 'tsrange',
                 'tstzrange' => 'tstzrange',
 
+                // Range array type mappings
+                'daterange[]' => 'daterange[]',
+                '_daterange' => 'daterange[]',
+                'int4range[]' => 'int4range[]',
+                '_int4range' => 'int4range[]',
+                'int8range[]' => 'int8range[]',
+                '_int8range' => 'int8range[]',
+                'numrange[]' => 'numrange[]',
+                '_numrange' => 'numrange[]',
+                'tsrange[]' => 'tsrange[]',
+                '_tsrange' => 'tsrange[]',
+                'tstzrange[]' => 'tstzrange[]',
+                '_tstzrange' => 'tstzrange[]',
+
                 // Multirange type mappings
                 'datemultirange' => 'datemultirange',
                 'int4multirange' => 'int4multirange',
@@ -248,6 +262,14 @@ return [
         'numrange' => MartinGeorgiev\Doctrine\DBAL\Types\NumRange::class,
         'tsrange' => MartinGeorgiev\Doctrine\DBAL\Types\TsRange::class,
         'tstzrange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class,
+
+        // Range array types
+        'daterange[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateRangeArray::class,
+        'int4range[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int4RangeArray::class,
+        'int8range[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int8RangeArray::class,
+        'numrange[]' => MartinGeorgiev\Doctrine\DBAL\Types\NumRangeArray::class,
+        'tsrange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsRangeArray::class,
+        'tstzrange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TstzRangeArray::class,
 
         // Multirange types
         'datemultirange' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class,
