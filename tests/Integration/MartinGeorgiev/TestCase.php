@@ -21,6 +21,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\BitVaryingArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Box;
 use MartinGeorgiev\Doctrine\DBAL\Types\BoxArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Bytea;
+use MartinGeorgiev\Doctrine\DBAL\Types\ByteaArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cidr;
 use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Circle;
@@ -266,6 +268,8 @@ abstract class TestCase extends BaseTestCase
             'bool[]' => BooleanArray::class,
             'box' => Box::class,
             'box[]' => BoxArray::class,
+            'bytea' => Bytea::class,
+            'bytea[]' => ByteaArray::class,
             'cidr' => Cidr::class,
             'circle' => Circle::class,
             'circle[]' => CircleArray::class,

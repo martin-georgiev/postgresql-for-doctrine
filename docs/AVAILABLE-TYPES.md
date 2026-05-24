@@ -2,6 +2,9 @@
 
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
 |---|---|---|
+| bytea | bytea | `MartinGeorgiev\Doctrine\DBAL\Types\Bytea` |
+| bytea[] | _bytea | `MartinGeorgiev\Doctrine\DBAL\Types\ByteaArray` |
+|---|---|---|
 | bit | bit | `MartinGeorgiev\Doctrine\DBAL\Types\Bit` (see [note](#bit-string-types) |
 | bit[] | _bit | `MartinGeorgiev\Doctrine\DBAL\Types\BitArray` |
 | bit varying | varbit | `MartinGeorgiev\Doctrine\DBAL\Types\BitVarying` (see [note](#bit-string-types) |

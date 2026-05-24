@@ -11,6 +11,10 @@ Register the DBAL types you plan to use. The full set of available types can be 
 doctrine:
     dbal:
         types:
+            # Binary types
+            bytea: MartinGeorgiev\Doctrine\DBAL\Types\Bytea
+            'bytea[]': MartinGeorgiev\Doctrine\DBAL\Types\ByteaArray
+
             # Bit types
             bit: MartinGeorgiev\Doctrine\DBAL\Types\Bit
             'bit[]': MartinGeorgiev\Doctrine\DBAL\Types\BitArray
@@ -122,6 +126,11 @@ doctrine:
         connections:
             default:
                 mapping_types:
+                    # Binary type mappings
+                    bytea: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BYTEA
+                    'bytea[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BYTEA_ARRAY
+                    _bytea: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BYTEA_ARRAY
+
                     # Bit type mappings
                     bit: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT
                     'bit[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIT_ARRAY

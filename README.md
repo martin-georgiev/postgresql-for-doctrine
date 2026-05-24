@@ -47,6 +47,8 @@ $query = $em->createQuery('
   - Boolean arrays (`bool[]`)
   - Date arrays (`date[]`, `timestamp[]`, `timestamptz[]`)
   - JSONB arrays (`jsonb[]`)
+- **Binary Types**
+  - Raw binary data (`bytea`, `bytea[]`)
 - **Bit String Types**
   - Fixed-length bit strings (`bit`, `bit[]`)
   - Variable-length bit strings (`bit varying`, `bit varying[]`)
