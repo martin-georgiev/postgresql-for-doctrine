@@ -90,6 +90,10 @@ doctrine:
             tsmultirange: MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange
             tstzmultirange: MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange
 
+            # Case-insensitive text types
+            citext: MartinGeorgiev\Doctrine\DBAL\Types\Citext
+            'citext[]': MartinGeorgiev\Doctrine\DBAL\Types\CitextArray
+
             # Text search types
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
             'tsquery[]': MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray
@@ -163,6 +167,11 @@ doctrine:
                     _text: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
                     'uuid[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
                     _uuid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
+
+                    # Case-insensitive text type mappings
+                    citext: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT
+                    'citext[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT_ARRAY
+                    _citext: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT_ARRAY
 
                     # Datetime array type mappings
                     'date[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY

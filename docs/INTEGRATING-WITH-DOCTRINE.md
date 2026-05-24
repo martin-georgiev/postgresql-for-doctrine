@@ -31,6 +31,10 @@ Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
 
+// Case-insensitive text types
+Type::addType('citext', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Citext");
+Type::addType('citext[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CitextArray");
+
 // Datetime array types
 Type::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
 Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
@@ -394,6 +398,11 @@ $platform->registerDoctrineTypeMapping('text[]', 'text[]');
 $platform->registerDoctrineTypeMapping('_text', 'text[]');
 $platform->registerDoctrineTypeMapping('uuid[]', 'uuid[]');
 $platform->registerDoctrineTypeMapping('_uuid', 'uuid[]');
+
+// Case-insensitive text type mappings
+$platform->registerDoctrineTypeMapping('citext', 'citext');
+$platform->registerDoctrineTypeMapping('citext[]', 'citext[]');
+$platform->registerDoctrineTypeMapping('_citext', 'citext[]');
 
 // Datetime array type mappings
 $platform->registerDoctrineTypeMapping('date[]', 'date[]');
