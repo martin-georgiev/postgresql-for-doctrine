@@ -85,10 +85,18 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `ST_CONTAINS` - Test spatial containment
 
 **Text Operations:** ([Complete documentation](TEXT-AND-PATTERN-FUNCTIONS.md))
+- `ASCII` - Get numeric code of first character
+- `BTRIM`/`LTRIM`/`RTRIM` - Trim characters from string ends
 - `CASEFOLD` - Advanced case-insensitive text comparison with Unicode support
+- `CHR` - Get character from code point
 - `ILIKE` - Case-insensitive pattern matching
+- `INITCAP` - Capitalize first letter of each word
+- `LPAD`/`RPAD` - Left/right pad a string to a given length
+- `QUOTE_IDENT`/`QUOTE_LITERAL`/`QUOTE_NULLABLE` - Quote SQL identifiers and literals
 - `REGEXP` (`~`) - Regular expression matching
 - `STARTS_WITH` - Test if text starts with a substring
+- `STRPOS` - Find position of substring
+- `TRANSLATE` - Replace characters in a string
 - `LEVENSHTEIN` - Calculate edit distance between strings (fuzzy matching)
 - `SOUNDEX` - Phonetic encoding for similarity matching
 
@@ -154,7 +162,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 
 ### **Text & Pattern Functions**
 - **Regexp Functions**: Pattern matching and replacement
-- **Text Functions**: String manipulation and searching
+- **Text Functions**: String manipulation and searching (`ascii`, `btrim`, `chr`, `initcap`, `lpad`, `ltrim`, `octet_length`, `quote_ident`, `quote_literal`, `quote_nullable`, `rpad`, `rtrim`, `strpos`, `translate`, and more)
 - **Full-Text Search**: PostgreSQL's text search capabilities
 - **Fuzzy String Matching**: Phonetic and edit distance algorithms (fuzzystrmatch extension)
 

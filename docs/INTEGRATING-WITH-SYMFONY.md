@@ -331,9 +331,26 @@ doctrine:
                         ARRAY_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson
                         ARRAY_TO_STRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString
                         ARRAY_UPPER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper
+                        ASCII: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ascii
+                        BTRIM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Btrim
+                        CHAR_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CharLength
+                        CHR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Chr
+                        DECODE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Decode
+                        ENCODE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Encode
+                        INITCAP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Initcap
+                        LPAD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lpad
+                        LTRIM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltrim
+                        OCTET_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OctetLength
+                        QUOTE_IDENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteIdent
+                        QUOTE_LITERAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteLiteral
+                        QUOTE_NULLABLE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteNullable
+                        RPAD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rpad
+                        RTRIM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rtrim
                         SPLIT_PART: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart
                         STARTS_WITH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith
+                        STRPOS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
+                        TRANSLATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate
                         UNNEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest
 
                         # json specific functions
