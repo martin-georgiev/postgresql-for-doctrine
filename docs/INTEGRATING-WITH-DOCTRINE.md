@@ -84,11 +84,17 @@ Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 
 // Multirange types
 Type::addType('datemultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateMultirange");
+Type::addType('datemultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateMultirangeArray");
 Type::addType('int4multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Multirange");
+Type::addType('int4multirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4MultirangeArray");
 Type::addType('int8multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Multirange");
+Type::addType('int8multirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8MultirangeArray");
 Type::addType('nummultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirange");
+Type::addType('nummultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirangeArray");
 Type::addType('tsmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsMultirange");
+Type::addType('tsmultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsMultirangeArray");
 Type::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMultirange");
+Type::addType('tstzmultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMultirangeArray");
 
 // Text search types
 Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
@@ -466,11 +472,23 @@ $platform->registerDoctrineTypeMapping('tstzrange', 'tstzrange');
 
 // Multirange type mappings
 $platform->registerDoctrineTypeMapping('datemultirange', 'datemultirange');
+$platform->registerDoctrineTypeMapping('_datemultirange', 'datemultirange[]');
+$platform->registerDoctrineTypeMapping('datemultirange[]', 'datemultirange[]');
 $platform->registerDoctrineTypeMapping('int4multirange', 'int4multirange');
+$platform->registerDoctrineTypeMapping('int4multirange[]', 'int4multirange[]');
+$platform->registerDoctrineTypeMapping('_int4multirange', 'int4multirange[]');
 $platform->registerDoctrineTypeMapping('int8multirange', 'int8multirange');
+$platform->registerDoctrineTypeMapping('int8multirange[]', 'int8multirange[]');
+$platform->registerDoctrineTypeMapping('_int8multirange', 'int8multirange[]');
 $platform->registerDoctrineTypeMapping('nummultirange', 'nummultirange');
+$platform->registerDoctrineTypeMapping('nummultirange[]', 'nummultirange[]');
+$platform->registerDoctrineTypeMapping('_nummultirange', 'nummultirange[]');
 $platform->registerDoctrineTypeMapping('tsmultirange', 'tsmultirange');
+$platform->registerDoctrineTypeMapping('tsmultirange[]', 'tsmultirange[]');
+$platform->registerDoctrineTypeMapping('_tsmultirange', 'tsmultirange[]');
 $platform->registerDoctrineTypeMapping('tstzmultirange', 'tstzmultirange');
+$platform->registerDoctrineTypeMapping('tstzmultirange[]', 'tstzmultirange[]');
+$platform->registerDoctrineTypeMapping('_tstzmultirange', 'tstzmultirange[]');
 
 // Text search type mappings
 $platform->registerDoctrineTypeMapping('tsquery', 'tsquery');
