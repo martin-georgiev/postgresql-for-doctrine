@@ -157,6 +157,51 @@ class NumMultirangeArrayTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideValidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_valid_array_item_for_database(mixed $value): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'empty multirange' => [new NumericMultirangeValueObject([])],
+            'single range multirange' => [new NumericMultirangeValueObject([new NumericRange(1, 10)])],
+            'null item' => [null],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    {
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidArrayItemsForDatabase(): array
+    {
+        return [
+            'string' => ['not-a-multirange'],
+            'integer' => [42],
+            'boolean' => [true],
+            'object' => [new \stdClass()],
+        ];
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
     #[Test]
     public function throws_exception_for_non_string_item_from_database(): void
     {
