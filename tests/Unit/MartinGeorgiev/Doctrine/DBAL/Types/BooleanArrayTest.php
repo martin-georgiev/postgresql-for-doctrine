@@ -35,7 +35,7 @@ final class BooleanArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue, ?array $platformValue): void
     {
         $this->platform->method('convertBooleansToDatabaseValue')
             ->with($phpValue)
@@ -46,7 +46,7 @@ final class BooleanArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue = null): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue = null): void
     {
         $this->platform->method('convertFromBoolean')
             ->with($this->anything())

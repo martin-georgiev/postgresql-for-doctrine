@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
 /**
  * @extends BaseMultirangeTypeTestCase<DateMultirangeVO>
  */
-class DateMultirangeTest extends BaseMultirangeTypeTestCase
+final class DateMultirangeTest extends BaseMultirangeTypeTestCase
 {
     protected function createMultirangeType(): DateMultirange
     {

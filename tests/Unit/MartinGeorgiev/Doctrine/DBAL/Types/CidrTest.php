@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class CidrTest extends TestCase
+final class CidrTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -36,14 +36,14 @@ class CidrTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?string $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(?string $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?string $phpValue, ?string $postgresValue): void
+    public function converts_to_php_value(?string $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
