@@ -16,7 +16,7 @@ final class WktSpatialDataTest extends TestCase
 {
     #[DataProvider('provideValidWkt')]
     #[Test]
-    public function creates_from_wkt(string $wkt, string $expectedType, ?int $expectedSrid): void
+    public function parses_from_wkt(string $wkt, string $expectedType, ?int $expectedSrid): void
     {
         $wktSpatialData = WktSpatialData::fromWkt($wkt);
 

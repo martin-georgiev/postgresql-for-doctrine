@@ -15,7 +15,7 @@ class PathTest extends TestCase
 {
     #[DataProvider('provideValidPathStrings')]
     #[Test]
-    public function creates_from_string(string $value, string $expectedOutput): void
+    public function parses_from_string(string $value, string $expectedOutput): void
     {
         $path = Path::fromString($value);
         $this->assertSame($expectedOutput, (string) $path);

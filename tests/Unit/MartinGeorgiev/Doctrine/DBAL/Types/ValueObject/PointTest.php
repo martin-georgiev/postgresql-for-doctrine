@@ -14,7 +14,7 @@ class PointTest extends TestCase
 {
     #[DataProvider('provideValidPointStrings')]
     #[Test]
-    public function creates_from_string(string $input, string $expectedOutput): void
+    public function parses_from_string(string $input, string $expectedOutput): void
     {
         $point = Point::fromString($input);
         $this->assertSame($expectedOutput, (string) $point);

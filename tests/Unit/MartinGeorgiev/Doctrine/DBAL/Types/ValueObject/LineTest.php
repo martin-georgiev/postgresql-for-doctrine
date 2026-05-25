@@ -14,7 +14,7 @@ class LineTest extends TestCase
 {
     #[DataProvider('provideValidLineStrings')]
     #[Test]
-    public function creates_from_string(string $input, string $expectedOutput): void
+    public function parses_from_string(string $input, string $expectedOutput): void
     {
         $line = Line::fromString($input);
         $this->assertSame($expectedOutput, (string) $line);

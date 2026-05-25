@@ -90,7 +90,7 @@ final class Int8RangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_handle_large_values(): void
+    public function accepts_large_values(): void
     {
         $int8Range = new Int8Range(PHP_INT_MIN, PHP_INT_MAX);
 

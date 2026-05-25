@@ -15,7 +15,7 @@ class PolygonTest extends TestCase
 {
     #[DataProvider('provideValidPolygonStrings')]
     #[Test]
-    public function creates_from_string(string $value, string $expectedOutput): void
+    public function parses_from_string(string $value, string $expectedOutput): void
     {
         $polygon = Polygon::fromString($value);
         $this->assertSame($expectedOutput, (string) $polygon);

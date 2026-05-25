@@ -64,7 +64,7 @@ final class LtreeTest extends TestCase
      */
     #[DataProvider('provideValidRepresentation')]
     #[Test]
-    public function creates_from_string(string $value, array $expected): void
+    public function parses_from_string(string $value, array $expected): void
     {
         $ltree = Ltree::fromString($value);
         $this->assertSame($expected, $ltree->getPathFromRoot());

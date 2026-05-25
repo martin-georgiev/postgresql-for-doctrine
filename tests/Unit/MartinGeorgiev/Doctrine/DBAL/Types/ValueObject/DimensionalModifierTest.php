@@ -13,7 +13,7 @@ final class DimensionalModifierTest extends TestCase
 {
     #[DataProvider('provideValidDimensionalModifiers')]
     #[Test]
-    public function can_create_from_string(string $modifierString, DimensionalModifier $dimensionalModifier): void
+    public function parses_from_string(string $modifierString, DimensionalModifier $dimensionalModifier): void
     {
         $modifier = DimensionalModifier::from($modifierString);
 

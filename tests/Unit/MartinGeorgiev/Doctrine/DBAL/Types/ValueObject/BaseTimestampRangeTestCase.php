@@ -103,7 +103,7 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_handle_microsecond_precision(): void
+    public function preserves_microsecond_precision(): void
     {
         $earlier = $this->createTimeWithMicroseconds('2023-01-01 10:00:00.123456');
         $later = $this->createTimeWithMicroseconds('2023-01-01 10:00:00.654321');
@@ -116,7 +116,7 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_handle_different_datetime_implementations(): void
+    public function accepts_different_datetime_implementations(): void
     {
         $dateTime = new \DateTimeImmutable($this->getTestStartTimeString());
         $dateTimeImmutable = new \DateTimeImmutable($this->getTestEndTimeString());

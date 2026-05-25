@@ -15,7 +15,7 @@ class LsegTest extends TestCase
 {
     #[DataProvider('provideValidLsegStrings')]
     #[Test]
-    public function creates_from_string(string $input, string $expectedOutput): void
+    public function parses_from_string(string $input, string $expectedOutput): void
     {
         $lseg = Lseg::fromString($input);
         $this->assertSame($expectedOutput, (string) $lseg);
