@@ -80,6 +80,8 @@ $query = $em->createQuery('
 - **Text Search Types**
   - Full-text search document (`tsvector`, `tsvector[]`)
   - Full-text search query (`tsquery`, `tsquery[]`)
+- **Case-Insensitive Text Types** (requires [citext](https://www.postgresql.org/docs/18/citext.html) extension)
+  - Case-insensitive text (`citext`, `citext[]`)
 - **Key-Value Types** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
   - Key-value store (`hstore`, `hstore[]`)
 - **Monetary Types**

@@ -29,6 +29,8 @@
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
 | text[] | _text | `MartinGeorgiev\Doctrine\DBAL\Types\TextArray` |
 | uuid[] | _uuid | `MartinGeorgiev\Doctrine\DBAL\Types\UuidArray` (see [note](#uuid-array-type)) |
+| citext | citext | `MartinGeorgiev\Doctrine\DBAL\Types\Citext` (see [note](#citext-type)) |
+| citext[] | _citext | `MartinGeorgiev\Doctrine\DBAL\Types\CitextArray` |
 |---|---|---|
 | cidr | cidr | `MartinGeorgiev\Doctrine\DBAL\Types\Cidr` |
 | cidr[] | _cidr | `MartinGeorgiev\Doctrine\DBAL\Types\CidrArray` |
@@ -228,3 +230,17 @@ CREATE EXTENSION IF NOT EXISTS hstore;
 ```
 
 It maps to `array<string, string|null>` in PHP. Keys and values are always strings; a `NULL` value in hstore is represented as `null` in PHP.
+
+---
+
+## Citext Type
+
+The `citext` type requires the PostgreSQL [`citext`](https://www.postgresql.org/docs/18/citext.html) extension. Enable it with:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS citext;
+```
+
+It is a case-insensitive text type: comparisons are case-insensitive in PostgreSQL while the original casing of values is preserved. It maps to `string` in PHP and behaves identically to `text` for storage and retrieval — the difference is purely in how PostgreSQL evaluates equality and ordering.
+
+Use `citext` when you want case-insensitive lookups (e.g. usernames, email addresses) without lowercasing values on write.

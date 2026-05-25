@@ -64,6 +64,11 @@ return [
                 'uuid[]' => 'uuid[]',
                 '_uuid' => 'uuid[]',
 
+                // Case-insensitive text type mappings
+                'citext' => 'citext',
+                'citext[]' => 'citext[]',
+                '_citext' => 'citext[]',
+
                 // Datetime array type mappings
                 'date[]' => 'date[]',
                 '_date' => 'date[]',
@@ -224,6 +229,10 @@ return [
         'real[]' => MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class,
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
+
+        // Case-insensitive text types
+        'citext' => MartinGeorgiev\Doctrine\DBAL\Types\Citext::class,
+        'citext[]' => MartinGeorgiev\Doctrine\DBAL\Types\CitextArray::class,
 
         // Date and time types
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
