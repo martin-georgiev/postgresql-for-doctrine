@@ -18,7 +18,7 @@ class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function can_use_with_explicit_config(): void
+    public function uses_with_explicit_config(): void
     {
         $dql = "SELECT websearch_to_tsquery('english', '\"sad cat\" or \"fat rat\"') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -26,7 +26,7 @@ class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function can_use_default_config(): void
+    public function uses_default_config(): void
     {
         $dql = "SELECT websearch_to_tsquery('\"sad cat\" or \"fat rat\"') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

@@ -17,7 +17,7 @@ class LevenshteinTest extends TestCase
     }
 
     #[Test]
-    public function can_compute_levenshtein_distance_between_two_strings(): void
+    public function computes_levenshtein_distance_between_two_strings(): void
     {
         $dql = "SELECT LEVENSHTEIN('kitten', 'sitting') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ class LevenshteinTest extends TestCase
     }
 
     #[Test]
-    public function can_compute_levenshtein_distance_between_text_fields(): void
+    public function computes_levenshtein_distance_between_text_fields(): void
     {
         $dql = 'SELECT LEVENSHTEIN(t.text1, t.text2) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -47,7 +47,7 @@ class LevenshteinTest extends TestCase
     }
 
     #[Test]
-    public function can_compute_levenshtein_distance_with_custom_costs(): void
+    public function computes_levenshtein_distance_with_custom_costs(): void
     {
         $dql = "SELECT LEVENSHTEIN('kitten', 'sitting', 1, 2, 3) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -57,7 +57,7 @@ class LevenshteinTest extends TestCase
     }
 
     #[Test]
-    public function can_use_in_where_clause(): void
+    public function uses_in_where_clause(): void
     {
         $dql = "SELECT t.id as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -37,7 +37,7 @@ class LevenshteinLessEqualTest extends TestCase
     }
 
     #[Test]
-    public function can_use_custom_costs(): void
+    public function uses_custom_costs(): void
     {
         $dql = "SELECT LEVENSHTEIN_LESS_EQUAL('kitten', 'sitting', 1, 2, 3, 10) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

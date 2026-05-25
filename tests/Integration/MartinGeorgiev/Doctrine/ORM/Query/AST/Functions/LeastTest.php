@@ -17,7 +17,7 @@ class LeastTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_find_least_of_two_values(): void
+    public function finds_least_of_two_values(): void
     {
         $dql = 'SELECT LEAST(t.id, 100) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
@@ -27,7 +27,7 @@ class LeastTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_find_least_of_multiple_values(): void
+    public function finds_least_of_multiple_values(): void
     {
         $dql = 'SELECT LEAST(5, 1, 3, 2, 4) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
@@ -37,7 +37,7 @@ class LeastTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_compare_column_values(): void
+    public function compares_column_values(): void
     {
         $dql = 'SELECT LEAST(t.id, 0) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 

@@ -23,7 +23,7 @@ class UuidExtractTimestampTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_extract_timestamp_from_uuid_v1(): void
+    public function extracts_timestamp_from_uuid_v1(): void
     {
         $dql = "SELECT UUID_EXTRACT_TIMESTAMP('a0eebc99-9c0b-11d1-b465-00c04fd430c8') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -37,7 +37,7 @@ class UuidExtractTimestampTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_extract_timestamp_from_uuid_v7(): void
+    public function extracts_timestamp_from_uuid_v7(): void
     {
         $this->requirePostgresVersion(180000, 'uuid_extract_timestamp function for UUID v7');
 

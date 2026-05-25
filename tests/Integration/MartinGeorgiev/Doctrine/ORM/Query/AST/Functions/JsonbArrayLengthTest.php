@@ -19,7 +19,7 @@ class JsonbArrayLengthTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_array_length_from_jsonb(): void
+    public function gets_array_length_from_jsonb(): void
     {
         $dql = "SELECT JSONB_ARRAY_LENGTH(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -39,7 +39,7 @@ class JsonbArrayLengthTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_length_of_single_element_array(): void
+    public function gets_length_of_single_element_array(): void
     {
         $dql = "SELECT JSONB_ARRAY_LENGTH(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

@@ -17,7 +17,7 @@ class MetaphoneTest extends TestCase
     }
 
     #[Test]
-    public function can_compute_metaphone_code(): void
+    public function computes_metaphone_code(): void
     {
         $dql = "SELECT METAPHONE('GUMBO', 4) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ class MetaphoneTest extends TestCase
     }
 
     #[Test]
-    public function can_compute_metaphone_from_text_field(): void
+    public function computes_metaphone_from_text_field(): void
     {
         $dql = 'SELECT METAPHONE(t.text1, 10) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
