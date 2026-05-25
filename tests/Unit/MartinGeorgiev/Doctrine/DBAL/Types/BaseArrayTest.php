@@ -36,7 +36,7 @@ final class BaseArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->fixture
             ->method('isValidArrayItemForDatabase')
@@ -47,7 +47,7 @@ final class BaseArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -110,7 +110,7 @@ final class BaseArrayTest extends TestCase
 
     #[DataProvider('provideQuoteAndEscapeArrayItemCases')]
     #[Test]
-    public function can_quote_and_escape_array_item(string $input, string $expected): void
+    public function quotes_and_escape_array_item(string $input, string $expected): void
     {
         $type = new class extends BaseArray {
             protected const TYPE_NAME = 'test';

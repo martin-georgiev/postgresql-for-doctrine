@@ -15,7 +15,7 @@ abstract class BaseNumericArrayTestCase extends TestCase
 
     #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function can_detect_invalid_for_transformation_php_value(mixed $phpValue): void
+    public function detects_invalid_for_transformation_php_value(mixed $phpValue): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
@@ -42,14 +42,14 @@ abstract class BaseNumericArrayTestCase extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(float|int $phpValue, string $postgresValue): void
+    public function converts_to_database_value(float|int $phpValue, string $postgresValue): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(float|int $phpValue, string $postgresValue): void
+    public function converts_to_php_value(float|int $phpValue, string $postgresValue): void
     {
         $this->assertSame($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
     }
@@ -63,7 +63,7 @@ abstract class BaseNumericArrayTestCase extends TestCase
     abstract public static function provideValidTransformations(): array;
 
     #[Test]
-    public function can_transform_null_item_for_php(): void
+    public function converts_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
