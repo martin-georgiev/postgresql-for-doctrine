@@ -87,9 +87,9 @@ class TsRangeArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[DataProvider('provideInvalidTypeInputs')]
     #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
     {
         $this->expectException(InvalidTsRangeArrayItemForPHPException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
@@ -98,7 +98,7 @@ class TsRangeArrayTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValueInputs(): array
+    public static function provideInvalidTypeInputs(): array
     {
         return [
             'string instead of array' => ['not-an-array'],
@@ -107,9 +107,9 @@ class TsRangeArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidArrayItemInputs')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_array_item_inputs(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
         $this->expectException(InvalidTsRangeArrayItemForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
@@ -118,7 +118,7 @@ class TsRangeArrayTest extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidArrayItemInputs(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'array containing strings' => [['[2023-01-01,2023-12-31)']],
@@ -179,5 +179,25 @@ class TsRangeArrayTest extends TestCase
     {
         $this->expectException(InvalidTsRangeArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP(42);
+    }
+
+    #[DataProvider('provideInvalidFormatItemsFromDatabase')]
+    #[Test]
+    public function throws_exception_for_invalid_format_item_from_database(string $value): void
+    {
+        $this->expectException(InvalidTsRangeArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP($value);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidFormatItemsFromDatabase(): array
+    {
+        return [
+            'plain string' => ['not-a-valid-range'],
+            'missing brackets' => ['2023-01-01 00:00:00,2023-12-31 23:59:59'],
+            'incomplete range' => ['[2023-01-01 00:00:00'],
+        ];
     }
 }
