@@ -19,7 +19,7 @@ class ArrayToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function can_convert_array_to_tsvector(): void
+    public function converts_array_to_tsvector(): void
     {
         $dql = "SELECT ARRAY_TO_TSVECTOR(STRING_TO_ARRAY(t.text1, ' ')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -27,7 +27,7 @@ class ArrayToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function can_convert_literal_array_to_tsvector(): void
+    public function converts_literal_array_to_tsvector(): void
     {
         $dql = "SELECT ARRAY_TO_TSVECTOR(STRING_TO_ARRAY('lorem,dolor', ',')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

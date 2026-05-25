@@ -260,7 +260,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function handles_microseconds_correctly(): void
+    public function preserves_microseconds(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00.123456');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00.654321');
@@ -292,7 +292,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function handles_microseconds_in_formatting(): void
+    public function preserves_microseconds_in_formatting(): void
     {
         $tsRange = new TsRange(
             new \DateTimeImmutable('2023-01-01 10:00:00.123456'),
@@ -322,7 +322,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function handles_timezone_information_in_input(): void
+    public function accepts_timezone_information_in_input(): void
     {
         // TsRange preserves the original timestamp but formats without timezone info
         $timestampWithTz = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');

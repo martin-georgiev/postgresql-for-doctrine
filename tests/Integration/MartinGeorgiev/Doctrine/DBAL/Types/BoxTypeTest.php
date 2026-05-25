@@ -27,7 +27,7 @@ final class BoxTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function handles_box_values(BoxValueObject $inputValue, BoxValueObject $expectedValue): void
+    public function normalizes_coordinate_order(BoxValueObject $inputValue, BoxValueObject $expectedValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

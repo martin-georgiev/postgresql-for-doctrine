@@ -17,7 +17,7 @@ class CbrtTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_cube_root_of_perfect_cube(): void
+    public function calculates_cube_root_of_perfect_cube(): void
     {
         $dql = 'SELECT CBRT(27.0) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
@@ -27,7 +27,7 @@ class CbrtTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_cube_root_of_non_perfect_cube(): void
+    public function calculates_cube_root_of_non_perfect_cube(): void
     {
         $dql = 'SELECT CBRT(10.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
@@ -37,7 +37,7 @@ class CbrtTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_cube_root_of_negative_number(): void
+    public function calculates_cube_root_of_negative_number(): void
     {
         $dql = 'SELECT CBRT((-27.0)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
@@ -47,7 +47,7 @@ class CbrtTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_cube_root_of_column_value(): void
+    public function calculates_cube_root_of_column_value(): void
     {
         $dql = 'SELECT CBRT(n.decimal1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
@@ -57,7 +57,7 @@ class CbrtTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_cube_root_of_arithmetic_expression(): void
+    public function calculates_cube_root_of_arithmetic_expression(): void
     {
         $dql = 'SELECT CBRT(n.integer1 + n.integer2 - 3) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n

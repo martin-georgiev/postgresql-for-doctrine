@@ -17,7 +17,7 @@ class AgeTest extends DateTestCase
     }
 
     #[Test]
-    public function can_calculate_age_between_timestamps(): void
+    public function calculates_age_between_timestamps(): void
     {
         $dql = 'SELECT AGE(t.datetime2, t.datetime1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t
@@ -28,7 +28,7 @@ class AgeTest extends DateTestCase
     }
 
     #[Test]
-    public function can_calculate_age_from_current_timestamp(): void
+    public function calculates_age_from_current_timestamp(): void
     {
         $dql = 'SELECT AGE(t.datetime1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

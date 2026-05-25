@@ -151,7 +151,7 @@ final class LineArrayTest extends TestCase
     }
 
     #[Test]
-    public function handles_edge_case_with_empty_and_malformed_arrays(): void
+    public function returns_empty_array_for_malformed_input(): void
     {
         $result1 = $this->fixture->convertToPHPValue('{}', $this->platform);
         $result2 = $this->fixture->convertToPHPValue('{invalid}', $this->platform);

@@ -17,7 +17,7 @@ class ConcatWsTest extends TextTestCase
     }
 
     #[Test]
-    public function can_concat_with_separator(): void
+    public function concats_with_separator(): void
     {
         $dql = "SELECT CONCAT_WS('-', t.text1, t.text2) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -29,7 +29,7 @@ class ConcatWsTest extends TextTestCase
     }
 
     #[Test]
-    public function can_concat_multiple_values(): void
+    public function concats_multiple_values(): void
     {
         $dql = "SELECT CONCAT_WS(' ', t.text1, 'extra', t.text2) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

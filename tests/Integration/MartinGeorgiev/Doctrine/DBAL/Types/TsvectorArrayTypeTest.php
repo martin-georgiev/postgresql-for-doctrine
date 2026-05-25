@@ -34,6 +34,10 @@ final class TsvectorArrayTypeTest extends ArrayTypeTestCase
     public function rejects_empty_string_item(): void
     {
         $this->expectException(InvalidTsvectorArrayItemForDatabaseException::class);
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['']);
+
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['']);
     }
 }

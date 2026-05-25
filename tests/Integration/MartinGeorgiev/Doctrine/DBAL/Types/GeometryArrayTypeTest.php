@@ -80,7 +80,7 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
      */
     #[DataProvider('provideMultiItemArrays')]
     #[Test]
-    public function handles_multi_item_array(array $phpArray): void
+    public function roundtrips_multi_item_array(array $phpArray): void
     {
         $this->runArrayConstructorTypeTest($this->getTypeName(), $this->getPostgresTypeName(), 'geometry', ...$phpArray);
     }

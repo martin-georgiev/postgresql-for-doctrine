@@ -34,6 +34,9 @@ final class MoneyArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidMoneyArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['no-digit-here']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['no-digit-here']);
     }
 }

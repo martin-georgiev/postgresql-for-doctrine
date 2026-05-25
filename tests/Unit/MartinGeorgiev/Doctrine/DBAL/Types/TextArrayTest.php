@@ -115,7 +115,7 @@ final class TextArrayTest extends TestCase
     }
 
     #[Test]
-    public function handles_backslashes_correctly(): void
+    public function converts_backslashes_correctly(): void
     {
         $postgresValue = '{"simple\\\backslash"}';
         $expectedValue = ['simple\backslash'];

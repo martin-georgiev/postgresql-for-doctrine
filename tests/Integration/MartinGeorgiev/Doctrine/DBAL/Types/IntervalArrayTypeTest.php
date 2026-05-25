@@ -57,7 +57,7 @@ final class IntervalArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_string_items(): void
+    public function roundtrips_string_items(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

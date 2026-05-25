@@ -187,7 +187,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function handles_mixed_integer_and_float_ranges(): void
+    public function accepts_mixed_integer_and_float_values(): void
     {
         $range = new NumericRange(1, 10.5);
         $this->assertSame('[1,10.5)', (string) $range);

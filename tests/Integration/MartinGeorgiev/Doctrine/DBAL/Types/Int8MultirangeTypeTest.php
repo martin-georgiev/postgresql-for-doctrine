@@ -33,11 +33,14 @@ final class Int8MultirangeTypeTest extends MultirangeTypeTestCase
     }
 
     #[Test]
-    public function can_normalizes_exclusive_lower_bound_to_inclusive(): void
+    public function normalizes_exclusive_lower_bound_to_inclusive(): void
     {
         $input = new Int8MultirangeVO([new Int8Range(1, 10, false, false)]);
         $expected = new Int8MultirangeVO([new Int8Range(2, 10)]);
 
-        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue($this->getTypeName(), $this->getPostgresTypeName(), $input, $expected);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue($typeName, $columnType, $input, $expected);
     }
 }

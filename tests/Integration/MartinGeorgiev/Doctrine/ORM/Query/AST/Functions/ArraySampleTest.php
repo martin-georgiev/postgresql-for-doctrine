@@ -23,7 +23,7 @@ class ArraySampleTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_sample_elements_from_array_field(): void
+    public function samples_elements_from_array_field(): void
     {
         $dql = 'SELECT a.textArray as source, ARRAY_SAMPLE(a.textArray, 3) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a
@@ -44,7 +44,7 @@ class ArraySampleTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_sample_single_element(): void
+    public function samples_single_element(): void
     {
         $dql = 'SELECT a.textArray as source, ARRAY_SAMPLE(a.textArray, 1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a

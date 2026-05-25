@@ -45,7 +45,7 @@ final class UuidArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_array_with_null_elements(): void
+    public function roundtrips_array_with_null_elements(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

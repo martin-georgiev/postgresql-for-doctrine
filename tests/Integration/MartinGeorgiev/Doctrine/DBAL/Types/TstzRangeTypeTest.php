@@ -44,7 +44,7 @@ final class TstzRangeTypeTest extends RangeTypeTestCase
 
     #[Test]
     #[DataProvider('provideInfinityAndSpecialCases')]
-    public function can_handle_infinity_and_special_cases(TstzRangeValueObject $tstzRangeValueObject): void
+    public function roundtrips_unbounded_and_empty_value(TstzRangeValueObject $tstzRangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

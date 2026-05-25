@@ -38,7 +38,7 @@ final class ByteaTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function handles_empty_bytea_as_null(): void
+    public function normalizes_empty_bytea_to_null(): void
     {
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $this->getTypeName(),
