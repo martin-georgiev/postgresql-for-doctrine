@@ -54,14 +54,14 @@ final class MoneyTest extends TestCase
 
     #[DataProvider('provideValidMoneyStrings')]
     #[Test]
-    public function can_transform_to_php_value(string $moneyString): void
+    public function converts_to_php_value(string $moneyString): void
     {
         $this->assertSame($moneyString, $this->fixture->convertToPHPValue($moneyString, $this->platform));
     }
 
     #[DataProvider('provideValidMoneyStrings')]
     #[Test]
-    public function can_transform_from_php_value(string $moneyString): void
+    public function converts_to_database_value(string $moneyString): void
     {
         $this->assertSame($moneyString, $this->fixture->convertToDatabaseValue($moneyString, $this->platform));
     }

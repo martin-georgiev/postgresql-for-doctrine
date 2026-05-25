@@ -36,14 +36,14 @@ final class Macaddr8Test extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?string $phpValue, ?string $postgresValue, ?string $platformValue): void
+    public function converts_to_database_value(?string $phpValue, ?string $postgresValue, ?string $platformValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?string $phpValue, ?string $postgresValue, ?string $platformValue): void
+    public function converts_to_php_value(?string $phpValue, ?string $postgresValue, ?string $platformValue): void
     {
         $this->assertSame($platformValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
