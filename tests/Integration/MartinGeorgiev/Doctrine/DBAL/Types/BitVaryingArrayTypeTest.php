@@ -64,7 +64,10 @@ final class BitVaryingArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidBitVaryingArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $inputValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $inputValue);
     }
 
     /**

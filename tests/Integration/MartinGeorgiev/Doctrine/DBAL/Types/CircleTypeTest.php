@@ -19,14 +19,20 @@ final class CircleTypeTest extends TestCase
     #[Test]
     public function can_handle_null_values(): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_handle_circle_values(CircleValueObject $circleValueObject): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $circleValueObject);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $circleValueObject);
     }
 
     /**

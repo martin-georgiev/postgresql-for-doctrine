@@ -17,7 +17,7 @@ final class ByteaTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(string $testValue): void
+    public function can_roundtrip_value(string $testValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -38,7 +38,7 @@ final class ByteaTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function can_handle_empty_bytea_as_null(): void
+    public function handles_empty_bytea_as_null(): void
     {
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $this->getTypeName(),

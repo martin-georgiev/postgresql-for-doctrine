@@ -19,19 +19,20 @@ final class BoxTypeTest extends TestCase
     #[Test]
     public function can_handle_null_values(): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_box_values(BoxValueObject $inputValue, BoxValueObject $expectedValue): void
+    public function handles_box_values(BoxValueObject $inputValue, BoxValueObject $expectedValue): void
     {
-        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
-            $this->getTypeName(),
-            $this->getPostgresTypeName(),
-            $inputValue,
-            $expectedValue
-        );
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue($typeName, $columnType, $inputValue, $expectedValue);
     }
 
     /**

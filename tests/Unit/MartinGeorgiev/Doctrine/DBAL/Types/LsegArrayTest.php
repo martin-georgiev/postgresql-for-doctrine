@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class LsegArrayTest extends TestCase
+final class LsegArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -37,14 +37,14 @@ class LsegArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function can_convert_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function can_convert_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -145,7 +145,7 @@ class LsegArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_array_item_for_php_returning_null_for_null(): void
+    public function can_convert_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }

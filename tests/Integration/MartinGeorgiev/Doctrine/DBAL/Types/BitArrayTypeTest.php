@@ -63,7 +63,10 @@ final class BitArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(DriverException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $inputValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $inputValue);
     }
 
     /**
@@ -85,7 +88,10 @@ final class BitArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidBitArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $inputValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $inputValue);
     }
 
     /**

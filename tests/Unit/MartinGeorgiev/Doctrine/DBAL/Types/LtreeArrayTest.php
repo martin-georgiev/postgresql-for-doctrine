@@ -37,14 +37,14 @@ final class LtreeArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function can_convert_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function can_convert_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -194,7 +194,7 @@ final class LtreeArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_null_item_for_php(): void
+    public function can_convert_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
