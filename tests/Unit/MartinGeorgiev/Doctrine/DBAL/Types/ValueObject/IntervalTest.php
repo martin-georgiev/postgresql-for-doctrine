@@ -13,7 +13,7 @@ final class IntervalTest extends TestCase
 {
     #[DataProvider('provideParsingAndFormatting')]
     #[Test]
-    public function parses_and_format(string $input, string $expectedOutput): void
+    public function creates_from_string(string $input, string $expectedOutput): void
     {
         $interval = Interval::fromString($input);
 

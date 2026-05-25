@@ -163,7 +163,7 @@ final class CitextArrayTest extends TestCase
     }
 
     #[Test]
-    public function converts_null_item_for_php(): void
+    public function converts_null_item_to_php_value(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
