@@ -34,16 +34,43 @@ class CitextTest extends TestCase
         $this->assertSame('citext', $this->fixture->getName());
     }
 
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function converts_null_to_database_value(): void
+    public function can_transform_from_php_value(?string $phpValue, ?string $databaseValue): void
     {
-        $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
+        $this->assertSame($databaseValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function converts_null_to_php_value(): void
+    public function can_transform_to_php_value(?string $phpValue, ?string $databaseValue): void
     {
-        $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
+    }
+
+    /**
+     * @return array<string, array{phpValue: string|null, databaseValue: string|null}>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return [
+            'null' => [
+                'phpValue' => null,
+                'databaseValue' => null,
+            ],
+            'simple text' => [
+                'phpValue' => 'hello',
+                'databaseValue' => 'hello',
+            ],
+            'mixed case' => [
+                'phpValue' => 'Hello World',
+                'databaseValue' => 'Hello World',
+            ],
+            'email' => [
+                'phpValue' => 'User@Example.COM',
+                'databaseValue' => 'User@Example.COM',
+            ],
+        ];
     }
 
     #[Test]
@@ -52,35 +79,9 @@ class CitextTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
-    #[DataProvider('provideValidStringValues')]
-    #[Test]
-    public function can_convert_string_to_database_value(string $value): void
-    {
-        $this->assertSame($value, $this->fixture->convertToDatabaseValue($value, $this->platform));
-    }
-
-    #[DataProvider('provideValidStringValues')]
-    #[Test]
-    public function can_convert_string_to_php_value(string $value): void
-    {
-        $this->assertSame($value, $this->fixture->convertToPHPValue($value, $this->platform));
-    }
-
-    /**
-     * @return array<string, array{string}>
-     */
-    public static function provideValidStringValues(): array
-    {
-        return [
-            'simple text' => ['hello'],
-            'mixed case' => ['Hello World'],
-            'email' => ['User@Example.COM'],
-        ];
-    }
-
     #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_database_value(mixed $value): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
         $this->expectException(InvalidCitextForDatabaseException::class);
 
@@ -94,14 +95,16 @@ class CitextTest extends TestCase
     {
         return [
             'integer input' => [42],
+            'float input' => [3.14],
             'array input' => [['not', 'a', 'string']],
+            'boolean input' => [true],
             'object input' => [new \stdClass()],
         ];
     }
 
     #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_php_value(mixed $value): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
     {
         $this->expectException(InvalidCitextForPHPException::class);
 
@@ -115,7 +118,9 @@ class CitextTest extends TestCase
     {
         return [
             'integer input' => [42],
+            'float input' => [3.14],
             'array input' => [['not', 'a', 'string']],
+            'boolean input' => [true],
             'object input' => [new \stdClass()],
         ];
     }

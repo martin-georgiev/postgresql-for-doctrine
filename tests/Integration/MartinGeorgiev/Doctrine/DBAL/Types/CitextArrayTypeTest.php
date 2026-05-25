@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
-
 class CitextArrayTypeTest extends ArrayTypeTestCase
 {
     protected function setUp(): void
@@ -15,6 +12,7 @@ class CitextArrayTypeTest extends ArrayTypeTestCase
 
         try {
             $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS citext');
+            $this->connection->executeStatement(\sprintf('ALTER EXTENSION citext SET SCHEMA %s', self::DATABASE_SCHEMA));
         } catch (\Throwable) {
             $this->markTestSkipped('citext extension is not available');
         }

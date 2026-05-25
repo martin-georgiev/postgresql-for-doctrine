@@ -156,6 +156,7 @@ class CitextArrayTest extends TestCase
     {
         return [
             'integer' => [123],
+            'float' => [3.14],
             'boolean' => [true],
             'object' => [new \stdClass()],
         ];
