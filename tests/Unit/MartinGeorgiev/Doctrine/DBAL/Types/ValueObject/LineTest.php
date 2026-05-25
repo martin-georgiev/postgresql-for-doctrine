@@ -14,7 +14,7 @@ class LineTest extends TestCase
 {
     #[DataProvider('provideValidLineStrings')]
     #[Test]
-    public function can_create_from_string(string $input, string $expectedOutput): void
+    public function creates_from_string(string $input, string $expectedOutput): void
     {
         $line = Line::fromString($input);
         $this->assertSame($expectedOutput, (string) $line);
@@ -33,7 +33,7 @@ class LineTest extends TestCase
     }
 
     #[Test]
-    public function can_return_correct_coefficients_via_getters(): void
+    public function returns_correct_coefficients_via_getters(): void
     {
         $line = Line::fromString('{1.5,-2.5,3}');
         $this->assertSame(1.5, $line->getA());
@@ -42,7 +42,7 @@ class LineTest extends TestCase
     }
 
     #[Test]
-    public function can_be_constructed_with_float_values(): void
+    public function is_constructed_with_float_values(): void
     {
         $line = new Line(1.5, -2.5, 3.0);
         $this->assertSame(1.5, $line->getA());
@@ -75,14 +75,14 @@ class LineTest extends TestCase
     }
 
     #[Test]
-    public function can_preserve_string_representation(): void
+    public function preserves_string_representation(): void
     {
         $line = new Line(1.0, 2.0, 3.0);
         $this->assertSame('{1,2,3}', (string) $line);
     }
 
     #[Test]
-    public function can_accept_high_precision_coordinates(): void
+    public function accepts_high_precision_coordinates(): void
     {
         $line = new Line(1.1234567890123, 2.0, 3.0);
         $this->assertSame(1.1234567890123, $line->getA());

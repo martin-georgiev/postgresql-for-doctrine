@@ -166,7 +166,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_create_hour_range(): void
+    public function creates_hour_range(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 14:00:00');
         $end = $start->modify('+1 hour');
@@ -260,7 +260,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_handle_microseconds_correctly(): void
+    public function handles_microseconds_correctly(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00.123456');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00.654321');
@@ -279,7 +279,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_format_timestamp_values_via_to_string(): void
+    public function formats_timestamp_values_via_to_string(): void
     {
         $tsRange = new TsRange(
             new \DateTimeImmutable('2023-06-15 14:30:25.123456'),
@@ -292,7 +292,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_handle_microseconds_in_formatting(): void
+    public function handles_microseconds_in_formatting(): void
     {
         $tsRange = new TsRange(
             new \DateTimeImmutable('2023-01-01 10:00:00.123456'),
@@ -303,7 +303,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_parse_timestamp_strings_via_from_string(): void
+    public function parses_timestamp_strings_via_from_string(): void
     {
         $tsRange = TsRange::fromString('[2023-06-15 14:30:25.123456,2023-06-15 18:45:30.654321)');
 
@@ -322,7 +322,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_handle_timezone_information_in_input(): void
+    public function handles_timezone_information_in_input(): void
     {
         // TsRange preserves the original timestamp but formats without timezone info
         $timestampWithTz = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');

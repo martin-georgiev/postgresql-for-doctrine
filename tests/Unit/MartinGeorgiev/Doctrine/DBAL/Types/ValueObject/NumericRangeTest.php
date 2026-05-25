@@ -171,7 +171,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_parse_integer_and_float_values_via_from_string(): void
+    public function parses_integer_and_float_values_via_from_string(): void
     {
         $numericRange = NumericRange::fromString('[42,100)');
         $this->assertStringContainsString('42', (string) $numericRange);
@@ -187,7 +187,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_handle_mixed_integer_and_float_ranges(): void
+    public function handles_mixed_integer_and_float_ranges(): void
     {
         $range = new NumericRange(1, 10.5);
         $this->assertSame('[1,10.5)', (string) $range);
@@ -197,7 +197,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_compare_mixed_numeric_types_via_is_empty(): void
+    public function compares_mixed_numeric_types_via_is_empty(): void
     {
         $reverseRange = new NumericRange(5.1, 5.0);
         $this->assertTrue($reverseRange->isEmpty());
@@ -213,7 +213,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_format_numeric_values_via_to_string(): void
+    public function formats_numeric_values_via_to_string(): void
     {
         $range1 = new NumericRange(42, 100);
         $this->assertStringContainsString('42', (string) $range1);
@@ -227,7 +227,7 @@ final class NumericRangeTest extends BaseRangeTestCase
 
     #[Test]
     #[DataProvider('providePhpInfConstantCases')]
-    public function can_create_range_with_php_inf_constant(
+    public function creates_range_with_php_inf_constant(
         float|int|null $lower,
         float|int|null $upper,
         string $expectedString,

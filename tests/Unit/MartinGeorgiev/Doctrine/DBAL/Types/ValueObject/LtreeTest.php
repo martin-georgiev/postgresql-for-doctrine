@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 final class LtreeTest extends TestCase
 {
     #[Test]
-    public function can_create_from_list_of_strings(): void
+    public function creates_from_list_of_strings(): void
     {
         $ltree = new Ltree(['a', 'b', 'c']);
         $this->assertSame('a.b.c', (string) $ltree);
@@ -64,7 +64,7 @@ final class LtreeTest extends TestCase
      */
     #[DataProvider('provideValidRepresentation')]
     #[Test]
-    public function can_create_from_string(string $value, array $expected): void
+    public function creates_from_string(string $value, array $expected): void
     {
         $ltree = Ltree::fromString($value);
         $this->assertSame($expected, $ltree->getPathFromRoot());
@@ -76,7 +76,7 @@ final class LtreeTest extends TestCase
      */
     #[DataProvider('provideValidRepresentation')]
     #[Test]
-    public function can_convert_to_string(string $expected, array $value): void
+    public function converts_to_string(string $expected, array $value): void
     {
         $ltree = new Ltree($value);
         $this->assertSame($expected, (string) $ltree);
@@ -87,7 +87,7 @@ final class LtreeTest extends TestCase
      */
     #[DataProvider('provideValidRepresentation')]
     #[Test]
-    public function can_serialize_to_json(string $value, array $expected): void
+    public function serializes_to_json(string $value, array $expected): void
     {
         $ltreeFromString = Ltree::fromString($value);
         $this->assertSame($expected, $ltreeFromString->jsonSerialize());
@@ -109,7 +109,7 @@ final class LtreeTest extends TestCase
     }
 
     #[Test]
-    public function can_encode_to_json_array(): void
+    public function encodes_to_json_array(): void
     {
         $ltree = new Ltree(['a', 'b', 'c']);
         $json = \json_encode($ltree, \JSON_THROW_ON_ERROR);
@@ -118,7 +118,7 @@ final class LtreeTest extends TestCase
 
     #[DataProvider('provideParentRelationship')]
     #[Test]
-    public function can_get_parent(Ltree $child, Ltree $parent): void
+    public function gets_parent(Ltree $child, Ltree $parent): void
     {
         $ltree = $child->getParent();
         $this->assertSame((string) $parent, (string) $ltree);
@@ -158,7 +158,7 @@ final class LtreeTest extends TestCase
     }
 
     #[Test]
-    public function can_verify_empty_status(): void
+    public function verifies_empty_status(): void
     {
         $ltree = new Ltree([]);
         $this->assertTrue($ltree->isEmpty());
@@ -168,7 +168,7 @@ final class LtreeTest extends TestCase
     }
 
     #[Test]
-    public function can_verify_root_status(): void
+    public function verifies_root_status(): void
     {
         $emptyRoot = new Ltree([]);
         $root = new Ltree(['a']);
@@ -189,7 +189,7 @@ final class LtreeTest extends TestCase
      */
     #[DataProvider('provideFamilyRelationshipWithExpectedResults')]
     #[Test]
-    public function can_verify_relationship(
+    public function verifies_relationship(
         Ltree $left,
         Ltree $right,
         array $expected,
@@ -473,7 +473,7 @@ final class LtreeTest extends TestCase
      */
     #[DataProvider('provideValidLeaf')]
     #[Test]
-    public function can_create_leaf(Ltree $parent, string $leaf, Ltree $expected): void
+    public function creates_leaf(Ltree $parent, string $leaf, Ltree $expected): void
     {
         $ltree = $parent->withLeaf($leaf);
         $this->assertSame((string) $expected, (string) $ltree);
