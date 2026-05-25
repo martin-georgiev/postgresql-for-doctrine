@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PointArrayTest extends TestCase
+final class PointArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -37,14 +37,14 @@ class PointArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -198,7 +198,7 @@ class PointArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_edge_case_with_empty_and_malformed_arrays(): void
+    public function returns_empty_array_for_malformed_input(): void
     {
         $result1 = $this->fixture->convertToPHPValue('{}', $this->platform);
         $result2 = $this->fixture->convertToPHPValue('{invalid}', $this->platform);
@@ -210,7 +210,7 @@ class PointArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_return_empty_array_for_non_standard_postgres_array_format(): void
+    public function returns_empty_array_for_non_standard_postgres_array_format(): void
     {
         $result1 = $this->fixture->convertToPHPValue('[test]', $this->platform);
         $result2 = $this->fixture->convertToPHPValue('not-an-array', $this->platform);
@@ -220,14 +220,14 @@ class PointArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_array_item_for_php_returning_null_for_null(): void
+    public function converts_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
     #[Test]
     #[DataProvider('provideNonStringPHPValues')]
-    public function can_transform_array_item_for_php_throwing_for_invalid_type(mixed $value): void
+    public function throws_exception_for_non_string_item_from_database(mixed $value): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP($value);
@@ -271,7 +271,7 @@ class PointArrayTest extends TestCase
 
     #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_valid_array_item_for_database(mixed $value): void
+    public function validates_valid_array_item_for_database(mixed $value): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
     }
@@ -291,7 +291,7 @@ class PointArrayTest extends TestCase
 
     #[DataProvider('provideInvalidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    public function validates_invalid_array_item_for_database(mixed $value): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
     }

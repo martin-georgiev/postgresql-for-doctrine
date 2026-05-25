@@ -72,7 +72,7 @@ final class BitTest extends TestCase
 
     #[DataProvider('provideValidBitStrings')]
     #[Test]
-    public function can_round_trip_valid_bit_strings(string $bitString): void
+    public function roundtrips_valid_bit_strings(string $bitString): void
     {
         $this->assertSame($bitString, $this->fixture->convertToDatabaseValue($bitString, $this->platform));
         $this->assertSame($bitString, $this->fixture->convertToPHPValue($bitString, $this->platform));

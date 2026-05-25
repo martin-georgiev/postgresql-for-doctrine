@@ -118,7 +118,7 @@ final class LtreeTest extends TestCase
 
     #[DataProvider('provideParentRelationship')]
     #[Test]
-    public function gets_parent(Ltree $child, Ltree $parent): void
+    public function returns_parent(Ltree $child, Ltree $parent): void
     {
         $ltree = $child->getParent();
         $this->assertSame((string) $parent, (string) $ltree);

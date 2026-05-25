@@ -17,7 +17,7 @@ class JsonGetObjectAsTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function gets_nested_value_as_text(): void
+    public function returns_nested_value_as_text(): void
     {
         $dql = "SELECT JSON_GET_OBJECT_AS_TEXT(t.jsonObject1, '{address,city}') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -27,7 +27,7 @@ class JsonGetObjectAsTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function gets_name_as_text(): void
+    public function returns_name_as_text(): void
     {
         $dql = "SELECT JSON_GET_OBJECT_AS_TEXT(t.jsonObject1, '{name}') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

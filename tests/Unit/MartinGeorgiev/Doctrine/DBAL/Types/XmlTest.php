@@ -54,7 +54,7 @@ final class XmlTest extends TestCase
 
     #[DataProvider('provideValidXmlStrings')]
     #[Test]
-    public function can_round_trip_valid_xml_strings(string $xml): void
+    public function roundtrips_valid_xml_strings(string $xml): void
     {
         $this->assertSame($xml, $this->fixture->convertToDatabaseValue($xml, $this->platform));
         $this->assertSame($xml, $this->fixture->convertToPHPValue($xml, $this->platform));

@@ -17,7 +17,7 @@ class ArrayUpperTest extends ArrayTestCase
     }
 
     #[Test]
-    public function gets_upper_bound_for_text_array(): void
+    public function returns_upper_bound_for_text_array(): void
     {
         $dql = 'SELECT ARRAY_UPPER(t.textArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -29,7 +29,7 @@ class ArrayUpperTest extends ArrayTestCase
     }
 
     #[Test]
-    public function gets_upper_bound_for_integer_array(): void
+    public function returns_upper_bound_for_integer_array(): void
     {
         $dql = 'SELECT ARRAY_UPPER(t.integerArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

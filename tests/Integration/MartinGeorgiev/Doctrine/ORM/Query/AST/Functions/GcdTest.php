@@ -17,7 +17,7 @@ class GcdTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_gcd_of_literals(): void
+    public function calculates_gcd_of_literals(): void
     {
         $dql = 'SELECT GCD(12, 8) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class GcdTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_gcd_with_entity_properties(): void
+    public function calculates_gcd_with_entity_properties(): void
     {
         $dql = 'SELECT GCD(n.integer1, n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

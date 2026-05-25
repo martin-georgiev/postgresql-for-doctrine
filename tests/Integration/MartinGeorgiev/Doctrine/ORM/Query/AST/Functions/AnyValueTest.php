@@ -23,7 +23,7 @@ class AnyValueTest extends TextTestCase
     }
 
     #[Test]
-    public function gets_any_value_from_group(): void
+    public function returns_any_value_from_group(): void
     {
         $dql = 'SELECT ANY_VALUE(t.text1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t';

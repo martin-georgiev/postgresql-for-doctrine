@@ -17,7 +17,7 @@ class DateSubtractTest extends DateTestCase
     }
 
     #[Test]
-    public function can_subtract_interval_from_timestamp(): void
+    public function subtracts_interval_from_timestamp(): void
     {
         $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '1 day') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -28,7 +28,7 @@ class DateSubtractTest extends DateTestCase
     }
 
     #[Test]
-    public function can_subtract_hours_from_timestamp(): void
+    public function subtracts_hours_from_timestamp(): void
     {
         $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '2 hours') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -39,7 +39,7 @@ class DateSubtractTest extends DateTestCase
     }
 
     #[Test]
-    public function can_subtract_interval_with_timezone(): void
+    public function subtracts_interval_with_timezone(): void
     {
         $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '1 day', 'UTC') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
