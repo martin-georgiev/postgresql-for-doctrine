@@ -130,23 +130,21 @@ return [
 
                 // Range type mappings
                 'daterange' => 'daterange',
-                'int4range' => 'int4range',
-                'int8range' => 'int8range',
-                'numrange' => 'numrange',
-                'tsrange' => 'tsrange',
-                'tstzrange' => 'tstzrange',
-
-                // Range array type mappings
                 'daterange[]' => 'daterange[]',
                 '_daterange' => 'daterange[]',
+                'int4range' => 'int4range',
                 'int4range[]' => 'int4range[]',
                 '_int4range' => 'int4range[]',
+                'int8range' => 'int8range',
                 'int8range[]' => 'int8range[]',
                 '_int8range' => 'int8range[]',
+                'numrange' => 'numrange',
                 'numrange[]' => 'numrange[]',
                 '_numrange' => 'numrange[]',
+                'tsrange' => 'tsrange',
                 'tsrange[]' => 'tsrange[]',
                 '_tsrange' => 'tsrange[]',
+                'tstzrange' => 'tstzrange',
                 'tstzrange[]' => 'tstzrange[]',
                 '_tstzrange' => 'tstzrange[]',
 

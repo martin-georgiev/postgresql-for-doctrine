@@ -78,18 +78,16 @@ Type::addType('geography[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeographyAr
 
 // Range types
 Type::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
-Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
-Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
-Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
-Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
-Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
-
-// Range array types
 Type::addType('daterange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRangeArray");
+Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
 Type::addType('int4range[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4RangeArray");
+Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
 Type::addType('int8range[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8RangeArray");
+Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 Type::addType('numrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRangeArray");
+Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
 Type::addType('tsrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRangeArray");
+Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 Type::addType('tstzrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRangeArray");
 
 // Multirange types
@@ -477,23 +475,21 @@ $platform->registerDoctrineTypeMapping('_geography', 'geography[]');
 
 // Range type mappings
 $platform->registerDoctrineTypeMapping('daterange', 'daterange');
-$platform->registerDoctrineTypeMapping('int4range', 'int4range');
-$platform->registerDoctrineTypeMapping('int8range', 'int8range');
-$platform->registerDoctrineTypeMapping('numrange', 'numrange');
-$platform->registerDoctrineTypeMapping('tsrange', 'tsrange');
-$platform->registerDoctrineTypeMapping('tstzrange', 'tstzrange');
-
-// Range array type mappings
 $platform->registerDoctrineTypeMapping('daterange[]', 'daterange[]');
 $platform->registerDoctrineTypeMapping('_daterange', 'daterange[]');
+$platform->registerDoctrineTypeMapping('int4range', 'int4range');
 $platform->registerDoctrineTypeMapping('int4range[]', 'int4range[]');
 $platform->registerDoctrineTypeMapping('_int4range', 'int4range[]');
+$platform->registerDoctrineTypeMapping('int8range', 'int8range');
 $platform->registerDoctrineTypeMapping('int8range[]', 'int8range[]');
 $platform->registerDoctrineTypeMapping('_int8range', 'int8range[]');
+$platform->registerDoctrineTypeMapping('numrange', 'numrange');
 $platform->registerDoctrineTypeMapping('numrange[]', 'numrange[]');
 $platform->registerDoctrineTypeMapping('_numrange', 'numrange[]');
+$platform->registerDoctrineTypeMapping('tsrange', 'tsrange');
 $platform->registerDoctrineTypeMapping('tsrange[]', 'tsrange[]');
 $platform->registerDoctrineTypeMapping('_tsrange', 'tsrange[]');
+$platform->registerDoctrineTypeMapping('tstzrange', 'tstzrange');
 $platform->registerDoctrineTypeMapping('tstzrange[]', 'tstzrange[]');
 $platform->registerDoctrineTypeMapping('_tstzrange', 'tstzrange[]');
 
