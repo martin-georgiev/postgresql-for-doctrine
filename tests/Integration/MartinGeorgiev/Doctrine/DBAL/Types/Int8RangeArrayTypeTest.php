@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range as RangeValueObject;
 
-class Int8RangeArrayTypeTest extends ArrayTypeTestCase
+class Int8RangeArrayTypeTest extends RangeArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -15,7 +14,15 @@ class Int8RangeArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<Int8Range>}>
+     * @return class-string<Int8Range>
+     */
+    public static function getRangeValueObjectClass(): string
+    {
+        return Int8Range::class;
+    }
+
+    /**
+     * @return array<string, array{array<Int8Range|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -26,24 +33,7 @@ class Int8RangeArrayTypeTest extends ArrayTypeTestCase
                 new Int8Range(100, 200, true, false),
             ]],
             'int8range with large values' => [[new Int8Range(1000000000, 9999999999, true, false)]],
+            'array with null item' => [[new Int8Range(1, 100, true, false), null]],
         ];
-    }
-
-    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
-    {
-        $this->assertIsArray($expected);
-        $this->assertIsArray($actual);
-        $this->assertCount(\count($expected), $actual, \sprintf('Array type %s round-trip count mismatch', $typeName));
-
-        foreach ($expected as $index => $expectedItem) {
-            $actualItem = $actual[$index];
-            $this->assertInstanceOf(RangeValueObject::class, $expectedItem);
-            $this->assertInstanceOf(RangeValueObject::class, $actualItem);
-            $this->assertEquals(
-                $expectedItem->__toString(),
-                $actualItem->__toString(),
-                \sprintf('Range string representation mismatch at index %d for type %s', $index, $typeName)
-            );
-        }
     }
 }

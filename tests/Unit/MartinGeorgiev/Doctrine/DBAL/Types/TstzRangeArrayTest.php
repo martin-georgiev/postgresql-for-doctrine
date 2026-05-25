@@ -35,13 +35,6 @@ class TstzRangeArrayTest extends TestCase
         $this->assertSame('tstzrange[]', $this->fixture->getName());
     }
 
-    #[Test]
-    public function converts_null_to_null(): void
-    {
-        $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
-        $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
-    }
-
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
@@ -132,5 +125,59 @@ class TstzRangeArrayTest extends TestCase
             'array containing integers' => [[42]],
             'array containing objects' => [[new \stdClass()]],
         ];
+    }
+
+    #[DataProvider('provideValidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_valid_array_item_for_database(mixed $value): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'null value' => [null],
+            'valid range object' => [new TstzRangeValueObject(
+                new \DateTimeImmutable('2023-01-01 00:00:00+00:00'),
+                new \DateTimeImmutable('2023-12-31 23:59:59+00:00')
+            )],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    {
+        $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidArrayItemsForDatabase(): array
+    {
+        return [
+            'string' => ['[2023-01-01 00:00:00+00:00,2023-12-31 23:59:59+00:00)'],
+            'integer' => [42],
+            'boolean' => [true],
+            'object' => [new \stdClass()],
+        ];
+    }
+
+    #[Test]
+    public function can_transform_null_item_for_php(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidTstzRangeArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(42);
     }
 }

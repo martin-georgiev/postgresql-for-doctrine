@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range as RangeValueObject;
 
-class NumRangeArrayTypeTest extends ArrayTypeTestCase
+class NumRangeArrayTypeTest extends RangeArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -15,7 +14,15 @@ class NumRangeArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<NumericRange>}>
+     * @return class-string<NumericRange>
+     */
+    public static function getRangeValueObjectClass(): string
+    {
+        return NumericRange::class;
+    }
+
+    /**
+     * @return array<string, array{array<NumericRange|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -26,24 +33,7 @@ class NumRangeArrayTypeTest extends ArrayTypeTestCase
                 new NumericRange(10.0, 20.0, true, false),
             ]],
             'numrange with integer values' => [[new NumericRange(1, 100, true, false)]],
+            'array with null item' => [[new NumericRange(1.5, 10.7, true, false), null]],
         ];
-    }
-
-    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
-    {
-        $this->assertIsArray($expected);
-        $this->assertIsArray($actual);
-        $this->assertCount(\count($expected), $actual, \sprintf('Array type %s round-trip count mismatch', $typeName));
-
-        foreach ($expected as $index => $expectedItem) {
-            $actualItem = $actual[$index];
-            $this->assertInstanceOf(RangeValueObject::class, $expectedItem);
-            $this->assertInstanceOf(RangeValueObject::class, $actualItem);
-            $this->assertEquals(
-                $expectedItem->__toString(),
-                $actualItem->__toString(),
-                \sprintf('Range string representation mismatch at index %d for type %s', $index, $typeName)
-            );
-        }
     }
 }

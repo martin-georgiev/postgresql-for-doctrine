@@ -30,6 +30,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\CircleArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\DateRangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geography;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
@@ -41,8 +42,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Inet;
 use MartinGeorgiev\Doctrine\DBAL\Types\InetArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int4Range;
+use MartinGeorgiev\Doctrine\DBAL\Types\Int4RangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Int8Range;
+use MartinGeorgiev\Doctrine\DBAL\Types\Int8RangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray;
@@ -62,6 +65,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Money;
 use MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\NumRangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Path;
 use MartinGeorgiev\Doctrine\DBAL\Types\PathArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Point;
@@ -77,8 +81,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsquery;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\TsRangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\TstzRangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
@@ -278,6 +284,7 @@ abstract class TestCase extends BaseTestCase
             'cidr[]' => CidrArray::class,
             'date[]' => DateArray::class,
             'daterange' => DateRange::class,
+            'daterange[]' => DateRangeArray::class,
             'datemultirange' => DateMultirange::class,
             'double precision[]' => DoublePrecisionArray::class,
             'geography' => Geography::class,
@@ -289,7 +296,9 @@ abstract class TestCase extends BaseTestCase
             'inet' => Inet::class,
             'inet[]' => InetArray::class,
             'int4range' => Int4Range::class,
+            'int4range[]' => Int4RangeArray::class,
             'int8range' => Int8Range::class,
+            'int8range[]' => Int8RangeArray::class,
             'integer[]' => IntegerArray::class,
             'interval' => Interval::class,
             'interval[]' => IntervalArray::class,
@@ -310,6 +319,7 @@ abstract class TestCase extends BaseTestCase
             'money' => Money::class,
             'money[]' => MoneyArray::class,
             'numrange' => NumRange::class,
+            'numrange[]' => NumRangeArray::class,
             'nummultirange' => NumMultirange::class,
             'path' => Path::class,
             'path[]' => PathArray::class,
@@ -326,8 +336,10 @@ abstract class TestCase extends BaseTestCase
             'tsquery' => Tsquery::class,
             'tsquery[]' => TsqueryArray::class,
             'tsrange' => TsRange::class,
+            'tsrange[]' => TsRangeArray::class,
             'tstzmultirange' => TstzMultirange::class,
             'tstzrange' => TstzRange::class,
+            'tstzrange[]' => TstzRangeArray::class,
             'tsvector' => Tsvector::class,
             'tsvector[]' => TsvectorArray::class,
             'uuid[]' => UuidArray::class,
