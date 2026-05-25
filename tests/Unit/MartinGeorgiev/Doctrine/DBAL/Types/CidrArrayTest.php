@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class CidrArrayTest extends TestCase
+final class CidrArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -35,14 +35,14 @@ class CidrArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -152,7 +152,7 @@ class CidrArrayTest extends TestCase
 
     #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_valid_array_item_for_database(mixed $value): void
+    public function validates_valid_array_item_for_database(mixed $value): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
     }
@@ -173,7 +173,7 @@ class CidrArrayTest extends TestCase
 
     #[DataProvider('provideInvalidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    public function validates_invalid_array_item_for_database(mixed $value): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
     }
@@ -193,7 +193,7 @@ class CidrArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_null_item_for_php(): void
+    public function converts_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }

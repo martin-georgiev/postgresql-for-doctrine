@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
 /**
  * @extends RangeArrayTypeTestCase<DateRange>
  */
-class DateRangeArrayTypeTest extends RangeArrayTypeTestCase
+final class DateRangeArrayTypeTest extends RangeArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

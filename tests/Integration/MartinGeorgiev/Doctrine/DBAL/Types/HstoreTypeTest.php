@@ -8,18 +8,13 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHstoreForDatabaseExcept
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreTypeTest extends ScalarTypeTestCase
+final class HstoreTypeTest extends ScalarTypeTestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
 
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS hstore');
-            $this->connection->executeStatement(\sprintf('ALTER EXTENSION hstore SET SCHEMA %s', self::DATABASE_SCHEMA));
-        } catch (\Throwable) {
-            $this->markTestSkipped('hstore extension is not available');
-        }
+        $this->ensurePostgresExtensionInSchema('hstore');
     }
 
     protected function getTypeName(): string
@@ -27,31 +22,26 @@ class HstoreTypeTest extends ScalarTypeTestCase
         return 'hstore';
     }
 
+    #[DataProvider('provideValidRoundTrips')]
     #[Test]
-    public function can_handle_simple_key_value(): void
+    public function roundtrips_value(array $value): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runDbalBindingRoundTrip($typeName, $columnType, ['key' => 'value', 'count' => '42']);
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $value);
     }
 
-    #[Test]
-    public function can_handle_null_values_in_hstore(): void
+    /**
+     * @return array<string, array{array<string, string|null>}>
+     */
+    public static function provideValidRoundTrips(): array
     {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, ['a' => 'b', 'c' => null]);
-    }
-
-    #[Test]
-    public function can_handle_hstore_with_special_characters(): void
-    {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, ['key' => 'value with "quotes" and backslash\\']);
+        return [
+            'simple key value' => [['key' => 'value', 'count' => '42']],
+            'null values in hstore' => [['a' => 'b', 'c' => null]],
+            'special characters' => [['key' => 'value with "quotes" and backslash\\']],
+        ];
     }
 
     #[DataProvider('provideInvalidValues')]

@@ -21,7 +21,7 @@ class ToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_tsvector_from_text(): void
+    public function creates_tsvector_from_text(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -32,7 +32,7 @@ class ToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_tsvector_with_language(): void
+    public function creates_tsvector_with_language(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

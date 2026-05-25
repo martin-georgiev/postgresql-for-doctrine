@@ -13,7 +13,7 @@ final class GeometryTypeTest extends TestCase
 {
     #[DataProvider('provideValidGeometryTypes')]
     #[Test]
-    public function can_create_from_string(string $typeString, GeometryType $geometryType): void
+    public function parses_from_string(string $typeString, GeometryType $geometryType): void
     {
         $result = GeometryType::from($typeString);
 

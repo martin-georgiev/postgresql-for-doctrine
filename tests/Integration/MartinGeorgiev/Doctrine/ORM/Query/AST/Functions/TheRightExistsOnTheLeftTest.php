@@ -37,7 +37,7 @@ class TheRightExistsOnTheLeftTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_check_nested_key(): void
+    public function checks_nested_key(): void
     {
         $dql = "SELECT RIGHT_EXISTS_ON_LEFT(t.jsonbObject1, 'address') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

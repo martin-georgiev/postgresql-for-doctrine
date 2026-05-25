@@ -17,7 +17,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
      */
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(array $phpValue, string $postgresValue): void
+    public function converts_to_database_value(array $phpValue, string $postgresValue): void
     {
         $this->assertSame($postgresValue, PHPArrayToPostgresValueTransformer::transformToPostgresTextArray($phpValue));
     }
@@ -150,7 +150,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_object_with_to_string_method(): void
+    public function converts_object_with_to_string_method(): void
     {
         $object = new class implements \Stringable {
             public function __toString(): string
@@ -163,7 +163,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_object_without_to_string_method(): void
+    public function converts_object_without_to_string_method(): void
     {
         $object = new class {};
 
@@ -172,7 +172,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_closed_resource(): void
+    public function converts_closed_resource(): void
     {
         $resource = \fopen('php://temp', 'r');
         \assert(\is_resource($resource));
@@ -182,7 +182,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_open_resource(): void
+    public function converts_open_resource(): void
     {
         $resource = \fopen('php://temp', 'r');
         \assert(\is_resource($resource));
@@ -191,7 +191,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_mixed_types_in_array(): void
+    public function converts_mixed_types_in_array(): void
     {
         $input = [
             'string',
@@ -251,7 +251,7 @@ class PHPArrayToPostgresValueTransformerTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_array_with_gd_resource(): void
+    public function converts_array_with_gd_resource(): void
     {
         if (!\function_exists('imagecreatetruecolor')) {
             $this->markTestSkipped('GD extension not available');

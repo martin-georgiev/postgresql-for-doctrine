@@ -17,7 +17,7 @@ class JsonToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function can_convert_json_to_tsvector(): void
+    public function converts_json_to_tsvector(): void
     {
         $dql = "SELECT JSON_TO_TSVECTOR('{\"title\": \"lorem ipsum\"}', '[\"string\"]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class JsonToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function can_convert_json_to_tsvector_with_config(): void
+    public function converts_json_to_tsvector_with_config(): void
     {
         $dql = "SELECT JSON_TO_TSVECTOR('english', '{\"body\": \"lorem ipsum dolor\"}', '[\"string\"]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

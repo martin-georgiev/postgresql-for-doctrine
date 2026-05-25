@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class HstoreTest extends TestCase
+final class HstoreTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -57,7 +57,7 @@ class HstoreTest extends TestCase
      */
     #[DataProvider('provideArrayToHstoreConversions')]
     #[Test]
-    public function can_convert_array_to_hstore_format(array $input, string $expected): void
+    public function converts_array_to_hstore_format(array $input, string $expected): void
     {
         $this->assertSame($expected, $this->fixture->convertToDatabaseValue($input, $this->platform));
     }
@@ -89,7 +89,7 @@ class HstoreTest extends TestCase
 
     #[DataProvider('provideHstoreToArrayConversions')]
     #[Test]
-    public function can_parse_hstore_string_to_array(string $input, array $expected): void
+    public function parses_hstore_string_to_array(string $input, array $expected): void
     {
         $this->assertEquals($expected, $this->fixture->convertToPHPValue($input, $this->platform));
     }

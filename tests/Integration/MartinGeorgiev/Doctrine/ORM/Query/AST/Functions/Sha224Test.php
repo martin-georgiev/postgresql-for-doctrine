@@ -19,7 +19,7 @@ class Sha224Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha224_of_a_string(): void
+    public function computes_sha224_of_a_string(): void
     {
         $dql = "SELECT SHA224('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -30,7 +30,7 @@ class Sha224Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha224_of_text_field(): void
+    public function computes_sha224_of_text_field(): void
     {
         $dql = 'SELECT SHA224(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

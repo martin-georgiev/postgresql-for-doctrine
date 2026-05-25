@@ -17,7 +17,7 @@ class DmetaphoneTest extends TestCase
     }
 
     #[Test]
-    public function can_compute_primary_double_metaphone_code(): void
+    public function computes_primary_double_metaphone_code(): void
     {
         $dql = "SELECT DMETAPHONE('gumbo') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ class DmetaphoneTest extends TestCase
     }
 
     #[Test]
-    public function can_compute_dmetaphone_from_text_field(): void
+    public function computes_dmetaphone_from_text_field(): void
     {
         $dql = 'SELECT DMETAPHONE(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

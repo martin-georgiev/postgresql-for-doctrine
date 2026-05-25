@@ -23,7 +23,7 @@ class JsonQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_query_nested_object(): void
+    public function queries_nested_object(): void
     {
         $dql = "SELECT JSON_QUERY(t.jsonObject1, '$.address') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -36,7 +36,7 @@ class JsonQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_query_array(): void
+    public function queries_array(): void
     {
         $dql = "SELECT JSON_QUERY(t.jsonObject1, '$.tags') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

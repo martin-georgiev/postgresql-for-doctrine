@@ -23,7 +23,7 @@ class RegexpCountTest extends TextTestCase
     }
 
     #[Test]
-    public function can_count_pattern_occurrences(): void
+    public function counts_pattern_occurrences(): void
     {
         // Row 1 text1 is 'this is a test string' - contains 4 occurrences of 't': This, TesT, sTring
         $dql = "SELECT REGEXP_COUNT(t.text1, 't') as result
@@ -45,7 +45,7 @@ class RegexpCountTest extends TextTestCase
     }
 
     #[Test]
-    public function can_count_with_start_position(): void
+    public function counts_with_start_position(): void
     {
         // Row 1 text1 is 'this is a test string' - starting at position 5, 3 't's remain (in TesT & sTring)
         $dql = "SELECT REGEXP_COUNT(t.text1, 't', 5) as result

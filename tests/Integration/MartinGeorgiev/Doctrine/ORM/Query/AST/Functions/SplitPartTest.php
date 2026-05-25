@@ -17,7 +17,7 @@ class SplitPartTest extends TextTestCase
     }
 
     #[Test]
-    public function can_split_by_delimiter_and_get_first_part(): void
+    public function splits_by_delimiter_and_get_first_part(): void
     {
         $dql = "SELECT SPLIT_PART(t.text1, ',', 1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -27,7 +27,7 @@ class SplitPartTest extends TextTestCase
     }
 
     #[Test]
-    public function can_split_by_delimiter_and_get_second_part(): void
+    public function splits_by_delimiter_and_get_second_part(): void
     {
         $dql = "SELECT SPLIT_PART(t.text1, ',', 2) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

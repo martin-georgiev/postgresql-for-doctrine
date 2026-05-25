@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange;
 
-class TsMultirangeArrayTypeTest extends ArrayTypeTestCase
+final class TsMultirangeArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class BoxArrayTest extends TestCase
+final class BoxArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -37,14 +37,14 @@ class BoxArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -145,13 +145,13 @@ class BoxArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_array_item_for_php_returning_null_for_null(): void
+    public function converts_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
     #[Test]
-    public function can_handle_empty_array(): void
+    public function returns_empty_array_for_empty_postgres_value(): void
     {
         $result = $this->fixture->convertToPHPValue('{}', $this->platform);
         $this->assertSame([], $result);
@@ -216,7 +216,7 @@ class BoxArrayTest extends TestCase
 
     #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_valid_array_item_for_database(mixed $value): void
+    public function validates_valid_array_item_for_database(mixed $value): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
     }
@@ -235,7 +235,7 @@ class BoxArrayTest extends TestCase
 
     #[DataProvider('provideInvalidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    public function validates_invalid_array_item_for_database(mixed $value): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
     }

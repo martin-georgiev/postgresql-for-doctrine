@@ -49,7 +49,7 @@ class RegexpReplaceTest extends TextTestCase
     }
 
     #[Test]
-    public function handles_case_sensitive_replacement(): void
+    public function applies_case_sensitive_replacement(): void
     {
         $dql = "SELECT REGEXP_REPLACE(t.text1, 'TEST', 'replaced') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

@@ -17,7 +17,7 @@ class LeftTest extends TextTestCase
     }
 
     #[Test]
-    public function can_extract_left_characters(): void
+    public function extracts_left_characters(): void
     {
         $dql = 'SELECT LEFT(t.text1, 4) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t 

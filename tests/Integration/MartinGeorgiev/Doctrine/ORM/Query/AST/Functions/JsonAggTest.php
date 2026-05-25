@@ -17,7 +17,7 @@ class JsonAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_aggregate_text_arrays_to_json(): void
+    public function aggregates_text_arrays_to_json(): void
     {
         $dql = 'SELECT JSON_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -31,7 +31,7 @@ class JsonAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_aggregate_integer_arrays_to_json(): void
+    public function aggregates_integer_arrays_to_json(): void
     {
         $dql = 'SELECT JSON_AGG(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -45,7 +45,7 @@ class JsonAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_aggregate_boolean_arrays_to_json(): void
+    public function aggregates_boolean_arrays_to_json(): void
     {
         $dql = 'SELECT JSON_AGG(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

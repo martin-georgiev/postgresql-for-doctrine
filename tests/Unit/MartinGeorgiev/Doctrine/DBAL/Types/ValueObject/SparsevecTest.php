@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 final class SparsevecTest extends TestCase
 {
     #[Test]
-    public function can_be_constructed_with_elements_and_dimensions(): void
+    public function is_constructed_with_elements_and_dimensions(): void
     {
         $sparsevec = new Sparsevec([1 => 1.5, 3 => 2.0], 5);
         $this->assertSame([1 => 1.5, 3 => 2.0], $sparsevec->getElements());
@@ -22,7 +22,7 @@ final class SparsevecTest extends TestCase
     }
 
     #[Test]
-    public function can_be_constructed_with_no_elements(): void
+    public function is_constructed_with_no_elements(): void
     {
         $sparsevec = new Sparsevec([], 3);
         $this->assertSame([], $sparsevec->getElements());
@@ -31,7 +31,7 @@ final class SparsevecTest extends TestCase
 
     #[DataProvider('provideToStringCases')]
     #[Test]
-    public function can_convert_to_string(Sparsevec $sparsevec, string $expected): void
+    public function converts_to_string(Sparsevec $sparsevec, string $expected): void
     {
         $this->assertSame($expected, (string) $sparsevec);
     }
@@ -59,7 +59,7 @@ final class SparsevecTest extends TestCase
 
     #[DataProvider('provideFromStringCases')]
     #[Test]
-    public function can_be_parsed_from_string(string $input, array $expectedElements, int $expectedDimensions): void
+    public function is_parsed_from_string(string $input, array $expectedElements, int $expectedDimensions): void
     {
         $sparsevec = Sparsevec::fromString($input);
         $this->assertSame($expectedElements, $sparsevec->getElements());
@@ -145,14 +145,14 @@ final class SparsevecTest extends TestCase
     }
 
     #[Test]
-    public function can_normalize_integer_element_values_to_float(): void
+    public function normalizes_integer_element_values_to_float(): void
     {
         $sparsevec = new Sparsevec([1 => 1, 3 => 2], 5);
         $this->assertSame([1 => 1.0, 3 => 2.0], $sparsevec->getElements());
     }
 
     #[Test]
-    public function can_round_trip_from_string_to_string(): void
+    public function roundtrips_from_string_to_string(): void
     {
         $original = '{1:1.5,3:2}/5';
         $sparsevec = Sparsevec::fromString($original);

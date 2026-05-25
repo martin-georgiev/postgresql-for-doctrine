@@ -23,7 +23,7 @@ class JsonSerializeTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_serialize_json_to_text(): void
+    public function serializes_json_to_text(): void
     {
         $dql = 'SELECT JSON_SERIALIZE(t.jsonObject1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

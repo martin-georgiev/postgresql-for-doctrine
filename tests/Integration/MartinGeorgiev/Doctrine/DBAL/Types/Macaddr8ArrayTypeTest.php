@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddr8ArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\Test;
 
-class Macaddr8ArrayTypeTest extends ArrayTypeTestCase
+final class Macaddr8ArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

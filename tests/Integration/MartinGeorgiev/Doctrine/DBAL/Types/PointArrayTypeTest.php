@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointArrayItemForDataba
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class PointArrayTypeTest extends ArrayTypeTestCase
+final class PointArrayTypeTest extends ArrayTypeTestCase
 {
     use PointAssertionTrait;
 

@@ -40,7 +40,7 @@ trait BitLengthRoundTripTrait
 
     #[DataProvider('provideLengthRoundTripValues')]
     #[Test]
-    public function can_round_trip_with_explicit_length(mixed $value): void
+    public function roundtrips_with_explicit_length(mixed $value): void
     {
         [$tableName, $columnName] = $this->prepareLengthAwareTable();
 

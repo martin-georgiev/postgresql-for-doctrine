@@ -17,7 +17,7 @@ class JsonbSetTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_update_existing_value(): void
+    public function updates_existing_value(): void
     {
         $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -34,7 +34,7 @@ class JsonbSetTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_add_new_value(): void
+    public function adds_new_value(): void
     {
         $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -51,7 +51,7 @@ class JsonbSetTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_set_nested_path(): void
+    public function sets_nested_path(): void
     {
         $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class Int8RangeTypeTest extends RangeTypeTestCase
+final class Int8RangeTypeTest extends RangeTypeTestCase
 {
     protected function getTypeName(): string
     {

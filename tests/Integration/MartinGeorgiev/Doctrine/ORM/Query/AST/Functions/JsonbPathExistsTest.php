@@ -17,7 +17,7 @@ class JsonbPathExistsTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_check_simple_path_exists(): void
+    public function checks_simple_path_exists(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,7 +30,7 @@ class JsonbPathExistsTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_check_nested_path_exists(): void
+    public function checks_nested_path_exists(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -56,7 +56,7 @@ class JsonbPathExistsTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_check_path_exists_in_column_reference(): void
+    public function checks_path_exists_in_column_reference(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

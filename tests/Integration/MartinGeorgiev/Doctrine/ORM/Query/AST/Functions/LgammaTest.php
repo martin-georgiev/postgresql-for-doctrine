@@ -23,7 +23,7 @@ class LgammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_compute_lgamma_of_a_integer(): void
+    public function computes_lgamma_of_a_integer(): void
     {
         $dql = 'SELECT LGAMMA(5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -34,7 +34,7 @@ class LgammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_compute_lgamma_of_a_float(): void
+    public function computes_lgamma_of_a_float(): void
     {
         $dql = 'SELECT LGAMMA(2.5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -45,7 +45,7 @@ class LgammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_compute_lgamma_of_integer_field(): void
+    public function computes_lgamma_of_integer_field(): void
     {
         $dql = 'SELECT LGAMMA(t.integer1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t

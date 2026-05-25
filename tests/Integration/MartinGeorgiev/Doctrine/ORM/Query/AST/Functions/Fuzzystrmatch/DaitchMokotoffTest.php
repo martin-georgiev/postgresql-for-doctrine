@@ -27,7 +27,7 @@ class DaitchMokotoffTest extends TestCase
     }
 
     #[Test]
-    public function can_process_text_field(): void
+    public function processes_text_field(): void
     {
         $dql = 'SELECT DAITCH_MOKOTOFF(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -17,7 +17,7 @@ class JsonbExtractPathTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_extract_path_text_from_jsonb(): void
+    public function extracts_path_text_from_jsonb(): void
     {
         $dql = "SELECT JSONB_EXTRACT_PATH_TEXT(t.jsonbObject1, 'address', 'city') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

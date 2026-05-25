@@ -17,7 +17,7 @@ class RangeAggTest extends RangeTestCase
     }
 
     #[Test]
-    public function can_aggregate_overlapping_int4_ranges_into_multirange(): void
+    public function aggregates_overlapping_int4_ranges_into_multirange(): void
     {
         $dql = 'SELECT RANGE_AGG(t.int4Range) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsRanges t';
         $result = $this->executeDqlQuery($dql);
@@ -26,7 +26,7 @@ class RangeAggTest extends RangeTestCase
     }
 
     #[Test]
-    public function can_aggregate_single_int4_range(): void
+    public function aggregates_single_int4_range(): void
     {
         $dql = 'SELECT RANGE_AGG(t.int4Range) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsRanges t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);

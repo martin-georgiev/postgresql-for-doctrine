@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForPHPE
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class BigIntArrayTest extends BaseIntegerArrayTestCase
+final class BigIntArrayTest extends BaseIntegerArrayTestCase
 {
     protected function setUp(): void
     {

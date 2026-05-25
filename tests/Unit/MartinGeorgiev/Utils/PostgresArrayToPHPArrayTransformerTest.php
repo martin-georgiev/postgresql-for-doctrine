@@ -17,7 +17,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
      */
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(array $phpValue, string $postgresValue): void
+    public function converts_to_php_value(array $phpValue, string $postgresValue): void
     {
         $this->assertEquals($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
     }
@@ -196,7 +196,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
 
     #[DataProvider('provideManualParsingArrays')]
     #[Test]
-    public function can_recover_from_json_decode_failure_and_transform_value_through_manual_parsing(array $phpValue, string $postgresValue): void
+    public function recovers_from_json_decode_failure_and_transform_value_through_manual_parsing(array $phpValue, string $postgresValue): void
     {
         $this->assertSame($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue));
     }
@@ -227,14 +227,14 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_escaped_quotes_with_backslashes(): void
+    public function converts_escaped_quotes_with_backslashes(): void
     {
         $postgresArray = '{"\\\"quoted\\\""}';
         $this->assertSame(['\"quoted\"'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
 
     #[Test]
-    public function can_preserves_numeric_precision(): void
+    public function preserves_numeric_precision(): void
     {
         $postgresArray = '{"9223372036854775808","1.23456789012345"}';
         $this->assertSame(['9223372036854775808', '1.23456789012345'], PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
@@ -269,7 +269,7 @@ class PostgresArrayToPHPArrayTransformerTest extends TestCase
 
     #[DataProvider('providePreserveStringTypesTestCases')]
     #[Test]
-    public function can_preserve_string_types_when_requested(array $expectedValue, string $postgresValue): void
+    public function preserves_string_types_when_requested(array $expectedValue, string $postgresValue): void
     {
         $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue, preserveStringTypes: true);
 

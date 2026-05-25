@@ -11,15 +11,7 @@ abstract class TestCase extends TextTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ensurePgTrgmExtension();
-    }
 
-    private function ensurePgTrgmExtension(): void
-    {
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS pg_trgm');
-        } catch (\Exception) {
-            $this->markTestSkipped('pg_trgm extension is not available');
-        }
+        $this->ensurePostgresExtensionInSchema('pg_trgm');
     }
 }

@@ -21,7 +21,7 @@ class MakeTimestamptzTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function can_create_timestamptz_from_components(): void
+    public function creates_timestamptz_from_components(): void
     {
         $dql = "SELECT MAKE_TIMESTAMPTZ(
                     CAST(DATE_PART('year', t.datetimetz1) AS INTEGER),
@@ -40,7 +40,7 @@ class MakeTimestamptzTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function can_create_timestamptz_with_timezone(): void
+    public function creates_timestamptz_with_timezone(): void
     {
         $dql = "SELECT MAKE_TIMESTAMPTZ(
                     CAST(DATE_PART('year', t.datetimetz1) AS INTEGER),
@@ -60,7 +60,7 @@ class MakeTimestamptzTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function can_create_timestamptz_from_entity_fields(): void
+    public function creates_timestamptz_from_entity_fields(): void
     {
         $dql = "SELECT MAKE_TIMESTAMPTZ(2023, n.integer1, n.integer2, 10, 30, 0, 'UTC') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n

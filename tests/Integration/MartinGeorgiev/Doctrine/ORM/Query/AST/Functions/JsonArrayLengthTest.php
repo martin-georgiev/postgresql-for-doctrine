@@ -19,7 +19,7 @@ class JsonArrayLengthTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_array_length_from_json(): void
+    public function returns_array_length_from_json(): void
     {
         $dql = "SELECT JSON_ARRAY_LENGTH(JSON_GET_FIELD(t.jsonObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

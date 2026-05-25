@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class PointTypeTest extends TestCase
+final class PointTypeTest extends TestCase
 {
     use PointAssertionTrait;
 
@@ -19,7 +19,7 @@ class PointTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -41,7 +41,7 @@ class PointTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_point_values(PointValueObject $pointValueObject): void
+    public function roundtrips_value(PointValueObject $pointValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

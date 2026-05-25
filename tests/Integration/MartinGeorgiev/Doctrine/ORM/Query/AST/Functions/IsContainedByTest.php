@@ -39,7 +39,7 @@ class IsContainedByTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_check_subset_containment(): void
+    public function checks_subset_containment(): void
     {
         $dql = "SELECT IS_CONTAINED_BY(ARR('apple', 'banana'), t.textArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 

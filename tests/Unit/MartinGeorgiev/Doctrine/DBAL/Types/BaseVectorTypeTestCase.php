@@ -97,7 +97,7 @@ abstract class BaseVectorTypeTestCase extends TestCase
 
     #[DataProvider('provideValidPHPToDatabase')]
     #[Test]
-    public function can_transform_from_php_value(mixed $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(mixed $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
@@ -137,7 +137,7 @@ abstract class BaseVectorTypeTestCase extends TestCase
 
     #[DataProvider('provideValidDatabaseToPHP')]
     #[Test]
-    public function can_transform_to_php_value(?string $postgresValue, ?array $phpValue): void
+    public function converts_to_php_value(?string $postgresValue, ?array $phpValue): void
     {
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }

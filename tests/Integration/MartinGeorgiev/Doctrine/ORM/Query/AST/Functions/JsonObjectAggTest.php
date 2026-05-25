@@ -17,7 +17,7 @@ class JsonObjectAggTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_aggregate_key_value_pairs_to_json_object(): void
+    public function aggregates_key_value_pairs_to_json_object(): void
     {
         $dql = "SELECT JSON_OBJECT_AGG('key', t.jsonObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

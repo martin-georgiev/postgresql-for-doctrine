@@ -23,7 +23,7 @@ class ArrayReverseTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_reverse_text_array(): void
+    public function reverses_text_array(): void
     {
         $dql = 'SELECT ARRAY_REVERSE(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -36,7 +36,7 @@ class ArrayReverseTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_reverse_integer_array(): void
+    public function reverses_integer_array(): void
     {
         $dql = 'SELECT ARRAY_REVERSE(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -49,7 +49,7 @@ class ArrayReverseTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_reverse_boolean_array(): void
+    public function reverses_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_REVERSE(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
