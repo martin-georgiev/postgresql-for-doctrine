@@ -74,6 +74,9 @@ return [
                 '_timestamp' => 'timestamp[]',
                 'timestamptz[]' => 'timestamptz[]',
                 '_timestamptz' => 'timestamptz[]',
+                'timetz' => 'timetz',
+                'timetz[]' => 'timetz[]',
+                '_timetz' => 'timetz[]',
 
                 // JSON type mappings
                 'jsonb' => 'jsonb',
@@ -149,11 +152,23 @@ return [
 
                 // Multirange type mappings
                 'datemultirange' => 'datemultirange',
+                'datemultirange[]' => 'datemultirange[]',
+                '_datemultirange' => 'datemultirange[]',
                 'int4multirange' => 'int4multirange',
+                'int4multirange[]' => 'int4multirange[]',
+                '_int4multirange' => 'int4multirange[]',
                 'int8multirange' => 'int8multirange',
+                'int8multirange[]' => 'int8multirange[]',
+                '_int8multirange' => 'int8multirange[]',
                 'nummultirange' => 'nummultirange',
+                'nummultirange[]' => 'nummultirange[]',
+                '_nummultirange' => 'nummultirange[]',
                 'tsmultirange' => 'tsmultirange',
+                'tsmultirange[]' => 'tsmultirange[]',
+                '_tsmultirange' => 'tsmultirange[]',
                 'tstzmultirange' => 'tstzmultirange',
+                'tstzmultirange[]' => 'tstzmultirange[]',
+                '_tstzmultirange' => 'tstzmultirange[]',
 
                 // Text search type mappings
                 'tsquery' => 'tsquery',
@@ -212,12 +227,14 @@ return [
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
 
-        // Datetime array types
+        // Date and time types
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
         'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
         'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
         'timestamp[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray::class,
         'timestamptz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray::class,
+        'timetz' => MartinGeorgiev\Doctrine\DBAL\Types\Timetz::class,
+        'timetz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray::class,
 
         // JSON types
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
@@ -273,11 +290,17 @@ return [
 
         // Multirange types
         'datemultirange' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class,
+        'datemultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray::class,
         'int4multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class,
+        'int4multirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int4MultirangeArray::class,
         'int8multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class,
+        'int8multirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int8MultirangeArray::class,
         'nummultirange' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class,
+        'nummultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirangeArray::class,
         'tsmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
+        'tsmultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirangeArray::class,
         'tstzmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
+        'tstzmultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirangeArray::class,
 
         // Text search types
         'tsquery' => MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,

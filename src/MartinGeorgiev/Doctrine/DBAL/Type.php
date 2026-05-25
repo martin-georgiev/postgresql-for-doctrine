@@ -89,6 +89,11 @@ final class Type
     /**
      * @var string
      */
+    public const DATEMULTIRANGE_ARRAY = 'datemultirange[]';
+
+    /**
+     * @var string
+     */
     public const DATERANGE = 'daterange';
 
     /**
@@ -154,6 +159,11 @@ final class Type
     /**
      * @var string
      */
+    public const INT4MULTIRANGE_ARRAY = 'int4multirange[]';
+
+    /**
+     * @var string
+     */
     public const INT4RANGE = 'int4range';
 
     /**
@@ -165,6 +175,11 @@ final class Type
      * @var string
      */
     public const INT8MULTIRANGE = 'int8multirange';
+
+    /**
+     * @var string
+     */
+    public const INT8MULTIRANGE_ARRAY = 'int8multirange[]';
 
     /**
      * @var string
@@ -269,6 +284,11 @@ final class Type
     /**
      * @var string
      */
+    public const NUMMULTIRANGE_ARRAY = 'nummultirange[]';
+
+    /**
+     * @var string
+     */
     public const NUMRANGE = 'numrange';
 
     /**
@@ -329,6 +349,16 @@ final class Type
     /**
      * @var string
      */
+    public const TIMETZ = 'timetz';
+
+    /**
+     * @var string
+     */
+    public const TIMETZ_ARRAY = 'timetz[]';
+
+    /**
+     * @var string
+     */
     public const TIMESTAMP_ARRAY = 'timestamp[]';
 
     /**
@@ -364,6 +394,11 @@ final class Type
     /**
      * @var string
      */
+    public const TSMULTIRANGE_ARRAY = 'tsmultirange[]';
+
+    /**
+     * @var string
+     */
     public const TSVECTOR = 'tsvector';
 
     /**
@@ -385,6 +420,11 @@ final class Type
      * @var string
      */
     public const TSTZMULTIRANGE = 'tstzmultirange';
+
+    /**
+     * @var string
+     */
+    public const TSTZMULTIRANGE_ARRAY = 'tstzmultirange[]';
 
     /**
      * @var string
