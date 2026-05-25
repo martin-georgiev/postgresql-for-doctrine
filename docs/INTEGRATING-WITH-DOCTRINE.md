@@ -31,12 +31,14 @@ Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
 
-// Datetime array types
+// Date and time types
 Type::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
 Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
 Type::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
 Type::addType('timestamp[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampArray");
 Type::addType('timestamptz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTzArray");
+Type::addType('timetz', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Timetz");
+Type::addType('timetz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimetzArray");
 
 // JSON types
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
@@ -411,6 +413,9 @@ $platform->registerDoctrineTypeMapping('timestamp[]', 'timestamp[]');
 $platform->registerDoctrineTypeMapping('_timestamp', 'timestamp[]');
 $platform->registerDoctrineTypeMapping('timestamptz[]', 'timestamptz[]');
 $platform->registerDoctrineTypeMapping('_timestamptz', 'timestamptz[]');
+$platform->registerDoctrineTypeMapping('timetz', 'timetz');
+$platform->registerDoctrineTypeMapping('timetz[]', 'timetz[]');
+$platform->registerDoctrineTypeMapping('_timetz', 'timetz[]');
 
 // JSON type mappings
 $platform->registerDoctrineTypeMapping('jsonb', 'jsonb');

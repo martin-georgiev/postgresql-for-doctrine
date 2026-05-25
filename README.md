@@ -45,7 +45,7 @@ $query = $em->createQuery('
   - Float arrays (`real[]`, `double precision[]`)
   - Text arrays (`text[]`)
   - Boolean arrays (`bool[]`)
-  - Date arrays (`date[]`, `timestamp[]`, `timestamptz[]`)
+  - Date and time (`date[]`, `interval`, `interval[]`, `timestamp[]`, `timestamptz[]`, `timetz`, `timetz[]`)
   - JSONB arrays (`jsonb[]`)
 - **Binary Types**
   - Raw binary data (`bytea`, `bytea[]`)

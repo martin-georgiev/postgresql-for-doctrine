@@ -74,6 +74,9 @@ return [
                 '_timestamp' => 'timestamp[]',
                 'timestamptz[]' => 'timestamptz[]',
                 '_timestamptz' => 'timestamptz[]',
+                'timetz' => 'timetz',
+                'timetz[]' => 'timetz[]',
+                '_timetz' => 'timetz[]',
 
                 // JSON type mappings
                 'jsonb' => 'jsonb',
@@ -210,12 +213,14 @@ return [
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
 
-        // Datetime array types
+        // Date and time types
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
         'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
         'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
         'timestamp[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray::class,
         'timestamptz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray::class,
+        'timetz' => MartinGeorgiev\Doctrine\DBAL\Types\Timetz::class,
+        'timetz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray::class,
 
         // JSON types
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,

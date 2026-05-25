@@ -329,6 +329,16 @@ final class Type
     /**
      * @var string
      */
+    public const TIMETZ = 'timetz';
+
+    /**
+     * @var string
+     */
+    public const TIMETZ_ARRAY = 'timetz[]';
+
+    /**
+     * @var string
+     */
     public const TIMESTAMP_ARRAY = 'timestamp[]';
 
     /**

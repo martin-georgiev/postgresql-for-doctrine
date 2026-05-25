@@ -31,12 +31,14 @@ doctrine:
             'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             'uuid[]': MartinGeorgiev\Doctrine\DBAL\Types\UuidArray
 
-            # Datetime array types
+            # Date and time types
             'date[]': MartinGeorgiev\Doctrine\DBAL\Types\DateArray
             interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
             'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
             'timestamp[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray
             'timestamptz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray
+            timetz: MartinGeorgiev\Doctrine\DBAL\Types\Timetz
+            'timetz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray
 
             # JSON types
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
@@ -180,6 +182,9 @@ doctrine:
                     _timestamp: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
                     'timestamptz[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
                     _timestamptz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
+                    timetz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMETZ
+                    'timetz[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMETZ_ARRAY
+                    _timetz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMETZ_ARRAY
 
                     # JSON type mappings
                     jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB
