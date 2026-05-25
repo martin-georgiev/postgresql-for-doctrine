@@ -157,6 +157,12 @@
     },
 
     "config": {
+        "audit": {
+            "ignore-abandoned": [
+                "sebastian/code-unit",
+                "sebastian/code-unit-reverse-lookup"
+            ]
+        },
         "bin-dir": "bin",
         "sort-packages": true
     },
