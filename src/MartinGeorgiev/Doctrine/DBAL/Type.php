@@ -99,6 +99,11 @@ final class Type
     /**
      * @var string
      */
+    public const DATERANGE_ARRAY = 'daterange[]';
+
+    /**
+     * @var string
+     */
     public const DOUBLE_PRECISION_ARRAY = 'double precision[]';
 
     /**
@@ -164,6 +169,11 @@ final class Type
     /**
      * @var string
      */
+    public const INT4RANGE_ARRAY = 'int4range[]';
+
+    /**
+     * @var string
+     */
     public const INT8MULTIRANGE = 'int8multirange';
 
     /**
@@ -175,6 +185,11 @@ final class Type
      * @var string
      */
     public const INT8RANGE = 'int8range';
+
+    /**
+     * @var string
+     */
+    public const INT8RANGE_ARRAY = 'int8range[]';
 
     /**
      * @var string
@@ -279,6 +294,11 @@ final class Type
     /**
      * @var string
      */
+    public const NUMRANGE_ARRAY = 'numrange[]';
+
+    /**
+     * @var string
+     */
     public const PATH = 'path';
 
     /**
@@ -364,6 +384,11 @@ final class Type
     /**
      * @var string
      */
+    public const TSRANGE_ARRAY = 'tsrange[]';
+
+    /**
+     * @var string
+     */
     public const TSMULTIRANGE = 'tsmultirange';
 
     /**
@@ -385,6 +410,11 @@ final class Type
      * @var string
      */
     public const TSTZRANGE = 'tstzrange';
+
+    /**
+     * @var string
+     */
+    public const TSTZRANGE_ARRAY = 'tstzrange[]';
 
     /**
      * @var string
