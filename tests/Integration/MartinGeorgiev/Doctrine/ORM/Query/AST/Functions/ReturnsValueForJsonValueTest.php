@@ -37,7 +37,7 @@ class ReturnsValueForJsonValueTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_check_nested_path(): void
+    public function checks_nested_path(): void
     {
         $dql = "SELECT RETURNS_VALUE_FOR_JSON_VALUE(t.jsonbObject1, '$.address.city') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

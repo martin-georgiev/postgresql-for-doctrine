@@ -17,7 +17,7 @@ class RightTest extends TextTestCase
     }
 
     #[Test]
-    public function can_extract_right_characters(): void
+    public function extracts_right_characters(): void
     {
         $dql = 'SELECT RIGHT(t.text1, 6) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t 

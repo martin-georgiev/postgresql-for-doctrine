@@ -19,7 +19,7 @@ class Sha384Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha384_of_a_string(): void
+    public function computes_sha384_of_a_string(): void
     {
         $dql = "SELECT SHA384('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -30,7 +30,7 @@ class Sha384Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha384_of_text_field(): void
+    public function computes_sha384_of_text_field(): void
     {
         $dql = 'SELECT SHA384(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

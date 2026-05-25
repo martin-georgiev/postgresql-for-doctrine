@@ -21,7 +21,7 @@ class SetweightTest extends TextTestCase
     }
 
     #[Test]
-    public function can_assign_weight_to_tsvector(): void
+    public function assigns_weight_to_tsvector(): void
     {
         $dql = "SELECT SETWEIGHT(TO_TSVECTOR(t.text1), 'A') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -29,7 +29,7 @@ class SetweightTest extends TextTestCase
     }
 
     #[Test]
-    public function can_assign_weight_to_literal_tsvector(): void
+    public function assigns_weight_to_literal_tsvector(): void
     {
         $dql = "SELECT SETWEIGHT(TO_TSVECTOR('lorem ipsum dolor'), 'B') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

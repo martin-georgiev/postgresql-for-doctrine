@@ -17,7 +17,7 @@ class RepeatTest extends TextTestCase
     }
 
     #[Test]
-    public function can_repeat_string(): void
+    public function repeats_string(): void
     {
         $dql = 'SELECT REPEAT(t.text1, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t 

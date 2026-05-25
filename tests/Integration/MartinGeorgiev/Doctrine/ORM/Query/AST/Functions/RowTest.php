@@ -17,7 +17,7 @@ class RowTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_row_from_columns(): void
+    public function creates_row_from_columns(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

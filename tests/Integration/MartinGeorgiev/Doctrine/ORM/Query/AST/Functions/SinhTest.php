@@ -17,7 +17,7 @@ class SinhTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_sinh_of_literal(): void
+    public function calculates_sinh_of_literal(): void
     {
         $dql = 'SELECT SINH(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class SinhTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_sinh_with_entity_property(): void
+    public function calculates_sinh_with_entity_property(): void
     {
         $dql = 'SELECT SINH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
