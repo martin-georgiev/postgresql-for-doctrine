@@ -49,14 +49,14 @@ final class PolygonTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(PolygonValueObject $polygonValueObject, string $postgresValue): void
+    public function converts_to_database_value(PolygonValueObject $polygonValueObject, string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($polygonValueObject, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(PolygonValueObject $polygonValueObject, string $postgresValue): void
+    public function converts_to_php_value(PolygonValueObject $polygonValueObject, string $postgresValue): void
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
         $this->assertInstanceOf(PolygonValueObject::class, $result);
