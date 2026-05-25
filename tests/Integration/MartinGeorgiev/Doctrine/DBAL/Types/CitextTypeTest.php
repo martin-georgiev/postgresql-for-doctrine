@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class CitextTypeTest extends ScalarTypeTestCase
@@ -25,21 +26,22 @@ class CitextTypeTest extends ScalarTypeTestCase
         return 'citext';
     }
 
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_simple_citext_value(): void
+    public function can_transform_from_php_value(string $testValue): void
     {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, 'Hello World');
+        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $testValue);
     }
 
-    #[Test]
-    public function can_handle_citext_with_mixed_case(): void
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideValidTransformations(): array
     {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, 'CaseInsensitive TEXT');
+        return [
+            'simple text' => ['Hello World'],
+            'mixed case' => ['CaseInsensitive TEXT'],
+            'empty string' => [''],
+        ];
     }
 }

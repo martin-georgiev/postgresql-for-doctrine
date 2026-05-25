@@ -235,7 +235,7 @@ It maps to `array<string, string|null>` in PHP. Keys and values are always strin
 
 ## Citext Type
 
-The `citext` type requires the PostgreSQL [`citext`](https://www.postgresql.org/docs/current/citext.html) extension. Enable it with:
+The `citext` type requires the PostgreSQL [`citext`](https://www.postgresql.org/docs/18/citext.html) extension. Enable it with:
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS citext;

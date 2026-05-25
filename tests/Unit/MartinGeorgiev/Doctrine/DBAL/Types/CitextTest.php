@@ -70,13 +70,11 @@ class CitextTest extends TestCase
                 'phpValue' => 'User@Example.COM',
                 'databaseValue' => 'User@Example.COM',
             ],
+            'empty string' => [
+                'phpValue' => '',
+                'databaseValue' => '',
+            ],
         ];
-    }
-
-    #[Test]
-    public function converts_empty_string_from_database_to_null(): void
-    {
-        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
     #[DataProvider('provideInvalidDatabaseValueInputs')]

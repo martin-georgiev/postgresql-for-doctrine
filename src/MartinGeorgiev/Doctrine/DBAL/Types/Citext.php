@@ -42,7 +42,7 @@ final class Citext extends BaseType
 
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?string
     {
-        if ($value === null || $value === '') {
+        if ($value === null) {
             return null;
         }
 
