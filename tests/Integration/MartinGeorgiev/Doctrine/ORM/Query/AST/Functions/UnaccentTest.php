@@ -12,7 +12,8 @@ class UnaccentTest extends TextTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ensureUnaccentExtension();
+
+        $this->ensurePostgresExtensionInSchema('unaccent');
     }
 
     protected function getStringFunctions(): array
@@ -22,18 +23,8 @@ class UnaccentTest extends TextTestCase
         ];
     }
 
-    private function ensureUnaccentExtension(): void
-    {
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS unaccent');
-            $this->connection->executeStatement(\sprintf('ALTER EXTENSION unaccent SET SCHEMA %s', self::DATABASE_SCHEMA));
-        } catch (\Exception) {
-            $this->markTestSkipped('unaccent extension is not available');
-        }
-    }
-
     #[Test]
-    public function can_remove_accents_from_text(): void
+    public function removes_accents_from_text(): void
     {
         $dql = "SELECT UNACCENT('café') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -43,7 +34,7 @@ class UnaccentTest extends TextTestCase
     }
 
     #[Test]
-    public function can_remove_multiple_accents(): void
+    public function removes_multiple_accents(): void
     {
         $dql = "SELECT UNACCENT('résumé') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

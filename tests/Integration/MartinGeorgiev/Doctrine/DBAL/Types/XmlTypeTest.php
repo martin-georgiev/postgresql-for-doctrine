@@ -17,7 +17,7 @@ final class XmlTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(string $testValue): void
+    public function roundtrips_value(string $testValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -40,7 +40,7 @@ final class XmlTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function can_strip_xml_declaration_on_storage(): void
+    public function strips_xml_declaration_on_storage(): void
     {
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $this->getTypeName(),

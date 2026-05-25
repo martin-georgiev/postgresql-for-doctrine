@@ -35,7 +35,10 @@ final class XmlArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidXmlArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['<unclosed>']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['<unclosed>']);
     }
 
     #[Test]
@@ -43,6 +46,9 @@ final class XmlArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidXmlArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['just plain text']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['just plain text']);
     }
 }

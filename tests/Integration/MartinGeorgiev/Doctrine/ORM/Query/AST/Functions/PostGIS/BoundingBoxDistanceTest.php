@@ -39,7 +39,7 @@ class BoundingBoxDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function can_calculate_euclidean_distance_between_separated_points(): void
+    public function calculates_euclidean_distance_between_separated_points(): void
     {
         $dql = "SELECT BOUNDING_BOX_DISTANCE('POINT(0 0)', 'POINT(3 4)') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -50,7 +50,7 @@ class BoundingBoxDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function can_calculate_distance_between_non_overlapping_polygons(): void
+    public function calculates_distance_between_non_overlapping_polygons(): void
     {
         $dql = "SELECT BOUNDING_BOX_DISTANCE('POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))', 'POLYGON((3 3, 4 3, 4 4, 3 4, 3 3))') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

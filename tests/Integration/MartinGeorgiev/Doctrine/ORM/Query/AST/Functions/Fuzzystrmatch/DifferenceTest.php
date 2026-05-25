@@ -57,7 +57,7 @@ class DifferenceTest extends TestCase
     }
 
     #[Test]
-    public function can_compute_difference_from_text_fields(): void
+    public function computes_difference_from_text_fields(): void
     {
         $dql = 'SELECT DIFFERENCE(t.text1, t.text2) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
