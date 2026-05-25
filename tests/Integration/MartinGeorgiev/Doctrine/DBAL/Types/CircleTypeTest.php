@@ -17,7 +17,7 @@ final class CircleTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -27,7 +27,7 @@ final class CircleTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_circle_values(CircleValueObject $circleValueObject): void
+    public function roundtrips_value(CircleValueObject $circleValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

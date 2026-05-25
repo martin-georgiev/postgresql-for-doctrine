@@ -105,9 +105,12 @@ use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types\EnsurePostgresExtensionTrait;
 
 abstract class TestCase extends BaseTestCase
 {
+    use EnsurePostgresExtensionTrait;
+
     /**
      * @var string
      */
@@ -247,30 +250,13 @@ abstract class TestCase extends BaseTestCase
         $this->connection->executeStatement(\sprintf('DROP SCHEMA IF EXISTS %s CASCADE', self::DATABASE_SCHEMA));
         $this->connection->executeStatement(\sprintf('CREATE SCHEMA %s', self::DATABASE_SCHEMA));
 
-        // Ensure Ltree is available for hierarchy tree types
-        // Ensure Ltree is available in the test schema
-        try {
-            // Ensure PostGIS is installed and, if possible, placed in the test schema
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS ltree');
-            // Move the extension objects into the test schema to resolve types without relying on public
-            $this->connection->executeStatement(\sprintf('ALTER EXTENSION ltree SET SCHEMA %s', self::DATABASE_SCHEMA));
-        } catch (\Throwable) {
-            // Fallback: if moving the extension is not possible, keep public in the search_path below
-        }
+        $this->ensurePostgresExtensionInSchema('ltree');
 
-        // Ensure PostGIS is available for geometry/geography types
-        // Ensure PostGIS is available in the test schema and as default search_path
-        try {
-            // Ensure PostGIS is installed and, if possible, placed in the test schema
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS postgis');
-            // Move the extension objects into the test schema to resolve types without relying on public
-            $this->connection->executeStatement(\sprintf('ALTER EXTENSION postgis SET SCHEMA %s', self::DATABASE_SCHEMA));
-        } catch (\Throwable) {
-            // Fallback: if moving the extension is not possible, keep public in the search_path below
-        }
+        $this->ensurePostgresExtensionInSchema('postgis');
 
         // Ensure our schema is first, but include public so extensions installed there resolve
         $this->connection->executeStatement(\sprintf('SET search_path TO %s, public', self::DATABASE_SCHEMA));
+
         // Stabilize timezone-dependent tests
         $this->connection->executeStatement("SET TIME ZONE 'UTC'");
     }

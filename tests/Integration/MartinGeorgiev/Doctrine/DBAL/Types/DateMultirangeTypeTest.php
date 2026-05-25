@@ -35,11 +35,14 @@ final class DateMultirangeTypeTest extends MultirangeTypeTestCase
     }
 
     #[Test]
-    public function can_normalizes_exclusive_lower_bound_to_inclusive(): void
+    public function normalizes_exclusive_lower_bound_to_inclusive(): void
     {
         $input = new DateMultirangeVO([new DateRange(new \DateTimeImmutable('2024-01-01'), new \DateTimeImmutable('2024-06-30'), false, false)]);
         $expected = new DateMultirangeVO([new DateRange(new \DateTimeImmutable('2024-01-02'), new \DateTimeImmutable('2024-06-30'))]);
 
-        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue($this->getTypeName(), $this->getPostgresTypeName(), $input, $expected);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue($typeName, $columnType, $input, $expected);
     }
 }

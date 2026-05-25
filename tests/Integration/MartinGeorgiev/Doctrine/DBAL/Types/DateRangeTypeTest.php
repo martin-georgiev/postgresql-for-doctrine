@@ -53,7 +53,7 @@ final class DateRangeTypeTest extends RangeTypeTestCase
 
     #[DataProvider('provideInfinityAndSpecialCases')]
     #[Test]
-    public function can_handle_infinity_and_special_cases(DateRangeValueObject $dateRangeValueObject): void
+    public function roundtrips_unbounded_and_empty_value(DateRangeValueObject $dateRangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

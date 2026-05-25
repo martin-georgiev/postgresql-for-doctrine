@@ -29,7 +29,7 @@ final class BitTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_roundtrip_value(string $testValue): void
+    public function roundtrips_value(string $testValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

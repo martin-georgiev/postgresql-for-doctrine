@@ -63,34 +63,40 @@ final class GeographyTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_geography_values(WktSpatialData $wktSpatialData): void
+    public function roundtrips_value(WktSpatialData $wktSpatialData): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $wktSpatialData);
     }
 
     #[Test]
-    public function can_retrieve_null_geography_using_entity_manager_find(): void
+    public function retrieves_null_geography_using_entity_manager_find(): void
     {
         $this->runOrmFindRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_retrieve_geography_values_using_entity_manager_find(WktSpatialData $wktSpatialData): void
+    public function retrieves_geography_values_using_entity_manager_find(WktSpatialData $wktSpatialData): void
     {
         $this->runOrmFindRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_retrieve_geography_values_using_dql_select(WktSpatialData $wktSpatialData): void
+    public function retrieves_geography_values_using_dql_select(WktSpatialData $wktSpatialData): void
     {
         $this->runOrmDqlSelectRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
