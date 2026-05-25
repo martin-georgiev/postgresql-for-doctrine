@@ -99,7 +99,17 @@ final class Type
     /**
      * @var string
      */
+    public const DATEMULTIRANGE_ARRAY = 'datemultirange[]';
+
+    /**
+     * @var string
+     */
     public const DATERANGE = 'daterange';
+
+    /**
+     * @var string
+     */
+    public const DATERANGE_ARRAY = 'daterange[]';
 
     /**
      * @var string
@@ -159,7 +169,17 @@ final class Type
     /**
      * @var string
      */
+    public const INT4MULTIRANGE_ARRAY = 'int4multirange[]';
+
+    /**
+     * @var string
+     */
     public const INT4RANGE = 'int4range';
+
+    /**
+     * @var string
+     */
+    public const INT4RANGE_ARRAY = 'int4range[]';
 
     /**
      * @var string
@@ -169,7 +189,17 @@ final class Type
     /**
      * @var string
      */
+    public const INT8MULTIRANGE_ARRAY = 'int8multirange[]';
+
+    /**
+     * @var string
+     */
     public const INT8RANGE = 'int8range';
+
+    /**
+     * @var string
+     */
+    public const INT8RANGE_ARRAY = 'int8range[]';
 
     /**
      * @var string
@@ -264,7 +294,17 @@ final class Type
     /**
      * @var string
      */
+    public const NUMMULTIRANGE_ARRAY = 'nummultirange[]';
+
+    /**
+     * @var string
+     */
     public const NUMRANGE = 'numrange';
+
+    /**
+     * @var string
+     */
+    public const NUMRANGE_ARRAY = 'numrange[]';
 
     /**
      * @var string
@@ -319,6 +359,16 @@ final class Type
     /**
      * @var string
      */
+    public const TIMETZ = 'timetz';
+
+    /**
+     * @var string
+     */
+    public const TIMETZ_ARRAY = 'timetz[]';
+
+    /**
+     * @var string
+     */
     public const TIMESTAMP_ARRAY = 'timestamp[]';
 
     /**
@@ -344,7 +394,17 @@ final class Type
     /**
      * @var string
      */
+    public const TSRANGE_ARRAY = 'tsrange[]';
+
+    /**
+     * @var string
+     */
     public const TSMULTIRANGE = 'tsmultirange';
+
+    /**
+     * @var string
+     */
+    public const TSMULTIRANGE_ARRAY = 'tsmultirange[]';
 
     /**
      * @var string
@@ -364,7 +424,17 @@ final class Type
     /**
      * @var string
      */
+    public const TSTZRANGE_ARRAY = 'tstzrange[]';
+
+    /**
+     * @var string
+     */
     public const TSTZMULTIRANGE = 'tstzmultirange';
+
+    /**
+     * @var string
+     */
+    public const TSTZMULTIRANGE_ARRAY = 'tstzmultirange[]';
 
     /**
      * @var string
