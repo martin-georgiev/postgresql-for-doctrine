@@ -6,12 +6,15 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range as RangeValueObject;
 
+/**
+ * @template R of RangeValueObject
+ */
 abstract class RangeArrayTypeTestCase extends ArrayTypeTestCase
 {
     /**
-     * @return class-string<RangeValueObject>
+     * @return class-string<R>
      */
-    abstract public static function getRangeValueObjectClass(): string;
+    abstract protected static function getRangeValueObjectClass(): string;
 
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {

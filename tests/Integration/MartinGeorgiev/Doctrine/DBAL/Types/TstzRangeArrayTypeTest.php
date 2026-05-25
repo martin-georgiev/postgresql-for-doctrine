@@ -6,6 +6,9 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange;
 
+/**
+ * @extends RangeArrayTypeTestCase<TstzRange>
+ */
 class TstzRangeArrayTypeTest extends RangeArrayTypeTestCase
 {
     protected function getTypeName(): string
@@ -16,7 +19,7 @@ class TstzRangeArrayTypeTest extends RangeArrayTypeTestCase
     /**
      * @return class-string<TstzRange>
      */
-    public static function getRangeValueObjectClass(): string
+    protected static function getRangeValueObjectClass(): string
     {
         return TstzRange::class;
     }

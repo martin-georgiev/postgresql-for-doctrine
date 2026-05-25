@@ -6,6 +6,9 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
 
+/**
+ * @extends RangeArrayTypeTestCase<DateRange>
+ */
 class DateRangeArrayTypeTest extends RangeArrayTypeTestCase
 {
     protected function getTypeName(): string
@@ -16,7 +19,7 @@ class DateRangeArrayTypeTest extends RangeArrayTypeTestCase
     /**
      * @return class-string<DateRange>
      */
-    public static function getRangeValueObjectClass(): string
+    protected static function getRangeValueObjectClass(): string
     {
         return DateRange::class;
     }

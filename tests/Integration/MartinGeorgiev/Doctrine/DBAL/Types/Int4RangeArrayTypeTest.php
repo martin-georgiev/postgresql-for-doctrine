@@ -6,6 +6,9 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range;
 
+/**
+ * @extends RangeArrayTypeTestCase<Int4Range>
+ */
 class Int4RangeArrayTypeTest extends RangeArrayTypeTestCase
 {
     protected function getTypeName(): string
@@ -16,7 +19,7 @@ class Int4RangeArrayTypeTest extends RangeArrayTypeTestCase
     /**
      * @return class-string<Int4Range>
      */
-    public static function getRangeValueObjectClass(): string
+    protected static function getRangeValueObjectClass(): string
     {
         return Int4Range::class;
     }
