@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class TsRangeArrayTest extends TestCase
+final class TsRangeArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

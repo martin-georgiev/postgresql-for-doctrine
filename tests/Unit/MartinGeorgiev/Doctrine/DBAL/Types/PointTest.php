@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PointTest extends TestCase
+final class PointTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

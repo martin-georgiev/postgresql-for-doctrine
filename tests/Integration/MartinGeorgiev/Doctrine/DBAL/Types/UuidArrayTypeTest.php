@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUuidArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
-class UuidArrayTypeTest extends ArrayTypeTestCase
+final class UuidArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

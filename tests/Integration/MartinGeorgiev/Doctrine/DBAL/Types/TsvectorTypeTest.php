@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorForPHPException
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsvectorTypeTest extends ScalarTypeTestCase
+final class TsvectorTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {

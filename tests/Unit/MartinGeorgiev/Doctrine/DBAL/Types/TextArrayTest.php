@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class TextArrayTest extends TestCase
+final class TextArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPathArrayItemForDatabas
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Path as PathValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class PathArrayTypeTest extends ArrayTypeTestCase
+final class PathArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

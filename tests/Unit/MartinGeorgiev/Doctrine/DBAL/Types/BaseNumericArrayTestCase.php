@@ -63,7 +63,7 @@ abstract class BaseNumericArrayTestCase extends TestCase
     abstract public static function provideValidTransformations(): array;
 
     #[Test]
-    public function returns_null_when_transforming_null_item_for_php(): void
+    public function can_transform_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }

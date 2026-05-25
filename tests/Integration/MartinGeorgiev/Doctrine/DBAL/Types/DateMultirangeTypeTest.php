@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateMultirange as DateMultira
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateMultirangeTypeTest extends MultirangeTypeTestCase
+final class DateMultirangeTypeTest extends MultirangeTypeTestCase
 {
     protected function getTypeName(): string
     {

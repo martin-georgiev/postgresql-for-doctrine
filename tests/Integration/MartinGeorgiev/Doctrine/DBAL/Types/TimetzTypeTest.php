@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TimetzTypeTest extends ScalarTypeTestCase
+final class TimetzTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {

@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class CidrTypeTest extends ScalarTypeTestCase
+final class CidrTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {

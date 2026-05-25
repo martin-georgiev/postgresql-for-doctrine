@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange as NumRangeValue
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class NumRangeTypeTest extends RangeTypeTestCase
+final class NumRangeTypeTest extends RangeTypeTestCase
 {
     protected function getTypeName(): string
     {

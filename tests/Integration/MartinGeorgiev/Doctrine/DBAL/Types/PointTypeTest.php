@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class PointTypeTest extends TestCase
+final class PointTypeTest extends TestCase
 {
     use PointAssertionTrait;
 

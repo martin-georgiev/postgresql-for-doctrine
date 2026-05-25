@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class RealArrayTest extends BaseFloatArrayTestCase
+final class RealArrayTest extends BaseFloatArrayTestCase
 {
     protected function setUp(): void
     {

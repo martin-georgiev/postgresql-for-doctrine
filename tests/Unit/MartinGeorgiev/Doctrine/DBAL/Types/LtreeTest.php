@@ -34,7 +34,7 @@ final class LtreeTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_string_to_database_value(): void
+    public function can_transform_string_to_database_value(): void
     {
         $value = 'alpha.beta.gamma';
         $databaseValue = $this->fixture->convertToDatabaseValue($value, $this->platform);

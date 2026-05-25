@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange as TstzRangeValueOb
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TstzRangeTypeTest extends RangeTypeTestCase
+final class TstzRangeTypeTest extends RangeTypeTestCase
 {
     protected function getTypeName(): string
     {

@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class BooleanArrayTest extends TestCase
+final class BooleanArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

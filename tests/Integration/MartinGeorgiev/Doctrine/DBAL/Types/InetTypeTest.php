@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class InetTypeTest extends ScalarTypeTestCase
+final class InetTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {

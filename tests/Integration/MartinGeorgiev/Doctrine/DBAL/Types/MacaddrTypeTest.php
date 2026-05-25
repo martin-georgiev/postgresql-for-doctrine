@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class MacaddrTypeTest extends ScalarTypeTestCase
+final class MacaddrTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {

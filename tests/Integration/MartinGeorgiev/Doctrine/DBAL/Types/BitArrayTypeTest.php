@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitArrayItemForDatabase
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class BitArrayTypeTest extends ArrayTypeTestCase
+final class BitArrayTypeTest extends ArrayTypeTestCase
 {
     use BitLengthRoundTripTrait;
 

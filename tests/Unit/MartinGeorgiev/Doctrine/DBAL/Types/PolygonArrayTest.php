@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PolygonArrayTest extends TestCase
+final class PolygonArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -145,7 +145,7 @@ class PolygonArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_array_item_for_php_returning_null_for_null(): void
+    public function can_transform_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }

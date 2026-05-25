@@ -13,7 +13,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class EnumTypeTest extends TestCase
+final class EnumTypeTest extends TestCase
 {
     private const DBAL_TYPE_NAME = 'test_color';
 

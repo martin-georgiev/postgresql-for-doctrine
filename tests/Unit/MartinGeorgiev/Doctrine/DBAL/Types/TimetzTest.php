@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class TimetzTest extends TestCase
+final class TimetzTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

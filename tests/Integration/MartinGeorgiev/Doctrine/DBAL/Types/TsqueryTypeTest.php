@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsqueryForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsqueryTypeTest extends ScalarTypeTestCase
+final class TsqueryTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {

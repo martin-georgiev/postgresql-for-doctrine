@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBoxArrayItemForDatabase
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Box as BoxValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class BoxArrayTypeTest extends ArrayTypeTestCase
+final class BoxArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

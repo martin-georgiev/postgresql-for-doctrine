@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-class TimetzArrayTypeTest extends ArrayTypeTestCase
+final class TimetzArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

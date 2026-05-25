@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class BaseTypeTest extends TestCase
+final class BaseTypeTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

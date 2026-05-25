@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class NumMultirangeArrayTest extends TestCase
+final class NumMultirangeArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -37,9 +37,14 @@ class NumMultirangeArrayTest extends TestCase
     }
 
     #[Test]
-    public function converts_null_to_null(): void
+    public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
+    }
+
+    #[Test]
+    public function converts_null_to_php_value(): void
+    {
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 

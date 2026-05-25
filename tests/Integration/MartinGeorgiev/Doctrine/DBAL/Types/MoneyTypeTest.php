@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyForDatabaseExcepti
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class MoneyTypeTest extends ScalarTypeTestCase
+final class MoneyTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {

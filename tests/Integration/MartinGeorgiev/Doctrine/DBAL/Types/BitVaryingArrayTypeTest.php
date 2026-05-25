@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingArrayItemForD
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class BitVaryingArrayTypeTest extends ArrayTypeTestCase
+final class BitVaryingArrayTypeTest extends ArrayTypeTestCase
 {
     use BitLengthRoundTripTrait;
 

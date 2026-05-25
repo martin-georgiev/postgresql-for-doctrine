@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class MoneyArrayTest extends TestCase
+final class MoneyArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

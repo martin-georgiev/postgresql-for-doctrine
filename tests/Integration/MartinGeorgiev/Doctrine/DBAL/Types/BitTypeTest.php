@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitForDatabaseException
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class BitTypeTest extends ScalarTypeTestCase
+final class BitTypeTest extends ScalarTypeTestCase
 {
     use BitLengthRoundTripTrait;
 

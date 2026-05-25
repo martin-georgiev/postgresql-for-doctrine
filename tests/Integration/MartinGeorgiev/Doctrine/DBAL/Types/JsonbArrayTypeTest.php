@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbArrayTypeTest extends ArrayTypeTestCase
+final class JsonbArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

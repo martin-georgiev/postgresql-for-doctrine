@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObje
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class IntervalArrayTypeTest extends ArrayTypeTestCase
+final class IntervalArrayTypeTest extends ArrayTypeTestCase
 {
     use IntervalAssertionTrait;
 

@@ -8,7 +8,7 @@ use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class ByteaTypeTest extends ScalarTypeTestCase
+final class ByteaTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {

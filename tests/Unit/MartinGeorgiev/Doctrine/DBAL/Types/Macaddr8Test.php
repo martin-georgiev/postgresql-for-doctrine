@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class Macaddr8Test extends TestCase
+final class Macaddr8Test extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

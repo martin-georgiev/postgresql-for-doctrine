@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
-class XmlArrayTypeTest extends ArrayTypeTestCase
+final class XmlArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

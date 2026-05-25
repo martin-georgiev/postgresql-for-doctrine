@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TextArrayTypeTest extends ArrayTypeTestCase
+final class TextArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

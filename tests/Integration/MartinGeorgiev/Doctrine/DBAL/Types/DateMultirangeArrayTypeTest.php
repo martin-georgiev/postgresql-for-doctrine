@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
 
-class DateMultirangeArrayTypeTest extends ArrayTypeTestCase
+final class DateMultirangeArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

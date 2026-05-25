@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class UuidArrayTest extends TestCase
+final class UuidArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -205,7 +205,7 @@ class UuidArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_array_with_null_to_database(): void
+    public function can_transform_array_with_null_to_database(): void
     {
         $phpValue = ['550e8400-e29b-41d4-a716-446655440000', null, 'a0eebc99-9c0b-11d1-b465-00c04fd430c8'];
         $expected = '{"550e8400-e29b-41d4-a716-446655440000",NULL,"a0eebc99-9c0b-11d1-b465-00c04fd430c8"}';

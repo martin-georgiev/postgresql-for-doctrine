@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class XmlArrayTest extends TestCase
+final class XmlArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

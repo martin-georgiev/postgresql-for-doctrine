@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Multirange as Int4Multira
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range;
 use PHPUnit\Framework\Attributes\Test;
 
-class Int4MultirangeTypeTest extends MultirangeTypeTestCase
+final class Int4MultirangeTypeTest extends MultirangeTypeTestCase
 {
     protected function getTypeName(): string
     {

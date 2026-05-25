@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsvectorArrayTypeTest extends ArrayTypeTestCase
+final class TsvectorArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

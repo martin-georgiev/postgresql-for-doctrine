@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange as DateRangeValueOb
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateRangeTypeTest extends RangeTypeTestCase
+final class DateRangeTypeTest extends RangeTypeTestCase
 {
     protected function getTypeName(): string
     {

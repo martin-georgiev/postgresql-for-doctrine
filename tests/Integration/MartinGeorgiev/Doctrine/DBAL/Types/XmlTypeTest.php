@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlForDatabaseException
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class XmlTypeTest extends ScalarTypeTestCase
+final class XmlTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -40,7 +40,7 @@ class XmlTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function postgresql_strips_xml_declaration_on_storage(): void
+    public function can_strip_xml_declaration_on_storage(): void
     {
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $this->getTypeName(),

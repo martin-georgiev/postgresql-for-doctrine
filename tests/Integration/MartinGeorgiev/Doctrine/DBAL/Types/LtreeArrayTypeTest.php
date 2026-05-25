@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Ltree as LtreeValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class LtreeArrayTypeTest extends ArrayTypeTestCase
+final class LtreeArrayTypeTest extends ArrayTypeTestCase
 {
     use LtreeAssertionTrait;
 

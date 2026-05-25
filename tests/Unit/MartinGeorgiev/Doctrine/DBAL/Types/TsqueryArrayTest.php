@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class TsqueryArrayTest extends TestCase
+final class TsqueryArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -187,7 +187,7 @@ class TsqueryArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_array_with_null_to_database(): void
+    public function can_transform_array_with_null_to_database(): void
     {
         $phpValue = ["'cat'", null, "'dog'"];
         $expected = '{"\'cat\'",NULL,"\'dog\'"}';

@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PolygonTest extends TestCase
+final class PolygonTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -36,13 +36,13 @@ class PolygonTest extends TestCase
     }
 
     #[Test]
-    public function converts_null_to_database(): void
+    public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
     }
 
     #[Test]
-    public function converts_null_from_database(): void
+    public function converts_null_to_php_value(): void
     {
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }

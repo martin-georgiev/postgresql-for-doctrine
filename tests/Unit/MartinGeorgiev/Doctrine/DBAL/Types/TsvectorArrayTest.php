@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class TsvectorArrayTest extends TestCase
+final class TsvectorArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject

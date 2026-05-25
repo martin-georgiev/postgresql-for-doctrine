@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 /**
  * @extends BaseMultirangeTypeTestCase<NumericMultirangeVO>
  */
-class NumMultirangeTest extends BaseMultirangeTypeTestCase
+final class NumMultirangeTest extends BaseMultirangeTypeTestCase
 {
     protected function createMultirangeType(): NumMultirange
     {

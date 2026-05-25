@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCircleArrayItemForDatab
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Circle as CircleValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class CircleArrayTypeTest extends ArrayTypeTestCase
+final class CircleArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
