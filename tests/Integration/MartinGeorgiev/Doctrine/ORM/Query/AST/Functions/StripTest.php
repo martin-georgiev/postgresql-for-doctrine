@@ -19,7 +19,7 @@ class StripTest extends TextTestCase
     }
 
     #[Test]
-    public function can_strip_positions_from_tsvector(): void
+    public function strips_positions_from_tsvector(): void
     {
         $dql = 'SELECT STRIP(TO_TSVECTOR(t.text1)) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
@@ -37,7 +37,7 @@ class StripTest extends TextTestCase
     }
 
     #[Test]
-    public function can_strip_positions_from_literal_tsvector(): void
+    public function strips_positions_from_literal_tsvector(): void
     {
         $dql = "SELECT STRIP(TO_TSVECTOR('lorem ipsum dolor')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
