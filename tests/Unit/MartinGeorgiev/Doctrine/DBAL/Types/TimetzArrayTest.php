@@ -177,5 +177,4 @@ class TimetzArrayTest extends TestCase
         $this->expectException(InvalidTimetzArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP(123);
     }
-
 }
