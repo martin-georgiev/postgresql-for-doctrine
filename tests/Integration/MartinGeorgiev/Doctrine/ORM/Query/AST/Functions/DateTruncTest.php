@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateTruncTest extends DateTestCase
+final class DateTruncTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

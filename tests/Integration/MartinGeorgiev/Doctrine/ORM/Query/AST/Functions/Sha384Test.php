@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384;
 use PHPUnit\Framework\Attributes\Test;
 
-class Sha384Test extends TextTestCase
+final class Sha384Test extends TextTestCase
 {
     use ByteaAssertionTrait;
 

@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Index;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class IndexTest extends TestCase
+final class IndexTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

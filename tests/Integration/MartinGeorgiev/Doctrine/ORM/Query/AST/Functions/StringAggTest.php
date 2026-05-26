@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg;
 use PHPUnit\Framework\Attributes\Test;
 
-class StringAggTest extends TextTestCase
+final class StringAggTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log;
 
-class LogTest extends TestCase
+final class LogTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

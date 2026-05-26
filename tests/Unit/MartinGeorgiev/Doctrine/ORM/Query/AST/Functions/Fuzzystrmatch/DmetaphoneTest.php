@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Dmetaphone;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class DmetaphoneTest extends TestCase
+final class DmetaphoneTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

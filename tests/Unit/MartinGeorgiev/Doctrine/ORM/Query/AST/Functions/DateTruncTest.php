@@ -12,7 +12,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidTimezoneExc
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateTruncTest extends BaseVariadicFunctionTestCase
+final class DateTruncTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

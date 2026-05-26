@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToTsvector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayToTsvectorTest extends TextTestCase
+final class ArrayToTsvectorTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

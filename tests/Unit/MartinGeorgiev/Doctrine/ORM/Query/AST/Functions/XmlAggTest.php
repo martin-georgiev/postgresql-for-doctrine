@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg;
 
-class XmlAggTest extends TestCase
+final class XmlAggTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

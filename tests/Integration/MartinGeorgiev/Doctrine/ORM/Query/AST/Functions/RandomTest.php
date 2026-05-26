@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random;
 use PHPUnit\Framework\Attributes\Test;
 
-class RandomTest extends NumericTestCase
+final class RandomTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

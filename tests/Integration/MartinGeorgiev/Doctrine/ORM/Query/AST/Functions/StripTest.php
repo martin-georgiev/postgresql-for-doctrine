@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strip;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use PHPUnit\Framework\Attributes\Test;
 
-class StripTest extends TextTestCase
+final class StripTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

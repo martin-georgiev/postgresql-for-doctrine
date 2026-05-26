@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MaxDistance;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_MaxDistanceTest extends SpatialOperatorTestCase
+final class ST_MaxDistanceTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionTestCase;
 
-class LevenshteinTest extends BaseVariadicFunctionTestCase
+final class LevenshteinTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

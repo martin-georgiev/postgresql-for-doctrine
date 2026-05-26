@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayFill;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast;
 
-class ArrayFillTest extends TestCase
+final class ArrayFillTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

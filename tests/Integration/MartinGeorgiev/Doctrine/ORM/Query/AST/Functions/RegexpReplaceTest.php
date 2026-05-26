@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpReplaceTest extends TextTestCase
+final class RegexpReplaceTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

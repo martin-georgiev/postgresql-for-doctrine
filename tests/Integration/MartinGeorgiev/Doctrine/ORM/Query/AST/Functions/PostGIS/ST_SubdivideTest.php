@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Subdivide;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_SubdivideTest extends SpatialOperatorTestCase
+final class ST_SubdivideTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

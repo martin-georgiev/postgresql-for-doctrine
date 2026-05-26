@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atand;
 use PHPUnit\Framework\Attributes\Test;
 
-class AtandTest extends NumericTestCase
+final class AtandTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

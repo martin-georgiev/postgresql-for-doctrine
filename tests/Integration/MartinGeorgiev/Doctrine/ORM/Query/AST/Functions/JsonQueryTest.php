@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonQuery;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonQueryTest extends JsonTestCase
+final class JsonQueryTest extends JsonTestCase
 {
     protected function setUp(): void
     {

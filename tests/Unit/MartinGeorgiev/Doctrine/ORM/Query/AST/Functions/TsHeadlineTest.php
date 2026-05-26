@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsHeadline;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsHeadlineTest extends BaseVariadicFunctionTestCase
+final class TsHeadlineTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

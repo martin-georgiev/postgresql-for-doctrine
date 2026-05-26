@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class GeometryDistanceTest extends TestCase
+final class GeometryDistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

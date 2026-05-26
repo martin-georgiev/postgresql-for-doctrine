@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sin;
 use PHPUnit\Framework\Attributes\Test;
 
-class SinTest extends NumericTestCase
+final class SinTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

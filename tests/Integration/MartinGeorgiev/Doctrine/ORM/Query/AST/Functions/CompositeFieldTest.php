@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CompositeField;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\TestCase as BaseTestCase;
 
-class CompositeFieldTest extends BaseTestCase
+final class CompositeFieldTest extends BaseTestCase
 {
     protected function getStringFunctions(): array
     {

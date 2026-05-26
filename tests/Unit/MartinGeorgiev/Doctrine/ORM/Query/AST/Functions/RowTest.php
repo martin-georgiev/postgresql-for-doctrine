@@ -11,7 +11,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row;
 
-class RowTest extends BaseVariadicFunctionTestCase
+final class RowTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

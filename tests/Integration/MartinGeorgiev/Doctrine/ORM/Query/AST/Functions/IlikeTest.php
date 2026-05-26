@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike;
 use PHPUnit\Framework\Attributes\Test;
 
-class IlikeTest extends TextTestCase
+final class IlikeTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

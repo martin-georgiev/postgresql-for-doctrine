@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gamma;
 
-class GammaTest extends TestCase
+final class GammaTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

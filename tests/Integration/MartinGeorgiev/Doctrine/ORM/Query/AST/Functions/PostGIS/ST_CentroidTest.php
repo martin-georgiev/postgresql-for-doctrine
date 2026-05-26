@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Distance;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_CentroidTest extends SpatialOperatorTestCase
+final class ST_CentroidTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

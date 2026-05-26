@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Network;
 use PHPUnit\Framework\Attributes\Test;
 
-class NetworkTest extends TestCase
+final class NetworkTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

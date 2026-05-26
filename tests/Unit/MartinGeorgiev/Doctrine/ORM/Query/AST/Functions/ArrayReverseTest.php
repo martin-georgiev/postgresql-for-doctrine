@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReverse;
 
-class ArrayReverseTest extends TestCase
+final class ArrayReverseTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

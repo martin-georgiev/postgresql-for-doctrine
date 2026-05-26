@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ClipByBox2D;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_ClipByBox2DTest extends SpatialOperatorTestCase
+final class ST_ClipByBox2DTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

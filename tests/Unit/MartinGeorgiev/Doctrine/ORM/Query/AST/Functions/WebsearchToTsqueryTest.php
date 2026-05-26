@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery;
 use PHPUnit\Framework\Attributes\Test;
 
-class WebsearchToTsqueryTest extends BaseVariadicFunctionTestCase
+final class WebsearchToTsqueryTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanExce
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbSetTest extends BaseVariadicFunctionTestCase
+final class JsonbSetTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

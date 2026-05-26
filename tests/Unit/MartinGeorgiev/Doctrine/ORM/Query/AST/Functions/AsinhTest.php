@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asinh;
 
-class AsinhTest extends TestCase
+final class AsinhTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

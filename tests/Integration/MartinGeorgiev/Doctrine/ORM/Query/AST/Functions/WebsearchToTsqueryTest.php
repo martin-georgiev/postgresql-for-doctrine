@@ -8,7 +8,7 @@ use Doctrine\DBAL\Exception\DriverException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery;
 use PHPUnit\Framework\Attributes\Test;
 
-class WebsearchToTsqueryTest extends TextTestCase
+final class WebsearchToTsqueryTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

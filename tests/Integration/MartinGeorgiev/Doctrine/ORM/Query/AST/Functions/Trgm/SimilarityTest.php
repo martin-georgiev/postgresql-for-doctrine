@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\Similarity;
 use PHPUnit\Framework\Attributes\Test;
 
-class SimilarityTest extends TestCase
+final class SimilarityTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

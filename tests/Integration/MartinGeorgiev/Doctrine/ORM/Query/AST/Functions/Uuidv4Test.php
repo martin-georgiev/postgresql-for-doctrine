@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4;
 use PHPUnit\Framework\Attributes\Test;
 
-class Uuidv4Test extends NumericTestCase
+final class Uuidv4Test extends NumericTestCase
 {
     protected function setUp(): void
     {

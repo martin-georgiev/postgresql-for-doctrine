@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Right;
 use PHPUnit\Framework\Attributes\Test;
 
-class RightTest extends TextTestCase
+final class RightTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

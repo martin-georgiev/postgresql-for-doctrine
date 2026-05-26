@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Setweight;
 use PHPUnit\Framework\Attributes\Test;
 
-class SetweightTest extends BaseVariadicFunctionTestCase
+final class SetweightTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

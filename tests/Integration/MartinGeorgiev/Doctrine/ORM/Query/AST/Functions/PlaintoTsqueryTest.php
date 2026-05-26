@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PlaintoTsquery;
 use PHPUnit\Framework\Attributes\Test;
 
-class PlaintoTsqueryTest extends TextTestCase
+final class PlaintoTsqueryTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

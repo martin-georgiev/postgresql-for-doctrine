@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes;
 use PHPUnit\Framework\Attributes\Test;
 
-class ReverseBytesTest extends TextTestCase
+final class ReverseBytesTest extends TextTestCase
 {
     use ByteaAssertionTrait;
 

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vect
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct;
 use PHPUnit\Framework\Attributes\Test;
 
-class InnerProductTest extends TestCase
+final class InnerProductTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

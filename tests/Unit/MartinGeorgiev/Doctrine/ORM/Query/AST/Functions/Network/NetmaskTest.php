@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNetworks;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Netmask;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class NetmaskTest extends TestCase
+final class NetmaskTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

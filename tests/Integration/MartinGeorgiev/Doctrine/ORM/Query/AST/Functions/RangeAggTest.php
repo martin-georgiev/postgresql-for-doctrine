@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeAgg;
 use PHPUnit\Framework\Attributes\Test;
 
-class RangeAggTest extends RangeTestCase
+final class RangeAggTest extends RangeTestCase
 {
     protected function getStringFunctions(): array
     {

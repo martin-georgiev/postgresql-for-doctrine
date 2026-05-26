@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsHeadline;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsHeadlineTest extends TextTestCase
+final class TsHeadlineTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

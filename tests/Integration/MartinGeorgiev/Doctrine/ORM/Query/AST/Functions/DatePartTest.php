@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DatePart;
 use PHPUnit\Framework\Attributes\Test;
 
-class DatePartTest extends DateTestCase
+final class DatePartTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

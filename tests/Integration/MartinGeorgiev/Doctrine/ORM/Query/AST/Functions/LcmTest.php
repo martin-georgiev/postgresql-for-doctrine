@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lcm;
 use PHPUnit\Framework\Attributes\Test;
 
-class LcmTest extends NumericTestCase
+final class LcmTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

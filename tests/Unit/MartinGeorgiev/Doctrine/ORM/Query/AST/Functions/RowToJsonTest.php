@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanExce
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson;
 use PHPUnit\Framework\Attributes\Test;
 
-class RowToJsonTest extends BaseVariadicFunctionTestCase
+final class RowToJsonTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbSetLaxTest extends JsonTestCase
+final class JsonbSetLaxTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

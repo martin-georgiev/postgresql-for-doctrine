@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Translate;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_TranslateTest extends SpatialOperatorTestCase
+final class ST_TranslateTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

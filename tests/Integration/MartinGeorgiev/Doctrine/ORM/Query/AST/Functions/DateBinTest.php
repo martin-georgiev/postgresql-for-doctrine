@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateBinTest extends DateTestCase
+final class DateBinTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

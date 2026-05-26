@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsAbove;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class OverlapsAboveTest extends TestCase
+final class OverlapsAboveTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

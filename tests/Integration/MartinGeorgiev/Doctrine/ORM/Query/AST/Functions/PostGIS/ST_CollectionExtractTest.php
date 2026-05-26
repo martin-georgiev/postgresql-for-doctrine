@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionExtract
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_CollectionExtractTest extends SpatialOperatorTestCase
+final class ST_CollectionExtractTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

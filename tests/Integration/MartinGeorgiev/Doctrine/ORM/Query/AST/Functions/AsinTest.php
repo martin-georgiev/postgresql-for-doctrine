@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asin;
 use PHPUnit\Framework\Attributes\Test;
 
-class AsinTest extends NumericTestCase
+final class AsinTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

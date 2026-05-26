@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest;
 use PHPUnit\Framework\Attributes\Test;
 
-class UnnestTest extends ArrayTestCase
+final class UnnestTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

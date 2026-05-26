@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsPoints;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance;
 
-class DistanceTest extends TestCase
+final class DistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cbrt;
 
-class CbrtTest extends TestCase
+final class CbrtTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

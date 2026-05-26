@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class NDimensionalBoundingBoxDistanceTest extends TestCase
+final class NDimensionalBoundingBoxDistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

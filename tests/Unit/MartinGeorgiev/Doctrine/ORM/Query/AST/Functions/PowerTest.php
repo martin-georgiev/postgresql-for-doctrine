@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power;
 
-class PowerTest extends TestCase
+final class PowerTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

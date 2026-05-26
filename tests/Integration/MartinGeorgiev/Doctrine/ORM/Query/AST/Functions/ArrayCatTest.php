@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayCatTest extends ArrayTestCase
+final class ArrayCatTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

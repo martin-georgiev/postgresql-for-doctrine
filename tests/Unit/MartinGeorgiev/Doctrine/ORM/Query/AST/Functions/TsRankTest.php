@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRank;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsRankTest extends BaseVariadicFunctionTestCase
+final class TsRankTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

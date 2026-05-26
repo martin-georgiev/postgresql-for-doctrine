@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strip;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use PHPUnit\Framework\Attributes\Test;
 
-class SetweightTest extends TextTestCase
+final class SetweightTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

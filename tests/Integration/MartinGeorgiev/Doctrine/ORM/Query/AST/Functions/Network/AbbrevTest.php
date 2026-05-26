@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Abbrev;
 use PHPUnit\Framework\Attributes\Test;
 
-class AbbrevTest extends TestCase
+final class AbbrevTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Hostmask;
 use PHPUnit\Framework\Attributes\Test;
 
-class HostmaskTest extends TestCase
+final class HostmaskTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

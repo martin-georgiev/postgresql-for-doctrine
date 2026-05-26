@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonBuildObjectTest extends BaseVariadicFunctionTestCase
+final class JsonBuildObjectTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

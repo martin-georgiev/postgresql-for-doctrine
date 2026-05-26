@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sign;
 use PHPUnit\Framework\Attributes\Test;
 
-class SignTest extends NumericTestCase
+final class SignTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

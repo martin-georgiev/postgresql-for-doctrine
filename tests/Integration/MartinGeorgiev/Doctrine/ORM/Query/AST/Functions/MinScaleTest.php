@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MinScale;
 use PHPUnit\Framework\Attributes\Test;
 
-class MinScaleTest extends NumericTestCase
+final class MinScaleTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

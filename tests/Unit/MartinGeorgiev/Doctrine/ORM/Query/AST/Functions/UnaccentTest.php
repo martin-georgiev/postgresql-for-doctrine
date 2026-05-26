@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent;
 use PHPUnit\Framework\Attributes\Test;
 
-class UnaccentTest extends BaseVariadicFunctionTestCase
+final class UnaccentTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

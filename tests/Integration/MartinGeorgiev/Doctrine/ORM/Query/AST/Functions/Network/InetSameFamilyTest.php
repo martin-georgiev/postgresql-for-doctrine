@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\InetSameFamily;
 use PHPUnit\Framework\Attributes\Test;
 
-class InetSameFamilyTest extends TestCase
+final class InetSameFamilyTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

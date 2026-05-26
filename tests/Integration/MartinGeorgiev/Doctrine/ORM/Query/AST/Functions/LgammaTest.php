@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lgamma;
 use PHPUnit\Framework\Attributes\Test;
 
-class LgammaTest extends NumericTestCase
+final class LgammaTest extends NumericTestCase
 {
     protected function setUp(): void
     {

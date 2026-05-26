@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DatePart;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime;
 use PHPUnit\Framework\Attributes\Test;
 
-class MakeTimeTest extends DateMakingTestCase
+final class MakeTimeTest extends DateMakingTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Round;
 use PHPUnit\Framework\Attributes\Test;
 
-class RoundTest extends NumericTestCase
+final class RoundTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

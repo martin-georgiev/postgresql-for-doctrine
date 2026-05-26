@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TriangulatePolygon;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_TriangulatePolygonTest extends SpatialOperatorTestCase
+final class ST_TriangulatePolygonTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

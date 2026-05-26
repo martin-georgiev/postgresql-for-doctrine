@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzz
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Soundex;
 use PHPUnit\Framework\Attributes\Test;
 
-class SoundexTest extends TestCase
+final class SoundexTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

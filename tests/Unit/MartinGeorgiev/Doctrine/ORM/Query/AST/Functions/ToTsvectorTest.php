@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToTsvectorTest extends BaseVariadicFunctionTestCase
+final class ToTsvectorTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

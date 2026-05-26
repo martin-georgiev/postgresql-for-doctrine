@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayToStringTest extends ArrayTestCase
+final class ArrayToStringTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

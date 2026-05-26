@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\TestCase;
 
-class CastTest extends TestCase
+final class CastTest extends TestCase
 {
     protected function setUp(): void
     {

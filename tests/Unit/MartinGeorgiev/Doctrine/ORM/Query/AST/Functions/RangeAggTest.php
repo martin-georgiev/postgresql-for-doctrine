@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsRanges;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeAgg;
 
-class RangeAggTest extends TestCase
+final class RangeAggTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

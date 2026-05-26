@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone;
 use PHPUnit\Framework\Attributes\Test;
 
-class AtTimeZoneTest extends DateTestCase
+final class AtTimeZoneTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

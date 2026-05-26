@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class PointTest extends TestCase
+final class PointTest extends TestCase
 {
     #[DataProvider('provideValidPointStrings')]
     #[Test]

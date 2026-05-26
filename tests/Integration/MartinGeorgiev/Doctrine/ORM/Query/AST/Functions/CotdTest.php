@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cotd;
 use PHPUnit\Framework\Attributes\Test;
 
-class CotdTest extends NumericTestCase
+final class CotdTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanExce
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQueryFirst;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbPathQueryFirstTest extends BaseVariadicFunctionTestCase
+final class JsonbPathQueryFirstTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

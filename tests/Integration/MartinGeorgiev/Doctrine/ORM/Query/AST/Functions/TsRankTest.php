@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRank;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsRankTest extends TextTestCase
+final class TsRankTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

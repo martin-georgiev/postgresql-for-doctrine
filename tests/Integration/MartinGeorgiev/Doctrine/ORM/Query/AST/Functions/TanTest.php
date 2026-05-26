@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tan;
 use PHPUnit\Framework\Attributes\Test;
 
-class TanTest extends NumericTestCase
+final class TanTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

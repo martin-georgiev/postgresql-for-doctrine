@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath;
 
-class DeleteAtPathTest extends TestCase
+final class DeleteAtPathTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

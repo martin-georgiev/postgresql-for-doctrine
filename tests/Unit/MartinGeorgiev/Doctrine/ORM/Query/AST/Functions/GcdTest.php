@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gcd;
 
-class GcdTest extends TestCase
+final class GcdTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

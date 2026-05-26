@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayUpperTest extends ArrayTestCase
+final class ArrayUpperTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

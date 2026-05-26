@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExists;
 
-class JsonExistsTest extends TestCase
+final class JsonExistsTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

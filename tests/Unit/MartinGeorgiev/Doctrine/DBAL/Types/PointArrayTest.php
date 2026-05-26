@@ -225,8 +225,8 @@ final class PointArrayTest extends TestCase
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
+        #[DataProvider('provideNonStringPHPValues')]
     #[Test]
-    #[DataProvider('provideNonStringPHPValues')]
     public function throws_exception_for_non_string_item_from_database(mixed $value): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);

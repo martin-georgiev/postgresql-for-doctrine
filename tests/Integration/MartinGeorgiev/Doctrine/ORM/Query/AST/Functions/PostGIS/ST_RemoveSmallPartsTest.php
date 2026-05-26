@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveSmallParts;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
+final class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
 {
     protected function setUp(): void
     {

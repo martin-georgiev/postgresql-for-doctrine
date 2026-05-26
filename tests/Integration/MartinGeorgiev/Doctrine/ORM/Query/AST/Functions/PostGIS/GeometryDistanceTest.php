@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance;
 use PHPUnit\Framework\Attributes\Test;
 
-class GeometryDistanceTest extends SpatialOperatorTestCase
+final class GeometryDistanceTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

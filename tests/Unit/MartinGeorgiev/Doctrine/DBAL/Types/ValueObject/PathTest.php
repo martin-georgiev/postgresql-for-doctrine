@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class PathTest extends TestCase
+final class PathTest extends TestCase
 {
     #[DataProvider('provideValidPathStrings')]
     #[Test]

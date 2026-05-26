@@ -9,7 +9,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsComposites;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CompositeField;
 use PHPUnit\Framework\Attributes\Test;
 
-class CompositeFieldTest extends TestCase
+final class CompositeFieldTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

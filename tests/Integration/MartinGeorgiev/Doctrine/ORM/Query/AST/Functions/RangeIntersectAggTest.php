@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeIntersectAgg;
 use PHPUnit\Framework\Attributes\Test;
 
-class RangeIntersectAggTest extends RangeTestCase
+final class RangeIntersectAggTest extends RangeTestCase
 {
     protected function getStringFunctions(): array
     {

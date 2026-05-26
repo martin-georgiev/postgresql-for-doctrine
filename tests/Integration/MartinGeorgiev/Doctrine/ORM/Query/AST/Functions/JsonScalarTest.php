@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonScalar;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonScalarTest extends JsonTestCase
+final class JsonScalarTest extends JsonTestCase
 {
     protected function setUp(): void
     {

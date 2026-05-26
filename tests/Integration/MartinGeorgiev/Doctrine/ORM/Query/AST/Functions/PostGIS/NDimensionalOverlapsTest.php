@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps;
 use PHPUnit\Framework\Attributes\Test;
 
-class NDimensionalOverlapsTest extends SpatialOperatorTestCase
+final class NDimensionalOverlapsTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

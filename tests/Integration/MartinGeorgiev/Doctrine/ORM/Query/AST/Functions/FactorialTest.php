@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Factorial;
 use PHPUnit\Framework\Attributes\Test;
 
-class FactorialTest extends NumericTestCase
+final class FactorialTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

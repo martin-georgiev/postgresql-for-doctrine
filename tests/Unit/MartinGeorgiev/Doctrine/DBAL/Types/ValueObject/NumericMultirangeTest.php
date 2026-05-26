@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class NumericMultirangeTest extends TestCase
+final class NumericMultirangeTest extends TestCase
 {
     #[Test]
     public function empty_multirange_produces_empty_string(): void

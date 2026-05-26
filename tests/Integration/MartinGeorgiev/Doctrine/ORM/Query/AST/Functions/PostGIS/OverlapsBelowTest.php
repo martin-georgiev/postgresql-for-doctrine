@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsBelow;
 use PHPUnit\Framework\Attributes\Test;
 
-class OverlapsBelowTest extends SpatialOperatorTestCase
+final class OverlapsBelowTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

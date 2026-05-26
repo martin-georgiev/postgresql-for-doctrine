@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Boundary;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_BoundaryTest extends SpatialOperatorTestCase
+final class ST_BoundaryTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

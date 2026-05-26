@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Scale;
 use PHPUnit\Framework\Attributes\Test;
 
-class ScaleTest extends NumericTestCase
+final class ScaleTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

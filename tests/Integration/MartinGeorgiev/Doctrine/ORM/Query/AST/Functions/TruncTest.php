@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc;
 use PHPUnit\Framework\Attributes\Test;
 
-class TruncTest extends NumericTestCase
+final class TruncTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

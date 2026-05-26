@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateTimeSeries;
 
-class GenerateTimeSeriesTest extends TestCase
+final class GenerateTimeSeriesTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

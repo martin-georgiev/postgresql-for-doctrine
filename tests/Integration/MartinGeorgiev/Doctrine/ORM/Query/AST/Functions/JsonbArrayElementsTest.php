@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElements;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbArrayElementsTest extends JsonTestCase
+final class JsonbArrayElementsTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

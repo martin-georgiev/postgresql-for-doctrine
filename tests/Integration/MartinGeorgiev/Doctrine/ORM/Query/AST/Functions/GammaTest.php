@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gamma;
 use PHPUnit\Framework\Attributes\Test;
 
-class GammaTest extends NumericTestCase
+final class GammaTest extends NumericTestCase
 {
     protected function setUp(): void
     {

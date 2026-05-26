@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike;
 
-class IlikeTest extends TestCase
+final class IlikeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

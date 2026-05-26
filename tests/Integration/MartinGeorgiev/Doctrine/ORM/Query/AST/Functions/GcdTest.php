@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gcd;
 use PHPUnit\Framework\Attributes\Test;
 
-class GcdTest extends NumericTestCase
+final class GcdTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

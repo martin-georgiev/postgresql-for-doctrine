@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy;
 use PHPUnit\Framework\Attributes\Test;
 
-class IsContainedByTest extends ArrayTestCase
+final class IsContainedByTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

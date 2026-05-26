@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonTypeof;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonTypeofTest extends JsonTestCase
+final class JsonTypeofTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

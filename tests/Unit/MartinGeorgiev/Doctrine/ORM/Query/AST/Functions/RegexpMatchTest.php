@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpMatchTest extends BaseVariadicFunctionTestCase
+final class RegexpMatchTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {

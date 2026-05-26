@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpInstrTest extends TextTestCase
+final class RegexpInstrTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

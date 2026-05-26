@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest;
 use PHPUnit\Framework\Attributes\Test;
 
-class GreatestTest extends BaseVariadicFunctionTestCase
+final class GreatestTest extends BaseVariadicFunctionTestCase
 {
     protected function createFixture(): BaseVariadicFunction
     {
