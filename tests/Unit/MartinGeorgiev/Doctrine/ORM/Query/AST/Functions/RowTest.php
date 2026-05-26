@@ -8,12 +8,11 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row;
 
 final class RowTest extends BaseVariadicFunctionTestCase
 {
-    protected function createFixture(): BaseVariadicFunction
+    protected function createFixture(): Row
     {
         return new Row('ROW');
     }

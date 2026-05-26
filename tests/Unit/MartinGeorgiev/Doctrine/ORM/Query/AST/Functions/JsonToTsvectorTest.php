@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonToTsvector;
 use PHPUnit\Framework\Attributes\Test;
 
 final class JsonToTsvectorTest extends BaseVariadicFunctionTestCase
 {
-    protected function createFixture(): BaseVariadicFunction
+    protected function createFixture(): JsonToTsvector
     {
         return new JsonToTsvector('JSON_TO_TSVECTOR');
     }

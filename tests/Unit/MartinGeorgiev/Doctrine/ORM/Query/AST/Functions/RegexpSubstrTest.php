@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -13,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class RegexpSubstrTest extends BaseVariadicFunctionTestCase
 {
-    protected function createFixture(): BaseVariadicFunction
+    protected function createFixture(): RegexpSubstr
     {
         return new RegexpSubstr('REGEXP_SUBSTR');
     }

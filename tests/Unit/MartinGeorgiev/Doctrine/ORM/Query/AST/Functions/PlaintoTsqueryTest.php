@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PlaintoTsquery;
 use PHPUnit\Framework\Attributes\Test;
 
 final class PlaintoTsqueryTest extends BaseVariadicFunctionTestCase
 {
-    protected function createFixture(): BaseVariadicFunction
+    protected function createFixture(): PlaintoTsquery
     {
         return new PlaintoTsquery('PLAINTO_TSQUERY');
     }

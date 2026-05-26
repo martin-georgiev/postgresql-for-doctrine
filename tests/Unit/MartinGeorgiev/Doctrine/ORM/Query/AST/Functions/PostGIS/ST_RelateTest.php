@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Relate;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionTestCase;
 
 final class ST_RelateTest extends BaseVariadicFunctionTestCase
 {
-    protected function createFixture(): BaseVariadicFunction
+    protected function createFixture(): ST_Relate
     {
         return new ST_Relate('ST_Relate');
     }

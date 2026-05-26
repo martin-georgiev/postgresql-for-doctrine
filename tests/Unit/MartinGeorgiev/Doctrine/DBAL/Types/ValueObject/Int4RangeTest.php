@@ -146,7 +146,7 @@ final class Int4RangeTest extends BaseRangeTestCase
         $this->assertSame('[-2147483648,2147483647)', (string) $int4Range);
     }
 
-        #[DataProvider('provideBoundedInfinityConstructorCases')]
+    #[DataProvider('provideBoundedInfinityConstructorCases')]
     #[Test]
     public function throws_for_unsupported_bounded_infinity_from_constructor(
         ?int $lower,
@@ -170,7 +170,7 @@ final class Int4RangeTest extends BaseRangeTestCase
         yield 'both bounds infinity' => [null, null, true, false, false, true, true];
     }
 
-        #[DataProvider('provideBoundedInfinityStringCases')]
+    #[DataProvider('provideBoundedInfinityStringCases')]
     #[Test]
     public function throws_for_unsupported_bounded_infinity_from_string(string $input): void
     {

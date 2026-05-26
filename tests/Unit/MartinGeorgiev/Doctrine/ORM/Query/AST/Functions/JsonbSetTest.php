@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet;
@@ -13,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class JsonbSetTest extends BaseVariadicFunctionTestCase
 {
-    protected function createFixture(): BaseVariadicFunction
+    protected function createFixture(): JsonbSet
     {
         return new JsonbSet('JSONB_SET');
     }

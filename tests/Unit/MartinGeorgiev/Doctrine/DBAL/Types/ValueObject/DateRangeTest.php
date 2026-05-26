@@ -359,7 +359,7 @@ final class DateRangeTest extends BaseRangeTestCase
         $this->assertFalse($equalInclusive->isEmpty());
     }
 
-        #[DataProvider('provideLeapYearTestCases')]
+    #[DataProvider('provideLeapYearTestCases')]
     #[Test]
     public function accepts_leap_year_dates(DateRange $dateRange, string $expectedString, string $description): void
     {
@@ -385,7 +385,7 @@ final class DateRangeTest extends BaseRangeTestCase
         ];
     }
 
-        #[DataProvider('provideEdgeCaseMonthTestCases')]
+    #[DataProvider('provideEdgeCaseMonthTestCases')]
     #[Test]
     public function accepts_edge_case_month_dates(DateRange $dateRange, string $expectedString, string $description): void
     {

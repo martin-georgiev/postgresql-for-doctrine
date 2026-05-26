@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidTimezoneException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -13,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class MakeTimestamptzTest extends BaseVariadicFunctionTestCase
 {
-    protected function createFixture(): BaseVariadicFunction
+    protected function createFixture(): MakeTimestamptz
     {
         return new MakeTimestamptz('MAKE_TIMESTAMPTZ');
     }

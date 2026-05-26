@@ -59,7 +59,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * @param Range<R> $range
      */
-        #[DataProvider('provideContainsTestCases')]
+    #[DataProvider('provideContainsTestCases')]
     #[Test]
     public function checks_contains(Range $range, mixed $value, bool $expected): void
     {
@@ -74,7 +74,7 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * @param Range<R> $expectedRange
      */
-        #[DataProvider('provideFromStringTestCases')]
+    #[DataProvider('provideFromStringTestCases')]
     #[Test]
     public function parses_from_string(string $input, Range $expectedRange): void
     {

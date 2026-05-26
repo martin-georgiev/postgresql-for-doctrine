@@ -55,7 +55,7 @@ final class BaseNetworkTypeArrayTest extends TestCase
         $this->assertSame('test_network_array', $this->fixture->getName());
     }
 
-        #[DataProvider('provideValidTransformations')]
+    #[DataProvider('provideValidTransformations')]
     #[Test]
     public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
@@ -88,7 +88,7 @@ final class BaseNetworkTypeArrayTest extends TestCase
         $this->fixture->convertToDatabaseValue('not_an_array', $this->platform); // @phpstan-ignore argument.type
     }
 
-        #[DataProvider('provideInvalidValues')]
+    #[DataProvider('provideInvalidValues')]
     #[Test]
     public function throws_exception_for_invalid_values(mixed $arrayItem, string $exceptionMessage): void
     {

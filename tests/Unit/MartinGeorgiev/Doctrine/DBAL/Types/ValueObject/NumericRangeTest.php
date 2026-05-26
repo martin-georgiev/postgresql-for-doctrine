@@ -153,7 +153,7 @@ final class NumericRangeTest extends BaseRangeTestCase
         $numericRange->contains('invalid');
     }
 
-        #[DataProvider('provideInvalidFromStringInputs')]
+    #[DataProvider('provideInvalidFromStringInputs')]
     #[Test]
     public function throws_exception_for_invalid_from_string_input(string $input, string $expectedMessage): void
     {
@@ -225,7 +225,7 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->assertStringContainsString('-2.5', (string) $range3);
     }
 
-        #[DataProvider('providePhpInfConstantCases')]
+    #[DataProvider('providePhpInfConstantCases')]
     #[Test]
     public function creates_range_with_php_inf_constant(
         float|int|null $lower,
