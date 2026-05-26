@@ -42,8 +42,8 @@ final class TstzRangeTypeTest extends RangeTypeTestCase
         ];
     }
 
-    #[Test]
     #[DataProvider('provideInfinityAndSpecialCases')]
+    #[Test]
     public function roundtrips_unbounded_and_empty_value(TstzRangeValueObject $tstzRangeValueObject): void
     {
         $typeName = $this->getTypeName();

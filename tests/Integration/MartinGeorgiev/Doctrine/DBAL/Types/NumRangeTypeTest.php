@@ -28,8 +28,8 @@ final class NumRangeTypeTest extends RangeTypeTestCase
         ];
     }
 
-    #[Test]
     #[DataProvider('provideInfinityAndSpecialCases')]
+    #[Test]
     public function roundtrips_unbounded_and_empty_value(NumRangeValueObject $numRangeValueObject): void
     {
         $typeName = $this->getTypeName();

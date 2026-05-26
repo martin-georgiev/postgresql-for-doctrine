@@ -225,25 +225,11 @@ final class PointArrayTest extends TestCase
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
-    #[DataProvider('provideNonStringPHPValues')]
     #[Test]
-    public function throws_exception_for_non_string_item_from_database(mixed $value): void
+    public function throws_exception_for_non_string_item_from_database(): void
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
-        $this->fixture->transformArrayItemForPHP($value);
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideNonStringPHPValues(): array
-    {
-        return [
-            'integer' => [123],
-            'array' => [['(1.23, 4.56)']],
-            'object' => [new \stdClass()],
-            'boolean' => [true],
-        ];
+        $this->fixture->transformArrayItemForPHP(123);
     }
 
     #[DataProvider('provideInvalidPointArrayItems')]

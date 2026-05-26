@@ -105,6 +105,11 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
         return '2023-01-01 18:00:00';
     }
 
+    protected function getExpectedFormattedRangeForAcceptingDifferentDatetimeImplementationsTest(): string
+    {
+        return '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000)';
+    }
+
     protected function getBoundaryTestCases(): array
     {
         return [
@@ -286,9 +291,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
             new \DateTimeImmutable('2023-06-15 18:45:30.654321')
         );
 
-        $formatted = (string) $tsRange;
-        $this->assertStringContainsString('2023-06-15 14:30:25.123456', $formatted);
-        $this->assertStringContainsString('2023-06-15 18:45:30.654321', $formatted);
+        $this->assertSame('[2023-06-15 14:30:25.123456,2023-06-15 18:45:30.654321)', (string) $tsRange);
     }
 
     #[Test]
@@ -307,9 +310,7 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     {
         $tsRange = TsRange::fromString('[2023-06-15 14:30:25.123456,2023-06-15 18:45:30.654321)');
 
-        $formatted = (string) $tsRange;
-        $this->assertStringContainsString('2023-06-15 14:30:25.123456', $formatted);
-        $this->assertStringContainsString('2023-06-15 18:45:30.654321', $formatted);
+        $this->assertSame('[2023-06-15 14:30:25.123456,2023-06-15 18:45:30.654321)', (string) $tsRange);
     }
 
     #[Test]
@@ -329,7 +330,6 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
         $tsRange = new TsRange($timestampWithTz, null);
 
         // The timestamp should be formatted as-is without timezone conversion
-        $formatted = (string) $tsRange;
-        $this->assertStringContainsString('2023-01-01 10:00:00.000000', $formatted);
+        $this->assertSame('[2023-01-01 10:00:00.000000,)', (string) $tsRange);
     }
 }

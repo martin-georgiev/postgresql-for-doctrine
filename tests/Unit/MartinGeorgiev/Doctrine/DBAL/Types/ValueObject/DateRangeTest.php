@@ -312,27 +312,21 @@ final class DateRangeTest extends BaseRangeTestCase
     public function parses_various_date_formats_via_from_string(): void
     {
         $dateRange = DateRange::fromString('[2023-01-01,2023-12-31)');
-        $this->assertStringContainsString('2023-01-01', (string) $dateRange);
+        $this->assertSame('[2023-01-01,2023-12-31)', (string) $dateRange);
 
         $range2 = DateRange::fromString('[2023-12-31,2024-01-01)');
-        $this->assertStringContainsString('2023-12-31', (string) $range2);
+        $this->assertSame('[2023-12-31,2024-01-01)', (string) $range2);
     }
 
     #[Test]
     public function formats_date_values_via_to_string(): void
     {
-        // Time should be ignored in date formatting
         $dateRange = new DateRange(
             new \DateTimeImmutable('2023-06-15 14:30:00'),
             new \DateTimeImmutable('2023-06-16 20:45:00')
         );
 
-        $formatted = (string) $dateRange;
-        $this->assertStringContainsString('2023-06-15', $formatted);
-        $this->assertStringContainsString('2023-06-16', $formatted);
-        // Should not contain time information
-        $this->assertStringNotContainsString('14:30:00', $formatted);
-        $this->assertStringNotContainsString('20:45:00', $formatted);
+        $this->assertSame('[2023-06-15,2023-06-16)', (string) $dateRange);
     }
 
     #[Test]

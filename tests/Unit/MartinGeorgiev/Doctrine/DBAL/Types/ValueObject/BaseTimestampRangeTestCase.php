@@ -122,11 +122,14 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
         $dateTimeImmutable = new \DateTimeImmutable($this->getTestEndTimeString());
 
         $range = $this->createRangeWithTimes($dateTime, $dateTimeImmutable);
-        $formatted = (string) $range;
 
-        $this->assertStringContainsString('2023-01-01 10:00:00', $formatted);
-        $this->assertStringContainsString('2023-01-01 18:00:00', $formatted);
+        $this->assertSame($this->getExpectedFormattedRangeForAcceptingDifferentDatetimeImplementationsTest(), (string) $range);
     }
+
+    /**
+     * Get the expected `__toString()` output of a range built from the test start/end times.
+     */
+    abstract protected function getExpectedFormattedRangeForAcceptingDifferentDatetimeImplementationsTest(): string;
 
     /**
      * Create a range with specific DateTimeInterface objects.

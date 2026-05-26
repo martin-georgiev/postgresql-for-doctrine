@@ -71,7 +71,7 @@ final class RealArrayTest extends BaseFloatArrayTestCase
     }
 
     #[Test]
-    public function throws_domain_exception_when_value_is_too_close_to_zero(): void
+    public function throws_exception_for_value_too_close_to_zero(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('is too close to zero for PostgreSQL real[] type');
@@ -80,7 +80,7 @@ final class RealArrayTest extends BaseFloatArrayTestCase
     }
 
     #[Test]
-    public function throws_domain_exception_when_value_exceeds_range(): void
+    public function throws_exception_for_value_exceeding_range(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('cannot be transformed to valid PHP float');
@@ -89,7 +89,7 @@ final class RealArrayTest extends BaseFloatArrayTestCase
     }
 
     #[Test]
-    public function throws_domain_exception_when_value_exceeds_precision_limit(): void
+    public function throws_exception_for_value_exceeding_precision_limit(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL real[] type');
@@ -99,7 +99,7 @@ final class RealArrayTest extends BaseFloatArrayTestCase
 
     #[DataProvider('providePrecisionExceedingValues')]
     #[Test]
-    public function throws_domain_exception_for_various_precision_violations(string $value): void
+    public function throws_exception_for_various_precision_violations(string $value): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL real[] type');

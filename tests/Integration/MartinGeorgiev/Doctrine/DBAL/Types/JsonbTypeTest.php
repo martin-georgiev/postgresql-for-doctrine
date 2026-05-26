@@ -15,7 +15,7 @@ final class JsonbTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -24,7 +24,7 @@ final class JsonbTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_empty_arrays(): void
+    public function roundtrips_empty_array(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -34,7 +34,7 @@ final class JsonbTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_json_values(array $json): void
+    public function roundtrips_value(array $json): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -70,9 +70,12 @@ final class JsonbTypeTest extends TestCase
 
     #[DataProvider('provideScalarTransformations')]
     #[Test]
-    public function can_handle_scalar_json_values(mixed $value): void
+    public function roundtrips_scalar_value(mixed $value): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $value);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $value);
     }
 
     /**
