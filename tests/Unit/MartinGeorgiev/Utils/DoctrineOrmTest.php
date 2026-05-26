@@ -9,7 +9,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class DoctrineOrmTest extends TestCase
+final class DoctrineOrmTest extends TestCase
 {
     #[Test]
     public function is_consistent_with_token_type_existence(): void
