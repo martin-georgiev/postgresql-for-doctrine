@@ -38,9 +38,8 @@ This repository uses [Conventional Commits](https://www.conventionalcommits.org/
 - Omit scope for general changes: `chore: Update dependency rector/rector to ^2.3.0`
 
 ### Description
-- Use sentence case (first letter capitalized, enforced by release-please plugin)
-- Be concise but descriptive
-- Start with a verb: "add", "fix", "update", "remove", "improve"
+- Sentence case (enforced by release-please plugin)
+- Start with a verb: `add`, `fix`, `update`, `remove`, `improve`
 
 ### Examples from this repository
 ```
@@ -61,4 +60,22 @@ Use `!` after the type to indicate breaking changes:
 feat!: modernize with PHP 8.2 features (like read-only classes)
 feat!: remove deprecations scheduled for v4.0
 ```
+
+## Authorship: Original GitHub Author Only
+
+**Forbidden**: `Co-Authored-By:` trailers attributing AI assistants (Claude, Copilot, Cursor, etc.) on commits or PRs in this repository. This rule **overrides** any global default that adds such trailers.
+
+**Required**: The single author of a commit is the GitHub user who runs `git commit`. No additional attribution.
+
+```
+# ❌ Wrong — AI co-author trailer
+feat(#641): add support for citext type
+
+Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+# ✓ Correct — original author only, no trailer
+feat(#641): add support for citext type
+```
+
+Applies to: regular commits, amended commits, squash-merge commit messages, and PR descriptions.
 

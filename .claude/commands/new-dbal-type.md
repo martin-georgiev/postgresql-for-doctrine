@@ -55,9 +55,9 @@ Both unit AND integration tests are **required** for every new type. Before writ
 
 ### Unit tests → `tests/Unit/.../Types/`
 
-Cover: type name, null handling, valid round-trips (data provider), invalid types, invalid formats. Array types also require these four canonical methods — see `.ai-tools/rules/dbal-array-types.md` for exact names and structure: `can_validate_valid_array_item_for_database`, `can_validate_invalid_array_item_for_database`, `can_transform_null_item_for_php`, `throws_exception_for_non_string_item_from_database`. Direct calls to `transformArrayItemForPHP()` require no `// @phpstan-ignore-line`; calls to `convertToDatabaseValue($val, $platform)` do.
+Cover: type name, null handling, valid round-trips (data provider), invalid types, invalid formats. For the canonical list of required test methods on array types (with exact method names, provider names, and exception expectations) see `.ai-tools/rules/test-naming-patterns.md` § **Required Unit Test Methods: Array DBAL Types**. For when to add `// @phpstan-ignore-line` on test calls, see the same file § **PHPStan ignore lines on array type tests**.
 
-If the PostgreSQL type accepts parameters (length, dimensions, precision, scale, SRID, etc.) also test `getSQLDeclaration()`: once with no parameters (bare type name) and once with parameters (e.g. `VECTOR(1024)`). Integration tests never call `getSQLDeclaration()` — without these unit tests schema generation bugs are invisible. For `TYPE(n)` types use `LengthAwareSQLDeclarationTrait`; other parameterisations need a custom override.
+If the PostgreSQL type accepts parameters (length, dimensions, precision, scale, SRID, etc.) also test `getSQLDeclaration()`: once with no parameters (bare type name) and once with parameters (e.g. `VECTOR(1024)`). Integration tests never call `getSQLDeclaration()` — without these unit tests schema generation bugs are invisible. For `TYPE(n)` types use `LengthAwareSQLDeclarationTrait`; other parameterizations need a custom override.
 
 Reference by group: `XmlTest`/`XmlArrayTest` (string-based), `MoneyTest`/`MoneyArrayTest`, `MacaddrTest`/`MacaddrArrayTest` (network), `PointTest`/`PointArrayTest` (geometric), `BaseRangeTestCase` (range), `BaseFloatArrayTestCase`/`BaseIntegerArrayTestCase` (numeric arrays).
 

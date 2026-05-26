@@ -11,8 +11,13 @@ type: always_apply
 ## Boolean Parameters in DQL
 DQL does not support native boolean literals (`true`/`false`). For variadic functions with boolean optional parameters, use `StringPrimary` in the node mapping pattern, not `ArithmeticPrimary`. Users must pass booleans as string literals in DQL queries.
 
-**Do**: `'StringPrimary,ArithmeticPrimary,StringPrimary'` for `(geometry, float, boolean)`
-**Don't**: `'StringPrimary,ArithmeticPrimary,ArithmeticPrimary'`
+```
+// ✓ Correct — booleans pass through StringPrimary
+'StringPrimary,ArithmeticPrimary,StringPrimary'   // (geometry, float, boolean)
+
+// ❌ Wrong — ArithmeticPrimary cannot carry a string boolean literal
+'StringPrimary,ArithmeticPrimary,ArithmeticPrimary'
+```
 
 **DQL usage**: `ST_CONCAVEHULL(g.geometry, 0.99, 'true')` not `ST_CONCAVEHULL(g.geometry, 0.99, true)`
 
@@ -41,6 +46,11 @@ protected function validateArguments(Node ...$arguments): void
 ## Node Mapping Pattern Ordering
 When defining multiple node mapping patterns for variadic functions, order patterns from most arguments to fewest. The parser tries patterns in sequence and stops at the first successful match.
 
-**Do**: `['StringPrimary,ArithmeticPrimary,StringPrimary', 'StringPrimary,ArithmeticPrimary']`
-**Don't**: `['StringPrimary,ArithmeticPrimary', 'StringPrimary,ArithmeticPrimary,StringPrimary']`
+```
+// ✓ Correct — longest pattern first
+['StringPrimary,ArithmeticPrimary,StringPrimary', 'StringPrimary,ArithmeticPrimary']
+
+// ❌ Wrong — shorter pattern first, three-arg form never matched
+['StringPrimary,ArithmeticPrimary', 'StringPrimary,ArithmeticPrimary,StringPrimary']
+```
 
