@@ -17,7 +17,7 @@ class DateOverlapsTest extends DateTestCase
     }
 
     #[Test]
-    public function can_detect_overlapping_date_ranges(): void
+    public function detects_overlapping_date_ranges(): void
     {
         $dql = "SELECT DATE_OVERLAPS(t.date1, t.date2, '2023-06-14', '2023-06-17') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
@@ -27,7 +27,7 @@ class DateOverlapsTest extends DateTestCase
     }
 
     #[Test]
-    public function can_detect_non_overlapping_date_ranges(): void
+    public function detects_non_overlapping_date_ranges(): void
     {
         $dql = "SELECT DATE_OVERLAPS(t.date1, t.date2, '2023-07-01', '2023-07-10') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
@@ -37,7 +37,7 @@ class DateOverlapsTest extends DateTestCase
     }
 
     #[Test]
-    public function can_detect_overlapping_datetime_ranges(): void
+    public function detects_overlapping_datetime_ranges(): void
     {
         $dql = "SELECT DATE_OVERLAPS(t.datetime1, t.datetime2, '2023-06-15 09:00:00', '2023-06-15 12:00:00') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 

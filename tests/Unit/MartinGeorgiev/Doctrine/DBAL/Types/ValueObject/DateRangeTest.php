@@ -137,7 +137,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_create_single_day_range(): void
+    public function creates_single_day_range(): void
     {
         $date = new \DateTimeImmutable('2023-06-15');
         $dateRange = DateRange::singleDay($date);
@@ -147,7 +147,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_create_year_range(): void
+    public function creates_year_range(): void
     {
         $dateRange = DateRange::year(2023);
 
@@ -156,7 +156,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_create_month_range(): void
+    public function creates_month_range(): void
     {
         $dateRange = DateRange::month(2023, 6);
 
@@ -309,7 +309,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_parse_various_date_formats_via_from_string(): void
+    public function parses_various_date_formats_via_from_string(): void
     {
         $dateRange = DateRange::fromString('[2023-01-01,2023-12-31)');
         $this->assertStringContainsString('2023-01-01', (string) $dateRange);
@@ -319,7 +319,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_format_date_values_via_to_string(): void
+    public function formats_date_values_via_to_string(): void
     {
         // Time should be ignored in date formatting
         $dateRange = new DateRange(
@@ -336,7 +336,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_compare_dates_with_different_times_via_is_empty(): void
+    public function compares_dates_with_different_times_via_is_empty(): void
     {
         $date1 = new \DateTimeImmutable('2023-06-15 10:00:00');
         $date2 = new \DateTimeImmutable('2023-06-15 20:00:00');
@@ -361,7 +361,7 @@ final class DateRangeTest extends BaseRangeTestCase
 
     #[Test]
     #[DataProvider('provideLeapYearTestCases')]
-    public function can_handle_leap_years(DateRange $dateRange, string $expectedString, string $description): void
+    public function accepts_leap_year_dates(DateRange $dateRange, string $expectedString, string $description): void
     {
         $this->assertSame($expectedString, (string) $dateRange, $description);
     }
@@ -387,7 +387,7 @@ final class DateRangeTest extends BaseRangeTestCase
 
     #[Test]
     #[DataProvider('provideEdgeCaseMonthTestCases')]
-    public function can_handle_edge_case_months(DateRange $dateRange, string $expectedString, string $description): void
+    public function accepts_edge_case_month_dates(DateRange $dateRange, string $expectedString, string $description): void
     {
         $this->assertSame($expectedString, (string) $dateRange, $description);
     }

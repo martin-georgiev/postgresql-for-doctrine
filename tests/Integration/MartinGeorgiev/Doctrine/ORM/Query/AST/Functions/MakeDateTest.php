@@ -21,7 +21,7 @@ class MakeDateTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function can_create_date_from_components(): void
+    public function creates_date_from_components(): void
     {
         $dql = "SELECT MAKE_DATE(
                     CAST(DATE_PART('year', t.date1) AS INTEGER),
@@ -37,7 +37,7 @@ class MakeDateTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function can_create_date_from_entity_fields(): void
+    public function creates_date_from_entity_fields(): void
     {
         $dql = 'SELECT MAKE_DATE(2023, n.integer1, n.integer2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n

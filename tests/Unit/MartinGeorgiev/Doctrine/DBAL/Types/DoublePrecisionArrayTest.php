@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPExc
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
+final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
 {
     protected function setUp(): void
     {

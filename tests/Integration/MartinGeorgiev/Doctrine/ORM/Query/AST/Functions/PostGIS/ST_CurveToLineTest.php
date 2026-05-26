@@ -45,7 +45,7 @@ class ST_CurveToLineTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function handles_polygon_geometry(): void
+    public function applies_to_polygon_geometry(): void
     {
         $dql = 'SELECT ST_AREA(ST_CURVETOLINE(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -56,7 +56,7 @@ class ST_CurveToLineTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function handles_point_geometry(): void
+    public function applies_to_point_geometry(): void
     {
         $dql = 'SELECT ST_EQUALS(ST_CURVETOLINE(g.geometry1), g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

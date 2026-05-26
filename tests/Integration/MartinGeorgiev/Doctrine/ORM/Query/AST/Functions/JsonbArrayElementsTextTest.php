@@ -19,7 +19,7 @@ class JsonbArrayElementsTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_expand_jsonb_array_to_text_rows(): void
+    public function expands_jsonb_array_to_text_rows(): void
     {
         $dql = "SELECT JSONB_ARRAY_ELEMENTS_TEXT(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

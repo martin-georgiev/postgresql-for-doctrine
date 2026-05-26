@@ -17,7 +17,7 @@ class StrConcatTest extends TextTestCase
     }
 
     #[Test]
-    public function can_concatenate_two_columns(): void
+    public function concatenates_two_columns(): void
     {
         $dql = 'SELECT STR_CONCAT(t.text1, t.text2) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -27,7 +27,7 @@ class StrConcatTest extends TextTestCase
     }
 
     #[Test]
-    public function can_concatenate_column_with_literal(): void
+    public function concatenates_column_with_literal(): void
     {
         $dql = "SELECT STR_CONCAT(t.text1, ' suffix') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

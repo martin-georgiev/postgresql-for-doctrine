@@ -43,13 +43,13 @@ abstract class BaseMultirangeTypeTestCase extends TestCase
     }
 
     #[Test]
-    public function converts_null_to_database(): void
+    public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
     }
 
     #[Test]
-    public function converts_null_from_database(): void
+    public function converts_null_to_php_value(): void
     {
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
@@ -59,7 +59,7 @@ abstract class BaseMultirangeTypeTestCase extends TestCase
      */
     #[DataProvider('provideValidDatabaseConversions')]
     #[Test]
-    public function can_convert_to_database_value(Multirange $multirange, string $expectedString): void
+    public function converts_to_database_value(Multirange $multirange, string $expectedString): void
     {
         $this->assertSame($expectedString, $this->fixture->convertToDatabaseValue($multirange, $this->platform));
     }
@@ -71,7 +71,7 @@ abstract class BaseMultirangeTypeTestCase extends TestCase
 
     #[DataProvider('provideValidPHPConversions')]
     #[Test]
-    public function can_convert_to_php_value(string $input, string $expectedString): void
+    public function converts_to_php_value(string $input, string $expectedString): void
     {
         $result = $this->fixture->convertToPHPValue($input, $this->platform);
         $this->assertInstanceOf($this->getExpectedValueObjectClass(), $result);

@@ -42,7 +42,7 @@ class DateMultirangeTest extends TestCase
 
     #[DataProvider('provideValidFromStringCases')]
     #[Test]
-    public function can_parse_from_string(string $input, string $expectedString): void
+    public function parses_from_string(string $input, string $expectedString): void
     {
         $dateMultirange = DateMultirange::fromString($input);
         $this->assertSame($expectedString, (string) $dateMultirange);

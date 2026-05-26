@@ -19,7 +19,7 @@ class Sha256Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha256_of_a_string(): void
+    public function computes_sha256_of_a_string(): void
     {
         $dql = "SELECT SHA256('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -30,7 +30,7 @@ class Sha256Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha256_of_text_field(): void
+    public function computes_sha256_of_text_field(): void
     {
         $dql = 'SELECT SHA256(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

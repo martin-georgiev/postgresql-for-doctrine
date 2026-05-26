@@ -17,7 +17,7 @@ class Ltree2textTest extends TestCase
     }
 
     #[Test]
-    public function can_cast_ltree_to_text(): void
+    public function casts_ltree_to_text(): void
     {
         $dql = 'SELECT LTREE2TEXT(l.ltree1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);

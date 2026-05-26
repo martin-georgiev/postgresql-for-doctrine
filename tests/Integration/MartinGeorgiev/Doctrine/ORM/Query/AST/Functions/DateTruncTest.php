@@ -19,7 +19,7 @@ class DateTruncTest extends DateTestCase
 
     #[DataProvider('provideTruncFieldCases')]
     #[Test]
-    public function can_truncate_to_field(string $field, string $expected): void
+    public function truncates_to_field(string $field, string $expected): void
     {
         $dql = \sprintf(
             "SELECT DATE_TRUNC('%s', t.datetime1) as result
@@ -52,7 +52,7 @@ class DateTruncTest extends DateTestCase
     }
 
     #[Test]
-    public function can_truncate_timestamptz_with_timezone(): void
+    public function truncates_timestamptz_with_timezone(): void
     {
         $dql = "SELECT DATE_TRUNC('day', t.datetimetz1, 'Australia/Adelaide') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t

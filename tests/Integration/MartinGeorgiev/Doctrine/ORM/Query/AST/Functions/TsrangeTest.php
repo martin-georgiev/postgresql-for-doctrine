@@ -17,7 +17,7 @@ class TsrangeTest extends DateTestCase
     }
 
     #[Test]
-    public function can_create_timestamp_range_with_default_bounds(): void
+    public function creates_timestamp_range_with_default_bounds(): void
     {
         $dql = 'SELECT TSRANGE(t.datetime1, t.datetime2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class TsrangeTest extends DateTestCase
     }
 
     #[Test]
-    public function can_create_timestamp_range_with_custom_bounds(): void
+    public function creates_timestamp_range_with_custom_bounds(): void
     {
         $dql = "SELECT TSRANGE(t.datetime1, t.datetime2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

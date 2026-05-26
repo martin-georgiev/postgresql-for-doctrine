@@ -17,7 +17,7 @@ class ReverseTest extends TextTestCase
     }
 
     #[Test]
-    public function can_reverse_text(): void
+    public function reverses_text(): void
     {
         $dql = 'SELECT REVERSE(t.text1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t 

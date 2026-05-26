@@ -23,7 +23,7 @@ class Uuidv7Test extends NumericTestCase
     }
 
     #[Test]
-    public function can_generate_uuid_v7(): void
+    public function generates_uuid_v7(): void
     {
         $dql = 'SELECT UUIDV7() as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -37,7 +37,7 @@ class Uuidv7Test extends NumericTestCase
     }
 
     #[Test]
-    public function can_generates_unique_uuids(): void
+    public function generates_unique_uuids(): void
     {
         $dql = 'SELECT UUIDV7() as uuid1, UUIDV7() as uuid2 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 

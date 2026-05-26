@@ -19,7 +19,7 @@ class JsonbBuildArrayTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_build_jsonb_array(): void
+    public function builds_jsonb_array(): void
     {
         $dql = "SELECT JSONB_BUILD_ARRAY('a', 'b', 'c') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -33,7 +33,7 @@ class JsonbBuildArrayTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_build_jsonb_array_with_field_values(): void
+    public function builds_jsonb_array_with_field_values(): void
     {
         $dql = "SELECT JSONB_BUILD_ARRAY(JSON_GET_FIELD_AS_TEXT(t.jsonbObject1, 'name'), JSON_GET_FIELD_AS_TEXT(t.jsonbObject1, 'age')) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

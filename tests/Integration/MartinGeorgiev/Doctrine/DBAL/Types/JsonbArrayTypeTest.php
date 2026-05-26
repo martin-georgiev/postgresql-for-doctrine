@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbArrayTypeTest extends ArrayTypeTestCase
+final class JsonbArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -17,9 +17,12 @@ class JsonbArrayTypeTest extends ArrayTypeTestCase
     #[DataProvider('provideValidTransformations')]
     #[DataProvider('provideTypeInferenceTestCases')]
     #[Test]
-    public function can_handle_array_values(array $arrayValue): void
+    public function roundtrips_value(array $arrayValue): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $arrayValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $arrayValue);
     }
 
     /**

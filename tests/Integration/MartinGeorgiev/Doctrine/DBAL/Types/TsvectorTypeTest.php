@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorForPHPException
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsvectorTypeTest extends ScalarTypeTestCase
+final class TsvectorTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -17,7 +17,7 @@ class TsvectorTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(string $testValue): void
+    public function roundtrips_value(string $testValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

@@ -37,7 +37,7 @@ class SimilarToTest extends TextTestCase
     }
 
     #[Test]
-    public function can_use_sql_regex_patterns(): void
+    public function uses_sql_regex_patterns(): void
     {
         $dql = "SELECT SIMILAR_TO(t.text1, 'this%') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

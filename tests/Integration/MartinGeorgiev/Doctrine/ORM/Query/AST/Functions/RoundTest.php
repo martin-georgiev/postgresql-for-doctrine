@@ -17,7 +17,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_round_positive_number(): void
+    public function rounds_positive_number(): void
     {
         $dql = 'SELECT ROUND(:number) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -27,7 +27,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_round_negative_number(): void
+    public function rounds_negative_number(): void
     {
         $dql = 'SELECT ROUND(:number) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -37,7 +37,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_round_with_precision(): void
+    public function rounds_with_precision(): void
     {
         $dql = 'SELECT ROUND(:number, :precision) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -50,7 +50,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_round_with_negative_precision(): void
+    public function rounds_with_negative_precision(): void
     {
         $dql = 'SELECT ROUND(:number, :precision) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -63,7 +63,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_round_column_value(): void
+    public function rounds_column_value(): void
     {
         $dql = 'SELECT ROUND(t.decimal1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -73,7 +73,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_round_arithmetic_expression(): void
+    public function rounds_arithmetic_expression(): void
     {
         $dql = 'SELECT ROUND(100 * t.integer1 / t.integer2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -83,7 +83,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_round_arithmetic_expression_with_precision(): void
+    public function rounds_arithmetic_expression_with_precision(): void
     {
         $dql = 'SELECT ROUND(t.decimal1 + t.decimal2 - t.integer1, 1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -93,7 +93,7 @@ class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_round_parenthesized_arithmetic_expression(): void
+    public function rounds_parenthesized_arithmetic_expression(): void
     {
         $dql = 'SELECT ROUND((t.integer1 + t.integer2) * t.decimal1, 1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t

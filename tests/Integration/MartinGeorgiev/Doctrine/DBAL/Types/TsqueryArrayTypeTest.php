@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsqueryArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsqueryArrayTypeTest extends ArrayTypeTestCase
+final class TsqueryArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

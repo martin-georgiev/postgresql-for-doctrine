@@ -19,7 +19,7 @@ class ToDateTest extends TextTestCase
     }
 
     #[Test]
-    public function can_convert_string_to_date(): void
+    public function converts_string_to_date(): void
     {
         $dql = "SELECT TO_DATE('05 Dec 2000', 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

@@ -17,7 +17,7 @@ class RangeIntersectAggTest extends RangeTestCase
     }
 
     #[Test]
-    public function can_compute_intersection_of_overlapping_int4_ranges(): void
+    public function computes_intersection_of_overlapping_int4_ranges(): void
     {
         $dql = 'SELECT RANGE_INTERSECT_AGG(t.int4Range) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsRanges t';
         $result = $this->executeDqlQuery($dql);
@@ -26,7 +26,7 @@ class RangeIntersectAggTest extends RangeTestCase
     }
 
     #[Test]
-    public function can_compute_intersection_of_single_int4_range(): void
+    public function computes_intersection_of_single_int4_range(): void
     {
         $dql = 'SELECT RANGE_INTERSECT_AGG(t.int4Range) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsRanges t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);

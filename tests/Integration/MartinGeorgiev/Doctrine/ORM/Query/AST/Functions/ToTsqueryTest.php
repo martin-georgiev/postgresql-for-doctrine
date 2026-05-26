@@ -21,7 +21,7 @@ class ToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_tsquery_from_text(): void
+    public function creates_tsquery_from_text(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -32,7 +32,7 @@ class ToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_tsquery_with_language(): void
+    public function creates_tsquery_with_language(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

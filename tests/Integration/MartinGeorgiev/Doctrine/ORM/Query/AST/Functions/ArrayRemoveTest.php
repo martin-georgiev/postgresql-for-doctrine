@@ -17,7 +17,7 @@ class ArrayRemoveTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_remove_text_elements(): void
+    public function removes_text_elements(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.textArray, \'banana\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -30,7 +30,7 @@ class ArrayRemoveTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_remove_integer_elements(): void
+    public function removes_integer_elements(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.integerArray, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -43,7 +43,7 @@ class ArrayRemoveTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_remove_boolean_elements(): void
+    public function removes_boolean_elements(): void
     {
         $dql = 'SELECT ARRAY_REMOVE(t.boolArray, false) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

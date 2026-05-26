@@ -17,7 +17,7 @@ class JsonGetObjectTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_nested_object_by_path(): void
+    public function returns_nested_object_by_path(): void
     {
         $dql = "SELECT JSON_GET_OBJECT(t.jsonObject1, '{address}') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -30,7 +30,7 @@ class JsonGetObjectTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_deeply_nested_value(): void
+    public function returns_deeply_nested_value(): void
     {
         $dql = "SELECT JSON_GET_OBJECT(t.jsonObject1, '{address,city}') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

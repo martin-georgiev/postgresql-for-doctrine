@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TimetzTypeTest extends ScalarTypeTestCase
+final class TimetzTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -16,9 +16,12 @@ class TimetzTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(string $testValue): void
+    public function roundtrips_value(string $testValue): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $testValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $testValue);
     }
 
     /**

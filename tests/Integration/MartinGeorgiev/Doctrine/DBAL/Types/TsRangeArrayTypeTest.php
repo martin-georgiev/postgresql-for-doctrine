@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange;
 /**
  * @extends RangeArrayTypeTestCase<TsRange>
  */
-class TsRangeArrayTypeTest extends RangeArrayTypeTestCase
+final class TsRangeArrayTypeTest extends RangeArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

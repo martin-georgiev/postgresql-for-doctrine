@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range;
 /**
  * @extends RangeArrayTypeTestCase<Int8Range>
  */
-class Int8RangeArrayTypeTest extends RangeArrayTypeTestCase
+final class Int8RangeArrayTypeTest extends RangeArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

@@ -17,7 +17,7 @@ class PlaintoTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function can_convert_plain_text_to_tsquery(): void
+    public function converts_plain_text_to_tsquery(): void
     {
         $dql = "SELECT PLAINTO_TSQUERY('morum ipsum') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class PlaintoTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function can_convert_plain_text_with_config(): void
+    public function converts_plain_text_with_config(): void
     {
         $dql = "SELECT PLAINTO_TSQUERY('english', 'lorem ipsum') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -33,7 +33,7 @@ class PlaintoTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function can_convert_field_value_to_tsquery(): void
+    public function converts_field_value_to_tsquery(): void
     {
         $dql = 'SELECT PLAINTO_TSQUERY(t.text1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);

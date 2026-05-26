@@ -15,7 +15,7 @@ class PolygonTest extends TestCase
 {
     #[DataProvider('provideValidPolygonStrings')]
     #[Test]
-    public function can_create_from_string(string $value, string $expectedOutput): void
+    public function parses_from_string(string $value, string $expectedOutput): void
     {
         $polygon = Polygon::fromString($value);
         $this->assertSame($expectedOutput, (string) $polygon);
@@ -56,7 +56,7 @@ class PolygonTest extends TestCase
     }
 
     #[Test]
-    public function can_return_vertices_as_point_objects(): void
+    public function returns_vertices_as_point_objects(): void
     {
         $polygon = Polygon::fromString('((0,0),(1,0),(0,1))');
         $vertices = $polygon->getVertices();
@@ -68,7 +68,7 @@ class PolygonTest extends TestCase
     }
 
     #[Test]
-    public function can_construct_from_point_objects(): void
+    public function constructs_from_point_objects(): void
     {
         $polygon = new Polygon(new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0));
         $this->assertSame('((0,0),(1,0),(0,1))', (string) $polygon);

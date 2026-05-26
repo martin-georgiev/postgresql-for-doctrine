@@ -17,7 +17,7 @@ class ToJsonbTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_convert_jsonb_column_to_jsonb(): void
+    public function converts_jsonb_column_to_jsonb(): void
     {
         $dql = 'SELECT TO_JSONB(t.jsonbObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -30,7 +30,7 @@ class ToJsonbTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_convert_json_column_to_jsonb(): void
+    public function converts_json_column_to_jsonb(): void
     {
         $dql = 'SELECT TO_JSONB(t.jsonObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use PHPUnit\Framework\Attributes\Test;
 
-class SmallIntArrayTest extends BaseIntegerArrayTestCase
+final class SmallIntArrayTest extends BaseIntegerArrayTestCase
 {
     protected function setUp(): void
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-class IntegerArrayTypeTest extends ArrayTypeTestCase
+final class IntegerArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidXmlArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
-class XmlArrayTypeTest extends ArrayTypeTestCase
+final class XmlArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -35,7 +35,10 @@ class XmlArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidXmlArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['<unclosed>']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['<unclosed>']);
     }
 
     #[Test]
@@ -43,6 +46,9 @@ class XmlArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidXmlArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['just plain text']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['just plain text']);
     }
 }

@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class JsonbArrayTest extends TestCase
+final class JsonbArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -36,14 +36,14 @@ class JsonbArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }

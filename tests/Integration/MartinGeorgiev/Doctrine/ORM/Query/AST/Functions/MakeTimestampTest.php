@@ -21,7 +21,7 @@ class MakeTimestampTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function can_create_timestamp_from_components(): void
+    public function creates_timestamp_from_components(): void
     {
         $dql = "SELECT MAKE_TIMESTAMP(
                     CAST(DATE_PART('year', t.datetime1) AS INTEGER),
@@ -40,7 +40,7 @@ class MakeTimestampTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function can_create_timestamp_from_entity_fields(): void
+    public function creates_timestamp_from_entity_fields(): void
     {
         $dql = 'SELECT MAKE_TIMESTAMP(2023, n.integer1, n.integer2, 10, 30, 0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n

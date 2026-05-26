@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 abstract class ScalarTypeTestCase extends TestCase
 {
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

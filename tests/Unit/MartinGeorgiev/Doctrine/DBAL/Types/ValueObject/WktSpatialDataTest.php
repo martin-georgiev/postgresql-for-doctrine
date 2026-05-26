@@ -16,7 +16,7 @@ final class WktSpatialDataTest extends TestCase
 {
     #[DataProvider('provideValidWkt')]
     #[Test]
-    public function can_create_from_wkt(string $wkt, string $expectedType, ?int $expectedSrid): void
+    public function parses_from_wkt(string $wkt, string $expectedType, ?int $expectedSrid): void
     {
         $wktSpatialData = WktSpatialData::fromWkt($wkt);
 
@@ -67,7 +67,7 @@ final class WktSpatialDataTest extends TestCase
 
     #[DataProvider('provideDimensionalModifierWkt')]
     #[Test]
-    public function can_extract_dimensional_modifier(string $wkt, ?DimensionalModifier $dimensionalModifier): void
+    public function extracts_dimensional_modifier(string $wkt, ?DimensionalModifier $dimensionalModifier): void
     {
         $wktSpatialData = WktSpatialData::fromWkt($wkt);
 
@@ -170,7 +170,7 @@ final class WktSpatialDataTest extends TestCase
 
     #[DataProvider('provideFromComponentsData')]
     #[Test]
-    public function can_create_from_components(
+    public function creates_from_components(
         GeometryType $geometryType,
         string $coordinates,
         ?int $srid,
@@ -243,7 +243,7 @@ final class WktSpatialDataTest extends TestCase
 
     #[DataProvider('providePointData')]
     #[Test]
-    public function can_create_point(
+    public function creates_point(
         float|int|string $longitude,
         float|int|string $latitude,
         ?int $srid,
@@ -272,7 +272,7 @@ final class WktSpatialDataTest extends TestCase
 
     #[DataProvider('providePoint3dData')]
     #[Test]
-    public function can_create_3d_point(
+    public function creates_3d_point(
         float|int|string $longitude,
         float|int|string $latitude,
         float|int|string $elevation,

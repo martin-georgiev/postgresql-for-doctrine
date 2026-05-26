@@ -19,7 +19,7 @@ class JsonTypeofTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_detect_object_type(): void
+    public function detects_object_type(): void
     {
         $dql = 'SELECT JSON_TYPEOF(t.jsonObject1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
@@ -29,7 +29,7 @@ class JsonTypeofTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_detect_array_type(): void
+    public function detects_array_type(): void
     {
         $dql = "SELECT JSON_TYPEOF(JSON_GET_FIELD(t.jsonObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -39,7 +39,7 @@ class JsonTypeofTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_detect_string_type(): void
+    public function detects_string_type(): void
     {
         $dql = "SELECT JSON_TYPEOF(JSON_GET_FIELD(t.jsonObject1, 'name')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -49,7 +49,7 @@ class JsonTypeofTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_detect_number_type(): void
+    public function detects_number_type(): void
     {
         $dql = "SELECT JSON_TYPEOF(JSON_GET_FIELD(t.jsonObject1, 'age')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

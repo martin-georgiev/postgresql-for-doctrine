@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 abstract class BaseRangeTestCase extends TestCase
 {
     #[Test]
-    public function can_create_simple_range(): void
+    public function creates_simple_range(): void
     {
         $range = $this->createSimpleRange();
         $expectedString = $this->getExpectedSimpleRangeString();
@@ -29,7 +29,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_create_empty_range(): void
+    public function creates_empty_range(): void
     {
         $range = $this->createEmptyRange();
 
@@ -38,7 +38,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_create_infinite_range(): void
+    public function creates_infinite_range(): void
     {
         $range = $this->createInfiniteRange();
 
@@ -47,7 +47,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_create_inclusive_range(): void
+    public function creates_inclusive_range(): void
     {
         $range = $this->createInclusiveRange();
         $expectedString = $this->getExpectedInclusiveRangeString();
@@ -61,7 +61,7 @@ abstract class BaseRangeTestCase extends TestCase
      */
     #[Test]
     #[DataProvider('provideContainsTestCases')]
-    public function can_check_contains(Range $range, mixed $value, bool $expected): void
+    public function checks_contains(Range $range, mixed $value, bool $expected): void
     {
         $this->assertSame($expected, $range->contains($value));
     }
@@ -76,7 +76,7 @@ abstract class BaseRangeTestCase extends TestCase
      */
     #[Test]
     #[DataProvider('provideFromStringTestCases')]
-    public function can_parse_from_string(string $input, Range $expectedRange): void
+    public function parses_from_string(string $input, Range $expectedRange): void
     {
         $range = $this->parseFromString($input);
         $this->assertRangeEquals($expectedRange, $range);
@@ -88,7 +88,7 @@ abstract class BaseRangeTestCase extends TestCase
     abstract public static function provideFromStringTestCases(): \Generator;
 
     #[Test]
-    public function can_handle_boundary_conditions(): void
+    public function supports_boundary_conditions(): void
     {
         $range = $this->createBoundaryTestRange();
         $testCases = $this->getBoundaryTestCases();
@@ -97,7 +97,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_handle_comparison_via_is_empty(): void
+    public function supports_is_empty_comparison(): void
     {
         $testCases = $this->getComparisonTestCases();
 
@@ -111,7 +111,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_get_lower_bound(): void
+    public function returns_lower_bound(): void
     {
         $range = $this->createSimpleRange();
         $lower = $range->getLower();
@@ -120,7 +120,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_get_upper_bound(): void
+    public function returns_upper_bound(): void
     {
         $range = $this->createSimpleRange();
         $upper = $range->getUpper();
@@ -129,7 +129,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_get_null_bounds_for_infinite_range(): void
+    public function returns_null_bounds_for_infinite_range(): void
     {
         $range = $this->createInfiniteRange();
 
@@ -138,7 +138,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_get_bracket_inclusivity(): void
+    public function returns_bracket_inclusivity(): void
     {
         $range = $this->createSimpleRange();
 
@@ -147,7 +147,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_get_inclusive_bracket_state(): void
+    public function returns_inclusive_bracket_state(): void
     {
         $range = $this->createInclusiveRange();
 
@@ -156,7 +156,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_get_explicitly_empty_state(): void
+    public function returns_explicitly_empty_state(): void
     {
         $emptyRange = $this->createEmptyRange();
         $normalRange = $this->createSimpleRange();

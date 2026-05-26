@@ -11,15 +11,7 @@ abstract class TestCase extends TextTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ensureFuzzystrmatchExtension();
-    }
 
-    private function ensureFuzzystrmatchExtension(): void
-    {
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS fuzzystrmatch');
-        } catch (\Exception) {
-            $this->markTestSkipped('fuzzystrmatch extension is not available');
-        }
+        $this->ensurePostgresExtensionInSchema('fuzzystrmatch');
     }
 }

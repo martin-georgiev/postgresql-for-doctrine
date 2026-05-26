@@ -106,7 +106,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_create_hour_range(): void
+    public function creates_hour_range(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 14:00:00+02:00');
         $end = $start->modify('+1 hour');
@@ -200,7 +200,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_handle_different_timezones(): void
+    public function accepts_different_timezones(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00-05:00');
@@ -210,7 +210,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_handle_microseconds_with_timezone(): void
+    public function preserves_microseconds_with_timezone(): void
     {
         $start = new \DateTimeImmutable('2023-01-01 10:00:00.123456+00:00');
         $end = new \DateTimeImmutable('2023-01-01 18:00:00.654321+00:00');
@@ -229,7 +229,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_format_timestamp_with_timezone_via_to_string(): void
+    public function formats_timestamp_with_timezone_via_to_string(): void
     {
         $tstzRange = new TstzRange(
             new \DateTimeImmutable('2023-06-15 14:30:25.123456+02:00'),
@@ -242,7 +242,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_handle_timezone_comparison(): void
+    public function supports_timezone_comparison(): void
     {
         $utc = new \DateTimeImmutable('2023-01-01 10:00:00+00:00');
         $est = new \DateTimeImmutable('2023-01-01 05:00:00-05:00'); // Same moment as UTC
@@ -255,7 +255,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_parse_timestamp_with_timezone_strings_via_from_string(): void
+    public function parses_timestamp_with_timezone_strings_via_from_string(): void
     {
         $tstzRange = TstzRange::fromString('[2023-06-15 14:30:25.123456+02:00,2023-06-15 18:45:30.654321+02:00)');
 
@@ -274,7 +274,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_preserve_timezone_information(): void
+    public function preserves_timezone_information(): void
     {
         $timestampWithTz = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');
         $tstzRange = new TstzRange($timestampWithTz, null);
@@ -285,7 +285,7 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
     }
 
     #[Test]
-    public function can_handle_different_datetime_implementations(): void
+    public function accepts_different_datetime_implementations(): void
     {
         $dateTime = new \DateTimeImmutable('2023-01-01 10:00:00+02:00');
         $dateTimeImmutable = new \DateTimeImmutable('2023-01-01 18:00:00-05:00');
