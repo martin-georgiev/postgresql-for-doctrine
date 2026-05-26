@@ -28,7 +28,7 @@ final class Int8RangeTypeTest extends RangeTypeTestCase
     }
 
     #[Test]
-    public function can_handle_infinite_ranges(): void
+    public function roundtrips_infinite_ranges(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -38,7 +38,7 @@ final class Int8RangeTypeTest extends RangeTypeTestCase
     }
 
     #[Test]
-    public function can_handle_empty_ranges(): void
+    public function roundtrips_empty_ranges(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

@@ -34,7 +34,7 @@ final class TimestampArrayTest extends BaseDateTimeArrayTestCase
 
     #[DataProvider('provideValidItemTransformationsToPostgres')]
     #[Test]
-    public function converts_timestamp_item_for_postgres(\DateTimeInterface $phpValue, string $expectedPostgresValue): void
+    public function converts_timestamp_item_to_database_value(\DateTimeInterface $phpValue, string $expectedPostgresValue): void
     {
         $this->assertSame($expectedPostgresValue, $this->fixture->convertToDatabaseValue([$phpValue], $this->platform));
     }
@@ -61,7 +61,7 @@ final class TimestampArrayTest extends BaseDateTimeArrayTestCase
 
     #[DataProvider('provideValidItemTransformationsToPHP')]
     #[Test]
-    public function converts_timestamp_item_for_php(string $postgresValue, string $expectedDatetime): void
+    public function converts_timestamp_item_to_php_value(string $postgresValue, string $expectedDatetime): void
     {
         $result = $this->fixture->transformArrayItemForPHP($postgresValue);
         $this->assertInstanceOf(\DateTimeImmutable::class, $result);
@@ -119,7 +119,7 @@ final class TimestampArrayTest extends BaseDateTimeArrayTestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidFormatInputsForPHP(): array
+    public static function provideInvalidFormatItemsFromDatabase(): array
     {
         return [
             'garbage string' => ['not-a-timestamp'],
