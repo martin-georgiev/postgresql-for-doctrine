@@ -8,20 +8,34 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * Implementation of PostgreSQL XPATH_EXISTS().
  *
  * Returns true if the XPath expression matches any node in the XML value.
+ * The optional third argument accepts a namespace mapping array.
  *
  * @see https://www.postgresql.org/docs/18/functions-xml.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT XPATH_EXISTS(e.text1, e.text2) FROM Entity e"
+ * @example Using it in DQL: "SELECT XPATH_EXISTS(e.xpath, e.xmlData) FROM Entity e"
  */
-class XpathExists extends BaseFunction
+class XpathExists extends BaseVariadicFunction
 {
-    protected function customizeFunction(): void
+    protected function getNodeMappingPattern(): array
     {
-        $this->setFunctionPrototype('xpath_exists(%s, %s)');
-        $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('StringPrimary');
+        return ['StringPrimary,StringPrimary,StringPrimary', 'StringPrimary,StringPrimary'];
+    }
+
+    protected function getFunctionName(): string
+    {
+        return 'xpath_exists';
+    }
+
+    protected function getMinArgumentCount(): int
+    {
+        return 2;
+    }
+
+    protected function getMaxArgumentCount(): int
+    {
+        return 3;
     }
 }

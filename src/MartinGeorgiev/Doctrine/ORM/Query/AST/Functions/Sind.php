@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL sind() function.
+ * Implementation of PostgreSQL SIND().
  *
  * Returns the sine of the argument (given in degrees).
  *

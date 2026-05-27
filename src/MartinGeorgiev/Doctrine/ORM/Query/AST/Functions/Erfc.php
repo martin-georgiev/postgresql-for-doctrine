@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL erfc() function.
+ * Implementation of PostgreSQL ERFC().
  *
  * Returns the complementary error function of the argument (1 - erf(x)).
  *

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL nlevel function.
+ * Implementation of PostgreSQL NLEVEL().
  *
  * Returns number of labels in path.
  *

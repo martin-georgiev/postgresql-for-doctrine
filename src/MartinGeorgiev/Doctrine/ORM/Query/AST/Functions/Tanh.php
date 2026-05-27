@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL tanh() function.
+ * Implementation of PostgreSQL TANH().
  *
  * Returns the hyperbolic tangent of the argument.
  *

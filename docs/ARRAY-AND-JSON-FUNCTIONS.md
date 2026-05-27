@@ -41,6 +41,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 |---|---|---|
 | all | ALL_OF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All` |
 | any | ANY_OF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any` |
+| any_value | ANY_VALUE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue` |
 | array_agg | ARRAY_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg` |
 | array_append | ARRAY_APPEND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend` |
 | array_cat | ARRAY_CAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat` |
@@ -86,6 +87,8 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | json_strip_nulls | JSON_STRIP_NULLS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonStripNulls` |
 | json_typeof | JSON_TYPEOF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonTypeof` |
 | json_value | JSON_VALUE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonValue` |
+| row | ROW | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row` |
+| row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
 | to_json | TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson` |
 | to_jsonb | TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb` |
 
@@ -130,32 +133,15 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 ## Usage Examples
 
 ```sql
--- Array and JSON operations
--- Check if array contains specific elements
+-- DQL array literal syntax: ARRAY('val1', 'val2') — not standard PHP array notation
 SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('important', 'urgent')) = TRUE
-
--- Find entities with overlapping arrays
 SELECT e FROM Entity e WHERE OVERLAPS(e.categories, ARRAY('admin', 'user')) = TRUE
 
--- Extract JSON field values
-SELECT e, JSON_GET_FIELD_AS_TEXT(e.metadata, 'status') as status FROM Entity e
+-- JSON_BUILD_OBJECT takes alternating key/value pairs; result is a JSON object
+SELECT e.id, JSON_BUILD_OBJECT('name', e.name, 'status', e.status, 'score', e.score) as json_data FROM Entity e
 
--- Aggregate values into arrays
-SELECT e.category, ARRAY_AGG(e.id) as entity_ids FROM Entity e GROUP BY e.category
-
--- Build JSON objects
-SELECT e.id, JSON_BUILD_OBJECT('name', e.name, 'type', e.type) as json_data FROM Entity e
-
--- Advanced array operations
--- Shuffle array elements
-SELECT e, ARRAY_SHUFFLE(e.tags) as shuffled_tags FROM Entity e
-
--- Replace array elements
-SELECT e, ARRAY_REPLACE(e.categories, 'old', 'new') as updated_categories FROM Entity e
-
--- Check array dimensions
-SELECT e, ARRAY_DIMENSIONS(e.matrix) as dimensions FROM Entity e
-WHERE ARRAY_NUMBER_OF_DIMENSIONS(e.matrix) > 1
+-- ARRAY_AGG with ORDER BY inside the aggregate
+SELECT e.category, ARRAY_AGG(e.id ORDER BY e.createdAt DESC) as entity_ids FROM Entity e GROUP BY e.category
 ```
 
 **💡 Tips for Usage:**

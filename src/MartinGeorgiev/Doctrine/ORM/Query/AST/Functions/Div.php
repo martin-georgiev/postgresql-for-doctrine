@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL div() function.
+ * Implementation of PostgreSQL DIV().
  *
  * Returns the integer quotient of y/x, truncated towards zero.
  *
