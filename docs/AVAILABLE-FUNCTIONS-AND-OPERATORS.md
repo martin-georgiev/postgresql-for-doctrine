@@ -35,9 +35,9 @@ Complete documentation for PostGIS spatial operations and geometry processing.
 - Includes: Bounding box operators, distance operators, spatial relationship functions, measurement functions, overlay functions, geometry processing functions
 
 ### **📝 Text and Pattern Functions**
-Complete documentation for text processing, pattern matching, and regular expressions.
+Complete documentation for text processing, pattern matching, regular expressions, and hashing.
 - **[Text and Pattern Functions and Operators](TEXT-AND-PATTERN-FUNCTIONS.md)**
-- Includes: Text operators (`~`, `ilike`, `@@`), regular expression functions, text processing functions, full-text search functions, fuzzy string matching functions
+- Includes: Text operators (`~`, `ilike`, `@@`), regular expression functions, text processing functions, full-text search functions, fuzzy string matching functions, hashing and checksum functions
 
 ### **📅 Date and Range Functions**
 Complete documentation for date/time operations and range type functions.
@@ -45,9 +45,19 @@ Complete documentation for date/time operations and range type functions.
 - Includes: Date/time functions, range creation functions, range operators, temporal operations
 
 ### **🔢 Mathematical Functions**
-Complete documentation for mathematical operations and utility functions.
-- **[Mathematical and Utility Functions](MATHEMATICAL-FUNCTIONS.md)**
-- Includes: Mathematical functions, type conversion functions, formatting functions, utility functions
+Complete documentation for mathematical operations.
+- **[Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)**
+- Includes: Mathematical functions, trigonometric functions, statistical functions
+
+### **🔧 Utility Functions**
+Complete documentation for type conversion, formatting, and UUID functions.
+- **[Utility Functions](UTILITY-FUNCTIONS.md)**
+- Includes: Type casting (`cast`), data formatting (`to_char`, `to_number`), UUID generation and inspection (`uuidv4`, `uuidv7`, `uuid_extract_timestamp`, `uuid_extract_version`)
+
+### **📄 XML Functions**
+Complete documentation for PostgreSQL XML processing, validation, and XPath querying.
+- **[XML Functions](XML-FUNCTIONS.md)**
+- Includes: XML aggregation (`xmlagg`)
 
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
@@ -91,6 +101,9 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `STARTS_WITH` - Test if text starts with a substring
 - `LEVENSHTEIN` - Calculate edit distance between strings (fuzzy matching)
 - `SOUNDEX` - Phonetic encoding for similarity matching
+- `MD5`/`SHA256`/`SHA512` (and other SHA variants) - Cryptographic hashing
+- `CRC32`/`CRC32C` - CRC checksum computation
+- `REVERSE_BYTES` - Reverse byte order for bytea values
 
 **Date/Range Operations:** ([Complete documentation](DATE-AND-RANGE-FUNCTIONS.md))
 - `DATE_ADD` - Add interval to date
@@ -104,6 +117,15 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `GREATEST`/`LEAST` - Find maximum/minimum values
 - `ROUND`/`SCALE`/`MIN_SCALE`/`TRIM_SCALE` - Numeric precision functions
 - `RANDOM`/`RANDOM_NORMAL` - Generate random numbers
+
+**Utility Functions:** ([Complete documentation](UTILITY-FUNCTIONS.md))
+- `CAST` - General type conversion
+- `TO_CHAR` - Convert numbers and dates to formatted strings
+- `TO_NUMBER` - Parse formatted text as numbers
+- `UUIDV4` - Explicit UUID version 4 generation
+- `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
+- `UUID_EXTRACT_TIMESTAMP` - Extract timestamp from UUID v1 or v7
+- `UUID_EXTRACT_VERSION` - Extract version number from UUID
 
 **Network Address Operations:** ([Complete documentation](NETWORK-FUNCTIONS.md))
 - `HOST`/`NETWORK`/`BROADCAST` - Extract address parts
@@ -122,22 +144,11 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `COSINE_DISTANCE` - Cosine distance between vectors
 - `INNER_PRODUCT` - Inner product of two vectors
 
-**Hashing & Cryptographic Functions:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
-- `MD5`
-- `SHA224`
-- `SHA256`
-- `SHA384`
-- `SHA512`
-
-**Utility Operations:**
+**Composite Types:**
 - `COMPOSITE_FIELD` - Access a field from a PostgreSQL composite type column → [Use Cases and Examples](USE-CASES-AND-EXAMPLES.md#using-postgresql-composite-types)
-- `CRC32` - CRC-32 checksum computation
-- `CRC32C` - CRC-32C checksum computation
-- `REVERSE_BYTES` - Reverse byte order for bytea values
-- `UUID_EXTRACT_TIMESTAMP` - Extract timestamp from UUID v1 or v7
-- `UUID_EXTRACT_VERSION` - Extract version number from UUID
-- `UUIDV4` - Explicit UUID version 4 generation
-- `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
+
+**XML Functions:** ([Complete documentation](XML-FUNCTIONS.md))
+- `XML_AGG` - Aggregate XML values (supports `ORDER BY`)
 
 ## 📋 Summary of Available Function Categories
 
@@ -157,6 +168,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **Text Functions**: String manipulation and searching
 - **Full-Text Search**: PostgreSQL's text search capabilities
 - **Fuzzy String Matching**: Phonetic and edit distance algorithms (fuzzystrmatch extension)
+- **Hashing & Checksum**: MD5, SHA-2 family, CRC32, CRC32C, REVERSE_BYTES
 
 ### **Date & Range Functions**
 - **Date Operations**: Add/subtract dates, extract components
@@ -170,8 +182,15 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 
 ### **Mathematical Functions**
 - **Basic Math**: Power, square root, trigonometric functions
-- **Aggregation**: Array and JSON aggregation functions
-- **Utility Functions**: Random numbers, rounding, type casting
+- **Statistical**: Random numbers, rounding, precision functions
+
+### **Utility Functions**
+- **Type Conversion**: `CAST` for general type conversion
+- **Formatting**: `TO_CHAR` for numbers and dates, `TO_NUMBER` for parsing
+- **UUID**: Generation (`UUIDV4`, `UUIDV7`) and inspection (`UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`)
+
+### **XML Functions**
+- **Aggregation**: `XML_AGG` — aggregate XML values with optional ordering
 
 ### **Network Address Functions**
 - **Extraction**: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK` — decompose `inet`/`cidr` types
@@ -193,7 +212,8 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 4. **JSON functions** support both JSON and JSONB data types → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
 5. **Range functions** provide efficient storage and querying for value ranges → [Range Types](RANGE-TYPES.md)
 6. **Mathematical functions** work with numeric types and return appropriate precision → [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
-7. **Ltree functions** provide efficient hierarchical data operations and path manipulation → [Ltree Functions](LTREE-TYPE.md)
+7. **Utility functions** provide type casting, formatting, and UUID operations → [Utility Functions](UTILITY-FUNCTIONS.md)
+8. **Ltree functions** provide efficient hierarchical data operations and path manipulation → [Ltree Functions](LTREE-TYPE.md)
 
 ---
 

@@ -334,6 +334,7 @@ Register the functions you'll use in your DQL queries. The full set of available
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
 - [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
+- [Utility Functions](UTILITY-FUNCTIONS.md)
 
 ```yaml
 # config/packages/doctrine.yaml
@@ -383,6 +384,7 @@ doctrine:
                         ARRAY_UPPER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper
                         SPLIT_PART: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart
                         STARTS_WITH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith
+                        ROW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
                         UNNEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest
 
@@ -515,7 +517,6 @@ doctrine:
                         TANH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh
 
                         # other operators
-                        CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
                         ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
                         SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo
                         NOT_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo
@@ -530,7 +531,6 @@ doctrine:
                         REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch
                         REGEXP_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace
                         REGEXP_SUBSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr
-                        ROW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row
                         STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
                         DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance
 
@@ -546,9 +546,28 @@ doctrine:
                         JSONB_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg
                         JSONB_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
+
+                        # XML functions
                         XML_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
 
-                        # data type formatting functions
+                        # hashing and checksum functions
+                        CRC32: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32
+                        CRC32C: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c
+                        MD5: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5
+                        REVERSE_BYTES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes
+                        SHA224: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha224
+                        SHA256: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256
+                        SHA384: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384
+                        SHA512: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512
+
+                        # uuid functions
+                        UUID_EXTRACT_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp
+                        UUID_EXTRACT_VERSION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion
+                        UUIDV4: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4
+                        UUIDV7: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7
+
+                        # type conversion and formatting functions
+                        CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
                         TO_CHAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar
                         TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate
                         TO_NUMBER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber
