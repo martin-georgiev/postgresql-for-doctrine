@@ -38,7 +38,10 @@ class XmlPi extends BaseFunction
 
     private ?Node $content = null;
 
-    protected function customizeFunction(): void {}
+    protected function customizeFunction(): void
+    {
+        $this->setFunctionPrototype('xmlpi(NAME %s%s)');
+    }
 
     public function parse(Parser $parser): void
     {
@@ -66,10 +69,10 @@ class XmlPi extends BaseFunction
 
     public function getSql(SqlWalker $sqlWalker): string
     {
-        if ($this->content instanceof Node) {
-            return \sprintf('xmlpi(NAME %s, %s)', $this->target, $this->content->dispatch($sqlWalker));
-        }
+        $contentSql = $this->content instanceof Node
+            ? ', '.$this->content->dispatch($sqlWalker)
+            : '';
 
-        return \sprintf('xmlpi(NAME %s)', $this->target);
+        return \vsprintf($this->functionPrototype, [$this->target, $contentSql]);
     }
 }
