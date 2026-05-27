@@ -41,14 +41,14 @@ final class XmlPiTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmlpi_with_entity_property(): void
+    public function creates_xmlpi_with_content_from_entity_property(): void
     {
-        $dql = 'SELECT XMLPI(t.text2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
-                WHERE t.id = 3';
+        $dql = "SELECT XMLPI('php', t.text2) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                WHERE t.id = 3";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertIsString($result[0]['result']);
-        $this->assertSame('<?bar?>', $result[0]['result']);
+        $this->assertSame('<?php bar?>', $result[0]['result']);
     }
 }
