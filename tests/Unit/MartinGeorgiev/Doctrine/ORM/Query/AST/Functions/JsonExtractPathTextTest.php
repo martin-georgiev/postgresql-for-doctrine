@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExtractPathText;
 
-class JsonExtractPathTextTest extends TestCase
+final class JsonExtractPathTextTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

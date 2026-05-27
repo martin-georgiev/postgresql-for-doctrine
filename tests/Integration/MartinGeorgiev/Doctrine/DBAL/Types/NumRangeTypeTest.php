@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange as NumRangeValue
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class NumRangeTypeTest extends RangeTypeTestCase
+final class NumRangeTypeTest extends RangeTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -28,9 +28,9 @@ class NumRangeTypeTest extends RangeTypeTestCase
         ];
     }
 
-    #[Test]
     #[DataProvider('provideInfinityAndSpecialCases')]
-    public function can_handle_infinity_and_special_cases(NumRangeValueObject $numRangeValueObject): void
+    #[Test]
+    public function roundtrips_unbounded_and_empty_value(NumRangeValueObject $numRangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

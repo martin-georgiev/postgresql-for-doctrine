@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanExce
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbInsertTest extends TestCase
+final class JsonbInsertTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

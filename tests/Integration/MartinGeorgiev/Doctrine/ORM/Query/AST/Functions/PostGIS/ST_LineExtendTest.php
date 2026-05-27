@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineExtend;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_LineExtendTest extends SpatialOperatorTestCase
+final class ST_LineExtendTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

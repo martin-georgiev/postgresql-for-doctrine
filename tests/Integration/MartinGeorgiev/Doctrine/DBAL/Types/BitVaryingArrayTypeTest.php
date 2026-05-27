@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingArrayItemForD
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class BitVaryingArrayTypeTest extends ArrayTypeTestCase
+final class BitVaryingArrayTypeTest extends ArrayTypeTestCase
 {
     use BitLengthRoundTripTrait;
 
@@ -64,7 +64,10 @@ class BitVaryingArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidBitVaryingArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $inputValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $inputValue);
     }
 
     /**

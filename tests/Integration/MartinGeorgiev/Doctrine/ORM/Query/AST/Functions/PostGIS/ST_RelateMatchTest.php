@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Relate;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RelateMatch;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_RelateMatchTest extends SpatialOperatorTestCase
+final class ST_RelateMatchTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -9,16 +9,18 @@ type: always_apply
 # PHPStan Compliance
 
 ## Always Run PHPStan with Project Configuration
-When verifying code quality with PHPStan, ALWAYS use the project's configuration file:
+
+**Required**:
 
 ```bash
 ./bin/phpstan analyse --configuration=ci/phpstan/config.neon <files> --memory-limit=512M
 ```
 
-Do NOT run PHPStan without the configuration file, as the project uses level `max` and has specific baselines and extensions configured.
+Reason: the project runs at level `max` with project-specific baselines and extensions. Running without `--configuration` skips them.
 
 ## Type Assertions for Query Results
-Query results from `executeDqlQuery()` return `mixed` values. Before using these values in assertions or operations that expect specific types:
+
+`executeDqlQuery()` returns `mixed`. Before assertions that expect a concrete type:
 
 1. **For string operations** (like `assertStringContainsString`):
    ```php
@@ -39,6 +41,4 @@ Query results from `executeDqlQuery()` return `mixed` values. Before using these
    $this->assertIsArray($decoded);
    $this->assertCount(3, $decoded);
    ```
-
-This pattern ensures PHPStan at level `max` can verify type safety.
 

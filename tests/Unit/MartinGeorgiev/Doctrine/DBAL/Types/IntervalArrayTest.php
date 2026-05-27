@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class IntervalArrayTest extends TestCase
+final class IntervalArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -61,14 +61,14 @@ class IntervalArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $actual = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
 
@@ -161,7 +161,7 @@ class IntervalArrayTest extends TestCase
 
     #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_valid_array_item_for_database(mixed $value): void
+    public function validates_valid_array_item_for_database(mixed $value): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
     }
@@ -185,7 +185,7 @@ class IntervalArrayTest extends TestCase
 
     #[DataProvider('provideInvalidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_invalid_array_item_for_database(mixed $value): void
+    public function validates_invalid_array_item_for_database(mixed $value): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
     }
@@ -241,13 +241,13 @@ class IntervalArrayTest extends TestCase
     }
 
     #[Test]
-    public function transform_array_item_for_php_returns_null_for_null(): void
+    public function converts_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
     #[Test]
-    public function transform_array_item_for_php_returns_interval_value_object_for_valid_string(): void
+    public function converts_string_item_to_interval_value_object_for_php(): void
     {
         $result = $this->fixture->transformArrayItemForPHP('1 year');
 
@@ -256,7 +256,7 @@ class IntervalArrayTest extends TestCase
     }
 
     #[Test]
-    public function transform_array_item_for_php_returns_same_instance_for_value_object(): void
+    public function returns_same_interval_value_object_for_php(): void
     {
         $interval = IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06');
         $result = $this->fixture->transformArrayItemForPHP($interval);
@@ -265,14 +265,14 @@ class IntervalArrayTest extends TestCase
     }
 
     #[Test]
-    public function transform_array_item_for_php_throws_for_non_string(): void
+    public function throws_exception_for_non_string_item_from_database(): void
     {
         $this->expectException(InvalidIntervalArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP(42);
     }
 
     #[Test]
-    public function transform_array_item_for_php_throws_for_invalid_format(): void
+    public function throws_exception_for_invalid_format_item_from_database(): void
     {
         $this->expectException(InvalidIntervalArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP('not-an-interval');

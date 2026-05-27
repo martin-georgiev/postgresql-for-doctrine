@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket;
 use PHPUnit\Framework\Attributes\Test;
 
-class WidthBucketTest extends TestCase
+final class WidthBucketTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

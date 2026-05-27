@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayPrependTest extends ArrayTestCase
+final class ArrayPrependTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayPrependTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_prepend_to_text_array(): void
+    public function prepends_to_text_array(): void
     {
         $dql = 'SELECT ARRAY_PREPEND(\'orange\', t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -30,7 +30,7 @@ class ArrayPrependTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_prepend_to_integer_array(): void
+    public function prepends_to_integer_array(): void
     {
         $dql = 'SELECT ARRAY_PREPEND(3, t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -43,7 +43,7 @@ class ArrayPrependTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_prepend_to_boolean_array(): void
+    public function prepends_to_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_PREPEND(true, t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

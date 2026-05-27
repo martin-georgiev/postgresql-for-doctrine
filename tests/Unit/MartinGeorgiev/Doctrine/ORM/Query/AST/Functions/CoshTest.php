@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosh;
 
-class CoshTest extends TestCase
+final class CoshTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

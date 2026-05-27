@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Format;
 use PHPUnit\Framework\Attributes\Test;
 
-class FormatTest extends TextTestCase
+final class FormatTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class FormatTest extends TextTestCase
     }
 
     #[Test]
-    public function can_format_single_argument(): void
+    public function formats_single_argument(): void
     {
         $dql = "SELECT FORMAT('Hello %s', t.text1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -29,7 +29,7 @@ class FormatTest extends TextTestCase
     }
 
     #[Test]
-    public function can_format_multiple_arguments(): void
+    public function formats_multiple_arguments(): void
     {
         $dql = "SELECT FORMAT('%s - %s', t.text1, t.text2) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

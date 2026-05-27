@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Left;
 use PHPUnit\Framework\Attributes\Test;
 
-class LeftTest extends TextTestCase
+final class LeftTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class LeftTest extends TextTestCase
     }
 
     #[Test]
-    public function can_extract_left_characters(): void
+    public function extracts_left_characters(): void
     {
         $dql = 'SELECT LEFT(t.text1, 4) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t 

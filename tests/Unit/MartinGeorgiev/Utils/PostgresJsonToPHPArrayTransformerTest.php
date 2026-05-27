@@ -11,11 +11,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class PostgresJsonToPHPArrayTransformerTest extends TestCase
+final class PostgresJsonToPHPArrayTransformerTest extends TestCase
 {
     #[DataProvider('provideValidJsonTransformations')]
     #[Test]
-    public function can_transform_json_to_php_value(array|bool|int|string|null $phpValue, string $postgresValue): void
+    public function converts_json_to_php_value(array|bool|int|string|null $phpValue, string $postgresValue): void
     {
         $this->assertSame($phpValue, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue));
     }
@@ -59,7 +59,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
 
     #[DataProvider('provideValidJsonbArrayTransformations')]
     #[Test]
-    public function can_transform_json_array_to_php_array(array $phpArray, string $postgresArray): void
+    public function converts_json_array_to_php_array(array $phpArray, string $postgresArray): void
     {
         $this->assertSame($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
     }
@@ -87,7 +87,7 @@ class PostgresJsonToPHPArrayTransformerTest extends TestCase
 
     #[DataProvider('provideValidJsonbArrayItemTransformations')]
     #[Test]
-    public function can_transform_json_array_item_to_php_array(array $phpArray, string $item): void
+    public function converts_json_array_item_to_php_array(array $phpArray, string $item): void
     {
         $this->assertSame($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item));
     }

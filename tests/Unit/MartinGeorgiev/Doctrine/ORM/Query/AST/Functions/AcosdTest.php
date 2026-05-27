@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosd;
 
-class AcosdTest extends TestCase
+final class AcosdTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

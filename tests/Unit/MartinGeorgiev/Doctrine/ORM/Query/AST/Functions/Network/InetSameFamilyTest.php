@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNetworks;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\InetSameFamily;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class InetSameFamilyTest extends TestCase
+final class InetSameFamilyTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Erfc;
 
-class ErfcTest extends TestCase
+final class ErfcTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

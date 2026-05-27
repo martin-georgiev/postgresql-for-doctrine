@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Scale;
 use PHPUnit\Framework\Attributes\Test;
 
-class ScaleTest extends NumericTestCase
+final class ScaleTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ScaleTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_scale_of_literal(): void
+    public function calculates_scale_of_literal(): void
     {
         $dql = 'SELECT SCALE(8.41) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class ScaleTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_scale_with_entity_property(): void
+    public function calculates_scale_with_entity_property(): void
     {
         $dql = 'SELECT SCALE(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

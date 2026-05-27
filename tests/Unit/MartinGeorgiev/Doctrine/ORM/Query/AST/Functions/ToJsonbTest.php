@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb;
 
-class ToJsonbTest extends TestCase
+final class ToJsonbTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsRank;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsRankTest extends TextTestCase
+final class TsRankTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -21,7 +21,7 @@ class TsRankTest extends TextTestCase
     }
 
     #[Test]
-    public function can_rank_document_against_query(): void
+    public function ranks_document_against_query(): void
     {
         $dql = "SELECT TS_RANK(TO_TSVECTOR(t.text1), TO_TSQUERY('lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -37,7 +37,7 @@ class TsRankTest extends TextTestCase
     }
 
     #[Test]
-    public function can_rank_with_normalization_flag(): void
+    public function ranks_with_normalization_flag(): void
     {
         $dql = "SELECT TS_RANK(TO_TSVECTOR(t.text1), TO_TSQUERY('lorem'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -45,7 +45,7 @@ class TsRankTest extends TextTestCase
     }
 
     #[Test]
-    public function can_rank_with_weights_and_normalization(): void
+    public function ranks_with_weights_and_normalization(): void
     {
         $dql = "SELECT TS_RANK('{1,1,1,1}', TO_TSVECTOR(t.text1), TO_TSQUERY('lorem'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -53,7 +53,7 @@ class TsRankTest extends TextTestCase
     }
 
     #[Test]
-    public function can_rank_with_language_config(): void
+    public function ranks_with_language_config(): void
     {
         $dql = "SELECT TS_RANK(TO_TSVECTOR('english', t.text1), TO_TSQUERY('english', 'lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -61,7 +61,7 @@ class TsRankTest extends TextTestCase
     }
 
     #[Test]
-    public function can_rank_literal_document_against_query(): void
+    public function ranks_literal_document_against_query(): void
     {
         $dql = "SELECT TS_RANK(TO_TSVECTOR('lorem ipsum dolor'), TO_TSQUERY('lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians;
 
-class RadiansTest extends TestCase
+final class RadiansTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

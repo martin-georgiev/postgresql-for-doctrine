@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg;
 use PHPUnit\Framework\Attributes\Test;
 
-class StringAggTest extends TextTestCase
+final class StringAggTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class StringAggTest extends TextTestCase
     }
 
     #[Test]
-    public function can_aggregate_all_rows_with_comma_delimiter(): void
+    public function aggregates_all_rows_with_comma_delimiter(): void
     {
         $dql = "SELECT STRING_AGG(t.text1, ',') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t";
@@ -26,7 +26,7 @@ class StringAggTest extends TextTestCase
     }
 
     #[Test]
-    public function can_aggregate_all_rows_with_semicolon_delimiter(): void
+    public function aggregates_all_rows_with_semicolon_delimiter(): void
     {
         $dql = "SELECT STRING_AGG(t.text2, ';') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t";
@@ -35,7 +35,7 @@ class StringAggTest extends TextTestCase
     }
 
     #[Test]
-    public function can_aggregate_all_rows_with_space_delimiter(): void
+    public function aggregates_all_rows_with_space_delimiter(): void
     {
         $dql = "SELECT STRING_AGG(t.text1, ' ') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t";
         $result = $this->executeDqlQuery($dql);
@@ -43,7 +43,7 @@ class StringAggTest extends TextTestCase
     }
 
     #[Test]
-    public function can_aggregate_filtered_rows(): void
+    public function aggregates_filtered_rows(): void
     {
         $dql = "SELECT STRING_AGG(t.text1, ',') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id in (1, 4)";
         $result = $this->executeDqlQuery($dql);

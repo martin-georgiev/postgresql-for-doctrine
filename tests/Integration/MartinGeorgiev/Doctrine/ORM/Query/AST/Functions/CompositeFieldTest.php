@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CompositeField;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\TestCase as BaseTestCase;
 
-class CompositeFieldTest extends BaseTestCase
+final class CompositeFieldTest extends BaseTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -86,7 +86,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_text_field_from_composite_type(): void
+    public function accesses_text_field_from_composite_type(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.item, 'name') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -94,7 +94,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_integer_field_from_composite_type(): void
+    public function accesses_integer_field_from_composite_type(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.item, 'supplier_id') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -103,7 +103,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_numeric_field_from_composite_type(): void
+    public function accesses_numeric_field_from_composite_type(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.item, 'price') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 3";
         $result = $this->executeDqlQuery($dql);
@@ -112,7 +112,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_use_composite_field_in_where_clause(): void
+    public function uses_composite_field_in_where_clause(): void
     {
         $dql = "SELECT t.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE COMPOSITE_FIELD(t.item, 'price') > 15";
         $result = $this->executeDqlQuery($dql);
@@ -120,7 +120,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_multiple_fields_from_same_composite(): void
+    public function accesses_multiple_fields_from_same_composite(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.address, 'street') as street, COMPOSITE_FIELD(t.address, 'zip') as zip FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -129,7 +129,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_camel_case_field_name(): void
+    public function accesses_camel_case_field_name(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.special, 'camelCaseField') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -137,7 +137,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_pascal_case_field_name(): void
+    public function accesses_pascal_case_field_name(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.special, 'PascalCaseField') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -145,7 +145,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_reserved_word_order_field(): void
+    public function accesses_reserved_word_order_field(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.special, 'order') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -154,7 +154,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_reserved_word_select_field(): void
+    public function accesses_reserved_word_select_field(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.special, 'select') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -162,7 +162,7 @@ class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function can_access_reserved_word_user_field(): void
+    public function accesses_reserved_word_user_field(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.special, 'user') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 3";
         $result = $this->executeDqlQuery($dql);

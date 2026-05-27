@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime;
 
-class MakeTimeTest extends TestCase
+final class MakeTimeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

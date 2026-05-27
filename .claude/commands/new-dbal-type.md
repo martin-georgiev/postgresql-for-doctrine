@@ -9,7 +9,7 @@ Each group has a distinct style. Pick the right group and use its reference — 
 | Network | `Inet`, `Cidr`, `Macaddr`, `Macaddr8` | via `BaseNetworkTypeArray` | Validation traits extending `NetworkAddressValidationTrait` |
 | Geometric | `Point`, `Box`, `Circle`, `Line`, `Lseg`, `Path`, `Polygon` | via `BaseGeometricArray` | Per-type value objects in `ValueObject/`; `;`-separated arrays |
 | Range | `Int4Range`, `Int8Range`, `NumRange`, `DateRange`, `TsRange`, `TstzRange` | — | `BaseRangeType` + value objects extending `Range` |
-| Multirange | `Int4Multirange`, `Int8Multirange`, `NumMultirange`, etc. | — | `BaseMultirangeType` + value objects extending `Multirange` |
+| Multirange | `Int4Multirange`, `Int8Multirange`, `NumMultirange`, etc. | `Int4MultirangeArray`, `Int8MultirangeArray`, etc. via `BaseArray` | `BaseMultirangeType` + value objects extending `Multirange`; arrays extend `BaseArray` directly |
 | PostGIS spatial | `Geometry`, `Geography` | via `SpatialDataArray` | `BaseSpatialType`, shared `WktSpatialData`, EWKB→EWKT SQL |
 | Vector (pgvector) | `Vector`, `Halfvec`, `Sparsevec` | — | `BaseVector`, PHP float arrays, finiteness checks |
 | Integer arrays | — | `IntegerArray`, `BigIntArray`, `SmallIntArray` | `BaseIntegerArray` with min/max bounds |
@@ -55,9 +55,9 @@ Both unit AND integration tests are **required** for every new type. Before writ
 
 ### Unit tests → `tests/Unit/.../Types/`
 
-Cover: type name, null handling, valid round-trips (data provider), invalid types, invalid formats. Array types also: `isValidArrayItemForDatabase()`, `transformArrayItemForPHP()`.
+Cover: type name, null handling, valid round-trips (data provider), invalid types, invalid formats. For the canonical list of required test methods on array types (with exact method names, provider names, and exception expectations) see `.ai-tools/rules/test-naming-patterns.md` § **Required Unit Test Methods: Array DBAL Types**. For when to add `// @phpstan-ignore-line` on test calls, see the same file § **PHPStan ignore lines on array type tests**.
 
-If the PostgreSQL type accepts parameters (length, dimensions, precision, scale, SRID, etc.) also test `getSQLDeclaration()`: once with no parameters (bare type name) and once with parameters (e.g. `VECTOR(1024)`). Integration tests never call `getSQLDeclaration()` — without these unit tests schema generation bugs are invisible. For `TYPE(n)` types use `LengthAwareSQLDeclarationTrait`; other parameterisations need a custom override.
+If the PostgreSQL type accepts parameters (length, dimensions, precision, scale, SRID, etc.) also test `getSQLDeclaration()`: once with no parameters (bare type name) and once with parameters (e.g. `VECTOR(1024)`). Integration tests never call `getSQLDeclaration()` — without these unit tests schema generation bugs are invisible. For `TYPE(n)` types use `LengthAwareSQLDeclarationTrait`; other parameterizations need a custom override.
 
 Reference by group: `XmlTest`/`XmlArrayTest` (string-based), `MoneyTest`/`MoneyArrayTest`, `MacaddrTest`/`MacaddrArrayTest` (network), `PointTest`/`PointArrayTest` (geometric), `BaseRangeTestCase` (range), `BaseFloatArrayTestCase`/`BaseIntegerArrayTestCase` (numeric arrays).
 

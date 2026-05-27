@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpSubstrTest extends TextTestCase
+final class RegexpSubstrTest extends TextTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class RegexpSubstrTest extends TextTestCase
     }
 
     #[Test]
-    public function can_extract_matching_substring(): void
+    public function extracts_matching_substring(): void
     {
         $dql = "SELECT REGEXP_SUBSTR(t.text1, 'test') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -43,7 +43,7 @@ class RegexpSubstrTest extends TextTestCase
     }
 
     #[Test]
-    public function can_extract_with_start_position(): void
+    public function extracts_with_start_position(): void
     {
         $dql = "SELECT REGEXP_SUBSTR(t.text1, '[a-z]+', 1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

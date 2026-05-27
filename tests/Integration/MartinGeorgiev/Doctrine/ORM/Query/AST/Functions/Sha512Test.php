@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512;
 use PHPUnit\Framework\Attributes\Test;
 
-class Sha512Test extends TextTestCase
+final class Sha512Test extends TextTestCase
 {
     use ByteaAssertionTrait;
 
@@ -19,7 +19,7 @@ class Sha512Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha512_of_a_string(): void
+    public function computes_sha512_of_a_string(): void
     {
         $dql = "SELECT SHA512('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -30,7 +30,7 @@ class Sha512Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha512_of_text_field(): void
+    public function computes_sha512_of_text_field(): void
     {
         $dql = 'SELECT SHA512(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

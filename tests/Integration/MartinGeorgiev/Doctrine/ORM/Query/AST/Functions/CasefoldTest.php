@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Casefold;
 use PHPUnit\Framework\Attributes\Test;
 
-class CasefoldTest extends TextTestCase
+final class CasefoldTest extends TextTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class CasefoldTest extends TextTestCase
     }
 
     #[Test]
-    public function can_casefold_a_string(): void
+    public function casefolds_a_string(): void
     {
         $dql = "SELECT CASEFOLD('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -34,7 +34,7 @@ class CasefoldTest extends TextTestCase
     }
 
     #[Test]
-    public function can_casefold_text_field(): void
+    public function casefolds_text_field(): void
     {
         $dql = 'SELECT CASEFOLD(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

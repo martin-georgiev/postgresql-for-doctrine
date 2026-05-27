@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialSame;
 use PHPUnit\Framework\Attributes\Test;
 
-class SpatialSameTest extends SpatialOperatorTestCase
+final class SpatialSameTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

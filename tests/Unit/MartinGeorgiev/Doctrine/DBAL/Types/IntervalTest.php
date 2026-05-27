@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class IntervalTest extends TestCase
+final class IntervalTest extends TestCase
 {
     private MockObject&PostgreSQLPlatform $platform;
 
@@ -45,14 +45,14 @@ class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function converts_empty_string_to_null(): void
+    public function converts_empty_string_from_database_to_null(): void
     {
         $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
     }
 
     #[DataProvider('provideValidPostgresOutputStrings')]
     #[Test]
-    public function can_transform_to_php_value(string $postgresOutput): void
+    public function converts_to_php_value(string $postgresOutput): void
     {
         $result = $this->fixture->convertToPHPValue($postgresOutput, $this->platform);
 
@@ -62,7 +62,7 @@ class IntervalTest extends TestCase
 
     #[DataProvider('provideValidPostgresOutputStrings')]
     #[Test]
-    public function can_transform_from_php_value_with_value_object(string $postgresOutput): void
+    public function converts_to_database_value_with_value_object(string $postgresOutput): void
     {
         $interval = IntervalValueObject::fromString($postgresOutput);
         $result = $this->fixture->convertToDatabaseValue($interval, $this->platform);
@@ -72,7 +72,7 @@ class IntervalTest extends TestCase
 
     #[DataProvider('provideValidPostgresOutputStrings')]
     #[Test]
-    public function can_transform_from_php_value_with_string(string $postgresOutput): void
+    public function converts_to_database_value_with_string(string $postgresOutput): void
     {
         $result = $this->fixture->convertToDatabaseValue($postgresOutput, $this->platform);
 
@@ -98,7 +98,7 @@ class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_to_php_value_with_value_object(): void
+    public function converts_to_php_value_with_value_object(): void
     {
         $interval = IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06');
         $result = $this->fixture->convertToPHPValue($interval, $this->platform);
@@ -107,7 +107,7 @@ class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_from_php_value_with_date_interval(): void
+    public function converts_to_database_value_with_date_interval(): void
     {
         $dateInterval = new \DateInterval('P1Y2M3DT4H5M6S');
         $result = $this->fixture->convertToDatabaseValue($dateInterval, $this->platform);

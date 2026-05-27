@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class BaseNetworkTypeArrayTest extends TestCase
+final class BaseNetworkTypeArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -55,9 +55,9 @@ class BaseNetworkTypeArrayTest extends TestCase
         $this->assertSame('test_network_array', $this->fixture->getName());
     }
 
-    #[Test]
     #[DataProvider('provideValidTransformations')]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    #[Test]
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -88,8 +88,8 @@ class BaseNetworkTypeArrayTest extends TestCase
         $this->fixture->convertToDatabaseValue('not_an_array', $this->platform); // @phpstan-ignore argument.type
     }
 
-    #[Test]
     #[DataProvider('provideInvalidValues')]
+    #[Test]
     public function throws_exception_for_invalid_values(mixed $arrayItem, string $exceptionMessage): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -112,7 +112,7 @@ class BaseNetworkTypeArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_array_item_for_php_with_valid_string(): void
+    public function converts_array_item_for_php_with_valid_string(): void
     {
         $this->assertSame('valid_address', $this->fixture->transformArrayItemForPHP('"valid_address"'));
     }

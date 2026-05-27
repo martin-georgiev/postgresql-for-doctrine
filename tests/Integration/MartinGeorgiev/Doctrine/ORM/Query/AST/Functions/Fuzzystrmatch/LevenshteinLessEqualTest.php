@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzz
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\LevenshteinLessEqual;
 use PHPUnit\Framework\Attributes\Test;
 
-class LevenshteinLessEqualTest extends TestCase
+final class LevenshteinLessEqualTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
@@ -37,7 +37,7 @@ class LevenshteinLessEqualTest extends TestCase
     }
 
     #[Test]
-    public function can_use_custom_costs(): void
+    public function uses_custom_costs(): void
     {
         $dql = "SELECT LEVENSHTEIN_LESS_EQUAL('kitten', 'sitting', 1, 2, 3, 10) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

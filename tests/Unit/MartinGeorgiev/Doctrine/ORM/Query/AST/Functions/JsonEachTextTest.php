@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText;
 
-class JsonEachTextTest extends TestCase
+final class JsonEachTextTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

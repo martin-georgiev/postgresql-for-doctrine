@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyAbove;
 use PHPUnit\Framework\Attributes\Test;
 
-class StrictlyAboveTest extends SpatialOperatorTestCase
+final class StrictlyAboveTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

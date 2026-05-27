@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPExc
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
+final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
 {
     protected function setUp(): void
     {
@@ -53,7 +53,7 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
     }
 
     #[Test]
-    public function throws_domain_exception_when_value_is_too_close_to_zero(): void
+    public function throws_exception_for_value_too_close_to_zero(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('is too close to zero for PostgreSQL double precision[] type');
@@ -62,7 +62,7 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
     }
 
     #[Test]
-    public function throws_domain_exception_when_value_exceeds_precision_limit(): void
+    public function throws_exception_for_value_exceeding_precision_limit(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL double precision[] type');
@@ -72,7 +72,7 @@ class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
 
     #[DataProvider('providePrecisionExceedingValues')]
     #[Test]
-    public function throws_domain_exception_for_various_precision_violations(string $value): void
+    public function throws_exception_for_various_precision_violations(string $value): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL double precision[] type');

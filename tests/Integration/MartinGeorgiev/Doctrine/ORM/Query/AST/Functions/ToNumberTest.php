@@ -9,7 +9,7 @@ use Doctrine\ORM\Query\QueryException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToNumberTest extends TextTestCase
+final class ToNumberTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

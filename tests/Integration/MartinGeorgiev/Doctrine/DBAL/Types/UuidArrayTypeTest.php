@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUuidArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
-class UuidArrayTypeTest extends ArrayTypeTestCase
+final class UuidArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -45,7 +45,7 @@ class UuidArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_array_with_null_elements(): void
+    public function roundtrips_array_with_null_elements(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

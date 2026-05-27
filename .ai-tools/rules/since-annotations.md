@@ -8,29 +8,22 @@ type: always_apply
 
 # @since Version Annotations
 
-## When Adding New Functionality
+**Required for every new class in `src/`**: `@since X.Y` (no patch version) in the class-level PHPDoc.
 
-NEVER guess or assume version numbers. ALWAYS check GitHub for open release PRs before adding any `@since` annotation.
+**Forbidden**: guessing the version number.
 
-Before adding `@since` tags to new code in the `src/` directory, determine the correct version number:
+### How to determine the version
 
-### 1. Check GitHub for Version Context
-- Look for open PRs targeting the main branch that update CHANGELOG.md or prepare a release
-- Check the most recent release tag in the repository
-- Review any unreleased version numbers mentioned in CHANGELOG.md
+1. Check GitHub for an open release PR (it sets the next version).
+2. If none, read CHANGELOG.md for the most recent release and increment the minor (e.g. `3.5.0` → `3.6`).
+3. Use semver based on the change type.
 
-### 2. Determine the Next Version Number
-- If a release PR exists with a version number, use that version
-- If no release is being prepared, increment the minor version from the latest release (e.g., if latest is 3.5.0, use 3.6.0)
-- Follow semantic versioning principles based on the type of change
-
-### 3. Apply @since Tags Consistently
-- Add `@since X.Y` (without patch version) to all new classes in `src/`
-- Use the determined next release version number
-- Place the `@since` tag in the class-level PHPDoc block for new classes
-
-**Example**:
 ```php
+// ❌ Wrong — version guessed, not verified from GitHub
+/** @since 3.0 */
+final class Md5 extends BaseFunction
+
+// ✓ Correct — version confirmed from open release PR or CHANGELOG
 /**
  * Implements PostgreSQL MD5() function.
  *
@@ -40,7 +33,4 @@ Before adding `@since` tags to new code in the `src/` directory, determine the c
  */
 final class Md5 extends BaseFunction
 ```
-
-### 4. Scope
-This rule applies to all new functionality added to the codebase, ensuring consistent version documentation across the project.
 

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLength;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayLengthTest extends ArrayTestCase
+final class ArrayLengthTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayLengthTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_get_text_array_length(): void
+    public function returns_text_array_length(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.textArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -29,7 +29,7 @@ class ArrayLengthTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_get_integer_array_length(): void
+    public function returns_integer_array_length(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.integerArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -41,7 +41,7 @@ class ArrayLengthTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_get_boolean_array_length(): void
+    public function returns_boolean_array_length(): void
     {
         $dql = 'SELECT ARRAY_LENGTH(t.boolArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class Int4MultirangeTest extends TestCase
+final class Int4MultirangeTest extends TestCase
 {
     #[Test]
     public function empty_multirange_produces_empty_string(): void
@@ -39,7 +39,7 @@ class Int4MultirangeTest extends TestCase
     }
 
     #[Test]
-    public function handles_negative_values(): void
+    public function accepts_negative_values(): void
     {
         $int4Multirange = new Int4Multirange([new Int4Range(-9999, -1)]);
         $this->assertSame('{[-9999,-1)}', (string) $int4Multirange);
@@ -47,7 +47,7 @@ class Int4MultirangeTest extends TestCase
 
     #[DataProvider('provideValidFromStringCases')]
     #[Test]
-    public function can_parse_from_string(string $input, string $expectedString): void
+    public function parses_from_string(string $input, string $expectedString): void
     {
         $int4Multirange = Int4Multirange::fromString($input);
         $this->assertSame($expectedString, (string) $int4Multirange);

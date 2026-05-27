@@ -9,18 +9,13 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHstoreArrayItemForPHPEx
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreArrayTypeTest extends ArrayTypeTestCase
+final class HstoreArrayTypeTest extends ArrayTypeTestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
 
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS hstore');
-            $this->connection->executeStatement(\sprintf('ALTER EXTENSION hstore SET SCHEMA %s', self::DATABASE_SCHEMA));
-        } catch (\Throwable) {
-            $this->markTestSkipped('hstore extension is not available');
-        }
+        $this->ensurePostgresExtensionInSchema('hstore');
     }
 
     protected function getTypeName(): string

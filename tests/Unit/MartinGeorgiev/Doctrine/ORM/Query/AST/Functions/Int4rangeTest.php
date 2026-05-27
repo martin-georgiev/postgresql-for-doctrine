@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range;
 
-class Int4rangeTest extends TestCase
+final class Int4rangeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

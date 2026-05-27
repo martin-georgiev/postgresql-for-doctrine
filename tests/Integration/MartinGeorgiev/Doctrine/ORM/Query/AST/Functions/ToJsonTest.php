@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToJsonTest extends JsonTestCase
+final class ToJsonTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ToJsonTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_convert_json_column_to_json(): void
+    public function converts_json_column_to_json(): void
     {
         $dql = 'SELECT TO_JSON(t.jsonObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -30,7 +30,7 @@ class ToJsonTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_convert_jsonb_column_to_json(): void
+    public function converts_jsonb_column_to_json(): void
     {
         $dql = 'SELECT TO_JSON(t.jsonbObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

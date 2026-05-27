@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians;
 use PHPUnit\Framework\Attributes\Test;
 
-class RadiansTest extends NumericTestCase
+final class RadiansTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class RadiansTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_convert_degrees_to_radians(): void
+    public function converts_degrees_to_radians(): void
     {
         $dql = 'SELECT RADIANS(180) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class RadiansTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_convert_decimal_entity_property_to_radians(): void
+    public function converts_decimal_entity_property_to_radians(): void
     {
         $dql = 'SELECT RADIANS(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -33,7 +33,7 @@ class RadiansTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_convert_arithmetic_expression_to_radians(): void
+    public function converts_arithmetic_expression_to_radians(): void
     {
         $dql = 'SELECT RADIANS(n.integer1 * 18) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gamma;
 use PHPUnit\Framework\Attributes\Test;
 
-class GammaTest extends NumericTestCase
+final class GammaTest extends NumericTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class GammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_compute_gamma_of_an_integer(): void
+    public function computes_gamma_of_an_integer(): void
     {
         $dql = 'SELECT GAMMA(5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -34,7 +34,7 @@ class GammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_compute_gamma_of_a_float(): void
+    public function computes_gamma_of_a_float(): void
     {
         $dql = 'SELECT GAMMA(2.5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -45,7 +45,7 @@ class GammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_compute_gamma_of_integer_field(): void
+    public function computes_gamma_of_integer_field(): void
     {
         $dql = 'SELECT GAMMA(t.integer1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -56,7 +56,7 @@ class GammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_compute_gamma_of_arithmetic_expression(): void
+    public function computes_gamma_of_arithmetic_expression(): void
     {
         $dql = 'SELECT GAMMA(t.integer1 / 2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t

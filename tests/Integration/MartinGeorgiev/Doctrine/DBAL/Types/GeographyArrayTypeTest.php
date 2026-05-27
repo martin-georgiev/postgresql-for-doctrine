@@ -27,9 +27,12 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
 
     #[DataProvider('provideSingleItemArrays')]
     #[Test]
-    public function can_handle_single_item_array(array $values): void
+    public function roundtrips_value(array $values): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $values);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $values);
     }
 
     public static function provideSingleItemArrays(): array
@@ -77,7 +80,7 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
      */
     #[DataProvider('provideMultiItemArrays')]
     #[Test]
-    public function can_handle_multi_item_array(array $phpArray): void
+    public function roundtrips_multi_item_array(array $phpArray): void
     {
         $this->runArrayConstructorTypeTest($this->getTypeName(), $this->getPostgresTypeName(), 'geography', ...$phpArray);
     }

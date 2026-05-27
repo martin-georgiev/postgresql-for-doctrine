@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class DateMultirangeTest extends TestCase
+final class DateMultirangeTest extends TestCase
 {
     #[Test]
     public function empty_multirange_produces_empty_string(): void
@@ -42,7 +42,7 @@ class DateMultirangeTest extends TestCase
 
     #[DataProvider('provideValidFromStringCases')]
     #[Test]
-    public function can_parse_from_string(string $input, string $expectedString): void
+    public function parses_from_string(string $input, string $expectedString): void
     {
         $dateMultirange = DateMultirange::fromString($input);
         $this->assertSame($expectedString, (string) $dateMultirange);

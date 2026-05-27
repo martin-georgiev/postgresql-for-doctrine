@@ -137,7 +137,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_create_single_day_range(): void
+    public function creates_single_day_range(): void
     {
         $date = new \DateTimeImmutable('2023-06-15');
         $dateRange = DateRange::singleDay($date);
@@ -147,7 +147,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_create_year_range(): void
+    public function creates_year_range(): void
     {
         $dateRange = DateRange::year(2023);
 
@@ -156,7 +156,7 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_create_month_range(): void
+    public function creates_month_range(): void
     {
         $dateRange = DateRange::month(2023, 6);
 
@@ -309,34 +309,28 @@ final class DateRangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_parse_various_date_formats_via_from_string(): void
+    public function parses_various_date_formats_via_from_string(): void
     {
         $dateRange = DateRange::fromString('[2023-01-01,2023-12-31)');
-        $this->assertStringContainsString('2023-01-01', (string) $dateRange);
+        $this->assertSame('[2023-01-01,2023-12-31)', (string) $dateRange);
 
         $range2 = DateRange::fromString('[2023-12-31,2024-01-01)');
-        $this->assertStringContainsString('2023-12-31', (string) $range2);
+        $this->assertSame('[2023-12-31,2024-01-01)', (string) $range2);
     }
 
     #[Test]
-    public function can_format_date_values_via_to_string(): void
+    public function formats_date_values_via_to_string(): void
     {
-        // Time should be ignored in date formatting
         $dateRange = new DateRange(
             new \DateTimeImmutable('2023-06-15 14:30:00'),
             new \DateTimeImmutable('2023-06-16 20:45:00')
         );
 
-        $formatted = (string) $dateRange;
-        $this->assertStringContainsString('2023-06-15', $formatted);
-        $this->assertStringContainsString('2023-06-16', $formatted);
-        // Should not contain time information
-        $this->assertStringNotContainsString('14:30:00', $formatted);
-        $this->assertStringNotContainsString('20:45:00', $formatted);
+        $this->assertSame('[2023-06-15,2023-06-16)', (string) $dateRange);
     }
 
     #[Test]
-    public function can_compare_dates_with_different_times_via_is_empty(): void
+    public function compares_dates_with_different_times_via_is_empty(): void
     {
         $date1 = new \DateTimeImmutable('2023-06-15 10:00:00');
         $date2 = new \DateTimeImmutable('2023-06-15 20:00:00');
@@ -359,9 +353,9 @@ final class DateRangeTest extends BaseRangeTestCase
         $this->assertFalse($equalInclusive->isEmpty());
     }
 
-    #[Test]
     #[DataProvider('provideLeapYearTestCases')]
-    public function can_handle_leap_years(DateRange $dateRange, string $expectedString, string $description): void
+    #[Test]
+    public function accepts_leap_year_dates(DateRange $dateRange, string $expectedString, string $description): void
     {
         $this->assertSame($expectedString, (string) $dateRange, $description);
     }
@@ -385,9 +379,9 @@ final class DateRangeTest extends BaseRangeTestCase
         ];
     }
 
-    #[Test]
     #[DataProvider('provideEdgeCaseMonthTestCases')]
-    public function can_handle_edge_case_months(DateRange $dateRange, string $expectedString, string $description): void
+    #[Test]
+    public function accepts_edge_case_month_dates(DateRange $dateRange, string $expectedString, string $description): void
     {
         $this->assertSame($expectedString, (string) $dateRange, $description);
     }

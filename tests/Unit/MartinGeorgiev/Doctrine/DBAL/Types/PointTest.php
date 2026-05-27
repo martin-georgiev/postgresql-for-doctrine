@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PointTest extends TestCase
+final class PointTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -37,14 +37,14 @@ class PointTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?PointValueObject $pointValueObject, ?string $postgresValue): void
+    public function converts_to_database_value(?PointValueObject $pointValueObject, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($pointValueObject, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?PointValueObject $pointValueObject, ?string $postgresValue): void
+    public function converts_to_php_value(?PointValueObject $pointValueObject, ?string $postgresValue): void
     {
         $this->assertEquals($pointValueObject, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }

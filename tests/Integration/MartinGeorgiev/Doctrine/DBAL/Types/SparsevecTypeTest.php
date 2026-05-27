@@ -40,9 +40,12 @@ final class SparsevecTypeTest extends VectorTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(SparsevecValueObject $sparsevecValueObject): void
+    public function roundtrips_value(SparsevecValueObject $sparsevecValueObject): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $sparsevecValueObject);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $sparsevecValueObject);
     }
 
     /**
@@ -64,7 +67,10 @@ final class SparsevecTypeTest extends VectorTypeTestCase
     {
         $this->expectException(InvalidSparsevecForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $value);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $value);
     }
 
     /**

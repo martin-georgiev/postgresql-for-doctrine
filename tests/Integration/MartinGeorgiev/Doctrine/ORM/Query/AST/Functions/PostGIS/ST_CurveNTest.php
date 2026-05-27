@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveN;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_CurveNTest extends SpatialOperatorTestCase
+final class ST_CurveNTest extends SpatialOperatorTestCase
 {
     protected function setUp(): void
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayAppendTest extends ArrayTestCase
+final class ArrayAppendTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayAppendTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_append_to_text_array(): void
+    public function appends_to_text_array(): void
     {
         $dql = 'SELECT ARRAY_APPEND(t.textArray, \'orange\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -30,7 +30,7 @@ class ArrayAppendTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_append_to_integer_array(): void
+    public function appends_to_integer_array(): void
     {
         $dql = 'SELECT ARRAY_APPEND(t.integerArray, 3) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -43,7 +43,7 @@ class ArrayAppendTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_append_to_boolean_array(): void
+    public function appends_to_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_APPEND(t.boolArray, true) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

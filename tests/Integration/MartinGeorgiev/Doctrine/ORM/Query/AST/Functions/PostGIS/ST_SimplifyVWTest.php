@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyVW;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_SimplifyVWTest extends SpatialOperatorTestCase
+final class ST_SimplifyVWTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateNumericSeries;
 
-class GenerateNumericSeriesTest extends TestCase
+final class GenerateNumericSeriesTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

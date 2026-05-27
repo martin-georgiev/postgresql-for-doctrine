@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class TextArrayTest extends TestCase
+final class TextArrayTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -35,14 +35,14 @@ class TextArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?array $phpValue, ?string $postgresValue): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertEquals($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
@@ -106,7 +106,7 @@ class TextArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_unquoted_postgres_array_to_php(): void
+    public function converts_unquoted_postgres_array_to_php_value(): void
     {
         $postgresValue = '{STRING_A,STRING_B,STRING_C,STRING_D}';
         $expectedValue = ['STRING_A', 'STRING_B', 'STRING_C', 'STRING_D'];
@@ -115,7 +115,7 @@ class TextArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_backslashes_correctly(): void
+    public function converts_backslashes_correctly(): void
     {
         $postgresValue = '{"simple\\\backslash"}';
         $expectedValue = ['simple\backslash'];
@@ -125,7 +125,7 @@ class TextArrayTest extends TestCase
 
     #[DataProvider('provideGithubIssue424TestCases')]
     #[Test]
-    public function can_preserve_string_types_retrieved_from_database_for_github_issue_424(string $postgresValue, array $expectedResult): void
+    public function preserves_string_types_retrieved_from_database_for_github_issue_424(string $postgresValue, array $expectedResult): void
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
 
@@ -173,7 +173,7 @@ class TextArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_preserve_trailing_zeros_in_strings_that_look_like_decimals(): void
+    public function preserves_trailing_zeros_in_strings_that_look_like_decimals(): void
     {
         $postgresValue = '{42.00,123.50,0.00,999.99,502.00,505.00}';
         $expectedResult = ['42.00', '123.50', '0.00', '999.99', '502.00', '505.00'];

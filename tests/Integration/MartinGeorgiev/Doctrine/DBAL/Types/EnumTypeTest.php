@@ -13,7 +13,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class EnumTypeTest extends TestCase
+final class EnumTypeTest extends TestCase
 {
     private const DBAL_TYPE_NAME = 'test_color';
 
@@ -61,14 +61,14 @@ class EnumTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $this->runDbalBindingRoundTrip(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME, null);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_php_enum_to_database_and_back(Colors $colors): void
+    public function roundtrips_value(Colors $colors): void
     {
         $this->runDbalBindingRoundTrip(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME, $colors);
     }

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper;
 
-class ArrayUpperTest extends TestCase
+final class ArrayUpperTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

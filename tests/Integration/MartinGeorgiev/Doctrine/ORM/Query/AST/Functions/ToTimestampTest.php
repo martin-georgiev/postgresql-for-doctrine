@@ -9,7 +9,7 @@ use Doctrine\ORM\Query\QueryException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToTimestampTest extends TextTestCase
+final class ToTimestampTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

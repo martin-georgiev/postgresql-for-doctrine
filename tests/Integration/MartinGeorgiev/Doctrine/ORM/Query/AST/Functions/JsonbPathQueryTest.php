@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathQuery;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbPathQueryTest extends JsonTestCase
+final class JsonbPathQueryTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_query_simple_path(): void
+    public function queries_simple_path(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -31,7 +31,7 @@ class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_query_array_elements(): void
+    public function queries_array_elements(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -47,7 +47,7 @@ class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_query_with_filter(): void
+    public function queries_with_filter(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -62,7 +62,7 @@ class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_query_with_column_reference(): void
+    public function queries_with_column_reference(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

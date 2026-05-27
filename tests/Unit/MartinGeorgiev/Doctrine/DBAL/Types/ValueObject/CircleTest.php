@@ -11,11 +11,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class CircleTest extends TestCase
+final class CircleTest extends TestCase
 {
     #[DataProvider('provideValidCircleStrings')]
     #[Test]
-    public function can_create_from_string(string $value, string $expectedOutput): void
+    public function parses_from_string(string $value, string $expectedOutput): void
     {
         $circle = Circle::fromString($value);
         $this->assertSame($expectedOutput, (string) $circle);
@@ -56,7 +56,7 @@ class CircleTest extends TestCase
     }
 
     #[Test]
-    public function can_return_correct_values_via_getters(): void
+    public function returns_correct_values_via_getters(): void
     {
         $circle = Circle::fromString('<(1.5,2.5),3.5>');
         $this->assertSame(1.5, $circle->getCenter()->getX());
@@ -65,7 +65,7 @@ class CircleTest extends TestCase
     }
 
     #[Test]
-    public function can_construct_from_point_and_radius(): void
+    public function constructs_from_point_and_radius(): void
     {
         $circle = new Circle(new Point(1.0, 2.0), 3.0);
         $this->assertSame('<(1,2),3>', (string) $circle);

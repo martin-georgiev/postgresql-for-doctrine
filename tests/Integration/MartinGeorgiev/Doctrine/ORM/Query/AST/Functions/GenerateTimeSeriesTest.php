@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateTimeSeries;
 use PHPUnit\Framework\Attributes\Test;
 
-class GenerateTimeSeriesTest extends DateTestCase
+final class GenerateTimeSeriesTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class GenerateTimeSeriesTest extends DateTestCase
     }
 
     #[Test]
-    public function can_generate_series_between_two_dates(): void
+    public function generates_series_between_two_dates(): void
     {
         $dql = "SELECT GENERATE_TIME_SERIES(t.date1, t.date2, '1 day') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -35,7 +35,7 @@ class GenerateTimeSeriesTest extends DateTestCase
     }
 
     #[Test]
-    public function can_generate_series_between_two_timestamps(): void
+    public function generates_series_between_two_timestamps(): void
     {
         $dql = "SELECT GENERATE_TIME_SERIES(t.datetime1, t.datetime2, '12 hours') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -56,7 +56,7 @@ class GenerateTimeSeriesTest extends DateTestCase
     }
 
     #[Test]
-    public function can_generate_series_between_two_timestamptz_values_with_timezone(): void
+    public function generates_series_between_two_timestamptz_values_with_timezone(): void
     {
         $dql = "SELECT GENERATE_TIME_SERIES(t.datetimetz1, t.datetimetz2, '12 hours', 'UTC') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t

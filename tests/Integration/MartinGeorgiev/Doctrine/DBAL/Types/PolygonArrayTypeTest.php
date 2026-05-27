@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPolygonArrayItemForData
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Polygon as PolygonValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class PolygonArrayTypeTest extends ArrayTypeTestCase
+final class PolygonArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

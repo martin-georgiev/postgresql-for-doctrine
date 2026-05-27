@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IRegexp;
 
-class IRegexpTest extends TestCase
+final class IRegexpTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange;
 /**
  * @extends BaseMultirangeTypeTestCase<TsMultirangeVO>
  */
-class TsMultirangeTest extends BaseMultirangeTypeTestCase
+final class TsMultirangeTest extends BaseMultirangeTypeTestCase
 {
     protected function createMultirangeType(): TsMultirange
     {

@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\BaseDateTimeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateArrayTest extends BaseDateTimeArrayTestCase
+final class DateArrayTest extends BaseDateTimeArrayTestCase
 {
-    protected function createFixture(): BaseDateTimeArray
+    protected function createFixture(): DateArray
     {
         return new DateArray();
     }
@@ -35,7 +34,7 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
 
     #[DataProvider('provideValidItemTransformationsToPostgres')]
     #[Test]
-    public function can_transform_date_item_for_postgres(\DateTimeInterface $phpValue, string $expectedPostgresValue): void
+    public function converts_date_item_for_postgres(\DateTimeInterface $phpValue, string $expectedPostgresValue): void
     {
         $this->assertSame($expectedPostgresValue, $this->fixture->convertToDatabaseValue([$phpValue], $this->platform));
     }
@@ -59,7 +58,7 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
 
     #[DataProvider('provideValidItemTransformationsToPHP')]
     #[Test]
-    public function can_transform_date_item_for_php(string $postgresValue, \DateTimeImmutable $expectedValue): void
+    public function converts_date_item_for_php(string $postgresValue, \DateTimeImmutable $expectedValue): void
     {
         $result = $this->fixture->transformArrayItemForPHP($postgresValue);
         $this->assertInstanceOf(\DateTimeImmutable::class, $result);
@@ -80,7 +79,7 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function can_convert_multiple_dates_to_database(): void
+    public function converts_multiple_dates_to_database_value(): void
     {
         $phpValue = [
             new \DateTimeImmutable('2023-06-15'),
@@ -90,7 +89,7 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function can_convert_multiple_dates_from_database(): void
+    public function converts_multiple_dates_to_php_value(): void
     {
         $result = $this->fixture->convertToPHPValue('{2023-06-15,2024-02-29}', $this->platform);
         $this->assertIsArray($result);
@@ -102,7 +101,7 @@ class DateArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function can_validate_valid_array_item_for_database(): void
+    public function validates_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15')));
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(self::createMutableDateTime('2023-06-15')));

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Exception;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbInsertTest extends JsonTestCase
+final class JsonbInsertTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -18,7 +18,7 @@ class JsonbInsertTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_insert_new_value(): void
+    public function inserts_new_value(): void
     {
         $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -35,7 +35,7 @@ class JsonbInsertTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_insert_at_nested_path(): void
+    public function inserts_at_nested_path(): void
     {
         $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

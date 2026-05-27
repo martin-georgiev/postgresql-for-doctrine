@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExtractPathText;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonExtractPathTextTest extends JsonTestCase
+final class JsonExtractPathTextTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class JsonExtractPathTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_extract_path_text_from_json(): void
+    public function extracts_path_text_from_json(): void
     {
         $dql = "SELECT JSON_EXTRACT_PATH_TEXT(t.jsonObject1, 'address', 'city') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

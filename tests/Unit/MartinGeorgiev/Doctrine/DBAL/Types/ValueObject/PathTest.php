@@ -11,11 +11,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class PathTest extends TestCase
+final class PathTest extends TestCase
 {
     #[DataProvider('provideValidPathStrings')]
     #[Test]
-    public function can_create_from_string(string $value, string $expectedOutput): void
+    public function parses_from_string(string $value, string $expectedOutput): void
     {
         $path = Path::fromString($value);
         $this->assertSame($expectedOutput, (string) $path);
@@ -57,7 +57,7 @@ class PathTest extends TestCase
     }
 
     #[Test]
-    public function can_return_points_as_point_objects(): void
+    public function returns_points_as_point_objects(): void
     {
         $path = Path::fromString('[(1,2),(3,4),(5,6)]');
         $points = $path->getPoints();
@@ -69,21 +69,21 @@ class PathTest extends TestCase
     }
 
     #[Test]
-    public function can_detect_open_path(): void
+    public function detects_open_path(): void
     {
         $path = Path::fromString('[(1,2),(3,4)]');
         $this->assertTrue($path->isOpen());
     }
 
     #[Test]
-    public function can_detect_closed_path(): void
+    public function detects_closed_path(): void
     {
         $path = Path::fromString('((1,2),(3,4))');
         $this->assertFalse($path->isOpen());
     }
 
     #[Test]
-    public function can_construct_from_point_objects(): void
+    public function constructs_from_point_objects(): void
     {
         $path = new Path(true, new Point(1.0, 2.0), new Point(3.0, 4.0));
         $this->assertSame('[(1,2),(3,4)]', (string) $path);

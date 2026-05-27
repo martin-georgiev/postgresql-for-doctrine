@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonObjectAggTest extends JsonTestCase
+final class JsonObjectAggTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class JsonObjectAggTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_aggregate_key_value_pairs_to_json_object(): void
+    public function aggregates_key_value_pairs_to_json_object(): void
     {
         $dql = "SELECT JSON_OBJECT_AGG('key', t.jsonObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

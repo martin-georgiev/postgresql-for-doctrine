@@ -1,1 +1,0 @@
-../../.ai-tools/rules/meta.md

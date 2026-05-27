@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2;
 use PHPUnit\Framework\Attributes\Test;
 
-class Atan2Test extends NumericTestCase
+final class Atan2Test extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class Atan2Test extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_atan2_of_literals(): void
+    public function calculates_atan2_of_literals(): void
     {
         $dql = 'SELECT ATAN2(1.0, 1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class Atan2Test extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_atan2_with_entity_properties(): void
+    public function calculates_atan2_with_entity_properties(): void
     {
         $dql = 'SELECT ATAN2(n.decimal1, n.decimal2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

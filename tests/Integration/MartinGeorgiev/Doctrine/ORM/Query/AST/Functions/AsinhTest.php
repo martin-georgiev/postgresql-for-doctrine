@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asinh;
 use PHPUnit\Framework\Attributes\Test;
 
-class AsinhTest extends NumericTestCase
+final class AsinhTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class AsinhTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_asinh_of_literal(): void
+    public function calculates_asinh_of_literal(): void
     {
         $dql = 'SELECT ASINH(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class AsinhTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_asinh_with_entity_property(): void
+    public function calculates_asinh_with_entity_property(): void
     {
         $dql = 'SELECT ASINH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLsegArrayItemForDatabas
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Lseg as LsegValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class LsegArrayTypeTest extends ArrayTypeTestCase
+final class LsegArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

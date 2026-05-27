@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpReplaceTest extends TextTestCase
+final class RegexpReplaceTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -49,7 +49,7 @@ class RegexpReplaceTest extends TextTestCase
     }
 
     #[Test]
-    public function handles_case_sensitive_replacement(): void
+    public function applies_case_sensitive_replacement(): void
     {
         $dql = "SELECT REGEXP_REPLACE(t.text1, 'TEST', 'replaced') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

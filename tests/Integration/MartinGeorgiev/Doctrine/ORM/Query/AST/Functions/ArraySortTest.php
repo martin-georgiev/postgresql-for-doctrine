@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySort;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArraySortTest extends ArrayTestCase
+final class ArraySortTest extends ArrayTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class ArraySortTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_sort_text_array(): void
+    public function sorts_text_array(): void
     {
         $dql = 'SELECT ARRAY_SORT(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -36,7 +36,7 @@ class ArraySortTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_sort_integer_array(): void
+    public function sorts_integer_array(): void
     {
         $dql = 'SELECT ARRAY_SORT(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -49,7 +49,7 @@ class ArraySortTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_sort_unsorted_array(): void
+    public function sorts_unsorted_array(): void
     {
         $dql = 'SELECT ARRAY_SORT(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

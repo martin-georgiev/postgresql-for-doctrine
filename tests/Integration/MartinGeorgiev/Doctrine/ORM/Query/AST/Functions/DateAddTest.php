@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateAddTest extends DateTestCase
+final class DateAddTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class DateAddTest extends DateTestCase
     }
 
     #[Test]
-    public function can_add_interval_to_timestamp(): void
+    public function adds_interval_to_timestamp(): void
     {
         $dql = "SELECT DATE_ADD(t.datetimetz1, '1 day') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -28,7 +28,7 @@ class DateAddTest extends DateTestCase
     }
 
     #[Test]
-    public function can_add_hours_to_timestamp(): void
+    public function adds_hours_to_timestamp(): void
     {
         $dql = "SELECT DATE_ADD(t.datetimetz1, '2 hours') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -39,7 +39,7 @@ class DateAddTest extends DateTestCase
     }
 
     #[Test]
-    public function can_add_interval_with_timezone(): void
+    public function adds_interval_with_timezone(): void
     {
         $dql = "SELECT DATE_ADD(t.datetimetz1, '1 day', 'UTC') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t

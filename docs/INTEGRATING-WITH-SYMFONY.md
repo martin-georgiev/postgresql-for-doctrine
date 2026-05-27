@@ -31,12 +31,14 @@ doctrine:
             'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             'uuid[]': MartinGeorgiev\Doctrine\DBAL\Types\UuidArray
 
-            # Datetime array types
+            # Date and time types
             'date[]': MartinGeorgiev\Doctrine\DBAL\Types\DateArray
             interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
             'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
             'timestamp[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray
             'timestamptz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray
+            timetz: MartinGeorgiev\Doctrine\DBAL\Types\Timetz
+            'timetz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray
 
             # JSON types
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
@@ -76,19 +78,35 @@ doctrine:
 
             # Range types
             daterange: MartinGeorgiev\Doctrine\DBAL\Types\DateRange
+            'daterange[]': MartinGeorgiev\Doctrine\DBAL\Types\DateRangeArray
             int4range: MartinGeorgiev\Doctrine\DBAL\Types\Int4Range
+            'int4range[]': MartinGeorgiev\Doctrine\DBAL\Types\Int4RangeArray
             int8range: MartinGeorgiev\Doctrine\DBAL\Types\Int8Range
+            'int8range[]': MartinGeorgiev\Doctrine\DBAL\Types\Int8RangeArray
             numrange: MartinGeorgiev\Doctrine\DBAL\Types\NumRange
+            'numrange[]': MartinGeorgiev\Doctrine\DBAL\Types\NumRangeArray
             tsrange: MartinGeorgiev\Doctrine\DBAL\Types\TsRange
+            'tsrange[]': MartinGeorgiev\Doctrine\DBAL\Types\TsRangeArray
             tstzrange: MartinGeorgiev\Doctrine\DBAL\Types\TstzRange
+            'tstzrange[]': MartinGeorgiev\Doctrine\DBAL\Types\TstzRangeArray
 
             # Multirange types
             datemultirange: MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange
+            'datemultirange[]': MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray
             int4multirange: MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange
+            'int4multirange[]': MartinGeorgiev\Doctrine\DBAL\Types\Int4MultirangeArray
             int8multirange: MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange
+            'int8multirange[]': MartinGeorgiev\Doctrine\DBAL\Types\Int8MultirangeArray
             nummultirange: MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange
+            'nummultirange[]': MartinGeorgiev\Doctrine\DBAL\Types\NumMultirangeArray
             tsmultirange: MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange
+            'tsmultirange[]': MartinGeorgiev\Doctrine\DBAL\Types\TsMultirangeArray
             tstzmultirange: MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange
+            'tstzmultirange[]': MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirangeArray
+
+            # Case-insensitive text types
+            citext: MartinGeorgiev\Doctrine\DBAL\Types\Citext
+            'citext[]': MartinGeorgiev\Doctrine\DBAL\Types\CitextArray
 
             # Text search types
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
@@ -164,6 +182,11 @@ doctrine:
                     'uuid[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
                     _uuid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
 
+                    # Case-insensitive text type mappings
+                    citext: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT
+                    'citext[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT_ARRAY
+                    _citext: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT_ARRAY
+
                     # Datetime array type mappings
                     'date[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY
                     _date: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY
@@ -174,6 +197,9 @@ doctrine:
                     _timestamp: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
                     'timestamptz[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
                     _timestamptz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
+                    timetz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMETZ
+                    'timetz[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMETZ_ARRAY
+                    _timetz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMETZ_ARRAY
 
                     # JSON type mappings
                     jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB
@@ -227,19 +253,43 @@ doctrine:
 
                     # Range type mappings
                     daterange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATERANGE
+                    'daterange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATERANGE_ARRAY
+                    _daterange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATERANGE_ARRAY
                     int4range: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4RANGE
+                    'int4range[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4RANGE_ARRAY
+                    _int4range: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4RANGE_ARRAY
                     int8range: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT8RANGE
+                    'int8range[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT8RANGE_ARRAY
+                    _int8range: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT8RANGE_ARRAY
                     numrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMRANGE
+                    'numrange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMRANGE_ARRAY
+                    _numrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMRANGE_ARRAY
                     tsrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSRANGE
+                    'tsrange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSRANGE_ARRAY
+                    _tsrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSRANGE_ARRAY
                     tstzrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZRANGE
+                    'tstzrange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZRANGE_ARRAY
+                    _tstzrange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZRANGE_ARRAY
 
                     # Multirange type mappings
                     datemultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATEMULTIRANGE
+                    _datemultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATEMULTIRANGE_ARRAY
+                    'datemultirange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATEMULTIRANGE_ARRAY
                     int4multirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4MULTIRANGE
+                    'int4multirange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4MULTIRANGE_ARRAY
+                    _int4multirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT4MULTIRANGE_ARRAY
                     int8multirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT8MULTIRANGE
+                    'int8multirange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT8MULTIRANGE_ARRAY
+                    _int8multirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INT8MULTIRANGE_ARRAY
                     nummultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMMULTIRANGE
+                    'nummultirange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMMULTIRANGE_ARRAY
+                    _nummultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMMULTIRANGE_ARRAY
                     tsmultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSMULTIRANGE
+                    'tsmultirange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSMULTIRANGE_ARRAY
+                    _tsmultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSMULTIRANGE_ARRAY
                     tstzmultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZMULTIRANGE
+                    'tstzmultirange[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZMULTIRANGE_ARRAY
+                    _tstzmultirange: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSTZMULTIRANGE_ARRAY
 
                     # Text search type mappings
                     tsquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TSQUERY

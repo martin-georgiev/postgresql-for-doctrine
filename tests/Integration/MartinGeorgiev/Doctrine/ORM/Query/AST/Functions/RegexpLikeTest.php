@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpLikeTest extends TextTestCase
+final class RegexpLikeTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

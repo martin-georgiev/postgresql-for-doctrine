@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzz
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DaitchMokotoff;
 use PHPUnit\Framework\Attributes\Test;
 
-class DaitchMokotoffTest extends TestCase
+final class DaitchMokotoffTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
@@ -27,7 +27,7 @@ class DaitchMokotoffTest extends TestCase
     }
 
     #[Test]
-    public function can_process_text_field(): void
+    public function processes_text_field(): void
     {
         $dql = 'SELECT DAITCH_MOKOTOFF(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

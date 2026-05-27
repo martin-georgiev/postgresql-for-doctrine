@@ -11,18 +11,10 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ensureVectorExtension();
+
+        $this->ensurePostgresExtensionInSchema('vector');
         $this->createTestTableForVectorFixture();
         $this->insertTestDataForVectorFixture();
-    }
-
-    private function ensureVectorExtension(): void
-    {
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS vector');
-        } catch (\Exception) {
-            $this->markTestSkipped('pgvector extension is not available');
-        }
     }
 
     protected function createTestTableForVectorFixture(): void

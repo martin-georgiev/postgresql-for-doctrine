@@ -10,11 +10,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class PointTest extends TestCase
+final class PointTest extends TestCase
 {
     #[DataProvider('provideValidPointStrings')]
     #[Test]
-    public function can_create_from_string(string $input, string $expectedOutput): void
+    public function parses_from_string(string $input, string $expectedOutput): void
     {
         $point = Point::fromString($input);
         $this->assertSame($expectedOutput, (string) $point);
@@ -34,7 +34,7 @@ class PointTest extends TestCase
     }
 
     #[Test]
-    public function can_return_correct_coordinates_via_getters(): void
+    public function returns_correct_coordinates_via_getters(): void
     {
         $point = Point::fromString('(1.5,-2.5)');
         $this->assertSame(1.5, $point->getX());
@@ -42,7 +42,7 @@ class PointTest extends TestCase
     }
 
     #[Test]
-    public function can_be_constructed_with_float_values(): void
+    public function is_constructed_with_float_values(): void
     {
         $point = new Point(1.5, -2.5);
         $this->assertSame(1.5, $point->getX());
@@ -95,14 +95,14 @@ class PointTest extends TestCase
     }
 
     #[Test]
-    public function can_preserve_string_representation(): void
+    public function preserves_string_representation(): void
     {
         $point = new Point(1.0, 2.0);
         $this->assertSame('(1,2)', (string) $point);
     }
 
     #[Test]
-    public function can_accept_high_precision_coordinates(): void
+    public function accepts_high_precision_coordinates(): void
     {
         $point = new Point(45.123456789012, 179.987654321098);
         $this->assertSame(45.123456789012, $point->getX());

@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_CoverageUnionTest extends SpatialOperatorTestCase
+final class ST_CoverageUnionTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HausdorffDistance;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_HausdorffDistanceTest extends SpatialOperatorTestCase
+final class ST_HausdorffDistanceTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

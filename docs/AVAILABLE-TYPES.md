@@ -22,11 +22,15 @@
 | interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
 | timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` |
 | timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` |
+| timetz | timetz | `MartinGeorgiev\Doctrine\DBAL\Types\Timetz` |
+| timetz[] | _timetz | `MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray` |
 |---|---|---|
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
 | text[] | _text | `MartinGeorgiev\Doctrine\DBAL\Types\TextArray` |
 | uuid[] | _uuid | `MartinGeorgiev\Doctrine\DBAL\Types\UuidArray` (see [note](#uuid-array-type)) |
+| citext | citext | `MartinGeorgiev\Doctrine\DBAL\Types\Citext` (see [note](#citext-type)) |
+| citext[] | _citext | `MartinGeorgiev\Doctrine\DBAL\Types\CitextArray` |
 |---|---|---|
 | cidr | cidr | `MartinGeorgiev\Doctrine\DBAL\Types\Cidr` |
 | cidr[] | _cidr | `MartinGeorgiev\Doctrine\DBAL\Types\CidrArray` |
@@ -43,18 +47,30 @@
 | tsvector[] | _tsvector | `MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray` |
 |---|---|---|
 | daterange | daterange | `MartinGeorgiev\Doctrine\DBAL\Types\DateRange` |
+| daterange[] | _daterange | `MartinGeorgiev\Doctrine\DBAL\Types\DateRangeArray` |
 | int4range | int4range | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Range` |
+| int4range[] | _int4range | `MartinGeorgiev\Doctrine\DBAL\Types\Int4RangeArray` |
 | int8range | int8range | `MartinGeorgiev\Doctrine\DBAL\Types\Int8Range` |
+| int8range[] | _int8range | `MartinGeorgiev\Doctrine\DBAL\Types\Int8RangeArray` |
 | numrange | numrange | `MartinGeorgiev\Doctrine\DBAL\Types\NumRange` |
+| numrange[] | _numrange | `MartinGeorgiev\Doctrine\DBAL\Types\NumRangeArray` |
 | tsrange | tsrange | `MartinGeorgiev\Doctrine\DBAL\Types\TsRange` |
+| tsrange[] | _tsrange | `MartinGeorgiev\Doctrine\DBAL\Types\TsRangeArray` |
 | tstzrange | tstzrange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzRange` |
+| tstzrange[] | _tstzrange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzRangeArray` |
 |---|---|---|
 | datemultirange | datemultirange | `MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange` |
+| datemultirange[] | _datemultirange | `MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray` |
 | int4multirange | int4multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange` |
+| int4multirange[] | _int4multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int4MultirangeArray` |
 | int8multirange | int8multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange` |
+| int8multirange[] | _int8multirange | `MartinGeorgiev\Doctrine\DBAL\Types\Int8MultirangeArray` |
 | nummultirange | nummultirange | `MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange` |
+| nummultirange[] | _nummultirange | `MartinGeorgiev\Doctrine\DBAL\Types\NumMultirangeArray` |
 | tsmultirange | tsmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange` |
+| tsmultirange[] | _tsmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TsMultirangeArray` |
 | tstzmultirange | tstzmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange` |
+| tstzmultirange[] | _tstzmultirange | `MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirangeArray` |
 |---|---|---|
 | box | box | `MartinGeorgiev\Doctrine\DBAL\Types\Box` |
 | box[] | _box | `MartinGeorgiev\Doctrine\DBAL\Types\BoxArray` |
@@ -214,3 +230,17 @@ CREATE EXTENSION IF NOT EXISTS hstore;
 ```
 
 It maps to `array<string, string|null>` in PHP. Keys and values are always strings; a `NULL` value in hstore is represented as `null` in PHP.
+
+---
+
+## Citext Type
+
+The `citext` type requires the PostgreSQL [`citext`](https://www.postgresql.org/docs/18/citext.html) extension. Enable it with:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS citext;
+```
+
+It is a case-insensitive text type: comparisons are case-insensitive in PostgreSQL while the original casing of values is preserved. It maps to `string` in PHP and behaves identically to `text` for storage and retrieval — the difference is purely in how PostgreSQL evaluates equality and ordering.
+
+Use `citext` when you want case-insensitive lookups (e.g. usernames, email addresses) without lowercasing values on write.

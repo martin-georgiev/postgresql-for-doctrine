@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy;
 use PHPUnit\Framework\Attributes\Test;
 
-class IsContainedByTest extends ArrayTestCase
+final class IsContainedByTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -39,7 +39,7 @@ class IsContainedByTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_check_subset_containment(): void
+    public function checks_subset_containment(): void
     {
         $dql = "SELECT IS_CONTAINED_BY(ARR('apple', 'banana'), t.textArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 

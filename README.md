@@ -45,7 +45,6 @@ $query = $em->createQuery('
   - Float arrays (`real[]`, `double precision[]`)
   - Text arrays (`text[]`)
   - Boolean arrays (`bool[]`)
-  - Date arrays (`date[]`, `timestamp[]`, `timestamptz[]`)
   - JSONB arrays (`jsonb[]`)
 - **Binary Types**
   - Raw binary data (`bytea`, `bytea[]`)
@@ -71,14 +70,18 @@ $query = $em->createQuery('
   - PostGIS Geometry (`geometry`, `geometry[]`)
   - PostGIS Geography (`geography`, `geography[]`)
 - **Range Types**
-  - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
-  - Numeric ranges (`numrange`, `int4range`, `int8range`)
-  - Multiranges (`nummultirange`, `int4multirange`, `int8multirange`)
-- **Interval Types**
+  - Date and time ranges (`daterange`, `daterange[]`, `tsrange`, `tsrange[]`, `tstzrange`, `tstzrange[]`)
+  - Numeric ranges (`numrange`, `numrange[]`, `int4range`, `int4range[]`, `int8range`, `int8range[]`)
+  - Multiranges (`datemultirange`, `datemultirange[]`, `int4multirange`, `int4multirange[]`, `int8multirange`, `int8multirange[]`, `nummultirange`, `nummultirange[]`, `tsmultirange`, `tsmultirange[]`, `tstzmultirange`, `tstzmultirange[]`)
+- **Date and Time Types**
+  - Arrays (`date[]`, `timestamp[]`, `timestamptz[]`)
   - Time durations with `DateInterval` support (`interval`, `interval[]`)
+  - String-represented time with timezone (`timetz`, `timetz[]`)
 - **Text Search Types**
   - Full-text search document (`tsvector`, `tsvector[]`)
   - Full-text search query (`tsquery`, `tsquery[]`)
+- **Case-Insensitive Text Types** (requires [citext](https://www.postgresql.org/docs/18/citext.html) extension)
+  - Case-insensitive text (`citext`, `citext[]`)
 - **Key-Value Types** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
   - Key-value store (`hstore`, `hstore[]`)
 - **Monetary Types**
