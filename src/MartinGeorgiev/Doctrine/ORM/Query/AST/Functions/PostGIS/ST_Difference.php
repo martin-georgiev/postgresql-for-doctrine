@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Difference() function.
+ * Implementation of PostGIS ST_Difference().
  *
  * Returns a geometry that represents the point set difference of two geometries.
  * The result represents the points in A that are not in B.

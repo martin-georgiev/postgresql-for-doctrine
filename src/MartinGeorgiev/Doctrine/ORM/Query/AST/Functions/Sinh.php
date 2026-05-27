@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL sinh() function.
+ * Implementation of PostgreSQL SINH().
  *
  * Returns the hyperbolic sine of the argument.
  *

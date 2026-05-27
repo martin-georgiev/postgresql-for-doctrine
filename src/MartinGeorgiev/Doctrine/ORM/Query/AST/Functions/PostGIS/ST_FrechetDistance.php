@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_FrechetDistance() function.
+ * Implementation of PostGIS ST_FrechetDistance().
  *
  * Returns the Fréchet distance between two geometries.
  * This is a measure of similarity between curves that takes into account the location and ordering of points.

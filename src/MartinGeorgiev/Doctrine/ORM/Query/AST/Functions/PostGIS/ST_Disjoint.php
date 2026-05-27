@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Disjoint() function.
+ * Implementation of PostGIS ST_Disjoint().
  *
  * Tests if two geometries have no points in common.
  *

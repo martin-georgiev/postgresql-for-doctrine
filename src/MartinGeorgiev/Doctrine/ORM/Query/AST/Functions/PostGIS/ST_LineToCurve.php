@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_LineToCurve() function.
+ * Implementation of PostGIS ST_LineToCurve().
  *
  * Converts linear geometries to curved geometries where possible.
  * Attempts to convert LineString to CircularString where appropriate.

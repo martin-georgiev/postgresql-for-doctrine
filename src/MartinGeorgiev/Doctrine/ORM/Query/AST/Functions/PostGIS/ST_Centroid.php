@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Centroid() function.
+ * Implementation of PostGIS ST_Centroid().
  *
  * Returns the geometric center of a geometry.
  * For point geometries, the centroid is the point itself.

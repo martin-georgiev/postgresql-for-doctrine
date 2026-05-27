@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
- * Implementation of PostGIS ST_Distance() function.
+ * Implementation of PostGIS ST_Distance().
  *
  * Returns the 2D distance between two geometries.
  * For geometry type, the units are in the units of the spatial reference system.

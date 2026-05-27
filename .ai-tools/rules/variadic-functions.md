@@ -54,3 +54,21 @@ When defining multiple node mapping patterns for variadic functions, order patte
 ['StringPrimary,ArithmeticPrimary', 'StringPrimary,ArithmeticPrimary,StringPrimary']
 ```
 
+## Homogeneous Arguments: Use Single-Element Pattern
+
+When all arguments share the same node type, use a **single-element array**. `BaseVariadicFunction` detects `count($nodeMapping) === 1` (`$isNodeMappingASimplePattern = true`) and reuses index 0 for every argument. Arity is enforced separately by `getMinArgumentCount()`/`getMaxArgumentCount()`.
+
+```php
+// ✓ Idiomatic — all args are StringPrimary, arity enforced by min/max
+protected function getNodeMappingPattern(): array { return ['StringPrimary']; }
+protected function getMinArgumentCount(): int { return 2; }
+protected function getMaxArgumentCount(): int { return 3; }
+
+// ❌ Redundant — explicit multi-pattern is only needed when arg positions differ in type
+protected function getNodeMappingPattern(): array {
+    return ['StringPrimary,StringPrimary,StringPrimary', 'StringPrimary,StringPrimary'];
+}
+```
+
+Use multi-pattern only when argument positions require **different** node types (e.g. `StringPrimary,ArithmeticPrimary`).
+

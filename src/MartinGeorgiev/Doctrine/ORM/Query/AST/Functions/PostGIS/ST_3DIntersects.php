@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_3DIntersects() function.
+ * Implementation of PostGIS ST_3DIntersects().
  *
  * Tests if two geometries spatially intersect in 3D - only for points, linestrings, polygons, polyhedral surface (area).
  *

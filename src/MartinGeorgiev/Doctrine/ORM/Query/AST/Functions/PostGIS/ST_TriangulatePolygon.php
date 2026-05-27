@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_TriangulatePolygon() function.
+ * Implementation of PostGIS ST_TriangulatePolygon().
  *
  * Computes a constrained Delaunay triangulation of a polygon.
  * Returns a collection of triangular polygons that cover the input polygon.

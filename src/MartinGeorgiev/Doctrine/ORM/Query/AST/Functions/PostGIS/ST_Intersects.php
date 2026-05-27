@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Intersects() function.
+ * Implementation of PostGIS ST_Intersects().
  *
  * Tests if two geometries intersect (they have at least one point in common).
  *

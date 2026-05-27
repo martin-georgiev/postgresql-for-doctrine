@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL lcm() function.
+ * Implementation of PostgreSQL LCM().
  *
  * Returns the least common multiple of the two arguments. The result is always non-negative.
  *

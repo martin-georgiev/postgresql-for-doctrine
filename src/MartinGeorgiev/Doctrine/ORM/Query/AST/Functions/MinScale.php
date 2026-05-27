@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL min_scale() function.
+ * Implementation of PostgreSQL MIN_SCALE().
  *
  * Returns the minimum number of digits needed to represent the value with full precision.
  *

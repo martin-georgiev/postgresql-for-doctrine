@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Reverse() function.
+ * Implementation of PostGIS ST_Reverse().
  *
  * Returns a geometry with the order of points reversed.
  * For LineString, the start and end points are swapped.

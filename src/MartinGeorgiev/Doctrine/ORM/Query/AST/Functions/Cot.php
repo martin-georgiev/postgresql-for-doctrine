@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL cot() function.
+ * Implementation of PostgreSQL COT().
  *
  * Returns the cotangent of the argument (given in radians).
  *

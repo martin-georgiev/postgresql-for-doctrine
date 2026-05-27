@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_RemoveSmallParts() function.
+ * Implementation of PostGIS ST_RemoveSmallParts().
  *
  * Removes small polygon rings and linestrings from a geometry.
  * Useful for cleaning up geometries with insignificant parts.

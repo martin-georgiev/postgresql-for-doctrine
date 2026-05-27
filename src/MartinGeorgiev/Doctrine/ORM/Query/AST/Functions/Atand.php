@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL atand() function.
+ * Implementation of PostgreSQL ATAND().
  *
  * Returns the inverse tangent of the argument (result in degrees).
  *

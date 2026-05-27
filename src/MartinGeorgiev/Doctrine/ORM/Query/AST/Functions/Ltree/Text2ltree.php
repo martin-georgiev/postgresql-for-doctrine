@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL text2ltree function.
+ * Implementation of PostgreSQL TEXT2LTREE().
  *
  * Casts text to ltree.
  *

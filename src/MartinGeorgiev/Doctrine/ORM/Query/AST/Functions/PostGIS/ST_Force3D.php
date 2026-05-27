@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Force3D() function.
+ * Implementation of PostGIS ST_Force3D().
  *
  * Forces a geometry to 3D by adding a Z coordinate if it doesn't exist.
  * If Z coordinate exists, it is preserved.

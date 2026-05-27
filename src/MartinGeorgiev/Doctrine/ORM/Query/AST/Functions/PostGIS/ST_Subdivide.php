@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_Subdivide() function.
+ * Implementation of PostGIS ST_Subdivide().
  *
  * Returns a set of geometries where no geometry has more than the specified number of vertices.
  * Useful for breaking down complex geometries into simpler parts.

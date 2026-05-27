@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Length2D() function.
+ * Implementation of PostGIS ST_Length2D().
  *
  * Returns the 2D length of a LineString/MultiLineString or 2D perimeter of areal geometries.
  * Ignores Z coordinates.

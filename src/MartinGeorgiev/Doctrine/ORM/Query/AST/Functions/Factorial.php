@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL factorial() function.
+ * Implementation of PostgreSQL FACTORIAL().
  *
  * Returns the factorial of the argument.
  *

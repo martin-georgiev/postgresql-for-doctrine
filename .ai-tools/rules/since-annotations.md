@@ -25,7 +25,7 @@ final class Md5 extends BaseFunction
 
 // ✓ Correct — version confirmed from open release PR or CHANGELOG
 /**
- * Implements PostgreSQL MD5() function.
+ * Implements PostgreSQL MD5().
  *
  * @see https://www.postgresql.org/docs/18/functions-binarystring.html
  *

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Split() function.
+ * Implementation of PostGIS ST_Split().
  *
  * Returns a collection of geometries created by splitting the input geometry by the blade geometry.
  * The blade must be a LineString or MultiLineString.

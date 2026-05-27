@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL trim_scale() function.
+ * Implementation of PostgreSQL TRIM_SCALE().
  *
  * Reduces the value's scale (number of fractional decimal digits) by removing trailing zeroes.
  *

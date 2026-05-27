@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_ClipByBox2D() function.
+ * Implementation of PostGIS ST_ClipByBox2D().
  *
  * Clips a geometry by a 2D box.
  * Returns the portion of the input geometry that falls within the specified box.

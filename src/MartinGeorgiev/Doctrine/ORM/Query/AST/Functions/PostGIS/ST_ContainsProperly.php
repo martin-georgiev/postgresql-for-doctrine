@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_ContainsProperly() function.
+ * Implementation of PostGIS ST_ContainsProperly().
  *
  * Tests if every point of B lies in the interior of A.
  *
