@@ -19,7 +19,7 @@ final class XmlExistsTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'tests xpath expression against xml value' => 'SELECT xmlexists(c0_.text1, c0_.text2) AS sclr_0 FROM ContainsTexts c0_',
+            'tests xpath expression against xml value' => 'SELECT xmlexists(c0_.text1 PASSING BY VALUE c0_.text2) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
