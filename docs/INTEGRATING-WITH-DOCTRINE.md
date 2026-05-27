@@ -145,6 +145,7 @@ Register the functions you'll use in your DQL queries. The full set of available
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
 - [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
+- [Utility Functions](UTILITY-FUNCTIONS.md)
 
 ```php
 <?php
@@ -199,6 +200,7 @@ $configuration->addCustomStringFunction('ARRAY_UPPER', MartinGeorgiev\Doctrine\O
 $configuration->addCustomStringFunction('SPLIT_PART', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class);
 $configuration->addCustomStringFunction('STARTS_WITH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class);
 $configuration->addCustomStringFunction('STRING_TO_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class);
+$configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
 $configuration->addCustomStringFunction('UNNEST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class);
 
 # json specific functions
@@ -330,7 +332,6 @@ $configuration->addCustomStringFunction('TAND', MartinGeorgiev\Doctrine\ORM\Quer
 $configuration->addCustomStringFunction('TANH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh::class);
 
 # other operators
-$configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
 $configuration->addCustomStringFunction('ILIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class);
 $configuration->addCustomStringFunction('SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo::class);
 $configuration->addCustomStringFunction('NOT_SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo::class);
@@ -346,7 +347,6 @@ $configuration->addCustomStringFunction('REGEXP_SUBSTR', MartinGeorgiev\Doctrine
 $configuration->addCustomStringFunction('REGEXP_MATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class);
 $configuration->addCustomStringFunction('STRCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class);
 $configuration->addCustomStringFunction('REGEXP_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class);
-$configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
 $configuration->addCustomStringFunction('DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class);
 
 # vector distance functions
@@ -361,9 +361,28 @@ $configuration->addCustomStringFunction('JSON_OBJECT_AGG', MartinGeorgiev\Doctri
 $configuration->addCustomStringFunction('JSONB_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class);
 $configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class);
 $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);
+
+# XML functions
 $configuration->addCustomStringFunction('XML_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
 
-# data type formatting functions
+# hashing and checksum functions
+$configuration->addCustomStringFunction('CRC32', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class);
+$configuration->addCustomStringFunction('CRC32C', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c::class);
+$configuration->addCustomStringFunction('MD5', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5::class);
+$configuration->addCustomStringFunction('REVERSE_BYTES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes::class);
+$configuration->addCustomStringFunction('SHA224', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha224::class);
+$configuration->addCustomStringFunction('SHA256', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256::class);
+$configuration->addCustomStringFunction('SHA384', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384::class);
+$configuration->addCustomStringFunction('SHA512', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512::class);
+
+# uuid functions
+$configuration->addCustomStringFunction('UUID_EXTRACT_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp::class);
+$configuration->addCustomStringFunction('UUID_EXTRACT_VERSION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion::class);
+$configuration->addCustomStringFunction('UUIDV4', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4::class);
+$configuration->addCustomStringFunction('UUIDV7', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7::class);
+
+# type conversion and formatting functions
+$configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
 $configuration->addCustomStringFunction('TO_CHAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class);
 $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class);
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);

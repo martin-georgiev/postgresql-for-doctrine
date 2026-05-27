@@ -352,6 +352,7 @@ Register the functions you'll use in your DQL queries. The full set of available
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
 - [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
+- [Utility Functions](UTILITY-FUNCTIONS.md)
 
 Add the function configuration to your `config/doctrine.php`:
 
@@ -403,6 +404,7 @@ return [
         'ARRAY_UPPER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper::class,
         'SPLIT_PART' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class,
         'STARTS_WITH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class,
+        'ROW' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class,
         'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
         'UNNEST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class,
 
@@ -534,7 +536,6 @@ return [
         'TANH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh::class,
 
         # other operators
-        'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
         'ILIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class,
         'SIMILAR_TO' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo::class,
         'NOT_SIMILAR_TO' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo::class,
@@ -550,7 +551,6 @@ return [
         'REGEXP_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class,
         'REGEXP_SUBSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class,
         'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
-        'ROW' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class,
         'DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class,
 
         # vector distance functions
@@ -565,9 +565,28 @@ return [
         'JSONB_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class,
         'JSONB_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class,
         'STRING_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class,
+
+        # XML functions
         'XML_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class,
 
-        # data type formatting functions
+        # hashing and checksum functions
+        'CRC32' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class,
+        'CRC32C' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c::class,
+        'MD5' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5::class,
+        'REVERSE_BYTES' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes::class,
+        'SHA224' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha224::class,
+        'SHA256' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256::class,
+        'SHA384' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384::class,
+        'SHA512' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512::class,
+
+        # uuid functions
+        'UUID_EXTRACT_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp::class,
+        'UUID_EXTRACT_VERSION' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion::class,
+        'UUIDV4' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4::class,
+        'UUIDV7' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7::class,
+
+        # type conversion and formatting functions
+        'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
         'TO_CHAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class,
         'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,
         'TO_NUMBER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class,
