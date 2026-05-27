@@ -366,6 +366,13 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
+    public function throws_exception_for_invalid_type_inputs(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->type->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
+    }
+
+    #[Test]
     public function throws_exception_for_invalid_type_from_database(): void
     {
         $this->expectException(InvalidGeometryForPHPException::class);
