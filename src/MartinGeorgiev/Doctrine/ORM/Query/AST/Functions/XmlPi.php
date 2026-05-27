@@ -18,11 +18,11 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  * Creates an XML processing instruction.
  *
  * PostgreSQL requires NAME keyword syntax: XMLPI(NAME target [, content])
- * The target must be a string literal in DQL — it becomes a SQL NAME identifier.
+ * The target must be a string literal in DQL — it becomes an *unquoted* SQL NAME identifier.
  * The optional content can be a literal or entity property.
  *
- * DQL: XMLPI('target')           → SQL: xmlpi(NAME target)
- * DQL: XMLPI('target', content)  → SQL: xmlpi(NAME target, content)
+ * DQL: XMLPI('target')          → SQL: xmlpi(NAME target)
+ * DQL: XMLPI('target', content) → SQL: xmlpi(NAME target, content)
  *
  * @see https://www.postgresql.org/docs/18/functions-xml.html
  * @since 4.6
@@ -38,9 +38,7 @@ class XmlPi extends BaseFunction
 
     private ?Node $content = null;
 
-    protected function customizeFunction(): void
-    {
-    }
+    protected function customizeFunction(): void {}
 
     public function parse(Parser $parser): void
     {
@@ -53,6 +51,7 @@ class XmlPi extends BaseFunction
         $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
 
         $parser->match($shouldUseLexer ? Lexer::T_STRING : TokenType::T_STRING);
+
         $target = DoctrineLexer::getTokenValue($lexer);
         $this->target = \is_string($target) ? $target : '';
 
@@ -67,7 +66,7 @@ class XmlPi extends BaseFunction
 
     public function getSql(SqlWalker $sqlWalker): string
     {
-        if ($this->content !== null) {
+        if ($this->content instanceof Node) {
             return \sprintf('xmlpi(NAME %s, %s)', $this->target, $this->content->dispatch($sqlWalker));
         }
 
