@@ -9,6 +9,12 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class XmltextTest extends TextTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->requirePostgresVersion(170000, 'XMLTEXT function');
+    }
+
     protected function getStringFunctions(): array
     {
         return [
