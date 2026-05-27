@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_LineCrossingDirection() function.
+ * Implementation of PostGIS ST_LineCrossingDirection().
  *
  * Returns a number indicating the crossing behavior of two LineStrings.
  *

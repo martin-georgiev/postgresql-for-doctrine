@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_DWithin() function.
+ * Implementation of PostGIS ST_DWithin().
  *
  * Tests if two geometries are within a given distance.
  *

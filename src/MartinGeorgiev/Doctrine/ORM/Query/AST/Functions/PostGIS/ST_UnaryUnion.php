@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_UnaryUnion() function.
+ * Implementation of PostGIS ST_UnaryUnion().
  *
  * Performs unary union on a geometry.
  * Useful for dissolving internal boundaries in polygons.

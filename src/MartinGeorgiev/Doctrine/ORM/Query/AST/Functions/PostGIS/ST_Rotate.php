@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_Rotate() function.
+ * Implementation of PostGIS ST_Rotate().
  *
  * Rotates a geometry by the given angle around the origin.
  * Angle is in radians, positive values rotate counterclockwise.

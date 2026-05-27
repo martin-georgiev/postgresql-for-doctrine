@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Overlaps() function.
+ * Implementation of PostGIS ST_Overlaps().
  *
  * Tests if two geometries have the same dimension and intersect, but each has at least one point not in the other.
  *

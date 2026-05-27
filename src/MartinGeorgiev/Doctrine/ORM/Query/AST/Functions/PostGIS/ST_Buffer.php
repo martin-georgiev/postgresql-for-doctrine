@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_Buffer() function.
+ * Implementation of PostGIS ST_Buffer().
  *
  * Returns a geometry that represents all points whose distance from the input geometry
  * is less than or equal to the distance parameter.

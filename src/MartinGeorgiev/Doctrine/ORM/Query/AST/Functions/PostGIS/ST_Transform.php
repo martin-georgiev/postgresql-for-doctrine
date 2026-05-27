@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_Transform() function.
+ * Implementation of PostGIS ST_Transform().
  *
  * Returns a new geometry with coordinates transformed to the specified SRID.
  * Useful for converting between different coordinate reference systems.

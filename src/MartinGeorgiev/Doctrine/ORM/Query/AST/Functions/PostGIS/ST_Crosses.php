@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Crosses() function.
+ * Implementation of PostGIS ST_Crosses().
  *
  * Tests if two geometries have some, but not all, interior points in common.
  *

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Equals() function.
+ * Implementation of PostGIS ST_Equals().
  *
  * Tests if two geometries include the same set of points.
  *

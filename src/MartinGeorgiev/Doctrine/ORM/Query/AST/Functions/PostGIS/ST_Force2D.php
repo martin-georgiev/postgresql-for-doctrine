@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Force2D() function.
+ * Implementation of PostGIS ST_Force2D().
  *
  * Forces the geometry into 2D mode by removing any Z or M coordinates.
  * Useful for ensuring compatibility with 2D operations.

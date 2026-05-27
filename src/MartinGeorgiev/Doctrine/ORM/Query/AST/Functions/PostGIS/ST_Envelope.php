@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Envelope() function.
+ * Implementation of PostGIS ST_Envelope().
  *
  * Returns the bounding box of the input geometry as a polygon.
  * The bounding box is the smallest rectangle that contains the geometry.

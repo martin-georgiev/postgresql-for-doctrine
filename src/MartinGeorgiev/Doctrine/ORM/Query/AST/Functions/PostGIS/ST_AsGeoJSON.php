@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_AsGeoJSON() function.
+ * Implementation of PostGIS ST_AsGeoJSON().
  *
  * Returns the geometry as a GeoJSON element.
  * Optional parameters control decimal precision and output options.

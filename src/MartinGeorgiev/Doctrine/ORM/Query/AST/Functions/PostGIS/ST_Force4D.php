@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Force4D() function.
+ * Implementation of PostGIS ST_Force4D().
  *
  * Forces a geometry to 4D by adding Z and M coordinates if they don't exist.
  * If Z or M coordinates exist, they are preserved.

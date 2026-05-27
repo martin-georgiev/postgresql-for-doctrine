@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
- * Implementation of PostGIS ST_RemoveIrrelevantPointsForView() function.
+ * Implementation of PostGIS ST_RemoveIrrelevantPointsForView().
  *
  * Removes points that are irrelevant for rendering at a given view.
  * Useful for simplifying geometries for display at specific zoom levels.
