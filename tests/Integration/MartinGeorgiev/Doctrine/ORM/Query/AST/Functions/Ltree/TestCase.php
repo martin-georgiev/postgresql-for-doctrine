@@ -12,8 +12,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->ensurePostgresExtensionInSchema('ltree');
-
         $this->createTestTableForLtreeFixture();
         $this->insertTestDataForLtreeFixture();
     }
@@ -23,6 +21,7 @@ abstract class TestCase extends BaseTestCase
         $tableName = 'containsltrees';
 
         $this->createTestSchema();
+        $this->ensurePostgresExtensionInSchema('ltree');
         $this->dropTestTableIfItExists($tableName);
 
         $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
