@@ -57,7 +57,7 @@ Complete documentation for type conversion, formatting, and UUID functions.
 ### **📄 XML Functions**
 Complete documentation for PostgreSQL XML processing, validation, and XPath querying.
 - **[XML Functions](XML-FUNCTIONS.md)**
-- Includes: XML aggregation (`xmlagg`)
+- Includes: XML aggregation (`xmlagg`), XML validation (`xml_is_well_formed`, `xml_is_well_formed_document`, `xml_is_well_formed_content`), XML construction (`xmltext`, `xmlcomment`, `xmlconcat`), XPath querying (`xpath`, `xpath_exists`)
 
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
@@ -148,7 +148,17 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `COMPOSITE_FIELD` - Access a field from a PostgreSQL composite type column → [Use Cases and Examples](USE-CASES-AND-EXAMPLES.md#using-postgresql-composite-types)
 
 **XML Functions:** ([Complete documentation](XML-FUNCTIONS.md))
-- `XML_AGG` - Aggregate XML values (supports `ORDER BY`)
+- `XML_IS_WELL_FORMED` - Check whether a text string is well-formed XML
+- `XML_IS_WELL_FORMED_CONTENT` - Check whether a text string is well-formed XML content
+- `XML_IS_WELL_FORMED_DOCUMENT` - Check whether a text string is a well-formed XML document
+- `XMLAGG` - Aggregate XML values (supports `ORDER BY`)
+- `XMLCOMMENT` - Create an XML comment
+- `XMLCONCAT` - Concatenate multiple XML values into a single XML value
+- `XMLEXISTS` - Test if an XPath expression matches any nodes in an XML value
+- `XMLPI` - Create an XML processing instruction
+- `XMLTEXT` - Create an XML text node (with entity escaping)
+- `XPATH` - Evaluate an XPath expression against an XML value, returning matched nodes
+- `XPATH_EXISTS` - Test if an XPath expression matches any node in an XML value
 
 ## 📋 Summary of Available Function Categories
 
@@ -190,7 +200,10 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **UUID**: Generation (`UUIDV4`, `UUIDV7`) and inspection (`UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`)
 
 ### **XML Functions**
-- **Aggregation**: `XML_AGG` — aggregate XML values with optional ordering
+- **Aggregation**: `XMLAGG` — aggregate XML values with optional ordering
+- **Validation**: `XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT` — check XML well-formedness
+- **Construction**: `XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI` — create and combine XML values
+- **XPath Querying**: `XPATH`, `XPATH_EXISTS`, `XMLEXISTS` — extract nodes and test existence
 
 ### **Network Address Functions**
 - **Extraction**: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK` — decompose `inet`/`cidr` types

@@ -12,7 +12,7 @@ final class XmlAggTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
-            'XML_AGG' => XmlAgg::class,
+            'XMLAGG' => XmlAgg::class,
         ];
     }
 
@@ -29,10 +29,10 @@ final class XmlAggTest extends TestCase
     protected function getDqlStatements(): array
     {
         return [
-            'basic usage' => \sprintf('SELECT XML_AGG(e.text1) FROM %s e', ContainsTexts::class),
-            'with concatenation' => \sprintf('SELECT XML_AGG(CONCAT(e.text1, e.text2)) FROM %s e', ContainsTexts::class),
-            'with ORDER BY' => \sprintf('SELECT XML_AGG(e.text1 ORDER BY e.text1) FROM %s e', ContainsTexts::class),
-            'with ORDER BY DESC' => \sprintf('SELECT XML_AGG(e.text1 ORDER BY e.text1 DESC) FROM %s e', ContainsTexts::class),
+            'basic usage' => \sprintf('SELECT XMLAGG(e.text1) FROM %s e', ContainsTexts::class),
+            'with concatenation' => \sprintf('SELECT XMLAGG(CONCAT(e.text1, e.text2)) FROM %s e', ContainsTexts::class),
+            'with ORDER BY' => \sprintf('SELECT XMLAGG(e.text1 ORDER BY e.text1) FROM %s e', ContainsTexts::class),
+            'with ORDER BY DESC' => \sprintf('SELECT XMLAGG(e.text1 ORDER BY e.text1 DESC) FROM %s e', ContainsTexts::class),
         ];
     }
 }

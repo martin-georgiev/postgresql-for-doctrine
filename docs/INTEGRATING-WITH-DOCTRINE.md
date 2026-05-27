@@ -363,7 +363,17 @@ $configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctr
 $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);
 
 # XML functions
-$configuration->addCustomStringFunction('XML_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
+$configuration->addCustomStringFunction('XML_IS_WELL_FORMED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class);
+$configuration->addCustomStringFunction('XML_IS_WELL_FORMED_CONTENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class);
+$configuration->addCustomStringFunction('XML_IS_WELL_FORMED_DOCUMENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument::class);
+$configuration->addCustomStringFunction('XMLAGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
+$configuration->addCustomStringFunction('XMLCOMMENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment::class);
+$configuration->addCustomStringFunction('XMLCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat::class);
+$configuration->addCustomStringFunction('XMLEXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists::class);
+$configuration->addCustomStringFunction('XMLPI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi::class);
+$configuration->addCustomStringFunction('XMLTEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText::class);
+$configuration->addCustomStringFunction('XPATH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class);
+$configuration->addCustomStringFunction('XPATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class);
 
 # hashing and checksum functions
 $configuration->addCustomStringFunction('CRC32', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class);

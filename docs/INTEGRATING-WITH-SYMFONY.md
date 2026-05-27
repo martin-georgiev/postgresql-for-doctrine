@@ -548,7 +548,17 @@ doctrine:
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
 
                         # XML functions
-                        XML_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
+                        XML_IS_WELL_FORMED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed
+                        XML_IS_WELL_FORMED_CONTENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent
+                        XML_IS_WELL_FORMED_DOCUMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument
+                        XMLAGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
+                        XMLCOMMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment
+                        XMLCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat
+                        XMLEXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists
+                        XMLPI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi
+                        XMLTEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText
+                        XPATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath
+                        XPATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists
 
                         # hashing and checksum functions
                         CRC32: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32
