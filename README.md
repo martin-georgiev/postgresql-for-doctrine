@@ -125,8 +125,7 @@ $query = $em->createQuery('
   - Regular expressions
   - Trigram similarity (`similarity`, `word_similarity`, `strict_word_similarity`) (requires [pg_trgm](https://www.postgresql.org/docs/18/pgtrgm.html) extension)
 - **Array Functions**
-  - Array aggregation (`array_agg`)
-  - Array manipulation (`array_append`, `array_prepend`, `array_remove`, `array_replace`, `array_shuffle`)
+  - Generic array aggregation and manipulation (`array_agg`, `array_append`, `array_prepend`, `array_remove`, `array_replace`, `array_shuffle`)
   - Array dimensions and length
 - **JSON Functions**
   - JSON construction (`json_build_object`, `jsonb_build_object`)
@@ -134,10 +133,9 @@ $query = $em->createQuery('
 - **Date Functions**
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
-  - Special aggregates (`any_value`, `xmlagg`)
+  - Special aggregates (`any_value`)
 - **XML Functions**
-  - XML creation and manipulation (`xmlcomment`, `xmlconcat`)
-  - XML validation (`xml_is_well_formed`)
+  - XML aggregation, construction, manipulation, validation (`xmlagg`, `xmlcomment`, `xmlconcat`, `xml_is_well_formed`)
   - XPath querying (`xpath`, `xpath_exists`)
 - **Mathematical/Arithmetic Functions**
   - Trigonometric functions (`sin`, `cos`, `tan`, `asin`, `acos`, `atan`, degree variants)

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat;
 use PHPUnit\Framework\Attributes\Test;
 
-class XmlconcatTest extends TextTestCase
+final class XmlconcatTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class XmlconcatTest extends TextTestCase
     }
 
     #[Test]
-    public function can_concatenate_xml_literals(): void
+    public function concatenates_two_xml_values(): void
     {
         $dql = "SELECT XMLCONCAT('<a>1</a>', '<b>2</b>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -29,7 +29,7 @@ class XmlconcatTest extends TextTestCase
     }
 
     #[Test]
-    public function can_concatenate_three_xml_literals(): void
+    public function concatenates_three_xml_values(): void
     {
         $dql = "SELECT XMLCONCAT('<a>hello</a>', '<b>world</b>', '<c>!</c>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

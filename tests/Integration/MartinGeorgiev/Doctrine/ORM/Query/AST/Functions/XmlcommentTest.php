@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment;
 use PHPUnit\Framework\Attributes\Test;
 
-class XmlcommentTest extends TextTestCase
+final class XmlcommentTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class XmlcommentTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_xml_comment_from_literal(): void
+    public function creates_xmlcomment_from_literal(): void
     {
         $dql = "SELECT XMLCOMMENT('hello') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -29,10 +29,10 @@ class XmlcommentTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_xml_comment_from_field(): void
+    public function creates_xmlcomment_with_entity_property(): void
     {
         $dql = 'SELECT XMLCOMMENT(t.text2) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
                 WHERE t.id = 3';
 
         $result = $this->executeDqlQuery($dql);

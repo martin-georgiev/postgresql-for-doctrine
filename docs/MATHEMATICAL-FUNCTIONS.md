@@ -107,12 +107,6 @@ This document covers PostgreSQL mathematical, utility, and miscellaneous functio
 | uuid_extract_version | UUID_EXTRACT_VERSION | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion` |
 | uuidv4 | UUIDV4 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4` |
 | uuidv7 | UUIDV7 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7` |
-| xml_is_well_formed | XML_IS_WELL_FORMED | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed` |
-| xmlagg | XML_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
-| xmlcomment | XMLCOMMENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment` |
-| xmlconcat | XMLCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat` |
-| xpath | XPATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath` |
-| xpath_exists | XPATH_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists` |
 
 ## Usage Examples
 
@@ -184,9 +178,6 @@ SELECT e, ROW(e.x, e.y, e.z) as coordinates FROM Entity e
 -- Convert row to JSON
 SELECT e, ROW_TO_JSON(ROW(e.name, e.value, e.category)) as entity_json FROM Entity e
 
--- XML aggregation
-SELECT e.category, XML_AGG(e.name) as names_xml FROM Entity e GROUP BY e.category
-
 -- Complex mathematical calculations
 -- Calculate compound interest
 SELECT e, e.principal * POWER(1 + e.rate, e.years) as compound_amount FROM Entity e
@@ -251,7 +242,6 @@ SELECT e, TO_NUMBER(e.formatted_value, '999,999.99') as parsed_value FROM Entity
 ### **Data Structure Functions**
 - **ROW**: Creates row values
 - **ROW_TO_JSON**: Converts rows to JSON format
-- **XML_AGG**: Aggregates values into XML format
 
 **💡 Tips for Usage:**
 1. **Mathematical functions** work with numeric types and return appropriate precision

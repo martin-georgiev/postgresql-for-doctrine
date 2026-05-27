@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed;
 use PHPUnit\Framework\Attributes\Test;
 
-class XmlIsWellFormedTest extends TextTestCase
+final class XmlIsWellFormedTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class XmlIsWellFormedTest extends TextTestCase
     }
 
     #[Test]
-    public function can_check_well_formed_xml(): void
+    public function checks_xml_is_well_formed_of_literal(): void
     {
         $dql = "SELECT XML_IS_WELL_FORMED('<root>test</root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,11 +28,11 @@ class XmlIsWellFormedTest extends TextTestCase
     }
 
     #[Test]
-    public function can_check_malformed_xml(): void
+    public function checks_xml_is_well_formed_with_entity_property(): void
     {
-        $dql = "SELECT XML_IS_WELL_FORMED('<unclosed>') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
+        $dql = 'SELECT XML_IS_WELL_FORMED(t.text1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
+                WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse((bool) $result[0]['result']);

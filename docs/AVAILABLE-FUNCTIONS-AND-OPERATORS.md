@@ -49,6 +49,11 @@ Complete documentation for mathematical operations and utility functions.
 - **[Mathematical and Utility Functions](MATHEMATICAL-FUNCTIONS.md)**
 - Includes: Mathematical functions, type conversion functions, formatting functions, utility functions
 
+### **📄 XML Functions**
+Complete documentation for PostgreSQL XML processing, validation, and XPath querying.
+- **[XML Functions](XML-FUNCTIONS.md)**
+- Includes: XML aggregation (`xmlagg`), XML validation (`xml_is_well_formed`), XML construction (`xmlcomment`, `xmlconcat`), XPath querying (`xpath`, `xpath_exists`)
+
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
 - **[Network Address Functions](NETWORK-FUNCTIONS.md)**
@@ -138,6 +143,9 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `UUID_EXTRACT_VERSION` - Extract version number from UUID
 - `UUIDV4` - Explicit UUID version 4 generation
 - `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
+
+**XML Functions:** ([Complete documentation](XML-FUNCTIONS.md))
+- `XML_AGG` - Aggregate XML values (supports `ORDER BY`)
 - `XML_IS_WELL_FORMED` - Check whether a text string is well-formed XML
 - `XMLCOMMENT` - Create an XML comment
 - `XMLCONCAT` - Concatenate multiple XML values into a single XML value
@@ -177,6 +185,12 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **Basic Math**: Power, square root, trigonometric functions
 - **Aggregation**: Array and JSON aggregation functions
 - **Utility Functions**: Random numbers, rounding, type casting
+
+### **XML Functions**
+- **Aggregation**: `XML_AGG` — aggregate XML values with optional ordering
+- **Validation**: `XML_IS_WELL_FORMED` — check whether text is valid XML
+- **Construction**: `XMLCOMMENT`, `XMLCONCAT` — create and combine XML values
+- **XPath Querying**: `XPATH`, `XPATH_EXISTS` — extract nodes and test existence
 
 ### **Network Address Functions**
 - **Extraction**: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK` — decompose `inet`/`cidr` types

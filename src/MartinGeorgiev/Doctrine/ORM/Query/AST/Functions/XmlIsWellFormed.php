@@ -16,25 +16,11 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT XML_IS_WELL_FORMED(e.text1) FROM Entity e"
  */
-class XmlIsWellFormed extends BaseVariadicFunction
+class XmlIsWellFormed extends BaseFunction
 {
-    protected function getNodeMappingPattern(): array
+    protected function customizeFunction(): void
     {
-        return ['StringPrimary,StringPrimary', 'StringPrimary'];
-    }
-
-    protected function getFunctionName(): string
-    {
-        return 'xml_is_well_formed';
-    }
-
-    protected function getMinArgumentCount(): int
-    {
-        return 1;
-    }
-
-    protected function getMaxArgumentCount(): int
-    {
-        return 2;
+        $this->setFunctionPrototype('xml_is_well_formed(%s)');
+        $this->addNodeMapping('StringPrimary');
     }
 }

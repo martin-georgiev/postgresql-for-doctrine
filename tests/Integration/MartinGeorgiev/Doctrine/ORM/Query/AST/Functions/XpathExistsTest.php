@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists;
 use PHPUnit\Framework\Attributes\Test;
 
-class XpathExistsTest extends TextTestCase
+final class XpathExistsTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class XpathExistsTest extends TextTestCase
     }
 
     #[Test]
-    public function can_test_xpath_exists(): void
+    public function returns_true_for_matching_xpath(): void
     {
         $dql = "SELECT XPATH_EXISTS('//root', '<root><child>text</child></root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class XpathExistsTest extends TextTestCase
     }
 
     #[Test]
-    public function can_test_xpath_not_exists(): void
+    public function returns_false_for_nonexistent_xpath(): void
     {
         $dql = "SELECT XPATH_EXISTS('//missing', '<root><child>text</child></root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
