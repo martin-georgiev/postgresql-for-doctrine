@@ -19,9 +19,6 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  * The second argument must be a well-formed XML document, not a content fragment.
  * Passing a fragment returns NULL rather than false.
  *
- * PostgreSQL requires PASSING [BY VALUE|BY REF] syntax; both modes are ignored at runtime.
- * DQL: XMLEXISTS(xpath, xml) → SQL: xmlexists(xpath PASSING BY VALUE xml)
- *
  * @see https://www.postgresql.org/docs/18/functions-xml.html
  * @since 4.6
  *
