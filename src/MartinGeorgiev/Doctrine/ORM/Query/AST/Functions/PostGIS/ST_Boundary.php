@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Boundary() function.
+ * Implementation of PostGIS ST_Boundary().
  *
  * Returns the boundary of a geometry.
  * For point geometries, the boundary is empty.

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
- * Implementation of PostGIS ST_SimplifyPolygonHull() function.
+ * Implementation of PostGIS ST_SimplifyPolygonHull().
  *
  * Computes a simplified topology-preserving outer or inner hull of a polygon.
  * The result is a valid polygon that contains (outer) or is contained by (inner) the input.

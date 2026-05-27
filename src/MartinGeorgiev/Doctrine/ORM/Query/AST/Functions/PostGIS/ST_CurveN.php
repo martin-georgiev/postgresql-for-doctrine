@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_CurveN() function.
+ * Implementation of PostGIS ST_CurveN().
  *
  * Returns the Nth curve of a CompoundCurve or CircularString.
  * Index is 1-based.

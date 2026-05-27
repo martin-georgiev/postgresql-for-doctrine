@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_Translate() function.
+ * Implementation of PostGIS ST_Translate().
  *
  * Translates a geometry by the given offsets.
  * Moves the geometry in X, Y, and optionally Z directions.

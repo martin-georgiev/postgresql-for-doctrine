@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
- * Implementation of PostGIS ST_Area() function.
+ * Implementation of PostGIS ST_Area().
  *
  * Returns the area of the geometry if it is a polygon or multi-polygon.
  * For non-areal geometries, 0 is returned.

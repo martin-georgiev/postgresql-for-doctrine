@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_SimplifyPreserveTopology() function.
+ * Implementation of PostGIS ST_SimplifyPreserveTopology().
  *
  * Simplifies geometry while preserving topology.
  * Safer than ST_Simplify as it preserves topological relationships.

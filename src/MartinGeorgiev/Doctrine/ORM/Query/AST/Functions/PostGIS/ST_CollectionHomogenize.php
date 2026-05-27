@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_CollectionHomogenize() function.
+ * Implementation of PostGIS ST_CollectionHomogenize().
  *
  * Homogenizes a geometry collection.
  * Returns the simplest representation of the collection.

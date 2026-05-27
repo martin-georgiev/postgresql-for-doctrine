@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_SimplifyVW() function.
+ * Implementation of PostGIS ST_SimplifyVW().
  *
  * Simplifies geometry using Visvalingam-Whyatt algorithm.
  * Alternative to Douglas-Peucker algorithm, often produces better results.

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Perimeter() function.
+ * Implementation of PostGIS ST_Perimeter().
  *
  * Returns the 2D perimeter of the geometry if it is a polygon or multi-polygon.
  * For non-areal geometries, 0 is returned.

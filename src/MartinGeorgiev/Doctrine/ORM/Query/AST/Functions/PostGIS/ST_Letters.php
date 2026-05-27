@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_Letters() function.
+ * Implementation of PostGIS ST_Letters().
  *
  * Creates geometries that look like letters.
  * Useful for labeling and text rendering in spatial applications.

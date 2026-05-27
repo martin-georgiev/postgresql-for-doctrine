@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Intersection() function.
+ * Implementation of PostGIS ST_Intersection().
  *
  * Returns a geometry that represents the point set intersection of two geometries.
  * The result may be a heterogeneous geometry collection.

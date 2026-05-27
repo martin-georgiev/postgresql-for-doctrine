@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL atan2() function.
+ * Implementation of PostgreSQL ATAN2().
  *
  * Returns the inverse tangent of y/x (result in radians), using the signs of the two arguments
  * to determine the quadrant of the result.

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL cotd() function.
+ * Implementation of PostgreSQL COTD().
  *
  * Returns the cotangent of the argument (given in degrees).
  *
