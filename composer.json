@@ -98,8 +98,8 @@
         "phpstan/phpstan-phpunit": "^2.0.16",
         "phpunit/phpunit": "^10.5.63||^11.5",
         "rector/rector": "^2.4.4",
-        "symfony/cache": "^6.4||^7.0",
-        "symfony/var-exporter": "^6.4||^7.0"
+        "symfony/cache": "8.0.13",
+        "symfony/var-exporter": "8.0.9"
     },
     "suggest": {
         "php": "^8.4",
