@@ -24,7 +24,6 @@ final class XpathTest extends XmlTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('{hello}', $result[0]['result']);
     }
 
@@ -36,7 +35,6 @@ final class XpathTest extends XmlTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('{}', $result[0]['result']);
     }
 
@@ -48,7 +46,6 @@ final class XpathTest extends XmlTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('{foo,bar}', $result[0]['result']);
     }
 }

@@ -24,7 +24,7 @@ final class XmlIsWellFormedTest extends TextTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue((bool) $result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -35,6 +35,6 @@ final class XmlIsWellFormedTest extends TextTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue((bool) $result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 }

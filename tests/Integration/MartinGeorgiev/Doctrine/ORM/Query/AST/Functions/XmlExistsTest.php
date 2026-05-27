@@ -24,7 +24,7 @@ final class XmlExistsTest extends XmlTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue((bool) $result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -35,7 +35,7 @@ final class XmlExistsTest extends XmlTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse((bool) $result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]
@@ -46,7 +46,7 @@ final class XmlExistsTest extends XmlTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue((bool) $result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -57,6 +57,6 @@ final class XmlExistsTest extends XmlTestCase
                 WHERE t.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse((bool) $result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 }

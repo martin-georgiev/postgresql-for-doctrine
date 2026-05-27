@@ -17,14 +17,13 @@ final class XmlPiTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmlpi_from_literal(): void
+    public function creates_xmlpi_with_no_content_from_literal(): void
     {
         $dql = "SELECT XMLPI('foo') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('<?foo?>', $result[0]['result']);
     }
 
@@ -36,7 +35,6 @@ final class XmlPiTest extends TextTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('<?php echo "hello world";?>', $result[0]['result']);
     }
 
@@ -48,7 +46,6 @@ final class XmlPiTest extends TextTestCase
                 WHERE t.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('<?php bar?>', $result[0]['result']);
     }
 }

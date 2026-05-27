@@ -24,7 +24,6 @@ final class XmlCommentTest extends TextTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('<!--hello-->', $result[0]['result']);
     }
 
@@ -36,7 +35,6 @@ final class XmlCommentTest extends TextTestCase
                 WHERE t.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('<!--bar-->', $result[0]['result']);
     }
 }
