@@ -35,6 +35,6 @@ class XmlConcat extends BaseVariadicFunction
 
     protected function getMaxArgumentCount(): int
     {
-        return 3;
+        return PHP_INT_MAX; // No upper limit
     }
 }
