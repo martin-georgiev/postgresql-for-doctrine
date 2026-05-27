@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonSerialize;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonSerializeTest extends JsonTestCase
+final class JsonSerializeTest extends JsonTestCase
 {
     protected function setUp(): void
     {

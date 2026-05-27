@@ -8,7 +8,7 @@ use Doctrine\DBAL\Exception;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbInsertTest extends JsonTestCase
+final class JsonbInsertTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimScale;
 use PHPUnit\Framework\Attributes\Test;
 
-class TrimScaleTest extends NumericTestCase
+final class TrimScaleTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

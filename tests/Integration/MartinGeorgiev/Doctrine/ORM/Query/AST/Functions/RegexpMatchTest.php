@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpMatchTest extends TextTestCase
+final class RegexpMatchTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

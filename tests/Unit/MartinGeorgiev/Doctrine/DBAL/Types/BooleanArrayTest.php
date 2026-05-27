@@ -56,7 +56,7 @@ final class BooleanArrayTest extends TestCase
     }
 
     /**
-     * @return list<array{
+     * @return array<string, array{
      *     phpValue: array|null,
      *     postgresValue: string|null,
      *     platformValue: array|null
@@ -65,21 +65,66 @@ final class BooleanArrayTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            [
+            'null' => [
                 'phpValue' => null,
                 'postgresValue' => null,
                 'platformValue' => null,
             ],
-            [
+            'empty array' => [
                 'phpValue' => [],
                 'postgresValue' => '{}',
                 'platformValue' => [],
             ],
-            [
+            'mixed boolean array' => [
                 'phpValue' => [true, false, true],
                 'postgresValue' => '{1,0,1}',
                 'platformValue' => ['1', '0', '1'],
             ],
         ];
+    }
+
+    #[DataProvider('provideInvalidTypeInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputs(): array
+    {
+        return [
+            'string instead of array' => ['not-an-array'],
+        ];
+    }
+
+    #[DataProvider('provideValidArrayItemsForDatabase')]
+    #[Test]
+    public function validates_valid_array_item_for_database(mixed $value): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'boolean true' => [true],
+            'boolean false' => [false],
+            'null' => [null],
+            'integer' => [1],
+            'string' => ['value'],
+        ];
+    }
+
+    #[Test]
+    public function converts_null_item_to_php_value(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 }

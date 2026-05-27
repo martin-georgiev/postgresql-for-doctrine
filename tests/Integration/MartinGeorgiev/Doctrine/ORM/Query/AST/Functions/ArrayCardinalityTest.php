@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayCardinalityTest extends ArrayTestCase
+final class ArrayCardinalityTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\Attributes\Test;
 
-class StringToArrayTest extends TextTestCase
+final class StringToArrayTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

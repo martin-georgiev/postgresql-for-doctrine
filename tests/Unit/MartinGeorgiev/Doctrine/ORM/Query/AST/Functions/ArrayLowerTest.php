@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLower;
 
-class ArrayLowerTest extends TestCase
+final class ArrayLowerTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

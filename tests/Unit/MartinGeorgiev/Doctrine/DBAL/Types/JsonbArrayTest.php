@@ -49,7 +49,7 @@ final class JsonbArrayTest extends TestCase
     }
 
     /**
-     * @return list<array{
+     * @return array<string, array{
      *     phpValue: array|null,
      *     postgresValue: string|null
      * }>
@@ -57,15 +57,15 @@ final class JsonbArrayTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            [
+            'null' => [
                 'phpValue' => null,
                 'postgresValue' => null,
             ],
-            [
+            'empty array' => [
                 'phpValue' => [],
                 'postgresValue' => '{}',
             ],
-            [
+            'multiple json objects' => [
                 'phpValue' => [
                     [
                         'key1' => 'value1',
@@ -84,6 +84,44 @@ final class JsonbArrayTest extends TestCase
                 ],
                 'postgresValue' => '{"{\"key1\":\"value1\",\"key2\":false,\"key3\":\"15\",\"key4\":15,\"key5\":[112,242,309,310]}","{\"key1\":\"value2\",\"key2\":true,\"key3\":\"115\",\"key4\":115,\"key5\":[304,404,504,604]}"}',
             ],
+        ];
+    }
+
+    #[DataProvider('provideInvalidTypeInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputs(): array
+    {
+        return [
+            'string instead of array' => ['not-an-array'],
+        ];
+    }
+
+    #[DataProvider('provideValidArrayItemsForDatabase')]
+    #[Test]
+    public function validates_valid_array_item_for_database(mixed $value): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'associative array' => [['key' => 'value']],
+            'indexed array' => [[1, 2, 3]],
+            'nested array' => [['nested' => ['a', 'b']]],
+            'null' => [null],
         ];
     }
 

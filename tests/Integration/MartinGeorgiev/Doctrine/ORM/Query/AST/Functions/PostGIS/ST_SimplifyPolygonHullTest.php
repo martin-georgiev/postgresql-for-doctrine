@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPolygonHull;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
+final class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

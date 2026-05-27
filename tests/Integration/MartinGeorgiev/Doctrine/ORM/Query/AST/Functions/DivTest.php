@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Div;
 use PHPUnit\Framework\Attributes\Test;
 
-class DivTest extends NumericTestCase
+final class DivTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

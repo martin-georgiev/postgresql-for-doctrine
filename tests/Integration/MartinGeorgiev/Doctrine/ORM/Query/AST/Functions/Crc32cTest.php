@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c;
 use PHPUnit\Framework\Attributes\Test;
 
-class Crc32cTest extends TextTestCase
+final class Crc32cTest extends TextTestCase
 {
     protected function setUp(): void
     {

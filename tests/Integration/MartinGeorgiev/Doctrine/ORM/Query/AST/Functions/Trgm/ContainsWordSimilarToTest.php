@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ContainsWordSimilarTo;
 use PHPUnit\Framework\Attributes\Test;
 
-class ContainsWordSimilarToTest extends TestCase
+final class ContainsWordSimilarToTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

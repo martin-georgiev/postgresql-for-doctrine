@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg;
 
-class StringAggTest extends TestCase
+final class StringAggTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -10,7 +10,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToCharTest extends TestCase
+final class ToCharTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

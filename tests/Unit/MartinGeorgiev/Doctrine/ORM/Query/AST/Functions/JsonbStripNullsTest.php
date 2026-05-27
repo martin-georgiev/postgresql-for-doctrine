@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanExce
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbStripNullsTest extends TestCase
+final class JsonbStripNullsTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

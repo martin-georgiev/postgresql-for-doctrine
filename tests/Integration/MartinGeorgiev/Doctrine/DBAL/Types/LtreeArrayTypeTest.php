@@ -13,6 +13,13 @@ final class LtreeArrayTypeTest extends ArrayTypeTestCase
 {
     use LtreeAssertionTrait;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->ensurePostgresExtensionInSchema('ltree');
+    }
+
     protected function getTypeName(): string
     {
         return 'ltree[]';

@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPreserveTopology;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_SimplifyPreserveTopologyTest extends SpatialOperatorTestCase
+final class ST_SimplifyPreserveTopologyTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

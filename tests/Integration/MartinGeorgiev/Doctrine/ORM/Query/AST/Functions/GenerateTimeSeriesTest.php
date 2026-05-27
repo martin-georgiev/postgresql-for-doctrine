@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateTimeSeries;
 use PHPUnit\Framework\Attributes\Test;
 
-class GenerateTimeSeriesTest extends DateTestCase
+final class GenerateTimeSeriesTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

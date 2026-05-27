@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\TrajectoryDistance;
 use PHPUnit\Framework\Attributes\Test;
 
-class TrajectoryDistanceTest extends SpatialOperatorTestCase
+final class TrajectoryDistanceTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

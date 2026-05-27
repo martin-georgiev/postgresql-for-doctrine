@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToTsqueryTest extends TextTestCase
+final class ToTsqueryTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

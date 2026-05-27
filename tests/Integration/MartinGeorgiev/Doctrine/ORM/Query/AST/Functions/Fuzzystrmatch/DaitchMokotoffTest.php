@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzz
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DaitchMokotoff;
 use PHPUnit\Framework\Attributes\Test;
 
-class DaitchMokotoffTest extends TestCase
+final class DaitchMokotoffTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

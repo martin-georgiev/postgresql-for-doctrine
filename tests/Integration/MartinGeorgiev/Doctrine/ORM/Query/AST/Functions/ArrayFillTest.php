@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayFill;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayFillTest extends ArrayTestCase
+final class ArrayFillTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

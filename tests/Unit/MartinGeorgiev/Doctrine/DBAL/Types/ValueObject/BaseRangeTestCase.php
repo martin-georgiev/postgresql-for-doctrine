@@ -59,8 +59,8 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * @param Range<R> $range
      */
-    #[Test]
     #[DataProvider('provideContainsTestCases')]
+    #[Test]
     public function checks_contains(Range $range, mixed $value, bool $expected): void
     {
         $this->assertSame($expected, $range->contains($value));
@@ -74,8 +74,8 @@ abstract class BaseRangeTestCase extends TestCase
     /**
      * @param Range<R> $expectedRange
      */
-    #[Test]
     #[DataProvider('provideFromStringTestCases')]
+    #[Test]
     public function parses_from_string(string $input, Range $expectedRange): void
     {
         $range = $this->parseFromString($input);

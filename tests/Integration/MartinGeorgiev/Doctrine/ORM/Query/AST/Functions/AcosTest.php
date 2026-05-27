@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acos;
 use PHPUnit\Framework\Attributes\Test;
 
-class AcosTest extends NumericTestCase
+final class AcosTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

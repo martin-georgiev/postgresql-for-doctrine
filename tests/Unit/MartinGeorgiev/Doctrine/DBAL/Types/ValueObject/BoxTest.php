@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class BoxTest extends TestCase
+final class BoxTest extends TestCase
 {
     #[DataProvider('provideValidBoxStrings')]
     #[Test]

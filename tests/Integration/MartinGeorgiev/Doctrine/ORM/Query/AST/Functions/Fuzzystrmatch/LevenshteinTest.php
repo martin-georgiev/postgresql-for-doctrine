@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzz
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Levenshtein;
 use PHPUnit\Framework\Attributes\Test;
 
-class LevenshteinTest extends TestCase
+final class LevenshteinTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

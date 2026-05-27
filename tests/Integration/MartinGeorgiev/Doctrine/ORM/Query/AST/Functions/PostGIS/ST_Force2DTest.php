@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force2D;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_Force2DTest extends SpatialOperatorTestCase
+final class ST_Force2DTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

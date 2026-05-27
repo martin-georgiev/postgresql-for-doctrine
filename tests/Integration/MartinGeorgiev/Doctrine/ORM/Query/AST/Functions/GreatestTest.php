@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Greatest;
 use PHPUnit\Framework\Attributes\Test;
 
-class GreatestTest extends ArrayTestCase
+final class GreatestTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

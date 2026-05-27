@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsvectorToArray;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsvectorToArrayTest extends TextTestCase
+final class TsvectorToArrayTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue;
 use PHPUnit\Framework\Attributes\Test;
 
-class AnyValueTest extends TextTestCase
+final class AnyValueTest extends TextTestCase
 {
     protected function setUp(): void
     {

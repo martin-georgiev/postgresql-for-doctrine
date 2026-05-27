@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Casefold;
 use PHPUnit\Framework\Attributes\Test;
 
-class CasefoldTest extends TextTestCase
+final class CasefoldTest extends TextTestCase
 {
     protected function setUp(): void
     {

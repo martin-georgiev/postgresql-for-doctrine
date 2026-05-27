@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees;
 use PHPUnit\Framework\Attributes\Test;
 
-class DegreesTest extends NumericTestCase
+final class DegreesTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

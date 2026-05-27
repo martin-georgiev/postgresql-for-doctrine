@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzz
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Difference;
 use PHPUnit\Framework\Attributes\Test;
 
-class DifferenceTest extends TestCase
+final class DifferenceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

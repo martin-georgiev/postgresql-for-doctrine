@@ -250,8 +250,6 @@ abstract class TestCase extends BaseTestCase
         $this->connection->executeStatement(\sprintf('DROP SCHEMA IF EXISTS %s CASCADE', self::DATABASE_SCHEMA));
         $this->connection->executeStatement(\sprintf('CREATE SCHEMA %s', self::DATABASE_SCHEMA));
 
-        $this->ensurePostgresExtensionInSchema('ltree');
-
         $this->ensurePostgresExtensionInSchema('postgis');
 
         // Ensure our schema is first, but include public so extensions installed there resolve

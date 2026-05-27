@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class LsegTest extends TestCase
+final class LsegTest extends TestCase
 {
     #[DataProvider('provideValidLsegStrings')]
     #[Test]

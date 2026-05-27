@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson;
 use PHPUnit\Framework\Attributes\Test;
 
-class RowToJsonTest extends JsonTestCase
+final class RowToJsonTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

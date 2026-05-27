@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange;
 use PHPUnit\Framework\Attributes\Test;
 
-class NumrangeTest extends NumericTestCase
+final class NumrangeTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

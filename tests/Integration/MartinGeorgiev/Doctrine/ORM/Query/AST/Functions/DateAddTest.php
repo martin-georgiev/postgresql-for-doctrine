@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateAddTest extends DateTestCase
+final class DateAddTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

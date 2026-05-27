@@ -153,8 +153,8 @@ final class NumericRangeTest extends BaseRangeTestCase
         $numericRange->contains('invalid');
     }
 
-    #[Test]
     #[DataProvider('provideInvalidFromStringInputs')]
+    #[Test]
     public function throws_exception_for_invalid_from_string_input(string $input, string $expectedMessage): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -174,16 +174,16 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function parses_integer_and_float_values_via_from_string(): void
     {
         $numericRange = NumericRange::fromString('[42,100)');
-        $this->assertStringContainsString('42', (string) $numericRange);
+        $this->assertSame('[42,100)', (string) $numericRange);
 
         $range2 = NumericRange::fromString('[-123,0)');
-        $this->assertStringContainsString('-123', (string) $range2);
+        $this->assertSame('[-123,0)', (string) $range2);
 
         $range3 = NumericRange::fromString('[3.14,10)');
-        $this->assertStringContainsString('3.14', (string) $range3);
+        $this->assertSame('[3.14,10)', (string) $range3);
 
         $range4 = NumericRange::fromString('[-2.5,0)');
-        $this->assertStringContainsString('-2.5', (string) $range4);
+        $this->assertSame('[-2.5,0)', (string) $range4);
     }
 
     #[Test]
@@ -216,17 +216,17 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function formats_numeric_values_via_to_string(): void
     {
         $range1 = new NumericRange(42, 100);
-        $this->assertStringContainsString('42', (string) $range1);
+        $this->assertSame('[42,100)', (string) $range1);
 
         $range2 = new NumericRange(3.14, 10);
-        $this->assertStringContainsString('3.14', (string) $range2);
+        $this->assertSame('[3.14,10)', (string) $range2);
 
         $range3 = new NumericRange(-2.5, 0);
-        $this->assertStringContainsString('-2.5', (string) $range3);
+        $this->assertSame('[-2.5,0)', (string) $range3);
     }
 
-    #[Test]
     #[DataProvider('providePhpInfConstantCases')]
+    #[Test]
     public function creates_range_with_php_inf_constant(
         float|int|null $lower,
         float|int|null $upper,

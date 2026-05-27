@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpCount;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpCountTest extends TextTestCase
+final class RegexpCountTest extends TextTestCase
 {
     protected function setUp(): void
     {

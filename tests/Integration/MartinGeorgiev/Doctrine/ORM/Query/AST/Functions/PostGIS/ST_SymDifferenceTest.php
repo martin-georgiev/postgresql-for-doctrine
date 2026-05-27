@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SymDifference;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_SymDifferenceTest extends SpatialOperatorTestCase
+final class ST_SymDifferenceTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo;
 use PHPUnit\Framework\Attributes\Test;
 
-class SimilarToTest extends TextTestCase
+final class SimilarToTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

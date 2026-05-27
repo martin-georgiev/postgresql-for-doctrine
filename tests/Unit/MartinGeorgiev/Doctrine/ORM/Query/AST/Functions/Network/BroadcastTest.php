@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNetworks;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Broadcast;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class BroadcastTest extends TestCase
+final class BroadcastTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

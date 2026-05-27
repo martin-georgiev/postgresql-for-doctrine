@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayToJsonTest extends ArrayTestCase
+final class ArrayToJsonTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

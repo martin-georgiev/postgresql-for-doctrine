@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArraySampleTest extends ArrayTestCase
+final class ArraySampleTest extends ArrayTestCase
 {
     protected function setUp(): void
     {

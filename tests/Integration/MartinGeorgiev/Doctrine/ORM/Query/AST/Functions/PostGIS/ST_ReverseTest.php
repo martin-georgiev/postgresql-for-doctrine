@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Reverse;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_ReverseTest extends SpatialOperatorTestCase
+final class ST_ReverseTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildArray;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText;
 
-class JsonbBuildArrayTest extends TestCase
+final class JsonbBuildArrayTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

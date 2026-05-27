@@ -156,6 +156,28 @@ final class HstoreTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideInvalidValueTypeInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_value_type_in_array(mixed $value): void
+    {
+        $this->expectException(InvalidHstoreForDatabaseException::class);
+
+        $this->fixture->convertToDatabaseValue($value, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidValueTypeInputs(): array
+    {
+        return [
+            'integer value' => [['key' => 123]],
+            'array value' => [['key' => [1, 2, 3]]],
+            'object value' => [['key' => new \stdClass()]],
+            'boolean value' => [['key' => true]],
+        ];
+    }
+
     #[DataProvider('provideInvalidPHPInputs')]
     #[Test]
     public function throws_exception_for_non_string_php_input(mixed $value): void

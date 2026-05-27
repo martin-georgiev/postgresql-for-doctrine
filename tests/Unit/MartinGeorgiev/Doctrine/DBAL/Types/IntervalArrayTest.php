@@ -256,7 +256,7 @@ final class IntervalArrayTest extends TestCase
     }
 
     #[Test]
-    public function passes_through_interval_value_object_for_php(): void
+    public function returns_same_interval_value_object_for_php(): void
     {
         $interval = IntervalValueObject::fromString('1 year 2 mons 3 days 04:05:06');
         $result = $this->fixture->transformArrayItemForPHP($interval);

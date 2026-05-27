@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Asinh;
 use PHPUnit\Framework\Attributes\Test;
 
-class AsinhTest extends NumericTestCase
+final class AsinhTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

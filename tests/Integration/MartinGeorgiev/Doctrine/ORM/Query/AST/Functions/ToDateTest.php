@@ -9,7 +9,7 @@ use Doctrine\ORM\Query\QueryException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToDateTest extends TextTestCase
+final class ToDateTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

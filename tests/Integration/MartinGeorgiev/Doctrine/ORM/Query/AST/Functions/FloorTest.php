@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor;
 use PHPUnit\Framework\Attributes\Test;
 
-class FloorTest extends NumericTestCase
+final class FloorTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

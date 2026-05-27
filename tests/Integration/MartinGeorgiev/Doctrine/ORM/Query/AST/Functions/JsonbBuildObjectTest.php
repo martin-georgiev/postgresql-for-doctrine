@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbBuildObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbBuildObjectTest extends JsonTestCase
+final class JsonbBuildObjectTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

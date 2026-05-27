@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonGetObjectAsTextTest extends JsonTestCase
+final class JsonGetObjectAsTextTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

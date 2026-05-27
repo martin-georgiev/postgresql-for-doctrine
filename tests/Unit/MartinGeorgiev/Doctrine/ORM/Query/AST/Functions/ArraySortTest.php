@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySort;
 
-class ArraySortTest extends TestCase
+final class ArraySortTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

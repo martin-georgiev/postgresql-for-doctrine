@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonGetFieldTest extends JsonTestCase
+final class JsonGetFieldTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

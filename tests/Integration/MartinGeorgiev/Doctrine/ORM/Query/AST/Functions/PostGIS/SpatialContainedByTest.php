@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialContainedBy;
 use PHPUnit\Framework\Attributes\Test;
 
-class SpatialContainedByTest extends SpatialOperatorTestCase
+final class SpatialContainedByTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsvectorToArray;
 
-class TsvectorToArrayTest extends TestCase
+final class TsvectorToArrayTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

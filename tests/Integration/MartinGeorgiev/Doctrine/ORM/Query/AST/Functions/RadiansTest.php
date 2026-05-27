@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Radians;
 use PHPUnit\Framework\Attributes\Test;
 
-class RadiansTest extends NumericTestCase
+final class RadiansTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

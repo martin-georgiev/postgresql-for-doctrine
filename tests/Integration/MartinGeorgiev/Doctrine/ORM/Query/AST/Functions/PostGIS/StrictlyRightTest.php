@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyRight;
 use PHPUnit\Framework\Attributes\Test;
 
-class StrictlyRightTest extends SpatialOperatorTestCase
+final class StrictlyRightTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

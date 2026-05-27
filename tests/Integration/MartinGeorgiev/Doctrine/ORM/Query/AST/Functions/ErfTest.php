@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Erf;
 use PHPUnit\Framework\Attributes\Test;
 
-class ErfTest extends NumericTestCase
+final class ErfTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

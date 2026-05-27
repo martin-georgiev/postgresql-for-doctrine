@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent;
 use PHPUnit\Framework\Attributes\Test;
 
-class UnaccentTest extends TextTestCase
+final class UnaccentTest extends TextTestCase
 {
     protected function setUp(): void
     {

@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Collect;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_CollectTest extends SpatialOperatorTestCase
+final class ST_CollectTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

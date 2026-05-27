@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange;
 use PHPUnit\Framework\Attributes\Test;
 
-class TstzrangeTest extends DateTestCase
+final class TstzrangeTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

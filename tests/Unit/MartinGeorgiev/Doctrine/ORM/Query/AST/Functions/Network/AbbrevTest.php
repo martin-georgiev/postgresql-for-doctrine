@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNetworks;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Abbrev;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class AbbrevTest extends TestCase
+final class AbbrevTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

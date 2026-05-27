@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrTest extends ArrayTestCase
+final class ArrTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

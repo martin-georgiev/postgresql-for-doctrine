@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7;
 
-class Uuidv7Test extends TestCase
+final class Uuidv7Test extends TestCase
 {
     protected function getStringFunctions(): array
     {

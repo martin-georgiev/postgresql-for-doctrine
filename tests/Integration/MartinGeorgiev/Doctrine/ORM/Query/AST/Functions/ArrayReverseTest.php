@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReverse;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayReverseTest extends ArrayTestCase
+final class ArrayReverseTest extends ArrayTestCase
 {
     protected function setUp(): void
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ConcatWs;
 use PHPUnit\Framework\Attributes\Test;
 
-class ConcatWsTest extends TextTestCase
+final class ConcatWsTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

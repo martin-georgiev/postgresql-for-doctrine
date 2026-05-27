@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonTypeof;
 
-class JsonTypeofTest extends TestCase
+final class JsonTypeofTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

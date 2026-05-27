@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample;
 
-class ArraySampleTest extends TestCase
+final class ArraySampleTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

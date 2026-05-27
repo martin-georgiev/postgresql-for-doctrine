@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart;
 use PHPUnit\Framework\Attributes\Test;
 
-class SplitPartTest extends TextTestCase
+final class SplitPartTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

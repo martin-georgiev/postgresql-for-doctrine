@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Format;
 use PHPUnit\Framework\Attributes\Test;
 
-class FormatTest extends TextTestCase
+final class FormatTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

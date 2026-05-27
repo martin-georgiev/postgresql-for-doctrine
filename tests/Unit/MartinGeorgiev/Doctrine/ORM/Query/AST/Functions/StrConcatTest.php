@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat;
 
-class StrConcatTest extends TestCase
+final class StrConcatTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

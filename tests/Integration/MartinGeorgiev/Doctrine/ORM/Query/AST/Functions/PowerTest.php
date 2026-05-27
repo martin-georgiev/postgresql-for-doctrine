@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power;
 use PHPUnit\Framework\Attributes\Test;
 
-class PowerTest extends NumericTestCase
+final class PowerTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

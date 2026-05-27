@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class PostgresArrayToPHPArrayTransformerTest extends TestCase
+final class PostgresArrayToPHPArrayTransformerTest extends TestCase
 {
     /**
      * @param array<int, array<string, array|string>> $phpValue

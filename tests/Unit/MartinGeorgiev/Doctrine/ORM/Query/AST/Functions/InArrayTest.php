@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray;
 
-class InArrayTest extends TestCase
+final class InArrayTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

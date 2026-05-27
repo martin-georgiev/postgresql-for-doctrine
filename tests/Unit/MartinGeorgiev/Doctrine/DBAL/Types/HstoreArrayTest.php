@@ -115,6 +115,8 @@ final class HstoreArrayTest extends TestCase
             'string item' => [['hello']],
             'integer item' => [[123]],
             'object item' => [[new \stdClass()]],
+            'hstore item with integer value' => [['key' => 123]],
+            'hstore item with boolean value' => [['key' => true]],
         ];
     }
 
@@ -195,5 +197,18 @@ final class HstoreArrayTest extends TestCase
             'integer element' => ['{42}'],
             'boolean element' => ['{true}'],
         ];
+    }
+
+    #[Test]
+    public function converts_null_item_to_php_value(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidHstoreArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
     }
 }

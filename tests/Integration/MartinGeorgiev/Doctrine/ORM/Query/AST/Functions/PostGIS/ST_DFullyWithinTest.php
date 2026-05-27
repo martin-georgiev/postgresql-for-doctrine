@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_DFullyWithin;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_DFullyWithinTest extends SpatialOperatorTestCase
+final class ST_DFullyWithinTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

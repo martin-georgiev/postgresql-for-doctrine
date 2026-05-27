@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExtractPath;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbExtractPathTest extends JsonTestCase
+final class JsonbExtractPathTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

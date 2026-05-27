@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReturnsValueForJsonValue;
 use PHPUnit\Framework\Attributes\Test;
 
-class ReturnsValueForJsonValueTest extends JsonTestCase
+final class ReturnsValueForJsonValueTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

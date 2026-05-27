@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayDimensionsTest extends ArrayTestCase
+final class ArrayDimensionsTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

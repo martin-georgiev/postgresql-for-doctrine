@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzz
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DmetaphoneAlt;
 use PHPUnit\Framework\Attributes\Test;
 
-class DmetaphoneAltTest extends TestCase
+final class DmetaphoneAltTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

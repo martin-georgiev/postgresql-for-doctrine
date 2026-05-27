@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5;
 use PHPUnit\Framework\Attributes\Test;
 
-class Md5Test extends TextTestCase
+final class Md5Test extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

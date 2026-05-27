@@ -70,7 +70,7 @@ final class BigIntArrayTest extends BaseIntegerArrayTestCase
 
     #[DataProvider('provideOutOfRangeValues')]
     #[Test]
-    public function throws_domain_exception_when_value_exceeds_range(string $outOfRangeValue): void
+    public function throws_exception_for_value_exceeding_range(string $outOfRangeValue): void
     {
         $this->expectException(InvalidIntegerArrayItemForPHPException::class);
         $this->expectExceptionMessage('is out of range for PHP integer but appears valid for PostgreSQL');

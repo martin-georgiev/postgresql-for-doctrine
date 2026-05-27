@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Centroid;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class ST_CentroidTest extends TestCase
+final class ST_CentroidTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

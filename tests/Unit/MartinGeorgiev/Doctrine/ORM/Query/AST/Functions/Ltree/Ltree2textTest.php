@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Ltree2text;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class Ltree2textTest extends TestCase
+final class Ltree2textTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

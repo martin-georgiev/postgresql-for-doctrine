@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNetworks;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\SetMasklen;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class SetMasklenTest extends TestCase
+final class SetMasklenTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

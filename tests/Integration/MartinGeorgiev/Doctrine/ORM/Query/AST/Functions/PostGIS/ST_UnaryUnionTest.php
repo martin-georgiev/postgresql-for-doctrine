@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_UnaryUnion;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_UnaryUnionTest extends SpatialOperatorTestCase
+final class ST_UnaryUnionTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

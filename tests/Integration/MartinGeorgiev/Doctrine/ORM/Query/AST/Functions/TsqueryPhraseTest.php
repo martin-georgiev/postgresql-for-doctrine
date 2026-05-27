@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsqueryPhrase;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsqueryPhraseTest extends TextTestCase
+final class TsqueryPhraseTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

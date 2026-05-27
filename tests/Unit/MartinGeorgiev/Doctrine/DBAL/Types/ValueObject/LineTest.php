@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class LineTest extends TestCase
+final class LineTest extends TestCase
 {
     #[DataProvider('provideValidLineStrings')]
     #[Test]

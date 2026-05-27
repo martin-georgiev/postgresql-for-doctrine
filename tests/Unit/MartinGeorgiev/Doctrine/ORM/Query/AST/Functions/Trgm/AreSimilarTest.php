@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\AreSimilar;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class AreSimilarTest extends TestCase
+final class AreSimilarTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

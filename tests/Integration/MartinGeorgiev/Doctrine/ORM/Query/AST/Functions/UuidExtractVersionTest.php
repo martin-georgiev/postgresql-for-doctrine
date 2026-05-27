@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion;
 use PHPUnit\Framework\Attributes\Test;
 
-class UuidExtractVersionTest extends NumericTestCase
+final class UuidExtractVersionTest extends NumericTestCase
 {
     protected function setUp(): void
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TheRightExistsOnTheLeft;
 use PHPUnit\Framework\Attributes\Test;
 
-class TheRightExistsOnTheLeftTest extends JsonTestCase
+final class TheRightExistsOnTheLeftTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

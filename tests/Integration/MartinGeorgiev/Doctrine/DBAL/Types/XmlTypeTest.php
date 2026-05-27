@@ -40,7 +40,7 @@ final class XmlTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function strips_xml_declaration_on_storage(): void
+    public function normalizes_xml_declaration_on_storage(): void
     {
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $this->getTypeName(),

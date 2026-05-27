@@ -39,7 +39,7 @@ abstract class BaseFloatArrayTestCase extends BaseNumericArrayTestCase
     }
 
     #[Test]
-    public function throws_domain_exception_when_invalid_array_item_value(): void
+    public function throws_exception_for_invalid_array_item_value(): void
     {
         $this->expectException(InvalidFloatArrayItemForPHPException::class);
         $this->expectExceptionMessage('cannot be transformed to valid PHP float');

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PhrasetoTsquery;
 use PHPUnit\Framework\Attributes\Test;
 
-class PhrasetoTsqueryTest extends TextTestCase
+final class PhrasetoTsqueryTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

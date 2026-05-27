@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Family;
 use PHPUnit\Framework\Attributes\Test;
 
-class FamilyTest extends TestCase
+final class FamilyTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

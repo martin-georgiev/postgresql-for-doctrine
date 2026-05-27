@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonGetFieldAsIntegerTest extends JsonTestCase
+final class JsonGetFieldAsIntegerTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

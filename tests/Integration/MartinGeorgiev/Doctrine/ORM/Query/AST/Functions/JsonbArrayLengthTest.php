@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbArrayLengthTest extends JsonTestCase
+final class JsonbArrayLengthTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

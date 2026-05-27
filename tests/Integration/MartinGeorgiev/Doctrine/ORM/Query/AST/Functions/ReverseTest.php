@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Reverse;
 use PHPUnit\Framework\Attributes\Test;
 
-class ReverseTest extends TextTestCase
+final class ReverseTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps;
 
-class OverlapsTest extends TestCase
+final class OverlapsTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

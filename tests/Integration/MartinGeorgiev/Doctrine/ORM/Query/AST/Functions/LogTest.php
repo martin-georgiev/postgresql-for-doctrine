@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log;
 use PHPUnit\Framework\Attributes\Test;
 
-class LogTest extends NumericTestCase
+final class LogTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range;
 use PHPUnit\Framework\Attributes\Test;
 
-class Int8rangeTest extends NumericTestCase
+final class Int8rangeTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
