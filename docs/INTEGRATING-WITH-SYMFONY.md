@@ -552,8 +552,8 @@ doctrine:
                         XML_IS_WELL_FORMED_CONTENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent
                         XML_IS_WELL_FORMED_DOCUMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument
                         XMLAGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
-                        XMLCOMMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment
-                        XMLCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat
+                        XMLCOMMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment
+                        XMLCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat
                         XMLTEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext
                         XPATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath
                         XPATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists

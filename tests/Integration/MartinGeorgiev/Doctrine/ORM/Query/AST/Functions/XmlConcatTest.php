@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat;
 use PHPUnit\Framework\Attributes\Test;
 
-final class XmlconcatTest extends TextTestCase
+final class XmlConcatTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'XMLCONCAT' => Xmlconcat::class,
+            'XMLCONCAT' => XmlConcat::class,
         ];
     }
 

@@ -16,11 +16,11 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT XMLCONCAT(e.text1, e.text2) FROM Entity e"
  */
-class Xmlconcat extends BaseVariadicFunction
+class XmlConcat extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,StringPrimary,StringPrimary', 'StringPrimary,StringPrimary'];
+        return ['StringPrimary'];
     }
 
     protected function getFunctionName(): string

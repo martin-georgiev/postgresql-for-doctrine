@@ -367,9 +367,9 @@ $configuration->addCustomStringFunction('XML_IS_WELL_FORMED', MartinGeorgiev\Doc
 $configuration->addCustomStringFunction('XML_IS_WELL_FORMED_CONTENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class);
 $configuration->addCustomStringFunction('XML_IS_WELL_FORMED_DOCUMENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument::class);
 $configuration->addCustomStringFunction('XMLAGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
-$configuration->addCustomStringFunction('XMLCOMMENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment::class);
-$configuration->addCustomStringFunction('XMLCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat::class);
-$configuration->addCustomStringFunction('XMLTEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext::class);
+$configuration->addCustomStringFunction('XMLCOMMENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment::class);
+$configuration->addCustomStringFunction('XMLCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat::class);
+$configuration->addCustomStringFunction('XMLTEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText::class);
 $configuration->addCustomStringFunction('XPATH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class);
 $configuration->addCustomStringFunction('XPATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class);
 

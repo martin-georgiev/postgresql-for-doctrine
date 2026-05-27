@@ -571,9 +571,9 @@ return [
         'XML_IS_WELL_FORMED_CONTENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class,
         'XML_IS_WELL_FORMED_DOCUMENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument::class,
         'XMLAGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class,
-        'XMLCOMMENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment::class,
-        'XMLCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat::class,
-        'XMLTEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext::class,
+        'XMLCOMMENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment::class,
+        'XMLCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat::class,
+        'XMLTEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText::class,
         'XPATH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class,
         'XPATH_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class,
 

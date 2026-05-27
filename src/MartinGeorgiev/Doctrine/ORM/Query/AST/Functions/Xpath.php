@@ -20,7 +20,7 @@ class Xpath extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,StringPrimary,StringPrimary', 'StringPrimary,StringPrimary'];
+        return ['StringPrimary'];
     }
 
     protected function getFunctionName(): string

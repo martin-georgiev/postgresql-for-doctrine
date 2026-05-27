@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT XMLCOMMENT(e.text1) FROM Entity e"
  */
-class Xmlcomment extends BaseFunction
+class XmlComment extends BaseFunction
 {
     protected function customizeFunction(): void
     {

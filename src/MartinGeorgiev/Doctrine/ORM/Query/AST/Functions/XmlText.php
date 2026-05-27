@@ -17,7 +17,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT XMLTEXT(e.description) FROM Entity e"
  */
-class Xmltext extends BaseFunction
+class XmlText extends BaseFunction
 {
     protected function customizeFunction(): void
     {

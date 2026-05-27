@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText;
 
-final class XmltextTest extends TestCase
+final class XmlTextTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'XMLTEXT' => Xmltext::class,
+            'XMLTEXT' => XmlText::class,
         ];
     }
 

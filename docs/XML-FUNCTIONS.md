@@ -8,8 +8,8 @@
 | xml_is_well_formed_content | XML_IS_WELL_FORMED_CONTENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent` |
 | xml_is_well_formed_document | XML_IS_WELL_FORMED_DOCUMENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument` |
 | xmlagg | XMLAGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
-| xmlcomment | XMLCOMMENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment` |
-| xmlconcat | XMLCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat` |
+| xmlcomment | XMLCOMMENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment` |
+| xmlconcat | XMLCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat` |
 | xmltext | XMLTEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext` |
 | xpath | XPATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath` |
 | xpath_exists | XPATH_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists` |
