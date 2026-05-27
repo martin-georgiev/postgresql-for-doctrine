@@ -1,5 +1,5 @@
 ---
-description: "Mandatory steps when adding a DQL function: source location + PHPDoc, group TestCase registration, 4 always-required integration docs, group-specific doc, conditional README/new-group doc"
+description: "Mandatory steps when adding a DQL function: source location + PHPDoc, group TestCase registration, AVAILABLE-FUNCTIONS + the always-required integration docs, group-specific doc, conditional README/new-group doc"
 alwaysApply: true
 trigger: always_on
 applyTo: "**"
@@ -12,32 +12,34 @@ Required for every new DQL function. Missing any one of these silently breaks di
 
 ## 1. Source location — `src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/`
 
-Subfolders exist only for **PostgreSQL extensions** (e.g. PostGIS, pgvector, ltree). Core PostgreSQL functions — regardless of their category — always go in the root `Functions/` folder.
+Subfolders exist only for **PostgreSQL extensions**. Core PostgreSQL functions always go in the root `Functions/` folder regardless of category.
 
 | If the function… | Place it in… |
 |------------------|-------------|
-| Is core PostgreSQL (ships with PostgreSQL, no extension required) | `Functions/{FunctionName}.php` |
+| Is core PostgreSQL (no extension required) | `Functions/{FunctionName}.php` |
 | Belongs to a known PostgreSQL extension | `Functions/{Group}/{FunctionName}.php` — use the **PHP folder name** from the table below |
 | Is the **first function** from a new PostgreSQL extension | Create `Functions/{NewExtension}/{FunctionName}.php` AND `tests/Integration/.../Functions/{NewExtension}/TestCase.php` — see §5 for the additional steps a new extension triggers |
 
 **Known group folder names** (use these exactly — do not invent new names):
 
-| PostgreSQL extension / domain | PHP folder | Group doc |
-|-------------------------------|-----------|-----------|
+| PostgreSQL extension | PHP folder | Group doc |
+|----------------------|-----------|-----------|
 | PostGIS spatial | `PostGIS/` | `docs/SPATIAL-FUNCTIONS-AND-OPERATORS.md` |
 | pg_trgm | `Trgm/` | `docs/TEXT-AND-PATTERN-FUNCTIONS.md` |
 | pgvector | `Vector/` | `docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md` only |
 | ltree | `Ltree/` | `docs/LTREE-TYPE.md` |
 | fuzzystrmatch | `Fuzzystrmatch/` | `docs/TEXT-AND-PATTERN-FUNCTIONS.md` |
-| Network (`inet`, `cidr`) | `Network/` | `docs/NETWORK-FUNCTIONS.md` |
 
-**Core function → group doc mapping** (no subfolder, but still update the matching doc):
+> **`Network/` is a one-off exception.** Network address functions (`inet`, `cidr`) are core PostgreSQL — no extension needed — but they were placed in `Functions/Network/` before the extension-only rule was established. Use `Functions/Network/` for new network functions. Do **not** create other core-PostgreSQL subfolders; this folder is the only planned deviation from the rule.
+
+**Core function → group doc mapping** (no subfolder; update the matching doc):
 
 | Category | Group doc |
 |----------|-----------|
 | Array, JSON, JSONB | `docs/ARRAY-AND-JSON-FUNCTIONS.md` |
 | Date, time, range | `docs/DATE-AND-RANGE-FUNCTIONS.md` |
 | Mathematical, trigonometric | `docs/MATHEMATICAL-FUNCTIONS.md` |
+| Network address (`inet`, `cidr`) | `docs/NETWORK-FUNCTIONS.md` |
 | Text, pattern matching, hashing | `docs/TEXT-AND-PATTERN-FUNCTIONS.md` |
 | Type conversion, formatting, UUID | `docs/UTILITY-FUNCTIONS.md` |
 | XML | `docs/XML-FUNCTIONS.md` |
@@ -145,12 +147,8 @@ Only applies when this is the **first function being added from a previously uns
 
 ```bash
 # All must show a match for the new function name:
-grep -l "FUNCTION_NAME" \
-  docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md \
-  docs/INTEGRATING-WITH-DOCTRINE.md \
-  docs/INTEGRATING-WITH-SYMFONY.md \
-  docs/INTEGRATING-WITH-LARAVEL.md
+grep -l "{FUNCTION_NAME}" docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md docs/INTEGRATING-WITH-DOCTRINE.md docs/INTEGRATING-WITH-SYMFONY.md docs/INTEGRATING-WITH-LARAVEL.md
 
 # Registration in the group TestCase:
-grep -r "'FUNCTION_NAME' =>" tests/Integration/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/
+grep -r "'{FUNCTION_NAME}' =>" tests/Integration/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/
 ```

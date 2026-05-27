@@ -546,12 +546,12 @@ doctrine:
                         JSONB_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg
                         JSONB_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
-                        XML_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
 
                         # XML functions
                         XML_IS_WELL_FORMED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed
                         XML_IS_WELL_FORMED_CONTENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent
                         XML_IS_WELL_FORMED_DOCUMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument
+                        XML_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
                         XMLCOMMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment
                         XMLCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat
                         XMLTEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext
