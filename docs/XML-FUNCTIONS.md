@@ -10,7 +10,9 @@
 | xmlagg | XMLAGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
 | xmlcomment | XMLCOMMENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment` |
 | xmlconcat | XMLCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat` |
-| xmltext | XMLTEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext` |
+| xmlexists | XMLEXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists` |
+| xmlpi | XMLPI | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi` |
+| xmltext | XMLTEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText` |
 | xpath | XPATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath` |
 | xpath_exists | XPATH_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists` |
 
@@ -30,4 +32,8 @@ SELECT XML_IS_WELL_FORMED_CONTENT(e.xmlData) FROM App\Entity\Article e
 -- XPath text() node extraction and attribute predicates
 SELECT XPATH('//item/title/text()', e.xmlData) FROM App\Entity\Article e WHERE e.id = :id
 SELECT XPATH_EXISTS('//item[@active="true"]', e.xmlData) FROM App\Entity\Article e WHERE e.id = :id
+
+-- XPath existence test (boolean) and XML processing instruction
+SELECT XMLEXISTS('//item', e.xmlData) FROM App\Entity\Article e WHERE e.id = :id
+SELECT XMLPI('php', 'echo "hello";') FROM App\Entity\Article e WHERE e.id = :id
 ```

@@ -554,7 +554,9 @@ doctrine:
                         XMLAGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg
                         XMLCOMMENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment
                         XMLCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat
-                        XMLTEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext
+                        XMLEXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists
+                        XMLPI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi
+                        XMLTEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText
                         XPATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath
                         XPATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists
 

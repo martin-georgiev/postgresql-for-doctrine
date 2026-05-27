@@ -15,7 +15,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT XPATH_EXISTS(e.xpath, e.xmlData) FROM Entity e"
+ * @example Using it in DQL with boolean comparison: "WHERE XPATH_EXISTS('//item', e.xmlData) = TRUE"
  */
 class XpathExists extends BaseVariadicFunction
 {

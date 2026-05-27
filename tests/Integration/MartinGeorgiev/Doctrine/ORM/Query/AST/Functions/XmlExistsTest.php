@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists;
 use PHPUnit\Framework\Attributes\Test;
 
-final class XpathExistsTest extends XmlTestCase
+final class XmlExistsTest extends XmlTestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'XPATH_EXISTS' => XpathExists::class,
+            'XMLEXISTS' => XmlExists::class,
         ];
     }
 
     #[Test]
-    public function returns_true_for_matching_xpath(): void
+    public function returns_true_when_xpath_matches_literal(): void
     {
-        $dql = "SELECT XPATH_EXISTS('//root', '<root><child>text</child></root>') as result
+        $dql = "SELECT XMLEXISTS('//item', '<root><item>foo</item></root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t
                 WHERE t.id = 1";
 
@@ -28,9 +28,9 @@ final class XpathExistsTest extends XmlTestCase
     }
 
     #[Test]
-    public function returns_false_for_nonexistent_xpath(): void
+    public function returns_false_when_xpath_has_no_match_in_literal(): void
     {
-        $dql = "SELECT XPATH_EXISTS('//missing', '<root><child>text</child></root>') as result
+        $dql = "SELECT XMLEXISTS('//missing', '<root><item>foo</item></root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t
                 WHERE t.id = 1";
 
@@ -39,9 +39,9 @@ final class XpathExistsTest extends XmlTestCase
     }
 
     #[Test]
-    public function returns_true_for_matching_xpath_with_entity_property(): void
+    public function returns_true_when_xpath_matches_entity_property(): void
     {
-        $dql = 'SELECT XPATH_EXISTS(\'//item\', t.content) as result
+        $dql = 'SELECT XMLEXISTS(\'//item\', t.content) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsXml t
                 WHERE t.id = 1';
 

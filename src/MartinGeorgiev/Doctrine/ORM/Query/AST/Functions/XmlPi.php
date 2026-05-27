@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL XPATH().
+ * Implementation of PostgreSQL XMLPI().
  *
- * Evaluates an XPath expression against an XML value.
+ * Creates an XML processing instruction with the given target name and optional content.
  *
  * @see https://www.postgresql.org/docs/18/functions-xml.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT XPATH('//item/text()', e.xmlData) FROM Entity e"
- * @example Using it in DQL with normalization: "SELECT XPATH('//ns:item', e.xmlData, e.nsArray) FROM Entity e"
+ * @example Using it in DQL: "SELECT XMLPI(e.piTarget) FROM Entity e"
+ * @example Using it in DQL with content: "SELECT XMLPI(e.piTarget, e.piContent) FROM Entity e"
  */
-class Xpath extends BaseVariadicFunction
+class XmlPi extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
@@ -26,16 +26,16 @@ class Xpath extends BaseVariadicFunction
 
     protected function getFunctionName(): string
     {
-        return 'xpath';
+        return 'xmlpi';
     }
 
     protected function getMinArgumentCount(): int
     {
-        return 2;
+        return 1;
     }
 
     protected function getMaxArgumentCount(): int
     {
-        return 3;
+        return 2;
     }
 }
