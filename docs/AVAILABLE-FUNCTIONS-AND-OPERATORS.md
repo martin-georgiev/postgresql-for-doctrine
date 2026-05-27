@@ -148,10 +148,10 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `COMPOSITE_FIELD` - Access a field from a PostgreSQL composite type column → [Use Cases and Examples](USE-CASES-AND-EXAMPLES.md#using-postgresql-composite-types)
 
 **XML Functions:** ([Complete documentation](XML-FUNCTIONS.md))
-- `XML_AGG` - Aggregate XML values (supports `ORDER BY`)
 - `XML_IS_WELL_FORMED` - Check whether a text string is well-formed XML
 - `XML_IS_WELL_FORMED_CONTENT` - Check whether a text string is well-formed XML content
 - `XML_IS_WELL_FORMED_DOCUMENT` - Check whether a text string is a well-formed XML document
+- `XMLAGG` - Aggregate XML values (supports `ORDER BY`)
 - `XMLCOMMENT` - Create an XML comment
 - `XMLCONCAT` - Concatenate multiple XML values into a single XML value
 - `XMLTEXT` - Create an XML text node (with entity escaping)
@@ -198,7 +198,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **UUID**: Generation (`UUIDV4`, `UUIDV7`) and inspection (`UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`)
 
 ### **XML Functions**
-- **Aggregation**: `XML_AGG` — aggregate XML values with optional ordering
+- **Aggregation**: `XMLAGG` — aggregate XML values with optional ordering
 - **Validation**: `XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT` — check XML well-formedness
 - **Construction**: `XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT` — create and combine XML values
 - **XPath Querying**: `XPATH`, `XPATH_EXISTS` — extract nodes and test existence

@@ -7,7 +7,7 @@
 | xml_is_well_formed | XML_IS_WELL_FORMED | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed` |
 | xml_is_well_formed_content | XML_IS_WELL_FORMED_CONTENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent` |
 | xml_is_well_formed_document | XML_IS_WELL_FORMED_DOCUMENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument` |
-| xmlagg | XML_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
+| xmlagg | XMLAGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
 | xmlcomment | XMLCOMMENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlcomment` |
 | xmlconcat | XMLCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmlconcat` |
 | xmltext | XMLTEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xmltext` |
@@ -18,7 +18,7 @@
 
 ```sql
 -- ORDER BY inside the aggregate — not obvious in Doctrine DQL
-SELECT e.category, XML_AGG(e.xmlData ORDER BY e.createdAt) FROM App\Entity\Article e GROUP BY e.category
+SELECT e.category, XMLAGG(e.xmlData ORDER BY e.createdAt) FROM App\Entity\Article e GROUP BY e.category
 
 -- xml_is_well_formed uses the session xmloption (DOCUMENT or CONTENT mode)
 -- xml_is_well_formed_document always requires a single root element
