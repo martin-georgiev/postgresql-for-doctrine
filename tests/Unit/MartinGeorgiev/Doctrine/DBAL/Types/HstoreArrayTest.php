@@ -115,6 +115,8 @@ final class HstoreArrayTest extends TestCase
             'string item' => [['hello']],
             'integer item' => [[123]],
             'object item' => [[new \stdClass()]],
+            'hstore item with integer value' => [['key' => 123]],
+            'hstore item with boolean value' => [['key' => true]],
         ];
     }
 

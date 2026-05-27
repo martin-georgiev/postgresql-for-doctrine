@@ -13,6 +13,13 @@ final class LtreeTypeTest extends TestCase
 {
     use LtreeAssertionTrait;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->ensurePostgresExtensionInSchema('ltree');
+    }
+
     protected function getTypeName(): string
     {
         return 'ltree';

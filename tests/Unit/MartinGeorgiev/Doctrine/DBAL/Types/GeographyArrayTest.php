@@ -304,6 +304,19 @@ final class GeographyArrayTest extends TestCase
     }
 
     #[Test]
+    public function converts_null_item_to_php_value(): void
+    {
+        $this->assertNull($this->type->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->type->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
+    }
+
+    #[Test]
     public function throws_exception_for_invalid_type_from_database(): void
     {
         $this->expectException(InvalidGeographyForPHPException::class);
