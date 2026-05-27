@@ -48,4 +48,15 @@ final class XmlExistsTest extends XmlTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue((bool) $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_false_when_xpath_has_no_match_in_entity_property(): void
+    {
+        $dql = 'SELECT XMLEXISTS(\'//item\', t.content) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsXml t
+                WHERE t.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse((bool) $result[0]['result']);
+    }
 }

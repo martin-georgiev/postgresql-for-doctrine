@@ -16,11 +16,11 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * Tests whether an XPath expression matches any nodes in an XML value.
  *
- * PostgreSQL requires PASSING [BY VALUE|BY REF] syntax; DQL uses a comma-separated call:
- * XMLEXISTS(xpath, xml) → xmlexists(xpath PASSING BY VALUE xml)
+ * The second argument must be a well-formed XML document, not a content fragment.
+ * Passing a fragment returns NULL rather than false.
  *
- * BY VALUE and BY REF are accepted by PostgreSQL but always ignored — both have identical
- * runtime semantics. PASSING BY VALUE is emitted unconditionally.
+ * PostgreSQL requires PASSING [BY VALUE|BY REF] syntax; both modes are ignored at runtime.
+ * DQL: XMLEXISTS(xpath, xml) → SQL: xmlexists(xpath PASSING BY VALUE xml)
  *
  * @see https://www.postgresql.org/docs/18/functions-xml.html
  * @since 4.6
