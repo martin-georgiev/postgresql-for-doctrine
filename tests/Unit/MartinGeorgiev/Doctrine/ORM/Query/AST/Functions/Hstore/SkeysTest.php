@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSkeys;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Skeys;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class HstoreSkeysTest extends TestCase
+class SkeysTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'HSTORE_SKEYS' => HstoreSkeys::class,
+            'HSTORE_SKEYS' => Skeys::class,
         ];
     }
 

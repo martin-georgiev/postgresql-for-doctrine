@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAkeys;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreAkeysTest extends TestCase
+class AkeysTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'HSTORE_AKEYS' => HstoreAkeys::class,
+            'HSTORE_AKEYS' => Akeys::class,
         ];
     }
 

@@ -5,29 +5,29 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSvals;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class HstoreSvalsTest extends TestCase
+class DeleteTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'HSTORE_SVALS' => HstoreSvals::class,
+            'HSTORE_DELETE' => Delete::class,
         ];
     }
 
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'returns values as set from hstore field' => 'SELECT svals(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            'deletes key from hstore field' => 'SELECT delete(c0_.text1, c0_.text2) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'returns values as set from hstore field' => \sprintf('SELECT HSTORE_SVALS(e.text1) FROM %s e', ContainsTexts::class),
+            'deletes key from hstore field' => \sprintf('SELECT HSTORE_DELETE(e.text1, e.text2) FROM %s e', ContainsTexts::class),
         ];
     }
 }

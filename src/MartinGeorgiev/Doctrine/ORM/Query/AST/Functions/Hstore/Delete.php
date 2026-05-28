@@ -7,22 +7,22 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL hstore defined() function.
+ * Implementation of PostgreSQL hstore delete() function.
  *
- * Returns true if hstore contains a non-NULL value for the given key.
+ * Deletes a key from an hstore.
  *
  * @see https://www.postgresql.org/docs/18/hstore.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT HSTORE_DEFINED(e.data, 'key') FROM Entity e"
+ * @example Using it in DQL: "SELECT HSTORE_DELETE(e.data, 'key') FROM Entity e"
  */
-class HstoreDefined extends BaseFunction
+class Delete extends BaseFunction
 {
     protected function customizeFunction(): void
     {
-        $this->setFunctionPrototype('defined(%s, %s)');
+        $this->setFunctionPrototype('delete(%s, %s)');
         $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
     }

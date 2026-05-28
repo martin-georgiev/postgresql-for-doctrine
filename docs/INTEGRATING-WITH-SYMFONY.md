@@ -540,12 +540,12 @@ doctrine:
                         L2_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance
 
                         # hstore functions
-                        HSTORE_AKEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAkeys
-                        HSTORE_AVALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAvals
-                        HSTORE_DEFINED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDefined
-                        HSTORE_DELETE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDelete
-                        HSTORE_SKEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSkeys
-                        HSTORE_SVALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSvals
+                        HSTORE_AKEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys
+                        HSTORE_AVALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals
+                        HSTORE_DEFINED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined
+                        HSTORE_DELETE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete
+                        HSTORE_SKEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Skeys
+                        HSTORE_SVALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Svals
                         HSTORE_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJson
                         HSTORE_TO_JSON_LOOSE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose
 

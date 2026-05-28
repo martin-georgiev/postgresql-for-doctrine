@@ -5,29 +5,29 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAvals;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class HstoreAvalsTest extends TestCase
+class DefinedTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'HSTORE_AVALS' => HstoreAvals::class,
+            'HSTORE_DEFINED' => Defined::class,
         ];
     }
 
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'returns values from hstore field' => 'SELECT avals(c0_.text1) AS sclr_0 FROM ContainsTexts c0_',
+            'tests if key has non-null value in hstore field' => 'SELECT defined(c0_.text1, c0_.text2) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'returns values from hstore field' => \sprintf('SELECT HSTORE_AVALS(e.text1) FROM %s e', ContainsTexts::class),
+            'tests if key has non-null value in hstore field' => \sprintf('SELECT HSTORE_DEFINED(e.text1, e.text2) FROM %s e', ContainsTexts::class),
         ];
     }
 }

@@ -355,12 +355,12 @@ $configuration->addCustomStringFunction('INNER_PRODUCT', MartinGeorgiev\Doctrine
 $configuration->addCustomStringFunction('L2_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class);
 
 # hstore functions
-$configuration->addCustomStringFunction('HSTORE_AKEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAkeys::class);
-$configuration->addCustomStringFunction('HSTORE_AVALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAvals::class);
-$configuration->addCustomStringFunction('HSTORE_DEFINED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDefined::class);
-$configuration->addCustomStringFunction('HSTORE_DELETE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDelete::class);
-$configuration->addCustomStringFunction('HSTORE_SKEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSkeys::class);
-$configuration->addCustomStringFunction('HSTORE_SVALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSvals::class);
+$configuration->addCustomStringFunction('HSTORE_AKEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys::class);
+$configuration->addCustomStringFunction('HSTORE_AVALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals::class);
+$configuration->addCustomStringFunction('HSTORE_DEFINED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined::class);
+$configuration->addCustomStringFunction('HSTORE_DELETE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete::class);
+$configuration->addCustomStringFunction('HSTORE_SKEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Skeys::class);
+$configuration->addCustomStringFunction('HSTORE_SVALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Svals::class);
 $configuration->addCustomStringFunction('HSTORE_TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJson::class);
 $configuration->addCustomStringFunction('HSTORE_TO_JSON_LOOSE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose::class);
 

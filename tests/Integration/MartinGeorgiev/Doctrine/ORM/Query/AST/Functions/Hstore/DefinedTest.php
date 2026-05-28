@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDefined;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreDefinedTest extends TestCase
+class DefinedTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'HSTORE_DEFINED' => HstoreDefined::class,
+            'HSTORE_DEFINED' => Defined::class,
         ];
     }
 

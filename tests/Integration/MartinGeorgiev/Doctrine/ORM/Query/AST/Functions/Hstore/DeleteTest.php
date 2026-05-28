@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDelete;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreDeleteTest extends TestCase
+class DeleteTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'HSTORE_DELETE' => HstoreDelete::class,
+            'HSTORE_DELETE' => Delete::class,
         ];
     }
 

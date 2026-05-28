@@ -559,12 +559,12 @@ return [
         'L2_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class,
 
         # hstore functions
-        'HSTORE_AKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAkeys::class,
-        'HSTORE_AVALS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAvals::class,
-        'HSTORE_DEFINED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDefined::class,
-        'HSTORE_DELETE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDelete::class,
-        'HSTORE_SKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSkeys::class,
-        'HSTORE_SVALS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSvals::class,
+        'HSTORE_AKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys::class,
+        'HSTORE_AVALS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals::class,
+        'HSTORE_DEFINED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined::class,
+        'HSTORE_DELETE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete::class,
+        'HSTORE_SKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Skeys::class,
+        'HSTORE_SVALS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Svals::class,
         'HSTORE_TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJson::class,
         'HSTORE_TO_JSON_LOOSE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose::class,
 
