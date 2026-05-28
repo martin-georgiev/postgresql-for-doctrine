@@ -265,12 +265,20 @@ $configuration->addCustomStringFunction('TSVECTOR_TO_ARRAY', MartinGeorgiev\Doct
 $configuration->addCustomStringFunction('WEBSEARCH_TO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery::class);
 
 # date specific functions
+$configuration->addCustomStringFunction('CLOCK_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp::class);
 $configuration->addCustomStringFunction('DATE_ADD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class);
 $configuration->addCustomStringFunction('DATE_BIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin::class);
+$configuration->addCustomStringFunction('DATE_DIFF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateDiff::class);
 $configuration->addCustomStringFunction('DATE_EXTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class);
 $configuration->addCustomStringFunction('DATE_OVERLAPS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class);
 $configuration->addCustomStringFunction('DATE_SUBTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class);
 $configuration->addCustomStringFunction('DATE_TRUNC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc::class);
+$configuration->addCustomStringFunction('ISFINITE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite::class);
+$configuration->addCustomStringFunction('JUSTIFY_DAYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyDays::class);
+$configuration->addCustomStringFunction('JUSTIFY_HOURS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours::class);
+$configuration->addCustomStringFunction('JUSTIFY_INTERVAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval::class);
+$configuration->addCustomStringFunction('STATEMENT_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp::class);
+$configuration->addCustomStringFunction('TRANSACTION_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp::class);
 
 # range functions
 $configuration->addCustomStringFunction('DATERANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class);

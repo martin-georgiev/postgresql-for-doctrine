@@ -450,12 +450,20 @@ doctrine:
                         WEBSEARCH_TO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery
 
                         # date specific functions
+                        CLOCK_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp
                         DATE_ADD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd
                         DATE_BIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin
+                        DATE_DIFF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateDiff
                         DATE_EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract
                         DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
                         DATE_SUBTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract
                         DATE_TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc
+                        ISFINITE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite
+                        JUSTIFY_DAYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyDays
+                        JUSTIFY_HOURS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours
+                        JUSTIFY_INTERVAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval
+                        STATEMENT_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp
+                        TRANSACTION_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp
 
                         # range functions
                         DATERANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange

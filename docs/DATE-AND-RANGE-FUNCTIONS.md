@@ -9,20 +9,28 @@ This document covers PostgreSQL date, time, and range functions available in thi
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
 | age | AGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Age` |
+| clock_timestamp | CLOCK_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp` |
 | date_add | DATE_ADD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd` |
 | date_bin | DATE_BIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin` |
+| date_diff | DATE_DIFF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateDiff` |
 | date_part | DATE_PART | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DatePart` |
 | date_subtract | DATE_SUBTRACT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract` |
 | date_trunc | DATE_TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc` |
 | extract | DATE_EXTRACT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract` |
 | generate_series | GENERATE_TIME_SERIES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateTimeSeries` |
+| isfinite | ISFINITE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite` |
+| justify_days | JUSTIFY_DAYS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyDays` |
+| justify_hours | JUSTIFY_HOURS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours` |
+| justify_interval | JUSTIFY_INTERVAL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval` |
 | make_date | MAKE_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate` |
 | make_time | MAKE_TIME | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime` |
 | make_timestamp | MAKE_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp` |
 | make_timestamptz | MAKE_TIMESTAMPTZ | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz` |
 | overlaps | DATE_OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps` |
+| statement_timestamp | STATEMENT_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp` |
 | to_date | TO_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate` |
 | to_timestamp | TO_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp` |
+| transaction_timestamp | TRANSACTION_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp` |
 
 ## Date and Time Operators
 
