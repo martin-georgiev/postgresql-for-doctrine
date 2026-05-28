@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpTest extends JsonTestCase
+final class RegexpTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

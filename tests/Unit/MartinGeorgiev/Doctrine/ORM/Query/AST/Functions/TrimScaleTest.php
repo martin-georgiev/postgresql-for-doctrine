@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimScale;
 
-class TrimScaleTest extends TestCase
+final class TrimScaleTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

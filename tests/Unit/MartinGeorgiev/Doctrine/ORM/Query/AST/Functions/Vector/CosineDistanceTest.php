@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsVectors;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\CosineDistance;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class CosineDistanceTest extends TestCase
+final class CosineDistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

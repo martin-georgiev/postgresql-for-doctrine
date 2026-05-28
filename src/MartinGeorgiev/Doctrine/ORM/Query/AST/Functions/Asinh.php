@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL asinh() function.
+ * Implementation of PostgreSQL ASINH().
  *
  * Returns the inverse hyperbolic sine of the argument.
  *

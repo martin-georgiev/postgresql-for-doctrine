@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\SimilarityDistance;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class SimilarityDistanceTest extends TestCase
+final class SimilarityDistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

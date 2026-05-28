@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
- * Implementation of PostGIS ST_ConcaveHull() function.
+ * Implementation of PostGIS ST_ConcaveHull().
  *
  * Computes a possibly concave geometry that contains all input geometry vertices.
  * The result approaches the convex hull as the target percent increases.

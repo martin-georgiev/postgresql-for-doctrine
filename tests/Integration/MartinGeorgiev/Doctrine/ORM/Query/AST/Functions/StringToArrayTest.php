@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\Attributes\Test;
 
-class StringToArrayTest extends TextTestCase
+final class StringToArrayTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -18,7 +18,7 @@ class StringToArrayTest extends TextTestCase
     }
 
     #[Test]
-    public function can_split_string_into_array(): void
+    public function splits_string_into_array(): void
     {
         $dql = "SELECT STRING_TO_ARRAY(t.text1, ' ') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -35,7 +35,7 @@ class StringToArrayTest extends TextTestCase
     }
 
     #[Test]
-    public function can_split_by_comma_delimiter(): void
+    public function splits_by_comma_delimiter(): void
     {
         $dql = "SELECT STRING_TO_ARRAY(t.text1, ',') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

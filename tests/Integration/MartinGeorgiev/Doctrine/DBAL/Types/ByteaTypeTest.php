@@ -8,7 +8,7 @@ use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class ByteaTypeTest extends ScalarTypeTestCase
+final class ByteaTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -17,7 +17,7 @@ class ByteaTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(string $testValue): void
+    public function roundtrips_value(string $testValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -38,7 +38,7 @@ class ByteaTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function can_handle_empty_bytea_as_null(): void
+    public function normalizes_empty_bytea_to_null(): void
     {
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $this->getTypeName(),
@@ -49,7 +49,7 @@ class ByteaTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function can_read_raw_hex_bytea_inserted_directly(): void
+    public function retrieves_raw_hex_bytea_inserted_directly(): void
     {
         $columnType = $this->getPostgresTypeName();
         [$tableName, $columnName] = $this->prepareTestTable($columnType);

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384;
 
-class Sha384Test extends TestCase
+final class Sha384Test extends TestCase
 {
     protected function getStringFunctions(): array
     {

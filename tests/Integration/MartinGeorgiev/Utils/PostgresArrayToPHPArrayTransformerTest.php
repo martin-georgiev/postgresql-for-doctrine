@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\TestCase;
 
-class PostgresArrayToPHPArrayTransformerTest extends TestCase
+final class PostgresArrayToPHPArrayTransformerTest extends TestCase
 {
     private const TABLE_NAME = 'array_test_table';
 

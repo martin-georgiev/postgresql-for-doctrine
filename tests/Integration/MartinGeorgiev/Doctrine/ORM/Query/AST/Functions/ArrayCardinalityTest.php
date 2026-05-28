@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayCardinalityTest extends ArrayTestCase
+final class ArrayCardinalityTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayCardinalityTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_get_text_array_cardinality(): void
+    public function returns_text_array_cardinality(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -28,7 +28,7 @@ class ArrayCardinalityTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_get_integer_array_cardinality(): void
+    public function returns_integer_array_cardinality(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -39,7 +39,7 @@ class ArrayCardinalityTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_get_boolean_array_cardinality(): void
+    public function returns_boolean_array_cardinality(): void
     {
         $dql = 'SELECT ARRAY_CARDINALITY(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

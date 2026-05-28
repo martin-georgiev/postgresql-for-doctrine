@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\SimilarityDistance;
 use PHPUnit\Framework\Attributes\Test;
 
-class SimilarityDistanceTest extends TestCase
+final class SimilarityDistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

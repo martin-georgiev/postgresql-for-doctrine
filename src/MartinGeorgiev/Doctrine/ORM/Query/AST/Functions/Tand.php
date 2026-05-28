@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL tand() function.
+ * Implementation of PostgreSQL TAND().
  *
  * Returns the tangent of the argument (given in degrees).
  *

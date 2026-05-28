@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Within() function.
+ * Implementation of PostGIS ST_Within().
  *
  * Tests if every point of A lies in B, and their interiors have a point in common.
  *

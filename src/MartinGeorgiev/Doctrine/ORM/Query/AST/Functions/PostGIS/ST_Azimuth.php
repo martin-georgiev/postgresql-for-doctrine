@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Azimuth() function.
+ * Implementation of PostGIS ST_Azimuth().
  *
  * Returns the azimuth between two points.
  * Azimuth is the angle in radians from north (0) clockwise.

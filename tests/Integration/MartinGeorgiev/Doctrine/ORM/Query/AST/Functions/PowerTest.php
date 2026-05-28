@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Power;
 use PHPUnit\Framework\Attributes\Test;
 
-class PowerTest extends NumericTestCase
+final class PowerTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class PowerTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_with_integer_exponent(): void
+    public function calculates_with_integer_exponent(): void
     {
         $dql = 'SELECT POWER(2, 3) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
@@ -27,7 +27,7 @@ class PowerTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_with_fractional_exponent(): void
+    public function calculates_with_fractional_exponent(): void
     {
         $dql = 'SELECT POWER(9, 0.5) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
@@ -37,7 +37,7 @@ class PowerTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_with_negative_base(): void
+    public function calculates_with_negative_base(): void
     {
         $dql = 'SELECT POWER((-2), 3) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
@@ -47,7 +47,7 @@ class PowerTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_with_negative_exponent(): void
+    public function calculates_with_negative_exponent(): void
     {
         $dql = 'SELECT POWER(2, (-2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
@@ -57,7 +57,7 @@ class PowerTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_with_column_values(): void
+    public function calculates_with_column_values(): void
     {
         $dql = 'SELECT POWER(n.decimal1, n.decimal2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
@@ -67,7 +67,7 @@ class PowerTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_with_arithmetic_expressions(): void
+    public function calculates_with_arithmetic_expressions(): void
     {
         $dql = 'SELECT POWER(n.integer1 + n.integer2, n.integer1 / 5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n

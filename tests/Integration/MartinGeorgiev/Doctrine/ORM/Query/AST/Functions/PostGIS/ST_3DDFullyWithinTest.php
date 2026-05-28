@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDFullyWithin;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_3DDFullyWithinTest extends SpatialOperatorTestCase
+final class ST_3DDFullyWithinTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class NumericMultirangeTest extends TestCase
+final class NumericMultirangeTest extends TestCase
 {
     #[Test]
     public function empty_multirange_produces_empty_string(): void
@@ -40,7 +40,7 @@ class NumericMultirangeTest extends TestCase
 
     #[DataProvider('provideValidFromStringCases')]
     #[Test]
-    public function can_parse_from_string(string $input, string $expectedString): void
+    public function parses_from_string(string $input, string $expectedString): void
     {
         $numericMultirange = NumericMultirange::fromString($input);
         $this->assertSame($expectedString, (string) $numericMultirange);

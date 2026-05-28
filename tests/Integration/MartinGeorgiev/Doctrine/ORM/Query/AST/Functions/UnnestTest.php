@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest;
 use PHPUnit\Framework\Attributes\Test;
 
-class UnnestTest extends ArrayTestCase
+final class UnnestTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class UnnestTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_expand_array_to_rows(): void
+    public function expands_array_to_rows(): void
     {
         $dql = 'SELECT UNNEST(t.textArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
@@ -32,7 +32,7 @@ class UnnestTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_expand_integer_array(): void
+    public function expands_integer_array(): void
     {
         $dql = 'SELECT UNNEST(t.integerArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 

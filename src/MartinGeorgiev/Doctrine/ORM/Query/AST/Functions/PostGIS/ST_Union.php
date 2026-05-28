@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Union() function.
+ * Implementation of PostGIS ST_Union().
  *
  * Returns a geometry that represents the point set union of two geometries.
  * The result may be a heterogeneous geometry collection.

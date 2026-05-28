@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove;
 
-class ArrayRemoveTest extends TestCase
+final class ArrayRemoveTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

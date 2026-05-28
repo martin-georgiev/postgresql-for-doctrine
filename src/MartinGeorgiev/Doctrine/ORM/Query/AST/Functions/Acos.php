@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL acos() function.
+ * Implementation of PostgreSQL ACOS().
  *
  * Returns the inverse cosine of the argument (result in radians).
  *

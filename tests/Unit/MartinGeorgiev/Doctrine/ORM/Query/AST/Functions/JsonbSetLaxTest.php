@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax;
 
-class JsonbSetLaxTest extends TestCase
+final class JsonbSetLaxTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

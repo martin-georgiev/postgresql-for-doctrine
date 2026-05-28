@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveIrrelevantP
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class ST_RemoveIrrelevantPointsForViewTest extends TestCase
+final class ST_RemoveIrrelevantPointsForViewTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

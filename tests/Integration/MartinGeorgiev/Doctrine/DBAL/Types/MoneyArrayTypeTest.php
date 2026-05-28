@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
-class MoneyArrayTypeTest extends ArrayTypeTestCase
+final class MoneyArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -34,6 +34,9 @@ class MoneyArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidMoneyArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), ['no-digit-here']);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, ['no-digit-here']);
     }
 }

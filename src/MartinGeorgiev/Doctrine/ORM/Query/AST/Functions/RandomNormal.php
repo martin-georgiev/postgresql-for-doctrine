@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL random_normal() function.
+ * Implementation of PostgreSQL RANDOM_NORMAL().
  *
  * Returns a random value from the normal distribution with the given parameters.
  * Default mean is 0.0 and default standard deviation is 1.0.

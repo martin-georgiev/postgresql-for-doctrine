@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All;
 use PHPUnit\Framework\Attributes\Test;
 
-class AllTest extends ArrayTestCase
+final class AllTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

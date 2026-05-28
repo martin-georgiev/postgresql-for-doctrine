@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_Relate() function.
+ * Implementation of PostGIS ST_Relate().
  *
  * Tests if two geometries have a topological relationship matching an Intersection Matrix pattern,
  * or computes their Intersection Matrix.

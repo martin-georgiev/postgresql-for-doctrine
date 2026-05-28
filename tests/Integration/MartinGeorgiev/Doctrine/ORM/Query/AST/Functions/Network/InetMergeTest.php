@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\InetMerge;
 use PHPUnit\Framework\Attributes\Test;
 
-class InetMergeTest extends TestCase
+final class InetMergeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

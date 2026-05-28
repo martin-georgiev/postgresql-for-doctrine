@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyBelow;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class StrictlyBelowTest extends TestCase
+final class StrictlyBelowTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

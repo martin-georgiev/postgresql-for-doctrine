@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL erf() function.
+ * Implementation of PostgreSQL ERF().
  *
  * Returns the error function of the argument.
  *

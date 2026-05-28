@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp;
 
-class NotIRegexpTest extends TestCase
+final class NotIRegexpTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

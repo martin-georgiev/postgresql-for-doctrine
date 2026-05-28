@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampArrayItemForDa
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TimestampArrayTypeTest extends ArrayTypeTestCase
+final class TimestampArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveIrrelevantPointsForView;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_RemoveIrrelevantPointsForViewTest extends SpatialOperatorTestCase
+final class ST_RemoveIrrelevantPointsForViewTest extends SpatialOperatorTestCase
 {
     protected function setUp(): void
     {

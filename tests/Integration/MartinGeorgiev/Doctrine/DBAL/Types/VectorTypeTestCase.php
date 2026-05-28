@@ -12,13 +12,17 @@ abstract class VectorTypeTestCase extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ensureVectorExtension();
+
+        $this->ensurePostgresExtensionInSchema('vector');
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     /**
@@ -40,9 +44,12 @@ abstract class VectorTypeTestCase extends TestCase
 
         $this->expectException(DriverException::class);
 
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
         $this->runDbalBindingRoundTrip(
-            $this->getTypeName(),
-            $this->getPostgresTypeName(),
+            $typeName,
+            $columnType,
             $this->getValueWithMismatchedDimension($dimension),
         );
     }
@@ -53,14 +60,4 @@ abstract class VectorTypeTestCase extends TestCase
      * @param positive-int $declaredDimension
      */
     abstract protected function getValueWithMismatchedDimension(int $declaredDimension): mixed;
-
-    private function ensureVectorExtension(): void
-    {
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS vector');
-            $this->connection->executeStatement(\sprintf('ALTER EXTENSION vector SET SCHEMA %s', self::DATABASE_SCHEMA));
-        } catch (\Throwable) {
-            $this->markTestSkipped('pgvector extension is not available');
-        }
-    }
 }

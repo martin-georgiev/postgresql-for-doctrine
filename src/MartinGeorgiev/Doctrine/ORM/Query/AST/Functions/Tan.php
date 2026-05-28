@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL tan() function.
+ * Implementation of PostgreSQL TAN().
  *
  * Returns the tangent of the argument (given in radians).
  *

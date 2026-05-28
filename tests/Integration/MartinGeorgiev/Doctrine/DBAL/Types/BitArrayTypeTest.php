@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitArrayItemForDatabase
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class BitArrayTypeTest extends ArrayTypeTestCase
+final class BitArrayTypeTest extends ArrayTypeTestCase
 {
     use BitLengthRoundTripTrait;
 
@@ -63,7 +63,10 @@ class BitArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(DriverException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $inputValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $inputValue);
     }
 
     /**
@@ -85,7 +88,10 @@ class BitArrayTypeTest extends ArrayTypeTestCase
     {
         $this->expectException(InvalidBitArrayItemForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $inputValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $inputValue);
     }
 
     /**

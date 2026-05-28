@@ -35,7 +35,7 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_null_to_database_value(): void
+    public function converts_null_to_database_value(): void
     {
         $result = $this->type->convertToDatabaseValue(null, $this->platform);
 
@@ -43,7 +43,7 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_empty_array_to_database_value(): void
+    public function converts_empty_array_to_database_value(): void
     {
         $result = $this->type->convertToDatabaseValue([], $this->platform);
 
@@ -52,7 +52,7 @@ final class GeometryArrayTest extends TestCase
 
     #[DataProvider('provideValidArraysForDatabase')]
     #[Test]
-    public function can_convert_valid_arrays_to_database_value(array $phpArray, string $expectedPostgresArray): void
+    public function converts_to_database_value(array $phpArray, string $expectedPostgresArray): void
     {
         $result = $this->type->convertToDatabaseValue($phpArray, $this->platform);
 
@@ -124,7 +124,7 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_null_to_php_value(): void
+    public function converts_null_to_php_value(): void
     {
         $result = $this->type->convertToPHPValue(null, $this->platform);
 
@@ -132,7 +132,7 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_empty_postgres_array_to_php_value(): void
+    public function converts_empty_array_to_php_value(): void
     {
         $result = $this->type->convertToPHPValue('{}', $this->platform);
 
@@ -141,7 +141,7 @@ final class GeometryArrayTest extends TestCase
 
     #[DataProvider('provideValidPostgresArraysForPHP')]
     #[Test]
-    public function can_convert_valid_postgres_arrays_to_php_value(string $postgresArray, array $expectedPHPArray): void
+    public function converts_to_php_value(string $postgresArray, array $expectedPHPArray): void
     {
         $result = $this->type->convertToPHPValue($postgresArray, $this->platform);
 
@@ -310,44 +310,45 @@ final class GeometryArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideValidationCases')]
+    #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_array_items_for_database(mixed $item, bool $expected): void
+    public function validates_valid_array_item_for_database(mixed $item): void
     {
-        $this->assertSame($expected, $this->type->isValidArrayItemForDatabase($item));
+        $this->assertTrue($this->type->isValidArrayItemForDatabase($item));
     }
 
     /**
-     * @return array<string, array{item: mixed, expected: bool}>
+     * @return array<string, array{mixed}>
      */
-    public static function provideValidationCases(): array
+    public static function provideValidArrayItemsForDatabase(): array
     {
         return [
-            'valid WktSpatialData' => [
-                'item' => WktSpatialData::fromWkt('POINT(1 2)'),
-                'expected' => true,
-            ],
-            'string is invalid' => [
-                'item' => 'not a spatial data object',
-                'expected' => false,
-            ],
-            'null is invalid' => [
-                'item' => null,
-                'expected' => false,
-            ],
-            'integer is invalid' => [
-                'item' => 123,
-                'expected' => false,
-            ],
-            'array is invalid' => [
-                'item' => [],
-                'expected' => false,
-            ],
+            'valid WktSpatialData' => [WktSpatialData::fromWkt('POINT(1 2)')],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function validates_invalid_array_item_for_database(mixed $item): void
+    {
+        $this->assertFalse($this->type->isValidArrayItemForDatabase($item));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidArrayItemsForDatabase(): array
+    {
+        return [
+            'string is invalid' => ['not a spatial data object'],
+            'null is invalid' => [null],
+            'integer is invalid' => [123],
+            'array is invalid' => [[]],
         ];
     }
 
     #[Test]
-    public function can_transform_array_item_for_php(): void
+    public function converts_item_to_php_value(): void
     {
         $wktString = 'POINT(1 2)';
         $result = $this->type->transformArrayItemForPHP($wktString);
@@ -357,11 +358,18 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_null_array_item_for_php(): void
+    public function converts_null_item_to_php_value(): void
     {
         $result = $this->type->transformArrayItemForPHP(null);
 
         $this->assertNull($result);
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->type->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 
     #[Test]
@@ -384,7 +392,7 @@ final class GeometryArrayTest extends TestCase
 
     #[DataProvider('provideDimensionalModifierNormalization')]
     #[Test]
-    public function can_normalize_dimensional_modifiers(string $input, string $expected): void
+    public function normalizes_dimensional_modifiers(string $input, string $expected): void
     {
         $result = $this->type->transformArrayItemForPHP($input);
 
@@ -418,18 +426,9 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_empty_quoted_array_content(): void
+    public function returns_empty_array_for_malformed_input(): void
     {
-        $result = $this->type->convertToPHPValue('{""}', $this->platform);
-
-        $this->assertSame([], $result);
-    }
-
-    #[Test]
-    public function can_handle_whitespace_only_array(): void
-    {
-        $result = $this->type->convertToPHPValue('  ', $this->platform);
-
-        $this->assertSame([], $result);
+        $this->assertSame([], $this->type->convertToPHPValue('{""}', $this->platform));
+        $this->assertSame([], $this->type->convertToPHPValue('  ', $this->platform));
     }
 }

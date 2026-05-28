@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_HausdorffDistance() function.
+ * Implementation of PostGIS ST_HausdorffDistance().
  *
  * Returns the Hausdorff distance between two geometries.
  * This is a measure of how similar two geometries are.

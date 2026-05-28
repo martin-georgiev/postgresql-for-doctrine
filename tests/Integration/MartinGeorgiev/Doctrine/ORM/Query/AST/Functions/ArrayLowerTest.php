@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayLower;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayLowerTest extends ArrayTestCase
+final class ArrayLowerTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayLowerTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_get_lower_bound_for_text_array(): void
+    public function returns_lower_bound_for_text_array(): void
     {
         $dql = 'SELECT ARRAY_LOWER(t.textArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -29,7 +29,7 @@ class ArrayLowerTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_get_lower_bound_for_integer_array(): void
+    public function returns_lower_bound_for_integer_array(): void
     {
         $dql = 'SELECT ARRAY_LOWER(t.integerArray, 1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

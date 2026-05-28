@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tan;
 use PHPUnit\Framework\Attributes\Test;
 
-class TanTest extends NumericTestCase
+final class TanTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class TanTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_tan_of_literal(): void
+    public function calculates_tan_of_literal(): void
     {
         $dql = 'SELECT TAN(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class TanTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_tan_with_entity_property(): void
+    public function calculates_tan_with_entity_property(): void
     {
         $dql = 'SELECT TAN(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

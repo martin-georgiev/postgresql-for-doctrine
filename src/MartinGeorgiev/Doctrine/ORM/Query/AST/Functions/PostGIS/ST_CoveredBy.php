@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_CoveredBy() function.
+ * Implementation of PostGIS ST_CoveredBy().
  *
  * Tests if every point of A lies in B.
  *

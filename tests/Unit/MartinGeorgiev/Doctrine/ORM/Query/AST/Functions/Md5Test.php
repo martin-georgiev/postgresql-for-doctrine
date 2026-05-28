@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5;
 
-class Md5Test extends TestCase
+final class Md5Test extends TestCase
 {
     protected function getStringFunctions(): array
     {

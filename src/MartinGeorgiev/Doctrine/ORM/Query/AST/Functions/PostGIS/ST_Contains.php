@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Contains() function.
+ * Implementation of PostGIS ST_Contains().
  *
  * Tests if every point of B lies in A, and their interiors have a point in common.
  *

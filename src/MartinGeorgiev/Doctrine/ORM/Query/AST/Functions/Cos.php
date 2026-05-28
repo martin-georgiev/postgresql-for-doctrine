@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL cos() function.
+ * Implementation of PostgreSQL COS().
  *
  * Returns the cosine of the argument (given in radians).
  *

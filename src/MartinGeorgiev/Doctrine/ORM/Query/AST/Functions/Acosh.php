@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL acosh() function.
+ * Implementation of PostgreSQL ACOSH().
  *
  * Returns the inverse hyperbolic cosine of the argument (argument must be >= 1).
  *

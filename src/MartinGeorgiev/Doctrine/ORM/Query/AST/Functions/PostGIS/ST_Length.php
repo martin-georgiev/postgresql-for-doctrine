@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 
 /**
- * Implementation of PostGIS ST_Length() function.
+ * Implementation of PostGIS ST_Length().
  *
  * Returns the 2D length of the geometry if it is a LineString or MultiLineString.
  * For areal geometries, the perimeter is returned.

@@ -13,13 +13,20 @@ final class LtreeTypeTest extends TestCase
 {
     use LtreeAssertionTrait;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->ensurePostgresExtensionInSchema('ltree');
+    }
+
     protected function getTypeName(): string
     {
         return 'ltree';
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -28,7 +35,7 @@ final class LtreeTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_string_values(): void
+    public function roundtrips_string_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -54,7 +61,7 @@ final class LtreeTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_ltree_values(LtreeValueObject $ltreeValueObject): void
+    public function roundtrips_value(LtreeValueObject $ltreeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

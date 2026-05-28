@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange;
 
-class TstzrangeTest extends TestCase
+final class TstzrangeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

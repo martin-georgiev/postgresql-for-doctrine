@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class BaseFunctionTest extends TestCase
+final class BaseFunctionTest extends TestCase
 {
     #[Test]
     public function get_sql_returns_formatted_function_call(): void

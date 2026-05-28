@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_3DDistance() function.
+ * Implementation of PostGIS ST_3DDistance().
  *
  * Returns the 3D distance between two geometries.
  * For geometry type, the units are in the units of the spatial reference system.

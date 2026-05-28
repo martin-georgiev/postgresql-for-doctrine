@@ -124,7 +124,7 @@ abstract class RangeTypeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -137,7 +137,7 @@ abstract class RangeTypeTestCase extends TestCase
      */
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_range_values(RangeValueObject $rangeValueObject): void
+    public function roundtrips_value(RangeValueObject $rangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -155,7 +155,7 @@ abstract class RangeTypeTestCase extends TestCase
      */
     #[DataProvider('provideOperatorScenarios')]
     #[Test]
-    public function can_evaluate_operator_scenarios(string $dql, array $expectedIds): void
+    public function evaluates_operator_scenarios(string $dql, array $expectedIds): void
     {
         $result = $this->executeDqlQuery($dql);
         $this->assertIds($expectedIds, $result);

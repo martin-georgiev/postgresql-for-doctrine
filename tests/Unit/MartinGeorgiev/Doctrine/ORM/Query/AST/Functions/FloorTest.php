@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor;
 
-class FloorTest extends TestCase
+final class FloorTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

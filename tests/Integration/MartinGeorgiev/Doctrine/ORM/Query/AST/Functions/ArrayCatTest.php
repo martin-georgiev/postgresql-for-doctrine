@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCat;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayCatTest extends ArrayTestCase
+final class ArrayCatTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayCatTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_concatenate_text_arrays(): void
+    public function concatenates_text_arrays(): void
     {
         $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -32,7 +32,7 @@ class ArrayCatTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_concatenate_integer_arrays(): void
+    public function concatenates_integer_arrays(): void
     {
         $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -47,7 +47,7 @@ class ArrayCatTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_concatenate_boolean_arrays(): void
+    public function concatenates_boolean_arrays(): void
     {
         $dql = 'SELECT ARRAY_CAT(:array1, :array2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -62,7 +62,7 @@ class ArrayCatTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_concatenate_array_columns(): void
+    public function concatenates_array_columns(): void
     {
         $dql = 'SELECT ARRAY_CAT(t.textArray, t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

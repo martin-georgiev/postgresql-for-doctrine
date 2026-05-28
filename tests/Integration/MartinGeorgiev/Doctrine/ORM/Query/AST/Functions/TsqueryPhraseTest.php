@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsqueryPhrase;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsqueryPhraseTest extends TextTestCase
+final class TsqueryPhraseTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -19,7 +19,7 @@ class TsqueryPhraseTest extends TextTestCase
     }
 
     #[Test]
-    public function can_combine_tsqueries_into_phrase_query(): void
+    public function combines_tsqueries_into_phrase_query(): void
     {
         $dql = "SELECT TSQUERY_PHRASE(TO_TSQUERY('lorem'), TO_TSQUERY('ipsum')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -27,7 +27,7 @@ class TsqueryPhraseTest extends TextTestCase
     }
 
     #[Test]
-    public function can_combine_tsqueries_with_explicit_distance(): void
+    public function combines_tsqueries_with_explicit_distance(): void
     {
         $dql = "SELECT TSQUERY_PHRASE(TO_TSQUERY('lorem'), TO_TSQUERY('ipsum'), 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

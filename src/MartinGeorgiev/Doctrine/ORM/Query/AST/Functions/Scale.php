@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL scale() function.
+ * Implementation of PostgreSQL SCALE().
  *
  * Returns the number of decimal digits in the fractional part (scale) of the argument.
  *

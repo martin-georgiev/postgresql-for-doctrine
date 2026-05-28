@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLineArrayItemForDatabas
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Line as LineValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class LineArrayTypeTest extends ArrayTypeTestCase
+final class LineArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

@@ -47,38 +47,38 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     }
 
     #[Test]
-    public function can_convert_null_to_database_value(): void
+    public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
     }
 
     #[Test]
-    public function can_convert_null_to_php_value(): void
+    public function converts_null_to_php_value(): void
     {
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
     #[Test]
-    public function can_convert_empty_array_to_database_value(): void
+    public function converts_empty_array_to_database_value(): void
     {
         $this->assertSame('{}', $this->fixture->convertToDatabaseValue([], $this->platform));
     }
 
     #[Test]
-    public function can_convert_empty_postgres_array_to_php_value(): void
+    public function converts_empty_array_to_php_value(): void
     {
         $this->assertSame([], $this->fixture->convertToPHPValue('{}', $this->platform));
     }
 
     #[Test]
-    public function can_validate_null_as_valid_array_item_for_database(): void
+    public function validates_null_as_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
     }
 
     #[DataProvider('provideInvalidArrayItemsForDatabase')]
     #[Test]
-    public function can_detect_invalid_array_item_for_database(mixed $value): void
+    public function validates_invalid_array_item_for_database(mixed $value): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($value));
     }
@@ -98,7 +98,7 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     }
 
     #[Test]
-    public function can_return_null_for_null_item_in_transform_for_php(): void
+    public function converts_null_item_to_php_value(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }

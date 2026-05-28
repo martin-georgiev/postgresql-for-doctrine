@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNetworks;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Family;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class FamilyTest extends TestCase
+final class FamilyTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsRanges;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeIntersectAgg;
 
-class RangeIntersectAggTest extends TestCase
+final class RangeIntersectAggTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

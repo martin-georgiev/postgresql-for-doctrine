@@ -46,7 +46,7 @@ abstract class BaseRangeTestCase extends TestCase
      */
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?Range $range, ?string $postgresValue): void
+    public function converts_to_database_value(?Range $range, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($range, $this->platform));
     }
@@ -56,7 +56,7 @@ abstract class BaseRangeTestCase extends TestCase
      */
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?Range $range, ?string $postgresValue): void
+    public function converts_to_php_value(?Range $range, ?string $postgresValue): void
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
 
@@ -75,7 +75,7 @@ abstract class BaseRangeTestCase extends TestCase
     abstract public static function provideValidTransformations(): \Generator;
 
     #[Test]
-    public function can_transform_null_from_php_value(): void
+    public function converts_null_to_database_value(): void
     {
         $result = $this->fixture->convertToDatabaseValue(null, $this->platform);
 
@@ -83,7 +83,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_transform_null_from_sql_value(): void
+    public function converts_null_to_php_value(): void
     {
         $result = $this->fixture->convertToPHPValue(null, $this->platform);
 
@@ -91,7 +91,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_handle_postgres_empty_range(): void
+    public function converts_postgres_empty_range_to_php_value(): void
     {
         $result = $this->fixture->convertToPHPValue('empty', $this->platform);
 
@@ -101,7 +101,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_handle_empty_string_from_sql(): void
+    public function converts_empty_string_from_sql_to_null(): void
     {
         $result = $this->fixture->convertToPHPValue('', $this->platform);
 

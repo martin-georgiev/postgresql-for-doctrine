@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonValue;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonValueTest extends JsonTestCase
+final class JsonValueTest extends JsonTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class JsonValueTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_extract_scalar_value(): void
+    public function extracts_scalar_value(): void
     {
         $dql = "SELECT JSON_VALUE(t.jsonObject1, '$.name') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -33,7 +33,7 @@ class JsonValueTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_extract_nested_value(): void
+    public function extracts_nested_value(): void
     {
         $dql = "SELECT JSON_VALUE(t.jsonObject1, '$.address.city') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -43,7 +43,7 @@ class JsonValueTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_extract_numeric_value(): void
+    public function extracts_numeric_value(): void
     {
         $dql = "SELECT JSON_VALUE(t.jsonObject1, '$.age') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

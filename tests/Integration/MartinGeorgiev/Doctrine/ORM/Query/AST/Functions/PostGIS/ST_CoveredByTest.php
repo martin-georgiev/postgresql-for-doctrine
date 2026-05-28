@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoveredBy;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_CoveredByTest extends SpatialOperatorTestCase
+final class ST_CoveredByTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

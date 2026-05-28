@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atand;
 use PHPUnit\Framework\Attributes\Test;
 
-class AtandTest extends NumericTestCase
+final class AtandTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class AtandTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_atand_of_literal(): void
+    public function calculates_atand_of_literal(): void
     {
         $dql = 'SELECT ATAND(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class AtandTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_atand_with_entity_property(): void
+    public function calculates_atand_with_entity_property(): void
     {
         $dql = 'SELECT ATAND(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

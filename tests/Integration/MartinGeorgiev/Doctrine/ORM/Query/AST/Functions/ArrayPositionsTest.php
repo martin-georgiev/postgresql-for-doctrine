@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPositions;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayPositionsTest extends ArrayTestCase
+final class ArrayPositionsTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {

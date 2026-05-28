@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConcaveHull;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_ConcaveHullTest extends SpatialOperatorTestCase
+final class ST_ConcaveHullTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

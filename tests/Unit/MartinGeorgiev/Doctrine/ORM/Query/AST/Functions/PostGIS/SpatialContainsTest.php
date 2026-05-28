@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialContains;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class SpatialContainsTest extends TestCase
+final class SpatialContainsTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

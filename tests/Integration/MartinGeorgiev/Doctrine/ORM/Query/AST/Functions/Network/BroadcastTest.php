@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Broadcast;
 use PHPUnit\Framework\Attributes\Test;
 
-class BroadcastTest extends TestCase
+final class BroadcastTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

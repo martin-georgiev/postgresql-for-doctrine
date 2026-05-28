@@ -28,10 +28,15 @@ Follow the reference function's structure. Key rules:
 
 Integration test method naming and structure:
 - At least 2 tests per function: one with literal(s), one with entity property/properties
-- Method names: `can_{verb}_{function}_of_literal` and `can_{verb}_{function}_with_entity_property` (plural for multi-arg)
-- Use `can_calculate_` for deterministic functions, `can_generate_` for random/non-deterministic
-- **NEVER embed exact test data in method names** (e.g., `can_calculate_gcd_of_literals` NOT `can_calculate_gcd_of_twelve_and_eight`)
-- **ALWAYS assert exact expected values** for deterministic functions — use `assertEquals`, `assertSame`, or `assertEqualsWithDelta` (for floats). NEVER use lazy `assertNotNull` when the result is known. Only use `assertNotNull` for truly non-deterministic functions (RANDOM, RANDOM_NORMAL).
+- Method names use **snake_case**. Pick the verb that matches what the function does:
+  - `calculates_*` — pure math functions: `calculates_gcd_of_literals`, `calculates_with_integer_exponent`, `calculates_with_column_values`
+  - `computes_*` — hash / deterministic transforms: `computes_md5_of_a_string`, `computes_md5_of_text_field`
+  - `generates_*` — non-deterministic / generators: `generates_uuid_v4`, `generates_unique_uuids`
+  - `returns_true_when_*` / `returns_false_when_*` — boolean-returning functions: `returns_true_when_entity_fields_are_similar`
+  - Function-name-as-verb — single-shot calls: `random`, `random_plus_entity_property`
+- Context suffixes by what the test exercises: `_of_literals`, `_with_entity_properties`, `_of_a_string`, `_of_text_field`, `_with_integer_exponent`, `_with_negative_base`, etc.
+- **NEVER embed exact test data in method names** (e.g., `calculates_gcd_of_literals` NOT `calculates_gcd_of_twelve_and_eight`)
+- **ALWAYS assert exact expected values** for deterministic functions — use `assertEquals`, `assertSame`, or `assertEqualsWithDelta` (for confirmed unreliable floats). NEVER use lazy `assertNotNull` when the result is known. Only use `assertNotNull` for truly non-deterministic functions (RANDOM, RANDOM_NORMAL).
 - Don't add extra tests for edge cases — but the tests you do write must assert precise results
 - For optional-arg functions: test each distinct arity
 

@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Random;
 use PHPUnit\Framework\Attributes\Test;
 
-class RandomTest extends TestCase
+final class RandomTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

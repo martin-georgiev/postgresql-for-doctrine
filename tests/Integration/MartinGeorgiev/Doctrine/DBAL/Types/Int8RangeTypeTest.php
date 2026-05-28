@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class Int8RangeTypeTest extends RangeTypeTestCase
+final class Int8RangeTypeTest extends RangeTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -28,7 +28,7 @@ class Int8RangeTypeTest extends RangeTypeTestCase
     }
 
     #[Test]
-    public function can_handle_infinite_ranges(): void
+    public function roundtrips_infinite_ranges(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -38,7 +38,7 @@ class Int8RangeTypeTest extends RangeTypeTestCase
     }
 
     #[Test]
-    public function can_handle_empty_ranges(): void
+    public function roundtrips_empty_ranges(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

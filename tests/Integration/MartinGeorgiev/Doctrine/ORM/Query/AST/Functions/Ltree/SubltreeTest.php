@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltre
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subltree;
 use PHPUnit\Framework\Attributes\Test;
 
-class SubltreeTest extends TestCase
+final class SubltreeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class SubltreeTest extends TestCase
     }
 
     #[Test]
-    public function can_extract_subpath_from_an_arbitrary_position(): void
+    public function extracts_subpath_from_an_arbitrary_position(): void
     {
         $dql = 'SELECT SUBLTREE(l.ltree1, 1, 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class SubltreeTest extends TestCase
     }
 
     #[Test]
-    public function can_extract_subpath_from_the_beginning(): void
+    public function extracts_subpath_from_the_beginning(): void
     {
         $dql = 'SELECT SUBLTREE(l.ltree1, 0, 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);

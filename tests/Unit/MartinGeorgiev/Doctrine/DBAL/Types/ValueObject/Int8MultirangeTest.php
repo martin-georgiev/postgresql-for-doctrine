@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class Int8MultirangeTest extends TestCase
+final class Int8MultirangeTest extends TestCase
 {
     #[Test]
     public function empty_multirange_produces_empty_string(): void
@@ -39,7 +39,7 @@ class Int8MultirangeTest extends TestCase
     }
 
     #[Test]
-    public function handles_negative_values(): void
+    public function accepts_negative_values(): void
     {
         $int8Multirange = new Int8Multirange([new Int8Range(-9999999999, -1)]);
         $this->assertSame('{[-9999999999,-1)}', (string) $int8Multirange);
@@ -47,7 +47,7 @@ class Int8MultirangeTest extends TestCase
 
     #[DataProvider('provideValidFromStringCases')]
     #[Test]
-    public function can_parse_from_string(string $input, string $expectedString): void
+    public function parses_from_string(string $input, string $expectedString): void
     {
         $int8Multirange = Int8Multirange::fromString($input);
         $this->assertSame($expectedString, (string) $int8Multirange);

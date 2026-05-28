@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acos;
 use PHPUnit\Framework\Attributes\Test;
 
-class AcosTest extends NumericTestCase
+final class AcosTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class AcosTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_acos_of_literal(): void
+    public function calculates_acos_of_literal(): void
     {
         $dql = 'SELECT ACOS(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class AcosTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_acos_with_entity_property(): void
+    public function calculates_acos_with_entity_property(): void
     {
         $dql = 'SELECT ACOS(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

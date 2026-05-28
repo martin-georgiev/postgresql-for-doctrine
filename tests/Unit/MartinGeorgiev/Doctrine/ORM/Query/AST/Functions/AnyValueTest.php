@@ -9,7 +9,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 
-class AnyValueTest extends TestCase
+final class AnyValueTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

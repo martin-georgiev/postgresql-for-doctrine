@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromGeoJSON;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_GeomFromGeoJSONTest extends SpatialOperatorTestCase
+final class ST_GeomFromGeoJSONTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c;
 use PHPUnit\Framework\Attributes\Test;
 
-class Crc32cTest extends TextTestCase
+final class Crc32cTest extends TextTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class Crc32cTest extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_crc32c_of_a_string(): void
+    public function computes_crc32c_of_a_string(): void
     {
         $dql = "SELECT CRC32C('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -35,7 +35,7 @@ class Crc32cTest extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_crc32c_of_text_field(): void
+    public function computes_crc32c_of_text_field(): void
     {
         $dql = 'SELECT CRC32C(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

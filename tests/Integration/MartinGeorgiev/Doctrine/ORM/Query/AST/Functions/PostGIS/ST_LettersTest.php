@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Letters;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_LettersTest extends SpatialOperatorTestCase
+final class ST_LettersTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

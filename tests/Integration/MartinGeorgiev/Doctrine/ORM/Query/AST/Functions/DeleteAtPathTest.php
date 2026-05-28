@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DeleteAtPath;
 use PHPUnit\Framework\Attributes\Test;
 
-class DeleteAtPathTest extends JsonTestCase
+final class DeleteAtPathTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_delete_simple_path(): void
+    public function deletes_simple_path(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,7 +30,7 @@ class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_delete_multiple_elements(): void
+    public function deletes_multiple_elements(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -43,7 +43,7 @@ class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_delete_array_element(): void
+    public function deletes_array_element(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -56,7 +56,7 @@ class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_delete_with_column_reference(): void
+    public function deletes_with_column_reference(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

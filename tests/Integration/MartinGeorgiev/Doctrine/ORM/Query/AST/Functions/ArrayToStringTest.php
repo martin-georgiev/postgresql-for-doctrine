@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayToStringTest extends ArrayTestCase
+final class ArrayToStringTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayToStringTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_convert_to_string_with_comma_delimiter(): void
+    public function converts_to_string_with_comma_delimiter(): void
     {
         $dql = 'SELECT ARRAY_TO_STRING(t.textArray, \',\') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -27,7 +27,7 @@ class ArrayToStringTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_convert_to_string_with_custom_delimiter(): void
+    public function converts_to_string_with_custom_delimiter(): void
     {
         $dql = 'SELECT ARRAY_TO_STRING(t.textArray, \' | \') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

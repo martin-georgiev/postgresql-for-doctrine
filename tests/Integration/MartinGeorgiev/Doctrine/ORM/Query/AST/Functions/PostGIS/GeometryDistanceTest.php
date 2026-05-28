@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance;
 use PHPUnit\Framework\Attributes\Test;
 
-class GeometryDistanceTest extends SpatialOperatorTestCase
+final class GeometryDistanceTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class GeometryDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function can_calculate_euclidean_distance_between_geometric_points(): void
+    public function calculates_euclidean_distance_between_geometric_points(): void
     {
         $dql = 'SELECT GEOMETRY_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -41,7 +41,7 @@ class GeometryDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function can_calculate_spherical_distance_between_geographical_coordinates(): void
+    public function calculates_spherical_distance_between_geographical_coordinates(): void
     {
         $dql = 'SELECT GEOMETRY_DISTANCE(g.geography1, g.geography2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

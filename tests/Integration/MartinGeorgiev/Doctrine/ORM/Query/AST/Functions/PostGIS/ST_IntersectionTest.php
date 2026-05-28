@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Intersection;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_IntersectionTest extends SpatialOperatorTestCase
+final class ST_IntersectionTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

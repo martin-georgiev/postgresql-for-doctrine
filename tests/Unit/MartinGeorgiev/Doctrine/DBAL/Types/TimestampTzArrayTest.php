@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\BaseDateTimeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampTzArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampTzArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
+final class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
 {
-    protected function createFixture(): BaseDateTimeArray
+    protected function createFixture(): TimestampTzArray
     {
         return new TimestampTzArray();
     }
@@ -35,7 +34,7 @@ class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
 
     #[DataProvider('provideValidItemTransformationsToPostgres')]
     #[Test]
-    public function can_transform_timestamptz_item_for_postgres(\DateTimeInterface $phpValue, string $expectedPostgresValue): void
+    public function converts_timestamptz_item_for_postgres(\DateTimeInterface $phpValue, string $expectedPostgresValue): void
     {
         $this->assertSame($expectedPostgresValue, $this->fixture->convertToDatabaseValue([$phpValue], $this->platform));
     }
@@ -63,7 +62,7 @@ class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
 
     #[DataProvider('provideValidItemTransformationsToPHP')]
     #[Test]
-    public function can_transform_timestamptz_item_for_php(string $postgresValue, string $expectedDatetime, string $expectedOffset): void
+    public function converts_timestamptz_item_for_php(string $postgresValue, string $expectedDatetime, string $expectedOffset): void
     {
         $result = $this->fixture->transformArrayItemForPHP($postgresValue);
         $this->assertInstanceOf(\DateTimeImmutable::class, $result);
@@ -101,7 +100,7 @@ class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function can_convert_multiple_timestamptz_values_to_database(): void
+    public function converts_multiple_timestamptz_values_to_database_value(): void
     {
         $phpValue = [
             new \DateTimeImmutable('2023-06-15 10:30:45+00:00'),
@@ -112,7 +111,7 @@ class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function can_convert_multiple_timestamptz_values_from_database(): void
+    public function converts_multiple_timestamptz_values_to_php_value(): void
     {
         $result = $this->fixture->convertToPHPValue('{"2023-06-15 10:30:45.000000+00:00","2024-01-01 00:00:00.000000+02:00"}', $this->platform);
         $this->assertIsArray($result);
@@ -126,7 +125,7 @@ class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function can_validate_valid_array_item_for_database(): void
+    public function validates_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45+00:00')));
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45+02:00')));

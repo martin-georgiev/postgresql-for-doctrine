@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance;
 use PHPUnit\Framework\Attributes\Test;
 
-class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
+final class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function can_calculate_distance_between_geometry_centroids(): void
+    public function calculates_distance_between_geometry_centroids(): void
     {
         $dql = 'SELECT ND_CENTROID_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -29,7 +29,7 @@ class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function can_calculate_distance_between_geometry_and_literal_point(): void
+    public function calculates_distance_between_geometry_and_literal_point(): void
     {
         $dql = "SELECT ND_CENTROID_DISTANCE(g.geometry1, 'POINT(3 3)') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -11,11 +11,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class LsegTest extends TestCase
+final class LsegTest extends TestCase
 {
     #[DataProvider('provideValidLsegStrings')]
     #[Test]
-    public function can_create_from_string(string $input, string $expectedOutput): void
+    public function parses_from_string(string $input, string $expectedOutput): void
     {
         $lseg = Lseg::fromString($input);
         $this->assertSame($expectedOutput, (string) $lseg);
@@ -39,7 +39,7 @@ class LsegTest extends TestCase
     }
 
     #[Test]
-    public function can_return_point_values_via_getters(): void
+    public function returns_point_values_via_getters(): void
     {
         $lseg = Lseg::fromString('[(1.5,-2.5),(3,4)]');
         $this->assertSame(1.5, $lseg->getStart()->getX());
@@ -49,7 +49,7 @@ class LsegTest extends TestCase
     }
 
     #[Test]
-    public function can_construct_from_points(): void
+    public function constructs_from_points(): void
     {
         $lseg = new Lseg(new Point(1.5, -2.5), new Point(3.0, 4.0));
         $this->assertSame('[(1.5,-2.5),(3,4)]', (string) $lseg);
@@ -78,7 +78,7 @@ class LsegTest extends TestCase
     }
 
     #[Test]
-    public function can_normalize_bracketless_input_to_bracketed_output(): void
+    public function normalizes_bracketless_input_to_bracketed_output(): void
     {
         $lseg = Lseg::fromString('(1,2),(3,4)');
         $this->assertSame('[(1,2),(3,4)]', (string) $lseg);

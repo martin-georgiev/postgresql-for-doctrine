@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\SetMasklen;
 use PHPUnit\Framework\Attributes\Test;
 
-class SetMasklenTest extends TestCase
+final class SetMasklenTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

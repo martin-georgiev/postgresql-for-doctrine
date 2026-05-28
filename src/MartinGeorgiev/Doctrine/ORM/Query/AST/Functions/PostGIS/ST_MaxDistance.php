@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_MaxDistance() function.
+ * Implementation of PostGIS ST_MaxDistance().
  *
  * Returns the maximum distance between two geometries.
  * This is the maximum distance between any two points, one from each geometry.

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltre
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Index;
 use PHPUnit\Framework\Attributes\Test;
 
-class IndexTest extends TestCase
+final class IndexTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class IndexTest extends TestCase
     }
 
     #[Test]
-    public function can_find_position_of_ltree_in_another_ltree(): void
+    public function finds_position_of_ltree_in_another_ltree(): void
     {
         $dql = 'SELECT INDEX(l.ltree1, l.ltree2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);

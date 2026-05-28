@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sin;
 use PHPUnit\Framework\Attributes\Test;
 
-class SinTest extends NumericTestCase
+final class SinTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class SinTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_sin_of_literal(): void
+    public function calculates_sin_of_literal(): void
     {
         $dql = 'SELECT SIN(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class SinTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_sin_with_entity_property(): void
+    public function calculates_sin_with_entity_property(): void
     {
         $dql = 'SELECT SIN(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

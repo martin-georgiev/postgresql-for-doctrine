@@ -24,16 +24,22 @@ final class IntervalTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, null);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(IntervalValueObject $intervalValueObject): void
+    public function roundtrips_value(IntervalValueObject $intervalValueObject): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $intervalValueObject);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $intervalValueObject);
     }
 
     /**
@@ -52,7 +58,7 @@ final class IntervalTypeTest extends TestCase
 
     #[DataProvider('provideVariousInputFormats')]
     #[Test]
-    public function can_round_trip_for_various_input_formats(\DateInterval|IntervalValueObject|string $input, string $expectedOutput): void
+    public function roundtrips_for_various_input_formats(\DateInterval|IntervalValueObject|string $input, string $expectedOutput): void
     {
         [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
 

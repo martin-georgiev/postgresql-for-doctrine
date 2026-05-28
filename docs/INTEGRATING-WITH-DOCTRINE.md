@@ -31,12 +31,18 @@ Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
 
-// Datetime array types
+// Case-insensitive text types
+Type::addType('citext', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Citext");
+Type::addType('citext[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CitextArray");
+
+// Date and time types
 Type::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
 Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
 Type::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
 Type::addType('timestamp[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampArray");
 Type::addType('timestamptz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTzArray");
+Type::addType('timetz', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Timetz");
+Type::addType('timetz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimetzArray");
 
 // JSON types
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
@@ -76,19 +82,31 @@ Type::addType('geography[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeographyAr
 
 // Range types
 Type::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
+Type::addType('daterange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRangeArray");
 Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
+Type::addType('int4range[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4RangeArray");
 Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
+Type::addType('int8range[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8RangeArray");
 Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
+Type::addType('numrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRangeArray");
 Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
+Type::addType('tsrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRangeArray");
 Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
+Type::addType('tstzrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRangeArray");
 
 // Multirange types
 Type::addType('datemultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateMultirange");
+Type::addType('datemultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateMultirangeArray");
 Type::addType('int4multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Multirange");
+Type::addType('int4multirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4MultirangeArray");
 Type::addType('int8multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Multirange");
+Type::addType('int8multirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8MultirangeArray");
 Type::addType('nummultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirange");
+Type::addType('nummultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirangeArray");
 Type::addType('tsmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsMultirange");
+Type::addType('tsmultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsMultirangeArray");
 Type::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMultirange");
+Type::addType('tstzmultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMultirangeArray");
 
 // Text search types
 Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
@@ -127,6 +145,7 @@ Register the functions you'll use in your DQL queries. The full set of available
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
 - [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
+- [Utility Functions](UTILITY-FUNCTIONS.md)
 
 ```php
 <?php
@@ -181,6 +200,7 @@ $configuration->addCustomStringFunction('ARRAY_UPPER', MartinGeorgiev\Doctrine\O
 $configuration->addCustomStringFunction('SPLIT_PART', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class);
 $configuration->addCustomStringFunction('STARTS_WITH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class);
 $configuration->addCustomStringFunction('STRING_TO_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class);
+$configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
 $configuration->addCustomStringFunction('UNNEST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class);
 
 # json specific functions
@@ -312,7 +332,6 @@ $configuration->addCustomStringFunction('TAND', MartinGeorgiev\Doctrine\ORM\Quer
 $configuration->addCustomStringFunction('TANH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh::class);
 
 # other operators
-$configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
 $configuration->addCustomStringFunction('ILIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class);
 $configuration->addCustomStringFunction('SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo::class);
 $configuration->addCustomStringFunction('NOT_SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo::class);
@@ -328,7 +347,6 @@ $configuration->addCustomStringFunction('REGEXP_SUBSTR', MartinGeorgiev\Doctrine
 $configuration->addCustomStringFunction('REGEXP_MATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class);
 $configuration->addCustomStringFunction('STRCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class);
 $configuration->addCustomStringFunction('REGEXP_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class);
-$configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
 $configuration->addCustomStringFunction('DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class);
 
 # vector distance functions
@@ -353,9 +371,38 @@ $configuration->addCustomStringFunction('JSON_OBJECT_AGG', MartinGeorgiev\Doctri
 $configuration->addCustomStringFunction('JSONB_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class);
 $configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class);
 $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);
-$configuration->addCustomStringFunction('XML_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
 
-# data type formatting functions
+# XML functions
+$configuration->addCustomStringFunction('XML_IS_WELL_FORMED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class);
+$configuration->addCustomStringFunction('XML_IS_WELL_FORMED_CONTENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class);
+$configuration->addCustomStringFunction('XML_IS_WELL_FORMED_DOCUMENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument::class);
+$configuration->addCustomStringFunction('XMLAGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class);
+$configuration->addCustomStringFunction('XMLCOMMENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment::class);
+$configuration->addCustomStringFunction('XMLCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat::class);
+$configuration->addCustomStringFunction('XMLEXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists::class);
+$configuration->addCustomStringFunction('XMLPI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi::class);
+$configuration->addCustomStringFunction('XMLTEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText::class);
+$configuration->addCustomStringFunction('XPATH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class);
+$configuration->addCustomStringFunction('XPATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class);
+
+# hashing and checksum functions
+$configuration->addCustomStringFunction('CRC32', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class);
+$configuration->addCustomStringFunction('CRC32C', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c::class);
+$configuration->addCustomStringFunction('MD5', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5::class);
+$configuration->addCustomStringFunction('REVERSE_BYTES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes::class);
+$configuration->addCustomStringFunction('SHA224', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha224::class);
+$configuration->addCustomStringFunction('SHA256', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256::class);
+$configuration->addCustomStringFunction('SHA384', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384::class);
+$configuration->addCustomStringFunction('SHA512', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512::class);
+
+# uuid functions
+$configuration->addCustomStringFunction('UUID_EXTRACT_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp::class);
+$configuration->addCustomStringFunction('UUID_EXTRACT_VERSION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion::class);
+$configuration->addCustomStringFunction('UUIDV4', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4::class);
+$configuration->addCustomStringFunction('UUIDV7', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7::class);
+
+# type conversion and formatting functions
+$configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
 $configuration->addCustomStringFunction('TO_CHAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class);
 $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class);
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
@@ -405,6 +452,11 @@ $platform->registerDoctrineTypeMapping('_text', 'text[]');
 $platform->registerDoctrineTypeMapping('uuid[]', 'uuid[]');
 $platform->registerDoctrineTypeMapping('_uuid', 'uuid[]');
 
+// Case-insensitive text type mappings
+$platform->registerDoctrineTypeMapping('citext', 'citext');
+$platform->registerDoctrineTypeMapping('citext[]', 'citext[]');
+$platform->registerDoctrineTypeMapping('_citext', 'citext[]');
+
 // Datetime array type mappings
 $platform->registerDoctrineTypeMapping('date[]', 'date[]');
 $platform->registerDoctrineTypeMapping('_date', 'date[]');
@@ -415,6 +467,9 @@ $platform->registerDoctrineTypeMapping('timestamp[]', 'timestamp[]');
 $platform->registerDoctrineTypeMapping('_timestamp', 'timestamp[]');
 $platform->registerDoctrineTypeMapping('timestamptz[]', 'timestamptz[]');
 $platform->registerDoctrineTypeMapping('_timestamptz', 'timestamptz[]');
+$platform->registerDoctrineTypeMapping('timetz', 'timetz');
+$platform->registerDoctrineTypeMapping('timetz[]', 'timetz[]');
+$platform->registerDoctrineTypeMapping('_timetz', 'timetz[]');
 
 // JSON type mappings
 $platform->registerDoctrineTypeMapping('jsonb', 'jsonb');
@@ -468,19 +523,43 @@ $platform->registerDoctrineTypeMapping('_geography', 'geography[]');
 
 // Range type mappings
 $platform->registerDoctrineTypeMapping('daterange', 'daterange');
+$platform->registerDoctrineTypeMapping('daterange[]', 'daterange[]');
+$platform->registerDoctrineTypeMapping('_daterange', 'daterange[]');
 $platform->registerDoctrineTypeMapping('int4range', 'int4range');
+$platform->registerDoctrineTypeMapping('int4range[]', 'int4range[]');
+$platform->registerDoctrineTypeMapping('_int4range', 'int4range[]');
 $platform->registerDoctrineTypeMapping('int8range', 'int8range');
+$platform->registerDoctrineTypeMapping('int8range[]', 'int8range[]');
+$platform->registerDoctrineTypeMapping('_int8range', 'int8range[]');
 $platform->registerDoctrineTypeMapping('numrange', 'numrange');
+$platform->registerDoctrineTypeMapping('numrange[]', 'numrange[]');
+$platform->registerDoctrineTypeMapping('_numrange', 'numrange[]');
 $platform->registerDoctrineTypeMapping('tsrange', 'tsrange');
+$platform->registerDoctrineTypeMapping('tsrange[]', 'tsrange[]');
+$platform->registerDoctrineTypeMapping('_tsrange', 'tsrange[]');
 $platform->registerDoctrineTypeMapping('tstzrange', 'tstzrange');
+$platform->registerDoctrineTypeMapping('tstzrange[]', 'tstzrange[]');
+$platform->registerDoctrineTypeMapping('_tstzrange', 'tstzrange[]');
 
 // Multirange type mappings
 $platform->registerDoctrineTypeMapping('datemultirange', 'datemultirange');
+$platform->registerDoctrineTypeMapping('_datemultirange', 'datemultirange[]');
+$platform->registerDoctrineTypeMapping('datemultirange[]', 'datemultirange[]');
 $platform->registerDoctrineTypeMapping('int4multirange', 'int4multirange');
+$platform->registerDoctrineTypeMapping('int4multirange[]', 'int4multirange[]');
+$platform->registerDoctrineTypeMapping('_int4multirange', 'int4multirange[]');
 $platform->registerDoctrineTypeMapping('int8multirange', 'int8multirange');
+$platform->registerDoctrineTypeMapping('int8multirange[]', 'int8multirange[]');
+$platform->registerDoctrineTypeMapping('_int8multirange', 'int8multirange[]');
 $platform->registerDoctrineTypeMapping('nummultirange', 'nummultirange');
+$platform->registerDoctrineTypeMapping('nummultirange[]', 'nummultirange[]');
+$platform->registerDoctrineTypeMapping('_nummultirange', 'nummultirange[]');
 $platform->registerDoctrineTypeMapping('tsmultirange', 'tsmultirange');
+$platform->registerDoctrineTypeMapping('tsmultirange[]', 'tsmultirange[]');
+$platform->registerDoctrineTypeMapping('_tsmultirange', 'tsmultirange[]');
 $platform->registerDoctrineTypeMapping('tstzmultirange', 'tstzmultirange');
+$platform->registerDoctrineTypeMapping('tstzmultirange[]', 'tstzmultirange[]');
+$platform->registerDoctrineTypeMapping('_tstzmultirange', 'tstzmultirange[]');
 
 // Text search type mappings
 $platform->registerDoctrineTypeMapping('tsquery', 'tsquery');

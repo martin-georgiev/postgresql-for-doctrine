@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbToTsvector;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbToTsvectorTest extends JsonTestCase
+final class JsonbToTsvectorTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class JsonbToTsvectorTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_convert_jsonb_to_tsvector(): void
+    public function converts_jsonb_to_tsvector(): void
     {
         $dql = "SELECT JSONB_TO_TSVECTOR('english', t.jsonbObject1, '[\"string\"]') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

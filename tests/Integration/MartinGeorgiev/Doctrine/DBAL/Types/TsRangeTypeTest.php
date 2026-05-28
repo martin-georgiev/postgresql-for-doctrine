@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange as TsRangeValueObject
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class TsRangeTypeTest extends RangeTypeTestCase
+final class TsRangeTypeTest extends RangeTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -50,7 +50,7 @@ class TsRangeTypeTest extends RangeTypeTestCase
 
     #[DataProvider('provideInfinityAndSpecialCases')]
     #[Test]
-    public function can_handle_infinity_and_special_cases(TsRangeValueObject $tsRangeValueObject): void
+    public function roundtrips_unbounded_and_empty_value(TsRangeValueObject $tsRangeValueObject): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

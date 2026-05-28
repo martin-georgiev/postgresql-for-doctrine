@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayFill;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayFillTest extends ArrayTestCase
+final class ArrayFillTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -21,7 +21,7 @@ class ArrayFillTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_fill_array_with_integer_value(): void
+    public function fills_array_with_integer_value(): void
     {
         $dql = "SELECT ARRAY_FILL(7, ARRAY('3')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
@@ -35,7 +35,7 @@ class ArrayFillTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_fill_array_with_string_value(): void
+    public function fills_array_with_string_value(): void
     {
         $dql = "SELECT ARRAY_FILL(CAST('x' AS TEXT), ARRAY('3')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
@@ -49,7 +49,7 @@ class ArrayFillTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_fill_array_with_boolean_value(): void
+    public function fills_array_with_boolean_value(): void
     {
         $dql = "SELECT ARRAY_FILL(CAST('true' AS BOOLEAN), ARRAY('2')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
@@ -61,7 +61,7 @@ class ArrayFillTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_fill_multi_dimensional_array(): void
+    public function fills_multi_dimensional_array(): void
     {
         $dql = "SELECT ARRAY_FILL(11, ARRAY('2', '3')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
@@ -73,7 +73,7 @@ class ArrayFillTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_fill_array_with_custom_lower_bounds(): void
+    public function fills_array_with_custom_lower_bounds(): void
     {
         $dql = "SELECT ARRAY_FILL(7, ARRAY('3'), ARRAY('2')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t

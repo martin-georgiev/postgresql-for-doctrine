@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_OrderingEquals() function.
+ * Implementation of PostGIS ST_OrderingEquals().
  *
  * Tests if two geometries represent the same geometry and have points in the same directional order.
  *

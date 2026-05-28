@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Netw
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Host;
 use PHPUnit\Framework\Attributes\Test;
 
-class HostTest extends TestCase
+final class HostTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

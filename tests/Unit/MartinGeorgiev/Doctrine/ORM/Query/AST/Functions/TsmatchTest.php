@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch;
 
-class TsmatchTest extends TestCase
+final class TsmatchTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

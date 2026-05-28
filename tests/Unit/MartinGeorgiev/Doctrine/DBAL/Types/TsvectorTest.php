@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class TsvectorTest extends TestCase
+final class TsvectorTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -36,14 +36,14 @@ class TsvectorTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?string $phpValue, ?string $databaseValue): void
+    public function converts_to_database_value(?string $phpValue, ?string $databaseValue): void
     {
         $this->assertSame($databaseValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?string $phpValue, ?string $databaseValue): void
+    public function converts_to_php_value(?string $phpValue, ?string $databaseValue): void
     {
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($databaseValue, $this->platform));
     }

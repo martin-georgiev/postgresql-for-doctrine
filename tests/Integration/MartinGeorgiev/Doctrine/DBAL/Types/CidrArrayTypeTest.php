@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\Test;
 
-class CidrArrayTypeTest extends ArrayTypeTestCase
+final class CidrArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

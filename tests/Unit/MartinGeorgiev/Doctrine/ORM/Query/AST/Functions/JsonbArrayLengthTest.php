@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength;
 
-class JsonbArrayLengthTest extends TestCase
+final class JsonbArrayLengthTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

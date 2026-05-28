@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Factorial;
 use PHPUnit\Framework\Attributes\Test;
 
-class FactorialTest extends NumericTestCase
+final class FactorialTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class FactorialTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_factorial_of_literal(): void
+    public function calculates_factorial_of_literal(): void
     {
         $dql = 'SELECT FACTORIAL(5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class FactorialTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_factorial_with_entity_property(): void
+    public function calculates_factorial_with_entity_property(): void
     {
         $dql = 'SELECT FACTORIAL(n.integer1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

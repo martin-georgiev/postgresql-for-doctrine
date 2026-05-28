@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy;
 
-class IsContainedByTest extends TestCase
+final class IsContainedByTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

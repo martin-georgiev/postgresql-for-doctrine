@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayLength;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbArrayLengthTest extends JsonTestCase
+final class JsonbArrayLengthTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -19,7 +19,7 @@ class JsonbArrayLengthTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_array_length_from_jsonb(): void
+    public function returns_array_length_from_jsonb(): void
     {
         $dql = "SELECT JSONB_ARRAY_LENGTH(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -39,7 +39,7 @@ class JsonbArrayLengthTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_length_of_single_element_array(): void
+    public function returns_length_of_single_element_array(): void
     {
         $dql = "SELECT JSONB_ARRAY_LENGTH(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

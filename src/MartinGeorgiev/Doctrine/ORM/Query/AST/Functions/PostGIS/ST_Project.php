@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Project() function.
+ * Implementation of PostGIS ST_Project().
  *
  * Projects a point along a geodesic.
  * Useful for calculating positions along great circle paths.

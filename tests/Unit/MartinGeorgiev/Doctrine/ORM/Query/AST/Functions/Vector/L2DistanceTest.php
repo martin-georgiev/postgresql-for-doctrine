@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsVectors;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class L2DistanceTest extends TestCase
+final class L2DistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

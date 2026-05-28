@@ -11,11 +11,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class BoxTest extends TestCase
+final class BoxTest extends TestCase
 {
     #[DataProvider('provideValidBoxStrings')]
     #[Test]
-    public function can_create_from_string(string $value, string $expectedOutput): void
+    public function parses_from_string(string $value, string $expectedOutput): void
     {
         $box = Box::fromString($value);
         $this->assertSame($expectedOutput, (string) $box);
@@ -55,7 +55,7 @@ class BoxTest extends TestCase
     }
 
     #[Test]
-    public function can_return_point_values_via_getters(): void
+    public function returns_point_values_via_getters(): void
     {
         $box = Box::fromString('(1.5,2.5),(3.5,4.5)');
         $this->assertSame(1.5, $box->getUpperRight()->getX());
@@ -65,7 +65,7 @@ class BoxTest extends TestCase
     }
 
     #[Test]
-    public function can_construct_from_points(): void
+    public function constructs_from_points(): void
     {
         $box = new Box(new Point(1.0, 2.0), new Point(3.0, 4.0));
         $this->assertSame('(1,2),(3,4)', (string) $box);

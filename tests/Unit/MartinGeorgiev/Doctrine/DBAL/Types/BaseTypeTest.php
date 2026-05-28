@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class BaseTypeTest extends TestCase
+final class BaseTypeTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -49,7 +49,7 @@ class BaseTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_return_correct_type_name(): void
+    public function returns_correct_type_name(): void
     {
         $type = new class extends BaseType {
             protected const TYPE_NAME = 'custom_type';
@@ -59,7 +59,7 @@ class BaseTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_get_correct_sql_declaration(): void
+    public function returns_correct_sql_declaration(): void
     {
         $type = new class extends BaseType {
             protected const TYPE_NAME = 'custom_type';
@@ -76,7 +76,7 @@ class BaseTypeTest extends TestCase
     }
 
     #[Test]
-    public function can_return_false_for_sql_comment_hint_requirement(): void
+    public function returns_false_for_sql_comment_hint_requirement(): void
     {
         $type = new class extends BaseType {
             protected const TYPE_NAME = 'custom_type';

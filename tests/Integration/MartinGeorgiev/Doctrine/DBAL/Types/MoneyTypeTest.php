@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMoneyForDatabaseExcepti
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class MoneyTypeTest extends ScalarTypeTestCase
+final class MoneyTypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -17,9 +17,12 @@ class MoneyTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidRoundTrips')]
     #[Test]
-    public function can_transform_from_php_value(string $testValue): void
+    public function roundtrips_value(string $testValue): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $testValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $testValue);
     }
 
     /**
@@ -36,14 +39,12 @@ class MoneyTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideNormalizedTransformations')]
     #[Test]
-    public function can_handle_postgresql_normalization_on_storage(string $inputValue, string $expectedValue): void
+    public function normalizes_postgresql_format_on_storage(string $inputValue, string $expectedValue): void
     {
-        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
-            $this->getTypeName(),
-            $this->getPostgresTypeName(),
-            $inputValue,
-            $expectedValue
-        );
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue($typeName, $columnType, $inputValue, $expectedValue);
     }
 
     /**
@@ -62,6 +63,9 @@ class MoneyTypeTest extends ScalarTypeTestCase
     {
         $this->expectException(InvalidMoneyForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), 'not money');
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, 'not money');
     }
 }

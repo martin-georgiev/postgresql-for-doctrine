@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class EnumTest extends TestCase
+final class EnumTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -75,7 +75,7 @@ class EnumTest extends TestCase
 
     #[DataProvider('provideNonBackedEnumValues')]
     #[Test]
-    public function throws_for_non_backed_enum_in_database_value(mixed $value): void
+    public function throws_exception_for_non_backed_enum_in_database_value(mixed $value): void
     {
         $this->expectException(InvalidEnumForDatabaseException::class);
 
@@ -97,7 +97,7 @@ class EnumTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_wrong_enum_class_in_database_value(): void
+    public function throws_exception_for_wrong_enum_class_in_database_value(): void
     {
         $this->expectException(InvalidEnumForDatabaseException::class);
 
@@ -106,7 +106,7 @@ class EnumTest extends TestCase
 
     #[DataProvider('provideNonStringPhpValues')]
     #[Test]
-    public function throws_for_non_string_in_php_value(mixed $value): void
+    public function throws_exception_for_non_string_in_php_value(mixed $value): void
     {
         $this->expectException(InvalidEnumForPHPException::class);
 
@@ -127,7 +127,7 @@ class EnumTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_unknown_enum_value_in_php_value(): void
+    public function throws_exception_for_unknown_enum_value_in_php_value(): void
     {
         $this->expectException(InvalidEnumForPHPException::class);
 
@@ -135,7 +135,7 @@ class EnumTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_non_backed_enum_class_in_php_value(): void
+    public function throws_exception_for_non_backed_enum_class_in_php_value(): void
     {
         $type = new class extends Enum {
             protected const TYPE_NAME = 'test_non_backed';
