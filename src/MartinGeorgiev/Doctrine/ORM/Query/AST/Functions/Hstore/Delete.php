@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL hstore delete() function.
+ * Implementation of PostgreSQL hstore DELETE().
  *
  * Deletes a key from an hstore.
  *

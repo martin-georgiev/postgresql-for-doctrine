@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL hstore akeys() function.
+ * Implementation of PostgreSQL hstore AKEYS().
  *
  * Returns an array of an hstore's keys.
  *

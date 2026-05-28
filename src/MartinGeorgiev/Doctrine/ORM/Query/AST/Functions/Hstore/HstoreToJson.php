@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL hstore hstore_to_json() function.
+ * Implementation of PostgreSQL hstore HSTORE_TO_JSON().
  *
  * Converts an hstore to a json value.
  *

@@ -17,7 +17,7 @@ class AvalsTest extends TestCase
     }
 
     #[Test]
-    public function can_return_values_as_array_from_hstore_literal(): void
+    public function returns_values_as_array_from_hstore_literal(): void
     {
         $dql = "SELECT HSTORE_AVALS('\"a\"=>\"1\",\"b\"=>\"2\"') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
@@ -29,7 +29,7 @@ class AvalsTest extends TestCase
     }
 
     #[Test]
-    public function can_return_values_as_array_from_entity_property(): void
+    public function returns_values_as_array_from_entity_property(): void
     {
         $dql = 'SELECT HSTORE_AVALS(t.data) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsHstores t

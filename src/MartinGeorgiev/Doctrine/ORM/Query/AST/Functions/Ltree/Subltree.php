@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL SUBLTREE().
+ * Implementation of PostgreSQL ltree SUBLTREE().
  *
  * Returns subpath of ltree from position start to position end-1 (counting from 0).
  *

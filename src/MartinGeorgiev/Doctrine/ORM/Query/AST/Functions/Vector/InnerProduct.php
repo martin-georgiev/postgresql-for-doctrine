@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of pgvector inner product (dot product) function.
+ * Implementation of PostgreSQL pgvector INNER_PRODUCT().
  *
  * Returns the inner product of two vectors.
  * Wraps the inner_product(vector, vector) SQL function.

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL hstore avals() function.
+ * Implementation of PostgreSQL hstore AVALS().
  *
  * Returns an array of an hstore's values.
  *

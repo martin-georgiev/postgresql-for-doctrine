@@ -17,7 +17,7 @@ class SkeysTest extends TestCase
     }
 
     #[Test]
-    public function can_return_keys_as_set_from_hstore_literal(): void
+    public function returns_keys_as_set_from_hstore_literal(): void
     {
         $dql = "SELECT HSTORE_SKEYS('\"a\"=>\"1\",\"b\"=>\"2\"') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
@@ -29,7 +29,7 @@ class SkeysTest extends TestCase
     }
 
     #[Test]
-    public function can_return_keys_as_set_from_entity_property(): void
+    public function returns_keys_as_set_from_entity_property(): void
     {
         $dql = 'SELECT HSTORE_SKEYS(t.data) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsHstores t

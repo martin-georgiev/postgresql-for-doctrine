@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL hstore skeys() function.
+ * Implementation of PostgreSQL hstore SKEYS().
  *
  * Returns an hstore's keys as a set.
  *

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostgreSQL SUBPATH().
+ * Implementation of PostgreSQL ltree SUBPATH().
  *
  * Returns subpath of ltree starting at position offset, with length len.
  * If offset is negative, subpath starts that far from the end of the path.

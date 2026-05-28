@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostgreSQL INDEX().
+ * Implementation of PostgreSQL ltree INDEX().
  *
  * Returns position of first occurrence of b in a, or -1 if not found.
  * The search starts at position offset; negative offset means start -offset labels from the end of the path.

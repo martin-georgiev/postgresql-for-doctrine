@@ -17,7 +17,7 @@ class DeleteTest extends TestCase
     }
 
     #[Test]
-    public function can_delete_key_from_hstore_literal(): void
+    public function returns_hstore_without_deleted_key_from_literal(): void
     {
         $dql = "SELECT HSTORE_DELETE('\"a\"=>\"1\",\"b\"=>\"2\"', 'a') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
@@ -28,9 +28,8 @@ class DeleteTest extends TestCase
     }
 
     #[Test]
-    public function can_delete_key_from_entity_property(): void
+    public function returns_hstore_without_deleted_key_from_entity_property(): void
     {
-        // Row 3 has exactly two keys so deleting one yields a deterministic single-pair result.
         $dql = "SELECT HSTORE_DELETE(t.data, 'key1') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
                 WHERE t.id = 3";

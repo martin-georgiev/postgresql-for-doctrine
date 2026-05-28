@@ -17,7 +17,7 @@ class DefinedTest extends TestCase
     }
 
     #[Test]
-    public function can_check_if_key_is_defined_in_hstore_literal(): void
+    public function returns_true_for_defined_key_in_hstore_literal(): void
     {
         $dql = "SELECT HSTORE_DEFINED('\"a\"=>\"1\",\"b\"=>\"2\"', 'a') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
@@ -28,7 +28,7 @@ class DefinedTest extends TestCase
     }
 
     #[Test]
-    public function can_check_if_key_is_defined_in_entity_property(): void
+    public function returns_true_for_defined_key_in_entity_property(): void
     {
         $dql = "SELECT HSTORE_DEFINED(t.data, 'a') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostgreSQL hstore defined() function.
+ * Implementation of PostgreSQL hstore DEFINED().
  *
  * Returns true if hstore contains a non-NULL value for the given key.
  *

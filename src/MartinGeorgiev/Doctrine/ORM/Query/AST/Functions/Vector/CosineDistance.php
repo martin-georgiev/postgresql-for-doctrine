@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of pgvector cosine distance function.
+ * Implementation of PostgreSQL pgvector COSINE_DISTANCE().
  *
  * Returns the cosine distance between two vectors (1 - cosine similarity). Range: 0 to 2.
  * Wraps the cosine_distance(vector, vector) SQL function (equivalent to the <=> operator).

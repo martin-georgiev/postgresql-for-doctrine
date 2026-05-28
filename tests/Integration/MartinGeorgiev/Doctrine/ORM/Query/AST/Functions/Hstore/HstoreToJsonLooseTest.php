@@ -17,7 +17,7 @@ class HstoreToJsonLooseTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_hstore_literal_to_json_loosely_typed(): void
+    public function converts_hstore_literal_to_json_with_loose_typing(): void
     {
         $dql = "SELECT HSTORE_TO_JSON_LOOSE('\"a\"=>\"1\",\"b\"=>\"2\"') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
@@ -32,7 +32,7 @@ class HstoreToJsonLooseTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_entity_property_to_json_loosely_typed(): void
+    public function converts_entity_property_to_json_with_loose_typing(): void
     {
         $dql = 'SELECT HSTORE_TO_JSON_LOOSE(t.data) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsHstores t
