@@ -24,10 +24,8 @@ class HstoreSkeysTest extends HstoreTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(2, $result);
         $keys = \array_column($result, 'result');
-        $this->assertContains('a', $keys);
-        $this->assertContains('b', $keys);
+        $this->assertEqualsCanonicalizing(['a', 'b'], $keys);
     }
 
     #[Test]
@@ -38,10 +36,7 @@ class HstoreSkeysTest extends HstoreTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(3, $result);
         $keys = \array_column($result, 'result');
-        $this->assertContains('a', $keys);
-        $this->assertContains('b', $keys);
-        $this->assertContains('c', $keys);
+        $this->assertEqualsCanonicalizing(['a', 'b', 'c'], $keys);
     }
 }

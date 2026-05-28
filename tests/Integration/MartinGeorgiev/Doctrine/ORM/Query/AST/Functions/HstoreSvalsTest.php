@@ -24,10 +24,8 @@ class HstoreSvalsTest extends HstoreTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(2, $result);
         $values = \array_column($result, 'result');
-        $this->assertContains('1', $values);
-        $this->assertContains('2', $values);
+        $this->assertEqualsCanonicalizing(['1', '2'], $values);
     }
 
     #[Test]
@@ -38,10 +36,7 @@ class HstoreSvalsTest extends HstoreTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(3, $result);
         $values = \array_column($result, 'result');
-        $this->assertContains('1', $values);
-        $this->assertContains('2', $values);
-        $this->assertContains('3', $values);
+        $this->assertEqualsCanonicalizing(['1', '2', '3'], $values);
     }
 }

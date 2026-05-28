@@ -25,10 +25,7 @@ class HstoreAkeysTest extends HstoreTestCase
 
         $result = $this->executeDqlQuery($dql);
         $keys = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($keys);
-        $this->assertCount(2, $keys);
-        $this->assertContains('a', $keys);
-        $this->assertContains('b', $keys);
+        $this->assertEqualsCanonicalizing(['a', 'b'], $keys);
     }
 
     #[Test]
@@ -40,10 +37,6 @@ class HstoreAkeysTest extends HstoreTestCase
 
         $result = $this->executeDqlQuery($dql);
         $keys = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($keys);
-        $this->assertCount(3, $keys);
-        $this->assertContains('a', $keys);
-        $this->assertContains('b', $keys);
-        $this->assertContains('c', $keys);
+        $this->assertEqualsCanonicalizing(['a', 'b', 'c'], $keys);
     }
 }

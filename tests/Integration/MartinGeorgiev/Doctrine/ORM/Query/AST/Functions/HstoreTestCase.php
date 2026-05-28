@@ -12,19 +12,8 @@ abstract class HstoreTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->ensureHstoreExtension();
         $this->createTestTableForHstoreFixture();
         $this->insertTestDataForHstoreFixture();
-    }
-
-    private function ensureHstoreExtension(): void
-    {
-        try {
-            $this->connection->executeStatement('CREATE EXTENSION IF NOT EXISTS hstore');
-            $this->connection->executeStatement(\sprintf('ALTER EXTENSION hstore SET SCHEMA %s', self::DATABASE_SCHEMA));
-        } catch (\Throwable) {
-            $this->markTestSkipped('hstore extension is not available');
-        }
     }
 
     private function createTestTableForHstoreFixture(): void
@@ -32,6 +21,7 @@ abstract class HstoreTestCase extends BaseTestCase
         $tableName = 'containshstores';
 
         $this->createTestSchema();
+        $this->ensurePostgresExtensionInSchema('hstore');
         $this->dropTestTableIfItExists($tableName);
 
         $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
