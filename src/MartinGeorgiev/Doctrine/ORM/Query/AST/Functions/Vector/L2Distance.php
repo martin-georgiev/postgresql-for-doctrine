@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of pgvector L2 (Euclidean) distance function.
+ * Implementation of PostgreSQL pgvector L2_DISTANCE().
  *
  * Returns the L2 distance between two vectors. A smaller value indicates greater similarity.
  * Wraps the l2_distance(vector, vector) SQL function (equivalent to the <-> operator).

@@ -136,6 +136,12 @@ $query = $em->createQuery('
 - **Date Functions**
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
+  - Special aggregates (`any_value`, `xmlagg`)
+- **Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
+  - Key and value extraction (`akeys`, `avals`, `skeys`, `svals`)
+  - Key inspection (`defined`)
+  - Key deletion (`delete`)
+  - JSON conversion (`hstore_to_json`, `hstore_to_json_loose`)
 - **XML Functions**
   - XML aggregation, construction, manipulation, validation (`xmlagg`, `xmlcomment`, `xmlconcat`, `xml_is_well_formed`)
   - XPath querying (`xpath`, `xpath_exists`)

@@ -558,6 +558,16 @@ return [
         'INNER_PRODUCT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class,
         'L2_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class,
 
+        # hstore functions
+        'HSTORE_AKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys::class,
+        'HSTORE_AVALS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals::class,
+        'HSTORE_DEFINED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined::class,
+        'HSTORE_DELETE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete::class,
+        'HSTORE_SKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Skeys::class,
+        'HSTORE_SVALS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Svals::class,
+        'HSTORE_TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJson::class,
+        'HSTORE_TO_JSON_LOOSE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose::class,
+
         # aggregation functions
         'ARRAY_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class,
         'JSON_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class,

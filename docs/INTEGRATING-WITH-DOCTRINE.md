@@ -354,6 +354,16 @@ $configuration->addCustomStringFunction('COSINE_DISTANCE', MartinGeorgiev\Doctri
 $configuration->addCustomStringFunction('INNER_PRODUCT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class);
 $configuration->addCustomStringFunction('L2_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class);
 
+# hstore functions
+$configuration->addCustomStringFunction('HSTORE_AKEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys::class);
+$configuration->addCustomStringFunction('HSTORE_AVALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals::class);
+$configuration->addCustomStringFunction('HSTORE_DEFINED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined::class);
+$configuration->addCustomStringFunction('HSTORE_DELETE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete::class);
+$configuration->addCustomStringFunction('HSTORE_SKEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Skeys::class);
+$configuration->addCustomStringFunction('HSTORE_SVALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Svals::class);
+$configuration->addCustomStringFunction('HSTORE_TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJson::class);
+$configuration->addCustomStringFunction('HSTORE_TO_JSON_LOOSE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose::class);
+
 # aggregation functions
 $configuration->addCustomStringFunction('ARRAY_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class);
 $configuration->addCustomStringFunction('JSON_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class);
