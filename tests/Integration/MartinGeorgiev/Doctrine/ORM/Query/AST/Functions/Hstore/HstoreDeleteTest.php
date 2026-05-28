@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreDelete;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDelete;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreDeleteTest extends HstoreTestCase
+class HstoreDeleteTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
@@ -24,21 +24,18 @@ class HstoreDeleteTest extends HstoreTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringNotContainsString('"a"=>', $result[0]['result']);
-        $this->assertStringContainsString('"b"=>', $result[0]['result']);
+        $this->assertSame('"b"=>"2"', $result[0]['result']);
     }
 
     #[Test]
     public function can_delete_key_from_entity_property(): void
     {
-        $dql = "SELECT HSTORE_DELETE(t.data, 'a') as result
+        // Row 3 has exactly two keys so deleting one yields a deterministic single-pair result.
+        $dql = "SELECT HSTORE_DELETE(t.data, 'key1') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
-                WHERE t.id = 1";
+                WHERE t.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringNotContainsString('"a"=>', $result[0]['result']);
-        $this->assertStringContainsString('"b"=>', $result[0]['result']);
+        $this->assertSame('"key2"=>"value2"', $result[0]['result']);
     }
 }

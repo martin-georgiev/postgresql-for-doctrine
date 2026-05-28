@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreSkeys;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSkeys;
+use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
 class HstoreSkeysTest extends TestCase
 {

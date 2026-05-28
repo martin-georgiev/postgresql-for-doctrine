@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreSvals;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreSvals;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreSvalsTest extends HstoreTestCase
+class HstoreSvalsTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

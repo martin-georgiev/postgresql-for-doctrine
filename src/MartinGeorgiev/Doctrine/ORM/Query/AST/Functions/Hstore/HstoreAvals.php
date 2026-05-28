@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
+
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
  * Implementation of PostgreSQL hstore avals() function.

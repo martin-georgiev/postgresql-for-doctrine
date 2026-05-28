@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreDefined;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreDefined;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreDefinedTest extends HstoreTestCase
+class HstoreDefinedTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
@@ -44,6 +44,17 @@ class HstoreDefinedTest extends HstoreTestCase
         $dql = "SELECT HSTORE_DEFINED(t.data, 'y') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
                 WHERE t.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_false_for_key_that_does_not_exist(): void
+    {
+        $dql = "SELECT HSTORE_DEFINED(t.data, 'nonexistent') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
+                WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);

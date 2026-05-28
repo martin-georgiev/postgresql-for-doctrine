@@ -66,7 +66,7 @@ Complete documentation for PostgreSQL network address operations on `inet` and `
 
 ### **🗃️ Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
 Key-value store operations using the PostgreSQL `hstore` type.
-- **[Hstore Functions](TEXT-AND-PATTERN-FUNCTIONS.md#hstore-functions)**
+- **[Hstore Functions](HSTORE-FUNCTIONS.md)**
 - Includes: `HSTORE_AKEYS`, `HSTORE_AVALS`, `HSTORE_SKEYS`, `HSTORE_SVALS`, `HSTORE_TO_JSON`, `HSTORE_TO_JSON_LOOSE`, `HSTORE_DEFINED`, `HSTORE_DELETE`
 
 ### **🌳 Ltree Functions**
@@ -137,7 +137,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `MASKLEN`/`NETMASK`/`HOSTMASK` - Mask information
 - `INET_MERGE` - Smallest network containing two addresses
 
-**Hstore Operations:** ([Complete documentation](TEXT-AND-PATTERN-FUNCTIONS.md#hstore-functions))
+**Hstore Operations:** ([Complete documentation](HSTORE-FUNCTIONS.md))
 - `HSTORE_AKEYS` - Return hstore keys as an array
 - `HSTORE_AVALS` - Return hstore values as an array
 - `HSTORE_DEFINED` - Check if key exists and is not NULL

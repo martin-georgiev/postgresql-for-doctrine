@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreAkeys;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAkeys;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreAkeysTest extends HstoreTestCase
+class HstoreAkeysTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

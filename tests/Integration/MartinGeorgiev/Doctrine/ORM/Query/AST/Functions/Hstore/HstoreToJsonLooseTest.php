@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreToJsonLoose;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreToJsonLooseTest extends HstoreTestCase
+class HstoreToJsonLooseTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

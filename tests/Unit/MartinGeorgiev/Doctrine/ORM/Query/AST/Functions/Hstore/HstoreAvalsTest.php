@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\HstoreAvals;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreAvals;
+use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
 class HstoreAvalsTest extends TestCase
 {

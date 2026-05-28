@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
+namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore;
 
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use Tests\Integration\MartinGeorgiev\TestCase as BaseTestCase;
 
-abstract class HstoreTestCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {
@@ -14,6 +15,18 @@ abstract class HstoreTestCase extends BaseTestCase
 
         $this->createTestTableForHstoreFixture();
         $this->insertTestDataForHstoreFixture();
+    }
+
+    protected function transformPostgresArray(mixed $value): mixed
+    {
+        try {
+            \assert(\is_string($value));
+            $preserveStringTypes = true; // hstore values are always text — preserve string types for numeric-looking values
+
+            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($value, $preserveStringTypes);
+        } catch (\Throwable) {
+            return $value;
+        }
     }
 
     private function createTestTableForHstoreFixture(): void
