@@ -469,12 +469,19 @@ return [
         'WEBSEARCH_TO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery::class,
 
         # date specific functions
+        'CLOCK_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp::class,
         'DATE_ADD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class,
         'DATE_BIN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin::class,
         'DATE_EXTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class,
         'DATE_OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class,
         'DATE_SUBTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class,
         'DATE_TRUNC' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc::class,
+        'ISFINITE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite::class,
+        'JUSTIFY_DAYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyDays::class,
+        'JUSTIFY_HOURS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours::class,
+        'JUSTIFY_INTERVAL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval::class,
+        'STATEMENT_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp::class,
+        'TRANSACTION_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp::class,
 
         # range functions
         'DATERANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class,

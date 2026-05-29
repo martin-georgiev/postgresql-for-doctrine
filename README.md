@@ -134,6 +134,8 @@ $query = $em->createQuery('
   - JSON manipulation and transformation
   - Row to JSON (`row_to_json`, `row`)
 - **Date Functions**
+  - Current timestamp functions (`clock_timestamp`, `statement_timestamp`, `transaction_timestamp`)
+  - Interval adjustment (`justify_days`, `justify_hours`, `justify_interval`)
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
   - Special aggregates (`any_value`, `xmlagg`)
