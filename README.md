@@ -139,6 +139,7 @@ $query = $em->createQuery('
   - Interval adjustment (`justify_days`, `justify_hours`, `justify_interval`)
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
+  - Statistical aggregates (`bool_and`, `bool_or`, `every`, `bit_and`, `bit_or`, `bit_xor`, `stddev`, `stddev_pop`, `var_pop`, `variance`, `corr`, `covar_pop`, `covar_samp`)
   - Special aggregates (`any_value`, `xmlagg`)
 - **Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
   - Key and value extraction (`akeys`, `avals`, `skeys`, `svals`)

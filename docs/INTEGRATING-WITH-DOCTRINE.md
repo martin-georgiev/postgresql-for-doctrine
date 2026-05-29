@@ -390,11 +390,24 @@ $configuration->addCustomStringFunction('HSTORE_TO_JSON_LOOSE', MartinGeorgiev\D
 
 # aggregation functions
 $configuration->addCustomStringFunction('ARRAY_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class);
+$configuration->addCustomStringFunction('BIT_AND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitAnd::class);
+$configuration->addCustomStringFunction('BIT_OR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitOr::class);
+$configuration->addCustomStringFunction('BIT_XOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitXor::class);
+$configuration->addCustomStringFunction('BOOL_AND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolAnd::class);
+$configuration->addCustomStringFunction('BOOL_OR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolOr::class);
+$configuration->addCustomStringFunction('CORR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Corr::class);
+$configuration->addCustomStringFunction('COVAR_POP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop::class);
+$configuration->addCustomStringFunction('COVAR_SAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp::class);
+$configuration->addCustomStringFunction('EVERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every::class);
 $configuration->addCustomStringFunction('JSON_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class);
 $configuration->addCustomStringFunction('JSON_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class);
 $configuration->addCustomStringFunction('JSONB_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class);
 $configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class);
+$configuration->addCustomStringFunction('STDDEV', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev::class);
+$configuration->addCustomStringFunction('STDDEV_POP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop::class);
 $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);
+$configuration->addCustomStringFunction('VAR_POP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop::class);
+$configuration->addCustomStringFunction('VARIANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class);
 
 # XML functions
 $configuration->addCustomStringFunction('XML_IS_WELL_FORMED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class);
