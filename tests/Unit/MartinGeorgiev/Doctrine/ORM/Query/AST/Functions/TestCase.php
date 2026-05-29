@@ -25,9 +25,13 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         $configuration = ORMSetup::createAttributeMetadataConfiguration([static::FIXTURES_DIRECTORY], true);
-        $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
-        $configuration->setProxyNamespace('Fixtures\MartinGeorgiev\Doctrine\Entity\Proxy');
-        $configuration->setAutoGenerateProxyClasses(true);
+        if (\PHP_VERSION_ID >= 80400) {
+            $configuration->enableNativeLazyObjects(true);
+        } else {
+            $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
+            $configuration->setProxyNamespace('Fixtures\MartinGeorgiev\Doctrine\Entity\Proxy');
+            $configuration->setAutoGenerateProxyClasses(true);
+        }
         $this->setConfigurationCache($configuration);
 
         $this->configuration = $configuration;
