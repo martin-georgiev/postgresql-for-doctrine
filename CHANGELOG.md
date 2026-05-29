@@ -1,5 +1,23 @@
 # Changelog
 
+## [4.6.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.5.1...v4.6.0) (2026-05-29)
+
+
+### Features
+
+* **#46:** Add support for user-defined `enum` DBAL type ([#633](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/633)) ([5869318](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/58693188257e515339ed7be45b93dcd299abfeee))
+* Add DQL support for hstore functions ([#647](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/647)) ([1eb895b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1eb895b593e1674b4ec04ca37f2579b3cc5182f8))
+* Add DQL support for XML functions ([#645](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/645)) ([769329d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/769329d8bd488052d19f018320a439f1209fbcde))
+* Add support for `bytea` DBAL type and its array variation ([#630](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/630)) ([bc4324e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/bc4324e93454a5a6d943996c99844aa003099f56))
+* Add support for `citext` DBAL type and its array variation ([#640](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/640)) ([bba3af3](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/bba3af37ed5b550ebeb2faf96b17d827eae51299))
+* Add support for `hstore` DBAL type and its array variation ([#632](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/632)) ([b6f7c12](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/b6f7c12e4f7004b49f7639b5826f52b1fc6d9d5f))
+* Add support for `timetz` DBAL type and its array variation ([#635](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/635)) ([d80419a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d80419a4982ca5b433388a21880e782e6f26647b))
+* Add support for multirange array DBAL types ([#634](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/634)) ([131a64b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/131a64b22e77224d46cfbb56ee4a8bcb6c7fabda))
+* Add support for range array DBAL types ([#638](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/638)) ([64027d6](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/64027d602ba603c6bf7b201582e54c53d09cfb1b))
+* Expand DQL support for date/time utility functions ([#648](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/648)) ([faf1d87](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/faf1d8775cf49abbcc3c6ac24b49bc11b57a1c72))
+* Expand DQL support for mathematical functions with more logical and statistical aggregates ([#652](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/652)) ([2524f96](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2524f968417f55b3d81ce86e0b20a0f612ac9acd))
+* Expand DQL support for string manipulation and utility functions ([#651](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/651)) ([5e6b7c5](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5e6b7c5bad374032725384ccc1a03f3fbf88cf0e))
+
 ## [4.5.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.5.0...v4.5.1) (2026-04-19)
 
 
