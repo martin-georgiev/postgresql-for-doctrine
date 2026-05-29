@@ -111,9 +111,14 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `REVERSE_BYTES` - Reverse byte order for bytea values
 
 **Date/Range Operations:** ([Complete documentation](DATE-AND-RANGE-FUNCTIONS.md))
+- `CLOCK_TIMESTAMP` - Current timestamp at call time
 - `DATE_ADD` - Add interval to date
 - `DATE_EXTRACT` - Extract date components
 - `DATERANGE` - Create date ranges
+- `ISFINITE` - Test if date/timestamp/interval is finite
+- `JUSTIFY_DAYS`/`JUSTIFY_HOURS`/`JUSTIFY_INTERVAL` - Adjust interval representations
+- `STATEMENT_TIMESTAMP` - Timestamp of current SQL statement
+- `TRANSACTION_TIMESTAMP` - Timestamp of current transaction
 
 **Mathematical Operations:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
 - `DIV`/`GCD`/`LCM`/`FACTORIAL` - Integer arithmetic functions
