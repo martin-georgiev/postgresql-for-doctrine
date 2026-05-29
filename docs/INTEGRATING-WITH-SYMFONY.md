@@ -575,11 +575,24 @@ doctrine:
 
                         # aggregation functions
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg
+                        BIT_AND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitAnd
+                        BIT_OR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitOr
+                        BIT_XOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitXor
+                        BOOL_AND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolAnd
+                        BOOL_OR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolOr
+                        CORR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Corr
+                        COVAR_POP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop
+                        COVAR_SAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp
+                        EVERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every
                         JSON_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg
                         JSON_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg
                         JSONB_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg
                         JSONB_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg
+                        STDDEV: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev
+                        STDDEV_POP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
+                        VAR_POP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop
+                        VARIANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance
 
                         # XML functions
                         XML_IS_WELL_FORMED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed

@@ -594,11 +594,24 @@ return [
 
         # aggregation functions
         'ARRAY_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class,
+        'BIT_AND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitAnd::class,
+        'BIT_OR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitOr::class,
+        'BIT_XOR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitXor::class,
+        'BOOL_AND' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolAnd::class,
+        'BOOL_OR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolOr::class,
+        'CORR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Corr::class,
+        'COVAR_POP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop::class,
+        'COVAR_SAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp::class,
+        'EVERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every::class,
         'JSON_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class,
         'JSON_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class,
         'JSONB_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class,
         'JSONB_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class,
+        'STDDEV' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev::class,
+        'STDDEV_POP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop::class,
         'STRING_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class,
+        'VAR_POP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop::class,
+        'VARIANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class,
 
         # XML functions
         'XML_IS_WELL_FORMED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class,

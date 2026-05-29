@@ -73,6 +73,65 @@ This document covers PostgreSQL mathematical functions available in this library
 | trunc | TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc` |
 | width_bucket | WIDTH_BUCKET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket` |
 
+## Type Conversion and Formatting Functions
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| cast | CAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast` |
+| to_char | TO_CHAR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar` |
+| to_number | TO_NUMBER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber` |
+
+**Note**: `TO_NUMBER` supports Roman numeral conversion via the `RN` pattern (PostgreSQL 18+).
+
+## Hashing & Cryptographic Functions
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| md5 | MD5 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5` |
+| sha224 | SHA224 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha224` |
+| sha256 | SHA256 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256` |
+| sha384 | SHA384 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384` |
+| sha512 | SHA512 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512` |
+
+## Bitwise and Boolean Aggregate Functions
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| bit_and | BIT_AND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitAnd` |
+| bit_or | BIT_OR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitOr` |
+| bit_xor | BIT_XOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitXor` |
+| bool_and | BOOL_AND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolAnd` |
+| bool_or | BOOL_OR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolOr` |
+| every | EVERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every` |
+
+## Statistical Aggregate Functions
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| corr | CORR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Corr` |
+| covar_pop | COVAR_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop` |
+| covar_samp | COVAR_SAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp` |
+| stddev | STDDEV | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev` |
+| stddev_pop | STDDEV_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop` |
+| var_pop | VAR_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop` |
+| variance | VARIANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance` |
+
+## Utility and Miscellaneous Functions
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| any_value | ANY_VALUE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyValue` |
+| crc32 | CRC32 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32` |
+| crc32c | CRC32C | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c` |
+| reverse (bytea) | REVERSE_BYTES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes` |
+| row | ROW | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row` |
+| row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
+| uuid_extract_timestamp | UUID_EXTRACT_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp` |
+| uuid_extract_version | UUID_EXTRACT_VERSION | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion` |
+| uuidv4 | UUIDV4 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4` |
+| uuidv7 | UUIDV7 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7` |
+| xmlagg | XML_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
+
 ## Usage Examples
 
 ```sql
