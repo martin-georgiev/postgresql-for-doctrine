@@ -8,7 +8,6 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Btrim;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 class BtrimTest extends BaseVariadicFunctionTestCase
@@ -41,26 +40,13 @@ class BtrimTest extends BaseVariadicFunctionTestCase
         ];
     }
 
-    #[DataProvider('provideInvalidArgumentCountCases')]
     #[Test]
-    public function throws_exception_for_invalid_argument_count(string $dql, string $expectedMessage): void
+    public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage($expectedMessage);
+        $this->expectExceptionMessage('btrim() requires between 1 and 2 arguments');
 
+        $dql = \sprintf("SELECT BTRIM(e.text1, ' ', 'extra') FROM %s e", ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
-    }
-
-    /**
-     * @return array<string, array{string, string}>
-     */
-    public static function provideInvalidArgumentCountCases(): array
-    {
-        return [
-            'too many arguments' => [
-                \sprintf("SELECT BTRIM(e.text1, ' ', 'extra') FROM %s e", ContainsTexts::class),
-                'btrim() requires between 1 and 2 arguments',
-            ],
-        ];
     }
 }
