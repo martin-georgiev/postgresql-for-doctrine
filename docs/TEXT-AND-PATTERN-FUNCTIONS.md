@@ -45,17 +45,34 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
+| ascii | ASCII | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ascii` |
+| btrim | BTRIM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Btrim` |
 | casefold | CASEFOLD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Casefold` |
+| char_length | CHAR_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CharLength` |
+| chr | CHR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Chr` |
 | concat_ws | CONCAT_WS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ConcatWs` |
+| decode | DECODE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Decode` |
+| encode | ENCODE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Encode` |
 | format | FORMAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Format` |
+| initcap | INITCAP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Initcap` |
 | left | LEFT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Left` |
+| lpad | LPAD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lpad` |
+| ltrim | LTRIM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltrim` |
+| octet_length | OCTET_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OctetLength` |
+| quote_ident | QUOTE_IDENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteIdent` |
+| quote_literal | QUOTE_LITERAL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteLiteral` |
+| quote_nullable | QUOTE_NULLABLE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteNullable` |
 | repeat | REPEAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Repeat` |
 | reverse | REVERSE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Reverse` |
 | right | RIGHT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Right` |
+| rpad | RPAD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rpad` |
+| rtrim | RTRIM | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rtrim` |
 | split_part | SPLIT_PART | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart` |
 | starts_with | STARTS_WITH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith` |
+| strpos | STRPOS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos` |
 | string_agg | STRING_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg` |
 | string_to_array | STRING_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray` |
+| translate | TRANSLATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate` |
 | unaccent | UNACCENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent` |
 
 ## Full-Text Search Functions

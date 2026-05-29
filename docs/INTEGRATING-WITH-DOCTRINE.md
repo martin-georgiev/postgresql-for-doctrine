@@ -197,10 +197,27 @@ $configuration->addCustomStringFunction('ARRAY_SHUFFLE', MartinGeorgiev\Doctrine
 $configuration->addCustomStringFunction('ARRAY_TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson::class);
 $configuration->addCustomStringFunction('ARRAY_TO_STRING', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString::class);
 $configuration->addCustomStringFunction('ARRAY_UPPER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper::class);
+$configuration->addCustomStringFunction('ASCII', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ascii::class);
+$configuration->addCustomStringFunction('BTRIM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Btrim::class);
+$configuration->addCustomStringFunction('CHAR_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CharLength::class);
+$configuration->addCustomStringFunction('CHR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Chr::class);
+$configuration->addCustomStringFunction('DECODE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Decode::class);
+$configuration->addCustomStringFunction('ENCODE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Encode::class);
+$configuration->addCustomStringFunction('INITCAP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Initcap::class);
+$configuration->addCustomStringFunction('LPAD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lpad::class);
+$configuration->addCustomStringFunction('LTRIM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltrim::class);
+$configuration->addCustomStringFunction('OCTET_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OctetLength::class);
+$configuration->addCustomStringFunction('QUOTE_IDENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteIdent::class);
+$configuration->addCustomStringFunction('QUOTE_LITERAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteLiteral::class);
+$configuration->addCustomStringFunction('QUOTE_NULLABLE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteNullable::class);
+$configuration->addCustomStringFunction('RPAD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rpad::class);
+$configuration->addCustomStringFunction('RTRIM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rtrim::class);
 $configuration->addCustomStringFunction('SPLIT_PART', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class);
 $configuration->addCustomStringFunction('STARTS_WITH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class);
+$configuration->addCustomStringFunction('STRPOS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos::class);
 $configuration->addCustomStringFunction('STRING_TO_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class);
 $configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
+$configuration->addCustomStringFunction('TRANSLATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate::class);
 $configuration->addCustomStringFunction('UNNEST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class);
 
 # json specific functions

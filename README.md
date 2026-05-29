@@ -123,6 +123,7 @@ $query = $em->createQuery('
   - Full text search (`to_tsvector`, `to_tsquery`)
   - Pattern matching (`ilike`, `similar to`)
   - Regular expressions
+  - String manipulation (`ascii`, `btrim`, `char_length`, `chr`, `decode`, `encode`, `initcap`, `lpad`, `ltrim`, `octet_length`, `quote_ident`, `quote_literal`, `quote_nullable`, `rpad`, `rtrim`, `strpos`, `translate`)
   - Trigram similarity (`similarity`, `word_similarity`, `strict_word_similarity`) (requires [pg_trgm](https://www.postgresql.org/docs/18/pgtrgm.html) extension)
   - **Hashing & Checksum** (`md5`, `sha224`, `sha256`, `sha384`, `sha512`, `crc32`, `crc32c`, `reverse` for bytea)
 - **Array Functions**
