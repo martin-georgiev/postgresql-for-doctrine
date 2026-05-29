@@ -201,7 +201,7 @@ abstract class Range implements \Stringable
     /**
      * @return R|null
      */
-    public function getUpper(): \DateTimeInterface|float|int|null
+    public function getUpper(): mixed
     {
         return $this->upper;
     }
