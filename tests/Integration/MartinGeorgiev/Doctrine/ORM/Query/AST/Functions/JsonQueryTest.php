@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonQuery;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonQueryTest extends JsonTestCase
+final class JsonQueryTest extends JsonTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class JsonQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_query_nested_object(): void
+    public function queries_nested_object(): void
     {
         $dql = "SELECT JSON_QUERY(t.jsonObject1, '$.address') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -36,7 +36,7 @@ class JsonQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_query_array(): void
+    public function queries_array(): void
     {
         $dql = "SELECT JSON_QUERY(t.jsonObject1, '$.tags') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lcm;
 
-class LcmTest extends TestCase
+final class LcmTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

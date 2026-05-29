@@ -9,7 +9,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToTimestampTest extends TestCase
+final class ToTimestampTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

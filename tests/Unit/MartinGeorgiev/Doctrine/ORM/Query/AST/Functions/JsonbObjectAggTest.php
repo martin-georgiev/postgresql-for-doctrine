@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg;
 
-class JsonbObjectAggTest extends TestCase
+final class JsonbObjectAggTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

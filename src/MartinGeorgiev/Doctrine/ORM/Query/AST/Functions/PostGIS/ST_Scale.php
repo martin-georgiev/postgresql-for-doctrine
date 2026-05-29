@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_Scale() function.
+ * Implementation of PostGIS ST_Scale().
  *
  * Scales a geometry by the given factors.
  * Useful for resizing geometries while maintaining proportions.

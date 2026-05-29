@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length2D;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_Length2DTest extends SpatialOperatorTestCase
+final class ST_Length2DTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Split;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_SplitTest extends SpatialOperatorTestCase
+final class ST_SplitTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

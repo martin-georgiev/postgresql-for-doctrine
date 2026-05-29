@@ -21,7 +21,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT XML_AGG(e.xml_data) FROM Entity e"
+ * @example Using it in DQL: "SELECT XMLAGG(e.xml_data) FROM Entity e"
  */
 class XmlAgg extends BaseFunction
 {

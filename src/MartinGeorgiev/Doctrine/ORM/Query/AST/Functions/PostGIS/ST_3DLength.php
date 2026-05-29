@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_3DLength() function.
+ * Implementation of PostGIS ST_3DLength().
  *
  * Returns the 3D length of the geometry if it is a LineString or MultiLineString.
  * For areal geometries, the 3D perimeter is returned.

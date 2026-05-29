@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL atan() function.
+ * Implementation of PostgreSQL ATAN().
  *
  * Returns the inverse tangent of the argument (result in radians).
  *

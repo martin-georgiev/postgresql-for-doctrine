@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonBuildObjectTest extends JsonTestCase
+final class JsonBuildObjectTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class JsonBuildObjectTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_build_json_object_with_key_value_pairs(): void
+    public function builds_json_object_with_key_value_pairs(): void
     {
         $dql = "SELECT JSON_BUILD_OBJECT('name', 'test', 'value', '123') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -31,7 +31,7 @@ class JsonBuildObjectTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_build_json_object_with_multiple_pairs(): void
+    public function builds_json_object_with_multiple_pairs(): void
     {
         $dql = "SELECT JSON_BUILD_OBJECT('a', '1', 'b', '2', 'c', '3') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

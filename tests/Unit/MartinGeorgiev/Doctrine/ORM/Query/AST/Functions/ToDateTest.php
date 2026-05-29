@@ -9,7 +9,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToDateTest extends TestCase
+final class ToDateTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

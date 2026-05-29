@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Rotate;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_RotateTest extends SpatialOperatorTestCase
+final class ST_RotateTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

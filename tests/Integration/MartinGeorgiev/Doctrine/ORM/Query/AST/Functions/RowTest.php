@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row;
 use PHPUnit\Framework\Attributes\Test;
 
-class RowTest extends TextTestCase
+final class RowTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class RowTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_row_from_columns(): void
+    public function creates_row_from_columns(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

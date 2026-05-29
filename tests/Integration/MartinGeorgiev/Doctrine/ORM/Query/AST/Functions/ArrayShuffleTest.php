@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayShuffleTest extends ArrayTestCase
+final class ArrayShuffleTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayShuffleTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_shuffle_text_array(): void
+    public function shuffles_text_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -31,7 +31,7 @@ class ArrayShuffleTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_shuffle_integer_array(): void
+    public function shuffles_integer_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -45,7 +45,7 @@ class ArrayShuffleTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_shuffle_boolean_array(): void
+    public function shuffles_boolean_array(): void
     {
         $dql = 'SELECT ARRAY_SHUFFLE(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

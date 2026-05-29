@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange;
 use PHPUnit\Framework\Attributes\Test;
 
-class TstzrangeTest extends DateTestCase
+final class TstzrangeTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class TstzrangeTest extends DateTestCase
     }
 
     #[Test]
-    public function can_create_timestamptz_range_with_default_bounds(): void
+    public function creates_timestamptz_range_with_default_bounds(): void
     {
         $dql = 'SELECT TSTZRANGE(t.datetimetz1, t.datetimetz2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class TstzrangeTest extends DateTestCase
     }
 
     #[Test]
-    public function can_create_timestamptz_range_with_custom_bounds(): void
+    public function creates_timestamptz_range_with_custom_bounds(): void
     {
         $dql = "SELECT TSTZRANGE(t.datetimetz1, t.datetimetz2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

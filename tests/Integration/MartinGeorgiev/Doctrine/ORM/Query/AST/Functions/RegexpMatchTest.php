@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch;
 use PHPUnit\Framework\Attributes\Test;
 
-class RegexpMatchTest extends TextTestCase
+final class RegexpMatchTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class RegexpMatchTest extends TextTestCase
     }
 
     #[Test]
-    public function can_match_pattern_in_text(): void
+    public function matches_pattern_in_text(): void
     {
         $dql = "SELECT REGEXP_MATCH(t.text1, 'test') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -38,7 +38,7 @@ class RegexpMatchTest extends TextTestCase
     }
 
     #[Test]
-    public function can_use_case_insensitive_flag(): void
+    public function uses_case_insensitive_flag(): void
     {
         $dql = "SELECT REGEXP_MATCH(t.text1, 'TEST', 'i') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

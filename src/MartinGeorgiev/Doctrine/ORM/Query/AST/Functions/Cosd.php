@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL cosd() function.
+ * Implementation of PostgreSQL COSD().
  *
  * Returns the cosine of the argument (given in degrees).
  *

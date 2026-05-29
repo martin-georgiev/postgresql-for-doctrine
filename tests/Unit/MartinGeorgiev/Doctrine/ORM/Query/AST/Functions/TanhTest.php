@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh;
 
-class TanhTest extends TestCase
+final class TanhTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

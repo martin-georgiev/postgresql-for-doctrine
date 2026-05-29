@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5;
 use PHPUnit\Framework\Attributes\Test;
 
-class Md5Test extends TextTestCase
+final class Md5Test extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class Md5Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_md5_of_a_string(): void
+    public function computes_md5_of_a_string(): void
     {
         $dql = "SELECT MD5('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -29,7 +29,7 @@ class Md5Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_md5_of_text_field(): void
+    public function computes_md5_of_text_field(): void
     {
         $dql = 'SELECT MD5(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimScale;
 use PHPUnit\Framework\Attributes\Test;
 
-class TrimScaleTest extends NumericTestCase
+final class TrimScaleTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class TrimScaleTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_trim_scale_of_literal(): void
+    public function calculates_trim_scale_of_literal(): void
     {
         $dql = 'SELECT TRIM_SCALE(8.4100) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class TrimScaleTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_trim_scale_with_entity_property(): void
+    public function calculates_trim_scale_with_entity_property(): void
     {
         $dql = 'SELECT TRIM_SCALE(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

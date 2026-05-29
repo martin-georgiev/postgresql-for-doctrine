@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyOnTheRightExistsOnTheLeft
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use PHPUnit\Framework\Attributes\Test;
 
-class AnyOnTheRightExistsOnTheLeftTest extends JsonTestCase
+final class AnyOnTheRightExistsOnTheLeftTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

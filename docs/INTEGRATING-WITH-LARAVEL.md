@@ -64,6 +64,11 @@ return [
                 'uuid[]' => 'uuid[]',
                 '_uuid' => 'uuid[]',
 
+                // Case-insensitive text type mappings
+                'citext' => 'citext',
+                'citext[]' => 'citext[]',
+                '_citext' => 'citext[]',
+
                 // Datetime array type mappings
                 'date[]' => 'date[]',
                 '_date' => 'date[]',
@@ -74,6 +79,9 @@ return [
                 '_timestamp' => 'timestamp[]',
                 'timestamptz[]' => 'timestamptz[]',
                 '_timestamptz' => 'timestamptz[]',
+                'timetz' => 'timetz',
+                'timetz[]' => 'timetz[]',
+                '_timetz' => 'timetz[]',
 
                 // JSON type mappings
                 'jsonb' => 'jsonb',
@@ -127,19 +135,43 @@ return [
 
                 // Range type mappings
                 'daterange' => 'daterange',
+                'daterange[]' => 'daterange[]',
+                '_daterange' => 'daterange[]',
                 'int4range' => 'int4range',
+                'int4range[]' => 'int4range[]',
+                '_int4range' => 'int4range[]',
                 'int8range' => 'int8range',
+                'int8range[]' => 'int8range[]',
+                '_int8range' => 'int8range[]',
                 'numrange' => 'numrange',
+                'numrange[]' => 'numrange[]',
+                '_numrange' => 'numrange[]',
                 'tsrange' => 'tsrange',
+                'tsrange[]' => 'tsrange[]',
+                '_tsrange' => 'tsrange[]',
                 'tstzrange' => 'tstzrange',
+                'tstzrange[]' => 'tstzrange[]',
+                '_tstzrange' => 'tstzrange[]',
 
                 // Multirange type mappings
                 'datemultirange' => 'datemultirange',
+                'datemultirange[]' => 'datemultirange[]',
+                '_datemultirange' => 'datemultirange[]',
                 'int4multirange' => 'int4multirange',
+                'int4multirange[]' => 'int4multirange[]',
+                '_int4multirange' => 'int4multirange[]',
                 'int8multirange' => 'int8multirange',
+                'int8multirange[]' => 'int8multirange[]',
+                '_int8multirange' => 'int8multirange[]',
                 'nummultirange' => 'nummultirange',
+                'nummultirange[]' => 'nummultirange[]',
+                '_nummultirange' => 'nummultirange[]',
                 'tsmultirange' => 'tsmultirange',
+                'tsmultirange[]' => 'tsmultirange[]',
+                '_tsmultirange' => 'tsmultirange[]',
                 'tstzmultirange' => 'tstzmultirange',
+                'tstzmultirange[]' => 'tstzmultirange[]',
+                '_tstzmultirange' => 'tstzmultirange[]',
 
                 // Text search type mappings
                 'tsquery' => 'tsquery',
@@ -198,12 +230,18 @@ return [
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
 
-        // Datetime array types
+        // Case-insensitive text types
+        'citext' => MartinGeorgiev\Doctrine\DBAL\Types\Citext::class,
+        'citext[]' => MartinGeorgiev\Doctrine\DBAL\Types\CitextArray::class,
+
+        // Date and time types
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
         'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
         'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
         'timestamp[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray::class,
         'timestamptz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray::class,
+        'timetz' => MartinGeorgiev\Doctrine\DBAL\Types\Timetz::class,
+        'timetz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray::class,
 
         // JSON types
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
@@ -249,13 +287,27 @@ return [
         'tsrange' => MartinGeorgiev\Doctrine\DBAL\Types\TsRange::class,
         'tstzrange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzRange::class,
 
+        // Range array types
+        'daterange[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateRangeArray::class,
+        'int4range[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int4RangeArray::class,
+        'int8range[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int8RangeArray::class,
+        'numrange[]' => MartinGeorgiev\Doctrine\DBAL\Types\NumRangeArray::class,
+        'tsrange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsRangeArray::class,
+        'tstzrange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TstzRangeArray::class,
+
         // Multirange types
         'datemultirange' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange::class,
+        'datemultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray::class,
         'int4multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int4Multirange::class,
+        'int4multirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int4MultirangeArray::class,
         'int8multirange' => MartinGeorgiev\Doctrine\DBAL\Types\Int8Multirange::class,
+        'int8multirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\Int8MultirangeArray::class,
         'nummultirange' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange::class,
+        'nummultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\NumMultirangeArray::class,
         'tsmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirange::class,
+        'tsmultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TsMultirangeArray::class,
         'tstzmultirange' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirange::class,
+        'tstzmultirange[]' => MartinGeorgiev\Doctrine\DBAL\Types\TstzMultirangeArray::class,
 
         // Text search types
         'tsquery' => MartinGeorgiev\Doctrine\DBAL\Types\Tsquery::class,
@@ -300,6 +352,7 @@ Register the functions you'll use in your DQL queries. The full set of available
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
 - [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
+- [Utility Functions](UTILITY-FUNCTIONS.md)
 
 Add the function configuration to your `config/doctrine.php`:
 
@@ -366,6 +419,7 @@ return [
         'RTRIM' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rtrim::class,
         'SPLIT_PART' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class,
         'STARTS_WITH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StartsWith::class,
+        'ROW' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class,
         'STRPOS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos::class,
         'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
         'TRANSLATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate::class,
@@ -432,12 +486,19 @@ return [
         'WEBSEARCH_TO_TSQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery::class,
 
         # date specific functions
+        'CLOCK_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp::class,
         'DATE_ADD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class,
         'DATE_BIN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin::class,
         'DATE_EXTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class,
         'DATE_OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class,
         'DATE_SUBTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class,
         'DATE_TRUNC' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc::class,
+        'ISFINITE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite::class,
+        'JUSTIFY_DAYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyDays::class,
+        'JUSTIFY_HOURS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours::class,
+        'JUSTIFY_INTERVAL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval::class,
+        'STATEMENT_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp::class,
+        'TRANSACTION_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp::class,
 
         # range functions
         'DATERANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class,
@@ -499,7 +560,6 @@ return [
         'TANH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh::class,
 
         # other operators
-        'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
         'ILIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class,
         'SIMILAR_TO' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo::class,
         'NOT_SIMILAR_TO' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo::class,
@@ -515,13 +575,22 @@ return [
         'REGEXP_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class,
         'REGEXP_SUBSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class,
         'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
-        'ROW' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class,
         'DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class,
 
         # vector distance functions
         'COSINE_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\CosineDistance::class,
         'INNER_PRODUCT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class,
         'L2_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class,
+
+        # hstore functions
+        'HSTORE_AKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys::class,
+        'HSTORE_AVALS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals::class,
+        'HSTORE_DEFINED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined::class,
+        'HSTORE_DELETE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete::class,
+        'HSTORE_SKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Skeys::class,
+        'HSTORE_SVALS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Svals::class,
+        'HSTORE_TO_JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJson::class,
+        'HSTORE_TO_JSON_LOOSE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose::class,
 
         # aggregation functions
         'ARRAY_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class,
@@ -530,9 +599,38 @@ return [
         'JSONB_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class,
         'JSONB_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class,
         'STRING_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class,
-        'XML_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class,
 
-        # data type formatting functions
+        # XML functions
+        'XML_IS_WELL_FORMED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class,
+        'XML_IS_WELL_FORMED_CONTENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class,
+        'XML_IS_WELL_FORMED_DOCUMENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedDocument::class,
+        'XMLAGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg::class,
+        'XMLCOMMENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlComment::class,
+        'XMLCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat::class,
+        'XMLEXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists::class,
+        'XMLPI' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi::class,
+        'XMLTEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText::class,
+        'XPATH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class,
+        'XPATH_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class,
+
+        # hashing and checksum functions
+        'CRC32' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class,
+        'CRC32C' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c::class,
+        'MD5' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5::class,
+        'REVERSE_BYTES' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes::class,
+        'SHA224' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha224::class,
+        'SHA256' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256::class,
+        'SHA384' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384::class,
+        'SHA512' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512::class,
+
+        # uuid functions
+        'UUID_EXTRACT_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp::class,
+        'UUID_EXTRACT_VERSION' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion::class,
+        'UUIDV4' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4::class,
+        'UUIDV7' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7::class,
+
+        # type conversion and formatting functions
+        'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
         'TO_CHAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class,
         'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,
         'TO_NUMBER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class,

@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseStrictWordSimilarityDistance;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class ReverseStrictWordSimilarityDistanceTest extends TestCase
+final class ReverseStrictWordSimilarityDistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

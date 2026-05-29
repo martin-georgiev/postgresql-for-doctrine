@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Degrees;
 
-class DegreesTest extends TestCase
+final class DegreesTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

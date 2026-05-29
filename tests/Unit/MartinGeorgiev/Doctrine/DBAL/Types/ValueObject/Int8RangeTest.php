@@ -90,7 +90,7 @@ final class Int8RangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_handle_large_values(): void
+    public function accepts_large_values(): void
     {
         $int8Range = new Int8Range(PHP_INT_MIN, PHP_INT_MAX);
 
@@ -130,8 +130,8 @@ final class Int8RangeTest extends BaseRangeTestCase
         yield 'large values' => ['['.PHP_INT_MIN.','.PHP_INT_MAX.')', new Int8Range(PHP_INT_MIN, PHP_INT_MAX)];
     }
 
-    #[Test]
     #[DataProvider('provideBoundedInfinityConstructorCases')]
+    #[Test]
     public function throws_for_unsupported_bounded_infinity_from_constructor(
         ?int $lower,
         ?int $upper,
@@ -154,8 +154,8 @@ final class Int8RangeTest extends BaseRangeTestCase
         yield 'both bounds infinity' => [null, null, true, false, false, true, true];
     }
 
-    #[Test]
     #[DataProvider('provideBoundedInfinityStringCases')]
+    #[Test]
     public function throws_for_unsupported_bounded_infinity_from_string(string $input): void
     {
         $this->expectException(InvalidRangeForPHPException::class);

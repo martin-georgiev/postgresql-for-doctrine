@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonEachTest extends JsonTestCase
+final class JsonEachTest extends JsonTestCase
 {
     use PostgresTupleParsingTrait;
 

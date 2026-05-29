@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Reverse;
 use PHPUnit\Framework\Attributes\Test;
 
-class ReverseTest extends TextTestCase
+final class ReverseTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ReverseTest extends TextTestCase
     }
 
     #[Test]
-    public function can_reverse_text(): void
+    public function reverses_text(): void
     {
         $dql = 'SELECT REVERSE(t.text1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t 

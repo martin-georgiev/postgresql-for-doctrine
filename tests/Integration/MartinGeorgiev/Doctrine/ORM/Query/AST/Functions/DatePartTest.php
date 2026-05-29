@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DatePart;
 use PHPUnit\Framework\Attributes\Test;
 
-class DatePartTest extends DateTestCase
+final class DatePartTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class DatePartTest extends DateTestCase
     }
 
     #[Test]
-    public function can_extract_year(): void
+    public function extracts_year(): void
     {
         $dql = "SELECT DATE_PART('year', t.datetime1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -27,7 +27,7 @@ class DatePartTest extends DateTestCase
     }
 
     #[Test]
-    public function can_extract_month(): void
+    public function extracts_month(): void
     {
         $dql = "SELECT DATE_PART('month', t.datetime1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -37,7 +37,7 @@ class DatePartTest extends DateTestCase
     }
 
     #[Test]
-    public function can_extract_day(): void
+    public function extracts_day(): void
     {
         $dql = "SELECT DATE_PART('day', t.datetime1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -47,7 +47,7 @@ class DatePartTest extends DateTestCase
     }
 
     #[Test]
-    public function can_extract_hour(): void
+    public function extracts_hour(): void
     {
         $dql = "SELECT DATE_PART('hour', t.datetime1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -57,7 +57,7 @@ class DatePartTest extends DateTestCase
     }
 
     #[Test]
-    public function can_extract_minute(): void
+    public function extracts_minute(): void
     {
         $dql = "SELECT DATE_PART('minute', t.datetime1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t

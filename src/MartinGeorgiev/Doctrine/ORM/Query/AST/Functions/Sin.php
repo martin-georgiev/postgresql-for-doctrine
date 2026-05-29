@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL sin() function.
+ * Implementation of PostgreSQL SIN().
  *
  * Returns the sine of the argument (given in radians).
  *

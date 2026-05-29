@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateArrayItemForDatabas
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class DateArrayTypeTest extends ArrayTypeTestCase
+final class DateArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

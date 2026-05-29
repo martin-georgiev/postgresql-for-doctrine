@@ -79,26 +79,26 @@ final class SparsevecTest extends TestCase
     }
 
     #[Test]
-    public function can_transform_null_to_database_value(): void
+    public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
     }
 
     #[Test]
-    public function can_transform_from_php_value(): void
+    public function converts_to_database_value(): void
     {
         $sparsevec = new SparsevecValueObject([1 => 1.5, 3 => 2.0], 5);
         $this->assertSame('{1:1.5,3:2}/5', $this->fixture->convertToDatabaseValue($sparsevec, $this->platform));
     }
 
     #[Test]
-    public function can_transform_null_to_php_value(): void
+    public function converts_null_to_php_value(): void
     {
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
     #[Test]
-    public function can_transform_to_php_value(): void
+    public function converts_to_php_value(): void
     {
         $result = $this->fixture->convertToPHPValue('{1:1.5,3:2.0}/5', $this->platform);
         $this->assertInstanceOf(SparsevecValueObject::class, $result);

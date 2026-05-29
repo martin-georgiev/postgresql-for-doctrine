@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathExists;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbPathExistsTest extends BaseVariadicFunctionTestCase
+final class JsonbPathExistsTest extends BaseVariadicFunctionTestCase
 {
-    protected function createFixture(): BaseVariadicFunction
+    protected function createFixture(): JsonbPathExists
     {
         return new JsonbPathExists('JSONB_PATH_EXISTS');
     }

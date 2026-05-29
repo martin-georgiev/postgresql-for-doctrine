@@ -13,7 +13,7 @@ final class IntervalTest extends TestCase
 {
     #[DataProvider('provideParsingAndFormatting')]
     #[Test]
-    public function can_parse_and_format(string $input, string $expectedOutput): void
+    public function creates_from_string(string $input, string $expectedOutput): void
     {
         $interval = Interval::fromString($input);
 
@@ -81,7 +81,7 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function can_create_from_date_interval(): void
+    public function creates_from_date_interval(): void
     {
         $dateInterval = new \DateInterval('P1Y2M3DT4H5M6S');
         $interval = Interval::fromDateInterval($dateInterval);
@@ -90,7 +90,7 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function can_create_from_inverted_date_interval(): void
+    public function creates_from_inverted_date_interval(): void
     {
         $dateInterval = new \DateInterval('P1Y');
         $dateInterval->invert = 1;
@@ -101,7 +101,7 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_to_date_interval(): void
+    public function converts_to_date_interval(): void
     {
         $interval = Interval::fromString('1 year 2 mons 3 days 04:05:06');
         $dateInterval = $interval->toDateInterval();
@@ -115,7 +115,7 @@ final class IntervalTest extends TestCase
     }
 
     #[Test]
-    public function can_return_independent_date_interval_clones(): void
+    public function returns_independent_date_interval_clones(): void
     {
         $interval = Interval::fromString('1 year');
 

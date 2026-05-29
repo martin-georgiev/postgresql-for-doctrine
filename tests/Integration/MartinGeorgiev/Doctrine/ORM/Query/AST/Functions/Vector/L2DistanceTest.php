@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vect
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance;
 use PHPUnit\Framework\Attributes\Test;
 
-class L2DistanceTest extends TestCase
+final class L2DistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

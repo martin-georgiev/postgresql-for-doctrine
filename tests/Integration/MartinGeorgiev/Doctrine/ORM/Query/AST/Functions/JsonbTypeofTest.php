@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbTypeof;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbTypeofTest extends JsonTestCase
+final class JsonbTypeofTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -19,7 +19,7 @@ class JsonbTypeofTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_type_of_jsonb_object(): void
+    public function returns_type_of_jsonb_object(): void
     {
         $dql = 'SELECT JSONB_TYPEOF(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -31,7 +31,7 @@ class JsonbTypeofTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_type_of_jsonb_array(): void
+    public function returns_type_of_jsonb_array(): void
     {
         $dql = "SELECT JSONB_TYPEOF(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

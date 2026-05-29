@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_CollectionExtract() function.
+ * Implementation of PostGIS ST_CollectionExtract().
  *
  * Extracts a specific type from a geometry collection.
  * Returns a collection containing only geometries of the specified type.

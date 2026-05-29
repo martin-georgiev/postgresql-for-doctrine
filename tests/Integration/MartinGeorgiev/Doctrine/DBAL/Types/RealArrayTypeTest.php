@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-class RealArrayTypeTest extends ArrayTypeTestCase
+final class RealArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

@@ -25,11 +25,11 @@ class Random extends BaseArithmeticFunction
 
     protected function getMaxArgumentCount(): int
     {
-        return 0; // RANDOM() takes no arguments
+        return 0;
     }
 
     protected function getMinArgumentCount(): int
     {
-        return 0; // RANDOM() takes no arguments
+        return 0;
     }
 }

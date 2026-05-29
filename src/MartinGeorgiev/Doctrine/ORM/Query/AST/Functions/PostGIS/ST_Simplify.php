@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Simplify() function.
+ * Implementation of PostGIS ST_Simplify().
  *
  * Returns a simplified version of the input geometry using the Douglas-Peucker algorithm.
  * The tolerance parameter controls the degree of simplification.

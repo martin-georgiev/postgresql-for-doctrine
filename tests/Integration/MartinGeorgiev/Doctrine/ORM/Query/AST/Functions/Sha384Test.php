@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384;
 use PHPUnit\Framework\Attributes\Test;
 
-class Sha384Test extends TextTestCase
+final class Sha384Test extends TextTestCase
 {
     use ByteaAssertionTrait;
 
@@ -19,7 +19,7 @@ class Sha384Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha384_of_a_string(): void
+    public function computes_sha384_of_a_string(): void
     {
         $dql = "SELECT SHA384('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -30,7 +30,7 @@ class Sha384Test extends TextTestCase
     }
 
     #[Test]
-    public function can_compute_sha384_of_text_field(): void
+    public function computes_sha384_of_text_field(): void
     {
         $dql = 'SELECT SHA384(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_AsGeoJSONTest extends SpatialOperatorTestCase
+final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

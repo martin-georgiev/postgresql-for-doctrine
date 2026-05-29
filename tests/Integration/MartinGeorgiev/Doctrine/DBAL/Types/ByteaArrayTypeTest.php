@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-class ByteaArrayTypeTest extends ArrayTypeTestCase
+final class ByteaArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

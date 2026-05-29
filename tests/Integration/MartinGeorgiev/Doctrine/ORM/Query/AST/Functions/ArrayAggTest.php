@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrayAggTest extends ArrayTestCase
+final class ArrayAggTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class ArrayAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_aggregate_text_arrays(): void
+    public function aggregates_text_arrays(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -27,7 +27,7 @@ class ArrayAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_aggregate_integer_arrays(): void
+    public function aggregates_integer_arrays(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.integerArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -37,7 +37,7 @@ class ArrayAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_aggregate_boolean_arrays(): void
+    public function aggregates_boolean_arrays(): void
     {
         $dql = 'SELECT ARRAY_AGG(t.boolArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

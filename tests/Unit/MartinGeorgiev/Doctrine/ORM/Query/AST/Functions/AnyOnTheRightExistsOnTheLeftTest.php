@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AnyOnTheRightExistsOnTheLeft;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 
-class AnyOnTheRightExistsOnTheLeftTest extends TestCase
+final class AnyOnTheRightExistsOnTheLeftTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

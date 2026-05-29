@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_Touches() function.
+ * Implementation of PostGIS ST_Touches().
  *
  * Tests if two geometries have at least one point in common, but their interiors do not intersect.
  *

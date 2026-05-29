@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_HasZ() function.
+ * Implementation of PostGIS ST_HasZ().
  *
  * Returns true if the geometry has a Z coordinate.
  *

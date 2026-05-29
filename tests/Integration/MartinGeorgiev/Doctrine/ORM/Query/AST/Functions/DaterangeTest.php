@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange;
 use PHPUnit\Framework\Attributes\Test;
 
-class DaterangeTest extends DateTestCase
+final class DaterangeTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

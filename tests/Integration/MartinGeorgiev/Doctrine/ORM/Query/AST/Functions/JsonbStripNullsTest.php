@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbStripNullsTest extends JsonTestCase
+final class JsonbStripNullsTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

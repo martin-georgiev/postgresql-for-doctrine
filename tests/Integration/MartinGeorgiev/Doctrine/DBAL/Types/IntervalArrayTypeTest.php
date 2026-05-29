@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObje
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class IntervalArrayTypeTest extends ArrayTypeTestCase
+final class IntervalArrayTypeTest extends ArrayTypeTestCase
 {
     use IntervalAssertionTrait;
 
@@ -57,7 +57,7 @@ class IntervalArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function can_handle_string_items(): void
+    public function roundtrips_string_items(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

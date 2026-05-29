@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Reverse;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class ST_ReverseTest extends TestCase
+final class ST_ReverseTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

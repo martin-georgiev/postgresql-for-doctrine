@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\Test;
 
-class InetArrayTypeTest extends ArrayTypeTestCase
+final class InetArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
     {

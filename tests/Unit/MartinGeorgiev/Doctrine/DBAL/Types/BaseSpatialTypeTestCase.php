@@ -49,14 +49,14 @@ abstract class BaseSpatialTypeTestCase extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?WktSpatialData $wktSpatialData, ?string $postgresValue): void
+    public function converts_to_database_value(?WktSpatialData $wktSpatialData, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($wktSpatialData, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?WktSpatialData $wktSpatialData, ?string $postgresValue): void
+    public function converts_to_php_value(?WktSpatialData $wktSpatialData, ?string $postgresValue): void
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
         if (!$wktSpatialData instanceof WktSpatialData) {
@@ -187,7 +187,7 @@ abstract class BaseSpatialTypeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_wrap_sql_expression_for_ewkt_conversion(): void
+    public function wraps_sql_expression_for_ewkt_conversion(): void
     {
         $sql = $this->fixture->convertToPHPValueSQL('geom_col', $this->platform);
 

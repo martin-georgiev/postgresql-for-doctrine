@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4;
 use PHPUnit\Framework\Attributes\Test;
 
-class Uuidv4Test extends NumericTestCase
+final class Uuidv4Test extends NumericTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class Uuidv4Test extends NumericTestCase
     }
 
     #[Test]
-    public function can_generate_uuid_v4(): void
+    public function generates_uuid_v4(): void
     {
         $dql = 'SELECT UUIDV4() as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -37,7 +37,7 @@ class Uuidv4Test extends NumericTestCase
     }
 
     #[Test]
-    public function can_generates_unique_uuids(): void
+    public function generates_unique_uuids(): void
     {
         $dql = 'SELECT UUIDV4() as uuid1, UUIDV4() as uuid2 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 

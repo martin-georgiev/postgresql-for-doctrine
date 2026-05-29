@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class LineTest extends TestCase
+final class LineTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -36,27 +36,27 @@ class LineTest extends TestCase
     }
 
     #[Test]
-    public function converts_null_to_database(): void
+    public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
     }
 
     #[Test]
-    public function converts_null_from_database(): void
+    public function converts_null_to_php_value(): void
     {
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(LineValueObject $lineValueObject, string $postgresValue): void
+    public function converts_to_database_value(LineValueObject $lineValueObject, string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($lineValueObject, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(LineValueObject $lineValueObject, string $postgresValue): void
+    public function converts_to_php_value(LineValueObject $lineValueObject, string $postgresValue): void
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
         $this->assertInstanceOf(LineValueObject::class, $result);

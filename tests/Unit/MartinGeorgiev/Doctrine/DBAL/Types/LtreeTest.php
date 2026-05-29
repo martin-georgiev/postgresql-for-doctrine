@@ -34,7 +34,7 @@ final class LtreeTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_string_to_database_value(): void
+    public function converts_string_to_database_value(): void
     {
         $value = 'alpha.beta.gamma';
         $databaseValue = $this->fixture->convertToDatabaseValue($value, $this->platform);
@@ -44,14 +44,14 @@ final class LtreeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(?LtreeValueObject $ltreeValueObject, ?string $postgresValue): void
+    public function converts_to_database_value(?LtreeValueObject $ltreeValueObject, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($ltreeValueObject, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(?LtreeValueObject $ltreeValueObject, ?string $postgresValue): void
+    public function converts_to_php_value(?LtreeValueObject $ltreeValueObject, ?string $postgresValue): void
     {
         $this->assertEquals($ltreeValueObject, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }

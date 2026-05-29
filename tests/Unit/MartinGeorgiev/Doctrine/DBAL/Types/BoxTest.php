@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class BoxTest extends TestCase
+final class BoxTest extends TestCase
 {
     /**
      * @var AbstractPlatform&MockObject
@@ -36,27 +36,27 @@ class BoxTest extends TestCase
     }
 
     #[Test]
-    public function converts_null_to_database(): void
+    public function converts_null_to_database_value(): void
     {
         $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
     }
 
     #[Test]
-    public function converts_null_from_database(): void
+    public function converts_null_to_php_value(): void
     {
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(BoxValueObject $boxValueObject, string $postgresValue): void
+    public function converts_to_database_value(BoxValueObject $boxValueObject, string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($boxValueObject, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_to_php_value(BoxValueObject $boxValueObject, string $postgresValue): void
+    public function converts_to_php_value(BoxValueObject $boxValueObject, string $postgresValue): void
     {
         $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
         $this->assertInstanceOf(BoxValueObject::class, $result);

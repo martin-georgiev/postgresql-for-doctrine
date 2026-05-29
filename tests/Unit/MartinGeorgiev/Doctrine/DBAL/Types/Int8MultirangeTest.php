@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range;
 /**
  * @extends BaseMultirangeTypeTestCase<Int8MultirangeVO>
  */
-class Int8MultirangeTest extends BaseMultirangeTypeTestCase
+final class Int8MultirangeTest extends BaseMultirangeTypeTestCase
 {
     protected function createMultirangeType(): Int8Multirange
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\IsStrictWordSimilarTo;
 use PHPUnit\Framework\Attributes\Test;
 
-class IsStrictWordSimilarToTest extends TestCase
+final class IsStrictWordSimilarToTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

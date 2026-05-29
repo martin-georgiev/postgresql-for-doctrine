@@ -141,71 +141,36 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 | <<<-> | STRICT_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarityDistance` |
 | <->>> | REVERSE_STRICT_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseStrictWordSimilarityDistance` |
 
+## Hashing and Checksum Functions
+
+| PostgreSQL functions | Register for DQL as | Implemented by |
+|---|---|---|
+| crc32 | CRC32 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32` |
+| crc32c | CRC32C | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c` |
+| md5 | MD5 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5` |
+| reverse (bytea) | REVERSE_BYTES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes` |
+| sha224 | SHA224 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha224` |
+| sha256 | SHA256 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256` |
+| sha384 | SHA384 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384` |
+| sha512 | SHA512 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512` |
+
 ## Usage Examples
 
 ```sql
--- Text and pattern matching
--- Case-insensitive pattern matching
-SELECT e FROM Entity e WHERE IREGEXP(e.name, '^admin.*') = TRUE
-
--- Extract text using regex
-SELECT e, REGEXP_SUBSTR(e.description, 'version [0-9.]+') as version FROM Entity e
-
--- Replace text patterns
-SELECT e, REGEXP_REPLACE(e.content, 'old_pattern', 'new_pattern') as updated_content FROM Entity e
-
--- Check if text starts with specific string
-SELECT e FROM Entity e WHERE STARTS_WITH(e.name, 'user_') = TRUE
-
--- Full-text search
-SELECT e FROM Entity e WHERE TSMATCH(e.search_vector, 'query & terms') = TRUE
-
--- Count pattern occurrences
-SELECT e, REGEXP_COUNT(e.text, '[0-9]+') as number_count FROM Entity e
-
--- Find position of pattern
-SELECT e, REGEXP_INSTR(e.text, 'error') as error_position FROM Entity e
-
--- Test if pattern matches
+-- REGEXP_LIKE with a real-world email pattern — POSIX syntax, not SQL LIKE syntax
 SELECT e FROM Entity e WHERE REGEXP_LIKE(e.email, '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$') = TRUE
 
--- Extract first match
-SELECT e, REGEXP_MATCH(e.text, '([0-9]{4})-([0-9]{2})-([0-9]{2})') as date_parts FROM Entity e
+-- REGEXP_MATCH returns an array of capture groups (one element per group)
+SELECT REGEXP_MATCH(e.text, '([0-9]{4})-([0-9]{2})-([0-9]{2})') as date_parts FROM Entity e
 
--- Split text into parts
-SELECT e, SPLIT_PART(e.full_name, ' ', 1) as first_name,
-       SPLIT_PART(e.full_name, ' ', 2) as last_name FROM Entity e
-
--- String concatenation
-SELECT e, STRCONCAT(e.first_name, ' ', e.last_name) as full_name FROM Entity e
-
--- Remove accents from text
-SELECT e, UNACCENT(e.name) as normalized_name FROM Entity e
-
--- Aggregate strings
-SELECT e.category, STRING_AGG(e.name, ', ') as names FROM Entity e GROUP BY e.category
-
--- Convert string to array
-SELECT e, STRING_TO_ARRAY(e.tags, ',') as tag_array FROM Entity e
-
--- Case-insensitive LIKE
-SELECT e FROM Entity e WHERE ILIKE(e.name, '%admin%') = TRUE
-
--- SQL pattern matching
-SELECT e FROM Entity e WHERE SIMILAR_TO(e.code, '[A-Z]{2}[0-9]{4}') = TRUE
-
--- Negated pattern matching
-SELECT e FROM Entity e WHERE NOT_SIMILAR_TO(e.code, '[A-Z]{2}[0-9]{4}') = TRUE
-
--- Full-text search setup
+-- Full-text search: combine TO_TSVECTOR + TO_TSQUERY; must use = TRUE in DQL WHERE clauses
 SELECT e FROM Entity e WHERE TSMATCH(TO_TSVECTOR(e.content), TO_TSQUERY('search & terms')) = TRUE
 
--- Rank results by relevance
+-- TS_RANK: sort by relevance score — smaller values are less relevant
 SELECT e, TS_RANK(TO_TSVECTOR(e.content), TO_TSQUERY('search')) as rank FROM Entity e ORDER BY rank DESC
 
--- Fuzzy string matching (requires fuzzystrmatch extension)
--- Calculate Levenshtein distance between strings
-SELECT e, LEVENSHTEIN(e.name, 'target') as distance FROM Entity e
+-- STRING_AGG with separator — requires GROUP BY
+SELECT e.category, STRING_AGG(e.name, ', ' ORDER BY e.name) as names FROM Entity e GROUP BY e.category
 ```
 
 **💡 Tips for Usage:**

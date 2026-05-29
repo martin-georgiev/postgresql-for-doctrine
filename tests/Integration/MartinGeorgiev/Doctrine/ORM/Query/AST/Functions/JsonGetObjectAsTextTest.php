@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonGetObjectAsTextTest extends JsonTestCase
+final class JsonGetObjectAsTextTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class JsonGetObjectAsTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_nested_value_as_text(): void
+    public function returns_nested_value_as_text(): void
     {
         $dql = "SELECT JSON_GET_OBJECT_AS_TEXT(t.jsonObject1, '{address,city}') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -27,7 +27,7 @@ class JsonGetObjectAsTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_get_name_as_text(): void
+    public function returns_name_as_text(): void
     {
         $dql = "SELECT JSON_GET_OBJECT_AS_TEXT(t.jsonObject1, '{name}') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Repeat;
 use PHPUnit\Framework\Attributes\Test;
 
-class RepeatTest extends TextTestCase
+final class RepeatTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class RepeatTest extends TextTestCase
     }
 
     #[Test]
-    public function can_repeat_string(): void
+    public function repeats_string(): void
     {
         $dql = 'SELECT REPEAT(t.text1, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t 

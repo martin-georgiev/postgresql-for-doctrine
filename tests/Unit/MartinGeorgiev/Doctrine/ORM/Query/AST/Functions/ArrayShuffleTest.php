@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle;
 
-class ArrayShuffleTest extends TestCase
+final class ArrayShuffleTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

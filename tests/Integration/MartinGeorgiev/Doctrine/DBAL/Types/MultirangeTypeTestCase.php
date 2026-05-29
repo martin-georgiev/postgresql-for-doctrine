@@ -16,9 +16,12 @@ abstract class MultirangeTypeTestCase extends TestCase
      */
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_multirange_value(Multirange $multirange): void
+    public function roundtrips_value(Multirange $multirange): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $multirange);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $multirange);
     }
 
     /**
@@ -27,7 +30,7 @@ abstract class MultirangeTypeTestCase extends TestCase
     abstract public static function provideValidTransformations(): array;
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

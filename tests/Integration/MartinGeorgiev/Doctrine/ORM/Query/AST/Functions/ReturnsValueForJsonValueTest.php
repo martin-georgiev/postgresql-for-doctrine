@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReturnsValueForJsonValue;
 use PHPUnit\Framework\Attributes\Test;
 
-class ReturnsValueForJsonValueTest extends JsonTestCase
+final class ReturnsValueForJsonValueTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -37,7 +37,7 @@ class ReturnsValueForJsonValueTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_check_nested_path(): void
+    public function checks_nested_path(): void
     {
         $dql = "SELECT RETURNS_VALUE_FOR_JSON_VALUE(t.jsonbObject1, '$.address.city') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

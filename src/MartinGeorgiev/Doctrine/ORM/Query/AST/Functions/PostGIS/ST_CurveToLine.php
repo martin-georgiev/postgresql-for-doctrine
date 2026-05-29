@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_CurveToLine() function.
+ * Implementation of PostGIS ST_CurveToLine().
  *
  * Converts curved geometries to linear geometries.
  *

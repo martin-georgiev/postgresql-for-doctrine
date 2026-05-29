@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo;
 use PHPUnit\Framework\Attributes\Test;
 
-class SimilarToTest extends TextTestCase
+final class SimilarToTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -37,7 +37,7 @@ class SimilarToTest extends TextTestCase
     }
 
     #[Test]
-    public function can_use_sql_regex_patterns(): void
+    public function uses_sql_regex_patterns(): void
     {
         $dql = "SELECT SIMILAR_TO(t.text1, 'this%') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

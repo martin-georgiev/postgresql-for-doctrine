@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_RelateMatch() function.
+ * Implementation of PostGIS ST_RelateMatch().
  *
  * Tests if a DE-9IM Intersection Matrix matches an Intersection Matrix pattern.
  *

@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Lca;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class LcaTest extends TestCase
+final class LcaTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

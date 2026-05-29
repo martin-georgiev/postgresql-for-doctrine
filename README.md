@@ -45,7 +45,6 @@ $query = $em->createQuery('
   - Float arrays (`real[]`, `double precision[]`)
   - Text arrays (`text[]`)
   - Boolean arrays (`bool[]`)
-  - Date arrays (`date[]`, `timestamp[]`, `timestamptz[]`)
   - JSONB arrays (`jsonb[]`)
 - **Binary Types**
   - Raw binary data (`bytea`, `bytea[]`)
@@ -71,14 +70,18 @@ $query = $em->createQuery('
   - PostGIS Geometry (`geometry`, `geometry[]`)
   - PostGIS Geography (`geography`, `geography[]`)
 - **Range Types**
-  - Date and time ranges (`daterange`, `tsrange`, `tstzrange`)
-  - Numeric ranges (`numrange`, `int4range`, `int8range`)
-  - Multiranges (`nummultirange`, `int4multirange`, `int8multirange`)
-- **Interval Types**
+  - Date and time ranges (`daterange`, `daterange[]`, `tsrange`, `tsrange[]`, `tstzrange`, `tstzrange[]`)
+  - Numeric ranges (`numrange`, `numrange[]`, `int4range`, `int4range[]`, `int8range`, `int8range[]`)
+  - Multiranges (`datemultirange`, `datemultirange[]`, `int4multirange`, `int4multirange[]`, `int8multirange`, `int8multirange[]`, `nummultirange`, `nummultirange[]`, `tsmultirange`, `tsmultirange[]`, `tstzmultirange`, `tstzmultirange[]`)
+- **Date and Time Types**
+  - Arrays (`date[]`, `timestamp[]`, `timestamptz[]`)
   - Time durations with `DateInterval` support (`interval`, `interval[]`)
+  - String-represented time with timezone (`timetz`, `timetz[]`)
 - **Text Search Types**
   - Full-text search document (`tsvector`, `tsvector[]`)
   - Full-text search query (`tsquery`, `tsquery[]`)
+- **Case-Insensitive Text Types** (requires [citext](https://www.postgresql.org/docs/18/citext.html) extension)
+  - Case-insensitive text (`citext`, `citext[]`)
 - **Key-Value Types** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
   - Key-value store (`hstore`, `hstore[]`)
 - **Monetary Types**
@@ -122,24 +125,39 @@ $query = $em->createQuery('
   - Regular expressions
   - String manipulation (`ascii`, `btrim`, `char_length`, `chr`, `decode`, `encode`, `initcap`, `lpad`, `ltrim`, `octet_length`, `quote_ident`, `quote_literal`, `quote_nullable`, `rpad`, `rtrim`, `strpos`, `translate`)
   - Trigram similarity (`similarity`, `word_similarity`, `strict_word_similarity`) (requires [pg_trgm](https://www.postgresql.org/docs/18/pgtrgm.html) extension)
+  - **Hashing & Checksum** (`md5`, `sha224`, `sha256`, `sha384`, `sha512`, `crc32`, `crc32c`, `reverse` for bytea)
 - **Array Functions**
-  - Array aggregation (`array_agg`)
-  - Array manipulation (`array_append`, `array_prepend`, `array_remove`, `array_replace`, `array_shuffle`)
+  - Generic array aggregation and manipulation (`array_agg`, `array_append`, `array_prepend`, `array_remove`, `array_replace`, `array_shuffle`)
   - Array dimensions and length
+  - Special aggregates (`any_value`)
 - **JSON Functions**
   - JSON construction (`json_build_object`, `jsonb_build_object`)
   - JSON manipulation and transformation
+  - Row to JSON (`row_to_json`, `row`)
 - **Date Functions**
+  - Current timestamp functions (`clock_timestamp`, `statement_timestamp`, `transaction_timestamp`)
+  - Interval adjustment (`justify_days`, `justify_hours`, `justify_interval`)
 - **Aggregate Functions**
   - Aggregation with ordering and distinct (`array_agg`, `json_agg`, `jsonb_agg`)
   - Special aggregates (`any_value`, `xmlagg`)
+- **Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
+  - Key and value extraction (`akeys`, `avals`, `skeys`, `svals`)
+  - Key inspection (`defined`)
+  - Key deletion (`delete`)
+  - JSON conversion (`hstore_to_json`, `hstore_to_json_loose`)
+- **XML Functions**
+  - XML aggregation, construction, manipulation, validation (`xmlagg`, `xmlcomment`, `xmlconcat`, `xml_is_well_formed`)
+  - XPath querying (`xpath`, `xpath_exists`)
 - **Mathematical/Arithmetic Functions**
   - Trigonometric functions (`sin`, `cos`, `tan`, `asin`, `acos`, `atan`, degree variants)
   - Hyperbolic functions (`sinh`, `cosh`, `tanh`, `asinh`, `acosh`, `atanh`)
   - Number theory functions (`gcd`, `lcm`, `factorial`, `div`)
   - Statistical functions (`erf`, `erfc`, `random_normal`)
 - **Range Functions**
-- **Data Type Formatting Functions**
+- **Utility Functions**
+  - Type casting (`cast`)
+  - Data formatting (`to_char`, `to_number`)
+  - UUID generation and inspection (`uuidv4`, `uuidv7`, `uuid_extract_timestamp`, `uuid_extract_version`)
 - **Vector Distance Functions**
 
 Full documentation:
@@ -152,6 +170,8 @@ Full documentation:
   - [Text and Pattern Functions](docs/TEXT-AND-PATTERN-FUNCTIONS.md)
   - [Date and Range Functions](docs/DATE-AND-RANGE-FUNCTIONS.md)
   - [Mathematical Functions](docs/MATHEMATICAL-FUNCTIONS.md)
+  - [Utility Functions](docs/UTILITY-FUNCTIONS.md)
+  - [XML Functions](docs/XML-FUNCTIONS.md)
   - [Network Address Functions](docs/NETWORK-FUNCTIONS.md)
 - [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
 - [Spatial Types](docs/SPATIAL-TYPES.md)

@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality;
 
-class ArrayCardinalityTest extends TestCase
+final class ArrayCardinalityTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

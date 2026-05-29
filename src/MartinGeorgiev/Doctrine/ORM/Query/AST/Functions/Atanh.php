@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL atanh() function.
+ * Implementation of PostgreSQL ATANH().
  *
  * Returns the inverse hyperbolic tangent of the argument (argument must be between -1 and 1).
  *

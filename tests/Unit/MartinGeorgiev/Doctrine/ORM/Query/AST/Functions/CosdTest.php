@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDecimals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cosd;
 
-class CosdTest extends TestCase
+final class CosdTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

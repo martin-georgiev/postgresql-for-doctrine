@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 abstract class ArrayTypeTestCase extends TestCase
 {
     #[Test]
-    public function can_handle_empty_array(): void
+    public function roundtrips_empty_array(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -19,7 +19,7 @@ abstract class ArrayTypeTestCase extends TestCase
     }
 
     #[Test]
-    public function can_handle_null_values(): void
+    public function roundtrips_null_value(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
@@ -29,7 +29,7 @@ abstract class ArrayTypeTestCase extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_handle_array_values(array $arrayValue): void
+    public function roundtrips_value(array $arrayValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

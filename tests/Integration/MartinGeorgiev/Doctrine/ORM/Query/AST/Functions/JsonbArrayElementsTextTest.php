@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbArrayElementsText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbArrayElementsTextTest extends JsonTestCase
+final class JsonbArrayElementsTextTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -19,7 +19,7 @@ class JsonbArrayElementsTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_expand_jsonb_array_to_text_rows(): void
+    public function expands_jsonb_array_to_text_rows(): void
     {
         $dql = "SELECT JSONB_ARRAY_ELEMENTS_TEXT(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

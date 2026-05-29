@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateNumericSeries;
 use PHPUnit\Framework\Attributes\Test;
 
-class GenerateNumericSeriesTest extends NumericTestCase
+final class GenerateNumericSeriesTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class GenerateNumericSeriesTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_generate_integer_series_without_explicit_step(): void
+    public function generates_integer_series_without_explicit_step(): void
     {
         $dql = 'SELECT GENERATE_NUMERIC_SERIES(t.integer1, t.integer2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -35,7 +35,7 @@ class GenerateNumericSeriesTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_generate_bigint_series_with_explicit_step(): void
+    public function generates_bigint_series_with_explicit_step(): void
     {
         $dql = 'SELECT GENERATE_NUMERIC_SERIES(t.bigint1, t.bigint2, 1000) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -53,7 +53,7 @@ class GenerateNumericSeriesTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_generate_decimal_series_without_explicit_step(): void
+    public function generates_decimal_series_without_explicit_step(): void
     {
         $dql = 'SELECT GENERATE_NUMERIC_SERIES(t.decimal1, t.decimal2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t

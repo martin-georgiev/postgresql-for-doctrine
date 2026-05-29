@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonScalar;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonScalarTest extends JsonTestCase
+final class JsonScalarTest extends JsonTestCase
 {
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class JsonScalarTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_convert_string_to_json_scalar(): void
+    public function converts_string_to_json_scalar(): void
     {
         $dql = "SELECT JSON_SCALAR('hello') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -33,7 +33,7 @@ class JsonScalarTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_convert_number_to_json_scalar(): void
+    public function converts_number_to_json_scalar(): void
     {
         $dql = "SELECT JSON_SCALAR('42') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

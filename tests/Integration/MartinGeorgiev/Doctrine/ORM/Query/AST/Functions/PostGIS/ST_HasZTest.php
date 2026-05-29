@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_HasZTest extends SpatialOperatorTestCase
+final class ST_HasZTest extends SpatialOperatorTestCase
 {
     protected function setUp(): void
     {

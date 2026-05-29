@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\TestCase;
 
-class CastTest extends TestCase
+final class CastTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -28,7 +28,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_text_to_integer(): void
+    public function converts_text_to_integer(): void
     {
         $dql = 'SELECT CAST(t.text1 AS INTEGER) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -36,7 +36,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_text_to_text(): void
+    public function converts_text_to_text(): void
     {
         $dql = 'SELECT CAST(t.text1 AS TEXT) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -44,7 +44,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_text_to_boolean(): void
+    public function converts_text_to_boolean(): void
     {
         $dql = 'SELECT CAST(t.text2 AS BOOLEAN) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -52,7 +52,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_text_to_decimal(): void
+    public function converts_text_to_decimal(): void
     {
         $dql = 'SELECT CAST(t.text1 AS DECIMAL(10, 2)) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -60,7 +60,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_array_to_text_array(): void
+    public function converts_array_to_text_array(): void
     {
         $dql = 'SELECT CAST(a.integerArray AS TEXT[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -69,7 +69,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_boolean_array_to_integer_array(): void
+    public function converts_boolean_array_to_integer_array(): void
     {
         $dql = 'SELECT CAST(a.boolArray AS INTEGER[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -78,7 +78,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_use_in_where_condition(): void
+    public function uses_in_where_condition(): void
     {
         $dql = 'SELECT t.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE CAST(t.text1 AS INTEGER) > 100';
         $result = $this->executeDqlQuery($dql);
@@ -86,7 +86,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_use_in_complex_query(): void
+    public function uses_in_complex_query(): void
     {
         $dql = 'SELECT t.id, CAST(t.text1 AS INTEGER) as casted_text FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id IN (1, 2, 3)';
         $result = $this->executeDqlQuery($dql);
@@ -94,7 +94,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_numeric_to_integer(): void
+    public function converts_numeric_to_integer(): void
     {
         $dql = 'SELECT CAST(n.decimal1 AS INTEGER) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -102,7 +102,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_numeric_to_decimal(): void
+    public function converts_numeric_to_decimal(): void
     {
         $dql = 'SELECT CAST(n.integer1 AS DECIMAL(10, 2)) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -126,7 +126,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_use_lowercase_array_types(): void
+    public function uses_lowercase_array_types(): void
     {
         $dql = 'SELECT CAST(a.integerArray AS int[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -135,7 +135,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_use_mixed_case_array_types(): void
+    public function uses_mixed_case_array_types(): void
     {
         $dql = 'SELECT CAST(a.integerArray AS Text[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -144,7 +144,7 @@ class CastTest extends TestCase
     }
 
     #[Test]
-    public function can_use_parameterized_decimal_array(): void
+    public function uses_parameterized_decimal_array(): void
     {
         $dql = 'SELECT CAST(a.integerArray AS DECIMAL(10, 2)[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);

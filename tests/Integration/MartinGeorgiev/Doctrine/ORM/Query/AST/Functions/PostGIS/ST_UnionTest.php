@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Union;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_UnionTest extends SpatialOperatorTestCase
+final class ST_UnionTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

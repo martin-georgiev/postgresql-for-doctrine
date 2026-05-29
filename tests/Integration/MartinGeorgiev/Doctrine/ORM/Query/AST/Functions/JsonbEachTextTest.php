@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbEachTextTest extends JsonTestCase
+final class JsonbEachTextTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {

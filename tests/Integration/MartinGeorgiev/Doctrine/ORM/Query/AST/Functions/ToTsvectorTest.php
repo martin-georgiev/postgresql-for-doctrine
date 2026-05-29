@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch;
 use PHPUnit\Framework\Attributes\Test;
 
-class ToTsvectorTest extends TextTestCase
+final class ToTsvectorTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -21,7 +21,7 @@ class ToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_tsvector_from_text(): void
+    public function creates_tsvector_from_text(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -32,7 +32,7 @@ class ToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function can_create_tsvector_with_language(): void
+    public function creates_tsvector_with_language(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

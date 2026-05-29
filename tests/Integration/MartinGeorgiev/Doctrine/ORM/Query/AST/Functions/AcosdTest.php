@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Acosd;
 use PHPUnit\Framework\Attributes\Test;
 
-class AcosdTest extends NumericTestCase
+final class AcosdTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class AcosdTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_acosd_of_literal(): void
+    public function calculates_acosd_of_literal(): void
     {
         $dql = 'SELECT ACOSD(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ class AcosdTest extends NumericTestCase
     }
 
     #[Test]
-    public function can_calculate_acosd_with_entity_property(): void
+    public function calculates_acosd_with_entity_property(): void
     {
         $dql = 'SELECT ACOSD(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

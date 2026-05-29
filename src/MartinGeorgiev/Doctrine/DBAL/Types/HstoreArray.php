@@ -15,7 +15,7 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  *
  * Maps PostgreSQL hstore[] to PHP array<int, array<string, string|null>|null>.
  *
- * @see https://www.postgresql.org/docs/current/hstore.html
+ * @see https://www.postgresql.org/docs/18/hstore.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

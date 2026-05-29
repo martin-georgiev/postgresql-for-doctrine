@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Pi;
 use PHPUnit\Framework\Attributes\Test;
 
-class PiTest extends TestCase
+final class PiTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

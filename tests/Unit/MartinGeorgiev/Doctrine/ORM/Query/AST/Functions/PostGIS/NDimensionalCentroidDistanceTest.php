@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class NDimensionalCentroidDistanceTest extends TestCase
+final class NDimensionalCentroidDistanceTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

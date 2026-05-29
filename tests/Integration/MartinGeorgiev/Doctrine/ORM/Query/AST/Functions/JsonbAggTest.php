@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg;
 use PHPUnit\Framework\Attributes\Test;
 
-class JsonbAggTest extends JsonTestCase
+final class JsonbAggTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,7 +17,7 @@ class JsonbAggTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_aggregate_single_row_to_jsonb(): void
+    public function aggregates_single_row_to_jsonb(): void
     {
         $dql = 'SELECT JSONB_AGG(t.jsonObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -36,7 +36,7 @@ class JsonbAggTest extends JsonTestCase
     }
 
     #[Test]
-    public function can_aggregate_multiple_rows_to_jsonb(): void
+    public function aggregates_multiple_rows_to_jsonb(): void
     {
         $dql = 'SELECT JSONB_AGG(t.jsonObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingForDatabaseEx
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class BitVaryingTypeTest extends ScalarTypeTestCase
+final class BitVaryingTypeTest extends ScalarTypeTestCase
 {
     use BitLengthRoundTripTrait;
 
@@ -29,9 +29,12 @@ class BitVaryingTypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(string $testValue): void
+    public function roundtrips_value(string $testValue): void
     {
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $testValue);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $testValue);
     }
 
     /**
@@ -66,7 +69,10 @@ class BitVaryingTypeTest extends ScalarTypeTestCase
     {
         $this->expectException(InvalidBitVaryingForDatabaseException::class);
 
-        $this->runDbalBindingRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $value);
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $value);
     }
 
     /**

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotIRegexp;
 use PHPUnit\Framework\Attributes\Test;
 
-class NotIRegexpTest extends TextTestCase
+final class NotIRegexpTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

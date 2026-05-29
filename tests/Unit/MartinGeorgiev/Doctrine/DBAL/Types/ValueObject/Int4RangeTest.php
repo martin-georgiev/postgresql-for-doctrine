@@ -121,7 +121,7 @@ final class Int4RangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_validate_int4_bounds_for_lower(): void
+    public function validates_int4_bounds_for_lower(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Lower bound -2147483649 is outside INT4 range');
@@ -130,7 +130,7 @@ final class Int4RangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_validate_int4_bounds_for_upper(): void
+    public function validates_int4_bounds_for_upper(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Upper bound 2147483648 is outside INT4 range');
@@ -139,15 +139,15 @@ final class Int4RangeTest extends BaseRangeTestCase
     }
 
     #[Test]
-    public function can_allow_max_int4_values(): void
+    public function allows_max_int4_values(): void
     {
         $int4Range = new Int4Range(-2147483648, 2147483647);
 
         $this->assertSame('[-2147483648,2147483647)', (string) $int4Range);
     }
 
-    #[Test]
     #[DataProvider('provideBoundedInfinityConstructorCases')]
+    #[Test]
     public function throws_for_unsupported_bounded_infinity_from_constructor(
         ?int $lower,
         ?int $upper,
@@ -170,8 +170,8 @@ final class Int4RangeTest extends BaseRangeTestCase
         yield 'both bounds infinity' => [null, null, true, false, false, true, true];
     }
 
-    #[Test]
     #[DataProvider('provideBoundedInfinityStringCases')]
+    #[Test]
     public function throws_for_unsupported_bounded_infinity_from_string(string $input): void
     {
         $this->expectException(InvalidRangeForPHPException::class);

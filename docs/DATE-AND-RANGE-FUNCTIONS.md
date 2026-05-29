@@ -9,6 +9,7 @@ This document covers PostgreSQL date, time, and range functions available in thi
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
 | age | AGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Age` |
+| clock_timestamp | CLOCK_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp` |
 | date_add | DATE_ADD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd` |
 | date_bin | DATE_BIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin` |
 | date_part | DATE_PART | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DatePart` |
@@ -16,13 +17,19 @@ This document covers PostgreSQL date, time, and range functions available in thi
 | date_trunc | DATE_TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc` |
 | extract | DATE_EXTRACT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract` |
 | generate_series | GENERATE_TIME_SERIES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateTimeSeries` |
+| isfinite | ISFINITE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite` |
+| justify_days | JUSTIFY_DAYS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyDays` |
+| justify_hours | JUSTIFY_HOURS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours` |
+| justify_interval | JUSTIFY_INTERVAL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval` |
 | make_date | MAKE_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate` |
 | make_time | MAKE_TIME | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime` |
 | make_timestamp | MAKE_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp` |
 | make_timestamptz | MAKE_TIMESTAMPTZ | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz` |
 | overlaps | DATE_OVERLAPS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps` |
+| statement_timestamp | STATEMENT_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp` |
 | to_date | TO_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate` |
 | to_timestamp | TO_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp` |
+| transaction_timestamp | TRANSACTION_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp` |
 
 ## Date and Time Operators
 
@@ -66,106 +73,37 @@ Range types work with the general operators for containment and overlap testing:
 ## Usage Examples
 
 ```sql
--- Date and time operations
--- Add days to date
-SELECT e, DATE_ADD(e.created_at, 30) as expiry_date FROM Entity e
-
--- Subtract days from date
-SELECT e, DATE_SUBTRACT(e.created_at, 7) as week_ago FROM Entity e
-
--- Extract date components
-SELECT e, DATE_EXTRACT(e.timestamp, 'YEAR') as year,
-       DATE_EXTRACT(e.timestamp, 'MONTH') as month,
-       DATE_EXTRACT(e.timestamp, 'DAY') as day FROM Entity e
-
--- Check date overlaps
-SELECT e FROM Entity e WHERE DATE_OVERLAPS(e.period1, e.period2) = TRUE
-
--- Convert string to date
-SELECT e, TO_DATE(e.date_string, 'YYYY-MM-DD') as parsed_date FROM Entity e
-
--- Convert string to timestamp
-SELECT e, TO_TIMESTAMP(e.timestamp_string, 'YYYY-MM-DD HH24:MI:SS') as parsed_timestamp FROM Entity e
-
--- Generate a series of dates between two date columns
-SELECT GENERATE_TIME_SERIES(e.start_date, e.end_date, '1 day') as day FROM Entity e WHERE e.id = 1
-
--- Generate a series of timestamptz values with output in a specific timezone
-SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 hour', 'Europe/Sofia') as hour FROM Entity e WHERE e.id = 1
-
--- Bin dates into intervals
-SELECT e, DATE_BIN('1 day', e.created_at, '2023-01-01') as day_bin FROM Entity e
-
--- Range operations
--- Create date ranges
-SELECT e, DATERANGE(e.start_date, e.end_date) as date_range FROM Entity e
-
--- Create inclusive date ranges
-SELECT e, DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity e
-
--- Create timestamp ranges
-SELECT e, TSRANGE(e.start_time, e.end_time) as time_range FROM Entity e
-
--- Create timestamp with timezone ranges
-SELECT e, TSTZRANGE(e.start_time_tz, e.end_time_tz) as tz_range FROM Entity e
-
--- Create integer ranges
-SELECT e, INT4RANGE(e.min_value, e.max_value) as int_range FROM Entity e
-
--- Create numeric ranges
-SELECT e, NUMRANGE(e.min_price, e.max_price) as price_range FROM Entity e
-
--- Test if range contains value
-SELECT e FROM Entity e WHERE CONTAINS(e.age_range, 25) = TRUE
-
--- Test if range contains another range
-SELECT e FROM Entity e WHERE CONTAINS(e.outer_range, e.inner_range) = TRUE
-
--- Test if value is in range
-SELECT e FROM Entity e WHERE IS_CONTAINED_BY(e.age, e.valid_age_range) = TRUE
-
--- Test if ranges overlap
-SELECT e FROM Entity e WHERE OVERLAPS(e.period1, e.period2) = TRUE
-
--- Find entities with overlapping date ranges
-SELECT e1, e2 FROM Entity e1, Entity e2 
-WHERE e1.id != e2.id AND OVERLAPS(e1.active_period, e2.active_period) = TRUE
-
--- Find entities active during a specific period
-SELECT e FROM Entity e 
-WHERE OVERLAPS(e.active_period, DATERANGE('2023-01-01', '2023-12-31')) = TRUE
-
--- Find entities with prices in a specific range
-SELECT e FROM Entity e 
-WHERE OVERLAPS(e.price_range, NUMRANGE(100, 500)) = TRUE
-
--- Complex date queries
--- Find entities created in the last 30 days
-SELECT e FROM Entity e 
-WHERE CONTAINS(DATERANGE(DATE_SUBTRACT(CURRENT_DATE, 30), CURRENT_DATE), e.created_at) = TRUE
-
--- Find entities with overlapping business hours
-SELECT e FROM Entity e 
-WHERE OVERLAPS(e.business_hours, TSRANGE('09:00:00', '17:00:00')) = TRUE
-
--- Group by date ranges
-SELECT DATERANGE(DATE_BIN('1 month', e.created_at, '2023-01-01'), 
-                 DATE_ADD(DATE_BIN('1 month', e.created_at, '2023-01-01'), 30)) as month_range,
-       COUNT(*) as entity_count
-FROM Entity e 
-GROUP BY month_range
-ORDER BY month_range
-
 -- Find gaps in date ranges
 SELECT e1.end_date, e2.start_date,
        DATERANGE(e1.end_date, e2.start_date) as gap_range
 FROM Entity e1, Entity e2
 WHERE e1.end_date < e2.start_date
   AND NOT EXISTS (
-    SELECT 1 FROM Entity e3 
-    WHERE OVERLAPS(DATERANGE(e1.end_date, e2.start_date), 
-                   DATERANGE(e3.start_date, e3.end_date)) = TRUE
-  )
+ SELECT 1 FROM Entity e3
+ WHERE OVERLAPS(DATERANGE(e1.end_date, e2.start_date),
+                DATERANGE(e3.start_date, e3.end_date)) = TRUE
+)
+
+-- GENERATE_TIME_SERIES: optional 4th argument outputs all timestamps in a target timezone
+SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 hour', 'Europe/Sofia') as hour FROM Entity e WHERE e.id = 1
+
+-- DATE_BIN: snap a timestamp to the nearest interval boundary relative to an origin
+SELECT DATE_BIN('1 month', e.created_at, '2023-01-01') as month_start FROM Entity e
+
+-- Range bounds: third argument controls inclusivity — default is '[)' (inclusive lower, exclusive upper)
+SELECT DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity e
+
+-- Range operators must be compared with = TRUE / = FALSE in Doctrine DQL
+SELECT e FROM Entity e WHERE OVERLAPS(e.active_period, DATERANGE('2023-01-01', '2023-12-31')) = TRUE
+SELECT e FROM Entity e WHERE CONTAINS(DATERANGE(DATE_SUBTRACT(CURRENT_DATE, 30), CURRENT_DATE), e.created_at) = TRUE
+
+-- Group by calendar month using DATE_BIN + DATE_ADD
+SELECT DATERANGE(DATE_BIN('1 month', e.created_at, '2023-01-01'),
+                 DATE_ADD(DATE_BIN('1 month', e.created_at, '2023-01-01'), 30)) as month_range,
+       COUNT(*) as entity_count
+FROM Entity e
+GROUP BY month_range
+ORDER BY month_range
 ```
 
 **📝 Range Type Notes:**

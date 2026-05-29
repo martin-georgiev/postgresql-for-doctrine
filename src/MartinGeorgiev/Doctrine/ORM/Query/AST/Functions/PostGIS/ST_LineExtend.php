@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostGIS ST_LineExtend() function.
+ * Implementation of PostGIS ST_LineExtend().
  *
  * Returns a line extended forwards and backwards by specified distances.
  *

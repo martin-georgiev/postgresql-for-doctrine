@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use PHPUnit\Framework\Attributes\Test;
 
-class ST_EnvelopeTest extends SpatialOperatorTestCase
+final class ST_EnvelopeTest extends SpatialOperatorTestCase
 {
     protected function getStringFunctions(): array
     {

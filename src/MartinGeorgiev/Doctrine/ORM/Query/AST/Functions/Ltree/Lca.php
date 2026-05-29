@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
 /**
- * Implementation of PostgreSQL lca function.
+ * Implementation of PostgreSQL ltree LCA().
  *
  * Computes longest common ancestor of paths (up to 8 arguments are supported).
  *

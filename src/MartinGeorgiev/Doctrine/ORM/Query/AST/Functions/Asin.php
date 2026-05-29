@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL asin() function.
+ * Implementation of PostgreSQL ASIN().
  *
  * Returns the inverse sine of the argument (result in radians).
  *

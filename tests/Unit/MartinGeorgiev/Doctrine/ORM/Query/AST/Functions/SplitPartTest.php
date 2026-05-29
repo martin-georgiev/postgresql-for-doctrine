@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart;
 
-class SplitPartTest extends TestCase
+final class SplitPartTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

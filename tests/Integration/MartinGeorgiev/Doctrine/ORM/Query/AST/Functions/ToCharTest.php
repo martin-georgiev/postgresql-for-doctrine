@@ -12,7 +12,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Integration\MartinGeorgiev\TestCase;
 
-class ToCharTest extends TestCase
+final class ToCharTest extends TestCase
 {
     protected function setUp(): void
     {

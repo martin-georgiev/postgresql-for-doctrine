@@ -6,9 +6,9 @@
 
 | Task | How | Key rules |
 |------|-----|-----------|
-| New DBAL type | `/new-dbal-type` skill | exceptions, since-annotations |
-| New DQL function | `/new-dql-function` skill | variadic-functions, since-annotations |
-| Fix failing tests | `composer run-unit-tests`, filter with `--filter` | testing-and-iteration, test-data-management |
+| New DBAL type | `/new-dbal-type` skill | dbal-types, dbal-value-object-conventions, exceptions, since-annotations |
+| New DQL function | `/new-dql-function` skill | dql-function-completeness, variadic-functions, since-annotations |
+| Fix failing tests | `composer run-unit-tests`, filter with `--filter` | testing-and-iteration, test-naming-patterns |
 | Pre-PR quality check | `/run-quality-gate` skill | phpstan-compliance, code-quality |
 | Session handover | `/handover` skill | — |
 

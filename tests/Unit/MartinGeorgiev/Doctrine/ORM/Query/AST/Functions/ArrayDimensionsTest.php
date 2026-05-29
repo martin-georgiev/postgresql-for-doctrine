@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayDimensions;
 
-class ArrayDimensionsTest extends TestCase
+final class ArrayDimensionsTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

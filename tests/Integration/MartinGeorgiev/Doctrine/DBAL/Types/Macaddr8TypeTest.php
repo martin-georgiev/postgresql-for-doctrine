@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddr8ForPHPException
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-class Macaddr8TypeTest extends ScalarTypeTestCase
+final class Macaddr8TypeTest extends ScalarTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -17,7 +17,7 @@ class Macaddr8TypeTest extends ScalarTypeTestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function can_transform_from_php_value(string $testValue): void
+    public function roundtrips_value(string $testValue): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

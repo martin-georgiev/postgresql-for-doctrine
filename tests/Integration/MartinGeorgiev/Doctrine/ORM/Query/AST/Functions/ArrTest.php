@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
 use PHPUnit\Framework\Attributes\Test;
 
-class ArrTest extends ArrayTestCase
+final class ArrTest extends ArrayTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -19,7 +19,7 @@ class ArrTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_create_array_from_values(): void
+    public function creates_array_from_values(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
@@ -30,7 +30,7 @@ class ArrTest extends ArrayTestCase
     }
 
     #[Test]
-    public function can_create_single_element_array(): void
+    public function creates_single_element_array(): void
     {
         $dql = "SELECT t.id as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 

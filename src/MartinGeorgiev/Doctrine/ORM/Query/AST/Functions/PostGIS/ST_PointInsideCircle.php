@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_PointInsideCircle() function.
+ * Implementation of PostGIS ST_PointInsideCircle().
  *
  * Tests if a point geometry is inside a circle defined by a center and radius.
  *

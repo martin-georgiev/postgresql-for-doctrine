@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_ConvexHull() function.
+ * Implementation of PostGIS ST_ConvexHull().
  *
  * Returns the convex hull of the input geometry.
  * The convex hull is the smallest convex geometry that contains the input geometry.

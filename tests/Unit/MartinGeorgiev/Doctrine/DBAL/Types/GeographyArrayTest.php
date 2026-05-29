@@ -35,7 +35,7 @@ final class GeographyArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_null_to_database_value(): void
+    public function converts_null_to_database_value(): void
     {
         $result = $this->type->convertToDatabaseValue(null, $this->platform);
 
@@ -43,7 +43,7 @@ final class GeographyArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_empty_array_to_database_value(): void
+    public function converts_empty_array_to_database_value(): void
     {
         $result = $this->type->convertToDatabaseValue([], $this->platform);
 
@@ -52,7 +52,7 @@ final class GeographyArrayTest extends TestCase
 
     #[DataProvider('provideValidArraysForDatabase')]
     #[Test]
-    public function can_convert_valid_arrays_to_database_value(array $phpArray, string $expectedPostgresArray): void
+    public function converts_to_database_value(array $phpArray, string $expectedPostgresArray): void
     {
         $result = $this->type->convertToDatabaseValue($phpArray, $this->platform);
 
@@ -133,7 +133,7 @@ final class GeographyArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_null_to_php_value(): void
+    public function converts_null_to_php_value(): void
     {
         $result = $this->type->convertToPHPValue(null, $this->platform);
 
@@ -141,7 +141,7 @@ final class GeographyArrayTest extends TestCase
     }
 
     #[Test]
-    public function can_convert_empty_postgres_array_to_php_value(): void
+    public function converts_empty_array_to_php_value(): void
     {
         $result = $this->type->convertToPHPValue('{}', $this->platform);
 
@@ -150,7 +150,7 @@ final class GeographyArrayTest extends TestCase
 
     #[DataProvider('provideValidPostgresArraysForPHP')]
     #[Test]
-    public function can_convert_valid_postgres_arrays_to_php_value(string $postgresArray, array $expectedPHPArray): void
+    public function converts_to_php_value(string $postgresArray, array $expectedPHPArray): void
     {
         $result = $this->type->convertToPHPValue($postgresArray, $this->platform);
 
@@ -266,32 +266,54 @@ final class GeographyArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidArrayItem')]
+    #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function can_validate_array_items_for_database(mixed $item): void
+    public function validates_valid_array_item_for_database(mixed $item): void
+    {
+        $this->assertTrue($this->type->isValidArrayItemForDatabase($item));
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'valid WktSpatialData' => [WktSpatialData::fromWkt('POINT(-122.4194 37.7749)')],
+        ];
+    }
+
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function validates_invalid_array_item_for_database(mixed $item): void
     {
         $this->assertFalse($this->type->isValidArrayItemForDatabase($item));
     }
 
     /**
-     * @return array<string, array{item: mixed}>
+     * @return array<string, array{mixed}>
      */
-    public static function provideInvalidArrayItem(): array
+    public static function provideInvalidArrayItemsForDatabase(): array
     {
         return [
-            'string is invalid' => [
-                'item' => 'not a spatial data object',
-            ],
-            'null is invalid' => [
-                'item' => null,
-            ],
-            'integer is invalid' => [
-                'item' => 123,
-            ],
-            'array is invalid' => [
-                'item' => [],
-            ],
+            'string is invalid' => ['not a spatial data object'],
+            'null is invalid' => [null],
+            'integer is invalid' => [123],
+            'array is invalid' => [[]],
         ];
+    }
+
+    #[Test]
+    public function converts_null_item_to_php_value(): void
+    {
+        $this->assertNull($this->type->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->type->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 
     #[Test]
@@ -314,7 +336,7 @@ final class GeographyArrayTest extends TestCase
 
     #[DataProvider('provideDimensionalModifierNormalization')]
     #[Test]
-    public function can_normalize_dimensional_modifiers(string $input, string $expected): void
+    public function normalizes_dimensional_modifiers(string $input, string $expected): void
     {
         $result = $this->type->transformArrayItemForPHP($input);
 

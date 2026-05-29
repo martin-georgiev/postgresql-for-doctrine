@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
 
 /**
- * Implementation of PostGIS ST_DFullyWithin() function.
+ * Implementation of PostGIS ST_DFullyWithin().
  *
  * Tests if a geometry is entirely inside a distance of another.
  *
