@@ -35,6 +35,6 @@ class QuoteIdentTest extends TextTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('"lorem ipsum dolor"', $result[0]['result']);
+        $this->assertSame('"this is a test string"', $result[0]['result']);
     }
 }
