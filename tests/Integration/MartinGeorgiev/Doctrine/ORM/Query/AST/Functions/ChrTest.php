@@ -17,7 +17,7 @@ class ChrTest extends TextTestCase
     }
 
     #[Test]
-    public function can_return_character_for_code_point_65(): void
+    public function returns_character_for_code_point_65(): void
     {
         $dql = 'SELECT CHR(65) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
@@ -28,7 +28,7 @@ class ChrTest extends TextTestCase
     }
 
     #[Test]
-    public function can_return_character_for_code_point_116(): void
+    public function returns_character_for_code_point_116(): void
     {
         $dql = 'SELECT CHR(116) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

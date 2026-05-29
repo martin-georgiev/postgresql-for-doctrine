@@ -17,7 +17,7 @@ class BtrimTest extends TextTestCase
     }
 
     #[Test]
-    public function can_trim_spaces_from_both_ends_of_a_literal_string(): void
+    public function trims_spaces_from_both_ends_of_literal(): void
     {
         $dql = "SELECT BTRIM(' hello ') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class BtrimTest extends TextTestCase
     }
 
     #[Test]
-    public function can_trim_specified_characters_from_both_ends_of_text_field(): void
+    public function trims_specified_characters_from_both_ends_of_text_field(): void
     {
         $dql = "SELECT BTRIM(t.text1, 'fobar') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

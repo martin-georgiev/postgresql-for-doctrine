@@ -17,24 +17,26 @@ class DecodeTest extends TextTestCase
     }
 
     #[Test]
-    public function can_decode_a_hex_encoded_literal_string(): void
+    public function returns_bytea_from_hex_encoded_literal(): void
     {
         $dql = "SELECT DECODE('68656c6c6f', 'hex') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertNotNull($result[0]['result']);
+        $this->assertIsResource($result[0]['result']);
+        $this->assertSame('hello', \stream_get_contents($result[0]['result']));
     }
 
     #[Test]
-    public function can_decode_a_base64_encoded_literal_string(): void
+    public function returns_bytea_from_escape_encoded_text_field(): void
     {
-        $dql = "SELECT DECODE('aGVsbG8=', 'base64') as result
+        $dql = "SELECT DECODE(t.text1, 'escape') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
+                WHERE t.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertNotNull($result[0]['result']);
+        $this->assertIsResource($result[0]['result']);
+        $this->assertSame('foo', \stream_get_contents($result[0]['result']));
     }
 }

@@ -17,7 +17,7 @@ class CharLengthTest extends TextTestCase
     }
 
     #[Test]
-    public function can_return_character_length_of_a_literal_string(): void
+    public function returns_character_count_of_literal(): void
     {
         $dql = "SELECT CHAR_LENGTH('hello') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class CharLengthTest extends TextTestCase
     }
 
     #[Test]
-    public function can_return_character_length_of_text_field(): void
+    public function returns_character_count_of_text_field(): void
     {
         $dql = 'SELECT CHAR_LENGTH(t.text1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

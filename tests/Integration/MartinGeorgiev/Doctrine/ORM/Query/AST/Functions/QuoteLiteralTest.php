@@ -17,7 +17,7 @@ class QuoteLiteralTest extends TextTestCase
     }
 
     #[Test]
-    public function can_quote_a_literal_string_as_sql_literal(): void
+    public function returns_quoted_sql_literal_from_literal_string(): void
     {
         $dql = "SELECT QUOTE_LITERAL('hello') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class QuoteLiteralTest extends TextTestCase
     }
 
     #[Test]
-    public function can_quote_text_field_as_sql_literal(): void
+    public function returns_quoted_sql_literal_from_text_field(): void
     {
         $dql = 'SELECT QUOTE_LITERAL(t.text2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

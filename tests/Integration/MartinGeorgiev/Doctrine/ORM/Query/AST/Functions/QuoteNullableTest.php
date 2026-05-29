@@ -17,7 +17,7 @@ class QuoteNullableTest extends TextTestCase
     }
 
     #[Test]
-    public function can_quote_a_literal_string_as_sql_literal(): void
+    public function returns_quoted_sql_literal_for_non_null_value(): void
     {
         $dql = "SELECT QUOTE_NULLABLE('hello') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class QuoteNullableTest extends TextTestCase
     }
 
     #[Test]
-    public function can_quote_text_field_as_null_safe_sql_literal(): void
+    public function returns_quoted_sql_literal_from_text_field(): void
     {
         $dql = 'SELECT QUOTE_NULLABLE(t.text2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

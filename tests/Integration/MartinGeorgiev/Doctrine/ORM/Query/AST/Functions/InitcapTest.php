@@ -17,7 +17,7 @@ class InitcapTest extends TextTestCase
     }
 
     #[Test]
-    public function can_capitalize_first_letter_of_each_word_in_a_literal_string(): void
+    public function capitalizes_first_letter_of_each_word_in_literal(): void
     {
         $dql = "SELECT INITCAP('hello world') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class InitcapTest extends TextTestCase
     }
 
     #[Test]
-    public function can_capitalize_first_letter_of_text_field(): void
+    public function capitalizes_first_letter_of_each_word_in_text_field(): void
     {
         $dql = 'SELECT INITCAP(t.text1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

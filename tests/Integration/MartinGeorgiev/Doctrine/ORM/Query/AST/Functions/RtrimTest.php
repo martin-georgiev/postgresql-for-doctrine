@@ -17,7 +17,7 @@ class RtrimTest extends TextTestCase
     }
 
     #[Test]
-    public function can_trim_trailing_spaces_from_a_literal_string(): void
+    public function trims_trailing_spaces_from_literal(): void
     {
         $dql = "SELECT RTRIM('hello  ') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class RtrimTest extends TextTestCase
     }
 
     #[Test]
-    public function can_trim_specified_trailing_characters_from_text_field(): void
+    public function trims_specified_trailing_characters_from_text_field(): void
     {
         $dql = "SELECT RTRIM(t.text1, 'fobar') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

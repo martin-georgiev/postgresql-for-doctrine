@@ -17,7 +17,7 @@ class RpadTest extends TextTestCase
     }
 
     #[Test]
-    public function can_right_pad_a_literal_string_with_specified_fill(): void
+    public function pads_literal_on_right_with_specified_fill(): void
     {
         $dql = "SELECT RPAD('hi', 5, '0') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class RpadTest extends TextTestCase
     }
 
     #[Test]
-    public function can_right_pad_text_field_with_spaces_to_specified_length(): void
+    public function pads_text_field_on_right_with_spaces(): void
     {
         $dql = 'SELECT RPAD(t.text1, 5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

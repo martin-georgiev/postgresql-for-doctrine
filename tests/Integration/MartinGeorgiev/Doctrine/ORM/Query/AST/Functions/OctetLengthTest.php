@@ -17,7 +17,7 @@ class OctetLengthTest extends TextTestCase
     }
 
     #[Test]
-    public function can_return_byte_length_of_a_literal_string(): void
+    public function returns_byte_length_of_literal(): void
     {
         $dql = "SELECT OCTET_LENGTH('hello') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class OctetLengthTest extends TextTestCase
     }
 
     #[Test]
-    public function can_return_byte_length_of_text_field(): void
+    public function returns_byte_length_of_text_field(): void
     {
         $dql = 'SELECT OCTET_LENGTH(t.text1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

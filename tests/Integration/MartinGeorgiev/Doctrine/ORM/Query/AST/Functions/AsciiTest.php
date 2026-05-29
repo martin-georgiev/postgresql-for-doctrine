@@ -17,7 +17,7 @@ class AsciiTest extends TextTestCase
     }
 
     #[Test]
-    public function can_return_ascii_code_of_a_literal_string(): void
+    public function returns_ascii_code_of_literal_character(): void
     {
         $dql = "SELECT ASCII('A') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ class AsciiTest extends TextTestCase
     }
 
     #[Test]
-    public function can_return_ascii_code_of_text_field(): void
+    public function returns_ascii_code_of_text_field(): void
     {
         $dql = 'SELECT ASCII(t.text1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

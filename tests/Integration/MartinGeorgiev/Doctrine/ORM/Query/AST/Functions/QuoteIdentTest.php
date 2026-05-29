@@ -17,24 +17,24 @@ class QuoteIdentTest extends TextTestCase
     }
 
     #[Test]
-    public function can_quote_a_literal_sql_identifier(): void
+    public function returns_quoted_sql_identifier_from_literal(): void
     {
-        $dql = "SELECT QUOTE_IDENT('hello') as result
+        $dql = "SELECT QUOTE_IDENT('Hello World') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('"hello"', $result[0]['result']);
+        $this->assertSame('"Hello World"', $result[0]['result']);
     }
 
     #[Test]
-    public function can_quote_text_field_as_sql_identifier(): void
+    public function returns_quoted_sql_identifier_from_text_field(): void
     {
-        $dql = 'SELECT QUOTE_IDENT(t.text2) as result
+        $dql = 'SELECT QUOTE_IDENT(t.text1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
-                WHERE t.id = 3';
+                WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('"bar"', $result[0]['result']);
+        $this->assertSame('"lorem ipsum dolor"', $result[0]['result']);
     }
 }

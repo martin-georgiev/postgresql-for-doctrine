@@ -17,7 +17,7 @@ class TranslateTest extends TextTestCase
     }
 
     #[Test]
-    public function can_translate_characters_in_a_literal_string(): void
+    public function translates_characters_in_literal(): void
     {
         $dql = "SELECT TRANSLATE('hello', 'el', 'ip') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,13 +28,13 @@ class TranslateTest extends TextTestCase
     }
 
     #[Test]
-    public function can_translate_characters_in_text_field(): void
+    public function translates_characters_in_text_field(): void
     {
         $dql = "SELECT TRANSLATE(t.text1, 'foo', 'bar') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
+        $this->assertSame('baa', $result[0]['result']);
     }
 }
