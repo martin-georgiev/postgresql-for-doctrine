@@ -472,7 +472,6 @@ return [
         'CLOCK_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp::class,
         'DATE_ADD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class,
         'DATE_BIN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin::class,
-        'DATE_DIFF' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateDiff::class,
         'DATE_EXTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class,
         'DATE_OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class,
         'DATE_SUBTRACT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class,

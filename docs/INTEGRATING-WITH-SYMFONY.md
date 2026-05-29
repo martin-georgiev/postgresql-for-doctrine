@@ -453,7 +453,6 @@ doctrine:
                         CLOCK_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp
                         DATE_ADD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd
                         DATE_BIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin
-                        DATE_DIFF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateDiff
                         DATE_EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract
                         DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
                         DATE_SUBTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract

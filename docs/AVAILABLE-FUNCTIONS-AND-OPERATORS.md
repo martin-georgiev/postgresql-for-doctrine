@@ -108,7 +108,6 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 **Date/Range Operations:** ([Complete documentation](DATE-AND-RANGE-FUNCTIONS.md))
 - `CLOCK_TIMESTAMP` - Current timestamp at call time
 - `DATE_ADD` - Add interval to date
-- `DATE_DIFF` - Number of units between two timestamps (PostgreSQL 16+)
 - `DATE_EXTRACT` - Extract date components
 - `DATERANGE` - Create date ranges
 - `ISFINITE` - Test if date/timestamp/interval is finite

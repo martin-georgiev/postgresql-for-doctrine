@@ -12,7 +12,6 @@ This document covers PostgreSQL date, time, and range functions available in thi
 | clock_timestamp | CLOCK_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp` |
 | date_add | DATE_ADD | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd` |
 | date_bin | DATE_BIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin` |
-| date_diff | DATE_DIFF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateDiff` |
 | date_part | DATE_PART | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DatePart` |
 | date_subtract | DATE_SUBTRACT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract` |
 | date_trunc | DATE_TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc` |

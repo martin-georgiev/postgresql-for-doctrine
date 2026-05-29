@@ -268,7 +268,6 @@ $configuration->addCustomStringFunction('WEBSEARCH_TO_TSQUERY', MartinGeorgiev\D
 $configuration->addCustomStringFunction('CLOCK_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp::class);
 $configuration->addCustomStringFunction('DATE_ADD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class);
 $configuration->addCustomStringFunction('DATE_BIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin::class);
-$configuration->addCustomStringFunction('DATE_DIFF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateDiff::class);
 $configuration->addCustomStringFunction('DATE_EXTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class);
 $configuration->addCustomStringFunction('DATE_OVERLAPS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class);
 $configuration->addCustomStringFunction('DATE_SUBTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class);
