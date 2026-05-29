@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 /**
- * @template R of int|float|\DateTimeInterface
+ * @template R
  *
  * @since 3.3
  *
@@ -190,11 +190,17 @@ abstract class Range implements \Stringable
         return new static(null, null, false, false); // @phpstan-ignore new.static, return.type
     }
 
-    public function getLower(): \DateTimeInterface|float|int|null
+    /**
+     * @return R|null
+     */
+    public function getLower(): mixed
     {
         return $this->lower;
     }
 
+    /**
+     * @return R|null
+     */
     public function getUpper(): \DateTimeInterface|float|int|null
     {
         return $this->upper;
