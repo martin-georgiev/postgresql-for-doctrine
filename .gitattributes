@@ -12,5 +12,8 @@
 .gitattributes      export-ignore
 .gitignore          export-ignore
 .scrutinizer.yml    export-ignore
+AGENTS.md           export-ignore
+CLAUDE.md           export-ignore
+devenv.*            export-ignore
 docker-compose.yml  export-ignore
 README.md           export-ignore
