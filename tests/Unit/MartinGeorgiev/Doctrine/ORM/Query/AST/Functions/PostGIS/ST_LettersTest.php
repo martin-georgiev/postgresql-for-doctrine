@@ -20,16 +20,16 @@ final class ST_LettersTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'with one argument' => "SELECT ST_Letters('ABC') AS sclr_0 FROM ContainsGeometries c0_",
-            'with two arguments (custom font)' => "SELECT ST_Letters('ABC', '{\"A\": \"...\"}') AS sclr_0 FROM ContainsGeometries c0_",
+            'renders text as geometry' => "SELECT ST_Letters('ABC') AS sclr_0 FROM ContainsGeometries c0_",
+            'renders text with custom font' => "SELECT ST_Letters('ABC', '{\"A\": \"...\"}') AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'with one argument' => \sprintf("SELECT ST_LETTERS('ABC') FROM %s g", ContainsGeometries::class),
-            'with two arguments (custom font)' => \sprintf("SELECT ST_LETTERS('ABC', '{\"A\": \"...\"}') FROM %s g", ContainsGeometries::class),
+            'renders text as geometry' => \sprintf("SELECT ST_LETTERS('ABC') FROM %s g", ContainsGeometries::class),
+            'renders text with custom font' => \sprintf("SELECT ST_LETTERS('ABC', '{\"A\": \"...\"}') FROM %s g", ContainsGeometries::class),
         ];
     }
 }

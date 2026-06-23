@@ -22,16 +22,16 @@ final class ST_RemoveIrrelevantPointsForViewTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'with two arguments' => "SELECT ST_RemoveIrrelevantPointsForView(c0_.geometry1, 'BOX(-10 -10, 10 10)') AS sclr_0 FROM ContainsGeometries c0_",
-            'with three arguments (cartesian_hint)' => "SELECT ST_RemoveIrrelevantPointsForView(c0_.geometry1, 'BOX(-10 -10, 10 10)', 'true') AS sclr_0 FROM ContainsGeometries c0_",
+            'removes irrelevant points for view' => "SELECT ST_RemoveIrrelevantPointsForView(c0_.geometry1, 'BOX(-10 -10, 10 10)') AS sclr_0 FROM ContainsGeometries c0_",
+            'removes irrelevant points with cartesian hint' => "SELECT ST_RemoveIrrelevantPointsForView(c0_.geometry1, 'BOX(-10 -10, 10 10)', 'true') AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'with two arguments' => \sprintf("SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)') FROM %s g", ContainsGeometries::class),
-            'with three arguments (cartesian_hint)' => \sprintf("SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)', 'true') FROM %s g", ContainsGeometries::class),
+            'removes irrelevant points for view' => \sprintf("SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)') FROM %s g", ContainsGeometries::class),
+            'removes irrelevant points with cartesian hint' => \sprintf("SELECT ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)', 'true') FROM %s g", ContainsGeometries::class),
         ];
     }
 

@@ -22,16 +22,16 @@ final class ST_SimplifyPolygonHullTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'with two arguments (outer hull)' => 'SELECT ST_SimplifyPolygonHull(c0_.geometry1, 0.9) AS sclr_0 FROM ContainsGeometries c0_',
-            'with three arguments (inner hull)' => "SELECT ST_SimplifyPolygonHull(c0_.geometry1, 0.9, 'false') AS sclr_0 FROM ContainsGeometries c0_",
+            'simplifies to outer hull' => 'SELECT ST_SimplifyPolygonHull(c0_.geometry1, 0.9) AS sclr_0 FROM ContainsGeometries c0_',
+            'simplifies to inner hull' => "SELECT ST_SimplifyPolygonHull(c0_.geometry1, 0.9, 'false') AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'with two arguments (outer hull)' => \sprintf('SELECT ST_SIMPLIFYPOLYGONHULL(g.geometry1, 0.9) FROM %s g', ContainsGeometries::class),
-            'with three arguments (inner hull)' => \sprintf("SELECT ST_SIMPLIFYPOLYGONHULL(g.geometry1, 0.9, 'false') FROM %s g", ContainsGeometries::class),
+            'simplifies to outer hull' => \sprintf('SELECT ST_SIMPLIFYPOLYGONHULL(g.geometry1, 0.9) FROM %s g', ContainsGeometries::class),
+            'simplifies to inner hull' => \sprintf("SELECT ST_SIMPLIFYPOLYGONHULL(g.geometry1, 0.9, 'false') FROM %s g", ContainsGeometries::class),
         ];
     }
 

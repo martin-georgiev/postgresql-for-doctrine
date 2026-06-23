@@ -22,16 +22,16 @@ final class ST_ConcaveHullTest extends TestCase
     protected function getExpectedSqlStatements(): array
     {
         return [
-            'with two arguments' => 'SELECT ST_ConcaveHull(c0_.geometry1, 0.99) AS sclr_0 FROM ContainsGeometries c0_',
-            'with three arguments (allow_holes)' => "SELECT ST_ConcaveHull(c0_.geometry1, 0.99, 'true') AS sclr_0 FROM ContainsGeometries c0_",
+            'computes concave hull' => 'SELECT ST_ConcaveHull(c0_.geometry1, 0.99) AS sclr_0 FROM ContainsGeometries c0_',
+            'computes concave hull allowing holes' => "SELECT ST_ConcaveHull(c0_.geometry1, 0.99, 'true') AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
     protected function getDqlStatements(): array
     {
         return [
-            'with two arguments' => \sprintf('SELECT ST_CONCAVEHULL(g.geometry1, 0.99) FROM %s g', ContainsGeometries::class),
-            'with three arguments (allow_holes)' => \sprintf("SELECT ST_CONCAVEHULL(g.geometry1, 0.99, 'true') FROM %s g", ContainsGeometries::class),
+            'computes concave hull' => \sprintf('SELECT ST_CONCAVEHULL(g.geometry1, 0.99) FROM %s g', ContainsGeometries::class),
+            'computes concave hull allowing holes' => \sprintf("SELECT ST_CONCAVEHULL(g.geometry1, 0.99, 'true') FROM %s g", ContainsGeometries::class),
         ];
     }
 

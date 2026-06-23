@@ -17,7 +17,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_POINT(1.0, 2.0) FROM Entity g"
- * @example Using it in DQL: "SELECT ST_POINT(1.0, 2.0, 4326) FROM Entity g"
+ * @example Using it in DQL with SRID: "SELECT ST_POINT(1.0, 2.0, 4326) FROM Entity g"
  */
 class ST_Point extends BaseVariadicFunction
 {
