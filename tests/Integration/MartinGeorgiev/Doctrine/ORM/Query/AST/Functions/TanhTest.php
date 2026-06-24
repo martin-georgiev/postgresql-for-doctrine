@@ -21,7 +21,7 @@ final class TanhTest extends NumericTestCase
     {
         $dql = 'SELECT TANH(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.000001);
+        $this->assertEquals(0.0, $result[0]['result']);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class TanhTest extends NumericTestCase
     {
         $dql = 'SELECT TANH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.99999999848349, $result[0]['result'], 0.000001);
+        $this->assertEqualsWithDelta(0.99999999848349, $result[0]['result'], 0.00000000000001);
     }
 }

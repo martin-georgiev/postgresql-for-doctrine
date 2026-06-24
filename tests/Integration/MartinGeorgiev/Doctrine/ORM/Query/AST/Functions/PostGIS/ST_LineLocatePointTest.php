@@ -24,6 +24,6 @@ final class ST_LineLocatePointTest extends SpatialOperatorTestCase
                 WHERE g.id = 9';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.5, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(0.5, $result[0]['result']);
     }
 }

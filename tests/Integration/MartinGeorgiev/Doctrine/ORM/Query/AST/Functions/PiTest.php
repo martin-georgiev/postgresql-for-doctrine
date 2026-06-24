@@ -21,7 +21,7 @@ final class PiTest extends NumericTestCase
     {
         $dql = 'SELECT PI() as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.141592653589793, $result[0]['result'], 0.0001);
+        $this->assertEqualsWithDelta(3.141592653589793, $result[0]['result'], 0.000000000000001);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class PiTest extends NumericTestCase
     {
         $dql = 'SELECT PI() + n.decimal1 as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(13.641592653589793, $result[0]['result'], 0.000001);
+        $this->assertEqualsWithDelta(13.641592653589793, $result[0]['result'], 0.000000000000001);
     }
 }
