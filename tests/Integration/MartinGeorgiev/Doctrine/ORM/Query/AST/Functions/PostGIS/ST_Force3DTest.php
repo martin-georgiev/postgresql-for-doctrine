@@ -24,7 +24,7 @@ final class ST_Force3DTest extends SpatialOperatorTestCase
     public function preserves_3d_point(): void
     {
         $dql = 'SELECT ST_COORDDIM(g.geometry1) as original,
-                       ST_COORDDIM(ST_FORCE2D(g.geometry1)) as transformed
+                       ST_COORDDIM(ST_FORCE3D(g.geometry1)) as transformed
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 11';
 
@@ -37,7 +37,7 @@ final class ST_Force3DTest extends SpatialOperatorTestCase
     public function promotes_2d_point_to_3d(): void
     {
         $dql = 'SELECT ST_COORDDIM(g.geometry1) as original,
-                       ST_COORDDIM(ST_FORCE2D(g.geometry1)) as transformed
+                       ST_COORDDIM(ST_FORCE3D(g.geometry1)) as transformed
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
