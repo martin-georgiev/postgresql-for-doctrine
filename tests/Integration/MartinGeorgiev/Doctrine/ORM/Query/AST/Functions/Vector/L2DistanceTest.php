@@ -33,6 +33,6 @@ final class L2DistanceTest extends TestCase
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t
                 WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1.4142, $result[0]['result']);
+        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0001);
     }
 }
