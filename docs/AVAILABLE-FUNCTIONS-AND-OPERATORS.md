@@ -194,10 +194,14 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **JSONB Path Functions**: Advanced JSONB querying with path expressions
 
 ### **Spatial Functions (PostGIS)**
+- **Accessor Functions**: Retrieve geometry properties
+- **Constructor Functions**: Create geometries from coordinates and parameters
 - **Relationship Functions**: Test spatial relationships between geometries
 - **Measurement Functions**: Calculate distances, areas, lengths, and angles
 - **Overlay Functions**: Perform geometric operations (intersection, union, difference)
 - **Processing Functions**: Transform, simplify, and modify geometries
+- **Editor Functions**: Modify geometry properties (SRID, coordinates, snapping, segmentizing)
+- **Linear Referencing Functions**: Locate points and substrings along linear geometries
 
 ### **Text & Pattern Functions**
 - **Regexp Functions**: Pattern matching and replacement

@@ -50,13 +50,13 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_frechet_distance_between_polygons(): void
+    public function returns_frechet_distance_between_overlapping_polygons(): void
     {
         $dql = 'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.000000000000001, 'should return correct distance between overlapping polygons');
+        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0000000000000001);
     }
 }

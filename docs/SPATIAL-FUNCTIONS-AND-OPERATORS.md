@@ -84,10 +84,20 @@ These functions return properties and information about geometries.
 
 | PostgreSQL functions | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
+| ST_CoordDim | ST_COORDDIM | Returns the coordinate dimension of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoordDim` |
 | ST_CurveN | ST_CURVEN | Returns the Nth curve of a CompoundCurve | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveN` |
+| ST_GeometryType | ST_GEOMETRYTYPE | Returns the SQL-MM type string of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryType` |
 | ST_HasM | ST_HASM | Returns true if the geometry has an M (measure) coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasM` |
 | ST_HasZ | ST_HASZ | Returns true if the geometry has a Z coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ` |
+| ST_IsEmpty | ST_ISEMPTY | Returns true if the geometry is an empty geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsEmpty` |
+| ST_IsValid | ST_ISVALID | Returns true if the geometry is well-formed and valid | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValid` |
+| ST_NPoints | ST_NPOINTS | Returns the number of points (vertices) in a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NPoints` |
 | ST_NumCurves | ST_NUMCURVES | Returns the number of curves in a CompoundCurve | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumCurves` |
+| ST_NumGeometries | ST_NUMGEOMETRIES | Returns the number of elements in a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumGeometries` |
+| ST_SRID | ST_SRID | Returns the spatial reference identifier of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SRID` |
+| ST_X | ST_X | Returns the X coordinate of a Point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_X` |
+| ST_Y | ST_Y | Returns the Y coordinate of a Point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Y` |
+| ST_Z | ST_Z | Returns the Z coordinate of a Point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Z` |
 
 ## PostGIS Measurement Functions
 
@@ -104,7 +114,9 @@ These functions calculate various measurements of geometries including lengths, 
 | ST_Distance | ST_DISTANCE | Returns the 2D distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Distance` |
 | ST_3DDistance | ST_3DDISTANCE | Returns the 3D distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDistance` |
 | ST_Centroid | ST_CENTROID | Returns the geometric center of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Centroid` |
+| ST_ClosestPoint | ST_CLOSESTPOINT | Returns the 2D point on geometry A that is closest to geometry B | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ClosestPoint` |
 | ST_MaxDistance | ST_MAXDISTANCE | Returns the maximum distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MaxDistance` |
+| ST_ShortestLine | ST_SHORTESTLINE | Returns the 2D shortest line between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ShortestLine` |
 | ST_HausdorffDistance | ST_HAUSDORFFDISTANCE | Returns the Hausdorff distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HausdorffDistance` |
 | ST_FrechetDistance | ST_FRECHETDISTANCE | Returns the Fréchet distance between two geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_FrechetDistance` |
 | ST_Azimuth | ST_AZIMUTH | Returns the azimuth between two points in radians | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Azimuth` |
@@ -136,6 +148,18 @@ These functions work with polygonal coverages (sets of non-overlapping polygons 
 |---|---|---|---|
 | ST_CoverageUnion | ST_COVERAGEUNION | Computes the union of a set of polygons forming a coverage by removing shared edges | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion` |
 
+## PostGIS Geometry Constructor Functions
+
+These functions create new geometry objects from coordinates, other geometries, or well-known representations.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_MakeEnvelope | ST_MAKEENVELOPE | Creates a rectangular Polygon from minimum and maximum coordinates | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeEnvelope` |
+| ST_MakeLine | ST_MAKELINE | Creates a LineString from Point, MultiPoint, or LineString geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeLine` |
+| ST_MakePoint | ST_MAKEPOINT | Creates a 2D, 3DZ, or 4D Point from coordinates | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakePoint` |
+| ST_Point | ST_POINT | Creates a Point with an optional SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Point` |
+| ST_TileEnvelope | ST_TILEENVELOPE | Creates a rectangular Polygon for a Web Mercator tile by zoom/x/y | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TileEnvelope` |
+
 ## PostGIS GeoJSON functions
 
 | PostgreSQL functions | Register for DQL as | Description | Implemented by |
@@ -155,24 +179,43 @@ These functions modify and transform geometries including buffering, simplificat
 | ST_ConvexHull | ST_CONVEXHULL | Returns the convex hull of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConvexHull` |
 | ST_CurveToLine | ST_CURVETOLINE | Converts curved geometries to linear geometries | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveToLine` |
 | ST_Envelope | ST_ENVELOPE | Returns the bounding box as a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope` |
+| ST_FlipCoordinates | ST_FLIPCOORDINATES | Returns a geometry with X and Y coordinates flipped | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_FlipCoordinates` |
 | ST_Force2D | ST_FORCE2D | Forces geometry to 2D by removing Z/M coordinates | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force2D` |
 | ST_Force3D | ST_FORCE3D | Forces geometry to 3D by adding Z coordinate if needed | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force3D` |
 | ST_Force4D | ST_FORCE4D | Forces geometry to 4D by adding Z and M coordinates if needed | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force4D` |
 | ST_Letters | ST_LETTERS | Creates geometries that look like letters | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Letters` |
 | ST_LineExtend | ST_LINEEXTEND | Returns a line extended forwards and backwards by specified distances | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineExtend` |
 | ST_LineToCurve | ST_LINETOCURVE | Converts linear geometries to curved geometries where possible | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineToCurve` |
+| ST_MinimumBoundingCircle | ST_MINIMUMBOUNDINGCIRCLE | Returns the smallest circle polygon that contains a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MinimumBoundingCircle` |
+| ST_OffsetCurve | ST_OFFSETCURVE | Returns an offset line at a given distance and side from an input line | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_OffsetCurve` |
+| ST_PointOnSurface | ST_POINTONSURFACE | Returns a point guaranteed to lie on the surface of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointOnSurface` |
+| ST_GeneratePoints | ST_GENERATEPOINTS | Generates a multipoint of random points inside a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeneratePoints` |
 | ST_RemoveIrrelevantPointsForView | ST_REMOVEIRRELEVANTPOINTSFORVIEW | Removes points that are irrelevant for rendering a geometry at a given view | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveIrrelevantPointsForView` |
 | ST_RemoveSmallParts | ST_REMOVESMALLPARTS | Removes small polygon rings and linestrings from a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveSmallParts` |
 | ST_Reverse | ST_REVERSE | Reverses the order of points in a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Reverse` |
 | ST_Rotate | ST_ROTATE | Rotates a geometry by given angle | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Rotate` |
 | ST_Scale | ST_SCALE | Scales a geometry by given factors | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Scale` |
+| ST_Segmentize | ST_SEGMENTIZE | Returns a modified geometry having no segment longer than the given max length | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Segmentize` |
+| ST_SetSRID | ST_SETSRID | Sets the SRID on a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SetSRID` |
 | ST_Simplify | ST_SIMPLIFY | Simplifies geometry using Douglas-Peucker algorithm | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Simplify` |
 | ST_SimplifyPolygonHull | ST_SIMPLIFYPOLYGONHULL | Computes a simplified topology-preserving outer or inner hull of a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPolygonHull` |
 | ST_SimplifyPreserveTopology | ST_SIMPLIFYPRESERVETOPOLOGY | Simplifies geometry while preserving topology | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPreserveTopology` |
 | ST_SimplifyVW | ST_SIMPLIFYVW | Simplifies geometry using Visvalingam-Whyatt algorithm | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyVW` |
+| ST_Snap | ST_SNAP | Snaps the vertices and segments of a geometry to another geometry's vertices | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Snap` |
 | ST_Transform | ST_TRANSFORM | Transforms geometry to different coordinate system | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Transform` |
 | ST_Translate | ST_TRANSLATE | Translates a geometry by given offsets | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Translate` |
 | ST_TriangulatePolygon | ST_TRIANGULATEPOLYGON | Computes the constrained Delaunay triangulation of a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TriangulatePolygon` |
+| ST_VoronoiPolygons | ST_VORONOIPOLYGONS | Returns the 2D Voronoi diagram polygons from the vertices of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_VoronoiPolygons` |
+
+## PostGIS Linear Referencing Functions
+
+These functions work with measures along linear geometries for operations like locating points along routes.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_LineInterpolatePoint | ST_LINEINTERPOLATEPOINT | Returns a point interpolated along a line at a fractional position | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineInterpolatePoint` |
+| ST_LineLocatePoint | ST_LINELOCATEPOINT | Returns the fractional location of the closest point on a line to a given point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineLocatePoint` |
+| ST_LineSubstring | ST_LINESUBSTRING | Returns the portion of a line between two fractional locations | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineSubstring` |
 
 ## Usage Examples
 

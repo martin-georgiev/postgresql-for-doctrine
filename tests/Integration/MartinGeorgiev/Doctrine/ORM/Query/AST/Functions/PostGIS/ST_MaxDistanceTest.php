@@ -24,7 +24,7 @@ final class ST_MaxDistanceTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0000000000000001, 'Maximum distance between POINT(0 0) and POINT(1 1) = √2');
+        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0000000000000001);
     }
 
     #[Test]
@@ -46,6 +46,6 @@ final class ST_MaxDistanceTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(4.242640687119285, $result[0]['result'], 0.0000000000000001, 'Maximum distance between polygon corners (0,0) to (3,3) = √18');
+        $this->assertEqualsWithDelta(4.242640687119285, $result[0]['result'], 0.0000000000000001);
     }
 }
