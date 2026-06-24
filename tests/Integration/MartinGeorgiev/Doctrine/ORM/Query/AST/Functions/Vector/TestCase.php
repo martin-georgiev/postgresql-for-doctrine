@@ -12,7 +12,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->ensurePostgresExtensionInSchema('vector');
         $this->createTestTableForVectorFixture();
         $this->insertTestDataForVectorFixture();
     }
@@ -22,6 +21,7 @@ abstract class TestCase extends BaseTestCase
         $tableName = 'containsvectors';
 
         $this->createTestSchema();
+        $this->ensurePostgresExtensionInSchema('vector');
         $this->dropTestTableIfItExists($tableName);
 
         $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
