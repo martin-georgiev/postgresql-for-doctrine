@@ -29,6 +29,6 @@ final class TandTest extends NumericTestCase
     {
         $dql = 'SELECT TAND(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.18533904493153, $result[0]['result'], 0.00000000000001);
+        $this->assertEquals(0.1853390449315344, $result[0]['result']);
     }
 }

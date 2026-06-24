@@ -29,6 +29,6 @@ final class SinTest extends NumericTestCase
     {
         $dql = 'SELECT SIN(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(-0.87969575997167, $result[0]['result'], 0.00000000000001);
+        $this->assertEquals(-0.87969575997167, $result[0]['result']);
     }
 }

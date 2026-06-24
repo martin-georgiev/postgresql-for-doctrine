@@ -29,6 +29,6 @@ final class SinhTest extends NumericTestCase
     {
         $dql = 'SELECT SINH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(18157.751323355, $result[0]['result'], 0.000000001);
+        $this->assertEquals(18157.751323355093, $result[0]['result']);
     }
 }

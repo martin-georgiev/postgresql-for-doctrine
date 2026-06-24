@@ -29,6 +29,6 @@ final class AcosdTest extends NumericTestCase
     {
         $dql = 'SELECT ACOSD(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(78.170500951321, $result[0]['result'], 0.000000000001);
+        $this->assertEquals(78.1705009513206, $result[0]['result']);
     }
 }

@@ -24,7 +24,7 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(4.242640687119285, $result[0]['result'], 0.000000000000001);
+        $this->assertEquals(4.242640687119285, $result[0]['result']);
     }
 
     #[Test]
@@ -35,7 +35,7 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(4.242640687119285, $result[0]['result'], 0.000000000000001);
+        $this->assertEquals(4.242640687119285, $result[0]['result']);
     }
 
     #[Test]
@@ -57,6 +57,6 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
 }

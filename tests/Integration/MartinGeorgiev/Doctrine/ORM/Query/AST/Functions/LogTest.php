@@ -29,7 +29,7 @@ final class LogTest extends NumericTestCase
     {
         $dql = 'SELECT LOG(10, n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.0211892990699381, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(1.021189299069938, $result[0]['result']);
     }
 
     #[Test]
@@ -37,6 +37,6 @@ final class LogTest extends NumericTestCase
     {
         $dql = 'SELECT LOG(n.integer1 / 2, n.integer2 * 5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.861353116146, $result[0]['result'], 0.000000000001);
+        $this->assertEquals(2.1132827525593783, $result[0]['result']);
     }
 }

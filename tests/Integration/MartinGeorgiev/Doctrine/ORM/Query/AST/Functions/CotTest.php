@@ -21,7 +21,7 @@ final class CotTest extends NumericTestCase
     {
         $dql = 'SELECT COT(0.7853981633974483) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.0, $result[0]['result'], 0.000000000000001);
+        $this->assertEqualsWithDelta(1.0, $result[0]['result'], 1e-15);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class CotTest extends NumericTestCase
     {
         $dql = 'SELECT COT(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.54056976244981, $result[0]['result'], 0.00000000000001);
+        $this->assertEquals(0.5405697624498119, $result[0]['result']);
     }
 }

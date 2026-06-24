@@ -29,6 +29,6 @@ final class AsinhTest extends NumericTestCase
     {
         $dql = 'SELECT ASINH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.0467823372194, $result[0]['result'], 0.0000000000001);
+        $this->assertEquals(3.046782337219411, $result[0]['result']);
     }
 }

@@ -29,6 +29,6 @@ final class CoshTest extends NumericTestCase
     {
         $dql = 'SELECT COSH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(18157.751350892, $result[0]['result'], 0.000000001);
+        $this->assertEquals(18157.751350891544, $result[0]['result']);
     }
 }

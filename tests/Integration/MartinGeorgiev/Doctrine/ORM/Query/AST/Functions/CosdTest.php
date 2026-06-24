@@ -29,6 +29,6 @@ final class CosdTest extends NumericTestCase
     {
         $dql = 'SELECT COSD(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.98325490756395, $result[0]['result'], 0.00000000000001);
+        $this->assertEquals(0.9832549075639546, $result[0]['result']);
     }
 }

@@ -21,7 +21,7 @@ final class DegreesTest extends NumericTestCase
     {
         $dql = 'SELECT DEGREES(3.141592653589793) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(180.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(180.0, $result[0]['result']);
     }
 
     #[Test]
@@ -29,7 +29,7 @@ final class DegreesTest extends NumericTestCase
     {
         $dql = 'SELECT DEGREES(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(601.6056848873644, $result[0]['result'], 0.000001);
+        $this->assertEquals(601.6056848873644, $result[0]['result']);
     }
 
     #[Test]
@@ -37,6 +37,6 @@ final class DegreesTest extends NumericTestCase
     {
         $dql = 'SELECT DEGREES(n.decimal1 / n.integer1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(60.16056848873644, $result[0]['result'], 0.000001);
+        $this->assertEquals(60.16056848873644, $result[0]['result']);
     }
 }

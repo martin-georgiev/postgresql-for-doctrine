@@ -21,7 +21,7 @@ final class ExpTest extends NumericTestCase
     {
         $dql = 'SELECT EXP(1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.718281828459, $result[0]['result'], 0.0001);
+        $this->assertEquals(2.718281828459045, $result[0]['result']);
     }
 
     #[Test]
@@ -29,7 +29,7 @@ final class ExpTest extends NumericTestCase
     {
         $dql = 'SELECT EXP(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(36315.502674246638, $result[0]['result'], 0.000001);
+        $this->assertEquals(36315.502674246638, $result[0]['result']);
     }
 
     #[Test]
@@ -37,6 +37,6 @@ final class ExpTest extends NumericTestCase
     {
         $dql = 'SELECT EXP(n.integer1 / 10) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.718281828459, $result[0]['result'], 0.0001);
+        $this->assertEquals(2.718281828459045, $result[0]['result']);
     }
 }

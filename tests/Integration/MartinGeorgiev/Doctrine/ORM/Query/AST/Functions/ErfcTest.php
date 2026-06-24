@@ -27,7 +27,7 @@ final class ErfcTest extends NumericTestCase
     {
         $dql = 'SELECT ERFC(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.1573, $result[0]['result'], 0.0001);
+        $this->assertEquals(0.15729920705028513, $result[0]['result']);
     }
 
     #[Test]
@@ -35,6 +35,6 @@ final class ErfcTest extends NumericTestCase
     {
         $dql = 'SELECT ERFC(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.0001);
+        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 1e-44);
     }
 }
