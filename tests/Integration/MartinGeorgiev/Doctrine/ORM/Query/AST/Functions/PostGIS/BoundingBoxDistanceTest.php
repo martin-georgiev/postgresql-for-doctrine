@@ -59,6 +59,6 @@ final class BoundingBoxDistanceTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertIsNumeric($result[0]['distance']);
         $this->assertGreaterThan(0, $result[0]['distance']);
-        $this->assertEqualsWithDelta(2.83, $result[0]['distance'], 0.1, 'Distance should be approximately sqrt((3-1)² + (3-1)²) = sqrt(8) ≈ 2.83 between separated polygon bounding boxes');
+        $this->assertEquals(2.8284271247461903, $result[0]['distance']);
     }
 }

@@ -26,6 +26,6 @@ final class ST_LineSubstringTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
 }

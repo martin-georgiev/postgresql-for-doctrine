@@ -37,8 +37,8 @@ final class ST_TransformTest extends SpatialOperatorTestCase
         $this->assertIsArray($outerRing);
         $vertex = $outerRing[2];
         $this->assertIsArray($vertex);
-        $this->assertEqualsWithDelta(445277.96, $vertex[0], 1.0);
-        $this->assertEqualsWithDelta(445640.11, $vertex[1], 1.0);
+        $this->assertEqualsWithDelta(445277.96, $vertex[0], 0.01);
+        $this->assertEqualsWithDelta(445640.11, $vertex[1], 0.01);
     }
 
     #[Test]
@@ -59,10 +59,10 @@ final class ST_TransformTest extends SpatialOperatorTestCase
         $secondPoint = $coordinates[1];
         $this->assertIsArray($firstPoint);
         $this->assertIsArray($secondPoint);
-        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 0.01);
-        $this->assertEqualsWithDelta(0.0, $firstPoint[1], 0.01);
-        $this->assertEqualsWithDelta(0.00898, $secondPoint[0], 0.001);
-        $this->assertEqualsWithDelta(0.0, $secondPoint[1], 0.01);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 1e-10);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[1], 1e-10);
+        $this->assertEqualsWithDelta(0.00898, $secondPoint[0], 0.00001);
+        $this->assertEqualsWithDelta(0.0, $secondPoint[1], 1e-10);
     }
 
     #[Test]
@@ -90,8 +90,8 @@ final class ST_TransformTest extends SpatialOperatorTestCase
         $this->assertIsArray($transformedFirstPoint);
 
         $this->assertSame($original['type'], $transformed['type']);
-        $this->assertEqualsWithDelta($originalFirstPoint[0], $transformedFirstPoint[0], 0.01);
-        $this->assertEqualsWithDelta($originalFirstPoint[1], $transformedFirstPoint[1], 0.01);
+        $this->assertEqualsWithDelta($originalFirstPoint[0], $transformedFirstPoint[0], 0.001);
+        $this->assertEqualsWithDelta($originalFirstPoint[1], $transformedFirstPoint[1], 0.001);
     }
 
     #[Test]
@@ -147,8 +147,8 @@ final class ST_TransformTest extends SpatialOperatorTestCase
         $coordinates = $geojson['coordinates'];
         $firstPoint = $coordinates[0];
         $this->assertIsArray($firstPoint);
-        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 0.01);
-        $this->assertEqualsWithDelta(0.0, $firstPoint[1], 0.01);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 1e-10);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[1], 1e-10);
     }
 
     #[Test]
@@ -167,7 +167,7 @@ final class ST_TransformTest extends SpatialOperatorTestCase
         $coordinates = $geojson['coordinates'];
         $firstPoint = $coordinates[0];
         $this->assertIsArray($firstPoint);
-        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 0.01);
-        $this->assertEqualsWithDelta(0.0, $firstPoint[1], 0.01);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[0], 1e-10);
+        $this->assertEqualsWithDelta(0.0, $firstPoint[1], 1e-10);
     }
 }

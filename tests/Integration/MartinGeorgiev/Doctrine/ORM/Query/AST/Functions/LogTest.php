@@ -37,6 +37,6 @@ final class LogTest extends NumericTestCase
     {
         $dql = 'SELECT LOG(n.integer1 / 2, n.integer2 * 5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2.1132827525593783, $result[0]['result']);
+        $this->assertEquals(2.8613531161467862, $result[0]['result']);
     }
 }

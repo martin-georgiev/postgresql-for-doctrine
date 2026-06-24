@@ -32,7 +32,7 @@ final class ST_CurveNTest extends SpatialOperatorTestCase
                 WHERE g.id = 14';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142, $result[0]['result'], 0.001);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
 
     #[Test]
