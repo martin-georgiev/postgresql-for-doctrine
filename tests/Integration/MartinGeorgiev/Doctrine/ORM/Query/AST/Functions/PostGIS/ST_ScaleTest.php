@@ -30,7 +30,7 @@ final class ST_ScaleTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'should return unchanged point at origin (0 * factor = 0)');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -41,7 +41,7 @@ final class ST_ScaleTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(36, $result[0]['result'], 'should scale polygon area by factor squared (16 * 1.5 * 1.5 = 36)');
+        $this->assertEquals(36, $result[0]['result']);
     }
 
     #[Test]
@@ -52,7 +52,7 @@ final class ST_ScaleTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.000000000000001, 'should scale linestring length by factor (2.828... * 0.5 = 1.414...)');
+        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.000000000000001);
     }
 
     #[Test]

@@ -24,7 +24,7 @@ final class ST_DistanceTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0000000000000001, 'Distance between POINT(0 0) and POINT(1 1) = √2');
+        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0000000000000001);
     }
 
     #[Test]
