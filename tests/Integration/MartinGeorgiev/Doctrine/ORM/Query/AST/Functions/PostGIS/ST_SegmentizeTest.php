@@ -22,7 +22,7 @@ final class ST_SegmentizeTest extends SpatialOperatorTestCase
     public function increases_point_count_on_linestring(): void
     {
         $dql = 'SELECT ST_NPOINTS(g.geometry1) as original,
-        $              ST_NPOINTS(ST_SEGMENTIZE(g.geometry1, 0.5)) as segmentized
+                       ST_NPOINTS(ST_SEGMENTIZE(g.geometry1, 0.5)) as segmentized
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3';
 
