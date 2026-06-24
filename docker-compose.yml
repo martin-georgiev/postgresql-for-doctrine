@@ -11,6 +11,13 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./ci/docker/install-pgvector.sh:/opt/install-pgvector.sh:ro
+    entrypoint:
+      - sh
+      - -c
+      - |
+        sh /opt/install-pgvector.sh
+        exec docker-entrypoint.sh postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s

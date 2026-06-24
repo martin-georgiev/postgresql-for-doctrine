@@ -10,6 +10,13 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class HalfvecTypeTest extends VectorTypeTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->requirePgvectorVersion(700, 'halfvec type');
+    }
+
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
         $this->assertIsArray($expected);

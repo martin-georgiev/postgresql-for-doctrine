@@ -11,6 +11,13 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class SparsevecTypeTest extends VectorTypeTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->requirePgvectorVersion(700, 'sparsevec type');
+    }
+
     protected function getTypeName(): string
     {
         return 'sparsevec';

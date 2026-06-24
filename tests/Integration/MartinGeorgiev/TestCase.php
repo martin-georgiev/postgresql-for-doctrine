@@ -39,6 +39,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Geography;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geometry;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Halfvec;
 use MartinGeorgiev\Doctrine\DBAL\Types\Hstore;
 use MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Inet;
@@ -80,6 +81,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Polygon;
 use MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray;
@@ -288,6 +290,7 @@ abstract class TestCase extends BaseTestCase
             'geography[]' => GeographyArray::class,
             'geometry' => Geometry::class,
             'geometry[]' => GeometryArray::class,
+            'halfvec' => Halfvec::class,
             'hstore' => Hstore::class,
             'hstore[]' => HstoreArray::class,
             'inet' => Inet::class,
@@ -347,6 +350,7 @@ abstract class TestCase extends BaseTestCase
             'tsvector' => Tsvector::class,
             'tsvector[]' => TsvectorArray::class,
             'uuid[]' => UuidArray::class,
+            'sparsevec' => Sparsevec::class,
             'vector' => Vector::class,
             'xml' => Xml::class,
             'xml[]' => XmlArray::class,
@@ -445,6 +449,17 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Skip the test if PostgreSQL version is less than the required version.
+     *
+     * @param int $requiredVersion The minimum required PostgreSQL version (e.g., 180000 for PostgreSQL 18)
+     * @param string $featureName Optional feature name to include in the skip message
+     */
+    protected function requirePostgresVersion(int $requiredVersion, string $featureName = ''): void
+    {
+        $this->requireVersion('PostgreSQL', $this->getPostgresVersion(), $requiredVersion, $featureName);
+    }
+
+    /**
      * Get the PostGIS version as a numeric value (e.g., 30400 for 3.4.0, 30500 for 3.5.0).
      */
     protected function getPostgisVersion(): int
@@ -461,17 +476,6 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Skip the test if PostgreSQL version is less than the required version.
-     *
-     * @param int $requiredVersion The minimum required PostgreSQL version (e.g., 180000 for PostgreSQL 18)
-     * @param string $featureName Optional feature name to include in the skip message
-     */
-    protected function requirePostgresVersion(int $requiredVersion, string $featureName = ''): void
-    {
-        $this->requireVersion('PostgreSQL', $this->getPostgresVersion(), $requiredVersion, $featureName);
-    }
-
-    /**
      * Skip the test if PostGIS version is less than the required version.
      *
      * @param int $requiredVersion The minimum required PostGIS version (e.g., 30400 for PostGIS 3.4.0)
@@ -480,6 +484,35 @@ abstract class TestCase extends BaseTestCase
     protected function requirePostgisVersion(int $requiredVersion, string $featureName = ''): void
     {
         $this->requireVersion('PostGIS', $this->getPostgisVersion(), $requiredVersion, $featureName);
+    }
+
+    /**
+     * Get the pgvector extension version as a numeric value (e.g., 700 for 0.7.0, 800 for 0.8.0).
+     */
+    protected function getPgvectorVersion(): int
+    {
+        $result = $this->connection->fetchOne(
+            "SELECT extversion FROM pg_extension WHERE extname = 'vector'"
+        );
+        \assert(\is_string($result));
+
+        $parts = \explode('.', $result);
+        $major = (int) ($parts[0] ?? 0);
+        $minor = (int) ($parts[1] ?? 0);
+        $patch = (int) ($parts[2] ?? 0);
+
+        return $major * 10000 + $minor * 100 + $patch;
+    }
+
+    /**
+     * Skip the test if pgvector version is less than the required version.
+     *
+     * @param int $requiredVersion The minimum required pgvector version (e.g., 700 for 0.7.0)
+     * @param string $featureName Optional feature name to include in the skip message
+     */
+    protected function requirePgvectorVersion(int $requiredVersion, string $featureName = ''): void
+    {
+        $this->requireVersion('pgvector', $this->getPgvectorVersion(), $requiredVersion, $featureName);
     }
 
     private function requireVersion(string $product, int $currentVersion, int $requiredVersion, string $featureName): void

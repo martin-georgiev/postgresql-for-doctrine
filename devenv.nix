@@ -68,9 +68,10 @@ in
 
     initialDatabases = [ { name = config.env.POSTGRES_DB; } ];
 
-    # Enable PostGIS extension
+    # Enable PostGIS and pgvector extensions
     extensions = extensions: [
       extensions.postgis
+      extensions.pgvector
     ];
 
     initialScript = ''
@@ -88,9 +89,10 @@ in
       -- Set database owner
       ALTER DATABASE "${config.env.POSTGRES_DB}" OWNER TO "${config.env.POSTGRES_USER}";
 
-      -- Enable PostGIS extension in the database
+      -- Enable PostGIS and pgvector extensions in the database
       \c ${config.env.POSTGRES_DB}
       CREATE EXTENSION IF NOT EXISTS postgis;
+      CREATE EXTENSION IF NOT EXISTS vector;
     '';
   };
 
