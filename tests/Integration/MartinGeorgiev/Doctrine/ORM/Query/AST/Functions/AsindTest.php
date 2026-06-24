@@ -21,7 +21,7 @@ final class AsindTest extends NumericTestCase
     {
         $dql = 'SELECT ASIND(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(90.0, $result[0]['result'], 0.000001);
+        $this->assertEquals(90.0, $result[0]['result']);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class AsindTest extends NumericTestCase
     {
         $dql = 'SELECT ASIND(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(11.829499048679, $result[0]['result'], 0.000001);
+        $this->assertEqualsWithDelta(11.829499048679, $result[0]['result'], 0.000000000001);
     }
 }

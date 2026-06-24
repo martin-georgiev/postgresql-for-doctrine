@@ -21,7 +21,7 @@ final class AtandTest extends NumericTestCase
     {
         $dql = 'SELECT ATAND(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(45.0, $result[0]['result'], 0.000001);
+        $this->assertEquals(45.0, $result[0]['result']);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class AtandTest extends NumericTestCase
     {
         $dql = 'SELECT ATAND(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(84.559667968994, $result[0]['result'], 0.000001);
+        $this->assertEqualsWithDelta(84.559667968994, $result[0]['result'], 0.000000000001);
     }
 }
