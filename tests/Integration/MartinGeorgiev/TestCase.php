@@ -36,6 +36,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\DateRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateRangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geography;
+use MartinGeorgiev\Doctrine\DBAL\Types\Halfvec;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Geometry;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray;
@@ -80,6 +81,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Polygon;
 use MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray;
@@ -288,6 +290,7 @@ abstract class TestCase extends BaseTestCase
             'geography[]' => GeographyArray::class,
             'geometry' => Geometry::class,
             'geometry[]' => GeometryArray::class,
+            'halfvec' => Halfvec::class,
             'hstore' => Hstore::class,
             'hstore[]' => HstoreArray::class,
             'inet' => Inet::class,
@@ -347,6 +350,7 @@ abstract class TestCase extends BaseTestCase
             'tsvector' => Tsvector::class,
             'tsvector[]' => TsvectorArray::class,
             'uuid[]' => UuidArray::class,
+            'sparsevec' => Sparsevec::class,
             'vector' => Vector::class,
             'xml' => Xml::class,
             'xml[]' => XmlArray::class,
