@@ -33,6 +33,6 @@ final class ReverseWordSimilarityDistanceTest extends TestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.4, $result[0]['result'], 0.0001);
+        $this->assertEquals(0.39999998, $result[0]['result']);
     }
 }
