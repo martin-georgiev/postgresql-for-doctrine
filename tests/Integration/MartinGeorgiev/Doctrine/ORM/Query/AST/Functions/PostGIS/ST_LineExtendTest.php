@@ -28,7 +28,7 @@ final class ST_LineExtendTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $originalLength = 2.8284271247461903;
         $expectedLength = $originalLength + 0.5;
-        $this->assertEqualsWithDelta($expectedLength, $result[0]['result'], 0.000000001, 'extending line forward by 0.5 should increase length by 0.5');
+        $this->assertEqualsWithDelta($expectedLength, $result[0]['result'], 0.000000000000001);
     }
 
     #[Test]
@@ -41,6 +41,6 @@ final class ST_LineExtendTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $originalLength = 2.8284271247461903;
         $expectedLength = $originalLength + 1.0;
-        $this->assertEqualsWithDelta($expectedLength, $result[0]['result'], 0.000000001, 'extending line forward and backward by 0.5 each should increase length by 1.0');
+        $this->assertEqualsWithDelta($expectedLength, $result[0]['result'], 0.000000000000001);
     }
 }

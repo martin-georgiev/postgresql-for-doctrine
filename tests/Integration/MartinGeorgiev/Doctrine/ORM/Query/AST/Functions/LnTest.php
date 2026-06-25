@@ -19,7 +19,7 @@ final class LnTest extends NumericTestCase
     #[Test]
     public function calculates_natural_logarithm_of_euler_constant(): void
     {
-        $dql = 'SELECT LN(2.718281828459) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
+        $dql = 'SELECT LN(2.7182818284590452) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.0, $result[0]['result']);
     }
