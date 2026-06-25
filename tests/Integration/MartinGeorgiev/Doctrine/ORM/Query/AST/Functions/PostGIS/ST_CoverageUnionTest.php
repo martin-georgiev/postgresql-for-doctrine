@@ -29,7 +29,7 @@ final class ST_CoverageUnionTest extends SpatialOperatorTestCase
                 GROUP BY g.id';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'coverage union should preserve area of 4x4 polygon');
+        $this->assertEquals(16, $result[0]['result']);
     }
 
     #[Test]

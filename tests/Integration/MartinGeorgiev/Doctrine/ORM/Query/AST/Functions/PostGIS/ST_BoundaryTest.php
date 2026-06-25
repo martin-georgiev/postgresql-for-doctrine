@@ -26,7 +26,7 @@ final class ST_BoundaryTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'boundary of POLYGON((0 0, 0 4, 4 4, 4 0, 0 0)) should be a LineString with perimeter = 16');
+        $this->assertEquals(16, $result[0]['result']);
     }
 
     #[Test]
@@ -37,7 +37,7 @@ final class ST_BoundaryTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result'], 'boundary of linestring should return MultiPoint with zero length');
+        $this->assertEquals(0, $result[0]['result']);
     }
 
     #[Test]
@@ -48,6 +48,6 @@ final class ST_BoundaryTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result'], 'boundary of point should return empty geometry with zero length');
+        $this->assertEquals(0, $result[0]['result']);
     }
 }

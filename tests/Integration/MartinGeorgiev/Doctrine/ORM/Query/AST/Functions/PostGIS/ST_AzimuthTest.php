@@ -35,7 +35,7 @@ final class ST_AzimuthTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result'], 'PostGIS behavior expects that azimuth is undefined for identical points');
+        $this->assertNull($result[0]['result']);
     }
 
     #[Test]

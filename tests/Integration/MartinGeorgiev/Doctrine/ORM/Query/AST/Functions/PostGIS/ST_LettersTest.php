@@ -26,7 +26,7 @@ final class ST_LettersTest extends SpatialOperatorTestCase
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals($result[0]['area1'], $result[0]['area2'], 'ST_Letters should produce consistent geometry for same input');
+        $this->assertEquals($result[0]['area1'], $result[0]['area2']);
     }
 
     #[Test]
@@ -37,6 +37,6 @@ final class ST_LettersTest extends SpatialOperatorTestCase
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertLessThan($result[0]['area_abc'], $result[0]['area_a'], 'ABC should have larger area than A');
+        $this->assertLessThan($result[0]['area_abc'], $result[0]['area_a']);
     }
 }

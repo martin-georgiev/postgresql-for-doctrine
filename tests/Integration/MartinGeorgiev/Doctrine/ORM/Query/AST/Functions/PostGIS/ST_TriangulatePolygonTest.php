@@ -26,6 +26,6 @@ final class ST_TriangulatePolygonTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'triangulated polygon should preserve area of 4x4 polygon');
+        $this->assertEquals(16, $result[0]['result']);
     }
 }

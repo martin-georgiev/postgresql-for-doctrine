@@ -28,7 +28,7 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'PostGIS behavior expects envelope of a point is the point itself');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -39,7 +39,7 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'Envelope of POLYGON((0 0, 0 4, 4 4, 4 0, 0 0)) should have area = 16');
+        $this->assertEquals(16, $result[0]['result']);
     }
 
     #[Test]
@@ -50,6 +50,6 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(4, $result[0]['result'], 'Envelope of LINESTRING(0 0, 1 1, 2 2) should be POLYGON((0 0, 0 2, 2 2, 2 0, 0 0)) with area = 4');
+        $this->assertEquals(4, $result[0]['result']);
     }
 }

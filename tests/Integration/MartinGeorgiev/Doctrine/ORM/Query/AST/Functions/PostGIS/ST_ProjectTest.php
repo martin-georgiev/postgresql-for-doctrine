@@ -28,7 +28,7 @@ final class ST_ProjectTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0, $result[0]['result'], 0.01, 'geometries with opposite directions should return to approximately the same point');
+        $this->assertEqualsWithDelta(0, $result[0]['result'], 0.01);
     }
 
     #[Test]
@@ -39,7 +39,7 @@ final class ST_ProjectTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertNotEquals(0, $result[0]['result'], 'geometries with different parameters should produce different results');
+        $this->assertNotEquals(0, $result[0]['result']);
     }
 
     #[Test]
@@ -50,7 +50,7 @@ final class ST_ProjectTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'should be deterministic for identical parameters');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -61,7 +61,7 @@ final class ST_ProjectTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result'], 'geometries with non-zero distance should produce different point');
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]

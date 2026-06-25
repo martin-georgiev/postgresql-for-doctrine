@@ -28,7 +28,7 @@ final class ST_ConcaveHullTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'concave hull with ratio 1.0 should equal original convex polygon');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -39,6 +39,6 @@ final class ST_ConcaveHullTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'concave hull of 4x4 polygon should have area 16');
+        $this->assertEquals(16, $result[0]['result']);
     }
 }

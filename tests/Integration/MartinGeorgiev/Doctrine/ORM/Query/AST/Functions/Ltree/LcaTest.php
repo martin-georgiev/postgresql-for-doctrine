@@ -37,7 +37,7 @@ final class LcaTest extends TestCase
     {
         $dql = 'SELECT LCA(l.ltree1, l.ltree2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 3';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('', $result[0]['result'], 'ltree LCA returns the parent of the shorter path; for a root-only path, the parent is always an empty string');
+        $this->assertSame('', $result[0]['result']);
     }
 
     #[Test]

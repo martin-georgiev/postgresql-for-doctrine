@@ -34,7 +34,7 @@ final class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], '4x4 polygon (area=16) should be preserved when threshold is 1');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
