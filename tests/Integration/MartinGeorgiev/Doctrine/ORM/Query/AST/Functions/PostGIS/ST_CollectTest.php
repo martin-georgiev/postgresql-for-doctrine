@@ -28,7 +28,7 @@ final class ST_CollectTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result'], 'should return zero area for collected points');
+        $this->assertEquals(0, $result[0]['result']);
     }
 
     #[Test]
@@ -39,7 +39,7 @@ final class ST_CollectTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(20, $result[0]['result'], 'should sum areas of collected polygons');
+        $this->assertEquals(20, $result[0]['result']);
     }
 
     #[Test]
@@ -50,7 +50,7 @@ final class ST_CollectTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(5.656854249492381, $result[0]['result'], 0.0000000000000001, 'should sum lengths of collected linestrings');
+        $this->assertEquals(5.656854249492381, $result[0]['result']);
     }
 
     #[Test]
@@ -61,6 +61,6 @@ final class ST_CollectTest extends SpatialOperatorTestCase
                 WHERE g.id = 5';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(8.48528137423857, $result[0]['result'], 0.000000000000001, 'should preserve linestring length in mixed geometry collection');
+        $this->assertEquals(8.48528137423857, $result[0]['result']);
     }
 }

@@ -28,7 +28,7 @@ final class ST_SymDifferenceTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(12, $result[0]['result'], 'should calculate correct area: parts of each polygon not in the other');
+        $this->assertEquals(12, $result[0]['result']);
     }
 
     #[Test]
@@ -39,7 +39,7 @@ final class ST_SymDifferenceTest extends SpatialOperatorTestCase
                 WHERE g.id = 4';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(6, $result[0]['result'], 'should calculate correct exclusive area for overlapping polygons');
+        $this->assertEquals(6, $result[0]['result']);
     }
 
     #[Test]
@@ -50,6 +50,6 @@ final class ST_SymDifferenceTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(5.656854249492381, $result[0]['result'], 0.000000000000001, 'should preserve total length of disjoint linestrings');
+        $this->assertEquals(5.656854249492381, $result[0]['result']);
     }
 }

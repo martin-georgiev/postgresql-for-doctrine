@@ -24,7 +24,7 @@ final class ST_LengthTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001, 'Length of LINESTRING(0 0, 1 1, 2 2) = √2 + √2 = 2√2');
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 
     #[Test]
@@ -35,7 +35,7 @@ final class ST_LengthTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result'], 'PostGIS behavior expects length of 0 for polygons in geographic coordinate systems');
+        $this->assertEquals(0, $result[0]['result']);
     }
 
     #[Test]
@@ -68,7 +68,7 @@ final class ST_LengthTest extends SpatialOperatorTestCase
                 WHERE g.id = 10';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result'], 'PostGIS design mandates that ST_Length is for linear geometries only, so this is not expected to compute a length');
+        $this->assertEquals(0, $result[0]['result']);
     }
 
     #[Test]
@@ -79,6 +79,6 @@ final class ST_LengthTest extends SpatialOperatorTestCase
                 WHERE g.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1410.1406247192313, $result[0]['result'], 0.0000000000001);
+        $this->assertEquals(1410.1406247192313, $result[0]['result']);
     }
 }

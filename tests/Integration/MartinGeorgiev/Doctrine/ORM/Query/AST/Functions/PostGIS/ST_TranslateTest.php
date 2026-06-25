@@ -30,7 +30,7 @@ final class ST_TranslateTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(14.142135623730951, $result[0]['result'], 0.0000000000000001, 'should move point by expected distance');
+        $this->assertEquals(14.142135623730951, $result[0]['result']);
     }
 
     #[Test]
@@ -41,7 +41,7 @@ final class ST_TranslateTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'should preserve polygon area');
+        $this->assertEquals(16, $result[0]['result']);
     }
 
     #[Test]
@@ -52,7 +52,7 @@ final class ST_TranslateTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001, 'should preserve linestring length');
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 
     #[Test]
