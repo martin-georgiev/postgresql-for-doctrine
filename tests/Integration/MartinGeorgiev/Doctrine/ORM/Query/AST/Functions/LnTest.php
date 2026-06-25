@@ -19,9 +19,9 @@ final class LnTest extends NumericTestCase
     #[Test]
     public function calculates_natural_logarithm_of_euler_constant(): void
     {
-        $dql = 'SELECT LN(2.718281828459) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
+        $dql = 'SELECT LN(2.7182818284590452) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(1.0, $result[0]['result']);
     }
 
     #[Test]
@@ -29,7 +29,7 @@ final class LnTest extends NumericTestCase
     {
         $dql = 'SELECT LN(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.3513752571634777, $result[0]['result'], 0.000001);
+        $this->assertEquals(2.3513752571634777, $result[0]['result']);
     }
 
     #[Test]
@@ -37,6 +37,6 @@ final class LnTest extends NumericTestCase
     {
         $dql = 'SELECT LN(n.integer1 + n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.4011973816621555, $result[0]['result'], 0.000001);
+        $this->assertEquals(3.4011973816621555, $result[0]['result']);
     }
 }

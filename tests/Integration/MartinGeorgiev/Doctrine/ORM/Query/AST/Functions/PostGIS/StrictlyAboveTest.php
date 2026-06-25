@@ -25,7 +25,7 @@ final class StrictlyAboveTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result'], 'Overlapping polygons should not be strictly above each other');
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]
@@ -37,7 +37,7 @@ final class StrictlyAboveTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result'], 'POINT(0 0) should not be strictly above POINT(1 1)');
+        $this->assertFalse($result[0]['result']);
     }
 
     #[Test]
@@ -49,7 +49,7 @@ final class StrictlyAboveTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'Higher linestring should be strictly above lower linestring');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -61,6 +61,6 @@ final class StrictlyAboveTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result'], 'Identical geometries should not be strictly above each other');
+        $this->assertFalse($result[0]['result']);
     }
 }

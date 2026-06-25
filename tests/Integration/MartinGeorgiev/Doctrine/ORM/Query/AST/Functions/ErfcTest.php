@@ -27,14 +27,14 @@ final class ErfcTest extends NumericTestCase
     {
         $dql = 'SELECT ERFC(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.1573, $result[0]['result'], 0.0001);
+        $this->assertEquals(0.15729920705028513, $result[0]['result']);
     }
 
     #[Test]
-    public function calculates_erfc_with_entity_property(): void
+    public function calculates_erfc_with_entity_expression(): void
     {
-        $dql = 'SELECT ERFC(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $dql = 'SELECT ERFC(n.decimal1 - 10) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(0.4795001221869535, $result[0]['result']);
     }
 }

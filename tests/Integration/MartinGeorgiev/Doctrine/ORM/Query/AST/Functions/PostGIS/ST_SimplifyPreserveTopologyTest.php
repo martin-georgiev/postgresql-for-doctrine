@@ -28,7 +28,7 @@ final class ST_SimplifyPreserveTopologyTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 
     #[Test]
@@ -50,7 +50,7 @@ final class ST_SimplifyPreserveTopologyTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql, ['tolerance' => 0.1]);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 
     #[Test]
@@ -61,6 +61,6 @@ final class ST_SimplifyPreserveTopologyTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 }

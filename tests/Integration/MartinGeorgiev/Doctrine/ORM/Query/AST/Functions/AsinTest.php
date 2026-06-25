@@ -21,7 +21,7 @@ final class AsinTest extends NumericTestCase
     {
         $dql = 'SELECT ASIN(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.5707963, $result[0]['result'], 0.000001);
+        $this->assertEquals(1.5707963267948966, $result[0]['result']);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class AsinTest extends NumericTestCase
     {
         $dql = 'SELECT ASIN(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.20646370726099, $result[0]['result'], 0.000001);
+        $this->assertEquals(0.2064637072609924, $result[0]['result']);
     }
 }

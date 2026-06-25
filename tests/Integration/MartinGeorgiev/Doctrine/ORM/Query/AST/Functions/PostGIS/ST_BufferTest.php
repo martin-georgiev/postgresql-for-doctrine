@@ -26,7 +26,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.0000000000000001, 'Buffer of radius 1 around a point shall create a polygon approximation of a circle');
+        $this->assertEquals(3.121445152258052, $result[0]['result']);
     }
 
     #[Test]
@@ -37,7 +37,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(24.780361288064512, $result[0]['result'], 0.0000000000000001, 'Buffer of 0.5 around 4x4 polygon increases area from 16 to approximately 24.78');
+        $this->assertEquals(24.780361288064512, $result[0]['result']);
     }
 
     #[Test]
@@ -48,7 +48,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.2562286559887985, $result[0]['result'], 0.0000000000000001, 'Buffer of 0.2 around LINESTRING(0 0, 1 1, 2 2) creates a polygon with specific area');
+        $this->assertEquals(1.2562286559887985, $result[0]['result']);
     }
 
     #[Test]
@@ -59,7 +59,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql, ['radius' => 1]);
-        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(3.121445152258052, $result[0]['result']);
     }
 
     #[Test]
@@ -70,7 +70,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(3.121445152258052, $result[0]['result']);
     }
 
     #[Test]
@@ -81,7 +81,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.1403311569547543, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(3.1403311569547543, $result[0]['result']);
     }
 
     #[Test]
@@ -92,6 +92,6 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(3.121445152258052, $result[0]['result']);
     }
 }

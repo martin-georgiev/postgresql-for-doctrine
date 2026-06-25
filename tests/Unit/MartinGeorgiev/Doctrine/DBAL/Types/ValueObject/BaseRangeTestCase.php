@@ -116,7 +116,7 @@ abstract class BaseRangeTestCase extends TestCase
         $range = $this->createSimpleRange();
         $lower = $range->getLower();
 
-        $this->assertNotNull($lower, 'Simple range should have a lower bound');
+        $this->assertNotNull($lower);
     }
 
     #[Test]
@@ -125,7 +125,7 @@ abstract class BaseRangeTestCase extends TestCase
         $range = $this->createSimpleRange();
         $upper = $range->getUpper();
 
-        $this->assertNotNull($upper, 'Simple range should have an upper bound');
+        $this->assertNotNull($upper);
     }
 
     #[Test]
@@ -133,8 +133,8 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $range = $this->createInfiniteRange();
 
-        $this->assertNull($range->getLower(), 'Infinite range should have null lower bound');
-        $this->assertNull($range->getUpper(), 'Infinite range should have null upper bound');
+        $this->assertNull($range->getLower());
+        $this->assertNull($range->getUpper());
     }
 
     #[Test]
@@ -142,8 +142,8 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $range = $this->createSimpleRange();
 
-        $this->assertTrue($range->isLowerBracketInclusive(), 'Simple range should have inclusive lower bracket');
-        $this->assertFalse($range->isUpperBracketInclusive(), 'Simple range should have exclusive upper bracket');
+        $this->assertTrue($range->isLowerBracketInclusive());
+        $this->assertFalse($range->isUpperBracketInclusive());
     }
 
     #[Test]
@@ -151,8 +151,8 @@ abstract class BaseRangeTestCase extends TestCase
     {
         $range = $this->createInclusiveRange();
 
-        $this->assertTrue($range->isLowerBracketInclusive(), 'Inclusive range should have inclusive lower bracket');
-        $this->assertTrue($range->isUpperBracketInclusive(), 'Inclusive range should have inclusive upper bracket');
+        $this->assertTrue($range->isLowerBracketInclusive());
+        $this->assertTrue($range->isUpperBracketInclusive());
     }
 
     #[Test]
@@ -161,8 +161,8 @@ abstract class BaseRangeTestCase extends TestCase
         $emptyRange = $this->createEmptyRange();
         $normalRange = $this->createSimpleRange();
 
-        $this->assertTrue($emptyRange->isExplicitlyEmpty(), 'Empty range should be explicitly empty');
-        $this->assertFalse($normalRange->isExplicitlyEmpty(), 'Normal range should not be explicitly empty');
+        $this->assertTrue($emptyRange->isExplicitlyEmpty());
+        $this->assertFalse($normalRange->isExplicitlyEmpty());
     }
 
     /**

@@ -52,7 +52,7 @@ final class ST_CentroidTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result'], 'should return point on linestring (distance = 0)');
+        $this->assertEquals(0, $result[0]['result']);
     }
 
     #[Test]
@@ -63,6 +63,6 @@ final class ST_CentroidTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'both polygons shall have the same centroid');
+        $this->assertTrue($result[0]['result']);
     }
 }

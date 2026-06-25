@@ -26,7 +26,7 @@ final class ST_SplitTest extends SpatialOperatorTestCase
                 WHERE g.id = 9';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(5.656854249492381, $result[0]['result'], 0.000000000000001, 'should preserve total linestring length');
+        $this->assertEquals(5.656854249492381, $result[0]['result']);
     }
 
     #[Test]
@@ -37,6 +37,6 @@ final class ST_SplitTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.000000000000001, 'should preserve linestring length when no split occurs');
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 }

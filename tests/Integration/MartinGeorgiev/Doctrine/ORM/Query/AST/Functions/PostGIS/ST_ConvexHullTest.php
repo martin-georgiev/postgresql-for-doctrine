@@ -30,7 +30,7 @@ final class ST_ConvexHullTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'convex hull of a point should be the point itself');
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -41,7 +41,7 @@ final class ST_ConvexHullTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'convex hull should preserve area for rectangular polygons');
+        $this->assertEquals(16, $result[0]['result']);
     }
 
     #[Test]
@@ -52,6 +52,6 @@ final class ST_ConvexHullTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.0000000000000001, 'convex hull should preserve length for collinear linestring');
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 }

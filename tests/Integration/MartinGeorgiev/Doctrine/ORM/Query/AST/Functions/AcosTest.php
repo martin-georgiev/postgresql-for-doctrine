@@ -21,7 +21,7 @@ final class AcosTest extends NumericTestCase
     {
         $dql = 'SELECT ACOS(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.000001);
+        $this->assertEquals(0.0, $result[0]['result']);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class AcosTest extends NumericTestCase
     {
         $dql = 'SELECT ACOS(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.3643326195339, $result[0]['result'], 0.000001);
+        $this->assertEquals(1.3643326195339043, $result[0]['result']);
     }
 }

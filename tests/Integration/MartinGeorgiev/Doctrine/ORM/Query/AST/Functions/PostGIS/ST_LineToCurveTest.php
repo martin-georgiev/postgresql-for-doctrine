@@ -30,7 +30,7 @@ final class ST_LineToCurveTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.8284271247461903, $result[0]['result'], 0.000000000000001, 'should preserve linestring length');
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 
     #[Test]
@@ -41,7 +41,7 @@ final class ST_LineToCurveTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result'], 'should preserve polygon area');
+        $this->assertEquals(16, $result[0]['result']);
     }
 
     #[Test]
@@ -52,6 +52,6 @@ final class ST_LineToCurveTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'should return unchanged point for point geometries');
+        $this->assertTrue($result[0]['result']);
     }
 }

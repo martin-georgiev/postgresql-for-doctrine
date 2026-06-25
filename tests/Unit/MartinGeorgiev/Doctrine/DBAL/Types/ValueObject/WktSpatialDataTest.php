@@ -141,7 +141,7 @@ final class WktSpatialDataTest extends TestCase
         $wktSpatialData = WktSpatialData::fromWkt($wkt);
         $output = (string) $wktSpatialData;
 
-        $this->assertSame($wkt, $output, 'Dimensional modifier should be preserved in round-trip conversion');
+        $this->assertSame($wkt, $output);
     }
 
     /**

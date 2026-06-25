@@ -21,7 +21,7 @@ final class SindTest extends NumericTestCase
     {
         $dql = 'SELECT SIND(90.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.0, $result[0]['result'], 0.000001);
+        $this->assertEquals(1.0, $result[0]['result']);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class SindTest extends NumericTestCase
     {
         $dql = 'SELECT SIND(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.18223552549215, $result[0]['result'], 0.000001);
+        $this->assertEquals(0.1822355254921475, $result[0]['result']);
     }
 }

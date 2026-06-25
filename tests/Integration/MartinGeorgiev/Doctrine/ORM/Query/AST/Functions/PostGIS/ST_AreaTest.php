@@ -57,7 +57,7 @@ final class ST_AreaTest extends SpatialOperatorTestCase
                 WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(386273830.62023926, $result[0]['result'], 0.01);
+        $this->assertEqualsWithDelta(386273830.62023926, $result[0]['result'], 0.001);
     }
 
     #[Test]
@@ -68,6 +68,6 @@ final class ST_AreaTest extends SpatialOperatorTestCase
                 WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(386273830.62023926, $result[0]['result'], 0.01);
+        $this->assertEqualsWithDelta(386273830.62023926, $result[0]['result'], 0.001);
     }
 }

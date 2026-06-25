@@ -75,6 +75,6 @@ final class DistanceTest extends TestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(984.8676868553541, $result[0]['result'], 0.0001);
+        $this->assertEquals(984.8676868553541, $result[0]['result']);
     }
 }

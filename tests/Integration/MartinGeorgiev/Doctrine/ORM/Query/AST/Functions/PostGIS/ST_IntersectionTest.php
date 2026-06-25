@@ -28,7 +28,7 @@ final class ST_IntersectionTest extends SpatialOperatorTestCase
                 WHERE g.id = 4';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1, $result[0]['result'], 'should calculate correct overlapping area between polygons');
+        $this->assertEquals(1, $result[0]['result']);
     }
 
     #[Test]
@@ -39,7 +39,7 @@ final class ST_IntersectionTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result'], 'should return zero area for disjoint points');
+        $this->assertEquals(0, $result[0]['result']);
     }
 
     #[Test]
@@ -50,6 +50,6 @@ final class ST_IntersectionTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result'], 'intersection of identical geometries should equal the original geometry');
+        $this->assertTrue($result[0]['result']);
     }
 }

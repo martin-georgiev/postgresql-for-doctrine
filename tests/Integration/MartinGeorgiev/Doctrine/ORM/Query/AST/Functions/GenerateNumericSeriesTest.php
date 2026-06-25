@@ -64,9 +64,9 @@ final class GenerateNumericSeriesTest extends NumericTestCase
         $this->assertCount(11, $result);
 
         $this->assertIsString($result[0]['result']);
-        $this->assertEqualsWithDelta(10.5, (float) $result[0]['result'], 0.001);
+        $this->assertEquals(10.5, (float) $result[0]['result']);
 
         $this->assertIsString($result[10]['result']);
-        $this->assertEqualsWithDelta(20.5, (float) $result[10]['result'], 0.001);
+        $this->assertEquals(20.5, (float) $result[10]['result']);
     }
 }

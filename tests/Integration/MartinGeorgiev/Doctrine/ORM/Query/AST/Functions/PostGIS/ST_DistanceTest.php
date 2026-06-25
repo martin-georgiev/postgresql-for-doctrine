@@ -24,7 +24,7 @@ final class ST_DistanceTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.4142135623730951, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
 
     #[Test]
@@ -57,6 +57,6 @@ final class ST_DistanceTest extends SpatialOperatorTestCase
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1585162.73961816, $result[0]['result'], 0.0001);
+        $this->assertEqualsWithDelta(1585162.73961816, $result[0]['result'], 0.00000001);
     }
 }

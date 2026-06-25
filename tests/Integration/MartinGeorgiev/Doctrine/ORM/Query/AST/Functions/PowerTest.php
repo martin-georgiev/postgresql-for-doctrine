@@ -63,7 +63,7 @@ final class PowerTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(859766721136081107225.6, $result[0]['result'], 0.0001);
+        $this->assertEquals(859766721136081107225.6, $result[0]['result']);
     }
 
     #[Test]

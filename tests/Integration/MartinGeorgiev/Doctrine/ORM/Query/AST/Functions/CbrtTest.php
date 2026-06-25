@@ -33,7 +33,7 @@ final class CbrtTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.1544, $result[0]['result'], 0.0001);
+        $this->assertEquals(2.154434690031884, $result[0]['result']);
     }
 
     #[Test]
@@ -53,7 +53,7 @@ final class CbrtTest extends NumericTestCase
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.1897595699439445, $result[0]['result'], 0.0001);
+        $this->assertEquals(2.1897595699439445, $result[0]['result']);
     }
 
     #[Test]

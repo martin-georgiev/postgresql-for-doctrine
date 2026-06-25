@@ -24,7 +24,7 @@ final class ST_AzimuthTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.7853981633974483, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(0.7853981633974483, $result[0]['result']);
     }
 
     #[Test]
@@ -35,7 +35,7 @@ final class ST_AzimuthTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result'], 'PostGIS behavior expects that azimuth is undefined for identical points');
+        $this->assertNull($result[0]['result']);
     }
 
     #[Test]
@@ -58,6 +58,6 @@ final class ST_AzimuthTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.9269908169872423, $result[0]['result'], 0.0000000000000001);
+        $this->assertEquals(3.9269908169872423, $result[0]['result']);
     }
 }

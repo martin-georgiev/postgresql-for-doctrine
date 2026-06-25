@@ -19,9 +19,9 @@ final class CotTest extends NumericTestCase
     #[Test]
     public function calculates_cot_of_literal(): void
     {
-        $dql = 'SELECT COT(0.7853981633974483) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $dql = 'SELECT COT(1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(1.0, $result[0]['result'], 0.000001);
+        $this->assertEquals(0.6420926159343306, $result[0]['result']);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class CotTest extends NumericTestCase
     {
         $dql = 'SELECT COT(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.54056976244981, $result[0]['result'], 0.000001);
+        $this->assertEquals(0.5405697624498119, $result[0]['result']);
     }
 }
