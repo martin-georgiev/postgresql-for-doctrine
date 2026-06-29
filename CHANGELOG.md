@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.7.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.6.0...v4.7.0) (2026-06-29)
+
+
+### Features
+
+* Widen support of PostGIS functions ([#659](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/659)) ([80a52a0](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/80a52a00590afb0b53b55f8fc638e94886e8952f))
+
 ## [4.6.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.5.1...v4.6.0) (2026-05-29)
 
 
