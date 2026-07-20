@@ -177,7 +177,7 @@ abstract class BaseVariadicFunction extends BaseFunction
             return false;
         }
 
-        return !($isStringLiteralToken && \in_array($nodeType, ['ArithmeticPrimary', 'SimpleArithmeticExpression'], true));
+        return !$isStringLiteralToken || !\in_array($nodeType, ['ArithmeticPrimary', 'SimpleArithmeticExpression'], true);
     }
 
     /**
