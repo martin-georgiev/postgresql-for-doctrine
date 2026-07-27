@@ -35,7 +35,7 @@ jobs:
 
       - name: Checkout for file change detection
         if: steps.release-please-check.outputs.skip != 'true'
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
 
@@ -129,7 +129,7 @@ jobs:
           -e POSTGRES_INITDB_ARGS="--data-checksums"
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Set up PHP
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
@@ -190,7 +190,7 @@ jobs:
 
       - name: Upload coverage results to Coveralls
         if: matrix.calculate-code-coverage == true
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2
         env:
           COVERALLS_SERVICE_NAME: github
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }}
