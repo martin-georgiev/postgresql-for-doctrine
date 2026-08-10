@@ -10,21 +10,21 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBytesArrayItemForDataba
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBytesArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class ByteaArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform&MockObject
+     * @var AbstractPlatform&Stub
      */
-    private MockObject $platform;
+    private Stub $platform;
 
     private ByteaArray $fixture;
 
     protected function setUp(): void
     {
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = $this->createStub(AbstractPlatform::class);
         $this->fixture = new ByteaArray();
     }
 

@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,12 +20,12 @@ final class GeometryArrayTest extends TestCase
 {
     private GeometryArray $type;
 
-    private AbstractPlatform&MockObject $platform;
+    private AbstractPlatform&Stub $platform;
 
     protected function setUp(): void
     {
         $this->type = new GeometryArray();
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = $this->createStub(AbstractPlatform::class);
     }
 
     #[Test]

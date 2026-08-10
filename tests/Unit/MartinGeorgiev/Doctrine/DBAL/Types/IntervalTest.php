@@ -11,18 +11,17 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class IntervalTest extends TestCase
 {
-    private MockObject&PostgreSQLPlatform $platform;
+    private \PHPUnit\Framework\MockObject\Stub&PostgreSQLPlatform $platform;
 
     private Interval $fixture;
 
     protected function setUp(): void
     {
-        $this->platform = $this->createMock(PostgreSQLPlatform::class);
+        $this->platform = $this->createStub(PostgreSQLPlatform::class);
         $this->fixture = new Interval();
     }
 
