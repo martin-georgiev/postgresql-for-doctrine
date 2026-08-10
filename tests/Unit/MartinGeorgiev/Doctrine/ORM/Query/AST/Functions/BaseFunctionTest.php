@@ -51,7 +51,7 @@ final class BaseFunctionTest extends TestCase
         $nodes = [$node1, $node2];
         $function->setNodes($nodes);
 
-        $sqlWalker = $this->createMock(SqlWalker::class);
+        $sqlWalker = $this->createStub(SqlWalker::class);
 
         $result = $function->getSql($sqlWalker);
         $this->assertSame('TEST(arg1, arg2)', $result);
@@ -86,7 +86,7 @@ final class BaseFunctionTest extends TestCase
         $nodes = [null];
         $function->setNodes($nodes);
 
-        $sqlWalker = $this->createMock(SqlWalker::class);
+        $sqlWalker = $this->createStub(SqlWalker::class);
 
         $result = $function->getSql($sqlWalker);
         $this->assertSame('TEST(null)', $result);

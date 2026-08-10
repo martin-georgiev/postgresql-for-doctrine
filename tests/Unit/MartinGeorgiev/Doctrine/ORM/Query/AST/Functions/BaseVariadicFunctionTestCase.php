@@ -24,7 +24,7 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $this->expectException(ParserException::class);
 
         $em = $this->createMock(EntityManager::class);
-        $em->expects($this->any())
+        $em
             ->method('getConfiguration')
             ->willReturn(new Configuration());
 
@@ -71,7 +71,7 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $reflectionClass = new \ReflectionClass($function);
         $reflectionMethod = $reflectionClass->getMethod('validateArguments');
 
-        $node = $this->createMock(Node::class);
+        $node = $this->createStub(Node::class);
         $reflectionMethod->invoke($function, $node);
     }
 
@@ -106,7 +106,7 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $reflectionClass = new \ReflectionClass($function);
         $reflectionMethod = $reflectionClass->getMethod('validateArguments');
 
-        $node = $this->createMock(Node::class);
+        $node = $this->createStub(Node::class);
         $reflectionMethod->invoke($function, $node, $node, $node);
     }
 
@@ -141,7 +141,7 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $reflectionClass = new \ReflectionClass($function);
         $reflectionMethod = $reflectionClass->getMethod('validateArguments');
 
-        $node = $this->createMock(Node::class);
+        $node = $this->createStub(Node::class);
         $reflectionMethod->invoke($function, $node);
     }
 
@@ -176,7 +176,7 @@ abstract class BaseVariadicFunctionTestCase extends TestCase
         $reflectionClass = new \ReflectionClass($function);
         $reflectionMethod = $reflectionClass->getMethod('validateArguments');
 
-        $node = $this->createMock(Node::class);
+        $node = $this->createStub(Node::class);
         $reflectionMethod->invoke($function, $node, $node);
     }
 

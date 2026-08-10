@@ -8,21 +8,21 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseNetworkTypeArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class BaseNetworkTypeArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform&MockObject
+     * @var AbstractPlatform&Stub
      */
-    private MockObject $platform;
+    private Stub $platform;
 
     private BaseNetworkTypeArray $fixture;
 
     protected function setUp(): void
     {
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = $this->createStub(AbstractPlatform::class);
         // Create a concrete implementation of the abstract class for testing
         $this->fixture = new class extends BaseNetworkTypeArray {
             protected const TYPE_NAME = 'test_network_array';

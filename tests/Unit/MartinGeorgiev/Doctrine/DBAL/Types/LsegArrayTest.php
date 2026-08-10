@@ -11,21 +11,21 @@ use MartinGeorgiev\Doctrine\DBAL\Types\LsegArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Lseg as LsegValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class LsegArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform&MockObject
+     * @var AbstractPlatform&Stub
      */
-    private MockObject $platform;
+    private Stub $platform;
 
     private LsegArray $fixture;
 
     protected function setUp(): void
     {
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = $this->createStub(AbstractPlatform::class);
         $this->fixture = new LsegArray();
     }
 

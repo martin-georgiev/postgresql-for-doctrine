@@ -10,21 +10,21 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForDatabaseExceptio
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class CidrTest extends TestCase
 {
     /**
-     * @var AbstractPlatform&MockObject
+     * @var AbstractPlatform&Stub
      */
-    private MockObject $platform;
+    private Stub $platform;
 
     private Cidr $fixture;
 
     protected function setUp(): void
     {
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = $this->createStub(AbstractPlatform::class);
         $this->fixture = new Cidr();
     }
 

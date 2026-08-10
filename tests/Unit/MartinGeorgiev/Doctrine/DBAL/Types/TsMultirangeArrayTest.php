@@ -12,21 +12,21 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsMultirange as TsMultirangeV
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class TsMultirangeArrayTest extends TestCase
 {
     /**
-     * @var AbstractPlatform&MockObject
+     * @var AbstractPlatform&Stub
      */
-    private MockObject $platform;
+    private Stub $platform;
 
     private TsMultirangeArray $fixture;
 
     protected function setUp(): void
     {
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = $this->createStub(AbstractPlatform::class);
         $this->fixture = new TsMultirangeArray();
     }
 

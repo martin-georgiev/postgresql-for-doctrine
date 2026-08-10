@@ -10,7 +10,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,12 +20,12 @@ final class GeographyArrayTest extends TestCase
 {
     private GeographyArray $type;
 
-    private AbstractPlatform&MockObject $platform;
+    private AbstractPlatform&Stub $platform;
 
     protected function setUp(): void
     {
         $this->type = new GeographyArray();
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = $this->createStub(AbstractPlatform::class);
     }
 
     #[Test]
