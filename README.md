@@ -1,4 +1,3 @@
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/badges/quality-score.png)](https://scrutinizer-ci.com/g/martin-georgiev/postgresql-for-doctrine/?branch=main)
 [![Coverage Status](https://coveralls.io/repos/github/martin-georgiev/postgresql-for-doctrine/badge.svg?branch=main)](https://coveralls.io/github/martin-georgiev/postgresql-for-doctrine?branch=main)
 [![Latest Stable Version](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/version)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
 [![Total Downloads](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/downloads)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
@@ -234,3 +233,11 @@ Benefits of sponsoring:
 
 ## 📝 License
 This package is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## ⚡️ Powered by
+<a href="https://jb.gg/OpenSource/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg">
+    <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg" alt="JetBrains" height="20">
+  </picture>
+</a>
