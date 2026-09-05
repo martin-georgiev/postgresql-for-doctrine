@@ -219,6 +219,11 @@ final class Type
     /**
      * @var string
      */
+    public const JSON_ARRAY = 'json[]';
+
+    /**
+     * @var string
+     */
     public const JSONB = 'jsonb';
 
     /**
@@ -289,6 +294,11 @@ final class Type
     /**
      * @var string
      */
+    public const NUMERIC_ARRAY = 'numeric[]';
+
+    /**
+     * @var string
+     */
     public const NUMMULTIRANGE = 'nummultirange';
 
     /**
@@ -355,6 +365,11 @@ final class Type
      * @var string
      */
     public const TEXT_ARRAY = 'text[]';
+
+    /**
+     * @var string
+     */
+    public const TIME_ARRAY = 'time[]';
 
     /**
      * @var string
@@ -440,6 +455,11 @@ final class Type
      * @var string
      */
     public const UUID_ARRAY = 'uuid[]';
+
+    /**
+     * @var string
+     */
+    public const VARCHAR_ARRAY = 'varchar[]';
 
     /**
      * @var string

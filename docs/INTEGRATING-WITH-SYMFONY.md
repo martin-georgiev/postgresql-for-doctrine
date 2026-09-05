@@ -27,20 +27,24 @@ doctrine:
             'integer[]': MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
             'bigint[]': MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
             'double precision[]': MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray
+            'numeric[]': MartinGeorgiev\Doctrine\DBAL\Types\NumericArray
             'real[]': MartinGeorgiev\Doctrine\DBAL\Types\RealArray
             'text[]': MartinGeorgiev\Doctrine\DBAL\Types\TextArray
             'uuid[]': MartinGeorgiev\Doctrine\DBAL\Types\UuidArray
+            'varchar[]': MartinGeorgiev\Doctrine\DBAL\Types\VarcharArray
 
             # Date and time types
             'date[]': MartinGeorgiev\Doctrine\DBAL\Types\DateArray
             interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
             'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
+            'time[]': MartinGeorgiev\Doctrine\DBAL\Types\TimeArray
             'timestamp[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray
             'timestamptz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray
             timetz: MartinGeorgiev\Doctrine\DBAL\Types\Timetz
             'timetz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray
 
             # JSON types
+            'json[]': MartinGeorgiev\Doctrine\DBAL\Types\JsonArray
             jsonb: MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
             'jsonb[]': MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
 
@@ -175,12 +179,16 @@ doctrine:
                     _int8: !php/const MartinGeorgiev\Doctrine\DBAL\Type::BIGINT_ARRAY
                     'double precision[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DOUBLE_PRECISION_ARRAY
                     _float8: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DOUBLE_PRECISION_ARRAY
+                    'numeric[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMERIC_ARRAY
+                    _numeric: !php/const MartinGeorgiev\Doctrine\DBAL\Type::NUMERIC_ARRAY
                     'real[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::REAL_ARRAY
                     _float4: !php/const MartinGeorgiev\Doctrine\DBAL\Type::REAL_ARRAY
                     'text[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
                     _text: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TEXT_ARRAY
                     'uuid[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
                     _uuid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::UUID_ARRAY
+                    'varchar[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::VARCHAR_ARRAY
+                    _varchar: !php/const MartinGeorgiev\Doctrine\DBAL\Type::VARCHAR_ARRAY
 
                     # Case-insensitive text type mappings
                     citext: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT
@@ -193,6 +201,8 @@ doctrine:
                     interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
                     'interval[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
                     _interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
+                    'time[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIME_ARRAY
+                    _time: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIME_ARRAY
                     'timestamp[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
                     _timestamp: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
                     'timestamptz[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
@@ -202,6 +212,8 @@ doctrine:
                     _timetz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMETZ_ARRAY
 
                     # JSON type mappings
+                    'json[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSON_ARRAY
+                    _json: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSON_ARRAY
                     jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB
                     'jsonb[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB_ARRAY
                     _jsonb: !php/const MartinGeorgiev\Doctrine\DBAL\Type::JSONB_ARRAY

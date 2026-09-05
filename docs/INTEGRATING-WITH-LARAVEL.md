@@ -57,12 +57,16 @@ return [
                 '_int8' => 'bigint[]',
                 'double precision[]' => 'double precision[]',
                 '_float8' => 'double precision[]',
+                'numeric[]' => 'numeric[]',
+                '_numeric' => 'numeric[]',
                 'real[]' => 'real[]',
                 '_float4' => 'real[]',
                 '_text' => 'text[]',
                 'text[]' => 'text[]',
                 'uuid[]' => 'uuid[]',
                 '_uuid' => 'uuid[]',
+                'varchar[]' => 'varchar[]',
+                '_varchar' => 'varchar[]',
 
                 // Case-insensitive text type mappings
                 'citext' => 'citext',
@@ -75,6 +79,8 @@ return [
                 'interval' => 'interval',
                 'interval[]' => 'interval[]',
                 '_interval' => 'interval[]',
+                'time[]' => 'time[]',
+                '_time' => 'time[]',
                 'timestamp[]' => 'timestamp[]',
                 '_timestamp' => 'timestamp[]',
                 'timestamptz[]' => 'timestamptz[]',
@@ -84,6 +90,8 @@ return [
                 '_timetz' => 'timetz[]',
 
                 // JSON type mappings
+                'json[]' => 'json[]',
+                '_json' => 'json[]',
                 'jsonb' => 'jsonb',
                 '_jsonb' => 'jsonb[]',
                 'jsonb[]' => 'jsonb[]',
@@ -226,9 +234,11 @@ return [
         'integer[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray::class,
         'smallint[]' => MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray::class,
         'double precision[]' => MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray::class,
+        'numeric[]' => MartinGeorgiev\Doctrine\DBAL\Types\NumericArray::class,
         'real[]' => MartinGeorgiev\Doctrine\DBAL\Types\RealArray::class,
         'text[]' => MartinGeorgiev\Doctrine\DBAL\Types\TextArray::class,
         'uuid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UuidArray::class,
+        'varchar[]' => MartinGeorgiev\Doctrine\DBAL\Types\VarcharArray::class,
 
         // Case-insensitive text types
         'citext' => MartinGeorgiev\Doctrine\DBAL\Types\Citext::class,
@@ -238,12 +248,14 @@ return [
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
         'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
         'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
+        'time[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimeArray::class,
         'timestamp[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray::class,
         'timestamptz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray::class,
         'timetz' => MartinGeorgiev\Doctrine\DBAL\Types\Timetz::class,
         'timetz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray::class,
 
         // JSON types
+        'json[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonArray::class,
         'jsonb' => MartinGeorgiev\Doctrine\DBAL\Types\Jsonb::class,
         'jsonb[]' => MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray::class,
 

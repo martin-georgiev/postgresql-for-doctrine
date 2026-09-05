@@ -55,6 +55,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Int8RangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Interval;
 use MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\JsonArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Line;
@@ -69,6 +70,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Money;
 use MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\NumericArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumMultirangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\NumRange;
@@ -83,6 +85,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\RealArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\TimeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Timetz;
@@ -100,6 +103,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\TstzRangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\VarcharArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Vector;
 use MartinGeorgiev\Doctrine\DBAL\Types\Xml;
 use MartinGeorgiev\Doctrine\DBAL\Types\XmlArray;
@@ -302,6 +306,7 @@ abstract class TestCase extends BaseTestCase
             'integer[]' => IntegerArray::class,
             'interval' => Interval::class,
             'interval[]' => IntervalArray::class,
+            'json[]' => JsonArray::class,
             'jsonb' => Jsonb::class,
             'jsonb[]' => JsonbArray::class,
             'line' => Line::class,
@@ -320,6 +325,7 @@ abstract class TestCase extends BaseTestCase
             'macaddr[]' => MacaddrArray::class,
             'money' => Money::class,
             'money[]' => MoneyArray::class,
+            'numeric[]' => NumericArray::class,
             'numrange' => NumRange::class,
             'numrange[]' => NumRangeArray::class,
             'nummultirange' => NumMultirange::class,
@@ -333,6 +339,7 @@ abstract class TestCase extends BaseTestCase
             'real[]' => RealArray::class,
             'smallint[]' => SmallIntArray::class,
             'text[]' => TextArray::class,
+            'time[]' => TimeArray::class,
             'timestamp[]' => TimestampArray::class,
             'timestamptz[]' => TimestampTzArray::class,
             'timetz' => Timetz::class,
@@ -350,6 +357,7 @@ abstract class TestCase extends BaseTestCase
             'tsvector' => Tsvector::class,
             'tsvector[]' => TsvectorArray::class,
             'uuid[]' => UuidArray::class,
+            'varchar[]' => VarcharArray::class,
             'sparsevec' => Sparsevec::class,
             'vector' => Vector::class,
             'xml' => Xml::class,

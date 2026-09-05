@@ -27,9 +27,11 @@ Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArra
 Type::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
 Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
 Type::addType('double precision[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DoublePrecisionArray");
+Type::addType('numeric[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumericArray");
 Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
 Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
+Type::addType('varchar[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\VarcharArray");
 
 // Case-insensitive text types
 Type::addType('citext', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Citext");
@@ -39,12 +41,14 @@ Type::addType('citext[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CitextArray");
 Type::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
 Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
 Type::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
+Type::addType('time[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimeArray");
 Type::addType('timestamp[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampArray");
 Type::addType('timestamptz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTzArray");
 Type::addType('timetz', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Timetz");
 Type::addType('timetz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimetzArray");
 
 // JSON types
+Type::addType('json[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonArray");
 Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
 Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
 
@@ -482,12 +486,16 @@ $platform->registerDoctrineTypeMapping('bigint[]', 'bigint[]');
 $platform->registerDoctrineTypeMapping('_int8', 'bigint[]');
 $platform->registerDoctrineTypeMapping('double precision[]', 'double precision[]');
 $platform->registerDoctrineTypeMapping('_float8', 'double precision[]');
+$platform->registerDoctrineTypeMapping('numeric[]', 'numeric[]');
+$platform->registerDoctrineTypeMapping('_numeric', 'numeric[]');
 $platform->registerDoctrineTypeMapping('real[]', 'real[]');
 $platform->registerDoctrineTypeMapping('_float4', 'real[]');
 $platform->registerDoctrineTypeMapping('text[]', 'text[]');
 $platform->registerDoctrineTypeMapping('_text', 'text[]');
 $platform->registerDoctrineTypeMapping('uuid[]', 'uuid[]');
 $platform->registerDoctrineTypeMapping('_uuid', 'uuid[]');
+$platform->registerDoctrineTypeMapping('varchar[]', 'varchar[]');
+$platform->registerDoctrineTypeMapping('_varchar', 'varchar[]');
 
 // Case-insensitive text type mappings
 $platform->registerDoctrineTypeMapping('citext', 'citext');
@@ -500,6 +508,8 @@ $platform->registerDoctrineTypeMapping('_date', 'date[]');
 $platform->registerDoctrineTypeMapping('interval', 'interval');
 $platform->registerDoctrineTypeMapping('interval[]', 'interval[]');
 $platform->registerDoctrineTypeMapping('_interval', 'interval[]');
+$platform->registerDoctrineTypeMapping('time[]', 'time[]');
+$platform->registerDoctrineTypeMapping('_time', 'time[]');
 $platform->registerDoctrineTypeMapping('timestamp[]', 'timestamp[]');
 $platform->registerDoctrineTypeMapping('_timestamp', 'timestamp[]');
 $platform->registerDoctrineTypeMapping('timestamptz[]', 'timestamptz[]');
@@ -509,6 +519,8 @@ $platform->registerDoctrineTypeMapping('timetz[]', 'timetz[]');
 $platform->registerDoctrineTypeMapping('_timetz', 'timetz[]');
 
 // JSON type mappings
+$platform->registerDoctrineTypeMapping('json[]', 'json[]');
+$platform->registerDoctrineTypeMapping('_json', 'json[]');
 $platform->registerDoctrineTypeMapping('jsonb', 'jsonb');
 $platform->registerDoctrineTypeMapping('jsonb[]', 'jsonb[]');
 $platform->registerDoctrineTypeMapping('_jsonb', 'jsonb[]');
