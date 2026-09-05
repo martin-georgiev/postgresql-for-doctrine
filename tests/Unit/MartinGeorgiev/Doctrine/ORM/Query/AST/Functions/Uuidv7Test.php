@@ -20,6 +20,7 @@ final class Uuidv7Test extends TestCase
     {
         return [
             'generates uuid v7' => 'SELECT uuidv7() AS sclr_0 FROM ContainsTexts c0_',
+            'generates uuid v7 with shift interval' => "SELECT uuidv7('1 hour') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
 
@@ -27,6 +28,7 @@ final class Uuidv7Test extends TestCase
     {
         return [
             'generates uuid v7' => \sprintf('SELECT UUIDV7() FROM %s e', ContainsTexts::class),
+            'generates uuid v7 with shift interval' => \sprintf("SELECT UUIDV7('1 hour') FROM %s e", ContainsTexts::class),
         ];
     }
 }

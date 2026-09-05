@@ -37,6 +37,20 @@ final class Uuidv7Test extends NumericTestCase
     }
 
     #[Test]
+    public function generates_uuid_v7_with_shift_interval(): void
+    {
+        $dql = "SELECT UUIDV7('1 hour') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
+                WHERE t.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $uuid = $result[0]['result'];
+
+        $this->assertIsString($uuid);
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i', $uuid);
+    }
+
+    #[Test]
     public function generates_unique_uuids(): void
     {
         $dql = 'SELECT UUIDV7() as uuid1, UUIDV7() as uuid2 
