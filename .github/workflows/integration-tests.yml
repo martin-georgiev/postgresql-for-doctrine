@@ -170,6 +170,11 @@ jobs:
           docker cp ci/docker/install-pgvector.sh ${{ job.services.postgres.id }}:/opt/install-pgvector.sh
           docker exec ${{ job.services.postgres.id }} sh /opt/install-pgvector.sh
 
+      - name: Install pgx_ulid extension in PostgreSQL service
+        run: |
+          docker cp ci/docker/install-pgx-ulid.sh ${{ job.services.postgres.id }}:/opt/install-pgx-ulid.sh
+          docker exec ${{ job.services.postgres.id }} sh /opt/install-pgx-ulid.sh
+
       - name: Verify PostgreSQL connection and setup
         run: |
           PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "CREATE SCHEMA IF NOT EXISTS test; SELECT PostGIS_Version();"

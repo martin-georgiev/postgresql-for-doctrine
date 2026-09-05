@@ -12,11 +12,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
       - ./ci/docker/install-pgvector.sh:/opt/install-pgvector.sh:ro
+      - ./ci/docker/install-pgx-ulid.sh:/opt/install-pgx-ulid.sh:ro
     entrypoint:
       - sh
       - -c
       - |
         sh /opt/install-pgvector.sh
+        sh /opt/install-pgx-ulid.sh
         exec docker-entrypoint.sh postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]

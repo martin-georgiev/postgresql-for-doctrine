@@ -35,6 +35,10 @@ Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
 Type::addType('citext', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Citext");
 Type::addType('citext[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CitextArray");
 
+// ULID types
+Type::addType('ulid', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ulid");
+Type::addType('ulid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UlidArray");
+
 // Date and time types
 Type::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
 Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
@@ -493,6 +497,11 @@ $platform->registerDoctrineTypeMapping('_uuid', 'uuid[]');
 $platform->registerDoctrineTypeMapping('citext', 'citext');
 $platform->registerDoctrineTypeMapping('citext[]', 'citext[]');
 $platform->registerDoctrineTypeMapping('_citext', 'citext[]');
+
+// ULID type mappings
+$platform->registerDoctrineTypeMapping('ulid', 'ulid');
+$platform->registerDoctrineTypeMapping('ulid[]', 'ulid[]');
+$platform->registerDoctrineTypeMapping('_ulid', 'ulid[]');
 
 // Datetime array type mappings
 $platform->registerDoctrineTypeMapping('date[]', 'date[]');
