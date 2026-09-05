@@ -32,7 +32,6 @@ return RectorConfig::configure()
     ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
-        SetList::EARLY_RETURN,
         SetList::NAMING,
         SetList::TYPE_DECLARATION,
         SetList::PRIVATIZATION,
