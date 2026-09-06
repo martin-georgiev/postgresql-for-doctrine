@@ -170,15 +170,16 @@ jobs:
           docker cp ci/docker/install-pgvector.sh ${{ job.services.postgres.id }}:/opt/install-pgvector.sh
           docker exec ${{ job.services.postgres.id }} sh /opt/install-pgvector.sh
 
-      # pgx_ulid publishes only glibc packages that cannot load on Alpine
-      # (musl), so the extension is compiled from source once per PostgreSQL
-      # major version and reused from the cache afterwards.
+      # pgx_ulid publishes only glibc packages that cannot load on Alpine (musl), so the extension is compiled from
+      # source once per PostgreSQL major version and reused from the cache afterward.
       - name: Restore pgx_ulid build cache
         id: pgx-ulid-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/pgx-ulid-artifacts
-          key: pgx-ulid-0.2.3-pg${{ matrix.postgres }}-alpine-musl
+          # The commit suffix is the PGX_ULID_COMMIT pin from ci/docker/build-pgx-ulid.sh
+          # Kept in sync so changing the pin invalidates previously cached artifacts.
+          key: pgx-ulid-0.2.3-c22451db-pg${{ matrix.postgres }}-alpine-musl
 
       - name: Build pgx_ulid extension from source
         if: steps.pgx-ulid-cache.outputs.cache-hit != 'true'

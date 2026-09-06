@@ -1,16 +1,13 @@
 #!/bin/sh
 set -eu
 
-# Builds pgx_ulid (https://github.com/pksunkara/pgx_ulid) from source inside an
-# Alpine-based PostGIS container and stages installable artifacts in
-# /opt/pgx-ulid-artifacts.
-#
-# Upstream publishes only glibc packages, which cannot load on musl — so on
-# Alpine the extension must be compiled natively with cargo-pgrx. CI caches the
-# resulting artifacts per PostgreSQL major version, so this (slow) build only
-# runs when the cache key rotates. Any failure exits non-zero.
+# Builds pgx_ulid (https://github.com/pksunkara/pgx_ulid) from source and stages installable artifacts in
+# /opt/pgx-ulid-artifacts. Upstream publishes only glibc packages, which cannot load on musl, so Alpine needs a native
+# cargo-pgrx build. CI caches the artifacts per PostgreSQL major version.
 
 PGX_ULID_VERSION="0.2.3"
+# sync with the pgx_ulid cache key in .github/workflows/integration-tests.yml.
+PGX_ULID_COMMIT="c22451dba167dd83cf64a7b0fa6af668f926f221"
 OUT_DIR="/opt/pgx-ulid-artifacts"
 
 apk add --no-cache build-base clang-dev clang-libs llvm-dev git curl bash rustup openssl-dev openssl-libs-static > /dev/null
@@ -27,13 +24,18 @@ rm -rf /tmp/pgx_ulid
 git clone --depth 1 --branch "v${PGX_ULID_VERSION}" https://github.com/pksunkara/pgx_ulid /tmp/pgx_ulid
 cd /tmp/pgx_ulid
 
-# Statically-linked musl build scripts cannot dlopen libclang (needed by
-# bindgen), so the extension build must link dynamically.
+checked_out_commit="$(git rev-parse HEAD)"
+if [ "${checked_out_commit}" != "${PGX_ULID_COMMIT}" ]; then
+    echo "pgx_ulid: tag v${PGX_ULID_VERSION} resolved to unexpected commit ${checked_out_commit} (pinned: ${PGX_ULID_COMMIT})" >&2
+    exit 1
+fi
+
+# Statically-linked musl binaries cannot dlopen libclang (needed by bindgen).
 export RUSTFLAGS="-C target-feature=-crt-static"
 cargo pgrx install --release --no-default-features --features "pg${pg_major}"
 
-# Stage artifacts under the extension's packaged name (ulid) — matching the
-# upstream release packages and what the integration tests expect.
+# Source builds register as "pgx_ulid"; the upstream packages (and the integration tests) use "ulid"
+# as the stage name under the packaged name.
 mkdir -p "${OUT_DIR}"
 cp "$(pg_config --pkglibdir)/pgx_ulid.so" "${OUT_DIR}/"
 cd "$(pg_config --sharedir)/extension"

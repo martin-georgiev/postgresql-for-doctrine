@@ -1,19 +1,14 @@
 #!/bin/sh
 set -u
 
-# Installs pgx_ulid (https://github.com/pksunkara/pgx_ulid) into an
-# Alpine-based PostGIS container.
-#
-# pgx_ulid publishes only glibc .deb packages (no musl/apk builds), so this
-# script extracts the matching .deb and relies on gcompat for glibc
-# compatibility. Unexpected installation failures exit non-zero and fail the
-# CI step; only the known musl/glibc symbol incompatibility exits zero, in
-# which case the ulid integration tests skip themselves.
+# Best-effort pgx_ulid (https://github.com/pksunkara/pgx_ulid) install for the local docker-compose Alpine container;
+# CI compiles from source instead (see build-pgx-ulid.sh). Upstream ships only glibc .debs, loaded here via gcompat.
+# Only the known musl/glibc symbol incompatibility exits zero (the ulid integration tests then skip themselves);
+# any other failure exits non-zero.
 
 PGX_ULID_VERSION="0.2.3"
 
-# SHA-256 checksums for the pinned release artifacts, computed from
-# https://github.com/pksunkara/pgx_ulid/releases/tag/v0.2.3
+# SHA-256 checksums for the pinned release artifacts, computed from https://github.com/pksunkara/pgx_ulid/releases/tag/v0.2.3
 checksum_for() {
     case "$1" in
         pg16-amd64) echo "b764c329b5fdb0a37c4946142440fbd2dcaada41d8748a649255ae76ae9f760c" ;;
@@ -66,8 +61,7 @@ ldd_output="$(ldd "${so_path}" 2>&1)"
 ldd_status=$?
 
 if printf '%s' "${ldd_output}" | grep -q "symbol not found"; then
-    # Known upstream limitation, not an installation error: the glibc build
-    # cannot fully resolve against musl even with gcompat.
+    # Known upstream limitation, not an installation error.
     echo "pgx_ulid: library has unresolved glibc symbols on this platform; CREATE EXTENSION will fail and ulid integration tests will be skipped" >&2
 elif [ "${ldd_status}" -ne 0 ]; then
     fail "cannot inspect ${so_path}: ${ldd_output}"
