@@ -42,6 +42,7 @@ cd "$(pg_config --sharedir)/extension"
 for f in pgx_ulid.control pgx_ulid--*.sql; do
     cp "$f" "${OUT_DIR}/$(echo "$f" | sed 's/^pgx_ulid/ulid/')"
 done
+cp "${OUT_DIR}"/ulid.control "${OUT_DIR}"/ulid--*.sql "$(pg_config --sharedir)/extension/"
 
 echo "pgx_ulid built successfully for PostgreSQL ${pg_major}:"
 ls -la "${OUT_DIR}"
