@@ -170,6 +170,31 @@ jobs:
           docker cp ci/docker/install-pgvector.sh ${{ job.services.postgres.id }}:/opt/install-pgvector.sh
           docker exec ${{ job.services.postgres.id }} sh /opt/install-pgvector.sh
 
+      # pgx_ulid publishes only glibc packages that cannot load on Alpine (musl), so the extension is compiled from
+      # source once per PostgreSQL major version and reused from the cache afterward.
+      - name: Restore pgx_ulid build cache
+        id: pgx-ulid-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/pgx-ulid-artifacts
+          # The commit suffix is the PGX_ULID_COMMIT pin from ci/docker/build-pgx-ulid.sh
+          # Kept in sync so changing the pin invalidates previously cached artifacts.
+          key: pgx-ulid-0.2.3-c22451db-pg${{ matrix.postgres }}-alpine-musl
+
+      - name: Build pgx_ulid extension from source
+        if: steps.pgx-ulid-cache.outputs.cache-hit != 'true'
+        run: |
+          docker cp ci/docker/build-pgx-ulid.sh ${{ job.services.postgres.id }}:/opt/build-pgx-ulid.sh
+          docker exec ${{ job.services.postgres.id }} sh /opt/build-pgx-ulid.sh
+          mkdir -p ~/pgx-ulid-artifacts
+          docker cp ${{ job.services.postgres.id }}:/opt/pgx-ulid-artifacts/. ~/pgx-ulid-artifacts/
+
+      - name: Install pgx_ulid extension in PostgreSQL service
+        run: |
+          docker cp ~/pgx-ulid-artifacts/. ${{ job.services.postgres.id }}:/opt/pgx-ulid-artifacts/
+          docker exec ${{ job.services.postgres.id }} sh -c 'cp /opt/pgx-ulid-artifacts/pgx_ulid.so "$(pg_config --pkglibdir)/" && cp /opt/pgx-ulid-artifacts/ulid.control /opt/pgx-ulid-artifacts/ulid--*.sql "$(pg_config --sharedir)/extension/"'
+          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "CREATE EXTENSION ulid; DROP EXTENSION ulid;"
+
       - name: Verify PostgreSQL connection and setup
         run: |
           PGPASSWORD=postgres psql -h localhost -U postgres -d postgres_doctrine_test -c "CREATE SCHEMA IF NOT EXISTS test; SELECT PostGIS_Version();"
