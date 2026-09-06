@@ -25,9 +25,8 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 class NumericArray extends BaseStringArray
 {
     /**
-     * Scientific notation, a leading plus sign and a bare decimal point (".5") are
-     * accepted by PostgreSQL on input but never appear in its output, so allowing
-     * them would break string round-trips.
+     * Scientific notation, a leading plus sign and a bare decimal point (".5") are accepted by PostgreSQL on input
+     * but never appear in its output, so allowing them would break string round-trips.
      *
      * @var string
      */
@@ -53,8 +52,6 @@ class NumericArray extends BaseStringArray
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        // PostgreSQL returns numeric array items unquoted; type inference would
-        // convert them to floats and lose exact precision (see GitHub issue #482).
         return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
             $postgresArray,
             preserveStringTypes: true
@@ -63,8 +60,6 @@ class NumericArray extends BaseStringArray
 
     public function transformArrayItemForPHP(mixed $item): ?string
     {
-        // String-preserving parsing skips NULL token inference; mapping it here is
-        // unambiguous because "NULL" can never appear as a value of a numeric column.
         if ($item === 'NULL') {
             return null;
         }

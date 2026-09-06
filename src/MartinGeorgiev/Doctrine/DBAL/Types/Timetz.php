@@ -10,10 +10,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimetzForDatabaseExcept
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimetzForPHPException;
 
 /**
- * Implementation of PostgreSQL timetz (time with time zone) data type.
+ * Implementation of PostgreSQL TIMETZ (time with time zone) data type.
  *
- * Stores a time-of-day value with time zone offset. The PHP representation
- * is a string in the format returned by PostgreSQL (e.g. "12:34:56+02:00").
+ * Stores a time-of-day value with time zone offset. The PHP representation is a string in the PostgreSQL format (e.g. "12:34:56+02:00").
  *
  * @see https://www.postgresql.org/docs/18/datatype-datetime.html
  * @since 4.6

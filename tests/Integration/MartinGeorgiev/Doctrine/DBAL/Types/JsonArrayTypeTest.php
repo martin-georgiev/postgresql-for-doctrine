@@ -46,7 +46,7 @@ final class JsonArrayTypeTest extends ArrayTypeTestCase
                     'enabled' => true,
                 ],
             ]],
-            'json array with big integers' => [[
+            'json array with large numeric strings' => [[
                 [
                     'bigint' => '9223372036854775807',
                     'regular' => 123,

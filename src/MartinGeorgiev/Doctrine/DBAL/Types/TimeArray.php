@@ -11,8 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimeArrayItemForPHPExce
 /**
  * Implementation of PostgreSQL TIME[] data type.
  *
- * Covers the TIME WITHOUT TIME ZONE[] alias as well.
- * Array items are handled as strings (e.g. "10:30:00"), mirroring the TIMETZ[] type.
+ * Array items are handled as strings (e.g. "10:30:00").
  *
  * @see https://www.postgresql.org/docs/18/datatype-datetime.html
  * @since 4.8
