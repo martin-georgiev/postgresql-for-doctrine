@@ -10,9 +10,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPExce
 /**
  * Implementation of PostgreSQL JSON[] data type.
  *
- * Unlike JSONB[], PostgreSQL stores JSON values as exact textual copies,
- * preserving key order and whitespace. The PHP-side conversion is identical
- * to JSONB[].
+ * Unlike JSONB[], PostgreSQL stores JSON values as exact textual copies, preserving key order and whitespace.
+ * The PHP-side conversion is identical to JSONB[].
  *
  * @see https://www.postgresql.org/docs/18/datatype-json.html
  * @since 4.8

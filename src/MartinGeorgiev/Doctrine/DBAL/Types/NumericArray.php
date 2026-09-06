@@ -12,11 +12,10 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 /**
  * Implementation of PostgreSQL NUMERIC[] data type.
  *
- * Array items are handled as numeric strings so the exact precision and scale
- * of the values survive the round-trip (e.g. trailing zeros like "502.00").
- * PHP integers and floats are rejected as array items - floats cannot represent
- * arbitrary-precision decimals without data loss. PostgreSQL treats DECIMAL[]
- * as an alias of NUMERIC[], so this type covers both.
+ * Array items are handled as numeric strings so the exact precision and scale of the values survive the round-trip
+ * (e.g. trailing zeros like "502.00"). PHP integers and floats are rejected as array items - floats cannot represent
+ * arbitrary-precision decimals without data loss.
+ * PostgreSQL treats DECIMAL[] as an alias of NUMERIC[], so this type covers both.
  *
  * @see https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL
  * @since 4.8
