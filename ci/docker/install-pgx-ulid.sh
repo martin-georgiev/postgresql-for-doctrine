@@ -59,10 +59,18 @@ install_pgx_ulid() {
 
 install_pgx_ulid
 
-if ldd "$(pg_config --pkglibdir)/pgx_ulid.so" 2>&1 | grep -q "symbol not found"; then
+so_path="$(pg_config --pkglibdir)/pgx_ulid.so"
+[ -f "${so_path}" ] || fail "shared library not found at ${so_path} after installation"
+
+ldd_output="$(ldd "${so_path}" 2>&1)"
+ldd_status=$?
+
+if printf '%s' "${ldd_output}" | grep -q "symbol not found"; then
     # Known upstream limitation, not an installation error: the glibc build
     # cannot fully resolve against musl even with gcompat.
     echo "pgx_ulid: library has unresolved glibc symbols on this platform; CREATE EXTENSION will fail and ulid integration tests will be skipped" >&2
+elif [ "${ldd_status}" -ne 0 ]; then
+    fail "cannot inspect ${so_path}: ${ldd_output}"
 else
     echo "pgx_ulid installed successfully"
 fi
