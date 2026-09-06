@@ -112,6 +112,10 @@ doctrine:
             citext: MartinGeorgiev\Doctrine\DBAL\Types\Citext
             'citext[]': MartinGeorgiev\Doctrine\DBAL\Types\CitextArray
 
+            # ULID types
+            ulid: MartinGeorgiev\Doctrine\DBAL\Types\Ulid
+            'ulid[]': MartinGeorgiev\Doctrine\DBAL\Types\UlidArray
+
             # Text search types
             tsquery: MartinGeorgiev\Doctrine\DBAL\Types\Tsquery
             'tsquery[]': MartinGeorgiev\Doctrine\DBAL\Types\TsqueryArray
@@ -194,6 +198,11 @@ doctrine:
                     citext: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT
                     'citext[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT_ARRAY
                     _citext: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CITEXT_ARRAY
+
+                    # ULID type mappings
+                    ulid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::ULID
+                    'ulid[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::ULID_ARRAY
+                    _ulid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::ULID_ARRAY
 
                     # Datetime array type mappings
                     'date[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY

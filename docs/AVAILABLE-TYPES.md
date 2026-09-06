@@ -35,6 +35,8 @@
 | uuid[] | _uuid | `MartinGeorgiev\Doctrine\DBAL\Types\UuidArray` (see [note](#uuid-array-type)) |
 | citext | citext | `MartinGeorgiev\Doctrine\DBAL\Types\Citext` (see [note](#citext-type)) |
 | citext[] | _citext | `MartinGeorgiev\Doctrine\DBAL\Types\CitextArray` |
+| ulid | ulid | `MartinGeorgiev\Doctrine\DBAL\Types\Ulid` (see [note](#ulid-type)) |
+| ulid[] | _ulid | `MartinGeorgiev\Doctrine\DBAL\Types\UlidArray` |
 |---|---|---|
 | cidr | cidr | `MartinGeorgiev\Doctrine\DBAL\Types\Cidr` |
 | cidr[] | _cidr | `MartinGeorgiev\Doctrine\DBAL\Types\CidrArray` |
@@ -257,3 +259,17 @@ CREATE EXTENSION IF NOT EXISTS citext;
 It is a case-insensitive text type: comparisons are case-insensitive in PostgreSQL while the original casing of values is preserved. It maps to `string` in PHP and behaves identically to `text` for storage and retrieval — the difference is purely in how PostgreSQL evaluates equality and ordering.
 
 Use `citext` when you want case-insensitive lookups (e.g. usernames, email addresses) without lowercasing values on write.
+
+---
+
+## ULID Type
+
+The `ulid` type requires the third-party [`pgx_ulid`](https://github.com/pksunkara/pgx_ulid) PostgreSQL extension. Enable it with:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS ulid;
+```
+
+A ULID is a 26-character [Crockford base32](https://github.com/ulid/spec) identifier (uppercase, first character `0`–`7`) stored as a compact 128-bit binary value. It maps to `string` in PHP. PostgreSQL outputs the canonical uppercase form on retrieval; the DBAL type normalizes values to uppercase on write as well, so round-trips are stable even for lowercase input.
+
+Use `ulid` when you want sortable, timestamp-prefixed identifiers that are shorter and more index-friendly than UUIDs.

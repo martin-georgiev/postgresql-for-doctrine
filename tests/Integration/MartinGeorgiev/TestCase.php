@@ -102,6 +102,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\TstzRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\TstzRangeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Tsvector;
 use MartinGeorgiev\Doctrine\DBAL\Types\TsvectorArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Ulid;
+use MartinGeorgiev\Doctrine\DBAL\Types\UlidArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\UuidArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\VarcharArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Vector;
@@ -356,6 +358,8 @@ abstract class TestCase extends BaseTestCase
             'tstzrange[]' => TstzRangeArray::class,
             'tsvector' => Tsvector::class,
             'tsvector[]' => TsvectorArray::class,
+            'ulid' => Ulid::class,
+            'ulid[]' => UlidArray::class,
             'uuid[]' => UuidArray::class,
             'varchar[]' => VarcharArray::class,
             'sparsevec' => Sparsevec::class,

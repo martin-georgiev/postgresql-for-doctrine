@@ -454,6 +454,16 @@ final class Type
     /**
      * @var string
      */
+    public const ULID = 'ulid';
+
+    /**
+     * @var string
+     */
+    public const ULID_ARRAY = 'ulid[]';
+
+    /**
+     * @var string
+     */
     public const UUID_ARRAY = 'uuid[]';
 
     /**

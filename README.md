@@ -81,6 +81,8 @@ $query = $em->createQuery('
   - Full-text search query (`tsquery`, `tsquery[]`)
 - **Case-Insensitive Text Types** (requires [citext](https://www.postgresql.org/docs/18/citext.html) extension)
   - Case-insensitive text (`citext`, `citext[]`)
+- **ULID Types** (requires [pgx_ulid](https://github.com/pksunkara/pgx_ulid) extension)
+  - Sortable, timestamp-prefixed identifiers (`ulid`, `ulid[]`)
 - **Key-Value Types** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
   - Key-value store (`hstore`, `hstore[]`)
 - **Monetary Types**

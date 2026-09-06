@@ -73,6 +73,11 @@ return [
                 'citext[]' => 'citext[]',
                 '_citext' => 'citext[]',
 
+                // ULID type mappings
+                'ulid' => 'ulid',
+                'ulid[]' => 'ulid[]',
+                '_ulid' => 'ulid[]',
+
                 // Datetime array type mappings
                 'date[]' => 'date[]',
                 '_date' => 'date[]',
@@ -243,6 +248,10 @@ return [
         // Case-insensitive text types
         'citext' => MartinGeorgiev\Doctrine\DBAL\Types\Citext::class,
         'citext[]' => MartinGeorgiev\Doctrine\DBAL\Types\CitextArray::class,
+
+        // ULID types
+        'ulid' => MartinGeorgiev\Doctrine\DBAL\Types\Ulid::class,
+        'ulid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UlidArray::class,
 
         // Date and time types
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
