@@ -28,11 +28,6 @@ final class InvalidCubeException extends ConversionException
         return self::create('A cube must have at least one dimension, %s given', $value);
     }
 
-    public static function forNonFiniteCoordinate(mixed $value): self
-    {
-        return self::create('Cube coordinates must be finite numbers, %s given', $value);
-    }
-
     public static function forMismatchedDimensions(mixed $value): self
     {
         return self::create('Both cube corners must have the same number of dimensions, %s given', $value);

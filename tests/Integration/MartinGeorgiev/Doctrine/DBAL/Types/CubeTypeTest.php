@@ -46,7 +46,34 @@ final class CubeTypeTest extends ScalarTypeTestCase
             'reversed corner order' => [new CubeValueObject([4.0, 5.0, 6.0], [1.0, 2.0, 3.0])],
             'high precision coordinates' => [CubeValueObject::point(0.12345678901234568, 1.0)],
             'exponent scale coordinates' => [CubeValueObject::point(1.0E+300, 1.0E-10)],
+            'infinite coordinates' => [new CubeValueObject([-\INF, 1.0], [\INF, 2.0])],
         ];
+    }
+
+    #[Test]
+    public function roundtrips_nan_coordinate(): void
+    {
+        // NaN never equals itself, so the round-trip is asserted on the emitted representation.
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', new CubeValueObject([\NAN, 1.0]), $typeName)
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+
+            $this->assertInstanceOf(CubeValueObject::class, $retrieved);
+            $this->assertSame('(NaN, 1)', (string) $retrieved);
+            $this->assertNan($retrieved->getFirstCorner()[0]);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
     }
 
     #[Test]

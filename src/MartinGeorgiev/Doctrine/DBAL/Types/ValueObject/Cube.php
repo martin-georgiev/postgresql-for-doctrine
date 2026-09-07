@@ -9,17 +9,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeExcepti
 /**
  * Represents a PostgreSQL cube value, provided by the cube extension.
  *
- * A cube is either a point, written as a single coordinate group — (1, 2, 3) —
- * or a box spanned by two opposite corners — (1, 2, 3),(4, 5, 6). Both corners
- * always carry the same number of dimensions.
+ * A cube is either of:
+ * - a point, written as a single coordinate group, e.g. (1, 2, 3); or
+ * - a box spanned by two opposite corners, e.g. (1, 2, 3),(4, 5, 6).
  *
- * PostgreSQL keeps the two corners in the order they were written and collapses
- * a zero-volume box back into a point, so this value object normalizes the same
- * way: equal corners are stored as a point and never re-emitted as a box.
- *
- * PostgreSQL also accepts NaN and Infinity coordinates. Those are rejected here,
- * because PHP cannot parse them back from the textual form PostgreSQL emits,
- * which would break the round-trip guarantee.
+ * PostgreSQL preserves the corners order and collapses a zero-volume box back into a point,
+ * so this value object normalizes the same way: equal corners are stored as a point and never re-emitted as a box.
  *
  * @see https://www.postgresql.org/docs/18/cube.html
  * @since 4.8
@@ -29,9 +24,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeExcepti
 final readonly class Cube implements \Stringable
 {
     /**
+     * PostgreSQL accepts non-finite coordinates in several spellings (nan, inf, -inf, infinity).
+     * PostgreSQL always emits these as NaN, Infinity or -Infinity.
+     *
      * @var string
      */
-    private const COORDINATE_PATTERN = '[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?';
+    private const COORDINATE_PATTERN = '(?:[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|[+-]?(?i:inf(?:inity)?|nan))';
 
     /**
      * @var string
@@ -80,21 +78,15 @@ final readonly class Cube implements \Stringable
             throw InvalidCubeException::forEmptyCoordinates(\count($firstCorner));
         }
 
-        $this->assertFiniteCoordinates($firstCorner);
-
-        if ($secondCorner !== null) {
-            $this->assertFiniteCoordinates($secondCorner);
-
-            if (\count($secondCorner) !== \count($firstCorner)) {
-                throw InvalidCubeException::forMismatchedDimensions(
-                    \sprintf('%d and %d', \count($firstCorner), \count($secondCorner))
-                );
-            }
+        if ($secondCorner !== null && \count($secondCorner) !== \count($firstCorner)) {
+            throw InvalidCubeException::forMismatchedDimensions(
+                \sprintf('%d and %d', \count($firstCorner), \count($secondCorner))
+            );
         }
 
         $this->firstCorner = $firstCorner;
-        // PostgreSQL renders a zero-volume box as a point, so collapse it here as
-        // well — otherwise a stored value would never equal the one read back.
+        // PostgreSQL renders a zero-volume box as a point, so collapse it here as well.
+        // Otherwise, a stored value would never equal the one read back.
         $this->secondCorner = $secondCorner === $firstCorner ? null : $secondCorner;
     }
 
@@ -148,8 +140,7 @@ final readonly class Cube implements \Stringable
     public static function fromString(string $value): self
     {
         $trimmed = \trim($value);
-        // PostgreSQL accepts an optional bracketed box form, [(1,2),(3,4)], and
-        // drops the brackets on output.
+        // PostgreSQL accepts an optional bracketed box form, [(1,2),(3,4)], and drops the brackets on output.
         if (\str_starts_with($trimmed, '[') && \str_ends_with($trimmed, ']')) {
             $trimmed = \trim(\mb_substr($trimmed, 1, -1));
         }
@@ -170,20 +161,6 @@ final readonly class Cube implements \Stringable
     }
 
     /**
-     * @param list<float> $coordinates
-     *
-     * @throws InvalidCubeException
-     */
-    private function assertFiniteCoordinates(array $coordinates): void
-    {
-        foreach ($coordinates as $coordinate) {
-            if (!\is_finite($coordinate)) {
-                throw InvalidCubeException::forNonFiniteCoordinate($coordinate);
-            }
-        }
-    }
-
-    /**
      * @return list<float>
      */
     private static function parseCoordinates(string $coordinateList): array
@@ -191,7 +168,20 @@ final readonly class Cube implements \Stringable
         $parts = \preg_split('/\s*,\s*/', \trim($coordinateList));
         \assert(\is_array($parts));
 
-        return \array_map(static fn (string $part): float => (float) $part, $parts);
+        return \array_map(self::parseCoordinate(...), $parts);
+    }
+
+    /**
+     * Casting a string to float yields 0.0 for every non-finite spelling PostgreSQL uses. Those are matched explicitly.
+     */
+    private static function parseCoordinate(string $coordinate): float
+    {
+        return match (\mb_strtolower(\ltrim($coordinate, '+'))) {
+            'nan', '-nan' => \NAN,
+            'inf', 'infinity' => \INF,
+            '-inf', '-infinity' => -\INF,
+            default => (float) $coordinate,
+        };
     }
 
     /**
@@ -202,12 +192,20 @@ final readonly class Cube implements \Stringable
         return '('.\implode(', ', \array_map($this->formatCoordinate(...), $coordinates)).')';
     }
 
+    /**
+     * Casting a float to string uses the `precision` ini setting, which silently rewrites stored values in full float8
+     * precision. Fall back to the 17-digit form, which always round-trips, whenever the short one does not.
+     */
     private function formatCoordinate(float $coordinate): string
     {
-        // Casting a float to string uses the `precision` ini setting (14 significant
-        // digits by default), which silently rewrites values PostgreSQL stores in
-        // full float8 precision. Fall back to the 17-digit form, which always
-        // round-trips, whenever the short one does not.
+        if (\is_nan($coordinate)) {
+            return 'NaN';
+        }
+
+        if (\is_infinite($coordinate)) {
+            return $coordinate > 0 ? 'Infinity' : '-Infinity';
+        }
+
         $shortForm = (string) $coordinate;
 
         return (float) $shortForm === $coordinate ? $shortForm : \sprintf('%.17G', $coordinate);

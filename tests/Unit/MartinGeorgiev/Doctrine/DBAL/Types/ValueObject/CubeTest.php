@@ -67,6 +67,34 @@ final class CubeTest extends TestCase
                 'input' => '(1.0, 2.0)',
                 'expectedStringRepresentation' => '(1, 2)',
             ],
+            'NaN coordinate' => [
+                'input' => '(NaN)',
+                'expectedStringRepresentation' => '(NaN)',
+            ],
+            'positive infinity coordinate' => [
+                'input' => '(Infinity)',
+                'expectedStringRepresentation' => '(Infinity)',
+            ],
+            'negative infinity coordinate' => [
+                'input' => '(-Infinity)',
+                'expectedStringRepresentation' => '(-Infinity)',
+            ],
+            'lowercase non-finite spellings' => [
+                'input' => '(nan),(inf)',
+                'expectedStringRepresentation' => '(NaN),(Infinity)',
+            ],
+            'abbreviated negative infinity' => [
+                'input' => '(-inf)',
+                'expectedStringRepresentation' => '(-Infinity)',
+            ],
+            'explicitly signed infinity' => [
+                'input' => '(+Infinity)',
+                'expectedStringRepresentation' => '(Infinity)',
+            ],
+            'non-finite mixed with finite coordinates' => [
+                'input' => '(1, NaN),(3, Infinity)',
+                'expectedStringRepresentation' => '(1, NaN),(3, Infinity)',
+            ],
         ];
     }
 
@@ -138,6 +166,9 @@ final class CubeTest extends TestCase
             'very large coordinate' => [Cube::point(1.0E+300)],
             'very small coordinate' => [Cube::point(1.0E-10)],
             'high precision coordinate' => [Cube::point(0.12345678901234568, 1.0)],
+            // NaN is absent on purpose: it never equals itself, so it cannot be asserted by value equality.
+            // It is covered by does_not_collapse_a_box_of_equal_nan_corners() instead.
+            'infinite coordinates' => [new Cube([-\INF, 1.0], [\INF, 2.0])],
         ];
     }
 
@@ -162,8 +193,6 @@ final class CubeTest extends TestCase
             'non-numeric coordinate' => ['(a,b)'],
             'three corners' => ['(1,2),(3,4),(5,6)'],
             'not a cube' => ['not a cube'],
-            'NaN coordinate' => ['(NaN, 1)'],
-            'infinite coordinate' => ['(Infinity, 1)'],
             'wrong separator' => ['(1;2)'],
         ];
     }
@@ -184,24 +213,17 @@ final class CubeTest extends TestCase
         new Cube([1.0, 2.0], [3.0]);
     }
 
-    #[DataProvider('provideNonFiniteCoordinates')]
     #[Test]
-    public function throws_exception_for_non_finite_coordinates(float $coordinate): void
+    public function keeps_non_finite_coordinates_when_constructed_from_floats(): void
     {
-        $this->expectException(InvalidCubeException::class);
-
-        Cube::point($coordinate);
+        $this->assertSame('(NaN, Infinity, -Infinity)', (string) Cube::point(\NAN, \INF, -\INF));
     }
 
-    /**
-     * @return array<string, array{float}>
-     */
-    public static function provideNonFiniteCoordinates(): array
+    #[Test]
+    public function does_not_collapse_a_box_of_equal_nan_corners(): void
     {
-        return [
-            'NaN' => [NAN],
-            'positive infinity' => [INF],
-            'negative infinity' => [-INF],
-        ];
+        // NaN never equals itself, so PostgreSQL keeps this as a box while collapsing an infinite one to a point.
+        $this->assertSame('(NaN),(NaN)', (string) new Cube([\NAN], [\NAN]));
+        $this->assertSame('(Infinity)', (string) new Cube([\INF], [\INF]));
     }
 }

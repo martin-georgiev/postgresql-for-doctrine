@@ -126,7 +126,6 @@ final class CubeTest extends TestCase
             'empty parentheses' => ['()'],
             'invalid format' => ['not a cube'],
             'mismatched dimensions' => ['(1,2),(3)'],
-            'non-finite coordinate' => ['(NaN, 1)'],
             'integer input' => [123],
             'array input' => [[1, 2, 3]],
             'boolean input' => [false],

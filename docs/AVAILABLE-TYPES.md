@@ -292,7 +292,7 @@ A cube is a multidimensional value that is either a point — `(1, 2, 3)` — or
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube;
 
-$point = Cube::point(1.0, 2.0, 3.0);            // (1, 2, 3)
+$point = Cube::point(1.0, 2.0, 3.0);               // (1, 2, 3)
 $box = new Cube([1.0, 2.0, 3.0], [4.0, 5.0, 6.0]); // (1, 2, 3),(4, 5, 6)
 
 $box->getFirstCorner();  // [1.0, 2.0, 3.0]
@@ -300,7 +300,3 @@ $box->getSecondCorner(); // [4.0, 5.0, 6.0]
 $box->getDimensions();   // 3
 $point->isPoint();       // true
 ```
-
-PostgreSQL keeps the two corners in the order they were written, but renders a zero-volume box as a point. The value object normalizes the same way, so `new Cube([1.0, 2.0], [1.0, 2.0])` is a point and round-trips unchanged.
-
-PostgreSQL also accepts `NaN` and `Infinity` coordinates. Those are rejected by this library, because PHP cannot parse them back from the textual form PostgreSQL emits.

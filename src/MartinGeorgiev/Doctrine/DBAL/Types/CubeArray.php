@@ -13,11 +13,7 @@ use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
- * Implementation of PostgreSQL cube[] data type.
- *
- * Unlike the geometric array types this one cannot rely on every element being
- * quoted: PostgreSQL omits the quotes for one-dimensional cubes such as (1),
- * because they contain no comma. The general array parser is used instead.
+ * Implementation of PostgreSQL CUBE[] data type.
  *
  * @see https://www.postgresql.org/docs/18/cube.html
  * @since 4.8

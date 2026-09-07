@@ -12,10 +12,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube as CubeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeException;
 
 /**
- * Implementation of PostgreSQL cube extension type.
+ * Implementation of PostgreSQL CUBE data type.
  *
- * Multidimensional cube, either a point or a box spanned by two opposite
- * corners. Requires the cube extension.
+ * Multidimensional cube, either a point or a box spanned by two opposite corners.
  *
  * @see https://www.postgresql.org/docs/18/cube.html
  * @since 4.8
