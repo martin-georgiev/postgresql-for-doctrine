@@ -1,5 +1,5 @@
 ---
-description: "Code quality standards: avoid obvious comments, use strong assertions, never cast actual values in assertions"
+description: "Code quality standards: avoid obvious comments, anchor validation regexes with \\z, use strong assertions, never cast actual values in assertions"
 alwaysApply: true
 trigger: always_on
 applyTo: "**"
@@ -19,6 +19,19 @@ type: always_apply
 // ✓ Keep — explains non-obvious PostgreSQL behavior or architectural decision
 // PostgreSQL normalizes POINTZ → POINT Z on retrieval; normalize on write too
 ```
+
+## Validation Regexes: Anchor With `\z`, Not `$`
+**Required**: End validation patterns with `\z`. In PCRE, `$` also matches immediately before a trailing newline, so a `$`-anchored pattern accepts values PostgreSQL rejects.
+
+```php
+// ❌ Wrong — also matches "101\n", which PostgreSQL rejects for bit
+\preg_match('/^[01]+$/', $value)
+
+// ✓ Correct — matches only "101"
+\preg_match('/^[01]+\z/', $value)
+```
+
+**Exception**: leave `$` in place when PostgreSQL itself accepts the trailing whitespace for that type (e.g. `macaddr`, `numeric`, the geometric types) — narrowing there is a behaviour change with no benefit.
 
 ## Assertions: Exact Values, Not Substring Matches
 **Required**: Assert the precise expected value.
