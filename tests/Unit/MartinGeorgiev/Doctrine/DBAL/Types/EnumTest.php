@@ -254,6 +254,7 @@ final class EnumTest extends TestCase
             'hyphen' => ['test-color'],
             'whitespace' => ['test color'],
             'embedded quote' => ['test"color'],
+            'trailing newline' => ["test_color\n"],
         ];
     }
 }

@@ -91,7 +91,8 @@ abstract class Enum extends BaseType
 
         $quoted = [];
         foreach ($segments as $segment) {
-            if (\preg_match('/^[A-Za-z_][A-Za-z0-9_$]*$/', $segment) !== 1) {
+            // Anchored with \z rather than $, which would also match before a trailing newline.
+            if (\preg_match('/^[A-Za-z_][A-Za-z0-9_$]*\z/', $segment) !== 1) {
                 throw InvalidEnumDefinitionException::forInvalidTypeName($typeName);
             }
 
