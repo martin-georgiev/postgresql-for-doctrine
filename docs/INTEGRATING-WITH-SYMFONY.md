@@ -74,6 +74,10 @@ doctrine:
             polygon: MartinGeorgiev\Doctrine\DBAL\Types\Polygon
             'polygon[]': MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray
 
+            # Cube types
+            cube: MartinGeorgiev\Doctrine\DBAL\Types\Cube
+            'cube[]': MartinGeorgiev\Doctrine\DBAL\Types\CubeArray
+
             # PostGIS spatial types
             geometry: MartinGeorgiev\Doctrine\DBAL\Types\Geometry
             'geometry[]': MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray
@@ -263,6 +267,11 @@ doctrine:
                     polygon: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POLYGON
                     'polygon[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::POLYGON_ARRAY
                     _polygon: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POLYGON_ARRAY
+
+                    # Cube type mappings
+                    cube: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CUBE
+                    'cube[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::CUBE_ARRAY
+                    _cube: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CUBE_ARRAY
 
                     # PostGIS spatial type mappings
                     geometry: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY

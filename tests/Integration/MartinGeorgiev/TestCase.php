@@ -29,6 +29,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Circle;
 use MartinGeorgiev\Doctrine\DBAL\Types\CircleArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Citext;
 use MartinGeorgiev\Doctrine\DBAL\Types\CitextArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Cube;
+use MartinGeorgiev\Doctrine\DBAL\Types\CubeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray;
@@ -286,6 +288,8 @@ abstract class TestCase extends BaseTestCase
             'cidr[]' => CidrArray::class,
             'citext' => Citext::class,
             'citext[]' => CitextArray::class,
+            'cube' => Cube::class,
+            'cube[]' => CubeArray::class,
             'date[]' => DateArray::class,
             'daterange' => DateRange::class,
             'daterange[]' => DateRangeArray::class,

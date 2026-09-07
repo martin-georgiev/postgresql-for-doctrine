@@ -89,6 +89,16 @@ final class Type
     /**
      * @var string
      */
+    public const CUBE = 'cube';
+
+    /**
+     * @var string
+     */
+    public const CUBE_ARRAY = 'cube[]';
+
+    /**
+     * @var string
+     */
     public const DATE_ARRAY = 'date[]';
 
     /**

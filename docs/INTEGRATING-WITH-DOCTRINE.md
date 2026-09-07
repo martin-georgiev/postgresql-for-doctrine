@@ -82,6 +82,10 @@ Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
 Type::addType('polygon', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Polygon");
 Type::addType('polygon[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PolygonArray");
 
+// Cube types
+Type::addType('cube', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Cube");
+Type::addType('cube[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CubeArray");
+
 // PostGIS spatial types
 Type::addType('geometry', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geometry");
 Type::addType('geometry[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeometryArray");
@@ -570,6 +574,11 @@ $platform->registerDoctrineTypeMapping('_point', 'point[]');
 $platform->registerDoctrineTypeMapping('polygon', 'polygon');
 $platform->registerDoctrineTypeMapping('polygon[]', 'polygon[]');
 $platform->registerDoctrineTypeMapping('_polygon', 'polygon[]');
+
+// Cube type mappings
+$platform->registerDoctrineTypeMapping('cube', 'cube');
+$platform->registerDoctrineTypeMapping('cube[]', 'cube[]');
+$platform->registerDoctrineTypeMapping('_cube', 'cube[]');
 
 // PostGIS spatial type mappings
 $platform->registerDoctrineTypeMapping('geometry', 'geometry');
