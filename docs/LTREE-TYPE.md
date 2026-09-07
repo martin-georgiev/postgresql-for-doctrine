@@ -1,6 +1,6 @@
 # PostgreSQL ltree Types
 
-PostgreSQL's `ltree` extension stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST/GIN indexes.
+PostgreSQL's `ltree` extension stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST/GIN indexes. It also ships two companion query types — `lquery` for path patterns and `ltxtquery` for full-text style label queries.
 
 > 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) | [Ltree Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) | [Hierarchical Data with `ltree`](USE-CASES-AND-EXAMPLES.md#hierarchical-data-with-ltree)
 
@@ -22,11 +22,19 @@ $this->addSql('CREATE EXTENSION IF NOT EXISTS ltree');
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Lquery;
+use MartinGeorgiev\Doctrine\DBAL\Types\LqueryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Ltxtquery;
+use MartinGeorgiev\Doctrine\DBAL\Types\LtxtqueryArray;
 
+Type::addType(Type::LQUERY, Lquery::class);
+Type::addType(Type::LQUERY_ARRAY, LqueryArray::class);
 Type::addType(Type::LTREE, Ltree::class);
 Type::addType(Type::LTREE_ARRAY, LtreeArray::class);
+Type::addType(Type::LTXTQUERY, Ltxtquery::class);
+Type::addType(Type::LTXTQUERY_ARRAY, LtxtqueryArray::class);
 ```
 
 ## ltree
@@ -85,6 +93,77 @@ $article->tags = [
     Ltree::fromString('Top.Sports.Basketball'),
 ];
 ```
+
+## lquery
+
+Stores a path-matching pattern for `ltree` values. Maps to `string` in PHP.
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Type;
+
+#[ORM\Entity]
+class SavedFilter
+{
+    #[ORM\Column(type: Type::LQUERY)]
+    private string $pattern;
+}
+
+$filter->pattern = 'Top.*{1,2}.sport@*.!football|tennis';
+```
+
+Pattern syntax, as accepted by PostgreSQL:
+
+| Element | Meaning |
+|---------|---------|
+| `Top` | Matches the label `Top` exactly |
+| `*` | Matches any sequence of labels |
+| `*{1,2}` | Matches 1 to 2 labels; `*{2}`, `*{2,}` and `*{,2}` are also valid |
+| `a\|b` | Matches label `a` or label `b` |
+| `!a\|b` | Matches any label that is neither `a` nor `b` |
+| `a{1,2}` | Quantifiers also apply to non-star items |
+| `a@` | Case-insensitive match |
+| `a*` | Prefix match |
+| `a%` | Match against a `_`-separated word inside the label |
+
+🗃️ PostgreSQL normalises the modifier order on storage, so `sport*@` is read back as `sport@*`.
+
+## lquery[]
+
+Stores an array of `lquery` patterns. Maps to `array<string>` in PHP. Null elements are supported.
+The array form is what the `MATCHES_ANY_LQUERY` operator consumes.
+
+```php
+$filter->patterns = ['Top.*', '!football|tennis'];
+```
+
+## ltxtquery
+
+Stores a full-text style query over the labels of an `ltree` value. Maps to `string` in PHP.
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Type;
+
+#[ORM\Entity]
+class SavedFilter
+{
+    #[ORM\Column(type: Type::LTXTQUERY)]
+    private string $query;
+}
+
+$filter->query = 'Earth & Moon@* & !Transportation';
+```
+
+Words are combined with `&` (and), `|` (or) and `!` (not), and may be grouped with parentheses.
+Each word accepts the same `@`, `*` and `%` modifiers as `lquery` labels.
+
+🗃️ PostgreSQL normalizes operator spacing on storage, so `Earth&Moon` is read back as `Earth & Moon`.
+
+## ltxtquery[]
+
+Stores an array of `ltxtquery` queries. Maps to `array<string>` in PHP. Null elements are supported.
+No PostgreSQL operator consumes this type — it is provided so that collections of saved queries can be persisted in a single column.
 
 ## Label-tree Functions
 
@@ -170,6 +249,40 @@ Casts ltree to text.
 $dql = "SELECT LTREE2TEXT(e.path) FROM Entity e";
 ```
 
+### Match Operators
+
+| PostgreSQL operator | DQL function | Implementation |
+|---------------------|--------------|----------------|
+| `ltree ~ lquery` | `MATCHES_LQUERY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery` |
+| `ltree ? lquery[]` | `MATCHES_ANY_LQUERY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesAnyLquery` |
+| `ltree @ ltxtquery` | `MATCHES_LTXTQUERY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery` |
+
+All three return a boolean and must be compared with `= TRUE` or `= FALSE` when used in a DQL `WHERE` clause.
+The pattern argument is cast to `lquery` / `ltxtquery` in the generated SQL, so plain DQL string literals and bound parameters work without any further ceremony.
+
+#### `MATCHES_LQUERY(ltree, lquery)`
+Checks whether the path matches a single `lquery` pattern.
+
+```php
+$dql = "SELECT e FROM Entity e WHERE MATCHES_LQUERY(e.path, 'Top.*{1,2}.Football') = TRUE";
+// 'Top.Sports.Football' ~ 'Top.*{1,2}.Football' → true
+```
+
+#### `MATCHES_ANY_LQUERY(ltree, lquery[])`
+Checks whether the path matches any pattern in an array of `lquery` patterns.
+
+```php
+$dql = "SELECT e FROM Entity e WHERE MATCHES_ANY_LQUERY(e.path, ARRAY('Top.Sports.*', 'Top.Culture.*')) = TRUE";
+```
+
+#### `MATCHES_LTXTQUERY(ltree, ltxtquery)`
+Checks whether the labels of the path satisfy an `ltxtquery`.
+
+```php
+$dql = "SELECT e FROM Entity e WHERE MATCHES_LTXTQUERY(e.path, 'Sports & !Football') = TRUE";
+// 'Top.Sports.Basketball' @ 'Sports & !Football' → true
+```
+
 ### DQL Examples
 
 ```php
@@ -187,11 +300,20 @@ $dql = "SELECT SUBPATH(e.path, 0, NLEVEL(e.path) - 1) FROM Entity e";
 
 // Longest common ancestor of two entities
 $dql = "SELECT LCA(e1.path, e2.path) FROM Entity e1, Entity e2 WHERE e1.id = 1 AND e2.id = 2";
+
+// Everything under Top.Sports, at most two levels deep
+$dql = "SELECT e FROM Entity e WHERE MATCHES_LQUERY(e.path, 'Top.Sports.*{1,2}') = TRUE";
+
+// Paths mentioning Sports but not Football
+$dql = "SELECT e FROM Entity e WHERE MATCHES_LTXTQUERY(e.path, 'Sports & !Football') = TRUE";
+
+// Pattern supplied as a bound parameter
+$dql = "SELECT e FROM Entity e WHERE MATCHES_LQUERY(e.path, :pattern) = TRUE";
 ```
 
 ### Performance
 
 - Use GiST or GIN indexes on `ltree` columns
-- `<@` and `@>` operators use those indexes automatically
+- `<@` and `@>` operators use those indexes automatically, as do the `~`, `?` and `@` match operators
 - `SUBPATH` with negative offsets is efficient for parent extraction
 - `LCA` is well-suited for finding shared ancestors in hierarchical queries

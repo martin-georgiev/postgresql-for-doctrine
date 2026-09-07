@@ -135,8 +135,12 @@ doctrine:
             'hstore[]': MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray
 
             # Hierarchical types
+            lquery: MartinGeorgiev\Doctrine\DBAL\Types\Lquery
+            'lquery[]': MartinGeorgiev\Doctrine\DBAL\Types\LqueryArray
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
             'ltree[]': MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray
+            ltxtquery: MartinGeorgiev\Doctrine\DBAL\Types\Ltxtquery
+            'ltxtquery[]': MartinGeorgiev\Doctrine\DBAL\Types\LtxtqueryArray
 
             # XML types
             xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
@@ -340,9 +344,15 @@ doctrine:
                     _hstore: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HSTORE_ARRAY
 
                     # Hierarchical type mappings
+                    lquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LQUERY
+                    'lquery[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LQUERY_ARRAY
+                    _lquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LQUERY_ARRAY
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
                     'ltree[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
                     _ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
+                    ltxtquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTXTQUERY
+                    'ltxtquery[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTXTQUERY_ARRAY
+                    _ltxtquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTXTQUERY_ARRAY
 
                     # XML type mappings
                     xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
@@ -592,6 +602,11 @@ doctrine:
                         COSINE_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\CosineDistance
                         INNER_PRODUCT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct
                         L2_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance
+
+                        # ltree match operators
+                        MATCHES_LQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery # ~
+                        MATCHES_LTXTQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery # @
+                        MATCHES_ANY_LQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesAnyLquery # ?
 
                         # hstore functions
                         HSTORE_AKEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys

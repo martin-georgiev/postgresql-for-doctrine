@@ -165,6 +165,9 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `NLEVEL` - Get number of labels in path
 - `INDEX` - Find position of ltree in another ltree
 - `LCA` - Find longest common ancestor
+- `MATCHES_LQUERY` - Check whether a path matches an `lquery` pattern (`~`)
+- `MATCHES_ANY_LQUERY` - Check whether a path matches any `lquery` pattern in an array (`?`)
+- `MATCHES_LTXTQUERY` - Check whether a path matches an `ltxtquery` label query (`@`)
 
 **Vector Distance Operations:**
 - `L2_DISTANCE` - Euclidean distance between vectors
