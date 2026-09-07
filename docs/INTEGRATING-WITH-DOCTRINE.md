@@ -135,8 +135,12 @@ Type::addType('hstore', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Hstore");
 Type::addType('hstore[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\HstoreArray");
 
 // Hierarchical types
+Type::addType('lquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Lquery");
+Type::addType('lquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LqueryArray");
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 Type::addType('ltree[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtreeArray");
+Type::addType('ltxtquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltxtquery");
+Type::addType('ltxtquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtxtqueryArray");
 
 // XML types
 Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
@@ -389,6 +393,11 @@ $configuration->addCustomStringFunction('DISTANCE', MartinGeorgiev\Doctrine\ORM\
 $configuration->addCustomStringFunction('COSINE_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\CosineDistance::class);
 $configuration->addCustomStringFunction('INNER_PRODUCT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class);
 $configuration->addCustomStringFunction('L2_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class);
+
+# ltree match operators
+$configuration->addCustomStringFunction('MATCHES_LQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery::class); # ~
+$configuration->addCustomStringFunction('MATCHES_LTXTQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery::class); # @
+$configuration->addCustomStringFunction('MATCHES_ANY_LQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesAnyLquery::class); # ?
 
 # hstore functions
 $configuration->addCustomStringFunction('HSTORE_AKEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys::class);
@@ -648,9 +657,15 @@ $platform->registerDoctrineTypeMapping('hstore[]', 'hstore[]');
 $platform->registerDoctrineTypeMapping('_hstore', 'hstore[]');
 
 // Hierarchical mappings
+$platform->registerDoctrineTypeMapping('lquery', 'lquery');
+$platform->registerDoctrineTypeMapping('lquery[]', 'lquery[]');
+$platform->registerDoctrineTypeMapping('_lquery', 'lquery[]');
 $platform->registerDoctrineTypeMapping('ltree','ltree');
 $platform->registerDoctrineTypeMapping('ltree[]', 'ltree[]');
 $platform->registerDoctrineTypeMapping('_ltree', 'ltree[]');
+$platform->registerDoctrineTypeMapping('ltxtquery', 'ltxtquery');
+$platform->registerDoctrineTypeMapping('ltxtquery[]', 'ltxtquery[]');
+$platform->registerDoctrineTypeMapping('_ltxtquery', 'ltxtquery[]');
 
 // XML mappings
 $platform->registerDoctrineTypeMapping('xml', 'xml');

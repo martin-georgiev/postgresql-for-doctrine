@@ -104,8 +104,12 @@
 | hstore | hstore | `MartinGeorgiev\Doctrine\DBAL\Types\Hstore` (see [note](#hstore-type)) |
 | hstore[] | _hstore | `MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray` |
 |---|---|---|
+| lquery | lquery | `MartinGeorgiev\Doctrine\DBAL\Types\Lquery` |
+| lquery[] | _lquery | `MartinGeorgiev\Doctrine\DBAL\Types\LqueryArray` |
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 | ltree[] | _ltree | `MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray` |
+| ltxtquery | ltxtquery | `MartinGeorgiev\Doctrine\DBAL\Types\Ltxtquery` |
+| ltxtquery[] | _ltxtquery | `MartinGeorgiev\Doctrine\DBAL\Types\LtxtqueryArray` |
 |---|---|---|
 | money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
 | money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |

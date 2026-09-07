@@ -210,9 +210,15 @@ return [
                 '_hstore' => 'hstore[]',
 
                 // Hierarchical type mappings
+                'lquery' => 'lquery',
+                'lquery[]' => 'lquery[]',
+                '_lquery' => 'lquery[]',
                 'ltree' => 'ltree',
                 'ltree[]' => 'ltree[]',
                 '_ltree' => 'ltree[]',
+                'ltxtquery' => 'ltxtquery',
+                'ltxtquery[]' => 'ltxtquery[]',
+                '_ltxtquery' => 'ltxtquery[]',
 
                 // XML type mappings
                 'xml' => 'xml',
@@ -354,8 +360,12 @@ return [
         'hstore[]' => MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray::class,
 
         // Hierarchical types
+        'lquery' => MartinGeorgiev\Doctrine\DBAL\Types\Lquery::class,
+        'lquery[]' => MartinGeorgiev\Doctrine\DBAL\Types\LqueryArray::class,
         'ltree' => MartinGeorgiev\Doctrine\DBAL\Types\Ltree::class,
         'ltree[]' => MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray::class,
+        'ltxtquery' => MartinGeorgiev\Doctrine\DBAL\Types\Ltxtquery::class,
+        'ltxtquery[]' => MartinGeorgiev\Doctrine\DBAL\Types\LtxtqueryArray::class,
 
         // XML types
         'xml' => MartinGeorgiev\Doctrine\DBAL\Types\Xml::class,
@@ -611,6 +621,11 @@ return [
         'COSINE_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\CosineDistance::class,
         'INNER_PRODUCT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class,
         'L2_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class,
+
+        # ltree match operators
+        'MATCHES_LQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery::class, # ~
+        'MATCHES_LTXTQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery::class, # @
+        'MATCHES_ANY_LQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesAnyLquery::class, # ?
 
         # hstore functions
         'HSTORE_AKEYS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys::class,
