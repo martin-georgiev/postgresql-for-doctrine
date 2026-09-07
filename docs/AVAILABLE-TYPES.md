@@ -16,18 +16,22 @@
 | bigint[] | _int8 | `MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray` |
 | real[] | _float4 | `MartinGeorgiev\Doctrine\DBAL\Types\RealArray` |
 | double precision[] | _float8 | `MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray` |
+| numeric[] | _numeric | `MartinGeorgiev\Doctrine\DBAL\Types\NumericArray` (see [note](#numeric-array-type)) |
 |---|---|---|
 | date[] | _date | `MartinGeorgiev\Doctrine\DBAL\Types\DateArray` |
 | interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
 | interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
+| time[] | _time | `MartinGeorgiev\Doctrine\DBAL\Types\TimeArray` |
 | timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` |
 | timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` |
 | timetz | timetz | `MartinGeorgiev\Doctrine\DBAL\Types\Timetz` |
 | timetz[] | _timetz | `MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray` |
 |---|---|---|
+| json[] | _json | `MartinGeorgiev\Doctrine\DBAL\Types\JsonArray` |
 | jsonb | jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\Jsonb` |
 | jsonb[] | _jsonb | `MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray` |
 | text[] | _text | `MartinGeorgiev\Doctrine\DBAL\Types\TextArray` |
+| varchar[] | _varchar | `MartinGeorgiev\Doctrine\DBAL\Types\VarcharArray` |
 | uuid[] | _uuid | `MartinGeorgiev\Doctrine\DBAL\Types\UuidArray` (see [note](#uuid-array-type)) |
 | citext | citext | `MartinGeorgiev\Doctrine\DBAL\Types\Citext` (see [note](#citext-type)) |
 | citext[] | _citext | `MartinGeorgiev\Doctrine\DBAL\Types\CitextArray` |
@@ -170,6 +174,15 @@ class Permissions
 ```
 
 **Important:** `BIT` without a length defaults to `BIT(1)` in PostgreSQL, which stores exactly one bit. Use `BIT VARYING` for variable-length bit strings, or specify an explicit length with `BIT(n)`.
+
+---
+
+## Numeric Array Type
+
+The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather than floats. PostgreSQL's [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) is an arbitrary-precision type, and converting its values to PHP floats would silently lose precision and trailing zeros — the same reason Doctrine's own `decimal` type uses strings.
+
+- Array items written to the database must be numeric strings (or `null`); PHP integers and floats are rejected
+- `decimal[]` is a PostgreSQL alias of `numeric[]` — columns declared as `DECIMAL[]` are reported by PostgreSQL as `numeric[]`, so this type covers both
 
 ---
 
