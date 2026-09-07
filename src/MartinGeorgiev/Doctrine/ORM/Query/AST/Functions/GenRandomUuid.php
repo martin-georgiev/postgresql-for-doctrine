@@ -7,8 +7,6 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL GEN_RANDOM_UUID().
  *
- * Generates a random UUID v4.
- *
  * @see https://www.postgresql.org/docs/18/functions-uuid.html
  * @since 4.8
  *
