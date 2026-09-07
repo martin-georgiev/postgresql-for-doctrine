@@ -93,14 +93,54 @@ Type::addType('order_status', OrderStatusType::class);
 Type::addType('payment_method', PaymentMethodType::class);
 ```
 
+## Generating the DDL from the PHP enum
+
+`getCreateTypeSQL()` and `getDropTypeSQL()` build the statements from the PHP enum's cases, so the PostgreSQL type and the PHP enum cannot drift apart at creation time:
+
+```php
+$type = new OrderStatusType();
+
+$type->getCreateTypeSQL();
+// CREATE TYPE "order_status" AS ENUM ('pending', 'processing', 'shipped', 'cancelled')
+
+$type->getDropTypeSQL();
+// DROP TYPE "order_status"
+```
+
+`TYPE_NAME` may be schema-qualified (`inventory.order_status` produces `"inventory"."order_status"`). Labels containing single quotes are escaped. A `TYPE_NAME` that is not a valid identifier, or a PHP enum that is not string-backed, throws `InvalidEnumDefinitionException`.
+
+These are helpers for your migrations, not schema-tool integration - see [Migrations](#migrations) below for why.
+
 ## Migrations
 
 ### Adding a new enum type
+
+Either write the statement by hand:
 
 ```sql
 CREATE TYPE order_status AS ENUM ('pending', 'processing', 'shipped', 'cancelled');
 ALTER TABLE orders ADD COLUMN status order_status NOT NULL DEFAULT 'pending';
 ```
+
+or generate it from the PHP enum so the two stay in sync:
+
+```php
+public function up(Schema $schema): void
+{
+    $this->addSql((new OrderStatusType())->getCreateTypeSQL());
+    $this->addSql("ALTER TABLE orders ADD COLUMN status order_status NOT NULL DEFAULT 'pending'");
+}
+
+public function down(Schema $schema): void
+{
+    $this->addSql('ALTER TABLE orders DROP COLUMN status');
+    $this->addSql((new OrderStatusType())->getDropTypeSQL());
+}
+```
+
+### Why the library does not create the type for you
+
+Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: `ALTER TYPE ... ADD VALUE` cannot run inside a transaction, and labels can be neither renamed nor removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. The library generates the statements and leaves the sequencing to your migration tool, where it belongs.
 
 ### Adding a new case
 

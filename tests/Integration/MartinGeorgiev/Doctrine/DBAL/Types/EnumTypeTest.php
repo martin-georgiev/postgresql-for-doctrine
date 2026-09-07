@@ -7,6 +7,8 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Types\Type;
 use Fixtures\MartinGeorgiev\Doctrine\Colors;
 use Fixtures\MartinGeorgiev\Doctrine\ConcreteColorType;
+use Fixtures\MartinGeorgiev\Doctrine\ConcreteShadeType;
+use Fixtures\MartinGeorgiev\Doctrine\Shades;
 use Fixtures\MartinGeorgiev\Doctrine\Sizes;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForPHPException;
@@ -16,6 +18,8 @@ use PHPUnit\Framework\Attributes\Test;
 final class EnumTypeTest extends TestCase
 {
     private const DBAL_TYPE_NAME = 'test_color';
+
+    private const SHADE_TYPE_NAME = 'test_shade';
 
     protected function setUp(): void
     {
@@ -111,6 +115,83 @@ final class EnumTypeTest extends TestCase
         $this->expectException(InvalidEnumForDatabaseException::class);
 
         $this->runDbalBindingRoundTrip(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME, Sizes::SMALL);
+    }
+
+    #[Test]
+    public function creates_and_drops_enum_type_from_generated_ddl(): void
+    {
+        $concreteShadeType = new ConcreteShadeType();
+
+        $this->connection->executeStatement($concreteShadeType->getCreateTypeSQL());
+
+        try {
+            $this->assertSame(['pale', "robin's egg"], $this->fetchEnumLabels(self::SHADE_TYPE_NAME));
+        } finally {
+            $this->connection->executeStatement($concreteShadeType->getDropTypeSQL());
+        }
+
+        $this->assertSame([], $this->fetchEnumLabels(self::SHADE_TYPE_NAME));
+    }
+
+    #[Test]
+    public function roundtrips_value_through_enum_type_created_from_generated_ddl(): void
+    {
+        $concreteShadeType = new ConcreteShadeType();
+        $dbalTypeName = $concreteShadeType->getName();
+
+        if (Type::hasType($dbalTypeName)) {
+            Type::overrideType($dbalTypeName, ConcreteShadeType::class);
+        } else {
+            Type::addType($dbalTypeName, ConcreteShadeType::class);
+        }
+
+        $this->connection->executeStatement($concreteShadeType->getCreateTypeSQL());
+
+        $tableName = 'test_generated_enum_type';
+
+        try {
+            $this->connection->executeStatement(\sprintf(
+                'CREATE TABLE %s.%s (id SERIAL PRIMARY KEY, "shade" %s)',
+                self::DATABASE_SCHEMA,
+                $tableName,
+                $dbalTypeName
+            ));
+
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values(['shade' => ':value'])
+                ->setParameter('value', Shades::ROBINS_EGG, $dbalTypeName)
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($dbalTypeName, $tableName, 'shade');
+
+            $this->assertSame(Shades::ROBINS_EGG, $retrieved);
+        } finally {
+            // Raw SQL, because Doctrine's schema manager cannot introspect a column whose type is a user-defined enum
+            $this->connection->executeStatement(\sprintf('DROP TABLE IF EXISTS %s.%s', self::DATABASE_SCHEMA, $tableName));
+            $this->connection->executeStatement($concreteShadeType->getDropTypeSQL());
+        }
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function fetchEnumLabels(string $typeName): array
+    {
+        $sql = 'SELECT e.enumlabel
+                FROM pg_enum e
+                JOIN pg_type t ON t.oid = e.enumtypid
+                JOIN pg_namespace n ON n.oid = t.typnamespace
+                WHERE n.nspname = ? AND t.typname = ?
+                ORDER BY e.enumsortorder';
+
+        $labels = [];
+        foreach ($this->connection->fetchFirstColumn($sql, [self::DATABASE_SCHEMA, $typeName]) as $label) {
+            $this->assertIsString($label);
+            $labels[] = $label;
+        }
+
+        return $labels;
     }
 
     #[Test]

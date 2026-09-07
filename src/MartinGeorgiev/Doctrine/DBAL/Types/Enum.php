@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumDefinitionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForPHPException;
 
@@ -39,6 +40,65 @@ abstract class Enum extends BaseType
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $this->getName();
+    }
+
+    /**
+     * Builds the `CREATE TYPE ... AS ENUM (...)` statement for the mapped PHP enum.
+     *
+     * PostgreSQL cannot add, rename or remove enum labels inside a transaction, so this
+     * library does not hook the statement into Doctrine's schema tool. Run it from a
+     * migration instead, where the transactional boundaries are yours to control.
+     *
+     * @throws InvalidEnumDefinitionException
+     *
+     * @since 4.8
+     */
+    public function getCreateTypeSQL(): string
+    {
+        $labels = [];
+        foreach ($this->getEnumClass()::cases() as $backedEnum) {
+            if (!\is_string($backedEnum->value)) {
+                throw InvalidEnumDefinitionException::forNonStringCaseValue($backedEnum->value);
+            }
+
+            $labels[] = \sprintf("'%s'", \str_replace("'", "''", $backedEnum->value));
+        }
+
+        return \sprintf('CREATE TYPE %s AS ENUM (%s)', $this->quoteTypeName(), \implode(', ', $labels));
+    }
+
+    /**
+     * @throws InvalidEnumDefinitionException
+     *
+     * @since 4.8
+     */
+    public function getDropTypeSQL(): string
+    {
+        return \sprintf('DROP TYPE %s', $this->quoteTypeName());
+    }
+
+    /**
+     * @throws InvalidEnumDefinitionException
+     */
+    private function quoteTypeName(): string
+    {
+        $typeName = $this->getName();
+
+        $segments = \explode('.', $typeName);
+        if (\count($segments) > 2) {
+            throw InvalidEnumDefinitionException::forInvalidTypeName($typeName);
+        }
+
+        $quoted = [];
+        foreach ($segments as $segment) {
+            if (\preg_match('/^[A-Za-z_][A-Za-z0-9_$]*$/', $segment) !== 1) {
+                throw InvalidEnumDefinitionException::forInvalidTypeName($typeName);
+            }
+
+            $quoted[] = \sprintf('"%s"', $segment);
+        }
+
+        return \implode('.', $quoted);
     }
 
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
