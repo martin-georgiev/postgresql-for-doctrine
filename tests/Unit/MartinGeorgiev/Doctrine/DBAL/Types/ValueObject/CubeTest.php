@@ -214,6 +214,31 @@ final class CubeTest extends TestCase
     }
 
     #[Test]
+    public function accepts_the_maximum_number_of_dimensions(): void
+    {
+        $coordinates = \array_fill(0, 100, 1.0);
+
+        $this->assertSame(100, (new Cube($coordinates))->getDimensions());
+        $this->assertSame(100, Cube::fromString('('.\implode(',', $coordinates).')')->getDimensions());
+    }
+
+    #[Test]
+    public function throws_exception_for_too_many_dimensions(): void
+    {
+        $this->expectException(InvalidCubeException::class);
+
+        new Cube(\array_fill(0, 101, 1.0));
+    }
+
+    #[Test]
+    public function throws_exception_for_too_many_dimensions_when_parsed_from_string(): void
+    {
+        $this->expectException(InvalidCubeException::class);
+
+        Cube::fromString('('.\implode(',', \array_fill(0, 101, 1.0)).')');
+    }
+
+    #[Test]
     public function keeps_non_finite_coordinates_when_constructed_from_floats(): void
     {
         $this->assertSame('(NaN, Infinity, -Infinity)', (string) Cube::point(\NAN, \INF, -\INF));

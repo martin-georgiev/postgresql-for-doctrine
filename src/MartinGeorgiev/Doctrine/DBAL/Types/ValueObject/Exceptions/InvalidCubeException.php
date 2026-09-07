@@ -18,18 +18,27 @@ final class InvalidCubeException extends ConversionException
         return new self(\sprintf($message, \var_export($value, true)));
     }
 
-    public static function forInvalidFormat(mixed $value): self
+    public static function forInvalidFormat(string $value): self
     {
         return self::create('Invalid cube format: %s', $value);
     }
 
-    public static function forEmptyCoordinates(mixed $value): self
+    public static function forEmptyCoordinates(): self
     {
-        return self::create('A cube must have at least one dimension, %s given', $value);
+        return new self('A cube must have at least one dimension, none given');
     }
 
-    public static function forMismatchedDimensions(mixed $value): self
+    public static function forTooManyDimensions(int $dimensions): self
     {
-        return self::create('Both cube corners must have the same number of dimensions, %s given', $value);
+        return new self(\sprintf('A cube cannot have more than 100 dimensions, %d given', $dimensions));
+    }
+
+    public static function forMismatchedDimensions(int $firstCornerDimensions, int $secondCornerDimensions): self
+    {
+        return new self(\sprintf(
+            'Both cube corners must have the same number of dimensions, %d and %d given',
+            $firstCornerDimensions,
+            $secondCornerDimensions
+        ));
     }
 }

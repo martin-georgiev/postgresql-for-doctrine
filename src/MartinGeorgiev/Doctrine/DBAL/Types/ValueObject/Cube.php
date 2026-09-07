@@ -24,6 +24,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeExcepti
 final readonly class Cube implements \Stringable
 {
     /**
+     * PostgreSQL rejects anything above this with "A cube cannot have more than 100 dimensions".
+     */
+    private const MAX_DIMENSIONS = 100;
+
+    /**
      * PostgreSQL accepts non-finite coordinates in several spellings (nan, inf, -inf, infinity).
      * PostgreSQL always emits these as NaN, Infinity or -Infinity.
      *
@@ -75,13 +80,15 @@ final readonly class Cube implements \Stringable
     public function __construct(array $firstCorner, ?array $secondCorner = null)
     {
         if ($firstCorner === []) {
-            throw InvalidCubeException::forEmptyCoordinates(\count($firstCorner));
+            throw InvalidCubeException::forEmptyCoordinates();
+        }
+
+        if (\count($firstCorner) > self::MAX_DIMENSIONS) {
+            throw InvalidCubeException::forTooManyDimensions(\count($firstCorner));
         }
 
         if ($secondCorner !== null && \count($secondCorner) !== \count($firstCorner)) {
-            throw InvalidCubeException::forMismatchedDimensions(
-                \sprintf('%d and %d', \count($firstCorner), \count($secondCorner))
-            );
+            throw InvalidCubeException::forMismatchedDimensions(\count($firstCorner), \count($secondCorner));
         }
 
         $this->firstCorner = $firstCorner;
