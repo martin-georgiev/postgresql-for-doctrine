@@ -639,6 +639,7 @@ doctrine:
                         SHA512: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512
 
                         # uuid functions
+                        GEN_RANDOM_UUID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenRandomUuid
                         UUID_EXTRACT_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp
                         UUID_EXTRACT_VERSION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion
                         UUIDV4: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4
