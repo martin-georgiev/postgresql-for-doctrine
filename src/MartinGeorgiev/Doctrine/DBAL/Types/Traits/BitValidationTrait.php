@@ -13,6 +13,7 @@ trait BitValidationTrait
 {
     protected function isValidBitString(string $value): bool
     {
-        return \preg_match('/^[01]+$/', $value) === 1;
+        // Anchored with \z rather than $, which would also match before a trailing newline.
+        return \preg_match('/^[01]+\z/', $value) === 1;
     }
 }

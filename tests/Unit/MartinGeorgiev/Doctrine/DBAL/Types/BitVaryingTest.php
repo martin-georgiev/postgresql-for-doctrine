@@ -119,6 +119,7 @@ final class BitVaryingTest extends TestCase
             'digit two' => ['2'],
             'alphabetic' => ['abc'],
             'with space' => ['1 0'],
+            'trailing newline' => ["101\n"],
         ];
     }
 

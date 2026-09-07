@@ -206,6 +206,7 @@ final class UlidArrayTest extends TestCase
             'boolean' => [true],
             'too short' => ['01ARZ3NDEKTSV4RRFFQ69G5FA'],
             'first character above 7' => ['81ARZ3NDEKTSV4RRFFQ69G5FAV'],
+            'trailing newline' => ["01ARZ3NDEKTSV4RRFFQ69G5FAV\n"],
         ];
     }
 

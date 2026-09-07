@@ -19,10 +19,11 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 class UuidArray extends BaseArray
 {
+    // Anchored with \z rather than $, which would also match before a trailing newline.
     /**
      * @var string
      */
-    private const UUID_REGEX = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i';
+    private const UUID_REGEX = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i';
 
     /**
      * @var string

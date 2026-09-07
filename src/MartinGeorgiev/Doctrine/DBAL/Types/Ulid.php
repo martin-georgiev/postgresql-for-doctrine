@@ -23,10 +23,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidForPHPException;
  */
 final class Ulid extends BaseType
 {
+    // Anchored with \z rather than $, which would also match before a trailing newline.
     /**
      * @var string
      */
-    private const ULID_REGEX = '/^[0-7][0-9A-HJKMNP-TV-Z]{25}$/i';
+    private const ULID_REGEX = '/^[0-7][0-9A-HJKMNP-TV-Z]{25}\z/i';
 
     /**
      * @var string

@@ -168,6 +168,7 @@ final class UlidTest extends TestCase
             'contains excluded letter U' => ['01ARZ3NDEKTSV4RRFFQ69G5FAU'],
             'UUID instead of ULID' => ['550e8400-e29b-41d4-a716-446655440000'],
             'whitespace only' => ['                          '],
+            'trailing newline' => ["01ARZ3NDEKTSV4RRFFQ69G5FAV\n"],
         ];
     }
 }

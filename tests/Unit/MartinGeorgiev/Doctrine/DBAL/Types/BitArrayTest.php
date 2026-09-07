@@ -202,6 +202,7 @@ final class BitArrayTest extends TestCase
             'with space' => ['1 0'],
             'integer' => [123],
             'empty string' => [''],
+            'trailing newline' => ["101\n"],
         ];
     }
 
