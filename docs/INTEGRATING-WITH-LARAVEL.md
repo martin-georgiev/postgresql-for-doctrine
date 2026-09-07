@@ -138,6 +138,11 @@ return [
                 'polygon[]' => 'polygon[]',
                 '_polygon' => 'polygon[]',
 
+                // Cube type mappings
+                'cube' => 'cube',
+                'cube[]' => 'cube[]',
+                '_cube' => 'cube[]',
+
                 // PostGIS spatial type mappings
                 'geometry' => 'geometry',
                 'geometry[]' => 'geometry[]',
@@ -293,6 +298,10 @@ return [
         'point[]' => MartinGeorgiev\Doctrine\DBAL\Types\PointArray::class,
         'polygon' => MartinGeorgiev\Doctrine\DBAL\Types\Polygon::class,
         'polygon[]' => MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray::class,
+
+        // Cube types
+        'cube' => MartinGeorgiev\Doctrine\DBAL\Types\Cube::class,
+        'cube[]' => MartinGeorgiev\Doctrine\DBAL\Types\CubeArray::class,
 
         // PostGIS spatial types
         'geometry' => MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class,
