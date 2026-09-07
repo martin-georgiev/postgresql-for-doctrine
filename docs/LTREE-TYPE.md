@@ -1,6 +1,6 @@
 # PostgreSQL ltree Types
 
-PostgreSQL's `ltree` extension stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST/GIN indexes. It also ships two companion query types — `lquery` for path patterns and `ltxtquery` for full-text style label queries.
+PostgreSQL's `ltree` extension stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST indexes. It also ships two companion query types — `lquery` for path patterns and `ltxtquery` for full-text style label queries.
 
 > 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) | [Ltree Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) | [Hierarchical Data with `ltree`](USE-CASES-AND-EXAMPLES.md#hierarchical-data-with-ltree)
 
@@ -63,12 +63,10 @@ $path->getParent();                                     // Top.Sports
 $path->withLeaf('UEFA');                                // Top.Sports.Football.UEFA
 ```
 
-🗃️ Doctrine can't define GiST or GIN indexes with the required ltree operator classes. Create the index manually in a migration:
+🗃️ Doctrine can't define GiST indexes with the required ltree operator classes. Create the index manually in a migration:
 
 ```sql
 CREATE INDEX category_path_gist_idx ON category USING GIST (path gist_ltree_ops(siglen=100));
--- or
-CREATE INDEX category_path_gin_idx ON category USING GIN (path gin_ltree_ops);
 ```
 
 ## ltree[]
@@ -313,7 +311,7 @@ $dql = "SELECT e FROM Entity e WHERE MATCHES_LQUERY(e.path, :pattern) = TRUE";
 
 ### Performance
 
-- Use GiST or GIN indexes on `ltree` columns
+- Use GiST indexes on `ltree` columns
 - `<@` and `@>` operators use those indexes automatically, as do the `~`, `?` and `@` match operators
 - `SUBPATH` with negative offsets is efficient for parent extraction
 - `LCA` is well-suited for finding shared ancestors in hierarchical queries

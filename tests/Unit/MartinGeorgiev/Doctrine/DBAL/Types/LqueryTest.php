@@ -140,6 +140,7 @@ final class LqueryTest extends TestCase
             'negation inside alternatives' => ['a|!b'],
             'unsupported character' => ['a$b'],
             'quoted label' => ['"a b"'],
+            'trailing newline' => ["Top.Sports\n"],
         ];
     }
 

@@ -138,6 +138,8 @@ final class LtxtqueryTest extends TestCase
             'unbalanced closing parenthesis' => ['a)'],
             'empty parentheses' => ['()'],
             'repeated operator' => ['a & & b'],
+            'trailing newline' => ["Earth & Moon\n"],
+            'tab separator' => ["Earth\t& Moon"],
             'star without a word' => ['*'],
             'negation without a word' => ['!'],
             'detached modifier' => ['a @'],

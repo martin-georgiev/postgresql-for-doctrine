@@ -22,7 +22,7 @@ trait LtxtqueryValidationTrait
         .'(?<word>[\p{L}\p{N}_-]+[@*%]*)'
         .'(?<term>(?:! *)*(?:(?&word)|\( *(?&expr) *\)))'
         .'(?<expr>(?&term)(?: *[&|] *(?&term))*)'
-        .') *(?&expr) *$/u';
+        .') *(?&expr) *\z/u';
 
     protected function isValidLtxtquery(string $value): bool
     {
