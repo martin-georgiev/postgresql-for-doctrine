@@ -181,6 +181,7 @@ final class NumericArrayTest extends TestCase
             'trailing dot' => ['5.'],
             'NaN' => ['NaN'],
             'comma as decimal separator' => ['1,5'],
+            'trailing newline' => ["1.50\n"],
             'integer' => [123],
             'float' => [3.14],
             'boolean' => [true],

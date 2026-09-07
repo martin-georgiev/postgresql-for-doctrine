@@ -31,7 +31,7 @@ type: always_apply
 \preg_match('/^[01]+\z/', $value)
 ```
 
-**Exception**: leave `$` in place when PostgreSQL itself accepts the trailing whitespace for that type (e.g. `macaddr`, `numeric`, the geometric types) — narrowing there is a behaviour change with no benefit.
+**Exception**: `$` is harmless only when the value is parsed into a typed or canonical form before it reaches the database, so the trailing newline is discarded on the way (the geometric value objects re-emit `(1,2)`; the integer and float array types cast). Anchor with `\z` everywhere else — including when PostgreSQL *accepts* the trailing whitespace, because a type that writes the item verbatim (`numeric[]`) then reads back a trimmed value, and a type that reformats it (`macaddr`) can build a malformed one.
 
 ## Assertions: Exact Values, Not Substring Matches
 **Required**: Assert the precise expected value.
