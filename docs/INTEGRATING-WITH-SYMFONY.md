@@ -74,6 +74,10 @@ doctrine:
             polygon: MartinGeorgiev\Doctrine\DBAL\Types\Polygon
             'polygon[]': MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray
 
+            # Cube types
+            cube: MartinGeorgiev\Doctrine\DBAL\Types\Cube
+            'cube[]': MartinGeorgiev\Doctrine\DBAL\Types\CubeArray
+
             # PostGIS spatial types
             geometry: MartinGeorgiev\Doctrine\DBAL\Types\Geometry
             'geometry[]': MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray
@@ -131,8 +135,12 @@ doctrine:
             'hstore[]': MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray
 
             # Hierarchical types
+            lquery: MartinGeorgiev\Doctrine\DBAL\Types\Lquery
+            'lquery[]': MartinGeorgiev\Doctrine\DBAL\Types\LqueryArray
             ltree: MartinGeorgiev\Doctrine\DBAL\Types\Ltree
             'ltree[]': MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray
+            ltxtquery: MartinGeorgiev\Doctrine\DBAL\Types\Ltxtquery
+            'ltxtquery[]': MartinGeorgiev\Doctrine\DBAL\Types\LtxtqueryArray
 
             # XML types
             xml: MartinGeorgiev\Doctrine\DBAL\Types\Xml
@@ -264,6 +272,11 @@ doctrine:
                     'polygon[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::POLYGON_ARRAY
                     _polygon: !php/const MartinGeorgiev\Doctrine\DBAL\Type::POLYGON_ARRAY
 
+                    # Cube type mappings
+                    cube: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CUBE
+                    'cube[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::CUBE_ARRAY
+                    _cube: !php/const MartinGeorgiev\Doctrine\DBAL\Type::CUBE_ARRAY
+
                     # PostGIS spatial type mappings
                     geometry: !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY
                     'geometry[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::GEOMETRY_ARRAY
@@ -331,9 +344,15 @@ doctrine:
                     _hstore: !php/const MartinGeorgiev\Doctrine\DBAL\Type::HSTORE_ARRAY
 
                     # Hierarchical type mappings
+                    lquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LQUERY
+                    'lquery[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LQUERY_ARRAY
+                    _lquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LQUERY_ARRAY
                     ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE
                     'ltree[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
                     _ltree: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTREE_ARRAY
+                    ltxtquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTXTQUERY
+                    'ltxtquery[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTXTQUERY_ARRAY
+                    _ltxtquery: !php/const MartinGeorgiev\Doctrine\DBAL\Type::LTXTQUERY_ARRAY
 
                     # XML type mappings
                     xml: !php/const MartinGeorgiev\Doctrine\DBAL\Type::XML
@@ -584,6 +603,11 @@ doctrine:
                         INNER_PRODUCT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct
                         L2_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance
 
+                        # ltree match operators
+                        MATCHES_LQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery # ~
+                        MATCHES_LTXTQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery # @
+                        MATCHES_ANY_LQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesAnyLquery # ?
+
                         # hstore functions
                         HSTORE_AKEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys
                         HSTORE_AVALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals
@@ -639,6 +663,7 @@ doctrine:
                         SHA512: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512
 
                         # uuid functions
+                        GEN_RANDOM_UUID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenRandomUuid
                         UUID_EXTRACT_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp
                         UUID_EXTRACT_VERSION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion
                         UUIDV4: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4

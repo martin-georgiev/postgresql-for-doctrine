@@ -98,11 +98,18 @@
 | geometry | geometry | `MartinGeorgiev\Doctrine\DBAL\Types\Geometry` (see [note](#postgis-spatial-types)) |
 | geometry[] | _geometry | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
 |---|---|---|
+| cube | cube | `MartinGeorgiev\Doctrine\DBAL\Types\Cube` (see [note](#cube-type)) |
+| cube[] | _cube | `MartinGeorgiev\Doctrine\DBAL\Types\CubeArray` |
+|---|---|---|
 | hstore | hstore | `MartinGeorgiev\Doctrine\DBAL\Types\Hstore` (see [note](#hstore-type)) |
 | hstore[] | _hstore | `MartinGeorgiev\Doctrine\DBAL\Types\HstoreArray` |
 |---|---|---|
+| lquery | lquery | `MartinGeorgiev\Doctrine\DBAL\Types\Lquery` |
+| lquery[] | _lquery | `MartinGeorgiev\Doctrine\DBAL\Types\LqueryArray` |
 | ltree | ltree | `MartinGeorgiev\Doctrine\DBAL\Types\Ltree` |
 | ltree[] | _ltree | `MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray` |
+| ltxtquery | ltxtquery | `MartinGeorgiev\Doctrine\DBAL\Types\Ltxtquery` |
+| ltxtquery[] | _ltxtquery | `MartinGeorgiev\Doctrine\DBAL\Types\LtxtqueryArray` |
 |---|---|---|
 | money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
 | money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |
@@ -300,3 +307,27 @@ CREATE EXTENSION IF NOT EXISTS ulid;
 A ULID is a 26-character [Crockford base32](https://github.com/ulid/spec) identifier (uppercase, first character `0`–`7`) stored as a compact 128-bit binary value. It maps to `string` in PHP. PostgreSQL outputs the canonical uppercase form on retrieval; the DBAL type normalizes values to uppercase on write as well, so round-trips are stable even for lowercase input.
 
 Use `ulid` when you want sortable, timestamp-prefixed identifiers that are shorter and more index-friendly than UUIDs.
+
+---
+
+## Cube Type
+
+The `cube` type requires the PostgreSQL [`cube`](https://www.postgresql.org/docs/18/cube.html) extension. Enable it with:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS cube;
+```
+
+A cube is a multidimensional value that is either a point — `(1, 2, 3)` — or a box spanned by two opposite corners — `(1, 2, 3),(4, 5, 6)`. Both corners always carry the same number of dimensions. It maps to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube` value object in PHP:
+
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube;
+
+$point = Cube::point(1.0, 2.0, 3.0);               // (1, 2, 3)
+$box = new Cube([1.0, 2.0, 3.0], [4.0, 5.0, 6.0]); // (1, 2, 3),(4, 5, 6)
+
+$box->getFirstCorner();  // [1.0, 2.0, 3.0]
+$box->getSecondCorner(); // [4.0, 5.0, 6.0]
+$box->getDimensions();   // 3
+$point->isPoint();       // true
+```

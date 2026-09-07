@@ -89,6 +89,16 @@ final class Type
     /**
      * @var string
      */
+    public const CUBE = 'cube';
+
+    /**
+     * @var string
+     */
+    public const CUBE_ARRAY = 'cube[]';
+
+    /**
+     * @var string
+     */
     public const DATE_ARRAY = 'date[]';
 
     /**
@@ -254,12 +264,32 @@ final class Type
     /**
      * @var string
      */
+    public const LQUERY = 'lquery';
+
+    /**
+     * @var string
+     */
+    public const LQUERY_ARRAY = 'lquery[]';
+
+    /**
+     * @var string
+     */
     public const LTREE = 'ltree';
 
     /**
      * @var string
      */
     public const LTREE_ARRAY = 'ltree[]';
+
+    /**
+     * @var string
+     */
+    public const LTXTQUERY = 'ltxtquery';
+
+    /**
+     * @var string
+     */
+    public const LTXTQUERY_ARRAY = 'ltxtquery[]';
 
     /**
      * @var string

@@ -142,6 +142,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `CAST` - General type conversion
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
+- `GEN_RANDOM_UUID` - Generate a random UUID (version 4)
 - `UUIDV4` - Explicit UUID version 4 generation
 - `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
 - `UUID_EXTRACT_TIMESTAMP` - Extract timestamp from UUID v1 or v7
@@ -164,6 +165,9 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `NLEVEL` - Get number of labels in path
 - `INDEX` - Find position of ltree in another ltree
 - `LCA` - Find longest common ancestor
+- `MATCHES_LQUERY` - Check whether a path matches an `lquery` pattern (`~`)
+- `MATCHES_ANY_LQUERY` - Check whether a path matches any `lquery` pattern in an array (`?`)
+- `MATCHES_LTXTQUERY` - Check whether a path matches an `ltxtquery` label query (`@`)
 
 **Vector Distance Operations:**
 - `L2_DISTANCE` - Euclidean distance between vectors
@@ -236,7 +240,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 ### **Utility Functions**
 - **Type Conversion**: `CAST` for general type conversion
 - **Formatting**: `TO_CHAR` for numbers and dates, `TO_NUMBER` for parsing
-- **UUID**: Generation (`UUIDV4`, `UUIDV7`) and inspection (`UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`)
+- **UUID**: Generation (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`) and inspection (`UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`)
 
 ### **XML Functions**
 - **Aggregation**: `XMLAGG` — aggregate XML values with optional ordering

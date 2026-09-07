@@ -82,6 +82,10 @@ Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
 Type::addType('polygon', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Polygon");
 Type::addType('polygon[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PolygonArray");
 
+// Cube types
+Type::addType('cube', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Cube");
+Type::addType('cube[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CubeArray");
+
 // PostGIS spatial types
 Type::addType('geometry', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geometry");
 Type::addType('geometry[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeometryArray");
@@ -131,8 +135,12 @@ Type::addType('hstore', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Hstore");
 Type::addType('hstore[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\HstoreArray");
 
 // Hierarchical types
+Type::addType('lquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Lquery");
+Type::addType('lquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LqueryArray");
 Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
 Type::addType('ltree[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtreeArray");
+Type::addType('ltxtquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltxtquery");
+Type::addType('ltxtquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtxtqueryArray");
 
 // XML types
 Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
@@ -386,6 +394,11 @@ $configuration->addCustomStringFunction('COSINE_DISTANCE', MartinGeorgiev\Doctri
 $configuration->addCustomStringFunction('INNER_PRODUCT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class);
 $configuration->addCustomStringFunction('L2_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class);
 
+# ltree match operators
+$configuration->addCustomStringFunction('MATCHES_LQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery::class); # ~
+$configuration->addCustomStringFunction('MATCHES_LTXTQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery::class); # @
+$configuration->addCustomStringFunction('MATCHES_ANY_LQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesAnyLquery::class); # ?
+
 # hstore functions
 $configuration->addCustomStringFunction('HSTORE_AKEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys::class);
 $configuration->addCustomStringFunction('HSTORE_AVALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals::class);
@@ -441,6 +454,7 @@ $configuration->addCustomStringFunction('SHA384', MartinGeorgiev\Doctrine\ORM\Qu
 $configuration->addCustomStringFunction('SHA512', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512::class);
 
 # uuid functions
+$configuration->addCustomStringFunction('GEN_RANDOM_UUID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenRandomUuid::class);
 $configuration->addCustomStringFunction('UUID_EXTRACT_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp::class);
 $configuration->addCustomStringFunction('UUID_EXTRACT_VERSION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion::class);
 $configuration->addCustomStringFunction('UUIDV4', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4::class);
@@ -571,6 +585,11 @@ $platform->registerDoctrineTypeMapping('polygon', 'polygon');
 $platform->registerDoctrineTypeMapping('polygon[]', 'polygon[]');
 $platform->registerDoctrineTypeMapping('_polygon', 'polygon[]');
 
+// Cube type mappings
+$platform->registerDoctrineTypeMapping('cube', 'cube');
+$platform->registerDoctrineTypeMapping('cube[]', 'cube[]');
+$platform->registerDoctrineTypeMapping('_cube', 'cube[]');
+
 // PostGIS spatial type mappings
 $platform->registerDoctrineTypeMapping('geometry', 'geometry');
 $platform->registerDoctrineTypeMapping('geometry[]', 'geometry[]');
@@ -638,9 +657,15 @@ $platform->registerDoctrineTypeMapping('hstore[]', 'hstore[]');
 $platform->registerDoctrineTypeMapping('_hstore', 'hstore[]');
 
 // Hierarchical mappings
+$platform->registerDoctrineTypeMapping('lquery', 'lquery');
+$platform->registerDoctrineTypeMapping('lquery[]', 'lquery[]');
+$platform->registerDoctrineTypeMapping('_lquery', 'lquery[]');
 $platform->registerDoctrineTypeMapping('ltree','ltree');
 $platform->registerDoctrineTypeMapping('ltree[]', 'ltree[]');
 $platform->registerDoctrineTypeMapping('_ltree', 'ltree[]');
+$platform->registerDoctrineTypeMapping('ltxtquery', 'ltxtquery');
+$platform->registerDoctrineTypeMapping('ltxtquery[]', 'ltxtquery[]');
+$platform->registerDoctrineTypeMapping('_ltxtquery', 'ltxtquery[]');
 
 // XML mappings
 $platform->registerDoctrineTypeMapping('xml', 'xml');

@@ -29,6 +29,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Circle;
 use MartinGeorgiev\Doctrine\DBAL\Types\CircleArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Citext;
 use MartinGeorgiev\Doctrine\DBAL\Types\CitextArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Cube;
+use MartinGeorgiev\Doctrine\DBAL\Types\CubeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray;
@@ -60,10 +62,14 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Line;
 use MartinGeorgiev\Doctrine\DBAL\Types\LineArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Lquery;
+use MartinGeorgiev\Doctrine\DBAL\Types\LqueryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Lseg;
 use MartinGeorgiev\Doctrine\DBAL\Types\LsegArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltree;
 use MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Ltxtquery;
+use MartinGeorgiev\Doctrine\DBAL\Types\LtxtqueryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
@@ -286,6 +292,8 @@ abstract class TestCase extends BaseTestCase
             'cidr[]' => CidrArray::class,
             'citext' => Citext::class,
             'citext[]' => CitextArray::class,
+            'cube' => Cube::class,
+            'cube[]' => CubeArray::class,
             'date[]' => DateArray::class,
             'daterange' => DateRange::class,
             'daterange[]' => DateRangeArray::class,
@@ -315,8 +323,12 @@ abstract class TestCase extends BaseTestCase
             'line[]' => LineArray::class,
             'lseg' => Lseg::class,
             'lseg[]' => LsegArray::class,
+            'lquery' => Lquery::class,
+            'lquery[]' => LqueryArray::class,
             'ltree' => Ltree::class,
             'ltree[]' => LtreeArray::class,
+            'ltxtquery' => Ltxtquery::class,
+            'ltxtquery[]' => LtxtqueryArray::class,
             'int4multirange' => Int4Multirange::class,
             'int4multirange[]' => Int4MultirangeArray::class,
             'int8multirange' => Int8Multirange::class,
