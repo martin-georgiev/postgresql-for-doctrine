@@ -658,6 +658,7 @@ return [
         'SHA512' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512::class,
 
         # uuid functions
+        'GEN_RANDOM_UUID' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenRandomUuid::class,
         'UUID_EXTRACT_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp::class,
         'UUID_EXTRACT_VERSION' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion::class,
         'UUIDV4' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4::class,
