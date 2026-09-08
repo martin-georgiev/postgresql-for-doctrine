@@ -97,10 +97,16 @@ Type::addType('payment_method', PaymentMethodType::class);
 
 ### Adding a new enum type
 
+Write the statement by hand, keeping the labels in step with the PHP enum's cases:
+
 ```sql
 CREATE TYPE order_status AS ENUM ('pending', 'processing', 'shipped', 'cancelled');
 ALTER TABLE orders ADD COLUMN status order_status NOT NULL DEFAULT 'pending';
 ```
+
+### Why the library does not create the type for you
+
+Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: `ALTER TYPE ... ADD VALUE` cannot run inside a transaction, and labels can be neither renamed nor removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
 
 ### Adding a new case
 
