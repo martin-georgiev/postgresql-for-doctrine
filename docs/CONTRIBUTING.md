@@ -222,7 +222,7 @@ and can easily be run from project's root:
 Most new functions will likely have a signature very similar to those already
 implemented in the project.
 This means new functions probably require only extending the base class
-and decorating it with some behaviour.
+and decorating it with some behavior.
 Here are the two main steps to follow:
 
 1. Extend `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction`.

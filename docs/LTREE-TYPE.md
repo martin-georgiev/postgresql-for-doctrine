@@ -124,7 +124,7 @@ Pattern syntax, as accepted by PostgreSQL:
 | `a*` | Prefix match |
 | `a%` | Match against a `_`-separated word inside the label |
 
-🗃️ PostgreSQL normalises the modifier order on storage, so `sport*@` is read back as `sport@*`.
+🗃️ PostgreSQL normalizes the modifier order on storage, so `sport*@` is read back as `sport@*`.
 
 ## lquery[]
 

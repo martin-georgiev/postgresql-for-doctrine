@@ -49,7 +49,7 @@ final class Lquery extends BaseType
     }
 
     /**
-     * Format is deliberately not re-validated here. PostgreSQL already accepted and normalised
+     * Format is deliberately not re-validated here. PostgreSQL already accepted and normalized
      * the stored pattern, so a value coming back from the database is authoritative; applying the
      * approximating pattern of the validation trait on read could make stored rows unreadable.
      */
