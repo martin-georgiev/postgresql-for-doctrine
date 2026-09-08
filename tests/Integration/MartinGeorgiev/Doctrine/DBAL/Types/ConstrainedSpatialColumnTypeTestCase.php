@@ -50,6 +50,20 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
     }
 
     #[Test]
+    public function normalizes_sridless_value_to_the_declared_srid(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
+            $typeName,
+            $columnType,
+            WktSpatialData::fromWkt('POINT(-122.4194 37.7749)'),
+            WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)')
+        );
+    }
+
+    #[Test]
     public function rejects_value_of_another_geometry_type(): void
     {
         $this->expectException(DriverException::class);

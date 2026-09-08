@@ -169,7 +169,7 @@ $polyhedralSurface = WktSpatialData::fromWkt('POLYHEDRALSURFACE(((0 0, 0 1, 1 1,
 
 ## Column options for DDL
 
-By default `geometry` and `geography` columns are declared as bare `GEOMETRY` / `GEOGRAPHY`, which accepts any subtype and any SRID. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
+By default `geometry` and `geography` columns are declared as bare `GEOMETRY` / `GEOGRAPHY`. A bare `GEOMETRY` column accepts any subtype and any SRID. A bare `GEOGRAPHY` column is narrower: it accepts only geography-compatible subtypes (PostGIS rejects e.g. `TIN`) and geodetic lon/lat SRIDs, and stores SRID-less input as SRID 4326. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
 
 | Option | Type | Meaning |
 |---|---|---|
