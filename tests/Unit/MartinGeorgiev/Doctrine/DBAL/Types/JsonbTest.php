@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Jsonb;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -107,8 +107,8 @@ final class JsonbTest extends TestCase
             $this->fail('Failed to create test resource');
         }
 
-        $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage("can't be resolved to valid JSON");
+        $this->expectException(InvalidJsonbForDatabaseException::class);
+        $this->expectExceptionMessage('Value must be convertible to JSON');
 
         try {
             // @phpstan-ignore-next-line argument.type - Testing invalid type handling
@@ -139,8 +139,8 @@ final class JsonbTest extends TestCase
             return false; // Let other errors/warnings through
         });
 
-        $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage("can't be resolved to valid JSON");
+        $this->expectException(InvalidJsonbForDatabaseException::class);
+        $this->expectExceptionMessage('Value must be convertible to JSON');
 
         try {
             // @phpstan-ignore-next-line argument.type - Testing invalid type handling

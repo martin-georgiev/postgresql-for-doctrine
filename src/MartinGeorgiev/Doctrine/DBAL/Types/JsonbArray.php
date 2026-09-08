@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbArrayItemForDatabaseException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
@@ -24,6 +25,16 @@ class JsonbArray extends BaseArray
      * @var string
      */
     protected const TYPE_NAME = Type::JSONB_ARRAY;
+
+    protected function throwInvalidTypeException(mixed $value): never
+    {
+        throw InvalidJsonbArrayItemForDatabaseException::forInvalidArrayType($value);
+    }
+
+    protected function throwInvalidJsonValueException(mixed $phpValue): never
+    {
+        throw InvalidJsonbArrayItemForDatabaseException::forUnencodableValue($phpValue);
+    }
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {

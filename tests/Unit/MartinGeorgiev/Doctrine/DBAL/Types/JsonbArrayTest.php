@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -91,7 +92,9 @@ final class JsonbArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidJsonbArrayItemForDatabaseException::class);
+        $this->expectExceptionMessage('Value must be an array');
+
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
     }
 
@@ -102,6 +105,27 @@ final class JsonbArrayTest extends TestCase
     {
         return [
             'string instead of array' => ['not-an-array'],
+        ];
+    }
+
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_inputs(array $phpValue): void
+    {
+        $this->expectException(InvalidJsonbArrayItemForDatabaseException::class);
+        $this->expectExceptionMessage('Array items must be convertible to JSON');
+
+        $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{array}>
+     */
+    public static function provideInvalidDatabaseValueInputs(): array
+    {
+        return [
+            'item containing NAN' => [[['key' => \NAN]]],
+            'item containing INF' => [[['key' => \INF]]],
         ];
     }
 

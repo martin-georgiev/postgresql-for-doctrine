@@ -6,6 +6,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbForDatabaseException;
 
 /**
  * Implementation of PostgreSQL JSONB data type.
@@ -23,6 +24,11 @@ class Jsonb extends BaseType
      * @var string
      */
     protected const TYPE_NAME = Type::JSONB;
+
+    protected function throwInvalidJsonValueException(mixed $phpValue): never
+    {
+        throw InvalidJsonbForDatabaseException::forUnencodableValue($phpValue);
+    }
 
     /**
      * @param array|bool|float|int|string|null $value
