@@ -22,7 +22,6 @@ trait LqueryValidationTrait
     /**
      * @var string
      */
-    // Anchored with \z rather than $, which would also match before a trailing newline.
     private const LQUERY_PATTERN = '/^'.self::LQUERY_ITEM.'(?:\.'.self::LQUERY_ITEM.')*\z/u';
 
     /**

@@ -27,7 +27,7 @@ trait MacaddrValidationTrait
             .'|[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}'
             .'|[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}'
             .'|[0-9A-Fa-f]{12}'
-            .')$/',
+            .')\z/',
             $value
         );
     }

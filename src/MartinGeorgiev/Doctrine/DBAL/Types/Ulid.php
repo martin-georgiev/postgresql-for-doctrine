@@ -26,7 +26,7 @@ final class Ulid extends BaseType
     /**
      * @var string
      */
-    private const ULID_REGEX = '/^[0-7][0-9A-HJKMNP-TV-Z]{25}$/i';
+    private const ULID_REGEX = '/^[0-7][0-9A-HJKMNP-TV-Z]{25}\z/i';
 
     /**
      * @var string

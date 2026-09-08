@@ -137,6 +137,7 @@ final class MacaddrTest extends TestCase
             'wrong format' => ['not-a-mac-address'],
             'mixed separators' => ['00:11-22:33-44:55'],
             'non-hex digits' => ['zz:zz:zz:zz:zz:zz'],
+            'trailing newline' => ["08:00:2b:01:02:03\n"],
             // Invalid types
             'integer input' => [123],
             'array input' => [['not', 'string']],

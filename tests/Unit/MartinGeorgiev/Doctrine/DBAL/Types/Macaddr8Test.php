@@ -111,6 +111,7 @@ final class Macaddr8Test extends TestCase
             'too long (9 octets)' => ['08:00:2b:ff:fe:01:02:03:04'],
             'invalid hex chars' => ['08:00:2b:zz:fe:01:02:03'],
             'mixed separators' => ['08:00-2b:ff:fe:01:02:03'],
+            'trailing newline' => ["08:00:2b:ff:fe:01:02:03\n"],
             'integer input' => [123],
             'array input' => [['not', 'string']],
             'boolean input' => [false],

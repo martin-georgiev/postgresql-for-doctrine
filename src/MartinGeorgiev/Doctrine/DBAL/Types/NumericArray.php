@@ -30,7 +30,7 @@ class NumericArray extends BaseStringArray
      *
      * @var string
      */
-    private const NUMERIC_REGEX = '/^-?\d+(\.\d+)?$/';
+    private const NUMERIC_REGEX = '/^-?\d+(\.\d+)?\z/';
 
     /**
      * @var string

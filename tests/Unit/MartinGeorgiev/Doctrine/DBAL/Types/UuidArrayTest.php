@@ -201,6 +201,7 @@ final class UuidArrayTest extends TestCase
             'boolean' => [true],
             'too short' => ['550e8400-e29b-41d4-a716'],
             'no hyphens' => ['550e8400e29b41d4a716446655440000'],
+            'trailing newline' => ["550e8400-e29b-41d4-a716-446655440000\n"],
         ];
     }
 

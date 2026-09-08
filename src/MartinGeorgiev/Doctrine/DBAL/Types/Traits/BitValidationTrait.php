@@ -13,6 +13,6 @@ trait BitValidationTrait
 {
     protected function isValidBitString(string $value): bool
     {
-        return \preg_match('/^[01]+$/', $value) === 1;
+        return \preg_match('/^[01]+\z/', $value) === 1;
     }
 }
