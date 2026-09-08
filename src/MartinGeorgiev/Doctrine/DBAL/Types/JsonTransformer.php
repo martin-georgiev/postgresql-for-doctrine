@@ -15,9 +15,6 @@ use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
  */
 trait JsonTransformer
 {
-    /**
-     * Each consuming type names its own domain exception, so a jsonb[] failure is not reported as a scalar jsonb one.
-     */
     abstract protected function throwInvalidJsonValueException(mixed $phpValue): never;
 
     /**
