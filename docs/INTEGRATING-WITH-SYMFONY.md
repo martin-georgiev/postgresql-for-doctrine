@@ -603,6 +603,15 @@ doctrine:
                         INNER_PRODUCT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct
                         L2_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance
 
+                        # ltree functions
+                        INDEX: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Index
+                        LCA: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Lca
+                        LTREE2TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Ltree2text
+                        NLEVEL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Nlevel
+                        SUBLTREE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subltree
+                        SUBPATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subpath
+                        TEXT2LTREE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Text2ltree
+
                         # ltree match operators
                         MATCHES_LQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery # ~
                         MATCHES_LTXTQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery # @

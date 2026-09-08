@@ -19,14 +19,17 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleExcep
 final readonly class Circle extends BaseGeometricValue
 {
     /**
+     * PostgreSQL accepts a NaN or Infinity radius but rejects every negative one, -Infinity included, so this pattern
+     * stays unsigned while allowing the non-finite spellings.
+     *
      * @var string
      */
-    private const RADIUS_PATTERN = '\d+(?:\.\d+)?(?:[eE][+-]?\d+)?';
+    private const RADIUS_PATTERN = self::UNSIGNED_FLOAT_PATTERN;
 
     /**
      * @var string
      */
-    private const CIRCLE_REGEX = '/^<\s*\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
+    private const CIRCLE_REGEX = '/^<\s*\(\s*('.self::FLOAT_PATTERN.')\s*,\s*('.self::FLOAT_PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
 
     public function __construct(
         private Point $center,
@@ -39,7 +42,12 @@ final readonly class Circle extends BaseGeometricValue
 
     public function __toString(): string
     {
-        return \sprintf('<(%s,%s),%s>', $this->center->getX(), $this->center->getY(), $this->radius);
+        return \sprintf(
+            '<(%s,%s),%s>',
+            self::formatFloat($this->center->getX()),
+            self::formatFloat($this->center->getY()),
+            self::formatFloat($this->radius)
+        );
     }
 
     public function getCenter(): Point
@@ -58,6 +66,9 @@ final readonly class Circle extends BaseGeometricValue
             throw InvalidCircleException::forInvalidFormat($value, self::CIRCLE_REGEX);
         }
 
-        return new self(new Point((float) $matches[1], (float) $matches[2]), (float) $matches[3]);
+        return new self(
+            new Point(self::parseFloat($matches[1]), self::parseFloat($matches[2])),
+            self::parseFloat($matches[3])
+        );
     }
 }

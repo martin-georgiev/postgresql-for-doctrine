@@ -45,7 +45,19 @@ final class PolygonTypeTest extends TestCase
             'square' => [PolygonValueObject::fromString('((0,0),(0,1),(1,1),(1,0))')],
             'polygon with floats' => [PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
             'polygon with negative coordinates' => [PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))')],
+            'polygon with infinite coordinates' => [PolygonValueObject::fromString('((Infinity,2),(-Infinity,-2),(5,6))')],
         ];
+    }
+
+    #[Test]
+    public function roundtrips_nan_coordinate(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $polygon = PolygonValueObject::fromString('((NaN,2),(Infinity,-Infinity),(5,6))');
+
+        $this->runDbalBindingRoundTripAssertingRepresentation($typeName, $columnType, $polygon);
     }
 
     #[Test]

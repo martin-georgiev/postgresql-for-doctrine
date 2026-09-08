@@ -394,6 +394,15 @@ $configuration->addCustomStringFunction('COSINE_DISTANCE', MartinGeorgiev\Doctri
 $configuration->addCustomStringFunction('INNER_PRODUCT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class);
 $configuration->addCustomStringFunction('L2_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class);
 
+# ltree functions
+$configuration->addCustomStringFunction('INDEX', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Index::class);
+$configuration->addCustomStringFunction('LCA', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Lca::class);
+$configuration->addCustomStringFunction('LTREE2TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Ltree2text::class);
+$configuration->addCustomStringFunction('NLEVEL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Nlevel::class);
+$configuration->addCustomStringFunction('SUBLTREE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subltree::class);
+$configuration->addCustomStringFunction('SUBPATH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subpath::class);
+$configuration->addCustomStringFunction('TEXT2LTREE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Text2ltree::class);
+
 # ltree match operators
 $configuration->addCustomStringFunction('MATCHES_LQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery::class); # ~
 $configuration->addCustomStringFunction('MATCHES_LTXTQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery::class); # @

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeException;
 
 /**
@@ -23,23 +24,17 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeExcepti
  */
 final readonly class Cube implements \Stringable
 {
+    use PostgresFloatConversionTrait;
+
     /**
      * PostgreSQL rejects anything above this with "A cube cannot have more than 100 dimensions".
      */
     private const MAX_DIMENSIONS = 100;
 
     /**
-     * PostgreSQL accepts non-finite coordinates in several spellings (nan, inf, -inf, infinity).
-     * PostgreSQL always emits these as NaN, Infinity or -Infinity.
-     *
      * @var string
      */
-    private const COORDINATE_PATTERN = '(?:[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|[+-]?(?i:inf(?:inity)?|nan))';
-
-    /**
-     * @var string
-     */
-    private const COORDINATE_LIST_PATTERN = self::COORDINATE_PATTERN.'(?:\s*,\s*'.self::COORDINATE_PATTERN.')*';
+    private const COORDINATE_LIST_PATTERN = self::FLOAT_PATTERN.'(?:\s*,\s*'.self::FLOAT_PATTERN.')*';
 
     /**
      * @var string
@@ -175,20 +170,7 @@ final readonly class Cube implements \Stringable
         $parts = \preg_split('/\s*,\s*/', \trim($coordinateList));
         \assert(\is_array($parts));
 
-        return \array_map(self::parseCoordinate(...), $parts);
-    }
-
-    /**
-     * Casting a string to float yields 0.0 for every non-finite spelling PostgreSQL uses. Those are matched explicitly.
-     */
-    private static function parseCoordinate(string $coordinate): float
-    {
-        return match (\mb_strtolower(\ltrim($coordinate, '+'))) {
-            'nan', '-nan' => \NAN,
-            'inf', 'infinity' => \INF,
-            '-inf', '-infinity' => -\INF,
-            default => (float) $coordinate,
-        };
+        return \array_map(self::parseFloat(...), $parts);
     }
 
     /**
@@ -196,25 +178,6 @@ final readonly class Cube implements \Stringable
      */
     private function formatCorner(array $coordinates): string
     {
-        return '('.\implode(', ', \array_map($this->formatCoordinate(...), $coordinates)).')';
-    }
-
-    /**
-     * Casting a float to string uses the `precision` ini setting, which silently rewrites stored values in full float8
-     * precision. Fall back to the 17-digit form, which always round-trips, whenever the short one does not.
-     */
-    private function formatCoordinate(float $coordinate): string
-    {
-        if (\is_nan($coordinate)) {
-            return 'NaN';
-        }
-
-        if (\is_infinite($coordinate)) {
-            return $coordinate > 0 ? 'Infinity' : '-Infinity';
-        }
-
-        $shortForm = (string) $coordinate;
-
-        return (float) $shortForm === $coordinate ? $shortForm : \sprintf('%.17G', $coordinate);
+        return '('.\implode(', ', \array_map($this->formatFloat(...), $coordinates)).')';
     }
 }

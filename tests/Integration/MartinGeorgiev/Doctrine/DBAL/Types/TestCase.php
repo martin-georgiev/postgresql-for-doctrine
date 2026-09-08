@@ -132,6 +132,30 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
+    /**
+     * Perform a round-trip asserting on the emitted representation rather than on value equality.
+     * Needed for values carrying NaN, which never equals itself and so can never satisfy an equality-based assertion.
+     */
+    protected function runDbalBindingRoundTripAssertingRepresentation(string $typeName, string $columnType, \Stringable $stringable): void
+    {
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', $stringable, $typeName)
+                ->executeStatement();
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+
+            $this->assertInstanceOf($stringable::class, $retrieved);
+            $this->assertSame((string) $stringable, (string) $retrieved);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
     protected function createTestTableForDataType(string $tableName, string $columnName, string $columnType): void
     {
         $this->dropTestTableIfItExists($tableName);

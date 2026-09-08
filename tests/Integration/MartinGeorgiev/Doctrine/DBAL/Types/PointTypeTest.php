@@ -60,6 +60,33 @@ final class PointTypeTest extends TestCase
             'negative coordinates' => [new PointValueObject(-10.5, -20.75)],
             'high precision' => [new PointValueObject(123.456789, -987.654321)],
             'integer coordinates' => [new PointValueObject(100, 200)],
+            'infinite coordinates' => [new PointValueObject(\INF, -\INF)],
+        ];
+    }
+
+    #[DataProvider('provideNanCoordinates')]
+    #[Test]
+    public function roundtrips_nan_coordinate(PointValueObject $pointValueObject): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripAssertingRepresentation($typeName, $columnType, $pointValueObject);
+    }
+
+    /**
+     * NaN never equals itself, so these cannot live in provideValidTransformations() — the round-trip there compares
+     * value objects, while these are asserted on the emitted representation.
+     *
+     * @return array<string, array{PointValueObject}>
+     */
+    public static function provideNanCoordinates(): array
+    {
+        return [
+            'nan x' => [new PointValueObject(\NAN, 1.0)],
+            'nan y' => [new PointValueObject(1.0, \NAN)],
+            'both nan' => [new PointValueObject(\NAN, \NAN)],
+            'nan with infinity' => [new PointValueObject(\NAN, \INF)],
         ];
     }
 

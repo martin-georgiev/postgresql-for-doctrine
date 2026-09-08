@@ -31,6 +31,11 @@ final class PointTest extends TestCase
         yield 'origin' => ['(0,0)', '(0,0)'];
         yield 'point with spaces' => ['( 1 , 2 )', '(1,2)'];
         yield 'high precision' => ['(45.123456789,179.987654321)', '(45.123456789,179.987654321)'];
+        yield 'not a number' => ['(NaN,NaN)', '(NaN,NaN)'];
+        yield 'positive and negative infinity' => ['(Infinity,-Infinity)', '(Infinity,-Infinity)'];
+        yield 'short non-finite spellings' => ['(inf,-inf)', '(Infinity,-Infinity)'];
+        yield 'lowercase non-finite spellings' => ['(nan,infinity)', '(NaN,Infinity)'];
+        yield 'signed infinity' => ['(+inf,2)', '(Infinity,2)'];
     }
 
     #[Test]
@@ -74,24 +79,14 @@ final class PointTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_nan_coordinate(): void
+    public function accepts_non_finite_coordinates(): void
     {
-        $this->expectException(InvalidPointException::class);
-        new Point(\NAN, 1.0);
-    }
+        $this->assertSame('(NaN,1)', (string) new Point(\NAN, 1.0));
+        $this->assertSame('(Infinity,-Infinity)', (string) new Point(\INF, -\INF));
 
-    #[Test]
-    public function throws_exception_for_infinite_coordinate(): void
-    {
-        $this->expectException(InvalidPointException::class);
-        new Point(1.0, \INF);
-    }
-
-    #[Test]
-    public function throws_exception_for_negative_infinite_coordinate(): void
-    {
-        $this->expectException(InvalidPointException::class);
-        new Point(-\INF, 1.0);
+        $point = Point::fromString('(NaN,-Infinity)');
+        $this->assertNan($point->getX());
+        $this->assertSame(-\INF, $point->getY());
     }
 
     #[Test]
@@ -99,6 +94,38 @@ final class PointTest extends TestCase
     {
         $point = new Point(1.0, 2.0);
         $this->assertSame('(1,2)', (string) $point);
+    }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $point = new Point($coordinate, -$coordinate);
+
+        $this->assertSame('(0.12345678901234568,-0.12345678901234568)', (string) $point);
+        $this->assertSame($coordinate, Point::fromString((string) $point)->getX());
+        $this->assertSame(-$coordinate, Point::fromString((string) $point)->getY());
+    }
+
+    #[Test]
+    public function preserves_full_float_precision_under_a_comma_decimal_locale(): void
+    {
+        $originalLocale = \setlocale(\LC_NUMERIC, '0');
+        if (\setlocale(\LC_NUMERIC, 'de_DE.UTF-8', 'de_DE', 'German_Germany', 'nl_NL.UTF-8') === false) {
+            $this->markTestSkipped('No comma-decimal locale is installed on this machine');
+        }
+
+        // The full-precision fallback only runs when the short form does not round-trip, which needs a low precision.
+        $originalPrecision = \ini_get('precision');
+        \ini_set('precision', '3');
+
+        try {
+            $this->assertSame('(0.12345678901234568,1)', (string) new Point(0.12345678901234568, 1.0));
+        } finally {
+            \ini_set('precision', (string) $originalPrecision);
+            \setlocale(\LC_NUMERIC, (string) $originalLocale);
+        }
     }
 
     #[Test]
