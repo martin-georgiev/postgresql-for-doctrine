@@ -73,16 +73,6 @@ This document covers PostgreSQL mathematical functions available in this library
 | trunc | TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc` |
 | width_bucket | WIDTH_BUCKET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket` |
 
-## Type Conversion and Formatting Functions
-
-| PostgreSQL functions | Register for DQL as | Implemented by |
-|---|---|---|
-| cast | CAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast` |
-| to_char | TO_CHAR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar` |
-| to_number | TO_NUMBER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber` |
-
-**Note**: `TO_NUMBER` supports Roman numeral conversion via the `RN` pattern (PostgreSQL 18+).
-
 ## Hashing & Cryptographic Functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |

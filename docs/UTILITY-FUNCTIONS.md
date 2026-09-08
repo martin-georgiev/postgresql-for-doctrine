@@ -11,3 +11,5 @@
 | uuid_extract_timestamp | UUID_EXTRACT_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp` |
 | uuid_extract_version | UUID_EXTRACT_VERSION | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion` |
 
+
+**Note**: `TO_NUMBER` supports Roman numeral conversion via the `RN` pattern (PostgreSQL 18+).
