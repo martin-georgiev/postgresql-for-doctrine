@@ -83,4 +83,16 @@ final class LsegTest extends TestCase
         $lseg = Lseg::fromString('(1,2),(3,4)');
         $this->assertSame('[(1,2),(3,4)]', (string) $lseg);
     }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $lseg = new Lseg(new Point($coordinate, 2.0), new Point(3.0, -$coordinate));
+
+        $this->assertSame('[(0.12345678901234568,2),(3,-0.12345678901234568)]', (string) $lseg);
+        $this->assertSame($coordinate, Lseg::fromString((string) $lseg)->getStart()->getX());
+        $this->assertSame(-$coordinate, Lseg::fromString((string) $lseg)->getEnd()->getY());
+    }
 }

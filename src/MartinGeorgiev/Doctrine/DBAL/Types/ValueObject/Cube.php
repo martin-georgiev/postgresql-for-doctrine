@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeException;
 
 /**
@@ -23,6 +24,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeExcepti
  */
 final readonly class Cube implements \Stringable
 {
+    use PostgresFloatConversionTrait;
+
     /**
      * PostgreSQL rejects anything above this with "A cube cannot have more than 100 dimensions".
      */
@@ -196,25 +199,6 @@ final readonly class Cube implements \Stringable
      */
     private function formatCorner(array $coordinates): string
     {
-        return '('.\implode(', ', \array_map($this->formatCoordinate(...), $coordinates)).')';
-    }
-
-    /**
-     * Casting a float to string uses the `precision` ini setting, which silently rewrites stored values in full float8
-     * precision. Fall back to the 17-digit form, which always round-trips, whenever the short one does not.
-     */
-    private function formatCoordinate(float $coordinate): string
-    {
-        if (\is_nan($coordinate)) {
-            return 'NaN';
-        }
-
-        if (\is_infinite($coordinate)) {
-            return $coordinate > 0 ? 'Infinity' : '-Infinity';
-        }
-
-        $shortForm = (string) $coordinate;
-
-        return (float) $shortForm === $coordinate ? $shortForm : \sprintf('%.17G', $coordinate);
+        return '('.\implode(', ', \array_map($this->formatFloat(...), $coordinates)).')';
     }
 }

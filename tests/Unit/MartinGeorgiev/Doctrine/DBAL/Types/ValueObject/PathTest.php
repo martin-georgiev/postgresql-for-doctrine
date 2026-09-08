@@ -89,4 +89,16 @@ final class PathTest extends TestCase
         $this->assertSame('[(1,2),(3,4)]', (string) $path);
         $this->assertTrue($path->isOpen());
     }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $path = new Path(true, new Point($coordinate, 2.0), new Point(3.0, -$coordinate));
+
+        $this->assertSame('[(0.12345678901234568,2),(3,-0.12345678901234568)]', (string) $path);
+        $this->assertSame($coordinate, Path::fromString((string) $path)->getPoints()[0]->getX());
+        $this->assertSame(-$coordinate, Path::fromString((string) $path)->getPoints()[1]->getY());
+    }
 }

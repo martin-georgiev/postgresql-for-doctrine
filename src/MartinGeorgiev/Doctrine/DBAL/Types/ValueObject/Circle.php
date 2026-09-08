@@ -39,7 +39,12 @@ final readonly class Circle extends BaseGeometricValue
 
     public function __toString(): string
     {
-        return \sprintf('<(%s,%s),%s>', $this->center->getX(), $this->center->getY(), $this->radius);
+        return \sprintf(
+            '<(%s,%s),%s>',
+            self::formatFloat($this->center->getX()),
+            self::formatFloat($this->center->getY()),
+            self::formatFloat($this->radius)
+        );
     }
 
     public function getCenter(): Point

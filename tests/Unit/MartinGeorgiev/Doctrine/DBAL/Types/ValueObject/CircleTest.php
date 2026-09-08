@@ -77,4 +77,15 @@ final class CircleTest extends TestCase
         $this->expectException(InvalidCircleException::class);
         new Circle(new Point(0.0, 0.0), -1.0);
     }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $circle = new Circle(new Point($coordinate, -$coordinate), $coordinate);
+
+        $this->assertSame('<(0.12345678901234568,-0.12345678901234568),0.12345678901234568>', (string) $circle);
+        $this->assertSame($coordinate, Circle::fromString((string) $circle)->getRadius());
+    }
 }

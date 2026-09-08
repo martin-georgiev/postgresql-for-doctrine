@@ -39,7 +39,11 @@ final readonly class Polygon extends BaseGeometricValue
     public function __toString(): string
     {
         $vertexStrings = \array_map(
-            static fn (Point $point): string => \sprintf('(%s,%s)', $point->getX(), $point->getY()),
+            static fn (Point $point): string => \sprintf(
+                '(%s,%s)',
+                self::formatFloat($point->getX()),
+                self::formatFloat($point->getY())
+            ),
             $this->vertices
         );
 

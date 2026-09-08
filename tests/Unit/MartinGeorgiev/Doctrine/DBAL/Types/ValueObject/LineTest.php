@@ -87,4 +87,16 @@ final class LineTest extends TestCase
         $line = new Line(1.1234567890123, 2.0, 3.0);
         $this->assertSame(1.1234567890123, $line->getA());
     }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coefficient = 0.12345678901234568;
+
+        $line = new Line($coefficient, 2.0, -$coefficient);
+
+        $this->assertSame('{0.12345678901234568,2,-0.12345678901234568}', (string) $line);
+        $this->assertSame($coefficient, Line::fromString((string) $line)->getA());
+        $this->assertSame(-$coefficient, Line::fromString((string) $line)->getC());
+    }
 }

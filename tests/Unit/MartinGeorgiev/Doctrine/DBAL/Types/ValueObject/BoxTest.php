@@ -70,4 +70,16 @@ final class BoxTest extends TestCase
         $box = new Box(new Point(1.0, 2.0), new Point(3.0, 4.0));
         $this->assertSame('(1,2),(3,4)', (string) $box);
     }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $box = new Box(new Point($coordinate, 2.0), new Point(3.0, -$coordinate));
+
+        $this->assertSame('(0.12345678901234568,2),(3,-0.12345678901234568)', (string) $box);
+        $this->assertSame($coordinate, Box::fromString((string) $box)->getUpperRight()->getX());
+        $this->assertSame(-$coordinate, Box::fromString((string) $box)->getLowerLeft()->getY());
+    }
 }
