@@ -165,6 +165,8 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `NLEVEL` - Get number of labels in path
 - `INDEX` - Find position of ltree in another ltree
 - `LCA` - Find longest common ancestor
+- `TEXT2LTREE` - Cast text to ltree
+- `LTREE2TEXT` - Cast ltree to text
 - `MATCHES_LQUERY` - Check whether a path matches an `lquery` pattern (`~`)
 - `MATCHES_ANY_LQUERY` - Check whether a path matches any `lquery` pattern in an array (`?`)
 - `MATCHES_LTXTQUERY` - Check whether a path matches an `ltxtquery` label query (`@`)

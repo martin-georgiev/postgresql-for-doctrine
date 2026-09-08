@@ -622,6 +622,15 @@ return [
         'INNER_PRODUCT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\InnerProduct::class,
         'L2_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Vector\L2Distance::class,
 
+        # ltree functions
+        'INDEX' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Index::class,
+        'LCA' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Lca::class,
+        'LTREE2TEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Ltree2text::class,
+        'NLEVEL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Nlevel::class,
+        'SUBLTREE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subltree::class,
+        'SUBPATH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Subpath::class,
+        'TEXT2LTREE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\Text2ltree::class,
+
         # ltree match operators
         'MATCHES_LQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLquery::class, # ~
         'MATCHES_LTXTQUERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery::class, # @
