@@ -98,6 +98,7 @@ $query = $em->createQuery('
 - **Enum Types**
   - User-defined PostgreSQL enum types [via `Enum` base class](docs/ENUM-TYPE.md)
 - **Composite Types**
+  - User-defined PostgreSQL composite (row) types [via `Composite` base class](docs/COMPOSITE-TYPE.md)
   - Access fields from [user-defined composite types](https://www.postgresql.org/docs/17/rowtypes.html) via `COMPOSITE_FIELD()` function
 
 ### PostgreSQL Operators

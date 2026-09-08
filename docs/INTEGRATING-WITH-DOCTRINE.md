@@ -734,6 +734,59 @@ $platform->registerDoctrineTypeMapping('status[]', 'status[]');
 $platform->registerDoctrineTypeMapping('_status', 'status[]');
 ```
 
+### Mapping User-Defined PostgreSQL Composite Types
+
+For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above. See [COMPOSITE-TYPE.md](COMPOSITE-TYPE.md) for a full example.
+
+```php
+<?php
+
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use MartinGeorgiev\Doctrine\DBAL\Types\Composite;
+
+// CREATE TYPE inventory_item AS (name text, supplier_id integer, price numeric);
+
+final class InventoryItemType extends Composite
+{
+    protected const TYPE_NAME = 'inventory_item'; // must match PostgreSQL composite type name exactly
+
+    protected function getFieldTypes(): array
+    {
+        // Field order must match the CREATE TYPE declaration - record literals are positional
+        return [
+            'name' => Types::TEXT,
+            'supplier_id' => Types::INTEGER,
+            'price' => Types::DECIMAL,
+        ];
+    }
+}
+
+// Register like any other type
+Type::addType('inventory_item', InventoryItemType::class);
+$platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
+```
+
+For a `composite[]` column, extend `CompositeArray` and point it at the scalar type's class:
+
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray;
+
+final class InventoryItemArrayType extends CompositeArray
+{
+    protected const TYPE_NAME = 'inventory_item[]';
+
+    protected function getCompositeClass(): string
+    {
+        return InventoryItemType::class;
+    }
+}
+
+Type::addType('inventory_item[]', InventoryItemArrayType::class);
+$platform->registerDoctrineTypeMapping('inventory_item[]', 'inventory_item[]');
+$platform->registerDoctrineTypeMapping('_inventory_item', 'inventory_item[]');
+```
+
 ### Usage in Entities
 
 Once types are registered, you can use them in your Doctrine entities:
