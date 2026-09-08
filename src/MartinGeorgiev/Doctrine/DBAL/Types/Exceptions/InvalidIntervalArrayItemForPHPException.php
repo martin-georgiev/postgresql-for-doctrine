@@ -20,16 +20,16 @@ class InvalidIntervalArrayItemForPHPException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Cannot convert interval array item to PHP value. Expected a string or null, got %s.', $value);
+        return self::create('Array items must be strings, %s given', $value);
     }
 
     public static function forInvalidFormat(mixed $value): self
     {
-        return self::create('Cannot convert interval array item to PHP value. Value %s is not a valid interval.', $value);
+        return self::create('Invalid interval format in array: %s', $value);
     }
 
     public static function forInvalidArrayType(mixed $value): self
     {
-        return self::create('Cannot convert interval array to PHP value. Expected a string or null, got %s.', $value);
+        return self::create('Value must be an array, %s given', $value);
     }
 }

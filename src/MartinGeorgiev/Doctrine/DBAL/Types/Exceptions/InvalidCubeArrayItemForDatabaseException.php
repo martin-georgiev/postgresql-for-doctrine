@@ -20,6 +20,6 @@ class InvalidCubeArrayItemForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Cannot convert cube array item to database value. Expected a Cube value object, got %s.', $value);
+        return self::create('Array items must be Cube value objects, %s given', $value);
     }
 }

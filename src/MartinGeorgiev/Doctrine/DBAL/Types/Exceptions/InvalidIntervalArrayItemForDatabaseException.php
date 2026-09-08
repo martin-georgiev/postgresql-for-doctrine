@@ -20,6 +20,6 @@ class InvalidIntervalArrayItemForDatabaseException extends ConversionException
 
     public static function forInvalidFormat(mixed $value): self
     {
-        return self::create('Cannot convert interval array item to database value. Value %s is not a valid interval.', $value);
+        return self::create('Invalid interval format in array: %s', $value);
     }
 }

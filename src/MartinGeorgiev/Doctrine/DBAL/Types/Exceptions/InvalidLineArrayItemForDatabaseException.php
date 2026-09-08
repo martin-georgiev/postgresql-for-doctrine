@@ -20,6 +20,6 @@ class InvalidLineArrayItemForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Cannot convert line array item to database value. Expected a Line value object, got %s.', $value);
+        return self::create('Array items must be Line value objects, %s given', $value);
     }
 }
