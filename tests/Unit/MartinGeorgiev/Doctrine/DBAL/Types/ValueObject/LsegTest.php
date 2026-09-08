@@ -36,6 +36,8 @@ final class LsegTest extends TestCase
         yield 'with whitespace before closing bracket' => ['[(1,2),(3,4) ]', '[(1,2),(3,4)]'];
         yield 'with whitespace around comma between points' => ['[(1,2) , (3,4)]', '[(1,2),(3,4)]'];
         yield 'with mixed whitespace variations' => ['[ ( 1 , 2 ) , ( 3 , 4 ) ]', '[(1,2),(3,4)]'];
+        yield 'with non-finite coordinates' => ['[(NaN,2),(Infinity,-Infinity)]', '[(NaN,2),(Infinity,-Infinity)]'];
+        yield 'with short non-finite spellings' => ['[(nan,2),(inf,-inf)]', '[(NaN,2),(Infinity,-Infinity)]'];
     }
 
     #[Test]
@@ -82,6 +84,19 @@ final class LsegTest extends TestCase
     {
         $lseg = Lseg::fromString('(1,2),(3,4)');
         $this->assertSame('[(1,2),(3,4)]', (string) $lseg);
+    }
+
+    #[Test]
+    public function accepts_non_finite_coordinates(): void
+    {
+        $lseg = new Lseg(new Point(\NAN, 2.0), new Point(\INF, -\INF));
+
+        $this->assertSame('[(NaN,2),(Infinity,-Infinity)]', (string) $lseg);
+
+        $parsed = Lseg::fromString((string) $lseg);
+        $this->assertNan($parsed->getStart()->getX());
+        $this->assertSame(\INF, $parsed->getEnd()->getX());
+        $this->assertSame(-\INF, $parsed->getEnd()->getY());
     }
 
     #[Test]

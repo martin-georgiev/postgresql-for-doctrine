@@ -30,6 +30,8 @@ final class LineTest extends TestCase
         yield 'line with negative coefficients' => ['{-1,-2,-3}', '{-1,-2,-3}'];
         yield 'line through origin' => ['{1,2,0}', '{1,2,0}'];
         yield 'line with zero A' => ['{0,1,-2}', '{0,1,-2}'];
+        yield 'non-finite coefficients' => ['{NaN,1,-Infinity}', '{NaN,1,-Infinity}'];
+        yield 'short non-finite spellings' => ['{nan,1,inf}', '{NaN,1,Infinity}'];
     }
 
     #[Test]
@@ -86,6 +88,18 @@ final class LineTest extends TestCase
     {
         $line = new Line(1.1234567890123, 2.0, 3.0);
         $this->assertSame(1.1234567890123, $line->getA());
+    }
+
+    #[Test]
+    public function accepts_non_finite_coefficients(): void
+    {
+        $line = new Line(\NAN, 1.0, -\INF);
+
+        $this->assertSame('{NaN,1,-Infinity}', (string) $line);
+
+        $parsed = Line::fromString((string) $line);
+        $this->assertNan($parsed->getA());
+        $this->assertSame(-\INF, $parsed->getC());
     }
 
     #[Test]

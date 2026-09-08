@@ -44,7 +44,17 @@ final class LineTypeTest extends TestCase
             'simple line' => [LineValueObject::fromString('{1,0,0}')],
             'line with floats' => [LineValueObject::fromString('{1.5,2.5,3.5}')],
             'line with negative coefficients' => [LineValueObject::fromString('{-1,-2,-3}')],
+            'line with infinite coefficient' => [LineValueObject::fromString('{1,0,-Infinity}')],
         ];
+    }
+
+    #[Test]
+    public function roundtrips_nan_coefficient(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripAssertingRepresentation($typeName, $columnType, new LineValueObject(\NAN, 1.0, -\INF));
     }
 
     #[Test]

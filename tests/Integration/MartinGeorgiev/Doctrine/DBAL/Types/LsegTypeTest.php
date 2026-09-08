@@ -44,7 +44,19 @@ final class LsegTypeTest extends TestCase
             'simple segment' => [LsegValueObject::fromString('[(0,0),(1,1)]')],
             'segment with floats' => [LsegValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
             'segment with negative coordinates' => [LsegValueObject::fromString('[(-1,-2),(-3,-4)]')],
+            'segment with infinite coordinates' => [LsegValueObject::fromString('[(Infinity,2),(-Infinity,-2)]')],
         ];
+    }
+
+    #[Test]
+    public function roundtrips_nan_coordinate(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $lseg = LsegValueObject::fromString('[(NaN,2),(Infinity,-Infinity)]');
+
+        $this->runDbalBindingRoundTripAssertingRepresentation($typeName, $columnType, $lseg);
     }
 
     #[Test]
