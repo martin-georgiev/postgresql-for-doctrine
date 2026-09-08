@@ -102,6 +102,38 @@ final class PointTest extends TestCase
     }
 
     #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $point = new Point($coordinate, -$coordinate);
+
+        $this->assertSame('(0.12345678901234568,-0.12345678901234568)', (string) $point);
+        $this->assertSame($coordinate, Point::fromString((string) $point)->getX());
+        $this->assertSame(-$coordinate, Point::fromString((string) $point)->getY());
+    }
+
+    #[Test]
+    public function preserves_full_float_precision_under_a_comma_decimal_locale(): void
+    {
+        $originalLocale = \setlocale(\LC_NUMERIC, '0');
+        if (\setlocale(\LC_NUMERIC, 'de_DE.UTF-8', 'de_DE', 'German_Germany', 'nl_NL.UTF-8') === false) {
+            $this->markTestSkipped('No comma-decimal locale is installed on this machine');
+        }
+
+        // The full-precision fallback only runs when the short form does not round-trip, which needs a low precision.
+        $originalPrecision = \ini_get('precision');
+        \ini_set('precision', '3');
+
+        try {
+            $this->assertSame('(0.12345678901234568,1)', (string) new Point(0.12345678901234568, 1.0));
+        } finally {
+            \ini_set('precision', (string) $originalPrecision);
+            \setlocale(\LC_NUMERIC, (string) $originalLocale);
+        }
+    }
+
+    #[Test]
     public function accepts_high_precision_coordinates(): void
     {
         $point = new Point(45.123456789012, 179.987654321098);

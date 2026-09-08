@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
+
 /**
  * @since 4.5
  *
@@ -11,6 +13,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  */
 abstract readonly class BaseGeometricValue implements \Stringable
 {
+    use PostgresFloatConversionTrait;
+
     /**
      * @var string
      */

@@ -33,7 +33,7 @@ final readonly class Point extends BaseGeometricValue
 
     public function __toString(): string
     {
-        return \sprintf('(%s,%s)', $this->x, $this->y);
+        return \sprintf('(%s,%s)', self::formatFloat($this->x), self::formatFloat($this->y));
     }
 
     public function getX(): float

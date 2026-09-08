@@ -43,7 +43,11 @@ final readonly class Path extends BaseGeometricValue
     public function __toString(): string
     {
         $pointStrings = \array_map(
-            static fn (Point $point): string => \sprintf('(%s,%s)', $point->getX(), $point->getY()),
+            static fn (Point $point): string => \sprintf(
+                '(%s,%s)',
+                self::formatFloat($point->getX()),
+                self::formatFloat($point->getY())
+            ),
             $this->points
         );
         $inner = \implode(',', $pointStrings);

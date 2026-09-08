@@ -35,7 +35,12 @@ final readonly class Line extends BaseGeometricValue
 
     public function __toString(): string
     {
-        return \sprintf('{%s,%s,%s}', (string) $this->a, (string) $this->b, (string) $this->c);
+        return \sprintf(
+            '{%s,%s,%s}',
+            self::formatFloat($this->a),
+            self::formatFloat($this->b),
+            self::formatFloat($this->c)
+        );
     }
 
     public function getA(): float

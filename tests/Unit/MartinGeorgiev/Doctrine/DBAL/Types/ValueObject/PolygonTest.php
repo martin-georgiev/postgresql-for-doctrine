@@ -75,6 +75,18 @@ final class PolygonTest extends TestCase
     }
 
     #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $polygon = new Polygon(new Point($coordinate, 2.0), new Point(3.0, -$coordinate));
+
+        $this->assertSame('((0.12345678901234568,2),(3,-0.12345678901234568))', (string) $polygon);
+        $this->assertSame($coordinate, Polygon::fromString((string) $polygon)->getVertices()[0]->getX());
+        $this->assertSame(-$coordinate, Polygon::fromString((string) $polygon)->getVertices()[1]->getY());
+    }
+
+    #[Test]
     public function throws_exception_for_too_few_vertices(): void
     {
         $this->expectException(InvalidPolygonException::class);
