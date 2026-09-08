@@ -30,8 +30,6 @@ class NumericArray extends BaseStringArray
      *
      * @var string
      */
-    // Anchored with \z rather than $, which would also match before a trailing newline. Items are written to the array
-    // literal verbatim, so PostgreSQL would silently trim that newline and the value read back would differ.
     private const NUMERIC_REGEX = '/^-?\d+(\.\d+)?\z/';
 
     /**

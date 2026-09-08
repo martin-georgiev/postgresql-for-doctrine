@@ -22,7 +22,6 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 final class UlidArray extends BaseArray
 {
-    // Anchored with \z rather than $, which would also match before a trailing newline.
     /**
      * @var string
      */

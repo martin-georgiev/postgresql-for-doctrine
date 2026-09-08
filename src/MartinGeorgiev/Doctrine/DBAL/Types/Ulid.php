@@ -23,7 +23,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidForPHPException;
  */
 final class Ulid extends BaseType
 {
-    // Anchored with \z rather than $, which would also match before a trailing newline.
     /**
      * @var string
      */

@@ -34,8 +34,6 @@ trait Macaddr8ValidationTrait
             .'|[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}'
             .'|[0-9A-Fa-f]{8}:[0-9A-Fa-f]{8}'
             .'|[0-9A-Fa-f]{16}'
-            // Anchored with \z rather than $, which would also match before a trailing newline. Normalisation strips
-            // separators and re-splits in pairs, so a newline would produce a malformed extra group.
             .')\z/',
             $value
         );
