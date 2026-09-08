@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
 
 /**
@@ -28,5 +29,10 @@ class JsonArray extends JsonbArray
     protected function throwInvalidTypeException(mixed $value): never
     {
         throw InvalidJsonArrayItemForPHPException::forInvalidArrayType($value);
+    }
+
+    protected function throwInvalidJsonValueException(mixed $phpValue): never
+    {
+        throw InvalidJsonArrayItemForDatabaseException::forUnencodableValue($phpValue);
     }
 }
