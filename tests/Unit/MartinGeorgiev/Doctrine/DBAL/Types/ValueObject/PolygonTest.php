@@ -32,6 +32,8 @@ final class PolygonTest extends TestCase
         yield 'polygon with floats' => ['((1.5,2.5),(3.5,4.5),(5.5,6.5))', '((1.5,2.5),(3.5,4.5),(5.5,6.5))'];
         yield 'polygon with negative coordinates' => ['((-1,-2),(-3,-4),(-5,-6))', '((-1,-2),(-3,-4),(-5,-6))'];
         yield 'polygon with spaces' => ['((0, 0), (1, 0), (0, 1))', '((0,0),(1,0),(0,1))'];
+        yield 'polygon with non-finite coordinates' => ['((NaN,2),(Infinity,-Infinity),(5,6))', '((NaN,2),(Infinity,-Infinity),(5,6))'];
+        yield 'polygon with short non-finite spellings' => ['((nan,2),(inf,-inf),(5,6))', '((NaN,2),(Infinity,-Infinity),(5,6))'];
     }
 
     #[DataProvider('provideInvalidPolygonStrings')]
@@ -72,6 +74,31 @@ final class PolygonTest extends TestCase
     {
         $polygon = new Polygon(new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0));
         $this->assertSame('((0,0),(1,0),(0,1))', (string) $polygon);
+    }
+
+    #[Test]
+    public function accepts_non_finite_coordinates(): void
+    {
+        $polygon = new Polygon(new Point(\NAN, 2.0), new Point(\INF, -\INF));
+
+        $this->assertSame('((NaN,2),(Infinity,-Infinity))', (string) $polygon);
+
+        $parsed = Polygon::fromString((string) $polygon);
+        $this->assertNan($parsed->getVertices()[0]->getX());
+        $this->assertSame(\INF, $parsed->getVertices()[1]->getX());
+        $this->assertSame(-\INF, $parsed->getVertices()[1]->getY());
+    }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $polygon = new Polygon(new Point($coordinate, 2.0), new Point(3.0, -$coordinate));
+
+        $this->assertSame('((0.12345678901234568,2),(3,-0.12345678901234568))', (string) $polygon);
+        $this->assertSame($coordinate, Polygon::fromString((string) $polygon)->getVertices()[0]->getX());
+        $this->assertSame(-$coordinate, Polygon::fromString((string) $polygon)->getVertices()[1]->getY());
     }
 
     #[Test]

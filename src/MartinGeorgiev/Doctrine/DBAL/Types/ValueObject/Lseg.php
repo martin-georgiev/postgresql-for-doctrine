@@ -37,10 +37,10 @@ final readonly class Lseg extends BaseGeometricValue
     {
         return \sprintf(
             '[(%s,%s),(%s,%s)]',
-            $this->start->getX(),
-            $this->start->getY(),
-            $this->end->getX(),
-            $this->end->getY()
+            self::formatFloat($this->start->getX()),
+            self::formatFloat($this->start->getY()),
+            self::formatFloat($this->end->getX()),
+            self::formatFloat($this->end->getY())
         );
     }
 

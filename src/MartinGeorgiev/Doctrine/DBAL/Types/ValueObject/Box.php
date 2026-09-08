@@ -32,10 +32,10 @@ final readonly class Box extends BaseGeometricValue
     {
         return \sprintf(
             '(%s,%s),(%s,%s)',
-            $this->upperRight->getX(),
-            $this->upperRight->getY(),
-            $this->lowerLeft->getX(),
-            $this->lowerLeft->getY()
+            self::formatFloat($this->upperRight->getX()),
+            self::formatFloat($this->upperRight->getY()),
+            self::formatFloat($this->lowerLeft->getX()),
+            self::formatFloat($this->lowerLeft->getY())
         );
     }
 

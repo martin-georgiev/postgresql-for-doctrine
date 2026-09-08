@@ -126,10 +126,6 @@ This document covers PostgreSQL mathematical functions available in this library
 | reverse (bytea) | REVERSE_BYTES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes` |
 | row | ROW | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row` |
 | row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
-| uuid_extract_timestamp | UUID_EXTRACT_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractTimestamp` |
-| uuid_extract_version | UUID_EXTRACT_VERSION | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\UuidExtractVersion` |
-| uuidv4 | UUIDV4 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4` |
-| uuidv7 | UUIDV7 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7` |
 | xmlagg | XML_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
 
 ## Usage Examples

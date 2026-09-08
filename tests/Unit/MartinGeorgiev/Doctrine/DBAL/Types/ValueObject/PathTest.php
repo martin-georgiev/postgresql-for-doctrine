@@ -33,6 +33,8 @@ final class PathTest extends TestCase
         yield 'path with floats' => ['[(1.5,2.5),(3.5,4.5)]', '[(1.5,2.5),(3.5,4.5)]'];
         yield 'path with negative coordinates' => ['[(-1,-2),(-3,-4)]', '[(-1,-2),(-3,-4)]'];
         yield 'path with spaces' => ['[(1, 2), (3, 4)]', '[(1,2),(3,4)]'];
+        yield 'path with non-finite coordinates' => ['[(NaN,2),(Infinity,-Infinity)]', '[(NaN,2),(Infinity,-Infinity)]'];
+        yield 'closed path with non-finite coordinates' => ['((nan,2),(inf,-inf))', '((NaN,2),(Infinity,-Infinity))'];
     }
 
     #[DataProvider('provideInvalidPathStrings')]
@@ -88,5 +90,30 @@ final class PathTest extends TestCase
         $path = new Path(true, new Point(1.0, 2.0), new Point(3.0, 4.0));
         $this->assertSame('[(1,2),(3,4)]', (string) $path);
         $this->assertTrue($path->isOpen());
+    }
+
+    #[Test]
+    public function accepts_non_finite_coordinates(): void
+    {
+        $path = new Path(true, new Point(\NAN, 2.0), new Point(\INF, -\INF));
+
+        $this->assertSame('[(NaN,2),(Infinity,-Infinity)]', (string) $path);
+
+        $parsed = Path::fromString((string) $path);
+        $this->assertNan($parsed->getPoints()[0]->getX());
+        $this->assertSame(\INF, $parsed->getPoints()[1]->getX());
+        $this->assertSame(-\INF, $parsed->getPoints()[1]->getY());
+    }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $coordinate = 0.12345678901234568;
+
+        $path = new Path(true, new Point($coordinate, 2.0), new Point(3.0, -$coordinate));
+
+        $this->assertSame('[(0.12345678901234568,2),(3,-0.12345678901234568)]', (string) $path);
+        $this->assertSame($coordinate, Path::fromString((string) $path)->getPoints()[0]->getX());
+        $this->assertSame(-$coordinate, Path::fromString((string) $path)->getPoints()[1]->getY());
     }
 }

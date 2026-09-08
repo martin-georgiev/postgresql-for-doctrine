@@ -120,6 +120,27 @@ final class Int4RangeTest extends BaseRangeTestCase
         yield 'empty' => ['empty', Int4Range::empty()];
     }
 
+    #[DataProvider('provideNonIntegerBounds')]
+    #[Test]
+    public function throws_for_non_integer_bound_from_string(string $input): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('is not a valid integer');
+
+        Int4Range::fromString($input);
+    }
+
+    /**
+     * @return \Generator<string, array{string}>
+     */
+    public static function provideNonIntegerBounds(): \Generator
+    {
+        yield 'non-numeric lower bound' => ['[abc,10)'];
+        yield 'non-numeric upper bound' => ['[1,abc)'];
+        yield 'decimal lower bound' => ['[1.5,10)'];
+        yield 'trailing characters' => ['[10abc,20)'];
+    }
+
     #[Test]
     public function validates_int4_bounds_for_lower(): void
     {

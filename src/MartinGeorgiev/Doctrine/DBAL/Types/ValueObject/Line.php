@@ -21,7 +21,7 @@ final readonly class Line extends BaseGeometricValue
     /**
      * @var string
      */
-    private const LINE_REGEX = '/^\{\s*('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.'),\s*('.self::COORDINATE_PATTERN.')\s*\}$/';
+    private const LINE_REGEX = '/^\{\s*('.self::FLOAT_PATTERN.'),\s*('.self::FLOAT_PATTERN.'),\s*('.self::FLOAT_PATTERN.')\s*\}$/';
 
     public function __construct(
         private float $a,
@@ -35,7 +35,12 @@ final readonly class Line extends BaseGeometricValue
 
     public function __toString(): string
     {
-        return \sprintf('{%s,%s,%s}', (string) $this->a, (string) $this->b, (string) $this->c);
+        return \sprintf(
+            '{%s,%s,%s}',
+            self::formatFloat($this->a),
+            self::formatFloat($this->b),
+            self::formatFloat($this->c)
+        );
     }
 
     public function getA(): float
@@ -59,6 +64,10 @@ final readonly class Line extends BaseGeometricValue
             throw InvalidLineException::forInvalidFormat($value, self::LINE_REGEX);
         }
 
-        return new self((float) $matches[1], (float) $matches[2], (float) $matches[3]);
+        return new self(
+            self::parseFloat($matches[1]),
+            self::parseFloat($matches[2]),
+            self::parseFloat($matches[3])
+        );
     }
 }

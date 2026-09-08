@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
 /**
@@ -16,20 +15,18 @@ use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
  */
 trait JsonTransformer
 {
+    abstract protected function throwInvalidJsonValueException(mixed $phpValue): never;
+
     /**
      * @param mixed $phpValue Value must be suitable for JSON encoding
-     *
-     * @throws ConversionException When given value cannot be encoded
      */
     protected function transformToPostgresJson(mixed $phpValue): string
     {
         try {
-            $postgresValue = \json_encode($phpValue, JSON_THROW_ON_ERROR);
+            return \json_encode($phpValue, JSON_THROW_ON_ERROR);
         } catch (\JsonException) {
-            throw new ConversionException(\sprintf("Value %s can't be resolved to valid JSON", \var_export($phpValue, true)));
+            $this->throwInvalidJsonValueException($phpValue);
         }
-
-        return $postgresValue;
     }
 
     protected function transformFromPostgresJson(string $postgresValue): array|bool|float|int|string|null
