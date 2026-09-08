@@ -20,6 +20,6 @@ class InvalidPathArrayItemForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Cannot convert path array item to database value. Expected a Path value object, got %s.', $value);
+        return self::create('Array items must be Path value objects, %s given', $value);
     }
 }

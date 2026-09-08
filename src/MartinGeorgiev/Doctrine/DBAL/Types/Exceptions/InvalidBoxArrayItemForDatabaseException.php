@@ -20,6 +20,6 @@ class InvalidBoxArrayItemForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Cannot convert box array item to database value. Expected a Box value object, got %s.', $value);
+        return self::create('Array items must be Box value objects, %s given', $value);
     }
 }

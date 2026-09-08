@@ -20,6 +20,6 @@ class InvalidLsegArrayItemForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Cannot convert lseg array item to database value. Expected a Lseg value object, got %s.', $value);
+        return self::create('Array items must be Lseg value objects, %s given', $value);
     }
 }

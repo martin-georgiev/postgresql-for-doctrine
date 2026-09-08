@@ -20,6 +20,6 @@ class InvalidCircleArrayItemForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Cannot convert circle array item to database value. Expected a Circle value object, got %s.', $value);
+        return self::create('Array items must be Circle value objects, %s given', $value);
     }
 }

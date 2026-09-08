@@ -20,6 +20,6 @@ class InvalidPolygonArrayItemForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Cannot convert polygon array item to database value. Expected a Polygon value object, got %s.', $value);
+        return self::create('Array items must be Polygon value objects, %s given', $value);
     }
 }

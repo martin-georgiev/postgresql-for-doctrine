@@ -20,11 +20,11 @@ class InvalidLsegArrayItemForPHPException extends ConversionException
 
     public static function forInvalidFormat(mixed $value): self
     {
-        return self::create('Cannot convert lseg array item to PHP value. Value %s is not a valid lseg.', $value);
+        return self::create('Invalid lseg format in array: %s', $value);
     }
 
     public static function forInvalidArrayType(mixed $value): self
     {
-        return self::create('Cannot convert lseg array to PHP value. Expected a string or null, got %s.', $value);
+        return self::create('Value must be an array, %s given', $value);
     }
 }

@@ -20,11 +20,11 @@ class InvalidPolygonArrayItemForPHPException extends ConversionException
 
     public static function forInvalidFormat(mixed $value): self
     {
-        return self::create('Cannot convert polygon array item to PHP value. Value %s is not a valid polygon.', $value);
+        return self::create('Invalid polygon format in array: %s', $value);
     }
 
     public static function forInvalidArrayType(mixed $value): self
     {
-        return self::create('Cannot convert polygon array to PHP value. Expected a string or null, got %s.', $value);
+        return self::create('Value must be an array, %s given', $value);
     }
 }

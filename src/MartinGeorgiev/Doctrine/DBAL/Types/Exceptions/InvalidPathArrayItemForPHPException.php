@@ -20,11 +20,11 @@ class InvalidPathArrayItemForPHPException extends ConversionException
 
     public static function forInvalidFormat(mixed $value): self
     {
-        return self::create('Cannot convert path array item to PHP value. Value %s is not a valid path.', $value);
+        return self::create('Invalid path format in array: %s', $value);
     }
 
     public static function forInvalidArrayType(mixed $value): self
     {
-        return self::create('Cannot convert path array to PHP value. Expected a string or null, got %s.', $value);
+        return self::create('Value must be an array, %s given', $value);
     }
 }
