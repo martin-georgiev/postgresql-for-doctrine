@@ -93,9 +93,9 @@
 | polygon | polygon | `MartinGeorgiev\Doctrine\DBAL\Types\Polygon` |
 | polygon[] | _polygon | `MartinGeorgiev\Doctrine\DBAL\Types\PolygonArray` |
 |---|---|---|
-| geography | geography | `MartinGeorgiev\Doctrine\DBAL\Types\Geography` |
+| geography | geography | `MartinGeorgiev\Doctrine\DBAL\Types\Geography` (see [note](#postgis-spatial-types)) |
 | geography[] | _geography | `MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray` |
-| geometry | geometry | `MartinGeorgiev\Doctrine\DBAL\Types\Geometry` |
+| geometry | geometry | `MartinGeorgiev\Doctrine\DBAL\Types\Geometry` (see [note](#postgis-spatial-types)) |
 | geometry[] | _geometry | `MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray` |
 |---|---|---|
 | cube | cube | `MartinGeorgiev\Doctrine\DBAL\Types\Cube` (see [note](#cube-type)) |
@@ -122,6 +122,33 @@
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` (see [note](#pgvector-types)) |
 |---|---|---|
 | *(user-defined enum)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Enum` (see [Enum Types](ENUM-TYPE.md)) |
+
+## PostGIS Spatial Types
+
+The `geometry` and `geography` types accept the `geometry_type` and `srid` column options, which emit a PostGIS type modifier so the subtype and spatial reference system are enforced by the database:
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
+#[ORM\Entity]
+class Place
+{
+    // GEOGRAPHY(POINT,4326) — only WGS 84 points are accepted
+    #[ORM\Column(type: 'geography', options: ['geometry_type' => 'Point', 'srid' => 4326])]
+    private WktSpatialData $location;
+
+    // GEOMETRY — unconstrained, accepts any geometry
+    #[ORM\Column(type: 'geometry')]
+    private WktSpatialData $shape;
+}
+```
+
+Omitting both options keeps the bare `GEOMETRY` / `GEOGRAPHY` declaration.
+
+> 📖 **See also**: [Spatial Types](SPATIAL-TYPES.md#column-options-for-ddl) for the full option reference
+
+---
 
 ## pgvector Types
 

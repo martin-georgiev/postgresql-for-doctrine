@@ -167,6 +167,54 @@ $tin = WktSpatialData::fromWkt('TIN(((0 0, 1 0, 0.5 1, 0 0)), ((1 0, 2 0, 1.5 1,
 $polyhedralSurface = WktSpatialData::fromWkt('POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((0 0, 0 1, 0 0 1, 0 0)))');
 ```
 
+## Column options for DDL
+
+By default `geometry` and `geography` columns are declared as bare `GEOMETRY` / `GEOGRAPHY`. A bare `GEOMETRY` column accepts any subtype and any SRID. A bare `GEOGRAPHY` column is narrower: it accepts only geography-compatible subtypes (PostGIS rejects e.g. `TIN`) and geodetic lon/lat SRIDs, and stores SRID-less input as SRID 4326. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
+
+| Option | Type | Meaning |
+|---|---|---|
+| `geometry_type` | string | The geometry subtype, e.g. `Point`, `LineString`, `MultiPolygon`. Case-insensitive. May carry a dimensional modifier suffix: `PointZ`, `PointM`, `PointZM`. Use `Geometry` for "any subtype". |
+| `srid` | int | The spatial reference system identifier, e.g. `4326`. Must be a non-negative integer. |
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
+#[ORM\Entity]
+class Place
+{
+    // GEOGRAPHY(POINT,4326)
+    #[ORM\Column(type: 'geography', options: ['geometry_type' => 'Point', 'srid' => 4326])]
+    private WktSpatialData $location;
+
+    // GEOMETRY(POLYGONZ) — 3D polygons, SRID unconstrained
+    #[ORM\Column(type: 'geometry', options: ['geometry_type' => 'PolygonZ'])]
+    private WktSpatialData $volume;
+
+    // GEOMETRY(GEOMETRY,3857) — any subtype, but SRID pinned to Web Mercator
+    #[ORM\Column(type: 'geometry', options: ['srid' => 3857])]
+    private WktSpatialData $tileShape;
+
+    // GEOMETRY — unconstrained
+    #[ORM\Column(type: 'geometry')]
+    private WktSpatialData $shape;
+}
+```
+
+Both options are optional and independent:
+
+- Neither option → bare `GEOMETRY` / `GEOGRAPHY`.
+- `geometry_type` only → `GEOMETRY(POINT)`.
+- `srid` only → `GEOMETRY(GEOMETRY,4326)`, since PostGIS requires a subtype whenever an SRID is given.
+
+### Caveats
+
+- The options only shape the DDL that Doctrine generates. They do not alter value conversion — a `WktSpatialData` carrying a different subtype is still handed to PostgreSQL, which rejects it at insert time.
+- `geography` only supports lon/lat reference systems; PostgreSQL rejects e.g. `GEOGRAPHY(POINT,3857)` at `CREATE TABLE` time.
+- A constrained column coerces values that carry no SRID: inserting `POINT(1 2)` into `GEOMETRY(POINT,4326)` stores `SRID=4326;POINT(1 2)`.
+- Doctrine's schema comparator does not understand PostGIS type modifiers, so `doctrine:schema:update` and diff-based migration generation may report spurious changes for these columns. Manage them with explicit migrations.
+- Spatial (GiST) indexes are not covered by these options. Declare them in a migration with raw SQL: `CREATE INDEX idx_place_location ON place USING GIST (location);`
+
 ## Geography vs Geometry specifics
 
 - Geometry accepts WKT and EWKT (`SRID=...;...`).

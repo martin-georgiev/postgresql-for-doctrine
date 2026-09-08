@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\SpatialColumnOptionsSQLDeclarationTrait;
 
 /**
  * Base class for PostGIS spatial types (GEOMETRY, GEOGRAPHY).
  *
- * Provides common functionality for spatial types that need to convert
- * between binary (EWKB) and text (EWKT) formats.
+ * Provides common functionality for spatial types that need to convert between binary (EWKB) and text (EWKT) formats.
  *
  * @since 3.6
  *
@@ -18,6 +18,8 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  */
 abstract class BaseSpatialType extends BaseType
 {
+    use SpatialColumnOptionsSQLDeclarationTrait;
+
     /**
      * Modifies the SQL expression to convert spatial data from binary to EWKT format.
      *
