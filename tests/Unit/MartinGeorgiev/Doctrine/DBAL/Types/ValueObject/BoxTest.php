@@ -31,6 +31,8 @@ final class BoxTest extends TestCase
         yield 'negative coordinates' => ['(-1,-2),(-3,-4)', '(-1,-2),(-3,-4)'];
         yield 'zero coordinates' => ['(0,0),(1,1)', '(0,0),(1,1)'];
         yield 'mixed positive and negative' => ['(-1,2),(3,-4)', '(-1,2),(3,-4)'];
+        yield 'non-finite coordinates' => ['(NaN,2),(Infinity,-Infinity)', '(NaN,2),(Infinity,-Infinity)'];
+        yield 'short non-finite spellings' => ['(nan,2),(inf,-inf)', '(NaN,2),(Infinity,-Infinity)'];
     }
 
     #[DataProvider('provideInvalidBoxStrings')]
@@ -69,6 +71,19 @@ final class BoxTest extends TestCase
     {
         $box = new Box(new Point(1.0, 2.0), new Point(3.0, 4.0));
         $this->assertSame('(1,2),(3,4)', (string) $box);
+    }
+
+    #[Test]
+    public function accepts_non_finite_coordinates(): void
+    {
+        $box = new Box(new Point(\NAN, 2.0), new Point(\INF, -\INF));
+
+        $this->assertSame('(NaN,2),(Infinity,-Infinity)', (string) $box);
+
+        $parsed = Box::fromString((string) $box);
+        $this->assertNan($parsed->getUpperRight()->getX());
+        $this->assertSame(\INF, $parsed->getLowerLeft()->getX());
+        $this->assertSame(-\INF, $parsed->getLowerLeft()->getY());
     }
 
     #[Test]

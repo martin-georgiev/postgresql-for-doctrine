@@ -50,30 +50,29 @@ final class CubeTypeTest extends ScalarTypeTestCase
         ];
     }
 
+    #[DataProvider('provideNanCoordinates')]
     #[Test]
-    public function roundtrips_nan_coordinate(): void
+    public function roundtrips_nan_coordinate(CubeValueObject $cubeValueObject): void
     {
-        // NaN never equals itself, so the round-trip is asserted on the emitted representation.
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+        $this->runDbalBindingRoundTripAssertingRepresentation($typeName, $columnType, $cubeValueObject);
+    }
 
-        try {
-            $this->connection->createQueryBuilder()
-                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
-                ->values([$columnName => ':value'])
-                ->setParameter('value', new CubeValueObject([\NAN, 1.0]), $typeName)
-                ->executeStatement();
-
-            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
-
-            $this->assertInstanceOf(CubeValueObject::class, $retrieved);
-            $this->assertSame('(NaN, 1)', (string) $retrieved);
-            $this->assertNan($retrieved->getFirstCorner()[0]);
-        } finally {
-            $this->dropTestTableIfItExists($tableName);
-        }
+    /**
+     * NaN never equals itself, so these cannot live in provideValidTransformations() — the round-trip there compares
+     * value objects, while these are asserted on the emitted representation.
+     *
+     * @return array<string, array{CubeValueObject}>
+     */
+    public static function provideNanCoordinates(): array
+    {
+        return [
+            'nan in a point' => [new CubeValueObject([\NAN, 1.0])],
+            'nan in both corners' => [new CubeValueObject([\NAN, 1.0], [\NAN, 2.0])],
+            'nan mixed with infinity' => [new CubeValueObject([\NAN, -\INF])],
+        ];
     }
 
     #[Test]

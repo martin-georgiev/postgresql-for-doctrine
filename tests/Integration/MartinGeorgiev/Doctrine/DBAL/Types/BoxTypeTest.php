@@ -53,7 +53,22 @@ final class BoxTypeTest extends TestCase
                 BoxValueObject::fromString('(-3,-4),(-1,-2)'),
                 BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ],
+            'box with infinite coordinates' => [
+                BoxValueObject::fromString('(-Infinity,-2),(Infinity,2)'),
+                BoxValueObject::fromString('(Infinity,2),(-Infinity,-2)'),
+            ],
         ];
+    }
+
+    #[Test]
+    public function roundtrips_nan_coordinate(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $box = BoxValueObject::fromString('(NaN,2),(Infinity,-Infinity)');
+
+        $this->runDbalBindingRoundTripAssertingRepresentation($typeName, $columnType, $box);
     }
 
     #[Test]

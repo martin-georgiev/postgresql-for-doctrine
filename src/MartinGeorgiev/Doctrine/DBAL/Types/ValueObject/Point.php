@@ -16,20 +16,12 @@ final readonly class Point extends BaseGeometricValue
     /**
      * @var string
      */
-    private const POINT_REGEX = '/^\(\s*('.self::COORDINATE_PATTERN.')\s*,\s*('.self::COORDINATE_PATTERN.')\s*\)$/';
+    private const POINT_REGEX = '/^\(\s*('.self::FLOAT_PATTERN.')\s*,\s*('.self::FLOAT_PATTERN.')\s*\)$/';
 
     public function __construct(
         private float $x,
         private float $y,
-    ) {
-        if (!\is_finite($x)) {
-            throw InvalidPointException::forNonFiniteCoordinate($x);
-        }
-
-        if (!\is_finite($y)) {
-            throw InvalidPointException::forNonFiniteCoordinate($y);
-        }
-    }
+    ) {}
 
     public function __toString(): string
     {
@@ -52,6 +44,6 @@ final readonly class Point extends BaseGeometricValue
             throw InvalidPointException::forInvalidPointFormat($pointString, self::POINT_REGEX);
         }
 
-        return new self((float) $matches[1], (float) $matches[2]);
+        return new self(self::parseFloat($matches[1]), self::parseFloat($matches[2]));
     }
 }

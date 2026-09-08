@@ -32,17 +32,9 @@ final readonly class Cube implements \Stringable
     private const MAX_DIMENSIONS = 100;
 
     /**
-     * PostgreSQL accepts non-finite coordinates in several spellings (nan, inf, -inf, infinity).
-     * PostgreSQL always emits these as NaN, Infinity or -Infinity.
-     *
      * @var string
      */
-    private const COORDINATE_PATTERN = '(?:[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|[+-]?(?i:inf(?:inity)?|nan))';
-
-    /**
-     * @var string
-     */
-    private const COORDINATE_LIST_PATTERN = self::COORDINATE_PATTERN.'(?:\s*,\s*'.self::COORDINATE_PATTERN.')*';
+    private const COORDINATE_LIST_PATTERN = self::FLOAT_PATTERN.'(?:\s*,\s*'.self::FLOAT_PATTERN.')*';
 
     /**
      * @var string
@@ -178,20 +170,7 @@ final readonly class Cube implements \Stringable
         $parts = \preg_split('/\s*,\s*/', \trim($coordinateList));
         \assert(\is_array($parts));
 
-        return \array_map(self::parseCoordinate(...), $parts);
-    }
-
-    /**
-     * Casting a string to float yields 0.0 for every non-finite spelling PostgreSQL uses. Those are matched explicitly.
-     */
-    private static function parseCoordinate(string $coordinate): float
-    {
-        return match (\mb_strtolower(\ltrim($coordinate, '+'))) {
-            'nan', '-nan' => \NAN,
-            'inf', 'infinity' => \INF,
-            '-inf', '-infinity' => -\INF,
-            default => (float) $coordinate,
-        };
+        return \array_map(self::parseFloat(...), $parts);
     }
 
     /**

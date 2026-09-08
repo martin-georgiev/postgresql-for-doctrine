@@ -31,6 +31,9 @@ final class CircleTest extends TestCase
         yield 'circle with negative center' => ['<(-1,-2),5>', '<(-1,-2),5>'];
         yield 'circle at origin' => ['<(0,0),1>', '<(0,0),1>'];
         yield 'circle with float radius' => ['<(0,0),1.5>', '<(0,0),1.5>'];
+        yield 'non-finite center' => ['<(NaN,-Infinity),3>', '<(NaN,-Infinity),3>'];
+        yield 'non-finite radius' => ['<(1,2),Infinity>', '<(1,2),Infinity>'];
+        yield 'short non-finite spellings' => ['<(nan,inf),nan>', '<(NaN,Infinity),NaN>'];
     }
 
     #[DataProvider('provideInvalidCircleStrings')]
@@ -53,6 +56,7 @@ final class CircleTest extends TestCase
         yield 'line format' => ['{1,2,3}'];
         yield 'only center, no radius' => ['<(1,2)>'];
         yield 'negative radius' => ['<(0,0),-1>'];
+        yield 'negative infinite radius' => ['<(0,0),-Infinity>'];
     }
 
     #[Test]
@@ -76,6 +80,29 @@ final class CircleTest extends TestCase
     {
         $this->expectException(InvalidCircleException::class);
         new Circle(new Point(0.0, 0.0), -1.0);
+    }
+
+    #[Test]
+    public function accepts_non_finite_center_and_radius(): void
+    {
+        $circle = new Circle(new Point(\NAN, -\INF), \INF);
+
+        $this->assertSame('<(NaN,-Infinity),Infinity>', (string) $circle);
+
+        $parsed = Circle::fromString((string) $circle);
+        $this->assertNan($parsed->getCenter()->getX());
+        $this->assertSame(-\INF, $parsed->getCenter()->getY());
+        $this->assertSame(\INF, $parsed->getRadius());
+    }
+
+    /**
+     * PostgreSQL rejects every negative radius, -Infinity included, so the existing guard already matches it.
+     */
+    #[Test]
+    public function throws_exception_for_negative_infinite_radius(): void
+    {
+        $this->expectException(InvalidCircleException::class);
+        new Circle(new Point(0.0, 0.0), -\INF);
     }
 
     #[Test]

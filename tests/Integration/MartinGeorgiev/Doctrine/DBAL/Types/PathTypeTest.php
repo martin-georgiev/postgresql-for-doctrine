@@ -45,7 +45,19 @@ final class PathTypeTest extends TestCase
             'closed path' => [PathValueObject::fromString('((0,0),(1,1),(2,0))')],
             'path with floats' => [PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
             'path with negative coordinates' => [PathValueObject::fromString('[(-1,-2),(-3,-4)]')],
+            'path with infinite coordinates' => [PathValueObject::fromString('[(Infinity,2),(-Infinity,-2)]')],
         ];
+    }
+
+    #[Test]
+    public function roundtrips_nan_coordinate(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $path = PathValueObject::fromString('[(NaN,2),(Infinity,-Infinity)]');
+
+        $this->runDbalBindingRoundTripAssertingRepresentation($typeName, $columnType, $path);
     }
 
     #[Test]

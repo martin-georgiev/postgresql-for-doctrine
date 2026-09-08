@@ -44,7 +44,20 @@ final class CircleTypeTest extends TestCase
             'unit circle at origin' => [CircleValueObject::fromString('<(0,0),1>')],
             'circle with floats' => [CircleValueObject::fromString('<(1.5,2.5),3.5>')],
             'circle with negative center' => [CircleValueObject::fromString('<(-10,-20),5>')],
+            'circle with infinite center' => [CircleValueObject::fromString('<(Infinity,-Infinity),1>')],
+            'circle with infinite radius' => [CircleValueObject::fromString('<(1,2),Infinity>')],
         ];
+    }
+
+    #[Test]
+    public function roundtrips_nan_coordinate(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $circle = CircleValueObject::fromString('<(NaN,2),Infinity>');
+
+        $this->runDbalBindingRoundTripAssertingRepresentation($typeName, $columnType, $circle);
     }
 
     #[Test]

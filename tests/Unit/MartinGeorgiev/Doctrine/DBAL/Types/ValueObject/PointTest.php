@@ -31,6 +31,11 @@ final class PointTest extends TestCase
         yield 'origin' => ['(0,0)', '(0,0)'];
         yield 'point with spaces' => ['( 1 , 2 )', '(1,2)'];
         yield 'high precision' => ['(45.123456789,179.987654321)', '(45.123456789,179.987654321)'];
+        yield 'not a number' => ['(NaN,NaN)', '(NaN,NaN)'];
+        yield 'positive and negative infinity' => ['(Infinity,-Infinity)', '(Infinity,-Infinity)'];
+        yield 'short non-finite spellings' => ['(inf,-inf)', '(Infinity,-Infinity)'];
+        yield 'lowercase non-finite spellings' => ['(nan,infinity)', '(NaN,Infinity)'];
+        yield 'signed infinity' => ['(+inf,2)', '(Infinity,2)'];
     }
 
     #[Test]
@@ -74,24 +79,14 @@ final class PointTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_nan_coordinate(): void
+    public function accepts_non_finite_coordinates(): void
     {
-        $this->expectException(InvalidPointException::class);
-        new Point(\NAN, 1.0);
-    }
+        $this->assertSame('(NaN,1)', (string) new Point(\NAN, 1.0));
+        $this->assertSame('(Infinity,-Infinity)', (string) new Point(\INF, -\INF));
 
-    #[Test]
-    public function throws_exception_for_infinite_coordinate(): void
-    {
-        $this->expectException(InvalidPointException::class);
-        new Point(1.0, \INF);
-    }
-
-    #[Test]
-    public function throws_exception_for_negative_infinite_coordinate(): void
-    {
-        $this->expectException(InvalidPointException::class);
-        new Point(-\INF, 1.0);
+        $point = Point::fromString('(NaN,-Infinity)');
+        $this->assertNan($point->getX());
+        $this->assertSame(-\INF, $point->getY());
     }
 
     #[Test]
