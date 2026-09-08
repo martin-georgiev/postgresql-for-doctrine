@@ -36,8 +36,6 @@ final class XmlTypeTest extends ScalarTypeTestCase
             'element with attributes' => ['<root id="1"><item key="value"/></root>'],
             'element with namespace' => ['<root xmlns="http://example.com"><child/></root>'],
             'element with CDATA section' => ['<root><![CDATA[some <raw> text]]></root>'],
-            // Unlike the version and encoding pseudo-attributes, standalone survives storage — see
-            // normalizes_xml_declaration_on_storage() for the ones PostgreSQL drops.
             'declaration with standalone' => ['<?xml version="1.0" standalone="yes"?><root/>'],
         ];
     }
@@ -55,8 +53,9 @@ final class XmlTypeTest extends ScalarTypeTestCase
     }
 
     /**
-     * PostgreSQL drops the version and encoding pseudo-attributes on storage, but keeps standalone, which is why the
-     * standalone form lives in provideValidTransformations() instead.
+     * PostgreSQL drops certain pseudo-attributes:
+     * - encoding: because it is a direct conflict of interest with database storage architecture.
+     * - version: because it represents metadata about the document structure, rather than a property of the data content itself.
      *
      * @return array<string, array{storedValue: string, retrievedValue: string}>
      */
