@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Utils;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonItemForPHPException;
+use MartinGeorgiev\Utils\Exception\InvalidJsonFormatException;
 
 /**
  * Handles transformation from PostgreSQL JSON(B) values to PHP values.
@@ -37,24 +36,24 @@ class PostgresJsonToPHPArrayTransformer
     }
 
     /**
-     * @throws InvalidJsonArrayItemForPHPException When the PostgreSQL value is not a JSON
+     * @throws InvalidJsonFormatException When the PostgreSQL value is not a JSON array
      */
     public static function transformPostgresJsonEncodedValueToPHPArray(string $postgresValue): array
     {
         try {
             $transformedValue = \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
             if (!\is_array($transformedValue)) {
-                throw InvalidJsonArrayItemForPHPException::forInvalidType($postgresValue);
+                throw InvalidJsonFormatException::invalidFormat('the value does not decode to an array');
             }
 
             return $transformedValue;
         } catch (\JsonException) {
-            throw InvalidJsonArrayItemForPHPException::forInvalidFormat($postgresValue);
+            throw InvalidJsonFormatException::invalidFormat('the value is not decodable JSON');
         }
     }
 
     /**
-     * @throws InvalidJsonItemForPHPException When the PostgreSQL value is not JSON-decodable
+     * @throws InvalidJsonFormatException When the PostgreSQL value is not JSON-decodable
      */
     public static function transformPostgresJsonEncodedValueToPHPValue(string $postgresValue): array|bool|float|int|string|null
     {
@@ -62,7 +61,7 @@ class PostgresJsonToPHPArrayTransformer
             // @phpstan-ignore-next-line
             return \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
         } catch (\JsonException) {
-            throw InvalidJsonItemForPHPException::forInvalidType($postgresValue);
+            throw InvalidJsonFormatException::invalidFormat('the value is not decodable JSON');
         }
     }
 }

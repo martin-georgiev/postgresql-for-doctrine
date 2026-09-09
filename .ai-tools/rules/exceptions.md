@@ -25,12 +25,36 @@ Examples:
 - `convertToPHPValue` / `transformArrayItemForPHP` → use `*ForPHPException`
 - `convertToDatabaseValue` / `transformArrayItemForPostgres` → use `*ForDatabaseException`
 
-**Location**: two namespaces, by usage:
+**Location**: three namespaces, by usage:
 
 | Namespace | Use for |
 |-----------|---------|
 | `src/MartinGeorgiev/Doctrine/DBAL/Types/Exceptions/` | Exceptions thrown by DBAL type classes themselves (`convertToDatabaseValue`, `convertToPHPValue`, `transformArrayItemForPostgres`, `transformArrayItemForPHP`). The `Invalid{TypeName}For{PHP|Database}Exception` family lives here. |
 | `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/` | Exceptions thrown by value objects under `Types/ValueObject/` (e.g. `InvalidBoxException`, `InvalidLtreeException`). These signal construction/format errors at VO level, before any DBAL type sees them. |
+| `src/MartinGeorgiev/Utils/Exception/` | Exceptions thrown by the `Utils` transformers (e.g. `InvalidArrayFormatException`, `InvalidRecordFormatException`). |
+
+## A Namespace Only Throws Its Own Exceptions
+
+**Required**: `Utils` classes throw `Utils\Exception\*` and nothing else. A DBAL type calling a transformer catches that and rethrows its own domain exception, so callers still see the documented `Invalid{TypeName}For{PHP|Database}Exception`.
+
+**Reason**: `Utils` sits below the types and must not depend on them. Deptrac enforces this (`composer run-static-analysis`), so a breach fails the build rather than review.
+
+```php
+// ❌ Wrong — a Utils transformer reaching up into the DBAL type exceptions
+throw InvalidJsonArrayItemForPHPException::forInvalidFormat($postgresValue);
+
+// ✓ Correct — throw at the Utils level, translate in the caller
+throw InvalidJsonFormatException::invalidFormat('the value is not decodable JSON');
+
+// ...and in the DBAL type:
+try {
+    return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item);
+} catch (InvalidJsonFormatException) {
+    throw InvalidJsonArrayItemForPHPException::forInvalidFormat($item);
+}
+```
+
+The Utils exception carries the *reason* (`'the value is not decodable JSON'`); the domain exception adds the offending value. Do not duplicate the value in both.
 
 **Default parent class**: `Doctrine\DBAL\Types\ConversionException`.
 

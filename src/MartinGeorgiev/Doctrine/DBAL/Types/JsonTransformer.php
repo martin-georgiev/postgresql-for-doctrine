@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonItemForPHPException;
+use MartinGeorgiev\Utils\Exception\InvalidJsonFormatException;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
 /**
@@ -31,6 +33,10 @@ trait JsonTransformer
 
     protected function transformFromPostgresJson(string $postgresValue): array|bool|float|int|string|null
     {
-        return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue);
+        try {
+            return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($postgresValue);
+        } catch (InvalidJsonFormatException) {
+            throw InvalidJsonItemForPHPException::forInvalidType($postgresValue);
+        }
     }
 }

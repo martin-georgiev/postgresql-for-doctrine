@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbArrayItemForDatabaseException;
+use MartinGeorgiev\Utils\Exception\InvalidJsonFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
@@ -51,6 +53,10 @@ class JsonbArray extends BaseArray
      */
     public function transformArrayItemForPHP($item): array
     {
-        return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item);
+        try {
+            return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item);
+        } catch (InvalidJsonFormatException) {
+            throw InvalidJsonArrayItemForPHPException::forInvalidFormat($item);
+        }
     }
 }
