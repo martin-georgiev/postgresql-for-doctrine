@@ -1,6 +1,6 @@
 # PostgreSQL Enum Types
 
-PostgreSQL [native enum types](https://www.postgresql.org/docs/18/datatype-enum.html) are user-defined types with a fixed set of ordered string values. Unlike every other type in this library, there is no pre-registered constant - each PostgreSQL enum maps to its own subclass of `Enum`.
+PostgreSQL [native enum types](https://www.postgresql.org/docs/18/datatype-enum.html) are user-defined types with a fixed set of ordered string values. Unlike every other type in this library, there is no pre-registered constant - each PostgreSQL enum maps to its own subclass of `Enum`, and each array of one to its own subclass of `EnumArray`.
 
 > 📖 **See also**: [Available Types](AVAILABLE-TYPES.md)
 
@@ -92,6 +92,74 @@ final class PaymentMethodType extends Enum
 Type::addType('order_status', OrderStatusType::class);
 Type::addType('payment_method', PaymentMethodType::class);
 ```
+
+## Arrays of enum values
+
+A column declared as `order_status[]` maps to a PHP array of `OrderStatus` cases through
+[`EnumArray`](../src/MartinGeorgiev/Doctrine/DBAL/Types/EnumArray.php). It is configured exactly like `Enum`: one
+concrete subclass per PostgreSQL enum, declaring `TYPE_NAME` and implementing `getEnumClass()`. The only difference is
+that `TYPE_NAME` carries the `[]` suffix.
+
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\EnumArray;
+
+final class OrderStatusArrayType extends EnumArray
+{
+    protected const TYPE_NAME = 'order_status[]';
+
+    protected function getEnumClass(): string
+    {
+        return OrderStatus::class;
+    }
+}
+
+Type::addType('order_status[]', OrderStatusArrayType::class);
+```
+
+The scalar and the array type are independent registrations - add whichever ones your schema uses.
+
+```sql
+CREATE TABLE orders (
+    id           SERIAL PRIMARY KEY,
+    status       order_status NOT NULL,
+    status_trail order_status[] NOT NULL DEFAULT '{}'
+);
+```
+
+```php
+#[ORM\Entity]
+class Order
+{
+    #[ORM\Column(type: 'order_status')]
+    private OrderStatus $status;
+
+    /**
+     * @var array<int, OrderStatus>
+     */
+    #[ORM\Column(type: 'order_status[]')]
+    private array $statusTrail = [];
+}
+```
+
+### Label escaping
+
+PostgreSQL enum labels are arbitrary text, so a label may contain a comma, a space, a double quote, a backslash or be
+empty. `EnumArray` quotes and escapes every element it writes, and reverses that on read, so all of those round-trip
+unchanged. Labels that merely look numeric or boolean (`'42'`, `'true'`) also survive as labels rather than being
+coerced to PHP scalars.
+
+### NULL elements
+
+A `NULL` element inside the array maps to a PHP `null` entry, and `null` entries are written back as SQL `NULL`. This is
+distinct from a `NULL` column, which maps to `null` instead of an array.
+
+```php
+$order->statusTrail = [OrderStatus::PENDING, null, OrderStatus::SHIPPED]; // {"pending",NULL,"shipped"}
+```
+
+> ⚠️ **Limitation**: PostgreSQL emits a `NULL` element and a quoted label spelled exactly `NULL` in a form this library
+> cannot tell apart once the array text is parsed, so an enum whose labels include `NULL` reads that element back as
+> `null`. Lower-case `null` and every other label are unaffected. Avoid `NULL` as a label if you need the distinction.
 
 ## Migrations
 

@@ -122,6 +122,7 @@
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` (see [note](#pgvector-types)) |
 |---|---|---|
 | *(user-defined enum)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Enum` (see [Enum Types](ENUM-TYPE.md)) |
+| *(user-defined enum)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray` (see [Enum Types](ENUM-TYPE.md)) |
 
 ## PostGIS Spatial Types
 
