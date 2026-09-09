@@ -174,8 +174,8 @@ final class LtxtqueryTest extends TestCase
     }
 
     #[Test]
-    public function preserves_database_value_unrecognised_by_write_side_validation(): void
+    public function preserves_database_value_unrecognized_by_write_side_validation(): void
     {
-        $this->assertSame('{unrecognised by the write-side pattern}', $this->fixture->convertToPHPValue('{unrecognised by the write-side pattern}', $this->platform));
+        $this->assertSame('{unrecognized by the write-side pattern}', $this->fixture->convertToPHPValue('{unrecognized by the write-side pattern}', $this->platform));
     }
 }

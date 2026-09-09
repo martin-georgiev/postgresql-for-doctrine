@@ -33,7 +33,7 @@ trait BitLengthRoundTripTrait
     abstract public static function provideLengthRoundTripValues(): array;
 
     /**
-     * A value whose serialised width is larger than the declared length.
+     * A value whose serialized width is larger than the declared length.
      * Used to prove the column enforces the declared length end-to-end.
      */
     abstract protected static function getValueExceedingLength(): mixed;

@@ -63,12 +63,12 @@ trait SpatialColumnOptionsSQLDeclarationTrait
             throw InvalidSpatialColumnDeclarationException::forInvalidGeometryType($geometryType);
         }
 
-        $normalised = \strtoupper(\trim($geometryType));
-        if (!$this->isSupportedSubtype($normalised)) {
+        $normalized = \strtoupper(\trim($geometryType));
+        if (!$this->isSupportedSubtype($normalized)) {
             throw InvalidSpatialColumnDeclarationException::forInvalidGeometryType($geometryType);
         }
 
-        return $normalised;
+        return $normalized;
     }
 
     private function isSupportedSubtype(string $subtype): bool

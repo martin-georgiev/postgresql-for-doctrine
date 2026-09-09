@@ -12,7 +12,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsvectorForPHPException
 /**
  * Implementation of PostgreSQL TSVECTOR data type.
  *
- * Stores a pre-processed document for full-text search. PostgreSQL normalises
+ * Stores a pre-processed document for full-text search. PostgreSQL normalizes
  * the value on write (lowercasing, stemming, stop-word removal), so the value
  * retrieved from the database may differ from the value that was stored.
  *
