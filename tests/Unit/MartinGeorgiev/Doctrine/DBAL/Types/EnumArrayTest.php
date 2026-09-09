@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Fixtures\MartinGeorgiev\Doctrine\Colors;
-use Fixtures\MartinGeorgiev\Doctrine\ConcreteColorArrayType;
 use Fixtures\MartinGeorgiev\Doctrine\ConcreteTrickyLabelArrayType;
 use Fixtures\MartinGeorgiev\Doctrine\Sizes;
 use Fixtures\MartinGeorgiev\Doctrine\TrickyLabels;
@@ -25,24 +23,24 @@ final class EnumArrayTest extends TestCase
      */
     private Stub $platform;
 
-    private ConcreteColorArrayType $fixture;
+    private ConcreteTrickyLabelArrayType $fixture;
 
     protected function setUp(): void
     {
         $this->platform = $this->createStub(AbstractPlatform::class);
-        $this->fixture = new ConcreteColorArrayType();
+        $this->fixture = new ConcreteTrickyLabelArrayType();
     }
 
     #[Test]
     public function has_name(): void
     {
-        $this->assertSame('test_color[]', $this->fixture->getName());
+        $this->assertSame('test_tricky_label[]', $this->fixture->getName());
     }
 
     #[Test]
     public function returns_sql_declaration_as_type_name(): void
     {
-        $this->assertSame('test_color[]', $this->fixture->getSQLDeclaration([], $this->platform));
+        $this->assertSame('test_tricky_label[]', $this->fixture->getSQLDeclaration([], $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -61,7 +59,7 @@ final class EnumArrayTest extends TestCase
 
     /**
      * @return array<string, array{
-     *     phpValue: array<Colors|null>|null,
+     *     phpValue: array<TrickyLabels|null>|null,
      *     postgresValue: string|null
      * }>
      */
@@ -77,16 +75,16 @@ final class EnumArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'single case' => [
-                'phpValue' => [Colors::RED],
-                'postgresValue' => '{"red"}',
+                'phpValue' => [TrickyLabels::PLAIN],
+                'postgresValue' => '{"plain"}',
             ],
             'multiple cases' => [
-                'phpValue' => [Colors::RED, Colors::BLUE],
-                'postgresValue' => '{"red","blue"}',
+                'phpValue' => [TrickyLabels::PLAIN, TrickyLabels::WITH_SPACE],
+                'postgresValue' => '{"plain","with space"}',
             ],
             'cases mixed with a null element' => [
-                'phpValue' => [Colors::RED, null, Colors::BLUE],
-                'postgresValue' => '{"red",NULL,"blue"}',
+                'phpValue' => [TrickyLabels::PLAIN, null, TrickyLabels::WITH_SPACE],
+                'postgresValue' => '{"plain",NULL,"with space"}',
             ],
         ];
     }
@@ -95,27 +93,23 @@ final class EnumArrayTest extends TestCase
     public function converts_unquoted_items_to_php_value(): void
     {
         // PostgreSQL only quotes labels that need it, so an ordinary label arrives bare
-        $result = $this->fixture->convertToPHPValue('{red,blue}', $this->platform);
+        $result = $this->fixture->convertToPHPValue('{plain,"with space"}', $this->platform);
 
-        $this->assertSame([Colors::RED, Colors::BLUE], $result);
+        $this->assertSame([TrickyLabels::PLAIN, TrickyLabels::WITH_SPACE], $result);
     }
 
     #[DataProvider('provideLabelsNeedingEscaping')]
     #[Test]
     public function converts_labels_needing_escaping_to_database_value(TrickyLabels $trickyLabels, string $postgresValue): void
     {
-        $concreteTrickyLabelArrayType = new ConcreteTrickyLabelArrayType();
-
-        $this->assertSame($postgresValue, $concreteTrickyLabelArrayType->convertToDatabaseValue([$trickyLabels], $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue([$trickyLabels], $this->platform));
     }
 
     #[DataProvider('provideLabelsNeedingEscaping')]
     #[Test]
     public function converts_labels_needing_escaping_to_php_value(TrickyLabels $trickyLabels, string $postgresValue): void
     {
-        $concreteTrickyLabelArrayType = new ConcreteTrickyLabelArrayType();
-
-        $this->assertSame([$trickyLabels], $concreteTrickyLabelArrayType->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame([$trickyLabels], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
@@ -141,9 +135,7 @@ final class EnumArrayTest extends TestCase
     #[Test]
     public function distinguishes_a_quoted_null_label_from_a_null_element(): void
     {
-        $concreteTrickyLabelArrayType = new ConcreteTrickyLabelArrayType();
-
-        $result = $concreteTrickyLabelArrayType->convertToPHPValue('{"NULL",NULL,"null"}', $this->platform);
+        $result = $this->fixture->convertToPHPValue('{"NULL",NULL,"null"}', $this->platform);
 
         $this->assertSame([TrickyLabels::UPPERCASE_NULL, null, TrickyLabels::LOWERCASE_NULL], $result);
     }
@@ -151,20 +143,16 @@ final class EnumArrayTest extends TestCase
     #[Test]
     public function writes_a_quoted_null_label_apart_from_a_null_element(): void
     {
-        $concreteTrickyLabelArrayType = new ConcreteTrickyLabelArrayType();
-
         $phpValue = [TrickyLabels::UPPERCASE_NULL, null, TrickyLabels::LOWERCASE_NULL];
 
-        $this->assertSame('{"NULL",NULL,"null"}', $concreteTrickyLabelArrayType->convertToDatabaseValue($phpValue, $this->platform));
+        $this->assertSame('{"NULL",NULL,"null"}', $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideUnquotedLabelsFromDatabase')]
     #[Test]
     public function converts_unquoted_labels_needing_no_escaping_to_php_value(TrickyLabels $trickyLabels, string $postgresValue): void
     {
-        $concreteTrickyLabelArrayType = new ConcreteTrickyLabelArrayType();
-
-        $this->assertSame([$trickyLabels], $concreteTrickyLabelArrayType->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertSame([$trickyLabels], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
@@ -188,9 +176,9 @@ final class EnumArrayTest extends TestCase
     #[Test]
     public function converts_null_element_marker_from_database_to_null_item(): void
     {
-        $result = $this->fixture->convertToPHPValue('{red,NULL}', $this->platform);
+        $result = $this->fixture->convertToPHPValue('{plain,NULL}', $this->platform);
 
-        $this->assertSame([Colors::RED, null], $result);
+        $this->assertSame([TrickyLabels::PLAIN, null], $result);
     }
 
     #[Test]
@@ -257,7 +245,7 @@ final class EnumArrayTest extends TestCase
     {
         return [
             'label absent from the PHP enum' => ['{green}'],
-            'empty label absent from the PHP enum' => ['{""}'],
+            'quoted label absent from the PHP enum' => ['{"not a case"}'],
             'multi-dimensional array' => ['{{red},{blue}}'],
             'unclosed quotes' => ['{"red}'],
         ];
@@ -318,9 +306,9 @@ final class EnumArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
-            'array of raw labels' => [['red', 'blue']],
+            'array of raw labels' => [['plain', 'with space']],
             'array of integers' => [[1, 2]],
-            'mixed array of valid and invalid items' => [[Colors::RED, 'blue']],
+            'mixed array of valid and invalid items' => [[TrickyLabels::PLAIN, 'with space']],
         ];
     }
 
@@ -340,11 +328,11 @@ final class EnumArrayTest extends TestCase
     {
         return [
             'integer item' => [[123]],
-            'string item' => [['red']],
+            'string item' => [['plain']],
             'boolean item' => [[true]],
             'object item' => [[new \stdClass()]],
             'case of another enum' => [[Sizes::SMALL]],
-            'mixed invalid items' => [[123, 'red', true]],
+            'mixed invalid items' => [[123, 'plain', true]],
         ];
     }
 
@@ -352,7 +340,7 @@ final class EnumArrayTest extends TestCase
     public function throws_exception_for_case_of_another_enum(): void
     {
         $this->expectException(InvalidEnumArrayItemForDatabaseException::class);
-        $this->expectExceptionMessage('Array items must be instances of '.Colors::class);
+        $this->expectExceptionMessage('Array items must be instances of '.TrickyLabels::class);
 
         $this->fixture->convertToDatabaseValue([Sizes::SMALL], $this->platform);
     }
@@ -371,8 +359,8 @@ final class EnumArrayTest extends TestCase
     {
         return [
             'null' => [null],
-            'first case' => [Colors::RED],
-            'second case' => [Colors::BLUE],
+            'first case' => [TrickyLabels::PLAIN],
+            'second case' => [TrickyLabels::WITH_SPACE],
         ];
     }
 
@@ -389,7 +377,7 @@ final class EnumArrayTest extends TestCase
     public static function provideInvalidArrayItemsForDatabase(): array
     {
         return [
-            'raw label' => ['red'],
+            'raw label' => ['plain'],
             'unknown label' => ['purple'],
             'integer' => [123],
             'empty string' => [''],

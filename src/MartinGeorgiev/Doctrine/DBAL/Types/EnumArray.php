@@ -112,11 +112,11 @@ abstract class EnumArray extends BaseArray
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
         try {
-            // Neither parse alone carries everything this type needs. Preserving string types keeps numeric- and
-            // boolean-looking labels (42, true) in their label form, but reports a NULL element as the string 'NULL',
-            // making it identical to a label spelled NULL. Coercing does report null identity, but rewrites those same
-            // labels into int and bool. So take the labels from one parse and the nulls from the other; both split the
-            // literal identically, so the positions line up.
+            // Neither parse alone carries everything this type needs.
+            // Preserving string types keeps numeric- and boolean-looking labels (42, true) in their label form,
+            // but reports a NULL element as the string 'NULL', making it identical to a label spelled NULL.
+            // Coercing does report null identity, but rewrites those same labels into int and bool.
+            // Take the labels from one and the nulls from the other (both split the literal identically, so the positions line up).
             $labels = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, true);
             $coerced = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, false);
         } catch (InvalidArrayFormatException) {
