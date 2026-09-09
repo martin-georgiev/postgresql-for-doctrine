@@ -23,6 +23,7 @@ devenv.local.nix
 !.claude/notepad.md
 !.claude/hooks/
 !.claude/commands/
+.claude/worktrees/
 !.cursor/
 !.cursor/rules
 !.windsurf/
