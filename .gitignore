@@ -15,8 +15,6 @@ devenv.local.nix
 
 # AI tool rules — source of truth in .ai-tools/rules/, symlinked everywhere else
 !.ai-tools/
-!.augment/
-!.augment/rules
 !.claude/
 !.claude/rules
 !.claude/settings.json
@@ -28,3 +26,5 @@ devenv.local.nix
 !.windsurf/
 !.windsurf/rules
 !.github/instructions/
+
+.claude/worktrees/
