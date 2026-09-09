@@ -150,16 +150,23 @@ final class PathArrayTest extends TestCase
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
+    #[DataProvider('provideMalformedInputs')]
     #[Test]
-    public function returns_empty_array_for_malformed_input(): void
+    public function returns_empty_array_for_malformed_input(string $postgresValue): void
     {
-        $result1 = $this->fixture->convertToPHPValue('{}', $this->platform);
-        $result2 = $this->fixture->convertToPHPValue('{invalid}', $this->platform);
-        $result3 = $this->fixture->convertToPHPValue('{""}', $this->platform);
+        $this->assertSame([], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
 
-        $this->assertSame([], $result1);
-        $this->assertSame([], $result2);
-        $this->assertSame([], $result3);
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideMalformedInputs(): array
+    {
+        return [
+            'empty array literal' => ['{}'],
+            'unparsable item' => ['{invalid}'],
+            'quoted empty item' => ['{""}'],
+        ];
     }
 
     #[DataProvider('provideInvalidPHPValueTypes')]

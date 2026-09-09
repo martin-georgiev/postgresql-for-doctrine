@@ -425,10 +425,22 @@ final class GeometryArrayTest extends TestCase
         $this->type->transformArrayItemForPHP('SRID=4326POINT(1 2)');
     }
 
+    #[DataProvider('provideMalformedInputs')]
     #[Test]
-    public function returns_empty_array_for_malformed_input(): void
+    public function returns_empty_array_for_malformed_input(string $postgresValue): void
     {
-        $this->assertSame([], $this->type->convertToPHPValue('{""}', $this->platform));
-        $this->assertSame([], $this->type->convertToPHPValue('  ', $this->platform));
+        $this->assertSame([], $this->type->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideMalformedInputs(): array
+    {
+        return [
+            'quoted empty item' => ['{""}'],
+            'whitespace only' => ['  '],
+            'lone opening brace' => ['{'],
+        ];
     }
 }

@@ -117,6 +117,10 @@ final class SparsevecTest extends TestCase
             'zero dimensions' => ['{1:1.5}/0'],
             'index below range' => ['{0:1.5}/3'],
             'index above range' => ['{4:1.5}/3'],
+            'pair missing colon' => ['{1}/3'],
+            'pair missing index' => ['{:5}/3'],
+            'pair missing value' => ['{1:}/3'],
+            'trailing comma leaves an empty pair' => ['{1:1.5,}/3'],
         ];
     }
 

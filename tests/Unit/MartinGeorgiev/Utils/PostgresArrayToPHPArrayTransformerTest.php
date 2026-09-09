@@ -291,6 +291,10 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'expectedValue' => ['502.00', '505.00', '123.50'],
                 'postgresValue' => '{502.00,505.00,123.50}',
             ],
+            'unterminated array' => [
+                'expectedValue' => [],
+                'postgresValue' => '{',
+            ],
             'zero with decimals' => [
                 'expectedValue' => ['0.00', '0.0', '0.000'],
                 'postgresValue' => '{0.00,0.0,0.000}',
