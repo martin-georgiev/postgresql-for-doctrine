@@ -92,7 +92,6 @@ final class EnumArrayTest extends TestCase
     #[Test]
     public function converts_unquoted_items_to_php_value(): void
     {
-        // PostgreSQL only quotes labels that need it, so an ordinary label arrives bare
         $result = $this->fixture->convertToPHPValue('{plain,"with space"}', $this->platform);
 
         $this->assertSame([TrickyLabels::PLAIN, TrickyLabels::WITH_SPACE], $result);
