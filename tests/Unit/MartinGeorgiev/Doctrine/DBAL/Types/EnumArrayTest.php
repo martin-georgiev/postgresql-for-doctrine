@@ -134,7 +134,28 @@ final class EnumArrayTest extends TestCase
             'numeric-looking label' => ['trickyLabels' => TrickyLabels::NUMERIC_LOOKING, 'postgresValue' => '{"42"}'],
             'boolean-looking label' => ['trickyLabels' => TrickyLabels::BOOLEAN_LOOKING, 'postgresValue' => '{"true"}'],
             'lowercase null label' => ['trickyLabels' => TrickyLabels::LOWERCASE_NULL, 'postgresValue' => '{"null"}'],
+            'uppercase NULL label' => ['trickyLabels' => TrickyLabels::UPPERCASE_NULL, 'postgresValue' => '{"NULL"}'],
         ];
+    }
+
+    #[Test]
+    public function distinguishes_a_quoted_null_label_from_a_null_element(): void
+    {
+        $concreteTrickyLabelArrayType = new ConcreteTrickyLabelArrayType();
+
+        $result = $concreteTrickyLabelArrayType->convertToPHPValue('{"NULL",NULL,"null"}', $this->platform);
+
+        $this->assertSame([TrickyLabels::UPPERCASE_NULL, null, TrickyLabels::LOWERCASE_NULL], $result);
+    }
+
+    #[Test]
+    public function writes_a_quoted_null_label_apart_from_a_null_element(): void
+    {
+        $concreteTrickyLabelArrayType = new ConcreteTrickyLabelArrayType();
+
+        $phpValue = [TrickyLabels::UPPERCASE_NULL, null, TrickyLabels::LOWERCASE_NULL];
+
+        $this->assertSame('{"NULL",NULL,"null"}', $concreteTrickyLabelArrayType->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideUnquotedLabelsFromDatabase')]

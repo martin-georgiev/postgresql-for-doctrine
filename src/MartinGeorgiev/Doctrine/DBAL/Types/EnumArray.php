@@ -100,20 +100,24 @@ abstract class EnumArray extends BaseArray
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
         try {
-            // PostgreSQL leaves numeric- and boolean-looking labels (e.g. 42, true) unquoted;
-            // without string preservation they would be coerced away from their label form.
-            $phpArray = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, true);
+            // Neither parse alone carries everything this type needs. Preserving string types keeps numeric- and
+            // boolean-looking labels (42, true) in their label form, but reports a NULL element as the string 'NULL',
+            // making it identical to a label spelled NULL. Coercing does report null identity, but rewrites those same
+            // labels into int and bool. So take the labels from one parse and the nulls from the other; both split the
+            // literal identically, so the positions line up.
+            $labels = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, true);
+            $coerced = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, false);
         } catch (InvalidArrayFormatException) {
             throw InvalidEnumArrayItemForPHPException::forInvalidFormat($postgresArray);
         }
 
-        // String preservation also keeps the unquoted NULL element marker as a plain string,
-        // so map it back to null here. A label spelled exactly "NULL" is indistinguishable
-        // from a NULL element once quoting is lost and is therefore read back as null.
-        return \array_map(
-            static fn (mixed $item): mixed => $item === self::POSTGRES_NULL_ELEMENT ? null : $item,
-            $phpArray
-        );
+        foreach ($labels as $index => $label) {
+            if ($coerced[$index] === null) {
+                $labels[$index] = null;
+            }
+        }
+
+        return $labels;
     }
 
     protected function throwInvalidTypeException(mixed $value): never

@@ -118,6 +118,15 @@ final class EnumArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
+    public function roundtrips_a_null_label_alongside_a_null_element(): void
+    {
+        $typeName = self::TRICKY_DBAL_TYPE_NAME;
+        $columnType = Type::getType($typeName)->getSQLDeclaration([], $this->connection->getDatabasePlatform());
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, [TrickyLabels::UPPERCASE_NULL, null, TrickyLabels::LOWERCASE_NULL]);
+    }
+
+    #[Test]
     public function roundtrips_every_label_needing_escaping_in_a_single_array(): void
     {
         $typeName = self::TRICKY_DBAL_TYPE_NAME;

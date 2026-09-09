@@ -157,9 +157,12 @@ distinct from a `NULL` column, which maps to `null` instead of an array.
 $order->statusTrail = [OrderStatus::PENDING, null, OrderStatus::SHIPPED]; // {"pending",NULL,"shipped"}
 ```
 
-> ⚠️ **Limitation**: PostgreSQL emits a `NULL` element and a quoted label spelled exactly `NULL` in a form this library
-> cannot tell apart once the array text is parsed, so an enum whose labels include `NULL` reads that element back as
-> `null`. Lower-case `null` and every other label are unaffected. Avoid `NULL` as a label if you need the distinction.
+A label spelled exactly `NULL` stays a label. PostgreSQL quotes it (`"NULL"`) and leaves a real NULL element bare, so the
+two round-trip distinctly:
+
+```php
+$order->statusTrail = [Status::NULL_LABEL, null]; // {"NULL",NULL} — first is the label, second is SQL NULL
+```
 
 ## Migrations
 
