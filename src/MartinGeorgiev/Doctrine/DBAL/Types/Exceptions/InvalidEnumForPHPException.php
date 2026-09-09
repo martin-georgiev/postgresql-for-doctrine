@@ -13,11 +13,9 @@ use Doctrine\DBAL\Types\ConversionException;
  */
 class InvalidEnumForPHPException extends ConversionException
 {
-    private static function create(string $message, mixed ...$values): self
+    private static function create(string $message, mixed $value): self
     {
-        $exported = \array_map(static fn (mixed $v): string => \var_export($v, true), $values);
-
-        return new self(\sprintf($message, ...$exported));
+        return new self(\sprintf($message, \var_export($value, true)));
     }
 
     public static function forInvalidType(mixed $value): self

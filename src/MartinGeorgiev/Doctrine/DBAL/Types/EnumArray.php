@@ -17,14 +17,23 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  * and implement getEnumClass() returning the fully-qualified name of your BackedEnum class.
  *
  * Example:
- *   CREATE TYPE status AS ENUM ('active', 'inactive')
+ *   CREATE TYPE status AS ENUM ('active', 'inactive');
+ *   CREATE TABLE orders (id serial PRIMARY KEY, status_trail status[]);
  *
  *   enum Status: string { case ACTIVE = 'active'; case INACTIVE = 'inactive'; }
+ *
+ *   final class StatusType extends Enum {
+ *       protected const TYPE_NAME = 'status';
+ *       protected function getEnumClass(): string { return Status::class; }
+ *   }
  *
  *   final class StatusArrayType extends EnumArray {
  *       protected const TYPE_NAME = 'status[]';
  *       protected function getEnumClass(): string { return Status::class; }
  *   }
+ *
+ *   Type::addType('status', StatusType::class);
+ *   Type::addType('status[]', StatusArrayType::class);
  *
  * @see https://www.postgresql.org/docs/18/datatype-enum.html
  * @since 4.8
@@ -43,6 +52,9 @@ abstract class EnumArray extends BaseArray
      */
     abstract protected function getEnumClass(): string;
 
+    /**
+     * The name is user-defined, so it has no platform mapping to look up the way built-in types do.
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $this->getName();
