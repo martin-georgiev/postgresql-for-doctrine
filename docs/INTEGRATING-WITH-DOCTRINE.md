@@ -689,13 +689,16 @@ $platform->registerDoctrineTypeMapping('vector', 'vector');
 
 ### Mapping User-Defined PostgreSQL Enum Types
 
-For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above. See [ENUM-TYPE.md](ENUM-TYPE.md) for a full example.
+For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above.
+Columns holding an array of that enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`. See [ENUM-TYPE.md](ENUM-TYPE.md) for a full example.
 
 
 ```php
 <?php
 
+use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Enum;
+use MartinGeorgiev\Doctrine\DBAL\Types\EnumArray;
 
 enum Status: string
 {
@@ -713,9 +716,22 @@ final class StatusType extends Enum
     }
 }
 
+final class StatusArrayType extends EnumArray
+{
+    protected const TYPE_NAME = 'status[]'; // the PostgreSQL enum type name followed by []
+
+    protected function getEnumClass(): string
+    {
+        return Status::class;
+    }
+}
+
 // Register like any other type
 Type::addType('status', StatusType::class);
+Type::addType('status[]', StatusArrayType::class);
 $platform->registerDoctrineTypeMapping('status', 'status');
+$platform->registerDoctrineTypeMapping('status[]', 'status[]');
+$platform->registerDoctrineTypeMapping('_status', 'status[]');
 ```
 
 ### Usage in Entities

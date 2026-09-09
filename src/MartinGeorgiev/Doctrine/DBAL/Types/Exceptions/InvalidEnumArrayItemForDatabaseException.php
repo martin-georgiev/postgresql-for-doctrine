@@ -7,11 +7,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Exceptions;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * @since 4.6
+ * @since 4.8
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class InvalidEnumForDatabaseException extends ConversionException
+class InvalidEnumArrayItemForDatabaseException extends ConversionException
 {
     private static function create(string $message, mixed $value): self
     {
@@ -20,11 +20,11 @@ class InvalidEnumForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be a BackedEnum instance, %s given', $value);
+        return self::create('Array items must be BackedEnum instances or null, %s given', $value);
     }
 
     public static function forWrongEnumClass(\BackedEnum $backedEnum, string $expectedClass): self
     {
-        return self::create('Expected an instance of '.$expectedClass.', got %s', $backedEnum);
+        return self::create('Array items must be instances of '.$expectedClass.', %s given', $backedEnum);
     }
 }
