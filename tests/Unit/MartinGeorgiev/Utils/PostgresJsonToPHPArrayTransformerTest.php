@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\MartinGeorgiev\Utils;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonItemForPHPException;
+use MartinGeorgiev\Utils\Exception\InvalidJsonFormatException;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -112,24 +111,24 @@ final class PostgresJsonToPHPArrayTransformerTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_json(): void
     {
-        $this->expectException(InvalidJsonItemForPHPException::class);
-        $this->expectExceptionMessage("Postgres value must be single, valid JSON object, '{invalid json}' given");
+        $this->expectException(InvalidJsonFormatException::class);
+        $this->expectExceptionMessage('Invalid JSON format: the value is not decodable JSON');
         PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue('{invalid json}');
     }
 
     #[Test]
     public function throws_exception_for_invalid_json_array_item(): void
     {
-        $this->expectException(InvalidJsonArrayItemForPHPException::class);
-        $this->expectExceptionMessage("Invalid JSON format in array: '{invalid json}'");
+        $this->expectException(InvalidJsonFormatException::class);
+        $this->expectExceptionMessage('Invalid JSON format: the value is not decodable JSON');
         PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray('{invalid json}');
     }
 
     #[Test]
     public function throws_exception_for_non_array_json_array_item(): void
     {
-        $this->expectException(InvalidJsonArrayItemForPHPException::class);
-        $this->expectExceptionMessage('Array values must be valid JSON objects, \'"string"\' given');
+        $this->expectException(InvalidJsonFormatException::class);
+        $this->expectExceptionMessage('Invalid JSON format: the value does not decode to an array');
         PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray('"string"');
     }
 }

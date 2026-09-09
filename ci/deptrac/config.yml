@@ -8,39 +8,49 @@ deptrac:
     - name: Functions
       collectors:
         - type: class
-          value: \\MartinGeorgiev\\Doctrine\\ORM\\AST\\Functions\\.*
+          value: ^MartinGeorgiev\\Doctrine\\ORM\\AST\\Functions\\.*
     - name: Types
       collectors:
         - type: class
-          value: \\MartinGeorgiev\\Doctrine\\DBAL\\Types\\.*
+          value: ^MartinGeorgiev\\Doctrine\\DBAL\\Types\\.*
     - name: Utils
       collectors:
         - type: class
-          value: \\MartinGeorgiev\\Utils\\.*
+          value: ^MartinGeorgiev\\Utils\\.*
     - name: Fixtures
       collectors:
         - type: class
-          value: \\Fixtures\\MartinGeorgiev\\.*
+          value: ^Fixtures\\MartinGeorgiev\\.*
     - name: Integration Tests
       collectors:
         - type: class
-          value: \\Tests\\Integration\\MartinGeorgiev\\.*
+          value: ^Tests\\Integration\\MartinGeorgiev\\.*
     - name: Unit Tests
       collectors:
         - type: class
-          value: \\Tests\\Unit\\MartinGeorgiev\\.*
+          value: ^Tests\\Unit\\MartinGeorgiev\\.*
 
   ruleset:
     Functions:
+      - Functions
       - Utils
     Types:
+      - Types
       - Utils
-    Utils: ~
+    Utils:
+      - Utils
+    Fixtures:
+      - Fixtures
+      - Types
+      - Utils
     Integration Tests:
+      - Integration Tests
       - Fixtures
       - Functions
       - Types
+      - Utils
     Unit Tests:
+      - Unit Tests
       - Fixtures
       - Functions
       - Types
