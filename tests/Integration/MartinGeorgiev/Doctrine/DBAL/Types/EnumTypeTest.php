@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
-use Fixtures\MartinGeorgiev\Doctrine\Colors;
-use Fixtures\MartinGeorgiev\Doctrine\ConcreteColorType;
+use Fixtures\MartinGeorgiev\Doctrine\ConcreteTrickyLabelType;
 use Fixtures\MartinGeorgiev\Doctrine\Sizes;
+use Fixtures\MartinGeorgiev\Doctrine\TrickyLabels;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -15,22 +15,34 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class EnumTypeTest extends TestCase
 {
-    private const DBAL_TYPE_NAME = 'test_color';
+    private const DBAL_TYPE_NAME = 'test_tricky_label';
+
+    /**
+     * Valid in PostgreSQL but absent from the PHP enum, so it can stand in for DB/PHP model drift.
+     */
+    private const UNMAPPED_LABEL = 'unmapped';
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        // Built from the PHP enum so the PostgreSQL labels cannot drift away from the cases under test
+        $labels = \implode(', ', \array_map(
+            static fn (TrickyLabels $trickyLabels): string => "'".\str_replace("'", "''", $trickyLabels->value)."'",
+            TrickyLabels::cases()
+        ));
         $this->connection->executeStatement(\sprintf(
-            "CREATE TYPE %s.%s AS ENUM ('red', 'blue', 'green')",
+            "CREATE TYPE %s.%s AS ENUM (%s, '%s')",
             self::DATABASE_SCHEMA,
-            self::DBAL_TYPE_NAME
+            self::DBAL_TYPE_NAME,
+            $labels,
+            self::UNMAPPED_LABEL
         ));
 
         if (!Type::hasType(self::DBAL_TYPE_NAME)) {
-            Type::addType(self::DBAL_TYPE_NAME, ConcreteColorType::class);
+            Type::addType(self::DBAL_TYPE_NAME, ConcreteTrickyLabelType::class);
         } else {
-            Type::overrideType(self::DBAL_TYPE_NAME, ConcreteColorType::class);
+            Type::overrideType(self::DBAL_TYPE_NAME, ConcreteTrickyLabelType::class);
         }
 
         $this->connection->getDatabasePlatform()->registerDoctrineTypeMapping(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME);
@@ -68,20 +80,28 @@ final class EnumTypeTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function roundtrips_value(Colors $colors): void
+    public function roundtrips_value(TrickyLabels $trickyLabels): void
     {
-        $this->runDbalBindingRoundTrip(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME, $colors);
+        $this->runDbalBindingRoundTrip(self::DBAL_TYPE_NAME, self::DBAL_TYPE_NAME, $trickyLabels);
     }
 
     /**
-     * @return array<string, array{Colors}>
+     * EMPTY_LABEL is excluded: the scalar type maps an empty database string to null, so that case cannot
+     * round-trip. See EnumTest::converts_empty_string_from_database_to_null().
+     *
+     * @return array<string, array{TrickyLabels}>
      */
     public static function provideValidTransformations(): array
     {
-        return [
-            'red' => [Colors::RED],
-            'blue' => [Colors::BLUE],
-        ];
+        $roundTrippable = \array_filter(
+            TrickyLabels::cases(),
+            static fn (TrickyLabels $trickyLabels): bool => $trickyLabels !== TrickyLabels::EMPTY_LABEL
+        );
+
+        return \array_combine(
+            \array_map(static fn (TrickyLabels $trickyLabels): string => \strtolower($trickyLabels->name), $roundTrippable),
+            \array_map(static fn (TrickyLabels $trickyLabels): array => [$trickyLabels], $roundTrippable)
+        );
     }
 
     #[DataProvider('provideNonBackedEnumValues')]
@@ -99,7 +119,7 @@ final class EnumTypeTest extends TestCase
     public static function provideNonBackedEnumValues(): array
     {
         return [
-            'raw string matching an enum case' => ['red'],
+            'raw string matching an enum case' => ['plain'],
             'integer' => [42],
             'boolean' => [true],
         ];
@@ -116,14 +136,13 @@ final class EnumTypeTest extends TestCase
     #[Test]
     public function rejects_unknown_database_value(): void
     {
-        // 'green' is valid in the PostgreSQL enum but absent from the PHP Colors enum,
-        // simulating a DB/PHP model drift (e.g. a migration added a case that the PHP side missed)
+        // Simulating a DB/PHP model drift (e.g. a migration added a case that the PHP side missed)
         [$tableName, $columnName] = $this->prepareTestTable(self::DBAL_TYPE_NAME);
 
         try {
             $this->connection->executeStatement(
                 \sprintf('INSERT INTO %s.%s ("%s") VALUES (?)', self::DATABASE_SCHEMA, $tableName, $columnName),
-                ['green']
+                [self::UNMAPPED_LABEL]
             );
 
             $this->expectException(InvalidEnumForPHPException::class);
