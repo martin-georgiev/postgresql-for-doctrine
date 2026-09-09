@@ -696,6 +696,7 @@ Columns holding an array of that enum get a second concrete class extending `Mar
 ```php
 <?php
 
+use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Enum;
 use MartinGeorgiev\Doctrine\DBAL\Types\EnumArray;
 
