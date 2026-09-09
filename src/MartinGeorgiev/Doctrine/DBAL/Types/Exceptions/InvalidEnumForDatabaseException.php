@@ -27,6 +27,6 @@ class InvalidEnumForDatabaseException extends ConversionException
 
     public static function forWrongEnumClass(\BackedEnum $backedEnum, string $expectedClass): self
     {
-        return self::create('Expected an instance of %s, got %s', $expectedClass, $backedEnum);
+        return self::create('Expected an instance of '.$expectedClass.', got %s', $backedEnum);
     }
 }

@@ -27,11 +27,11 @@ class InvalidEnumForPHPException extends ConversionException
 
     public static function forNonBackedEnum(string $enumClass): self
     {
-        return self::create('Class %s is not a BackedEnum', $enumClass);
+        return new self('Class '.$enumClass.' is not a BackedEnum');
     }
 
     public static function forUnknownValue(string $value, string $enumClass): self
     {
-        return self::create('Value %s is not a valid case of enum %s', $value, $enumClass);
+        return self::create('Value %s is not a valid case of enum '.$enumClass, $value);
     }
 }
