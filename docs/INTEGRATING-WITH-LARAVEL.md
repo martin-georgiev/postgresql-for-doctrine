@@ -381,10 +381,8 @@ return [
 ];
 ```
 
-> **User-defined enum types**: For each PostgreSQL native `ENUM` type, create a concrete class extending
-> `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above. Columns holding an array of that
-> enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`, registered next to the
-> scalar one:
+> **User-defined enum types**: For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above.
+> Columns holding an array of that enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`, registered alongside the scalar one:
 >
 > ```php
 > 'types' => [
