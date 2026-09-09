@@ -202,7 +202,7 @@ Array types whose items are value objects require these additional tests:
 | `throws_exception_when_invalid_{type}_format_provided` | — | `ForPHPException` | direct call: `transformArrayItemForPHP('(invalid,string)')` |
 | `throws_exception_for_malformed_{type}_strings_in_database` | — | `ForPHPException` | `convertToPHPValue` with a malformed embedded item |
 | `throws_exception_for_invalid_{type}_array_items` | `provideInvalid{Type}ArrayItems` | `ForDatabaseException` | arrays of invalid items passed to `convertToDatabaseValue` |
-| `returns_empty_array_for_malformed_input` | — | — | `convertToPHPValue('{}')`, `convertToPHPValue('{invalid}')`, `convertToPHPValue('{""}')` all return `[]` |
+| `returns_empty_array_for_malformed_input` | `provideMalformedInputs` | — | malformed postgres strings that yield `[]` rather than throwing (`'{}'`, `'{invalid}'`, `'{""}'`) |
 
 `{type}` is replaced by the type name (e.g., `line`, `point`).
 
@@ -240,7 +240,9 @@ The guard inside `transformArrayItemForPostgres` (see `dbal-types.md` § BaseArr
 - Type-name check: `has_name()`
 - One unique boundary condition: `converts_null_to_database_value()`, `roundtrips_null_value()`, `roundtrips_empty_array()`
 - Unique behavior that doesn't vary by input: `throws_exception_for_non_string_item_from_database()` (always `transformArrayItemForPHP(123)`)
-- Multiple assertions that test one cohesive scenario: `returns_empty_array_for_malformed_input()` (tests 3 bad strings, all expecting `[]`)
+- Multiple assertions about a **single** input: `returns_correct_coordinates_via_getters()` (one `Point`, asserts `getX()` and `getY()`)
+
+Several distinct inputs asserting the same outcome is a provider case, not a cohesive scenario — `returns_empty_array_for_malformed_input()` takes `provideMalformedInputs` for exactly this reason.
 
 **Exception — single-case provider is still correct** when the method belongs to a family of provider-driven methods for consistency. Example: `provideInvalidTypeInputs` always contains exactly one entry (`'string instead of array'`) but uses provider form because all sibling exception-test methods also use providers.
 
