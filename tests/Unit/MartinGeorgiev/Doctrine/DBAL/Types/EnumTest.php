@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Fixtures\MartinGeorgiev\Doctrine\Colors;
-use Fixtures\MartinGeorgiev\Doctrine\ConcreteColorType;
+use Fixtures\MartinGeorgiev\Doctrine\ConcreteTrickyLabelType;
 use Fixtures\MartinGeorgiev\Doctrine\Sizes;
+use Fixtures\MartinGeorgiev\Doctrine\TrickyLabels;
 use MartinGeorgiev\Doctrine\DBAL\Types\Enum;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumForPHPException;
@@ -23,24 +23,24 @@ final class EnumTest extends TestCase
      */
     private Stub $platform;
 
-    private ConcreteColorType $fixture;
+    private ConcreteTrickyLabelType $fixture;
 
     protected function setUp(): void
     {
         $this->platform = $this->createStub(AbstractPlatform::class);
-        $this->fixture = new ConcreteColorType();
+        $this->fixture = new ConcreteTrickyLabelType();
     }
 
     #[Test]
     public function has_name(): void
     {
-        $this->assertSame('test_color', $this->fixture->getName());
+        $this->assertSame('test_tricky_label', $this->fixture->getName());
     }
 
     #[Test]
     public function returns_sql_declaration_as_type_name(): void
     {
-        $this->assertSame('test_color', $this->fixture->getSQLDeclaration([], $this->platform));
+        $this->assertSame('test_tricky_label', $this->fixture->getSQLDeclaration([], $this->platform));
     }
 
     #[Test]
@@ -55,6 +55,10 @@ final class EnumTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
+    /**
+     * TrickyLabels declares an empty label, but this type maps an empty database string to null, so that
+     * one case cannot be read back through the scalar type. See EMPTY_LABEL in the round-trip provider.
+     */
     #[Test]
     public function converts_empty_string_from_database_to_null(): void
     {
@@ -64,13 +68,13 @@ final class EnumTest extends TestCase
     #[Test]
     public function converts_backed_enum_to_database_value(): void
     {
-        $this->assertSame('red', $this->fixture->convertToDatabaseValue(Colors::RED, $this->platform));
+        $this->assertSame('plain', $this->fixture->convertToDatabaseValue(TrickyLabels::PLAIN, $this->platform));
     }
 
     #[Test]
     public function converts_database_string_to_backed_enum(): void
     {
-        $this->assertSame(Colors::BLUE, $this->fixture->convertToPHPValue('blue', $this->platform));
+        $this->assertSame(TrickyLabels::WITH_SPACE, $this->fixture->convertToPHPValue('with space', $this->platform));
     }
 
     #[DataProvider('provideNonBackedEnumValues')]
@@ -89,8 +93,8 @@ final class EnumTest extends TestCase
     {
         return [
             'integer' => [42],
-            'string' => ['red'],
-            'array' => [['red']],
+            'string' => ['plain'],
+            'array' => [['plain']],
             'object' => [new \stdClass()],
             'boolean' => [true],
         ];
@@ -120,7 +124,7 @@ final class EnumTest extends TestCase
     {
         return [
             'integer' => [42],
-            'array' => [['red']],
+            'array' => [['plain']],
             'object' => [new \stdClass()],
             'boolean' => [true],
         ];
