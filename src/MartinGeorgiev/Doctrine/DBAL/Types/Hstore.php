@@ -58,12 +58,17 @@ final class Hstore extends BaseType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {
-        if ($value === null || $value === '') {
+        if ($value === null) {
             return null;
         }
 
         if (!\is_string($value)) {
             throw InvalidHstoreForPHPException::forInvalidType($value);
+        }
+
+        // An empty hstore is a value, not the absence of one, and PostgreSQL writes it as the empty string.
+        if ($value === '') {
+            return [];
         }
 
         return $this->parseHstoreString($value);
