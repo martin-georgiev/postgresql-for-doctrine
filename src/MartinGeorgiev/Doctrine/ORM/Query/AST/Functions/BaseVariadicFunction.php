@@ -203,6 +203,8 @@ abstract class BaseVariadicFunction extends BaseFunction
         $shouldUseLexer = DoctrineOrm::isPre219();
         $isNodeMappingASimplePattern = \count($nodeMapping) === 1;
         $nodeIndex = 1;
+        // The read above happened before the first argument was parsed, so it still names that argument's own token.
+        $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
         while (($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $lookaheadType) {
             if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $lookaheadType) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
@@ -232,6 +234,10 @@ abstract class BaseVariadicFunction extends BaseFunction
 
                 $this->nodes[] = $parser->{$nodeMapping[$expectedNodeIndex]}(); // @phpstan-ignore-line
                 $nodeIndex++;
+            } else {
+                // Nothing above consumed a token, so re-reading the lookahead would return this one forever.
+                // Either the argument list is malformed or this pattern parsed an argument short of where it ends.
+                throw ParserException::forUnparsableArgumentList($this->getFunctionName());
             }
 
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
