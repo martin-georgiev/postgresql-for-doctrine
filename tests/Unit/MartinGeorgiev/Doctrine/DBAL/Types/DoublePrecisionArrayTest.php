@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
@@ -29,6 +27,10 @@ final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
             'too large' => ['1.7976931348623157E+309'],
             'too small' => ['-1.7976931348623157E+309'],
             'too many decimal places' => ['1.123456789012345678'],
+            'sixteen decimals' => ['1.1234567890123456789'],
+            'many trailing zeros' => ['1.123456789012345000000'],
+            'large number with excess precision' => ['123456.1234567890123456789'],
+            'negative with excess precision' => ['-1.1234567890123456789'],
             'too close to zero' => ['2.2250738585072014E-309'],
             'too close to zero (negative)' => ['-2.2250738585072014E-309'],
         ]);
@@ -52,44 +54,29 @@ final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
         ];
     }
 
-    #[Test]
-    public function throws_exception_for_value_too_close_to_zero(): void
-    {
-        $this->expectException(InvalidFloatArrayItemForPHPException::class);
-        $this->expectExceptionMessage('is too close to zero for PostgreSQL double precision[] type');
-
-        $this->fixture->transformArrayItemForPHP('1.18E-308');
-    }
-
-    #[Test]
-    public function throws_exception_for_value_exceeding_precision_limit(): void
-    {
-        $this->expectException(InvalidFloatArrayItemForPHPException::class);
-        $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL double precision[] type');
-
-        $this->fixture->transformArrayItemForPHP('1.123456789012345678');
-    }
-
-    #[DataProvider('providePrecisionExceedingValues')]
-    #[Test]
-    public function throws_exception_for_various_precision_violations(string $value): void
-    {
-        $this->expectException(InvalidFloatArrayItemForPHPException::class);
-        $this->expectExceptionMessage('exceeds maximum precision for PostgreSQL double precision[] type');
-
-        $this->fixture->transformArrayItemForPHP($value);
-    }
-
-    /**
-     * @return array<string, array{string}>
-     */
-    public static function providePrecisionExceedingValues(): array
+    public static function providePostgresOutputValues(): array
     {
         return [
-            'sixteen decimals' => ['1.1234567890123456789'],
-            'many trailing zeros' => ['1.123456789012345000000'],
-            'large number with excess precision' => ['123456.1234567890123456789'],
-            'negative with excess precision' => ['-1.1234567890123456789'],
+            'seventeen significant digits' => ['postgresValue' => '0.12345678901234566', 'phpValue' => 0.12345678901234566],
+            'trailing zeros beyond the precision limit' => ['postgresValue' => '1.123456789012345000000', 'phpValue' => 1.123456789012345],
+            'sixteen decimals' => ['postgresValue' => '1.1234567890123456789', 'phpValue' => 1.1234567890123457],
+            'eighteen decimals' => ['postgresValue' => '1.123456789012345678', 'phpValue' => 1.1234567890123457],
+            'large number with excess precision' => ['postgresValue' => '123456.1234567890123456789', 'phpValue' => 123456.123456789],
+            'negative with excess precision' => ['postgresValue' => '-1.1234567890123456789', 'phpValue' => -1.1234567890123457],
+            'below the minimum normal magnitude' => ['postgresValue' => '1.18E-308', 'phpValue' => 1.18E-308],
+            'scientific notation with a negative exponent' => ['postgresValue' => '1.5e-20', 'phpValue' => 1.5E-20],
+            'scientific notation at the upper bound' => ['postgresValue' => '1.7976931348623157e+308', 'phpValue' => 1.7976931348623157E+308],
+            'subnormal' => ['postgresValue' => '5e-324', 'phpValue' => 5.0E-324],
+        ];
+    }
+
+    public static function provideValidScientificNotationStrings(): array
+    {
+        return [
+            'no fractional part' => ['1e308'],
+            'positive exponent' => ['1.5e2'],
+            'negative exponent' => ['1.5e-20'],
+            'explicit positive exponent' => ['1.7976931348623157E+308'],
         ];
     }
 }

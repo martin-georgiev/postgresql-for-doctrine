@@ -52,14 +52,8 @@ abstract class BaseFloatArray extends BaseArray
 
         $floatValue = (float) $stringValue;
 
-        // For scientific notation, convert to standard decimal form before checking precision
-        if (\str_contains($stringValue, 'e') || \str_contains($stringValue, 'E')) {
-            $standardForm = \sprintf('%.'.($this->getMaxPrecision() + 1).'f', $floatValue);
-            $parts = \explode('.', $standardForm);
-            if (isset($parts[1]) && \strlen($parts[1]) > $this->getMaxPrecision()) {
-                throw InvalidFloatArrayItemForDatabaseException::isAScientificNotationWithExcessPrecision($item);
-            }
-        } elseif (\str_contains($stringValue, '.')) {
+        $isScientificNotation = \str_contains($stringValue, 'e') || \str_contains($stringValue, 'E');
+        if (!$isScientificNotation && \str_contains($stringValue, '.')) {
             $parts = \explode('.', $stringValue);
             if (\strlen($parts[1]) > $this->getMaxPrecision()) {
                 throw InvalidFloatArrayItemForDatabaseException::isANormalNumberWithExcessPrecision($item);
@@ -102,28 +96,8 @@ abstract class BaseFloatArray extends BaseArray
 
         $floatValue = (float) $stringValue;
 
-        // Check if value is too close to zero
-        $absValue = \abs($floatValue);
-        if ($absValue > 0 && $absValue < (float) $this->getMinAbsoluteValue()) {
-            throw InvalidFloatArrayItemForPHPException::forValueThatIsTooCloseToZero($item, static::TYPE_NAME);
-        }
-
         if ($floatValue < (float) $this->getMinValue() || $floatValue > (float) $this->getMaxValue()) {
             throw InvalidFloatArrayItemForPHPException::forValueThatIsNotAValidPHPFloat($item, static::TYPE_NAME);
-        }
-
-        // Scientific notation is valid for input as long as the resulting number
-        // when converted to decimal doesn't exceed precision limits
-        if (\str_contains($stringValue, 'e') || \str_contains($stringValue, 'E')) {
-            return $floatValue;
-        }
-
-        // For regular decimal notation, check precision
-        if (\str_contains($stringValue, '.')) {
-            $parts = \explode('.', $stringValue);
-            if (\strlen($parts[1]) > $this->getMaxPrecision()) {
-                throw InvalidFloatArrayItemForPHPException::forValueThatExceedsMaximumPrecision($item, static::TYPE_NAME);
-            }
         }
 
         return $floatValue;
