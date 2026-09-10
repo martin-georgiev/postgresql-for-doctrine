@@ -84,6 +84,15 @@ final class CitextArrayTest extends TestCase
         ];
     }
 
+    #[Test]
+    public function converts_unquoted_postgres_items_to_strings(): void
+    {
+        $postgresValue = '{123,2.5,t,false,hello}';
+        $expectedResult = ['123', '2.5', 't', 'false', 'hello'];
+
+        $this->assertSame($expectedResult, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
     #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void

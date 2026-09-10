@@ -198,6 +198,9 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
+    /**
+     * @param array<int, mixed> $phpValue
+     */
     #[DataProvider('provideManualParsingArrays')]
     #[Test]
     public function recovers_from_json_decode_failure_and_transform_value_through_manual_parsing(array $phpValue, string $postgresValue): void
@@ -279,6 +282,9 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
+    /**
+     * @param array<int, mixed> $expectedValue
+     */
     #[DataProvider('providePreserveStringTypesTestCases')]
     #[Test]
     public function preserves_string_types_when_requested(array $expectedValue, string $postgresValue): void
@@ -291,14 +297,6 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         foreach ($result as $value) {
             $this->assertIsString($value, \sprintf('All values should be strings when preserveStringTypes is true, but found a non-string value: %s', \var_export($value, true)));
         }
-    }
-
-    #[Test]
-    public function converts_unquoted_null_to_null_when_preserving_string_types(): void
-    {
-        $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray('{null,NULL,"null","NULL"}', preserveStringTypes: true);
-
-        $this->assertSame([null, null, 'null', 'NULL'], $result);
     }
 
     /**
@@ -356,5 +354,13 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'postgresValue' => '{"",text,""}',
             ],
         ];
+    }
+
+    #[Test]
+    public function converts_unquoted_null_to_null_when_preserving_string_types(): void
+    {
+        $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray('{null,NULL,"null","NULL"}', preserveStringTypes: true);
+
+        $this->assertSame([null, null, 'null', 'NULL'], $result);
     }
 }

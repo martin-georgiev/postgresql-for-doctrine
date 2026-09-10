@@ -9,7 +9,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBitVaryingArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\BitValidationTrait;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL BIT VARYING[] data type.
@@ -37,11 +36,6 @@ class BitVaryingArray extends BaseStringArray
         }
 
         return \strtoupper(self::TYPE_NAME);
-    }
-
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, true);
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool

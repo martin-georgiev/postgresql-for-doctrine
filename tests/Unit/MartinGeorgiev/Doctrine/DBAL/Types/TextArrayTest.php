@@ -123,6 +123,9 @@ final class TextArrayTest extends TestCase
         $this->assertSame($expectedValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
+    /**
+     * @param array<int, string> $expectedResult
+     */
     #[DataProvider('provideGithubIssue424TestCases')]
     #[Test]
     public function preserves_string_types_retrieved_from_database_for_github_issue_424(string $postgresValue, array $expectedResult): void
