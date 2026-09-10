@@ -166,6 +166,10 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['  foo  '],
                 'postgresValue' => '{"  foo  "}',
             ],
+            'element carrying the nested-array marker' => [
+                'phpValue' => ['a},{b', '{x}'],
+                'postgresValue' => '{"a},{b","{x}"}',
+            ],
             'github #424 regression: numeric strings should be preserved as strings when unquoted' => [
                 'phpValue' => ['1', 'test', 'true'],
                 'postgresValue' => '{1,test,true}',
@@ -290,6 +294,10 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
             'floats with trailing zeros - issue #482' => [
                 'expectedValue' => ['502.00', '505.00', '123.50'],
                 'postgresValue' => '{502.00,505.00,123.50}',
+            ],
+            'element carrying the nested-array marker' => [
+                'expectedValue' => ['a},{b', '{x}'],
+                'postgresValue' => '{"a},{b","{x}"}',
             ],
             'unterminated array' => [
                 'expectedValue' => [],

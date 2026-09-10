@@ -43,7 +43,10 @@ class PostgresArrayToPHPArrayTransformer
             return [];
         }
 
-        if (\str_contains($trimmed, '},{') || \str_starts_with($trimmed, '{{')) {
+        // A nested array is always the first thing PostgreSQL emits for a multi-dimensional one,
+        // and it never quotes it. Braces anywhere else are caught by the quote-aware scan below,
+        // which is the only way to tell a nested array from the same characters inside a value.
+        if (\str_starts_with($trimmed, '{{')) {
             throw InvalidArrayFormatException::multiDimensionalArrayNotSupported();
         }
 
