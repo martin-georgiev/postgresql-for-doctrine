@@ -123,6 +123,8 @@
 |---|---|---|
 | *(user-defined enum)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Enum` (see [Enum Types](ENUM-TYPE.md)) |
 | *(user-defined enum)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray` (see [Enum Types](ENUM-TYPE.md)) |
+| *(user-defined composite)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Composite` (see [Composite Types](COMPOSITE-TYPE.md)) |
+| *(user-defined composite)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray` (see [Composite Types](COMPOSITE-TYPE.md)) |
 
 ## PostGIS Spatial Types
 

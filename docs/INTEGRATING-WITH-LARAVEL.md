@@ -393,6 +393,18 @@ return [
 >
 > See [ENUM-TYPE.md](ENUM-TYPE.md) for a full example.
 
+> **User-defined composite types**: For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above.
+> Columns holding an array of that composite get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray`, registered alongside the scalar one:
+>
+> ```php
+> 'types' => [
+>     'inventory_item' => App\Doctrine\Type\InventoryItemType::class,
+>     'inventory_item[]' => App\Doctrine\Type\InventoryItemArrayType::class,
+> ],
+> ```
+>
+> See [COMPOSITE-TYPE.md](COMPOSITE-TYPE.md) for a full example.
+
 
 ### Register DQL Functions
 
