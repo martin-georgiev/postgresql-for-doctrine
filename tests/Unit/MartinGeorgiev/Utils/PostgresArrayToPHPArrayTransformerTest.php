@@ -293,6 +293,14 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         }
     }
 
+    #[Test]
+    public function converts_unquoted_null_to_null_when_preserving_string_types(): void
+    {
+        $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray('{null,NULL,"null","NULL"}', preserveStringTypes: true);
+
+        $this->assertSame([null, null, 'null', 'NULL'], $result);
+    }
+
     /**
      * @return array<string, array{expectedValue: array, postgresValue: string}>
      */
@@ -339,9 +347,9 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'expectedValue' => ['true', 'false', 't', 'f'],
                 'postgresValue' => '{true,false,t,f}',
             ],
-            'null values as strings' => [
+            'quoted null-looking labels' => [
                 'expectedValue' => ['null', 'NULL'],
-                'postgresValue' => '{null,NULL}',
+                'postgresValue' => '{"null","NULL"}',
             ],
             'empty strings preserved' => [
                 'expectedValue' => ['', 'text', ''],

@@ -171,7 +171,9 @@ class PostgresArrayToPHPArrayTransformer
                 return self::processQuotedString($value);
             }
 
-            return $value;
+            // PostgreSQL quotes any element whose text would otherwise read as NULL,
+            // so an unquoted one is always the SQL null and never the four-letter label.
+            return self::isNullValue($value) ? null : $value;
         }
 
         if (self::isNullValue($value)) {
