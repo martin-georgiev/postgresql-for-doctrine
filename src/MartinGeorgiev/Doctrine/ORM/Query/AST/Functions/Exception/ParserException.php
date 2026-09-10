@@ -10,4 +10,12 @@ class ParserException extends \RuntimeException
     {
         return new self($throwable->getMessage(), $throwable->getCode(), $throwable);
     }
+
+    public static function forUnparsableArgumentList(string $functionName): self
+    {
+        return new self(\sprintf(
+            'Cannot parse the argument list of %s(). Expected a comma or a closing parenthesis after an argument.',
+            $functionName
+        ));
+    }
 }
