@@ -47,9 +47,9 @@ final class HstoreTest extends TestCase
     }
 
     #[Test]
-    public function converts_empty_string_from_database_to_null(): void
+    public function converts_empty_string_from_database_to_empty_array(): void
     {
-        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
+        $this->assertSame([], $this->fixture->convertToPHPValue('', $this->platform));
     }
 
     /**

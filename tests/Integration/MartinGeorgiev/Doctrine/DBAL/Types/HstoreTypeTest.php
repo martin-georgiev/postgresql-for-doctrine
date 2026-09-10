@@ -38,6 +38,7 @@ final class HstoreTypeTest extends ScalarTypeTestCase
     public static function provideValidRoundTrips(): array
     {
         return [
+            'empty map' => [[]],
             'simple key value' => [['key' => 'value', 'count' => '42']],
             'null values in hstore' => [['a' => 'b', 'c' => null]],
             'special characters' => [['key' => 'value with "quotes" and backslash\\']],
