@@ -14,8 +14,12 @@ final class JsonbArrayTypeTest extends ArrayTypeTestCase
         return 'jsonb[]';
     }
 
+    /**
+     * @param array<int, mixed> $arrayValue
+     */
     #[DataProvider('provideValidTransformations')]
     #[DataProvider('provideTypeInferenceTestCases')]
+    #[DataProvider('provideScalarItemTestCases')]
     #[Test]
     public function roundtrips_value(array $arrayValue): void
     {
@@ -74,8 +78,21 @@ final class JsonbArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * Verify that JsonbArray performs type inference correctly (default behavior) as
-     * JSON values should maintain their proper types (integers, floats, booleans, null).
+     * @return array<string, array{array<int, mixed>}>
+     */
+    public static function provideScalarItemTestCases(): array
+    {
+        return [
+            'jsonb array of numbers' => [[1, -2, 3.5]],
+            'jsonb array of booleans' => [[true, false]],
+            'jsonb array of strings' => [['hello', 'null', '1']],
+            'jsonb array of json nulls' => [[null, null]],
+            'jsonb array mixing scalars and objects' => [[1, 'two', true, null, ['key' => 'value'], [1, 2]]],
+        ];
+    }
+
+    /**
+     * @return array<string, array{array<int, array<string, mixed>>}>
      */
     public static function provideTypeInferenceTestCases(): array
     {

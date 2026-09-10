@@ -88,6 +88,24 @@ final class JsonbArrayTest extends TestCase
         ];
     }
 
+    #[Test]
+    public function converts_json_scalars_to_php_value(): void
+    {
+        $postgresValue = '{"\"hello\"",1,-2.5,"null","{\"a\": 1}",true,NULL}';
+        $expectedResult = ['hello', 1, -2.5, null, ['a' => 1], true, null];
+
+        $this->assertSame($expectedResult, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    #[Test]
+    public function converts_integer_wider_than_the_php_integer_range_to_string(): void
+    {
+        $postgresValue = '{9223372036854775808,NULL}';
+        $expectedResult = ['9223372036854775808', null];
+
+        $this->assertSame($expectedResult, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
     #[DataProvider('provideInvalidTypeInputs')]
     #[Test]
     public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
@@ -108,6 +126,9 @@ final class JsonbArrayTest extends TestCase
         ];
     }
 
+    /**
+     * @param array<int, mixed> $phpValue
+     */
     #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(array $phpValue): void
