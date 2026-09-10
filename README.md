@@ -9,22 +9,22 @@ Enhances Doctrine with PostgreSQL-specific features and functions. Supports Post
 ## Quick Start
 
 ```php
-use Doctrine\DBAL\Types\Type;
-use MartinGeorgiev\Doctrine\DBAL\Type as PostgresType;
+use Doctrine\DBAL\Types\Type as DoctrineType;
+use MartinGeorgiev\Doctrine\DBAL\Type;
 
 // Register types with Doctrine
-Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
-Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
-Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
+DoctrineType::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+DoctrineType::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+DoctrineType::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 
 // Use in your Doctrine entities
-#[ORM\Column(type: PostgresType::JSONB)]
+#[ORM\Column(type: Type::JSONB)]
 private array $data;
 
-#[ORM\Column(type: PostgresType::TEXT_ARRAY)]
+#[ORM\Column(type: Type::TEXT_ARRAY)]
 private array $tags;
 
-#[ORM\Column(type: PostgresType::NUMRANGE)]
+#[ORM\Column(type: Type::NUMRANGE)]
 private NumericRange $priceRange;
 
 // Use in DQL

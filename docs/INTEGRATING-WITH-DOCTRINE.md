@@ -9,147 +9,147 @@ Register the DBAL types you plan to use. The **full set** of available types can
 ```php
 <?php
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 
 // Binary types
-Type::addType('bytea', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Bytea");
-Type::addType('bytea[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\ByteaArray");
+DoctrineType::addType('bytea', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Bytea");
+DoctrineType::addType('bytea[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\ByteaArray");
 
 // Bit types
-Type::addType('bit', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Bit");
-Type::addType('bit[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitArray");
-Type::addType('bit varying', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitVarying");
-Type::addType('bit varying[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitVaryingArray");
+DoctrineType::addType('bit', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Bit");
+DoctrineType::addType('bit[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitArray");
+DoctrineType::addType('bit varying', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitVarying");
+DoctrineType::addType('bit varying[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BitVaryingArray");
 
 // Array types
-Type::addType('bool[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BooleanArray");
-Type::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
-Type::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
-Type::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
-Type::addType('double precision[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DoublePrecisionArray");
-Type::addType('numeric[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumericArray");
-Type::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
-Type::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
-Type::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
-Type::addType('varchar[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\VarcharArray");
+DoctrineType::addType('bool[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BooleanArray");
+DoctrineType::addType('smallint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\SmallIntArray");
+DoctrineType::addType('integer[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntegerArray");
+DoctrineType::addType('bigint[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BigIntArray");
+DoctrineType::addType('double precision[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DoublePrecisionArray");
+DoctrineType::addType('numeric[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumericArray");
+DoctrineType::addType('real[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\RealArray");
+DoctrineType::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
+DoctrineType::addType('uuid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UuidArray");
+DoctrineType::addType('varchar[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\VarcharArray");
 
 // Case-insensitive text types
-Type::addType('citext', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Citext");
-Type::addType('citext[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CitextArray");
+DoctrineType::addType('citext', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Citext");
+DoctrineType::addType('citext[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CitextArray");
 
 // ULID types
-Type::addType('ulid', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ulid");
-Type::addType('ulid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UlidArray");
+DoctrineType::addType('ulid', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ulid");
+DoctrineType::addType('ulid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UlidArray");
 
 // Date and time types
-Type::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
-Type::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
-Type::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
-Type::addType('time[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimeArray");
-Type::addType('timestamp[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampArray");
-Type::addType('timestamptz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTzArray");
-Type::addType('timetz', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Timetz");
-Type::addType('timetz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimetzArray");
+DoctrineType::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
+DoctrineType::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
+DoctrineType::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
+DoctrineType::addType('time[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimeArray");
+DoctrineType::addType('timestamp[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampArray");
+DoctrineType::addType('timestamptz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTzArray");
+DoctrineType::addType('timetz', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Timetz");
+DoctrineType::addType('timetz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimetzArray");
 
 // JSON types
-Type::addType('json[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonArray");
-Type::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
-Type::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
+DoctrineType::addType('json[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonArray");
+DoctrineType::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+DoctrineType::addType('jsonb[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\JsonbArray");
 
 // Network types
-Type::addType('cidr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Cidr");
-Type::addType('cidr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CidrArray");
-Type::addType('inet', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Inet");
-Type::addType('inet[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\InetArray");
-Type::addType('macaddr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr");
-Type::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray");
-Type::addType('macaddr8', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8");
-Type::addType('macaddr8[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8Array");
+DoctrineType::addType('cidr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Cidr");
+DoctrineType::addType('cidr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CidrArray");
+DoctrineType::addType('inet', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Inet");
+DoctrineType::addType('inet[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\InetArray");
+DoctrineType::addType('macaddr', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr");
+DoctrineType::addType('macaddr[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MacaddrArray");
+DoctrineType::addType('macaddr8', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8");
+DoctrineType::addType('macaddr8[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Macaddr8Array");
 
 // Geometric types
-Type::addType('box', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Box");
-Type::addType('box[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BoxArray");
-Type::addType('circle', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Circle");
-Type::addType('circle[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CircleArray");
-Type::addType('line', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Line");
-Type::addType('line[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LineArray");
-Type::addType('lseg', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Lseg");
-Type::addType('lseg[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LsegArray");
-Type::addType('path', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Path");
-Type::addType('path[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PathArray");
-Type::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
-Type::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
-Type::addType('polygon', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Polygon");
-Type::addType('polygon[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PolygonArray");
+DoctrineType::addType('box', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Box");
+DoctrineType::addType('box[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\BoxArray");
+DoctrineType::addType('circle', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Circle");
+DoctrineType::addType('circle[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CircleArray");
+DoctrineType::addType('line', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Line");
+DoctrineType::addType('line[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LineArray");
+DoctrineType::addType('lseg', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Lseg");
+DoctrineType::addType('lseg[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LsegArray");
+DoctrineType::addType('path', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Path");
+DoctrineType::addType('path[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PathArray");
+DoctrineType::addType('point', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Point");
+DoctrineType::addType('point[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PointArray");
+DoctrineType::addType('polygon', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Polygon");
+DoctrineType::addType('polygon[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\PolygonArray");
 
 // Cube types
-Type::addType('cube', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Cube");
-Type::addType('cube[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CubeArray");
+DoctrineType::addType('cube', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Cube");
+DoctrineType::addType('cube[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\CubeArray");
 
 // PostGIS spatial types
-Type::addType('geometry', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geometry");
-Type::addType('geometry[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeometryArray");
-Type::addType('geography', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geography");
-Type::addType('geography[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeographyArray");
+DoctrineType::addType('geometry', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geometry");
+DoctrineType::addType('geometry[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeometryArray");
+DoctrineType::addType('geography', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Geography");
+DoctrineType::addType('geography[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\GeographyArray");
 
 // Range types
-Type::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
-Type::addType('daterange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRangeArray");
-Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
-Type::addType('int4range[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4RangeArray");
-Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
-Type::addType('int8range[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8RangeArray");
-Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
-Type::addType('numrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRangeArray");
-Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
-Type::addType('tsrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRangeArray");
-Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
-Type::addType('tstzrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRangeArray");
+DoctrineType::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
+DoctrineType::addType('daterange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRangeArray");
+DoctrineType::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
+DoctrineType::addType('int4range[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4RangeArray");
+DoctrineType::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
+DoctrineType::addType('int8range[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8RangeArray");
+DoctrineType::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
+DoctrineType::addType('numrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRangeArray");
+DoctrineType::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
+DoctrineType::addType('tsrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRangeArray");
+DoctrineType::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
+DoctrineType::addType('tstzrange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRangeArray");
 
 // Multirange types
-Type::addType('datemultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateMultirange");
-Type::addType('datemultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateMultirangeArray");
-Type::addType('int4multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Multirange");
-Type::addType('int4multirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4MultirangeArray");
-Type::addType('int8multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Multirange");
-Type::addType('int8multirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8MultirangeArray");
-Type::addType('nummultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirange");
-Type::addType('nummultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirangeArray");
-Type::addType('tsmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsMultirange");
-Type::addType('tsmultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsMultirangeArray");
-Type::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMultirange");
-Type::addType('tstzmultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMultirangeArray");
+DoctrineType::addType('datemultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateMultirange");
+DoctrineType::addType('datemultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateMultirangeArray");
+DoctrineType::addType('int4multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Multirange");
+DoctrineType::addType('int4multirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4MultirangeArray");
+DoctrineType::addType('int8multirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Multirange");
+DoctrineType::addType('int8multirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8MultirangeArray");
+DoctrineType::addType('nummultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirange");
+DoctrineType::addType('nummultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumMultirangeArray");
+DoctrineType::addType('tsmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsMultirange");
+DoctrineType::addType('tsmultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsMultirangeArray");
+DoctrineType::addType('tstzmultirange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMultirange");
+DoctrineType::addType('tstzmultirange[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzMultirangeArray");
 
 // Text search types
-Type::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
-Type::addType('tsquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsqueryArray");
-Type::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
-Type::addType('tsvector[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsvectorArray");
+DoctrineType::addType('tsquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsquery");
+DoctrineType::addType('tsquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsqueryArray");
+DoctrineType::addType('tsvector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Tsvector");
+DoctrineType::addType('tsvector[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsvectorArray");
 
 // Monetary types
-Type::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
-Type::addType('money[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MoneyArray");
+DoctrineType::addType('money', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Money");
+DoctrineType::addType('money[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\MoneyArray");
 
 // Key-value types
-Type::addType('hstore', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Hstore");
-Type::addType('hstore[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\HstoreArray");
+DoctrineType::addType('hstore', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Hstore");
+DoctrineType::addType('hstore[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\HstoreArray");
 
 // Hierarchical types
-Type::addType('lquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Lquery");
-Type::addType('lquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LqueryArray");
-Type::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
-Type::addType('ltree[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtreeArray");
-Type::addType('ltxtquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltxtquery");
-Type::addType('ltxtquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtxtqueryArray");
+DoctrineType::addType('lquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Lquery");
+DoctrineType::addType('lquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LqueryArray");
+DoctrineType::addType('ltree', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltree");
+DoctrineType::addType('ltree[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtreeArray");
+DoctrineType::addType('ltxtquery', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ltxtquery");
+DoctrineType::addType('ltxtquery[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\LtxtqueryArray");
 
 // XML types
-Type::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
-Type::addType('xml[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\XmlArray");
+DoctrineType::addType('xml', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Xml");
+DoctrineType::addType('xml[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\XmlArray");
 
 // Vector types
-Type::addType('halfvec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Halfvec");
-Type::addType('sparsevec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Sparsevec");
-Type::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
+DoctrineType::addType('halfvec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Halfvec");
+DoctrineType::addType('sparsevec', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Sparsevec");
+DoctrineType::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector");
 ```
 
 
@@ -696,7 +696,7 @@ Columns holding an array of that enum get a second concrete class extending `Mar
 ```php
 <?php
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 use MartinGeorgiev\Doctrine\DBAL\Types\Enum;
 use MartinGeorgiev\Doctrine\DBAL\Types\EnumArray;
 
@@ -727,8 +727,8 @@ final class StatusArrayType extends EnumArray
 }
 
 // Register like any other type
-Type::addType('status', StatusType::class);
-Type::addType('status[]', StatusArrayType::class);
+DoctrineType::addType('status', StatusType::class);
+DoctrineType::addType('status[]', StatusArrayType::class);
 $platform->registerDoctrineTypeMapping('status', 'status');
 $platform->registerDoctrineTypeMapping('status[]', 'status[]');
 $platform->registerDoctrineTypeMapping('_status', 'status[]');
@@ -741,7 +741,7 @@ For each PostgreSQL composite (row) type, create a concrete class extending `Mar
 ```php
 <?php
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 use Doctrine\DBAL\Types\Types;
 use MartinGeorgiev\Doctrine\DBAL\Types\Composite;
 
@@ -763,7 +763,7 @@ final class InventoryItemType extends Composite
 }
 
 // Register like any other type
-Type::addType('inventory_item', InventoryItemType::class);
+DoctrineType::addType('inventory_item', InventoryItemType::class);
 $platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
 ```
 
@@ -782,7 +782,7 @@ final class InventoryItemArrayType extends CompositeArray
     }
 }
 
-Type::addType('inventory_item[]', InventoryItemArrayType::class);
+DoctrineType::addType('inventory_item[]', InventoryItemArrayType::class);
 $platform->registerDoctrineTypeMapping('inventory_item[]', 'inventory_item[]');
 $platform->registerDoctrineTypeMapping('_inventory_item', 'inventory_item[]');
 ```

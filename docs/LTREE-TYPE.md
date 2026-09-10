@@ -21,6 +21,7 @@ $this->addSql('CREATE EXTENSION IF NOT EXISTS ltree');
 ## Registration
 
 ```php
+use Doctrine\DBAL\Types\Type as DoctrineType;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Lquery;
 use MartinGeorgiev\Doctrine\DBAL\Types\LqueryArray;
@@ -29,12 +30,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\LtreeArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Ltxtquery;
 use MartinGeorgiev\Doctrine\DBAL\Types\LtxtqueryArray;
 
-Type::addType(Type::LQUERY, Lquery::class);
-Type::addType(Type::LQUERY_ARRAY, LqueryArray::class);
-Type::addType(Type::LTREE, Ltree::class);
-Type::addType(Type::LTREE_ARRAY, LtreeArray::class);
-Type::addType(Type::LTXTQUERY, Ltxtquery::class);
-Type::addType(Type::LTXTQUERY_ARRAY, LtxtqueryArray::class);
+DoctrineType::addType(Type::LQUERY, Lquery::class);
+DoctrineType::addType(Type::LQUERY_ARRAY, LqueryArray::class);
+DoctrineType::addType(Type::LTREE, Ltree::class);
+DoctrineType::addType(Type::LTREE_ARRAY, LtreeArray::class);
+DoctrineType::addType(Type::LTXTQUERY, Ltxtquery::class);
+DoctrineType::addType(Type::LTXTQUERY_ARRAY, LtxtqueryArray::class);
 ```
 
 ## ltree

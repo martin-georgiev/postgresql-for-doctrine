@@ -11,12 +11,12 @@ The `GeometryArray` and `GeographyArray` types provide support for PostgreSQL's 
 ## Registration and Type Mapping
 
 ```php
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 
-Type::addType('geometry', \MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
-Type::addType('geometry[]', \MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray::class);
-Type::addType('geography', \MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
-Type::addType('geography[]', \MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray::class);
+DoctrineType::addType('geometry', \MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
+DoctrineType::addType('geometry[]', \MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray::class);
+DoctrineType::addType('geography', \MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
+DoctrineType::addType('geography[]', \MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray::class);
 
 $platform = $connection->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('geometry', 'geometry');
