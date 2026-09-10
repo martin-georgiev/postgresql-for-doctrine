@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -20,10 +21,24 @@ abstract class BaseNumericArrayTestCase extends TestCase
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
     }
 
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
+    {
+        $this->expectException(static::getInvalidDatabaseItemException());
+
+        $this->fixture->convertToDatabaseValue([$phpValue], $this->createStub(AbstractPlatform::class));
+    }
+
     /**
      * @return array<string, array{mixed}>
      */
     abstract public static function provideInvalidDatabaseValueInputs(): array;
+
+    /**
+     * @return class-string<\Throwable>
+     */
+    abstract protected static function getInvalidDatabaseItemException(): string;
 
     /**
      * @return array<string, array{mixed}>

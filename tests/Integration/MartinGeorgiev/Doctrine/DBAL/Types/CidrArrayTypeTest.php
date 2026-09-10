@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
 final class CidrArrayTypeTest extends ArrayTypeTestCase
@@ -41,7 +41,7 @@ final class CidrArrayTypeTest extends ArrayTypeTestCase
     #[Test]
     public function rejects_invalid_network_item(): void
     {
-        $this->expectException(InvalidCidrArrayItemForPHPException::class);
+        $this->expectException(InvalidCidrArrayItemForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

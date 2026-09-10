@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
 final class MacaddrArrayTypeTest extends ArrayTypeTestCase
@@ -38,7 +38,7 @@ final class MacaddrArrayTypeTest extends ArrayTypeTestCase
     #[Test]
     public function rejects_invalid_address_item(): void
     {
-        $this->expectException(InvalidMacaddrArrayItemForPHPException::class);
+        $this->expectException(InvalidMacaddrArrayItemForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

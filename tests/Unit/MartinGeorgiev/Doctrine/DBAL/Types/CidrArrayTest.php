@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\CidrArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -83,7 +84,7 @@ final class CidrArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidCidrArrayItemForPHPException::class);
+        $this->expectException(InvalidCidrArrayItemForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
     }
 
@@ -93,6 +94,7 @@ final class CidrArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
+            'integer item' => [[123]],
             'invalid IPv4' => [['256.256.256.0/24']],
             'invalid IPv6' => [['2001:xyz::/32']],
             'missing netmask' => [['192.168.1.0']],

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCidrArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\CidrValidationTrait;
 
@@ -42,6 +43,10 @@ class CidrArray extends BaseNetworkTypeArray
 
     protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidCidrArrayItemForPHPException::forInvalidFormat($item);
+        if (!\is_string($item)) {
+            throw InvalidCidrArrayItemForDatabaseException::forInvalidType($item);
+        }
+
+        throw InvalidCidrArrayItemForDatabaseException::forInvalidFormat($item);
     }
 }

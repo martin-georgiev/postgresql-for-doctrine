@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetArrayItemForDatabaseException;
 use PHPUnit\Framework\Attributes\Test;
 
 final class InetArrayTypeTest extends ArrayTypeTestCase
@@ -40,7 +40,7 @@ final class InetArrayTypeTest extends ArrayTypeTestCase
     #[Test]
     public function rejects_invalid_address_item(): void
     {
-        $this->expectException(InvalidInetArrayItemForPHPException::class);
+        $this->expectException(InvalidInetArrayItemForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
