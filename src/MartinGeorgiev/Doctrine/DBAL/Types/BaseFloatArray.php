@@ -84,6 +84,13 @@ abstract class BaseFloatArray extends BaseArray
         }
     }
 
+    protected function throwInvalidItemException(mixed $item): never
+    {
+        $this->throwIfInvalidArrayItemForDatabase($item);
+
+        throw InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
+    }
+
     public function transformArrayItemForPHP(mixed $item): ?float
     {
         if ($item === null) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\InetArray;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -103,7 +104,7 @@ final class InetArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidInetArrayItemForPHPException::class);
+        $this->expectException(InvalidInetArrayItemForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
     }
 
@@ -113,6 +114,7 @@ final class InetArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
+            'integer item' => [[123]],
             'invalid IPv4' => [['256.256.256.256']],
             'invalid IPv6' => [['2001:xyz::1']],
             'invalid CIDR format' => [['192.168.1.0/xyz']],

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddr8ArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddr8ArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Macaddr8Array;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -79,7 +80,7 @@ final class Macaddr8ArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidMacaddr8ArrayItemForPHPException::class);
+        $this->expectException(InvalidMacaddr8ArrayItemForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
     }
 
@@ -89,6 +90,7 @@ final class Macaddr8ArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
+            'integer item' => [[123]],
             'too long' => [['08:00:2b:ff:fe:01:02:03:04']],
             'invalid hex chars' => [['08:00:2b:zz:fe:01:02:03']],
             'empty string' => [['']],

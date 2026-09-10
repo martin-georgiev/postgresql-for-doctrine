@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\InetValidationTrait;
 
@@ -42,6 +43,10 @@ class InetArray extends BaseNetworkTypeArray
 
     protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidInetArrayItemForPHPException::forInvalidFormat($item);
+        if (!\is_string($item)) {
+            throw InvalidInetArrayItemForDatabaseException::forInvalidType($item);
+        }
+
+        throw InvalidInetArrayItemForDatabaseException::forInvalidFormat($item);
     }
 }

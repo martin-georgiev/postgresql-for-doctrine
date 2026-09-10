@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
-
 /**
  * Base class for network-related PostgreSQL array types (INET[], CIDR[], MACADDR[]).
  *
@@ -25,7 +23,7 @@ abstract class BaseNetworkTypeArray extends BaseArray
         }
 
         if (!\is_string($item)) {
-            throw new ConversionException(\sprintf("Value %s can't be resolved to valid network array item", \var_export($item, true)));
+            $this->throwInvalidItemException($item);
         }
 
         return '"'.$item.'"';

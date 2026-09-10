@@ -61,6 +61,13 @@ abstract class BaseIntegerArray extends BaseArray
         }
     }
 
+    protected function throwInvalidItemException(mixed $item): never
+    {
+        $this->throwIfInvalidArrayItemForDatabase($item);
+
+        throw InvalidIntegerArrayItemForDatabaseException::isNotANumber($item);
+    }
+
     public function transformArrayItemForPHP(mixed $item): ?int
     {
         if ($item === null) {

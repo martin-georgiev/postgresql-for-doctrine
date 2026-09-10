@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddr8ArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddr8ArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\Macaddr8ValidationTrait;
 
@@ -42,6 +43,10 @@ final class Macaddr8Array extends BaseNetworkTypeArray
 
     protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidMacaddr8ArrayItemForPHPException::forInvalidFormat($item);
+        if (!\is_string($item)) {
+            throw InvalidMacaddr8ArrayItemForDatabaseException::forInvalidType($item);
+        }
+
+        throw InvalidMacaddr8ArrayItemForDatabaseException::forInvalidFormat($item);
     }
 }

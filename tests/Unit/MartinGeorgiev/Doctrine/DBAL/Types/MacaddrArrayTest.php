@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\MacaddrArray;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -87,7 +88,7 @@ final class MacaddrArrayTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidMacaddrArrayItemForPHPException::class);
+        $this->expectException(InvalidMacaddrArrayItemForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform); // @phpstan-ignore-line
     }
 
@@ -97,6 +98,7 @@ final class MacaddrArrayTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
+            'integer item' => [[123]],
             'invalid MAC format' => [['00:11:22:33:44:ZZ']],
             'too short' => [['00:11:22:33:44']],
             'too long' => [['00:11:22:33:44:55:66']],

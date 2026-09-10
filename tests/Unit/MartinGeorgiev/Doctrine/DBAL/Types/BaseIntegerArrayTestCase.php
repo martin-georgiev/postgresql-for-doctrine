@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,6 +14,11 @@ abstract class BaseIntegerArrayTestCase extends BaseNumericArrayTestCase
     protected static function getInvalidItemException(): string
     {
         return InvalidIntegerArrayItemForPHPException::class;
+    }
+
+    protected static function getInvalidDatabaseItemException(): string
+    {
+        return InvalidIntegerArrayItemForDatabaseException::class;
     }
 
     /**

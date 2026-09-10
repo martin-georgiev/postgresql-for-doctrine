@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -12,6 +13,11 @@ abstract class BaseFloatArrayTestCase extends BaseNumericArrayTestCase
     protected static function getInvalidItemException(): string
     {
         return InvalidFloatArrayItemForPHPException::class;
+    }
+
+    protected static function getInvalidDatabaseItemException(): string
+    {
+        return InvalidFloatArrayItemForDatabaseException::class;
     }
 
     /**

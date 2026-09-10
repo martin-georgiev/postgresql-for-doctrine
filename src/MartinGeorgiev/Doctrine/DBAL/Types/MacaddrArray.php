@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddrArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\MacaddrValidationTrait;
 
@@ -42,6 +43,10 @@ class MacaddrArray extends BaseNetworkTypeArray
 
     protected function throwInvalidItemException(mixed $item): never
     {
-        throw InvalidMacaddrArrayItemForPHPException::forInvalidFormat($item);
+        if (!\is_string($item)) {
+            throw InvalidMacaddrArrayItemForDatabaseException::forInvalidType($item);
+        }
+
+        throw InvalidMacaddrArrayItemForDatabaseException::forInvalidFormat($item);
     }
 }
