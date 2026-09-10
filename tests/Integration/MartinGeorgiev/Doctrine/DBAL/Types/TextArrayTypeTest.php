@@ -47,6 +47,9 @@ final class TextArrayTypeTest extends ArrayTypeTestCase
             'text array with null element as string' => [
                 ['foo', 'null', 'baz'],
             ],
+            'text array with elements carrying the nested-array marker' => [
+                ['a},{b', '{x}', '{{1,2},{3,4}}'],
+            ],
         ];
     }
 
