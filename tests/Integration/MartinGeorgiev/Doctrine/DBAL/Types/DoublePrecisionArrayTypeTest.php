@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-final class DoublePrecisionArrayTypeTest extends ArrayTypeTestCase
+final class DoublePrecisionArrayTypeTest extends FloatArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -28,6 +28,24 @@ final class DoublePrecisionArrayTypeTest extends ArrayTypeTestCase
             'double precision array with zero' => [[0.0, 1.5, -1.5]],
             'empty double precision array' => [[]],
             'double precision array with large numbers' => [[1234567.123456, -9876543.987654]],
+        ];
+    }
+
+    public static function providePostgresWrittenValues(): array
+    {
+        return [
+            'shortest round-trip form needing more digits than the type guarantees' => [
+                'literal' => '{0.12345678901234566}',
+                'expected' => [0.12345678901234566],
+            ],
+            'subnormal' => [
+                'literal' => '{5e-324}',
+                'expected' => [5.0E-324],
+            ],
+            'scientific notation at the upper bound' => [
+                'literal' => '{1.7976931348623157e+308,-1.7976931348623157e+308}',
+                'expected' => [1.7976931348623157E+308, -1.7976931348623157E+308],
+            ],
         ];
     }
 }

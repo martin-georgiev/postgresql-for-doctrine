@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-final class RealArrayTypeTest extends ArrayTypeTestCase
+final class RealArrayTypeTest extends FloatArrayTypeTestCase
 {
     protected function getTypeName(): string
     {
@@ -28,6 +28,24 @@ final class RealArrayTypeTest extends ArrayTypeTestCase
             'real array with zero' => [[0.0, 1.5, -1.5]],
             'empty real array' => [[]],
             'real array with large numbers' => [[3.402823e+6, -3.402823e+6]],
+        ];
+    }
+
+    public static function providePostgresWrittenValues(): array
+    {
+        return [
+            'shortest round-trip form needing more digits than the type guarantees' => [
+                'literal' => '{1.1234567,0.12345679}',
+                'expected' => [1.1234567, 0.12345679],
+            ],
+            'subnormal' => [
+                'literal' => '{1e-45}',
+                'expected' => [1.0E-45],
+            ],
+            'scientific notation at the upper bound' => [
+                'literal' => '{3.4028235e+38,-3.4028235e+38}',
+                'expected' => [3.4028235E+38, -3.4028235E+38],
+            ],
         ];
     }
 }
