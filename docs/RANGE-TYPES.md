@@ -22,14 +22,14 @@ PostgreSQL range types represent ranges of values of some element type (called t
 First, register the range types you need:
 
 ```php
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 
-Type::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
-Type::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
-Type::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
-Type::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
-Type::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
-Type::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
+DoctrineType::addType('daterange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateRange");
+DoctrineType::addType('int4range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int4Range");
+DoctrineType::addType('int8range', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Int8Range");
+DoctrineType::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
+DoctrineType::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange");
+DoctrineType::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 ```
 
 ### Entity Usage

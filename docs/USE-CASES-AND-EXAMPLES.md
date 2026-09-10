@@ -335,11 +335,11 @@ CREATE TABLE places (
 ```
 
 ```php
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Geometry as GeometryValueObject;
 
-Type::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
-Type::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
+DoctrineType::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
+DoctrineType::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
 
 $location = GeometryValueObject::fromWKT('SRID=4326;POINT(-122.4194 37.7749)');
 $entity->setLocation($location);

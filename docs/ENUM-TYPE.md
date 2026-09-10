@@ -53,9 +53,9 @@ The `TYPE_NAME` constant must match the PostgreSQL type name exactly - it is use
 ### 4. Register the type
 
 ```php
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 
-Type::addType('order_status', OrderStatusType::class);
+DoctrineType::addType('order_status', OrderStatusType::class);
 ```
 
 ### 5. Use in an entity
@@ -89,8 +89,8 @@ final class PaymentMethodType extends Enum
     protected function getEnumClass(): string { return PaymentMethod::class; }
 }
 
-Type::addType('order_status', OrderStatusType::class);
-Type::addType('payment_method', PaymentMethodType::class);
+DoctrineType::addType('order_status', OrderStatusType::class);
+DoctrineType::addType('payment_method', PaymentMethodType::class);
 ```
 
 ## Arrays of enum values
@@ -113,7 +113,7 @@ final class OrderStatusArrayType extends EnumArray
     }
 }
 
-Type::addType('order_status[]', OrderStatusArrayType::class);
+DoctrineType::addType('order_status[]', OrderStatusArrayType::class);
 ```
 
 The scalar and the array type are independent registrations - add whichever ones your schema uses.

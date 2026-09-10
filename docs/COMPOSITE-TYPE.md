@@ -44,9 +44,9 @@ final class InventoryItemType extends Composite
 ### 3. Register the type
 
 ```php
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 
-Type::addType('inventory_item', InventoryItemType::class);
+DoctrineType::addType('inventory_item', InventoryItemType::class);
 $platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
 ```
 
