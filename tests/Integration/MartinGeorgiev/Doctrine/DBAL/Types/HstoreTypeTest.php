@@ -22,6 +22,9 @@ final class HstoreTypeTest extends ScalarTypeTestCase
         return 'hstore';
     }
 
+    /**
+     * @param array<string, string|null> $value
+     */
     #[DataProvider('provideValidRoundTrips')]
     #[Test]
     public function roundtrips_value(array $value): void

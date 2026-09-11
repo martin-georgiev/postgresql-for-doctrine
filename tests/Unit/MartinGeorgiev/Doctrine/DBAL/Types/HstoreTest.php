@@ -87,6 +87,9 @@ final class HstoreTest extends TestCase
         ];
     }
 
+    /**
+     * @param array<string, string|null> $expected
+     */
     #[DataProvider('provideHstoreToArrayConversions')]
     #[Test]
     public function parses_hstore_string_to_array(string $input, array $expected): void
