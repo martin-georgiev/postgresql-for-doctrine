@@ -28,6 +28,17 @@ final class XmlPiTest extends TextTestCase
     }
 
     #[Test]
+    public function creates_xmlpi_with_hyphenated_target(): void
+    {
+        $dql = "SELECT XMLPI('php-app') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                WHERE t.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('<?php-app?>', $result[0]['result']);
+    }
+
+    #[Test]
     public function creates_xmlpi_with_content_from_literals(): void
     {
         $dql = "SELECT XMLPI('php', 'echo \"hello world\";') as result
