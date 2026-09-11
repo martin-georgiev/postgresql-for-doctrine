@@ -22,14 +22,4 @@ class InvalidFloatArrayItemForPHPException extends ConversionException
     {
         return self::create('Given value of %s content cannot be transformed to valid PHP float from PostgreSQL %s type', $value, $type);
     }
-
-    public static function forValueThatIsTooCloseToZero(mixed $value, string $type): self
-    {
-        return self::create('Given value of %s is too close to zero for PostgreSQL %s type', $value, $type);
-    }
-
-    public static function forValueThatExceedsMaximumPrecision(mixed $value, string $type): self
-    {
-        return self::create('Given value of %s exceeds maximum precision for PostgreSQL %s type', $value, $type);
-    }
 }
