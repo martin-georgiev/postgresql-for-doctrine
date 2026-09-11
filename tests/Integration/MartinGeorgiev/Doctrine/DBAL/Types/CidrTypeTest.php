@@ -40,14 +40,27 @@ final class CidrTypeTest extends ScalarTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInvalidValues')]
     #[Test]
-    public function rejects_invalid_network(): void
+    public function rejects_invalid_network(string $value): void
     {
         $this->expectException(InvalidCidrForPHPException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runDbalBindingRoundTrip($typeName, $columnType, 'invalid-network');
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $value);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidValues(): array
+    {
+        return [
+            'invalid network format' => ['invalid-network'],
+            'triple segment CIDR' => ['192.168.1.0/24/24'],
+            'decimal netmask' => ['192.168.1.0/24.5'],
+        ];
     }
 }

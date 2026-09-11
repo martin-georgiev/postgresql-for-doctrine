@@ -40,6 +40,10 @@ final class LtreeTest extends TestCase
         yield 'list with object' => [['a', new \stdClass(), 'c']];
         yield 'list with null' => [['a', null, 'c']];
         yield 'list with dotted string' => [['a', 'b.c', 'ds']];
+        yield 'list with space in label' => [['a', 'b c', 'd']];
+        yield 'list with emoji label' => [['a', '🎉', 'c']];
+        yield 'list with punctuation label' => [['a', 'b,c', 'd']];
+        yield 'list with label exceeding 1000 characters' => [['a', \str_repeat('x', 1001), 'c']];
     }
 
     #[DataProvider('provideInvalidStringRepresentation')]
@@ -106,6 +110,9 @@ final class LtreeTest extends TestCase
         yield 'multiple nodes' => ['a.b.c', ['a', 'b', 'c']];
         yield 'with numbers' => ['1.2.3', ['1', '2', '3']];
         yield 'with special characters' => ['a.b.c-d_e', ['a', 'b', 'c-d_e']];
+        yield 'with unicode letters' => ['café.日本語.ü', ['café', '日本語', 'ü']];
+        yield 'with ASCII label at the 1000 character limit' => [\str_repeat('x', 1000), [\str_repeat('x', 1000)]];
+        yield 'with multibyte label at the 1000 character limit' => [\str_repeat('é', 1000), [\str_repeat('é', 1000)]];
     }
 
     #[Test]
@@ -522,5 +529,8 @@ final class LtreeTest extends TestCase
         yield 'with leaf with dot' => ['a.b'];
         yield 'with leaf starting by dot' => ['.b'];
         yield 'with leaf ending by dot' => ['a.'];
+        yield 'with leaf containing a space' => ['a b'];
+        yield 'with ASCII leaf exceeding 1000 characters' => [\str_repeat('x', 1001)];
+        yield 'with multibyte leaf exceeding 1000 characters' => [\str_repeat('é', 1001)];
     }
 }

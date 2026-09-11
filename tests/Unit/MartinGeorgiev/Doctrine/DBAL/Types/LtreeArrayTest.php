@@ -149,6 +149,7 @@ final class LtreeArrayTest extends TestCase
         return [
             'empty label in array' => ['{foo..bar}'],
             'leading dot in array' => ['{.foo}'],
+            'label with space in array' => ['{foo bar}'],
         ];
     }
 
