@@ -48,7 +48,7 @@ throw InvalidJsonFormatException::invalidFormat('the value is not decodable JSON
 
 // ...and in the DBAL type:
 try {
-    return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item);
+    return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($item);
 } catch (InvalidJsonFormatException) {
     throw InvalidJsonArrayItemForPHPException::forInvalidFormat($item);
 }
