@@ -27,9 +27,15 @@ abstract class BaseStringArray extends BaseArray
         return $this->quoteAndEscapeArrayItem($item);
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
+            $postgresArray,
+            preserveStringTypes: true
+        );
     }
 
     public function transformArrayItemForPHP(mixed $item): ?string

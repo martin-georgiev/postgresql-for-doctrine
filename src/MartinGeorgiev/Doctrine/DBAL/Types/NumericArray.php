@@ -7,7 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidNumericArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidNumericArrayItemForPHPException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL NUMERIC[] data type.
@@ -48,23 +47,6 @@ class NumericArray extends BaseStringArray
         }
 
         return \preg_match(self::NUMERIC_REGEX, $item) === 1;
-    }
-
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
-            $postgresArray,
-            preserveStringTypes: true
-        );
-    }
-
-    public function transformArrayItemForPHP(mixed $item): ?string
-    {
-        if ($item === 'NULL') {
-            return null;
-        }
-
-        return parent::transformArrayItemForPHP($item);
     }
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidNumericArrayItemForPHPException

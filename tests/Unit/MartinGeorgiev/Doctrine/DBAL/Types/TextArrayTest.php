@@ -123,6 +123,9 @@ final class TextArrayTest extends TestCase
         $this->assertSame($expectedValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
+    /**
+     * @param array<int, string> $expectedResult
+     */
     #[DataProvider('provideGithubIssue424TestCases')]
     #[Test]
     public function preserves_string_types_retrieved_from_database_for_github_issue_424(string $postgresValue, array $expectedResult): void
@@ -165,11 +168,16 @@ final class TextArrayTest extends TestCase
                 'postgresValue' => '{1,"2",true,"false",3.14,"test"}',
                 'expectedResult' => ['1', '2', 'true', 'false', '3.14', 'test'],
             ],
-            'null values should be converted to strings' => [
-                'postgresValue' => '{"",null,"null","NULL"}',
-                'expectedResult' => ['', 'null', 'null', 'NULL'],
-            ],
         ];
+    }
+
+    #[Test]
+    public function converts_unquoted_null_element_to_null(): void
+    {
+        $postgresValue = '{"",null,"null","NULL"}';
+        $expectedResult = ['', null, 'null', 'NULL'];
+
+        $this->assertSame($expectedResult, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     #[Test]
