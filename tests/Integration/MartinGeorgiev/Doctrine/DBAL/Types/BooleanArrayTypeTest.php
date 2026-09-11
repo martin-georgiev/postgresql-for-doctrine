@@ -12,7 +12,7 @@ final class BooleanArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, bool>}>
+     * @return array<string, array{array<int, bool|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -21,6 +21,8 @@ final class BooleanArrayTypeTest extends ArrayTypeTestCase
             'boolean array with all true' => [[true, true, true]],
             'boolean array with all false' => [[false, false, false]],
             'boolean array mixed' => [[true, false, true, false, true]],
+            'boolean array with a null element' => [[true, null, false]],
+            'boolean array of only null elements' => [[null, null]],
             'empty boolean array' => [[]],
         ];
     }
