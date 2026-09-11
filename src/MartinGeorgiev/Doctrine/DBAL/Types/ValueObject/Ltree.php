@@ -19,9 +19,8 @@ class Ltree implements \Stringable, \JsonSerializable
      * Accepts Unicode letters and digits (categories L*, Nd, Nl) plus underscore and hyphen, up to 1000 characters.
      * Symbol-like numerics (category No: superscripts, fractions, circled digits) are excluded.
      *
-     * PostgreSQL classifies label characters through the server's LC_CTYPE, so a server running the C locale
-     * rejects non-ASCII labels this accepts. Narrowing to ASCII would reject labels every Unicode-aware server
-     * takes, so the permissive end is deliberate.
+     * PostgreSQL classifies label characters through the server's LC_CTYPE. A server with the C locale rejects non-ASCII labels.
+     * Narrowing to ASCII would reject labels every Unicode-aware server takes, so the permissive end is deliberate.
      *
      * @var string
      */
