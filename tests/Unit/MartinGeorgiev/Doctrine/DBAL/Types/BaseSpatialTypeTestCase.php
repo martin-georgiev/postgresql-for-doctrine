@@ -184,6 +184,22 @@ abstract class BaseSpatialTypeTestCase extends TestCase
                 'wktSpatialData' => WktSpatialData::fromWkt('SRID=4326;CIRCULARSTRING(0 0, 1 1, 2 0)'),
                 'postgresValue' => 'SRID=4326;CIRCULARSTRING(0 0, 1 1, 2 0)',
             ],
+            'point empty' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('POINT EMPTY'),
+                'postgresValue' => 'POINT EMPTY',
+            ],
+            'polygon empty' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('POLYGON EMPTY'),
+                'postgresValue' => 'POLYGON EMPTY',
+            ],
+            'geometrycollection empty' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('GEOMETRYCOLLECTION EMPTY'),
+                'postgresValue' => 'GEOMETRYCOLLECTION EMPTY',
+            ],
+            'point z empty with srid' => [
+                'wktSpatialData' => WktSpatialData::fromWkt('SRID=4326;POINT Z EMPTY'),
+                'postgresValue' => 'SRID=4326;POINT Z EMPTY',
+            ],
         ];
     }
 
