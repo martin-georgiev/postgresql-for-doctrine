@@ -14,6 +14,39 @@ final class JsonbArrayTypeTest extends ArrayTypeTestCase
         return 'jsonb[]';
     }
 
+    #[Test]
+    public function writes_a_null_item_as_a_sql_null_element(): void
+    {
+        [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
+
+        try {
+            $this->connection->createQueryBuilder()
+                ->insert(self::DATABASE_SCHEMA.'.'.$tableName)
+                ->values([$columnName => ':value'])
+                ->setParameter('value', [null, 1], $this->getTypeName())
+                ->executeStatement();
+
+            $storedLiteral = $this->connection->fetchOne(\sprintf(
+                'SELECT ("%s")::text FROM %s.%s WHERE id = 1',
+                $columnName,
+                self::DATABASE_SCHEMA,
+                $tableName
+            ));
+            $this->assertSame('{NULL,1}', $storedLiteral);
+
+            // jsonb_typeof answers 'null' for a JSON null and SQL NULL only for a SQL NULL element - the sole way to tell them apart.
+            $firstElementType = $this->connection->fetchOne(\sprintf(
+                'SELECT jsonb_typeof(("%s")[1]) FROM %s.%s WHERE id = 1',
+                $columnName,
+                self::DATABASE_SCHEMA,
+                $tableName
+            ));
+            $this->assertNull($firstElementType);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
     /**
      * @param array<int, mixed> $arrayValue
      */
