@@ -43,18 +43,32 @@ class JsonbArray extends BaseArray
         return $this->quoteAndEscapeArrayItem($this->transformToPostgresJson($item));
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
         return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
-    /**
-     * @param string $item
-     */
-    public function transformArrayItemForPHP($item): array
+    public function transformArrayItemForPHP(mixed $item): array|bool|float|int|string|null
     {
+        if ($item === null) {
+            return null;
+        }
+
+        // PostgreSQL leaves a JSON number or boolean unquoted inside the array literal, and the array parser
+        // already turns those into the very PHP value a JSON decode would produce. Only quoted items still carry JSON text.
+        if (\is_int($item) || \is_float($item) || \is_bool($item)) {
+            return $item;
+        }
+
+        if (!\is_string($item)) {
+            throw InvalidJsonArrayItemForPHPException::forInvalidType($item);
+        }
+
         try {
-            return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item);
+            return PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue($item);
         } catch (InvalidJsonFormatException) {
             throw InvalidJsonArrayItemForPHPException::forInvalidFormat($item);
         }

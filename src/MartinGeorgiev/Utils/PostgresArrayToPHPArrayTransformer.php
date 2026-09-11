@@ -33,6 +33,8 @@ class PostgresArrayToPHPArrayTransformer
      * @param bool $preserveStringTypes When true, all unquoted values are preserved as strings without type inference.
      *                                  This is useful for text arrays where PostgreSQL may omit quotes for values that look numeric.
      *
+     * @return array<int, mixed>
+     *
      * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has an invalid format
      */
     public static function transformPostgresArrayToPHPArray(string $postgresArray, bool $preserveStringTypes = false): array
@@ -102,6 +104,9 @@ class PostgresArrayToPHPArrayTransformer
         return (array) $decoded;
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     private static function parsePostgresArrayManually(string $content, bool $preserveStringTypes): array
     {
         if ($content === '') {
@@ -221,13 +226,17 @@ class PostgresArrayToPHPArrayTransformer
         return \is_numeric($value);
     }
 
-    private static function processNumericValue(string $value): float|int
+    private static function processNumericValue(string $value): float|int|string
     {
         if (\str_contains($value, '.') || \stripos($value, 'e') !== false) {
             return (float) $value;
         }
 
-        return (int) $value;
+        $asInteger = (int) $value;
+
+        // An integer wider than PHP's range saturates to PHP_INT_MAX on cast, so anything the cast
+        // cannot reproduce stays textual - the choice JSON_BIGINT_AS_STRING makes on the decoding path.
+        return (string) $asInteger === $value ? $asInteger : $value;
     }
 
     private static function unescapeString(string $value): string

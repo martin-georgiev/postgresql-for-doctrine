@@ -227,6 +227,14 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['unquoted text', 1.5],
                 'postgresValue' => '{unquoted text,1.5}',
             ],
+            'manual parsing of an integer wider than the PHP integer range' => [
+                'phpValue' => ['9223372036854775808', null],
+                'postgresValue' => '{9223372036854775808,NULL}',
+            ],
+            'manual parsing of a negative integer wider than the PHP integer range' => [
+                'phpValue' => ['-9223372036854775809', null],
+                'postgresValue' => '{-9223372036854775809,NULL}',
+            ],
         ];
     }
 
