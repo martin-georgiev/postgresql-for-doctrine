@@ -49,15 +49,6 @@ class NumericArray extends BaseStringArray
         return \preg_match(self::NUMERIC_REGEX, $item) === 1;
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?string
-    {
-        if ($item === 'NULL') {
-            return null;
-        }
-
-        return parent::transformArrayItemForPHP($item);
-    }
-
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidNumericArrayItemForPHPException
     {
         return InvalidNumericArrayItemForPHPException::forInvalidType($item);

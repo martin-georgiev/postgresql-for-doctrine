@@ -53,7 +53,7 @@ class BitVaryingArray extends BaseStringArray
 
     public function transformArrayItemForPHP(mixed $item): ?string
     {
-        if ($item === null || $item === 'NULL') {
+        if ($item === null) {
             return null;
         }
 
