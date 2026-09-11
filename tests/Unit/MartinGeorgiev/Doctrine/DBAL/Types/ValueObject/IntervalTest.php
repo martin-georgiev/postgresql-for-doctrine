@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidIntervalException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -57,17 +58,237 @@ final class IntervalTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideFractionalUnits')]
+    #[Test]
+    public function parses_fractional_units(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * PostgreSQL propagates the fraction of a unit into the next lower one. Before this was
+     * honoured the unanchored unit regexes matched the digits after the decimal point instead,
+     * so '-1.5 days' silently became '5 days' — wrong magnitude and wrong sign.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function provideFractionalUnits(): array
+    {
+        return [
+            'negative fractional days' => ['-1.5 days', '-1 day -12:00:00'],
+            'fractional days' => ['1.5 days', '1 day 12:00:00'],
+            'fractional days below one' => ['-0.5 days', '-12:00:00'],
+            'fractional days cascading into minutes' => ['1.05 days', '1 day 01:12:00'],
+            'fractional hours' => ['1.5 hours', '01:30:00'],
+            'fractional minutes' => ['1.5 min', '00:01:30'],
+            'fractional seconds keep microseconds' => ['1.0005 secs', '00:00:01.0005'],
+            'fractional years round to whole months' => ['2.7 years', '2 years 8 mons'],
+            'fractional years round up' => ['2.9 years', '2 years 11 mons'],
+            'fractional years carry into a whole year' => ['0.99 years', '1 year'],
+            'fractional months become days' => ['1.4 mons', '1 mon 12 days'],
+            'fractional months cascade into hours' => ['1.45 mons', '1 mon 13 days 12:00:00'],
+            'negative fractional months' => ['-1.45 mons', '-1 mon -13 days -12:00:00'],
+            'fractional weeks' => ['1.5 weeks', '10 days 12:00:00'],
+            'fractional weeks below one' => ['0.1 weeks', '16:48:00'],
+            'several fractional units combined' => ['1.5 days 1.5 hours', '1 day 13:30:00'],
+        ];
+    }
+
+    #[DataProvider('provideSqlStandardOutput')]
+    #[Test]
+    public function parses_sql_standard_output(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * Strings PostgreSQL 18 emits with IntervalStyle set to sql_standard, where a leading
+     * sign governs every field that carries no sign of its own.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function provideSqlStandardOutput(): array
+    {
+        return [
+            'negative year-month field' => ['-1-2', '-1 year -2 mons'],
+            'negative year-month field with larger months' => ['-2-6', '-2 years -6 mons'],
+            'days with zero time' => ['3 0:00:00', '3 days'],
+            'week expressed as days' => ['7 0:00:00', '7 days'],
+            'negative days with zero time' => ['-1 0:00:00', '-1 day'],
+            'explicitly signed fields' => ['+0-10 +3 +0:00:00', '10 mons 3 days'],
+            'all fields positive' => ['+1-2 +3 +4:05:06', '1 year 2 mons 3 days 04:05:06'],
+            'leading sign governs unsigned fields' => ['-5 4:00:00', '-5 days -04:00:00'],
+            'leading sign governs unsigned day and time' => ['-1 12:00:00', '-1 day -12:00:00'],
+            'every field explicitly negative' => ['-1-2 -3 -4:05:06', '-1 year -2 mons -3 days -04:05:06'],
+            'mixed field signs' => ['+0-0 +1 -2:03:04', '1 day -02:03:04'],
+            'zero interval' => ['0', '00:00:00'],
+            'unitless number is seconds' => ['7', '00:00:07'],
+            'negative unitless number' => ['-7', '-00:00:07'],
+            'time without leading zero' => ['1:30:00', '01:30:00'],
+            'negative time without leading zero' => ['-0:00:01', '-00:00:01'],
+        ];
+    }
+
+    #[DataProvider('provideYearMonthFieldWithTrailingValue')]
+    #[Test]
+    public function parses_year_month_field_opening_a_traditional_value(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * Outside the strict sql_standard shapes PostgreSQL still accepts a year-month field as the
+     * opening of a traditional value, where a trailing unitless number is seconds rather than
+     * days and the field's sign does not reach it.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function provideYearMonthFieldWithTrailingValue(): array
+    {
+        return [
+            'trailing number is seconds' => ['1-2 3', '1 year 2 mons 00:00:03'],
+            'field sign does not reach the trailing number' => ['-1-2 3', '-1 year -2 mons +00:00:03'],
+            'explicitly positive field' => ['+1-2 3', '1 year 2 mons 00:00:03'],
+            'trailing number signed on its own' => ['-1-2 -3', '-1 year -2 mons -00:00:03'],
+            'trailing days carry their unit' => ['1-2 3 days', '1 year 2 mons 3 days'],
+            'trailing time field' => ['1-2 04:05:06', '1 year 2 mons 04:05:06'],
+        ];
+    }
+
+    #[DataProvider('providePostgresVerboseOutput')]
+    #[Test]
+    public function parses_postgres_verbose_output(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * Strings PostgreSQL 18 emits with IntervalStyle set to postgres_verbose, which uses the
+     * abbreviations 'mins'/'secs' and marks a negative interval with a trailing 'ago'.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function providePostgresVerboseOutput(): array
+    {
+        return [
+            'abbreviated minutes' => ['@ 2 hours 30 mins', '02:30:00'],
+            'minutes only' => ['@ 1 min', '00:01:00'],
+            'abbreviated minutes and seconds' => ['@ 1 min 30 secs', '00:01:30'],
+            'fractional seconds' => ['@ 4 hours 5 mins 6.5 secs', '04:05:06.5'],
+            'zero interval' => ['@ 0', '00:00:00'],
+            'days' => ['@ 3 days', '3 days'],
+            'week expressed as days' => ['@ 7 days', '7 days'],
+            'months and days' => ['@ 1 mon 15 days', '1 mon 15 days'],
+            'ago negates the date parts' => ['@ 1 year 2 mons ago', '-1 year -2 mons'],
+            'ago negates days and time' => ['@ 1 day 12 hours ago', '-1 day -12:00:00'],
+            'ago negates a single second' => ['@ 1 sec ago', '-00:00:01'],
+            'ago negates minutes and seconds' => ['@ 1 min 30 secs ago', '-00:01:30'],
+            'ago negates days and hours' => ['@ 5 days 4 hours ago', '-5 days -04:00:00'],
+            'ago negates every field' => ['@ 1 year 2 mons 3 days 4 hours 5 mins 6 secs ago', '-1 year -2 mons -3 days -04:05:06'],
+            'per-field signs without ago' => ['@ 1 day -2 hours -3 mins -4 secs', '1 day -02:03:04'],
+        ];
+    }
+
+    #[DataProvider('provideIso8601Output')]
+    #[Test]
+    public function parses_iso_8601_output(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * Strings PostgreSQL 18 emits with IntervalStyle set to iso_8601. \DateInterval rejects both
+     * the per-component minus signs and the fractional seconds PostgreSQL writes here.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function provideIso8601Output(): array
+    {
+        return [
+            'negative day' => ['P-1D', '-1 day'],
+            'negative year and month' => ['P-1Y-2M', '-1 year -2 mons'],
+            'negative years' => ['P-2Y-6M', '-2 years -6 mons'],
+            'negative day and hour' => ['P-5DT-4H', '-5 days -04:00:00'],
+            'negative day with negative time' => ['P-1DT-12H', '-1 day -12:00:00'],
+            'negative second' => ['PT-1S', '-00:00:01'],
+            'every component negative' => ['P-1Y-2M-3DT-4H-5M-6S', '-1 year -2 mons -3 days -04:05:06'],
+            'mixed component signs' => ['P1DT-2H-3M-4S', '1 day -02:03:04'],
+            'fractional seconds' => ['PT4H5M6.5S', '04:05:06.5'],
+            'zero interval' => ['PT0S', '00:00:00'],
+            'week expressed as days' => ['P7D', '7 days'],
+            'months and days' => ['P10M3D', '10 mons 3 days'],
+            'day and hours' => ['P1DT12H', '1 day 12:00:00'],
+            'minutes only' => ['PT1M', '00:01:00'],
+            'minutes and seconds' => ['PT1M30S', '00:01:30'],
+        ];
+    }
+
+    #[DataProvider('provideWeekUnits')]
+    #[Test]
+    public function parses_week_units(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideWeekUnits(): array
+    {
+        return [
+            'week' => ['1 week', '7 days'],
+            'weeks' => ['2 weeks', '14 days'],
+            'abbreviated week' => ['1 w', '7 days'],
+            'negative week' => ['-1 week', '-7 days'],
+            'week combined with days' => ['1 week 2 days', '9 days'],
+        ];
+    }
+
+    #[DataProvider('provideOwnStringRepresentations')]
+    #[Test]
+    public function roundtrips_its_own_string_representation(string $representation): void
+    {
+        $interval = Interval::fromString($representation);
+
+        $this->assertSame($representation, (string) $interval);
+        $this->assertSame($representation, (string) Interval::fromString((string) $interval));
+    }
+
+    /**
+     * Every string the value object emits must parse back into an equal value object,
+     * including the mixed-sign and fractional forms only reachable since the parser rewrite.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function provideOwnStringRepresentations(): array
+    {
+        return [
+            'zero' => ['00:00:00'],
+            'years and months' => ['1 year 2 mons'],
+            'every field' => ['1 year 2 mons 3 days 04:05:06'],
+            'negative day with negative time' => ['-1 day -12:00:00'],
+            'negative days and hours' => ['-5 days -04:00:00'],
+            'positive day with negative time' => ['1 day -02:03:04'],
+            'negative date parts with positive time' => ['-1 year +04:05:06'],
+            'every field negative' => ['-1 year -2 mons -3 days -04:05:06'],
+            'fractional seconds' => ['04:05:06.5'],
+            'full microsecond precision' => ['00:00:01.123456'],
+            'hours beyond a day' => ['100:00:00'],
+            'single negative second' => ['-00:00:01'],
+        ];
+    }
+
     #[Test]
     public function throws_exception_for_empty_string(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidIntervalException::class);
         Interval::fromString('');
     }
 
     #[Test]
     public function throws_exception_for_invalid_iso_8601(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidIntervalException::class);
         $this->expectExceptionMessage('Invalid ISO 8601 interval string');
         Interval::fromString('Pinvalid');
     }
@@ -75,9 +296,31 @@ final class IntervalTest extends TestCase
     #[Test]
     public function throws_exception_for_unrecognized_postgres_format(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidIntervalException::class);
         $this->expectExceptionMessage('Cannot parse interval string');
         Interval::fromString('not-an-interval');
+    }
+
+    #[DataProvider('provideUnparsableValues')]
+    #[Test]
+    public function throws_exception_for_unparsable_values(string $value): void
+    {
+        $this->expectException(InvalidIntervalException::class);
+        Interval::fromString($value);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideUnparsableValues(): array
+    {
+        return [
+            'unknown unit' => ['3 fortnights'],
+            'ISO 8601 designator only' => ['P'],
+            'ISO 8601 time designator only' => ['PT'],
+            'verbose marker only' => ['@'],
+            'bare words' => ['not-an-interval'],
+        ];
     }
 
     #[Test]
