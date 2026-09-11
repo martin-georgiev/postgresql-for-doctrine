@@ -14,6 +14,9 @@ final class TextArrayTypeTest extends ArrayTypeTestCase
         return 'text[]';
     }
 
+    /**
+     * @param array<int, string> $arrayValue
+     */
     #[DataProvider('provideValidTransformations')]
     #[DataProvider('provideGithubIssue424TestCases')]
     #[DataProvider('provideGithubIssue482TestCases')]
@@ -57,6 +60,8 @@ final class TextArrayTypeTest extends ArrayTypeTestCase
      * This test scenarios specifically verify the scenarios from GitHub issue #424
      * where PostgreSQL optimizes {"1","test"} to {1,test} and we have to ensure
      * that TextArray correctly preserves string types when converted back for PHP.
+     *
+     * @return array<string, array{array<int, string>}>
      */
     public static function provideGithubIssue424TestCases(): array
     {
@@ -82,6 +87,8 @@ final class TextArrayTypeTest extends ArrayTypeTestCase
      * being truncated to "502" and "505" when round-tripping through the database.
      * PostgreSQL returns these unquoted as {502.00,505.00}, and the fix ensures
      * they are preserved as strings with trailing zeros intact.
+     *
+     * @return array<string, array{array<int, string>}>
      */
     public static function provideGithubIssue482TestCases(): array
     {
