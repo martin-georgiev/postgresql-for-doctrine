@@ -4,25 +4,21 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\BooleanArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class BooleanArrayTest extends TestCase
 {
-    /**
-     * @var AbstractPlatform&MockObject
-     */
-    private MockObject $platform;
+    private PostgreSQLPlatform $platform;
 
     private BooleanArray $fixture;
 
     protected function setUp(): void
     {
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = new PostgreSQLPlatform();
 
         $this->fixture = new BooleanArray();
     }
@@ -35,31 +31,22 @@ final class BooleanArrayTest extends TestCase
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function converts_to_database_value(?array $phpValue, ?string $postgresValue, ?array $platformValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->platform->method('convertBooleansToDatabaseValue')
-            ->with($phpValue)
-            ->willReturn($platformValue);
-
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function converts_to_php_value(?array $phpValue, ?string $postgresValue, ?array $platformValue = null): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->platform->method('convertFromBoolean')
-            ->with($this->anything())
-            ->willReturnCallback('boolval');
-
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
      * @return array<string, array{
      *     phpValue: array|null,
-     *     postgresValue: string|null,
-     *     platformValue: array|null
+     *     postgresValue: string|null
      * }>
      */
     public static function provideValidTransformations(): array
@@ -68,18 +55,43 @@ final class BooleanArrayTest extends TestCase
             'null' => [
                 'phpValue' => null,
                 'postgresValue' => null,
-                'platformValue' => null,
             ],
             'empty array' => [
                 'phpValue' => [],
                 'postgresValue' => '{}',
-                'platformValue' => [],
             ],
             'mixed boolean array' => [
                 'phpValue' => [true, false, true],
                 'postgresValue' => '{1,0,1}',
-                'platformValue' => ['1', '0', '1'],
             ],
+            'array with a null element' => [
+                'phpValue' => [true, null, false],
+                'postgresValue' => '{1,NULL,0}',
+            ],
+            'array of only a null element' => [
+                'phpValue' => [null],
+                'postgresValue' => '{NULL}',
+            ],
+        ];
+    }
+
+    #[DataProvider('providePostgresWrittenValues')]
+    #[Test]
+    public function converts_postgres_written_value_to_php_value(string $postgresValue, array $expectedResult): void
+    {
+        $this->assertSame($expectedResult, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * @return array<string, array{postgresValue: string, expectedResult: array<int, bool|null>}>
+     */
+    public static function providePostgresWrittenValues(): array
+    {
+        return [
+            'unquoted items' => ['postgresValue' => '{t,f}', 'expectedResult' => [true, false]],
+            'quoted items' => ['postgresValue' => '{"t","f"}', 'expectedResult' => [true, false]],
+            'null element among values' => ['postgresValue' => '{t,f,NULL}', 'expectedResult' => [true, false, null]],
+            'only a null element' => ['postgresValue' => '{NULL}', 'expectedResult' => [null]],
         ];
     }
 
