@@ -86,6 +86,7 @@ final class JsonbArrayTypeTest extends ArrayTypeTestCase
             'jsonb array of numbers' => [[1, -2, 3.5]],
             'jsonb array of booleans' => [[true, false]],
             'jsonb array of strings' => [['hello', 'null', '1']],
+            'jsonb array of booleans beside their string lookalikes' => [[true, false, 'true', 'false', 't', 'f']],
             'jsonb array of json nulls' => [[null, null]],
             'jsonb array mixing scalars and objects' => [[1, 'two', true, null, ['key' => 'value'], [1, 2]]],
         ];

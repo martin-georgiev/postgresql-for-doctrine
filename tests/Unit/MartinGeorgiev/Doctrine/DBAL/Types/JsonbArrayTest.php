@@ -106,6 +106,15 @@ final class JsonbArrayTest extends TestCase
         $this->assertSame($expectedResult, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
+    #[Test]
+    public function keeps_json_booleans_apart_from_their_string_lookalikes(): void
+    {
+        $postgresValue = '{true,false,"\\"true\\"","\\"false\\"","\\"t\\"","\\"f\\"",NULL}';
+        $expectedResult = [true, false, 'true', 'false', 't', 'f', null];
+
+        $this->assertSame($expectedResult, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
     #[DataProvider('provideInvalidTypeInputs')]
     #[Test]
     public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
