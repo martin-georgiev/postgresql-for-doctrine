@@ -109,6 +109,9 @@ abstract class EnumArray extends BaseArray
         return $case;
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
         try {

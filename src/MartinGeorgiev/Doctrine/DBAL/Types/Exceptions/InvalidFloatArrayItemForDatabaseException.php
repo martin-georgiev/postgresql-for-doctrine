@@ -28,11 +28,6 @@ class InvalidFloatArrayItemForDatabaseException extends ConversionException
         return self::create('Given value of %s does not match float regex.', $value);
     }
 
-    public static function isAScientificNotationWithExcessPrecision(mixed $value): self
-    {
-        return self::create('Given value of %s is a scientific notation with excess precision.', $value);
-    }
-
     public static function isANormalNumberWithExcessPrecision(mixed $value): self
     {
         return self::create('Given value of %s is a normal number with excess precision.', $value);
