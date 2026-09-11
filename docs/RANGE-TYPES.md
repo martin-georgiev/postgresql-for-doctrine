@@ -1,4 +1,4 @@
-# PostgreSQL Range Types
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL Range Types
 
 PostgreSQL range types represent ranges of values of some element type (called the range's subtype). This library provides support for all PostgreSQL built-in range types.
 

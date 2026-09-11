@@ -1,10 +1,19 @@
-[![Coverage Status](https://coveralls.io/repos/github/martin-georgiev/postgresql-for-doctrine/badge.svg?branch=main)](https://coveralls.io/github/martin-georgiev/postgresql-for-doctrine?branch=main)
-[![Latest Stable Version](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/version)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
-[![Total Downloads](https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/downloads)](https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine)
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
+    <img src="docs/assets/logo.svg" alt="" width="96" height="96">
+  </picture>
+</p>
 
-# PostgreSQL for Doctrine
+<h1 align="center">PostgreSQL for Doctrine</h1>
 
-Enhances Doctrine with PostgreSQL-specific features and functions. Supports PostgreSQL 9.4+ and PHP 8.2+.
+<p align="center">Enhances Doctrine with PostgreSQL-specific features and functions. Supports PostgreSQL 9.4+ and PHP 8.2+.</p>
+
+<p align="center">
+  <a href="https://coveralls.io/github/martin-georgiev/postgresql-for-doctrine?branch=main"><img src="https://coveralls.io/repos/github/martin-georgiev/postgresql-for-doctrine/badge.svg?branch=main" alt="Coverage Status"></a>
+  <a href="https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine"><img src="https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/version" alt="Latest Stable Version"></a>
+  <a href="https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine"><img src="https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/downloads" alt="Total Downloads"></a>
+</p>
 
 ## Quick Start
 

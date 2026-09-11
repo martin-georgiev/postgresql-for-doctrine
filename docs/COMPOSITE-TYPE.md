@@ -1,4 +1,4 @@
-# PostgreSQL Composite Types
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL Composite Types
 
 PostgreSQL [composite (row) types](https://www.postgresql.org/docs/18/rowtypes.html) bundle several named fields into a single column type. Like enums, they are user-defined - there is no pre-registered constant, so each PostgreSQL composite type maps to its own subclass of `Composite`.
 
