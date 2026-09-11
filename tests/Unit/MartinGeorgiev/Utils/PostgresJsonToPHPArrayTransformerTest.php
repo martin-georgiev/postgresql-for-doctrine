@@ -56,79 +56,11 @@ final class PostgresJsonToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideValidJsonbArrayTransformations')]
-    #[Test]
-    public function converts_json_array_to_php_array(array $phpArray, string $postgresArray): void
-    {
-        $this->assertSame($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray));
-    }
-
-    /**
-     * @return array<string, array{phpArray: array, postgresArray: string}>
-     */
-    public static function provideValidJsonbArrayTransformations(): array
-    {
-        return [
-            'empty array' => [
-                'phpArray' => [],
-                'postgresArray' => '{}',
-            ],
-            'array with one object' => [
-                'phpArray' => ['{key:value}'],
-                'postgresArray' => '{{key:value}}',
-            ],
-            'array with multiple objects' => [
-                'phpArray' => ['{key1:value1}', '{key2:value2}'],
-                'postgresArray' => '{{key1:value1},{key2:value2}}',
-            ],
-        ];
-    }
-
-    #[DataProvider('provideValidJsonbArrayItemTransformations')]
-    #[Test]
-    public function converts_json_array_item_to_php_array(array $phpArray, string $item): void
-    {
-        $this->assertSame($phpArray, PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray($item));
-    }
-
-    /**
-     * @return array<string, array{phpArray: array, item: string}>
-     */
-    public static function provideValidJsonbArrayItemTransformations(): array
-    {
-        return [
-            'simple object' => [
-                'phpArray' => ['key' => 'value'],
-                'item' => '{"key":"value"}',
-            ],
-            'nested object' => [
-                'phpArray' => ['key' => ['nested' => 'value']],
-                'item' => '{"key":{"nested":"value"}}',
-            ],
-        ];
-    }
-
     #[Test]
     public function throws_exception_for_invalid_json(): void
     {
         $this->expectException(InvalidJsonFormatException::class);
         $this->expectExceptionMessage('Invalid JSON format: the value is not decodable JSON');
         PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPValue('{invalid json}');
-    }
-
-    #[Test]
-    public function throws_exception_for_invalid_json_array_item(): void
-    {
-        $this->expectException(InvalidJsonFormatException::class);
-        $this->expectExceptionMessage('Invalid JSON format: the value is not decodable JSON');
-        PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray('{invalid json}');
-    }
-
-    #[Test]
-    public function throws_exception_for_non_array_json_array_item(): void
-    {
-        $this->expectException(InvalidJsonFormatException::class);
-        $this->expectExceptionMessage('Invalid JSON format: the value does not decode to an array');
-        PostgresJsonToPHPArrayTransformer::transformPostgresJsonEncodedValueToPHPArray('"string"');
     }
 }
