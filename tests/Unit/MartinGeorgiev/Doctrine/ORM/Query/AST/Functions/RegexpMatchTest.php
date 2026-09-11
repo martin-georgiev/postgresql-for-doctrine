@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -53,7 +53,8 @@ final class RegexpMatchTest extends BaseVariadicFunctionTestCase
     #[Test]
     public function throws_exception_for_argument_list_without_separators(): void
     {
-        $this->expectException(QueryException::class);
+        $this->expectException(ParserException::class);
+        $this->expectExceptionMessage('Cannot parse the argument list of regexp_match()');
 
         $dql = \sprintf('SELECT REGEXP_MATCH(e.text1 e.text2) FROM %s e', ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

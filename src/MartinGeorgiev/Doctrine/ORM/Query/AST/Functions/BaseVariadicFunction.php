@@ -50,20 +50,26 @@ abstract class BaseVariadicFunction extends BaseFunction
             }
         }
 
+        $lastParserException = null;
         foreach ($patterns as $pattern) {
             try {
                 $this->feedParserWithNodesForNodeMappingPattern($parser, $pattern);
 
-                break;
-            } catch (ParserException) {
-                // swallow and continue with next pattern
+                return;
+            } catch (ParserException $parserException) {
+                $lastParserException = $parserException;
             }
+        }
+
+        // Without this the nodes stay empty and getSql() silently emits broken SQL.
+        if ($lastParserException instanceof ParserException) {
+            throw $lastParserException;
         }
     }
 
     /**
-     * Peeks at tokens ahead of parsing to select the correct pattern when multiple
-     * patterns share the same prefix but diverge on argument types.
+     * Peeks at tokens ahead of parsing to select the correct pattern when multiple patterns share the same prefix
+     * but diverge on argument types.
      *
      * @param array<string> $patterns
      */
@@ -188,6 +194,8 @@ abstract class BaseVariadicFunction extends BaseFunction
     {
         $nodeMapping = \explode(',', $nodeMappingPattern);
         $lexer = $parser->getLexer();
+        $shouldUseLexer = DoctrineOrm::isPre219();
+        $closeParenthesisType = $shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS;
 
         try {
             $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
@@ -195,17 +203,19 @@ abstract class BaseVariadicFunction extends BaseFunction
                 throw InvalidArgumentForVariadicFunctionException::atLeast($this->getFunctionName(), $this->getMinArgumentCount());
             }
 
-            $this->nodes[] = $parser->{$nodeMapping[0]}(); // @phpstan-ignore-line
+            // Parsing a phantom first argument here is what used to make zero-argument functions work by accident.
+            if ($lookaheadType !== $closeParenthesisType) {
+                $this->nodes[] = $parser->{$nodeMapping[0]}(); // @phpstan-ignore-line
+            }
         } catch (\Throwable $throwable) {
             throw ParserException::withThrowable($throwable);
         }
 
-        $shouldUseLexer = DoctrineOrm::isPre219();
         $isNodeMappingASimplePattern = \count($nodeMapping) === 1;
         $nodeIndex = 1;
         // The read above happened before the first argument was parsed, so it still names that argument's own token.
         $lookaheadType = DoctrineLexer::getLookaheadType($lexer);
-        while (($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS) !== $lookaheadType) {
+        while ($closeParenthesisType !== $lookaheadType) {
             if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $lookaheadType) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
 
@@ -232,7 +242,12 @@ abstract class BaseVariadicFunction extends BaseFunction
                     );
                 }
 
-                $this->nodes[] = $parser->{$nodeMapping[$expectedNodeIndex]}(); // @phpstan-ignore-line
+                try {
+                    $this->nodes[] = $parser->{$nodeMapping[$expectedNodeIndex]}(); // @phpstan-ignore-line
+                } catch (\Throwable $throwable) {
+                    throw ParserException::withThrowable($throwable);
+                }
+
                 $nodeIndex++;
             } else {
                 // Nothing above consumed a token, so re-reading the lookahead would return this one forever.
