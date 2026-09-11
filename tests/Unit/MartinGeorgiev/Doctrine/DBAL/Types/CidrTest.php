@@ -121,6 +121,13 @@ final class CidrTest extends TestCase
             'IPv6 invalid netmask high' => ['2001:db8::/129'],
             'CIDR without netmask' => ['192.168.0.0/'],
             'CIDR with non-numeric netmask' => ['192.168.0.0/xyz'],
+            'triple segment IPv4 CIDR' => ['192.168.0.0/24/24'],
+            'triple segment IPv6 CIDR' => ['2001:db8::/32/32'],
+            'decimal netmask' => ['192.168.0.0/24.5'],
+            'signed netmask' => ['192.168.0.0/+24'],
+            'scientific notation netmask' => ['192.168.0.0/1e1'],
+            'netmask with leading space' => ['192.168.0.0/ 24'],
+            'netmask with trailing space' => ['192.168.0.0/24 '],
         ];
     }
 

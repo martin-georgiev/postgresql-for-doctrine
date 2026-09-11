@@ -79,6 +79,7 @@ final class LtreeTypeTest extends TestCase
             'ltree simple numeric' => [new LtreeValueObject(['1', '2', '3'])],
             'ltree single numeric' => [new LtreeValueObject(['1'])],
             'ltree empty' => [new LtreeValueObject([])],
+            'ltree unicode labels' => [new LtreeValueObject(['café', '日本語', 'ü'])],
         ];
     }
 
@@ -102,6 +103,7 @@ final class LtreeTypeTest extends TestCase
         return [
             'consecutive dots produce an empty label' => ['root..child'],
             'non-string value' => [42],
+            'label contains a space' => ['root.child branch'],
         ];
     }
 }

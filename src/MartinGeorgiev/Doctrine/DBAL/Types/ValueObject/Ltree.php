@@ -16,10 +16,21 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLtreeExcept
 class Ltree implements \Stringable, \JsonSerializable
 {
     /**
+     * Accepts Unicode letters and digits (categories L*, Nd, Nl) plus underscore and hyphen, up to 1000 characters.
+     * Symbol-like numerics (category No: superscripts, fractions, circled digits) are excluded.
+     *
+     * PostgreSQL classifies label characters through the server's LC_CTYPE, so a server running the C locale
+     * rejects non-ASCII labels this accepts. Narrowing to ASCII would reject labels every Unicode-aware server
+     * takes, so the permissive end is deliberate.
+     *
+     * @var string
+     */
+    private const LABEL_REGEX = '/^[\p{L}\p{Nd}\p{Nl}_-]{1,1000}\z/u';
+
+    /**
      * @param list<non-empty-string> $pathFromRoot A list with one element represents the root. The list may be empty.
      *
-     * @throws InvalidLtreeException if the pathFromRoot is not a valid ltree path
-     *                               (contains labels which are empty or contains one or more dots)
+     * @throws InvalidLtreeException
      */
     public function __construct(
         private readonly array $pathFromRoot,
@@ -82,9 +93,6 @@ class Ltree implements \Stringable, \JsonSerializable
         return [] === $this->pathFromRoot;
     }
 
-    /**
-     * Checks if the ltree has only one node.
-     */
     public function isRoot(): bool
     {
         return 1 === \count($this->pathFromRoot);
@@ -148,11 +156,9 @@ class Ltree implements \Stringable, \JsonSerializable
     }
 
     /**
-     * Creates a new Ltree instance with the given leaf added to the end of the path.
-     *
      * @param non-empty-string $leaf
      *
-     * @throws InvalidLtreeException if the leaf format is invalid (empty string, contains dots, ...)
+     * @throws InvalidLtreeException if the leaf format is invalid
      */
     public function withLeaf(string $leaf): static
     {
@@ -194,6 +200,10 @@ class Ltree implements \Stringable, \JsonSerializable
 
         if (\str_contains($value, '.')) {
             throw InvalidLtreeException::forInvalidNodeFormat($value, 'string without dot');
+        }
+
+        if (\preg_match(self::LABEL_REGEX, $value) !== 1) {
+            throw InvalidLtreeException::forInvalidNodeFormat($value, 'string of letters, digits, underscores and hyphens (max 1000 characters)');
         }
     }
 
