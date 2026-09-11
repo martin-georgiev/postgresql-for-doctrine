@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="postgresql-for-doctrine">
+  <title>postgresql-for-doctrine</title>
+  <defs>
+  <path id="hd" d="M50,22
+      C48,11 38,5.5 28,6
+      C15.5,6.6 6.5,15.5 6,27
+      C5.7,35 10.5,41.5 18.5,43.9
+      C23,45.2 27.8,44.6 30.8,42.4
+      C32.8,40.9 34,39.2 34.6,37.4
+      C35,36 36.5,36.1 36.6,37.5
+      C37,44 38.5,50 41.2,53.6
+      C42.5,55.4 44.6,56.3 46.6,55.8
+      C48.5,55.3 49.2,53.8 48.1,52.6
+      C47.1,51.9 46.2,51 45.6,49.7
+      C47.2,45.5 48.7,40 49.2,34
+      C49.6,29 49.8,25 50,22 Z"/>
+    <path id="ar" d="M53.7,42.0
+      C56.4,43.7 58.8,45.8 60.7,48.1
+      C58.8,50.4 56.4,52.5 53.7,54.2
+      C52.3,55.0 51.1,53.7 52.1,52.4
+      C53.9,50.7 55.3,49.5 56.3,48.1
+      C55.3,46.8 53.9,45.5 52.1,43.8
+      C51.1,42.5 52.3,41.2 53.7,42.0 Z"/>
+    <clipPath id="clip"><use href="#hd"/></clipPath>
+  </defs>
+  <use href="#hd" fill="none" stroke="#EDF1F6" stroke-width="6.4" stroke-linejoin="round"/>
+  <use href="#ar" fill="none" stroke="#EDF1F6" stroke-width="6.4" stroke-linejoin="round"/>
+  <use href="#hd" fill="none" stroke="#11161D" stroke-width="3.2" stroke-linejoin="round"/>
+  <use href="#ar" fill="none" stroke="#11161D" stroke-width="3.2" stroke-linejoin="round"/>
+  <use href="#hd" fill="#336791"/>
+  <use href="#ar" fill="#FC6A31"/>
+  <g clip-path="url(#clip)">
+    <path d="M25.5,4 C27.8,16 26,31 19,45.5 L2,50 L2,2 Z" fill="#777BB4"/>
+    <path d="M25.5,4 C27.8,16 26,31 19,45.5" fill="none" stroke="#11161D" stroke-width="1.7"/>
+  </g>
+  <circle cx="43.2" cy="24.5" r="2.3" fill="#11161D"/>
+</svg>

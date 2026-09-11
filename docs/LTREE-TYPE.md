@@ -1,4 +1,4 @@
-# PostgreSQL ltree Types
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL ltree Types
 
 PostgreSQL's `ltree` extension stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST indexes. It also ships two companion query types — `lquery` for path patterns and `ltxtquery` for full-text style label queries.
 

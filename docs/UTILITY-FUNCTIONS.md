@@ -1,4 +1,4 @@
-# Utility Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Utility Functions
 
 | PostgreSQL function | Register for DQL as | Implemented by |
 |---|---|---|
