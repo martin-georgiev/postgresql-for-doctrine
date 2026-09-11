@@ -156,6 +156,26 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
+    /**
+     * Read back a value inserted as a PostgreSQL literal, so that the conversion is fed what the server
+     * itself emits rather than what the type's own write path produced.
+     */
+    protected function fetchConvertedValueForPostgresLiteral(string $typeName, string $columnType, string $postgresLiteral): mixed
+    {
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            $this->connection->executeStatement(
+                \sprintf('INSERT INTO %s.%s ("%s") VALUES (?::%s)', self::DATABASE_SCHEMA, $tableName, $columnName, $columnType),
+                [$postgresLiteral]
+            );
+
+            return $this->fetchConvertedValue($typeName, $tableName, $columnName);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
     protected function createTestTableForDataType(string $tableName, string $columnName, string $columnType): void
     {
         $this->dropTestTableIfItExists($tableName);

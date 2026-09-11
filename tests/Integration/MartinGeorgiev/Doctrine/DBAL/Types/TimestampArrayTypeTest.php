@@ -6,6 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTimestampArrayItemForDatabaseException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -17,11 +18,23 @@ final class TimestampArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, \DateTimeImmutable|null>}>
+     * @return array<string, array{array<int, \DateTimeImmutable|DateTimeInfinity|null>}>
      */
     public static function provideValidTransformations(): array
     {
+        $bcEraLeapDay = \DateTimeImmutable::createFromFormat('X-m-d H:i:s.u', '+0000-02-29 10:30:45.123456');
+        $expandedYear = \DateTimeImmutable::createFromFormat('X-m-d H:i:s.u', '+10000-01-15 10:30:45.123456');
+        \assert($bcEraLeapDay instanceof \DateTimeImmutable);
+        \assert($expandedYear instanceof \DateTimeImmutable);
+
         return [
+            'timestamps bounded by infinity' => [[
+                DateTimeInfinity::POSITIVE,
+                new \DateTimeImmutable('2023-06-15 10:30:45'),
+                DateTimeInfinity::NEGATIVE,
+            ]],
+            'leap day of the BC era' => [[$bcEraLeapDay]],
+            'five digit year' => [[$expandedYear]],
             'single timestamp' => [[
                 new \DateTimeImmutable('2023-06-15 10:30:45'),
             ]],
@@ -39,6 +52,35 @@ final class TimestampArrayTypeTest extends ArrayTypeTestCase
             ]],
             'empty timestamp array' => [[]],
         ];
+    }
+
+    #[Test]
+    public function reads_values_emitted_by_postgres(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $result = $this->fetchConvertedValueForPostgresLiteral(
+            $typeName,
+            $columnType,
+            '{"2023-06-15 10:30:45",infinity,-infinity,"0001-01-15 10:30:45 BC","0001-02-29 10:30:45 BC","10000-01-15 10:30:45"}'
+        );
+
+        $this->assertIsArray($result);
+        $this->assertSame(
+            [
+                '+2023-06-15 10:30:45',
+                DateTimeInfinity::POSITIVE,
+                DateTimeInfinity::NEGATIVE,
+                '+0000-01-15 10:30:45',
+                '+0000-02-29 10:30:45',
+                '+10000-01-15 10:30:45',
+            ],
+            \array_map(
+                static fn (mixed $item): mixed => $item instanceof \DateTimeImmutable ? $item->format('X-m-d H:i:s') : $item,
+                $result
+            )
+        );
     }
 
     #[DataProvider('provideInvalidItems')]
@@ -73,13 +115,19 @@ final class TimestampArrayTypeTest extends ArrayTypeTestCase
         foreach ($expected as $index => $expectedItem) {
             if ($expectedItem === null) {
                 $this->assertNull($actual[$index]);
+            } elseif ($expectedItem instanceof DateTimeInfinity) {
+                $this->assertSame(
+                    $expectedItem,
+                    $actual[$index],
+                    \sprintf('Infinity mismatch at index %d for type %s', $index, $typeName)
+                );
             } else {
                 $this->assertInstanceOf(\DateTimeImmutable::class, $expectedItem);
                 $actualItem = $actual[$index];
                 $this->assertInstanceOf(\DateTimeImmutable::class, $actualItem);
                 $this->assertSame(
-                    $expectedItem->format('Y-m-d H:i:s.u'),
-                    $actualItem->format('Y-m-d H:i:s.u'),
+                    $expectedItem->format('X-m-d H:i:s.u'),
+                    $actualItem->format('X-m-d H:i:s.u'),
                     \sprintf('Timestamp mismatch at index %d for type %s', $index, $typeName)
                 );
             }

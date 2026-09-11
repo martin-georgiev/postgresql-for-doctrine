@@ -18,12 +18,12 @@
 | double precision[] | _float8 | `MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray` |
 | numeric[] | _numeric | `MartinGeorgiev\Doctrine\DBAL\Types\NumericArray` (see [note](#numeric-array-type)) |
 |---|---|---|
-| date[] | _date | `MartinGeorgiev\Doctrine\DBAL\Types\DateArray` |
+| date[] | _date | `MartinGeorgiev\Doctrine\DBAL\Types\DateArray` (see [note](#datetime-array-types)) |
 | interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
 | interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
 | time[] | _time | `MartinGeorgiev\Doctrine\DBAL\Types\TimeArray` |
-| timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` |
-| timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` |
+| timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` (see [note](#datetime-array-types)) |
+| timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` (see [note](#datetime-array-types)) |
 | timetz | timetz | `MartinGeorgiev\Doctrine\DBAL\Types\Timetz` |
 | timetz[] | _timetz | `MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray` |
 |---|---|---|
@@ -220,6 +220,32 @@ The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather th
 
 - Array items written to the database must be numeric strings (or `null`); PHP integers and floats are rejected
 - `decimal[]` is a PostgreSQL alias of `numeric[]` — columns declared as `DECIMAL[]` are reported by PostgreSQL as `numeric[]`, so this type covers both
+
+---
+
+## Datetime Array Types
+
+Items of `date[]`, `timestamp[]` and `timestamptz[]` map to `\DateTimeImmutable`, with one exception: PostgreSQL's [`infinity` and `-infinity`](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-SPECIAL-TABLE) sort before and after every other value of their type and have no `\DateTimeImmutable` counterpart, so they map to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity` enum instead. Reading a column that may hold them means widening the item check:
+
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity;
+
+foreach ($entity->getValidOn() as $item) {
+    match (true) {
+        $item === null => $this->skip(),                      // SQL NULL - the value is unknown
+        $item === DateTimeInfinity::POSITIVE => $this->open(), // later than every other date
+        $item === DateTimeInfinity::NEGATIVE => $this->open(), // earlier than every other date
+        default => $this->useDate($item),
+    };
+}
+```
+
+Both are written back by putting the same enum case into the array. They are deliberately kept apart from `null`, which stays the SQL NULL: an unbounded date is not an unknown one.
+
+Two further ranges PostgreSQL accepts are mapped without a sentinel, because `\DateTimeImmutable` can hold them:
+
+- **Years before 1 AD.** PostgreSQL numbers them in the BC era and has no year zero, while PHP numbers them astronomically and does. `0001-01-15 BC` therefore reads back as PHP year `0000`, and `0002-01-15 BC` as PHP year `-0001`. Format such values with `X` rather than `Y` to keep the sign visible.
+- **Years past 9999.** They round-trip unchanged; `Y` prints them in full.
 
 ---
 

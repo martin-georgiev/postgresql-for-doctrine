@@ -32,6 +32,11 @@ final class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
         return InvalidTimestampTzArrayItemForDatabaseException::class;
     }
 
+    protected static function getComparisonFormat(): string
+    {
+        return 'X-m-d H:i:sP';
+    }
+
     #[DataProvider('provideValidItemTransformationsToPostgres')]
     #[Test]
     public function converts_timestamptz_item_for_postgres(\DateTimeInterface $phpValue, string $expectedPostgresValue): void
@@ -132,6 +137,60 @@ final class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
     }
 
     /**
+     * The PostgreSQL values are the ones a PostgreSQL 18 server emits for
+     * `ARRAY['0001-01-15 10:30:00 BC', '10000-01-15 10:30:00']::timestamptz[]` — it prints the
+     * offset before the era suffix, not after it.
+     *
+     * @return array<string, array{postgresValue: string, expectedFormattedValue: string}>
+     */
+    public static function provideBcEraAndExpandedYearTransformationsToPHP(): array
+    {
+        return [
+            'first year of the BC era' => [
+                'postgresValue' => '0001-01-15 10:30:00+00 BC',
+                'expectedFormattedValue' => '+0000-01-15 10:30:00+00:00',
+            ],
+            'leap day of the first year of the BC era' => [
+                'postgresValue' => '0001-02-29 10:30:00+00 BC',
+                'expectedFormattedValue' => '+0000-02-29 10:30:00+00:00',
+            ],
+            'second year of the BC era' => [
+                'postgresValue' => '0002-01-15 10:30:00+00 BC',
+                'expectedFormattedValue' => '-0001-01-15 10:30:00+00:00',
+            ],
+            'five digit year' => [
+                'postgresValue' => '10000-01-15 10:30:00+00',
+                'expectedFormattedValue' => '+10000-01-15 10:30:00+00:00',
+            ],
+            'microseconds in the BC era' => [
+                'postgresValue' => '0001-01-15 10:30:00.123456+00 BC',
+                'expectedFormattedValue' => '+0000-01-15 10:30:00+00:00',
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, array{phpValue: \DateTimeImmutable, expectedPostgresValue: string}>
+     */
+    public static function provideBcEraAndExpandedYearTransformationsToPostgres(): array
+    {
+        return [
+            'astronomical year zero' => [
+                'phpValue' => self::createImmutableDateTime('X-m-d H:i:s.uP', '+0000-01-15 10:30:00.000000+00:00'),
+                'expectedPostgresValue' => '{"0001-01-15 10:30:00.000000+00:00 BC"}',
+            ],
+            'negative astronomical year' => [
+                'phpValue' => self::createImmutableDateTime('X-m-d H:i:s.uP', '-0001-01-15 10:30:00.000000+00:00'),
+                'expectedPostgresValue' => '{"0002-01-15 10:30:00.000000+00:00 BC"}',
+            ],
+            'five digit year' => [
+                'phpValue' => self::createImmutableDateTime('X-m-d H:i:s.uP', '+10000-01-15 10:30:00.000000+00:00'),
+                'expectedPostgresValue' => '{"10000-01-15 10:30:00.000000+00:00"}',
+            ],
+        ];
+    }
+
+    /**
      * @return array<string, array{string}>
      */
     public static function provideInvalidFormatInputsForPHP(): array
@@ -141,6 +200,8 @@ final class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
             'date only' => ['2023-06-15'],
             'timestamp without timezone' => ['2023-06-15 10:30:45'],
             'empty string' => [''],
+            'era suffix without a value' => [' BC'],
+            'era suffix on a timestamp without timezone' => ['0001-01-15 10:30:00 BC'],
         ];
     }
 }
