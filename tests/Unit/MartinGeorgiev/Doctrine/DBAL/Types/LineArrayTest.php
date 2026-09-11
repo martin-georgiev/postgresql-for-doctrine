@@ -51,7 +51,7 @@ final class LineArrayTest extends TestCase
 
     /**
      * @return array<string, array{
-     *     phpValue: array<LineValueObject>|null,
+     *     phpValue: array<LineValueObject|null>|null,
      *     postgresValue: string|null
      * }>
      */
@@ -77,6 +77,12 @@ final class LineArrayTest extends TestCase
                     LineValueObject::fromString('{-1,-2,-3}'),
                 ],
                 'postgresValue' => '{"{1,0,0}","{1.5,2.5,3.5}","{-1,-2,-3}"}',
+            ],
+            // A Line's own string form contains braces, so this also pins that the array
+            // parser tracks quotes (not brace depth) to find the NULL token that follows.
+            'array with null element' => [
+                'phpValue' => [LineValueObject::fromString('{1,0,0}'), null],
+                'postgresValue' => '{"{1,0,0}",NULL}',
             ],
         ];
     }
@@ -152,9 +158,11 @@ final class LineArrayTest extends TestCase
 
     #[DataProvider('provideMalformedInputs')]
     #[Test]
-    public function returns_empty_array_for_malformed_input(string $postgresValue): void
+    public function throws_exception_for_malformed_array_literal(string $postgresValue): void
     {
-        $this->assertSame([], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->expectException(InvalidLineArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }
 
     /**
@@ -163,9 +171,9 @@ final class LineArrayTest extends TestCase
     public static function provideMalformedInputs(): array
     {
         return [
-            'empty array literal' => ['{}'],
             'unparsable item' => ['{invalid}'],
             'quoted empty item' => ['{""}'],
+            'not an array literal' => ['not-an-array'],
         ];
     }
 
@@ -242,6 +250,7 @@ final class LineArrayTest extends TestCase
             'standard line' => [LineValueObject::fromString('{1,0,0}')],
             'decimal values' => [LineValueObject::fromString('{1.5,2.5,3.5}')],
             'negative coefficients' => [LineValueObject::fromString('{-1,-2,-3}')],
+            'null' => [null],
         ];
     }
 
@@ -261,7 +270,6 @@ final class LineArrayTest extends TestCase
             'string line format' => ['{1,0,0}'],
             'invalid string' => ['invalid'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

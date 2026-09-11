@@ -148,6 +148,19 @@ final class GeographyArrayTest extends TestCase
         $this->assertSame([], $result);
     }
 
+    #[Test]
+    public function converts_null_element_from_database_to_php_value(): void
+    {
+        // Exact literal PostgreSQL emits for ARRAY(SELECT ST_AsText(...) ...) with a null geography.
+        $result = $this->type->convertToPHPValue('{"SRID=4326;POINT(1 2)",NULL}', $this->platform);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result[0]);
+        $this->assertSame('SRID=4326;POINT(1 2)', (string) $result[0]);
+        $this->assertNull($result[1]);
+    }
+
     #[DataProvider('provideValidPostgresArraysForPHP')]
     #[Test]
     public function converts_to_php_value(string $postgresArray, array $expectedPHPArray): void

@@ -16,7 +16,7 @@ final class LsegArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, LsegValueObject>}>
+     * @return array<string, array{array<int, LsegValueObject|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -29,6 +29,10 @@ final class LsegArrayTypeTest extends ArrayTypeTestCase
                 LsegValueObject::fromString('[(-1,-2),(-3,-4)]'),
             ]],
             'empty lseg array' => [[]],
+            'lseg array with null element' => [[
+                LsegValueObject::fromString('[(0,0),(1,1)]'),
+                null,
+            ]],
         ];
     }
 

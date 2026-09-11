@@ -51,7 +51,7 @@ final class PolygonArrayTest extends TestCase
 
     /**
      * @return array<string, array{
-     *     phpValue: array<PolygonValueObject>|null,
+     *     phpValue: array<PolygonValueObject|null>|null,
      *     postgresValue: string|null
      * }>
      */
@@ -77,6 +77,10 @@ final class PolygonArrayTest extends TestCase
                     PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))'),
                 ],
                 'postgresValue' => '{"((0,0),(1,1),(2,0))","((1.5,2.5),(3.5,4.5),(5.5,6.5))","((-1,-2),(-3,-4),(-5,-6))"}',
+            ],
+            'array with null element' => [
+                'phpValue' => [PolygonValueObject::fromString('((0,0),(1,1),(2,0))'), null],
+                'postgresValue' => '{"((0,0),(1,1),(2,0))",NULL}',
             ],
         ];
     }
@@ -152,9 +156,11 @@ final class PolygonArrayTest extends TestCase
 
     #[DataProvider('provideMalformedInputs')]
     #[Test]
-    public function returns_empty_array_for_malformed_input(string $postgresValue): void
+    public function throws_exception_for_malformed_array_literal(string $postgresValue): void
     {
-        $this->assertSame([], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->expectException(InvalidPolygonArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }
 
     /**
@@ -163,9 +169,9 @@ final class PolygonArrayTest extends TestCase
     public static function provideMalformedInputs(): array
     {
         return [
-            'empty array literal' => ['{}'],
             'unparsable item' => ['{invalid}'],
             'quoted empty item' => ['{""}'],
+            'not an array literal' => ['not-an-array'],
         ];
     }
 
@@ -242,6 +248,7 @@ final class PolygonArrayTest extends TestCase
             'triangle' => [PolygonValueObject::fromString('((0,0),(1,1),(2,0))')],
             'decimal values' => [PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
             'negative coordinates' => [PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))')],
+            'null' => [null],
         ];
     }
 
@@ -261,7 +268,6 @@ final class PolygonArrayTest extends TestCase
             'string polygon format' => ['((0,0),(1,1),(2,0))'],
             'invalid string' => ['invalid'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

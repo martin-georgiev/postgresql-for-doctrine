@@ -9,6 +9,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Base class for PostgreSQL array types containing WKT/EWKT spatial data.
@@ -92,75 +94,29 @@ abstract class SpatialDataArray extends BaseArray
             return [];
         }
 
-        // Handle quoted array format: {"item1","item2","item3"}
-        $isQuotedArray = \str_starts_with($trimmedArray, '{"') && \str_ends_with($trimmedArray, '"}');
-        if ($isQuotedArray) {
-            $arrayContentWithoutBraces = \substr($trimmedArray, 2, -2);
-            if ($arrayContentWithoutBraces === '') {
-                return [];
-            }
-
-            return $this->parseQuotedWktArray($arrayContentWithoutBraces);
-        }
-
-        // Handle unquoted array format: {item1,item2,item3} (fallback for backward compatibility)
         $arrayContentWithoutBraces = \substr($trimmedArray, 1, -1);
         if ($arrayContentWithoutBraces === '') {
             return [];
         }
 
-        return $this->parseUnquotedWktArray($arrayContentWithoutBraces);
-    }
-
-    private function parseQuotedWktArray(string $content): array
-    {
-        $wktItems = [];
-        $currentWktItem = '';
-        $nestedBracketDepth = 0;
-        $contentLength = \strlen($content);
-        $charIndex = 0;
-
-        while ($charIndex < $contentLength) {
-            $currentChar = $content[$charIndex];
-
-            // Track nested parentheses within the quoted WKT
-            if ($currentChar === '(') {
-                $nestedBracketDepth++;
-                $currentWktItem .= $currentChar;
-            } elseif ($currentChar === ')') {
-                $nestedBracketDepth--;
-                $currentWktItem .= $currentChar;
-            } elseif ($currentChar === '"' && $nestedBracketDepth === 0) {
-                // Found end quote at top level - this ends the current item
-                if ($currentWktItem !== '') {
-                    $wktItems[] = $currentWktItem;
-                    $currentWktItem = '';
-                }
-
-                // Skip the quote and comma separator: ","
-                $charIndex++; // Skip the quote
-                if ($charIndex < $contentLength && $content[$charIndex] === ',') {
-                    $charIndex++; // Skip the comma
-                }
-
-                if ($charIndex < $contentLength && $content[$charIndex] === '"') {
-                    $charIndex++; // Skip the opening quote of next item
-                }
-
-                continue;
-            } else {
-                $currentWktItem .= $currentChar;
+        // Every WKT string contains a space, so PostgreSQL always quotes it; content carrying no quote and
+        // no WKT body is a list of bare NULL tokens. Either shape is what the shared transformer expects.
+        $isPostgresEmittedShape = \str_contains($arrayContentWithoutBraces, '"')
+            || !\str_contains($arrayContentWithoutBraces, '(');
+        if ($isPostgresEmittedShape) {
+            try {
+                return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
+                    $postgresArray,
+                    preserveStringTypes: true
+                );
+            } catch (InvalidArrayFormatException) {
+                return [];
             }
-
-            $charIndex++;
         }
 
-        // Add the last item if there's content
-        if ($currentWktItem !== '') {
-            $wktItems[] = $currentWktItem;
-        }
-
-        return $wktItems;
+        // Literals this library wrote itself are unquoted, so a WKT body's own commas need
+        // parenthesis-aware splitting that the shared transformer does not do.
+        return $this->parseUnquotedWktArray($arrayContentWithoutBraces);
     }
 
     private function parseUnquotedWktArray(string $content): array

@@ -51,7 +51,7 @@ final class PathArrayTest extends TestCase
 
     /**
      * @return array<string, array{
-     *     phpValue: array<PathValueObject>|null,
+     *     phpValue: array<PathValueObject|null>|null,
      *     postgresValue: string|null
      * }>
      */
@@ -77,6 +77,10 @@ final class PathArrayTest extends TestCase
                     PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]'),
                 ],
                 'postgresValue' => '{"[(0,0),(1,1)]","((1,2),(3,4))","[(1.5,2.5),(3.5,4.5)]"}',
+            ],
+            'array with null element' => [
+                'phpValue' => [PathValueObject::fromString('[(0,0),(1,1)]'), null],
+                'postgresValue' => '{"[(0,0),(1,1)]",NULL}',
             ],
         ];
     }
@@ -152,9 +156,11 @@ final class PathArrayTest extends TestCase
 
     #[DataProvider('provideMalformedInputs')]
     #[Test]
-    public function returns_empty_array_for_malformed_input(string $postgresValue): void
+    public function throws_exception_for_malformed_array_literal(string $postgresValue): void
     {
-        $this->assertSame([], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->expectException(InvalidPathArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }
 
     /**
@@ -163,9 +169,9 @@ final class PathArrayTest extends TestCase
     public static function provideMalformedInputs(): array
     {
         return [
-            'empty array literal' => ['{}'],
             'unparsable item' => ['{invalid}'],
             'quoted empty item' => ['{""}'],
+            'not an array literal' => ['not-an-array'],
         ];
     }
 
@@ -242,6 +248,7 @@ final class PathArrayTest extends TestCase
             'open path' => [PathValueObject::fromString('[(0,0),(1,1)]')],
             'closed path' => [PathValueObject::fromString('((1,2),(3,4))')],
             'decimal values' => [PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
+            'null' => [null],
         ];
     }
 
@@ -261,7 +268,6 @@ final class PathArrayTest extends TestCase
             'string path format' => ['[(0,0),(1,1)]'],
             'invalid string' => ['invalid'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

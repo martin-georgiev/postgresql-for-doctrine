@@ -16,7 +16,7 @@ final class LineArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, LineValueObject>}>
+     * @return array<string, array{array<int, LineValueObject|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -29,6 +29,10 @@ final class LineArrayTypeTest extends ArrayTypeTestCase
                 LineValueObject::fromString('{-1,-2,-3}'),
             ]],
             'empty line array' => [[]],
+            'line array with null element' => [[
+                LineValueObject::fromString('{1,0,0}'),
+                null,
+            ]],
         ];
     }
 

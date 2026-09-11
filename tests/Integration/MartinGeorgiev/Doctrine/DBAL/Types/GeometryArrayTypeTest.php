@@ -15,6 +15,37 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
         return 'geometry[]';
     }
 
+    #[Test]
+    public function roundtrips_null_element(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            // This type writes a comma-joined literal, but geometry[] is delimited by ':',
+            // so it cannot bind a multi-element array at all (issue #724). Insert directly
+            // via SQL to exercise the read-side fix against PostgreSQL's own literal.
+            $sql = \sprintf(
+                'INSERT INTO %s.%s ("%s") VALUES (ARRAY[ST_GeomFromText(\'POINT(1 2)\'), NULL]::geometry[])',
+                self::DATABASE_SCHEMA,
+                $tableName,
+                $columnName
+            );
+            $this->connection->executeStatement($sql);
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+
+            $this->assertIsArray($retrieved);
+            $this->assertCount(2, $retrieved);
+            $this->assertInstanceOf(WktSpatialData::class, $retrieved[0]);
+            $this->assertSame('POINT(1 2)', (string) $retrieved[0]);
+            $this->assertNull($retrieved[1]);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
     protected function getSelectExpression(string $columnName): string
     {
         return \sprintf(

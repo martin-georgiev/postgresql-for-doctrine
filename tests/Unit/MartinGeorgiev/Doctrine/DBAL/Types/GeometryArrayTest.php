@@ -139,6 +139,19 @@ final class GeometryArrayTest extends TestCase
         $this->assertSame([], $result);
     }
 
+    #[Test]
+    public function converts_null_element_from_database_to_php_value(): void
+    {
+        // Exact literal PostgreSQL emits for ARRAY(SELECT ST_AsText(...) ...) with a null geometry.
+        $result = $this->type->convertToPHPValue('{"POINT(1 2)",NULL}', $this->platform);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result[0]);
+        $this->assertSame('POINT(1 2)', (string) $result[0]);
+        $this->assertNull($result[1]);
+    }
+
     #[DataProvider('provideValidPostgresArraysForPHP')]
     #[Test]
     public function converts_to_php_value(string $postgresArray, array $expectedPHPArray): void
@@ -242,10 +255,6 @@ final class GeometryArrayTest extends TestCase
             'empty quoted array' => [
                 '{}',
                 [],
-            ],
-            'single empty quoted item' => [
-                '{"POINT(1 2)",""}',
-                ['POINT(1 2)'],
             ],
             // Complex nested structures that test bracket depth tracking
             'complex nested with multiple parentheses' => [
@@ -381,6 +390,26 @@ final class GeometryArrayTest extends TestCase
         $this->type->transformArrayItemForPHP(123);
     }
 
+    #[DataProvider('provideLiteralsWithAnEmptyQuotedItem')]
+    #[Test]
+    public function throws_exception_for_empty_quoted_item(string $postgresValue): void
+    {
+        $this->expectException(InvalidGeometryForPHPException::class);
+
+        $this->type->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideLiteralsWithAnEmptyQuotedItem(): array
+    {
+        return [
+            'only an empty quoted item' => ['{""}'],
+            'empty quoted item beside a valid one' => ['{"POINT(1 2)",""}'],
+        ];
+    }
+
     #[Test]
     public function throws_exception_for_invalid_format_from_database(): void
     {
@@ -438,7 +467,6 @@ final class GeometryArrayTest extends TestCase
     public static function provideMalformedInputs(): array
     {
         return [
-            'quoted empty item' => ['{""}'],
             'whitespace only' => ['  '],
             'lone opening brace' => ['{'],
         ];

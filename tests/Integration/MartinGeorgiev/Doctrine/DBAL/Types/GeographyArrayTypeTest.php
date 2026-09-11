@@ -25,6 +25,37 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
         );
     }
 
+    #[Test]
+    public function roundtrips_null_element(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+        [$tableName, $columnName] = $this->prepareTestTable($columnType);
+
+        try {
+            // This type writes a comma-joined literal, but geography[] is delimited by ':',
+            // so it cannot bind a multi-element array at all (issue #724). Insert directly
+            // via SQL to exercise the read-side fix against PostgreSQL's own literal.
+            $sql = \sprintf(
+                'INSERT INTO %s.%s ("%s") VALUES (ARRAY[ST_GeogFromText(\'POINT(1 2)\'), NULL]::geography[])',
+                self::DATABASE_SCHEMA,
+                $tableName,
+                $columnName
+            );
+            $this->connection->executeStatement($sql);
+
+            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
+
+            $this->assertIsArray($retrieved);
+            $this->assertCount(2, $retrieved);
+            $this->assertInstanceOf(WktSpatialData::class, $retrieved[0]);
+            $this->assertSame('SRID=4326;POINT(1 2)', (string) $retrieved[0]);
+            $this->assertNull($retrieved[1]);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
     #[DataProvider('provideSingleItemArrays')]
     #[Test]
     public function roundtrips_value(array $values): void
