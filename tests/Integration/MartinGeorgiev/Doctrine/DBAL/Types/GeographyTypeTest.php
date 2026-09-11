@@ -114,6 +114,10 @@ final class GeographyTypeTest extends TestCase
             'point z' => [WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)')],
             'linestring m' => [WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
             'polygon zm' => [WktSpatialData::fromWkt('POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],
+            'point empty' => [WktSpatialData::fromWkt('POINT EMPTY')],
+            'polygon empty' => [WktSpatialData::fromWkt('POLYGON EMPTY')],
+            'geometrycollection empty' => [WktSpatialData::fromWkt('GEOMETRYCOLLECTION EMPTY')],
+            'point z empty' => [WktSpatialData::fromWkt('POINT Z EMPTY')],
         ];
     }
 }
