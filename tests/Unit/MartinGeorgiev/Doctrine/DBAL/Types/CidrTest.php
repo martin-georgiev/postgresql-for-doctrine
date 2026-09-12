@@ -97,7 +97,7 @@ final class CidrTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidCidrForPHPException::class);
+        $this->expectException(InvalidCidrForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
     }
 
@@ -135,7 +135,7 @@ final class CidrTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $dbValue): void
     {
-        $this->expectException(InvalidCidrForDatabaseException::class);
+        $this->expectException(InvalidCidrForPHPException::class);
         $this->fixture->convertToPHPValue($dbValue, $this->platform);
     }
 

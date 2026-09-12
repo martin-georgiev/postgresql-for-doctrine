@@ -116,7 +116,7 @@ final class MacaddrTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidMacaddrForPHPException::class);
+        $this->expectException(InvalidMacaddrForDatabaseException::class);
 
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
     }
@@ -151,7 +151,7 @@ final class MacaddrTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $invalidValue): void
     {
-        $this->expectException(InvalidMacaddrForDatabaseException::class);
+        $this->expectException(InvalidMacaddrForPHPException::class);
         $this->expectExceptionMessage('Database value must be a string');
 
         $this->fixture->convertToPHPValue($invalidValue, $this->platform);
@@ -175,7 +175,7 @@ final class MacaddrTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_formats(string $invalidFormat): void
     {
-        $this->expectException(InvalidMacaddrForDatabaseException::class);
+        $this->expectException(InvalidMacaddrForPHPException::class);
         $this->expectExceptionMessage('Invalid MAC address format in database');
 
         $this->fixture->convertToPHPValue($invalidFormat, $this->platform);

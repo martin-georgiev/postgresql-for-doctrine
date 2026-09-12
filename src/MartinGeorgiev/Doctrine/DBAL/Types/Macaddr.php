@@ -34,11 +34,11 @@ class Macaddr extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidMacaddrForPHPException::forInvalidType($value);
+            throw InvalidMacaddrForDatabaseException::forInvalidType($value);
         }
 
         if (!$this->isValidMacAddress($value)) {
-            throw InvalidMacaddrForPHPException::forInvalidFormat($value);
+            throw InvalidMacaddrForDatabaseException::forInvalidFormat($value);
         }
 
         return $this->normalizeMacAddressFormat($value);
@@ -51,11 +51,11 @@ class Macaddr extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidMacaddrForDatabaseException::forInvalidType($value);
+            throw InvalidMacaddrForPHPException::forInvalidType($value);
         }
 
         if (!$this->isValidMacAddress($value)) {
-            throw InvalidMacaddrForDatabaseException::forInvalidFormat($value);
+            throw InvalidMacaddrForPHPException::forInvalidFormat($value);
         }
 
         return $value;

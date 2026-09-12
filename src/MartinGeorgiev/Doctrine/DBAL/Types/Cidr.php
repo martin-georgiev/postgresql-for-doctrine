@@ -34,11 +34,11 @@ class Cidr extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidCidrForPHPException::forInvalidType($value);
+            throw InvalidCidrForDatabaseException::forInvalidType($value);
         }
 
         if (!$this->isValidCidrAddress($value)) {
-            throw InvalidCidrForPHPException::forInvalidFormat($value);
+            throw InvalidCidrForDatabaseException::forInvalidFormat($value);
         }
 
         return $value;
@@ -51,11 +51,11 @@ class Cidr extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidCidrForDatabaseException::forInvalidType($value);
+            throw InvalidCidrForPHPException::forInvalidType($value);
         }
 
         if (!$this->isValidCidrAddress($value)) {
-            throw InvalidCidrForDatabaseException::forInvalidFormat($value);
+            throw InvalidCidrForPHPException::forInvalidFormat($value);
         }
 
         return $value;
