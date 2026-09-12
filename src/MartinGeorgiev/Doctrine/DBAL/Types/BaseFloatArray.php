@@ -6,6 +6,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 
 /**
  * @since 3.0
@@ -14,6 +15,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPExc
  */
 abstract class BaseFloatArray extends BaseArray
 {
+    use PostgresFloatConversionTrait;
+
     /**
      * @var string
      */
@@ -45,7 +48,17 @@ abstract class BaseFloatArray extends BaseArray
             throw InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
         }
 
+        // Infinity and NaN are values PostgreSQL stores and emits.
+        // The precision, range and closeness-to-zero checks below all describe finite numbers.
+        if (\is_float($item) && !\is_finite($item)) {
+            return;
+        }
+
         $stringValue = (string) $item;
+        if (self::isNonFiniteString($stringValue)) {
+            return;
+        }
+
         if (!\preg_match(self::FLOAT_REGEX, $stringValue)) {
             throw InvalidFloatArrayItemForDatabaseException::doesNotMatchRegex($item);
         }
@@ -85,6 +98,17 @@ abstract class BaseFloatArray extends BaseArray
         throw InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
     }
 
+    protected function transformArrayItemForPostgres(mixed $item): string
+    {
+        if (\is_float($item)) {
+            return self::formatFloat($item);
+        }
+
+        \assert(\is_scalar($item));
+
+        return (string) $item;
+    }
+
     public function transformArrayItemForPHP(mixed $item): ?float
     {
         if ($item === null) {
@@ -97,6 +121,10 @@ abstract class BaseFloatArray extends BaseArray
         }
 
         $stringValue = (string) $item;
+        if (self::isNonFiniteString($stringValue)) {
+            return self::parseFloat($stringValue);
+        }
+
         if (!\preg_match(self::FLOAT_REGEX, $stringValue)) {
             throw InvalidFloatArrayItemForPHPException::forValueThatIsNotAValidPHPFloat($item, static::TYPE_NAME);
         }

@@ -1,4 +1,4 @@
-# Contributing
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Contributing
 
 ## 🧑‍💻 Development with Devenv
 

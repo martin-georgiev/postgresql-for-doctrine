@@ -1,4 +1,4 @@
-# Common Use Cases and Examples
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Common Use Cases and Examples
 
 ## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
 
@@ -322,7 +322,7 @@ ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
 LIMIT 10
 ```
 
-For multi-item arrays, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for Doctrine DQL limitations and the suggested workarounds.
+For array columns, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md).
 
 The library provides DBAL type support for PostGIS `geometry` and `geography` types. Example usage:
 

@@ -56,13 +56,15 @@ trait NetworkAddressValidationTrait
 
     private function hasValidCidrFormat(string $value): bool
     {
-        if (!\str_contains($value, '/')) {
+        if (\substr_count($value, '/') !== 1) {
             return false;
         }
 
-        [$ip, $netmask] = \explode('/', $value);
+        [, $netmask] = \explode('/', $value);
 
-        return \is_numeric($netmask);
+        // PostgreSQL's netmask is a plain non-negative integer: no sign, decimal point,
+        // exponent, or surrounding whitespace.
+        return \preg_match('/^\d+\z/', $netmask) === 1;
     }
 
     private function isValidIpv4Netmask(int $netmask): bool

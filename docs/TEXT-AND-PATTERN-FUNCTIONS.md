@@ -1,4 +1,4 @@
-# Text and Pattern Functions and Operators
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Text and Pattern Functions and Operators
 
 This document covers PostgreSQL text processing, pattern matching, and regular expression functions and operators available in this library.
 

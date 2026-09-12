@@ -5,10 +5,12 @@ deptrac:
     - ../../tests
 
   layers:
+    # Covers the whole ORM subtree rather than AST\Functions alone, so that plain AST
+    # nodes sitting outside the Functions subnamespace stay inside the layer.
     - name: Functions
       collectors:
         - type: class
-          value: ^MartinGeorgiev\\Doctrine\\ORM\\AST\\Functions\\.*
+          value: ^MartinGeorgiev\\Doctrine\\ORM\\.*
     - name: Types
       collectors:
         - type: class
@@ -41,6 +43,7 @@ deptrac:
       - Utils
     Fixtures:
       - Fixtures
+      - Functions
       - Types
       - Utils
     Integration Tests:

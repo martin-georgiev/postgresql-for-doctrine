@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
+
 /**
  * Base class of PostgreSQL geometric array data types.
  *
@@ -29,6 +32,10 @@ abstract class BaseGeometricArray extends BaseArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
+        if ($item === null) {
+            return 'NULL';
+        }
+
         $class = $this->getValueObjectClass();
         if (!$item instanceof $class) {
             $this->throwTypedInvalidItemExceptionForDatabase($item);
@@ -39,16 +46,14 @@ abstract class BaseGeometricArray extends BaseArray
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        if (!\str_starts_with($postgresArray, '{"') || !\str_ends_with($postgresArray, '"}')) {
-            return [];
+        try {
+            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
+                $postgresArray,
+                preserveStringTypes: true
+            );
+        } catch (InvalidArrayFormatException) {
+            $this->throwTypedInvalidFormatExceptionForPHP($postgresArray);
         }
-
-        $trimmedPostgresArray = \mb_substr($postgresArray, 2, -2);
-        if ($trimmedPostgresArray === '') {
-            return [];
-        }
-
-        return \explode('","', $trimmedPostgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?\Stringable
@@ -70,7 +75,7 @@ abstract class BaseGeometricArray extends BaseArray
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
-        return $item instanceof ($this->getValueObjectClass());
+        return $item === null || $item instanceof ($this->getValueObjectClass());
     }
 
     protected function throwInvalidTypeException(mixed $value): never

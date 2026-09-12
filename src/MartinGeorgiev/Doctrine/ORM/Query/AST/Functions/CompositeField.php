@@ -52,6 +52,10 @@ class CompositeField extends BaseFunction
             throw InvalidFieldNameException::forNonStringValue('COMPOSITE_FIELD');
         }
 
+        if ($fieldName === '') {
+            throw InvalidFieldNameException::forEmptyValue('COMPOSITE_FIELD');
+        }
+
         $this->fieldName = $fieldName;
 
         $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
@@ -61,6 +65,6 @@ class CompositeField extends BaseFunction
     {
         $columnSql = $this->compositeColumn->dispatch($sqlWalker);
 
-        return \sprintf('(%s)."%s"', $columnSql, $this->fieldName);
+        return \sprintf('(%s)."%s"', $columnSql, \str_replace('"', '""', $this->fieldName));
     }
 }

@@ -33,7 +33,7 @@ final class Geometry extends BaseSpatialType
         }
 
         if (!$value instanceof WktSpatialData) {
-            throw InvalidGeometryForPHPException::forInvalidType($value);
+            throw InvalidGeometryForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ final class Geometry extends BaseSpatialType
         }
 
         if (!\is_string($value)) {
-            throw InvalidGeometryForDatabaseException::forInvalidType($value);
+            throw InvalidGeometryForPHPException::forInvalidType($value);
         }
 
         try {
             return WktSpatialData::fromWkt($value);
         } catch (InvalidWktSpatialDataException) {
-            throw InvalidGeometryForDatabaseException::forInvalidFormat($value);
+            throw InvalidGeometryForPHPException::forInvalidFormat($value);
         }
     }
 }

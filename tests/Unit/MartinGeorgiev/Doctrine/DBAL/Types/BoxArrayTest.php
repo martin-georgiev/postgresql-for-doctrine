@@ -51,7 +51,7 @@ final class BoxArrayTest extends TestCase
 
     /**
      * @return array<string, array{
-     *     phpValue: array<BoxValueObject>|null,
+     *     phpValue: array<BoxValueObject|null>|null,
      *     postgresValue: string|null
      * }>
      */
@@ -77,6 +77,10 @@ final class BoxArrayTest extends TestCase
                     BoxValueObject::fromString('(-1,-2),(-3,-4)'),
                 ],
                 'postgresValue' => '{(1,2),(3,4);(0,0),(1,1);(-1,-2),(-3,-4)}',
+            ],
+            'array with null element' => [
+                'phpValue' => [BoxValueObject::fromString('(1,2),(3,4)'), null],
+                'postgresValue' => '{(1,2),(3,4);NULL}',
             ],
         ];
     }
@@ -230,6 +234,7 @@ final class BoxArrayTest extends TestCase
             'standard box' => [BoxValueObject::fromString('(1,2),(3,4)')],
             'zero coordinates' => [BoxValueObject::fromString('(0,0),(1,1)')],
             'negative coordinates' => [BoxValueObject::fromString('(-1,-2),(-3,-4)')],
+            'null' => [null],
         ];
     }
 
@@ -249,7 +254,6 @@ final class BoxArrayTest extends TestCase
             'string box format' => ['(1,2),(3,4)'],
             'invalid string' => ['invalid'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

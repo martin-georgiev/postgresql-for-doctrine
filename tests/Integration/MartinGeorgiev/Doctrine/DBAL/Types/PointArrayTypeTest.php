@@ -18,7 +18,7 @@ final class PointArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, PointValueObject>}>
+     * @return array<string, array{array<int, PointValueObject|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -40,6 +40,10 @@ final class PointArrayTypeTest extends ArrayTypeTestCase
                 new PointValueObject(-50, -100),
             ]],
             'empty point array' => [[]],
+            'point array with null element' => [[
+                new PointValueObject(1.23, 4.56),
+                null,
+            ]],
         ];
     }
 
@@ -78,6 +82,12 @@ final class PointArrayTypeTest extends ArrayTypeTestCase
         $this->assertCount(\count($expected), $actual, \sprintf('Point array count mismatch for type %s', $typeName));
 
         foreach ($expected as $index => $expectedPoint) {
+            if ($expectedPoint === null) {
+                $this->assertNull($actual[$index], \sprintf('Expected null point at index %d for type %s', $index, $typeName));
+
+                continue;
+            }
+
             if ($expectedPoint instanceof PointValueObject && $actual[$index] instanceof PointValueObject) {
                 $this->assertPointEquals($expectedPoint, $actual[$index], $typeName);
             }

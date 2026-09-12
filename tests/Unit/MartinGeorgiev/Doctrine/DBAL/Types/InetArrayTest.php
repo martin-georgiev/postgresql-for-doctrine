@@ -129,6 +129,7 @@ final class InetArrayTest extends TestCase
             'malformed CIDR with spaces' => [['192.168.1.0 / 24']],
             'IPv6 with invalid segment count' => [['2001:db8:1:2:3:4:5:6:7']],
             'IPv6 with invalid segment length' => [['2001:db8:xyz:1:1:1:1:1']],
+            'triple segment CIDR' => [['192.168.1.0/24/24']],
         ];
     }
 
