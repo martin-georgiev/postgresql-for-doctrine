@@ -220,6 +220,14 @@ abstract class BaseVariadicFunction extends BaseFunction
             if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $lookaheadType) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
 
+                // ORM 2.x reads lookahead->type behind an assert() that CI compiles out, so an exhausted
+                // lexer here surfaces as a PHP warning from the ORM rather than a syntax error.
+                if (DoctrineLexer::getLookaheadType($lexer) === null) {
+                    throw ParserException::withThrowable(
+                        InvalidArgumentForVariadicFunctionException::atLeast($this->getFunctionName(), $this->getMinArgumentCount())
+                    );
+                }
+
                 // Check if we're about to exceed the maximum number of arguments
                 // nodeIndex starts at 1 and counts up for each argument after the first
                 // So when nodeIndex=1, we're about to add the 2nd argument (total: 2)
