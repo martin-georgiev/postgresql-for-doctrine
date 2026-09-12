@@ -227,4 +227,31 @@ final class JsonbArrayTest extends TestCase
             'invalid json format' => ['{invalid json}'],
         ];
     }
+
+    #[Test]
+    public function converts_null_item_to_php_value(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[DataProvider('provideNonScalarItemsFromDatabase')]
+    #[Test]
+    public function throws_exception_for_non_scalar_item_from_database(mixed $item): void
+    {
+        $this->expectException(InvalidJsonArrayItemForPHPException::class);
+        $this->expectExceptionMessage('Array values must be valid JSON objects');
+
+        $this->fixture->transformArrayItemForPHP($item);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideNonScalarItemsFromDatabase(): array
+    {
+        return [
+            'array' => [['already decoded']],
+            'object' => [new \stdClass()],
+        ];
+    }
 }

@@ -219,6 +219,9 @@ final class PointArrayTest extends TestCase
             'unparsable item' => ['{invalid}'],
             'quoted empty item' => ['{""}'],
             'not an array literal' => ['not-an-array'],
+            'multi-dimensional array literal' => ['{{(1,2)},{(3,4)}}'],
+            'unclosed quotes' => ['{"(1,2)'],
+            'empty element' => ['{,}'],
         ];
     }
 
