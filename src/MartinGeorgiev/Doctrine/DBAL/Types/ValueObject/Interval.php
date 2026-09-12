@@ -215,7 +215,14 @@ class Interval implements \Stringable
                 continue;
             }
 
+            // PostgreSQL takes `ago` only as the closing token of a value that already carries an
+            // amount, so a leading, repeated or mid-value one is not a negation but malformed input.
             if (\preg_match('/ago(?![a-z])/Ai', $value, $matches, 0, $offset) === 1) {
+                $remainder = \trim(\substr($value, $offset + 3), " \t,@");
+                if (!$hasToken || $remainder !== '') {
+                    throw InvalidIntervalException::forInvalidFormat($value);
+                }
+
                 $isNegated = true;
                 $offset += 3;
 

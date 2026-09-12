@@ -285,6 +285,29 @@ final class IntervalTest extends TestCase
         Interval::fromString('');
     }
 
+    #[DataProvider('provideMisplacedAgo')]
+    #[Test]
+    public function throws_exception_for_a_misplaced_ago(string $value): void
+    {
+        $this->expectException(InvalidIntervalException::class);
+
+        Interval::fromString($value);
+    }
+
+    /**
+     * PostgreSQL takes `ago` only as the closing token of a value that already carries an amount.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function provideMisplacedAgo(): array
+    {
+        return [
+            'leading' => ['ago 1 day'],
+            'repeated' => ['1 day ago ago'],
+            'followed by another amount' => ['1 day ago 2 hours'],
+        ];
+    }
+
     #[Test]
     public function throws_exception_for_invalid_iso_8601(): void
     {
