@@ -6,6 +6,9 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidCastTypeException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 final class CastTest extends TestCase
 {
@@ -45,6 +48,29 @@ final class CastTest extends TestCase
             'cast as text array' => \sprintf('SELECT CAST(e.text1 AS TEXT[]) FROM %s e', ContainsTexts::class),
             'cast as boolean array' => \sprintf('SELECT CAST(e.text1 AS BOOLEAN[]) FROM %s e', ContainsTexts::class),
             'cast as decimal array' => \sprintf('SELECT CAST(e.text1 AS DECIMAL(10, 2)[]) FROM %s e', ContainsTexts::class),
+        ];
+    }
+
+    #[DataProvider('provideRejectedTargetTypes')]
+    #[Test]
+    public function throws_exception_for_invalid_target_type(string $targetType): void
+    {
+        $this->expectException(InvalidCastTypeException::class);
+
+        $dql = \sprintf('SELECT CAST(e.text1 AS %s) FROM %s e', $targetType, ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    /**
+     * @return array<string, array{targetType: string}>
+     */
+    public static function provideRejectedTargetTypes(): array
+    {
+        return [
+            'string parameter smuggling a subquery' => ['targetType' => "NUMERIC('10), (SELECT version()), (1', 2)"],
+            'string parameter smuggling a statement terminator' => ['targetType' => "VARCHAR('255); DROP TABLE containstexts; --')"],
+            'non-numeric parameter' => ['targetType' => "VARCHAR('n')"],
+            'more than two parameters' => ['targetType' => 'NUMERIC(1, 2, 3)'],
         ];
     }
 }

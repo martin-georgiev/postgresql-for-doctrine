@@ -10,6 +10,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidCastTypeException;
 use MartinGeorgiev\Utils\DoctrineLexer;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
@@ -49,17 +50,26 @@ class Cast extends FunctionNode
             return;
         }
 
+        // Both the type name and its parameters are interpolated raw into the emitted SQL
+        if (\preg_match('/^[A-Za-z_][A-Za-z0-9_]*\z/', $type) !== 1) {
+            throw InvalidCastTypeException::forInvalidTypeName($type);
+        }
+
         // Handle parameterized types (e.g., DECIMAL(10, 2))
         if ($lexer->isNextToken($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS)) {
             $parser->match($shouldUseLexer ? Lexer::T_OPEN_PARENTHESIS : TokenType::T_OPEN_PARENTHESIS);
             $parameter = $parser->Literal();
             \assert(\is_scalar($parameter->value));
-            $parameters = [(string) $parameter->value];
+            $parameters = [$this->assertTypeParameter($parameter->value)];
             while ($lexer->isNextToken($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA)) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
                 $parameter = $parser->Literal();
                 \assert(\is_scalar($parameter->value));
-                $parameters[] = (string) $parameter->value;
+                $parameters[] = $this->assertTypeParameter($parameter->value);
+            }
+
+            if (\count($parameters) > 2) {
+                throw InvalidCastTypeException::forTooManyTypeParameters(\count($parameters));
             }
 
             $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
@@ -84,6 +94,16 @@ class Cast extends FunctionNode
         $this->targetType = $type;
 
         $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
+    }
+
+    private function assertTypeParameter(bool|float|int|string $parameter): string
+    {
+        $parameter = (string) $parameter;
+        if (\preg_match('/^\d+\z/', $parameter) !== 1) {
+            throw InvalidCastTypeException::forInvalidTypeParameter($parameter);
+        }
+
+        return $parameter;
     }
 
     public function getSql(SqlWalker $sqlWalker): string

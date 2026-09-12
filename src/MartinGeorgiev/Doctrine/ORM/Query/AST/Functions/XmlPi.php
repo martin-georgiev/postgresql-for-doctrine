@@ -9,6 +9,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidXmlPiTargetException;
 use MartinGeorgiev\Utils\DoctrineLexer;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
@@ -18,11 +19,12 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  * Creates an XML processing instruction.
  *
  * PostgreSQL requires NAME keyword syntax: XMLPI(NAME target [, content])
- * The target must be a string literal in DQL — it becomes an *unquoted* SQL NAME identifier.
+ * The target must be a string literal in DQL — it becomes a quoted SQL NAME identifier,
+ * so its casing is preserved and PostgreSQL escapes any character illegal in an XML name.
  * The optional content can be a literal or entity property.
  *
- * DQL: XMLPI('target')          → SQL: xmlpi(NAME target)
- * DQL: XMLPI('target', content) → SQL: xmlpi(NAME target, content)
+ * DQL: XMLPI('target')          → SQL: xmlpi(NAME "target")
+ * DQL: XMLPI('target', content) → SQL: xmlpi(NAME "target", content)
  *
  * @see https://www.postgresql.org/docs/18/functions-xml.html
  * @since 4.6
@@ -40,7 +42,7 @@ class XmlPi extends BaseFunction
 
     protected function customizeFunction(): void
     {
-        $this->setFunctionPrototype('xmlpi(NAME %s%s)');
+        $this->setFunctionPrototype('xmlpi(NAME "%s"%s)');
     }
 
     public function parse(Parser $parser): void
@@ -56,7 +58,11 @@ class XmlPi extends BaseFunction
         $parser->match($shouldUseLexer ? Lexer::T_STRING : TokenType::T_STRING);
 
         $target = DoctrineLexer::getTokenValue($lexer);
-        $this->target = \is_string($target) ? $target : '';
+        if (!\is_string($target) || $target === '') {
+            throw InvalidXmlPiTargetException::forEmptyTarget('XMLPI');
+        }
+
+        $this->target = $target;
 
         $commaType = $shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA;
         if (DoctrineLexer::getLookaheadType($lexer) === $commaType) {
@@ -73,6 +79,6 @@ class XmlPi extends BaseFunction
             ? ', '.$this->content->dispatch($sqlWalker)
             : '';
 
-        return \vsprintf($this->functionPrototype, [$this->target, $contentSql]);
+        return \vsprintf($this->functionPrototype, [\str_replace('"', '""', $this->target), $contentSql]);
     }
 }
