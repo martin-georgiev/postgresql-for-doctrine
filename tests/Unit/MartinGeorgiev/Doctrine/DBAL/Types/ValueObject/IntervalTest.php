@@ -66,10 +66,6 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * PostgreSQL propagates the fraction of a unit into the next lower one. Before this was
-     * honoured the unanchored unit regexes matched the digits after the decimal point instead,
-     * so '-1.5 days' silently became '5 days' — wrong magnitude and wrong sign.
-     *
      * @return array<string, array{string, string}>
      */
     public static function provideFractionalUnits(): array
@@ -102,8 +98,8 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Strings PostgreSQL 18 emits with IntervalStyle set to sql_standard, where a leading
-     * sign governs every field that carries no sign of its own.
+     * Strings PostgreSQL emits under IntervalStyle sql_standard, where a leading sign governs
+     * every field that carries no sign of its own.
      *
      * @return array<string, array{string, string}>
      */
@@ -137,9 +133,8 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Outside the strict sql_standard shapes PostgreSQL still accepts a year-month field as the
-     * opening of a traditional value, where a trailing unitless number is seconds rather than
-     * days and the field's sign does not reach it.
+     * Outside the strict sql_standard shapes a year-month field opens a traditional value, where
+     * a trailing unitless number is seconds rather than days and the field's sign does not reach it.
      *
      * @return array<string, array{string, string}>
      */
@@ -163,8 +158,8 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Strings PostgreSQL 18 emits with IntervalStyle set to postgres_verbose, which uses the
-     * abbreviations 'mins'/'secs' and marks a negative interval with a trailing 'ago'.
+     * Strings PostgreSQL emits under IntervalStyle postgres_verbose, which marks a negative
+     * interval with a trailing 'ago' rather than per-field signs.
      *
      * @return array<string, array{string, string}>
      */
@@ -197,8 +192,8 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Strings PostgreSQL 18 emits with IntervalStyle set to iso_8601. \DateInterval rejects both
-     * the per-component minus signs and the fractional seconds PostgreSQL writes here.
+     * Strings PostgreSQL emits under IntervalStyle iso_8601. \DateInterval rejects both the
+     * per-component minus signs and the fractional seconds PostgreSQL writes here.
      *
      * @return array<string, array{string, string}>
      */
@@ -255,9 +250,6 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Every string the value object emits must parse back into an equal value object,
-     * including the mixed-sign and fractional forms only reachable since the parser rewrite.
-     *
      * @return array<string, array{string}>
      */
     public static function provideOwnStringRepresentations(): array
@@ -275,6 +267,161 @@ final class IntervalTest extends TestCase
             'full microsecond precision' => ['00:00:01.123456'],
             'hours beyond a day' => ['100:00:00'],
             'single negative second' => ['-00:00:01'],
+        ];
+    }
+
+    #[DataProvider('provideExtendedUnitNames')]
+    #[Test]
+    public function parses_extended_unit_names(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * Units PostgreSQL accepts on input but never writes back. Note that a bare 'm' is minutes,
+     * and that a fractional microsecond is rounded half to even, so '1.5 us' is 1 and '2.5 us' is 2.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function provideExtendedUnitNames(): array
+    {
+        return [
+            'decade' => ['1 decade', '10 years'],
+            'decades' => ['2 decades', '20 years'],
+            'fractional decade' => ['0.15 decades', '1 year 6 mons'],
+            'century' => ['1 century', '100 years'],
+            'centuries' => ['2 centuries', '200 years'],
+            'fractional century' => ['0.5 century', '50 years'],
+            'millennium' => ['1 millennium', '1000 years'],
+            'millennia' => ['2 millennia', '2000 years'],
+            'millenniums' => ['1 millenniums', '1000 years'],
+            'bare m is minutes' => ['1 m', '00:01:00'],
+            'fractional bare m' => ['1.5 m', '00:01:30'],
+            'millisecond' => ['1 millisecond', '00:00:00.001'],
+            'milliseconds' => ['2 milliseconds', '00:00:00.002'],
+            'abbreviated millisecond' => ['1 ms', '00:00:00.001'],
+            'msec' => ['1 msec', '00:00:00.001'],
+            'msecs' => ['1 msecs', '00:00:00.001'],
+            'fractional millisecond' => ['1.5 ms', '00:00:00.0015'],
+            'microsecond' => ['1 microsecond', '00:00:00.000001'],
+            'microseconds' => ['2 microseconds', '00:00:00.000002'],
+            'abbreviated microsecond' => ['1 us', '00:00:00.000001'],
+            'usec' => ['1 usec', '00:00:00.000001'],
+            'usecs' => ['1 usecs', '00:00:00.000001'],
+            'microsecond tie rounds down to odd' => ['1.5 us', '00:00:00.000001'],
+            'microsecond tie rounds down to even' => ['2.5 us', '00:00:00.000002'],
+            'sub-microsecond remainder rounds up' => ['0.6 us', '00:00:00.000001'],
+            'sub-microsecond remainder rounds down' => ['0.4 us', '00:00:00'],
+            'larger units combined' => ['1 decade 1 century', '110 years'],
+        ];
+    }
+
+    #[DataProvider('provideLooselyWrittenAmounts')]
+    #[Test]
+    public function parses_loosely_written_amounts(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * PostgreSQL accepts single-digit minute and second fields and numbers written with a
+     * dangling decimal point, none of which it ever writes back.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function provideLooselyWrittenAmounts(): array
+    {
+        return [
+            'single-digit minutes and seconds' => ['1:2:3', '01:02:03'],
+            'single-digit minutes without seconds' => ['1:2', '01:02:00'],
+            'single-digit seconds only' => ['1:02:3', '01:02:03'],
+            'single-digit minutes only' => ['1:2:03', '01:02:03'],
+            'negative single-digit fields' => ['-1:2:3', '-01:02:03'],
+            'single-digit fields with a fraction' => ['1:2:3.5', '01:02:03.5'],
+            'leading decimal point' => ['.5 days', '12:00:00'],
+            'trailing decimal point' => ['5. days', '5 days'],
+            'unitless leading decimal point' => ['.5', '00:00:00.5'],
+            'unitless trailing decimal point' => ['5.', '00:00:05'],
+        ];
+    }
+
+    #[DataProvider('provideSqlStandardValuesPostgresCannotRepresent')]
+    #[Test]
+    public function parses_sql_standard_output_the_way_postgres_reads_it_back(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * The sql_standard style cannot express an interval whose fields differ in sign, so
+     * PostgreSQL's own output is lossy here and reading it back changes the value. These cases
+     * pin the parser to what PostgreSQL itself makes of those strings, not to the value that
+     * was written: PostgreSQL turns '-1 mon 1 day 00:00:01' into '-0-1 -1 -0:00:01' and then
+     * reads that back as '-1 mons -1 days -00:00:01'.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function provideSqlStandardValuesPostgresCannotRepresent(): array
+    {
+        return [
+            'months negative, days and time positive' => ['-0-1 -1 -0:00:01', '-1 mon -1 day -00:00:01'],
+            'years borrowed into months' => ['-9999-11 -30 -23:59:59.999999', '-9999 years -11 mons -30 days -23:59:59.999999'],
+        ];
+    }
+
+    #[DataProvider('provideInfiniteIntervals')]
+    #[Test]
+    public function throws_exception_for_infinite_intervals(string $value): void
+    {
+        $this->expectException(InvalidIntervalException::class);
+        $this->expectExceptionMessage('Infinite intervals cannot be represented by DateInterval');
+
+        Interval::fromString($value);
+    }
+
+    /**
+     * PostgreSQL 17 and later can store an infinite interval, which DateInterval cannot carry.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function provideInfiniteIntervals(): array
+    {
+        return [
+            'positive' => ['infinity'],
+            'negative' => ['-infinity'],
+            'explicitly positive' => ['+infinity'],
+            'mixed case' => ['Infinity'],
+        ];
+    }
+
+    #[DataProvider('provideOutOfRangeAmounts')]
+    #[Test]
+    public function throws_exception_for_out_of_range_amounts(string $value): void
+    {
+        $this->expectException(InvalidIntervalException::class);
+        $this->expectExceptionMessage('Interval amount is out of range');
+
+        Interval::fromString($value);
+    }
+
+    /**
+     * PostgreSQL keeps an interval in int64 microseconds and rejects anything wider. Without the
+     * range guard PHP raises "float is not representable as int" and stores a nonsense value.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function provideOutOfRangeAmounts(): array
+    {
+        return [
+            'seconds' => ['9223372036854775807 secs'],
+            'hours' => ['100000000000 hours'],
+            'hours in a time field' => ['100000000000:00:00'],
+            'days' => ['99999999999999999999999999 days'],
+            'weeks' => ['99999999999999999999999999 weeks'],
+            'months' => ['99999999999999999999999999 mons'],
+            'years' => ['99999999999999999999999999 years'],
+            'microseconds' => ['99999999999999999999999999 us'],
+            'unitless' => ['99999999999999999999999999'],
         ];
     }
 

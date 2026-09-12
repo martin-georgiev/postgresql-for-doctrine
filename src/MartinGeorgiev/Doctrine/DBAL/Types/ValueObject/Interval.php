@@ -9,14 +9,13 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidIntervalExc
 /**
  * Value object representing a PostgreSQL interval value, backed by PHP's DateInterval.
  *
- * Reads every output format PostgreSQL can produce, i.e. all four IntervalStyle settings:
+ * Reads the output of all four IntervalStyle settings, plus the traditional input syntax:
  * - postgres: 1 year 2 mons 3 days 04:05:06
  * - postgres_verbose: @ 1 year 2 mons 3 days 4 hours 5 mins 6 secs
  * - sql_standard: +1-2 +3 +4:05:06
  * - iso_8601: P1Y2M3DT4H5M6S
  *
- * Fractional units follow PostgreSQL's own propagation into the next lower unit, e.g.
- * "1.5 days" is 1 day 12:00:00 and "-1.5 days" is -1 days -12:00:00.
+ * The infinite intervals PostgreSQL 17+ can store are rejected, as DateInterval cannot carry them.
  *
  * @see https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
  * @since 4.4
@@ -27,6 +26,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidIntervalExc
  */
 class Interval implements \Stringable
 {
+    private const MICROSECONDS_PER_MILLISECOND = 1_000;
+
     private const MICROSECONDS_PER_SECOND = 1_000_000;
 
     private const MICROSECONDS_PER_MINUTE = 60_000_000;
@@ -42,9 +43,25 @@ class Interval implements \Stringable
     private const DAYS_PER_WEEK = 7;
 
     /**
+     * @var array<string, int>
+     */
+    private const YEARS_PER_LARGER_UNIT = [
+        'decade' => 10,
+        'century' => 100,
+        'millennium' => 1_000,
+    ];
+
+    /**
      * @var array<string, string>
      */
     private const UNIT_ALIASES = [
+        'millennium' => 'millennium',
+        'millenniums' => 'millennium',
+        'millennia' => 'millennium',
+        'century' => 'century',
+        'centuries' => 'century',
+        'decade' => 'decade',
+        'decades' => 'decade',
         'y' => 'year',
         'yr' => 'year',
         'yrs' => 'year',
@@ -65,6 +82,8 @@ class Interval implements \Stringable
         'hrs' => 'hour',
         'hour' => 'hour',
         'hours' => 'hour',
+        // PostgreSQL reads a bare 'm' as minutes, not months
+        'm' => 'minute',
         'min' => 'minute',
         'mins' => 'minute',
         'minute' => 'minute',
@@ -74,9 +93,21 @@ class Interval implements \Stringable
         'secs' => 'second',
         'second' => 'second',
         'seconds' => 'second',
+        'ms' => 'millisecond',
+        'msec' => 'millisecond',
+        'msecs' => 'millisecond',
+        'millisecond' => 'millisecond',
+        'milliseconds' => 'millisecond',
+        'us' => 'microsecond',
+        'usec' => 'microsecond',
+        'usecs' => 'microsecond',
+        'microsecond' => 'microsecond',
+        'microseconds' => 'microsecond',
     ];
 
-    private const SQL_STANDARD_TIME_PATTERN = '([+-])?(\d+):(\d{2})(?::(\d{2})(?:\.(\d+))?)?';
+    private const NUMBER_PATTERN = '(?:\d+(?:\.\d*)?|\.\d+)';
+
+    private const TIME_FIELD_PATTERN = '([+-])?(\d+):(\d{1,2})(?::(\d{1,2})(?:\.(\d+))?)?';
 
     protected function __construct(
         private readonly \DateInterval $dateInterval,
@@ -112,6 +143,10 @@ class Interval implements \Stringable
     private static function parse(string $value): \DateInterval
     {
         $trimmed = \trim($value);
+
+        if (\preg_match('/^[+-]?infinity\z/i', $trimmed) === 1) {
+            throw InvalidIntervalException::forUnsupportedInfinity($trimmed);
+        }
 
         if (\preg_match('/^[+-]?P/', $trimmed) === 1) {
             return self::createIntervalFromParts(self::parseIso8601($trimmed));
@@ -161,7 +196,7 @@ class Interval implements \Stringable
      */
     private static function parseSqlStandardFormat(string $value): ?array
     {
-        $time = self::SQL_STANDARD_TIME_PATTERN;
+        $time = self::TIME_FIELD_PATTERN;
 
         if (\preg_match('/^([+-])?(\d+)-(\d+)\s+([+-])?(\d+)\s+'.$time.'\z/', $value, $matches) === 1) {
             $leadingSign = self::signOf($matches[1], 1);
@@ -195,8 +230,8 @@ class Interval implements \Stringable
     }
 
     /**
-     * Covers the postgres and postgres_verbose styles plus PostgreSQL's traditional
-     * unit-based input, all of which are sequences of signed amounts with unit names.
+     * Covers the postgres and postgres_verbose styles and the traditional input syntax, all of
+     * which are sequences of signed amounts carrying unit names.
      *
      * @return array{int, int, int, int}
      */
@@ -215,8 +250,8 @@ class Interval implements \Stringable
                 continue;
             }
 
-            // PostgreSQL takes `ago` only as the closing token of a value that already carries an
-            // amount, so a leading, repeated or mid-value one is not a negation but malformed input.
+            // PostgreSQL takes `ago` only as the closing token of a value that already carries
+            // an amount; a leading, repeated or mid-value one is malformed input, not a negation
             if (\preg_match('/ago(?![a-z])/Ai', $value, $matches, 0, $offset) === 1) {
                 $remainder = \trim(\substr($value, $offset + 3), " \t,@");
                 if (!$hasToken || $remainder !== '') {
@@ -229,7 +264,7 @@ class Interval implements \Stringable
                 continue;
             }
 
-            if (\preg_match('/([+-])?(\d+):(\d{2})(?::(\d{2})(?:\.(\d+))?)?(?![\d:.])/A', $value, $matches, 0, $offset) === 1) {
+            if (\preg_match('/'.self::TIME_FIELD_PATTERN.'(?![\d:.])/A', $value, $matches, 0, $offset) === 1) {
                 $parts[3] += self::signOf($matches[1], 1) * self::timeToMicroseconds(
                     $matches[2],
                     $matches[3],
@@ -242,7 +277,7 @@ class Interval implements \Stringable
                 continue;
             }
 
-            if (\preg_match('/([+-]?\d+(?:\.\d+)?)\s*([a-z]+)/Ai', $value, $matches, 0, $offset) === 1) {
+            if (\preg_match('/([+-]?'.self::NUMBER_PATTERN.')\s*([a-z]+)/Ai', $value, $matches, 0, $offset) === 1) {
                 $unit = self::UNIT_ALIASES[\strtolower($matches[2])] ?? null;
                 if ($unit === null) {
                     throw InvalidIntervalException::forInvalidFormat($value);
@@ -268,7 +303,7 @@ class Interval implements \Stringable
             }
 
             // PostgreSQL reads a unitless number as seconds, which is also how it writes zero
-            if (\preg_match('/([+-]?\d+(?:\.\d+)?)(?![\d.])/A', $value, $matches, 0, $offset) === 1) {
+            if (\preg_match('/([+-]?'.self::NUMBER_PATTERN.')(?![\d.])/A', $value, $matches, 0, $offset) === 1) {
                 $parts = self::applyUnit($parts, 'second', $matches[1]);
                 $offset += \strlen($matches[0]);
                 $hasToken = true;
@@ -287,9 +322,8 @@ class Interval implements \Stringable
     }
 
     /**
-     * Fractional amounts spill into the next lower unit the way PostgreSQL does it:
-     * a fractional year rounds to a whole month and stops there, while every other
-     * fractional unit keeps cascading down to microseconds.
+     * As in PostgreSQL, a fractional year rounds to a whole month and stops there, while every
+     * other fractional unit keeps cascading into the next lower one, down to microseconds.
      *
      * @param array{int, int, int, int} $parts
      *
@@ -299,43 +333,61 @@ class Interval implements \Stringable
     {
         $numeric = (float) $amount;
 
+        if (isset(self::YEARS_PER_LARGER_UNIT[$unit])) {
+            $numeric *= self::YEARS_PER_LARGER_UNIT[$unit];
+            $unit = 'year';
+        }
+
         switch ($unit) {
             case 'year':
-                $totalMonths = (int) \round($numeric * self::MONTHS_PER_YEAR, 0, \PHP_ROUND_HALF_EVEN);
+                $totalMonths = (int) \round(self::assertWithinRange($numeric * self::MONTHS_PER_YEAR, $amount), 0, \PHP_ROUND_HALF_EVEN);
                 $parts[0] += \intdiv($totalMonths, self::MONTHS_PER_YEAR);
                 $parts[1] += $totalMonths % self::MONTHS_PER_YEAR;
 
                 break;
 
             case 'month':
-                $wholeMonths = (int) $numeric;
+                $wholeMonths = (int) self::assertWithinRange($numeric, $amount);
                 $parts[1] += $wholeMonths;
-                $parts = self::addDays($parts, ($numeric - $wholeMonths) * self::DAYS_PER_MONTH);
+                $parts = self::addDays($parts, ($numeric - $wholeMonths) * self::DAYS_PER_MONTH, $amount);
 
                 break;
 
             case 'week':
-                $parts = self::addDays($parts, $numeric * self::DAYS_PER_WEEK);
+                $parts = self::addDays($parts, $numeric * self::DAYS_PER_WEEK, $amount);
 
                 break;
 
             case 'day':
-                $parts = self::addDays($parts, $numeric);
+                $parts = self::addDays($parts, $numeric, $amount);
 
                 break;
 
             case 'hour':
-                $parts[3] += (int) \round($numeric * self::MICROSECONDS_PER_HOUR);
+                $parts[3] += self::toMicroseconds($numeric * self::MICROSECONDS_PER_HOUR, $amount);
 
                 break;
 
             case 'minute':
-                $parts[3] += (int) \round($numeric * self::MICROSECONDS_PER_MINUTE);
+                $parts[3] += self::toMicroseconds($numeric * self::MICROSECONDS_PER_MINUTE, $amount);
+
+                break;
+
+            case 'millisecond':
+                $parts[3] += self::toMicroseconds($numeric * self::MICROSECONDS_PER_MILLISECOND, $amount);
+
+                break;
+
+            case 'microsecond':
+                // PostgreSQL keeps the whole microseconds and rounds the sub-microsecond
+                // remainder half to even, so '1.5 us' is 1 and '2.5 us' is 2
+                $wholeMicroseconds = (int) self::assertWithinRange($numeric, $amount);
+                $parts[3] += $wholeMicroseconds + (int) \round($numeric - $wholeMicroseconds, 0, \PHP_ROUND_HALF_EVEN);
 
                 break;
 
             default:
-                $parts[3] += (int) \round($numeric * self::MICROSECONDS_PER_SECOND);
+                $parts[3] += self::toMicroseconds($numeric * self::MICROSECONDS_PER_SECOND, $amount);
 
                 break;
         }
@@ -348,9 +400,9 @@ class Interval implements \Stringable
      *
      * @return array{int, int, int, int}
      */
-    private static function addDays(array $parts, float $days): array
+    private static function addDays(array $parts, float $days, string $amount): array
     {
-        $wholeDays = (int) $days;
+        $wholeDays = (int) self::assertWithinRange($days, $amount);
 
         // Rounding the leftover to whole microseconds absorbs binary-float noise, so that
         // 0.4 months lands on 12 days rather than 11 days 23:59:59.999999
@@ -360,6 +412,26 @@ class Interval implements \Stringable
         $parts[3] += $microseconds % self::MICROSECONDS_PER_DAY;
 
         return $parts;
+    }
+
+    private static function toMicroseconds(float $microseconds, string $amount): int
+    {
+        return (int) \round(self::assertWithinRange($microseconds, $amount));
+    }
+
+    /**
+     * PostgreSQL keeps an interval in int64 microseconds and rejects anything wider. Without
+     * this guard PHP would raise a warning and cast the overflowing float to a bogus integer.
+     *
+     * @throws InvalidIntervalException
+     */
+    private static function assertWithinRange(float $value, string $amount): float
+    {
+        if (\abs($value) >= (float) \PHP_INT_MAX) {
+            throw InvalidIntervalException::forOutOfRangeAmount($amount);
+        }
+
+        return $value;
     }
 
     /**
@@ -383,15 +455,17 @@ class Interval implements \Stringable
 
     private static function timeToMicroseconds(string $hours, string $minutes, string $seconds, string $fraction): int
     {
-        $microseconds = (int) $hours * self::MICROSECONDS_PER_HOUR
-            + (int) $minutes * self::MICROSECONDS_PER_MINUTE
-            + (int) $seconds * self::MICROSECONDS_PER_SECOND;
+        $microseconds = (float) $hours * self::MICROSECONDS_PER_HOUR
+            + (float) $minutes * self::MICROSECONDS_PER_MINUTE
+            + (float) $seconds * self::MICROSECONDS_PER_SECOND;
 
         if ($fraction !== '') {
-            $microseconds += (int) \str_pad(\substr($fraction, 0, 6), 6, '0');
+            // PostgreSQL rounds a sub-microsecond remainder rather than dropping it,
+            // so 00:00:00.9999995 is a whole second
+            $microseconds += \round((float) ('0.'.$fraction) * self::MICROSECONDS_PER_SECOND);
         }
 
-        return $microseconds;
+        return self::toMicroseconds($microseconds, \sprintf('%s:%s', $hours, $minutes));
     }
 
     /**
