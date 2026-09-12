@@ -1,5 +1,54 @@
 # Changelog
 
+## [4.8.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.7.0...v4.8.0) (2026-09-12)
+
+
+### Features
+
+* **#46:** Add support for arrays of user-defined enum types ([#697](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/697)) ([bfd25bd](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/bfd25bd574ca3d2d11cbf732735977fb5b482dab))
+* **#538:** Add support for user-defined composite types ([#690](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/690)) ([04715a4](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/04715a429e3da00b97cacfb41dbf8ca5e3e0d35c))
+* **#724:** Add native support for multi-item `geometry[]` and `geography[]` arrays ([#725](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/725)) ([1535593](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1535593d73701723d473c655e477d16dd4e61f6a))
+* Add support for `GEN_RANDOM_UUID()` ([#679](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/679)) ([1602c2d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1602c2df1e16ae1c7ed22ea4c25f261cccb7456b))
+* Add support for `geometry_type` and `srid` column options to PostGIS spatial types ([#683](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/683)) ([ffa7581](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ffa75815f6d3d04e4f275e1795f16609306dad75))
+* Add support for `numeric[]`, `varchar[]`, `time[]` and `json[]` data types ([#678](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/678)) ([168515b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/168515bd9d604a4713cdbcaa0c1fae8ccead4716))
+* Add support for the `cube` data type ([#680](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/680)) ([c9a981f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c9a981fdcc6959e227b1e6792896d2c39bca61a0))
+* Add support for the `lquery` and `ltxtquery` data types and the `ltree` match operators ([#681](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/681)) ([2b41e8a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2b41e8a4b56c91d60bdb604d8571da4ca7d92e4d))
+* Add support for the `ulid` data type via the `pgx_ulid` extension ([#677](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/677)) ([c0d1456](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c0d14569b55d074d92b05a947db36108ec10bda2))
+* Add support for the optional shift interval argument of `UUIDV7` ([#675](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/675)) ([31da3ba](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/31da3baf7a70551611c8069877306f8c9db5a625))
+* Add support non-finite coordinates in geometric value objects ([#687](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/687)) ([f16c1e0](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/f16c1e052c4d0320ac3a130df10199112e396333))
+* Expand the support of date related array data types with handling of infinity and B.C. era formats that PostgreSQL itself produces ([#722](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/722)) ([5ac0362](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5ac03624dff2f73b1e4640aa168188a80bccece0))
+* Read and write the non-finite values PostgreSQL stores ([#727](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/727)) ([43dd8d3](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/43dd8d3ec8364d3536487a3ef1bf3e4f3426d5be))
+* Throw a domain exception for invalid json array input ([#689](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/689)) ([32ab6ae](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/32ab6aec0048280c8f8915e8e9dbb93b91022f2d))
+
+
+### Bug Fixes
+
+* **#58:** Read back every JSON value that a `jsonb[]` column can hold ([#706](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/706)) ([e9b9538](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e9b953833e85279e505081e087378f2696020185))
+* Collect the ORM layer deptrac was configured to guard ([#723](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/723)) ([fc34753](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/fc34753f0e1cf7682ab328bd9206b3da130fe251))
+* Escape DQL string literals reaching emitted SQL ([#721](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/721)) ([11d2a83](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/11d2a8359bd5f9144a73f535451c850eb0e89d12))
+* Keep Utils exceptions within their own namespace and enforce it with deptrac ([#695](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/695)) ([2ec6cdc](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2ec6cdc0b8976f7106f4a41a54e3da814fd35bbe))
+* Let a variadic function fall back to its next node mapping pattern ([#713](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/713)) ([b23c436](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/b23c436dce52a9e9dd0daa892c13af5334f74f9d))
+* Pass NULL through variadic functions instead of crashing with a TypeError ([#717](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/717)) ([fc7fc7a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/fc7fc7a12a0a3c1f1d68e830ad510498b5300a28))
+* Preserve item types when reading PostgreSQL string arrays ([#708](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/708)) ([2fdfc76](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2fdfc763354f3db098c61fbde93926b1ee1f757f))
+* Preserve PostgreSQL's full float precision ([#686](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/686)) ([fb32dc4](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/fb32dc4798c033a5619bf2c54bb85c28e72d4fc8))
+* Read an empty `hstore` back as an empty map, not null ([#704](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/704)) ([87cde8c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/87cde8cb1b6279d9d2e7bbf2ff1eb89849e6da22))
+* Read SQL NULL element in a `bool[]` column as `null` instead of `true` in PHP ([#714](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/714)) ([1bc3e92](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1bc3e92231819712cafafec96d94e9947121cb40))
+* Require `\z` anchors in validation regexes for data types, for which PostgreSQL doesn't support a trailing newline ([#682](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/682)) ([2c2156c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/2c2156c385ef88072b74364df353acede41cdcb4))
+* Restore writing a null `jsonb[]` item as a SQL NULL element ([#712](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/712)) ([9b7e36e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9b7e36e7722b6c8d5e9715987a6ef8576a91fbf9))
+* Stop rejecting array values that carry a nested-array marker ([#705](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/705)) ([8b71562](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8b7156266fc4827f193786fca3a89978f58a2c8e))
+* Stop rejecting float array values PostgreSQL itself produces ([#701](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/701)) ([337b990](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/337b9900fcf555f8ecf7834ed08928ef344d1f1f))
+* Stop the variadic function parser hanging on a malformed argument list ([#703](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/703)) ([bf579d4](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/bf579d4e0203f389e966af5dd66fb94568867a46))
+* Support `EMPTY` geometries in `WktSpatialData` ([#719](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/719)) ([00d0b36](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/00d0b362c815f25b76012e0a7507dcc57e3cc8eb))
+* Throw a database-direction exception when an array item is rejected on write ([#702](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/702)) ([4bef195](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4bef1952315c6f98b3d582fdba9e094e60903253))
+* Throw the correct exception family from Geometry and Geography conversions ([#720](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/720)) ([cc20f54](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/cc20f54b3d2101dff5000ddaccf3b634b4863372))
+* Throw the correct exception family from network type conversions ([#730](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/730)) ([c92feaa](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c92feaa49fd44f5af99d2543275fcdb54eccdf8d))
+* Tighten `inet`, `cidr` and `ltree` validators (and their array counter-parts) to match PostgreSQL ([#715](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/715)) ([0c783ee](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0c783ee17a60ff2beeb76700336a077cfb053e17))
+
+
+### Code Refactoring
+
+* Align array item exception messages with the documented shape ([#691](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/691)) ([39b5322](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/39b53222ce417ad7af4816730eff508a54fd3b1c))
+
 ## [4.7.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.6.0...v4.7.0) (2026-06-29)
 
 
