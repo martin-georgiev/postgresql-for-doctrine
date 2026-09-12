@@ -30,7 +30,7 @@ class TimestampTzArray extends BaseDateTimeArray
 
     protected function getPHPFormats(): array
     {
-        return ['Y-m-d H:i:s.uP', 'Y-m-d H:i:sP'];
+        return ['X-m-d H:i:s.uP', 'X-m-d H:i:sP'];
     }
 
     protected function throwInvalidTypeException(mixed $value): never

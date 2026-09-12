@@ -32,6 +32,11 @@ final class DateArrayTest extends BaseDateTimeArrayTestCase
         return InvalidDateArrayItemForDatabaseException::class;
     }
 
+    protected static function getComparisonFormat(): string
+    {
+        return 'X-m-d';
+    }
+
     #[DataProvider('provideValidItemTransformationsToPostgres')]
     #[Test]
     public function converts_date_item_for_postgres(\DateTimeInterface $phpValue, string $expectedPostgresValue): void
@@ -108,6 +113,60 @@ final class DateArrayTest extends BaseDateTimeArrayTestCase
     }
 
     /**
+     * @return array<string, array{postgresValue: string, expectedFormattedValue: string}>
+     */
+    public static function provideBcEraAndExpandedYearTransformationsToPHP(): array
+    {
+        return [
+            'first year of the BC era' => [
+                'postgresValue' => '0001-01-15 BC',
+                'expectedFormattedValue' => '+0000-01-15',
+            ],
+            'leap day of the first year of the BC era' => [
+                'postgresValue' => '0001-02-29 BC',
+                'expectedFormattedValue' => '+0000-02-29',
+            ],
+            'second year of the BC era' => [
+                'postgresValue' => '0002-01-15 BC',
+                'expectedFormattedValue' => '-0001-01-15',
+            ],
+            'five digit year' => [
+                'postgresValue' => '10000-01-15',
+                'expectedFormattedValue' => '+10000-01-15',
+            ],
+            'first year of the AD era' => [
+                'postgresValue' => '0001-01-01',
+                'expectedFormattedValue' => '+0001-01-01',
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, array{phpValue: \DateTimeImmutable, expectedPostgresValue: string}>
+     */
+    public static function provideBcEraAndExpandedYearTransformationsToPostgres(): array
+    {
+        return [
+            'astronomical year zero' => [
+                'phpValue' => self::createImmutableDateTime('X-m-d H:i:s', '+0000-01-15 00:00:00'),
+                'expectedPostgresValue' => '{"0001-01-15 BC"}',
+            ],
+            'leap day of astronomical year zero' => [
+                'phpValue' => self::createImmutableDateTime('X-m-d H:i:s', '+0000-02-29 00:00:00'),
+                'expectedPostgresValue' => '{"0001-02-29 BC"}',
+            ],
+            'negative astronomical year' => [
+                'phpValue' => self::createImmutableDateTime('X-m-d H:i:s', '-0001-01-15 00:00:00'),
+                'expectedPostgresValue' => '{"0002-01-15 BC"}',
+            ],
+            'five digit year' => [
+                'phpValue' => self::createImmutableDateTime('X-m-d H:i:s', '+10000-01-15 00:00:00'),
+                'expectedPostgresValue' => '{"10000-01-15"}',
+            ],
+        ];
+    }
+
+    /**
      * @return array<string, array{string}>
      */
     public static function provideInvalidFormatInputsForPHP(): array
@@ -117,6 +176,8 @@ final class DateArrayTest extends BaseDateTimeArrayTestCase
             'wrong format with time' => ['2023-06-15 10:30:00'],
             'US date format' => ['06/15/2023'],
             'empty string' => [''],
+            'era suffix without a value' => [' BC'],
+            'era suffix on a garbage string' => ['not-a-date BC'],
         ];
     }
 }

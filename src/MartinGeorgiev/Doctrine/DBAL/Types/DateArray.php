@@ -30,7 +30,7 @@ class DateArray extends BaseDateTimeArray
 
     protected function getPHPFormats(): array
     {
-        return ['Y-m-d'];
+        return ['X-m-d'];
     }
 
     protected function transformParsedValueForPHP(\DateTimeImmutable $value): \DateTimeImmutable
