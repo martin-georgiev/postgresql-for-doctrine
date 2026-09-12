@@ -34,11 +34,11 @@ class Inet extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidInetForPHPException::forInvalidType($value);
+            throw InvalidInetForDatabaseException::forInvalidType($value);
         }
 
         if (!$this->isValidInetAddress($value)) {
-            throw InvalidInetForPHPException::forInvalidFormat($value);
+            throw InvalidInetForDatabaseException::forInvalidFormat($value);
         }
 
         return $value;
@@ -51,11 +51,11 @@ class Inet extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidInetForDatabaseException::forInvalidType($value);
+            throw InvalidInetForPHPException::forInvalidType($value);
         }
 
         if (!$this->isValidInetAddress($value)) {
-            throw InvalidInetForDatabaseException::forInvalidFormat($value);
+            throw InvalidInetForPHPException::forInvalidFormat($value);
         }
 
         return $value;

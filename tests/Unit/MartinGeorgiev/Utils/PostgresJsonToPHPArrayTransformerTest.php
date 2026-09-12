@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\MartinGeorgiev\Utils;
+namespace Tests\Unit\MartinGeorgiev\Utils;
 
 use MartinGeorgiev\Utils\Exception\InvalidJsonFormatException;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;

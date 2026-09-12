@@ -20,11 +20,11 @@ class InvalidInetForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be a string, %s given', $value);
+        return self::create('Value must be a string, %s given', $value);
     }
 
     public static function forInvalidFormat(mixed $value): self
     {
-        return self::create('Invalid INET address format in database: %s', $value);
+        return self::create('Invalid INET address format: %s', $value);
     }
 }
