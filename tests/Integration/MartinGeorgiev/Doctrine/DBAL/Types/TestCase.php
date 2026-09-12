@@ -157,8 +157,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Read back a value inserted as a PostgreSQL literal, so that the conversion is fed what the server
-     * itself emits rather than what the type's own write path produced.
+     * Guarantee a converted readback of a value inserted as a PostgreSQL literal.
      */
     protected function fetchConvertedValueForPostgresLiteral(string $typeName, string $columnType, string $postgresLiteral): mixed
     {

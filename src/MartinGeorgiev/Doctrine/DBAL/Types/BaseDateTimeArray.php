@@ -10,8 +10,7 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 /**
  * Base class for PostgreSQL datetime array types (DATE[], TIMESTAMP[], TIMESTAMPTZ[]).
  *
- * Array items are \DateTimeImmutable instances, except for `infinity` and `-infinity`, which carry
- * a DateTimeInfinity because \DateTimeImmutable cannot express them.
+ * Array items are \DateTimeImmutable or DateTimeInfinity instances.
  *
  * @see https://www.postgresql.org/docs/18/datatype-datetime.html
  * @since 4.4
@@ -35,8 +34,7 @@ abstract class BaseDateTimeArray extends BaseArray
     /**
      * Returns format strings for parsing from PostgreSQL, tried in order.
      *
-     * They must use X rather than Y for the year, so that the five-digit and non-positive
-     * years PostgreSQL emits are parsed rather than rejected.
+     * To support the five-digit and non-positive years PostgreSQL emits, they use X rather than Y for the year format.
      *
      * @return non-empty-list<string>
      */
@@ -76,8 +74,8 @@ abstract class BaseDateTimeArray extends BaseArray
     }
 
     /**
-     * PostgreSQL has no year zero: it counts 1 BC where PHP counts year 0. Every non-positive PHP year
-     * is therefore mirrored around 1 and written in the BC era, which PostgreSQL marks with a suffix.
+     * PostgreSQL has no year zero: it counts 1 BC where PHP counts year 0.
+     * Every non-positive PHP year is mirrored around 1 and written in the BC era, which PostgreSQL marks with a suffix.
      */
     private function transformDateTimeForPostgres(\DateTimeInterface $item): string
     {
@@ -126,9 +124,8 @@ abstract class BaseDateTimeArray extends BaseArray
     }
 
     /**
-     * Rewriting the era in the string rather than shifting the parsed value keeps 29 February of a BC leap
-     * year intact: PHP counts it in the astronomical year, which is a leap year, while the BC year number
-     * PostgreSQL prints for it is not.
+     * Rewriting the era in the string keeps 29 February of a BC leap year intact.
+     * PHP counts it in the astronomical year, which is a leap year, while the BC year number PostgreSQL prints for it is not.
      */
     private function transformBcEraYearToAstronomicalYear(string $value): string
     {

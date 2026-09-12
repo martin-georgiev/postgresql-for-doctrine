@@ -36,8 +36,8 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     abstract protected static function getDatabaseExceptionClass(): string;
 
     /**
-     * The format the era and expanded-year assertions render parsed values with. It uses X so that
-     * years outside the four-digit range stay distinguishable from the years inside it.
+     * The format the era and expanded-year assertions render parsed values with.
+     * It uses X so that years outside the four-digit range stay distinguishable from the years inside it.
      */
     abstract protected static function getComparisonFormat(): string;
 
@@ -135,9 +135,6 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     }
 
     /**
-     * The PostgreSQL values are the ones a PostgreSQL 18 server emits inside a date[], timestamp[]
-     * or timestamptz[]; it spells both of them the same way for all three types.
-     *
      * @return array<string, array{postgresValue: string, dateTimeInfinity: DateTimeInfinity}>
      */
     public static function provideInfinityTransformations(): array

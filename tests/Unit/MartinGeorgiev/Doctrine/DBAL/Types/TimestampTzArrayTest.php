@@ -137,10 +137,6 @@ final class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
     }
 
     /**
-     * The PostgreSQL values are the ones a PostgreSQL 18 server emits for
-     * `ARRAY['0001-01-15 10:30:00 BC', '10000-01-15 10:30:00']::timestamptz[]` — it prints the
-     * offset before the era suffix, not after it.
-     *
      * @return array<string, array{postgresValue: string, expectedFormattedValue: string}>
      */
     public static function provideBcEraAndExpandedYearTransformationsToPHP(): array

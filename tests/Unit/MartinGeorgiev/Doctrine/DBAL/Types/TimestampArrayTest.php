@@ -122,9 +122,6 @@ final class TimestampArrayTest extends BaseDateTimeArrayTestCase
     }
 
     /**
-     * The PostgreSQL values are the ones a PostgreSQL 18 server emits for
-     * `ARRAY['0001-01-15 10:30:00 BC', '0001-02-29 10:30:00 BC', '10000-01-15 10:30:00']::timestamp[]`.
-     *
      * @return array<string, array{postgresValue: string, expectedFormattedValue: string}>
      */
     public static function provideBcEraAndExpandedYearTransformationsToPHP(): array
