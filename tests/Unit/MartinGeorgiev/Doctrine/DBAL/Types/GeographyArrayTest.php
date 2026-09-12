@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
@@ -42,6 +43,68 @@ final class GeographyArrayTest extends TestCase
         $this->assertNull($result);
     }
 
+    #[DataProvider('provideLiteralsWithAnEmptyElement')]
+    #[Test]
+    public function throws_exception_for_an_empty_element_in_an_unquoted_literal(string $postgresValue): void
+    {
+        $this->expectException(InvalidGeographyForPHPException::class);
+
+        $this->type->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideLiteralsWithAnEmptyElement(): array
+    {
+        return [
+            'trailing delimiter' => ['{POINT(1 2):}'],
+            'leading delimiter' => ['{:POINT(1 2)}'],
+            'consecutive delimiters' => ['{POINT(1 2)::POINT(3 4)}'],
+        ];
+    }
+
+    #[Test]
+    public function splits_an_unquoted_literal_on_the_element_delimiter(): void
+    {
+        $result = $this->type->convertToPHPValue('{POINT(1 2):POINT(3 4)}', $this->platform);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result[0]);
+        $this->assertInstanceOf(WktSpatialData::class, $result[1]);
+        $this->assertSame('POINT(1 2)', (string) $result[0]);
+        $this->assertSame('POINT(3 4)', (string) $result[1]);
+    }
+
+    #[Test]
+    public function escapes_a_quote_and_a_backslash_in_the_wkt_body(): void
+    {
+        $phpValue = [
+            WktSpatialData::fromWkt('POINT(1 "2)'),
+            WktSpatialData::fromWkt('POINT(3 \\4)'),
+        ];
+
+        $this->assertSame(
+            '{"POINT(1 \\"2)":"POINT(3 \\\\4)"}',
+            $this->type->convertToDatabaseValue($phpValue, $this->platform)
+        );
+    }
+
+    #[Test]
+    public function converts_null_item_to_database_value(): void
+    {
+        $this->assertSame('{NULL}', $this->type->convertToDatabaseValue([null], $this->platform));
+    }
+
+    #[Test]
+    public function throws_exception_for_a_literal_the_array_parser_rejects(): void
+    {
+        $this->expectException(InvalidGeographyForPHPException::class);
+
+        $this->type->convertToPHPValue('{"unclosed}', $this->platform);
+    }
+
     #[Test]
     public function converts_empty_array_to_database_value(): void
     {
@@ -67,32 +130,32 @@ final class GeographyArrayTest extends TestCase
         return [
             'single geographic point' => [
                 [WktSpatialData::fromWkt('POINT(-122.4194 37.7749)')],
-                '{POINT(-122.4194 37.7749)}',
+                '{"POINT(-122.4194 37.7749)"}',
             ],
             'geographic point with elevation' => [
                 [WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)')],
-                '{POINT Z(-122.4194 37.7749 100)}',
+                '{"POINT Z(-122.4194 37.7749 100)"}',
             ],
             'mixed geographic features with dimensions' => [
                 [
                     WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)'),
                     WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
                 ],
-                '{POINT Z(-122.4194 37.7749 100),LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)}',
+                '{"POINT Z(-122.4194 37.7749 100)":"LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)"}',
             ],
             'geographic areas with srid' => [
                 [
                     WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
                     WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))'),
                 ],
-                '{SRID=4326;POINT(-122.4194 37.7749),SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))}',
+                '{"SRID=4326;POINT(-122.4194 37.7749)":"SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))"}',
             ],
             'complex geographic zm features' => [
                 [
                     WktSpatialData::fromWkt('POINT ZM(-122.4194 37.7749 100 1)'),
                     WktSpatialData::fromWkt('SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'),
                 ],
-                '{POINT ZM(-122.4194 37.7749 100 1),SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))}',
+                '{"POINT ZM(-122.4194 37.7749 100 1)":"SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))"}',
             ],
             'world geographic features' => [
                 [
@@ -100,7 +163,7 @@ final class GeographyArrayTest extends TestCase
                     WktSpatialData::fromWkt('POINT(180 0)'), // International Date Line
                     WktSpatialData::fromWkt('POINT(-180 0)'), // International Date Line (other side)
                 ],
-                '{POINT(0 0),POINT(180 0),POINT(-180 0)}',
+                '{"POINT(0 0)":"POINT(180 0)":"POINT(-180 0)"}',
             ],
             'mixed geographic geometry types' => [
                 [
@@ -109,7 +172,7 @@ final class GeographyArrayTest extends TestCase
                     WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))'),
                     WktSpatialData::fromWkt('SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))'),
                 ],
-                '{SRID=4326;POINT(-122.4194 37.7749),SRID=4326;LINESTRING(-122.4194 37.7749, -122.4094 37.7849),SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7)),SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))}',
+                '{"SRID=4326;POINT(-122.4194 37.7749)":"SRID=4326;LINESTRING(-122.4194 37.7749, -122.4094 37.7849)":"SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))":"SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))"}',
             ],
             'mixed geographic dimensional modifiers' => [
                 [
@@ -118,7 +181,7 @@ final class GeographyArrayTest extends TestCase
                     WktSpatialData::fromWkt('SRID=4326;POINT M(-122.4194 37.7749 1)'),
                     WktSpatialData::fromWkt('SRID=4326;POINT ZM(-122.4194 37.7749 100 1)'),
                 ],
-                '{SRID=4326;POINT(-122.4194 37.7749),SRID=4326;POINT Z(-122.4194 37.7749 100),SRID=4326;POINT M(-122.4194 37.7749 1),SRID=4326;POINT ZM(-122.4194 37.7749 100 1)}',
+                '{"SRID=4326;POINT(-122.4194 37.7749)":"SRID=4326;POINT Z(-122.4194 37.7749 100)":"SRID=4326;POINT M(-122.4194 37.7749 1)":"SRID=4326;POINT ZM(-122.4194 37.7749 100 1)"}',
             ],
             'complex geographic mix' => [
                 [
@@ -127,7 +190,7 @@ final class GeographyArrayTest extends TestCase
                     WktSpatialData::fromWkt('SRID=4269;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
                     WktSpatialData::fromWkt('SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))'),
                 ],
-                '{POINT(0 0),SRID=4326;POINT Z(-122.4194 37.7749 100),SRID=4269;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2),SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))}',
+                '{"POINT(0 0)":"SRID=4326;POINT Z(-122.4194 37.7749 100)":"SRID=4269;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)":"SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))"}',
             ],
         ];
     }
@@ -146,6 +209,18 @@ final class GeographyArrayTest extends TestCase
         $result = $this->type->convertToPHPValue('{}', $this->platform);
 
         $this->assertSame([], $result);
+    }
+
+    #[Test]
+    public function converts_null_element_from_database_to_php_value(): void
+    {
+        $result = $this->type->convertToPHPValue('{"SRID=4326;POINT(1 2)",NULL}', $this->platform);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result[0]);
+        $this->assertSame('SRID=4326;POINT(1 2)', (string) $result[0]);
+        $this->assertNull($result[1]);
     }
 
     #[DataProvider('provideValidPostgresArraysForPHP')]
@@ -279,6 +354,7 @@ final class GeographyArrayTest extends TestCase
     public static function provideValidArrayItemsForDatabase(): array
     {
         return [
+            'null is valid' => [null],
             'valid WktSpatialData' => [WktSpatialData::fromWkt('POINT(-122.4194 37.7749)')],
         ];
     }
@@ -297,7 +373,6 @@ final class GeographyArrayTest extends TestCase
     {
         return [
             'string is invalid' => ['not a spatial data object'],
-            'null is invalid' => [null],
             'integer is invalid' => [123],
             'array is invalid' => [[]],
         ];
@@ -316,11 +391,20 @@ final class GeographyArrayTest extends TestCase
         $this->type->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_inputs(mixed $item): void
+    {
+        $this->expectException(InvalidGeographyForDatabaseException::class);
+
+        $this->type->convertToDatabaseValue([$item], $this->platform);
+    }
+
     #[Test]
     public function throws_exception_for_invalid_type_from_database(): void
     {
         $this->expectException(InvalidGeographyForPHPException::class);
-        $this->expectExceptionMessage('must be a Geography value object');
+        $this->expectExceptionMessage('Database value must be a string');
 
         $this->type->transformArrayItemForPHP(123);
     }

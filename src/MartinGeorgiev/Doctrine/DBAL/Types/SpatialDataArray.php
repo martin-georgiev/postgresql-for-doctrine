@@ -9,6 +9,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Base class for PostgreSQL array types containing WKT/EWKT spatial data.
@@ -65,7 +67,21 @@ abstract class SpatialDataArray extends BaseArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
-        return (string) $this->getValidatedArrayItem($item);
+        if ($item === null) {
+            return 'NULL';
+        }
+
+        // A WKT body carries spaces and commas, and fromWkt() checks only the outer structure,
+        // so it may also carry a quote or a backslash the array literal has to escape.
+        return $this->quoteAndEscapeArrayItem((string) $this->getValidatedArrayItem($item));
+    }
+
+    /**
+     * PostGIS records ':' as typdelim for geometry and geography.
+     */
+    protected function getArrayElementDelimiter(): string
+    {
+        return ':';
     }
 
     protected function getValidatedArrayItem(mixed $item): WktSpatialData
@@ -74,7 +90,7 @@ abstract class SpatialDataArray extends BaseArray
             return $item; // @phpstan-ignore-line
         }
 
-        throw $this->createInvalidTypeExceptionForPHP($item);
+        $this->throwInvalidItemException($item);
     }
 
     /**
@@ -92,78 +108,37 @@ abstract class SpatialDataArray extends BaseArray
             return [];
         }
 
-        // Handle quoted array format: {"item1","item2","item3"}
-        $isQuotedArray = \str_starts_with($trimmedArray, '{"') && \str_ends_with($trimmedArray, '"}');
-        if ($isQuotedArray) {
-            $arrayContentWithoutBraces = \substr($trimmedArray, 2, -2);
-            if ($arrayContentWithoutBraces === '') {
-                return [];
-            }
-
-            return $this->parseQuotedWktArray($arrayContentWithoutBraces);
-        }
-
-        // Handle unquoted array format: {item1,item2,item3} (fallback for backward compatibility)
         $arrayContentWithoutBraces = \substr($trimmedArray, 1, -1);
         if ($arrayContentWithoutBraces === '') {
             return [];
         }
 
-        return $this->parseUnquotedWktArray($arrayContentWithoutBraces);
-    }
+        // A WKT body never contains ':', the SRID prefix using ';', so its presence marks a literal
+        // written with this type's own element delimiter rather than the ',' a text[] arrives with.
+        $delimiter = \str_contains($arrayContentWithoutBraces, ':') ? $this->getArrayElementDelimiter() : ',';
 
-    private function parseQuotedWktArray(string $content): array
-    {
-        $wktItems = [];
-        $currentWktItem = '';
-        $nestedBracketDepth = 0;
-        $contentLength = \strlen($content);
-        $charIndex = 0;
-
-        while ($charIndex < $contentLength) {
-            $currentChar = $content[$charIndex];
-
-            // Track nested parentheses within the quoted WKT
-            if ($currentChar === '(') {
-                $nestedBracketDepth++;
-                $currentWktItem .= $currentChar;
-            } elseif ($currentChar === ')') {
-                $nestedBracketDepth--;
-                $currentWktItem .= $currentChar;
-            } elseif ($currentChar === '"' && $nestedBracketDepth === 0) {
-                // Found end quote at top level - this ends the current item
-                if ($currentWktItem !== '') {
-                    $wktItems[] = $currentWktItem;
-                    $currentWktItem = '';
-                }
-
-                // Skip the quote and comma separator: ","
-                $charIndex++; // Skip the quote
-                if ($charIndex < $contentLength && $content[$charIndex] === ',') {
-                    $charIndex++; // Skip the comma
-                }
-
-                if ($charIndex < $contentLength && $content[$charIndex] === '"') {
-                    $charIndex++; // Skip the opening quote of next item
-                }
-
-                continue;
-            } else {
-                $currentWktItem .= $currentChar;
+        // Every WKT string contains a space, so PostgreSQL always quotes it.
+        // Content carrying no quote and no WKT body is a list of bare NULL tokens.
+        $isPostgresEmittedShape = \str_contains($arrayContentWithoutBraces, '"')
+            || !\str_contains($arrayContentWithoutBraces, '(');
+        if ($isPostgresEmittedShape) {
+            try {
+                return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
+                    $postgresArray,
+                    preserveStringTypes: true,
+                    delimiter: $delimiter
+                );
+            } catch (InvalidArrayFormatException) {
+                throw $this->createInvalidFormatExceptionForPHP($postgresArray);
             }
-
-            $charIndex++;
         }
 
-        // Add the last item if there's content
-        if ($currentWktItem !== '') {
-            $wktItems[] = $currentWktItem;
-        }
-
-        return $wktItems;
+        // Literals this library wrote itself are unquoted.
+        // A WKT body's own commas need parenthesis-aware splitting that the shared transformer does not do.
+        return $this->parseUnquotedWktArray($arrayContentWithoutBraces, $delimiter);
     }
 
-    private function parseUnquotedWktArray(string $content): array
+    private function parseUnquotedWktArray(string $content, string $delimiter): array
     {
         $wktItems = [];
         $nestedBracketDepth = 0;
@@ -189,8 +164,8 @@ abstract class SpatialDataArray extends BaseArray
                 continue;
             }
 
-            // Only split on commas at the top level (not inside WKT coordinate groups)
-            if ($currentChar === ',' && $nestedBracketDepth === 0) {
+            // Only split at the top level, never inside WKT coordinate groups
+            if ($currentChar === $delimiter && $nestedBracketDepth === 0) {
                 $wktItems[] = $currentWktItem;
                 $currentWktItem = '';
 
@@ -200,17 +175,23 @@ abstract class SpatialDataArray extends BaseArray
             $currentWktItem .= $currentChar;
         }
 
-        // Add the last WKT item if there's content
+        // Content left after the final delimiter is the last element; nothing left means the
+        // literal ended on a delimiter, which PostgreSQL rejects as a malformed array.
         if ($currentWktItem !== '') {
             $wktItems[] = $currentWktItem;
+        } elseif ($wktItems !== []) {
+            throw $this->createInvalidFormatExceptionForPHP($content);
         }
 
-        return \array_map(trim(...), $wktItems);
+        return \array_map(
+            static fn (string $item): ?string => \trim($item) === 'NULL' ? null : \trim($item),
+            $wktItems
+        );
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
-        return $item instanceof WktSpatialData;
+        return $item === null || $item instanceof WktSpatialData;
     }
 
     public function transformArrayItemForPHP(mixed $item): ?WktSpatialData
@@ -239,9 +220,6 @@ abstract class SpatialDataArray extends BaseArray
      * - ST_AsEWKT(): POINTZ, POINTM, POINTZM (no spaces)
      * - ST_AsText(): POINT Z, POINT M, POINT ZM (with spaces)
      * - Hybrid approach: SRID=4326;POINT Z (1 2 3) (SRID + extra space)
-     *
-     * This method normalizes all formats to the standard WKT format using
-     * patterns dynamically built from the GeometryType and DimensionalModifier enums.
      */
     private function normalizePostgreSQLDimensionalModifiers(string $wkt): string
     {

@@ -33,7 +33,7 @@ final class Geography extends BaseSpatialType
         }
 
         if (!$value instanceof WktSpatialData) {
-            throw InvalidGeographyForPHPException::forInvalidType($value);
+            throw InvalidGeographyForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ final class Geography extends BaseSpatialType
         }
 
         if (!\is_string($value)) {
-            throw InvalidGeographyForDatabaseException::forInvalidType($value);
+            throw InvalidGeographyForPHPException::forInvalidType($value);
         }
 
         try {
             return WktSpatialData::fromWkt($value);
         } catch (InvalidWktSpatialDataException) {
-            throw InvalidGeographyForDatabaseException::forInvalidFormat($value);
+            throw InvalidGeographyForPHPException::forInvalidFormat($value);
         }
     }
 }

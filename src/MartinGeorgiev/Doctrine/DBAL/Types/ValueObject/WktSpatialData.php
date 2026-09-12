@@ -14,6 +14,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialD
  * - SRID=4326;POINT(-122.4194 37.7749)
  * - LINESTRING(0 0, 1 1)
  * - POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))
+ * - POLYGON EMPTY
  *
  * @since 3.5
  *
@@ -21,10 +22,13 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialD
  */
 final readonly class WktSpatialData implements \Stringable
 {
+    /**
+     * Null body means an EMPTY geometry, PostGIS's parenthesis-free form for "no coordinates".
+     */
     private function __construct(
         private ?int $srid,
         private GeometryType $geometryType,
-        private string $wktBody,
+        private ?string $wktBody,
         private ?DimensionalModifier $dimensionalModifier = null
     ) {}
 
@@ -35,7 +39,9 @@ final readonly class WktSpatialData implements \Stringable
             $typeWithModifier .= ' '.$this->dimensionalModifier->value;
         }
 
-        $typeAndBody = $typeWithModifier.'('.$this->wktBody.')';
+        $typeAndBody = $this->wktBody === null
+            ? $typeWithModifier.' EMPTY'
+            : $typeWithModifier.'('.$this->wktBody.')';
         if ($this->srid === null) {
             return $typeAndBody;
         }
@@ -67,16 +73,22 @@ final readonly class WktSpatialData implements \Stringable
             $wkt = \substr($wkt, $sridSeparatorPosition + 1);
         }
 
-        $wktTypeWithOptionalModifiersPattern = '/^([A-Z][A-Z0-9_]*)(?:\s+(ZM|Z|M))?\s*\((.*)\)$/s';
+        $wktTypeWithOptionalModifiersPattern = '/^([A-Z][A-Z0-9_]*)(?:\s+(ZM|Z|M))?(?:\s*\((.*)\)|\s+(EMPTY))$/s';
         if (!\preg_match($wktTypeWithOptionalModifiersPattern, $wkt, $matches)) {
             throw InvalidWktSpatialDataException::forInvalidWktFormat($wkt);
         }
 
         $typeString = $matches[1];
-        $dimensionalModifier = $matches[2] === '' ? null : DimensionalModifier::tryFrom($matches[2]);
-        $body = \trim($matches[3]);
-        if ($body === '') {
-            throw InvalidWktSpatialDataException::forEmptyCoordinateSection();
+        $modifierMatch = $matches[2] ?? '';
+        $dimensionalModifier = $modifierMatch === '' ? null : DimensionalModifier::tryFrom($modifierMatch);
+        $isEmpty = ($matches[4] ?? '') === 'EMPTY';
+        if ($isEmpty) {
+            $body = null;
+        } else {
+            $body = \trim($matches[3] ?? '');
+            if ($body === '') {
+                throw InvalidWktSpatialDataException::forEmptyCoordinateSection();
+            }
         }
 
         $geometryType = GeometryType::tryFrom($typeString);
@@ -161,6 +173,11 @@ final readonly class WktSpatialData implements \Stringable
     public function getDimensionalModifier(): ?DimensionalModifier
     {
         return $this->dimensionalModifier;
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->wktBody === null;
     }
 
     public function getWkt(): string

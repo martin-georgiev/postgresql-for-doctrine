@@ -40,6 +40,10 @@ class JsonbArray extends BaseArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
+        if ($item === null) {
+            return 'NULL';
+        }
+
         return $this->quoteAndEscapeArrayItem($this->transformToPostgresJson($item));
     }
 

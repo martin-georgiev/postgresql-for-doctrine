@@ -1,4 +1,4 @@
-# PostgreSQL Enum Types
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL Enum Types
 
 PostgreSQL [native enum types](https://www.postgresql.org/docs/18/datatype-enum.html) are user-defined types with a fixed set of ordered string values. Unlike every other type in this library, there is no pre-registered constant - each PostgreSQL enum maps to its own subclass of `Enum`, and each array of one to its own subclass of `EnumArray`.
 

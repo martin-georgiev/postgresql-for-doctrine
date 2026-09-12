@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPException;
 
 /**
@@ -18,6 +19,11 @@ final class GeographyArray extends SpatialDataArray
      * @var string
      */
     protected const TYPE_NAME = Type::GEOGRAPHY_ARRAY;
+
+    protected function throwInvalidItemException(mixed $item): never
+    {
+        throw InvalidGeographyForDatabaseException::forInvalidType($item);
+    }
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeographyForPHPException
     {

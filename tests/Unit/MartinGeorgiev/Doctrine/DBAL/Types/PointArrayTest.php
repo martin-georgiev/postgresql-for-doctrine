@@ -51,7 +51,7 @@ final class PointArrayTest extends TestCase
 
     /**
      * @return array<string, array{
-     *     phpValue: array<Point>|null,
+     *     phpValue: array<Point|null>|null,
      *     postgresValue: string|null
      * }>
      */
@@ -83,6 +83,10 @@ final class PointArrayTest extends TestCase
                     new Point(10.5, -3.7),
                 ],
                 'postgresValue' => '{"(0,0)","(10.5,-3.7)"}',
+            ],
+            'array with null element' => [
+                'phpValue' => [new Point(1.23, 4.56), null],
+                'postgresValue' => '{"(1.23,4.56)",NULL}',
             ],
         ];
     }
@@ -199,9 +203,11 @@ final class PointArrayTest extends TestCase
 
     #[DataProvider('provideMalformedInputs')]
     #[Test]
-    public function returns_empty_array_for_malformed_input(string $postgresValue): void
+    public function throws_exception_for_malformed_array_literal(string $postgresValue): void
     {
-        $this->assertSame([], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->expectException(InvalidPointArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }
 
     /**
@@ -210,20 +216,18 @@ final class PointArrayTest extends TestCase
     public static function provideMalformedInputs(): array
     {
         return [
-            'empty array literal' => ['{}'],
             'unparsable item' => ['{invalid}'],
             'quoted empty item' => ['{""}'],
+            'not an array literal' => ['not-an-array'],
         ];
     }
 
     #[Test]
-    public function returns_empty_array_for_non_standard_postgres_array_format(): void
+    public function throws_exception_for_non_standard_postgres_array_format(): void
     {
-        $result1 = $this->fixture->convertToPHPValue('[test]', $this->platform);
-        $result2 = $this->fixture->convertToPHPValue('not-an-array', $this->platform);
+        $this->expectException(InvalidPointArrayItemForPHPException::class);
 
-        $this->assertSame([], $result1);
-        $this->assertSame([], $result2);
+        $this->fixture->convertToPHPValue('[test]', $this->platform);
     }
 
     #[Test]
@@ -279,6 +283,7 @@ final class PointArrayTest extends TestCase
             'origin point' => [new Point(0.0, 0.0)],
             'negative coordinates' => [new Point(-7.89, -0.12)],
             'large coordinates' => [new Point(180.0, 90.0)],
+            'null' => [null],
         ];
     }
 
@@ -298,7 +303,6 @@ final class PointArrayTest extends TestCase
             'string point format' => ['(1.23, 4.56)'],
             'invalid string' => ['invalid'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

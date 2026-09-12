@@ -16,7 +16,7 @@ final class PolygonArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, PolygonValueObject>}>
+     * @return array<string, array{array<int, PolygonValueObject|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -29,6 +29,10 @@ final class PolygonArrayTypeTest extends ArrayTypeTestCase
                 PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))'),
             ]],
             'empty polygon array' => [[]],
+            'polygon array with null element' => [[
+                PolygonValueObject::fromString('((0,0),(1,1),(2,0))'),
+                null,
+            ]],
         ];
     }
 

@@ -123,6 +123,11 @@ final class GeometryTypeTest extends TestCase
             'linestring m' => [WktSpatialData::fromWkt('LINESTRING M(0 0 1,1 1 2)')],
             'polygon zm' => [WktSpatialData::fromWkt('POLYGON ZM((0 0 0 1,0 1 0 1,1 1 0 1,1 0 0 1,0 0 0 1))')],
             'point z with srid' => [WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)')],
+            'point empty' => [WktSpatialData::fromWkt('POINT EMPTY')],
+            'polygon empty' => [WktSpatialData::fromWkt('POLYGON EMPTY')],
+            'geometrycollection empty' => [WktSpatialData::fromWkt('GEOMETRYCOLLECTION EMPTY')],
+            'point empty with srid' => [WktSpatialData::fromWkt('SRID=4326;POINT EMPTY')],
+            'point z empty' => [WktSpatialData::fromWkt('POINT Z EMPTY')],
         ];
     }
 }

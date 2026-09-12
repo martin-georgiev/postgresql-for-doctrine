@@ -16,7 +16,7 @@ final class BoxArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, BoxValueObject>}>
+     * @return array<string, array{array<int, BoxValueObject|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -29,6 +29,10 @@ final class BoxArrayTypeTest extends ArrayTypeTestCase
                 BoxValueObject::fromString('(-1,-2),(-3,-4)'),
             ]],
             'empty box array' => [[]],
+            'box array with null element' => [[
+                BoxValueObject::fromString('(3,4),(1,2)'),
+                null,
+            ]],
         ];
     }
 

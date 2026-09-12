@@ -28,6 +28,7 @@ final class ArrayFillTest extends TestCase
             'fills array with boolean value using cast' => "SELECT array_fill(cast('true' as BOOLEAN), ARRAY['2']::int[]) AS sclr_0 FROM ContainsArrays c0_",
             'fills multi-dimensional array' => "SELECT array_fill(11, ARRAY['2', '3']::int[]) AS sclr_0 FROM ContainsArrays c0_",
             'fills array with custom lower bounds' => "SELECT array_fill(7, ARRAY['3']::int[], ARRAY['2']::int[]) AS sclr_0 FROM ContainsArrays c0_",
+            'fills array with NULL value' => "SELECT array_fill(NULL, ARRAY['3']::int[]) AS sclr_0 FROM ContainsArrays c0_",
         ];
     }
 
@@ -39,6 +40,7 @@ final class ArrayFillTest extends TestCase
             'fills array with boolean value using cast' => \sprintf("SELECT ARRAY_FILL(CAST('true' AS BOOLEAN), ARRAY('2')) FROM %s e", ContainsArrays::class),
             'fills multi-dimensional array' => \sprintf("SELECT ARRAY_FILL(11, ARRAY('2', '3')) FROM %s e", ContainsArrays::class),
             'fills array with custom lower bounds' => \sprintf("SELECT ARRAY_FILL(7, ARRAY('3'), ARRAY('2')) FROM %s e", ContainsArrays::class),
+            'fills array with NULL value' => \sprintf("SELECT ARRAY_FILL(NULL, ARRAY('3')) FROM %s e", ContainsArrays::class),
         ];
     }
 }

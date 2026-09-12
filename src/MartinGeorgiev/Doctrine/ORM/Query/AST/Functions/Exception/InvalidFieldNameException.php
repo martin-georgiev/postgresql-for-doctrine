@@ -18,4 +18,12 @@ class InvalidFieldNameException extends \InvalidArgumentException
             $functionName
         ));
     }
+
+    public static function forEmptyValue(string $functionName): self
+    {
+        return new self(\sprintf(
+            '%s() requires a non-empty string literal as the field name argument',
+            $functionName
+        ));
+    }
 }

@@ -126,10 +126,6 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => [],
                 'postgresValue' => '   ',
             ],
-            'with trailing comma' => [
-                'phpValue' => ['a'],
-                'postgresValue' => '{a,}}',
-            ],
             'with only backslashes' => [
                 'phpValue' => ['\\'],
                 'postgresValue' => '{"\\\\"}',
@@ -273,6 +269,15 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
             'unclosed string' => [
                 'postgresValue' => '{1,2,"unclosed string}',
             ],
+            'trailing delimiter' => [
+                'postgresValue' => '{a,}',
+            ],
+            'leading delimiter' => [
+                'postgresValue' => '{,a}',
+            ],
+            'consecutive delimiters' => [
+                'postgresValue' => '{a,,b}',
+            ],
             'invalid format' => [
                 'postgresValue' => '{invalid"format}',
             ],
@@ -362,5 +367,27 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray('{null,NULL,"null","NULL"}', preserveStringTypes: true);
 
         $this->assertSame([null, null, 'null', 'NULL'], $result);
+    }
+
+    #[DataProvider('provideNonCommaDelimitedArrays')]
+    #[Test]
+    public function splits_on_the_given_delimiter(string $postgresArray, string $delimiter, array $expected): void
+    {
+        $result = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, delimiter: $delimiter);
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @return array<string, array{string, string, array<int, mixed>}>
+     */
+    public static function provideNonCommaDelimitedArrays(): array
+    {
+        return [
+            'colon delimited' => ['{"POINT(1 2)":"POINT(3 4)"}', ':', ['POINT(1 2)', 'POINT(3 4)']],
+            'colon delimited with a null element' => ['{"POINT(1 2)":NULL}', ':', ['POINT(1 2)', null]],
+            'comma is not used as a separator' => ['{"LINESTRING(0 0,1 1)"}', ':', ['LINESTRING(0 0,1 1)']],
+            'semicolon delimited' => ['{"(1,2),(3,4)";"(5,6),(7,8)"}', ';', ['(1,2),(3,4)', '(5,6),(7,8)']],
+        ];
     }
 }

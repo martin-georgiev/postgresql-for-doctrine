@@ -107,6 +107,7 @@ final class CidrArrayTest extends TestCase
             'valid value mixed with integer array item' => [['192.168.1.0/24', 123]],
             'valid value mixed with boolean array item' => [['192.168.1.0/24', true]],
             'valid value mixed with object array item' => [['192.168.1.0/24', new \stdClass()]],
+            'triple segment CIDR' => [['192.168.1.0/24/24']],
         ];
     }
 
