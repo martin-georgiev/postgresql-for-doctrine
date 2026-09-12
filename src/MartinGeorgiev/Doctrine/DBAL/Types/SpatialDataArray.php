@@ -113,6 +113,10 @@ abstract class SpatialDataArray extends BaseArray
             return [];
         }
 
+        // A WKT body never contains ':', the SRID prefix using ';', so its presence marks a literal
+        // written with this type's own element delimiter rather than the ',' a text[] arrives with.
+        $delimiter = \str_contains($arrayContentWithoutBraces, ':') ? $this->getArrayElementDelimiter() : ',';
+
         // Every WKT string contains a space, so PostgreSQL always quotes it.
         // Content carrying no quote and no WKT body is a list of bare NULL tokens.
         $isPostgresEmittedShape = \str_contains($arrayContentWithoutBraces, '"')
@@ -122,7 +126,7 @@ abstract class SpatialDataArray extends BaseArray
                 return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
                     $postgresArray,
                     preserveStringTypes: true,
-                    delimiter: \str_contains($postgresArray, ':') ? $this->getArrayElementDelimiter() : ','
+                    delimiter: $delimiter
                 );
             } catch (InvalidArrayFormatException) {
                 throw $this->createInvalidFormatExceptionForPHP($postgresArray);
@@ -131,10 +135,10 @@ abstract class SpatialDataArray extends BaseArray
 
         // Literals this library wrote itself are unquoted.
         // A WKT body's own commas need parenthesis-aware splitting that the shared transformer does not do.
-        return $this->parseUnquotedWktArray($arrayContentWithoutBraces);
+        return $this->parseUnquotedWktArray($arrayContentWithoutBraces, $delimiter);
     }
 
-    private function parseUnquotedWktArray(string $content): array
+    private function parseUnquotedWktArray(string $content, string $delimiter): array
     {
         $wktItems = [];
         $nestedBracketDepth = 0;
@@ -160,8 +164,8 @@ abstract class SpatialDataArray extends BaseArray
                 continue;
             }
 
-            // Only split on commas at the top level (not inside WKT coordinate groups)
-            if ($currentChar === ',' && $nestedBracketDepth === 0) {
+            // Only split at the top level, never inside WKT coordinate groups
+            if ($currentChar === $delimiter && $nestedBracketDepth === 0) {
                 $wktItems[] = $currentWktItem;
                 $currentWktItem = '';
 

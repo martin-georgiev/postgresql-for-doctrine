@@ -43,6 +43,21 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
+    public function splits_an_unquoted_literal_on_the_element_delimiter(): void
+    {
+        // fromWkt() checks the outer structure only, so a literal left unsplit would be
+        // accepted whole as one geometry rather than rejected
+        $result = $this->type->convertToPHPValue('{POINT(1 2):POINT(3 4)}', $this->platform);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertInstanceOf(WktSpatialData::class, $result[0]);
+        $this->assertInstanceOf(WktSpatialData::class, $result[1]);
+        $this->assertSame('POINT(1 2)', (string) $result[0]);
+        $this->assertSame('POINT(3 4)', (string) $result[1]);
+    }
+
+    #[Test]
     public function escapes_a_quote_and_a_backslash_in_the_wkt_body(): void
     {
         // fromWkt() checks the outer structure only, so these reach the array literal
