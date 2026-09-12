@@ -265,6 +265,27 @@ final class DateRangeTest extends BaseRangeTestCase
         yield 'empty range' => ['empty', DateRange::empty()];
     }
 
+    #[DataProvider('provideInfinitySpellings')]
+    #[Test]
+    public function parses_every_accepted_infinity_spelling(string $bound): void
+    {
+        $dateRange = DateRange::fromString(\sprintf('[2023-01-01,%s)', $bound));
+
+        $this->assertSame('[2023-01-01,infinity)', (string) $dateRange);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInfinitySpellings(): array
+    {
+        return [
+            'canonical' => ['infinity'],
+            'capitalized' => ['Infinity'],
+            'explicit plus' => ['+infinity'],
+        ];
+    }
+
     #[Test]
     public function throws_exception_for_invalid_lower_bound(): void
     {

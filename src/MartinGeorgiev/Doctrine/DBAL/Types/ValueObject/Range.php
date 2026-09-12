@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresInfinityConversionTrait;
+
 /**
  * @template R
  *
@@ -13,6 +15,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  */
 abstract class Range implements \Stringable
 {
+    use PostgresInfinityConversionTrait;
+
     /**
      * @var string
      */
@@ -98,9 +102,7 @@ abstract class Range implements \Stringable
 
     protected static function isInfinityString(string $value): bool
     {
-        $normalized = \strtolower($value);
-
-        return $normalized === 'infinity' || $normalized === '-infinity';
+        return self::normalizeInfinity($value) !== null;
     }
 
     /**

@@ -112,7 +112,7 @@ final class JsonbArrayTest extends TestCase
     {
         return [
             'sql null element' => ['{NULL}'],
-            'json null element stored by the previous behaviour' => ['{"null"}'],
+            'json null element stored by the previous behavior' => ['{"null"}'],
         ];
     }
 
