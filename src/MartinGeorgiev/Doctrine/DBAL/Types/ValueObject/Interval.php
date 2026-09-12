@@ -571,7 +571,7 @@ class Interval implements \Stringable
     {
         $sign = $dateInterval->invert ? -1 : 1;
 
-        // DateInterval never normalises what is assigned to it, so a fraction of a second of one
+        // DateInterval never normalizes what is assigned to it, so a fraction of a second of one
         // or more, or an hour, minute or second field past its own range, arrives here as is.
         // Collapsing the time fields into microseconds lets createIntervalFromParts redistribute
         // them, the same way it does for a parsed value.

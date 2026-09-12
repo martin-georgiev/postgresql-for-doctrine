@@ -521,7 +521,7 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * DateInterval accepts whatever is assigned to it without normalising, so a fraction of a
+     * DateInterval accepts whatever is assigned to it without normalizing, so a fraction of a
      * second of one or more used to be printed as the fraction itself: f=1.5 gave '00:00:00.15'.
      *
      * @return \Generator<string, array{\DateInterval, string}>
