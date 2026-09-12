@@ -71,7 +71,6 @@ final class CastTest extends TestCase
             'string parameter smuggling a statement terminator' => ['targetType' => "VARCHAR('255); DROP TABLE containstexts; --')"],
             'non-numeric parameter' => ['targetType' => "VARCHAR('n')"],
             'more than two parameters' => ['targetType' => 'NUMERIC(1, 2, 3)'],
-            'type name that is not a plain identifier' => ['targetType' => 'public:text'],
         ];
     }
 }

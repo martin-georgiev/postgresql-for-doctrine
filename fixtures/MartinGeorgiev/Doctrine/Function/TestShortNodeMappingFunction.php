@@ -6,10 +6,6 @@ namespace Fixtures\MartinGeorgiev\Doctrine\Function;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 
-/**
- * A node mapping pattern shorter than the maximum argument count, used to exercise the guard
- * BaseVariadicFunction raises when an implementation accepts more arguments than it maps nodes for.
- */
 class TestShortNodeMappingFunction extends BaseVariadicFunction
 {
     protected function getFunctionName(): string
