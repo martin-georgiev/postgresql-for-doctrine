@@ -513,6 +513,41 @@ final class IntervalTest extends TestCase
         $this->assertSame('-1 year', (string) $interval);
     }
 
+    #[DataProvider('provideUnnormalizedDateIntervals')]
+    #[Test]
+    public function normalizes_date_interval_fields_beyond_their_own_range(\DateInterval $dateInterval, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromDateInterval($dateInterval));
+    }
+
+    /**
+     * DateInterval accepts whatever is assigned to it without normalising, so a fraction of a
+     * second of one or more used to be printed as the fraction itself: f=1.5 gave '00:00:00.15'.
+     *
+     * @return \Generator<string, array{\DateInterval, string}>
+     */
+    public static function provideUnnormalizedDateIntervals(): \Generator
+    {
+        $wholeSecondAsFraction = new \DateInterval('PT0S');
+        $wholeSecondAsFraction->f = 1.0;
+        yield 'a whole second held as a fraction' => [$wholeSecondAsFraction, '00:00:01'];
+
+        $fractionBeyondASecond = new \DateInterval('PT0S');
+        $fractionBeyondASecond->f = 1.5;
+        yield 'a fraction beyond a second' => [$fractionBeyondASecond, '00:00:01.5'];
+
+        $negativeFractionBeyondASecond = new \DateInterval('PT0S');
+        $negativeFractionBeyondASecond->f = -1.5;
+        yield 'a negative fraction beyond a second' => [$negativeFractionBeyondASecond, '-00:00:01.5'];
+
+        $fractionCarryingIntoMinutes = new \DateInterval('PT59S');
+        $fractionCarryingIntoMinutes->f = 1.5;
+        yield 'a fraction carrying into the next minute' => [$fractionCarryingIntoMinutes, '00:01:00.5'];
+
+        yield 'seconds beyond a minute' => [new \DateInterval('PT90S'), '00:01:30'];
+        yield 'minutes beyond an hour' => [new \DateInterval('PT1H90M'), '02:30:00'];
+    }
+
     #[Test]
     public function converts_to_date_interval(): void
     {

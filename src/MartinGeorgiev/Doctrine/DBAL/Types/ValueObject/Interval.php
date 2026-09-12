@@ -571,14 +571,23 @@ class Interval implements \Stringable
     {
         $sign = $dateInterval->invert ? -1 : 1;
 
-        return self::createInterval(
+        // DateInterval never normalises what is assigned to it, so a fraction of a second of one
+        // or more, or an hour, minute or second field past its own range, arrives here as is.
+        // Collapsing the time fields into microseconds lets createIntervalFromParts redistribute
+        // them, the same way it does for a parsed value.
+        $microseconds = self::toMicroseconds(
+            $dateInterval->h * self::MICROSECONDS_PER_HOUR
+                + $dateInterval->i * self::MICROSECONDS_PER_MINUTE
+                + $dateInterval->s * self::MICROSECONDS_PER_SECOND
+                + $dateInterval->f * self::MICROSECONDS_PER_SECOND,
+            \sprintf('%d:%d:%d', $dateInterval->h, $dateInterval->i, $dateInterval->s)
+        );
+
+        return self::createIntervalFromParts([
             $sign * $dateInterval->y,
             $sign * $dateInterval->m,
             $sign * $dateInterval->d,
-            $sign * $dateInterval->h,
-            $sign * $dateInterval->i,
-            $sign * $dateInterval->s,
-            $sign * $dateInterval->f,
-        );
+            $sign * $microseconds,
+        ]);
     }
 }
