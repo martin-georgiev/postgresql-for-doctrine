@@ -175,9 +175,12 @@ abstract class SpatialDataArray extends BaseArray
             $currentWktItem .= $currentChar;
         }
 
-        // Add the last WKT item if there's content
+        // Content left after the final delimiter is the last element; nothing left means the
+        // literal ended on a delimiter, which PostgreSQL rejects as a malformed array.
         if ($currentWktItem !== '') {
             $wktItems[] = $currentWktItem;
+        } elseif ($wktItems !== []) {
+            throw $this->createInvalidFormatExceptionForPHP($content);
         }
 
         return \array_map(

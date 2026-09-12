@@ -42,6 +42,27 @@ final class GeographyArrayTest extends TestCase
         $this->assertNull($result);
     }
 
+    #[DataProvider('provideLiteralsWithAnEmptyElement')]
+    #[Test]
+    public function throws_exception_for_an_empty_element_in_an_unquoted_literal(string $postgresValue): void
+    {
+        $this->expectException(InvalidGeographyForPHPException::class);
+
+        $this->type->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideLiteralsWithAnEmptyElement(): array
+    {
+        return [
+            'trailing delimiter' => ['{POINT(1 2):}'],
+            'leading delimiter' => ['{:POINT(1 2)}'],
+            'consecutive delimiters' => ['{POINT(1 2)::POINT(3 4)}'],
+        ];
+    }
+
     #[Test]
     public function splits_an_unquoted_literal_on_the_element_delimiter(): void
     {
