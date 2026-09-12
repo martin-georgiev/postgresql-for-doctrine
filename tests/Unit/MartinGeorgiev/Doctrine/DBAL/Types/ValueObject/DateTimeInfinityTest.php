@@ -45,11 +45,9 @@ final class DateTimeInfinityTest extends TestCase
     public static function provideRejectedSpellings(): array
     {
         return [
-            // the numeric types take `inf`, a date does not
             'float abbreviation' => ['inf'],
             'negative float abbreviation' => ['-inf'],
             'not a number' => ['NaN'],
-            // PostgreSQL reads one optional sign, never a doubled one
             'doubled plus' => ['++infinity'],
             'plus before minus' => ['+-infinity'],
             'minus before plus' => ['-+infinity'],
