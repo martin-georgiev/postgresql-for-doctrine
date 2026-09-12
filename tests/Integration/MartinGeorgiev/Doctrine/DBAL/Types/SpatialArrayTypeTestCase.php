@@ -45,17 +45,18 @@ abstract class SpatialArrayTypeTestCase extends TestCase
     {
         \assert(\is_array($expected) && \is_array($actual));
 
-        $toString = static fn (WktSpatialData $wktSpatialData): string => (string) $wktSpatialData;
+        // A null element is a SQL NULL in the column and stays null on both sides of the comparison.
+        $toString = static fn (?WktSpatialData $wktSpatialData): ?string => $wktSpatialData instanceof WktSpatialData ? (string) $wktSpatialData : null;
 
-        /** @var list<WktSpatialData> $expected */
-        /** @var list<string> $expectedStrings */
+        /** @var list<WktSpatialData|null> $expected */
+        /** @var list<string|null> $expectedStrings */
         $expectedStrings = \array_values(\array_map($toString, $expected));
 
-        /** @var list<WktSpatialData> $actual */
-        /** @var list<string> $actualStrings */
+        /** @var list<WktSpatialData|null> $actual */
+        /** @var list<string|null> $actualStrings */
         $actualStrings = \array_values(\array_map($toString, $actual));
 
-        $stripDefaultSrid = static fn (string $wkt): string => \str_starts_with($wkt, 'SRID=4326;') ? \substr($wkt, 10) : $wkt;
+        $stripDefaultSrid = static fn (?string $wkt): ?string => $wkt !== null && \str_starts_with($wkt, 'SRID=4326;') ? \substr($wkt, 10) : $wkt;
 
         $expectedStrings = \array_map($stripDefaultSrid, $expectedStrings);
         $actualStrings = \array_map($stripDefaultSrid, $actualStrings);

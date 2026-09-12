@@ -322,7 +322,7 @@ ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
 LIMIT 10
 ```
 
-For multi-item arrays, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for Doctrine DQL limitations and the suggested workarounds.
+For array columns, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md).
 
 The library provides DBAL type support for PostGIS `geometry` and `geography` types. Example usage:
 

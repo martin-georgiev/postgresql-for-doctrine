@@ -51,11 +51,22 @@ class BoxArray extends BaseGeometricArray
                 $this->throwInvalidItemException($item);
             }
 
+            if ($item === null) {
+                $transformedItems[] = 'NULL';
+
+                continue;
+            }
+
             \assert($item instanceof BoxValueObject);
             $transformedItems[] = $item->__toString();
         }
 
-        return '{'.\implode(';', $transformedItems).'}';
+        return '{'.\implode($this->getArrayElementDelimiter(), $transformedItems).'}';
+    }
+
+    protected function getArrayElementDelimiter(): string
+    {
+        return ';';
     }
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
@@ -65,7 +76,11 @@ class BoxArray extends BaseGeometricArray
             return [];
         }
 
-        return \explode(';', $trimmed);
+        // PostgreSQL never quotes box[] elements because ';' already disambiguates, so a bare NULL is the null marker.
+        return \array_map(
+            static fn (string $item): ?string => $item === 'NULL' ? null : $item,
+            \explode(';', $trimmed)
+        );
     }
 
     protected function throwTypedInvalidArrayTypeException(mixed $value): never

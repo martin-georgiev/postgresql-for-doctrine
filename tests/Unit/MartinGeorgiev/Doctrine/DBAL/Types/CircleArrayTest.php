@@ -51,7 +51,7 @@ final class CircleArrayTest extends TestCase
 
     /**
      * @return array<string, array{
-     *     phpValue: array<CircleValueObject>|null,
+     *     phpValue: array<CircleValueObject|null>|null,
      *     postgresValue: string|null
      * }>
      */
@@ -77,6 +77,10 @@ final class CircleArrayTest extends TestCase
                     CircleValueObject::fromString('<(-10,-20),5>'),
                 ],
                 'postgresValue' => '{"<(0,0),1>","<(1.5,2.5),3.5>","<(-10,-20),5>"}',
+            ],
+            'array with null element' => [
+                'phpValue' => [CircleValueObject::fromString('<(0,0),1>'), null],
+                'postgresValue' => '{"<(0,0),1>",NULL}',
             ],
         ];
     }
@@ -152,9 +156,11 @@ final class CircleArrayTest extends TestCase
 
     #[DataProvider('provideMalformedInputs')]
     #[Test]
-    public function returns_empty_array_for_malformed_input(string $postgresValue): void
+    public function throws_exception_for_malformed_array_literal(string $postgresValue): void
     {
-        $this->assertSame([], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->expectException(InvalidCircleArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }
 
     /**
@@ -163,9 +169,9 @@ final class CircleArrayTest extends TestCase
     public static function provideMalformedInputs(): array
     {
         return [
-            'empty array literal' => ['{}'],
             'unparsable item' => ['{invalid}'],
             'quoted empty item' => ['{""}'],
+            'not an array literal' => ['not-an-array'],
         ];
     }
 
@@ -242,6 +248,7 @@ final class CircleArrayTest extends TestCase
             'standard circle' => [CircleValueObject::fromString('<(0,0),1>')],
             'decimal values' => [CircleValueObject::fromString('<(1.5,2.5),3.5>')],
             'negative coordinates' => [CircleValueObject::fromString('<(-10,-20),5>')],
+            'null' => [null],
         ];
     }
 
@@ -261,7 +268,6 @@ final class CircleArrayTest extends TestCase
             'string circle format' => ['<(0,0),1>'],
             'invalid string' => ['invalid'],
             'integer' => [123],
-            'null' => [null],
             'empty string' => [''],
             'boolean' => [true],
         ];

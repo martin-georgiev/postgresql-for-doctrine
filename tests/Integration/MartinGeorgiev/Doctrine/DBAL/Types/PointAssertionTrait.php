@@ -37,7 +37,7 @@ trait PointAssertionTrait
     protected function isPointArray(array $array): bool
     {
         foreach ($array as $item) {
-            if (!$item instanceof PointValueObject) {
+            if ($item !== null && !$item instanceof PointValueObject) {
                 return false;
             }
         }

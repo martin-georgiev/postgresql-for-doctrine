@@ -16,7 +16,7 @@ final class PathArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, PathValueObject>}>
+     * @return array<string, array{array<int, PathValueObject|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -29,6 +29,10 @@ final class PathArrayTypeTest extends ArrayTypeTestCase
                 PathValueObject::fromString('((0,0),(1,1),(2,0))'),
             ]],
             'empty path array' => [[]],
+            'path array with null element' => [[
+                PathValueObject::fromString('[(0,0),(1,1),(2,0)]'),
+                null,
+            ]],
         ];
     }
 

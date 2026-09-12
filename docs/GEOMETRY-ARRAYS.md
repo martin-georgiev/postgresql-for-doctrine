@@ -1,12 +1,12 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Geometry and Geography Arrays
 
-This document explains the usage, limitations, and workarounds for PostgreSQL `geometry` and `geography` array types in Doctrine DBAL.
+This document explains the usage of PostgreSQL `geometry` and `geography` array types in Doctrine DBAL.
 
 > 📖 **See also**: [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for spatial functions that work with geometry and geography data
 
 ## Overview
 
-The `GeometryArray` and `GeographyArray` types provide support for PostgreSQL's `GEOMETRY[]` and `GEOGRAPHY[]` array types, allowing you to store collections of spatial data in a single database column. The use of these types currently has several limitations due to Doctrine DBAL's parameter binding behavior. Workarounds are provided for multi-item arrays in [USE-CASES-AND-EXAMPLES.md](./USE-CASES-AND-EXAMPLES.md).
+The `GeometryArray` and `GeographyArray` types provide support for PostgreSQL's `GEOMETRY[]` and `GEOGRAPHY[]` array types, allowing you to store collections of spatial data in a single database column. 
 
 ## Registration and Type Mapping
 
@@ -72,7 +72,6 @@ $qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('SRID=4326;POINT(-12
 $qb->executeStatement();
 ```
 
-**Note**: Multi-item arrays have limitations — see "[Important Limitation: Multi-Item Arrays](#important-limitation-multi-item-arrays)" below.
 
 ### Working Examples
 
@@ -86,59 +85,18 @@ $complexGeometry = [WktSpatialData::fromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))')];
 $geometryWithSrid = [WktSpatialData::fromWkt('SRID=4326;LINESTRING(-122 37,-121 38)')];
 ```
 
-## Important Limitation: Multi-Item Arrays
+## Multi-Item Arrays
 
-### The Problem
+Multi-item `geometry[]` and `geography[]` arrays bind through Doctrine DBAL like any other array type:
 
-**Multi-item geometry and geography arrays have a fundamental limitation with Doctrine DBAL parameter binding** due to PostGIS parsing behavior.
-
-When Doctrine DBAL tries to bind a multi-item array like:
 ```php
-$multiItem = [
+$entity->setGeometries([
     WktSpatialData::fromWkt('POINT(1 2)'),
-    WktSpatialData::fromWkt('POINT(3 4)'),
-];
+    WktSpatialData::fromWkt('LINESTRING(0 0,1 1)'),
+]);
 ```
 
-It generates a PostgreSQL array literal: `{POINT(1 2),POINT(3 4)}`
-
-However, **PostGIS intercepts this and tries to parse the entire string as a single geometry**, causing this error:
-```text
-ERROR: parse error - invalid geometry
-HINT: "POINT(1 2),POI" <-- parse error at position 14
-```
-
-### This is NOT a Bug
-
-This is a **PostGIS-specific limitation**, not a bug in our implementation:
-
-1. ✅ **PostgreSQL arrays work fine** with other complex types (text, inet, etc.)
-2. ✅ **Our parsing logic is correct** (verified in unit tests)
-3. ❌ **PostGIS geometry parsing is aggressive** and conflicts with array literals
-4. ✅ **Single-item arrays work perfectly**
-
-## Workarounds for Multi-Item Arrays
-
-### Option 1: Raw SQL with ARRAY Constructor
-
-```php
-$sql = "INSERT INTO locations (geometries) VALUES (ARRAY[?::geometry, ?::geometry])";
-$connection->executeStatement($sql, ['POINT(1 2)', 'POINT(3 4)']);
-```
-
-### Option 2: Multiple Single-Item Operations
-
-```php
-// Instead of one multi-item array
-$geometries = [$geom1, $geom2, $geom3];
-
-// Use multiple single-item arrays
-foreach ($geometries as $geometry) {
-    $entity->addGeometry([$geometry]);
-}
-```
-
-### Option 3: Application-Level Array Building
+A `null` element is written as a SQL NULL element and read back as `null`.
 
 ## Normalization Rules (Dimensional Modifiers)
 
@@ -192,13 +150,13 @@ public function getGeometries(): array
 
 ### Integration Tests
 - ✅ **Single-item arrays**: Fully tested against real PostgreSQL database
-- ❌ **Multi-item arrays**: Tested to demonstrate PostGIS limitation (expected failures)
+- ✅ **Multi-item arrays**: Bound through DBAL, including arrays carrying a `null` element
 - ✅ **All geometry types**: POINT, LINESTRING, POLYGON, MULTIPOINT, etc.
 - ✅ **Dimensional modifiers**: Z, M, ZM coordinates
 - ✅ **SRID support**: EWKT format with coordinate systems
 - ✅ **Geography specifics**: Auto-SRID behavior, world coordinates
 
-The integration tests include both working single-item arrays and workarounded (through ARRAY[]) multi-item arrays to provide complete documentation of the PostGIS limitation.
+The integration tests cover single-item and multi-item arrays bound through DBAL, alongside the SQL `ARRAY[]` constructor form.
 
 ### Unit Tests
 - ✅ **Multi-item arrays**: Tested for parsing logic
@@ -235,18 +193,8 @@ The integration tests include both working single-item arrays and workarounded (
 ## Performance Considerations
 
 - **Single-item arrays**: Excellent performance, full PostgreSQL optimization
-- **Multi-item workarounds**: May have performance implications depending on the approach
 - **Indexing**: GiST/operator classes only support spatial types like `geometry`/`geography` and cannot directly index SQL array types like `geometry[]`. For proper spatial indexing, consider:
   - Normalizing arrays into separate geometry rows with individual GiST indexes
   - Materializing a single geometry (e.g., union or bounding geometry) into a `geometry` column for GiST indexing
   - See the [PostGIS FAQ on spatial indexes](https://postgis.net/documentation/faq/spatial-indexes/) for details
 - **Query optimization**: Use appropriate spatial operators and indexes on individual geometry columns, not arrays
-
-## Future Improvements
-
-This limitation may be addressed in future versions through:
-- **PostGIS improvements** to array literal parsing
-- **Doctrine DBAL enhancements** to custom SQL generation
-- **Alternative storage strategies** built into the types
-
-For now, the workarounds provide full functionality while maintaining type safety and spatial capabilities.

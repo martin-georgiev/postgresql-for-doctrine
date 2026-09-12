@@ -16,7 +16,7 @@ final class CircleArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, CircleValueObject>}>
+     * @return array<string, array{array<int, CircleValueObject|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -29,6 +29,10 @@ final class CircleArrayTypeTest extends ArrayTypeTestCase
                 CircleValueObject::fromString('<(-10,-20),5>'),
             ]],
             'empty circle array' => [[]],
+            'circle array with null element' => [[
+                CircleValueObject::fromString('<(0,0),1>'),
+                null,
+            ]],
         ];
     }
 

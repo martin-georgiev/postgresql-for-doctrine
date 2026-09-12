@@ -25,6 +25,37 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
         );
     }
 
+    #[DataProvider('provideMultiItemArrays')]
+    #[Test]
+    public function roundtrips_multi_item_value(array $phpValue): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $phpValue);
+    }
+
+    /**
+     * @return array<string, array{array<int, WktSpatialData|null>}>
+     */
+    public static function provideMultiItemArrays(): array
+    {
+        return [
+            'two points' => [[
+                WktSpatialData::fromWkt('POINT(1 2)'),
+                WktSpatialData::fromWkt('POINT(3 4)'),
+            ]],
+            'mixed geometries' => [[
+                WktSpatialData::fromWkt('POINT(1 2)'),
+                // PostGIS re-emits WKT without the space after a coordinate comma
+                WktSpatialData::fromWkt('LINESTRING(0 0,1 1)'),
+            ]],
+            'multi item with a null element' => [[
+                WktSpatialData::fromWkt('POINT(1 2)'),
+                null,
+            ]],
+        ];
+    }
+
     #[DataProvider('provideSingleItemArrays')]
     #[Test]
     public function roundtrips_value(array $values): void
@@ -78,7 +109,7 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     /**
      * @param array<WktSpatialData> $phpArray
      */
-    #[DataProvider('provideMultiItemArrays')]
+    #[DataProvider('provideMultiItemArraysForSqlConstructor')]
     #[Test]
     public function roundtrips_multi_item_array(array $phpArray): void
     {
@@ -88,7 +119,7 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     /**
      * @return array<string, array{array<WktSpatialData>}>
      */
-    public static function provideMultiItemArrays(): array
+    public static function provideMultiItemArraysForSqlConstructor(): array
     {
         return [
             'two points' => [[
