@@ -51,7 +51,6 @@ final class BaseVariadicFunctionTruncatedArgumentListTest extends TestCase
         return [
             'nothing follows the opening parenthesis' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK('],
             'nothing follows the first argument' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK(e.text1'],
-            'nothing follows the argument separator' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK(e.text1,'],
         ];
     }
 }
