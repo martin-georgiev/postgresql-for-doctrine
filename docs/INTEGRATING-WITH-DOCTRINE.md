@@ -42,11 +42,17 @@ DoctrineType::addType('ulid', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ulid");
 DoctrineType::addType('ulid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UlidArray");
 
 // Date and time types
+// The date, timestamp and timestamptz types below are an opt-in replacement for Doctrine's own date, datetime
+// and datetimetz handling. Register them only if you want the PostgreSQL semantics described in
+// AVAILABLE-TYPES.md (infinity values and \DateTimeImmutable).
+DoctrineType::overrideType('date', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Date"); // replaces Doctrine's built-in date type, addType() would throw
 DoctrineType::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
 DoctrineType::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
 DoctrineType::addType('interval[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\IntervalArray");
 DoctrineType::addType('time[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimeArray");
+DoctrineType::addType('timestamp', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Timestamp");
 DoctrineType::addType('timestamp[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampArray");
+DoctrineType::addType('timestamptz', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTz");
 DoctrineType::addType('timestamptz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimestampTzArray");
 DoctrineType::addType('timetz', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Timetz");
 DoctrineType::addType('timetz[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TimetzArray");
@@ -534,7 +540,11 @@ $platform->registerDoctrineTypeMapping('ulid', 'ulid');
 $platform->registerDoctrineTypeMapping('ulid[]', 'ulid[]');
 $platform->registerDoctrineTypeMapping('_ulid', 'ulid[]');
 
-// Datetime array type mappings
+// Date and time type mappings
+// The date, timestamp and timestamptz lines are only needed alongside the opt-in scalar types above. They also
+// replace the platform's default reverse mapping of those PostgreSQL types to datetime and datetimetz, which
+// schema introspection relies on.
+$platform->registerDoctrineTypeMapping('date', 'date');
 $platform->registerDoctrineTypeMapping('date[]', 'date[]');
 $platform->registerDoctrineTypeMapping('_date', 'date[]');
 $platform->registerDoctrineTypeMapping('interval', 'interval');
@@ -542,8 +552,10 @@ $platform->registerDoctrineTypeMapping('interval[]', 'interval[]');
 $platform->registerDoctrineTypeMapping('_interval', 'interval[]');
 $platform->registerDoctrineTypeMapping('time[]', 'time[]');
 $platform->registerDoctrineTypeMapping('_time', 'time[]');
+$platform->registerDoctrineTypeMapping('timestamp', 'timestamp');
 $platform->registerDoctrineTypeMapping('timestamp[]', 'timestamp[]');
 $platform->registerDoctrineTypeMapping('_timestamp', 'timestamp[]');
+$platform->registerDoctrineTypeMapping('timestamptz', 'timestamptz');
 $platform->registerDoctrineTypeMapping('timestamptz[]', 'timestamptz[]');
 $platform->registerDoctrineTypeMapping('_timestamptz', 'timestamptz[]');
 $platform->registerDoctrineTypeMapping('timetz', 'timetz');
