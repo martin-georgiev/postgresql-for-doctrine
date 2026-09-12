@@ -42,9 +42,10 @@ DoctrineType::addType('ulid', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Ulid");
 DoctrineType::addType('ulid[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\UlidArray");
 
 // Date and time types
-// The date, timestamp and timestamptz types below are an opt-in replacement for Doctrine's own date, datetime
-// and datetimetz handling. Register them only if you want the PostgreSQL semantics described in
-// AVAILABLE-TYPES.md (infinity values and \DateTimeImmutable).
+// The date, timestamp and timestamptz types below read and write PostgreSQL's infinity values and return
+// \DateTimeImmutable; see AVAILABLE-TYPES.md. Registering date replaces Doctrine's built-in date type across the
+// whole application, which is why it needs overrideType(). The timestamp and timestamptz names are free, as
+// Doctrine calls its own equivalents datetime and datetimetz, so registering those leaves existing columns alone.
 DoctrineType::overrideType('date', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Date"); // replaces Doctrine's built-in date type, addType() would throw
 DoctrineType::addType('date[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\DateArray");
 DoctrineType::addType('interval', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Interval");
@@ -541,9 +542,9 @@ $platform->registerDoctrineTypeMapping('ulid[]', 'ulid[]');
 $platform->registerDoctrineTypeMapping('_ulid', 'ulid[]');
 
 // Date and time type mappings
-// The date, timestamp and timestamptz lines are only needed alongside the opt-in scalar types above. They also
+// The date, timestamp and timestamptz lines are only needed alongside the scalar types above. The last two
 // replace the platform's default reverse mapping of those PostgreSQL types to datetime and datetimetz, which
-// schema introspection relies on.
+// schema introspection reads, so register them only if you want introspection to follow.
 $platform->registerDoctrineTypeMapping('date', 'date');
 $platform->registerDoctrineTypeMapping('date[]', 'date[]');
 $platform->registerDoctrineTypeMapping('_date', 'date[]');

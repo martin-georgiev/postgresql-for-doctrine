@@ -34,8 +34,9 @@ doctrine:
             'varchar[]': MartinGeorgiev\Doctrine\DBAL\Types\VarcharArray
 
             # Date and time types
-            # Listing date, timestamp and timestamptz is an opt-in: it replaces Doctrine's own date, datetime and
-            # datetimetz handling application-wide. See AVAILABLE-TYPES.md before adding them.
+            # date, timestamp and timestamptz read and write PostgreSQL's infinity values; see AVAILABLE-TYPES.md.
+            # Listing date replaces Doctrine's built-in date type across the whole application. The timestamp and
+            # timestamptz names are free, so listing those leaves existing columns alone.
             date: MartinGeorgiev\Doctrine\DBAL\Types\Date
             'date[]': MartinGeorgiev\Doctrine\DBAL\Types\DateArray
             interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval

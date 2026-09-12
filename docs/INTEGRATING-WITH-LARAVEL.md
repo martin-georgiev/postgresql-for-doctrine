@@ -268,8 +268,9 @@ return [
         'ulid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UlidArray::class,
 
         // Date and time types
-        // Registering date, timestamp and timestamptz is an opt-in: it replaces Doctrine's own date, datetime
-        // and datetimetz handling application-wide. See AVAILABLE-TYPES.md before adding them.
+        // date, timestamp and timestamptz read and write PostgreSQL's infinity values; see AVAILABLE-TYPES.md.
+        // Registering date replaces Doctrine's built-in date type across the whole application. The timestamp and
+        // timestamptz names are free, so registering those leaves existing columns alone.
         'date' => MartinGeorgiev\Doctrine\DBAL\Types\Date::class,
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
         'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
