@@ -79,6 +79,7 @@ return [
                 '_ulid' => 'ulid[]',
 
                 // Datetime array type mappings
+                'date' => 'date',
                 'date[]' => 'date[]',
                 '_date' => 'date[]',
                 'interval' => 'interval',
@@ -86,8 +87,10 @@ return [
                 '_interval' => 'interval[]',
                 'time[]' => 'time[]',
                 '_time' => 'time[]',
+                'timestamp' => 'timestamp',
                 'timestamp[]' => 'timestamp[]',
                 '_timestamp' => 'timestamp[]',
+                'timestamptz' => 'timestamptz',
                 'timestamptz[]' => 'timestamptz[]',
                 '_timestamptz' => 'timestamptz[]',
                 'timetz' => 'timetz',
@@ -265,11 +268,17 @@ return [
         'ulid[]' => MartinGeorgiev\Doctrine\DBAL\Types\UlidArray::class,
 
         // Date and time types
+        // date, timestamp and timestamptz read and write PostgreSQL's infinity values; see AVAILABLE-TYPES.md.
+        // Registering date replaces Doctrine's built-in date type across the whole application. The timestamp and
+        // timestamptz names are free, so registering those leaves existing columns alone.
+        'date' => MartinGeorgiev\Doctrine\DBAL\Types\Date::class,
         'date[]' => MartinGeorgiev\Doctrine\DBAL\Types\DateArray::class,
         'interval' => MartinGeorgiev\Doctrine\DBAL\Types\Interval::class,
         'interval[]' => MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray::class,
         'time[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimeArray::class,
+        'timestamp' => MartinGeorgiev\Doctrine\DBAL\Types\Timestamp::class,
         'timestamp[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray::class,
+        'timestamptz' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTz::class,
         'timestamptz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray::class,
         'timetz' => MartinGeorgiev\Doctrine\DBAL\Types\Timetz::class,
         'timetz[]' => MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray::class,
