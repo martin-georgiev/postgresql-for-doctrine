@@ -205,7 +205,6 @@ final class GeometryArrayTest extends TestCase
     #[Test]
     public function converts_null_element_from_database_to_php_value(): void
     {
-        // Exact literal PostgreSQL emits for ARRAY(SELECT ST_AsText(...) ...) with a null geometry.
         $result = $this->type->convertToPHPValue('{"POINT(1 2)",NULL}', $this->platform);
 
         $this->assertIsArray($result);

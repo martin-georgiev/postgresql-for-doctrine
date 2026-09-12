@@ -384,11 +384,9 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
     public static function provideNonCommaDelimitedArrays(): array
     {
         return [
-            // PostGIS records ':' as typdelim for geometry and geography
             'colon delimited' => ['{"POINT(1 2)":"POINT(3 4)"}', ':', ['POINT(1 2)', 'POINT(3 4)']],
             'colon delimited with a null element' => ['{"POINT(1 2)":NULL}', ':', ['POINT(1 2)', null]],
-            // a comma is ordinary content once the delimiter is something else
-            'comma is not a separator' => ['{"LINESTRING(0 0,1 1)"}', ':', ['LINESTRING(0 0,1 1)']],
+            'comma is not used as a separator' => ['{"LINESTRING(0 0,1 1)"}', ':', ['LINESTRING(0 0,1 1)']],
             'semicolon delimited' => ['{"(1,2),(3,4)";"(5,6),(7,8)"}', ';', ['(1,2),(3,4)', '(5,6),(7,8)']],
         ];
     }

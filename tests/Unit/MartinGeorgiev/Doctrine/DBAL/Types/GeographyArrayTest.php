@@ -214,7 +214,6 @@ final class GeographyArrayTest extends TestCase
     #[Test]
     public function converts_null_element_from_database_to_php_value(): void
     {
-        // Exact literal PostgreSQL emits for ARRAY(SELECT ST_AsText(...) ...) with a null geography.
         $result = $this->type->convertToPHPValue('{"SRID=4326;POINT(1 2)",NULL}', $this->platform);
 
         $this->assertIsArray($result);

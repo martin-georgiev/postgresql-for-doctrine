@@ -78,8 +78,6 @@ final class LineArrayTest extends TestCase
                 ],
                 'postgresValue' => '{"{1,0,0}","{1.5,2.5,3.5}","{-1,-2,-3}"}',
             ],
-            // A Line's own string form contains braces, so this also pins that the array
-            // parser tracks quotes (not brace depth) to find the NULL token that follows.
             'array with null element' => [
                 'phpValue' => [LineValueObject::fromString('{1,0,0}'), null],
                 'postgresValue' => '{"{1,0,0}",NULL}',
