@@ -61,7 +61,12 @@ class BoxArray extends BaseGeometricArray
             $transformedItems[] = $item->__toString();
         }
 
-        return '{'.\implode(';', $transformedItems).'}';
+        return '{'.\implode($this->getArrayElementDelimiter(), $transformedItems).'}';
+    }
+
+    protected function getArrayElementDelimiter(): string
+    {
+        return ';';
     }
 
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array

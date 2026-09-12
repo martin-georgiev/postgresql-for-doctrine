@@ -26,6 +26,11 @@ class PostgresArrayToPHPArrayTransformer
     private const POSTGRESQL_NULL_VALUE = 'null';
 
     /**
+     * @var string
+     */
+    private const POSTGRESQL_DEFAULT_TYPDELIM = ',';
+
+    /**
      * Transforms a PostgreSQL text array to a PHP array.
      * This method supports only single-dimensional text arrays and
      * relies on the default escaping strategy in PostgreSQL (double quotes).
@@ -37,7 +42,7 @@ class PostgresArrayToPHPArrayTransformer
      *
      * @throws InvalidArrayFormatException when the input is a multi-dimensional array or has an invalid format
      */
-    public static function transformPostgresArrayToPHPArray(string $postgresArray, bool $preserveStringTypes = false): array
+    public static function transformPostgresArrayToPHPArray(string $postgresArray, bool $preserveStringTypes = false, string $delimiter = self::POSTGRESQL_DEFAULT_TYPDELIM): array
     {
         $trimmed = \trim($postgresArray);
 
@@ -89,7 +94,12 @@ class PostgresArrayToPHPArrayTransformer
         }
 
         if ($preserveStringTypes) {
-            return self::parsePostgresArrayManually($content, true);
+            return self::parsePostgresArrayManually($content, true, $delimiter);
+        }
+
+        // The JSON fast path below is comma-only by construction.
+        if ($delimiter !== self::POSTGRESQL_DEFAULT_TYPDELIM) {
+            return self::parsePostgresArrayManually($content, false, $delimiter);
         }
 
         $jsonArray = '['.\trim($trimmed, self::POSTGRESQL_EMPTY_ARRAY).']';
@@ -98,7 +108,7 @@ class PostgresArrayToPHPArrayTransformer
         $decoded = \json_decode($jsonArray, true, 512, JSON_BIGINT_AS_STRING);
         $jsonDecodingFailed = $decoded === null && \json_last_error() !== JSON_ERROR_NONE;
         if ($jsonDecodingFailed) {
-            return self::parsePostgresArrayManually($content, false);
+            return self::parsePostgresArrayManually($content, false, $delimiter);
         }
 
         return (array) $decoded;
@@ -107,7 +117,7 @@ class PostgresArrayToPHPArrayTransformer
     /**
      * @return array<int, mixed>
      */
-    private static function parsePostgresArrayManually(string $content, bool $preserveStringTypes): array
+    private static function parsePostgresArrayManually(string $content, bool $preserveStringTypes, string $delimiter = self::POSTGRESQL_DEFAULT_TYPDELIM): array
     {
         if ($content === '') {
             return [];
@@ -140,7 +150,7 @@ class PostgresArrayToPHPArrayTransformer
                 $inQuotes = !$inQuotes;
                 // For quoted values, we include the quotes for later processing
                 $currentValue .= $char;
-            } elseif ($char === ',' && !$inQuotes) {
+            } elseif ($char === $delimiter && !$inQuotes) {
                 // End of value
                 $result[] = self::processPostgresValue($currentValue, $preserveStringTypes);
                 $currentValue = '';

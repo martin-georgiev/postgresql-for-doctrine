@@ -15,37 +15,6 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
         return 'geometry[]';
     }
 
-    #[Test]
-    public function roundtrips_null_element(): void
-    {
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-        [$tableName, $columnName] = $this->prepareTestTable($columnType);
-
-        try {
-            // This type writes a comma-joined literal, but geometry[] is delimited by ':',
-            // so it cannot bind a multi-element array at all (issue #724). Insert directly
-            // via SQL to exercise the read-side fix against PostgreSQL's own literal.
-            $sql = \sprintf(
-                'INSERT INTO %s.%s ("%s") VALUES (ARRAY[ST_GeomFromText(\'POINT(1 2)\'), NULL]::geometry[])',
-                self::DATABASE_SCHEMA,
-                $tableName,
-                $columnName
-            );
-            $this->connection->executeStatement($sql);
-
-            $retrieved = $this->fetchConvertedValue($typeName, $tableName, $columnName);
-
-            $this->assertIsArray($retrieved);
-            $this->assertCount(2, $retrieved);
-            $this->assertInstanceOf(WktSpatialData::class, $retrieved[0]);
-            $this->assertSame('POINT(1 2)', (string) $retrieved[0]);
-            $this->assertNull($retrieved[1]);
-        } finally {
-            $this->dropTestTableIfItExists($tableName);
-        }
-    }
-
     protected function getSelectExpression(string $columnName): string
     {
         return \sprintf(
@@ -54,6 +23,37 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
             $columnName,
             $columnName
         );
+    }
+
+    #[DataProvider('provideMultiItemArrays')]
+    #[Test]
+    public function roundtrips_multi_item_value(array $phpValue): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $phpValue);
+    }
+
+    /**
+     * @return array<string, array{array<int, WktSpatialData|null>}>
+     */
+    public static function provideMultiItemArrays(): array
+    {
+        return [
+            'two points' => [[
+                WktSpatialData::fromWkt('POINT(1 2)'),
+                WktSpatialData::fromWkt('POINT(3 4)'),
+            ]],
+            'mixed geometries' => [[
+                WktSpatialData::fromWkt('POINT(1 2)'),
+                // PostGIS re-emits WKT without the space after a coordinate comma
+                WktSpatialData::fromWkt('LINESTRING(0 0,1 1)'),
+            ]],
+            'multi item with a null element' => [[
+                WktSpatialData::fromWkt('POINT(1 2)'),
+                null,
+            ]],
+        ];
     }
 
     #[DataProvider('provideSingleItemArrays')]
@@ -109,7 +109,7 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     /**
      * @param array<WktSpatialData> $phpArray
      */
-    #[DataProvider('provideMultiItemArrays')]
+    #[DataProvider('provideMultiItemArraysForSqlConstructor')]
     #[Test]
     public function roundtrips_multi_item_array(array $phpArray): void
     {
@@ -119,7 +119,7 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     /**
      * @return array<string, array{array<WktSpatialData>}>
      */
-    public static function provideMultiItemArrays(): array
+    public static function provideMultiItemArraysForSqlConstructor(): array
     {
         return [
             'two points' => [[

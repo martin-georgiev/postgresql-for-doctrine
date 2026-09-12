@@ -221,15 +221,12 @@ Both options are optional and independent:
 - Geography commonly uses SRID 4326; EWKT is supported (e.g., `SRID=4326;POINT(...)`).
 - Dimensional modifiers (Z, M, ZM) are normalized consistently for both types.
 
-## Arrays and multi-item caveat
+## Arrays
 
-- Single-item `GEOMETRY[]` and `GEOGRAPHY[]` arrays work with DBAL parameter binding.
-- Multi-item arrays have a PostGIS limitation with array literal parsing. Use one of:
-  - ARRAY constructor with per-element casts in raw SQL: `ARRAY[?::geometry, ?::geometry]`
-  - Multiple single-item operations
-  - Application-level array building
+- `GEOMETRY[]` and `GEOGRAPHY[]` bind through DBAL parameter binding, with any number of elements.
+- A `null` element is written as a SQL NULL element and read back as `null`.
 
-See [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for details, workarounds, and examples.
+See [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for details and examples.
 
 ## Minimal examples
 
@@ -255,16 +252,21 @@ $qb->setParameter('location', WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194
 $qb->executeStatement();
 ```
 
-### Binding a single-item array
+### Binding an array
 
 ```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
 $qb = $connection->createQueryBuilder();
 $qb->insert('locations')->values(['geometries' => ':geometries']);
-$qb->setParameter('geometries', [WktSpatialData::fromWkt('POINT(0 0)')], 'geometry[]');
+$qb->setParameter('geometries', [
+    WktSpatialData::fromWkt('POINT(0 0)'),
+    WktSpatialData::fromWkt('POINT(1 1)'),
+], 'geometry[]');
 $qb->executeStatement();
 ```
 
-For multi-item arrays, see the raw SQL ARRAY constructor examples in [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md).
+See [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for more array examples.
 
 ## Error Handling and Validation
 

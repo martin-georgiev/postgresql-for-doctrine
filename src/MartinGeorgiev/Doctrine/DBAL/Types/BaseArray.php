@@ -43,7 +43,16 @@ abstract class BaseArray extends BaseType
             $transformedItems[] = (string) $transformed;
         }
 
-        return '{'.\implode(',', $transformedItems).'}';
+        return '{'.\implode($this->getArrayElementDelimiter(), $transformedItems).'}';
+    }
+
+    /**
+     * The character PostgreSQL splits array elements on, as `pg_type.typdelim` records it for the element type.
+     * It is `,` for nearly everything, but not for every type this library covers.
+     */
+    protected function getArrayElementDelimiter(): string
+    {
+        return ',';
     }
 
     /**
@@ -93,7 +102,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Transforms PHP array item to a PostgreSQL compatible array item.
+     * Transforms PHP array item to a PostgreSQL-compatible array item.
      *
      * @return mixed
      */
@@ -141,7 +150,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Transforms PostgreSQL array item to a PHP compatible array item.
+     * Transforms PostgreSQL array item to a PHP-compatible array item.
      *
      * @return mixed
      */

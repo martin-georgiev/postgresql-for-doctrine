@@ -67,7 +67,21 @@ abstract class SpatialDataArray extends BaseArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
-        return (string) $this->getValidatedArrayItem($item);
+        if ($item === null) {
+            return 'NULL';
+        }
+
+        // A WKT body carries spaces and commas, and fromWkt() checks only the outer structure,
+        // so it may also carry a quote or a backslash the array literal has to escape.
+        return $this->quoteAndEscapeArrayItem((string) $this->getValidatedArrayItem($item));
+    }
+
+    /**
+     * PostGIS records ':' as typdelim for geometry and geography.
+     */
+    protected function getArrayElementDelimiter(): string
+    {
+        return ':';
     }
 
     protected function getValidatedArrayItem(mixed $item): WktSpatialData
@@ -99,23 +113,24 @@ abstract class SpatialDataArray extends BaseArray
             return [];
         }
 
-        // Every WKT string contains a space, so PostgreSQL always quotes it; content carrying no quote and
-        // no WKT body is a list of bare NULL tokens. Either shape is what the shared transformer expects.
+        // Every WKT string contains a space, so PostgreSQL always quotes it.
+        // Content carrying no quote and no WKT body is a list of bare NULL tokens.
         $isPostgresEmittedShape = \str_contains($arrayContentWithoutBraces, '"')
             || !\str_contains($arrayContentWithoutBraces, '(');
         if ($isPostgresEmittedShape) {
             try {
                 return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
                     $postgresArray,
-                    preserveStringTypes: true
+                    preserveStringTypes: true,
+                    delimiter: \str_contains($postgresArray, ':') ? $this->getArrayElementDelimiter() : ','
                 );
             } catch (InvalidArrayFormatException) {
-                return [];
+                throw $this->createInvalidFormatExceptionForPHP($postgresArray);
             }
         }
 
-        // Literals this library wrote itself are unquoted, so a WKT body's own commas need
-        // parenthesis-aware splitting that the shared transformer does not do.
+        // Literals this library wrote itself are unquoted.
+        // A WKT body's own commas need parenthesis-aware splitting that the shared transformer does not do.
         return $this->parseUnquotedWktArray($arrayContentWithoutBraces);
     }
 
@@ -161,12 +176,15 @@ abstract class SpatialDataArray extends BaseArray
             $wktItems[] = $currentWktItem;
         }
 
-        return \array_map(trim(...), $wktItems);
+        return \array_map(
+            static fn (string $item): ?string => \trim($item) === 'NULL' ? null : \trim($item),
+            $wktItems
+        );
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
-        return $item instanceof WktSpatialData;
+        return $item === null || $item instanceof WktSpatialData;
     }
 
     public function transformArrayItemForPHP(mixed $item): ?WktSpatialData
@@ -195,9 +213,6 @@ abstract class SpatialDataArray extends BaseArray
      * - ST_AsEWKT(): POINTZ, POINTM, POINTZM (no spaces)
      * - ST_AsText(): POINT Z, POINT M, POINT ZM (with spaces)
      * - Hybrid approach: SRID=4326;POINT Z (1 2 3) (SRID + extra space)
-     *
-     * This method normalizes all formats to the standard WKT format using
-     * patterns dynamically built from the GeometryType and DimensionalModifier enums.
      */
     private function normalizePostgreSQLDimensionalModifiers(string $wkt): string
     {

@@ -43,6 +43,35 @@ final class GeometryArrayTest extends TestCase
     }
 
     #[Test]
+    public function escapes_a_quote_and_a_backslash_in_the_wkt_body(): void
+    {
+        // fromWkt() checks the outer structure only, so these reach the array literal
+        $phpValue = [
+            WktSpatialData::fromWkt('POINT(1 "2)'),
+            WktSpatialData::fromWkt('POINT(3 \\4)'),
+        ];
+
+        $this->assertSame(
+            '{"POINT(1 \\"2)":"POINT(3 \\\\4)"}',
+            $this->type->convertToDatabaseValue($phpValue, $this->platform)
+        );
+    }
+
+    #[Test]
+    public function converts_null_item_to_database_value(): void
+    {
+        $this->assertSame('{NULL}', $this->type->convertToDatabaseValue([null], $this->platform));
+    }
+
+    #[Test]
+    public function throws_exception_for_a_literal_the_array_parser_rejects(): void
+    {
+        $this->expectException(InvalidGeometryForPHPException::class);
+
+        $this->type->convertToPHPValue('{"unclosed}', $this->platform);
+    }
+
+    #[Test]
     public function converts_empty_array_to_database_value(): void
     {
         $result = $this->type->convertToDatabaseValue([], $this->platform);
@@ -67,32 +96,32 @@ final class GeometryArrayTest extends TestCase
         return [
             'single point' => [
                 [WktSpatialData::fromWkt('POINT(1 2)')],
-                '{POINT(1 2)}',
+                '{"POINT(1 2)"}',
             ],
             'point with z dimension' => [
                 [WktSpatialData::fromWkt('POINT Z(1 2 3)')],
-                '{POINT Z(1 2 3)}',
+                '{"POINT Z(1 2 3)"}',
             ],
             'mixed dimensional modifiers' => [
                 [
                     WktSpatialData::fromWkt('POINT Z(1 2 3)'),
                     WktSpatialData::fromWkt('LINESTRING M(0 0 1, 1 1 2)'),
                 ],
-                '{POINT Z(1 2 3),LINESTRING M(0 0 1, 1 1 2)}',
+                '{"POINT Z(1 2 3)":"LINESTRING M(0 0 1, 1 1 2)"}',
             ],
             'ewkt with srid' => [
                 [
                     WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
                     WktSpatialData::fromWkt('SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
                 ],
-                '{SRID=4326;POINT(-122.4194 37.7749),SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))}',
+                '{"SRID=4326;POINT(-122.4194 37.7749)":"SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))"}',
             ],
             'complex zm geometries' => [
                 [
                     WktSpatialData::fromWkt('POINT ZM(1 2 3 4)'),
                     WktSpatialData::fromWkt('MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'),
                 ],
-                '{POINT ZM(1 2 3 4),MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))}',
+                '{"POINT ZM(1 2 3 4)":"MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))"}',
             ],
             'mixed geometry types' => [
                 [
@@ -100,7 +129,7 @@ final class GeometryArrayTest extends TestCase
                     WktSpatialData::fromWkt('LINESTRING(0 0, 1 1)'),
                     WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
                 ],
-                '{POINT(0 0),LINESTRING(0 0, 1 1),POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))}',
+                '{"POINT(0 0)":"LINESTRING(0 0, 1 1)":"POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))"}',
             ],
             'mixed srid usage' => [
                 [
@@ -108,7 +137,7 @@ final class GeometryArrayTest extends TestCase
                     WktSpatialData::fromWkt('SRID=4326;POINT(-122 37)'),
                     WktSpatialData::fromWkt('SRID=3857;POINT(1000 2000)'),
                 ],
-                '{POINT(0 0),SRID=4326;POINT(-122 37),SRID=3857;POINT(1000 2000)}',
+                '{"POINT(0 0)":"SRID=4326;POINT(-122 37)":"SRID=3857;POINT(1000 2000)"}',
             ],
             'complex mixed array' => [
                 [
@@ -118,7 +147,7 @@ final class GeometryArrayTest extends TestCase
                     WktSpatialData::fromWkt('MULTIPOINT((1 2), (3 4))'),
                     WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))'),
                 ],
-                '{POINT(0 0),SRID=4326;POINT Z(1 2 3),LINESTRING M(0 0 1, 1 1 2),MULTIPOINT((1 2), (3 4)),GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))}',
+                '{"POINT(0 0)":"SRID=4326;POINT Z(1 2 3)":"LINESTRING M(0 0 1, 1 1 2)":"MULTIPOINT((1 2), (3 4))":"GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))"}',
             ],
         ];
     }
@@ -332,6 +361,7 @@ final class GeometryArrayTest extends TestCase
     public static function provideValidArrayItemsForDatabase(): array
     {
         return [
+            'null is valid' => [null],
             'valid WktSpatialData' => [WktSpatialData::fromWkt('POINT(1 2)')],
         ];
     }
@@ -350,7 +380,6 @@ final class GeometryArrayTest extends TestCase
     {
         return [
             'string is invalid' => ['not a spatial data object'],
-            'null is invalid' => [null],
             'integer is invalid' => [123],
             'array is invalid' => [[]],
         ];
