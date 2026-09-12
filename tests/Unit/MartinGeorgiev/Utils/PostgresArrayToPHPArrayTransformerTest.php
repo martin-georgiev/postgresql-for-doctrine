@@ -126,10 +126,6 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => [],
                 'postgresValue' => '   ',
             ],
-            'with trailing comma' => [
-                'phpValue' => ['a'],
-                'postgresValue' => '{a,}}',
-            ],
             'with only backslashes' => [
                 'phpValue' => ['\\'],
                 'postgresValue' => '{"\\\\"}',
@@ -272,6 +268,15 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         return [
             'unclosed string' => [
                 'postgresValue' => '{1,2,"unclosed string}',
+            ],
+            'trailing delimiter' => [
+                'postgresValue' => '{a,}',
+            ],
+            'leading delimiter' => [
+                'postgresValue' => '{,a}',
+            ],
+            'consecutive delimiters' => [
+                'postgresValue' => '{a,,b}',
             ],
             'invalid format' => [
                 'postgresValue' => '{invalid"format}',

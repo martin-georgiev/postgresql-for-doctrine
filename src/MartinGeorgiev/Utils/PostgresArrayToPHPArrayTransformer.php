@@ -151,7 +151,12 @@ class PostgresArrayToPHPArrayTransformer
                 // For quoted values, we include the quotes for later processing
                 $currentValue .= $char;
             } elseif ($char === $delimiter && !$inQuotes) {
-                // End of value
+                // PostgreSQL never emits an empty element unquoted: an empty string arrives as ""
+                // and a null as the NULL token, so nothing between two delimiters is malformed.
+                if ($currentValue === '') {
+                    throw InvalidArrayFormatException::invalidFormat('Empty element in array');
+                }
+
                 $result[] = self::processPostgresValue($currentValue, $preserveStringTypes);
                 $currentValue = '';
             } else {
@@ -159,9 +164,12 @@ class PostgresArrayToPHPArrayTransformer
             }
         }
 
-        // Add the last value
+        // Content after the final delimiter is the last value; nothing there means the literal
+        // ended on a delimiter, which is the same malformed shape as an empty element.
         if ($currentValue !== '') {
             $result[] = self::processPostgresValue($currentValue, $preserveStringTypes);
+        } elseif ($result !== []) {
+            throw InvalidArrayFormatException::invalidFormat('Empty element in array');
         }
 
         return $result;

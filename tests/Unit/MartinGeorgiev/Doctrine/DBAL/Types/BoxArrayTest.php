@@ -78,8 +78,6 @@ final class BoxArrayTest extends TestCase
                 ],
                 'postgresValue' => '{(1,2),(3,4);(0,0),(1,1);(-1,-2),(-3,-4)}',
             ],
-            // Box[] uses ';' as its element delimiter and never quotes elements (unlike the
-            // other geometric array types), so the NULL marker sits bare next to a bare box.
             'array with null element' => [
                 'phpValue' => [BoxValueObject::fromString('(1,2),(3,4)'), null],
                 'postgresValue' => '{(1,2),(3,4);NULL}',
