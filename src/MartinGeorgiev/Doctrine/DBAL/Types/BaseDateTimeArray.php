@@ -104,7 +104,7 @@ abstract class BaseDateTimeArray extends BaseArray
             $this->throwInvalidPHPTypeException($item);
         }
 
-        $infinity = DateTimeInfinity::tryFrom($item);
+        $infinity = DateTimeInfinity::tryFromString($item);
         if ($infinity instanceof DateTimeInfinity) {
             return $infinity;
         }

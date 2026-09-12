@@ -13,7 +13,7 @@ trait PostgresFloatConversionTrait
 {
     /**
      * A float without its sign, for the operands PostgreSQL never accepts a negative value for, such as a radius.
-     * The non-finite spellings (inf, infinity, nan) are part of the grammar; PostgreSQL emits them capitalised.
+     * The non-finite spellings (inf, infinity, nan) are part of the grammar; PostgreSQL emits them capitalized.
      *
      * @var string
      */
@@ -44,6 +44,19 @@ trait PostgresFloatConversionTrait
         }
 
         return \sprintf('%.17H', $value);
+    }
+
+    /**
+     * The spellings PostgreSQL accepts for a value outside the finite range. It emits `Infinity`, `-Infinity` and `NaN`,
+     * but reads any case, the `inf` abbreviation and an explicit `+`.
+     */
+    protected static function isNonFiniteString(string $value): bool
+    {
+        return \in_array(
+            \mb_strtolower($value),
+            ['nan', '+nan', '-nan', 'inf', '+inf', '-inf', 'infinity', '+infinity', '-infinity'],
+            true
+        );
     }
 
     /**
