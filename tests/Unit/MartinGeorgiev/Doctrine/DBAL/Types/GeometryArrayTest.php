@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
@@ -446,11 +447,20 @@ final class GeometryArrayTest extends TestCase
         $this->type->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_inputs(mixed $item): void
+    {
+        $this->expectException(InvalidGeometryForDatabaseException::class);
+
+        $this->type->convertToDatabaseValue([$item], $this->platform);
+    }
+
     #[Test]
     public function throws_exception_for_invalid_type_from_database(): void
     {
         $this->expectException(InvalidGeometryForPHPException::class);
-        $this->expectExceptionMessage('must be a Geometry value object');
+        $this->expectExceptionMessage('Database value must be a string');
 
         $this->type->transformArrayItemForPHP(123);
     }

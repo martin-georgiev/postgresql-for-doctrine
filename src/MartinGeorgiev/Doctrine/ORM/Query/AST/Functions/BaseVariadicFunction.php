@@ -11,6 +11,7 @@ use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\NullLiteral;
 use MartinGeorgiev\Utils\DoctrineLexer;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
@@ -205,7 +206,7 @@ abstract class BaseVariadicFunction extends BaseFunction
 
             // Parsing a phantom first argument here is what used to make zero-argument functions work by accident.
             if ($lookaheadType !== $closeParenthesisType) {
-                $this->nodes[] = $parser->{$nodeMapping[0]}(); // @phpstan-ignore-line
+                $this->nodes[] = $this->parseArgumentNode($parser, $nodeMapping[0]);
             }
         } catch (\Throwable $throwable) {
             throw ParserException::withThrowable($throwable);
@@ -243,7 +244,7 @@ abstract class BaseVariadicFunction extends BaseFunction
                 }
 
                 try {
-                    $this->nodes[] = $parser->{$nodeMapping[$expectedNodeIndex]}(); // @phpstan-ignore-line
+                    $this->nodes[] = $this->parseArgumentNode($parser, $nodeMapping[$expectedNodeIndex]);
                 } catch (\Throwable $throwable) {
                     throw ParserException::withThrowable($throwable);
                 }
@@ -260,6 +261,16 @@ abstract class BaseVariadicFunction extends BaseFunction
 
         // Final validation ensures all arguments meet requirements, including any special rules in subclass implementations
         $this->validateArguments(...$this->nodes); // @phpstan-ignore-line
+    }
+
+    /**
+     * NewValue() returns PHP null rather than a Node for a literal NULL, which validateArguments(Node ...) cannot take.
+     */
+    private function parseArgumentNode(Parser $parser, string $parserMethod): Node
+    {
+        $node = $parser->{$parserMethod}(); // @phpstan-ignore-line
+
+        return $node ?? new NullLiteral(); // @phpstan-ignore-line
     }
 
     /**

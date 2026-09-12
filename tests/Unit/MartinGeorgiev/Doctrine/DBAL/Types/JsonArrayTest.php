@@ -84,6 +84,34 @@ final class JsonArrayTest extends TestCase
                 ],
                 'postgresValue' => '{"{\"key1\":\"value1\",\"key2\":false,\"key3\":\"15\",\"key4\":15,\"key5\":[112,242,309,310]}","{\"key1\":\"value2\",\"key2\":true,\"key3\":\"115\",\"key4\":115,\"key5\":[304,404,504,604]}"}',
             ],
+            'array with only a null item' => [
+                'phpValue' => [null],
+                'postgresValue' => '{NULL}',
+            ],
+            'array with null items among json values' => [
+                'phpValue' => [null, ['key' => 'value'], null, 1],
+                'postgresValue' => '{NULL,"{\"key\":\"value\"}",NULL,"1"}',
+            ],
+        ];
+    }
+
+    #[DataProvider('provideStoredNullElementRepresentations')]
+    #[Test]
+    public function converts_every_stored_null_element_representation_to_php_null(string $postgresValue): void
+    {
+        $this->assertSame([null], $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * Guards the readability of rows written before a null item became a SQL NULL element.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function provideStoredNullElementRepresentations(): array
+    {
+        return [
+            'sql null element' => ['{NULL}'],
+            'json null element stored by the previous behaviour' => ['{"null"}'],
         ];
     }
 

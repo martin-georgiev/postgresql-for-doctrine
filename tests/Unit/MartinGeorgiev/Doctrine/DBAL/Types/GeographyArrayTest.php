@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\GeographyArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
@@ -394,11 +395,20 @@ final class GeographyArrayTest extends TestCase
         $this->type->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 
+    #[DataProvider('provideInvalidArrayItemsForDatabase')]
+    #[Test]
+    public function throws_exception_for_invalid_database_value_inputs(mixed $item): void
+    {
+        $this->expectException(InvalidGeographyForDatabaseException::class);
+
+        $this->type->convertToDatabaseValue([$item], $this->platform);
+    }
+
     #[Test]
     public function throws_exception_for_invalid_type_from_database(): void
     {
         $this->expectException(InvalidGeographyForPHPException::class);
-        $this->expectExceptionMessage('must be a Geography value object');
+        $this->expectExceptionMessage('Database value must be a string');
 
         $this->type->transformArrayItemForPHP(123);
     }

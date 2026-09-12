@@ -62,6 +62,27 @@ final class WktSpatialDataTest extends TestCase
             'circular geometry with srid' => ['SRID=4326;CIRCULARSTRING(0 0, 1 1, 2 0)', 'CIRCULARSTRING', 4326],
             'polygon with holes' => ['POLYGON((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))', 'POLYGON', null],
             'complex geometrycollection' => ['GEOMETRYCOLLECTION(POINT(1 2), MULTILINESTRING((0 0, 1 1), (2 2, 3 3)), POLYGON((0 0, 0 1, 1 1, 1 0, 0 0)))', 'GEOMETRYCOLLECTION', null],
+            // EMPTY forms, as emitted by ST_AsText() for every geometry type this library supports
+            'point empty' => ['POINT EMPTY', 'POINT', null],
+            'linestring empty' => ['LINESTRING EMPTY', 'LINESTRING', null],
+            'polygon empty' => ['POLYGON EMPTY', 'POLYGON', null],
+            'multipoint empty' => ['MULTIPOINT EMPTY', 'MULTIPOINT', null],
+            'multilinestring empty' => ['MULTILINESTRING EMPTY', 'MULTILINESTRING', null],
+            'multipolygon empty' => ['MULTIPOLYGON EMPTY', 'MULTIPOLYGON', null],
+            'geometrycollection empty' => ['GEOMETRYCOLLECTION EMPTY', 'GEOMETRYCOLLECTION', null],
+            'circularstring empty' => ['CIRCULARSTRING EMPTY', 'CIRCULARSTRING', null],
+            'compoundcurve empty' => ['COMPOUNDCURVE EMPTY', 'COMPOUNDCURVE', null],
+            'curvepolygon empty' => ['CURVEPOLYGON EMPTY', 'CURVEPOLYGON', null],
+            'multicurve empty' => ['MULTICURVE EMPTY', 'MULTICURVE', null],
+            'multisurface empty' => ['MULTISURFACE EMPTY', 'MULTISURFACE', null],
+            'polyhedralsurface empty' => ['POLYHEDRALSURFACE EMPTY', 'POLYHEDRALSURFACE', null],
+            'tin empty' => ['TIN EMPTY', 'TIN', null],
+            'triangle empty' => ['TRIANGLE EMPTY', 'TRIANGLE', null],
+            'point empty with srid' => ['SRID=4326;POINT EMPTY', 'POINT', 4326],
+            'point z empty' => ['POINT Z EMPTY', 'POINT', null],
+            'point m empty' => ['POINT M EMPTY', 'POINT', null],
+            'point zm empty' => ['POINT ZM EMPTY', 'POINT', null],
+            'point z empty with srid' => ['SRID=4326;POINT Z EMPTY', 'POINT', 4326],
         ];
     }
 
@@ -107,6 +128,9 @@ final class WktSpatialDataTest extends TestCase
             // Complex SRID combinations with dimensional modifiers
             'complex geometry with srid and z' => ['SRID=4326;MULTIPOLYGON Z(((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((2 2 0, 2 3 0, 3 3 0, 3 2 0, 2 2 0)))', DimensionalModifier::Z],
             'circular geometry with srid and m' => ['SRID=4326;CIRCULARSTRING M(0 0 1, 1 1 2, 2 0 1)', DimensionalModifier::M],
+            'point z empty' => ['POINT Z EMPTY', DimensionalModifier::Z],
+            'point m empty' => ['POINT M EMPTY', DimensionalModifier::M],
+            'point zm empty' => ['POINT ZM EMPTY', DimensionalModifier::ZM],
         ];
     }
 
@@ -131,6 +155,7 @@ final class WktSpatialDataTest extends TestCase
             'invalid format' => ['INVALID_WKT'],
             'unsupported geometry type' => ['UNSUPPORTED(1 2)'],
             'whitespace-only coordinates' => ['POINT(   )'],
+            'missing space before empty' => ['POINTEMPTY'],
         ];
     }
 
@@ -165,6 +190,54 @@ final class WktSpatialDataTest extends TestCase
             'geometrycollection z' => ['GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))'],
             'srid with point z' => ['SRID=4326;POINT Z(-122.4194 37.7749 100)'],
             'srid with polygon zm' => ['SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'],
+            'point empty' => ['POINT EMPTY'],
+            'polygon empty' => ['POLYGON EMPTY'],
+            'geometrycollection empty' => ['GEOMETRYCOLLECTION EMPTY'],
+            'point z empty' => ['POINT Z EMPTY'],
+            'point zm empty' => ['POINT ZM EMPTY'],
+            'srid with point empty' => ['SRID=4326;POINT EMPTY'],
+            'srid with point z empty' => ['SRID=4326;POINT Z EMPTY'],
+        ];
+    }
+
+    #[DataProvider('provideEmptyWkt')]
+    #[Test]
+    public function is_empty_for_empty_geometries(string $wkt): void
+    {
+        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+
+        $this->assertTrue($wktSpatialData->isEmpty());
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideEmptyWkt(): array
+    {
+        return [
+            'point empty' => ['POINT EMPTY'],
+            'polygon empty' => ['POLYGON EMPTY'],
+            'point z empty with srid' => ['SRID=4326;POINT Z EMPTY'],
+        ];
+    }
+
+    #[DataProvider('provideNonEmptyWkt')]
+    #[Test]
+    public function is_not_empty_for_non_empty_geometries(string $wkt): void
+    {
+        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+
+        $this->assertFalse($wktSpatialData->isEmpty());
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideNonEmptyWkt(): array
+    {
+        return [
+            'point' => ['POINT(1 2)'],
+            'polygon' => ['POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'],
         ];
     }
 

@@ -1,4 +1,4 @@
-# Array and JSON Functions and Operators
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Array and JSON Functions and Operators
 
 This document covers PostgreSQL array and JSON/JSONB operators and functions available in this library.
 

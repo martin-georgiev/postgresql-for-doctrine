@@ -1,4 +1,4 @@
-# Integration with Symfony
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Integration with Symfony
 
 This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle.
 

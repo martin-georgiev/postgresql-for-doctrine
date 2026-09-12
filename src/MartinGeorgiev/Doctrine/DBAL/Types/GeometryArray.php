@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException;
 
 /**
@@ -18,6 +19,11 @@ final class GeometryArray extends SpatialDataArray
      * @var string
      */
     protected const TYPE_NAME = Type::GEOMETRY_ARRAY;
+
+    protected function throwInvalidItemException(mixed $item): never
+    {
+        throw InvalidGeometryForDatabaseException::forInvalidType($item);
+    }
 
     protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeometryForPHPException
     {

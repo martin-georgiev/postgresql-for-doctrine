@@ -1,4 +1,4 @@
-# Date, Time, and Range Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Date, Time, and Range Functions
 
 This document covers PostgreSQL date, time, and range functions available in this library.
 

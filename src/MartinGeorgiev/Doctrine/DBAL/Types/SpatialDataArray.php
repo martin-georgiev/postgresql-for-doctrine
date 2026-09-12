@@ -90,7 +90,7 @@ abstract class SpatialDataArray extends BaseArray
             return $item; // @phpstan-ignore-line
         }
 
-        throw $this->createInvalidTypeExceptionForPHP($item);
+        $this->throwInvalidItemException($item);
     }
 
     /**

@@ -20,11 +20,6 @@ final class InvalidGeometryForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be a string, %s given', $value);
-    }
-
-    public static function forInvalidFormat(mixed $value): self
-    {
-        return self::create('Invalid geometry format in database: %s', $value);
+        return self::create('Value must be a Geometry value object, %s given', $value);
     }
 }

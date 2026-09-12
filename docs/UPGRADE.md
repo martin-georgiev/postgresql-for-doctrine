@@ -1,4 +1,4 @@
-# Upgrade Instructions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Upgrade Instructions
 
 ## How to Upgrade to Version 3.0
 

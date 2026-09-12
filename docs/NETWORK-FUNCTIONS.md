@@ -1,4 +1,4 @@
-# Network Address Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Network Address Functions
 
 > 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) for the `inet`, `cidr`, `macaddr`, and `macaddr8` DBAL types
 

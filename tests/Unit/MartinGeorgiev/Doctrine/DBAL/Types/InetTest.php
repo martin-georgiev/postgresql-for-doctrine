@@ -98,6 +98,14 @@ final class InetTest extends TestCase
                 'phpValue' => '::ffff:192.168.1.1',
                 'postgresValue' => '::ffff:192.168.1.1',
             ],
+            'IPv4-mapped IPv6 with CIDR' => [
+                'phpValue' => '::ffff:192.168.1.1/128',
+                'postgresValue' => '::ffff:192.168.1.1/128',
+            ],
+            'IPv6 loopback with full-width CIDR' => [
+                'phpValue' => '::1/128',
+                'postgresValue' => '::1/128',
+            ],
         ];
     }
 
@@ -133,6 +141,13 @@ final class InetTest extends TestCase
             'array input' => [['not', 'ip']],
             'boolean input' => [true],
             'object input' => [new \stdClass()],
+            'triple segment IPv4 CIDR' => ['1.2.3.4/24/24'],
+            'triple segment IPv6 CIDR' => ['::ffff:1.2.3.4/24/24'],
+            'decimal netmask' => ['1.2.3.4/24.5'],
+            'signed netmask' => ['1.2.3.4/+24'],
+            'scientific notation netmask' => ['1.2.3.4/1e1'],
+            'netmask with leading space' => ['1.2.3.4/ 24'],
+            'netmask with trailing space' => ['1.2.3.4/24 '],
         ];
     }
 
@@ -167,6 +182,13 @@ final class InetTest extends TestCase
             'array input' => [['not', 'ip']],
             'boolean input' => [false],
             'object input' => [new \stdClass()],
+            'triple segment IPv4 CIDR' => ['1.2.3.4/24/24'],
+            'triple segment IPv6 CIDR' => ['::ffff:1.2.3.4/24/24'],
+            'decimal netmask' => ['1.2.3.4/24.5'],
+            'signed netmask' => ['1.2.3.4/+24'],
+            'scientific notation netmask' => ['1.2.3.4/1e1'],
+            'netmask with leading space' => ['1.2.3.4/ 24'],
+            'netmask with trailing space' => ['1.2.3.4/24 '],
         ];
     }
 }
