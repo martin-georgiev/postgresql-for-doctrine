@@ -220,10 +220,8 @@ abstract class BaseVariadicFunction extends BaseFunction
             if (($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA) === $lookaheadType) {
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
 
-                // match() consumed the separator, so the argument list may end here. Doctrine's own
-                // rules read the lookahead's type without checking it first, so handing one an
-                // exhausted lexer raises a PHP warning from inside the ORM before it reports the
-                // syntax error. The first argument is already guarded this way above.
+                // ORM 2.x reads lookahead->type behind an assert() that CI compiles out, so an exhausted
+                // lexer here surfaces as a PHP warning from the ORM rather than a syntax error.
                 if (DoctrineLexer::getLookaheadType($lexer) === null) {
                     throw ParserException::withThrowable(
                         InvalidArgumentForVariadicFunctionException::atLeast($this->getFunctionName(), $this->getMinArgumentCount())

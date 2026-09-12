@@ -51,10 +51,8 @@ class Cast extends FunctionNode
         }
 
         // Both the type name and its parameters are interpolated raw into the emitted SQL.
-        // Not reachable through the parser: the lexer only ever hands T_IDENTIFIER a value its own
-        // identifier pattern produced, and the shapes that would fail here are tokenised as an
-        // aliased or qualified name instead, which match() rejects first - and differently across
-        // the supported ORM versions. Kept as a guard over the interpolation regardless.
+        // Not reachable through the parser: T_IDENTIFIER only ever carries a value the lexer's own
+        // identifier pattern produced, so match() rejects anything that would fail here first.
         if (\preg_match('/^[A-Za-z_][A-Za-z0-9_]*\z/', $type) !== 1) {
             throw InvalidCastTypeException::forInvalidTypeName($type);
         }
