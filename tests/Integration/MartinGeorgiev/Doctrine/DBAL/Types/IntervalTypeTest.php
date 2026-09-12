@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntervalForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Interval as IntervalValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -96,6 +98,135 @@ final class IntervalTypeTest extends TestCase
             'PG normalizes month overflow' => ['1 year 14 mons', '2 years 2 mons'],
             'DateInterval' => [new \DateInterval('P1Y2M3D'), '1 year 2 mons 3 days'],
             'IntervalValueObject' => [IntervalValueObject::fromString('1 year 2 months 3 days'), '1 year 2 mons 3 days'],
+        ];
+    }
+
+    /**
+     * Each pair is a PostgreSQL interval literal and the representation the value object must
+     * produce after reading it back, whatever IntervalStyle PostgreSQL wrote it in.
+     *
+     * A value whose months and days disagree in sign is deliberately absent: sql_standard cannot
+     * express one, so PostgreSQL's own output changes the value when read back and no single
+     * expectation can hold across all four styles.
+     *
+     * @return list<array{string, string}>
+     */
+    private function intervalsWrittenByPostgres(): array
+    {
+        return [
+            ['-1.5 days', '-1 day -12:00:00'],
+            ['1 week', '7 days'],
+            ['1 year 2 mons ago', '-1 year -2 mons'],
+            ['0', '00:00:00'],
+            ['3 days', '3 days'],
+            ['10 mons 3 days', '10 mons 3 days'],
+            ['1 year 2 mons 3 days 04:05:06', '1 year 2 mons 3 days 04:05:06'],
+            ['4:05:06.5', '04:05:06.5'],
+            ['1 min 30 secs', '00:01:30'],
+            ['1 day -02:03:04', '1 day -02:03:04'],
+            ['-5 days -04:00:00', '-5 days -04:00:00'],
+            ['-00:00:01', '-00:00:01'],
+            ['1 decade', '10 years'],
+            ['1 ms', '00:00:00.001'],
+            ['1 us', '00:00:00.000001'],
+            ['1:2:3', '01:02:03'],
+            ['00:00:00.9999995', '00:00:01'],
+            ['178000000 years', '178000000 years'],
+        ];
+    }
+
+    #[DataProvider('provideIntervalStyles')]
+    #[Test]
+    public function reads_values_written_under_any_interval_style(string $intervalStyle): void
+    {
+        [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
+        $fullTableName = self::DATABASE_SCHEMA.'.'.$tableName;
+        $expectations = $this->intervalsWrittenByPostgres();
+
+        try {
+            // quoteStringLiteral() returns string on every supported DBAL major, while quote() is
+            // declared mixed on DBAL 3 and below
+            $quotedIntervalStyle = $this->connection->getDatabasePlatform()->quoteStringLiteral($intervalStyle);
+            $this->connection->executeStatement(\sprintf('SET IntervalStyle = %s', $quotedIntervalStyle));
+
+            foreach ($expectations as [$literal]) {
+                $this->connection->executeStatement(
+                    \sprintf('INSERT INTO %s ("%s") VALUES (CAST(? AS interval))', $fullTableName, $columnName),
+                    [$literal]
+                );
+            }
+
+            $storedValues = $this->connection->fetchFirstColumn(\sprintf('SELECT "%s" FROM %s ORDER BY id', $columnName, $fullTableName));
+            $this->assertCount(\count($expectations), $storedValues);
+
+            $type = Type::getType($this->getTypeName());
+            $platform = $this->connection->getDatabasePlatform();
+
+            foreach ($expectations as $index => [$literal, $expectedOutput]) {
+                $converted = $type->convertToPHPValue($storedValues[$index], $platform);
+
+                $this->assertInstanceOf(IntervalValueObject::class, $converted);
+                $this->assertSame(
+                    $expectedOutput,
+                    (string) $converted,
+                    \sprintf('Interval %s written as %s under IntervalStyle %s', $literal, \var_export($storedValues[$index], true), $intervalStyle)
+                );
+            }
+        } finally {
+            $this->connection->executeStatement('RESET IntervalStyle');
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideIntervalStyles(): array
+    {
+        return [
+            'postgres' => ['postgres'],
+            'postgres_verbose' => ['postgres_verbose'],
+            'sql_standard' => ['sql_standard'],
+            'iso_8601' => ['iso_8601'],
+        ];
+    }
+
+    /**
+     * PostgreSQL 17 introduced infinite intervals, which DateInterval cannot represent. Reading
+     * one must fail loudly rather than silently yield some finite value.
+     */
+    #[DataProvider('provideInfiniteIntervals')]
+    #[Test]
+    public function rejects_infinite_interval(string $literal): void
+    {
+        $this->requirePostgresVersion(170000, 'infinite intervals');
+
+        [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
+
+        try {
+            $this->connection->executeStatement(
+                \sprintf('INSERT INTO %s.%s ("%s") VALUES (CAST(? AS interval))', self::DATABASE_SCHEMA, $tableName, $columnName),
+                [$literal]
+            );
+
+            $storedValue = $this->connection->fetchOne(\sprintf('SELECT "%s" FROM %s.%s', $columnName, self::DATABASE_SCHEMA, $tableName));
+            $this->assertSame($literal, $storedValue);
+
+            $this->expectException(InvalidIntervalForPHPException::class);
+            Type::getType($this->getTypeName())->convertToPHPValue($storedValue, $this->connection->getDatabasePlatform());
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInfiniteIntervals(): array
+    {
+        return [
+            'positive' => ['infinity'],
+            'negative' => ['-infinity'],
         ];
     }
 }
