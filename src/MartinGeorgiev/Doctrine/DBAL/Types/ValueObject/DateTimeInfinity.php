@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresInfinityConversionTrait;
+
 /**
  * Represents PostgreSQL infinity values for a date, timestamp and timestamptz fields.
  *
@@ -18,6 +20,20 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  */
 enum DateTimeInfinity: string
 {
+    use PostgresInfinityConversionTrait;
+
+    /**
+     * PHP forbids redeclaring an enum's own `tryFrom()`, so the tolerant lookup needs a name of its
+     * own. It follows the `fromString()` the value objects use. The backing values are the spellings
+     * PostgreSQL emits, while it reads any case and an explicit `+` besides.
+     */
+    public static function tryFromString(string $value): ?self
+    {
+        $canonical = self::normalizeInfinity($value);
+
+        return $canonical === null ? null : self::from($canonical);
+    }
+
     case POSITIVE = 'infinity';
 
     case NEGATIVE = '-infinity';

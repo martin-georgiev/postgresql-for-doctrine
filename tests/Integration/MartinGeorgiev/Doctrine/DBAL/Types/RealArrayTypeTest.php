@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use PHPUnit\Framework\Attributes\Test;
+
 final class RealArrayTypeTest extends FloatArrayTypeTestCase
 {
     protected function getTypeName(): string
@@ -47,5 +49,13 @@ final class RealArrayTypeTest extends FloatArrayTypeTestCase
                 'expected' => [3.4028235E+38, -3.4028235E+38],
             ],
         ];
+    }
+
+    #[Test]
+    public function roundtrips_non_finite_values(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+        $this->runDbalBindingRoundTrip($typeName, $columnType, [\INF, -\INF, 1.5]);
     }
 }

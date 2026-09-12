@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\Test;
 
 final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
@@ -78,5 +80,34 @@ final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
             'negative exponent' => ['1.5e-20'],
             'explicit positive exponent' => ['1.7976931348623157E+308'],
         ];
+    }
+
+    #[Test]
+    public function throws_exception_for_a_doubled_sign_before_a_non_finite_value(): void
+    {
+        $this->expectException(InvalidFloatArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue('{++inf}', $this->createStub(AbstractPlatform::class));
+    }
+
+    #[Test]
+    public function converts_non_finite_values_to_php_value(): void
+    {
+        $result = $this->fixture->convertToPHPValue('{Infinity,-Infinity,NaN,1.5}', $this->createStub(AbstractPlatform::class));
+
+        $this->assertIsArray($result);
+        $this->assertSame(\INF, $result[0]);
+        $this->assertSame(-\INF, $result[1]);
+        $this->assertNan($result[2]);
+        $this->assertSame(1.5, $result[3]);
+    }
+
+    #[Test]
+    public function converts_non_finite_values_to_database_value(): void
+    {
+        $this->assertSame(
+            '{Infinity,-Infinity,NaN,1.5}',
+            $this->fixture->convertToDatabaseValue([\INF, -\INF, \NAN, 1.5], $this->createStub(AbstractPlatform::class))
+        );
     }
 }
