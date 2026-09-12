@@ -96,7 +96,7 @@ final class Macaddr8Test extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
-        $this->expectException(InvalidMacaddr8ForPHPException::class);
+        $this->expectException(InvalidMacaddr8ForDatabaseException::class);
 
         $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
@@ -124,7 +124,7 @@ final class Macaddr8Test extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
     {
-        $this->expectException(InvalidMacaddr8ForDatabaseException::class);
+        $this->expectException(InvalidMacaddr8ForPHPException::class);
 
         $this->fixture->convertToPHPValue($value, $this->platform);
     }
@@ -147,7 +147,7 @@ final class Macaddr8Test extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_formats(string $value): void
     {
-        $this->expectException(InvalidMacaddr8ForDatabaseException::class);
+        $this->expectException(InvalidMacaddr8ForPHPException::class);
         $this->expectExceptionMessage('Invalid EUI-64 MAC address format in database');
 
         $this->fixture->convertToPHPValue($value, $this->platform);

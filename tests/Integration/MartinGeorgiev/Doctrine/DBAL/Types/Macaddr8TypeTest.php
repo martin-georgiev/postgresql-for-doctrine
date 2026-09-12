@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddr8ForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidMacaddr8ForDatabaseException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -40,7 +40,7 @@ final class Macaddr8TypeTest extends ScalarTypeTestCase
     #[Test]
     public function rejects_invalid_address(): void
     {
-        $this->expectException(InvalidMacaddr8ForPHPException::class);
+        $this->expectException(InvalidMacaddr8ForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

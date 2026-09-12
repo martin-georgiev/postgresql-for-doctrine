@@ -113,7 +113,7 @@ final class InetTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidInetForPHPException::class);
+        $this->expectException(InvalidInetForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
     }
 
@@ -155,7 +155,7 @@ final class InetTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $postgresValue): void
     {
-        $this->expectException(InvalidInetForDatabaseException::class);
+        $this->expectException(InvalidInetForPHPException::class);
         $this->fixture->convertToPHPValue($postgresValue, $this->platform);
     }
 

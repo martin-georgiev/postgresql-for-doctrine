@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInetForDatabaseException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -66,7 +66,7 @@ final class InetTypeTest extends ScalarTypeTestCase
     #[Test]
     public function rejects_invalid_value(string $value): void
     {
-        $this->expectException(InvalidInetForPHPException::class);
+        $this->expectException(InvalidInetForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
