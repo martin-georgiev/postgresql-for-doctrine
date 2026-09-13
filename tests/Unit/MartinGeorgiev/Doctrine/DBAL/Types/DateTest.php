@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 use MartinGeorgiev\Doctrine\DBAL\Types\Date;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -157,5 +160,32 @@ final class DateTest extends BaseDateTimeTestCase
             'era suffix on a garbage string' => ['not-a-date BC'],
             'infinity spelled as a float' => ['inf'],
         ];
+    }
+
+    #[Test]
+    public function replaces_doctrines_built_in_date_type_only_through_override(): void
+    {
+        // The name is Doctrine's, so addType() refuses it and the swap has to be deliberate
+        $this->expectException(Exception::class);
+
+        DoctrineType::addType('date', Date::class);
+    }
+
+    #[Test]
+    public function reads_infinity_once_it_replaces_doctrines_built_in_date_type(): void
+    {
+        $type = DoctrineType::getType('date');
+        $this->assertNotInstanceOf(Date::class, $type);
+
+        DoctrineType::overrideType('date', Date::class);
+
+        try {
+            $replacement = DoctrineType::getType('date');
+            $this->assertInstanceOf(Date::class, $replacement);
+            $this->assertSame(DateTimeInfinity::POSITIVE, $replacement->convertToPHPValue('infinity', $this->platform));
+        } finally {
+            // The registry is global, so the built-in has to go back for every other test
+            DoctrineType::overrideType('date', $type::class);
+        }
     }
 }
