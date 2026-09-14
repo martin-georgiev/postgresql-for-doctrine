@@ -93,12 +93,11 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
     }
 
     /**
-     * `inf` belongs to the numeric grammar. PostgreSQL rejects it for a timestamp bound, so widening the timestamp
-     * ranges to read it would let values through that the database then refuses.
+     * PostgreSQL rejects `inf` for a timestamp bound, so reading it here would let through values the database refuses.
      */
-    #[DataProvider('provideNumericInfinityAbbreviations')]
+    #[DataProvider('provideRejectedInfinityAbbreviations')]
     #[Test]
-    public function throws_exception_for_numeric_infinity_abbreviation(string $bound): void
+    public function throws_exception_for_a_rejected_infinity_abbreviation(string $bound): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid timestamp value');
@@ -109,7 +108,7 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideNumericInfinityAbbreviations(): array
+    public static function provideRejectedInfinityAbbreviations(): array
     {
         return [
             'abbreviated' => ['inf'],

@@ -333,4 +333,41 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->assertSame((string) $rangeWithInf, (string) $rangeWithFlag);
         $this->assertSame($rangeWithInf->isUpperBoundedInfinity(), $rangeWithFlag->isUpperBoundedInfinity());
     }
+
+    #[DataProvider('provideNanBounds')]
+    #[Test]
+    public function throws_exception_for_a_nan_bound(float|int $lower, float|int $upper): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new NumericRange($lower, $upper);
+    }
+
+    /**
+     * `is_numeric()` answers true for NAN, so the numeric check alone lets it through, and
+     * PostgreSQL has no finite bound to store for it.
+     *
+     * @return array<string, array{float|int, float|int}>
+     */
+    public static function provideNanBounds(): array
+    {
+        return [
+            'NaN as the lower bound' => [\NAN, 1],
+            'NaN as the upper bound' => [1, \NAN],
+        ];
+    }
+
+    #[Test]
+    public function throws_exception_for_an_overflowing_literal_when_parsing(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        NumericRange::fromString('[1,1e999)');
+    }
+
+    #[Test]
+    public function keeps_an_explicit_infinity_bound(): void
+    {
+        $this->assertSame('[1,Infinity)', (string) new NumericRange(1, \INF));
+    }
 }
