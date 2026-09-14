@@ -265,8 +265,8 @@ $range->isLowerBoundedInfinity(); // false
 
 | Range type | Accepted bound spellings | Emitted spelling |
 |------------|--------------------------|------------------|
-| `NUMRANGE` | `infinity`, `inf` and `-inf`, any case, optional leading `+` | `Infinity` / `-Infinity` |
-| `DATERANGE`, `TSRANGE`, `TSTZRANGE` | `infinity`, any case, optional leading `+` | `infinity` / `-infinity` |
+| `NUMRANGE` | `infinity`, `-infinity`, `inf`, `-inf`, in any case; a positive bound may also be written `+infinity` or `+inf` | `Infinity` / `-Infinity` |
+| `DATERANGE`, `TSRANGE`, `TSTZRANGE` | `infinity` and `-infinity`, in any case; a positive bound may also be written `+infinity`. The `inf` abbreviation is rejected | `infinity` / `-infinity` |
 
 ```php
 // The numeric family reads the abbreviation, which a date or timestamp range rejects

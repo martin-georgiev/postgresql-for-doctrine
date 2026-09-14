@@ -10,9 +10,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 /**
  * Represents a PostgreSQL numeric range.
  *
- * Its bounds follow the numeric grammar rather than the calendar one: the `inf` abbreviation is accepted and PostgreSQL
- * emits `Infinity` capitalized, where a date or timestamp range rejects `inf` and emits `infinity` lowercase.
- *
  * @extends Range<float|int>
  *
  * @since 3.3
