@@ -275,6 +275,8 @@ $same = new NumericRange(0, null, true, false, false, false, true);
 
 **Note**: Integer ranges (INT4RANGE, INT8RANGE) do not support infinity values in PostgreSQL.
 
+> 📖 **See also**: [Infinity Values](INFINITY.md) for why a bound of infinity is a flag here, a native `INF` for floats and an enum for datetime array items.
+
 ## DQL Usage with Range Functions
 
 Register range functions for DQL queries:

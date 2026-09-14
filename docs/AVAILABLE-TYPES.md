@@ -247,6 +247,8 @@ Two further ranges PostgreSQL accepts are mapped without a sentinel, because `\D
 - **Years before 1 AD.** PostgreSQL numbers them in the BC era and has no year zero, while PHP numbers them astronomically and does. `0001-01-15 BC` therefore reads back as PHP year `0000`, and `0002-01-15 BC` as PHP year `-0001`. Format such values with `X` rather than `Y` to keep the sign visible.
 - **Years past 9999.** They round-trip unchanged; `Y` prints them in full.
 
+> 📖 **See also**: [Infinity Values](INFINITY.md) for why an array item uses this enum while a float uses `INF` and a range bound uses a flag.
+
 ---
 
 ## UUID Array Type
