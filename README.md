@@ -176,6 +176,7 @@ Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
 - [PostgreSQL ltree Types](docs/LTREE-TYPE.md)
+- [Infinity Values](docs/INFINITY.md)
 - [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md) - Overview and cross-references
   - [Array and JSON Functions](docs/ARRAY-AND-JSON-FUNCTIONS.md)
   - [PostGIS Spatial Functions](docs/SPATIAL-FUNCTIONS-AND-OPERATORS.md)
