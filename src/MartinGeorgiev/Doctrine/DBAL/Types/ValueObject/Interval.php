@@ -38,6 +38,14 @@ class Interval implements \Stringable
 
     private const MONTHS_PER_YEAR = 12;
 
+    /**
+     * PostgreSQL stores an interval as int32 months, int32 days and int64 microseconds,
+     * and rejects a value whose normalized field falls outside that.
+     */
+    private const FIELD_MIN = -2_147_483_648;
+
+    private const FIELD_MAX = 2_147_483_647;
+
     private const DAYS_PER_MONTH = 30;
 
     private const DAYS_PER_WEEK = 7;
@@ -250,8 +258,7 @@ class Interval implements \Stringable
                 continue;
             }
 
-            // PostgreSQL takes `ago` only as the closing token of a value that already carries
-            // an amount; a leading, repeated or mid-value one is malformed input, not a negation
+            // PostgreSQL takes `ago` only as the closing token of a value that already carries an amount
             if (\preg_match('/ago(?![a-z])/Ai', $value, $matches, 0, $offset) === 1) {
                 $remainder = \trim(\substr($value, $offset + 3), " \t,@");
                 if (!$hasToken || $remainder !== '') {
@@ -379,8 +386,7 @@ class Interval implements \Stringable
                 break;
 
             case 'microsecond':
-                // PostgreSQL keeps the whole microseconds and rounds the sub-microsecond
-                // remainder half to even, so '1.5 us' is 1 and '2.5 us' is 2
+                // PostgreSQL rounds the sub-microsecond remainder half to even, so '2.5 us' is 2
                 $wholeMicroseconds = (int) self::assertWithinRange($numeric, $amount);
                 $parts[3] += $wholeMicroseconds + (int) \round($numeric - $wholeMicroseconds, 0, \PHP_ROUND_HALF_EVEN);
 
@@ -425,6 +431,19 @@ class Interval implements \Stringable
      *
      * @throws InvalidIntervalException
      */
+    /**
+     * An accumulation that overflowed PHP's integer range arrives here as a float, which fails this
+     * comparison too, so a sum of individually valid amounts cannot slip past.
+     *
+     * @throws InvalidIntervalException
+     */
+    private static function assertFieldWithinRange(float|int $value, string $field): void
+    {
+        if ($value < self::FIELD_MIN || $value > self::FIELD_MAX) {
+            throw InvalidIntervalException::forOutOfRangeAmount(\sprintf('%s %s', $value, $field));
+        }
+    }
+
     private static function assertWithinRange(float $value, string $amount): float
     {
         if (\abs($value) >= (float) \PHP_INT_MAX) {
@@ -474,6 +493,9 @@ class Interval implements \Stringable
     private static function createIntervalFromParts(array $parts): \DateInterval
     {
         [$years, $months, $days, $microseconds] = $parts;
+
+        self::assertFieldWithinRange($years * self::MONTHS_PER_YEAR + $months, 'months');
+        self::assertFieldWithinRange($days, 'days');
 
         $sign = $microseconds < 0 ? -1 : 1;
         $remainder = \abs($microseconds);
@@ -571,10 +593,8 @@ class Interval implements \Stringable
     {
         $sign = $dateInterval->invert ? -1 : 1;
 
-        // DateInterval never normalizes what is assigned to it, so a fraction of a second of one
-        // or more, or an hour, minute or second field past its own range, arrives here as is.
-        // Collapsing the time fields into microseconds lets createIntervalFromParts redistribute
-        // them, the same way it does for a parsed value.
+        // DateInterval never normalizes what is assigned to it, so a fraction of a second of one or
+        // more, or a time field past its own range, arrives here as is
         $microseconds = self::toMicroseconds(
             $dateInterval->h * self::MICROSECONDS_PER_HOUR
                 + $dateInterval->i * self::MICROSECONDS_PER_MINUTE

@@ -191,10 +191,6 @@ final class IntervalTypeTest extends TestCase
         ];
     }
 
-    /**
-     * PostgreSQL 17 introduced infinite intervals, which DateInterval cannot represent. Reading
-     * one must fail loudly rather than silently yield some finite value.
-     */
     #[DataProvider('provideInfiniteIntervals')]
     #[Test]
     public function rejects_infinite_interval(string $literal): void

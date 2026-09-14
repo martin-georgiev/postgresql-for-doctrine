@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
 
 /**
- * Exception thrown when creating an Interval value object from an unparsable string.
+ * Thrown when an Interval cannot be built from a string.
  *
- * Extends \InvalidArgumentException rather than ConversionException, which the siblings in this
- * namespace also do: Interval::fromString() has always thrown \InvalidArgumentException, and
- * switching to ConversionException would break existing catch blocks.
+ * Extends \InvalidArgumentException, not ConversionException: fromString() has thrown that since the
+ * type was added, and moving it would break existing catch blocks.
  *
  * @since 4.8
  *

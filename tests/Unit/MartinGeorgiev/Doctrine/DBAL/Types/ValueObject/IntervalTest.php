@@ -278,8 +278,7 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Units PostgreSQL accepts on input but never writes back. Note that a bare 'm' is minutes,
-     * and that a fractional microsecond is rounded half to even, so '1.5 us' is 1 and '2.5 us' is 2.
+     * Units PostgreSQL accepts on input but never writes back.
      *
      * @return array<string, array{string, string}>
      */
@@ -324,8 +323,7 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * PostgreSQL accepts single-digit minute and second fields and numbers written with a
-     * dangling decimal point, none of which it ever writes back.
+     * Shapes PostgreSQL accepts on input but never writes back.
      *
      * @return array<string, array{string, string}>
      */
@@ -380,8 +378,6 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * PostgreSQL 17 and later can store an infinite interval, which DateInterval cannot carry.
-     *
      * @return array<string, array{string}>
      */
     public static function provideInfiniteIntervals(): array
@@ -569,5 +565,54 @@ final class IntervalTest extends TestCase
 
         $this->assertNotSame($interval->toDateInterval(), $interval->toDateInterval());
         $this->assertEquals($interval->toDateInterval(), $interval->toDateInterval());
+    }
+
+    #[DataProvider('provideFieldsAtTheirLimit')]
+    #[Test]
+    public function parses_a_field_at_its_limit(string $input, string $expectedOutput): void
+    {
+        $this->assertSame($expectedOutput, (string) Interval::fromString($input));
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideFieldsAtTheirLimit(): array
+    {
+        return [
+            'months at the upper limit' => ['2147483647 mons', '2147483647 mons'],
+            'months at the lower limit' => ['-2147483648 mons', '-2147483648 mons'],
+            'days at the upper limit' => ['2147483647 days', '2147483647 days'],
+            'days at the lower limit' => ['-2147483648 days', '-2147483648 days'],
+        ];
+    }
+
+    #[DataProvider('provideFieldsPastTheirLimit')]
+    #[Test]
+    public function throws_exception_for_a_field_past_its_limit(string $input): void
+    {
+        $this->expectException(InvalidIntervalException::class);
+
+        Interval::fromString($input);
+    }
+
+    /**
+     * PostgreSQL stores months and days as int32 and rejects anything wider, whether a single
+     * amount states it or several valid ones add up to it.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function provideFieldsPastTheirLimit(): array
+    {
+        return [
+            'months one past the upper limit' => ['2147483648 mons'],
+            'months one past the lower limit' => ['-2147483649 mons'],
+            'days one past the upper limit' => ['2147483648 days'],
+            'days one past the lower limit' => ['-2147483649 days'],
+            'years multiplying past the month limit' => ['200000000 years'],
+            'valid months adding up past the limit' => ['2000000000 mons 2000000000 mons'],
+            'valid days adding up past the limit' => ['2000000000 days 2000000000 days'],
+            'valid years and months adding up past the limit' => ['178956970 years 8 mons'],
+        ];
     }
 }
