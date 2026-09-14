@@ -347,14 +347,14 @@ class Interval implements \Stringable
 
         switch ($unit) {
             case 'year':
-                $totalMonths = (int) \round(self::assertWithinRange($numeric * self::MONTHS_PER_YEAR, $amount), 0, \PHP_ROUND_HALF_EVEN);
+                $totalMonths = (int) \round(self::assertWithinPhpIntegerRange($numeric * self::MONTHS_PER_YEAR, $amount), 0, \PHP_ROUND_HALF_EVEN);
                 $parts[0] += \intdiv($totalMonths, self::MONTHS_PER_YEAR);
                 $parts[1] += $totalMonths % self::MONTHS_PER_YEAR;
 
                 break;
 
             case 'month':
-                $wholeMonths = (int) self::assertWithinRange($numeric, $amount);
+                $wholeMonths = (int) self::assertWithinPhpIntegerRange($numeric, $amount);
                 $parts[1] += $wholeMonths;
                 $parts = self::addDays($parts, ($numeric - $wholeMonths) * self::DAYS_PER_MONTH, $amount);
 
@@ -387,7 +387,7 @@ class Interval implements \Stringable
 
             case 'microsecond':
                 // PostgreSQL rounds the sub-microsecond remainder half to even, so '2.5 us' is 2
-                $wholeMicroseconds = (int) self::assertWithinRange($numeric, $amount);
+                $wholeMicroseconds = (int) self::assertWithinPhpIntegerRange($numeric, $amount);
                 $parts[3] += $wholeMicroseconds + (int) \round($numeric - $wholeMicroseconds, 0, \PHP_ROUND_HALF_EVEN);
 
                 break;
@@ -408,7 +408,7 @@ class Interval implements \Stringable
      */
     private static function addDays(array $parts, float $days, string $amount): array
     {
-        $wholeDays = (int) self::assertWithinRange($days, $amount);
+        $wholeDays = (int) self::assertWithinPhpIntegerRange($days, $amount);
 
         // Rounding the leftover to whole microseconds absorbs binary-float noise, so that
         // 0.4 months lands on 12 days rather than 11 days 23:59:59.999999
@@ -422,29 +422,29 @@ class Interval implements \Stringable
 
     private static function toMicroseconds(float $microseconds, string $amount): int
     {
-        return (int) \round(self::assertWithinRange($microseconds, $amount));
+        return (int) \round(self::assertWithinPhpIntegerRange($microseconds, $amount));
     }
 
     /**
-     * PostgreSQL keeps an interval in int64 microseconds and rejects anything wider. Without
-     * this guard PHP would raise a warning and cast the overflowing float to a bogus integer.
+     * An accumulation that overflowed PHP's own integer range arrives here as a float, which fails
+     * this comparison too, so a sum of individually valid amounts cannot slip past.
      *
      * @throws InvalidIntervalException
      */
-    /**
-     * An accumulation that overflowed PHP's integer range arrives here as a float, which fails this
-     * comparison too, so a sum of individually valid amounts cannot slip past.
-     *
-     * @throws InvalidIntervalException
-     */
-    private static function assertFieldWithinRange(float|int $value, string $field): void
+    private static function assertWithinPostgresFieldRange(float|int $value, string $field): void
     {
         if ($value < self::FIELD_MIN || $value > self::FIELD_MAX) {
             throw InvalidIntervalException::forOutOfRangeAmount(\sprintf('%s %s', $value, $field));
         }
     }
 
-    private static function assertWithinRange(float $value, string $amount): float
+    /**
+     * Without this an amount wider than PHP's integer range raises a warning and casts to a bogus
+     * integer, so the overflow would reach the database as some unrelated value.
+     *
+     * @throws InvalidIntervalException
+     */
+    private static function assertWithinPhpIntegerRange(float $value, string $amount): float
     {
         if (\abs($value) >= (float) \PHP_INT_MAX) {
             throw InvalidIntervalException::forOutOfRangeAmount($amount);
@@ -494,8 +494,8 @@ class Interval implements \Stringable
     {
         [$years, $months, $days, $microseconds] = $parts;
 
-        self::assertFieldWithinRange($years * self::MONTHS_PER_YEAR + $months, 'months');
-        self::assertFieldWithinRange($days, 'days');
+        self::assertWithinPostgresFieldRange($years * self::MONTHS_PER_YEAR + $months, 'months');
+        self::assertWithinPostgresFieldRange($days, 'days');
 
         $sign = $microseconds < 0 ? -1 : 1;
         $remainder = \abs($microseconds);
