@@ -18,12 +18,15 @@
 | double precision[] | _float8 | `MartinGeorgiev\Doctrine\DBAL\Types\DoublePrecisionArray` |
 | numeric[] | _numeric | `MartinGeorgiev\Doctrine\DBAL\Types\NumericArray` (see [note](#numeric-array-type)) |
 |---|---|---|
-| date[] | _date | `MartinGeorgiev\Doctrine\DBAL\Types\DateArray` (see [note](#datetime-array-types)) |
+| date | date | `MartinGeorgiev\Doctrine\DBAL\Types\Date` (see [note](#datetime-types)) |
+| date[] | _date | `MartinGeorgiev\Doctrine\DBAL\Types\DateArray` (see [note](#datetime-types)) |
 | interval | interval | `MartinGeorgiev\Doctrine\DBAL\Types\Interval` |
 | interval[] | _interval | `MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray` |
 | time[] | _time | `MartinGeorgiev\Doctrine\DBAL\Types\TimeArray` |
-| timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` (see [note](#datetime-array-types)) |
-| timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` (see [note](#datetime-array-types)) |
+| timestamp | timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\Timestamp` (see [note](#datetime-types)) |
+| timestamp[] | _timestamp | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray` (see [note](#datetime-types)) |
+| timestamptz | timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTz` (see [note](#datetime-types)) |
+| timestamptz[] | _timestamptz | `MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray` (see [note](#datetime-types)) |
 | timetz | timetz | `MartinGeorgiev\Doctrine\DBAL\Types\Timetz` |
 | timetz[] | _timetz | `MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray` |
 |---|---|---|
@@ -223,9 +226,9 @@ The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather th
 
 ---
 
-## Datetime Array Types
+## Datetime Types
 
-Items of `date[]`, `timestamp[]` and `timestamptz[]` map to `\DateTimeImmutable`, with one exception: PostgreSQL's [`infinity` and `-infinity`](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-SPECIAL-TABLE) sort before and after every other value of their type and have no `\DateTimeImmutable` counterpart, so they map to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity` enum instead. Reading a column that may hold them means widening the item check:
+`date`, `timestamp` and `timestamptz`, and the items of `date[]`, `timestamp[]` and `timestamptz[]`, map to `\DateTimeImmutable`, with one exception: PostgreSQL's [`infinity` and `-infinity`](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-SPECIAL-TABLE) sort before and after every other value of their type and have no `\DateTimeImmutable` counterpart, so they map to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity` enum instead. Reading a column that may hold them means widening the value check:
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity;
@@ -240,12 +243,24 @@ foreach ($entity->getValidOn() as $item) {
 }
 ```
 
-Both are written back by putting the same enum case into the array. They are deliberately kept apart from `null`, which stays the SQL NULL: an unbounded date is not an unknown one.
+Both are written back by assigning the same enum case to the property or array item. They are deliberately kept apart from `null`, which stays the SQL NULL: an unbounded date is not an unknown one.
 
 Two further ranges PostgreSQL accepts are mapped without a sentinel, because `\DateTimeImmutable` can hold them:
 
 - **Years before 1 AD.** PostgreSQL numbers them in the BC era and has no year zero, while PHP numbers them astronomically and does. `0001-01-15 BC` therefore reads back as PHP year `0000`, and `0002-01-15 BC` as PHP year `-0001`. Format such values with `X` rather than `Y` to keep the sign visible.
 - **Years past 9999.** They round-trip unchanged; `Y` prints them in full.
+
+### The scalar types are an opt-in that shadows Doctrine's own
+
+The three scalar types are named after the PostgreSQL types they carry, as every type in this library is. Two of those names are free, but `date` is also the name of one of Doctrine's built-in types, so registering it is a deliberate, application-wide decision rather than a per-column one:
+
+- `Type::addType('date', ...)` throws, because the name is taken. Use `Type::overrideType('date', ...)`.
+- Doctrine's built-in `date` returns a mutable `\DateTime`. This one returns `\DateTimeImmutable` or `DateTimeInfinity`, so an entity property typed `\DateTime` will no longer be assignable.
+- Every `date` column in the application changes over at once. There is no way to keep some of them on Doctrine's type, short of mapping those to `date_immutable` or `datetime` instead.
+
+`timestamp` and `timestamptz` collide with nothing — Doctrine calls its equivalents `datetime` and `datetimetz` — so `Type::addType()` registers them and existing columns keep whatever type they are already mapped to. What they do change is the *reverse* mapping: `$platform->registerDoctrineTypeMapping('timestamp', 'timestamp')` replaces the platform default that resolves a PostgreSQL `timestamp` column to Doctrine's `datetime`, which schema introspection and diffing rely on. Register the mapping only if you want introspection to follow.
+
+None of this applies to the array types. `date[]`, `timestamp[]` and `timestamptz[]` have no Doctrine counterpart at all.
 
 ---
 

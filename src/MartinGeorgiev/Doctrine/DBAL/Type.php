@@ -99,6 +99,11 @@ final class Type
     /**
      * @var string
      */
+    public const DATE = 'date';
+
+    /**
+     * @var string
+     */
     public const DATE_ARRAY = 'date[]';
 
     /**
@@ -414,7 +419,17 @@ final class Type
     /**
      * @var string
      */
+    public const TIMESTAMP = 'timestamp';
+
+    /**
+     * @var string
+     */
     public const TIMESTAMP_ARRAY = 'timestamp[]';
+
+    /**
+     * @var string
+     */
+    public const TIMESTAMPTZ = 'timestamptz';
 
     /**
      * @var string

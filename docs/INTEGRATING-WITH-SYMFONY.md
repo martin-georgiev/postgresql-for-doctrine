@@ -34,11 +34,17 @@ doctrine:
             'varchar[]': MartinGeorgiev\Doctrine\DBAL\Types\VarcharArray
 
             # Date and time types
+            # date, timestamp and timestamptz read and write PostgreSQL's infinity values; see AVAILABLE-TYPES.md.
+            # Listing date replaces Doctrine's built-in date type across the whole application. The timestamp and
+            # timestamptz names are free, so listing those leaves existing columns alone.
+            date: MartinGeorgiev\Doctrine\DBAL\Types\Date
             'date[]': MartinGeorgiev\Doctrine\DBAL\Types\DateArray
             interval: MartinGeorgiev\Doctrine\DBAL\Types\Interval
             'interval[]': MartinGeorgiev\Doctrine\DBAL\Types\IntervalArray
             'time[]': MartinGeorgiev\Doctrine\DBAL\Types\TimeArray
+            timestamp: MartinGeorgiev\Doctrine\DBAL\Types\Timestamp
             'timestamp[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray
+            timestamptz: MartinGeorgiev\Doctrine\DBAL\Types\TimestampTz
             'timestamptz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray
             timetz: MartinGeorgiev\Doctrine\DBAL\Types\Timetz
             'timetz[]': MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray
@@ -237,6 +243,7 @@ doctrine:
                     _ulid: !php/const MartinGeorgiev\Doctrine\DBAL\Type::ULID_ARRAY
 
                     # Datetime array type mappings
+                    date: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE
                     'date[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY
                     _date: !php/const MartinGeorgiev\Doctrine\DBAL\Type::DATE_ARRAY
                     interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL
@@ -244,8 +251,10 @@ doctrine:
                     _interval: !php/const MartinGeorgiev\Doctrine\DBAL\Type::INTERVAL_ARRAY
                     'time[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIME_ARRAY
                     _time: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIME_ARRAY
+                    timestamp: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP
                     'timestamp[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
                     _timestamp: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMP_ARRAY
+                    timestamptz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ
                     'timestamptz[]': !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
                     _timestamptz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMESTAMPTZ_ARRAY
                     timetz: !php/const MartinGeorgiev\Doctrine\DBAL\Type::TIMETZ

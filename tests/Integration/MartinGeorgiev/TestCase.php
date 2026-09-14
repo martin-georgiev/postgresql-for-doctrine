@@ -31,6 +31,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Citext;
 use MartinGeorgiev\Doctrine\DBAL\Types\CitextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Cube;
 use MartinGeorgiev\Doctrine\DBAL\Types\CubeArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Date;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\DateMultirangeArray;
@@ -92,7 +93,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimeArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\Timestamp;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampArray;
+use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTz;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimestampTzArray;
 use MartinGeorgiev\Doctrine\DBAL\Types\Timetz;
 use MartinGeorgiev\Doctrine\DBAL\Types\TimetzArray;
@@ -294,6 +297,7 @@ abstract class TestCase extends BaseTestCase
             'citext[]' => CitextArray::class,
             'cube' => Cube::class,
             'cube[]' => CubeArray::class,
+            'date' => Date::class,
             'date[]' => DateArray::class,
             'daterange' => DateRange::class,
             'daterange[]' => DateRangeArray::class,
@@ -354,7 +358,9 @@ abstract class TestCase extends BaseTestCase
             'smallint[]' => SmallIntArray::class,
             'text[]' => TextArray::class,
             'time[]' => TimeArray::class,
+            'timestamp' => Timestamp::class,
             'timestamp[]' => TimestampArray::class,
+            'timestamptz' => TimestampTz::class,
             'timestamptz[]' => TimestampTzArray::class,
             'timetz' => Timetz::class,
             'timetz[]' => TimetzArray::class,
