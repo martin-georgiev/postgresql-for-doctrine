@@ -15,8 +15,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidIntervalExc
  * - sql_standard: +1-2 +3 +4:05:06
  * - iso_8601: P1Y2M3DT4H5M6S
  *
- * The infinite intervals PostgreSQL 17+ can store are rejected, as DateInterval cannot carry them.
- *
  * @see https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
  * @since 4.4
  *
@@ -39,12 +37,11 @@ class Interval implements \Stringable
     private const MONTHS_PER_YEAR = 12;
 
     /**
-     * PostgreSQL stores an interval as int32 months, int32 days and int64 microseconds,
-     * and rejects a value whose normalized field falls outside that.
+     * PostgreSQL interval is stored as int32 for months & days, and int64 for microseconds.
      */
-    private const FIELD_MIN = -2_147_483_648;
+    private const POSTGRESQL_MIN_SUPPORTED_RANGE_FOR_FIELD = -2_147_483_648;
 
-    private const FIELD_MAX = 2_147_483_647;
+    private const POSTGRESQL_MAX_SUPPORTED_RANGE_FOR_FIELD = 2_147_483_647;
 
     private const DAYS_PER_MONTH = 30;
 
@@ -90,8 +87,7 @@ class Interval implements \Stringable
         'hrs' => 'hour',
         'hour' => 'hour',
         'hours' => 'hour',
-        // PostgreSQL reads a bare 'm' as minutes, not months
-        'm' => 'minute',
+        'm' => 'minute', // PostgreSQL reads a bare 'm' as minutes
         'min' => 'minute',
         'mins' => 'minute',
         'minute' => 'minute',
@@ -197,8 +193,8 @@ class Interval implements \Stringable
     }
 
     /**
-     * PostgreSQL's sql_standard style lets a leading sign govern every field that carries
-     * no sign of its own, so "-1-2 3 4:05:06" is -1 years -2 mons -3 days -04:05:06.
+     * PostgreSQL's sql_standard style lets a leading sign govern every field that carries no sign of its own.
+     * E.g. "-1-2 3 4:05:06" is -1 years -2 mons -3 days -04:05:06.
      *
      * @return array{int, int, int, int}|null null when $value is not in sql_standard shape
      */
@@ -238,8 +234,7 @@ class Interval implements \Stringable
     }
 
     /**
-     * Covers the postgres and postgres_verbose styles and the traditional input syntax, all of
-     * which are sequences of signed amounts carrying unit names.
+     * Covers the postgres and postgres_verbose styles and the traditional input syntax.
      *
      * @return array{int, int, int, int}
      */
@@ -297,8 +292,7 @@ class Interval implements \Stringable
                 continue;
             }
 
-            // A year-month field may also open a traditional value, as in '1-2 3 days'. Its
-            // sign covers both of its own numbers but, unlike sql_standard, stops there
+            // A year-month field may also open a traditional value, as in '1-2 3 days'
             if (\preg_match('/([+-])?(\d+)-(\d+)(?![\d.:-])/A', $value, $matches, 0, $offset) === 1) {
                 $sign = self::signOf($matches[1], 1);
                 $parts[0] += $sign * (int) $matches[2];
@@ -309,7 +303,7 @@ class Interval implements \Stringable
                 continue;
             }
 
-            // PostgreSQL reads a unitless number as seconds, which is also how it writes zero
+            // PostgreSQL reads a unitless number as seconds
             if (\preg_match('/([+-]?'.self::NUMBER_PATTERN.')(?![\d.])/A', $value, $matches, 0, $offset) === 1) {
                 $parts = self::applyUnit($parts, 'second', $matches[1]);
                 $offset += \strlen($matches[0]);
@@ -329,8 +323,8 @@ class Interval implements \Stringable
     }
 
     /**
-     * As in PostgreSQL, a fractional year rounds to a whole month and stops there, while every
-     * other fractional unit keeps cascading into the next lower one, down to microseconds.
+     * As in PostgreSQL, a fractional year rounds to a whole month and stops there.
+     * Every other fractional unit keeps cascading into the next lower one, down to microseconds.
      *
      * @param array{int, int, int, int} $parts
      *
@@ -386,7 +380,6 @@ class Interval implements \Stringable
                 break;
 
             case 'microsecond':
-                // PostgreSQL rounds the sub-microsecond remainder half to even, so '2.5 us' is 2
                 $wholeMicroseconds = (int) self::assertWithinPhpIntegerRange($numeric, $amount);
                 $parts[3] += $wholeMicroseconds + (int) \round($numeric - $wholeMicroseconds, 0, \PHP_ROUND_HALF_EVEN);
 
@@ -410,8 +403,8 @@ class Interval implements \Stringable
     {
         $wholeDays = (int) self::assertWithinPhpIntegerRange($days, $amount);
 
-        // Rounding the leftover to whole microseconds absorbs binary-float noise, so that
-        // 0.4 months lands on 12 days rather than 11 days 23:59:59.999999
+        // Rounding the leftover to whole microseconds absorbs binary-float noise,
+        // so that 0.4 months lands on 12 days rather than 11 days 23:59:59.999999
         $microseconds = (int) \round(($days - $wholeDays) * self::MICROSECONDS_PER_DAY);
 
         $parts[2] += $wholeDays + \intdiv($microseconds, self::MICROSECONDS_PER_DAY);
@@ -426,21 +419,20 @@ class Interval implements \Stringable
     }
 
     /**
-     * An accumulation that overflowed PHP's own integer range arrives here as a float, which fails
-     * this comparison too, so a sum of individually valid amounts cannot slip past.
+     * An accumulation that overflowed PHP's own integer range arrives here as a float.
      *
      * @throws InvalidIntervalException
      */
     private static function assertWithinPostgresFieldRange(float|int $value, string $field): void
     {
-        if ($value < self::FIELD_MIN || $value > self::FIELD_MAX) {
+        if ($value < self::POSTGRESQL_MIN_SUPPORTED_RANGE_FOR_FIELD || $value > self::POSTGRESQL_MAX_SUPPORTED_RANGE_FOR_FIELD) {
             throw InvalidIntervalException::forOutOfRangeAmount(\sprintf('%s %s', $value, $field));
         }
     }
 
     /**
-     * Without this an amount wider than PHP's integer range raises a warning and casts to a bogus
-     * integer, so the overflow would reach the database as some unrelated value.
+     * Without this, an amount wider than PHP's integer range raises a warning and casts to a bogus integer.
+     * This risks the overflow reaching the database as some unrelated value.
      *
      * @throws InvalidIntervalException
      */
@@ -479,8 +471,7 @@ class Interval implements \Stringable
             + (float) $seconds * self::MICROSECONDS_PER_SECOND;
 
         if ($fraction !== '') {
-            // PostgreSQL rounds a sub-microsecond remainder rather than dropping it,
-            // so 00:00:00.9999995 is a whole second
+            // PostgreSQL rounds a sub-microsecond remainder, so 00:00:00.9999995 is a whole second
             $microseconds += \round((float) ('0.'.$fraction) * self::MICROSECONDS_PER_SECOND);
         }
 
@@ -593,8 +584,8 @@ class Interval implements \Stringable
     {
         $sign = $dateInterval->invert ? -1 : 1;
 
-        // DateInterval never normalizes what is assigned to it, so a fraction of a second of one or
-        // more, or a time field past its own range, arrives here as is
+        // DateInterval never normalizes what is assigned to it.
+        // A fraction of a second of one or more, or a time field past its own range, arrives here as-is.
         $microseconds = self::toMicroseconds(
             $dateInterval->h * self::MICROSECONDS_PER_HOUR
                 + $dateInterval->i * self::MICROSECONDS_PER_MINUTE

@@ -102,16 +102,11 @@ final class IntervalTypeTest extends TestCase
     }
 
     /**
-     * Each pair is a PostgreSQL interval literal and the representation the value object must
-     * produce after reading it back, whatever IntervalStyle PostgreSQL wrote it in.
-     *
-     * A value whose months and days disagree in sign is deliberately absent: sql_standard cannot
-     * express one, so PostgreSQL's own output changes the value when read back and no single
-     * expectation can hold across all four styles.
+     * Pairs of PostgreSQL interval literals and the representation the value object must produce after reading it back.
      *
      * @return list<array{string, string}>
      */
-    private function intervalsWrittenByPostgres(): array
+    private function getPairsOfIntervalsLiteralsAndPostgresWrittenValues(): array
     {
         return [
             ['-1.5 days', '-1 day -12:00:00'],
@@ -141,11 +136,9 @@ final class IntervalTypeTest extends TestCase
     {
         [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
         $fullTableName = self::DATABASE_SCHEMA.'.'.$tableName;
-        $expectations = $this->intervalsWrittenByPostgres();
+        $expectations = $this->getPairsOfIntervalsLiteralsAndPostgresWrittenValues();
 
         try {
-            // quoteStringLiteral() returns string on every supported DBAL major, while quote() is
-            // declared mixed on DBAL 3 and below
             $quotedIntervalStyle = $this->connection->getDatabasePlatform()->quoteStringLiteral($intervalStyle);
             $this->connection->executeStatement(\sprintf('SET IntervalStyle = %s', $quotedIntervalStyle));
 

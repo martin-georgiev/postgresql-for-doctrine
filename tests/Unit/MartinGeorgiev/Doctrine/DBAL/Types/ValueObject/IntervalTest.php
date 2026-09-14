@@ -133,9 +133,6 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Outside the strict sql_standard shapes a year-month field opens a traditional value, where
-     * a trailing unitless number is seconds rather than days and the field's sign does not reach it.
-     *
      * @return array<string, array{string, string}>
      */
     public static function provideYearMonthFieldWithTrailingValue(): array
@@ -158,9 +155,6 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Strings PostgreSQL emits under IntervalStyle postgres_verbose, which marks a negative
-     * interval with a trailing 'ago' rather than per-field signs.
-     *
      * @return array<string, array{string, string}>
      */
     public static function providePostgresVerboseOutput(): array
@@ -192,9 +186,6 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * Strings PostgreSQL emits under IntervalStyle iso_8601. \DateInterval rejects both the
-     * per-component minus signs and the fractional seconds PostgreSQL writes here.
-     *
      * @return array<string, array{string, string}>
      */
     public static function provideIso8601Output(): array
@@ -351,11 +342,10 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * The sql_standard style cannot express an interval whose fields differ in sign, so
-     * PostgreSQL's own output is lossy here and reading it back changes the value. These cases
-     * pin the parser to what PostgreSQL itself makes of those strings, not to the value that
-     * was written: PostgreSQL turns '-1 mon 1 day 00:00:01' into '-0-1 -1 -0:00:01' and then
-     * reads that back as '-1 mons -1 days -00:00:01'.
+     * The sql_standard style cannot express an interval whose fields differ in sign.
+     * PostgreSQL's own output is lossy here and reading it back changes the value.
+     * These cases pin the parser to what PostgreSQL itself makes of those strings.
+     * E.g. PostgreSQL turns '-1 mon 1 day 00:00:01' into '-0-1 -1 -0:00:01' and then reads that back as '-1 mons -1 days -00:00:01'.
      *
      * @return array<string, array{string, string}>
      */
@@ -401,8 +391,8 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * PostgreSQL keeps an interval in int64 microseconds and rejects anything wider. Without the
-     * range guard PHP raises "float is not representable as int" and stores a nonsense value.
+     * PostgreSQL keeps an interval in int64 microseconds and rejects anything wider.
+     * Without the range guard PHP raises "float is not representable as int" and stores a nonsense value.
      *
      * @return array<string, array{string}>
      */
@@ -438,8 +428,6 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * PostgreSQL takes `ago` only as the closing token of a value that already carries an amount.
-     *
      * @return array<string, array{string}>
      */
     public static function provideMisplacedAgo(): array
@@ -517,8 +505,8 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * DateInterval accepts whatever is assigned to it without normalizing, so a fraction of a
-     * second of one or more used to be printed as the fraction itself: f=1.5 gave '00:00:00.15'.
+     * DateInterval accepts whatever is assigned to it without normalizing.
+     * A fraction of a second of one or more used to be printed as the fraction itself: f=1.5 gave '00:00:00.15'.
      *
      * @return \Generator<string, array{\DateInterval, string}>
      */
@@ -597,8 +585,7 @@ final class IntervalTest extends TestCase
     }
 
     /**
-     * PostgreSQL stores months and days as int32 and rejects anything wider, whether a single
-     * amount states it or several valid ones add up to it.
+     * PostgreSQL stores months and days as int32 and rejects anything wider.
      *
      * @return array<string, array{string}>
      */
