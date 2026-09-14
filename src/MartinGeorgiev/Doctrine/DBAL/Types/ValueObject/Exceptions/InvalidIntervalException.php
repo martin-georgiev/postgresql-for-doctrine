@@ -7,9 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
 /**
  * Thrown when an Interval cannot be built from a string.
  *
- * Extends \InvalidArgumentException, not ConversionException: fromString() has thrown that since the
- * type was added, and moving it would break existing catch blocks.
- *
  * @since 4.8
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
