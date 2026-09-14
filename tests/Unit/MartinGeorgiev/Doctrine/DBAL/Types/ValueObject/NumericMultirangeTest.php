@@ -58,6 +58,8 @@ final class NumericMultirangeTest extends TestCase
             'mixed integer and decimal' => ['{[1,5),[10.5,20.5)}', '{[1,5),[10.5,20.5)}'],
             'inclusive upper bound' => ['{[1.5,5.5]}', '{[1.5,5.5]}'],
             'exclusive lower bound' => ['{(1.5,5.5)}', '{(1.5,5.5)}'],
+            'abbreviated infinity bound' => ['{[1,inf)}', '{[1,Infinity)}'],
+            'abbreviated negative infinity bound' => ['{[-inf,1)}', '{[-Infinity,1)}'],
         ];
     }
 

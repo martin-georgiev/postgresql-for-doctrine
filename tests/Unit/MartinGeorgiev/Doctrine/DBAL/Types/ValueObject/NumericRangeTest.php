@@ -119,6 +119,8 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'bounded by negative infinity' => ['[-Infinity,10)', new NumericRange(-INF, 10)];
         yield 'unbounded upper' => ['[1,)', new NumericRange(1, null)];
         yield 'bounded by positive infinity' => ['[1,Infinity)', new NumericRange(1, INF)];
+        yield 'bounded by abbreviated negative infinity' => ['[-inf,10)', new NumericRange(-INF, 10)];
+        yield 'bounded by abbreviated positive infinity' => ['[1,inf)', new NumericRange(1, INF)];
         yield 'empty range' => ['empty', NumericRange::empty()];
     }
 
@@ -243,9 +245,83 @@ final class NumericRangeTest extends BaseRangeTestCase
 
     public static function providePhpInfConstantCases(): \Generator
     {
-        yield 'upper bounded infinity' => [0, INF, '[0,infinity)', false, true];
-        yield 'lower bounded infinity' => [-INF, 100, '[-infinity,100)', true, false];
-        yield 'both bounds infinity' => [-INF, INF, '[-infinity,infinity)', true, true];
+        yield 'upper bounded infinity' => [0, INF, '[0,Infinity)', false, true];
+        yield 'lower bounded infinity' => [-INF, 100, '[-Infinity,100)', true, false];
+        yield 'both bounds infinity' => [-INF, INF, '[-Infinity,Infinity)', true, true];
+    }
+
+    #[DataProvider('provideInfinitySpellings')]
+    #[Test]
+    public function parses_every_accepted_infinity_spelling(string $bound): void
+    {
+        $numericRange = NumericRange::fromString(\sprintf('[1,%s)', $bound));
+
+        $this->assertSame('[1,Infinity)', (string) $numericRange);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInfinitySpellings(): array
+    {
+        return [
+            'canonical' => ['Infinity'],
+            'lowercase' => ['infinity'],
+            'uppercase' => ['INFINITY'],
+            'mixed case' => ['InFiNiTy'],
+            'explicit plus' => ['+infinity'],
+            'abbreviated' => ['inf'],
+            'abbreviated uppercase' => ['INF'],
+            'abbreviated with explicit plus' => ['+inf'],
+        ];
+    }
+
+    #[DataProvider('provideNegativeInfinitySpellings')]
+    #[Test]
+    public function parses_every_accepted_negative_infinity_spelling(string $bound): void
+    {
+        $numericRange = NumericRange::fromString(\sprintf('[%s,1)', $bound));
+
+        $this->assertSame('[-Infinity,1)', (string) $numericRange);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideNegativeInfinitySpellings(): array
+    {
+        return [
+            'canonical' => ['-Infinity'],
+            'lowercase' => ['-infinity'],
+            'abbreviated' => ['-inf'],
+            'abbreviated uppercase' => ['-INF'],
+        ];
+    }
+
+    /**
+     * PostgreSQL orders NaN above every other numeric bound instead of treating it as an open end, so it is not an
+     * infinity spelling and the value object has no representation for it.
+     */
+    #[DataProvider('provideNonInfiniteNonFiniteBounds')]
+    #[Test]
+    public function throws_exception_for_non_infinite_bound(string $bound): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid numeric value');
+
+        NumericRange::fromString(\sprintf('[1,%s)', $bound));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideNonInfiniteNonFiniteBounds(): array
+    {
+        return [
+            'canonical' => ['NaN'],
+            'lowercase' => ['nan'],
+            'negative' => ['-nan'],
+        ];
     }
 
     #[Test]

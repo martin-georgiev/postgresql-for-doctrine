@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 
 /**
  * Represents a PostgreSQL numeric range.
+ *
+ * Its bounds follow the numeric grammar rather than the calendar one: the `inf` abbreviation is accepted and PostgreSQL
+ * emits `Infinity` capitalized, where a date or timestamp range rejects `inf` and emits `infinity` lowercase.
  *
  * @extends Range<float|int>
  *
@@ -17,6 +21,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
  */
 final class NumericRange extends Range
 {
+    use PostgresFloatConversionTrait;
+
     public function __construct(
         mixed $lower,
         mixed $upper,
@@ -72,6 +78,21 @@ final class NumericRange extends Range
         }
 
         return (string) $value;
+    }
+
+    /**
+     * NaN is non-finite too, but it is a bound PostgreSQL orders rather than an open end, so it is excluded here. The
+     * `isNonFiniteString` guard is load-bearing: a finite literal that overflows a float, such as `1e999`, would
+     * otherwise be read as an infinite bound.
+     */
+    protected static function isInfinityString(string $value): bool
+    {
+        return self::isNonFiniteString($value) && \is_infinite(self::parseFloat($value));
+    }
+
+    protected static function formatInfinityBound(bool $isNegative): string
+    {
+        return self::formatFloat($isNegative ? -\INF : \INF);
     }
 
     protected static function parseValue(string $value): float|int|null

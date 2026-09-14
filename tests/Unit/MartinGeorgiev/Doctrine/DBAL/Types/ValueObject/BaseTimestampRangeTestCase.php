@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
@@ -89,6 +90,32 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
         $this->expectExceptionMessage('Invalid timestamp value');
 
         $this->parseFromString('[invalid_timestamp,2023-01-01 18:00:00)');
+    }
+
+    /**
+     * `inf` belongs to the numeric grammar. PostgreSQL rejects it for a timestamp bound, so widening the timestamp
+     * ranges to read it would let values through that the database then refuses.
+     */
+    #[DataProvider('provideNumericInfinityAbbreviations')]
+    #[Test]
+    public function throws_exception_for_numeric_infinity_abbreviation(string $bound): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid timestamp value');
+
+        $this->parseFromString(\sprintf('[%s,2023-01-01 18:00:00)', $bound));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideNumericInfinityAbbreviations(): array
+    {
+        return [
+            'abbreviated' => ['inf'],
+            'abbreviated negative' => ['-inf'],
+            'abbreviated uppercase' => ['INF'],
+        ];
     }
 
     #[Test]

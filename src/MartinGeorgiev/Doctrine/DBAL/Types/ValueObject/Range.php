@@ -67,10 +67,19 @@ abstract class Range implements \Stringable
         $lowerBracket = $this->isLowerBracketInclusive ? self::BRACKET_LOWER_INCLUSIVE : self::BRACKET_LOWER_EXCLUSIVE;
         $upperBracket = $this->isUpperBracketInclusive ? self::BRACKET_UPPER_INCLUSIVE : self::BRACKET_UPPER_EXCLUSIVE;
 
-        $formattedLowerBound = $this->isLowerBoundedInfinity ? '-infinity' : ($this->lower === null ? '' : $this->formatValue($this->lower));
-        $formattedUpperBound = $this->isUpperBoundedInfinity ? 'infinity' : ($this->upper === null ? '' : $this->formatValue($this->upper));
+        $formattedLowerBound = $this->isLowerBoundedInfinity ? static::formatInfinityBound(true) : ($this->lower === null ? '' : $this->formatValue($this->lower));
+        $formattedUpperBound = $this->isUpperBoundedInfinity ? static::formatInfinityBound(false) : ($this->upper === null ? '' : $this->formatValue($this->upper));
 
         return $lowerBracket.$formattedLowerBound.','.$formattedUpperBound.$upperBracket;
+    }
+
+    /**
+     * The spelling PostgreSQL itself emits for an infinite bound of this element type. Date and timestamp ranges emit it
+     * lowercase; the numeric family capitalizes it.
+     */
+    protected static function formatInfinityBound(bool $isNegative): string
+    {
+        return $isNegative ? '-infinity' : 'infinity';
     }
 
     /**
@@ -100,6 +109,9 @@ abstract class Range implements \Stringable
 
     abstract protected function formatValue(mixed $value): string;
 
+    /**
+     * The date and timestamp grammar, which is the narrower one. Element types that read more spellings override this.
+     */
     protected static function isInfinityString(string $value): bool
     {
         return self::normalizeInfinity($value) !== null;
