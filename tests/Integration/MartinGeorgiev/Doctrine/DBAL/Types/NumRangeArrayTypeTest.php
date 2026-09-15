@@ -37,6 +37,7 @@ final class NumRangeArrayTypeTest extends RangeArrayTypeTestCase
             ]],
             'numrange with integer values' => [[new NumericRange(1, 100, true, false)]],
             'array with null item' => [[new NumericRange(1.5, 10.7, true, false), null]],
+            'numrange bounded by NaN' => [[new NumericRange(1, NAN), new NumericRange(NAN, null)]],
         ];
     }
 }

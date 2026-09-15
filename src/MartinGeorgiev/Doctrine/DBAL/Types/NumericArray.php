@@ -15,6 +15,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidNumericArrayItemForPHPE
  * (e.g. trailing zeros like "502.00"). PHP integers and floats are rejected as array items - floats cannot represent
  * arbitrary-precision decimals without data loss.
  * PostgreSQL treats DECIMAL[] as an alias of NUMERIC[], so this type covers both.
+ * NUMERIC carries the non-finite values "NaN", "Infinity" and "-Infinity", which are items like any other here.
+ * PostgreSQL has stored NaN since forever, while Infinity arrived with PostgreSQL 14 and earlier servers reject it.
  *
  * @see https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL
  * @since 4.8
@@ -24,12 +26,12 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidNumericArrayItemForPHPE
 class NumericArray extends BaseStringArray
 {
     /**
-     * Scientific notation, a leading plus sign and a bare decimal point (".5") are accepted by PostgreSQL on input
-     * but never appear in its output, so allowing them would break string round-trips.
+     * Scientific notation, a leading plus sign and a bare decimal point (".5") are accepted by PostgreSQL on input.
+     * They never appear in its output. The non-finite values are matched in the single spelling PostgreSQL prints.
      *
      * @var string
      */
-    private const NUMERIC_REGEX = '/^-?\d+(\.\d+)?\z/';
+    private const NUMERIC_REGEX = '/^(?:-?\d+(\.\d+)?|NaN|-?Infinity)\z/';
 
     /**
      * @var string

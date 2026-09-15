@@ -299,12 +299,37 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     /**
-     * PostgreSQL orders NaN above every other numeric bound instead of treating it as an open end, so it is not an
-     * infinity spelling and the value object has no representation for it.
+     * PostgreSQL orders NaN above every other numeric bound instead of treating it as an open end.
      */
-    #[DataProvider('provideNonInfiniteNonFiniteBounds')]
+    #[DataProvider('provideNotANumberSpellings')]
     #[Test]
-    public function throws_exception_for_non_infinite_bound(string $bound): void
+    public function parses_every_accepted_not_a_number_spelling(string $bound): void
+    {
+        $numericRange = NumericRange::fromString(\sprintf('[1,%s)', $bound));
+
+        $this->assertNan($numericRange->getUpper());
+        $this->assertSame('[1,NaN)', (string) $numericRange);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideNotANumberSpellings(): array
+    {
+        return [
+            'canonical' => ['NaN'],
+            'lowercase' => ['nan'],
+            'uppercase' => ['NAN'],
+        ];
+    }
+
+    /**
+     * `numeric` reads a narrower NaN grammar than `float8` does:
+     * `SELECT '-nan'::numeric` is an error while `SELECT '-nan'::float8` is not.
+     */
+    #[DataProvider('provideSignedNotANumberSpellings')]
+    #[Test]
+    public function throws_exception_for_a_signed_not_a_number_bound(string $bound): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid numeric value');
@@ -315,12 +340,11 @@ final class NumericRangeTest extends BaseRangeTestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideNonInfiniteNonFiniteBounds(): array
+    public static function provideSignedNotANumberSpellings(): array
     {
         return [
-            'canonical' => ['NaN'],
-            'lowercase' => ['nan'],
             'negative' => ['-nan'],
+            'explicitly positive' => ['+nan'],
         ];
     }
 
@@ -334,24 +358,67 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->assertSame($rangeWithInf->isUpperBoundedInfinity(), $rangeWithFlag->isUpperBoundedInfinity());
     }
 
-    #[DataProvider('provideNanBounds')]
+    /**
+     * A bare `(string)` cast of NAN emits `NAN` and raises a PHP warning, neither of which PostgreSQL reads back.
+     */
     #[Test]
-    public function throws_exception_for_a_nan_bound(float|int $lower, float|int $upper): void
+    public function keeps_a_not_a_number_bound(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-
-        new NumericRange($lower, $upper);
+        $this->assertSame('[1,NaN)', (string) new NumericRange(1, \NAN));
+        $this->assertSame('[NaN,)', (string) new NumericRange(\NAN, null));
+        $this->assertSame('[NaN,NaN]', (string) new NumericRange(\NAN, \NAN, true, true));
     }
 
     /**
-     * @return array<string, array{float|int, float|int}>
+     * PostgreSQL gives `numeric` a total order that puts NaN above every other value, `Infinity` included.
+     * It treats NaN as equal to itself. PHP's spaceship operator returns 1 for every comparison involving NAN,
+     * so the ordering has to be spelled out.
      */
-    public static function provideNanBounds(): array
+    #[DataProvider('provideNotANumberOrderingCases')]
+    #[Test]
+    public function orders_a_not_a_number_bound_above_every_other_value(string $range, mixed $target, bool $isContained): void
+    {
+        $this->assertSame($isContained, NumericRange::fromString($range)->contains($target));
+    }
+
+    /**
+     * @return array<string, array{string, mixed, bool}>
+     */
+    public static function provideNotANumberOrderingCases(): array
     {
         return [
-            'NaN as the lower bound' => [\NAN, 1],
-            'NaN as the upper bound' => [1, \NAN],
+            'exclusive NaN upper bound excludes NaN' => ['[1,NaN)', \NAN, false],
+            'inclusive NaN upper bound contains NaN' => ['[1,NaN]', \NAN, true],
+            'NaN upper bound contains a huge finite value' => ['[1,NaN)', 1e300, true],
+            'NaN upper bound excludes a value below the lower bound' => ['[1,NaN)', 0, false],
+            'NaN lower bound excludes a finite value' => ['[NaN,)', 5, false],
+            'NaN lower bound contains NaN' => ['[NaN,)', \NAN, true],
+            'infinite upper bound excludes NaN' => ['[1,Infinity)', \NAN, false],
+            'inclusive infinite upper bound excludes NaN' => ['[1,Infinity]', \NAN, false],
+            'negative infinite lower bound contains NaN' => ['[-Infinity,)', \NAN, true],
+            'unbounded range contains NaN' => ['(,)', \NAN, true],
         ];
+    }
+
+    #[Test]
+    public function treats_a_range_between_two_exclusive_not_a_number_bounds_as_empty(): void
+    {
+        $this->assertSame('empty', (string) NumericRange::fromString('[NaN,NaN)'));
+        $this->assertSame('[NaN,NaN]', (string) NumericRange::fromString('[NaN,NaN]'));
+    }
+
+    /**
+     * The bound is numeric, and PostgreSQL stores it. PHP casts it to INF, where an infinite bound already means an open end.
+     * Reading it back as one would silently widen the range.
+     */
+    #[Test]
+    public function throws_exception_for_an_overflowing_literal_bound(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Upper bound must be a number a PHP float can hold');
+
+        /* @phpstan-ignore-next-line Intentionally testing a literal PostgreSQL stores but PHP cannot hold */
+        new NumericRange(1, '1e999');
     }
 
     #[Test]

@@ -18,6 +18,8 @@ final class NumericArrayTypeTest extends ArrayTypeTestCase
             'decimals with trailing zeros' => [['502.00', '505.00', '0.00']],
             'high precision decimals' => [['1.0000000000000000000000000001', '-0.000000001']],
             'array with null item' => [[null, '1.50']],
+            'non-finite numerics' => [['NaN', 'Infinity', '-Infinity']],
+            'non-finite mixed with finite items' => [['1.50', 'NaN', null, '-Infinity']],
         ];
     }
 }

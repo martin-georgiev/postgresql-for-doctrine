@@ -53,6 +53,10 @@ final class NumericRange extends Range
 
     private function assertUsableBound(mixed $bound, string $position): void
     {
+        if ($this->isNotANumber($bound)) {
+            return;
+        }
+
         if (!\is_numeric($bound)) {
             throw new \InvalidArgumentException(
                 \sprintf('%s bound must be numeric, %s given', $position, \gettype($bound))
@@ -61,11 +65,28 @@ final class NumericRange extends Range
 
         if (!\is_finite((float) $bound)) {
             throw new \InvalidArgumentException(
-                \sprintf('%s bound must be a finite number, %s given', $position, \var_export($bound, true))
+                \sprintf('%s bound must be a number a PHP float can hold, %s given', $position, \var_export($bound, true))
             );
         }
     }
 
+    /**
+     * @phpstan-assert-if-true float $value
+     */
+    private function isNotANumber(mixed $value): bool
+    {
+        return \is_float($value) && \is_nan($value);
+    }
+
+    private static function isNotANumberString(string $value): bool
+    {
+        return \mb_strtolower($value) === 'nan';
+    }
+
+    /**
+     * PostgreSQL gives `numeric` a total order that puts NaN above every other value, itself included.
+     * A range can be bounded by it. PHP's spaceship operator instead answers 1 for every comparison involving NAN.
+     */
     protected function compareBounds(mixed $a, mixed $b): int
     {
         if (!\is_numeric($a)) {
@@ -76,11 +97,33 @@ final class NumericRange extends Range
             throw InvalidRangeForPHPException::forInvalidNumericBound($b);
         }
 
+        $aIsNotANumber = $this->isNotANumber($a);
+        $bIsNotANumber = $this->isNotANumber($b);
+        if ($aIsNotANumber || $bIsNotANumber) {
+            return $aIsNotANumber <=> $bIsNotANumber;
+        }
+
         return (float) $a <=> (float) $b;
+    }
+
+    /**
+     * NaN sorts above `Infinity`, which makes `[1,Infinity)` exclude it while the unbounded `[1,)` contains it.
+     */
+    public function contains(mixed $target): bool
+    {
+        if ($this->isNotANumber($target) && $this->isUpperBoundedInfinity()) {
+            return false;
+        }
+
+        return parent::contains($target);
     }
 
     protected function formatValue(mixed $value): string
     {
+        if ($this->isNotANumber($value)) {
+            return self::formatFloat($value);
+        }
+
         if (!\is_numeric($value)) {
             throw new \InvalidArgumentException('Value must be numeric');
         }
@@ -102,6 +145,10 @@ final class NumericRange extends Range
     {
         if (self::isInfinityString($value)) {
             return null;
+        }
+
+        if (self::isNotANumberString($value)) {
+            return \NAN;
         }
 
         if (!\is_numeric($value)) {
