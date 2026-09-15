@@ -26,10 +26,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidNumericArrayItemForPHPE
 class NumericArray extends BaseStringArray
 {
     /**
-     * Scientific notation, a leading plus sign and a bare decimal point (".5") are accepted by PostgreSQL on input
-     * but never appear in its output, so allowing them would break string round-trips. The non-finite values are
-     * matched in the single spelling PostgreSQL prints, for the same reason: it reads `nan` and `inf` but emits
-     * `NaN` and `Infinity`.
+     * Scientific notation, a leading plus sign and a bare decimal point (".5") are accepted by PostgreSQL on input.
+     * They never appear in its output. The non-finite values are matched in the single spelling PostgreSQL prints.
      *
      * @var string
      */

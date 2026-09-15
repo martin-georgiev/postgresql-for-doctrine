@@ -299,8 +299,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     /**
-     * PostgreSQL orders NaN above every other numeric bound instead of treating it as an open end, so it is a bound
-     * in its own right rather than an infinity spelling.
+     * PostgreSQL orders NaN above every other numeric bound instead of treating it as an open end.
      */
     #[DataProvider('provideNotANumberSpellings')]
     #[Test]
@@ -325,8 +324,8 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     /**
-     * `numeric` reads a narrower NaN grammar than `float8` does: `SELECT '-nan'::numeric` is an error while
-     * `SELECT '-nan'::float8` is not.
+     * `numeric` reads a narrower NaN grammar than `float8` does:
+     * `SELECT '-nan'::numeric` is an error while `SELECT '-nan'::float8` is not.
      */
     #[DataProvider('provideSignedNotANumberSpellings')]
     #[Test]
@@ -371,9 +370,9 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     /**
-     * PostgreSQL gives `numeric` a total order that puts NaN above every other value, `Infinity` included, and treats
-     * it as equal to itself. PHP's spaceship operator answers 1 for every comparison involving NAN, so the ordering
-     * has to be spelled out.
+     * PostgreSQL gives `numeric` a total order that puts NaN above every other value, `Infinity` included.
+     * It treats NaN as equal to itself. PHP's spaceship operator returns 1 for every comparison involving NAN,
+     * so the ordering has to be spelled out.
      */
     #[DataProvider('provideNotANumberOrderingCases')]
     #[Test]
@@ -401,10 +400,6 @@ final class NumericRangeTest extends BaseRangeTestCase
         ];
     }
 
-    /**
-     * Two NaN bounds are equal, so the same bracket rules PostgreSQL applies to any other pair of equal bounds decide
-     * whether the range is empty.
-     */
     #[Test]
     public function treats_a_range_between_two_exclusive_not_a_number_bounds_as_empty(): void
     {
@@ -413,8 +408,8 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     /**
-     * The bound is numeric and PostgreSQL stores it, but it casts to INF in PHP, where an infinite bound already
-     * means an open end. Reading it back as one would silently widen the range.
+     * The bound is numeric, and PostgreSQL stores it. PHP casts it to INF, where an infinite bound already means an open end.
+     * Reading it back as one would silently widen the range.
      */
     #[Test]
     public function throws_exception_for_an_overflowing_literal_bound(): void
