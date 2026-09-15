@@ -25,6 +25,7 @@ final class NumMultirangeTypeTest extends MultirangeTypeTestCase
             'two non-overlapping ranges' => [
                 new NumericMultirangeVO([new NumericRange(1, 5), new NumericRange(10.5, 20.5)]),
             ],
+            'range bounded by NaN' => [new NumericMultirangeVO([new NumericRange(1, NAN)])],
         ];
     }
 }

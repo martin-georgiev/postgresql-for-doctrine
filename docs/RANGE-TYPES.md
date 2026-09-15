@@ -288,6 +288,33 @@ $same = new NumericRange(0, null, true, false, false, false, true);
 
 **Note**: Integer ranges (INT4RANGE, INT8RANGE) do not support infinity values in PostgreSQL.
 
+### NaN Bounds
+
+`NUMRANGE` and `NUMMULTIRANGE` also take `NaN` as a bound. It is not an open end: PostgreSQL gives `numeric` a total order in which `NaN` sits above every other value, `Infinity` included, and equals itself. `NaN` therefore travels as the bound value, using PHP's `NAN` constant rather than a flag:
+
+```php
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
+
+$range = new NumericRange(1, NAN);
+echo $range;                    // [1,NaN)
+\is_nan($range->getUpper());    // true
+
+NumericRange::fromString('[1,nan)'); // any case; a sign is rejected, as PostgreSQL rejects '-nan'::numeric
+```
+
+The ordering decides emptiness and containment, exactly as PostgreSQL does:
+
+```php
+NumericRange::fromString('[1,NaN]')->contains(NAN);     // true
+NumericRange::fromString('[1,NaN)')->contains(NAN);     // false - the bound is exclusive
+NumericRange::fromString('[1,NaN)')->contains(1e300);   // true - every finite value sorts below NaN
+NumericRange::fromString('[1,Infinity)')->contains(NAN);// false - NaN sorts above Infinity
+NumericRange::fromString('[1,)')->contains(NAN);        // true - an open end has nothing to sort against
+echo NumericRange::fromString('[NaN,NaN)');             // empty - equal bounds, exclusive brackets
+```
+
+**Note**: The datetime and integer range types have no equivalent. `NaN` is a `numeric` and `float` value; `SELECT '[2024-01-01,NaN)'::daterange` is an error in PostgreSQL too.
+
 > 📖 **See also**: [Infinity Values](INFINITY.md) for why a bound of infinity is a flag here, a native `INF` for floats and an enum for datetime array items.
 
 ## DQL Usage with Range Functions

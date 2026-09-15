@@ -39,6 +39,33 @@ final class NumRangeTypeTest extends RangeTypeTestCase
     }
 
     /**
+     * PostgreSQL orders NaN above every other numeric value, so it bounds a range rather than opening it.
+     */
+    #[DataProvider('provideNotANumberCases')]
+    #[Test]
+    public function roundtrips_not_a_number_bound(NumRangeValueObject $numRangeValueObject): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $numRangeValueObject);
+    }
+
+    /**
+     * @return array<string, array{NumRangeValueObject}>
+     */
+    public static function provideNotANumberCases(): array
+    {
+        return [
+            'exclusive NaN upper bound' => [new NumRangeValueObject(1, NAN)],
+            'inclusive NaN upper bound' => [new NumRangeValueObject(1, NAN, true, true)],
+            'NaN lower bound with an open upper end' => [new NumRangeValueObject(NAN, null)],
+            'a single NaN' => [new NumRangeValueObject(NAN, NAN, true, true)],
+            'two exclusive NaN bounds are empty' => [new NumRangeValueObject(NAN, NAN)],
+        ];
+    }
+
+    /**
      * @return array<string, array{NumRangeValueObject}>
      */
     public static function provideInfinityAndSpecialCases(): array

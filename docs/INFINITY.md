@@ -23,6 +23,8 @@ SELECT lower('[-infinity,infinity)'::daterange);             -- -infinity
 
 `null` already carries "this end is unbounded", so a bound of infinity needs a third state next to it — hence the flag. See [Range Types](RANGE-TYPES.md#infinity-support), which also covers the `NumericRange(0, INF)` shorthand.
 
+`NaN` needs no flag of its own. PostgreSQL orders it above every `numeric` value rather than leaving the end open, so it is a bound like any other and travels as `NAN` in the bound itself — the float shape above, inside a range. See [NaN Bounds](RANGE-TYPES.md#nan-bounds).
+
 ## Array elements: an enum sentinel
 
 Items of `date[]`, `timestamp[]` and `timestamptz[]` read back as `\DateTimeImmutable`, which cannot hold infinity, and `null` is already taken by SQL NULL. They map to the `DateTimeInfinity` enum instead:
@@ -38,12 +40,13 @@ Forcing the three into one shape would make two of them worse: floats would carr
 
 ## Spellings differ by type family
 
-The input grammar is not the same across families, which is why the library recognizes two sets of tokens rather than one:
+The input grammar is not the same across families, which is why the library recognizes several sets of tokens rather than one:
 
-| Input | `date`, `timestamp` | `float8`, `numeric` |
-|---|---|---|
-| `infinity`, `-infinity` | accepted | accepted |
-| `inf`, `-inf` | rejected | accepted |
-| `nan` | rejected | accepted |
+| Input | `date`, `timestamp` | `float8` | `numeric` |
+|---|---|---|---|
+| `infinity`, `-infinity` | accepted | accepted | accepted |
+| `inf`, `-inf` | rejected | accepted | accepted |
+| `nan` | rejected | accepted | accepted |
+| `-nan`, `+nan` | rejected | accepted | rejected |
 
-On output the datetime types print `infinity` in lowercase, while the numeric ones print `Infinity` and `NaN` capitalized. Each family is parsed with the grammar it actually uses.
+On output the datetime types print `infinity` in lowercase, while the numeric ones print `Infinity` and `NaN` capitalized. Each family is parsed with the grammar it actually uses, down to `numeric` reading a narrower NaN than `float8` does.
