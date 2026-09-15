@@ -412,6 +412,20 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->assertSame('[NaN,NaN]', (string) NumericRange::fromString('[NaN,NaN]'));
     }
 
+    /**
+     * The bound is numeric and PostgreSQL stores it, but it casts to INF in PHP, where an infinite bound already
+     * means an open end. Reading it back as one would silently widen the range.
+     */
+    #[Test]
+    public function throws_exception_for_an_overflowing_literal_bound(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Upper bound must be a number a PHP float can hold');
+
+        /* @phpstan-ignore-next-line Intentionally testing a literal PostgreSQL stores but PHP cannot hold */
+        new NumericRange(1, '1e999');
+    }
+
     #[Test]
     public function throws_exception_for_an_overflowing_literal_when_parsing(): void
     {
