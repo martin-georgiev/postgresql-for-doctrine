@@ -92,9 +92,6 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
         $this->parseFromString('[invalid_timestamp,2023-01-01 18:00:00)');
     }
 
-    /**
-     * PostgreSQL rejects `inf` for a timestamp bound, so reading it here would let through values the database refuses.
-     */
     #[DataProvider('provideRejectedInfinityAbbreviations')]
     #[Test]
     public function throws_exception_for_a_rejected_infinity_abbreviation(string $bound): void

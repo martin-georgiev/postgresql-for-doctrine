@@ -73,9 +73,6 @@ abstract class Range implements \Stringable
         return $lowerBracket.$formattedLowerBound.','.$formattedUpperBound.$upperBracket;
     }
 
-    /**
-     * The spelling PostgreSQL itself emits for an infinite bound of this element type.
-     */
     protected static function formatInfinityBound(bool $isNegative): string
     {
         return $isNegative ? '-infinity' : 'infinity';
@@ -108,9 +105,6 @@ abstract class Range implements \Stringable
 
     abstract protected function formatValue(mixed $value): string;
 
-    /**
-     * The date and timestamp grammar. Element types that read more spellings override this.
-     */
     protected static function isInfinityString(string $value): bool
     {
         return self::normalizeInfinity($value) !== null;

@@ -286,9 +286,6 @@ final class DateRangeTest extends BaseRangeTestCase
         ];
     }
 
-    /**
-     * PostgreSQL rejects `inf` for a date bound, so reading it here would let through values the database refuses.
-     */
     #[DataProvider('provideRejectedInfinityAbbreviations')]
     #[Test]
     public function throws_exception_for_a_rejected_infinity_abbreviation(string $bound): void

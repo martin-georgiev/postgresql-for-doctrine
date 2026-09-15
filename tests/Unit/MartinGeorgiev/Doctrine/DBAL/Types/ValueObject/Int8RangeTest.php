@@ -175,9 +175,6 @@ final class Int8RangeTest extends BaseRangeTestCase
         yield 'upper bounded infinity mixed case' => ['[0,Infinity)'];
     }
 
-    /**
-     * PostgreSQL rejects every infinity spelling for an integer bound, the numeric family's `inf` abbreviation included.
-     */
     #[DataProvider('provideNumericInfinityAbbreviationCases')]
     #[Test]
     public function throws_for_numeric_infinity_abbreviation_from_string(string $input): void

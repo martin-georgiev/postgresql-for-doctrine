@@ -344,9 +344,6 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     /**
-     * `is_numeric()` answers true for NAN, so the numeric check alone lets it through, and
-     * PostgreSQL has no finite bound to store for it.
-     *
      * @return array<string, array{float|int, float|int}>
      */
     public static function provideNanBounds(): array

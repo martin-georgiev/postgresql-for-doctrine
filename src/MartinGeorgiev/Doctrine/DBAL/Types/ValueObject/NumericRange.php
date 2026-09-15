@@ -51,10 +51,6 @@ final class NumericRange extends Range
         parent::__construct($normalizedLower, $normalizedUpper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $inferredLowerBoundedInfinityFlag, $inferredUpperBoundedInfinityFlag);
     }
 
-    /**
-     * `is_numeric()` answers true for NAN, and a literal too large for a float casts to INF, so
-     * neither is caught by the numeric check alone. PostgreSQL stores neither as a finite bound.
-     */
     private function assertUsableBound(mixed $bound, string $position): void
     {
         if (!\is_numeric($bound)) {
@@ -92,11 +88,6 @@ final class NumericRange extends Range
         return (string) $value;
     }
 
-    /**
-     * NaN is non-finite too, but it is a bound PostgreSQL orders rather than an open end, so it is excluded here. The
-     * `isNonFiniteString` guard is load-bearing: a finite literal that overflows a float, such as `1e999`, would
-     * otherwise be read as an infinite bound.
-     */
     protected static function isInfinityString(string $value): bool
     {
         return self::isNonFiniteString($value) && \is_infinite(self::parseFloat($value));
