@@ -220,6 +220,14 @@ The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather th
 
 - Array items written to the database must be numeric strings (or `null`); PHP integers and floats are rejected
 - `decimal[]` is a PostgreSQL alias of `numeric[]` — columns declared as `DECIMAL[]` are reported by PostgreSQL as `numeric[]`, so this type covers both
+- `numeric` also carries the non-finite values `'NaN'`, `'Infinity'` and `'-Infinity'`, which are items like any other here:
+
+```php
+$entity->setPrices(['1.50', 'NaN', '-Infinity', null]);
+// numeric[] -> {"1.50","NaN","-Infinity",NULL}
+```
+
+Each is accepted in the single spelling PostgreSQL prints. It reads `'nan'` and `'inf'` too, but emits `NaN` and `Infinity`, so allowing the other spellings would break the string round-trip the same way scientific notation would. `Infinity` needs PostgreSQL 14 or newer; earlier servers store `NaN` only.
 
 ---
 

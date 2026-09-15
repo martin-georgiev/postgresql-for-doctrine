@@ -81,6 +81,10 @@ final class NumericArrayTest extends TestCase
                 'phpValue' => [null, '1.50'],
                 'postgresValue' => '{NULL,"1.50"}',
             ],
+            'non-finite items' => [
+                'phpValue' => ['NaN', 'Infinity', '-Infinity'],
+                'postgresValue' => '{"NaN","Infinity","-Infinity"}',
+            ],
         ];
     }
 
@@ -116,7 +120,8 @@ final class NumericArrayTest extends TestCase
             'boolean item' => [[true]],
             'scientific notation item' => [['1.5e3']],
             'leading plus sign item' => [['+1.5']],
-            'NaN item' => [['NaN']],
+            'lowercase NaN item' => [['nan']],
+            'abbreviated infinity item' => [['inf']],
             'mixed valid and invalid' => [['1.50', 'not-a-number']],
         ];
     }
@@ -156,6 +161,9 @@ final class NumericArrayTest extends TestCase
             'negative integer-like string' => ['-7'],
             'decimal string' => ['1.50'],
             'high precision decimal string' => ['1.0000000000000000000000000001'],
+            'not a number' => ['NaN'],
+            'infinity' => ['Infinity'],
+            'negative infinity' => ['-Infinity'],
             'null value' => [null],
         ];
     }
@@ -179,7 +187,11 @@ final class NumericArrayTest extends TestCase
             'leading plus sign' => ['+1.5'],
             'missing integer part' => ['.5'],
             'trailing dot' => ['5.'],
-            'NaN' => ['NaN'],
+            'lowercase NaN' => ['nan'],
+            'signed NaN' => ['-NaN'],
+            'abbreviated infinity' => ['inf'],
+            'lowercase infinity' => ['infinity'],
+            'explicitly positive infinity' => ['+Infinity'],
             'comma as decimal separator' => ['1,5'],
             'trailing newline' => ["1.50\n"],
             'integer' => [123],

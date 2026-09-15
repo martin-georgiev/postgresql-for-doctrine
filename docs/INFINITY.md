@@ -11,6 +11,8 @@ Items of `real[]` and `double precision[]`, `Cube` coordinates and the geometric
 new Point(\INF, 2.0);      // point -> (Infinity,2)
 ```
 
+Items of `numeric[]` are the exception: they stay strings so that arbitrary precision survives, and their non-finite values stay strings with them — `'NaN'`, `'Infinity'`, `'-Infinity'`, spelled the way PostgreSQL prints them. See [Numeric Array Type](AVAILABLE-TYPES.md#numeric-array-type).
+
 ## Range bounds: boolean flags
 
 A range bound is marked with `isLowerBoundedInfinity()` / `isUpperBoundedInfinity()`, kept distinct from a `null` bound, because PostgreSQL keeps them distinct too:

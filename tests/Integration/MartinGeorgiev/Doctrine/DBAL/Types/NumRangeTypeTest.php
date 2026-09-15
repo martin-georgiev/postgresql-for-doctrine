@@ -39,6 +39,23 @@ final class NumRangeTypeTest extends RangeTypeTestCase
     }
 
     /**
+     * @return array<string, array{NumRangeValueObject}>
+     */
+    public static function provideInfinityAndSpecialCases(): array
+    {
+        return [
+            'unbounded range' => [new NumRangeValueObject(null, null, false, false)],
+            'lower bounded infinity' => [new NumRangeValueObject(null, 100, true, false, false, true, false)],
+            'upper bounded infinity' => [new NumRangeValueObject(0, null, true, false, false, false, true)],
+            'both bounds infinity' => [new NumRangeValueObject(null, null, true, false, false, true, true)],
+            'php inf constant upper' => [new NumRangeValueObject(0, INF)],
+            'php inf constant lower' => [new NumRangeValueObject(-INF, 100)],
+            'php inf constant both' => [new NumRangeValueObject(-INF, INF)],
+            'empty range' => [new NumRangeValueObject(10.5, 5.7, false, false)],
+        ];
+    }
+
+    /**
      * PostgreSQL orders NaN above every other numeric value, so it bounds a range rather than opening it.
      */
     #[DataProvider('provideNotANumberCases')]
@@ -62,23 +79,6 @@ final class NumRangeTypeTest extends RangeTypeTestCase
             'NaN lower bound with an open upper end' => [new NumRangeValueObject(NAN, null)],
             'a single NaN' => [new NumRangeValueObject(NAN, NAN, true, true)],
             'two exclusive NaN bounds are empty' => [new NumRangeValueObject(NAN, NAN)],
-        ];
-    }
-
-    /**
-     * @return array<string, array{NumRangeValueObject}>
-     */
-    public static function provideInfinityAndSpecialCases(): array
-    {
-        return [
-            'unbounded range' => [new NumRangeValueObject(null, null, false, false)],
-            'lower bounded infinity' => [new NumRangeValueObject(null, 100, true, false, false, true, false)],
-            'upper bounded infinity' => [new NumRangeValueObject(0, null, true, false, false, false, true)],
-            'both bounds infinity' => [new NumRangeValueObject(null, null, true, false, false, true, true)],
-            'php inf constant upper' => [new NumRangeValueObject(0, INF)],
-            'php inf constant lower' => [new NumRangeValueObject(-INF, 100)],
-            'php inf constant both' => [new NumRangeValueObject(-INF, INF)],
-            'empty range' => [new NumRangeValueObject(10.5, 5.7, false, false)],
         ];
     }
 
