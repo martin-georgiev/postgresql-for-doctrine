@@ -174,4 +174,21 @@ final class Int8RangeTest extends BaseRangeTestCase
         yield 'lower bounded infinity mixed case' => ['[-Infinity,100)'];
         yield 'upper bounded infinity mixed case' => ['[0,Infinity)'];
     }
+
+    #[DataProvider('provideNumericInfinityAbbreviationCases')]
+    #[Test]
+    public function throws_for_numeric_infinity_abbreviation_from_string(string $input): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('is not a valid integer');
+
+        Int8Range::fromString($input);
+    }
+
+    public static function provideNumericInfinityAbbreviationCases(): \Generator
+    {
+        yield 'lower bounded abbreviated infinity' => ['[-inf,100)'];
+        yield 'upper bounded abbreviated infinity' => ['[0,inf)'];
+        yield 'upper bounded abbreviated infinity uppercase' => ['[0,INF)'];
+    }
 }

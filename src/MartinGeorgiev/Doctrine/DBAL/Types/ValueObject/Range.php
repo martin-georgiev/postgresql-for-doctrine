@@ -67,10 +67,15 @@ abstract class Range implements \Stringable
         $lowerBracket = $this->isLowerBracketInclusive ? self::BRACKET_LOWER_INCLUSIVE : self::BRACKET_LOWER_EXCLUSIVE;
         $upperBracket = $this->isUpperBracketInclusive ? self::BRACKET_UPPER_INCLUSIVE : self::BRACKET_UPPER_EXCLUSIVE;
 
-        $formattedLowerBound = $this->isLowerBoundedInfinity ? '-infinity' : ($this->lower === null ? '' : $this->formatValue($this->lower));
-        $formattedUpperBound = $this->isUpperBoundedInfinity ? 'infinity' : ($this->upper === null ? '' : $this->formatValue($this->upper));
+        $formattedLowerBound = $this->isLowerBoundedInfinity ? static::formatInfinityBound(true) : ($this->lower === null ? '' : $this->formatValue($this->lower));
+        $formattedUpperBound = $this->isUpperBoundedInfinity ? static::formatInfinityBound(false) : ($this->upper === null ? '' : $this->formatValue($this->upper));
 
         return $lowerBracket.$formattedLowerBound.','.$formattedUpperBound.$upperBracket;
+    }
+
+    protected static function formatInfinityBound(bool $isNegative): string
+    {
+        return $isNegative ? '-infinity' : 'infinity';
     }
 
     /**

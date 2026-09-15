@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 
 /**
  * Represents a PostgreSQL numeric range.
@@ -17,6 +18,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
  */
 final class NumericRange extends Range
 {
+    use PostgresFloatConversionTrait;
+
     public function __construct(
         mixed $lower,
         mixed $upper,
@@ -34,22 +37,33 @@ final class NumericRange extends Range
         if ($lower !== null && \is_float($lower) && \is_infinite($lower)) {
             $normalizedLower = null;
             $inferredLowerBoundedInfinityFlag = true;
-        } elseif ($lower !== null && !\is_numeric($lower)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Lower bound must be numeric, %s given', \gettype($lower))
-            );
+        } elseif ($lower !== null) {
+            $this->assertUsableBound($lower, 'Lower');
         }
 
         if ($upper !== null && \is_float($upper) && \is_infinite($upper)) {
             $normalizedUpper = null;
             $inferredUpperBoundedInfinityFlag = true;
-        } elseif ($upper !== null && !\is_numeric($upper)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Upper bound must be numeric, %s given', \gettype($upper))
-            );
+        } elseif ($upper !== null) {
+            $this->assertUsableBound($upper, 'Upper');
         }
 
         parent::__construct($normalizedLower, $normalizedUpper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $inferredLowerBoundedInfinityFlag, $inferredUpperBoundedInfinityFlag);
+    }
+
+    private function assertUsableBound(mixed $bound, string $position): void
+    {
+        if (!\is_numeric($bound)) {
+            throw new \InvalidArgumentException(
+                \sprintf('%s bound must be numeric, %s given', $position, \gettype($bound))
+            );
+        }
+
+        if (!\is_finite((float) $bound)) {
+            throw new \InvalidArgumentException(
+                \sprintf('%s bound must be a finite number, %s given', $position, \var_export($bound, true))
+            );
+        }
     }
 
     protected function compareBounds(mixed $a, mixed $b): int
@@ -74,6 +88,16 @@ final class NumericRange extends Range
         return (string) $value;
     }
 
+    protected static function isInfinityString(string $value): bool
+    {
+        return self::isNonFiniteString($value) && \is_infinite(self::parseFloat($value));
+    }
+
+    protected static function formatInfinityBound(bool $isNegative): string
+    {
+        return self::formatFloat($isNegative ? -\INF : \INF);
+    }
+
     protected static function parseValue(string $value): float|int|null
     {
         if (self::isInfinityString($value)) {
@@ -87,6 +111,12 @@ final class NumericRange extends Range
         }
 
         $floatValue = (float) $value;
+        if (!\is_finite($floatValue)) {
+            throw new \InvalidArgumentException(
+                \sprintf('Invalid numeric value: %s', $value)
+            );
+        }
+
         $intValue = (int) $floatValue;
 
         return $floatValue === (float) $intValue ? $intValue : $floatValue;

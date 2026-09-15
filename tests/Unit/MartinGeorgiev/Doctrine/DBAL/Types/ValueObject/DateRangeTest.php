@@ -286,6 +286,28 @@ final class DateRangeTest extends BaseRangeTestCase
         ];
     }
 
+    #[DataProvider('provideRejectedInfinityAbbreviations')]
+    #[Test]
+    public function throws_exception_for_a_rejected_infinity_abbreviation(string $bound): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid date value');
+
+        DateRange::fromString(\sprintf('[2023-01-01,%s)', $bound));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideRejectedInfinityAbbreviations(): array
+    {
+        return [
+            'abbreviated' => ['inf'],
+            'abbreviated negative' => ['-inf'],
+            'abbreviated uppercase' => ['INF'],
+        ];
+    }
+
     #[Test]
     public function throws_exception_for_invalid_lower_bound(): void
     {

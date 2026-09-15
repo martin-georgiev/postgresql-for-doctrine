@@ -252,7 +252,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
 $numRange = new NumericRange(0, null, true, false, false, false, true);
 $dateRange = new DateRange(new \DateTimeImmutable('2024-01-01'), null, true, false, false, false, true);
 
-echo $numRange;   // [0,infinity)
+echo $numRange;   // [0,Infinity)
 echo $dateRange;  // [2024-01-01,infinity)
 
 // Parsing from PostgreSQL format
@@ -261,13 +261,26 @@ $range->isUpperBoundedInfinity(); // true
 $range->isLowerBoundedInfinity(); // false
 ```
 
+**Spelling follows the element type**, matching PostgreSQL:
+
+| Range type | Accepted bound spellings | Emitted spelling |
+|------------|--------------------------|------------------|
+| `NUMRANGE` | `infinity`, `-infinity`, `inf`, `-inf`, in any case; a positive bound may also be written `+infinity` or `+inf` | `Infinity` / `-Infinity` |
+| `DATERANGE`, `TSRANGE`, `TSTZRANGE` | `infinity` and `-infinity`, in any case; a positive bound may also be written `+infinity`. The `inf` abbreviation is rejected | `infinity` / `-infinity` |
+
+```php
+// The numeric family reads the abbreviation, which a date or timestamp range rejects
+echo NumericRange::fromString('[1,inf)'); // [1,Infinity)
+DateRange::fromString('[2024-01-01,inf)'); // throws - PostgreSQL rejects it too
+```
+
 **NumericRange convenience**: Accepts PHP's `INF` constant as shorthand:
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 
 $range = new NumericRange(0, INF);
-echo $range; // [0,infinity)
+echo $range; // [0,Infinity)
 
 // Equivalent to using flags explicitly
 $same = new NumericRange(0, null, true, false, false, false, true);
