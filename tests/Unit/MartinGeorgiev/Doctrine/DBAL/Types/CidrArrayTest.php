@@ -65,6 +65,10 @@ final class CidrArrayTest extends TestCase
                 'phpValue' => [],
                 'postgresValue' => '{}',
             ],
+            'array with a null item' => [
+                'phpValue' => ['192.168.0.0/24', null],
+                'postgresValue' => '{"192.168.0.0/24",NULL}',
+            ],
             'IPv4 CIDR array' => [
                 'phpValue' => ['192.168.0.0/24', '10.0.0.0/8'],
                 'postgresValue' => '{"192.168.0.0/24","10.0.0.0/8"}',

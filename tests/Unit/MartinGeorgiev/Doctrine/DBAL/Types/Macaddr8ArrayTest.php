@@ -65,6 +65,10 @@ final class Macaddr8ArrayTest extends TestCase
                 'phpValue' => [],
                 'postgresValue' => '{}',
             ],
+            'array with a null item' => [
+                'phpValue' => ['08:00:2b:01:02:03:04:05', null],
+                'postgresValue' => '{"08:00:2b:01:02:03:04:05",NULL}',
+            ],
             'colon-separated EUI-64 addresses' => [
                 'phpValue' => ['08:00:2b:ff:fe:01:02:03', '08:00:2b:ff:fe:04:05:06'],
                 'postgresValue' => '{"08:00:2b:ff:fe:01:02:03","08:00:2b:ff:fe:04:05:06"}',
