@@ -308,6 +308,24 @@ abstract public static function provideArraysHoldingANullElement(): array;
 
 Merging widens the item type — annotate the family provider with the base's.
 
+### Item-Level vs Array-Level Providers
+
+Array types carry both. They drive different methods and never merge into each other.
+
+```php
+// item-level — one item ↔ one token. Drives isValidArrayItemForDatabase() / transformArrayItemForPHP()
+'phpValue' => 42, 'postgresValue' => '42'
+
+// array-level — whole array ↔ whole literal. Drives convertToDatabaseValue() / convertToPHPValue()
+'phpValue' => [1, null, 3], 'postgresValue' => '{1,NULL,3}'
+
+// ❌ null as an item row — the write side passes and the read side throws.
+// The parser resolves the bare NULL token; the item hook only ever sees a real null.
+'phpValue' => null, 'postgresValue' => 'NULL'
+```
+
+`BaseNumericArrayTestCase::provideValidTransformations` is item-level, which is why the array-level cases sit in a provider of their own.
+
 ## MockObject Declaration
 
 ```php
