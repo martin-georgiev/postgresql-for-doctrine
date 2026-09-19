@@ -182,6 +182,14 @@ final class HstoreArrayTest extends TestCase
         ];
     }
 
+    #[Test]
+    public function throws_exception_for_a_non_string_hstore_value(): void
+    {
+        $this->expectException(InvalidHstoreArrayItemForDatabaseException::class);
+
+        $this->fixture->convertToDatabaseValue([['key' => 42]], $this->platform);
+    }
+
     #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
