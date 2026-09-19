@@ -160,6 +160,11 @@ abstract class BaseArray extends BaseType
     }
 
     /**
+     * Thrown for a literal that is malformed as an array, before any item is read - an empty element, or the nesting
+     * of a multi-dimensional array. It carries no offending item, so the `Invalid{Type}ArrayItemFor*` families do not
+     * fit it; the base exception is the same one `throwInvalidPostgresTypeException()` uses for the whole value being
+     * wrong. A type that wants its own family overrides this.
+     *
      * @throws ConversionException
      */
     protected function throwInvalidArrayFormatException(string $postgresArray): never
