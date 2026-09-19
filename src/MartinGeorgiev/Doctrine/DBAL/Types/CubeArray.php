@@ -9,8 +9,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCubeArrayItemForDatabas
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCubeArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube as CubeValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeException;
-use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL CUBE[] data type.
@@ -58,13 +56,9 @@ final class CubeArray extends BaseArray
         }
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        try {
-            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-        } catch (InvalidArrayFormatException) {
-            throw InvalidCubeArrayItemForPHPException::forInvalidFormat($postgresArray);
-        }
+        throw InvalidCubeArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
