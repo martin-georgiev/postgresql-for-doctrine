@@ -39,36 +39,71 @@ final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
     }
 
     /**
-     * @return list<array{
-     *     phpValue: float,
-     *     postgresValue: string
-     * }>
+     * @return array<string, array{postgresValue: string, expectedValue: float}>
      */
-    public static function provideValidTransformations(): array
+    public static function provideValidItemTransformationsToPHP(): array
     {
         return [
-            ['phpValue' => 1.23e4, 'postgresValue' => '1.23e4'],
-            ['phpValue' => 1.23e-4, 'postgresValue' => '1.23e-4'],
-            ['phpValue' => 1.234567890123456, 'postgresValue' => '1.234567890123456'],
-            ['phpValue' => 1., 'postgresValue' => '1.0'],
-            ['phpValue' => 1.0, 'postgresValue' => '1.0'],
-            ['phpValue' => -1.0, 'postgresValue' => '-1.0'],
-        ];
-    }
-
-    public static function providePostgresOutputValues(): array
-    {
-        return [
-            'seventeen significant digits' => ['postgresValue' => '0.12345678901234566', 'phpValue' => 0.12345678901234566],
-            'trailing zeros beyond the precision limit' => ['postgresValue' => '1.123456789012345000000', 'phpValue' => 1.123456789012345],
-            'sixteen decimals' => ['postgresValue' => '1.1234567890123456789', 'phpValue' => 1.1234567890123457],
-            'eighteen decimals' => ['postgresValue' => '1.123456789012345678', 'phpValue' => 1.1234567890123457],
-            'large number with excess precision' => ['postgresValue' => '123456.1234567890123456789', 'phpValue' => 123456.123456789],
-            'negative with excess precision' => ['postgresValue' => '-1.1234567890123456789', 'phpValue' => -1.1234567890123457],
-            'below the minimum normal magnitude' => ['postgresValue' => '1.18E-308', 'phpValue' => 1.18E-308],
-            'scientific notation with a negative exponent' => ['postgresValue' => '1.5e-20', 'phpValue' => 1.5E-20],
-            'scientific notation at the upper bound' => ['postgresValue' => '1.7976931348623157e+308', 'phpValue' => 1.7976931348623157E+308],
-            'subnormal' => ['postgresValue' => '5e-324', 'phpValue' => 5.0E-324],
+            'a positive exponent' => [
+                'postgresValue' => '1.23e4',
+                'expectedValue' => 1.23e4,
+            ],
+            'a negative exponent' => [
+                'postgresValue' => '1.23e-4',
+                'expectedValue' => 1.23e-4,
+            ],
+            'sixteen significant digits' => [
+                'postgresValue' => '1.234567890123456',
+                'expectedValue' => 1.234567890123456,
+            ],
+            'one with a fractional zero' => [
+                'postgresValue' => '1.0',
+                'expectedValue' => 1.0,
+            ],
+            'minus one' => [
+                'postgresValue' => '-1.0',
+                'expectedValue' => -1.0,
+            ],
+            'seventeen significant digits' => [
+                'postgresValue' => '0.12345678901234566',
+                'expectedValue' => 0.12345678901234566,
+            ],
+            'trailing zeros beyond the precision limit' => [
+                'postgresValue' => '1.123456789012345000000',
+                'expectedValue' => 1.123456789012345,
+            ],
+            'sixteen decimals' => [
+                'postgresValue' => '1.1234567890123456789',
+                'expectedValue' => 1.1234567890123457,
+            ],
+            'eighteen decimals' => [
+                'postgresValue' => '1.123456789012345678',
+                'expectedValue' => 1.1234567890123457,
+            ],
+            'large number with excess precision' => [
+                'postgresValue' => '123456.1234567890123456789',
+                'expectedValue' => 123456.123456789,
+            ],
+            'negative with excess precision' => [
+                'postgresValue' => '-1.1234567890123456789',
+                'expectedValue' => -1.1234567890123457,
+            ],
+            'below the minimum normal magnitude' => [
+                'postgresValue' => '1.18E-308',
+                'expectedValue' => 1.18E-308,
+            ],
+            'scientific notation with a negative exponent' => [
+                'postgresValue' => '1.5e-20',
+                'expectedValue' => 1.5E-20,
+            ],
+            'scientific notation at the upper bound' => [
+                'postgresValue' => '1.7976931348623157e+308',
+                'expectedValue' => 1.7976931348623157E+308,
+            ],
+            'subnormal' => [
+                'postgresValue' => '5e-324',
+                'expectedValue' => 5.0E-324,
+            ],
         ];
     }
 

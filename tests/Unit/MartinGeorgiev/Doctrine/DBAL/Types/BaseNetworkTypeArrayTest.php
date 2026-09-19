@@ -74,8 +74,8 @@ final class BaseNetworkTypeArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'valid array' => [
-                'phpValue' => ['valid_address', 'valid_address'],
-                'postgresValue' => '{"valid_address","valid_address"}',
+                'phpValue' => ['valid_address', null, 'valid_address'],
+                'postgresValue' => '{"valid_address",NULL,"valid_address"}',
             ],
         ];
     }
@@ -105,7 +105,7 @@ final class BaseNetworkTypeArrayTest extends TestCase
                 'exceptionMessage' => 'Invalid type',
             ],
             'invalid format' => [
-                'arrayItem' => '"invalid_address"',
+                'arrayItem' => 'invalid_address',
                 'exceptionMessage' => 'Invalid format',
             ],
         ];
@@ -114,6 +114,6 @@ final class BaseNetworkTypeArrayTest extends TestCase
     #[Test]
     public function converts_array_item_for_php_with_valid_string(): void
     {
-        $this->assertSame('valid_address', $this->fixture->transformArrayItemForPHP('"valid_address"'));
+        $this->assertSame('valid_address', $this->fixture->transformArrayItemForPHP('valid_address'));
     }
 }

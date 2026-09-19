@@ -14,7 +14,7 @@ final class DoublePrecisionArrayTypeTest extends FloatArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, float>}>
+     * @return array<string, array{array<int, float|int|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -30,6 +30,7 @@ final class DoublePrecisionArrayTypeTest extends FloatArrayTypeTestCase
             'double precision array with zero' => [[0.0, 1.5, -1.5]],
             'empty double precision array' => [[]],
             'double precision array with large numbers' => [[1234567.123456, -9876543.987654]],
+            'array with a null element' => [[1, null, 3]],
         ];
     }
 

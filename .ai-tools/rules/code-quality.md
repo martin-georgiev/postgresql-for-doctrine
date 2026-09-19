@@ -20,6 +20,21 @@ type: always_apply
 // PostgreSQL normalizes POINTZ → POINT Z on retrieval; normalize on write too
 ```
 
+### Name the Condition Instead
+
+A comment explaining a test is a name waiting to be extracted.
+
+```php
+// ❌
+// The parser strips the outer braces rather than requiring them, so a literal
+// that lost one would otherwise read as a well-formed array.
+if (!\str_starts_with($trimmed, '{') || !\str_ends_with($trimmed, '}')) {
+
+// ✓
+$isAWellFormedBracedArrayLiteral = \str_starts_with($trimmed, '{') && \str_ends_with($trimmed, '}');
+if (!$isAWellFormedBracedArrayLiteral) {
+```
+
 ## Validation Regexes: Anchor With `\z`, Not `$`
 **Required**: End validation patterns with `\z`. In PCRE, `$` also matches immediately before a trailing newline, so a `$`-anchored pattern accepts values PostgreSQL rejects.
 

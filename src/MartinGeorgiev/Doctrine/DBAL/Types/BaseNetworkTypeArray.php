@@ -44,7 +44,7 @@ abstract class BaseNetworkTypeArray extends BaseArray
 
     public function transformArrayItemForPHP(mixed $item): ?string
     {
-        if ($item === null || $item === 'NULL') {
+        if ($item === null) {
             return null;
         }
 
@@ -52,14 +52,16 @@ abstract class BaseNetworkTypeArray extends BaseArray
             $this->throwInvalidTypeException($item);
         }
 
-        // Remove surrounding quotes if present
-        $unquotedItem = \trim($item, '"');
-
-        if (!$this->isValidNetworkAddress($unquotedItem)) {
+        if (!$this->isValidNetworkAddress($item)) {
             $this->throwInvalidFormatException($item);
         }
 
-        return $unquotedItem;
+        return $item;
+    }
+
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
+    {
+        $this->throwInvalidFormatException($postgresArray);
     }
 
     /**
@@ -68,7 +70,7 @@ abstract class BaseNetworkTypeArray extends BaseArray
     abstract protected function isValidNetworkAddress(string $value): bool;
 
     /**
-     * Get the exception to throw when the format is invalid.
+     * Throw the exception family of this type for a value it cannot read.
      */
-    abstract protected function throwInvalidFormatException(mixed $value): \Exception;
+    abstract protected function throwInvalidFormatException(mixed $value): never;
 }

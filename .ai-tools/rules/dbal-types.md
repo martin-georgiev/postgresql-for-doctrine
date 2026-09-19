@@ -213,13 +213,12 @@ See `test-naming-patterns.md` § Data Provider Conventions for the full provider
 
 ### Required Methods
 
-All six methods are required on every `BaseArray` subclass. Never remove any:
+All five methods are required on every `BaseArray` subclass. Never remove any:
 
 ```php
 public function isValidArrayItemForDatabase(mixed $item): bool
 protected function transformArrayItemForPostgres(mixed $item): string
 public function transformArrayItemForPHP(mixed $item): ?ValueObject
-protected function transformPostgresArrayToPHPArray(string $postgresArray): array
 protected function throwInvalidTypeException(mixed $value): never
 protected function throwInvalidItemException(mixed $item): never
 ```

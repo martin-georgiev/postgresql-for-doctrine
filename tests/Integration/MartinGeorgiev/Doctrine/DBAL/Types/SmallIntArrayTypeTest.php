@@ -12,7 +12,7 @@ final class SmallIntArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, int>}>
+     * @return array<string, array{array<int, int|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -22,6 +22,7 @@ final class SmallIntArrayTypeTest extends ArrayTypeTestCase
             'smallint array with max values' => [[-32768, 0, 32767]],
             'smallint array with zeros' => [[0, 0, 0]],
             'empty smallint array' => [[]],
+            'array with a null element' => [[1, null, 3]],
         ];
     }
 }

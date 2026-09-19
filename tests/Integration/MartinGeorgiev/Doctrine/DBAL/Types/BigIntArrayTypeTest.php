@@ -12,7 +12,7 @@ final class BigIntArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, int>}>
+     * @return array<string, array{array<int, int|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -22,6 +22,7 @@ final class BigIntArrayTypeTest extends ArrayTypeTestCase
             'bigint array with large numbers' => [[1000000000000, 2000000000000, 3000000000000]],
             'bigint array with negative numbers' => [[-1000000000000, -2000000000000, -3000000000000]],
             'bigint array with PHP max and min integer constants' => [[PHP_INT_MAX, PHP_INT_MIN, 0]],
+            'array with a null element' => [[1, null, 3]],
         ];
     }
 }

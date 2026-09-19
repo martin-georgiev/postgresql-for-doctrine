@@ -45,6 +45,31 @@ abstract class BaseFloatArrayTestCase extends BaseNumericArrayTestCase
         ]);
     }
 
+    /**
+     * @return array<string, array{phpValue: array<int, float|int|null>|null, postgresValue: string|null}>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return \array_merge(parent::provideValidTransformations(), [
+            'plain values' => [
+                'phpValue' => [1.5, 2.5],
+                'postgresValue' => '{1.5,2.5}',
+            ],
+            'null between two values' => [
+                'phpValue' => [1.5, null, 3.5],
+                'postgresValue' => '{1.5,NULL,3.5}',
+            ],
+            'null as the first element' => [
+                'phpValue' => [null, 2.5],
+                'postgresValue' => '{NULL,2.5}',
+            ],
+            'null as the last element' => [
+                'phpValue' => [1.5, null],
+                'postgresValue' => '{1.5,NULL}',
+            ],
+        ]);
+    }
+
     #[Test]
     public function throws_exception_for_invalid_array_item_value(): void
     {
@@ -53,18 +78,6 @@ abstract class BaseFloatArrayTestCase extends BaseNumericArrayTestCase
 
         $this->fixture->transformArrayItemForPHP('1.e234');
     }
-
-    #[DataProvider('providePostgresOutputValues')]
-    #[Test]
-    public function converts_postgres_output_to_php_value(string $postgresValue, float $phpValue): void
-    {
-        $this->assertSame($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
-    }
-
-    /**
-     * @return array<string, array{postgresValue: string, phpValue: float}>
-     */
-    abstract public static function providePostgresOutputValues(): array;
 
     #[DataProvider('provideValidScientificNotationStrings')]
     #[Test]

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -47,7 +48,6 @@ abstract class BaseNumericArrayTestCase extends TestCase
     {
         return [
             'boolean' => [true],
-            'null' => [null],
             'string' => ['string'],
             'array' => [[]],
             'object' => [new \stdClass()],
@@ -55,32 +55,115 @@ abstract class BaseNumericArrayTestCase extends TestCase
         ];
     }
 
-    #[DataProvider('provideValidTransformations')]
+    #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function converts_to_database_value(float|int $phpValue, string $postgresValue): void
+    public function validates_valid_array_item_for_database(mixed $value): void
     {
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($phpValue));
-    }
-
-    #[DataProvider('provideValidTransformations')]
-    #[Test]
-    public function converts_to_php_value(float|int $phpValue, string $postgresValue): void
-    {
-        $this->assertSame($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
     }
 
     /**
-     * @return list<array{
-     *     phpValue: float|int,
-     *     postgresValue: string
-     * }>
+     * @return array<string, array{mixed}>
      */
-    abstract public static function provideValidTransformations(): array;
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return [
+            'zero' => [0],
+            'a positive value' => [1],
+            'a negative value' => [-1],
+            'a numeric string' => ['42'],
+            'null' => [null],
+        ];
+    }
+
+    #[DataProvider('provideValidItemTransformationsToPHP')]
+    #[Test]
+    public function converts_item_to_php_value(string $postgresValue, float|int $expectedValue): void
+    {
+        $this->assertSame($expectedValue, $this->fixture->transformArrayItemForPHP($postgresValue));
+    }
+
+    /**
+     * @return array<string, array{postgresValue: string, expectedValue: float|int}>
+     */
+    abstract public static function provideValidItemTransformationsToPHP(): array;
 
     #[Test]
-    public function converts_null_item_for_php(): void
+    public function converts_null_item_to_php_value(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    /**
+     * @param array<int, float|int|null>|null $phpValue
+     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
+    {
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->createStub(AbstractPlatform::class)));
+    }
+
+    /**
+     * @param array<int, float|int|null>|null $phpValue
+     */
+    #[DataProvider('provideValidTransformations')]
+    #[Test]
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
+    {
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->createStub(AbstractPlatform::class)));
+    }
+
+    /**
+     * An empty array and an array of nothing but nulls read back the same whatever the element type is.
+     *
+     * @return array<string, array{phpValue: array<int, float|int|null>|null, postgresValue: string|null}>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return [
+            'null' => [
+                'phpValue' => null,
+                'postgresValue' => null,
+            ],
+            'empty array' => [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
+            'a single null' => [
+                'phpValue' => [null],
+                'postgresValue' => '{NULL}',
+            ],
+            'nothing but nulls' => [
+                'phpValue' => [null, null],
+                'postgresValue' => '{NULL,NULL}',
+            ],
+        ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
+    {
+        $this->expectException(ConversionException::class);
+        $this->expectExceptionMessage('is not in a valid format');
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->createStub(AbstractPlatform::class));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return [
+            'no literal at all' => [''],
+            'empty element' => ['{1,,3}'],
+            'multi-dimensional array' => ['{{1},{2}}'],
+            'missing closing brace' => ['{1,2'],
+            'missing opening brace' => ['1,2}'],
+            'no braces at all' => ['1,2'],
+        ];
     }
 
     /**

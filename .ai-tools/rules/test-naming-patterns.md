@@ -274,6 +274,64 @@ public static function provideFromStringTestCases(): \Generator
 }
 ```
 
+### One Dataset, Both Directions
+
+A `phpValue`/`postgresValue` row feeds the write test and the read test. Don't add a second method for the other direction.
+
+```php
+// ✓ fold the new case into the dataset that already drives both
+'valid array' => ['phpValue' => ['addr', null], 'postgresValue' => '{"addr",NULL}'],
+
+// ❌ a standalone test per direction, each with one hardcoded literal
+public function converts_array_with_a_null_to_php_value(): void
+```
+
+### Providers in Abstract Test Cases
+
+Shared rows go in a **concrete** base provider; subclasses merge their own on top.
+
+```php
+// ✓ base
+public static function provideValidTransformations(): array
+{
+    return ['nothing but nulls' => ['phpValue' => [null, null], 'postgresValue' => '{NULL,NULL}']];
+}
+
+// ✓ family
+return \array_merge(parent::provideValidTransformations(), [
+    'null between two values' => ['phpValue' => [1, null, 3], 'postgresValue' => '{1,NULL,3}'],
+]);
+
+// ❌ abstract provider, re-implemented per family
+abstract public static function provideValidTransformations(): array;
+```
+
+Merging widens the item type — annotate the family provider with the base's.
+
+### Item-Level vs Array-Level Providers
+
+Array types carry both. They drive different methods and never merge into each other.
+
+```php
+// array-level — whole array ↔ whole literal. provideValidTransformations
+// Drives convertToDatabaseValue() / convertToPHPValue()
+'null element' => ['phpValue' => [1, null, 3], 'postgresValue' => '{1,NULL,3}'],
+
+// item-level, read — one token → one item. provideValidItemTransformationsToPHP
+// Drives transformArrayItemForPHP()
+'positive' => ['postgresValue' => '42', 'expectedValue' => 42],
+
+// item-level, write — one item. provideValidArrayItemsForDatabase
+// Drives isValidArrayItemForDatabase()
+'null' => [null],
+```
+
+`null` is an item-level row only on the write side. The item hook never sees the `NULL` token — the parser resolves it — so `['postgresValue' => 'NULL', 'expectedValue' => null]` would throw. Reading it is the standalone `converts_null_item_to_php_value`.
+
+A literal the write side spells differently is a row in the read-only provider — `providePostgresOutputValues` for items, `provideValidPostgresArraysForPHP` for arrays — never a standalone test.
+
+Before naming any provider, grep for the name: the repo already has one for nearly every shape.
+
 ## MockObject Declaration
 
 ```php

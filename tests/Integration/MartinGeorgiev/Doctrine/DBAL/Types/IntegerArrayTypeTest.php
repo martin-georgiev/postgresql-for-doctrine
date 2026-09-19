@@ -12,7 +12,7 @@ final class IntegerArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, int>}>
+     * @return array<string, array{array<int, int|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -20,6 +20,7 @@ final class IntegerArrayTypeTest extends ArrayTypeTestCase
             'simple integer array' => [[1, 2, 3, 4, 5]],
             'integer array with negatives' => [[-1, 0, 1, -100, 100]],
             'integer array with max values' => [[2147483647, -2147483648, 0]],
+            'array with a null element' => [[1, null, 3]],
         ];
     }
 }

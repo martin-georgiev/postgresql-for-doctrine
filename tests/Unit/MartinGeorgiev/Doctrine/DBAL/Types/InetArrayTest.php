@@ -65,6 +65,10 @@ final class InetArrayTest extends TestCase
                 'phpValue' => [],
                 'postgresValue' => '{}',
             ],
+            'array with a null item' => [
+                'phpValue' => ['192.168.1.1', null],
+                'postgresValue' => '{"192.168.1.1",NULL}',
+            ],
             'IPv4 addresses' => [
                 'phpValue' => ['192.168.0.1', '10.0.0.1'],
                 'postgresValue' => '{"192.168.0.1","10.0.0.1"}',

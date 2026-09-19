@@ -6,6 +6,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
+use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
+use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Abstract handling of PostgreSQL array data types.
@@ -139,14 +141,40 @@ abstract class BaseArray extends BaseType
         return $phpArray;
     }
 
+    /**
+     * @return array<int, mixed>
+     *
+     * @throws ConversionException
+     */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        $trimmedPostgresArray = \mb_substr($postgresArray, 1, -1);
-        if ($trimmedPostgresArray === '') {
-            return [];
+        $trimmed = \trim($postgresArray);
+        $isAWellFormedBracedArrayLiteral = \str_starts_with($trimmed, '{') && \str_ends_with($trimmed, '}');
+        if (!$isAWellFormedBracedArrayLiteral) {
+            $this->throwInvalidArrayFormatException($postgresArray);
         }
 
-        return \explode(',', $trimmedPostgresArray);
+        try {
+            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
+                $postgresArray,
+                preserveStringTypes: true,
+                delimiter: $this->getArrayElementDelimiter()
+            );
+        } catch (InvalidArrayFormatException) {
+            $this->throwInvalidArrayFormatException($postgresArray);
+        }
+    }
+
+    /**
+     * Thrown for a literal that is malformed as an array. This exception carries no offending item.
+     *
+     * @throws ConversionException
+     */
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
+    {
+        throw new ConversionException(
+            \sprintf('Given PostgreSQL array value is not in a valid format. Instead it is "%s".', $postgresArray)
+        );
     }
 
     /**

@@ -37,6 +37,10 @@ abstract class BaseIntegerArray extends BaseArray
 
     private function throwIfInvalidArrayItemForDatabase(mixed $item): void
     {
+        if ($item === null) {
+            return;
+        }
+
         $isNotANumber = !\is_int($item) && !\is_string($item);
         if ($isNotANumber) {
             throw InvalidIntegerArrayItemForDatabaseException::isNotANumber($item);
@@ -66,6 +70,17 @@ abstract class BaseIntegerArray extends BaseArray
         $this->throwIfInvalidArrayItemForDatabase($item);
 
         throw InvalidIntegerArrayItemForDatabaseException::isNotANumber($item);
+    }
+
+    protected function transformArrayItemForPostgres(mixed $item): string
+    {
+        if ($item === null) {
+            return 'NULL';
+        }
+
+        \assert(\is_int($item) || \is_string($item));
+
+        return (string) $item;
     }
 
     public function transformArrayItemForPHP(mixed $item): ?int
