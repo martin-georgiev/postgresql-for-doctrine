@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class TstzRangeArrayTest extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     /**
      * @var AbstractPlatform&Stub
@@ -217,7 +217,7 @@ final class TstzRangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
             'empty element between valid ones' => ['{"[2023-01-01 00:00:00.000000+00:00,2023-12-31 23:59:59.000000+00:00)",,"[2024-01-01 00:00:00.000000+00:00,2024-12-31 23:59:59.000000+00:00)"}'],
             'valid elements nested one level deep' => ['{{"[2023-01-01 00:00:00.000000+00:00,2023-12-31 23:59:59.000000+00:00)"},{"[2024-01-01 00:00:00.000000+00:00,2024-12-31 23:59:59.000000+00:00)"}}'],
         ]);

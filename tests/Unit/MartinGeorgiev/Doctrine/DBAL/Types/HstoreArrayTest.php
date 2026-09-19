@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 final class HstoreArrayTest extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     /**
      * @var AbstractPlatform&Stub

@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class IntervalArrayTest extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     /**
      * @var AbstractPlatform&Stub
@@ -294,7 +294,7 @@ final class IntervalArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
             'empty element between valid ones' => ['{"1 year",,"2 days"}'],
             'valid elements nested one level deep' => ['{{"1 year"},{"2 days"}}'],
         ]);

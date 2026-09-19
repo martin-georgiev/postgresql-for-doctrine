@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class LtreeArrayTest extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     /**
      * @var AbstractPlatform&Stub
@@ -148,7 +148,7 @@ final class LtreeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
             'empty element between valid ones' => ['{Top.Sports,,Bottom.Water}'],
             'valid elements nested one level deep' => ['{{Top.Sports},{Bottom.Water}}'],
             'empty label in array' => ['{foo..bar}'],

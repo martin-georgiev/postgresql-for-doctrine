@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
-trait MalformedArrayLiteralProviderTrait
+trait MalformedBraceLiteralProviderTrait
 {
     /**
-     * The braces are wrong before the elements matter, so what sits between them is of no consequence.
-     *
      * @return array<string, array{string}>
      */
-    public static function provideMalformedArrayLiterals(): array
+    public static function provideLiteralsWithMalformedBraces(): array
     {
         return [
             'missing closing brace' => ['{1,2'],

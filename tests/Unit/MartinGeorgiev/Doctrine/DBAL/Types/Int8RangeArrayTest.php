@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class Int8RangeArrayTest extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     /**
      * @var AbstractPlatform&Stub
@@ -215,7 +215,7 @@ final class Int8RangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
             'empty element between valid ones' => ['{"[1,1000)",,"[2000,3000)"}'],
             'valid elements nested one level deep' => ['{{"[1,1000)"},{"[2000,3000)"}}'],
         ]);

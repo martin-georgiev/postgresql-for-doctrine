@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 abstract class BaseNumericArrayTestCase extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     protected BaseArray $fixture;
 
@@ -158,7 +158,7 @@ abstract class BaseNumericArrayTestCase extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
             'empty element between valid ones' => ['{1,,2}'],
             'valid elements nested one level deep' => ['{{1},{2}}'],
         ]);

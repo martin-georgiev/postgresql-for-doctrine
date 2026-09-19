@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 final class EnumArrayTest extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     /**
      * @var AbstractPlatform&Stub
@@ -243,7 +243,7 @@ final class EnumArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
             'empty element between valid ones' => ['{"plain",,"with space"}'],
             'valid elements nested one level deep' => ['{{"plain"},{"with space"}}'],
             'label absent from the PHP enum' => ['{green}'],

@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class DateRangeArrayTest extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     /**
      * @var AbstractPlatform&Stub
@@ -221,7 +221,7 @@ final class DateRangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
             'empty element between valid ones' => ['{"[2023-01-01,2023-12-31)",,"[2024-01-01,2024-12-31)"}'],
             'valid elements nested one level deep' => ['{{"[2023-01-01,2023-12-31)"},{"[2024-01-01,2024-12-31)"}}'],
         ]);

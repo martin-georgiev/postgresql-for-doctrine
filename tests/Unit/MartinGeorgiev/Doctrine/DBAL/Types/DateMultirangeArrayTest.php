@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 final class DateMultirangeArrayTest extends TestCase
 {
-    use MalformedArrayLiteralProviderTrait;
+    use MalformedBraceLiteralProviderTrait;
 
     /**
      * @var AbstractPlatform&Stub
@@ -162,7 +162,7 @@ final class DateMultirangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
             'empty element between valid ones' => ['{"{[2024-01-01,2024-06-30)}",,"{[2024-07-01,2024-12-31)}"}'],
             'valid elements nested one level deep' => ['{{"{[2024-01-01,2024-06-30)}"},{"{[2024-07-01,2024-12-31)}"}}'],
             'invalid format in array' => ['{"not-a-multirange"}'],
