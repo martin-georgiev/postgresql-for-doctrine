@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 final class JsonbArrayTest extends TestCase
 {
+    use MalformedArrayLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -222,13 +224,10 @@ final class JsonbArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
-            'empty element' => ['{1,,3}'],
-            'multi-dimensional array' => ['{{1},{2}}'],
-            'no literal at all' => [''],
+        return \array_merge(self::provideMalformedArrayLiterals(), self::malformedLiteralsAround('"{\\"key\\":1}"', '"{\\"key\\":2}"'), [
             'non-array json' => ['"a string encoded as json"'],
             'invalid json format' => ['{invalid json}'],
-        ];
+        ]);
     }
 
     #[Test]

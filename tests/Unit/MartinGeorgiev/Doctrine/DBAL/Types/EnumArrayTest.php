@@ -18,6 +18,8 @@ use PHPUnit\Framework\TestCase;
 
 final class EnumArrayTest extends TestCase
 {
+    use MalformedArrayLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -241,13 +243,12 @@ final class EnumArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
+        return \array_merge(self::provideMalformedArrayLiterals(), self::malformedLiteralsAround('"plain"', '"with space"'), [
             'label absent from the PHP enum' => ['{green}'],
             'quoted label absent from the PHP enum' => ['{"not a case"}'],
-            'multi-dimensional array' => ['{{red},{blue}}'],
+            'multi-dimensional array of labels' => ['{{red},{blue}}'],
             'unclosed quotes' => ['{"red}'],
-            'no literal at all' => [''],
-        ];
+        ]);
     }
 
     #[DataProvider('provideInvalidTypeInputs')]

@@ -17,6 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 final class Int4MultirangeArrayTest extends TestCase
 {
+    use MalformedArrayLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -157,12 +159,9 @@ final class Int4MultirangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
-            'empty element' => ['{1,,3}'],
-            'multi-dimensional array' => ['{{1},{2}}'],
-            'no literal at all' => [''],
+        return \array_merge(self::malformedLiteralsAround('"{[1,10)}"', '"{[20,30)}"'), [
             'invalid format in array' => ['{"not-a-multirange"}'],
-        ];
+        ]);
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

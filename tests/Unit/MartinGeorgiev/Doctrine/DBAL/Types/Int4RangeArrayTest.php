@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class Int4RangeArrayTest extends TestCase
 {
+    use MalformedArrayLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -213,10 +215,6 @@ final class Int4RangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
-            'empty element' => ['{1,,3}'],
-            'multi-dimensional array' => ['{{1},{2}}'],
-            'no literal at all' => [''],
-        ];
+        return self::malformedLiteralsAround('"[1,10)"', '"[20,30)"');
     }
 }

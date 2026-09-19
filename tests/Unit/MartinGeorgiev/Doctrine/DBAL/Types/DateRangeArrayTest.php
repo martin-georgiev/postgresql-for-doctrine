@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class DateRangeArrayTest extends TestCase
 {
+    use MalformedArrayLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -219,10 +221,6 @@ final class DateRangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
-            'empty element' => ['{1,,3}'],
-            'multi-dimensional array' => ['{{1},{2}}'],
-            'no literal at all' => [''],
-        ];
+        return self::malformedLiteralsAround('"[2023-01-01,2023-12-31)"', '"[2024-01-01,2024-12-31)"');
     }
 }

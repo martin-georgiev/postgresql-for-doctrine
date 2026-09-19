@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class TsRangeArrayTest extends TestCase
 {
+    use MalformedArrayLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -215,10 +217,6 @@ final class TsRangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
-            'empty element' => ['{1,,3}'],
-            'multi-dimensional array' => ['{{1},{2}}'],
-            'no literal at all' => [''],
-        ];
+        return self::malformedLiteralsAround('"[2023-01-01 00:00:00.000000,2023-12-31 23:59:59.000000)"', '"[2024-01-01 00:00:00.000000,2024-12-31 23:59:59.000000)"');
     }
 }
