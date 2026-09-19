@@ -78,7 +78,7 @@ abstract class BaseNumericArrayTestCase extends TestCase
 
     #[DataProvider('provideValidItemTransformationsToPHP')]
     #[Test]
-    public function converts_item_for_php(string $postgresValue, float|int $expectedValue): void
+    public function converts_item_to_php_value(string $postgresValue, float|int $expectedValue): void
     {
         $this->assertSame($expectedValue, $this->fixture->transformArrayItemForPHP($postgresValue));
     }
