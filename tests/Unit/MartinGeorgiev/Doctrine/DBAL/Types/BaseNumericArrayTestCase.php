@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\BaseArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -98,6 +99,31 @@ abstract class BaseNumericArrayTestCase extends TestCase
         $postgresValue = $this->fixture->convertToDatabaseValue([1, null], $this->createStub(AbstractPlatform::class));
 
         $this->assertSame('{1,NULL}', $postgresValue);
+    }
+
+    /**
+     * A literal that is malformed as an array fails before any item is read, so the failure is reported as the whole
+     * value being unreadable rather than as a bad item.
+     */
+    #[DataProvider('provideMalformedArrayLiterals')]
+    #[Test]
+    public function throws_exception_for_a_malformed_array_literal(string $postgresValue): void
+    {
+        $this->expectException(ConversionException::class);
+        $this->expectExceptionMessage('is not in a valid format');
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->createStub(AbstractPlatform::class));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideMalformedArrayLiterals(): array
+    {
+        return [
+            'empty element' => ['{1,,3}'],
+            'multi-dimensional array' => ['{{1},{2}}'],
+        ];
     }
 
     #[Test]
