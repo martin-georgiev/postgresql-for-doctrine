@@ -150,6 +150,9 @@ final class LtreeArrayTest extends TestCase
             'empty label in array' => ['{foo..bar}'],
             'leading dot in array' => ['{.foo}'],
             'label with space in array' => ['{foo bar}'],
+            'literal without braces' => [''],
+            'literal with an empty element' => ['{Top.Sports,,Bottom.Water}'],
+            'multi-dimensional literal' => ['{{Top.Sports},{Bottom.Water}}'],
         ];
     }
 
