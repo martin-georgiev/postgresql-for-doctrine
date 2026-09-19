@@ -132,6 +132,31 @@ abstract class BaseNumericArrayTestCase extends TestCase
         ];
     }
 
+    /**
+     * @param array<int, float|int|null> $phpValue
+     */
+    #[DataProvider('providePostgresArrayOutputs')]
+    #[Test]
+    public function converts_postgres_array_output_to_php_value(string $postgresValue, array $phpValue): void
+    {
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->createStub(AbstractPlatform::class)));
+    }
+
+    /**
+     * Literals that read back to an array the write side spells differently.
+     *
+     * @return array<string, array{postgresValue: string, phpValue: array<int, float|int|null>}>
+     */
+    public static function providePostgresArrayOutputs(): array
+    {
+        return [
+            'no literal at all' => [
+                'postgresValue' => '',
+                'phpValue' => [],
+            ],
+        ];
+    }
+
     #[DataProvider('provideMalformedArrayLiterals')]
     #[Test]
     public function throws_exception_for_a_malformed_array_literal(string $postgresValue): void
