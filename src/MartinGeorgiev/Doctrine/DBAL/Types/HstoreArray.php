@@ -56,14 +56,13 @@ class HstoreArray extends BaseArray
     }
 
     /**
-     * Coercion is load-bearing here: it turns an element PostgreSQL would never emit for `hstore[]`, such as the
-     * `42` in `{42}`, into a value the item hook rejects. Preserving string types would hand the hstore parser
-     * `'42'`, which it reads as a map of nothing.
+     * Coercing is what rejects `{42}`: the item hook turns away an int, where `'42'` would reach a parser that
+     * reads it as a map of nothing.
      */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
         try {
-            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, preserveStringTypes: false);
         } catch (InvalidArrayFormatException) {
             throw InvalidHstoreArrayItemForPHPException::forInvalidFormat($postgresArray);
         }
