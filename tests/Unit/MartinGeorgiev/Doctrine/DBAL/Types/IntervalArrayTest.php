@@ -294,6 +294,9 @@ final class IntervalArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), self::malformedLiteralsAround('"1 year"', '"2 days"'));
+        return \array_merge(self::provideMalformedArrayLiterals(), [
+            'empty element between valid ones' => ['{"1 year",,"2 days"}'],
+            'valid elements nested one level deep' => ['{{"1 year"},{"2 days"}}'],
+        ]);
     }
 }

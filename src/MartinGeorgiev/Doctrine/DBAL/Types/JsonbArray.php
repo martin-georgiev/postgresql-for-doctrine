@@ -57,8 +57,8 @@ class JsonbArray extends BaseArray
             return null;
         }
 
-        // PostgreSQL leaves a JSON number or boolean unquoted inside the array literal, and the array parser
-        // already turns those into the very PHP value a JSON decode would produce. Only quoted items still carry JSON text.
+        // The array parser hands this hook strings, so a scalar only arrives when a caller decoded one first.
+        // It is already the value a JSON decode would produce, so it passes through.
         if (\is_int($item) || \is_float($item) || \is_bool($item)) {
             return $item;
         }

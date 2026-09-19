@@ -217,6 +217,9 @@ final class TsRangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return self::malformedLiteralsAround('"[2023-01-01 00:00:00.000000,2023-12-31 23:59:59.000000)"', '"[2024-01-01 00:00:00.000000,2024-12-31 23:59:59.000000)"');
+        return \array_merge(self::provideMalformedArrayLiterals(), [
+            'empty element between valid ones' => ['{"[2023-01-01 00:00:00.000000,2023-12-31 23:59:59.000000)",,"[2024-01-01 00:00:00.000000,2024-12-31 23:59:59.000000)"}'],
+            'valid elements nested one level deep' => ['{{"[2023-01-01 00:00:00.000000,2023-12-31 23:59:59.000000)"},{"[2024-01-01 00:00:00.000000,2024-12-31 23:59:59.000000)"}}'],
+        ]);
     }
 }

@@ -159,7 +159,9 @@ final class Int4MultirangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::malformedLiteralsAround('"{[1,10)}"', '"{[20,30)}"'), [
+        return \array_merge(self::provideMalformedArrayLiterals(), [
+            'empty element between valid ones' => ['{"{[1,10)}",,"{[20,30)}"}'],
+            'valid elements nested one level deep' => ['{{"{[1,10)}"},{"{[20,30)}"}}'],
             'invalid format in array' => ['{"not-a-multirange"}'],
         ]);
     }

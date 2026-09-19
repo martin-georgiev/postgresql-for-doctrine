@@ -159,7 +159,9 @@ final class NumMultirangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::malformedLiteralsAround('"{[1.5,10.5)}"', '"{[20.5,30.5)}"'), [
+        return \array_merge(self::provideMalformedArrayLiterals(), [
+            'empty element between valid ones' => ['{"{[1.5,10.5)}",,"{[20.5,30.5)}"}'],
+            'valid elements nested one level deep' => ['{{"{[1.5,10.5)}"},{"{[20.5,30.5)}"}}'],
             'invalid format in array' => ['{"not-a-multirange"}'],
         ]);
     }

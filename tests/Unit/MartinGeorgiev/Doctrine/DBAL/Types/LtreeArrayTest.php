@@ -148,7 +148,9 @@ final class LtreeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), self::malformedLiteralsAround('Top.Sports', 'Bottom.Water'), [
+        return \array_merge(self::provideMalformedArrayLiterals(), [
+            'empty element between valid ones' => ['{Top.Sports,,Bottom.Water}'],
+            'valid elements nested one level deep' => ['{{Top.Sports},{Bottom.Water}}'],
             'empty label in array' => ['{foo..bar}'],
             'leading dot in array' => ['{.foo}'],
             'label with space in array' => ['{foo bar}'],

@@ -158,7 +158,10 @@ abstract class BaseNumericArrayTestCase extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), self::malformedLiteralsAround('1', '2'));
+        return \array_merge(self::provideMalformedArrayLiterals(), [
+            'empty element between valid ones' => ['{1,,2}'],
+            'valid elements nested one level deep' => ['{{1},{2}}'],
+        ]);
     }
 
     /**

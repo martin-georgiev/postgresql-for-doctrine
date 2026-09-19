@@ -224,10 +224,34 @@ final class JsonbArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return \array_merge(self::provideMalformedArrayLiterals(), self::malformedLiteralsAround('"{\\"key\\":1}"', '"{\\"key\\":2}"'), [
+        return \array_merge(self::provideMalformedArrayLiterals(), [
+            'empty element between valid ones' => ['{"{\"key\":1}",,"{\"key\":2}"}'],
+            'valid elements nested one level deep' => ['{{"{\"key\":1}"},{"{\"key\":2}"}}'],
             'non-array json' => ['"a string encoded as json"'],
             'invalid json format' => ['{invalid json}'],
         ]);
+    }
+
+    /**
+     * The parser hands the hook strings; a scalar reaches it only from a caller that decoded one already.
+     */
+    #[DataProvider('provideAlreadyDecodedScalarItems')]
+    #[Test]
+    public function passes_an_already_decoded_scalar_item_through(bool|float|int $item): void
+    {
+        $this->assertSame($item, $this->fixture->transformArrayItemForPHP($item));
+    }
+
+    /**
+     * @return array<string, array{bool|float|int}>
+     */
+    public static function provideAlreadyDecodedScalarItems(): array
+    {
+        return [
+            'integer' => [42],
+            'float' => [4.2],
+            'boolean' => [true],
+        ];
     }
 
     #[Test]

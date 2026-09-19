@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 final class HstoreArrayTest extends TestCase
 {
+    use MalformedArrayLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -193,10 +195,7 @@ final class HstoreArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
-            'integer element' => ['{42}'],
-            'boolean element' => ['{true}'],
-        ];
+        return ['empty element between valid ones' => ['{"a"=>"1",,"b"=>"2"}'], 'valid elements nested one level deep' => ['{{"a"=>"1"},{"b"=>"2"}}'], 'integer element' => ['{42}'], 'boolean element' => ['{true}']];
     }
 
     #[Test]

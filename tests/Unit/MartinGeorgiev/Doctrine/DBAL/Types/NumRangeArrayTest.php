@@ -215,6 +215,9 @@ final class NumRangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return self::malformedLiteralsAround('"[1,10)"', '"[20.5,30.5)"');
+        return \array_merge(self::provideMalformedArrayLiterals(), [
+            'empty element between valid ones' => ['{"[1,10)",,"[20.5,30.5)"}'],
+            'valid elements nested one level deep' => ['{{"[1,10)"},{"[20.5,30.5)"}}'],
+        ]);
     }
 }

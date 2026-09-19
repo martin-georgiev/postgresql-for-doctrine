@@ -20,18 +20,4 @@ trait MalformedArrayLiteralProviderTrait
             'no literal at all' => [''],
         ];
     }
-
-    /**
-     * Here the elements are the caller's own valid ones on purpose. Built from a value the type rejects anyway,
-     * both rows would still throw with the array parsing gone - from the item hook, for the wrong reason.
-     *
-     * @return array<string, array{string}>
-     */
-    protected static function malformedLiteralsAround(string $first, string $second): array
-    {
-        return [
-            'empty element between valid ones' => [\sprintf('{%s,,%s}', $first, $second)],
-            'valid elements nested one level deep' => [\sprintf('{{%s},{%s}}', $first, $second)],
-        ];
-    }
 }
