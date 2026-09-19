@@ -283,7 +283,7 @@ A `phpValue`/`postgresValue` row feeds the write test and the read test. Don't a
 'valid array' => ['phpValue' => ['addr', null], 'postgresValue' => '{"addr",NULL}'],
 
 // ❌ a standalone test per direction, each with one hardcoded literal
-public function converts_array_holding_a_null_element_to_php_value(): void
+public function converts_array_with_a_null_to_php_value(): void
 ```
 
 ### Providers in Abstract Test Cases
@@ -313,18 +313,20 @@ Merging widens the item type — annotate the family provider with the base's.
 Array types carry both. They drive different methods and never merge into each other.
 
 ```php
-// item-level — one item ↔ one token. Drives isValidArrayItemForDatabase() / transformArrayItemForPHP()
-'phpValue' => 42, 'postgresValue' => '42'
+// array-level — whole array ↔ whole literal. provideValidTransformations
+// Drives convertToDatabaseValue() / convertToPHPValue()
+'null element' => ['phpValue' => [1, null, 3], 'postgresValue' => '{1,NULL,3}'],
 
-// array-level — whole array ↔ whole literal. Drives convertToDatabaseValue() / convertToPHPValue()
-'phpValue' => [1, null, 3], 'postgresValue' => '{1,NULL,3}'
+// item-level, read — one token → one item. provideValidItemTransformationsToPHP
+// Drives transformArrayItemForPHP()
+'positive' => ['postgresValue' => '42', 'expectedValue' => 42],
 
-// ❌ null as an item row — the write side passes and the read side throws.
-// The parser resolves the bare NULL token; the item hook only ever sees a real null.
-'phpValue' => null, 'postgresValue' => 'NULL'
+// item-level, write — one item. provideValidArrayItemsForDatabase
+// Drives isValidArrayItemForDatabase()
+'null' => [null],
 ```
 
-`provideValidTransformations` is always the array-level one. Item-level rows go in `provideValidItemTransformationsToPHP` and `provideValidArrayItemsForDatabase`.
+`null` is an item-level row only on the write side. The item hook never sees the `NULL` token — the parser resolves it — so `['postgresValue' => 'NULL', 'expectedValue' => null]` would throw. Reading it is the standalone `converts_null_item_to_php_value`.
 
 A literal the write side spells differently is a row in the read-only provider — `providePostgresOutputValues` for items, `provideValidPostgresArraysForPHP` for arrays — never a standalone test.
 

@@ -213,16 +213,17 @@ See `test-naming-patterns.md` § Data Provider Conventions for the full provider
 
 ### Required Methods
 
-All six methods are required on every `BaseArray` subclass. Never remove any:
+All five methods are required on every `BaseArray` subclass. Never remove any:
 
 ```php
 public function isValidArrayItemForDatabase(mixed $item): bool
 protected function transformArrayItemForPostgres(mixed $item): string
 public function transformArrayItemForPHP(mixed $item): ?ValueObject
-protected function transformPostgresArrayToPHPArray(string $postgresArray): array
 protected function throwInvalidTypeException(mixed $value): never
 protected function throwInvalidItemException(mixed $item): never
 ```
+
+**Forbidden**: new overrides of `transformPostgresArrayToPHPArray()`. `BaseArray` delegates it to `Utils\PostgresArrayToPHPArrayTransformer`, which handles quoting, escapes, the bare `NULL` token and the delimiter from `getArrayElementDelimiter()`; a hand-rolled `explode()` gets the `NULL` token wrong. The overrides still in the tree predate that delegation and are being retired. Override `throwInvalidArrayFormatException()` instead when the type owes its own exception family.
 
 The `if (!$item instanceof X) throw` guard inside `transformArrayItemForPostgres` is intentionally unreachable via normal flow — it guards direct calls. Never remove `isValidArrayItemForDatabase` or `throwInvalidItemException` to make it reachable.
 
