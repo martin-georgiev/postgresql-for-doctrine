@@ -34,20 +34,9 @@ class BoxArray extends BaseGeometricArray
         return BoxValueObject::fromString($value);
     }
 
-    /**
-     * PostgreSQL never quotes a `box[]` element: the `;` delimiter already tells the two corner pairs apart.
-     */
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function renderArrayItemForPostgres(\Stringable $stringable): string
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        if (!$item instanceof BoxValueObject) {
-            $this->throwTypedInvalidItemExceptionForDatabase($item);
-        }
-
-        return (string) $item;
+        return (string) $stringable;
     }
 
     protected function getArrayElementDelimiter(): string

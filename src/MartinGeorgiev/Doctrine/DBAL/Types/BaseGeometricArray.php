@@ -38,7 +38,15 @@ abstract class BaseGeometricArray extends BaseArray
             $this->throwTypedInvalidItemExceptionForDatabase($item);
         }
 
-        return '"'.$item.'"';
+        return $this->renderArrayItemForPostgres($item);
+    }
+
+    /**
+     * PostgreSQL quotes every geometric element but `box[]`, where the `;` delimiter already separates the pairs.
+     */
+    protected function renderArrayItemForPostgres(\Stringable $stringable): string
+    {
+        return '"'.$stringable.'"';
     }
 
     protected function throwInvalidArrayFormatException(string $postgresArray): never
