@@ -203,7 +203,13 @@ final class HstoreArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return ['empty element between valid ones' => ['{"a"=>"1",,"b"=>"2"}'], 'valid elements nested one level deep' => ['{{"a"=>"1"},{"b"=>"2"}}'], 'integer element' => ['{42}'], 'boolean element' => ['{true}']];
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{"a"=>"1",,"b"=>"2"}'],
+            'valid elements nested one level deep' => ['{{"a"=>"1"},{"b"=>"2"}}'],
+            'integer element' => ['{42}'],
+            'boolean element' => ['{true}'],
+            'text that is not a pair' => ['{"not an hstore"}'],
+        ]);
     }
 
     #[Test]

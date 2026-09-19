@@ -8,8 +8,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHstoreArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHstoreArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\HstoreParserTrait;
-use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL hstore[] data type.
@@ -35,6 +33,16 @@ class HstoreArray extends BaseArray
         return $item === null || \is_array($item);
     }
 
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
+    {
+        throw InvalidHstoreArrayItemForPHPException::forInvalidFormat($postgresArray);
+    }
+
+    protected function createInvalidHstoreFormatException(string $value): InvalidHstoreArrayItemForPHPException
+    {
+        return InvalidHstoreArrayItemForPHPException::forInvalidFormat($value);
+    }
+
     protected function createInvalidHstoreValueTypeException(mixed $value): InvalidHstoreArrayItemForDatabaseException
     {
         return InvalidHstoreArrayItemForDatabaseException::forInvalidType($value);
@@ -53,19 +61,6 @@ class HstoreArray extends BaseArray
         }
 
         return $this->quoteAndEscapeArrayItem($this->buildHstoreString($item));
-    }
-
-    /**
-     * Coercing is what rejects `{42}`: the item hook turns away an int, where `'42'` would reach a parser that
-     * reads it as a map of nothing.
-     */
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        try {
-            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, preserveStringTypes: false);
-        } catch (InvalidArrayFormatException) {
-            throw InvalidHstoreArrayItemForPHPException::forInvalidFormat($postgresArray);
-        }
     }
 
     /**

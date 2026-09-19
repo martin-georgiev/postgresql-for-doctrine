@@ -46,6 +46,54 @@ final class HstoreTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
+    #[DataProvider('provideLiteralsThatAreNotHstorePairs')]
+    #[Test]
+    public function throws_exception_for_a_literal_that_is_not_hstore_pairs(string $postgresValue): void
+    {
+        $this->expectException(InvalidHstoreForPHPException::class);
+        $this->expectExceptionMessage('Invalid hstore format');
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideLiteralsThatAreNotHstorePairs(): array
+    {
+        return [
+            'text that holds no pair' => ['total garbage'],
+            'a pair with trailing junk' => ['"a"=>"1" and then some'],
+            'a pair with leading junk' => ['leading "a"=>"1"'],
+            'a key without a value' => ['"a"=>'],
+            'pairs with no comma between them' => ['"a"=>"1" "b"=>"2"'],
+            'a comma and nothing else' => [','],
+            'two commas between pairs' => ['"a"=>"1",,"b"=>"2"'],
+        ];
+    }
+
+    /**
+     * Form feed and vertical tab separate hstore tokens for PostgreSQL, and a comma may trail the last pair.
+     */
+    #[DataProvider('provideLiteralsPostgresReads')]
+    #[Test]
+    public function converts_every_literal_postgres_reads(string $postgresValue, array $phpValue): void
+    {
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * @return array<string, array{postgresValue: string, phpValue: array<string, string|null>}>
+     */
+    public static function provideLiteralsPostgresReads(): array
+    {
+        return [
+            'whitespace around the pairs' => ['postgresValue' => '  "a"=>"1"  ', 'phpValue' => ['a' => '1']],
+            'form feed and vertical tab between pairs' => ['postgresValue' => "\"a\"=>\"1\",\f\v\"b\"=>\"2\"", 'phpValue' => ['a' => '1', 'b' => '2']],
+            'a comma after the last pair' => ['postgresValue' => '"a"=>"1",', 'phpValue' => ['a' => '1']],
+        ];
+    }
+
     #[Test]
     public function converts_empty_string_from_database_to_empty_array(): void
     {
