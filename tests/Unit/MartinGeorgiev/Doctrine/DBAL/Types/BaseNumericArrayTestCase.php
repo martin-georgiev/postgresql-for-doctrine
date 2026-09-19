@@ -90,8 +90,7 @@ abstract class BaseNumericArrayTestCase extends TestCase
     }
 
     /**
-     * PostgreSQL stores a NULL element in an array of any type and emits it as the bare NULL token, so a nullable
-     * column has to survive the round-trip in both directions.
+     * PostgreSQL emits a NULL element as the bare NULL token.
      *
      * @param array<int, float|int|null> $phpValue
      */
@@ -113,8 +112,7 @@ abstract class BaseNumericArrayTestCase extends TestCase
     }
 
     /**
-     * An array of nothing but nulls reads back the same whatever the element type is. Each family merges the rows
-     * that carry values of its own.
+     * An array of nothing but nulls reads back the same whatever the element type is.
      *
      * @return array<string, array{phpValue: array<int, float|int|null>, postgresValue: string}>
      */
@@ -132,10 +130,6 @@ abstract class BaseNumericArrayTestCase extends TestCase
         ];
     }
 
-    /**
-     * A literal that is malformed as an array fails before any item is read, so the failure is reported as the whole
-     * value being unreadable rather than as a bad item.
-     */
     #[DataProvider('provideMalformedArrayLiterals')]
     #[Test]
     public function throws_exception_for_a_malformed_array_literal(string $postgresValue): void

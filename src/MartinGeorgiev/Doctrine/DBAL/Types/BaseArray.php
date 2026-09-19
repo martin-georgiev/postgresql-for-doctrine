@@ -153,10 +153,8 @@ abstract class BaseArray extends BaseType
             return [];
         }
 
-        // The parser strips the outer braces rather than requiring them, so a literal that lost one, or never
-        // carried one, would otherwise read as a well-formed array.
-        $isBracedArrayLiteral = \str_starts_with($trimmed, '{') && \str_ends_with($trimmed, '}');
-        if (!$isBracedArrayLiteral) {
+        $isAWellFormedBracedArrayLiteral = \str_starts_with($trimmed, '{') && \str_ends_with($trimmed, '}');
+        if (!$isAWellFormedBracedArrayLiteral) {
             $this->throwInvalidArrayFormatException($postgresArray);
         }
 
