@@ -92,14 +92,30 @@ abstract class BaseNumericArrayTestCase extends TestCase
     /**
      * PostgreSQL stores a NULL element in an array of any type and emits it as the bare NULL token, so a nullable
      * column has to survive the round-trip in both directions.
+     *
+     * @param array<int, float|int|null> $phpValue
      */
+    #[DataProvider('provideArraysHoldingANullElement')]
     #[Test]
-    public function converts_array_holding_a_null_element_to_database_value(): void
+    public function converts_array_holding_a_null_element_to_database_value(array $phpValue, string $postgresValue): void
     {
-        $postgresValue = $this->fixture->convertToDatabaseValue([1, null], $this->createStub(AbstractPlatform::class));
-
-        $this->assertSame('{1,NULL}', $postgresValue);
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->createStub(AbstractPlatform::class)));
     }
+
+    /**
+     * @param array<int, float|int|null> $phpValue
+     */
+    #[DataProvider('provideArraysHoldingANullElement')]
+    #[Test]
+    public function converts_array_holding_a_null_element_to_php_value(array $phpValue, string $postgresValue): void
+    {
+        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->createStub(AbstractPlatform::class)));
+    }
+
+    /**
+     * @return array<string, array{phpValue: array<int, float|int|null>, postgresValue: string}>
+     */
+    abstract public static function provideArraysHoldingANullElement(): array;
 
     /**
      * A literal that is malformed as an array fails before any item is read, so the failure is reported as the whole
@@ -127,16 +143,6 @@ abstract class BaseNumericArrayTestCase extends TestCase
             'missing opening brace' => ['1,2}'],
             'no braces at all' => ['1,2'],
         ];
-    }
-
-    #[Test]
-    public function converts_array_holding_a_null_element_to_php_value(): void
-    {
-        $phpArray = $this->fixture->convertToPHPValue('{1,NULL}', $this->createStub(AbstractPlatform::class));
-
-        $this->assertIsArray($phpArray);
-        $this->assertCount(2, $phpArray);
-        $this->assertNull($phpArray[1]);
     }
 
     /**

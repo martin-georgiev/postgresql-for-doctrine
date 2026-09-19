@@ -47,6 +47,31 @@ abstract class BaseIntegerArrayTestCase extends BaseNumericArrayTestCase
         ]);
     }
 
+    /**
+     * @return array<string, array{phpValue: array<int, int|null>, postgresValue: string}>
+     */
+    public static function provideArraysHoldingANullElement(): array
+    {
+        return [
+            'null between two values' => [
+                'phpValue' => [1, null, 3],
+                'postgresValue' => '{1,NULL,3}',
+            ],
+            'null as the first element' => [
+                'phpValue' => [null, 2],
+                'postgresValue' => '{NULL,2}',
+            ],
+            'null as the last element' => [
+                'phpValue' => [1, null],
+                'postgresValue' => '{1,NULL}',
+            ],
+            'nothing but nulls' => [
+                'phpValue' => [null, null],
+                'postgresValue' => '{NULL,NULL}',
+            ],
+        ];
+    }
+
     #[DataProvider('provideOutOfRangeValues')]
     #[Test]
     public function throws_exception_for_value_exceeding_range(string $outOfRangeValue): void

@@ -74,8 +74,8 @@ final class BaseNetworkTypeArrayTest extends TestCase
                 'postgresValue' => '{}',
             ],
             'valid array' => [
-                'phpValue' => ['valid_address', 'valid_address'],
-                'postgresValue' => '{"valid_address","valid_address"}',
+                'phpValue' => ['valid_address', null, 'valid_address'],
+                'postgresValue' => '{"valid_address",NULL,"valid_address"}',
             ],
         ];
     }
@@ -115,17 +115,5 @@ final class BaseNetworkTypeArrayTest extends TestCase
     public function converts_array_item_for_php_with_valid_string(): void
     {
         $this->assertSame('valid_address', $this->fixture->transformArrayItemForPHP('valid_address'));
-    }
-
-    /**
-     * Network addresses are written quoted, so the quotes have to come off somewhere. They come off in the array
-     * parser, which is the only place that can tell a quote around a value from one inside it.
-     */
-    #[Test]
-    public function converts_quoted_database_value_to_php_value(): void
-    {
-        $phpArray = $this->fixture->convertToPHPValue('{"valid_address",NULL,"valid_address"}', $this->platform);
-
-        $this->assertSame(['valid_address', null, 'valid_address'], $phpArray);
     }
 }

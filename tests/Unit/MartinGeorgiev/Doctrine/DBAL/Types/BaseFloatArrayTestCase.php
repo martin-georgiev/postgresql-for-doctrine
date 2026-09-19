@@ -45,6 +45,31 @@ abstract class BaseFloatArrayTestCase extends BaseNumericArrayTestCase
         ]);
     }
 
+    /**
+     * @return array<string, array{phpValue: array<int, float|null>, postgresValue: string}>
+     */
+    public static function provideArraysHoldingANullElement(): array
+    {
+        return [
+            'null between two values' => [
+                'phpValue' => [1.5, null, 3.5],
+                'postgresValue' => '{1.5,NULL,3.5}',
+            ],
+            'null as the first element' => [
+                'phpValue' => [null, 2.5],
+                'postgresValue' => '{NULL,2.5}',
+            ],
+            'null as the last element' => [
+                'phpValue' => [1.5, null],
+                'postgresValue' => '{1.5,NULL}',
+            ],
+            'nothing but nulls' => [
+                'phpValue' => [null, null],
+                'postgresValue' => '{NULL,NULL}',
+            ],
+        ];
+    }
+
     #[Test]
     public function throws_exception_for_invalid_array_item_value(): void
     {
