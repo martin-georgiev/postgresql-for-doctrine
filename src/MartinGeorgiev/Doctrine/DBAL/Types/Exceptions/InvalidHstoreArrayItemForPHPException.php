@@ -27,4 +27,9 @@ class InvalidHstoreArrayItemForPHPException extends ConversionException
     {
         return self::create('Value must be an array, %s given', $value);
     }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Invalid hstore array format: %s', $value);
+    }
 }

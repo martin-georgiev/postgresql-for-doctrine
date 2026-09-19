@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
+
+trait MalformedBraceLiteralProviderTrait
+{
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideLiteralsWithMalformedBraces(): array
+    {
+        return [
+            'missing closing brace' => ['{1,2'],
+            'missing opening brace' => ['1,2}'],
+            'no braces at all' => ['1,2'],
+            'no literal at all' => [''],
+        ];
+    }
+}

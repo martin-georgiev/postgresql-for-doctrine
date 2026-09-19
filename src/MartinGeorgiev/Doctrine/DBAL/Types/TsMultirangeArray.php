@@ -8,7 +8,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsMultirangeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsMultirangeArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsMultirange as TsMultirangeValueObject;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL TSMULTIRANGE[] data type.
@@ -43,9 +42,9 @@ class TsMultirangeArray extends BaseArray
         return $this->quoteAndEscapeArrayItem((string) $item);
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        throw InvalidTsMultirangeArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?TsMultirangeValueObject

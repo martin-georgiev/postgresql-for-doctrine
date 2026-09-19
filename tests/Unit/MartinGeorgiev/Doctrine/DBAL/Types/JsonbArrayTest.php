@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 final class JsonbArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -222,9 +224,30 @@ final class JsonbArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{"{\"key\":1}",,"{\"key\":2}"}'],
+            'valid elements nested one level deep' => ['{{"{\"key\":1}"},{"{\"key\":2}"}}'],
             'non-array json' => ['"a string encoded as json"'],
             'invalid json format' => ['{invalid json}'],
+        ]);
+    }
+
+    #[DataProvider('provideAlreadyDecodedScalarItems')]
+    #[Test]
+    public function passes_an_already_decoded_scalar_item_through(bool|float|int $item): void
+    {
+        $this->assertSame($item, $this->fixture->transformArrayItemForPHP($item));
+    }
+
+    /**
+     * @return array<string, array{bool|float|int}>
+     */
+    public static function provideAlreadyDecodedScalarItems(): array
+    {
+        return [
+            'integer' => [42],
+            'float' => [4.2],
+            'boolean' => [true],
         ];
     }
 

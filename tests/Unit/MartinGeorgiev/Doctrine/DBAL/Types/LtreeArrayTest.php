@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class LtreeArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -146,14 +148,13 @@ final class LtreeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{Top.Sports,,Bottom.Water}'],
+            'valid elements nested one level deep' => ['{{Top.Sports},{Bottom.Water}}'],
             'empty label in array' => ['{foo..bar}'],
             'leading dot in array' => ['{.foo}'],
             'label with space in array' => ['{foo bar}'],
-            'literal without braces' => [''],
-            'literal with an empty element' => ['{Top.Sports,,Bottom.Water}'],
-            'multi-dimensional literal' => ['{{Top.Sports},{Bottom.Water}}'],
-        ];
+        ]);
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

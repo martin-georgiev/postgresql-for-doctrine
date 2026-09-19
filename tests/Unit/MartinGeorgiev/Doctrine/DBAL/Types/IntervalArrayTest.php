@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class IntervalArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -276,5 +278,25 @@ final class IntervalArrayTest extends TestCase
     {
         $this->expectException(InvalidIntervalArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP('not-an-interval');
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
+    {
+        $this->expectException(InvalidIntervalArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{"1 year",,"2 days"}'],
+            'valid elements nested one level deep' => ['{{"1 year"},{"2 days"}}'],
+        ]);
     }
 }

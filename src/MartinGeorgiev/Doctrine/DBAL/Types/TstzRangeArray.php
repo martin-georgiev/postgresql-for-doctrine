@@ -8,7 +8,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTstzRangeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTstzRangeArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange as TstzRangeValueObject;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL TSTZRANGE[] data type.
@@ -60,9 +59,9 @@ class TstzRangeArray extends BaseArray
         }
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        throw InvalidTstzRangeArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

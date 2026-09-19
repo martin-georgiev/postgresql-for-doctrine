@@ -8,7 +8,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInt8MultirangeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInt8MultirangeArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Multirange as Int8MultirangeValueObject;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL INT8MULTIRANGE[] data type.
@@ -43,9 +42,9 @@ class Int8MultirangeArray extends BaseArray
         return $this->quoteAndEscapeArrayItem((string) $item);
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        throw InvalidInt8MultirangeArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?Int8MultirangeValueObject

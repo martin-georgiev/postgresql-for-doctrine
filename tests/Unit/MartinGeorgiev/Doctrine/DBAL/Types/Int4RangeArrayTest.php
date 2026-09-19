@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class Int4RangeArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -197,5 +199,25 @@ final class Int4RangeArrayTest extends TestCase
             'missing brackets' => ['1,10'],
             'incomplete range' => ['[1'],
         ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
+    {
+        $this->expectException(InvalidInt4RangeArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{"[1,10)",,"[20,30)"}'],
+            'valid elements nested one level deep' => ['{{"[1,10)"},{"[20,30)"}}'],
+        ]);
     }
 }

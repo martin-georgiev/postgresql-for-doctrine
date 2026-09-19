@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Base class for PostgreSQL datetime array types (DATE[], TIMESTAMP[], TIMESTAMPTZ[]).
@@ -87,11 +86,6 @@ abstract class BaseDateTimeArray extends BaseArray
         }
 
         return \sprintf('%04d', 1 - $year).\mb_substr($formatted, \mb_strlen($yearToken)).self::BC_ERA_SUFFIX;
-    }
-
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): \DateTimeImmutable|DateTimeInfinity|null

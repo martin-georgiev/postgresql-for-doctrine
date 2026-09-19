@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class DateRangeArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -203,5 +205,25 @@ final class DateRangeArrayTest extends TestCase
             'missing brackets' => ['2023-01-01,2023-12-31'],
             'incomplete range' => ['[2023-01-01'],
         ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
+    {
+        $this->expectException(InvalidDateRangeArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{"[2023-01-01,2023-12-31)",,"[2024-01-01,2024-12-31)"}'],
+            'valid elements nested one level deep' => ['{{"[2023-01-01,2023-12-31)"},{"[2024-01-01,2024-12-31)"}}'],
+        ]);
     }
 }

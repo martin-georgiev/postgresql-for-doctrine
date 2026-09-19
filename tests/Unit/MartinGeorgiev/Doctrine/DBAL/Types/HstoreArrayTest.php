@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 final class HstoreArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -180,6 +182,14 @@ final class HstoreArrayTest extends TestCase
         ];
     }
 
+    #[Test]
+    public function throws_exception_for_a_non_string_hstore_value(): void
+    {
+        $this->expectException(InvalidHstoreArrayItemForDatabaseException::class);
+
+        $this->fixture->convertToDatabaseValue([['key' => 42]], $this->platform);
+    }
+
     #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
@@ -193,10 +203,7 @@ final class HstoreArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
-            'integer element' => ['{42}'],
-            'boolean element' => ['{true}'],
-        ];
+        return ['empty element between valid ones' => ['{"a"=>"1",,"b"=>"2"}'], 'valid elements nested one level deep' => ['{{"a"=>"1"},{"b"=>"2"}}'], 'integer element' => ['{42}'], 'boolean element' => ['{true}']];
     }
 
     #[Test]

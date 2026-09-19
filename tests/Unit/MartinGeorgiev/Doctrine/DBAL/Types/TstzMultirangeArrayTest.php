@@ -17,6 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 final class TstzMultirangeArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -153,9 +155,11 @@ final class TstzMultirangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{"{[2024-01-01 09:00:00.000000+00:00,2024-01-01 17:00:00.000000+00:00)}",,"{[2024-02-01 09:00:00.000000+00:00,2024-02-01 17:00:00.000000+00:00)}"}'],
+            'valid elements nested one level deep' => ['{{"{[2024-01-01 09:00:00.000000+00:00,2024-01-01 17:00:00.000000+00:00)}"},{"{[2024-02-01 09:00:00.000000+00:00,2024-02-01 17:00:00.000000+00:00)}"}}'],
             'invalid format in array' => ['{"not-a-multirange"}'],
-        ];
+        ]);
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

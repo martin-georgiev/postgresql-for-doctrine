@@ -17,6 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 final class Int8MultirangeArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -157,9 +159,11 @@ final class Int8MultirangeArrayTest extends TestCase
      */
     public static function provideInvalidPHPValueInputs(): array
     {
-        return [
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{"{[1,100)}",,"{[200,300)}"}'],
+            'valid elements nested one level deep' => ['{{"{[1,100)}"},{"{[200,300)}"}}'],
             'invalid format in array' => ['{"not-a-multirange"}'],
-        ];
+        ]);
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

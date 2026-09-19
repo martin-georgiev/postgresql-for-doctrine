@@ -8,7 +8,6 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidJsonbArrayItemForDatabaseException;
 use MartinGeorgiev\Utils\Exception\InvalidJsonFormatException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 
 /**
@@ -47,12 +46,9 @@ class JsonbArray extends BaseArray
         return $this->quoteAndEscapeArrayItem($this->transformToPostgresJson($item));
     }
 
-    /**
-     * @return array<int, mixed>
-     */
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        throw InvalidJsonArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): array|bool|float|int|string|null
@@ -61,8 +57,7 @@ class JsonbArray extends BaseArray
             return null;
         }
 
-        // PostgreSQL leaves a JSON number or boolean unquoted inside the array literal, and the array parser
-        // already turns those into the very PHP value a JSON decode would produce. Only quoted items still carry JSON text.
+        // The array parser hands this hook strings, so a scalar arrives already decoded - the value a decode returns.
         if (\is_int($item) || \is_float($item) || \is_bool($item)) {
             return $item;
         }

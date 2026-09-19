@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class TstzRangeArrayTest extends TestCase
 {
+    use MalformedBraceLiteralProviderTrait;
+
     /**
      * @var AbstractPlatform&Stub
      */
@@ -199,5 +201,25 @@ final class TstzRangeArrayTest extends TestCase
             'missing brackets' => ['2023-01-01 00:00:00+00:00,2023-12-31 23:59:59+00:00'],
             'incomplete range' => ['[2023-01-01 00:00:00+00:00'],
         ];
+    }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
+    {
+        $this->expectException(InvalidTstzRangeArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return \array_merge(self::provideLiteralsWithMalformedBraces(), [
+            'empty element between valid ones' => ['{"[2023-01-01 00:00:00.000000+00:00,2023-12-31 23:59:59.000000+00:00)",,"[2024-01-01 00:00:00.000000+00:00,2024-12-31 23:59:59.000000+00:00)"}'],
+            'valid elements nested one level deep' => ['{{"[2023-01-01 00:00:00.000000+00:00,2023-12-31 23:59:59.000000+00:00)"},{"[2024-01-01 00:00:00.000000+00:00,2024-12-31 23:59:59.000000+00:00)"}}'],
+        ]);
     }
 }
