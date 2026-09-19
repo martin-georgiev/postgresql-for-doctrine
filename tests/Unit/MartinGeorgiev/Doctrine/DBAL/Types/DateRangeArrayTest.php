@@ -204,4 +204,25 @@ final class DateRangeArrayTest extends TestCase
             'incomplete range' => ['[2023-01-01'],
         ];
     }
+
+    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
+    {
+        $this->expectException(InvalidDateRangeArrayItemForPHPException::class);
+
+        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return [
+            'empty element' => ['{1,,3}'],
+            'multi-dimensional array' => ['{{1},{2}}'],
+            'no literal at all' => [''],
+        ];
+    }
 }

@@ -6,7 +6,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of PostgreSQL BOOL[] data type.
@@ -45,17 +44,6 @@ class BooleanArray extends BaseArray
         \assert(\is_scalar($item));
 
         return (string) $item;
-    }
-
-    /**
-     * @return array<int, mixed>
-     */
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
-            $postgresArray,
-            preserveStringTypes: true
-        );
     }
 
     public function convertToPHPValue($postgresArray, AbstractPlatform $platform): ?array

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Types\ConversionException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Base class for PostgreSQL array types that store string values.
@@ -25,17 +24,6 @@ abstract class BaseStringArray extends BaseArray
         \assert(\is_string($item));
 
         return $this->quoteAndEscapeArrayItem($item);
-    }
-
-    /**
-     * @return array<int, mixed>
-     */
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
-            $postgresArray,
-            preserveStringTypes: true
-        );
     }
 
     public function transformArrayItemForPHP(mixed $item): ?string

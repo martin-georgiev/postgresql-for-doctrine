@@ -8,6 +8,7 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHstoreArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidHstoreArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\HstoreParserTrait;
+use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
@@ -54,9 +55,18 @@ class HstoreArray extends BaseArray
         return $this->quoteAndEscapeArrayItem($this->buildHstoreString($item));
     }
 
+    /**
+     * Coercion is load-bearing here: it turns an element PostgreSQL would never emit for `hstore[]`, such as the
+     * `42` in `{42}`, into a value the item hook rejects. Preserving string types would hand the hstore parser
+     * `'42'`, which it reads as a map of nothing.
+     */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        try {
+            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
+        } catch (InvalidArrayFormatException) {
+            throw InvalidHstoreArrayItemForPHPException::forInvalidFormat($postgresArray);
+        }
     }
 
     /**

@@ -223,6 +223,9 @@ final class JsonbArrayTest extends TestCase
     public static function provideInvalidPHPValueInputs(): array
     {
         return [
+            'empty element' => ['{1,,3}'],
+            'multi-dimensional array' => ['{{1},{2}}'],
+            'no literal at all' => [''],
             'non-array json' => ['"a string encoded as json"'],
             'invalid json format' => ['{invalid json}'],
         ];

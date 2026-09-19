@@ -158,6 +158,9 @@ final class Int8MultirangeArrayTest extends TestCase
     public static function provideInvalidPHPValueInputs(): array
     {
         return [
+            'empty element' => ['{1,,3}'],
+            'multi-dimensional array' => ['{{1},{2}}'],
+            'no literal at all' => [''],
             'invalid format in array' => ['{"not-a-multirange"}'],
         ];
     }
