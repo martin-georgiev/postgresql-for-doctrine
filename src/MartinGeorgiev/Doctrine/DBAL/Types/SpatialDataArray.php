@@ -138,6 +138,9 @@ abstract class SpatialDataArray extends BaseArray
         return $this->parseUnquotedWktArray($arrayContentWithoutBraces, $delimiter);
     }
 
+    /**
+     * @return array<int, string|null>
+     */
     private function parseUnquotedWktArray(string $content, string $delimiter): array
     {
         $wktItems = [];

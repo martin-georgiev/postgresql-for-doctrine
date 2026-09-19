@@ -44,7 +44,7 @@ abstract class BaseNetworkTypeArray extends BaseArray
 
     public function transformArrayItemForPHP(mixed $item): ?string
     {
-        if ($item === null || $item === 'NULL') {
+        if ($item === null) {
             return null;
         }
 
@@ -52,14 +52,11 @@ abstract class BaseNetworkTypeArray extends BaseArray
             $this->throwInvalidTypeException($item);
         }
 
-        // Remove surrounding quotes if present
-        $unquotedItem = \trim($item, '"');
-
-        if (!$this->isValidNetworkAddress($unquotedItem)) {
+        if (!$this->isValidNetworkAddress($item)) {
             $this->throwInvalidFormatException($item);
         }
 
-        return $unquotedItem;
+        return $item;
     }
 
     /**

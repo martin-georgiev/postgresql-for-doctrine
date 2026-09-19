@@ -14,7 +14,7 @@ final class RealArrayTypeTest extends FloatArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, float>}>
+     * @return array<string, array{array<int, float|int|null>}>
      */
     public static function provideValidTransformations(): array
     {
@@ -30,6 +30,7 @@ final class RealArrayTypeTest extends FloatArrayTypeTestCase
             'real array with zero' => [[0.0, 1.5, -1.5]],
             'empty real array' => [[]],
             'real array with large numbers' => [[3.402823e+6, -3.402823e+6]],
+            'array with a null element' => [[1, null, 3]],
         ];
     }
 

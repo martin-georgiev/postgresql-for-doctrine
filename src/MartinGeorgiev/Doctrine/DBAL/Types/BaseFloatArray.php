@@ -43,6 +43,10 @@ abstract class BaseFloatArray extends BaseArray
 
     private function throwIfInvalidArrayItemForDatabase(mixed $item): void
     {
+        if ($item === null) {
+            return;
+        }
+
         $isNotANumber = !\is_float($item) && !\is_int($item) && !\is_string($item);
         if ($isNotANumber) {
             throw InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
@@ -100,6 +104,10 @@ abstract class BaseFloatArray extends BaseArray
 
     protected function transformArrayItemForPostgres(mixed $item): string
     {
+        if ($item === null) {
+            return 'NULL';
+        }
+
         if (\is_float($item)) {
             return self::formatFloat($item);
         }

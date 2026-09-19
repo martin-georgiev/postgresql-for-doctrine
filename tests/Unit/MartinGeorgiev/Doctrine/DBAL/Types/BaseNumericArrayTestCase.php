@@ -47,7 +47,6 @@ abstract class BaseNumericArrayTestCase extends TestCase
     {
         return [
             'boolean' => [true],
-            'null' => [null],
             'string' => ['string'],
             'array' => [[]],
             'object' => [new \stdClass()],
@@ -81,6 +80,34 @@ abstract class BaseNumericArrayTestCase extends TestCase
     public function converts_null_item_for_php(): void
     {
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
+    #[Test]
+    public function converts_null_item_for_database(): void
+    {
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
+    }
+
+    /**
+     * PostgreSQL stores a NULL element in an array of any type and emits it as the bare NULL token, so a nullable
+     * column has to survive the round-trip in both directions.
+     */
+    #[Test]
+    public function converts_array_holding_a_null_element_to_database_value(): void
+    {
+        $postgresValue = $this->fixture->convertToDatabaseValue([1, null], $this->createStub(AbstractPlatform::class));
+
+        $this->assertSame('{1,NULL}', $postgresValue);
+    }
+
+    #[Test]
+    public function converts_array_holding_a_null_element_to_php_value(): void
+    {
+        $phpArray = $this->fixture->convertToPHPValue('{1,NULL}', $this->createStub(AbstractPlatform::class));
+
+        $this->assertIsArray($phpArray);
+        $this->assertCount(2, $phpArray);
+        $this->assertNull($phpArray[1]);
     }
 
     /**
