@@ -232,9 +232,6 @@ final class JsonbArrayTest extends TestCase
         ]);
     }
 
-    /**
-     * The parser hands the hook strings; a scalar reaches it only from a caller that decoded one already.
-     */
     #[DataProvider('provideAlreadyDecodedScalarItems')]
     #[Test]
     public function passes_an_already_decoded_scalar_item_through(bool|float|int $item): void

@@ -57,8 +57,7 @@ class JsonbArray extends BaseArray
             return null;
         }
 
-        // The array parser hands this hook strings, so a scalar only arrives when a caller decoded one first.
-        // It is already the value a JSON decode would produce, so it passes through.
+        // The array parser hands this hook strings, so a scalar arrives already decoded - the value a decode returns.
         if (\is_int($item) || \is_float($item) || \is_bool($item)) {
             return $item;
         }
