@@ -148,6 +148,18 @@ abstract class BaseArray extends BaseType
      */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
+        $trimmed = \trim($postgresArray);
+        if ($trimmed === '') {
+            return [];
+        }
+
+        // The parser strips the outer braces rather than requiring them, so a literal that lost one, or never
+        // carried one, would otherwise read as a well-formed array.
+        $isBracedArrayLiteral = \str_starts_with($trimmed, '{') && \str_ends_with($trimmed, '}');
+        if (!$isBracedArrayLiteral) {
+            $this->throwInvalidArrayFormatException($postgresArray);
+        }
+
         try {
             return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
                 $postgresArray,
@@ -160,10 +172,7 @@ abstract class BaseArray extends BaseType
     }
 
     /**
-     * Thrown for a literal that is malformed as an array, before any item is read - an empty element, or the nesting
-     * of a multi-dimensional array. It carries no offending item, so the `Invalid{Type}ArrayItemFor*` families do not
-     * fit it; the base exception is the same one `throwInvalidPostgresTypeException()` uses for the whole value being
-     * wrong. A type that wants its own family overrides this.
+     * Thrown for a literal that is malformed as an array. This exception carries no offending item.
      *
      * @throws ConversionException
      */

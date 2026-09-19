@@ -59,13 +59,18 @@ abstract class BaseNetworkTypeArray extends BaseArray
         return $item;
     }
 
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
+    {
+        $this->throwInvalidFormatException($postgresArray);
+    }
+
     /**
      * Validate if the given string is a valid network address for this type.
      */
     abstract protected function isValidNetworkAddress(string $value): bool;
 
     /**
-     * Get the exception to throw when the format is invalid.
+     * Throw the exception family of this type for a value it cannot read.
      */
-    abstract protected function throwInvalidFormatException(mixed $value): \Exception;
+    abstract protected function throwInvalidFormatException(mixed $value): never;
 }

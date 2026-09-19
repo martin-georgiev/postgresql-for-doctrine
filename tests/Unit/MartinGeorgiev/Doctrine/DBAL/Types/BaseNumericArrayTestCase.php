@@ -123,6 +123,9 @@ abstract class BaseNumericArrayTestCase extends TestCase
         return [
             'empty element' => ['{1,,3}'],
             'multi-dimensional array' => ['{{1},{2}}'],
+            'missing closing brace' => ['{1,2'],
+            'missing opening brace' => ['1,2}'],
+            'no braces at all' => ['1,2'],
         ];
     }
 
