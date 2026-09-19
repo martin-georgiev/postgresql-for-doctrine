@@ -7,7 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidArrayItemForPHPException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Implementation of the ulid[] type from the pgx_ulid PostgreSQL extension.
@@ -56,18 +55,9 @@ final class UlidArray extends BaseArray
         return $this->isValidUlid($item);
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        // PostgreSQL omits quotes for all-digit ULIDs (e.g. {00000000000000000000000000});
-        // without string preservation such items would be coerced to numbers and lose digits.
-        // String preservation also keeps the unquoted NULL literal as-is, so map it back to
-        // null here — a valid ULID can never be the 4-character string "NULL".
-        $phpArray = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, true);
-
-        return \array_map(
-            static fn (mixed $item): mixed => $item === 'NULL' ? null : $item,
-            $phpArray
-        );
+        throw InvalidUlidArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?string

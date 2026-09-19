@@ -184,7 +184,6 @@ final class EnumArrayTest extends TestCase
     public function returns_empty_array_for_empty_input(): void
     {
         $this->assertSame([], $this->fixture->convertToPHPValue('{}', $this->platform));
-        $this->assertSame([], $this->fixture->convertToPHPValue('', $this->platform));
     }
 
     #[Test]
@@ -247,6 +246,7 @@ final class EnumArrayTest extends TestCase
             'quoted label absent from the PHP enum' => ['{"not a case"}'],
             'multi-dimensional array' => ['{{red},{blue}}'],
             'unclosed quotes' => ['{"red}'],
+            'no literal at all' => [''],
         ];
     }
 

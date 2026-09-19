@@ -60,17 +60,9 @@ class LtreeArray extends BaseArray
         }
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        $trimmed = \trim($postgresArray, '{}');
-        if ($trimmed === '') {
-            return [];
-        }
-
-        return \array_map(
-            static fn (string $item): ?string => ($item === 'NULL') ? null : $item,
-            \explode(',', $trimmed)
-        );
+        throw InvalidLtreeArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
