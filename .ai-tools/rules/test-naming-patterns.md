@@ -326,6 +326,12 @@ Array types carry both. They drive different methods and never merge into each o
 
 `BaseNumericArrayTestCase` carries both: `provideValidTransformations` for items, `provideValidArrayTransformations` for arrays.
 
+A literal the write side spells differently is a row in the read-only provider — `providePostgresOutputValues` for items, `providePostgresArrayOutputs` for arrays — never a standalone test.
+
+```php
+'no literal at all' => ['postgresValue' => '', 'phpValue' => []]
+```
+
 ## MockObject Declaration
 
 ```php
