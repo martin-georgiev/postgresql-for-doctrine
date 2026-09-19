@@ -90,13 +90,11 @@ abstract class BaseNumericArrayTestCase extends TestCase
     }
 
     /**
-     * PostgreSQL emits a NULL element as the bare NULL token.
-     *
      * @param array<int, float|int|null> $phpValue
      */
-    #[DataProvider('provideArraysHoldingANullElement')]
+    #[DataProvider('provideValidArrayTransformations')]
     #[Test]
-    public function converts_array_holding_a_null_element_to_database_value(array $phpValue, string $postgresValue): void
+    public function converts_array_to_database_value(array $phpValue, string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->createStub(AbstractPlatform::class)));
     }
@@ -104,21 +102,25 @@ abstract class BaseNumericArrayTestCase extends TestCase
     /**
      * @param array<int, float|int|null> $phpValue
      */
-    #[DataProvider('provideArraysHoldingANullElement')]
+    #[DataProvider('provideValidArrayTransformations')]
     #[Test]
-    public function converts_array_holding_a_null_element_to_php_value(array $phpValue, string $postgresValue): void
+    public function converts_array_to_php_value(array $phpValue, string $postgresValue): void
     {
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->createStub(AbstractPlatform::class)));
     }
 
     /**
-     * An array of nothing but nulls reads back the same whatever the element type is.
+     * An empty array and an array of nothing but nulls read back the same whatever the element type is.
      *
      * @return array<string, array{phpValue: array<int, float|int|null>, postgresValue: string}>
      */
-    public static function provideArraysHoldingANullElement(): array
+    public static function provideValidArrayTransformations(): array
     {
         return [
+            'empty array' => [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
             'a single null' => [
                 'phpValue' => [null],
                 'postgresValue' => '{NULL}',

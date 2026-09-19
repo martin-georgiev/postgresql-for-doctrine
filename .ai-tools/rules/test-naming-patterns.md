@@ -292,18 +292,18 @@ Shared rows go in a **concrete** base provider; subclasses merge their own on to
 
 ```php
 // ✓ base
-public static function provideArraysHoldingANullElement(): array
+public static function provideValidArrayTransformations(): array
 {
     return ['nothing but nulls' => ['phpValue' => [null, null], 'postgresValue' => '{NULL,NULL}']];
 }
 
 // ✓ family
-return \array_merge(parent::provideArraysHoldingANullElement(), [
+return \array_merge(parent::provideValidArrayTransformations(), [
     'null between two values' => ['phpValue' => [1, null, 3], 'postgresValue' => '{1,NULL,3}'],
 ]);
 
 // ❌ abstract provider, re-implemented per family
-abstract public static function provideArraysHoldingANullElement(): array;
+abstract public static function provideValidArrayTransformations(): array;
 ```
 
 Merging widens the item type — annotate the family provider with the base's.
@@ -324,7 +324,7 @@ Array types carry both. They drive different methods and never merge into each o
 'phpValue' => null, 'postgresValue' => 'NULL'
 ```
 
-`BaseNumericArrayTestCase::provideValidTransformations` is item-level, which is why the array-level cases sit in a provider of their own.
+`BaseNumericArrayTestCase` carries both: `provideValidTransformations` for items, `provideValidArrayTransformations` for arrays.
 
 ## MockObject Declaration
 

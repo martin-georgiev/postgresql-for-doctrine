@@ -50,9 +50,13 @@ abstract class BaseIntegerArrayTestCase extends BaseNumericArrayTestCase
     /**
      * @return array<string, array{phpValue: array<int, float|int|null>, postgresValue: string}>
      */
-    public static function provideArraysHoldingANullElement(): array
+    public static function provideValidArrayTransformations(): array
     {
-        return \array_merge(parent::provideArraysHoldingANullElement(), [
+        return \array_merge(parent::provideValidArrayTransformations(), [
+            'plain values' => [
+                'phpValue' => [1, 2, 3],
+                'postgresValue' => '{1,2,3}',
+            ],
             'null between two values' => [
                 'phpValue' => [1, null, 3],
                 'postgresValue' => '{1,NULL,3}',
