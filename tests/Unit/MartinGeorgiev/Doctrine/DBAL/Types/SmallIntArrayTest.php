@@ -31,37 +31,34 @@ final class SmallIntArrayTest extends BaseIntegerArrayTestCase
     }
 
     /**
-     * @return list<array{
-     *     postgresValue: string,
-     *     expectedValue: int
-     * }>
+     * @return array<string, array{postgresValue: string, expectedValue: int}>
      */
     public static function provideValidItemTransformationsToPHP(): array
     {
         return [
-            [
-                'expectedValue' => 32767,
+            'the upper bound' => [
                 'postgresValue' => '32767',
+                'expectedValue' => 32767,
             ],
-            [
-                'expectedValue' => -32768,
+            'the lower bound' => [
                 'postgresValue' => '-32768',
+                'expectedValue' => -32768,
             ],
-            [
-                'expectedValue' => 0,
+            'zero' => [
                 'postgresValue' => '0',
+                'expectedValue' => 0,
             ],
-            [
-                'expectedValue' => 1,
+            'one' => [
                 'postgresValue' => '1',
+                'expectedValue' => 1,
             ],
-            [
-                'expectedValue' => -1,
+            'minus one' => [
                 'postgresValue' => '-1',
+                'expectedValue' => -1,
             ],
-            [
-                'expectedValue' => 9999,
+            'four digits' => [
                 'postgresValue' => '9999',
+                'expectedValue' => 9999,
             ],
         ];
     }

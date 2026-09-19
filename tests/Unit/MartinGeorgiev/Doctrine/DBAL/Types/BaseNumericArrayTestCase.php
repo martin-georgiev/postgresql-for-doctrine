@@ -84,10 +84,7 @@ abstract class BaseNumericArrayTestCase extends TestCase
     }
 
     /**
-     * @return list<array{
-     *     postgresValue: string,
-     *     expectedValue: float|int
-     * }>
+     * @return array<string, array{postgresValue: string, expectedValue: float|int}>
      */
     abstract public static function provideValidItemTransformationsToPHP(): array;
 

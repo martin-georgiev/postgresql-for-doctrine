@@ -79,18 +79,6 @@ abstract class BaseFloatArrayTestCase extends BaseNumericArrayTestCase
         $this->fixture->transformArrayItemForPHP('1.e234');
     }
 
-    #[DataProvider('providePostgresOutputValues')]
-    #[Test]
-    public function converts_postgres_output_to_php_value(string $postgresValue, float $phpValue): void
-    {
-        $this->assertSame($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
-    }
-
-    /**
-     * @return array<string, array{postgresValue: string, phpValue: float}>
-     */
-    abstract public static function providePostgresOutputValues(): array;
-
     #[DataProvider('provideValidScientificNotationStrings')]
     #[Test]
     public function validates_scientific_notation_string_for_database(string $item): void

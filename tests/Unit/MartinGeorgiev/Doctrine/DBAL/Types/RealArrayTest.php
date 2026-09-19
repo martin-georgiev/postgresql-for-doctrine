@@ -37,37 +37,66 @@ final class RealArrayTest extends BaseFloatArrayTestCase
     }
 
     /**
-     * @return list<array{
-     *     postgresValue: string,
-     *     expectedValue: float
-     * }>
+     * @return array<string, array{postgresValue: string, expectedValue: float}>
      */
     public static function provideValidItemTransformationsToPHP(): array
     {
         return [
-            [
-                'expectedValue' => -3.402823466E+8,
+            'a large negative value in scientific notation' => [
                 'postgresValue' => '-3.402823466E+8',
+                'expectedValue' => -3.402823466E+8,
             ],
-            [
-                'expectedValue' => 3.402823466E+8,
+            'a large positive value in scientific notation' => [
                 'postgresValue' => '3.402823466E+8',
+                'expectedValue' => 3.402823466E+8,
             ],
-            [
-                'expectedValue' => 1.123456,
+            'six fractional digits' => [
                 'postgresValue' => '1.123456',
+                'expectedValue' => 1.123456,
             ],
-            [
-                'expectedValue' => -1.123456,
+            'a negative value with six fractional digits' => [
                 'postgresValue' => '-1.123456',
+                'expectedValue' => -1.123456,
             ],
-            [
-                'expectedValue' => 1.,
+            'one with a fractional zero' => [
                 'postgresValue' => '1.0',
+                'expectedValue' => 1.0,
             ],
-            [
-                'expectedValue' => 0.0,
+            'zero' => [
                 'postgresValue' => '0',
+                'expectedValue' => 0.0,
+            ],
+            'seven significant digits' => [
+                'postgresValue' => '1.1234567',
+                'expectedValue' => 1.1234567,
+            ],
+            'eight fractional digits' => [
+                'postgresValue' => '0.12345679',
+                'expectedValue' => 0.12345679,
+            ],
+            'trailing zeros beyond the precision limit' => [
+                'postgresValue' => '1.123000000',
+                'expectedValue' => 1.123,
+            ],
+            'large number with excess precision' => [
+                'postgresValue' => '123456.1234567',
+                'expectedValue' => 123456.1234567,
+            ],
+            'negative with excess precision' => [
+                'postgresValue' => '-1.1234567',
+                'expectedValue' => -1.1234567,
+            ],
+            'scientific notation at the upper bound' => [
+                'postgresValue' => '3.4028235e+38',
+                'expectedValue' => 3.4028235E+38,
+            ],
+            'below the minimum normal magnitude' => [
+                'postgresValue' => '1.17E-38',
+                'expectedValue' => 1.17E-38,
+            ],
+            'subnormal' => [
+                'postgresValue' => '1e-45',
+                'expectedValue' => 1.0E-45,
             ],
         ];
     }
@@ -79,20 +108,6 @@ final class RealArrayTest extends BaseFloatArrayTestCase
         $this->expectExceptionMessage('cannot be transformed to valid PHP float');
 
         $this->fixture->transformArrayItemForPHP('9999999999999999999999999999999999999999');
-    }
-
-    public static function providePostgresOutputValues(): array
-    {
-        return [
-            'seven significant digits' => ['postgresValue' => '1.1234567', 'phpValue' => 1.1234567],
-            'eight fractional digits' => ['postgresValue' => '0.12345679', 'phpValue' => 0.12345679],
-            'trailing zeros beyond the precision limit' => ['postgresValue' => '1.123000000', 'phpValue' => 1.123],
-            'large number with excess precision' => ['postgresValue' => '123456.1234567', 'phpValue' => 123456.1234567],
-            'negative with excess precision' => ['postgresValue' => '-1.1234567', 'phpValue' => -1.1234567],
-            'scientific notation at the upper bound' => ['postgresValue' => '3.4028235e+38', 'phpValue' => 3.4028235E+38],
-            'below the minimum normal magnitude' => ['postgresValue' => '1.17E-38', 'phpValue' => 1.17E-38],
-            'subnormal' => ['postgresValue' => '1e-45', 'phpValue' => 1.0E-45],
-        ];
     }
 
     public static function provideValidScientificNotationStrings(): array
