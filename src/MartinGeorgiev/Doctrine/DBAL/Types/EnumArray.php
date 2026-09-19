@@ -7,8 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumArrayItemForPHPException;
-use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Abstract base for mapping arrays of PostgreSQL native enum types to arrays of PHP 8.1+ backed enums.
@@ -109,30 +107,9 @@ abstract class EnumArray extends BaseArray
         return $case;
     }
 
-    /**
-     * @return array<int, mixed>
-     */
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        try {
-            // Neither parse alone carries everything this type needs.
-            // Preserving string types keeps numeric- and boolean-looking labels (42, true) in their label form,
-            // but reports a NULL element as the string 'NULL', making it identical to a label spelled NULL.
-            // Coercing does report null identity, but rewrites those same labels into int and bool.
-            // Take the labels from one and the nulls from the other (both split the literal identically, so the positions line up).
-            $labels = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, true);
-            $coerced = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray, false);
-        } catch (InvalidArrayFormatException) {
-            throw InvalidEnumArrayItemForPHPException::forInvalidFormat($postgresArray);
-        }
-
-        foreach ($labels as $index => $label) {
-            if ($coerced[$index] === null) {
-                $labels[$index] = null;
-            }
-        }
-
-        return $labels;
+        throw InvalidEnumArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

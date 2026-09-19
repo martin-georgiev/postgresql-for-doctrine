@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBoxArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidBoxArrayItemForPHPException;
@@ -35,52 +34,25 @@ class BoxArray extends BaseGeometricArray
         return BoxValueObject::fromString($value);
     }
 
-    public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
+    /**
+     * PostgreSQL never quotes a `box[]` element: the `;` delimiter already tells the two corner pairs apart.
+     */
+    protected function transformArrayItemForPostgres(mixed $item): string
     {
-        if ($phpArray === null) {
-            return null;
+        if ($item === null) {
+            return 'NULL';
         }
 
-        if (!\is_array($phpArray)) {
-            $this->throwInvalidTypeException($phpArray);
+        if (!$item instanceof BoxValueObject) {
+            $this->throwTypedInvalidItemExceptionForDatabase($item);
         }
 
-        $transformedItems = [];
-        foreach ($phpArray as $item) {
-            if (!$this->isValidArrayItemForDatabase($item)) {
-                $this->throwInvalidItemException($item);
-            }
-
-            if ($item === null) {
-                $transformedItems[] = 'NULL';
-
-                continue;
-            }
-
-            \assert($item instanceof BoxValueObject);
-            $transformedItems[] = $item->__toString();
-        }
-
-        return '{'.\implode($this->getArrayElementDelimiter(), $transformedItems).'}';
+        return (string) $item;
     }
 
     protected function getArrayElementDelimiter(): string
     {
         return ';';
-    }
-
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
-    {
-        $trimmed = \mb_substr($postgresArray, 1, -1);
-        if ($trimmed === '') {
-            return [];
-        }
-
-        // PostgreSQL never quotes box[] elements because ';' already disambiguates, so a bare NULL is the null marker.
-        return \array_map(
-            static fn (string $item): ?string => $item === 'NULL' ? null : $item,
-            \explode(';', $trimmed)
-        );
     }
 
     protected function throwTypedInvalidArrayTypeException(mixed $value): never

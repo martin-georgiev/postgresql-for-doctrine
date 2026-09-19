@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
-
 /**
  * Base class of PostgreSQL geometric array data types.
  *
@@ -44,16 +41,9 @@ abstract class BaseGeometricArray extends BaseArray
         return '"'.$item.'"';
     }
 
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        try {
-            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
-                $postgresArray,
-                preserveStringTypes: true
-            );
-        } catch (InvalidArrayFormatException) {
-            $this->throwTypedInvalidFormatExceptionForPHP($postgresArray);
-        }
+        $this->throwTypedInvalidFormatExceptionForPHP($postgresArray);
     }
 
     public function transformArrayItemForPHP(mixed $item): ?\Stringable
