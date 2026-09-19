@@ -38,35 +38,35 @@ final class RealArrayTest extends BaseFloatArrayTestCase
 
     /**
      * @return list<array{
-     *     phpValue: float,
-     *     postgresValue: string
+     *     postgresValue: string,
+     *     expectedValue: float
      * }>
      */
-    public static function provideValidTransformations(): array
+    public static function provideValidItemTransformationsToPHP(): array
     {
         return [
             [
-                'phpValue' => -3.402823466E+8,
+                'expectedValue' => -3.402823466E+8,
                 'postgresValue' => '-3.402823466E+8',
             ],
             [
-                'phpValue' => 3.402823466E+8,
+                'expectedValue' => 3.402823466E+8,
                 'postgresValue' => '3.402823466E+8',
             ],
             [
-                'phpValue' => 1.123456,
+                'expectedValue' => 1.123456,
                 'postgresValue' => '1.123456',
             ],
             [
-                'phpValue' => -1.123456,
+                'expectedValue' => -1.123456,
                 'postgresValue' => '-1.123456',
             ],
             [
-                'phpValue' => 1.,
+                'expectedValue' => 1.,
                 'postgresValue' => '1.0',
             ],
             [
-                'phpValue' => 0.0,
+                'expectedValue' => 0.0,
                 'postgresValue' => '0',
             ],
         ];

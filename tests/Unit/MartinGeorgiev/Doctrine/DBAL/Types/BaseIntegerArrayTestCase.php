@@ -48,11 +48,11 @@ abstract class BaseIntegerArrayTestCase extends BaseNumericArrayTestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array<int, float|int|null>, postgresValue: string}>
+     * @return array<string, array{phpValue: array<int, float|int|null>|null, postgresValue: string|null}>
      */
-    public static function provideValidArrayTransformations(): array
+    public static function provideValidTransformations(): array
     {
-        return \array_merge(parent::provideValidArrayTransformations(), [
+        return \array_merge(parent::provideValidTransformations(), [
             'plain values' => [
                 'phpValue' => [1, 2, 3],
                 'postgresValue' => '{1,2,3}',

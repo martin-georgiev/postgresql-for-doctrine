@@ -32,35 +32,35 @@ final class SmallIntArrayTest extends BaseIntegerArrayTestCase
 
     /**
      * @return list<array{
-     *     phpValue: int,
-     *     postgresValue: string
+     *     postgresValue: string,
+     *     expectedValue: int
      * }>
      */
-    public static function provideValidTransformations(): array
+    public static function provideValidItemTransformationsToPHP(): array
     {
         return [
             [
-                'phpValue' => 32767,
+                'expectedValue' => 32767,
                 'postgresValue' => '32767',
             ],
             [
-                'phpValue' => -32768,
+                'expectedValue' => -32768,
                 'postgresValue' => '-32768',
             ],
             [
-                'phpValue' => 0,
+                'expectedValue' => 0,
                 'postgresValue' => '0',
             ],
             [
-                'phpValue' => 1,
+                'expectedValue' => 1,
                 'postgresValue' => '1',
             ],
             [
-                'phpValue' => -1,
+                'expectedValue' => -1,
                 'postgresValue' => '-1',
             ],
             [
-                'phpValue' => 9999,
+                'expectedValue' => 9999,
                 'postgresValue' => '9999',
             ],
         ];

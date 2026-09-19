@@ -55,27 +55,41 @@ abstract class BaseNumericArrayTestCase extends TestCase
         ];
     }
 
-    #[DataProvider('provideValidTransformations')]
+    #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
-    public function converts_to_database_value(float|int $phpValue, string $postgresValue): void
+    public function validates_valid_array_item_for_database(mixed $value): void
     {
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($phpValue));
+        $this->assertTrue($this->fixture->isValidArrayItemForDatabase($value));
     }
 
-    #[DataProvider('provideValidTransformations')]
-    #[Test]
-    public function converts_to_php_value(float|int $phpValue, string $postgresValue): void
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
     {
-        $this->assertSame($phpValue, $this->fixture->transformArrayItemForPHP($postgresValue));
+        return [
+            'zero' => [0],
+            'a positive value' => [1],
+            'a negative value' => [-1],
+            'a numeric string' => ['42'],
+            'null' => [null],
+        ];
+    }
+
+    #[DataProvider('provideValidItemTransformationsToPHP')]
+    #[Test]
+    public function converts_item_for_php(string $postgresValue, float|int $expectedValue): void
+    {
+        $this->assertSame($expectedValue, $this->fixture->transformArrayItemForPHP($postgresValue));
     }
 
     /**
      * @return list<array{
-     *     phpValue: float|int,
-     *     postgresValue: string
+     *     postgresValue: string,
+     *     expectedValue: float|int
      * }>
      */
-    abstract public static function provideValidTransformations(): array;
+    abstract public static function provideValidItemTransformationsToPHP(): array;
 
     #[Test]
     public function converts_null_item_for_php(): void
@@ -83,28 +97,22 @@ abstract class BaseNumericArrayTestCase extends TestCase
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
-    #[Test]
-    public function converts_null_item_for_database(): void
-    {
-        $this->assertTrue($this->fixture->isValidArrayItemForDatabase(null));
-    }
-
     /**
-     * @param array<int, float|int|null> $phpValue
+     * @param array<int, float|int|null>|null $phpValue
      */
-    #[DataProvider('provideValidArrayTransformations')]
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function converts_array_to_database_value(array $phpValue, string $postgresValue): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->createStub(AbstractPlatform::class)));
     }
 
     /**
-     * @param array<int, float|int|null> $phpValue
+     * @param array<int, float|int|null>|null $phpValue
      */
-    #[DataProvider('provideValidArrayTransformations')]
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function converts_array_to_php_value(array $phpValue, string $postgresValue): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->createStub(AbstractPlatform::class)));
     }
@@ -112,11 +120,15 @@ abstract class BaseNumericArrayTestCase extends TestCase
     /**
      * An empty array and an array of nothing but nulls read back the same whatever the element type is.
      *
-     * @return array<string, array{phpValue: array<int, float|int|null>, postgresValue: string}>
+     * @return array<string, array{phpValue: array<int, float|int|null>|null, postgresValue: string|null}>
      */
-    public static function provideValidArrayTransformations(): array
+    public static function provideValidTransformations(): array
     {
         return [
+            'null' => [
+                'phpValue' => null,
+                'postgresValue' => null,
+            ],
             'empty array' => [
                 'phpValue' => [],
                 'postgresValue' => '{}',

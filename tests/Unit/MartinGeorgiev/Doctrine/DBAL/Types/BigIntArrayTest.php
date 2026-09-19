@@ -34,35 +34,35 @@ final class BigIntArrayTest extends BaseIntegerArrayTestCase
 
     /**
      * @return list<array{
-     *     phpValue: int,
-     *     postgresValue: string
+     *     postgresValue: string,
+     *     expectedValue: int
      * }>
      */
-    public static function provideValidTransformations(): array
+    public static function provideValidItemTransformationsToPHP(): array
     {
         return [
             [
-                'phpValue' => PHP_INT_MAX,
+                'expectedValue' => PHP_INT_MAX,
                 'postgresValue' => (string) PHP_INT_MAX,
             ],
             [
-                'phpValue' => PHP_INT_MIN,
+                'expectedValue' => PHP_INT_MIN,
                 'postgresValue' => (string) PHP_INT_MIN,
             ],
             [
-                'phpValue' => 0,
+                'expectedValue' => 0,
                 'postgresValue' => '0',
             ],
             [
-                'phpValue' => 1,
+                'expectedValue' => 1,
                 'postgresValue' => '1',
             ],
             [
-                'phpValue' => -1,
+                'expectedValue' => -1,
                 'postgresValue' => '-1',
             ],
             [
-                'phpValue' => 9_223_372_036_854_775_807,
+                'expectedValue' => 9_223_372_036_854_775_807,
                 'postgresValue' => '9223372036854775807',
             ],
         ];

@@ -292,18 +292,18 @@ Shared rows go in a **concrete** base provider; subclasses merge their own on to
 
 ```php
 // ✓ base
-public static function provideValidArrayTransformations(): array
+public static function provideValidTransformations(): array
 {
     return ['nothing but nulls' => ['phpValue' => [null, null], 'postgresValue' => '{NULL,NULL}']];
 }
 
 // ✓ family
-return \array_merge(parent::provideValidArrayTransformations(), [
+return \array_merge(parent::provideValidTransformations(), [
     'null between two values' => ['phpValue' => [1, null, 3], 'postgresValue' => '{1,NULL,3}'],
 ]);
 
 // ❌ abstract provider, re-implemented per family
-abstract public static function provideValidArrayTransformations(): array;
+abstract public static function provideValidTransformations(): array;
 ```
 
 Merging widens the item type — annotate the family provider with the base's.
@@ -324,13 +324,11 @@ Array types carry both. They drive different methods and never merge into each o
 'phpValue' => null, 'postgresValue' => 'NULL'
 ```
 
-`BaseNumericArrayTestCase` carries both: `provideValidTransformations` for items, `provideValidArrayTransformations` for arrays.
+`provideValidTransformations` is always the array-level one. Item-level rows go in `provideValidItemTransformationsToPHP` and `provideValidArrayItemsForDatabase`.
 
-A literal the write side spells differently is a row in the read-only provider — `providePostgresOutputValues` for items, `providePostgresArrayOutputs` for arrays — never a standalone test.
+A literal the write side spells differently is a row in the read-only provider — `providePostgresOutputValues` for items, `provideValidPostgresArraysForPHP` for arrays — never a standalone test.
 
-```php
-'no literal at all' => ['postgresValue' => '', 'phpValue' => []]
-```
+Before naming any provider, grep for the name: the repo already has one for nearly every shape.
 
 ## MockObject Declaration
 

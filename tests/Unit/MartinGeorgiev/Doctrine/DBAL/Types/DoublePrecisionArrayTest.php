@@ -40,19 +40,19 @@ final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
 
     /**
      * @return list<array{
-     *     phpValue: float,
-     *     postgresValue: string
+     *     postgresValue: string,
+     *     expectedValue: float
      * }>
      */
-    public static function provideValidTransformations(): array
+    public static function provideValidItemTransformationsToPHP(): array
     {
         return [
-            ['phpValue' => 1.23e4, 'postgresValue' => '1.23e4'],
-            ['phpValue' => 1.23e-4, 'postgresValue' => '1.23e-4'],
-            ['phpValue' => 1.234567890123456, 'postgresValue' => '1.234567890123456'],
-            ['phpValue' => 1., 'postgresValue' => '1.0'],
-            ['phpValue' => 1.0, 'postgresValue' => '1.0'],
-            ['phpValue' => -1.0, 'postgresValue' => '-1.0'],
+            ['expectedValue' => 1.23e4, 'postgresValue' => '1.23e4'],
+            ['expectedValue' => 1.23e-4, 'postgresValue' => '1.23e-4'],
+            ['expectedValue' => 1.234567890123456, 'postgresValue' => '1.234567890123456'],
+            ['expectedValue' => 1., 'postgresValue' => '1.0'],
+            ['expectedValue' => 1.0, 'postgresValue' => '1.0'],
+            ['expectedValue' => -1.0, 'postgresValue' => '-1.0'],
         ];
     }
 
