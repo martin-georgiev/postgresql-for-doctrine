@@ -149,10 +149,6 @@ abstract class BaseArray extends BaseType
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
         $trimmed = \trim($postgresArray);
-        if ($trimmed === '') {
-            return [];
-        }
-
         $isAWellFormedBracedArrayLiteral = \str_starts_with($trimmed, '{') && \str_ends_with($trimmed, '}');
         if (!$isAWellFormedBracedArrayLiteral) {
             $this->throwInvalidArrayFormatException($postgresArray);

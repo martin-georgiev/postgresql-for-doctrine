@@ -132,34 +132,9 @@ abstract class BaseNumericArrayTestCase extends TestCase
         ];
     }
 
-    /**
-     * @param array<int, float|int|null> $phpValue
-     */
-    #[DataProvider('providePostgresArrayOutputs')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function converts_postgres_array_output_to_php_value(string $postgresValue, array $phpValue): void
-    {
-        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->createStub(AbstractPlatform::class)));
-    }
-
-    /**
-     * Literals that read back to an array the write side spells differently.
-     *
-     * @return array<string, array{postgresValue: string, phpValue: array<int, float|int|null>}>
-     */
-    public static function providePostgresArrayOutputs(): array
-    {
-        return [
-            'no literal at all' => [
-                'postgresValue' => '',
-                'phpValue' => [],
-            ],
-        ];
-    }
-
-    #[DataProvider('provideMalformedArrayLiterals')]
-    #[Test]
-    public function throws_exception_for_a_malformed_array_literal(string $postgresValue): void
+    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
     {
         $this->expectException(ConversionException::class);
         $this->expectExceptionMessage('is not in a valid format');
@@ -170,9 +145,10 @@ abstract class BaseNumericArrayTestCase extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideMalformedArrayLiterals(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
+            'no literal at all' => [''],
             'empty element' => ['{1,,3}'],
             'multi-dimensional array' => ['{{1},{2}}'],
             'missing closing brace' => ['{1,2'],
