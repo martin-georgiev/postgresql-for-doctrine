@@ -223,8 +223,6 @@ protected function throwInvalidTypeException(mixed $value): never
 protected function throwInvalidItemException(mixed $item): never
 ```
 
-**Forbidden**: new overrides of `transformPostgresArrayToPHPArray()`. `BaseArray` delegates it to `Utils\PostgresArrayToPHPArrayTransformer`, which handles quoting, escapes, the bare `NULL` token and the delimiter from `getArrayElementDelimiter()`; a hand-rolled `explode()` gets the `NULL` token wrong. The overrides still in the tree predate that delegation and are being retired. Override `throwInvalidArrayFormatException()` instead when the type owes its own exception family.
-
 The `if (!$item instanceof X) throw` guard inside `transformArrayItemForPostgres` is intentionally unreachable via normal flow — it guards direct calls. Never remove `isValidArrayItemForDatabase` or `throwInvalidItemException` to make it reachable.
 
 ### Required Unit Test Methods
