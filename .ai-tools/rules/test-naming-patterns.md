@@ -274,6 +274,40 @@ public static function provideFromStringTestCases(): \Generator
 }
 ```
 
+### One Dataset, Both Directions
+
+A `phpValue`/`postgresValue` row feeds the write test and the read test. Don't add a second method for the other direction.
+
+```php
+// ✓ fold the new case into the dataset that already drives both
+'valid array' => ['phpValue' => ['addr', null], 'postgresValue' => '{"addr",NULL}'],
+
+// ❌ a standalone test per direction, each with one hardcoded literal
+public function converts_array_holding_a_null_element_to_php_value(): void
+```
+
+### Providers in Abstract Test Cases
+
+Shared rows go in a **concrete** base provider; subclasses merge their own on top.
+
+```php
+// ✓ base
+public static function provideArraysHoldingANullElement(): array
+{
+    return ['nothing but nulls' => ['phpValue' => [null, null], 'postgresValue' => '{NULL,NULL}']];
+}
+
+// ✓ family
+return \array_merge(parent::provideArraysHoldingANullElement(), [
+    'null between two values' => ['phpValue' => [1, null, 3], 'postgresValue' => '{1,NULL,3}'],
+]);
+
+// ❌ abstract provider, re-implemented per family
+abstract public static function provideArraysHoldingANullElement(): array;
+```
+
+Merging widens the item type — annotate the family provider with the base's.
+
 ## MockObject Declaration
 
 ```php
