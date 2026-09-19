@@ -113,9 +113,24 @@ abstract class BaseNumericArrayTestCase extends TestCase
     }
 
     /**
+     * An array of nothing but nulls reads back the same whatever the element type is. Each family merges the rows
+     * that carry values of its own.
+     *
      * @return array<string, array{phpValue: array<int, float|int|null>, postgresValue: string}>
      */
-    abstract public static function provideArraysHoldingANullElement(): array;
+    public static function provideArraysHoldingANullElement(): array
+    {
+        return [
+            'a single null' => [
+                'phpValue' => [null],
+                'postgresValue' => '{NULL}',
+            ],
+            'nothing but nulls' => [
+                'phpValue' => [null, null],
+                'postgresValue' => '{NULL,NULL}',
+            ],
+        ];
+    }
 
     /**
      * A literal that is malformed as an array fails before any item is read, so the failure is reported as the whole

@@ -48,11 +48,11 @@ abstract class BaseIntegerArrayTestCase extends BaseNumericArrayTestCase
     }
 
     /**
-     * @return array<string, array{phpValue: array<int, int|null>, postgresValue: string}>
+     * @return array<string, array{phpValue: array<int, float|int|null>, postgresValue: string}>
      */
     public static function provideArraysHoldingANullElement(): array
     {
-        return [
+        return \array_merge(parent::provideArraysHoldingANullElement(), [
             'null between two values' => [
                 'phpValue' => [1, null, 3],
                 'postgresValue' => '{1,NULL,3}',
@@ -65,11 +65,7 @@ abstract class BaseIntegerArrayTestCase extends BaseNumericArrayTestCase
                 'phpValue' => [1, null],
                 'postgresValue' => '{1,NULL}',
             ],
-            'nothing but nulls' => [
-                'phpValue' => [null, null],
-                'postgresValue' => '{NULL,NULL}',
-            ],
-        ];
+        ]);
     }
 
     #[DataProvider('provideOutOfRangeValues')]
