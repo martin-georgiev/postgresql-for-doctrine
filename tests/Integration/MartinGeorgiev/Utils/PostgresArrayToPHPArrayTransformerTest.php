@@ -179,7 +179,7 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
      * Dollar quoting keeps the statement lexer out of it, so what comes back is array_in's own reading rather than
      * anything standard_conforming_strings decides.
      */
-    #[DataProvider('provideLiteralsPostgresAccepts')]
+    #[DataProvider('provideAcceptedLiterals')]
     #[Test]
     public function parses_literal_like_postgres(string $postgresValue): void
     {
@@ -198,7 +198,7 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
      *
      * @return array<string, array{string}>
      */
-    public static function provideLiteralsPostgresAccepts(): array
+    public static function provideAcceptedLiterals(): array
     {
         return [
             'backslash before an ordinary character' => ['{"a\xb"}'],
