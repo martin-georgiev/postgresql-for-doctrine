@@ -8,6 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
+use MartinGeorgiev\Utils\PostgresBackslashEscaper;
 
 /**
  * Abstract handling of PostgreSQL array data types.
@@ -115,9 +116,7 @@ abstract class BaseArray extends BaseType
 
     protected function quoteAndEscapeArrayItem(string $item): string
     {
-        $escaped = \str_replace(['\\', '"'], ['\\\\', '\\"'], $item);
-
-        return '"'.$escaped.'"';
+        return '"'.PostgresBackslashEscaper::escape($item).'"';
     }
 
     /**

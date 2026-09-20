@@ -91,14 +91,6 @@ class PHPArrayToPostgresValueTransformer
             return '""';
         }
 
-        // Make sure strings are quoted, PostgreSQL will handle this gracefully
-        // Double the backslashes and escape quotes
-        $escaped = \str_replace(
-            ['\\', '"'],
-            ['\\\\', '\"'],
-            $stringValue
-        );
-
-        return '"'.$escaped.'"';
+        return '"'.PostgresBackslashEscaper::escape($stringValue).'"';
     }
 }

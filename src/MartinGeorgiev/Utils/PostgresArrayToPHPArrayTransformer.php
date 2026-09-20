@@ -238,7 +238,7 @@ class PostgresArrayToPHPArrayTransformer
     {
         $unquoted = \substr($value, 1, -1);
 
-        return self::unescapeString($unquoted);
+        return PostgresBackslashEscaper::unescape($unquoted);
     }
 
     private static function isNumericValue(string $value): bool
@@ -257,24 +257,5 @@ class PostgresArrayToPHPArrayTransformer
         // An integer wider than PHP's range saturates to PHP_INT_MAX on cast, so anything the cast
         // cannot reproduce stays textual - the choice JSON_BIGINT_AS_STRING makes on the decoding path.
         return (string) $asInteger === $value ? $asInteger : $value;
-    }
-
-    /**
-     * A backslash escapes whatever follows it, not only a backslash or a quote: array_in reads `{"a\xb"}` as `axb`.
-     * One at the very end escapes nothing and stays.
-     */
-    private static function unescapeString(string $value): string
-    {
-        $result = '';
-        $length = \strlen($value);
-        $position = 0;
-
-        while ($position < $length) {
-            $escapesTheNextCharacter = $value[$position] === '\\' && $position + 1 < $length;
-            $result .= $escapesTheNextCharacter ? $value[$position + 1] : $value[$position];
-            $position += $escapesTheNextCharacter ? 2 : 1;
-        }
-
-        return $result;
     }
 }
