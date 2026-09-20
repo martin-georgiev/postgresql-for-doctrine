@@ -91,6 +91,6 @@ class PHPArrayToPostgresValueTransformer
             return '""';
         }
 
-        return '"'.PostgresEscapedString::escape($stringValue).'"';
+        return '"'.PostgresBackslashEscaper::escape($stringValue).'"';
     }
 }

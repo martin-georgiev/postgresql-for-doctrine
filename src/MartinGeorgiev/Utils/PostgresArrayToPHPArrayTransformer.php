@@ -238,7 +238,7 @@ class PostgresArrayToPHPArrayTransformer
     {
         $unquoted = \substr($value, 1, -1);
 
-        return PostgresEscapedString::unescape($unquoted);
+        return PostgresBackslashEscaper::unescape($unquoted);
     }
 
     private static function isNumericValue(string $value): bool

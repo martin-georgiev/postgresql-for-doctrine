@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Utils;
 
 /**
- * The escaping PostgreSQL uses inside a double-quoted array element and inside an hstore token.
+ * The backslash escaping PostgreSQL uses inside a double-quoted array element and inside an hstore token.
  *
- * A record field is escaped by a different rule - a quote is doubled there rather than backslashed - so it is
- * written where that grammar lives.
+ * It is not the only escaping PostgreSQL has: a record field doubles the quote instead, and that rule lives with
+ * the record transformer.
  *
  * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class PostgresEscapedString
+class PostgresBackslashEscaper
 {
     public static function escape(string $value): string
     {

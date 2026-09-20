@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Utils;
 
-use MartinGeorgiev\Utils\PostgresEscapedString;
+use MartinGeorgiev\Utils\PostgresBackslashEscaper;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-final class PostgresEscapedStringTest extends TestCase
+final class PostgresBackslashEscaperTest extends TestCase
 {
     #[DataProvider('provideValuesNeedingEscaping')]
     #[Test]
     public function converts_to_escaped_value(string $phpValue, string $escapedValue): void
     {
-        $this->assertSame($escapedValue, PostgresEscapedString::escape($phpValue));
+        $this->assertSame($escapedValue, PostgresBackslashEscaper::escape($phpValue));
     }
 
     #[DataProvider('provideValuesNeedingEscaping')]
     #[Test]
     public function converts_from_escaped_value(string $phpValue, string $escapedValue): void
     {
-        $this->assertSame($phpValue, PostgresEscapedString::unescape($escapedValue));
+        $this->assertSame($phpValue, PostgresBackslashEscaper::unescape($escapedValue));
     }
 
     /**
@@ -44,12 +44,12 @@ final class PostgresEscapedStringTest extends TestCase
     #[Test]
     public function converts_a_lone_backslash_as_an_escape(): void
     {
-        $this->assertSame('ab', PostgresEscapedString::unescape('a\\b'));
+        $this->assertSame('ab', PostgresBackslashEscaper::unescape('a\\b'));
     }
 
     #[Test]
     public function preserves_a_trailing_backslash(): void
     {
-        $this->assertSame('a\\', PostgresEscapedString::unescape('a\\'));
+        $this->assertSame('a\\', PostgresBackslashEscaper::unescape('a\\'));
     }
 }
