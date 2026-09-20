@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
-
 /**
  * Implementation of PostgreSQL ARRAY_TO_JSON().
  *
@@ -21,10 +18,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  * @example Using it in DQL: "SELECT ARRAY_TO_JSON(e.textArray) FROM Entity e"
  * @example Using it in DQL: "SELECT ARRAY_TO_JSON(e.textArray, 'true') FROM Entity e"
  */
-class ArrayToJson extends BaseVariadicFunction
+class ArrayToJson extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
-    use BooleanValidationTrait;
-
     protected function getNodeMappingPattern(): array
     {
         return ['StringPrimary'];
@@ -43,15 +38,5 @@ class ArrayToJson extends BaseVariadicFunction
     protected function getMaxArgumentCount(): int
     {
         return 2;
-    }
-
-    protected function validateArguments(Node ...$arguments): void
-    {
-        parent::validateArguments(...$arguments);
-
-        // Validate that the second parameter is a valid boolean if provided
-        if (\count($arguments) === 2) {
-            $this->validateBoolean($arguments[1], $this->getFunctionName());
-        }
     }
 }
