@@ -46,9 +46,9 @@ final class HstoreTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
-    #[DataProvider('provideLiteralsThatAreNotHstorePairs')]
+    #[DataProvider('provideMalformedHstoreInputs')]
     #[Test]
-    public function throws_exception_for_a_literal_that_is_not_hstore_pairs(string $postgresValue): void
+    public function throws_exception_for_malformed_hstore_input(string $postgresValue): void
     {
         $this->expectException(InvalidHstoreForPHPException::class);
         $this->expectExceptionMessage('Invalid hstore format');
@@ -59,7 +59,7 @@ final class HstoreTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideLiteralsThatAreNotHstorePairs(): array
+    public static function provideMalformedHstoreInputs(): array
     {
         return [
             'text that holds no pair' => ['total garbage'],
@@ -69,25 +69,6 @@ final class HstoreTest extends TestCase
             'pairs with no comma between them' => ['"a"=>"1" "b"=>"2"'],
             'a comma and nothing else' => [','],
             'two commas between pairs' => ['"a"=>"1",,"b"=>"2"'],
-        ];
-    }
-
-    #[DataProvider('provideLiteralsPostgresReads')]
-    #[Test]
-    public function converts_every_literal_postgres_reads(string $postgresValue, array $phpValue): void
-    {
-        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
-    }
-
-    /**
-     * @return array<string, array{postgresValue: string, phpValue: array<string, string|null>}>
-     */
-    public static function provideLiteralsPostgresReads(): array
-    {
-        return [
-            'whitespace around the pairs' => ['postgresValue' => '  "a"=>"1"  ', 'phpValue' => ['a' => '1']],
-            'form feed and vertical tab between pairs' => ['postgresValue' => "\"a\"=>\"1\",\f\v\"b\"=>\"2\"", 'phpValue' => ['a' => '1', 'b' => '2']],
-            'a comma after the last pair' => ['postgresValue' => '"a"=>"1",', 'phpValue' => ['a' => '1']],
         ];
     }
 
@@ -179,6 +160,18 @@ final class HstoreTest extends TestCase
             'whitespace around arrow' => [
                 '"key" => "value"',
                 ['key' => 'value'],
+            ],
+            'whitespace around the pairs' => [
+                '  "a"=>"1"  ',
+                ['a' => '1'],
+            ],
+            'form feed and vertical tab between pairs' => [
+                "\"a\"=>\"1\",\f\v\"b\"=>\"2\"",
+                ['a' => '1', 'b' => '2'],
+            ],
+            'a comma after the last pair' => [
+                '"a"=>"1",',
+                ['a' => '1'],
             ],
         ];
     }
