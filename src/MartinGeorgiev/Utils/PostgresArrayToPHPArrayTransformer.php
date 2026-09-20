@@ -259,39 +259,20 @@ class PostgresArrayToPHPArrayTransformer
         return (string) $asInteger === $value ? $asInteger : $value;
     }
 
+    /**
+     * A backslash escapes whatever follows it, not only a backslash or a quote: array_in reads `{"a\xb"}` as `axb`.
+     * One at the very end escapes nothing and stays.
+     */
     private static function unescapeString(string $value): string
     {
-        /**
-         * PostgreSQL array escaping rules:
-         * \\ -> \ (escaped backslash becomes literal backslash)
-         * \" -> " (escaped quote becomes literal quote)
-         * Everything else remains as-is
-         */
         $result = '';
         $length = \strlen($value);
         $position = 0;
 
         while ($position < $length) {
-            if ($value[$position] === '\\' && $position + 1 < $length) {
-                $nextChar = $value[$position + 1];
-
-                if ($nextChar === '\\') {
-                    // \\ -> \
-                    $result .= '\\';
-                    $position += 2;
-                } elseif ($nextChar === '"') {
-                    // \" -> "
-                    $result .= '"';
-                    $position += 2;
-                } else {
-                    // \ followed by anything else - keep the backslash
-                    $result .= '\\';
-                    $position++;
-                }
-            } else {
-                $result .= $value[$position];
-                $position++;
-            }
+            $escapesTheNextCharacter = $value[$position] === '\\' && $position + 1 < $length;
+            $result .= $escapesTheNextCharacter ? $value[$position + 1] : $value[$position];
+            $position += $escapesTheNextCharacter ? 2 : 1;
         }
 
         return $result;
