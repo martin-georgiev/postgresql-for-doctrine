@@ -19,8 +19,7 @@ trait HstoreParserTrait
     private const HSTORE_PAIR_PATTERN = '/"((?:[^"\\\\]|\\\\.)*)"\\s*=>\\s*(?:"((?:[^"\\\\]|\\\\.)*)"|(?i:(NULL)))/';
 
     /**
-     * The characters PostgreSQL skips between hstore tokens. Form feed and vertical tab count, which is why this is
-     * spelled out rather than left to `\s`.
+     * Spelled out rather than left to `\s`, which leaves out the form feed and vertical tab PostgreSQL skips.
      *
      * @var string
      */
@@ -53,11 +52,6 @@ trait HstoreParserTrait
         return $result;
     }
 
-    /**
-     * Whatever the pair pattern skipped over has to be what PostgreSQL writes there and nothing else: one comma
-     * between two pairs, and only whitespace before the first. Text it would not have written is a literal that
-     * reading as a map of the fragments that matched would lose.
-     */
     private function assertSeparatesPairs(string $skipped, bool $followsAPair, string $value): void
     {
         $expected = $followsAPair ? ',' : '';
@@ -67,8 +61,7 @@ trait HstoreParserTrait
     }
 
     /**
-     * PostgreSQL reads a comma after the last pair, so the tail carries at most that one - and a comma with no pair
-     * in front of it is a literal it turns away.
+     * PostgreSQL reads a comma after the last pair.
      */
     private function assertClosesTheLiteral(string $tail, bool $followsAPair, string $value): void
     {

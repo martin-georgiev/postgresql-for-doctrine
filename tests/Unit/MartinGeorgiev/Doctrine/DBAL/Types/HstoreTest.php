@@ -72,9 +72,6 @@ final class HstoreTest extends TestCase
         ];
     }
 
-    /**
-     * Form feed and vertical tab separate hstore tokens for PostgreSQL, and a comma may trail the last pair.
-     */
     #[DataProvider('provideLiteralsPostgresReads')]
     #[Test]
     public function converts_every_literal_postgres_reads(string $postgresValue, array $phpValue): void
