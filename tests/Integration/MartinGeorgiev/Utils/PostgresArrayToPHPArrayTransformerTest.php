@@ -175,14 +175,12 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * Dollar quoting keeps the statement lexer out of it, so what comes back is array_in's own reading rather than
-     * anything standard_conforming_strings decides.
-     */
     #[DataProvider('provideAcceptedLiterals')]
     #[Test]
     public function parses_literal_like_postgres(string $postgresValue): void
     {
+        // Dollar quoting keeps the statement lexer out of it.
+        // What comes back is array_in's own reading rather than anything standard_conforming_strings decides.
         $sql = \sprintf('SELECT (%s::text[])[1] AS element', '$$'.$postgresValue.'$$');
 
         $this->assertSame(
@@ -192,9 +190,8 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
-     * Literals array_in reads and array_out never writes, which is why they carry no value to pair with and cannot
-     * join provideValidTransformations: PostgreSQL writes `{axb}` for `axb`, not `{"a\xb"}`. The expectation for
-     * them comes from the database itself.
+     * Literals array_in reads, and array_out never writes, which is why they carry no value to pair with.
+     * The expectation for them comes from the database itself.
      *
      * @return array<string, array{string}>
      */
