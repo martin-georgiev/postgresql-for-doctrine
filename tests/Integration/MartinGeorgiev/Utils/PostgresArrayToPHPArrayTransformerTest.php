@@ -80,13 +80,6 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
-     * Each row is a value copied out of the unit test's provider together with the literal PostgreSQL wrote for it,
-     * read back from the column as text. The unit test pairs the same values with literals written by hand, where
-     * nothing checks them against a database.
-     *
-     * Only rows whose elements are all strings are here: a text[] column cannot remember that 1 arrived as an int
-     * rather than the string '1', so type inference belongs to the parser and is tested there.
-     *
      * @return array<string, array{phpValue: array<array-key, string>, postgresLiteral: string}>
      */
     public static function provideExactRoundtripValues(): array
