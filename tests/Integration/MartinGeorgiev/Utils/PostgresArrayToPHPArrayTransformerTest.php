@@ -21,68 +21,22 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
-     * @param array{description: string, input: array<int, string>} $testCase
-     */
-    #[DataProvider('provideArrayTestCases')]
-    #[Test]
-    public function array_round_trip(array $testCase): void
-    {
-        $id = $this->insertArray($testCase['input']);
-
-        $this->assertArrayRoundTrip($id, $testCase['input'], $testCase['description']);
-    }
-
-    /**
-     * @return array<int, array{0: array{description: string, input: array<int, string>}}>
-     */
-    public static function provideArrayTestCases(): array
-    {
-        return [
-            [['description' => 'Simple array', 'input' => ['hello', 'world']]],
-            [['description' => 'Empty array', 'input' => []]],
-            [['description' => 'Single empty string', 'input' => ['']]],
-            [['description' => 'Quotes and backslashes', 'input' => ['"quoted"', 'back\\slash']]],
-            [['description' => 'Windows paths', 'input' => ['C:\\Windows\\System32']]],
-            [['description' => 'Escaped quotes', 'input' => ['\"escaped\"']]],
-            [['description' => 'Double backslashes', 'input' => ['\\\\double\\\\']]],
-            [['description' => 'Unicode', 'input' => ['Hello 世界', '🌍 Earth']]],
-            [['description' => 'Special chars', 'input' => ['!@#$%^&*()_+=-}{[]|":;\'?><,./']]],
-            [['description' => 'GitHub #351 - regression #1', 'input' => ['⥀!@#$%^&*()_+=-}{[]|":;\'\?><,./']]],
-            [['description' => 'GitHub #351 - regression #2', 'input' => ['⥀!@#$%^&*()_+=-}{[]|":;\'\?><,./', 'text']]],
-            [['description' => 'Curly braces', 'input' => ['{foo,bar}']]],
-            [['description' => 'Spaces', 'input' => ['  spaces  ']]],
-            [['description' => 'Trailing backslash', 'input' => ['trailing\\']]],
-            [['description' => 'Leading backslash', 'input' => ['\\leading']]],
-            [['description' => 'Mixed', 'input' => ['simple', '"quoted"', 'back\\slash', '']]],
-        ];
-    }
-
-    /**
      * @param array<array-key, string> $phpValue
      */
-    #[DataProvider('provideExactRoundtripValues')]
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function postgres_stores_the_value_as_the_recorded_literal(array $phpValue, string $postgresLiteral): void
+    public function roundtrips_value(array $phpValue, string $postgresValue): void
     {
         $id = $this->insertArray($phpValue);
 
-        $this->assertSame($postgresLiteral, $this->retrieveArrayAsText($id));
+        $this->assertSame($postgresValue, $this->retrieveArrayAsText($id));
+        $this->assertSame($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue, true));
     }
 
     /**
-     * @param array<array-key, string> $phpValue
+     * @return array<string, array{phpValue: array<array-key, string>, postgresValue: string}>
      */
-    #[DataProvider('provideExactRoundtripValues')]
-    #[Test]
-    public function parses_the_recorded_literal_back_to_the_value(array $phpValue, string $postgresLiteral): void
-    {
-        $this->assertSame($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresLiteral, true));
-    }
-
-    /**
-     * @return array<string, array{phpValue: array<array-key, string>, postgresLiteral: string}>
-     */
-    public static function provideExactRoundtripValues(): array
+    public static function provideValidTransformations(): array
     {
         return [
             'simple integer strings as strings are preserved as strings' => [
@@ -92,7 +46,7 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                     2 => '3',
                     3 => '4',
                 ],
-                'postgresLiteral' => '{1,2,3,4}',
+                'postgresValue' => '{1,2,3,4}',
             ],
             'simple strings' => [
                 'phpValue' => [
@@ -101,96 +55,145 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                     2 => 'a',
                     3 => 'test',
                 ],
-                'postgresLiteral' => '{this,is,a,test}',
+                'postgresValue' => '{this,is,a,test}',
             ],
             'strings with special characters' => [
                 'phpValue' => [
                     0 => 'this has "quotes"',
                     1 => 'this has \\\backslashes\\\\',
                 ],
-                'postgresLiteral' => '{"this has \\"quotes\\"","this has \\\\\\\\backslashes\\\\\\\\"}',
+                'postgresValue' => '{"this has \\"quotes\\"","this has \\\\\\\\backslashes\\\\\\\\"}',
             ],
             'strings with backslashes' => [
                 'phpValue' => ['path\to\file', 'C:\Windows\System32'],
-                'postgresLiteral' => '{"path\\\\to\\\\file","C:\\\\Windows\\\\System32"}',
+                'postgresValue' => '{"path\\\\to\\\\file","C:\\\\Windows\\\\System32"}',
             ],
             'strings with unicode characters' => [
                 'phpValue' => ['Hello 世界', '🌍 Earth'],
-                'postgresLiteral' => '{"Hello 世界","🌍 Earth"}',
+                'postgresValue' => '{"Hello 世界","🌍 Earth"}',
             ],
             'unquoted strings' => [
                 'phpValue' => ['unquoted', 'strings'],
-                'postgresLiteral' => '{unquoted,strings}',
+                'postgresValue' => '{unquoted,strings}',
             ],
             'mixed quoted and unquoted strings' => [
                 'phpValue' => ['quoted', 'unquoted'],
-                'postgresLiteral' => '{quoted,unquoted}',
+                'postgresValue' => '{quoted,unquoted}',
             ],
             'with only backslashes' => [
                 'phpValue' => ['\\'],
-                'postgresLiteral' => '{"\\\\"}',
+                'postgresValue' => '{"\\\\"}',
             ],
             'with only double quotes' => [
                 'phpValue' => ['"'],
-                'postgresLiteral' => '{"\\""}',
+                'postgresValue' => '{"\\""}',
             ],
             'with empty quoted strings' => [
                 'phpValue' => ['', ''],
-                'postgresLiteral' => '{"",""}',
+                'postgresValue' => '{"",""}',
             ],
             'github #351 regression #1: string with special characters and backslash' => [
                 'phpValue' => ['⥀!@#$%^&*()_+=-}{[]|":;\'\?><,./'],
-                'postgresLiteral' => '{"⥀!@#$%^&*()_+=-}{[]|\\":;\'\\\\?><,./"}',
+                'postgresValue' => '{"⥀!@#$%^&*()_+=-}{[]|\\":;\'\\\\?><,./"}',
             ],
             'github #351 regression #2: string with special characters, backslash and additional element' => [
                 'phpValue' => ['⥀!@#$%^&*()_+=-}{[]|":;\'\?><,./', 'text'],
-                'postgresLiteral' => '{"⥀!@#$%^&*()_+=-}{[]|\\":;\'\\\\?><,./",text}',
+                'postgresValue' => '{"⥀!@#$%^&*()_+=-}{[]|\\":;\'\\\\?><,./",text}',
             ],
             'backslash before backslash' => [
                 'phpValue' => ['a\b'],
-                'postgresLiteral' => '{"a\\\\b"}',
+                'postgresValue' => '{"a\\\\b"}',
             ],
             'single backslash before non-escape char' => [
                 'phpValue' => ['a\$b'],
-                'postgresLiteral' => '{"a\\\\$b"}',
+                'postgresValue' => '{"a\\\\$b"}',
             ],
             'element with curly braces and comma' => [
                 'phpValue' => ['{foo,bar}'],
-                'postgresLiteral' => '{"{foo,bar}"}',
+                'postgresValue' => '{"{foo,bar}"}',
             ],
             'element with whitespace' => [
                 'phpValue' => ['  foo  '],
-                'postgresLiteral' => '{"  foo  "}',
+                'postgresValue' => '{"  foo  "}',
             ],
             'element carrying the nested-array marker' => [
                 'phpValue' => ['a},{b', '{x}'],
-                'postgresLiteral' => '{"a},{b","{x}"}',
+                'postgresValue' => '{"a},{b","{x}"}',
             ],
             'github #424 regression: numeric strings should be preserved as strings when unquoted' => [
                 'phpValue' => ['1', 'test', 'true'],
-                'postgresLiteral' => '{1,test,true}',
+                'postgresValue' => '{1,test,true}',
+            ],
+            'simple array' => [
+                'phpValue' => ['hello', 'world'],
+                'postgresValue' => '{hello,world}',
+            ],
+            'empty array' => [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
+            'single empty string' => [
+                'phpValue' => [''],
+                'postgresValue' => '{""}',
+            ],
+            'quotes and backslashes' => [
+                'phpValue' => ['"quoted"', 'back\\slash'],
+                'postgresValue' => '{"\\"quoted\\"","back\\\\slash"}',
+            ],
+            'windows paths' => [
+                'phpValue' => ['C:\\Windows\\System32'],
+                'postgresValue' => '{"C:\\\\Windows\\\\System32"}',
+            ],
+            'escaped quotes' => [
+                'phpValue' => ['\\"escaped\\"'],
+                'postgresValue' => '{"\\\\\\"escaped\\\\\\""}',
+            ],
+            'double backslashes' => [
+                'phpValue' => ['\\\\double\\\\'],
+                'postgresValue' => '{"\\\\\\\\double\\\\\\\\"}',
+            ],
+            'special chars' => [
+                'phpValue' => ['!@#$%^&*()_+=-}{[]|":;\'?><,./'],
+                'postgresValue' => '{"!@#$%^&*()_+=-}{[]|\\":;\'?><,./"}',
+            ],
+            'spaces' => [
+                'phpValue' => ['  spaces  '],
+                'postgresValue' => '{"  spaces  "}',
+            ],
+            'trailing backslash' => [
+                'phpValue' => ['trailing\\'],
+                'postgresValue' => '{"trailing\\\\"}',
+            ],
+            'leading backslash' => [
+                'phpValue' => ['\\leading'],
+                'postgresValue' => '{"\\\\leading"}',
+            ],
+            'mixed' => [
+                'phpValue' => ['simple', '"quoted"', 'back\\slash', ''],
+                'postgresValue' => '{simple,"\\"quoted\\"","back\\\\slash",""}',
             ],
         ];
     }
 
-    #[DataProvider('provideInvalidArrayFormats')]
+    #[DataProvider('provideInvalidPostgresArrays')]
     #[Test]
-    public function invalid_array_formats_throw_exceptions(array $testCase): void
+    public function throws_exception_for_invalid_postgres_arrays(string $postgresArray): void
     {
         $this->expectException(InvalidArrayFormatException::class);
-        PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($testCase['input']); // @phpstan-ignore-line
+
+        PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
     }
 
     /**
-     * @return array<int, array{0: array{description: string, input: string}}>
+     * @return array<string, array{string}>
      */
-    public static function provideInvalidArrayFormats(): array
+    public static function provideInvalidPostgresArrays(): array
     {
         return [
-            [['description' => 'Multi-dimensional', 'input' => '{{1,2},{3,4}}']],
-            [['description' => 'Unclosed quote', 'input' => '{1,2,"unclosed']],
-            [['description' => 'Invalid format', 'input' => '{invalid"format}']],
-            [['description' => 'Malformed nesting', 'input' => '{1,{2,3},4}']],
+            'multi-dimensional' => ['{{1,2},{3,4}}'],
+            'unclosed quote' => ['{1,2,"unclosed'],
+            'quote inside an unquoted element' => ['{invalid"format}'],
+            'nested array among the elements' => ['{1,{2,3},4}'],
         ];
     }
 
@@ -224,29 +227,6 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         return $transform($row['test_array']);
     }
 
-    /**
-     * @return array<int, string>
-     */
-    private function retrieveArray(int $id): array
-    {
-        $row = $this->connection->executeQuery(
-            \sprintf('SELECT test_array FROM %s WHERE id = :id', self::TABLE_NAME),
-            ['id' => $id]
-        )->fetchAssociative();
-
-        if ($row === false || !isset($row['test_array'])) {
-            throw new \RuntimeException(\sprintf('Failed to retrieve array data for ID %d', $id));
-        }
-
-        if (!\is_string($row['test_array'])) {
-            throw new \RuntimeException(\sprintf('Expected string for test_array, got %s', \gettype($row['test_array'])));
-        }
-
-        $postgresArray = $row['test_array'];
-
-        return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray); // @phpstan-ignore-line
-    }
-
     private function retrieveArrayAsText(int $id): string
     {
         /** @var string $result */
@@ -276,26 +256,5 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         }
 
         return (int) $row['id'];
-    }
-
-    /**
-     * @param array<int, string> $expected
-     */
-    private function assertArrayRoundTrip(int $id, array $expected, string $description): void
-    {
-        $retrieved = $this->retrieveArray($id);
-        $this->assertEquals(
-            $expected,
-            $retrieved,
-            \sprintf('Direct retrieval failed for %s', $description)
-        );
-
-        $postgresText = $this->retrieveArrayAsText($id);
-        $parsed = PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresText);
-        $this->assertEquals(
-            $expected,
-            $parsed,
-            \sprintf('Text representation parsing failed for %s', $description)
-        );
     }
 }

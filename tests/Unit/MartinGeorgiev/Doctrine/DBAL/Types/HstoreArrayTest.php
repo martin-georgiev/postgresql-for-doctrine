@@ -119,6 +119,7 @@ final class HstoreArrayTest extends TestCase
             'object item' => [[new \stdClass()]],
             'hstore item with integer value' => [['key' => 123]],
             'hstore item with boolean value' => [['key' => true]],
+            'nested hstore item with an integer value' => [[['key' => 42]]],
         ];
     }
 
@@ -180,14 +181,6 @@ final class HstoreArrayTest extends TestCase
             'object' => [new \stdClass()],
             'boolean' => [true],
         ];
-    }
-
-    #[Test]
-    public function throws_exception_for_a_non_string_hstore_value(): void
-    {
-        $this->expectException(InvalidHstoreArrayItemForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue([['key' => 42]], $this->platform);
     }
 
     #[DataProvider('provideInvalidPHPValueInputs')]
