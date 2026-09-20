@@ -176,9 +176,8 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
-     * PostgreSQL reads more than it writes: it never emits a lone backslash, but array_in takes one as escaping
-     * whatever follows. Dollar quoting keeps the statement lexer out of it, so what comes back is array_in's own
-     * reading rather than anything standard_conforming_strings decides.
+     * Dollar quoting keeps the statement lexer out of it, so what comes back is array_in's own reading rather than
+     * anything standard_conforming_strings decides.
      */
     #[DataProvider('provideLiteralsPostgresAccepts')]
     #[Test]
@@ -193,6 +192,10 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
+     * Literals array_in reads and array_out never writes, which is why they carry no value to pair with and cannot
+     * join provideValidTransformations: PostgreSQL writes `{axb}` for `axb`, not `{"a\xb"}`. The expectation for
+     * them comes from the database itself.
+     *
      * @return array<string, array{string}>
      */
     public static function provideLiteralsPostgresAccepts(): array
