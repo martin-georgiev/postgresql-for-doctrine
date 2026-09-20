@@ -8,8 +8,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCompositeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCompositeArrayItemForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCompositeForPHPException;
-use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
-use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 
 /**
  * Abstract base for mapping arrays of PostgreSQL composite (row) types to PHP arrays of field-keyed arrays.
@@ -126,17 +124,9 @@ abstract class CompositeArray extends BaseArray
         }
     }
 
-    /**
-     * A bare NULL element must become PHP null rather than the string "NULL", so string types are not preserved.
-     * Record literals arrive quoted and survive either way.
-     */
-    protected function transformPostgresArrayToPHPArray(string $postgresArray): array
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
     {
-        try {
-            return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresArray);
-        } catch (InvalidArrayFormatException) {
-            throw InvalidCompositeArrayItemForPHPException::forInvalidFormat($postgresArray);
-        }
+        throw InvalidCompositeArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
