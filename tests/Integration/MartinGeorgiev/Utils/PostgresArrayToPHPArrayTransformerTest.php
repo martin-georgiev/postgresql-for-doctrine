@@ -175,6 +175,39 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
+    /**
+     * PostgreSQL reads more than it writes: it never emits a lone backslash, but array_in takes one as escaping
+     * whatever follows. Dollar quoting keeps the statement lexer out of it, so what comes back is array_in's own
+     * reading rather than anything standard_conforming_strings decides.
+     */
+    #[DataProvider('provideLiteralsPostgresAccepts')]
+    #[Test]
+    public function parses_literal_like_postgres(string $postgresValue): void
+    {
+        $sql = \sprintf('SELECT (%s::text[])[1] AS element', '$$'.$postgresValue.'$$');
+
+        $this->assertSame(
+            $this->connection->executeQuery($sql)->fetchOne(),
+            PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresValue, true)[0]
+        );
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideLiteralsPostgresAccepts(): array
+    {
+        return [
+            'backslash before an ordinary character' => ['{"a\xb"}'],
+            'backslash before a dollar sign' => ['{"a\$b"}'],
+            'backslash before a question mark' => ['{"a\?b"}'],
+            'backslash before a digit' => ['{"a\1b"}'],
+            'escaped backslash' => ['{"a\\\\b"}'],
+            'escaped quote' => ['{"a\"b"}'],
+            'unquoted element' => ['{abc}'],
+        ];
+    }
+
     #[DataProvider('provideInvalidPostgresArrays')]
     #[Test]
     public function throws_exception_for_invalid_postgres_arrays(string $postgresArray): void

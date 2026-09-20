@@ -150,9 +150,9 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'phpValue' => ['a\b'],
                 'postgresValue' => '{"a\\\b"}', // a\\b
             ],
-            'single backslash before non-escape char' => [
-                'phpValue' => ['a\$b'],
-                'postgresValue' => '{"a\$b"}', // a\$b
+            'backslash before an ordinary character' => [
+                'phpValue' => ['a$b'],
+                'postgresValue' => '{"a\$b"}',
             ],
             'element with curly braces and comma' => [
                 'phpValue' => ['{foo,bar}'],
