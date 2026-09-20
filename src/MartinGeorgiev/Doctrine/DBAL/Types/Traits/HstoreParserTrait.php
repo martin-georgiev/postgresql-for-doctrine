@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 
 use Doctrine\DBAL\Types\ConversionException;
+use MartinGeorgiev\Utils\PostgresBackslashEscaper;
 
 /**
  * Provides HSTORE string parsing and building shared by Hstore and HstoreArray types.
@@ -78,11 +79,11 @@ trait HstoreParserTrait
     {
         $result = [];
         foreach ($pairs as $key => $value) {
-            $escapedKey = \str_replace(['\\', '"'], ['\\\\', '\\"'], (string) $key);
+            $escapedKey = PostgresBackslashEscaper::escape((string) $key);
             if ($value === null) {
                 $result[] = \sprintf('"%s"=>NULL', $escapedKey);
             } elseif (\is_string($value)) {
-                $escapedValue = \str_replace(['\\', '"'], ['\\\\', '\\"'], $value);
+                $escapedValue = PostgresBackslashEscaper::escape($value);
                 $result[] = \sprintf('"%s"=>"%s"', $escapedKey, $escapedValue);
             } else {
                 throw $this->createInvalidHstoreValueTypeException($value);
