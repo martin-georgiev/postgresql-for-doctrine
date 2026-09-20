@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInt4RangeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidInt4RangeArrayItemForPHPException;
@@ -12,64 +13,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range as Int4RangeValueOb
 /**
  * Implementation of PostgreSQL INT4RANGE[] data type.
  *
+ * @extends BaseRangeArray<Int4RangeValueObject>
+ *
  * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Int4RangeArray extends BaseArray
+class Int4RangeArray extends BaseRangeArray
 {
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::INT4RANGE_ARRAY;
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function getValueObjectClass(): string
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        if (!$item instanceof Int4RangeValueObject) {
-            throw InvalidInt4RangeArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        return $this->quoteAndEscapeArrayItem((string) $item);
+        return Int4RangeValueObject::class;
     }
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function createValueObjectFromString(string $value): Int4RangeValueObject
     {
-        return $item === null || $item instanceof Int4RangeValueObject;
+        return Int4RangeValueObject::fromString($value);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?Int4RangeValueObject
+    protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException
     {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidInt4RangeArrayItemForPHPException::forInvalidType($item);
-        }
-
-        try {
-            return Int4RangeValueObject::fromString($item);
-        } catch (\InvalidArgumentException) {
-            throw InvalidInt4RangeArrayItemForPHPException::forInvalidFormat($item);
-        }
+        return InvalidInt4RangeArrayItemForPHPException::forInvalidType($item);
     }
 
-    protected function throwInvalidArrayFormatException(string $postgresArray): never
-    {
-        throw InvalidInt4RangeArrayItemForPHPException::forInvalidFormat($postgresArray);
-    }
-
-    protected function throwInvalidTypeException(mixed $value): never
+    protected function throwTypedInvalidArrayTypeException(mixed $value): never
     {
         throw InvalidInt4RangeArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidItemException(mixed $item): never
+    protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never
+    {
+        throw InvalidInt4RangeArrayItemForPHPException::forInvalidFormat($value);
+    }
+
+    protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never
     {
         throw InvalidInt4RangeArrayItemForDatabaseException::forInvalidType($item);
     }

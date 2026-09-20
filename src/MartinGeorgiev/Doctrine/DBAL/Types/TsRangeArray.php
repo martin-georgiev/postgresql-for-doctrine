@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsRangeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsRangeArrayItemForPHPException;
@@ -12,64 +13,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange as TsRangeValueObject
 /**
  * Implementation of PostgreSQL TSRANGE[] data type.
  *
+ * @extends BaseRangeArray<TsRangeValueObject>
+ *
  * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class TsRangeArray extends BaseArray
+class TsRangeArray extends BaseRangeArray
 {
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::TSRANGE_ARRAY;
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function getValueObjectClass(): string
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        if (!$item instanceof TsRangeValueObject) {
-            throw InvalidTsRangeArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        return $this->quoteAndEscapeArrayItem((string) $item);
+        return TsRangeValueObject::class;
     }
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function createValueObjectFromString(string $value): TsRangeValueObject
     {
-        return $item === null || $item instanceof TsRangeValueObject;
+        return TsRangeValueObject::fromString($value);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?TsRangeValueObject
+    protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException
     {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidTsRangeArrayItemForPHPException::forInvalidType($item);
-        }
-
-        try {
-            return TsRangeValueObject::fromString($item);
-        } catch (\InvalidArgumentException) {
-            throw InvalidTsRangeArrayItemForPHPException::forInvalidFormat($item);
-        }
+        return InvalidTsRangeArrayItemForPHPException::forInvalidType($item);
     }
 
-    protected function throwInvalidArrayFormatException(string $postgresArray): never
-    {
-        throw InvalidTsRangeArrayItemForPHPException::forInvalidFormat($postgresArray);
-    }
-
-    protected function throwInvalidTypeException(mixed $value): never
+    protected function throwTypedInvalidArrayTypeException(mixed $value): never
     {
         throw InvalidTsRangeArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidItemException(mixed $item): never
+    protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never
+    {
+        throw InvalidTsRangeArrayItemForPHPException::forInvalidFormat($value);
+    }
+
+    protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never
     {
         throw InvalidTsRangeArrayItemForDatabaseException::forInvalidType($item);
     }

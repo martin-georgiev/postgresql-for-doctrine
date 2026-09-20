@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateMultirangeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidDateMultirangeArrayItemForPHPException;
@@ -12,64 +13,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateMultirange as DateMultira
 /**
  * Implementation of PostgreSQL DATEMULTIRANGE[] data type.
  *
+ * @extends BaseMultirangeArray<DateMultirangeValueObject>
+ *
  * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class DateMultirangeArray extends BaseArray
+class DateMultirangeArray extends BaseMultirangeArray
 {
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::DATEMULTIRANGE_ARRAY;
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function getValueObjectClass(): string
     {
-        return $item === null || $item instanceof DateMultirangeValueObject;
+        return DateMultirangeValueObject::class;
     }
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function createValueObjectFromString(string $value): DateMultirangeValueObject
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        if (!$item instanceof DateMultirangeValueObject) {
-            throw InvalidDateMultirangeArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        return $this->quoteAndEscapeArrayItem((string) $item);
+        return DateMultirangeValueObject::fromString($value);
     }
 
-    protected function throwInvalidArrayFormatException(string $postgresArray): never
+    protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException
     {
-        throw InvalidDateMultirangeArrayItemForPHPException::forInvalidFormat($postgresArray);
+        return InvalidDateMultirangeArrayItemForPHPException::forInvalidType($item);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?DateMultirangeValueObject
-    {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidDateMultirangeArrayItemForPHPException::forInvalidType($item);
-        }
-
-        try {
-            return DateMultirangeValueObject::fromString($item);
-        } catch (\InvalidArgumentException) {
-            throw InvalidDateMultirangeArrayItemForPHPException::forInvalidFormat($item);
-        }
-    }
-
-    protected function throwInvalidTypeException(mixed $value): never
+    protected function throwTypedInvalidArrayTypeException(mixed $value): never
     {
         throw InvalidDateMultirangeArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidItemException(mixed $item): never
+    protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never
+    {
+        throw InvalidDateMultirangeArrayItemForPHPException::forInvalidFormat($value);
+    }
+
+    protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never
     {
         throw InvalidDateMultirangeArrayItemForDatabaseException::forInvalidType($item);
     }
