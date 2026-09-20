@@ -57,6 +57,129 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         ];
     }
 
+    /**
+     * @param array<array-key, string> $phpValue
+     */
+    #[DataProvider('provideExactRoundtripValues')]
+    #[Test]
+    public function postgres_stores_the_value_as_the_recorded_literal(array $phpValue, string $postgresLiteral): void
+    {
+        $id = $this->insertArray($phpValue);
+
+        $this->assertSame($postgresLiteral, $this->retrieveArrayAsText($id));
+    }
+
+    /**
+     * @param array<array-key, string> $phpValue
+     */
+    #[DataProvider('provideExactRoundtripValues')]
+    #[Test]
+    public function parses_the_recorded_literal_back_to_the_value(array $phpValue, string $postgresLiteral): void
+    {
+        $this->assertSame($phpValue, PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray($postgresLiteral, true));
+    }
+
+    /**
+     * Each row is a value copied out of the unit test's provider together with the literal PostgreSQL wrote for it,
+     * read back from the column as text. The unit test pairs the same values with literals written by hand, where
+     * nothing checks them against a database.
+     *
+     * Only rows whose elements are all strings are here: a text[] column cannot remember that 1 arrived as an int
+     * rather than the string '1', so type inference belongs to the parser and is tested there.
+     *
+     * @return array<string, array{phpValue: array<array-key, string>, postgresLiteral: string}>
+     */
+    public static function provideExactRoundtripValues(): array
+    {
+        return [
+            'simple integer strings as strings are preserved as strings' => [
+                'phpValue' => [
+                    0 => '1',
+                    1 => '2',
+                    2 => '3',
+                    3 => '4',
+                ],
+                'postgresLiteral' => '{1,2,3,4}',
+            ],
+            'simple strings' => [
+                'phpValue' => [
+                    0 => 'this',
+                    1 => 'is',
+                    2 => 'a',
+                    3 => 'test',
+                ],
+                'postgresLiteral' => '{this,is,a,test}',
+            ],
+            'strings with special characters' => [
+                'phpValue' => [
+                    0 => 'this has "quotes"',
+                    1 => 'this has \\\backslashes\\\\',
+                ],
+                'postgresLiteral' => '{"this has \\"quotes\\"","this has \\\\\\\\backslashes\\\\\\\\"}',
+            ],
+            'strings with backslashes' => [
+                'phpValue' => ['path\to\file', 'C:\Windows\System32'],
+                'postgresLiteral' => '{"path\\\\to\\\\file","C:\\\\Windows\\\\System32"}',
+            ],
+            'strings with unicode characters' => [
+                'phpValue' => ['Hello 世界', '🌍 Earth'],
+                'postgresLiteral' => '{"Hello 世界","🌍 Earth"}',
+            ],
+            'unquoted strings' => [
+                'phpValue' => ['unquoted', 'strings'],
+                'postgresLiteral' => '{unquoted,strings}',
+            ],
+            'mixed quoted and unquoted strings' => [
+                'phpValue' => ['quoted', 'unquoted'],
+                'postgresLiteral' => '{quoted,unquoted}',
+            ],
+            'with only backslashes' => [
+                'phpValue' => ['\\'],
+                'postgresLiteral' => '{"\\\\"}',
+            ],
+            'with only double quotes' => [
+                'phpValue' => ['"'],
+                'postgresLiteral' => '{"\\""}',
+            ],
+            'with empty quoted strings' => [
+                'phpValue' => ['', ''],
+                'postgresLiteral' => '{"",""}',
+            ],
+            'github #351 regression #1: string with special characters and backslash' => [
+                'phpValue' => ['⥀!@#$%^&*()_+=-}{[]|":;\'\?><,./'],
+                'postgresLiteral' => '{"⥀!@#$%^&*()_+=-}{[]|\\":;\'\\\\?><,./"}',
+            ],
+            'github #351 regression #2: string with special characters, backslash and additional element' => [
+                'phpValue' => ['⥀!@#$%^&*()_+=-}{[]|":;\'\?><,./', 'text'],
+                'postgresLiteral' => '{"⥀!@#$%^&*()_+=-}{[]|\\":;\'\\\\?><,./",text}',
+            ],
+            'backslash before backslash' => [
+                'phpValue' => ['a\b'],
+                'postgresLiteral' => '{"a\\\\b"}',
+            ],
+            'single backslash before non-escape char' => [
+                'phpValue' => ['a\$b'],
+                'postgresLiteral' => '{"a\\\\$b"}',
+            ],
+            'element with curly braces and comma' => [
+                'phpValue' => ['{foo,bar}'],
+                'postgresLiteral' => '{"{foo,bar}"}',
+            ],
+            'element with whitespace' => [
+                'phpValue' => ['  foo  '],
+                'postgresLiteral' => '{"  foo  "}',
+            ],
+            'element carrying the nested-array marker' => [
+                'phpValue' => ['a},{b', '{x}'],
+                'postgresLiteral' => '{"a},{b","{x}"}',
+            ],
+            'github #424 regression: numeric strings should be preserved as strings when unquoted' => [
+                'phpValue' => ['1', 'test', 'true'],
+                'postgresLiteral' => '{1,test,true}',
+            ],
+        ];
+    }
+
     #[DataProvider('provideInvalidArrayFormats')]
     #[Test]
     public function invalid_array_formats_throw_exceptions(array $testCase): void
@@ -144,7 +267,7 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
     }
 
     /**
-     * @param array<int, string> $arrayData
+     * @param array<array-key, string> $arrayData
      */
     private function insertArray(array $arrayData): int
     {
