@@ -18,7 +18,16 @@ trait HstoreParserTrait
      */
     private const HSTORE_PAIR_PATTERN = '/"((?:[^"\\\\]|\\\\.)*)"\\s*=>\\s*(?:"((?:[^"\\\\]|\\\\.)*)"|(?i:(NULL)))/';
 
+    /**
+     * Spelled out rather than left to `\s`, which leaves out the form feed and vertical tab PostgreSQL skips.
+     *
+     * @var string
+     */
+    private const HSTORE_WHITESPACE = " \t\n\r\f\v";
+
     abstract protected function createInvalidHstoreValueTypeException(mixed $value): ConversionException;
+
+    abstract protected function createInvalidHstoreFormatException(string $value): ConversionException;
 
     /**
      * @return array<string, string|null>
@@ -26,14 +35,40 @@ trait HstoreParserTrait
     private function parseHstoreString(string $value): array
     {
         $result = [];
-        \preg_match_all(self::HSTORE_PAIR_PATTERN, $value, $matches, \PREG_SET_ORDER);
+        \preg_match_all(self::HSTORE_PAIR_PATTERN, $value, $matches, \PREG_SET_ORDER | \PREG_OFFSET_CAPTURE);
 
-        foreach ($matches as $match) {
-            $key = \str_replace(['\\\\', '\\"'], ['\\', '"'], $match[1]);
-            $result[$key] = isset($match[3]) ? null : \str_replace(['\\\\', '\\"'], ['\\', '"'], $match[2] ?? '');
+        $consumedUpTo = 0;
+        foreach ($matches as $index => $match) {
+            [$pair, $offset] = $match[0];
+            $this->assertSeparatesPairs(\substr($value, $consumedUpTo, $offset - $consumedUpTo), $index > 0, $value);
+            $consumedUpTo = $offset + \strlen($pair);
+
+            $key = \str_replace(['\\\\', '\\"'], ['\\', '"'], $match[1][0]);
+            $result[$key] = isset($match[3]) ? null : \str_replace(['\\\\', '\\"'], ['\\', '"'], $match[2][0] ?? '');
         }
 
+        $this->assertClosesTheLiteral(\substr($value, $consumedUpTo), $matches !== [], $value);
+
         return $result;
+    }
+
+    private function assertSeparatesPairs(string $skipped, bool $followsAPair, string $value): void
+    {
+        $expected = $followsAPair ? ',' : '';
+        if (\trim($skipped, self::HSTORE_WHITESPACE) !== $expected) {
+            throw $this->createInvalidHstoreFormatException($value);
+        }
+    }
+
+    /**
+     * PostgreSQL reads a comma after the last pair.
+     */
+    private function assertClosesTheLiteral(string $tail, bool $followsAPair, string $value): void
+    {
+        $accepted = $followsAPair ? ['', ','] : [''];
+        if (!\in_array(\trim($tail, self::HSTORE_WHITESPACE), $accepted, true)) {
+            throw $this->createInvalidHstoreFormatException($value);
+        }
     }
 
     /**
