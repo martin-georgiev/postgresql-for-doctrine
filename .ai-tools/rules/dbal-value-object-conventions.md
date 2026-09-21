@@ -14,42 +14,13 @@ See `exceptions.md` for VO-specific exceptions (`Types/ValueObject/Exceptions/` 
 
 ## Immutability
 
-**Required**: VOs are immutable. Use one of:
+`composer run-static-analysis` holds a VO final — or `@phpstan-consistent-constructor` when it is deliberately open for extension — with private readonly properties, and keeps an abstract base's state readonly too. Setters need no separate ban: writing to a readonly property outside the constructor is already an error.
+
+What it cannot pick for you is which of the three shapes fits:
 
 - `final readonly class Foo` — preferred for value-only VOs with no inheritance (`Box`, `Circle`, `Point`).
-- `final class Foo` with `private readonly` properties — for VOs that extend an abstract base (`DateRange extends Range`, `Box extends BaseGeometricValue`).
+- `final class Foo` with `private readonly` properties — for VOs extending an abstract base that is not itself readonly (`DateRange extends Range`).
 - `class Foo implements \Stringable` with `private readonly` properties — only when the VO is **designed to be extended** via `static` returns; mark with `@phpstan-consistent-constructor` (see `Ltree`).
-
-```php
-// ✓ Correct — final readonly, promoted constructor properties
-final readonly class Box extends BaseGeometricValue
-{
-    public function __construct(
-        private Point $upperRight,
-        private Point $lowerLeft,
-    ) {}
-}
-
-// ✓ Correct — extendable base with @phpstan-consistent-constructor
-/**
- * @phpstan-consistent-constructor
- */
-class Ltree implements \Stringable, \JsonSerializable
-{
-    public function __construct(
-        private readonly array $pathFromRoot,
-    ) {
-        self::assertListOfValidLtreeNodes($pathFromRoot);
-    }
-}
-
-// ❌ Wrong — mutable VO with public setters
-final class Box
-{
-    public Point $upperRight;
-    public function setUpperRight(Point $p): void { $this->upperRight = $p; }
-}
-```
 
 ## Class-Level PHPDoc
 
@@ -71,6 +42,8 @@ final class DateRange extends Range
 ```
 
 ## Required Methods
+
+`__toString()` and a public static `fromString()` are kept present on every concrete VO by `composer run-static-analysis` — inheriting them from an abstract base counts, as the range VOs do. What they must **mean** is yours to get right:
 
 | Method | Required | Purpose |
 |--------|----------|---------|
@@ -106,7 +79,7 @@ final readonly class Box extends BaseGeometricValue
 
 ## Validation and Exceptions
 
-**Required**: VO-specific exceptions live in `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/`. Naming: `Invalid{VOName}Exception`. Pattern: `final class`, with `for*`-named static factories. The parent is set by `ParentByNamespaceRector`; the reason it matters is in `ci/rector/config.php`.
+**Required**: VO-specific exceptions live in `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/` as a `final class` with `for*`-named static factories. Both the name and the parent are settled by tooling — `Invalid{VOName}Exception` by `composer run-static-analysis`, the parent by `ParentByNamespaceRector`; the reason the parent matters is in `ci/rector/config.php`.
 
 Message building follows `exceptions.md` § Message Formatting.
 
