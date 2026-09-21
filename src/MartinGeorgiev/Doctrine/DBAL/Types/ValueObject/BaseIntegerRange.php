@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 
 /**
  * @extends Range<int>
@@ -25,7 +25,7 @@ abstract class BaseIntegerRange extends Range
         bool $isUpperBoundedInfinity = false,
     ) {
         if ($isLowerBoundedInfinity || $isUpperBoundedInfinity) {
-            throw InvalidRangeForPHPException::forUnsupportedBoundedInfinity(static::class);
+            throw InvalidRangeException::forUnsupportedBoundedInfinity(static::class);
         }
 
         parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty);
@@ -39,7 +39,7 @@ abstract class BaseIntegerRange extends Range
     protected function formatValue(mixed $value): string
     {
         if (!\is_int($value)) {
-            throw InvalidRangeForPHPException::forInvalidIntegerBound($value);
+            throw InvalidRangeException::forInvalidIntegerBound($value);
         }
 
         return (string) $value;
@@ -48,7 +48,7 @@ abstract class BaseIntegerRange extends Range
     protected static function parseValue(string $value): int
     {
         if (self::isInfinityString($value)) {
-            throw InvalidRangeForPHPException::forUnsupportedBoundedInfinity(static::class);
+            throw InvalidRangeException::forUnsupportedBoundedInfinity(static::class);
         }
 
         $intValue = (int) $value;

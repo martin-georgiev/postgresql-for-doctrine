@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -336,7 +336,7 @@ final class DateRangeTest extends BaseRangeTestCase
             new \DateTimeImmutable('2023-12-31')
         );
 
-        $this->expectException(InvalidRangeForPHPException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
 
         $dateRange->contains('invalid');

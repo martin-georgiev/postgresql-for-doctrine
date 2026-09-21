@@ -7,9 +7,6 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
 /**
  * Exception thrown when creating or manipulating Ltree value objects with invalid data.
  *
- * This exception is specifically for validation errors within the Ltree value object itself,
- * separate from DBAL conversion exceptions.
- *
  * @since 3.5
  *
  * @author Pierre-Yves Landuré

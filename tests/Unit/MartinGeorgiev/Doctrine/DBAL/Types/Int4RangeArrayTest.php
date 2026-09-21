@@ -198,6 +198,7 @@ final class Int4RangeArrayTest extends TestCase
             'plain string' => ['not-a-valid-range'],
             'missing brackets' => ['1,10'],
             'incomplete range' => ['[1'],
+            'bounded infinity' => ['[-infinity,100)'],
         ];
     }
 

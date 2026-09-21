@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 
 /**
  * Represents a PostgreSQL numeric range.
@@ -90,11 +90,11 @@ final class NumericRange extends Range
     protected function compareBounds(mixed $a, mixed $b): int
     {
         if (!\is_numeric($a)) {
-            throw InvalidRangeForPHPException::forInvalidNumericBound($a);
+            throw InvalidRangeException::forInvalidNumericBound($a);
         }
 
         if (!\is_numeric($b)) {
-            throw InvalidRangeForPHPException::forInvalidNumericBound($b);
+            throw InvalidRangeException::forInvalidNumericBound($b);
         }
 
         $aIsNotANumber = $this->isNotANumber($a);

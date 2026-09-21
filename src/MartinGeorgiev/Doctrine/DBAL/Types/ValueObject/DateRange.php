@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 
 /**
  * Represents a PostgreSQL date range.
@@ -44,11 +44,11 @@ final class DateRange extends Range
     protected function compareBounds(mixed $a, mixed $b): int
     {
         if (!$a instanceof \DateTimeInterface) {
-            throw InvalidRangeForPHPException::forInvalidDateTimeBound($a);
+            throw InvalidRangeException::forInvalidDateTimeBound($a);
         }
 
         if (!$b instanceof \DateTimeInterface) {
-            throw InvalidRangeForPHPException::forInvalidDateTimeBound($b);
+            throw InvalidRangeException::forInvalidDateTimeBound($b);
         }
 
         return $a->getTimestamp() <=> $b->getTimestamp();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -149,7 +149,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     {
         $numericRange = new NumericRange(1, 10);
 
-        $this->expectException(InvalidRangeForPHPException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Range bound must be numeric');
 
         $numericRange->contains('invalid');

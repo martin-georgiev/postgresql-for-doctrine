@@ -1,5 +1,19 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Upgrade Instructions
 
+## How to Upgrade to Version 4.9
+
+Value object exceptions moved into their own family and share one parent. Released as a minor: these are internal construction details of the value objects, never part of the documented surface, so no code outside the library is expected to reference them.
+
+| Was | Now |
+|---|---|
+| range value objects threw `Types\Exceptions\InvalidRangeForPHPException` | `Types\ValueObject\Exceptions\InvalidRangeException` |
+| `InvalidCubeException extends ConversionException` | `extends \InvalidArgumentException` |
+| `InvalidPointException::forInvalidPointFormat()` | `::forInvalidFormat()` |
+| `InvalidWktSpatialDataException::forInvalidWktFormat()` | `::forInvalidFormat()` |
+| `InvalidRangeForPHPException::forInvalidNumericBound()`, `::forInvalidIntegerBound()`, `::forInvalidDateTimeBound()`, `::forUnsupportedBoundedInfinity()` | removed, left without callers |
+
+Catching through the DBAL types is unaffected — those translate value object failures as before.
+
 ## How to Upgrade to Version 3.0
 
 ### 1. Review type handling in your code

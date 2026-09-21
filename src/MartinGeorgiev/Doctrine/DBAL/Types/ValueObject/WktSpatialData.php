@@ -75,7 +75,7 @@ final readonly class WktSpatialData implements \Stringable
 
         $wktTypeWithOptionalModifiersPattern = '/^([A-Z][A-Z0-9_]*)(?:\s+(ZM|Z|M))?(?:\s*\((.*)\)|\s+(EMPTY))$/s';
         if (!\preg_match($wktTypeWithOptionalModifiersPattern, $wkt, $matches)) {
-            throw InvalidWktSpatialDataException::forInvalidWktFormat($wkt);
+            throw InvalidWktSpatialDataException::forInvalidFormat($wkt);
         }
 
         $typeString = $matches[1];

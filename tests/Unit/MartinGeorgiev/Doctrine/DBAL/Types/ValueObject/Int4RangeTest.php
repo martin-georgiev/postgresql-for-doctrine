@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -178,7 +178,7 @@ final class Int4RangeTest extends BaseRangeTestCase
         bool $isLowerBoundedInfinity,
         bool $isUpperBoundedInfinity,
     ): void {
-        $this->expectException(InvalidRangeForPHPException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Integer ranges do not have a concept of infinity');
 
         new Int4Range($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
@@ -195,7 +195,7 @@ final class Int4RangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_for_unsupported_bounded_infinity_from_string(string $input): void
     {
-        $this->expectException(InvalidRangeForPHPException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Integer ranges do not have a concept of infinity');
 
         Int4Range::fromString($input);
