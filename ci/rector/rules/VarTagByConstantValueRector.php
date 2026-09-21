@@ -17,10 +17,6 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * Gives every class constant a @var tag carrying the type of the value assigned to it.
- *
- * The type is read from the value, never configured, so the tag cannot contradict what the constant holds. A constant
- * already carrying a @var is left alone - a narrower hand-written type is worth keeping, and PHPStan reports one that
- * disagrees with the value as classConstant.phpDocType. A constant declaring a native type already states it.
  */
 final class VarTagByConstantValueRector extends AbstractRector
 {
@@ -88,8 +84,7 @@ final class VarTagByConstantValueRector extends AbstractRector
     }
 
     /**
-     * Named by asking the type what it is, rather than by reading its description: a boolean describes itself as
-     * `true`, and an array by its shape, neither of which is a type a constant can be annotated with.
+     * Named by asking the type what it is.
      */
     private function nameSupportedType(Type $type): ?string
     {
@@ -106,8 +101,8 @@ final class VarTagByConstantValueRector extends AbstractRector
     }
 
     /**
-     * An enum case is the only object a PHP 8.2 constant expression can produce, and the tag names its enum rather
-     * than the case, which the value already shows.
+     * An enum case is the only object a PHP 8.2 constant expression can produce.
+     * The tag names its enum rather than the case, which the value already shows.
      */
     private function nameObjectClass(Type $type): ?string
     {

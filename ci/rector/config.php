@@ -58,7 +58,6 @@ return RectorConfig::configure()
     ->withRules([
         PreferPHPUnitThisCallRector::class,
         FinalizeTestCaseClassRector::class,
-        // 251 of 268 constants already name their type; PHPStan rejects a tag the value contradicts
         VarTagByConstantValueRector::class,
     ])
     // the DBAL types translate value object failures with catch (\InvalidArgumentException);
