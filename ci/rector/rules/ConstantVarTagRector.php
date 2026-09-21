@@ -100,7 +100,19 @@ final class ConstantVarTagRector extends AbstractRector
             $type->isBoolean()->yes() => 'bool',
             $type->isArray()->yes() => 'array',
             $type->isNull()->yes() => 'null',
+            $type->isObject()->yes() => $this->nameObjectClass($type),
             default => null,
         };
+    }
+
+    /**
+     * An enum case is the only object a PHP 8.2 constant expression can produce, and the tag names its enum rather
+     * than the case, which the value already shows.
+     */
+    private function nameObjectClass(Type $type): ?string
+    {
+        $objectClassNames = $type->getObjectClassNames();
+
+        return \count($objectClassNames) === 1 ? '\\'.\reset($objectClassNames) : null;
     }
 }
