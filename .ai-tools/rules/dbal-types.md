@@ -67,25 +67,7 @@ Scalar and array variants must be registered as adjacent pairs (see § Documenta
 
 ### Class-Level PHPDoc
 
-**Required**: Every DBAL type class has a class-level docblock with description, `@see` to PostgreSQL docs, `@since`, and `@author`.
-
-```php
-// ✓ Correct
-/**
- * Implementation of PostgreSQL citext extension type.
- *
- * Case-insensitive text type — comparisons are case-insensitive in PostgreSQL
- * while preserving the original casing. Requires the citext extension.
- *
- * @see https://www.postgresql.org/docs/18/citext.html
- * @since 4.6
- *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
- */
-final class Citext extends BaseType
-```
-
-Description should call out non-obvious PostgreSQL semantics (case-insensitivity, dimensional modifiers, infinity handling). See `since-annotations.md` for `@since`; § @author Tag Format below for `@author`.
+The description should call out non-obvious PostgreSQL semantics (case-insensitivity, dimensional modifiers, infinity handling). Point `@see` at the PostgreSQL documentation page for the type itself — `https://www.postgresql.org/docs/18/citext.html` for `citext`, `.../rangetypes.html` for the range family, the PostGIS manual for the spatial types. See `since-annotations.md` for choosing the `@since` value.
 
 ### Method PHPDoc: Minimal Only
 
@@ -110,21 +92,6 @@ public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?
  * @throws ConversionException
  */
 public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
-```
-
-### `@author` Tag Format
-
-**Required**: Real names. Email optional. **No** GitHub handle URLs, **no** lowercase handle-as-name.
-
-```php
-// ✓ Correct
-* @author Martin Georgiev <martin.georgiev@gmail.com>
-* @author Keith Brink <keith.brink@gmail.com>
-* @author Mathieu Piot
-
-// ❌ Wrong — GitHub handle URL or handle-as-name
-* @author Mathieu Piot <https://github.com/mpiot>
-* @author keithbrink <keith.brink@gmail.com>
 ```
 
 ### Data Provider Shape: The Named Key IS the Label

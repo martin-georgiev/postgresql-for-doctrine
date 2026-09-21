@@ -9,6 +9,28 @@ includes:
     - ./baselines/phpstan-identifiers.neon
     - ./baselines/range-baseline.neon
 
+services:
+    -
+        # The class-level docblock each namespace owes. Longest matching prefix wins, so the
+        # exception sub-namespaces owe only @since and @author while their parents owe the full shape.
+        class: MartinGeorgiev\PHPStan\ClassDocBlockRule
+        tags:
+            - phpstan.rules.rule
+        arguments:
+            requirementsByNamespacePrefix:
+                'MartinGeorgiev\Doctrine\DBAL\Types\': ['description', 'see', 'since', 'author']
+                'MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\': ['since', 'author']
+                'MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\': ['description', 'see', 'since', 'author']
+                'MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\': ['description', 'since', 'author']
+                'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\': ['description', 'see', 'since', 'author', 'implementationFirstLine']
+                'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\': ['since', 'author']
+                'MartinGeorgiev\Utils\Exception\': ['since', 'author']
+            # Contributed before the real-name convention existed; neither contributor's real name
+            # appears anywhere in the project history, so there is nothing to correct these to.
+            grandfatheredAuthorNames:
+                - 'syl20b'
+                - 'llaakkkk <lenakirichokv@gmail.com>'
+
 parameters:
     # Re-lists every node the extension bans by default, because supplying an Expr_FuncCall
     # entry replaces the shipped one (BannedNodesRule keys the list by node type).
