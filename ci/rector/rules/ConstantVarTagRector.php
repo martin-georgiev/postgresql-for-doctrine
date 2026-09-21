@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
-use PHPStan\Type\VerbosityLevel;
+use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Rector\AbstractRector;
@@ -72,23 +72,35 @@ final class ConstantVarTagRector extends AbstractRector
     }
 
     /**
-     * A value whose type cannot be named in a tag - a union, or something the scope cannot resolve - is left untagged
-     * rather than described as mixed, which would say less than the inferred type already does.
+     * A constant holding anything else - a union across a grouped declaration, an enum case, a type the scope cannot
+     * resolve - is left untagged rather than described loosely.
      */
     private function describeValueType(ClassConst $classConst): ?string
     {
-        $describedTypes = [];
+        $varTypes = [];
         foreach ($classConst->consts as $const) {
-            $describedTypes[] = $this->getType($const->value)->describe(VerbosityLevel::typeOnly());
+            $varTypes[] = $this->nameSupportedType($this->getType($const->value));
         }
 
-        $describedTypes = \array_unique($describedTypes);
-        if (\count($describedTypes) !== 1) {
-            return null;
-        }
+        $varTypes = \array_unique($varTypes);
 
-        $varType = \reset($describedTypes);
+        return \count($varTypes) === 1 ? \reset($varTypes) : null;
+    }
 
-        return \preg_match('/^[A-Za-z_\\\\][A-Za-z0-9_\\\\]*\z/', $varType) === 1 && $varType !== 'mixed' ? $varType : null;
+    /**
+     * Named by asking the type what it is, rather than by reading its description: a boolean describes itself as
+     * `true`, and an array by its shape, neither of which is a type a constant can be annotated with.
+     */
+    private function nameSupportedType(Type $type): ?string
+    {
+        return match (true) {
+            $type->isString()->yes() => 'string',
+            $type->isInteger()->yes() => 'int',
+            $type->isFloat()->yes() => 'float',
+            $type->isBoolean()->yes() => 'bool',
+            $type->isArray()->yes() => 'array',
+            $type->isNull()->yes() => 'null',
+            default => null,
+        };
     }
 }
