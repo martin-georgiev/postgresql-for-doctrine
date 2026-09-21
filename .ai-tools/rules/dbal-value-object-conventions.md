@@ -53,22 +53,7 @@ final class Box
 
 ## Class-Level PHPDoc
 
-**Required**: description, `@see` to PostgreSQL docs, `@since`, `@author`. Same shape as `dbal-types.md` § Class-Level PHPDoc.
-
-```php
-// ✓ Correct
-/**
- * Represents a PostgreSQL box geometric type.
- *
- * Format: (x1,y1),(x2,y2) — upper-right and lower-left corners.
- *
- * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES
- * @since 4.5
- *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
- */
-final readonly class Box extends BaseGeometricValue
-```
+The description names the PostgreSQL type the VO represents and, where the string form is not obvious, shows it — `Format: (x1,y1),(x2,y2) — upper-right and lower-left corners.` for `Box`. Point `@see` at the anchor for that specific type, not the page it sits on: `datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES`, not `datatype-geometric.html`.
 
 When the class is generic (extends a `@template` base), add `@extends` on the class block:
 
@@ -125,14 +110,14 @@ final readonly class Box extends BaseGeometricValue
 
 Message building follows `exceptions.md` § Message Formatting.
 
-Class PHPDoc: one-line description, `@since`, `@author`. Do not explain the parent or that these are not DBAL conversion exceptions — the namespace says it, and `exceptions.md` exempts this family from the parent-deviation PHPDoc requirement.
+Keep the class PHPDoc description to one line. Do not explain the parent or that these are not DBAL conversion exceptions — the namespace says it, and `exceptions.md` exempts this family from the parent-deviation PHPDoc requirement.
 
 ```php
 // ✓ Correct — throw VO-specific exception with for*-named factory
 throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
 throw InvalidLtreeException::forInvalidNodeFormat($value, 'non-empty string');
 
-// ❌ Wrong — generic exception, no class-level PHPDoc, no for* factory
+// ❌ Wrong — generic exception, no for* factory
 throw new \InvalidArgumentException('Bad box');
 ```
 

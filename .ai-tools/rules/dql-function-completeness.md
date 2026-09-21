@@ -46,7 +46,7 @@ Subfolders exist only for **PostgreSQL extensions**. Core PostgreSQL functions a
 
 ## 2. Class-level PHPDoc
 
-**Required**: every DQL function class has a class-level docblock with these fields in this exact order:
+The fields go in this order, and `@example` is required:
 
 ```php
 /**
@@ -63,22 +63,13 @@ Subfolders exist only for **PostgreSQL extensions**. Core PostgreSQL functions a
  */
 ```
 
-### First-line casing
+`@see` points at the PostgreSQL manual page for the function's category (§1 maps category to doc); PostGIS functions point at the PostGIS manual instead. See `since-annotations.md` for choosing the `@since` value.
 
-**Required**: the PostgreSQL function name is always **UPPERCASE** followed by `()`.
+### Naming the thing in the first line
 
-```php
-// ✓ Correct
- * Implementation of PostgreSQL XPATH().
- * Implementation of PostgreSQL XML_IS_WELL_FORMED().
- * Implementation of PostgreSQL MIN_SCALE().
+Name PostGIS functions after PostGIS, everything else after PostgreSQL — `Implementation of PostGIS ST_Area().` against `Implementation of PostgreSQL MD5().`
 
-// ❌ Wrong — lowercase
- * Implementation of PostgreSQL xpath().
- * Implementation of PostgreSQL xml_is_well_formed().
-```
-
-**Exceptions** — no `()` when there is no callable function name:
+Drop the `()` when there is no callable function name:
 - SQL operators: `* Implementation of PostgreSQL @> operator.`
 - Extension-prefixed operators: `* Implementation of PostgreSQL pg_trgm % operator.`
 - Non-function features: `* Implementation of PostgreSQL composite type field access.`

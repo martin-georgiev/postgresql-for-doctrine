@@ -86,19 +86,6 @@ final class InvalidRangeForDatabaseException extends ConversionException
 final class Some<Concern>Exception extends \LogicException
 ```
 
-## Class-level PHPDoc
-
-**Required**: every exception class has a class-level docblock with `@since` and `@author`.
-
-```php
-/**
- * @since 3.3
- *
- * @author Martin Georgiev <martin.georgiev@gmail.com>
- */
-final class InvalidRangeForDatabaseException extends ConversionException
-```
-
 ## Static Factory Methods
 
 **Required structure**: a private `create()` helper plus `for*`-named public factories.
