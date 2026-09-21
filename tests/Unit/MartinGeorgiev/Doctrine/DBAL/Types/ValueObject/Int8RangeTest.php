@@ -179,8 +179,8 @@ final class Int8RangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_for_numeric_infinity_abbreviation_from_string(string $input): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('is not a valid integer');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Range bound must be an integer');
 
         Int8Range::fromString($input);
     }

@@ -290,8 +290,8 @@ final class DateRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_a_rejected_infinity_abbreviation(string $bound): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid date value');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Cannot parse range bound');
 
         DateRange::fromString(\sprintf('[2023-01-01,%s)', $bound));
     }
@@ -311,8 +311,8 @@ final class DateRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_lower_bound(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Lower bound must be DateTimeInterface');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
 
         /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new DateRange('invalid', new \DateTimeImmutable('2023-12-31'));
@@ -321,8 +321,8 @@ final class DateRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_upper_bound(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Upper bound must be DateTimeInterface');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
 
         /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new DateRange(new \DateTimeImmutable('2023-01-01'), 'invalid');
@@ -345,8 +345,8 @@ final class DateRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_date_string_in_parse_via_from_string(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid date value');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Cannot parse range bound');
 
         DateRange::fromString('[invalid_date,2023-12-31)');
     }

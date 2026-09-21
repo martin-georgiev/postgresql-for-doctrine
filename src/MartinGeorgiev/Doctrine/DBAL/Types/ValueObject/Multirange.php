@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidMultirangeException;
+
 /**
  * Abstract base for PostgreSQL multirange value objects.
  *
@@ -58,9 +60,7 @@ abstract class Multirange implements \Stringable
         }
 
         if (!\str_starts_with($value, '{') || !\str_ends_with($value, '}')) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid multirange format: %s', $value)
-            );
+            throw InvalidMultirangeException::forInvalidFormat($value);
         }
 
         $inner = \substr($value, 1, -1);
@@ -96,9 +96,7 @@ abstract class Multirange implements \Stringable
             } elseif ($char === ',' && $depth === 0) {
                 $trimmedRange = \trim($current);
                 if ($trimmedRange === '') {
-                    throw new \InvalidArgumentException(
-                        \sprintf('Invalid multirange format: empty range segment in "%s"', $inner)
-                    );
+                    throw InvalidMultirangeException::forEmptyRangeSegment($inner);
                 }
 
                 $ranges[] = $trimmedRange;
@@ -109,16 +107,12 @@ abstract class Multirange implements \Stringable
         }
 
         if ($depth !== 0) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid multirange format: unbalanced brackets in "%s"', $inner)
-            );
+            throw InvalidMultirangeException::forUnbalancedBrackets($inner);
         }
 
         $trimmedRange = \trim($current);
         if ($trimmedRange === '') {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid multirange format: empty range segment in "%s"', $inner)
-            );
+            throw InvalidMultirangeException::forEmptyRangeSegment($inner);
         }
 
         $ranges[] = $trimmedRange;

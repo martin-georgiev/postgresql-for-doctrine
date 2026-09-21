@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresInfinityConversionTrait;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 
 /**
  * @template R
@@ -123,9 +124,7 @@ abstract class Range implements \Stringable
 
         $pattern = '/^('.\preg_quote(self::BRACKET_LOWER_INCLUSIVE, '/').'|'.\preg_quote(self::BRACKET_LOWER_EXCLUSIVE, '/').')("?[^",]*"?),("?[^",]*"?)('.\preg_quote(self::BRACKET_UPPER_INCLUSIVE, '/').'|'.\preg_quote(self::BRACKET_UPPER_EXCLUSIVE, '/').')$/';
         if (!\preg_match($pattern, $rangeString, $matches)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid range format: %s', $rangeString)
-            );
+            throw InvalidRangeException::forInvalidFormat($rangeString);
         }
 
         $isLowerBracketInclusive = $matches[1] === self::BRACKET_LOWER_INCLUSIVE;

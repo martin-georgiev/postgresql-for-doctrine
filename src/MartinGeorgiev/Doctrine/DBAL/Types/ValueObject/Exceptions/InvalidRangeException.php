@@ -18,6 +18,11 @@ final class InvalidRangeException extends \InvalidArgumentException
         return new self(\sprintf($message, \var_export($value, true)));
     }
 
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Invalid range format: %s', $value);
+    }
+
     public static function forInvalidNumericBound(mixed $value): self
     {
         return self::create('Range bound must be numeric, %s given', $value);
@@ -31,6 +36,30 @@ final class InvalidRangeException extends \InvalidArgumentException
     public static function forInvalidDateTimeBound(mixed $value): self
     {
         return self::create('Range bound must be a DateTimeInterface instance, %s given', $value);
+    }
+
+    public static function forNonFiniteBound(mixed $value): self
+    {
+        return self::create('Range bound must be a number a PHP float can hold, %s given', $value);
+    }
+
+    public static function forBoundOutsideSubtypeRange(mixed $value, int $minimum, int $maximum): self
+    {
+        return new self(\sprintf(
+            'Range bound must be within [%d, %d], %s given',
+            $minimum,
+            $maximum,
+            \var_export($value, true)
+        ));
+    }
+
+    public static function forUnparsableBound(mixed $value, \Throwable $throwable): self
+    {
+        return new self(
+            \sprintf('Cannot parse range bound: %s', \var_export($value, true)),
+            0,
+            $throwable
+        );
     }
 
     public static function forUnsupportedBoundedInfinity(string $rangeType): self

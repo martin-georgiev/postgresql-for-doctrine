@@ -38,35 +38,31 @@ final class NumericRange extends Range
             $normalizedLower = null;
             $inferredLowerBoundedInfinityFlag = true;
         } elseif ($lower !== null) {
-            $this->assertUsableBound($lower, 'Lower');
+            $this->assertUsableBound($lower);
         }
 
         if ($upper !== null && \is_float($upper) && \is_infinite($upper)) {
             $normalizedUpper = null;
             $inferredUpperBoundedInfinityFlag = true;
         } elseif ($upper !== null) {
-            $this->assertUsableBound($upper, 'Upper');
+            $this->assertUsableBound($upper);
         }
 
         parent::__construct($normalizedLower, $normalizedUpper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $inferredLowerBoundedInfinityFlag, $inferredUpperBoundedInfinityFlag);
     }
 
-    private function assertUsableBound(mixed $bound, string $position): void
+    private function assertUsableBound(mixed $bound): void
     {
         if ($this->isNotANumber($bound)) {
             return;
         }
 
         if (!\is_numeric($bound)) {
-            throw new \InvalidArgumentException(
-                \sprintf('%s bound must be numeric, %s given', $position, \gettype($bound))
-            );
+            throw InvalidRangeException::forInvalidNumericBound($bound);
         }
 
         if (!\is_finite((float) $bound)) {
-            throw new \InvalidArgumentException(
-                \sprintf('%s bound must be a number a PHP float can hold, %s given', $position, \var_export($bound, true))
-            );
+            throw InvalidRangeException::forNonFiniteBound($bound);
         }
     }
 
@@ -125,7 +121,7 @@ final class NumericRange extends Range
         }
 
         if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException('Value must be numeric');
+            throw InvalidRangeException::forInvalidNumericBound($value);
         }
 
         return (string) $value;
@@ -152,16 +148,12 @@ final class NumericRange extends Range
         }
 
         if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid numeric value: %s', $value)
-            );
+            throw InvalidRangeException::forInvalidNumericBound($value);
         }
 
         $floatValue = (float) $value;
         if (!\is_finite($floatValue)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid numeric value: %s', $value)
-            );
+            throw InvalidRangeException::forNonFiniteBound($value);
         }
 
         $intValue = (int) $floatValue;

@@ -53,9 +53,7 @@ abstract class BaseIntegerRange extends Range
 
         $intValue = (int) $value;
         if ((string) $intValue !== $value) {
-            throw new \InvalidArgumentException(
-                \sprintf('Value %s is not a valid integer', $value)
-            );
+            throw InvalidRangeException::forInvalidIntegerBound($value);
         }
 
         return $intValue;

@@ -27,15 +27,11 @@ final class DateRange extends Range
         bool $isUpperBoundedInfinity = false,
     ) {
         if ($lower !== null && !$lower instanceof \DateTimeInterface) {
-            throw new \InvalidArgumentException(
-                \sprintf('Lower bound must be DateTimeInterface, %s given', \gettype($lower))
-            );
+            throw InvalidRangeException::forInvalidDateTimeBound($lower);
         }
 
         if ($upper !== null && !$upper instanceof \DateTimeInterface) {
-            throw new \InvalidArgumentException(
-                \sprintf('Upper bound must be DateTimeInterface, %s given', \gettype($upper))
-            );
+            throw InvalidRangeException::forInvalidDateTimeBound($upper);
         }
 
         parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
@@ -57,7 +53,7 @@ final class DateRange extends Range
     protected function formatValue(mixed $value): string
     {
         if (!$value instanceof \DateTimeInterface) {
-            throw new \InvalidArgumentException('Value must be a DateTimeInterface');
+            throw InvalidRangeException::forInvalidDateTimeBound($value);
         }
 
         return $value->format('Y-m-d');
@@ -72,11 +68,7 @@ final class DateRange extends Range
         try {
             return new \DateTimeImmutable($value);
         } catch (\Exception $exception) {
-            throw new \InvalidArgumentException(
-                \sprintf('Invalid date value: %s. Error: %s', $value, $exception->getMessage()),
-                0,
-                $exception
-            );
+            throw InvalidRangeException::forUnparsableBound($value, $exception);
         }
     }
 
