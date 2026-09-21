@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\TimezoneValidationTrait;
-
 /**
  * Implementation of PostgreSQL MAKE_TIMESTAMPTZ().
  *
@@ -19,10 +16,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\TimezoneValidationTra
  *
  * @example Using it in DQL: "SELECT MAKE_TIMESTAMPTZ(2023, 6, 15, 10, 30, 0, 'UTC') FROM Entity e"
  */
-class MakeTimestamptz extends BaseVariadicFunction
+class MakeTimestamptz extends BaseVariadicFunctionWithOptionalTimezoneLastArgument
 {
-    use TimezoneValidationTrait;
-
     protected function getNodeMappingPattern(): array
     {
         return [
@@ -44,14 +39,5 @@ class MakeTimestamptz extends BaseVariadicFunction
     protected function getMaxArgumentCount(): int
     {
         return 7;
-    }
-
-    protected function validateArguments(Node ...$arguments): void
-    {
-        parent::validateArguments(...$arguments);
-
-        if (\count($arguments) === 7) {
-            $this->validateTimezone($arguments[6], $this->getFunctionName());
-        }
     }
 }
