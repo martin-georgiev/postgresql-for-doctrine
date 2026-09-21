@@ -28,10 +28,7 @@ class BooleanArray extends BaseArray
             $phpArray = $platform->convertBooleansToDatabaseValue($phpArray);
         }
 
-        /*
-         * $phpArray type will be checked by parent class
-         * @phpstan-ignore-next-line
-         */
+        // @phpstan-ignore argument.type ($phpArray type will be checked by parent class)
         return parent::convertToDatabaseValue($phpArray, $platform);
     }
 

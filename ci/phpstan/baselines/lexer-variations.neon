@@ -1,21 +1,62 @@
+# ORM 2.x carries the deprecated Doctrine\ORM\Query\Lexer::T_* constants; ORM 3.x dropped them for the TokenType enum.
+# Every entry below matches one side of that split and not the other, so each is exempted rather than deleted.
 parameters:
     ignoreErrors:
-        - '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
-        - '#Access to constant [A-Z_]+ on an unknown class Doctrine\\ORM\\Query\\TokenType#'
-        - '#Fetching deprecated class constant T_IDENTIFIER of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_OPEN_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_CLOSE_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_COMMA of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_ORDER of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_INTEGER of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_FLOAT of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_AS of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_NONE of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_DISTINCT of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Fetching deprecated class constant T_STRING of class Doctrine\\ORM\\Query\\Lexer#'
-        - '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
-        - '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<Doctrine\\ORM\\Query\\TokenType,string>::isNextToken\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
-        - '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects int\|string, mixed given.#'
-        - '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<int\|string,string>::isNextToken\(\) expects int\|string, mixed given.#'
-        - '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects 1\|2\|3\|4\|5\|6\|7\|8\|9\|10\|11\|12\|13\|14\|15\|16\|17\|18\|19\|100\|101\|102\|200\|201\|202\|203\|204\|205\|206\|207\|208\|209\|210\|211\|212\|213\|214\|215\|216\|217\|218\|219\|220\|221\|222\|223\|224\|225\|226\|227\|228\|229\|230\|231\|232\|233\|234\|235\|236\|237\|238\|239\|240\|241\|242\|243\|244\|245\|246\|247\|248\|249\|250\|251\|252\|253\|254\|255\|256, mixed given.#'
-        - '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer::isNextToken\(\) expects int\|string, mixed given.#'
+        # The lookahead array access is lexer 1.x only, and the two majors report it under different identifiers
+        # - notFound on 2.x, nonOffsetAccessible on 3.x - so no single in-code ignore holds on every cell.
+        -
+            message: "#Offset 'type' might not exist on Doctrine\\\\Common\\\\Lexer\\\\Token#"
+            path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
+            reportUnmatched: false
+        -
+            message: '#Cannot access offset .type. on Doctrine\\Common\\Lexer\\Token#'
+            path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
+            reportUnmatched: false
+
+        # Matched with ORM 3.x only (the Lexer class survives, its T_* constants do not).
+        -
+            message: '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
+            reportUnmatched: false
+
+        # Matched with ORM 2.x only (constants still present, but deprecated).
+        -
+            message: '#Fetching deprecated class constant T_IDENTIFIER of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_OPEN_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_CLOSE_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_COMMA of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_ORDER of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_INTEGER of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_FLOAT of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_AS of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_NONE of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_DISTINCT of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_STRING of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+
+        # Matched with ORM 3.x only (TokenType enum replaced the int|string token).
+        -
+            message: '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<Doctrine\\ORM\\Query\\TokenType,string>::isNextToken\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
+            reportUnmatched: false

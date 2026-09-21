@@ -45,7 +45,7 @@ class JsonGetField extends BaseFunction
             $nodeForJsonIndexOrPropertyName = $parser->StringPrimary();
         }
 
-        /* @phpstan-ignore-next-line assign.propertyType */
+        // @phpstan-ignore assign.propertyType
         $this->nodes = [$nodeForJsonDocumentName, $nodeForJsonIndexOrPropertyName];
     }
 }

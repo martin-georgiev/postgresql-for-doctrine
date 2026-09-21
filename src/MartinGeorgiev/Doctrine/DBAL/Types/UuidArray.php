@@ -34,7 +34,7 @@ class UuidArray extends BaseArray
             return 'NULL';
         }
 
-        return '"'.$item.'"'; // @phpstan-ignore-line $item validated by isValidArrayItemForDatabase
+        return '"'.$item.'"'; // @phpstan-ignore binaryOp.invalid ($item validated by isValidArrayItemForDatabase)
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool

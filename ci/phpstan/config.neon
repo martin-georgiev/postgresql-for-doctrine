@@ -4,6 +4,7 @@ includes:
     - ../../vendor/phpstan/phpstan-doctrine/extension.neon
     - ../../vendor/phpstan/phpstan-phpunit/extension.neon
     - ./baselines/deprecated-methods.neon
+    - ./baselines/doctrine-version-variations.neon
     - ./baselines/lexer-variations.neon
     - ./baselines/phpstan-identifiers.neon
     - ./baselines/range-baseline.neon
@@ -59,5 +60,5 @@ parameters:
         maximumNumberOfProcesses: 4
 
     errorFormat: table
-    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: true
     treatPhpDocTypesAsCertain: false
