@@ -1,0 +1,92 @@
+<?php
+
+declare(strict_types=1);
+
+namespace MartinGeorgiev\Doctrine\DBAL\Types;
+
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
+
+/**
+ * Base class of PostgreSQL range array data types.
+ *
+ * @template R of Range
+ *
+ * @see https://www.postgresql.org/docs/18/rangetypes.html
+ * @since 4.8.1
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ */
+abstract class BaseRangeArray extends BaseArray
+{
+    /**
+     * @return class-string<R>
+     */
+    abstract protected function getValueObjectClass(): string;
+
+    /**
+     * @return R
+     */
+    abstract protected function createValueObjectFromString(string $value): Range;
+
+    abstract protected function throwTypedInvalidTypeExceptionForPHP(mixed $item): never;
+
+    abstract protected function throwTypedInvalidArrayTypeException(mixed $value): never;
+
+    abstract protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never;
+
+    abstract protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never;
+
+    protected function transformArrayItemForPostgres(mixed $item): string
+    {
+        if ($item === null) {
+            return 'NULL';
+        }
+
+        $class = $this->getValueObjectClass();
+        if (!$item instanceof $class) {
+            $this->throwTypedInvalidItemExceptionForDatabase($item);
+        }
+
+        return $this->quoteAndEscapeArrayItem((string) $item);
+    }
+
+    public function isValidArrayItemForDatabase(mixed $item): bool
+    {
+        return $item === null || $item instanceof ($this->getValueObjectClass());
+    }
+
+    /**
+     * @return R|null
+     */
+    public function transformArrayItemForPHP(mixed $item): ?Range
+    {
+        if ($item === null) {
+            return null;
+        }
+
+        if (!\is_string($item)) {
+            $this->throwTypedInvalidTypeExceptionForPHP($item);
+        }
+
+        try {
+            return $this->createValueObjectFromString($item);
+        } catch (\InvalidArgumentException) {
+            $this->throwTypedInvalidFormatExceptionForPHP($item);
+        }
+    }
+
+    protected function throwInvalidArrayFormatException(string $postgresArray): never
+    {
+        $this->throwTypedInvalidFormatExceptionForPHP($postgresArray);
+    }
+
+    protected function throwInvalidTypeException(mixed $value): never
+    {
+        $this->throwTypedInvalidArrayTypeException($value);
+    }
+
+    protected function throwInvalidItemException(mixed $item): never
+    {
+        $this->throwTypedInvalidItemExceptionForDatabase($item);
+    }
+}

@@ -12,64 +12,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range as Int8RangeValueOb
 /**
  * Implementation of PostgreSQL INT8RANGE[] data type.
  *
+ * @extends BaseRangeArray<Int8RangeValueObject>
+ *
  * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class Int8RangeArray extends BaseArray
+class Int8RangeArray extends BaseRangeArray
 {
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::INT8RANGE_ARRAY;
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function getValueObjectClass(): string
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        if (!$item instanceof Int8RangeValueObject) {
-            throw InvalidInt8RangeArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        return $this->quoteAndEscapeArrayItem((string) $item);
+        return Int8RangeValueObject::class;
     }
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function createValueObjectFromString(string $value): Int8RangeValueObject
     {
-        return $item === null || $item instanceof Int8RangeValueObject;
+        return Int8RangeValueObject::fromString($value);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?Int8RangeValueObject
+    protected function throwTypedInvalidTypeExceptionForPHP(mixed $item): never
     {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidInt8RangeArrayItemForPHPException::forInvalidType($item);
-        }
-
-        try {
-            return Int8RangeValueObject::fromString($item);
-        } catch (\InvalidArgumentException) {
-            throw InvalidInt8RangeArrayItemForPHPException::forInvalidFormat($item);
-        }
+        throw InvalidInt8RangeArrayItemForPHPException::forInvalidType($item);
     }
 
-    protected function throwInvalidArrayFormatException(string $postgresArray): never
-    {
-        throw InvalidInt8RangeArrayItemForPHPException::forInvalidFormat($postgresArray);
-    }
-
-    protected function throwInvalidTypeException(mixed $value): never
+    protected function throwTypedInvalidArrayTypeException(mixed $value): never
     {
         throw InvalidInt8RangeArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidItemException(mixed $item): never
+    protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never
+    {
+        throw InvalidInt8RangeArrayItemForPHPException::forInvalidFormat($value);
+    }
+
+    protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never
     {
         throw InvalidInt8RangeArrayItemForDatabaseException::forInvalidType($item);
     }

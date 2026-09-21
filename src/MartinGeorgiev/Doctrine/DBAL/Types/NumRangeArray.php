@@ -12,64 +12,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange as NumericRangeV
 /**
  * Implementation of PostgreSQL NUMRANGE[] data type.
  *
+ * @extends BaseRangeArray<NumericRangeValueObject>
+ *
  * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class NumRangeArray extends BaseArray
+class NumRangeArray extends BaseRangeArray
 {
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::NUMRANGE_ARRAY;
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function getValueObjectClass(): string
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        if (!$item instanceof NumericRangeValueObject) {
-            throw InvalidNumRangeArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        return $this->quoteAndEscapeArrayItem((string) $item);
+        return NumericRangeValueObject::class;
     }
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function createValueObjectFromString(string $value): NumericRangeValueObject
     {
-        return $item === null || $item instanceof NumericRangeValueObject;
+        return NumericRangeValueObject::fromString($value);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?NumericRangeValueObject
+    protected function throwTypedInvalidTypeExceptionForPHP(mixed $item): never
     {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidNumRangeArrayItemForPHPException::forInvalidType($item);
-        }
-
-        try {
-            return NumericRangeValueObject::fromString($item);
-        } catch (\InvalidArgumentException) {
-            throw InvalidNumRangeArrayItemForPHPException::forInvalidFormat($item);
-        }
+        throw InvalidNumRangeArrayItemForPHPException::forInvalidType($item);
     }
 
-    protected function throwInvalidArrayFormatException(string $postgresArray): never
-    {
-        throw InvalidNumRangeArrayItemForPHPException::forInvalidFormat($postgresArray);
-    }
-
-    protected function throwInvalidTypeException(mixed $value): never
+    protected function throwTypedInvalidArrayTypeException(mixed $value): never
     {
         throw InvalidNumRangeArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidItemException(mixed $item): never
+    protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never
+    {
+        throw InvalidNumRangeArrayItemForPHPException::forInvalidFormat($value);
+    }
+
+    protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never
     {
         throw InvalidNumRangeArrayItemForDatabaseException::forInvalidType($item);
     }

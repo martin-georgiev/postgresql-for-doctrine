@@ -12,64 +12,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericMultirange as NumericM
 /**
  * Implementation of PostgreSQL NUMMULTIRANGE[] data type.
  *
+ * @extends BaseMultirangeArray<NumericMultirangeValueObject>
+ *
  * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class NumMultirangeArray extends BaseArray
+class NumMultirangeArray extends BaseMultirangeArray
 {
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::NUMMULTIRANGE_ARRAY;
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function getValueObjectClass(): string
     {
-        return $item === null || $item instanceof NumericMultirangeValueObject;
+        return NumericMultirangeValueObject::class;
     }
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function createValueObjectFromString(string $value): NumericMultirangeValueObject
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        if (!$item instanceof NumericMultirangeValueObject) {
-            throw InvalidNumMultirangeArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        return $this->quoteAndEscapeArrayItem((string) $item);
+        return NumericMultirangeValueObject::fromString($value);
     }
 
-    protected function throwInvalidArrayFormatException(string $postgresArray): never
+    protected function throwTypedInvalidTypeExceptionForPHP(mixed $item): never
     {
-        throw InvalidNumMultirangeArrayItemForPHPException::forInvalidFormat($postgresArray);
+        throw InvalidNumMultirangeArrayItemForPHPException::forInvalidType($item);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?NumericMultirangeValueObject
-    {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidNumMultirangeArrayItemForPHPException::forInvalidType($item);
-        }
-
-        try {
-            return NumericMultirangeValueObject::fromString($item);
-        } catch (\InvalidArgumentException) {
-            throw InvalidNumMultirangeArrayItemForPHPException::forInvalidFormat($item);
-        }
-    }
-
-    protected function throwInvalidTypeException(mixed $value): never
+    protected function throwTypedInvalidArrayTypeException(mixed $value): never
     {
         throw InvalidNumMultirangeArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidItemException(mixed $item): never
+    protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never
+    {
+        throw InvalidNumMultirangeArrayItemForPHPException::forInvalidFormat($value);
+    }
+
+    protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never
     {
         throw InvalidNumMultirangeArrayItemForDatabaseException::forInvalidType($item);
     }

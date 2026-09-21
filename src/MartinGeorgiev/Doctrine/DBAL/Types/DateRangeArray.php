@@ -12,64 +12,46 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateRange as DateRangeValueOb
 /**
  * Implementation of PostgreSQL DATERANGE[] data type.
  *
+ * @extends BaseRangeArray<DateRangeValueObject>
+ *
  * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.6
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-class DateRangeArray extends BaseArray
+class DateRangeArray extends BaseRangeArray
 {
     /**
      * @var string
      */
     protected const TYPE_NAME = Type::DATERANGE_ARRAY;
 
-    protected function transformArrayItemForPostgres(mixed $item): string
+    protected function getValueObjectClass(): string
     {
-        if ($item === null) {
-            return 'NULL';
-        }
-
-        if (!$item instanceof DateRangeValueObject) {
-            throw InvalidDateRangeArrayItemForDatabaseException::forInvalidType($item);
-        }
-
-        return $this->quoteAndEscapeArrayItem((string) $item);
+        return DateRangeValueObject::class;
     }
 
-    public function isValidArrayItemForDatabase(mixed $item): bool
+    protected function createValueObjectFromString(string $value): DateRangeValueObject
     {
-        return $item === null || $item instanceof DateRangeValueObject;
+        return DateRangeValueObject::fromString($value);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?DateRangeValueObject
+    protected function throwTypedInvalidTypeExceptionForPHP(mixed $item): never
     {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            throw InvalidDateRangeArrayItemForPHPException::forInvalidType($item);
-        }
-
-        try {
-            return DateRangeValueObject::fromString($item);
-        } catch (\InvalidArgumentException) {
-            throw InvalidDateRangeArrayItemForPHPException::forInvalidFormat($item);
-        }
+        throw InvalidDateRangeArrayItemForPHPException::forInvalidType($item);
     }
 
-    protected function throwInvalidArrayFormatException(string $postgresArray): never
-    {
-        throw InvalidDateRangeArrayItemForPHPException::forInvalidFormat($postgresArray);
-    }
-
-    protected function throwInvalidTypeException(mixed $value): never
+    protected function throwTypedInvalidArrayTypeException(mixed $value): never
     {
         throw InvalidDateRangeArrayItemForPHPException::forInvalidArrayType($value);
     }
 
-    protected function throwInvalidItemException(mixed $item): never
+    protected function throwTypedInvalidFormatExceptionForPHP(mixed $value): never
+    {
+        throw InvalidDateRangeArrayItemForPHPException::forInvalidFormat($value);
+    }
+
+    protected function throwTypedInvalidItemExceptionForDatabase(mixed $item): never
     {
         throw InvalidDateRangeArrayItemForDatabaseException::forInvalidType($item);
     }
