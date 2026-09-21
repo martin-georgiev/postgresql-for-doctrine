@@ -36,9 +36,9 @@ class TsvectorArray extends BaseStringArray
         return $item !== '';
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidTsvectorArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidTsvectorArrayItemForPHPException::forInvalidType($item);
+        throw InvalidTsvectorArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

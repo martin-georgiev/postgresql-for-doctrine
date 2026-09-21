@@ -36,9 +36,9 @@ class TimetzArray extends BaseStringArray
         return $item !== '';
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidTimetzArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidTimetzArrayItemForPHPException::forInvalidType($item);
+        throw InvalidTimetzArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

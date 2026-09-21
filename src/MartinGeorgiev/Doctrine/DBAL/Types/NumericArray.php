@@ -51,9 +51,9 @@ class NumericArray extends BaseStringArray
         return \preg_match(self::NUMERIC_REGEX, $item) === 1;
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidNumericArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidNumericArrayItemForPHPException::forInvalidType($item);
+        throw InvalidNumericArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

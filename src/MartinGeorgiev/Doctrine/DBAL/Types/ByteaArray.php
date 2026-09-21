@@ -60,9 +60,9 @@ class ByteaArray extends BaseStringArray
         return $decoded;
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidBytesArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidBytesArrayItemForPHPException::forInvalidType($item);
+        throw InvalidBytesArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

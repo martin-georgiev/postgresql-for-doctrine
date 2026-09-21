@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
-
 /**
  * Base class for PostgreSQL array types that store string values.
  *
@@ -33,11 +31,11 @@ abstract class BaseStringArray extends BaseArray
         }
 
         if (!\is_string($item)) {
-            throw $this->createInvalidTypeExceptionForPHP($item);
+            $this->throwInvalidTypeExceptionForPHP($item);
         }
 
         return $item;
     }
 
-    abstract protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException;
+    abstract protected function throwInvalidTypeExceptionForPHP(mixed $item): never;
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Utils\PostgresBackslashEscaper;
 
 /**
@@ -26,9 +25,9 @@ trait HstoreParserTrait
      */
     private const HSTORE_WHITESPACE = " \t\n\r\f\v";
 
-    abstract protected function createInvalidHstoreValueTypeException(mixed $value): ConversionException;
+    abstract protected function throwInvalidHstoreValueTypeException(mixed $value): never;
 
-    abstract protected function createInvalidHstoreFormatException(string $value): ConversionException;
+    abstract protected function throwInvalidHstoreFormatException(string $value): never;
 
     /**
      * @return array<string, string|null>
@@ -57,7 +56,7 @@ trait HstoreParserTrait
     {
         $expected = $followsAPair ? ',' : '';
         if (\trim($skipped, self::HSTORE_WHITESPACE) !== $expected) {
-            throw $this->createInvalidHstoreFormatException($value);
+            $this->throwInvalidHstoreFormatException($value);
         }
     }
 
@@ -68,7 +67,7 @@ trait HstoreParserTrait
     {
         $accepted = $followsAPair ? ['', ','] : [''];
         if (!\in_array(\trim($tail, self::HSTORE_WHITESPACE), $accepted, true)) {
-            throw $this->createInvalidHstoreFormatException($value);
+            $this->throwInvalidHstoreFormatException($value);
         }
     }
 
@@ -86,7 +85,7 @@ trait HstoreParserTrait
                 $escapedValue = PostgresBackslashEscaper::escape($value);
                 $result[] = \sprintf('"%s"=>"%s"', $escapedKey, $escapedValue);
             } else {
-                throw $this->createInvalidHstoreValueTypeException($value);
+                $this->throwInvalidHstoreValueTypeException($value);
             }
         }
 

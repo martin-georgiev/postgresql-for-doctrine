@@ -39,9 +39,9 @@ final class LqueryArray extends BaseStringArray
         return $this->isValidLquery($item);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidLqueryArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidLqueryArrayItemForPHPException::forInvalidType($item);
+        throw InvalidLqueryArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

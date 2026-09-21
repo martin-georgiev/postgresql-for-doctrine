@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
@@ -129,7 +128,7 @@ abstract class SpatialDataArray extends BaseArray
                     delimiter: $delimiter
                 );
             } catch (InvalidArrayFormatException) {
-                throw $this->createInvalidFormatExceptionForPHP($postgresArray);
+                $this->throwInvalidFormatExceptionForPHP($postgresArray);
             }
         }
 
@@ -183,7 +182,7 @@ abstract class SpatialDataArray extends BaseArray
         if ($currentWktItem !== '') {
             $wktItems[] = $currentWktItem;
         } elseif ($wktItems !== []) {
-            throw $this->createInvalidFormatExceptionForPHP($content);
+            $this->throwInvalidFormatExceptionForPHP($content);
         }
 
         return \array_map(
@@ -204,7 +203,7 @@ abstract class SpatialDataArray extends BaseArray
         }
 
         if (!\is_string($item)) {
-            throw $this->createInvalidTypeExceptionForPHP($item);
+            $this->throwInvalidTypeExceptionForPHP($item);
         }
 
         try {
@@ -212,7 +211,7 @@ abstract class SpatialDataArray extends BaseArray
 
             return WktSpatialData::fromWkt($normalizedWkt);
         } catch (InvalidWktSpatialDataException) {
-            throw $this->createInvalidFormatExceptionForPHP($item);
+            $this->throwInvalidFormatExceptionForPHP($item);
         }
     }
 
@@ -251,11 +250,11 @@ abstract class SpatialDataArray extends BaseArray
      * Creates an exception for invalid type during PHP conversion.
      * Subclasses should override this to provide specific exception types.
      */
-    abstract protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException;
+    abstract protected function throwInvalidTypeExceptionForPHP(mixed $item): never;
 
     /**
      * Creates an exception for invalid format during PHP conversion.
      * Subclasses should override this to provide specific exception types.
      */
-    abstract protected function createInvalidFormatExceptionForPHP(mixed $item): ConversionException;
+    abstract protected function throwInvalidFormatExceptionForPHP(mixed $item): never;
 }

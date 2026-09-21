@@ -28,9 +28,9 @@ final class CitextArray extends BaseStringArray
         return $item === null || \is_string($item);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidCitextArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidCitextArrayItemForPHPException::forInvalidType($item);
+        throw InvalidCitextArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

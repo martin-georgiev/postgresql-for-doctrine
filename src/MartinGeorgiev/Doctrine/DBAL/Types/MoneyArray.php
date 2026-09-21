@@ -42,9 +42,9 @@ class MoneyArray extends BaseStringArray
         return $this->isValidMoneyValue($item);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidMoneyArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidMoneyArrayItemForPHPException::forInvalidType($item);
+        throw InvalidMoneyArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
