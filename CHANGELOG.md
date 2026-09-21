@@ -1,5 +1,27 @@
 # Changelog
 
+## [4.8.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.8.0...v4.8.1) (2026-09-21)
+
+
+### Bug Fixes
+
+* Keep the NULL elements PostgreSQL puts in an integer or float array ([#735](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/735)) ([4e5a3ea](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4e5a3ead8630eb512052611a3bcbbbfb6fe846d9))
+* Read a backslash arriving from PHP the way PostgreSQL's array parser reads it ([#740](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/740)) ([5dfce58](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5dfce580df0b173fa1251719a1a1c6a01c267f54))
+* Reject an hstore literal that is not pairs ([#739](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/739)) ([9d51b92](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9d51b923cc603ffcf2e6d3b01ef9e9e8fb194548))
+* Stop a Utils exception escaping from an array type conversion ([#738](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/738)) ([065071c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/065071caf442924fec8bf44754905a3c5480a768))
+
+
+### Code Refactoring
+
+* Consolidate the ULID validation grammar ([#749](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/749)) ([9084447](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/90844472baab6dd9f82c0501150f8f07cf021dac))
+* Consolidate the validation of the optional-last-argument variadic functions ([#748](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/748)) ([f09255f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/f09255f3849f8e7a5f5474da95b830f703eb6897))
+* Keep the backslash escaping rule for array items in one place ([#743](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/743)) ([da1a946](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/da1a946cd84d16d6d25f4688b12ddb3c26839ea3))
+* Keep the range and multirange array conversion rules in one base per family ([#747](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/747)) ([9a6a4c7](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9a6a4c7da3befafd5974d41174906c00f4f04994))
+* Let every exception hook throw ([#751](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/751)) ([597f39f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/597f39fe7ea3642263f7d5ca2ce325ebe2e7fc22))
+* Read composite and cube arrays with the shared parser ([#742](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/742)) ([0806d08](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0806d08079f4216b25e86d1a626a9f244597702d))
+* Retire the array parsers that duplicate the shared one ([#737](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/737)) ([4175c2c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4175c2cb36c68ab91f2157bc3489f3d0dd315b14))
+* Write hstore tokens through the escaper ([#746](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/746)) ([692e003](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/692e0030e638a35fcc0b518042e584e5f9841fb6))
+
 ## [4.8.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.7.0...v4.8.0) (2026-09-15)
 
 
