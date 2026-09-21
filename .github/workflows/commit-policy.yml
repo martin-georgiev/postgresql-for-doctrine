@@ -13,7 +13,7 @@ permissions:
   pull-requests: read
 
 env:
-  AI_TRAILER_PATTERN: 'co-authored-by:.*(claude|copilot|cursor|anthropic|openai|gpt|noreply@anthropic\.com)'
+  AI_TRAILER_PATTERN: '^[[:space:]]*co-authored-by:.*(claude|copilot|cursor|anthropic|openai|gpt|noreply@anthropic\.com)'
   CONVENTIONAL_TITLE_PATTERN: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([^)]+\))?!?: .+'
 
 jobs:
