@@ -124,8 +124,8 @@ final class Int4RangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_for_non_integer_bound_from_string(string $input): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('is not a valid integer');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Range bound must be an integer');
 
         Int4Range::fromString($input);
     }
@@ -144,8 +144,8 @@ final class Int4RangeTest extends BaseRangeTestCase
     #[Test]
     public function validates_int4_bounds_for_lower(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Lower bound -2147483649 is outside INT4 range');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Lower bound must be within [-2147483648, 2147483647], -2147483649 given');
 
         new Int4Range(-2147483649, 100);
     }
@@ -153,8 +153,8 @@ final class Int4RangeTest extends BaseRangeTestCase
     #[Test]
     public function validates_int4_bounds_for_upper(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Upper bound 2147483648 is outside INT4 range');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Upper bound must be within [-2147483648, 2147483647], 2147483648 given');
 
         new Int4Range(100, 2147483648);
     }
@@ -216,8 +216,8 @@ final class Int4RangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_for_numeric_infinity_abbreviation_from_string(string $input): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('is not a valid integer');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Range bound must be an integer');
 
         Int4Range::fromString($input);
     }

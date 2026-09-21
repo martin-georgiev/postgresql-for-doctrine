@@ -127,7 +127,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_lower_bound(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Lower bound must be numeric');
 
         /* @phpstan-ignore-next-line Intentionally testing invalid input */
@@ -137,7 +137,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_upper_bound(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Upper bound must be numeric');
 
         /* @phpstan-ignore-next-line Intentionally testing invalid input */
@@ -159,7 +159,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_from_string_input(string $input, string $expectedMessage): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage($expectedMessage);
 
         NumericRange::fromString($input);
@@ -167,7 +167,7 @@ final class NumericRangeTest extends BaseRangeTestCase
 
     public static function provideInvalidFromStringInputs(): \Generator
     {
-        yield 'non-numeric value' => ['[not_numeric,10)', 'Invalid numeric value'];
+        yield 'non-numeric value' => ['[not_numeric,10)', 'Range bound must be numeric'];
         yield 'invalid format' => ['invalid_format', 'Invalid range format'];
         yield 'missing brackets' => ['1,10', 'Invalid range format'];
     }
@@ -331,8 +331,8 @@ final class NumericRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_a_signed_not_a_number_bound(string $bound): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid numeric value');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Range bound must be numeric');
 
         NumericRange::fromString(\sprintf('[1,%s)', $bound));
     }
@@ -414,7 +414,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_an_overflowing_literal_bound(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Upper bound must be a number a PHP float can hold');
 
         /* @phpstan-ignore-next-line Intentionally testing a literal PostgreSQL stores but PHP cannot hold */
@@ -424,7 +424,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_an_overflowing_literal_when_parsing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidRangeException::class);
 
         NumericRange::fromString('[1,1e999)');
     }

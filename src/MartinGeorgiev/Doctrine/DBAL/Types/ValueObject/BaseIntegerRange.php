@@ -39,7 +39,7 @@ abstract class BaseIntegerRange extends Range
     protected function formatValue(mixed $value): string
     {
         if (!\is_int($value)) {
-            throw InvalidRangeException::forInvalidIntegerBound($value);
+            throw InvalidRangeException::forInvalidBoundType('an integer', $value);
         }
 
         return (string) $value;
@@ -53,9 +53,7 @@ abstract class BaseIntegerRange extends Range
 
         $intValue = (int) $value;
         if ((string) $intValue !== $value) {
-            throw new \InvalidArgumentException(
-                \sprintf('Value %s is not a valid integer', $value)
-            );
+            throw InvalidRangeException::forInvalidBoundType('an integer', $value);
         }
 
         return $intValue;

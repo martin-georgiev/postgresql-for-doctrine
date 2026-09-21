@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\LengthAwareSQLDeclarationTrait;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidSparsevecException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec as SparsevecValueObject;
 
 /**
@@ -55,6 +56,10 @@ class Sparsevec extends BaseType
             throw InvalidSparsevecForPHPException::forInvalidType($value);
         }
 
-        return SparsevecValueObject::fromString($value);
+        try {
+            return SparsevecValueObject::fromString($value);
+        } catch (InvalidSparsevecException) {
+            throw InvalidSparsevecForPHPException::forInvalidFormat($value);
+        }
     }
 }

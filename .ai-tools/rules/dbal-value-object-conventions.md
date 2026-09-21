@@ -135,7 +135,7 @@ final class InvalidBoxException extends ConversionException
 
 Message building follows `exceptions.md` § Message Formatting.
 
-Class PHPDoc: one-line description, `@since`, `@author`. Do not explain that these are not DBAL conversion exceptions — the namespace says it.
+Class PHPDoc: one-line description, `@since`, `@author`. Do not explain the parent or that these are not DBAL conversion exceptions — the namespace says it, and `exceptions.md` exempts this family from the parent-deviation PHPDoc requirement.
 
 ```php
 // ✓ Correct — throw VO-specific exception with for*-named factory

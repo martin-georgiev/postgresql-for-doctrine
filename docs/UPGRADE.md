@@ -6,11 +6,14 @@ Value object exceptions moved into their own family and share one parent. Releas
 
 | Was | Now |
 |---|---|
-| range value objects threw `Types\Exceptions\InvalidRangeForPHPException` | `Types\ValueObject\Exceptions\InvalidRangeException` |
+| range value objects threw `Types\Exceptions\InvalidRangeForPHPException`, a `ConversionException` | `Types\ValueObject\Exceptions\InvalidRangeException`, an `\InvalidArgumentException` — catch either |
 | `InvalidCubeException extends ConversionException` | `extends \InvalidArgumentException` |
 | `InvalidPointException::forInvalidPointFormat()` | `::forInvalidFormat()` |
 | `InvalidWktSpatialDataException::forInvalidWktFormat()` | `::forInvalidFormat()` |
-| `InvalidRangeForPHPException::forInvalidNumericBound()`, `::forInvalidIntegerBound()`, `::forInvalidDateTimeBound()`, `::forUnsupportedBoundedInfinity()` | removed, left without callers |
+| `InvalidRangeForPHPException::forInvalidNumericBound()`, `::forInvalidIntegerBound()`, `::forInvalidDateTimeBound()`, `::forUnsupportedBoundedInfinity()` | removed there, same names on `InvalidRangeException` |
+| range and multirange value objects threw a bare `\InvalidArgumentException` | `InvalidRangeException`, `InvalidMultirangeException` |
+| their messages named the bound (`Lower bound must be ...`) and typed it with `gettype()` | one wording per reason, offending value shown verbatim |
+| `Sparsevec::fromString()` threw `Types\Exceptions\InvalidSparsevecForPHPException` | `InvalidSparsevecException`; the `sparsevec` type still surfaces the former |
 
 Catching through the DBAL types is unaffected — those translate value object failures as before.
 

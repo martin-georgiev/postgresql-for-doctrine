@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidMultirangeException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Multirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int4Range;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -71,7 +72,7 @@ final class Int4MultirangeTest extends TestCase
     #[Test]
     public function throws_on_invalid_format(string $input): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidMultirangeException::class);
 
         Int4Multirange::fromString($input);
     }

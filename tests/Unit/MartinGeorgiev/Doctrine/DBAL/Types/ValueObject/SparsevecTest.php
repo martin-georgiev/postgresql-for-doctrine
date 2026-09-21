@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidSparsevecException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -99,7 +98,7 @@ final class SparsevecTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_format(string $input): void
     {
-        $this->expectException(InvalidSparsevecForPHPException::class);
+        $this->expectException(InvalidSparsevecException::class);
         Sparsevec::fromString($input);
     }
 

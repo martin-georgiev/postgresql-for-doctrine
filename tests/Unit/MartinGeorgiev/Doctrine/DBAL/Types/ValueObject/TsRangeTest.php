@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TsRange;
 use PHPUnit\Framework\Attributes\Test;
@@ -316,8 +317,8 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_timestamp_string_via_from_string(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid timestamp value');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Cannot parse range bound');
 
         TsRange::fromString('[invalid_timestamp,2023-01-01 18:00:00)');
     }

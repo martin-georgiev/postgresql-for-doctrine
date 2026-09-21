@@ -86,8 +86,8 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_invalid_parse_input(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid timestamp value');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Cannot parse range bound');
 
         $this->parseFromString('[invalid_timestamp,2023-01-01 18:00:00)');
     }
@@ -96,8 +96,8 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
     #[Test]
     public function throws_exception_for_a_rejected_infinity_abbreviation(string $bound): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid timestamp value');
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Cannot parse range bound');
 
         $this->parseFromString(\sprintf('[%s,2023-01-01 18:00:00)', $bound));
     }
@@ -120,7 +120,7 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
         $range = $this->createBoundaryTestRange();
 
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
+        $this->expectExceptionMessage('Range bound must be DateTimeInterface');
 
         $range->contains('invalid');
     }
