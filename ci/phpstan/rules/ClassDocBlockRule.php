@@ -189,7 +189,7 @@ final readonly class ClassDocBlockRule implements Rule
 
     private function hasTagWithAValue(string $docBlock, string $tag): bool
     {
-        return \preg_match('/^\s*\*\s*@'.\preg_quote($tag, '/').'\s+\S/m', $docBlock) === 1;
+        return \preg_match('/^\h*(?:\/\*\*|\*)\h*@'.\preg_quote($tag, '/').'\h+(?!\*\/)\S/m', $docBlock) === 1;
     }
 
     /**
