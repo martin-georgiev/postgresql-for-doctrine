@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception;
 
+/**
+ * @since 2.10
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ */
 class InvalidArgumentForVariadicFunctionException extends \InvalidArgumentException
 {
     public static function exactCount(string $functionName, int $expected): self

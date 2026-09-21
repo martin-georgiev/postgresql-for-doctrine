@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * DQL wrapper for PostgreSQL ->> operator with BIGINT casting.
+ * Implementation of PostgreSQL ->> operator with BIGINT casting.
  *
  * Extracts a JSON field as text and casts it to BIGINT.
  *

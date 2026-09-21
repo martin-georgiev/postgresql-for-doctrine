@@ -9,6 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeExcept
 /**
  * Represents a PostgreSQL INT4RANGE (32-bit integer range).
  *
+ * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 3.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

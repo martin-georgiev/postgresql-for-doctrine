@@ -16,6 +16,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialD
  * - POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))
  * - POLYGON EMPTY
  *
+ * @see https://postgis.net/docs/using_postgis_dbmanagement.html
  * @since 3.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

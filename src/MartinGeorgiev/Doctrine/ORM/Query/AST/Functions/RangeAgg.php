@@ -12,6 +12,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @see https://www.postgresql.org/docs/18/functions-range.html#RANGE-AGGREGATE-FUNCTIONS
  * @since 4.4
  *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ *
  * @example Using it in DQL: "SELECT RANGE_AGG(e.dateRange) FROM Entity e"
  */
 class RangeAgg extends BaseAggregateFunction

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * Implementation of PostgreSQL's distance operator (using `<@>`).
+ * Implementation of PostgreSQL <@> distance operator.
  *
  * Calculates the distance between two points.
  *
