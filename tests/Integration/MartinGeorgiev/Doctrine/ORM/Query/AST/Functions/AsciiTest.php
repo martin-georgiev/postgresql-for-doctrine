@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ascii;
 use PHPUnit\Framework\Attributes\Test;
 
-class AsciiTest extends TextTestCase
+final class AsciiTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

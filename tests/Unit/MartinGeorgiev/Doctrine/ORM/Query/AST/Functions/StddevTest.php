@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev;
 
-class StddevTest extends TestCase
+final class StddevTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

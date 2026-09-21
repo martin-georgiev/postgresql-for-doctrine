@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop;
 
-class StddevPopTest extends TestCase
+final class StddevPopTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

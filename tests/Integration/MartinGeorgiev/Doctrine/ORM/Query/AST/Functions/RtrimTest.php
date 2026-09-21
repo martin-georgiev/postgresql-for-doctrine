@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rtrim;
 use PHPUnit\Framework\Attributes\Test;
 
-class RtrimTest extends TextTestCase
+final class RtrimTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

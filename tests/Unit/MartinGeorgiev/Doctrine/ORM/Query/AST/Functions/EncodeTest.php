@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Encode;
 
-class EncodeTest extends TestCase
+final class EncodeTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

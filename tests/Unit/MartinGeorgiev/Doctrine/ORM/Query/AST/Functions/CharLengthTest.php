@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CharLength;
 
-class CharLengthTest extends TestCase
+final class CharLengthTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

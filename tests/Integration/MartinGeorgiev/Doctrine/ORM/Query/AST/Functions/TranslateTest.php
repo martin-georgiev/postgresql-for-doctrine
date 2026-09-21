@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate;
 use PHPUnit\Framework\Attributes\Test;
 
-class TranslateTest extends TextTestCase
+final class TranslateTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

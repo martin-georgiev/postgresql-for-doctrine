@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours;
 use PHPUnit\Framework\Attributes\Test;
 
-class JustifyHoursTest extends DateTestCase
+final class JustifyHoursTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

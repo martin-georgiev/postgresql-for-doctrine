@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitXor;
 use PHPUnit\Framework\Attributes\Test;
 
-class BitXorTest extends NumericTestCase
+final class BitXorTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Initcap;
 use PHPUnit\Framework\Attributes\Test;
 
-class InitcapTest extends TextTestCase
+final class InitcapTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

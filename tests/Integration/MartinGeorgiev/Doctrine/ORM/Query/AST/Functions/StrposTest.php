@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos;
 use PHPUnit\Framework\Attributes\Test;
 
-class StrposTest extends TextTestCase
+final class StrposTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

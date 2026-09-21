@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hsto
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Akeys;
 use PHPUnit\Framework\Attributes\Test;
 
-class AkeysTest extends TestCase
+final class AkeysTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

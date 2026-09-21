@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolOr;
 
-class BoolOrTest extends TestCase
+final class BoolOrTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

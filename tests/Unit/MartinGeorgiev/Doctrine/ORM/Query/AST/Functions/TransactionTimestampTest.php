@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
-class TransactionTimestampTest extends TestCase
+final class TransactionTimestampTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

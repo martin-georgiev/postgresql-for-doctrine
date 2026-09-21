@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval;
 
-class JustifyIntervalTest extends TestCase
+final class JustifyIntervalTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

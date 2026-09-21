@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp;
 use PHPUnit\Framework\Attributes\Test;
 
-class CovarSampTest extends NumericTestCase
+final class CovarSampTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

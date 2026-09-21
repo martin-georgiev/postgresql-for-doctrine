@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hsto
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Delete;
 use PHPUnit\Framework\Attributes\Test;
 
-class DeleteTest extends TestCase
+final class DeleteTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

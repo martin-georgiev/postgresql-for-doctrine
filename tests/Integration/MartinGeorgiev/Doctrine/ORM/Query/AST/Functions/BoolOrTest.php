@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolOr;
 use PHPUnit\Framework\Attributes\Test;
 
-class BoolOrTest extends BooleanTestCase
+final class BoolOrTest extends BooleanTestCase
 {
     protected function getStringFunctions(): array
     {

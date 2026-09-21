@@ -10,6 +10,7 @@ use Rector\DeadCode\Rector\ClassMethod\RemoveParentDelegatingConstructorRector;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
+use Rector\Privatization\Rector\Class_\FinalizeTestCaseClassRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -44,6 +45,7 @@ return RectorConfig::configure()
     ])
     ->withRules([
         PreferPHPUnitThisCallRector::class,
+        FinalizeTestCaseClassRector::class,
     ])
     // the DBAL types translate value object failures with catch (\InvalidArgumentException);
     // a member of this namespace that escapes it surfaces from the wrong layer

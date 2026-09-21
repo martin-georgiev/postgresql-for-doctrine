@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite;
 use PHPUnit\Framework\Attributes\Test;
 
-class IsfiniteTest extends DateTestCase
+final class IsfiniteTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {
