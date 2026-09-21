@@ -11,14 +11,9 @@ use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 
 /**
- * What a variadic DQL function class declares about the arguments it accepts.
- *
- * `getNodeMappingPattern()` returns one entry per accepted argument shape, each a comma-separated
- * list of the parser methods that read the arguments in order. Every variadic rule asks a question
- * about that list, so it is read off the class body once here instead of by each rule separately.
- *
- * A class whose methods return anything other than a literal is not described here — the rules skip
- * it rather than guess, since a guess could only ever produce a false positive.
+ * What a variadic DQL function declares about its arguments: `getNodeMappingPattern()` returns one comma-separated
+ * entry per accepted shape. Read off the class body once here rather than by each rule, and skipped when a method
+ * returns anything other than a literal.
  */
 final readonly class VariadicFunctionDeclaration
 {
@@ -51,7 +46,7 @@ final readonly class VariadicFunctionDeclaration
     }
 
     /**
-     * The parser methods a single pattern names, in argument order.
+     * The parser methods a pattern names, in argument order.
      *
      * @return list<string>
      */

@@ -12,17 +12,10 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * Node mapping patterns have to be listed from most arguments to fewest.
- *
- * BaseVariadicFunction::feedParserWithNodes() walks the patterns in order and keeps the first that
- * parses. A shorter pattern placed first still parses a longer argument list — it simply stops early
- * — so every pattern behind it becomes unreachable and its extra arguments are silently dropped.
- *
- * Nothing fails loudly when that happens: the class keeps accepting the query and emits SQL missing
- * the trailing arguments. Only a test that exercises the longer arity would notice.
- *
- * Patterns of equal length are alternatives at the same arity, distinguished by argument type rather
- * than by count, so this rule asks for non-increasing length and not for strictly decreasing length.
+ * Patterns are listed from most arguments to fewest. feedParserWithNodes() keeps the first that parses, and a shorter
+ * pattern placed first still parses a longer list - it stops early - so later patterns become unreachable and their
+ * extra arguments are dropped silently. Equal lengths are alternatives distinguished by type, so this asks for
+ * non-increasing rather than strictly decreasing length.
  *
  * @implements Rule<InClassNode>
  */

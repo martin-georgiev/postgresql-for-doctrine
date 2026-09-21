@@ -12,23 +12,12 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * A function whose arguments all read the same way declares one node mapping pattern, not a list.
+ * Arguments that all read the same way declare one pattern, not a list: a pattern naming a single parser method
+ * already covers every arity, and min/max enforce the count. Spelling the repetition out sends the parser through
+ * resolvePatternByTokenAnalysis(), which cannot pick between patterns indistinguishable by token type.
  *
- * BaseVariadicFunction::feedParserWithNodesForNodeMappingPattern() treats a pattern naming a single
- * parser method as covering every argument, so ['StringPrimary'] already accepts any arity. How many
- * arguments are allowed is the job of getMinArgumentCount() and getMaxArgumentCount(), which the
- * parser enforces separately.
- *
- * Spelling the repetition out instead adds no parsing behaviour and costs some: two or more patterns
- * send the parser through resolvePatternByTokenAnalysis(), which can only ever fail to pick between
- * patterns that are indistinguishable by token type, and every arity then needs its own entry that
- * can fall out of step with the declared minimum and maximum.
- *
- * Multiple patterns are the right shape only when argument positions differ in type.
- *
- * A pattern shorter than getMaxArgumentCount() is not redundant and is left alone: it refuses the
- * arities beyond its own length, which the single-element form would accept, so collapsing it would
- * change what the function parses rather than tidy it.
+ * A pattern shorter than getMaxArgumentCount() is left alone - it refuses arities the single-element form accepts, so
+ * collapsing it would change what the function parses.
  *
  * @implements Rule<InClassNode>
  */
@@ -89,11 +78,7 @@ final class VariadicFunctionHomogeneousNodeMappingRule implements Rule
     }
 
     /**
-     * Whether the single-element form would parse everything the declared patterns already parse.
-     *
-     * One pattern naming a single parser method covers any arity; a longer one covers arities up to
-     * its own length and makes the parser reject the rest. Collapsing is only a tidy-up when some
-     * pattern already reaches the declared maximum.
+     * Whether collapsing preserves behaviour: only when some pattern already reaches the declared maximum.
      *
      * @param list<string> $patterns
      */

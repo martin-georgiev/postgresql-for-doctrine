@@ -12,16 +12,10 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * A boolean argument of a variadic DQL function has to be read by StringPrimary.
+ * A boolean argument has to be read by StringPrimary. DQL has no boolean literal, so callers spell it `'true'`, which
+ * ArithmeticPrimary rejects outright - making the whole overload unreachable.
  *
- * DQL has no boolean literal, so callers spell the value as the string literal 'true' or 'false'.
- * ArithmeticPrimary and SimpleArithmeticExpression reject a string token outright, which makes the
- * whole overload unreachable — the caller gets a parse error for a query the class claims to accept.
- *
- * Extending BaseVariadicFunctionWithOptionalBooleanLastArgument is what marks the last argument as a
- * boolean: that base validates it through BooleanValidationTrait when the caller passes the maximum
- * number of arguments. Nothing else in a function class distinguishes a boolean argument from any
- * other string, so that base is the only signal this rule can read.
+ * Extending BaseVariadicFunctionWithOptionalBooleanLastArgument is the only signal that an argument is boolean.
  *
  * @implements Rule<InClassNode>
  */
