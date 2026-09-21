@@ -13,6 +13,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
  */
 final class InvalidSparsevecException extends \InvalidArgumentException
 {
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return new self(\sprintf('Invalid sparsevec format: %s', \var_export($value, true)));
+    }
+
     public static function forNonPositiveDimensions(int $dimensions): self
     {
         return new self(\sprintf(

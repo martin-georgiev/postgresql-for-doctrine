@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidSparsevecForPHPException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidSparsevecException;
 
 /**
@@ -85,17 +84,17 @@ final readonly class Sparsevec implements \Stringable
     }
 
     /**
-     * @throws InvalidSparsevecForPHPException if the string format is invalid
+     * @throws InvalidSparsevecException if the string format is invalid
      */
     public static function fromString(string $value): static
     {
         if (!\preg_match('/^\{(.*)\}\/(\d+)$/', $value, $matches)) {
-            throw InvalidSparsevecForPHPException::forInvalidFormat($value);
+            throw InvalidSparsevecException::forInvalidFormat($value);
         }
 
         $dimensions = (int) $matches[2];
         if ($dimensions <= 0) {
-            throw InvalidSparsevecForPHPException::forInvalidFormat($value);
+            throw InvalidSparsevecException::forInvalidFormat($value);
         }
 
         $rawElements = $matches[1];
@@ -105,18 +104,18 @@ final readonly class Sparsevec implements \Stringable
             $pairs = \explode(',', $rawElements);
             foreach ($pairs as $pair) {
                 if (!\preg_match('/^(\d+):(.+)$/', $pair, $pairMatches)) {
-                    throw InvalidSparsevecForPHPException::forInvalidFormat($value);
+                    throw InvalidSparsevecException::forInvalidFormat($value);
                 }
 
                 $index = (int) $pairMatches[1];
                 $elementValue = $pairMatches[2];
 
                 if ($index < 1 || $index > $dimensions) {
-                    throw InvalidSparsevecForPHPException::forInvalidFormat($value);
+                    throw InvalidSparsevecException::forInvalidFormat($value);
                 }
 
                 if (!\is_numeric($elementValue)) {
-                    throw InvalidSparsevecForPHPException::forInvalidFormat($value);
+                    throw InvalidSparsevecException::forInvalidFormat($value);
                 }
 
                 $elements[$index] = (float) $elementValue;

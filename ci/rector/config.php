@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use MartinGeorgiev\Rector\ValueObjectExceptionExtendsInvalidArgumentExceptionRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
@@ -12,6 +13,8 @@ use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+
+require_once __DIR__.'/rules/ValueObjectExceptionExtendsInvalidArgumentExceptionRector.php';
 
 $basePath = __DIR__.'/../../';
 
@@ -41,6 +44,7 @@ return RectorConfig::configure()
     ])
     ->withRules([
         PreferPHPUnitThisCallRector::class,
+        ValueObjectExceptionExtendsInvalidArgumentExceptionRector::class,
     ])
     ->withSkip([
         // skip as it breaks support for legacy Lexer discovery on older Doctrine versions
