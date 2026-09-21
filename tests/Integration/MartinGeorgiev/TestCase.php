@@ -130,8 +130,14 @@ abstract class TestCase extends BaseTestCase
      */
     protected const FIXTURES_DIRECTORY = __DIR__.'/../../../../../../fixtures/MartinGeorgiev/Doctrine/Entity';
 
+    /**
+     * @var string
+     */
     protected const FIXTURE_NAMESPACE = 'Fixtures\MartinGeorgiev\Doctrine\Entity';
 
+    /**
+     * @var string
+     */
     protected const DATABASE_SCHEMA = 'test';
 
     protected Configuration $configuration;

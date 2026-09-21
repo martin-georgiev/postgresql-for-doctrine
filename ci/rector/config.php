@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use MartinGeorgiev\Rector\ConstantVarTagRector;
 use MartinGeorgiev\Rector\MethodOrderRector;
 use MartinGeorgiev\Rector\ParentByNamespaceRector;
 use MartinGeorgiev\Rector\TestDoubleIntersectionVarRector;
-use MartinGeorgiev\Rector\VarTagByConstantNameRector;
 use PHPUnit\Framework\MockObject\MockObject;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
@@ -27,7 +27,7 @@ require_once __DIR__.'/rules/ParentByNamespaceRector.php';
 
 require_once __DIR__.'/rules/TestDoubleIntersectionVarRector.php';
 
-require_once __DIR__.'/rules/VarTagByConstantNameRector.php';
+require_once __DIR__.'/rules/ConstantVarTagRector.php';
 
 $basePath = __DIR__.'/../../';
 
@@ -58,6 +58,8 @@ return RectorConfig::configure()
     ->withRules([
         PreferPHPUnitThisCallRector::class,
         FinalizeTestCaseClassRector::class,
+        // 251 of 268 constants already name their type; PHPStan rejects a tag the value contradicts
+        ConstantVarTagRector::class,
     ])
     // the DBAL types translate value object failures with catch (\InvalidArgumentException);
     // a member of this namespace that escapes it surfaces from the wrong layer
@@ -75,10 +77,6 @@ return RectorConfig::configure()
     // a bare MockObject hides what was doubled; the stock rule is bonded to PHPUnit 11 and reverses the order
     ->withConfiguredRule(TestDoubleIntersectionVarRector::class, [
         MockObject::class => ['createMock', 'getMockBuilder'],
-    ])
-    // all TYPE_NAME declarations carry the tag; this keeps future ones from diverging
-    ->withConfiguredRule(VarTagByConstantNameRector::class, [
-        'TYPE_NAME' => 'string',
     ])
     ->withSkip([
         // a bad column option is a mapping mistake, not a per-value conversion failure

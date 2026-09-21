@@ -12,8 +12,14 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class CompositeArrayTypeTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private const ITEM_TYPE_NAME = 'test_inventory_item';
 
+    /**
+     * @var string
+     */
     private const DBAL_TYPE_NAME = self::ITEM_TYPE_NAME.'[]';
 
     protected function setUp(): void
