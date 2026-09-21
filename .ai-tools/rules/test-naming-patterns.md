@@ -318,14 +318,3 @@ Array types carry both. They drive different methods and never merge into each o
 A literal the write side spells differently is a row in the read-only provider — `providePostgresOutputValues` for items, `provideValidPostgresArraysForPHP` for arrays — never a standalone test.
 
 Before naming any provider, grep for the name: the repo already has one for nearly every shape.
-
-## MockObject Declaration
-
-```php
-/**
- * @var AbstractPlatform&MockObject
- */
-private MockObject $platform;
-```
-
-Use the multiline docblock with intersection type `PlatformClass&MockObject`. Most types use `AbstractPlatform`; use a concrete platform (e.g., `PostgreSQLPlatform`) when the DBAL type requires platform-specific SQL.

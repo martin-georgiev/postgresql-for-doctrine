@@ -6,6 +6,8 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use MartinGeorgiev\Rector\MethodOrderRector;
 use MartinGeorgiev\Rector\ParentByNamespaceRector;
+use MartinGeorgiev\Rector\TestDoubleIntersectionVarRector;
+use PHPUnit\Framework\MockObject\MockObject;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
@@ -21,6 +23,8 @@ use Rector\Set\ValueObject\SetList;
 require_once __DIR__.'/rules/MethodOrderRector.php';
 
 require_once __DIR__.'/rules/ParentByNamespaceRector.php';
+
+require_once __DIR__.'/rules/TestDoubleIntersectionVarRector.php';
 
 $basePath = __DIR__.'/../../';
 
@@ -64,6 +68,11 @@ return RectorConfig::configure()
     ->withConfiguredRule(MethodOrderRector::class, [
         'convertToDatabaseValue',
         'convertToPHPValue',
+    ])
+    // a bare MockObject says nothing about what was doubled; the stock rule is version-bonded
+    // to PHPUnit 11 and spells the docblock the other way around
+    ->withConfiguredRule(TestDoubleIntersectionVarRector::class, [
+        MockObject::class => ['createMock', 'getMockBuilder'],
     ])
     ->withSkip([
         // a bad column option is a mapping mistake, not a per-value conversion failure
