@@ -75,31 +75,6 @@ grep "{new-type-name}" src/MartinGeorgiev/Doctrine/DBAL/Type.php tests/Integrati
 
 ## Class Conventions
 
-### Method Order
-
-**Required**: `convertToDatabaseValue` comes **before** `convertToPHPValue`.
-
-```php
-// ✓ Correct order
-final class Citext extends BaseType
-{
-    protected const TYPE_NAME = Type::CITEXT;
-
-    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string { ... }
-
-    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?string { ... }
-}
-
-// ❌ Wrong — convertToPHPValue first
-final class Citext extends BaseType
-{
-    public function convertToPHPValue(...) { ... }
-    public function convertToDatabaseValue(...) { ... }
-}
-```
-
-Reference: `Interval`, `Ltree`, `Money`, `Xml`, `Citext`.
-
 ### Class-Level PHPDoc
 
 **Required**: Every DBAL type class has a class-level docblock with description, `@see` to PostgreSQL docs, `@since`, and `@author`.

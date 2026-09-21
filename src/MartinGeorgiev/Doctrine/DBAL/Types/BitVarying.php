@@ -29,23 +29,6 @@ final class BitVarying extends BaseType
      */
     protected const TYPE_NAME = Type::BIT_VARYING;
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-
-        if (!\is_string($value)) {
-            throw InvalidBitVaryingForPHPException::forInvalidType($value);
-        }
-
-        if (!$this->isValidBitString($value)) {
-            throw InvalidBitVaryingForPHPException::forInvalidFormat($value);
-        }
-
-        return $value;
-    }
-
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -58,6 +41,23 @@ final class BitVarying extends BaseType
 
         if (!$this->isValidBitString($value)) {
             throw InvalidBitVaryingForDatabaseException::forInvalidFormat($value);
+        }
+
+        return $value;
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (!\is_string($value)) {
+            throw InvalidBitVaryingForPHPException::forInvalidType($value);
+        }
+
+        if (!$this->isValidBitString($value)) {
+            throw InvalidBitVaryingForPHPException::forInvalidFormat($value);
         }
 
         return $value;
