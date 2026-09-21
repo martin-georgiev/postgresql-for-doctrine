@@ -46,14 +46,14 @@ final class Hstore extends BaseType
         return $this->buildHstoreString($value);
     }
 
-    protected function createInvalidHstoreFormatException(string $value): InvalidHstoreForPHPException
+    protected function throwInvalidHstoreFormatException(string $value): never
     {
-        return InvalidHstoreForPHPException::forInvalidFormat($value);
+        throw InvalidHstoreForPHPException::forInvalidFormat($value);
     }
 
-    protected function createInvalidHstoreValueTypeException(mixed $value): InvalidHstoreForDatabaseException
+    protected function throwInvalidHstoreValueTypeException(mixed $value): never
     {
-        return InvalidHstoreForDatabaseException::forInvalidType($value);
+        throw InvalidHstoreForDatabaseException::forInvalidType($value);
     }
 
     /**

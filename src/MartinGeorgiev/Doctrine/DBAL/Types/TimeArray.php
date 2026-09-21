@@ -38,9 +38,9 @@ class TimeArray extends BaseStringArray
         return $item !== '';
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidTimeArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidTimeArrayItemForPHPException::forInvalidType($item);
+        throw InvalidTimeArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

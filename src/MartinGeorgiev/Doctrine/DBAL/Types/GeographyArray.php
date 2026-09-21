@@ -25,13 +25,13 @@ final class GeographyArray extends SpatialDataArray
         throw InvalidGeographyForDatabaseException::forInvalidType($item);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeographyForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidGeographyForPHPException::forInvalidType($item);
+        throw InvalidGeographyForPHPException::forInvalidType($item);
     }
 
-    protected function createInvalidFormatExceptionForPHP(mixed $item): InvalidGeographyForPHPException
+    protected function throwInvalidFormatExceptionForPHP(mixed $item): never
     {
-        return InvalidGeographyForPHPException::forInvalidFormat($item);
+        throw InvalidGeographyForPHPException::forInvalidFormat($item);
     }
 }

@@ -39,9 +39,9 @@ final class LtxtqueryArray extends BaseStringArray
         return $this->isValidLtxtquery($item);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidLtxtqueryArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidLtxtqueryArrayItemForPHPException::forInvalidType($item);
+        throw InvalidLtxtqueryArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

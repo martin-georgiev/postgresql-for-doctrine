@@ -25,13 +25,13 @@ final class GeometryArray extends SpatialDataArray
         throw InvalidGeometryForDatabaseException::forInvalidType($item);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidGeometryForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidGeometryForPHPException::forInvalidType($item);
+        throw InvalidGeometryForPHPException::forInvalidType($item);
     }
 
-    protected function createInvalidFormatExceptionForPHP(mixed $item): InvalidGeometryForPHPException
+    protected function throwInvalidFormatExceptionForPHP(mixed $item): never
     {
-        return InvalidGeometryForPHPException::forInvalidFormat($item);
+        throw InvalidGeometryForPHPException::forInvalidFormat($item);
     }
 }

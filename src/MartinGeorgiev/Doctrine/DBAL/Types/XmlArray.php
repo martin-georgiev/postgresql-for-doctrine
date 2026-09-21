@@ -50,9 +50,9 @@ class XmlArray extends BaseStringArray
         return $result;
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidXmlArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidXmlArrayItemForPHPException::forInvalidType($item);
+        throw InvalidXmlArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

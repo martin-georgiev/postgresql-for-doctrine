@@ -38,14 +38,14 @@ class HstoreArray extends BaseArray
         throw InvalidHstoreArrayItemForPHPException::forInvalidFormat($postgresArray);
     }
 
-    protected function createInvalidHstoreFormatException(string $value): InvalidHstoreArrayItemForPHPException
+    protected function throwInvalidHstoreFormatException(string $value): never
     {
-        return InvalidHstoreArrayItemForPHPException::forInvalidFormat($value);
+        throw InvalidHstoreArrayItemForPHPException::forInvalidFormat($value);
     }
 
-    protected function createInvalidHstoreValueTypeException(mixed $value): InvalidHstoreArrayItemForDatabaseException
+    protected function throwInvalidHstoreValueTypeException(mixed $value): never
     {
-        return InvalidHstoreArrayItemForDatabaseException::forInvalidType($value);
+        throw InvalidHstoreArrayItemForDatabaseException::forInvalidType($value);
     }
 
     protected function transformArrayItemForPostgres(mixed $item): string

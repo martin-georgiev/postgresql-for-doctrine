@@ -66,9 +66,9 @@ class BitArray extends BaseStringArray
         return $result;
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidBitArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidBitArrayItemForPHPException::forInvalidType($item);
+        throw InvalidBitArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never

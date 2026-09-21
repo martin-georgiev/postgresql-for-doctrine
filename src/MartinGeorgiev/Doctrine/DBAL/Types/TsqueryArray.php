@@ -36,9 +36,9 @@ class TsqueryArray extends BaseStringArray
         return $item !== '';
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): InvalidTsqueryArrayItemForPHPException
+    protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidTsqueryArrayItemForPHPException::forInvalidType($item);
+        throw InvalidTsqueryArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwInvalidTypeException(mixed $value): never
