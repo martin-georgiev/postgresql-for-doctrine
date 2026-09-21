@@ -25,24 +25,21 @@ final class RegistrationCompletenessTest extends TestCase
     private const FUNCTION_INTEGRATION_TEST_DIRECTORY = 'tests/Integration/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions';
 
     /**
-     * Deptrac forbids the unit layer from depending on the integration one, so the integration
-     * test cases are reached as data - discovered by path and reflected on - never imported.
+     * Deptrac forbids the unit layer depending on the integration one, so these test cases are reached as data.
      *
      * @var string
      */
     private const FUNCTION_INTEGRATION_TEST_NAMESPACE = 'Tests\\Integration\\MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
 
     /**
-     * Subfolders holding building blocks rather than callable PostgreSQL functions.
+     * Building blocks rather than callable PostgreSQL functions.
      *
      * @var list<string>
      */
     private const NON_FUNCTION_SOURCE_SUBFOLDERS = ['Exception', 'Traits'];
 
     /**
-     * The `<<#>>` operator was removed from PostGIS in 2.2.0, so none of the PostGIS versions in
-     * the CI matrix can execute it and no integration test can cover it. The class is kept for
-     * legacy compatibility only - see its own docblock.
+     * PostGIS removed `<<#>>` in 2.2.0, so no version in the CI matrix can execute it and no integration test can cover it.
      *
      * @var list<class-string>
      */
@@ -94,9 +91,8 @@ final class RegistrationCompletenessTest extends TestCase
     }
 
     /**
-     * Each pattern carries the shape a registration takes in that file, so that a type merely
-     * mentioned elsewhere - a mapping_types alias, a prose example - cannot stand in for one.
-     * Symfony quotes only the names YAML would otherwise misread.
+     * Each pattern is the shape a registration takes in that file, so a passing mention - an alias, a prose example -
+     * cannot stand in for one. Symfony quotes only the names YAML would otherwise misread.
      *
      * @return array<string, array{documentationFile: string, registrationPattern: string}>
      */
@@ -179,7 +175,7 @@ final class RegistrationCompletenessTest extends TestCase
     }
 
     /**
-     * @return list<class-string> sorted, every PHP file under the directory that names a real class
+     * @return list<class-string> sorted
      */
     private function classesIn(string $relativeDirectory, string $namespace): array
     {
