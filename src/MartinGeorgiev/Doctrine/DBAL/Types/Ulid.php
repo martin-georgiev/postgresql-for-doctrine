@@ -8,6 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\UlidValidationTrait;
 
 /**
  * Implementation of the ulid type from the pgx_ulid PostgreSQL extension.
@@ -23,10 +24,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidForPHPException;
  */
 final class Ulid extends BaseType
 {
-    /**
-     * @var string
-     */
-    private const ULID_REGEX = '/^[0-7][0-9A-HJKMNP-TV-Z]{25}\z/i';
+    use UlidValidationTrait;
 
     /**
      * @var string
@@ -65,10 +63,5 @@ final class Ulid extends BaseType
         }
 
         return \strtoupper($value);
-    }
-
-    private function isValidUlid(string $value): bool
-    {
-        return (bool) \preg_match(self::ULID_REGEX, $value);
     }
 }

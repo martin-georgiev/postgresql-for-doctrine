@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
-
 /**
  * Implementation of PostgreSQL ROW_TO_JSON().
  *
@@ -20,10 +17,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  * @example Using it in DQL: "SELECT ROW_TO_JSON(e.row) FROM Entity e"
  * @example Using it in DQL with pretty_bool: "SELECT ROW_TO_JSON(e.row, 'true') FROM Entity e"
  */
-class RowToJson extends BaseVariadicFunction
+class RowToJson extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
-    use BooleanValidationTrait;
-
     protected function getNodeMappingPattern(): array
     {
         return ['StringPrimary'];
@@ -42,15 +37,5 @@ class RowToJson extends BaseVariadicFunction
     protected function getMaxArgumentCount(): int
     {
         return 2;
-    }
-
-    protected function validateArguments(Node ...$arguments): void
-    {
-        parent::validateArguments(...$arguments);
-
-        // Validate that the second parameter is a valid boolean if provided
-        if (\count($arguments) === 2) {
-            $this->validateBoolean($arguments[1], $this->getFunctionName());
-        }
     }
 }

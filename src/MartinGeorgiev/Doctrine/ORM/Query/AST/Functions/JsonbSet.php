@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\AST\Node;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrait;
-
 /**
  * Implementation of PostgreSQL JSONB_SET().
  *
@@ -25,10 +22,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\BooleanValidationTrai
  * @example Using it in DQL with path and value: "SELECT JSONB_SET(e.jsonbData, '{address,city}', '\"Sofia\"') FROM Entity e"
  * @example Using it in DQL with create_if_missing flag: "SELECT JSONB_SET(e.jsonbData, '{address,city}', '\"Sofia\"', false) FROM Entity e"
  */
-class JsonbSet extends BaseVariadicFunction
+class JsonbSet extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
-    use BooleanValidationTrait;
-
     protected function getNodeMappingPattern(): array
     {
         return ['StringPrimary'];
@@ -47,15 +42,5 @@ class JsonbSet extends BaseVariadicFunction
     protected function getMaxArgumentCount(): int
     {
         return 4;
-    }
-
-    protected function validateArguments(Node ...$arguments): void
-    {
-        parent::validateArguments(...$arguments);
-
-        // Validate that the fourth parameter is a valid boolean if provided
-        if (\count($arguments) === 4) {
-            $this->validateBoolean($arguments[3], $this->getFunctionName());
-        }
     }
 }
