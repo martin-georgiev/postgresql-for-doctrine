@@ -15,6 +15,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
  */
 final class InvalidWktSpatialDataException extends \InvalidArgumentException
 {
+    private static function create(string $message, mixed $value): self
+    {
+        return new self(\sprintf($message, \var_export($value, true)));
+    }
+
     public static function forEmptyWkt(): self
     {
         return new self('Empty Wkt string provided');
@@ -27,12 +32,12 @@ final class InvalidWktSpatialDataException extends \InvalidArgumentException
 
     public static function forInvalidSridValue(mixed $sridValue): self
     {
-        return new self(\sprintf('Invalid Srid value in Ewkt: %s', \var_export($sridValue, true)));
+        return self::create('Invalid Srid value in Ewkt: %s', $sridValue);
     }
 
     public static function forInvalidFormat(string $wkt): self
     {
-        return new self(\sprintf('Invalid Wkt format: %s', \var_export($wkt, true)));
+        return self::create('Invalid Wkt format: %s', $wkt);
     }
 
     public static function forEmptyCoordinateSection(): self

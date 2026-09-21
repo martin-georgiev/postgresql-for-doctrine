@@ -30,7 +30,7 @@ final class InvalidCubeException extends \InvalidArgumentException
 
     public static function forTooManyDimensions(int $dimensions): self
     {
-        return new self(\sprintf('A cube cannot have more than 100 dimensions, %d given', $dimensions));
+        return self::create('A cube cannot have more than 100 dimensions, %s given', $dimensions);
     }
 
     public static function forMismatchedDimensions(int $firstCornerDimensions, int $secondCornerDimensions): self
