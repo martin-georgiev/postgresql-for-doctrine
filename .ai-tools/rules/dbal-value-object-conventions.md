@@ -121,17 +121,7 @@ final readonly class Box extends BaseGeometricValue
 
 ## Validation and Exceptions
 
-**Required**: VO-specific exceptions live in `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/`. Naming: `Invalid{VOName}Exception`. Pattern: `final class ... extends \InvalidArgumentException`, with `for*`-named static factories.
-
-**The parent is load-bearing** — not a style choice. The DBAL types translate VO failures with `catch (\InvalidArgumentException)` (`BaseRangeType`, `BaseRangeArray`, `BaseMultirangeType`, `BaseMultirangeArray`, `BaseGeometricArray`). A VO exception extending `ConversionException` escapes every one of them and surfaces from the wrong layer.
-
-```php
-// ✓ Correct — caught and retranslated by the type
-final class InvalidBoxException extends \InvalidArgumentException
-
-// ❌ Wrong — escapes catch (\InvalidArgumentException)
-final class InvalidBoxException extends ConversionException
-```
+**Required**: VO-specific exceptions live in `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/`. Naming: `Invalid{VOName}Exception`. Pattern: `final class`, with `for*`-named static factories. The parent is set by `ParentByNamespaceRector`; the reason it matters is in `ci/rector/config.php`.
 
 Message building follows `exceptions.md` § Message Formatting.
 
