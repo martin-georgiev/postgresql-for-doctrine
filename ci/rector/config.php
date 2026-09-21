@@ -76,7 +76,7 @@ return RectorConfig::configure()
     ->withConfiguredRule(TestDoubleIntersectionVarRector::class, [
         MockObject::class => ['createMock', 'getMockBuilder'],
     ])
-    // all 102 TYPE_NAME declarations carry the tag; this keeps the 103rd from diverging
+    // all TYPE_NAME declarations carry the tag; this keeps future ones from diverging
     ->withConfiguredRule(VarTagByConstantNameRector::class, [
         'TYPE_NAME' => 'string',
     ])
