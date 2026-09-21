@@ -60,8 +60,8 @@ final readonly class ClassDocBlockRule implements Rule
     private array $requirementsByNamespacePrefix;
 
     /**
-     * @param array<string, array<int, string>> $requirementsByNamespacePrefix map of namespace prefix to the requirements owed under it
-     * @param array<int, string> $grandfatheredAuthorNames `@author` values accepted verbatim despite not being real names
+     * @param array<string, array<int, string>> $requirementsByNamespacePrefix prefix to the requirements owed under it
+     * @param array<int, string> $grandfatheredAuthorNames values accepted despite not being real names
      */
     public function __construct(
         array $requirementsByNamespacePrefix,
