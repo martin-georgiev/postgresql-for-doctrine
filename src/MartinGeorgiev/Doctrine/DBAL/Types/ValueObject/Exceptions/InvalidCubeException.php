@@ -4,23 +4,18 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
 
-use Doctrine\DBAL\Types\ConversionException;
-
 /**
+ * Exception thrown when creating or manipulating Cube value objects with invalid data.
+ *
  * @since 4.8
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final class InvalidCubeException extends ConversionException
+final class InvalidCubeException extends \InvalidArgumentException
 {
-    private static function create(string $message, mixed $value): self
-    {
-        return new self(\sprintf($message, \var_export($value, true)));
-    }
-
     public static function forInvalidFormat(string $value): self
     {
-        return self::create('Invalid cube format: %s', $value);
+        return new self(\sprintf('Invalid cube format: %s', \var_export($value, true)));
     }
 
     public static function forEmptyCoordinates(): self
