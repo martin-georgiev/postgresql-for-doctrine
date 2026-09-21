@@ -46,7 +46,7 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runDbalBindingRoundTrip($typeName, $columnType, WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'));
+        $this->runDbalBindingRoundTrip($typeName, $columnType, WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'));
     }
 
     #[Test]
@@ -58,8 +58,8 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $typeName,
             $columnType,
-            WktSpatialData::fromWkt('POINT(-122.4194 37.7749)'),
-            WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)')
+            WktSpatialData::fromString('POINT(-122.4194 37.7749)'),
+            WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)')
         );
     }
 
@@ -71,6 +71,6 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runDbalBindingRoundTrip($typeName, $columnType, WktSpatialData::fromWkt('SRID=4326;LINESTRING(0 0,1 1)'));
+        $this->runDbalBindingRoundTrip($typeName, $columnType, WktSpatialData::fromString('SRID=4326;LINESTRING(0 0,1 1)'));
     }
 }
