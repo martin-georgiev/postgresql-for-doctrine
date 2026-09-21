@@ -6,6 +6,18 @@
 # reportUnmatchedIgnoredErrors rather than deleted.
 parameters:
     ignoreErrors:
+        # The array access on lookahead is only reachable with lexer 1.x, and the two lexer
+        # majors report it under different identifiers - notFound on 2.x, nonOffsetAccessible
+        # on 3.x - so it cannot be named by an in-code ignore that holds on every cell.
+        -
+            message: "#Offset 'type' might not exist on Doctrine\\\\Common\\\\Lexer\\\\Token#"
+            path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
+            reportUnmatched: false
+        -
+            message: '#Cannot access offset .type. on Doctrine\\Common\\Lexer\\Token#'
+            path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
+            reportUnmatched: false
+
         # Matched with ORM 3.x only (the Lexer class survives, its T_* constants do not).
         -
             message: '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
