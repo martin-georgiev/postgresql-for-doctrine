@@ -40,6 +40,7 @@ $config = (new Config())
             'native_function_invocation' => ['include' => ['@all']],
             'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
             'non_printable_character' => false,
+            'ordered_attributes' => ['sort_algorithm' => 'custom', 'order' => ['PHPUnit\\Framework\\Attributes\\DataProvider', 'PHPUnit\\Framework\\Attributes\\Test']],
             'ordered_class_elements' => ['order' => ['use_trait', 'constant', 'property', 'construct', 'magic', 'method']],
             'php_unit_internal_class' => false,
             'php_unit_method_casing' => ['case' => 'snake_case'],
