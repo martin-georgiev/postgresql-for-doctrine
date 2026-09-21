@@ -14,15 +14,17 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * Keeps an exception namespace catchable as the parent its callers catch.
+ * Keeps every class under a namespace a subtype of the parent that namespace promises.
  *
  * Configured with a map of namespace prefix to required parent. A class under a
  * configured prefix that is not already a subtype of that parent is repointed at it.
+ * A class reaching the parent through an intermediate base already satisfies it and
+ * is left alone; abstract classes owe the parent like any other.
  */
-final class ExceptionParentByNamespaceRector extends AbstractRector implements ConfigurableRectorInterface
+final class ParentByNamespaceRector extends AbstractRector implements ConfigurableRectorInterface
 {
     /**
-     * @var array<string, class-string<\Throwable>>
+     * @var array<string, class-string>
      */
     private array $requiredParentByNamespacePrefix = [];
 
@@ -35,16 +37,16 @@ final class ExceptionParentByNamespaceRector extends AbstractRector implements C
     {
         $requiredParentByNamespacePrefix = [];
         foreach ($configuration as $namespacePrefix => $requiredParent) {
-            if (!\is_string($namespacePrefix) || !\is_string($requiredParent)) {
+            if (!\is_string($namespacePrefix) || $namespacePrefix === '' || !\is_string($requiredParent)) {
                 throw new \InvalidArgumentException(\sprintf(
                     '%s takes a map of namespace prefix to parent class name',
                     self::class
                 ));
             }
 
-            if (!\is_a($requiredParent, \Throwable::class, true)) {
+            if (!$this->reflectionProvider->hasClass($requiredParent)) {
                 throw new \InvalidArgumentException(\sprintf(
-                    'Configured parent %s is not a Throwable',
+                    'Configured parent %s cannot be found',
                     \var_export($requiredParent, true)
                 ));
             }
@@ -58,7 +60,7 @@ final class ExceptionParentByNamespaceRector extends AbstractRector implements C
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Exceptions in a configured namespace are catchable as the parent that namespace promises',
+            'Classes under a configured namespace are a subtype of the parent that namespace promises',
             [
                 new ConfiguredCodeSample(
                     'final class InvalidBoxException extends ConversionException',
@@ -85,7 +87,7 @@ final class ExceptionParentByNamespaceRector extends AbstractRector implements C
 
         $className = (string) $node->namespacedName;
         $requiredParent = $this->matchRequiredParent($className);
-        if ($requiredParent === null || $this->isCatchableAs($className, $requiredParent)) {
+        if ($requiredParent === null || $this->isSubtypeOf($className, $requiredParent)) {
             return null;
         }
 
@@ -95,7 +97,7 @@ final class ExceptionParentByNamespaceRector extends AbstractRector implements C
     }
 
     /**
-     * @return class-string<\Throwable>|null
+     * @return class-string|null
      */
     private function matchRequiredParent(string $className): ?string
     {
@@ -108,9 +110,9 @@ final class ExceptionParentByNamespaceRector extends AbstractRector implements C
         return null;
     }
 
-    private function isCatchableAs(string $className, string $requiredParent): bool
+    private function isSubtypeOf(string $className, string $requiredParent): bool
     {
-        if (!$this->reflectionProvider->hasClass($className) || !$this->reflectionProvider->hasClass($requiredParent)) {
+        if (!$this->reflectionProvider->hasClass($className)) {
             return false;
         }
 
