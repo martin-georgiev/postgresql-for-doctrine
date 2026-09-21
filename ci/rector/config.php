@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use MartinGeorgiev\Rector\ParentByNamespaceRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
@@ -51,8 +53,16 @@ return RectorConfig::configure()
     // a member of this namespace that escapes it surfaces from the wrong layer
     ->withConfiguredRule(ParentByNamespaceRector::class, [
         'MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Exceptions\\' => InvalidArgumentException::class,
+        'MartinGeorgiev\\Doctrine\\DBAL\\Types\\Exceptions\\' => ConversionException::class,
+        'MartinGeorgiev\\Utils\\Exception\\' => InvalidArgumentException::class,
+        'MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\' => FunctionNode::class,
     ])
     ->withSkip([
+        // a bad column option is a mapping mistake, not a per-value conversion failure
+        ParentByNamespaceRector::class => [
+            $basePath.'src/MartinGeorgiev/Doctrine/DBAL/Types/Exceptions/InvalidSpatialColumnDeclarationException.php',
+            $basePath.'src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Exception',
+        ],
         // skip as it breaks support for legacy Lexer discovery on older Doctrine versions
         FlipTypeControlToUseExclusiveTypeRector::class => [
             $basePath.'src/MartinGeorgiev/Utils/DoctrineLexer.php',
