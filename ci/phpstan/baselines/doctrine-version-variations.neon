@@ -1,11 +1,8 @@
-# Suppressions that only fire on part of the unit-test matrix (see .github/workflows/unit-tests.yml).
-# They used to live as @phpstan-ignore comments next to the code, which reportUnmatchedIgnoredErrors
-# flags on every cell where the error does not occur. An in-code ignore cannot opt out of that check,
-# so each one is expressed here instead, scoped by path and exempted individually.
+# Suppressions that fire on only part of the unit-test matrix (see .github/workflows/unit-tests.yml). An in-code
+# @phpstan-ignore cannot opt out of reportUnmatchedIgnoredErrors, so each is scoped by path and exempted here.
 parameters:
     ignoreErrors:
-        # Matched with DBAL 3.x only: Type::requiresSQLCommentHint() is deprecated there and gone from DBAL 4.x.
-        # The assertions are guarded by method_exists() at runtime.
+        # DBAL 3.x only: requiresSQLCommentHint() is deprecated there, gone in 4.x. Call sites guard with method_exists
         -
             message: '#^Call to deprecated method requiresSQLCommentHint\(\) of class #'
             paths:
@@ -13,8 +10,7 @@ parameters:
                 - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/BaseTypeTest.php
             reportUnmatched: false
 
-        # Matched with ORM 2.x only: Configuration::set{Metadata,Query}CacheImpl() exist (deprecated) there
-        # and were removed in ORM 3.x. The call sites pick a branch at runtime via method_exists().
+        # ORM 2.x only: set{Metadata,Query}CacheImpl() deprecated there, removed in 3.x. Call sites branch at runtime
         -
             message: '#^Call to function method_exists\(\) with Doctrine\\ORM\\Configuration and ''set(Metadata|Query)CacheImpl'' will always evaluate to true\.$#'
             paths:
@@ -40,8 +36,7 @@ parameters:
             path: ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseFunctionTest.php
             reportUnmatched: false
 
-        # Matched with doctrine/lexer 3.x only: Token stopped implementing ArrayAccess, so the pre-2.0
-        # array-shaped fallbacks in DoctrineLexer become unreachable code rather than valid alternatives.
+        # lexer 3.x only: Token dropped ArrayAccess, so DoctrineLexer's pre-2.0 array fallbacks read as unreachable.
         -
             message: '#^Call to function is_array\(\) with Doctrine\\Common\\Lexer\\Token\|null will always evaluate to false\.$#'
             path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php

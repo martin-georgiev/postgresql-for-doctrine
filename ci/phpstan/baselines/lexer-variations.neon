@@ -1,14 +1,9 @@
-# Doctrine ORM changed how DQL tokens are modelled between 2.x and 3.x:
-# ORM 2.x still carries the deprecated Doctrine\ORM\Query\Lexer::T_* constants and
-# accepts int|string tokens, while ORM 3.x dropped the constants in favour of the
-# Doctrine\ORM\Query\TokenType enum. Every entry below is therefore matched on one
-# side of that split and unmatched on the other, so each is exempted from
-# reportUnmatchedIgnoredErrors rather than deleted.
+# ORM 2.x carries the deprecated Doctrine\ORM\Query\Lexer::T_* constants; ORM 3.x dropped them for the TokenType enum.
+# Every entry below matches one side of that split and not the other, so each is exempted rather than deleted.
 parameters:
     ignoreErrors:
-        # The array access on lookahead is only reachable with lexer 1.x, and the two lexer
-        # majors report it under different identifiers - notFound on 2.x, nonOffsetAccessible
-        # on 3.x - so it cannot be named by an in-code ignore that holds on every cell.
+        # The lookahead array access is lexer 1.x only, and the two majors report it under different identifiers
+        # - notFound on 2.x, nonOffsetAccessible on 3.x - so no single in-code ignore holds on every cell.
         -
             message: "#Offset 'type' might not exist on Doctrine\\\\Common\\\\Lexer\\\\Token#"
             path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
