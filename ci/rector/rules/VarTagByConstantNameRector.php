@@ -8,6 +8,13 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\Type\ArrayType;
+use PHPStan\Type\BooleanType;
+use PHPStan\Type\FloatType;
+use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
+use PHPStan\Type\StringType;
+use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
@@ -19,8 +26,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  * Gives class constants matching a configured name pattern the @var type that pattern promises.
  *
  * Keys are fnmatch patterns, tried in order, so 'TYPE_NAME' matches that name alone and '*' matches every constant.
- * A constant already carrying a @var tag, or declaring a native type, is left alone - its narrower type is worth more
- * than the configured one, which is why matching everything is a deliberate choice rather than the default.
+ * A constant is skipped when it already carries a @var tag, declares a native type, or holds a value the configured
+ * type would misdescribe - a broad pattern must not annotate an int constant as a string.
  */
 final class VarTagByConstantNameRector extends AbstractRector implements ConfigurableRectorInterface
 {
@@ -106,12 +113,29 @@ final class VarTagByConstantNameRector extends AbstractRector implements Configu
     {
         foreach ($classConst->consts as $const) {
             foreach ($this->varTypeByConstantName as $constantNamePattern => $varType) {
-                if (\fnmatch($constantNamePattern, $const->name->toString())) {
+                if (\fnmatch($constantNamePattern, $const->name->toString()) && $this->describesValue($varType, $const->value)) {
                     return $varType;
                 }
             }
         }
 
         return null;
+    }
+
+    /**
+     * A configured type this rule cannot model is taken on trust; a scalar one must accept the value.
+     */
+    private function describesValue(string $varType, Node\Expr $expr): bool
+    {
+        $configuredType = match ($varType) {
+            'string' => new StringType(),
+            'int' => new IntegerType(),
+            'float' => new FloatType(),
+            'bool' => new BooleanType(),
+            'array' => new ArrayType(new MixedType(), new MixedType()),
+            default => null,
+        };
+
+        return !$configuredType instanceof Type || $configuredType->isSuperTypeOf($this->getType($expr))->yes();
     }
 }
