@@ -122,21 +122,6 @@ public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?
 public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
 ```
 
-### `TYPE_NAME` Constant: Declare `@var string`
-
-**Required**: Every `protected const TYPE_NAME` declaration carries a `@var string` PHPDoc block. This is needed for PHPStan at level `max`.
-
-```php
-// ✓ Correct
-/**
- * @var string
- */
-protected const TYPE_NAME = Type::CITEXT;
-
-// ❌ Wrong — missing @var, PHPStan complains
-protected const TYPE_NAME = Type::CITEXT;
-```
-
 ### `@author` Tag Format
 
 **Required**: Real names. Email optional. **No** GitHub handle URLs, **no** lowercase handle-as-name.
