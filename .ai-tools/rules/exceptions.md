@@ -58,11 +58,11 @@ The Utils exception carries the *reason* (`'the value is not decodable JSON'`); 
 
 **Default parent class**: `Doctrine\DBAL\Types\ConversionException` — for the `Types/Exceptions/` and `Utils/Exception/` families.
 
-**The `Types/ValueObject/Exceptions/` family is different**: it extends `\InvalidArgumentException`, because the DBAL types catch that to translate VO failures. See `dbal-value-object-conventions.md` § Validation and Exceptions. Everything else in this file applies to it unchanged.
+**The `Types/ValueObject/Exceptions/` family is different**: it extends `\InvalidArgumentException`, because the DBAL types catch that to translate VO failures. See `dbal-value-object-conventions.md` § Validation and Exceptions. Everything else in this file applies to it unchanged, except the parent-deviation PHPDoc requirement.
 
 **Deviation allowed if justified**: extending a different exception (PHP SPL, another Doctrine class, or a domain-specific base) is permitted only with a concrete reason that does not fit `ConversionException`. The reason **must** be stated in the class-level PHPDoc — otherwise a future agent will "normalize" it back.
 
-**Does not apply to `Types/ValueObject/Exceptions/`**: that family's parent is prescribed above, not deviated, so the reason lives in this rule once instead of in thirteen identical docblocks. Adding one to those classes is the narration `dbal-value-object-conventions.md` tells you to leave out.
+**Does not apply to `Types/ValueObject/Exceptions/`** — see above.
 
 ```php
 // ❌ Wrong — non-Doctrine parent with no justification
