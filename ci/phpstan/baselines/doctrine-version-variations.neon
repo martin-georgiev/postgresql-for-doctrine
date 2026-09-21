@@ -1,0 +1,52 @@
+# Suppressions that only fire on part of the unit-test matrix (see .github/workflows/unit-tests.yml).
+# They used to live as @phpstan-ignore comments next to the code, which reportUnmatchedIgnoredErrors
+# flags on every cell where the error does not occur. An in-code ignore cannot opt out of that check,
+# so each one is expressed here instead, scoped by path and exempted individually.
+parameters:
+    ignoreErrors:
+        # Matched with DBAL 3.x only: Type::requiresSQLCommentHint() is deprecated there and gone from DBAL 4.x.
+        # The assertions are guarded by method_exists() at runtime.
+        -
+            message: '#^Call to deprecated method requiresSQLCommentHint\(\) of class #'
+            paths:
+                - ../../../tests/Integration/MartinGeorgiev/Doctrine/DBAL/Types/
+                - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/BaseTypeTest.php
+            reportUnmatched: false
+
+        # Matched with ORM 2.x only: Configuration::set{Metadata,Query}CacheImpl() exist (deprecated) there
+        # and were removed in ORM 3.x. The call sites pick a branch at runtime via method_exists().
+        -
+            message: '#^Call to function method_exists\(\) with Doctrine\\ORM\\Configuration and ''set(Metadata|Query)CacheImpl'' will always evaluate to true\.$#'
+            paths:
+                - ../../../tests/Integration/MartinGeorgiev/TestCase.php
+                - ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/TestCase.php
+            reportUnmatched: false
+        -
+            message: '#^Call to deprecated method set(Metadata|Query)CacheImpl\(\) of class Doctrine\\ORM\\Configuration#'
+            paths:
+                - ../../../tests/Integration/MartinGeorgiev/TestCase.php
+                - ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/TestCase.php
+            reportUnmatched: false
+        -
+            message: '#^Parameter \#1 \$cacheImpl of method Doctrine\\ORM\\Configuration::set(Metadata|Query)CacheImpl\(\) expects Doctrine\\Common\\Cache\\Cache, mixed given\.$#'
+            paths:
+                - ../../../tests/Integration/MartinGeorgiev/TestCase.php
+                - ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/TestCase.php
+            reportUnmatched: false
+
+        # Matched with ORM 2.x only: FunctionNode::__construct() takes mixed $name there and string in ORM 3.x.
+        -
+            message: '#is not contravariant with parameter \#1 \$name \(mixed\) of method Doctrine\\ORM\\Query\\AST\\Functions\\FunctionNode::__construct\(\)\.$#'
+            path: ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseFunctionTest.php
+            reportUnmatched: false
+
+        # Matched with doctrine/lexer 3.x only: Token stopped implementing ArrayAccess, so the pre-2.0
+        # array-shaped fallbacks in DoctrineLexer become unreachable code rather than valid alternatives.
+        -
+            message: '#^Call to function is_array\(\) with Doctrine\\Common\\Lexer\\Token\|null will always evaluate to false\.$#'
+            path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
+            reportUnmatched: false
+        -
+            message: '#^Cannot access offset ''value'' on Doctrine\\Common\\Lexer\\Token<.+>\.$#'
+            path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
+            reportUnmatched: false

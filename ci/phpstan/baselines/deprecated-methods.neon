@@ -1,3 +1,7 @@
 parameters:
     ignoreErrors:
-        - '#Call to deprecated method getName\(\) of class MartinGeorgiev\\Doctrine\\DBAL\\Types\\BaseType#'
+        # Matched with DBAL 3.x only: BaseType::getName() is deprecated there and gone from DBAL 4.x,
+        # so the call sites stop producing a deprecation on the newer matrix cells.
+        -
+            message: '#Call to deprecated method getName\(\) of class MartinGeorgiev\\Doctrine\\DBAL\\Types\\BaseType#'
+            reportUnmatched: false

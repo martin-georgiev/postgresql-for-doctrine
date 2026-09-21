@@ -140,7 +140,7 @@ abstract class BaseVariadicFunction extends BaseFunction
                 break;
             }
 
-            $tokenType = \is_array($token) ? $token['type'] : $token->type; // @phpstan-ignore-line
+            $tokenType = \is_array($token) ? $token['type'] : $token->type;
 
             if ($tokenType === $openParenthesisType) {
                 $depth++;
@@ -153,7 +153,7 @@ abstract class BaseVariadicFunction extends BaseFunction
             } elseif ($tokenType === $commaType && $depth === 0) {
                 $nextToken = $lexer->peek();
                 if ($nextToken !== null) {
-                    $types[] = \is_array($nextToken) ? $nextToken['type'] : $nextToken->type; // @phpstan-ignore-line
+                    $types[] = \is_array($nextToken) ? $nextToken['type'] : $nextToken->type;
                 }
             }
         }
@@ -276,7 +276,7 @@ abstract class BaseVariadicFunction extends BaseFunction
      */
     private function parseArgumentNode(Parser $parser, string $parserMethod): Node
     {
-        $node = $parser->{$parserMethod}(); // @phpstan-ignore-line
+        $node = $parser->{$parserMethod}();
 
         return $node ?? new NullLiteral(); // @phpstan-ignore-line
     }

@@ -187,21 +187,16 @@ abstract class TestCase extends BaseTestCase
         // @phpstan-ignore-next-line
         $useDbalV3 = \class_exists($symfonyArrayAdapterClass) && \method_exists($configuration, 'setMetadataCache') && \method_exists($configuration, 'setQueryCache');
         if ($useDbalV3) {
-            // @phpstan-ignore-next-line
             $configuration->setMetadataCache(new $symfonyArrayAdapterClass());
-            // @phpstan-ignore-next-line
             $configuration->setQueryCache(new $symfonyArrayAdapterClass());
 
             return;
         }
 
         $doctrineArrayCacheClass = '\Doctrine\Common\Cache\ArrayCache';
-        // @phpstan-ignore-next-line
         $useDbalV2 = \class_exists($doctrineArrayCacheClass) && \method_exists($configuration, 'setMetadataCacheImpl') && \method_exists($configuration, 'setQueryCacheImpl');
         if ($useDbalV2) {
-            // @phpstan-ignore-next-line
             $configuration->setMetadataCacheImpl(new $doctrineArrayCacheClass());
-            // @phpstan-ignore-next-line
             $configuration->setQueryCacheImpl(new $doctrineArrayCacheClass());
 
             return;
