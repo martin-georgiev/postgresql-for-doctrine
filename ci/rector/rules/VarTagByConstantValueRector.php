@@ -22,7 +22,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  * already carrying a @var is left alone - a narrower hand-written type is worth keeping, and PHPStan reports one that
  * disagrees with the value as classConstant.phpDocType. A constant declaring a native type already states it.
  */
-final class ConstantVarTagRector extends AbstractRector
+final class VarTagByConstantValueRector extends AbstractRector
 {
     public function __construct(
         private readonly PhpDocInfoFactory $phpDocInfoFactory,

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use MartinGeorgiev\Rector\ConstantVarTagRector;
 use MartinGeorgiev\Rector\MethodOrderRector;
 use MartinGeorgiev\Rector\ParentByNamespaceRector;
 use MartinGeorgiev\Rector\TestDoubleIntersectionVarRector;
+use MartinGeorgiev\Rector\VarTagByConstantValueRector;
 use PHPUnit\Framework\MockObject\MockObject;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
@@ -27,7 +27,7 @@ require_once __DIR__.'/rules/ParentByNamespaceRector.php';
 
 require_once __DIR__.'/rules/TestDoubleIntersectionVarRector.php';
 
-require_once __DIR__.'/rules/ConstantVarTagRector.php';
+require_once __DIR__.'/rules/VarTagByConstantValueRector.php';
 
 $basePath = __DIR__.'/../../';
 
@@ -59,7 +59,7 @@ return RectorConfig::configure()
         PreferPHPUnitThisCallRector::class,
         FinalizeTestCaseClassRector::class,
         // 251 of 268 constants already name their type; PHPStan rejects a tag the value contradicts
-        ConstantVarTagRector::class,
+        VarTagByConstantValueRector::class,
     ])
     // the DBAL types translate value object failures with catch (\InvalidArgumentException);
     // a member of this namespace that escapes it surfaces from the wrong layer

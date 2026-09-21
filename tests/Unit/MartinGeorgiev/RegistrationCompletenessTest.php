@@ -12,16 +12,34 @@ use PHPUnit\Framework\TestCase;
 
 final class RegistrationCompletenessTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private const ROOT_DIRECTORY = __DIR__.'/../../..';
 
+    /**
+     * @var string
+     */
     private const TYPE_DECLARATION_FILE = 'src/MartinGeorgiev/Doctrine/DBAL/Type.php';
 
+    /**
+     * @var string
+     */
     private const TYPE_REGISTRATION_FILE = 'tests/Integration/MartinGeorgiev/TestCase.php';
 
+    /**
+     * @var string
+     */
     private const FUNCTION_SOURCE_DIRECTORY = 'src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions';
 
+    /**
+     * @var string
+     */
     private const FUNCTION_SOURCE_NAMESPACE = 'MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
 
+    /**
+     * @var string
+     */
     private const FUNCTION_INTEGRATION_TEST_DIRECTORY = 'tests/Integration/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions';
 
     /**
