@@ -9,6 +9,43 @@ includes:
     - ./baselines/range-baseline.neon
 
 parameters:
+    # Re-lists every node the extension bans by default, because supplying an Expr_FuncCall
+    # entry replaces the shipped one (BannedNodesRule keys the list by node type).
+    # Only gettype and get_debug_type are new — see .ai-tools/rules/exceptions.md § Message Formatting.
+    banned_code:
+        nodes:
+            -
+                type: Stmt_Echo
+                functions: null
+            -
+                type: Expr_Eval
+                functions: null
+            -
+                type: Expr_Exit
+                functions: null
+            -
+                type: Expr_FuncCall
+                functions:
+                    - dd
+                    - debug_backtrace
+                    - dump
+                    - exec
+                    - get_debug_type
+                    - gettype
+                    - passthru
+                    - phpinfo
+                    - print_r
+                    - proc_open
+                    - shell_exec
+                    - system
+                    - var_dump
+            -
+                type: Expr_Print
+                functions: null
+            -
+                type: Expr_ShellExec
+                functions: null
+
     level: max
     paths:
         - ../../ci

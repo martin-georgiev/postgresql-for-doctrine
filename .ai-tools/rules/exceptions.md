@@ -138,18 +138,14 @@ public static function forInvalidType(mixed $value): self
 
 **Required**:
 - Use the `create()` helper when the message interpolates offending values only. Build inline when it also carries a pattern, a description or a list of accepted values, or when the factory takes a previous throwable — `InvalidCircleException::forInvalidFormat()`, `InvalidLtreeException::forInvalidNodeFormat()` and `InvalidWktSpatialDataException::forUnsupportedGeometryType()` are the standing examples. The clause is per factory, not per class: a class can owe the helper for one message and build another inline.
-- Format the offending value with `\var_export($value, true)` (delivered via `create()`). Do **not** use `\gettype()` or `\get_debug_type()` — those drop the actual value.
+- Format the offending value with `\var_export($value, true)` (delivered via `create()`).
 - Message shape: `"<What it must be>, %s given"` for type errors, `"Invalid <thing> format: %s"` for format errors.
 
 ```php
-// ❌ Wrong — bypasses create(), uses \gettype()
-return new self(\sprintf('Value must be a Ltree, %s given', \gettype($value)));
+// ❌ Wrong — bypasses create()
+return new self(\sprintf('Value must be a Ltree, %s given', \var_export($value, true)));
 
-// ❌ Wrong — bypasses create(), uses \get_debug_type()
-return new self(\sprintf('Invalid type for range. Expected Range object or string, got %s', \get_debug_type($value)));
-
-// ✓ Correct — routed through create(), \var_export reveals the actual value
+// ✓ Correct
 return self::create('Value must be a Ltree, %s given', $value);
-return self::create('Database value must be a Range object, %s given', $value);
 ```
 
