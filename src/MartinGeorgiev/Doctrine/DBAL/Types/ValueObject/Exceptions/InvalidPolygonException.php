@@ -8,6 +8,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
  * Exception thrown when creating or manipulating Polygon value objects with invalid data.
  *
  * @since 4.5
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final class InvalidPolygonException extends \InvalidArgumentException
 {

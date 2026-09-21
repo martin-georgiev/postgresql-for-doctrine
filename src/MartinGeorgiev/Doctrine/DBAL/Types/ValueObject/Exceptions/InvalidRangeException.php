@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
 
 /**
+ * Exception thrown when creating or manipulating Range value objects with invalid data.
+ *
  * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
