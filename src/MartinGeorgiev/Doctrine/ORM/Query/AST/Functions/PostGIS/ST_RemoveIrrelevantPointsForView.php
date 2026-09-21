@@ -24,10 +24,7 @@ class ST_RemoveIrrelevantPointsForView extends BaseVariadicFunctionWithOptionalB
 {
     protected function getNodeMappingPattern(): array
     {
-        return [
-            'StringPrimary,StringPrimary,StringPrimary',
-            'StringPrimary,StringPrimary',
-        ];
+        return ['StringPrimary'];
     }
 
     protected function getFunctionName(): string
