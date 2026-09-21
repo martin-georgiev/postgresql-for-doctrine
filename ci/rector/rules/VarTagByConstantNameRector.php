@@ -16,12 +16,11 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * Keeps a class constant declared under a configured name carrying the @var type that name promises.
+ * Gives class constants matching a configured name pattern the @var type that pattern promises.
  *
- * Configured with a map of constant name to the type written verbatim into the tag. A matching
- * constant with no @var tag gets one; a constant that already carries one is left untouched, so a
- * deliberately narrower type survives. An existing docblock is appended to, never replaced, and a
- * constant that declares a native type already states it and is skipped.
+ * Keys are fnmatch patterns, tried in order, so 'TYPE_NAME' matches that name alone and '*' matches every constant.
+ * A constant already carrying a @var tag, or declaring a native type, is left alone - its narrower type is worth more
+ * than the configured one, which is why matching everything is a deliberate choice rather than the default.
  */
 final class VarTagByConstantNameRector extends AbstractRector implements ConfigurableRectorInterface
 {
@@ -44,7 +43,7 @@ final class VarTagByConstantNameRector extends AbstractRector implements Configu
         foreach ($configuration as $constantName => $varType) {
             if (!\is_string($constantName) || $constantName === '' || !\is_string($varType) || $varType === '') {
                 throw new \InvalidArgumentException(\sprintf(
-                    '%s takes a map of constant name to the type its @var tag must carry',
+                    '%s takes a map of constant name pattern to the type its @var tag must carry',
                     self::class
                 ));
             }
@@ -106,9 +105,10 @@ final class VarTagByConstantNameRector extends AbstractRector implements Configu
     private function matchVarType(ClassConst $classConst): ?string
     {
         foreach ($classConst->consts as $const) {
-            $varType = $this->varTypeByConstantName[$const->name->toString()] ?? null;
-            if ($varType !== null) {
-                return $varType;
+            foreach ($this->varTypeByConstantName as $constantNamePattern => $varType) {
+                if (\fnmatch($constantNamePattern, $const->name->toString())) {
+                    return $varType;
+                }
             }
         }
 
