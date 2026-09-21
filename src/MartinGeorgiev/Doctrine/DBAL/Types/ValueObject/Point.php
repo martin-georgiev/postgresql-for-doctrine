@@ -41,7 +41,7 @@ final readonly class Point extends BaseGeometricValue
     public static function fromString(string $pointString): self
     {
         if (!\preg_match(self::POINT_REGEX, $pointString, $matches)) {
-            throw InvalidPointException::forInvalidPointFormat($pointString, self::POINT_REGEX);
+            throw InvalidPointException::forInvalidFormat($pointString, self::POINT_REGEX);
         }
 
         return new self(self::parseFloat($matches[1]), self::parseFloat($matches[2]));

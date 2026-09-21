@@ -121,7 +121,21 @@ final readonly class Box extends BaseGeometricValue
 
 ## Validation and Exceptions
 
-**Required**: VO-specific exceptions live in `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/`. Naming: `Invalid{VOName}Exception`. Pattern: extend `\Doctrine\DBAL\Types\ConversionException` and follow the factory shape in `exceptions.md`.
+**Required**: VO-specific exceptions live in `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/`. Naming: `Invalid{VOName}Exception`. Pattern: `final class ... extends \InvalidArgumentException`, with `for*`-named static factories building the message inline.
+
+**The parent is load-bearing** — not a style choice. The DBAL types translate VO failures with `catch (\InvalidArgumentException)` (`BaseRangeType`, `BaseRangeArray`, `BaseMultirangeType`, `BaseMultirangeArray`, `BaseGeometricArray`). A VO exception extending `ConversionException` escapes every one of them and surfaces from the wrong layer.
+
+```php
+// ✓ Correct — caught and retranslated by the type
+final class InvalidBoxException extends \InvalidArgumentException
+
+// ❌ Wrong — escapes catch (\InvalidArgumentException)
+final class InvalidBoxException extends ConversionException
+```
+
+Message building follows `exceptions.md` § Message Formatting.
+
+Class PHPDoc: one-line description, `@since`, `@author`. Do not explain that these are not DBAL conversion exceptions — the namespace says it.
 
 ```php
 // ✓ Correct — throw VO-specific exception with for*-named factory

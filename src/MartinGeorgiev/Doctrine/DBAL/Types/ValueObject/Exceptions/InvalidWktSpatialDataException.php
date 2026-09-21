@@ -9,9 +9,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
 /**
  * Exception thrown when creating or manipulating WktSpatialData value objects with invalid data.
  *
- * This exception is specifically for validation errors within the WktSpatialData value object itself,
- * separate from DBAL conversion exceptions.
- *
  * @since 3.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
@@ -33,7 +30,7 @@ final class InvalidWktSpatialDataException extends \InvalidArgumentException
         return new self(\sprintf('Invalid Srid value in Ewkt: %s', \var_export($sridValue, true)));
     }
 
-    public static function forInvalidWktFormat(string $wkt): self
+    public static function forInvalidFormat(string $wkt): self
     {
         return new self(\sprintf('Invalid Wkt format: %s', \var_export($wkt, true)));
     }
