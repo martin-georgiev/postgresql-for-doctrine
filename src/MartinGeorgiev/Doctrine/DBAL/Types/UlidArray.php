@@ -7,6 +7,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidArrayItemForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\UlidValidationTrait;
 
 /**
  * Implementation of the ulid[] type from the pgx_ulid PostgreSQL extension.
@@ -21,10 +22,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidUlidArrayItemForPHPExce
  */
 final class UlidArray extends BaseArray
 {
-    /**
-     * @var string
-     */
-    private const ULID_REGEX = '/^[0-7][0-9A-HJKMNP-TV-Z]{25}\z/i';
+    use UlidValidationTrait;
 
     /**
      * @var string
@@ -85,10 +83,5 @@ final class UlidArray extends BaseArray
     protected function throwInvalidItemException(mixed $item): never
     {
         throw InvalidUlidArrayItemForDatabaseException::forInvalidFormat($item);
-    }
-
-    private function isValidUlid(string $value): bool
-    {
-        return (bool) \preg_match(self::ULID_REGEX, $value);
     }
 }
