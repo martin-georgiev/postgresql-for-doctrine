@@ -30,11 +30,11 @@ abstract class BaseTimestampRange extends Range
     protected function compareBounds(mixed $a, mixed $b): int
     {
         if (!$a instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidDateTimeBound($a);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $a);
         }
 
         if (!$b instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidDateTimeBound($b);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $b);
         }
 
         $timestampComparison = $a->getTimestamp() <=> $b->getTimestamp();

@@ -120,7 +120,7 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
         $range = $this->createBoundaryTestRange();
 
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
+        $this->expectExceptionMessage('Range bound must be DateTimeInterface');
 
         $range->contains('invalid');
     }

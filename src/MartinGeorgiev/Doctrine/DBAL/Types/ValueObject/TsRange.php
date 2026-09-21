@@ -18,7 +18,7 @@ final class TsRange extends BaseTimestampRange
     protected function formatValue(mixed $value): string
     {
         if (!$value instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidDateTimeBound($value);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $value);
         }
 
         return $value->format('Y-m-d H:i:s.u');

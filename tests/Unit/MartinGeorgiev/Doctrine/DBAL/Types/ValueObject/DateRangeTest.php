@@ -312,7 +312,7 @@ final class DateRangeTest extends BaseRangeTestCase
     public function throws_exception_for_invalid_lower_bound(): void
     {
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
+        $this->expectExceptionMessage('Range bound must be DateTimeInterface');
 
         /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new DateRange('invalid', new \DateTimeImmutable('2023-12-31'));
@@ -322,7 +322,7 @@ final class DateRangeTest extends BaseRangeTestCase
     public function throws_exception_for_invalid_upper_bound(): void
     {
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
+        $this->expectExceptionMessage('Range bound must be DateTimeInterface');
 
         /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new DateRange(new \DateTimeImmutable('2023-01-01'), 'invalid');
@@ -337,7 +337,7 @@ final class DateRangeTest extends BaseRangeTestCase
         );
 
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
+        $this->expectExceptionMessage('Range bound must be DateTimeInterface');
 
         $dateRange->contains('invalid');
     }

@@ -23,19 +23,13 @@ final class InvalidRangeException extends \InvalidArgumentException
         return self::create('Invalid range format: %s', $value);
     }
 
-    public static function forInvalidNumericBound(mixed $value): self
+    public static function forInvalidBoundType(string $expectedType, mixed $value): self
     {
-        return self::create('Range bound must be numeric, %s given', $value);
-    }
-
-    public static function forInvalidIntegerBound(mixed $value): self
-    {
-        return self::create('Range bound must be an integer, %s given', $value);
-    }
-
-    public static function forInvalidDateTimeBound(mixed $value): self
-    {
-        return self::create('Range bound must be a DateTimeInterface instance, %s given', $value);
+        return new self(\sprintf(
+            'Range bound must be %s, %s given',
+            $expectedType,
+            \var_export($value, true)
+        ));
     }
 
     public static function forNonFiniteBound(mixed $value): self

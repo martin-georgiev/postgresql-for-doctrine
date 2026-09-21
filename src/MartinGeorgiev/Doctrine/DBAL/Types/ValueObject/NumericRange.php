@@ -58,7 +58,7 @@ final class NumericRange extends Range
         }
 
         if (!\is_numeric($bound)) {
-            throw InvalidRangeException::forInvalidNumericBound($bound);
+            throw InvalidRangeException::forInvalidBoundType('numeric', $bound);
         }
 
         if (!\is_finite((float) $bound)) {
@@ -86,11 +86,11 @@ final class NumericRange extends Range
     protected function compareBounds(mixed $a, mixed $b): int
     {
         if (!\is_numeric($a)) {
-            throw InvalidRangeException::forInvalidNumericBound($a);
+            throw InvalidRangeException::forInvalidBoundType('numeric', $a);
         }
 
         if (!\is_numeric($b)) {
-            throw InvalidRangeException::forInvalidNumericBound($b);
+            throw InvalidRangeException::forInvalidBoundType('numeric', $b);
         }
 
         $aIsNotANumber = $this->isNotANumber($a);
@@ -121,7 +121,7 @@ final class NumericRange extends Range
         }
 
         if (!\is_numeric($value)) {
-            throw InvalidRangeException::forInvalidNumericBound($value);
+            throw InvalidRangeException::forInvalidBoundType('numeric', $value);
         }
 
         return (string) $value;
@@ -148,7 +148,7 @@ final class NumericRange extends Range
         }
 
         if (!\is_numeric($value)) {
-            throw InvalidRangeException::forInvalidNumericBound($value);
+            throw InvalidRangeException::forInvalidBoundType('numeric', $value);
         }
 
         $floatValue = (float) $value;

@@ -27,11 +27,11 @@ final class DateRange extends Range
         bool $isUpperBoundedInfinity = false,
     ) {
         if ($lower !== null && !$lower instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidDateTimeBound($lower);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $lower);
         }
 
         if ($upper !== null && !$upper instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidDateTimeBound($upper);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $upper);
         }
 
         parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
@@ -40,11 +40,11 @@ final class DateRange extends Range
     protected function compareBounds(mixed $a, mixed $b): int
     {
         if (!$a instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidDateTimeBound($a);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $a);
         }
 
         if (!$b instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidDateTimeBound($b);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $b);
         }
 
         return $a->getTimestamp() <=> $b->getTimestamp();
@@ -53,7 +53,7 @@ final class DateRange extends Range
     protected function formatValue(mixed $value): string
     {
         if (!$value instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidDateTimeBound($value);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $value);
         }
 
         return $value->format('Y-m-d');
