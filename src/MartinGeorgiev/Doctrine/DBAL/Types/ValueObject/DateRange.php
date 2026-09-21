@@ -27,11 +27,11 @@ final class DateRange extends Range
         bool $isUpperBoundedInfinity = false,
     ) {
         if ($lower !== null && !$lower instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $lower);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $lower, InvalidRangeException::LOWER_BOUND);
         }
 
         if ($upper !== null && !$upper instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $upper);
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $upper, InvalidRangeException::UPPER_BOUND);
         }
 
         parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);

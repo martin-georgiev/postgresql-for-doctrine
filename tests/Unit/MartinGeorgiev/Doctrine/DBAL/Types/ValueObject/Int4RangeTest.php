@@ -145,7 +145,7 @@ final class Int4RangeTest extends BaseRangeTestCase
     public function validates_int4_bounds_for_lower(): void
     {
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be within [-2147483648, 2147483647], -2147483649 given');
+        $this->expectExceptionMessage('Lower bound must be within [-2147483648, 2147483647], -2147483649 given');
 
         new Int4Range(-2147483649, 100);
     }
@@ -154,7 +154,7 @@ final class Int4RangeTest extends BaseRangeTestCase
     public function validates_int4_bounds_for_upper(): void
     {
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be within [-2147483648, 2147483647], 2147483648 given');
+        $this->expectExceptionMessage('Upper bound must be within [-2147483648, 2147483647], 2147483648 given');
 
         new Int4Range(100, 2147483648);
     }

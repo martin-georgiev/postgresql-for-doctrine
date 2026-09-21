@@ -128,7 +128,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function throws_exception_for_invalid_lower_bound(): void
     {
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be numeric');
+        $this->expectExceptionMessage('Lower bound must be numeric');
 
         /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new NumericRange('invalid', 10);
@@ -138,7 +138,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function throws_exception_for_invalid_upper_bound(): void
     {
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be numeric');
+        $this->expectExceptionMessage('Upper bound must be numeric');
 
         /* @phpstan-ignore-next-line Intentionally testing invalid input */
         new NumericRange(1, 'invalid');
@@ -415,7 +415,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function throws_exception_for_an_overflowing_literal_bound(): void
     {
         $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Range bound must be a number a PHP float can hold');
+        $this->expectExceptionMessage('Upper bound must be a number a PHP float can hold');
 
         /* @phpstan-ignore-next-line Intentionally testing a literal PostgreSQL stores but PHP cannot hold */
         new NumericRange(1, '1e999');

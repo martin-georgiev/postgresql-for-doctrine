@@ -38,31 +38,31 @@ final class NumericRange extends Range
             $normalizedLower = null;
             $inferredLowerBoundedInfinityFlag = true;
         } elseif ($lower !== null) {
-            $this->assertUsableBound($lower);
+            $this->assertUsableBound($lower, InvalidRangeException::LOWER_BOUND);
         }
 
         if ($upper !== null && \is_float($upper) && \is_infinite($upper)) {
             $normalizedUpper = null;
             $inferredUpperBoundedInfinityFlag = true;
         } elseif ($upper !== null) {
-            $this->assertUsableBound($upper);
+            $this->assertUsableBound($upper, InvalidRangeException::UPPER_BOUND);
         }
 
         parent::__construct($normalizedLower, $normalizedUpper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $inferredLowerBoundedInfinityFlag, $inferredUpperBoundedInfinityFlag);
     }
 
-    private function assertUsableBound(mixed $bound): void
+    private function assertUsableBound(mixed $bound, string $position): void
     {
         if ($this->isNotANumber($bound)) {
             return;
         }
 
         if (!\is_numeric($bound)) {
-            throw InvalidRangeException::forInvalidBoundType('numeric', $bound);
+            throw InvalidRangeException::forInvalidBoundType('numeric', $bound, $position);
         }
 
         if (!\is_finite((float) $bound)) {
-            throw InvalidRangeException::forNonFiniteBound($bound);
+            throw InvalidRangeException::forNonFiniteBound($bound, $position);
         }
     }
 
