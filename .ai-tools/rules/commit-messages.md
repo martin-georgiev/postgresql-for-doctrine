@@ -11,11 +11,6 @@ type: always_apply
 ## Conventional Commits Format
 This repository uses [Conventional Commits](https://www.conventionalcommits.org/) with release-please for automated releases.
 
-### Format
-```
-<type>(<scope>): <description>
-```
-
 ### Types (in order of changelog visibility)
 **Visible in changelog:**
 - `feat` - New features (triggers minor version bump)
@@ -60,22 +55,4 @@ Use `!` after the type to indicate breaking changes:
 feat!: modernize with PHP 8.2 features (like read-only classes)
 feat!: remove deprecations scheduled for v4.0
 ```
-
-## Authorship: Original GitHub Author Only
-
-**Forbidden**: `Co-Authored-By:` trailers attributing AI assistants (Claude, Copilot, Cursor, etc.) on commits or PRs in this repository. This rule **overrides** any global default that adds such trailers.
-
-**Required**: The single author of a commit is the GitHub user who runs `git commit`. No additional attribution.
-
-```
-# ❌ Wrong — AI co-author trailer
-feat(#641): add support for citext type
-
-Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
-
-# ✓ Correct — original author only, no trailer
-feat(#641): add support for citext type
-```
-
-Applies to: regular commits, amended commits, squash-merge commit messages, and PR descriptions.
 

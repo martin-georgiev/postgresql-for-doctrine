@@ -1,0 +1,70 @@
+name: Commit Policy
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  AI_TRAILER_PATTERN: 'co-authored-by:.*(claude|copilot|cursor|anthropic|openai|gpt|noreply@anthropic\.com)'
+  CONVENTIONAL_TITLE_PATTERN: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([^)]+\))?!?: .+'
+
+jobs:
+  commit-policy:
+    runs-on: ubuntu-latest
+    name: "Commit Policy"
+
+    steps:
+      - name: Check the pull request title is a conventional commit
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if printf '%s' "$PR_TITLE" | grep -qE "$CONVENTIONAL_TITLE_PATTERN"; then
+            echo "::notice::The pull request title follows the Conventional Commits format"
+            exit 0
+          fi
+          echo "::error::The pull request title is not a conventional commit: $PR_TITLE"
+          echo "::error::It becomes the squash commit on main, so rename the pull request to '<type>(<scope>): <description>', for example 'feat(#510): add support for UUID[] data type'"
+          echo "::error::Allowed types are build, chore, ci, docs, feat, fix, perf, refactor, revert, style and test. Append ! to the type for a breaking change. The scope is optional"
+          exit 1
+
+      - name: Check nothing attributes the work to an AI assistant
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          found=0
+
+          reportTrailersIn() {
+            offendingLines=$(printf '%s\n' "$2" | grep -iE "$AI_TRAILER_PATTERN" || true)
+            if [ -z "$offendingLines" ]; then
+              return
+            fi
+            found=1
+            echo "::error::A Co-Authored-By trailer attributing an AI assistant was found in $1:"
+            while IFS= read -r offendingLine; do
+              echo "::error::  $offendingLine"
+            done <<< "$offendingLines"
+          }
+
+          commitMessages=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER/commits" --paginate --jq '.[].commit.message')
+
+          reportTrailersIn 'the pull request title' "$PR_TITLE"
+          reportTrailersIn 'the pull request description' "$PR_BODY"
+          reportTrailersIn 'the commits of this pull request' "$commitMessages"
+
+          if [ "$found" -ne 0 ]; then
+            echo "::error::The only author of a commit is the GitHub user who wrote it. Drop the trailer, amend the commits carrying it and force-push, because a squash merge copies co-author trailers from the branch onto main"
+            exit 1
+          fi
+          echo "::notice::No AI attribution trailer found"
