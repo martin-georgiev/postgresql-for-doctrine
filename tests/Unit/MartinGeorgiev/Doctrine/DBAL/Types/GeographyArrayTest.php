@@ -81,8 +81,8 @@ final class GeographyArrayTest extends TestCase
     public function escapes_a_quote_and_a_backslash_in_the_wkt_body(): void
     {
         $phpValue = [
-            WktSpatialData::fromWkt('POINT(1 "2)'),
-            WktSpatialData::fromWkt('POINT(3 \\4)'),
+            WktSpatialData::fromString('POINT(1 "2)'),
+            WktSpatialData::fromString('POINT(3 \\4)'),
         ];
 
         $this->assertSame(
@@ -129,66 +129,66 @@ final class GeographyArrayTest extends TestCase
     {
         return [
             'single geographic point' => [
-                [WktSpatialData::fromWkt('POINT(-122.4194 37.7749)')],
+                [WktSpatialData::fromString('POINT(-122.4194 37.7749)')],
                 '{"POINT(-122.4194 37.7749)"}',
             ],
             'geographic point with elevation' => [
-                [WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)')],
+                [WktSpatialData::fromString('POINT Z(-122.4194 37.7749 100)')],
                 '{"POINT Z(-122.4194 37.7749 100)"}',
             ],
             'mixed geographic features with dimensions' => [
                 [
-                    WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)'),
-                    WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
+                    WktSpatialData::fromString('POINT Z(-122.4194 37.7749 100)'),
+                    WktSpatialData::fromString('LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
                 ],
                 '{"POINT Z(-122.4194 37.7749 100)":"LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)"}',
             ],
             'geographic areas with srid' => [
                 [
-                    WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
-                    WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))'),
+                    WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'),
+                    WktSpatialData::fromString('SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))'),
                 ],
                 '{"SRID=4326;POINT(-122.4194 37.7749)":"SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))"}',
             ],
             'complex geographic zm features' => [
                 [
-                    WktSpatialData::fromWkt('POINT ZM(-122.4194 37.7749 100 1)'),
-                    WktSpatialData::fromWkt('SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'),
+                    WktSpatialData::fromString('POINT ZM(-122.4194 37.7749 100 1)'),
+                    WktSpatialData::fromString('SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'),
                 ],
                 '{"POINT ZM(-122.4194 37.7749 100 1)":"SRID=4326;POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))"}',
             ],
             'world geographic features' => [
                 [
-                    WktSpatialData::fromWkt('POINT(0 0)'), // Null Island
-                    WktSpatialData::fromWkt('POINT(180 0)'), // International Date Line
-                    WktSpatialData::fromWkt('POINT(-180 0)'), // International Date Line (other side)
+                    WktSpatialData::fromString('POINT(0 0)'), // Null Island
+                    WktSpatialData::fromString('POINT(180 0)'), // International Date Line
+                    WktSpatialData::fromString('POINT(-180 0)'), // International Date Line (other side)
                 ],
                 '{"POINT(0 0)":"POINT(180 0)":"POINT(-180 0)"}',
             ],
             'mixed geographic geometry types' => [
                 [
-                    WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
-                    WktSpatialData::fromWkt('SRID=4326;LINESTRING(-122.4194 37.7749, -122.4094 37.7849)'),
-                    WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))'),
-                    WktSpatialData::fromWkt('SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))'),
+                    WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'),
+                    WktSpatialData::fromString('SRID=4326;LINESTRING(-122.4194 37.7749, -122.4094 37.7849)'),
+                    WktSpatialData::fromString('SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))'),
+                    WktSpatialData::fromString('SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))'),
                 ],
                 '{"SRID=4326;POINT(-122.4194 37.7749)":"SRID=4326;LINESTRING(-122.4194 37.7749, -122.4094 37.7849)":"SRID=4326;POLYGON((-122.5 37.7, -122.5 37.8, -122.4 37.8, -122.4 37.7, -122.5 37.7))":"SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))"}',
             ],
             'mixed geographic dimensional modifiers' => [
                 [
-                    WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
-                    WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
-                    WktSpatialData::fromWkt('SRID=4326;POINT M(-122.4194 37.7749 1)'),
-                    WktSpatialData::fromWkt('SRID=4326;POINT ZM(-122.4194 37.7749 100 1)'),
+                    WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'),
+                    WktSpatialData::fromString('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                    WktSpatialData::fromString('SRID=4326;POINT M(-122.4194 37.7749 1)'),
+                    WktSpatialData::fromString('SRID=4326;POINT ZM(-122.4194 37.7749 100 1)'),
                 ],
                 '{"SRID=4326;POINT(-122.4194 37.7749)":"SRID=4326;POINT Z(-122.4194 37.7749 100)":"SRID=4326;POINT M(-122.4194 37.7749 1)":"SRID=4326;POINT ZM(-122.4194 37.7749 100 1)"}',
             ],
             'complex geographic mix' => [
                 [
-                    WktSpatialData::fromWkt('POINT(0 0)'), // Null Island (no SRID)
-                    WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
-                    WktSpatialData::fromWkt('SRID=4269;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
-                    WktSpatialData::fromWkt('SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))'),
+                    WktSpatialData::fromString('POINT(0 0)'), // Null Island (no SRID)
+                    WktSpatialData::fromString('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                    WktSpatialData::fromString('SRID=4269;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
+                    WktSpatialData::fromString('SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))'),
                 ],
                 '{"POINT(0 0)":"SRID=4326;POINT Z(-122.4194 37.7749 100)":"SRID=4269;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)":"SRID=4326;MULTIPOINT((-122.4194 37.7749), (-122.4094 37.7849))"}',
             ],
@@ -320,22 +320,22 @@ final class GeographyArrayTest extends TestCase
         return [
             'geographic dimensional modifiers preservation' => [
                 [
-                    WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)'),
-                    WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
-                    WktSpatialData::fromWkt('POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'),
+                    WktSpatialData::fromString('POINT Z(-122.4194 37.7749 100)'),
+                    WktSpatialData::fromString('LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
+                    WktSpatialData::fromString('POLYGON ZM((-122.5 37.7 0 1, -122.5 37.8 0 1, -122.4 37.8 0 1, -122.4 37.7 0 1, -122.5 37.7 0 1))'),
                 ],
             ],
             'geographic srid preservation' => [
                 [
-                    WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
-                    WktSpatialData::fromWkt('SRID=4326;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
+                    WktSpatialData::fromString('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                    WktSpatialData::fromString('SRID=4326;LINESTRING M(-122.4194 37.7749 1, -122.4094 37.7849 2)'),
                 ],
             ],
             'world coordinate edge cases' => [
                 [
-                    WktSpatialData::fromWkt('POINT(-180 -90)'), // Southwest corner
-                    WktSpatialData::fromWkt('POINT(180 90)'), // Northeast corner
-                    WktSpatialData::fromWkt('POINT(0 0)'), // Null Island
+                    WktSpatialData::fromString('POINT(-180 -90)'), // Southwest corner
+                    WktSpatialData::fromString('POINT(180 90)'), // Northeast corner
+                    WktSpatialData::fromString('POINT(0 0)'), // Null Island
                 ],
             ],
         ];
@@ -355,7 +355,7 @@ final class GeographyArrayTest extends TestCase
     {
         return [
             'null is valid' => [null],
-            'valid WktSpatialData' => [WktSpatialData::fromWkt('POINT(-122.4194 37.7749)')],
+            'valid WktSpatialData' => [WktSpatialData::fromString('POINT(-122.4194 37.7749)')],
         ];
     }
 

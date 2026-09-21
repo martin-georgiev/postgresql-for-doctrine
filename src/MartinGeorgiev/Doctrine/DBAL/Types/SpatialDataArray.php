@@ -70,8 +70,6 @@ abstract class SpatialDataArray extends BaseArray
             return 'NULL';
         }
 
-        // A WKT body carries spaces and commas, and fromWkt() checks only the outer structure,
-        // so it may also carry a quote or a backslash the array literal has to escape.
         return $this->quoteAndEscapeArrayItem((string) $this->getValidatedArrayItem($item));
     }
 
@@ -209,7 +207,7 @@ abstract class SpatialDataArray extends BaseArray
         try {
             $normalizedWkt = $this->normalizePostgreSQLDimensionalModifiers($item);
 
-            return WktSpatialData::fromWkt($normalizedWkt);
+            return WktSpatialData::fromString($normalizedWkt);
         } catch (InvalidWktSpatialDataException) {
             $this->throwInvalidFormatExceptionForPHP($item);
         }

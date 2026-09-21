@@ -107,17 +107,17 @@ final class GeographyTypeTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            'point' => [WktSpatialData::fromWkt('POINT(1 2)')],
-            'linestring' => [WktSpatialData::fromWkt('LINESTRING(0 0,1 1,2 2)')],
-            'polygon' => [WktSpatialData::fromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))')],
-            'geometrycollection' => [WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
-            'point z' => [WktSpatialData::fromWkt('POINT Z(-122.4194 37.7749 100)')],
-            'linestring m' => [WktSpatialData::fromWkt('LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
-            'polygon zm' => [WktSpatialData::fromWkt('POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],
-            'point empty' => [WktSpatialData::fromWkt('POINT EMPTY')],
-            'polygon empty' => [WktSpatialData::fromWkt('POLYGON EMPTY')],
-            'geometrycollection empty' => [WktSpatialData::fromWkt('GEOMETRYCOLLECTION EMPTY')],
-            'point z empty' => [WktSpatialData::fromWkt('POINT Z EMPTY')],
+            'point' => [WktSpatialData::fromString('POINT(1 2)')],
+            'linestring' => [WktSpatialData::fromString('LINESTRING(0 0,1 1,2 2)')],
+            'polygon' => [WktSpatialData::fromString('POLYGON((0 0,0 1,1 1,1 0,0 0))')],
+            'geometrycollection' => [WktSpatialData::fromString('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
+            'point z' => [WktSpatialData::fromString('POINT Z(-122.4194 37.7749 100)')],
+            'linestring m' => [WktSpatialData::fromString('LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
+            'polygon zm' => [WktSpatialData::fromString('POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],
+            'point empty' => [WktSpatialData::fromString('POINT EMPTY')],
+            'polygon empty' => [WktSpatialData::fromString('POLYGON EMPTY')],
+            'geometrycollection empty' => [WktSpatialData::fromString('GEOMETRYCOLLECTION EMPTY')],
+            'point z empty' => [WktSpatialData::fromString('POINT Z EMPTY')],
         ];
     }
 }

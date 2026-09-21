@@ -41,16 +41,16 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     {
         return [
             'two points' => [[
-                WktSpatialData::fromWkt('POINT(1 2)'),
-                WktSpatialData::fromWkt('POINT(3 4)'),
+                WktSpatialData::fromString('POINT(1 2)'),
+                WktSpatialData::fromString('POINT(3 4)'),
             ]],
             'mixed geometries' => [[
-                WktSpatialData::fromWkt('POINT(1 2)'),
+                WktSpatialData::fromString('POINT(1 2)'),
                 // PostGIS re-emits WKT without the space after a coordinate comma
-                WktSpatialData::fromWkt('LINESTRING(0 0,1 1)'),
+                WktSpatialData::fromString('LINESTRING(0 0,1 1)'),
             ]],
             'multi item with a null element' => [[
-                WktSpatialData::fromWkt('POINT(1 2)'),
+                WktSpatialData::fromString('POINT(1 2)'),
                 null,
             ]],
         ];
@@ -71,34 +71,34 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
         return [
             // Single item tests - These work perfectly with Doctrine DBAL parameter binding
             'single point' => [[
-                WktSpatialData::fromWkt('POINT(0 0)'),
+                WktSpatialData::fromString('POINT(0 0)'),
             ]],
             'single point with z dimension' => [[
-                WktSpatialData::fromWkt('POINT Z(1 2 3)'),
+                WktSpatialData::fromString('POINT Z(1 2 3)'),
             ]],
             'single point with m dimension' => [[
-                WktSpatialData::fromWkt('POINT M(1 2 3)'),
+                WktSpatialData::fromString('POINT M(1 2 3)'),
             ]],
             'single point with zm dimensions' => [[
-                WktSpatialData::fromWkt('POINT ZM(1 2 3 4)'),
+                WktSpatialData::fromString('POINT ZM(1 2 3 4)'),
             ]],
             'single ewkt with srid' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT(0 0)'),
+                WktSpatialData::fromString('SRID=4326;POINT(0 0)'),
             ]],
             'single ewkt with srid and dimensions' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT Z(1 2 3)'),
+                WktSpatialData::fromString('SRID=4326;POINT Z(1 2 3)'),
             ]],
             'single linestring' => [[
-                WktSpatialData::fromWkt('LINESTRING(0 0,1 1,2 2)'),
+                WktSpatialData::fromString('LINESTRING(0 0,1 1,2 2)'),
             ]],
             'single polygon' => [[
-                WktSpatialData::fromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))'),
+                WktSpatialData::fromString('POLYGON((0 0,0 1,1 1,1 0,0 0))'),
             ]],
             'single multipoint' => [[
-                WktSpatialData::fromWkt('MULTIPOINT((1 2),(3 4))'),
+                WktSpatialData::fromString('MULTIPOINT((1 2),(3 4))'),
             ]],
             'single complex geometry with srid' => [[
-                WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
+                WktSpatialData::fromString('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
             ]],
 
             // Edge cases
@@ -123,20 +123,20 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
     {
         return [
             'two points' => [[
-                WktSpatialData::fromWkt('POINT(0 0)'),
-                WktSpatialData::fromWkt('POINT(1 1)'),
+                WktSpatialData::fromString('POINT(0 0)'),
+                WktSpatialData::fromString('POINT(1 1)'),
             ]],
             'dimensional modifiers' => [[
-                WktSpatialData::fromWkt('POINT Z(1 2 3)'),
-                WktSpatialData::fromWkt('POINT M(1 2 3)'),
-                WktSpatialData::fromWkt('POINT ZM(1 2 3 4)'),
+                WktSpatialData::fromString('POINT Z(1 2 3)'),
+                WktSpatialData::fromString('POINT M(1 2 3)'),
+                WktSpatialData::fromString('POINT ZM(1 2 3 4)'),
             ]],
             'mixed types' => [[
-                WktSpatialData::fromWkt('POINT(0 0)'),
-                WktSpatialData::fromWkt('SRID=3035;POINT Z(1 2 3)'),
-                WktSpatialData::fromWkt('LINESTRING M(0 0 1,1 1 2)'),
-                WktSpatialData::fromWkt('SRID=3857;POLYGON((0 0,0 1000,1000 1000,1000 0,0 0))'),
-                WktSpatialData::fromWkt('MULTIPOINT((1 2),(3 4))'),
+                WktSpatialData::fromString('POINT(0 0)'),
+                WktSpatialData::fromString('SRID=3035;POINT Z(1 2 3)'),
+                WktSpatialData::fromString('LINESTRING M(0 0 1,1 1 2)'),
+                WktSpatialData::fromString('SRID=3857;POLYGON((0 0,0 1000,1000 1000,1000 0,0 0))'),
+                WktSpatialData::fromString('MULTIPOINT((1 2),(3 4))'),
             ]],
         ];
     }

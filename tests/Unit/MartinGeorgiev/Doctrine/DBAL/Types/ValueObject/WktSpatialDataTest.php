@@ -16,9 +16,9 @@ final class WktSpatialDataTest extends TestCase
 {
     #[DataProvider('provideValidWkt')]
     #[Test]
-    public function parses_from_wkt(string $wkt, string $expectedType, ?int $expectedSrid): void
+    public function parses_from_string(string $wkt, string $expectedType, ?int $expectedSrid): void
     {
-        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+        $wktSpatialData = WktSpatialData::fromString($wkt);
 
         $this->assertSame(GeometryType::from($expectedType), $wktSpatialData->getGeometryType());
         $this->assertSame($expectedSrid, $wktSpatialData->getSrid());
@@ -90,7 +90,7 @@ final class WktSpatialDataTest extends TestCase
     #[Test]
     public function extracts_dimensional_modifier(string $wkt, ?DimensionalModifier $dimensionalModifier): void
     {
-        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+        $wktSpatialData = WktSpatialData::fromString($wkt);
 
         $this->assertSame($dimensionalModifier, $wktSpatialData->getDimensionalModifier());
     }
@@ -139,7 +139,7 @@ final class WktSpatialDataTest extends TestCase
     public function throws_exception_for_invalid_wkt(string $invalidWkt): void
     {
         $this->expectException(InvalidWktSpatialDataException::class);
-        WktSpatialData::fromWkt($invalidWkt);
+        WktSpatialData::fromString($invalidWkt);
     }
 
     /**
@@ -163,7 +163,7 @@ final class WktSpatialDataTest extends TestCase
     #[Test]
     public function preserves_dimensional_modifiers_in_round_trip(string $wkt): void
     {
-        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+        $wktSpatialData = WktSpatialData::fromString($wkt);
         $output = (string) $wktSpatialData;
 
         $this->assertSame($wkt, $output);
@@ -204,7 +204,7 @@ final class WktSpatialDataTest extends TestCase
     #[Test]
     public function is_empty_for_empty_geometries(string $wkt): void
     {
-        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+        $wktSpatialData = WktSpatialData::fromString($wkt);
 
         $this->assertTrue($wktSpatialData->isEmpty());
     }
@@ -225,7 +225,7 @@ final class WktSpatialDataTest extends TestCase
     #[Test]
     public function is_not_empty_for_non_empty_geometries(string $wkt): void
     {
-        $wktSpatialData = WktSpatialData::fromWkt($wkt);
+        $wktSpatialData = WktSpatialData::fromString($wkt);
 
         $this->assertFalse($wktSpatialData->isEmpty());
     }
@@ -369,5 +369,14 @@ final class WktSpatialDataTest extends TestCase
             'simple 3d point' => [1, 2, 3, null, 'POINT Z(1 2 3)'],
             'with srid' => [-122.4194, 37.7749, 100, 4326, 'SRID=4326;POINT Z(-122.4194 37.7749 100)'],
         ];
+    }
+
+    #[Test]
+    public function parses_from_wkt(): void
+    {
+        // @phpstan-ignore staticMethod.deprecated
+        $wktSpatialData = WktSpatialData::fromWkt('SRID=4326;POINT(1 2)');
+
+        $this->assertSame('SRID=4326;POINT(1 2)', (string) $wktSpatialData);
     }
 }

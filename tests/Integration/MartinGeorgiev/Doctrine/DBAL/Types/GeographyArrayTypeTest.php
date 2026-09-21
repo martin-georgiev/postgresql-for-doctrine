@@ -41,16 +41,16 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
     {
         return [
             'two points' => [[
-                WktSpatialData::fromWkt('POINT(1 2)'),
-                WktSpatialData::fromWkt('POINT(3 4)'),
+                WktSpatialData::fromString('POINT(1 2)'),
+                WktSpatialData::fromString('POINT(3 4)'),
             ]],
             'mixed geometries' => [[
-                WktSpatialData::fromWkt('POINT(1 2)'),
+                WktSpatialData::fromString('POINT(1 2)'),
                 // PostGIS re-emits WKT without the space after a coordinate comma
-                WktSpatialData::fromWkt('LINESTRING(0 0,1 1)'),
+                WktSpatialData::fromString('LINESTRING(0 0,1 1)'),
             ]],
             'multi item with a null element' => [[
-                WktSpatialData::fromWkt('POINT(1 2)'),
+                WktSpatialData::fromString('POINT(1 2)'),
                 null,
             ]],
         ];
@@ -71,34 +71,34 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
         return [
             // Single item tests - These work perfectly with Doctrine DBAL parameter binding
             'single point' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
+                WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'),
             ]],
             'single point with z dimension' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                WktSpatialData::fromString('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
             ]],
             'single point with m dimension' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT M(-122.4194 37.7749 1)'),
+                WktSpatialData::fromString('SRID=4326;POINT M(-122.4194 37.7749 1)'),
             ]],
             'single point with zm dimension' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT ZM(-122.4194 37.7749 100 1)'),
+                WktSpatialData::fromString('SRID=4326;POINT ZM(-122.4194 37.7749 100 1)'),
             ]],
             'single linestring' => [[
-                WktSpatialData::fromWkt('SRID=4326;LINESTRING(-122.4194 37.7749,-122.4094 37.7849,-122.4 37.79)'),
+                WktSpatialData::fromString('SRID=4326;LINESTRING(-122.4194 37.7749,-122.4094 37.7849,-122.4 37.79)'),
             ]],
             'single polygon' => [[
-                WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
+                WktSpatialData::fromString('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
             ]],
             'single multipoint' => [[
-                WktSpatialData::fromWkt('SRID=4326;MULTIPOINT((-122.4194 37.7749),(-122.4094 37.7849))'),
+                WktSpatialData::fromString('SRID=4326;MULTIPOINT((-122.4194 37.7749),(-122.4094 37.7849))'),
             ]],
             'world coordinate null island' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT(0 0)'),
+                WktSpatialData::fromString('SRID=4326;POINT(0 0)'),
             ]],
             'world coordinate north pole' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT(0 90)'),
+                WktSpatialData::fromString('SRID=4326;POINT(0 90)'),
             ]],
             'world coordinate south pole' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT(0 -90)'),
+                WktSpatialData::fromString('SRID=4326;POINT(0 -90)'),
             ]],
 
             // Edge cases
@@ -123,20 +123,20 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
     {
         return [
             'two points' => [[
-                WktSpatialData::fromWkt('POINT(-122.4194 37.7749)'),
-                WktSpatialData::fromWkt('POINT(-122.4094 37.7849)'),
+                WktSpatialData::fromString('POINT(-122.4194 37.7749)'),
+                WktSpatialData::fromString('POINT(-122.4094 37.7849)'),
             ]],
             'dimensional modifiers' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
-                WktSpatialData::fromWkt('SRID=4326;POINT M(-122.4194 37.7749 1)'),
-                WktSpatialData::fromWkt('SRID=4326;POINT ZM(-122.4194 37.7749 100 1)'),
+                WktSpatialData::fromString('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                WktSpatialData::fromString('SRID=4326;POINT M(-122.4194 37.7749 1)'),
+                WktSpatialData::fromString('SRID=4326;POINT ZM(-122.4194 37.7749 100 1)'),
             ]],
             'mixed types' => [[
-                WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
-                WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
-                WktSpatialData::fromWkt('SRID=4326;LINESTRING(-122.4194 37.7749,-122.4094 37.7849)'),
-                WktSpatialData::fromWkt('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
-                WktSpatialData::fromWkt('SRID=4326;MULTIPOINT((-122.4194 37.7749),(-122.4094 37.7849))'),
+                WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'),
+                WktSpatialData::fromString('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                WktSpatialData::fromString('SRID=4326;LINESTRING(-122.4194 37.7749,-122.4094 37.7849)'),
+                WktSpatialData::fromString('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
+                WktSpatialData::fromString('SRID=4326;MULTIPOINT((-122.4194 37.7749),(-122.4094 37.7849))'),
             ]],
         ];
     }

@@ -50,7 +50,15 @@ final readonly class WktSpatialData implements \Stringable
         return 'SRID='.$this->srid.';'.$typeAndBody;
     }
 
+    /**
+     * @deprecated since 4.9, use fromString(). Removed in 5.0.
+     */
     public static function fromWkt(string $wkt): self
+    {
+        return self::fromString($wkt);
+    }
+
+    public static function fromString(string $wkt): self
     {
         $wkt = \trim($wkt);
         if ($wkt === '') {

@@ -50,7 +50,7 @@ final class Geography extends BaseSpatialType
         }
 
         try {
-            return WktSpatialData::fromWkt($value);
+            return WktSpatialData::fromString($value);
         } catch (InvalidWktSpatialDataException) {
             throw InvalidGeographyForPHPException::forInvalidFormat($value);
         }

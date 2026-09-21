@@ -81,8 +81,8 @@ final class GeometryArrayTest extends TestCase
     public function escapes_a_quote_and_a_backslash_in_the_wkt_body(): void
     {
         $phpValue = [
-            WktSpatialData::fromWkt('POINT(1 "2)'),
-            WktSpatialData::fromWkt('POINT(3 \\4)'),
+            WktSpatialData::fromString('POINT(1 "2)'),
+            WktSpatialData::fromString('POINT(3 \\4)'),
         ];
 
         $this->assertSame(
@@ -129,57 +129,57 @@ final class GeometryArrayTest extends TestCase
     {
         return [
             'single point' => [
-                [WktSpatialData::fromWkt('POINT(1 2)')],
+                [WktSpatialData::fromString('POINT(1 2)')],
                 '{"POINT(1 2)"}',
             ],
             'point with z dimension' => [
-                [WktSpatialData::fromWkt('POINT Z(1 2 3)')],
+                [WktSpatialData::fromString('POINT Z(1 2 3)')],
                 '{"POINT Z(1 2 3)"}',
             ],
             'mixed dimensional modifiers' => [
                 [
-                    WktSpatialData::fromWkt('POINT Z(1 2 3)'),
-                    WktSpatialData::fromWkt('LINESTRING M(0 0 1, 1 1 2)'),
+                    WktSpatialData::fromString('POINT Z(1 2 3)'),
+                    WktSpatialData::fromString('LINESTRING M(0 0 1, 1 1 2)'),
                 ],
                 '{"POINT Z(1 2 3)":"LINESTRING M(0 0 1, 1 1 2)"}',
             ],
             'ewkt with srid' => [
                 [
-                    WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'),
-                    WktSpatialData::fromWkt('SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
+                    WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'),
+                    WktSpatialData::fromString('SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
                 ],
                 '{"SRID=4326;POINT(-122.4194 37.7749)":"SRID=4326;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))"}',
             ],
             'complex zm geometries' => [
                 [
-                    WktSpatialData::fromWkt('POINT ZM(1 2 3 4)'),
-                    WktSpatialData::fromWkt('MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'),
+                    WktSpatialData::fromString('POINT ZM(1 2 3 4)'),
+                    WktSpatialData::fromString('MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))'),
                 ],
                 '{"POINT ZM(1 2 3 4)":"MULTIPOLYGON ZM(((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1)))"}',
             ],
             'mixed geometry types' => [
                 [
-                    WktSpatialData::fromWkt('POINT(0 0)'),
-                    WktSpatialData::fromWkt('LINESTRING(0 0, 1 1)'),
-                    WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
+                    WktSpatialData::fromString('POINT(0 0)'),
+                    WktSpatialData::fromString('LINESTRING(0 0, 1 1)'),
+                    WktSpatialData::fromString('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))'),
                 ],
                 '{"POINT(0 0)":"LINESTRING(0 0, 1 1)":"POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))"}',
             ],
             'mixed srid usage' => [
                 [
-                    WktSpatialData::fromWkt('POINT(0 0)'),
-                    WktSpatialData::fromWkt('SRID=4326;POINT(-122 37)'),
-                    WktSpatialData::fromWkt('SRID=3857;POINT(1000 2000)'),
+                    WktSpatialData::fromString('POINT(0 0)'),
+                    WktSpatialData::fromString('SRID=4326;POINT(-122 37)'),
+                    WktSpatialData::fromString('SRID=3857;POINT(1000 2000)'),
                 ],
                 '{"POINT(0 0)":"SRID=4326;POINT(-122 37)":"SRID=3857;POINT(1000 2000)"}',
             ],
             'complex mixed array' => [
                 [
-                    WktSpatialData::fromWkt('POINT(0 0)'),
-                    WktSpatialData::fromWkt('SRID=4326;POINT Z(1 2 3)'),
-                    WktSpatialData::fromWkt('LINESTRING M(0 0 1, 1 1 2)'),
-                    WktSpatialData::fromWkt('MULTIPOINT((1 2), (3 4))'),
-                    WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))'),
+                    WktSpatialData::fromString('POINT(0 0)'),
+                    WktSpatialData::fromString('SRID=4326;POINT Z(1 2 3)'),
+                    WktSpatialData::fromString('LINESTRING M(0 0 1, 1 1 2)'),
+                    WktSpatialData::fromString('MULTIPOINT((1 2), (3 4))'),
+                    WktSpatialData::fromString('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))'),
                 ],
                 '{"POINT(0 0)":"SRID=4326;POINT Z(1 2 3)":"LINESTRING M(0 0 1, 1 1 2)":"MULTIPOINT((1 2), (3 4))":"GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))"}',
             ],
@@ -361,21 +361,21 @@ final class GeometryArrayTest extends TestCase
         return [
             'dimensional modifiers preservation' => [
                 [
-                    WktSpatialData::fromWkt('POINT Z(1 2 3)'),
-                    WktSpatialData::fromWkt('LINESTRING M(0 0 1, 1 1 2)'),
-                    WktSpatialData::fromWkt('POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'),
+                    WktSpatialData::fromString('POINT Z(1 2 3)'),
+                    WktSpatialData::fromString('LINESTRING M(0 0 1, 1 1 2)'),
+                    WktSpatialData::fromString('POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 1 0 0 1, 0 0 0 1))'),
                 ],
             ],
             'srid preservation' => [
                 [
-                    WktSpatialData::fromWkt('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
-                    WktSpatialData::fromWkt('SRID=3857;LINESTRING M(0 0 1, 1000 1000 2)'),
+                    WktSpatialData::fromString('SRID=4326;POINT Z(-122.4194 37.7749 100)'),
+                    WktSpatialData::fromString('SRID=3857;LINESTRING M(0 0 1, 1000 1000 2)'),
                 ],
             ],
             'mixed complex geometries' => [
                 [
-                    WktSpatialData::fromWkt('GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))'),
-                    WktSpatialData::fromWkt('MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))'),
+                    WktSpatialData::fromString('GEOMETRYCOLLECTION Z(POINT Z(1 2 3), LINESTRING Z(0 0 1, 1 1 2))'),
+                    WktSpatialData::fromString('MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))'),
                 ],
             ],
         ];
@@ -395,7 +395,7 @@ final class GeometryArrayTest extends TestCase
     {
         return [
             'null is valid' => [null],
-            'valid WktSpatialData' => [WktSpatialData::fromWkt('POINT(1 2)')],
+            'valid WktSpatialData' => [WktSpatialData::fromString('POINT(1 2)')],
         ];
     }
 
