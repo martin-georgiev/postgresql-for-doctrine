@@ -53,42 +53,27 @@ final class RegistrationCompletenessTest extends TestCase
     #[Test]
     public function registers_every_declared_type_with_the_integration_test_case(): void
     {
-        $declaredTypeNames = $this->findDeclaredTypeNames();
-        $registeredTypeNames = $this->findTypeNamesRegisteredForIntegrationTests();
-
-        $unregistered = \array_values(\array_diff($declaredTypeNames, $registeredTypeNames));
-        $this->assertSame([], $unregistered, \sprintf(
-            'These type names are declared as constants in %s but are missing from the $typesMap in registerCustomTypes() in %s.',
+        $this->assertSame($this->declaredTypeNames(), $this->typeNamesRegisteredForIntegrationTests(), \sprintf(
+            'The type names declared as constants in %s and the $typesMap in registerCustomTypes() in %s must be the same set.',
             self::TYPE_DECLARATION_FILE,
             self::TYPE_REGISTRATION_FILE
-        ));
-
-        $undeclared = \array_values(\array_diff($registeredTypeNames, $declaredTypeNames));
-        $this->assertSame([], $undeclared, \sprintf(
-            'These type names are registered in the $typesMap in %s but are not declared as constants in %s.',
-            self::TYPE_REGISTRATION_FILE,
-            self::TYPE_DECLARATION_FILE
         ));
     }
 
     #[Test]
     public function registers_every_function_class_with_an_integration_test_case(): void
     {
-        $unregisteredFunctionClasses = \array_values(\array_diff(
-            $this->findConcreteFunctionClasses(),
-            $this->findFunctionClassesRegisteredForIntegrationTests()
+        $unregistered = \array_values(\array_diff(
+            $this->concreteFunctionClasses(),
+            $this->functionClassesRegisteredForIntegrationTests()
         ));
 
-        $allowedToBeUnregistered = self::FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS;
-        \sort($allowedToBeUnregistered);
-
-        $message = \sprintf(
+        $this->assertSame(self::FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS, $unregistered, \sprintf(
             'Every concrete function class in %s must be registered in a getStringFunctions() of some test case in %s. Register the class there, or - when no tested PostgreSQL version can run it - add it to %s::FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS.',
             self::FUNCTION_SOURCE_DIRECTORY,
             self::FUNCTION_INTEGRATION_TEST_DIRECTORY,
             self::class
-        );
-        $this->assertSame($allowedToBeUnregistered, $unregisteredFunctionClasses, $message);
+        ));
     }
 
     #[DataProvider('provideDocumentationThatMustListEveryType')]
@@ -96,21 +81,16 @@ final class RegistrationCompletenessTest extends TestCase
     public function documents_every_declared_type(string $documentationFile, string $registrationPattern): void
     {
         $documentation = $this->readRepositoryFile($documentationFile);
+        $undocumented = \array_values(\array_filter(
+            $this->declaredTypeNames(),
+            static fn (string $typeName): bool => \preg_match(\sprintf($registrationPattern, \preg_quote($typeName, '/')), $documentation) !== 1
+        ));
 
-        $undocumentedTypeNames = [];
-        foreach ($this->findDeclaredTypeNames() as $typeName) {
-            $pattern = \sprintf($registrationPattern, \preg_quote($typeName, '/'));
-            if (\preg_match($pattern, $documentation) !== 1) {
-                $undocumentedTypeNames[] = $typeName;
-            }
-        }
-
-        $message = \sprintf(
+        $this->assertSame([], $undocumented, \sprintf(
             'Every type name declared as a constant in %s must be registered in %s.',
             self::TYPE_DECLARATION_FILE,
             $documentationFile
-        );
-        $this->assertSame([], $undocumentedTypeNames, $message);
+        ));
     }
 
     /**
@@ -123,37 +103,19 @@ final class RegistrationCompletenessTest extends TestCase
     public static function provideDocumentationThatMustListEveryType(): array
     {
         return [
-            'type catalogue' => [
-                'documentationFile' => 'docs/AVAILABLE-TYPES.md',
-                'registrationPattern' => '/\| %s \| /',
-            ],
-            'Doctrine integration guide' => [
-                'documentationFile' => 'docs/INTEGRATING-WITH-DOCTRINE.md',
-                'registrationPattern' => "/addType\\('%s', /",
-            ],
-            'Symfony integration guide' => [
-                'documentationFile' => 'docs/INTEGRATING-WITH-SYMFONY.md',
-                'registrationPattern' => "/^ *'?%s'?: MartinGeorgiev/m",
-            ],
-            'Laravel integration guide' => [
-                'documentationFile' => 'docs/INTEGRATING-WITH-LARAVEL.md',
-                'registrationPattern' => "/'%s' => /",
-            ],
+            'type catalogue' => ['documentationFile' => 'docs/AVAILABLE-TYPES.md', 'registrationPattern' => '/\| %s \| /'],
+            'Doctrine integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-DOCTRINE.md', 'registrationPattern' => "/addType\\('%s', /"],
+            'Symfony integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-SYMFONY.md', 'registrationPattern' => "/^ *'?%s'?: MartinGeorgiev/m"],
+            'Laravel integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-LARAVEL.md', 'registrationPattern' => "/'%s' => /"],
         ];
     }
 
     /**
      * @return list<string>
      */
-    private function findDeclaredTypeNames(): array
+    private function declaredTypeNames(): array
     {
-        $declaredConstants = (new \ReflectionClass(Type::class))->getConstants();
-        $typeNames = \array_values(\array_filter($declaredConstants, \is_string(...)));
-        $this->assertSameSize($declaredConstants, $typeNames, \sprintf(
-            'Every constant in %s must name a PostgreSQL type as a string.',
-            self::TYPE_DECLARATION_FILE
-        ));
-
+        $typeNames = \array_values(\array_filter((new \ReflectionClass(Type::class))->getConstants(), \is_string(...)));
         \sort($typeNames);
 
         return $typeNames;
@@ -162,7 +124,7 @@ final class RegistrationCompletenessTest extends TestCase
     /**
      * @return list<string>
      */
-    private function findTypeNamesRegisteredForIntegrationTests(): array
+    private function typeNamesRegisteredForIntegrationTests(): array
     {
         $source = $this->readRepositoryFile(self::TYPE_REGISTRATION_FILE);
         if (\preg_match('/\$typesMap = \[(?<entries>.*?)\n\s*\];/s', $source, $typesMap) !== 1) {
@@ -179,28 +141,16 @@ final class RegistrationCompletenessTest extends TestCase
     /**
      * @return list<class-string>
      */
-    private function findConcreteFunctionClasses(): array
+    private function concreteFunctionClasses(): array
     {
         $functionClasses = [];
-        foreach ($this->findPhpFilesIn(self::FUNCTION_SOURCE_DIRECTORY) as $relativePath) {
-            $subfolder = \strtok($relativePath, '/');
-            if (\in_array($subfolder, self::NON_FUNCTION_SOURCE_SUBFOLDERS, true)) {
-                continue;
+        foreach ($this->classesIn(self::FUNCTION_SOURCE_DIRECTORY, self::FUNCTION_SOURCE_NAMESPACE) as $functionClass) {
+            $subfolder = \strtok(\substr($functionClass, \strlen(self::FUNCTION_SOURCE_NAMESPACE)), '\\');
+            $isBuildingBlock = \in_array($subfolder, self::NON_FUNCTION_SOURCE_SUBFOLDERS, true);
+            if (!$isBuildingBlock && !(new \ReflectionClass($functionClass))->isAbstract()) {
+                $functionClasses[] = $functionClass;
             }
-
-            $className = self::FUNCTION_SOURCE_NAMESPACE.\str_replace('/', '\\', \substr($relativePath, 0, -4));
-            if (!\class_exists($className)) {
-                continue;
-            }
-
-            if ((new \ReflectionClass($className))->isAbstract()) {
-                continue;
-            }
-
-            $functionClasses[] = $className;
         }
-
-        \sort($functionClasses);
 
         return $functionClasses;
     }
@@ -208,25 +158,18 @@ final class RegistrationCompletenessTest extends TestCase
     /**
      * @return list<class-string>
      */
-    private function findFunctionClassesRegisteredForIntegrationTests(): array
+    private function functionClassesRegisteredForIntegrationTests(): array
     {
         $functionClasses = [];
-        foreach ($this->findPhpFilesIn(self::FUNCTION_INTEGRATION_TEST_DIRECTORY) as $relativePath) {
-            $className = self::FUNCTION_INTEGRATION_TEST_NAMESPACE.\str_replace('/', '\\', \substr($relativePath, 0, -4));
-            if (!\class_exists($className)) {
-                continue;
-            }
-
-            $testCase = new \ReflectionClass($className);
+        foreach ($this->classesIn(self::FUNCTION_INTEGRATION_TEST_DIRECTORY, self::FUNCTION_INTEGRATION_TEST_NAMESPACE) as $testCaseClass) {
+            $testCase = new \ReflectionClass($testCaseClass);
             if ($testCase->isAbstract() || !$testCase->hasMethod('getStringFunctions')) {
                 continue;
             }
 
-            /** @var array<string, class-string> $registeredFunctionClasses */
-            $registeredFunctionClasses = $testCase->getMethod('getStringFunctions')->invoke($testCase->newInstanceWithoutConstructor());
-            foreach ($registeredFunctionClasses as $registeredFunctionClass) {
-                $functionClasses[] = $registeredFunctionClass;
-            }
+            /** @var array<string, class-string> $registered */
+            $registered = $testCase->getMethod('getStringFunctions')->invoke($testCase->newInstanceWithoutConstructor());
+            $functionClasses = [...$functionClasses, ...\array_values($registered)];
         }
 
         $functionClasses = \array_values(\array_unique($functionClasses));
@@ -236,24 +179,27 @@ final class RegistrationCompletenessTest extends TestCase
     }
 
     /**
-     * @return list<string> paths relative to the given directory
+     * @return list<class-string> sorted, every PHP file under the directory that names a real class
      */
-    private function findPhpFilesIn(string $relativeDirectory): array
+    private function classesIn(string $relativeDirectory, string $namespace): array
     {
         $directory = self::ROOT_DIRECTORY.'/'.$relativeDirectory;
-        $files = [];
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS));
-        foreach ($iterator as $file) {
+        $classes = [];
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS)) as $file) {
             if (!$file instanceof \SplFileInfo || $file->getExtension() !== 'php') {
                 continue;
             }
 
-            $files[] = \substr($file->getPathname(), \strlen($directory) + 1);
+            $relativePath = \substr($file->getPathname(), \strlen($directory) + 1);
+            $className = $namespace.\str_replace('/', '\\', \substr($relativePath, 0, -4));
+            if (\class_exists($className)) {
+                $classes[] = $className;
+            }
         }
 
-        \sort($files);
+        \sort($classes);
 
-        return $files;
+        return $classes;
     }
 
     private function readRepositoryFile(string $relativePath): string
