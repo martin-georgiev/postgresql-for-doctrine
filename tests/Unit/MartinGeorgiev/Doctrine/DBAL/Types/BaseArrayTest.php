@@ -114,6 +114,9 @@ final class BaseArrayTest extends TestCase
     public function quotes_and_escape_array_item(string $input, string $expected): void
     {
         $type = new class extends BaseArray {
+            /**
+             * @var string
+             */
             protected const TYPE_NAME = 'test';
 
             public function quoteAndEscapeArrayItem(string $item): string

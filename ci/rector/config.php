@@ -7,6 +7,7 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use MartinGeorgiev\Rector\MethodOrderRector;
 use MartinGeorgiev\Rector\ParentByNamespaceRector;
 use MartinGeorgiev\Rector\TestDoubleIntersectionVarRector;
+use MartinGeorgiev\Rector\VarTagByConstantNameRector;
 use PHPUnit\Framework\MockObject\MockObject;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
@@ -25,6 +26,8 @@ require_once __DIR__.'/rules/MethodOrderRector.php';
 require_once __DIR__.'/rules/ParentByNamespaceRector.php';
 
 require_once __DIR__.'/rules/TestDoubleIntersectionVarRector.php';
+
+require_once __DIR__.'/rules/VarTagByConstantNameRector.php';
 
 $basePath = __DIR__.'/../../';
 
@@ -69,10 +72,13 @@ return RectorConfig::configure()
         'convertToDatabaseValue',
         'convertToPHPValue',
     ])
-    // a bare MockObject says nothing about what was doubled; the stock rule is version-bonded
-    // to PHPUnit 11 and spells the docblock the other way around
+    // a bare MockObject hides what was doubled; the stock rule is bonded to PHPUnit 11 and reverses the order
     ->withConfiguredRule(TestDoubleIntersectionVarRector::class, [
         MockObject::class => ['createMock', 'getMockBuilder'],
+    ])
+    // all 102 TYPE_NAME declarations carry the tag; this keeps the 103rd from diverging
+    ->withConfiguredRule(VarTagByConstantNameRector::class, [
+        'TYPE_NAME' => 'string',
     ])
     ->withSkip([
         // a bad column option is a mapping mistake, not a per-value conversion failure

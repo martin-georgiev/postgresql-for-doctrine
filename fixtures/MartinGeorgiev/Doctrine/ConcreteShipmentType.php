@@ -9,6 +9,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Composite;
 
 final class ConcreteShipmentType extends Composite
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = 'test_shipment';
 
     protected function getFieldTypes(): array
