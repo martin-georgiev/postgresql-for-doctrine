@@ -56,7 +56,9 @@ try {
 
 The Utils exception carries the *reason* (`'the value is not decodable JSON'`); the domain exception adds the offending value. Do not duplicate the value in both.
 
-**Default parent class**: `Doctrine\DBAL\Types\ConversionException`.
+**Default parent class**: `Doctrine\DBAL\Types\ConversionException` — for the `Types/Exceptions/` and `Utils/Exception/` families.
+
+**The `Types/ValueObject/Exceptions/` family is different**: it extends `\InvalidArgumentException`, because the DBAL types catch that to translate VO failures. See `dbal-value-object-conventions.md` § Validation and Exceptions. Everything else in this file applies to it unchanged.
 
 **Deviation allowed if justified**: extending a different exception (PHP SPL, another Doctrine class, or a domain-specific base) is permitted only with a concrete reason that does not fit `ConversionException`. The reason **must** be stated in the class-level PHPDoc — otherwise a future agent will "normalize" it back.
 
@@ -133,7 +135,7 @@ public static function forInvalidType(mixed $value): self
 ## Message Formatting
 
 **Required**:
-- Use the `create()` helper — do **not** call `new self(\sprintf(...))` directly in each factory.
+- Use the `create()` helper when the message interpolates offending values only. Build inline when it also carries a pattern, a description or a list of accepted values, or when the factory takes a previous throwable — `InvalidCircleException`, `InvalidLtreeException` and `InvalidWktSpatialDataException` are the standing examples.
 - Format the offending value with `\var_export($value, true)` (delivered via `create()`). Do **not** use `\gettype()` or `\get_debug_type()` — those drop the actual value.
 - Message shape: `"<What it must be>, %s given"` for type errors, `"Invalid <thing> format: %s"` for format errors.
 
