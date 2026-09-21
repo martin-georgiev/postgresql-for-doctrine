@@ -28,6 +28,8 @@ final readonly class Cube implements \Stringable
 
     /**
      * PostgreSQL rejects anything above this with "A cube cannot have more than 100 dimensions".
+     *
+     * @var int
      */
     private const MAX_DIMENSIONS = 100;
 

@@ -15,6 +15,8 @@ trait HstoreParserTrait
 {
     /**
      * Matches a quoted key, '=>', then either a quoted value or the NULL keyword.
+     *
+     * @var string
      */
     private const HSTORE_PAIR_PATTERN = '/"((?:[^"\\\\]|\\\\.)*)"\\s*=>\\s*(?:"((?:[^"\\\\]|\\\\.)*)"|(?i:(NULL)))/';
 

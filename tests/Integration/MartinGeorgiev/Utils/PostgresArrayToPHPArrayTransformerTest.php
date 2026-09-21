@@ -12,6 +12,9 @@ use Tests\Integration\MartinGeorgiev\TestCase;
 
 final class PostgresArrayToPHPArrayTransformerTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private const TABLE_NAME = 'array_test_table';
 
     protected function setUp(): void

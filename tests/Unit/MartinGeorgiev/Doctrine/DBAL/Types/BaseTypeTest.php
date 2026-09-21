@@ -26,6 +26,9 @@ final class BaseTypeTest extends TestCase
     public function throws_exception_when_type_name_not_configured(): void
     {
         $type = new class extends BaseType {
+            /**
+             * @var string
+             */
             protected const TYPE_NAME = '';
         };
 
@@ -39,6 +42,9 @@ final class BaseTypeTest extends TestCase
     public function throws_exception_when_getting_sql_declaration_with_no_type_name(): void
     {
         $type = new class extends BaseType {
+            /**
+             * @var string
+             */
             protected const TYPE_NAME = '';
         };
 
@@ -52,6 +58,9 @@ final class BaseTypeTest extends TestCase
     public function returns_correct_type_name(): void
     {
         $type = new class extends BaseType {
+            /**
+             * @var string
+             */
             protected const TYPE_NAME = 'custom_type';
         };
 
@@ -62,6 +71,9 @@ final class BaseTypeTest extends TestCase
     public function returns_correct_sql_declaration(): void
     {
         $type = new class extends BaseType {
+            /**
+             * @var string
+             */
             protected const TYPE_NAME = 'custom_type';
         };
 
@@ -79,6 +91,9 @@ final class BaseTypeTest extends TestCase
     public function returns_false_for_sql_comment_hint_requirement(): void
     {
         $type = new class extends BaseType {
+            /**
+             * @var string
+             */
             protected const TYPE_NAME = 'custom_type';
         };
 

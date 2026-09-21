@@ -8,6 +8,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray;
 
 final class ConcreteInventoryItemArrayType extends CompositeArray
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = 'test_inventory_item[]';
 
     protected function getCompositeClass(): string

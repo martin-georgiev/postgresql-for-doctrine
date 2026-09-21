@@ -142,6 +142,9 @@ final class EnumTest extends TestCase
     public function throws_exception_for_non_backed_enum_class_in_php_value(): void
     {
         $type = new class extends Enum {
+            /**
+             * @var string
+             */
             protected const TYPE_NAME = 'test_non_backed';
 
             protected function getEnumClass(): string

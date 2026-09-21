@@ -15,10 +15,15 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class EnumTypeTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private const DBAL_TYPE_NAME = 'test_tricky_label';
 
     /**
      * Valid in PostgreSQL but absent from the PHP enum, so it can stand in for DB/PHP model drift.
+     *
+     * @var string
      */
     private const UNMAPPED_LABEL = 'unmapped';
 

@@ -8,6 +8,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Enum;
 
 final class ConcreteTrickyLabelType extends Enum
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = 'test_tricky_label';
 
     protected function getEnumClass(): string

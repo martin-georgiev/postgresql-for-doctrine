@@ -9,6 +9,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Composite;
 
 final class ConcreteInventoryItemType extends Composite
 {
+    /**
+     * @var string
+     */
     protected const TYPE_NAME = 'test_inventory_item';
 
     protected function getFieldTypes(): array
