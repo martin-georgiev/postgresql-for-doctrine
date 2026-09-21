@@ -31,7 +31,7 @@ jobs:
     name: Request a reviewer
     steps:
       - name: Request reviews based on configuration
-        uses: necojackarc/auto-request-review@e89da1a8cd7c8c16d9de9c6e763290b6b0e3d424 # v0.13.0
+        uses: necojackarc/auto-request-review@9a4b11888f2d60c79120c5413f13eb63febc2b68 # v0.14.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config: .github/actions/auto-request-review/config.yml
