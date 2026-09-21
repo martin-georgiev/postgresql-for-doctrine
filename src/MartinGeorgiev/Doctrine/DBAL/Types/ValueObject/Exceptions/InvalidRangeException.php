@@ -56,7 +56,7 @@ final class InvalidRangeException extends \InvalidArgumentException
     public static function forUnparsableBound(mixed $value, \Throwable $throwable): self
     {
         return new self(
-            \sprintf('Cannot parse range bound: %s', \var_export($value, true)),
+            \sprintf('Cannot parse range bound: %s. Error: %s', \var_export($value, true), $throwable->getMessage()),
             0,
             $throwable
         );
