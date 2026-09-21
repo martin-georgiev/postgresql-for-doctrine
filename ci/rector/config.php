@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use MartinGeorgiev\Rector\MethodOrderRector;
 use MartinGeorgiev\Rector\ParentByNamespaceRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
@@ -16,6 +17,8 @@ use Rector\Privatization\Rector\Class_\FinalizeTestCaseClassRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+
+require_once __DIR__.'/rules/MethodOrderRector.php';
 
 require_once __DIR__.'/rules/ParentByNamespaceRector.php';
 
@@ -56,6 +59,11 @@ return RectorConfig::configure()
         'MartinGeorgiev\\Doctrine\\DBAL\\Types\\Exceptions\\' => ConversionException::class,
         'MartinGeorgiev\\Utils\\Exception\\' => InvalidArgumentException::class,
         'MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\' => FunctionNode::class,
+    ])
+    // a DBAL type reads as the write path then the read path, the order the rules ask for
+    ->withConfiguredRule(MethodOrderRector::class, [
+        'convertToDatabaseValue',
+        'convertToPHPValue',
     ])
     ->withSkip([
         // a bad column option is a mapping mistake, not a per-value conversion failure

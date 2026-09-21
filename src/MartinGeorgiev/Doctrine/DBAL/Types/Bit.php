@@ -29,23 +29,6 @@ final class Bit extends BaseType
      */
     protected const TYPE_NAME = Type::BIT;
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-
-        if (!\is_string($value)) {
-            throw InvalidBitForPHPException::forInvalidType($value);
-        }
-
-        if (!$this->isValidBitString($value)) {
-            throw InvalidBitForPHPException::forInvalidFormat($value);
-        }
-
-        return $value;
-    }
-
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -58,6 +41,23 @@ final class Bit extends BaseType
 
         if (!$this->isValidBitString($value)) {
             throw InvalidBitForDatabaseException::forInvalidFormat($value);
+        }
+
+        return $value;
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (!\is_string($value)) {
+            throw InvalidBitForPHPException::forInvalidType($value);
+        }
+
+        if (!$this->isValidBitString($value)) {
+            throw InvalidBitForPHPException::forInvalidFormat($value);
         }
 
         return $value;
