@@ -61,11 +61,9 @@ final readonly class ClassDocBlockRule implements Rule
 
     /**
      * @param array<string, array<int, string>> $requirementsByNamespacePrefix prefix to the requirements owed under it
-     * @param array<int, string> $grandfatheredAuthorNames values accepted despite not being real names
      */
     public function __construct(
         array $requirementsByNamespacePrefix,
-        private array $grandfatheredAuthorNames = [],
     ) {
         foreach ($requirementsByNamespacePrefix as $namespacePrefix => $requirements) {
             foreach ($requirements as $requirement) {
@@ -243,19 +241,16 @@ final readonly class ClassDocBlockRule implements Rule
         $errors = [];
         foreach ($matches[1] as $author) {
             $author = \trim($author);
-            if (\in_array($author, $this->grandfatheredAuthorNames, true)) {
-                continue;
-            }
-
             $name = \trim((string) \preg_replace('/<.*\z/', '', $author));
-            $isARealName = \preg_match('/^\p{Lu}/u', $name) === 1;
-            $pointsAtAHandleUrl = \preg_match('#<\s*https?://#i', $author) === 1;
-            if ($isARealName && !$pointsAtAHandleUrl) {
+            $namesSomeone = $name !== '';
+            $contactIsAnEmail = \preg_match('/<([^>]*)>/', $author, $contact) !== 1
+                || \filter_var(\trim($contact[1]), \FILTER_VALIDATE_EMAIL) !== false;
+            if ($namesSomeone && $contactIsAnEmail) {
                 continue;
             }
 
             $errors[] = RuleErrorBuilder::message(\sprintf(
-                'Class %s has @author %s, which is not a real name optionally followed by an email.',
+                'Class %s has @author %s. Give a name or a handle, and put an email in the angle brackets if any.',
                 $className,
                 \var_export($author, true)
             ))->identifier('martinGeorgiev.classDocblock.authorFormat')->build();
