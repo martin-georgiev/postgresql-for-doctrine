@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use MartinGeorgiev\Rector\ParentByNamespaceRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
@@ -12,6 +13,8 @@ use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+
+require_once __DIR__.'/rules/ParentByNamespaceRector.php';
 
 $basePath = __DIR__.'/../../';
 
@@ -41,6 +44,11 @@ return RectorConfig::configure()
     ])
     ->withRules([
         PreferPHPUnitThisCallRector::class,
+    ])
+    // the DBAL types translate value object failures with catch (\InvalidArgumentException);
+    // a member of this namespace that escapes it surfaces from the wrong layer
+    ->withConfiguredRule(ParentByNamespaceRector::class, [
+        'MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Exceptions\\' => InvalidArgumentException::class,
     ])
     ->withSkip([
         // skip as it breaks support for legacy Lexer discovery on older Doctrine versions
