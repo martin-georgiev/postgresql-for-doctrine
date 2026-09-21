@@ -76,7 +76,7 @@ final class EnumArrayTypeTest extends ArrayTypeTestCase
         $this->assertSame($typeName, $type->getSQLDeclaration([], $platform));
 
         if (\method_exists($type, 'requiresSQLCommentHint')) {
-            $this->assertFalse($type->requiresSQLCommentHint($platform)); // @phpstan-ignore-line
+            $this->assertFalse($type->requiresSQLCommentHint($platform));
         }
     }
 

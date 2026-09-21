@@ -21,7 +21,7 @@ class PostgresJsonToPHPArrayTransformer
     public static function transformPostgresJsonEncodedValueToPHPValue(string $postgresValue): array|bool|float|int|string|null
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore return.type
             return \json_decode($postgresValue, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
         } catch (\JsonException) {
             throw InvalidJsonFormatException::invalidFormat('the value is not decodable JSON');

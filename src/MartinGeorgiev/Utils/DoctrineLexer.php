@@ -19,7 +19,6 @@ final class DoctrineLexer
      */
     public static function isPre200(Lexer $lexer): bool
     {
-        // @phpstan-ignore-next-line
         return \is_array($lexer->lookahead);
     }
 
@@ -29,11 +28,9 @@ final class DoctrineLexer
     public static function getLookaheadType(Lexer $lexer)
     {
         if (self::isPre200($lexer)) {
-            // @phpstan-ignore-next-line
             return $lexer->lookahead['type'];
         }
 
-        // @phpstan-ignore-next-line
         return $lexer->lookahead?->type;
     }
 
@@ -43,11 +40,9 @@ final class DoctrineLexer
     public static function getLookaheadValue(Lexer $lexer)
     {
         if (self::isPre200($lexer)) {
-            // @phpstan-ignore-next-line
             return $lexer->lookahead['value'] ?? null;
         }
 
-        // @phpstan-ignore-next-line
         return $lexer->lookahead?->value;
     }
 
@@ -57,16 +52,13 @@ final class DoctrineLexer
     public static function getTokenValue(Lexer $lexer)
     {
         if (self::isPre200($lexer)) {
-            // @phpstan-ignore-next-line
             if ($lexer->token === null) {
                 return null;
             }
 
-            // @phpstan-ignore-next-line
             return $lexer->token['value'];
         }
 
-        // @phpstan-ignore-next-line
         return $lexer->token?->value;
     }
 }

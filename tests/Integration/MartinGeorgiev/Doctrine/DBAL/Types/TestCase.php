@@ -205,7 +205,7 @@ abstract class TestCase extends BaseTestCase
 
         // Not all Doctrine versions expose this method as it's deprecated. For now, we ignore the deprecation.
         if (\method_exists($type, 'requiresSQLCommentHint')) {
-            $this->assertFalse($type->requiresSQLCommentHint($platform)); // @phpstan-ignore-line
+            $this->assertFalse($type->requiresSQLCommentHint($platform));
         }
     }
 

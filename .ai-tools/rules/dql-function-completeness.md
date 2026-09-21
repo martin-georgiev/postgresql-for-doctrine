@@ -148,7 +148,4 @@ Only applies when this is the **first function being added from a previously uns
 ```bash
 # All must show a match for the new function name:
 grep -l "{FUNCTION_NAME}" docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md docs/INTEGRATING-WITH-DOCTRINE.md docs/INTEGRATING-WITH-SYMFONY.md docs/INTEGRATING-WITH-LARAVEL.md
-
-# Registration in the group TestCase:
-grep -r "'{FUNCTION_NAME}' =>" tests/Integration/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/
 ```

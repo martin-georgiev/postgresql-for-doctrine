@@ -97,7 +97,6 @@ final class BaseTypeTest extends TestCase
             protected const TYPE_NAME = 'custom_type';
         };
 
-        // @phpstan-ignore-next-line Not all Doctrine version like this method as it's deprecated. For now, we ignore the deprecation.
         $this->assertFalse($type->requiresSQLCommentHint($this->platform));
     }
 }

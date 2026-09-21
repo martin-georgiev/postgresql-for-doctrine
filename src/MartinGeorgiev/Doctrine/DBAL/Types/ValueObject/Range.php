@@ -152,7 +152,7 @@ abstract class Range implements \Stringable
             $upperBoundValue = static::parseValue($upperBoundString);
         }
 
-        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive, false, $isLowerBoundedInfinity, $isUpperBoundedInfinity); // @phpstan-ignore new.static, return.type
+        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive, false, $isLowerBoundedInfinity, $isUpperBoundedInfinity); // @phpstan-ignore new.static
     }
 
     abstract protected static function parseValue(string $value): mixed;

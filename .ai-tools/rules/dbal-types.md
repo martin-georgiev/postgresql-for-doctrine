@@ -63,16 +63,6 @@ Scalar and array variants must be registered as adjacent pairs (see § Documenta
 | `README.md` | Only when introducing a brand-new feature **group** (e.g. first range type, first PostGIS type). Routine additions within an existing group: do **not** touch README. |
 | `docs/{GROUP}-TYPE.md` / `docs/{GROUP}-TYPES.md` | If the type belongs to a group with its own dedicated doc (`RANGE-TYPES.md`, `SPATIAL-TYPES.md`, `GEOMETRY-ARRAYS.md`, `LTREE-TYPE.md`, `ENUM-TYPE.md`, etc.) |
 
-### 5. Verify completeness before declaring done
-
-```bash
-# All must show a match for the new type name:
-grep -l "{new-type-name}" docs/AVAILABLE-TYPES.md docs/INTEGRATING-WITH-DOCTRINE.md docs/INTEGRATING-WITH-SYMFONY.md docs/INTEGRATING-WITH-LARAVEL.md
-
-# And both registrations:
-grep "{new-type-name}" src/MartinGeorgiev/Doctrine/DBAL/Type.php tests/Integration/MartinGeorgiev/TestCase.php
-```
-
 ## Class Conventions
 
 ### Class-Level PHPDoc
