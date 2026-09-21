@@ -13,6 +13,11 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
  */
 final class InvalidCircleException extends \InvalidArgumentException
 {
+    private static function create(string $message, mixed $value): self
+    {
+        return new self(\sprintf($message, \var_export($value, true)));
+    }
+
     public static function forInvalidFormat(string $value, string $expectedPattern, ?\Throwable $throwable = null): self
     {
         return new self(\sprintf(
@@ -24,9 +29,6 @@ final class InvalidCircleException extends \InvalidArgumentException
 
     public static function forNegativeRadius(float $radius): self
     {
-        return new self(\sprintf(
-            'Circle radius must be non-negative, got: %s',
-            $radius
-        ));
+        return self::create('Circle radius must be non-negative, %s given', $radius);
     }
 }
