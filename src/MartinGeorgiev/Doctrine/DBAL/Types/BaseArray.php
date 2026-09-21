@@ -80,14 +80,14 @@ abstract class BaseArray extends BaseType
     protected function throwInvalidPostgresTypeException(mixed $value): never
     {
         throw new ConversionException(
-            \sprintf('Given PostgreSQL value content type is not PHP string. Instead it is "%s".', \gettype($value))
+            \sprintf('Given PostgreSQL value must be a PHP string, %s given.', \var_export($value, true))
         );
     }
 
     protected function createInvalidTypeException(mixed $value): \InvalidArgumentException
     {
         return new \InvalidArgumentException(
-            \sprintf('Given PHP value content type is not PHP array. Instead it is "%s".', \gettype($value))
+            \sprintf('Given PHP value must be a PHP array, %s given.', \var_export($value, true))
         );
     }
 

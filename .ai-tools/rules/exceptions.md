@@ -138,7 +138,7 @@ public static function forInvalidType(mixed $value): self
 
 **Required**:
 - Use the `create()` helper when the message interpolates offending values only. Build inline when it also carries a pattern, a description or a list of accepted values, or when the factory takes a previous throwable — `InvalidCircleException::forInvalidFormat()`, `InvalidLtreeException::forInvalidNodeFormat()` and `InvalidWktSpatialDataException::forUnsupportedGeometryType()` are the standing examples. The clause is per factory, not per class: a class can owe the helper for one message and build another inline.
-- Format the offending value with `\var_export($value, true)` (delivered via `create()`). Do **not** use `\gettype()` or `\get_debug_type()` — those drop the actual value.
+- Format the offending value with `\var_export($value, true)` (delivered via `create()`). Do **not** use `\gettype()` or `\get_debug_type()` — those drop the actual value. Both functions are on PHPStan's banned-code list (`ci/phpstan/config.neon`), so a breach fails the build rather than review, anywhere in the codebase and not only in an exception message.
 - Message shape: `"<What it must be>, %s given"` for type errors, `"Invalid <thing> format: %s"` for format errors.
 
 ```php

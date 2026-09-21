@@ -72,17 +72,13 @@ class PHPArrayToPostgresValueTransformer
             }
         } elseif (\is_resource($value)) {
             $stringValue = '(resource)';
+        } elseif (\is_string($value)) {
+            $stringValue = $value;
+        } elseif (\is_array($value)) {
+            $stringValue = 'array';
         } else {
-            $valueType = \get_debug_type($value);
-
-            if ($valueType === 'string') {
-                $stringValue = $value;
-            } elseif (\in_array($valueType, ['int', 'float', 'bool'], true)) {
-                /** @var bool|float|int $value */
-                $stringValue = (string) $value;
-            } else {
-                $stringValue = $valueType;
-            }
+            // is_resource() reports false once a handle is closed, so a closed resource only reaches here
+            $stringValue = 'resource (closed)';
         }
 
         \assert(\is_string($stringValue));

@@ -20,7 +20,7 @@ class InvalidBitForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be a bit string, %s given', \gettype($value));
+        return self::create('Database value must be a bit string, %s given', $value);
     }
 
     public static function forInvalidFormat(mixed $value): self
