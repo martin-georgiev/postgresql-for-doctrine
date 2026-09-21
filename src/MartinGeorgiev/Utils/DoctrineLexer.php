@@ -28,7 +28,7 @@ final class DoctrineLexer
     public static function getLookaheadType(Lexer $lexer)
     {
         if (self::isPre200($lexer)) {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore offsetAccess.nonOffsetAccessible
             return $lexer->lookahead['type'];
         }
 

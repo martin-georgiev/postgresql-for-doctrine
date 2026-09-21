@@ -86,7 +86,7 @@ abstract class SpatialDataArray extends BaseArray
     protected function getValidatedArrayItem(mixed $item): WktSpatialData
     {
         if ($this->isValidArrayItemForDatabase($item)) {
-            return $item; // @phpstan-ignore-line
+            return $item; // @phpstan-ignore return.type
         }
 
         $this->throwInvalidItemException($item);

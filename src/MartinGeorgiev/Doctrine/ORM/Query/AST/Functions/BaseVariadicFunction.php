@@ -268,7 +268,7 @@ abstract class BaseVariadicFunction extends BaseFunction
         }
 
         // Final validation ensures all arguments meet requirements, including any special rules in subclass implementations
-        $this->validateArguments(...$this->nodes); // @phpstan-ignore-line
+        $this->validateArguments(...$this->nodes); // @phpstan-ignore argument.type
     }
 
     /**
@@ -278,7 +278,7 @@ abstract class BaseVariadicFunction extends BaseFunction
     {
         $node = $parser->{$parserMethod}();
 
-        return $node ?? new NullLiteral(); // @phpstan-ignore-line
+        return $node ?? new NullLiteral(); // @phpstan-ignore return.type
     }
 
     /**
