@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidRangeForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -119,7 +119,7 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
     {
         $range = $this->createBoundaryTestRange();
 
-        $this->expectException(InvalidRangeForPHPException::class);
+        $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Range bound must be a DateTimeInterface instance');
 
         $range->contains('invalid');
