@@ -11,6 +11,8 @@ Value object exceptions moved into their own family and share one parent. Releas
 | `InvalidPointException::forInvalidPointFormat()` | `::forInvalidFormat()` |
 | `InvalidWktSpatialDataException::forInvalidWktFormat()` | `::forInvalidFormat()` |
 | `InvalidRangeForPHPException::forInvalidNumericBound()`, `::forInvalidIntegerBound()`, `::forInvalidDateTimeBound()`, `::forUnsupportedBoundedInfinity()` | removed, left without callers |
+| range and multirange value objects threw a bare `\InvalidArgumentException` | `InvalidRangeException`, `InvalidMultirangeException` |
+| their messages named the bound (`Lower bound must be ...`) and typed it with `gettype()` | one wording per reason, offending value shown verbatim |
 
 Catching through the DBAL types is unaffected — those translate value object failures as before.
 
