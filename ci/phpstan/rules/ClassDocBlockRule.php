@@ -13,20 +13,11 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * Keeps the class-level docblock a namespace promises actually present on its classes.
+ * Keeps the class-level docblock a namespace promises present on its classes.
  *
- * Configured with a map of namespace prefix to the requirements owed there, so the DBAL
- * types, the value objects, the exception families and the DQL functions are four config
- * entries rather than four rules. The longest matching prefix wins, which lets a
- * sub-namespace (`Types\Exceptions\`) owe less than its parent (`Types\`).
- *
- * Only concrete classes are checked. An abstract base is scaffolding: it is not a type an
- * application registers nor a function DQL can call, so it has no PostgreSQL documentation
- * page to cite and no function name to name. Interfaces, traits and enums are out of scope
- * for the same reason — none of them is the artifact the docblock describes.
- *
- * The docblock is read from the class node itself, never through the resolved PHPDoc, so a
- * parent's `@since` cannot satisfy a child that declares none of its own.
+ * Keys are namespace prefixes, longest match winning, so `Types\Exceptions\` owes less than `Types\`.
+ * Only concrete classes are checked: an abstract base has no PostgreSQL page to cite and no function name to name.
+ * The docblock is read off the class node, so a parent's `@since` cannot satisfy a child declaring none.
  *
  * @implements Rule<InClassNode>
  */
@@ -43,7 +34,7 @@ final readonly class ClassDocBlockRule implements Rule
     public const REQUIREMENT_FIRST_LINE_NAMES_IMPLEMENTATION = 'implementationFirstLine';
 
     /**
-     * Tags whose presence a namespace can demand. A tag must carry a value; a bare `@since` fails.
+     * A tag must carry a value; a bare `@since` fails.
      *
      * @var array<int, string>
      */
@@ -57,7 +48,7 @@ final readonly class ClassDocBlockRule implements Rule
     private const FIRST_LINE_PATTERN = '/^Implementation of (?:PostgreSQL|PostGIS) \S.*\.\z/';
 
     /**
-     * PostGIS spells its functions `ST_Area`, not `ST_AREA`, so `ST_`-prefixed tokens keep their casing.
+     * PostGIS spells its functions `ST_Area`, not `ST_AREA`.
      *
      * @var string
      */
