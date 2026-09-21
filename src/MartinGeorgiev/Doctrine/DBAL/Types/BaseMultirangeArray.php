@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Multirange;
 
 /**
@@ -29,7 +28,7 @@ abstract class BaseMultirangeArray extends BaseArray
      */
     abstract protected function createValueObjectFromString(string $value): Multirange;
 
-    abstract protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException;
+    abstract protected function throwTypedInvalidTypeExceptionForPHP(mixed $item): never;
 
     abstract protected function throwTypedInvalidArrayTypeException(mixed $value): never;
 
@@ -66,7 +65,7 @@ abstract class BaseMultirangeArray extends BaseArray
         }
 
         if (!\is_string($item)) {
-            throw $this->createInvalidTypeExceptionForPHP($item);
+            $this->throwTypedInvalidTypeExceptionForPHP($item);
         }
 
         try {

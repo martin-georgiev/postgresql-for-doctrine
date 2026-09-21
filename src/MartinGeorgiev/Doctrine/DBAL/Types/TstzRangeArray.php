@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTstzRangeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTstzRangeArrayItemForPHPException;
@@ -37,9 +36,9 @@ class TstzRangeArray extends BaseRangeArray
         return TstzRangeValueObject::fromString($value);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException
+    protected function throwTypedInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidTstzRangeArrayItemForPHPException::forInvalidType($item);
+        throw InvalidTstzRangeArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwTypedInvalidArrayTypeException(mixed $value): never

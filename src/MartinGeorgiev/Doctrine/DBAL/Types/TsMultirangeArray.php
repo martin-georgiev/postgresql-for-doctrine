@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\ConversionException;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsMultirangeArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidTsMultirangeArrayItemForPHPException;
@@ -37,9 +36,9 @@ class TsMultirangeArray extends BaseMultirangeArray
         return TsMultirangeValueObject::fromString($value);
     }
 
-    protected function createInvalidTypeExceptionForPHP(mixed $item): ConversionException
+    protected function throwTypedInvalidTypeExceptionForPHP(mixed $item): never
     {
-        return InvalidTsMultirangeArrayItemForPHPException::forInvalidType($item);
+        throw InvalidTsMultirangeArrayItemForPHPException::forInvalidType($item);
     }
 
     protected function throwTypedInvalidArrayTypeException(mixed $value): never
