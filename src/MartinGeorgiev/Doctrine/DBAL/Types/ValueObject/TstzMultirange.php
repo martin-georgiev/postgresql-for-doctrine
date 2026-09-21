@@ -9,6 +9,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
  *
  * @extends Multirange<TstzRange>
  *
+ * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

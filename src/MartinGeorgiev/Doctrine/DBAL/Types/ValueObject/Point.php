@@ -7,6 +7,9 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointException;
 
 /**
+ * Represents a PostgreSQL point geometric type.
+ *
+ * @see https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-POINTS
  * @since 3.1
  *
  * @author Sébastien Jean <sebastien.jean76@gmail.com>

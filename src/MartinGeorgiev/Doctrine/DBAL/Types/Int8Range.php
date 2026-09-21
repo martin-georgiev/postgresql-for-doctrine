@@ -13,6 +13,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
  *
  * @extends BaseRangeType<Int8RangeValueObject>
  *
+ * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 3.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

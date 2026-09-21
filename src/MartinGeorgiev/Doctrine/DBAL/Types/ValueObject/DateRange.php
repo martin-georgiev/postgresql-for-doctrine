@@ -11,6 +11,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeExcept
  *
  * @extends Range<\DateTimeInterface>
  *
+ * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 3.3
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

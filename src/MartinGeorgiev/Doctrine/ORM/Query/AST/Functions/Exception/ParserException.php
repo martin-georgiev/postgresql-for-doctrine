@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception;
 
+/**
+ * @since 2.10
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ */
 class ParserException extends \RuntimeException
 {
     public static function withThrowable(\Throwable $throwable): self

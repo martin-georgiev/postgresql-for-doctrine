@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Utils\Exception;
 
+/**
+ * @since 3.0
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
+ */
 class InvalidArrayFormatException extends \InvalidArgumentException
 {
     public static function multiDimensionalArrayNotSupported(): self

@@ -11,7 +11,10 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPExceptio
 /**
  * Implementation of PostgreSQL array for PostGIS GEOGRAPHY data type.
  *
+ * @see https://postgis.net/docs/using_postgis_dbmanagement.html
  * @since 3.5
+ *
+ * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
 final class GeographyArray extends SpatialDataArray
 {

@@ -7,6 +7,9 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLtreeException;
 
 /**
+ * Represents a PostgreSQL ltree hierarchical label path.
+ *
+ * @see https://www.postgresql.org/docs/18/ltree.html
  * @since 3.5
  *
  * @author Pierre-Yves Landuré

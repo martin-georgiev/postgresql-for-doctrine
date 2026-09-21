@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
- * DQL wrapper for PostgreSQL ANY operator.
+ * Implementation of PostgreSQL ANY operator.
  *
  * Checks if a value equals any element in an array using the ANY operator.
  *
