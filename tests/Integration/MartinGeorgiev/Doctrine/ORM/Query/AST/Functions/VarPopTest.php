@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop;
 use PHPUnit\Framework\Attributes\Test;
 
-class VarPopTest extends NumericTestCase
+final class VarPopTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

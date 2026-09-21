@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every;
 
-class EveryTest extends TestCase
+final class EveryTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

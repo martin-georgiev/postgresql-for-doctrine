@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hsto
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose;
 use PHPUnit\Framework\Attributes\Test;
 
-class HstoreToJsonLooseTest extends TestCase
+final class HstoreToJsonLooseTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

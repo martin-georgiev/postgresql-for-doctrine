@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp;
 
-class CovarSampTest extends TestCase
+final class CovarSampTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

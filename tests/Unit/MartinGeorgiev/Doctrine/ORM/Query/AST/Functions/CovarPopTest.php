@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop;
 
-class CovarPopTest extends TestCase
+final class CovarPopTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

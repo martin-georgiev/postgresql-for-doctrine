@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
-class StatementTimestampTest extends TestCase
+final class StatementTimestampTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

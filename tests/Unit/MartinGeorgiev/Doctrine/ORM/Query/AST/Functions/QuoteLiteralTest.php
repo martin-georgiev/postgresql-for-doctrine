@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteLiteral;
 
-class QuoteLiteralTest extends TestCase
+final class QuoteLiteralTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

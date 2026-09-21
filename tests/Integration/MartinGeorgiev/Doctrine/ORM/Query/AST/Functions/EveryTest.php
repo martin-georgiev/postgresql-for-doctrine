@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every;
 use PHPUnit\Framework\Attributes\Test;
 
-class EveryTest extends BooleanTestCase
+final class EveryTest extends BooleanTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Corr;
 use PHPUnit\Framework\Attributes\Test;
 
-class CorrTest extends NumericTestCase
+final class CorrTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {

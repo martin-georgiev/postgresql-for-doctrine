@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hsto
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Svals;
 use PHPUnit\Framework\Attributes\Test;
 
-class SvalsTest extends TestCase
+final class SvalsTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

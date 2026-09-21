@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use PHPUnit\Framework\Attributes\Test;
 
-class ClockTimestampTest extends TestCase
+final class ClockTimestampTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

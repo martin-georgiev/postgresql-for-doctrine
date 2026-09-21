@@ -5,6 +5,8 @@ declare(strict_types=1);
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 $basePath = __DIR__.'/../../';
 
@@ -40,6 +42,7 @@ $config = (new Config())
             'native_function_invocation' => ['include' => ['@all']],
             'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
             'non_printable_character' => false,
+            'ordered_attributes' => ['sort_algorithm' => 'custom', 'order' => [DataProvider::class, Test::class]],
             'ordered_class_elements' => ['order' => ['use_trait', 'constant', 'property', 'construct', 'magic', 'method']],
             'php_unit_internal_class' => false,
             'php_unit_method_casing' => ['case' => 'snake_case'],

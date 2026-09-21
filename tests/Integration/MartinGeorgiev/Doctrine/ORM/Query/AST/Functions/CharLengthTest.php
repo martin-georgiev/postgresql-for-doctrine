@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CharLength;
 use PHPUnit\Framework\Attributes\Test;
 
-class CharLengthTest extends TextTestCase
+final class CharLengthTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

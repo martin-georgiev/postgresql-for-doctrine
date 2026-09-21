@@ -8,7 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Avals;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
-class AvalsTest extends TestCase
+final class AvalsTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

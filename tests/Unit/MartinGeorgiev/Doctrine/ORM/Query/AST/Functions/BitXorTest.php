@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsIntegers;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitXor;
 
-class BitXorTest extends TestCase
+final class BitXorTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

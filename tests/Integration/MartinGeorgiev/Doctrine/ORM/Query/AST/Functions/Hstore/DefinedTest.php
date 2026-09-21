@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hsto
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\Defined;
 use PHPUnit\Framework\Attributes\Test;
 
-class DefinedTest extends TestCase
+final class DefinedTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

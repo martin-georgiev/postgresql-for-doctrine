@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Btrim;
 use PHPUnit\Framework\Attributes\Test;
 
-class BtrimTest extends TextTestCase
+final class BtrimTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

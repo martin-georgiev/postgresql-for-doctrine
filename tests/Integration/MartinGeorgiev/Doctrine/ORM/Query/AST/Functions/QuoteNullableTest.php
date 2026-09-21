@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteNullable;
 use PHPUnit\Framework\Attributes\Test;
 
-class QuoteNullableTest extends TextTestCase
+final class QuoteNullableTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

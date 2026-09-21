@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
-class StatementTimestampTest extends DateTestCase
+final class StatementTimestampTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

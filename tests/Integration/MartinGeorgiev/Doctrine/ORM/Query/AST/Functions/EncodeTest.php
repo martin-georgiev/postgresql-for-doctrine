@@ -8,7 +8,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Encode;
 use PHPUnit\Framework\Attributes\Test;
 
-class EncodeTest extends TextTestCase
+final class EncodeTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

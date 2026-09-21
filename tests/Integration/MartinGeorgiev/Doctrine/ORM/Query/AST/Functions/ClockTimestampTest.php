@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
-class ClockTimestampTest extends DateTestCase
+final class ClockTimestampTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {

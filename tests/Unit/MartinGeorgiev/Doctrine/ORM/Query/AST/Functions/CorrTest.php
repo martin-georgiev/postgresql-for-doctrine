@@ -7,7 +7,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Corr;
 
-class CorrTest extends TestCase
+final class CorrTest extends TestCase
 {
     protected function getStringFunctions(): array
     {

@@ -77,7 +77,7 @@ grep "{new-type-name}" src/MartinGeorgiev/Doctrine/DBAL/Type.php tests/Integrati
 
 ### Method Order
 
-**Required**: `convertToDatabaseValue` comes **before** `convertToPHPValue`. Constants and properties stay at the top of the class.
+**Required**: `convertToDatabaseValue` comes **before** `convertToPHPValue`.
 
 ```php
 // ✓ Correct order

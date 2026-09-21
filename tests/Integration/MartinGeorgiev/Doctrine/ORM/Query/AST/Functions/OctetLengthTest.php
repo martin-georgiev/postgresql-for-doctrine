@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OctetLength;
 use PHPUnit\Framework\Attributes\Test;
 
-class OctetLengthTest extends TextTestCase
+final class OctetLengthTest extends TextTestCase
 {
     protected function getStringFunctions(): array
     {

@@ -1,5 +1,5 @@
 ---
-description: "Test naming: PHPUnit attribute order, method verbs, provider conventions, class structure"
+description: "Test naming: method verbs, provider conventions, test class structure"
 alwaysApply: true
 trigger: always_on
 applyTo: "**"
@@ -8,23 +8,11 @@ type: always_apply
 
 # Test Naming Patterns
 
-## Class Declaration
-
-All test classes are `final class`, not just `class`.
-
-## PHPUnit Attribute Order
-
-`#[DataProvider]` always comes **before** `#[Test]`, each on its own line:
-
-```php
-#[DataProvider('provideValidTransformations')]
-#[Test]
-public function converts_to_database_value(...): void
-```
+`final` test classes, `#[DataProvider]` before `#[Test]`, snake_case method names and `public static` providers are not documented here — `composer check-code-style` fixes all four.
 
 ## Method Naming
 
-All test methods use **snake_case**. The verb expresses what the test verifies:
+The verb expresses what the test verifies:
 
 | Verb prefix | When to use |
 |-------------|-------------|
@@ -249,7 +237,6 @@ Several distinct inputs asserting the same outcome is a provider case, not a coh
 ## Data Provider Conventions
 
 - Naming: `provide*` prefix, e.g., `provideValidTransformations`, `provideInvalidDatabaseValueInputs`
-- Visibility: always `public static function`
 - Return type: `array`, `\Generator`, or `iterable` (document with PHPDoc `@return`)
 - **Always use named string keys** for each dataset entry:
 

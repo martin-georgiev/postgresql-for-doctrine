@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
-class TransactionTimestampTest extends DateTestCase
+final class TransactionTimestampTest extends DateTestCase
 {
     protected function getStringFunctions(): array
     {
