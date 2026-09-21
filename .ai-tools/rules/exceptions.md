@@ -62,6 +62,8 @@ The Utils exception carries the *reason* (`'the value is not decodable JSON'`); 
 
 **Deviation allowed if justified**: extending a different exception (PHP SPL, another Doctrine class, or a domain-specific base) is permitted only with a concrete reason that does not fit `ConversionException`. The reason **must** be stated in the class-level PHPDoc — otherwise a future agent will "normalize" it back.
 
+**Does not apply to `Types/ValueObject/Exceptions/`**: that family's parent is prescribed above, not deviated, so the reason lives in this rule once instead of in thirteen identical docblocks. Adding one to those classes is the narration `dbal-value-object-conventions.md` tells you to leave out.
+
 ```php
 // ❌ Wrong — non-Doctrine parent with no justification
 final class InvalidRangeForDatabaseException extends \InvalidArgumentException
