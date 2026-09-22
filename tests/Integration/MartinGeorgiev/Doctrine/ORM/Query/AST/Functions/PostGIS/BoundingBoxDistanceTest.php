@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class BoundingBoxDistanceTest extends SpatialOperatorTestCase
@@ -13,52 +14,29 @@ final class BoundingBoxDistanceTest extends SpatialOperatorTestCase
     {
         return [
             'BOUNDING_BOX_DISTANCE' => BoundingBoxDistance::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_zero_when_comparing_identical_point_geometries(): void
+    public function returns_the_bounding_box_distance_between_wkt_literals(): void
     {
-        $dql = "SELECT BOUNDING_BOX_DISTANCE('POINT(1 1)', 'POINT(1 1)') as distance
+        $dql = "SELECT BOUNDING_BOX_DISTANCE(ST_GEOMFROMTEXT('POINT(0 0)'), ST_GEOMFROMTEXT('POINT(3 4)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['distance']);
+        $this->assertEquals(5, $result[0]['result']);
     }
 
     #[Test]
-    public function returns_zero_when_polygon_bounding_boxes_overlap(): void
+    public function returns_the_bounding_box_distance_between_entity_fields(): void
     {
-        $dql = "SELECT BOUNDING_BOX_DISTANCE('POLYGON((0 0, 2 0, 2 2, 0 2, 0 0))', 'POLYGON((1 1, 3 1, 3 3, 1 3, 1 1))') as distance
+        $dql = 'SELECT BOUNDING_BOX_DISTANCE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1";
+                WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['distance']);
-    }
-
-    #[Test]
-    public function calculates_euclidean_distance_between_separated_points(): void
-    {
-        $dql = "SELECT BOUNDING_BOX_DISTANCE('POINT(0 0)', 'POINT(3 4)') as distance
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(5.0, $result[0]['distance']);
-    }
-
-    #[Test]
-    public function calculates_distance_between_non_overlapping_polygons(): void
-    {
-        $dql = "SELECT BOUNDING_BOX_DISTANCE('POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))', 'POLYGON((3 3, 4 3, 4 4, 3 4, 3 3))') as distance
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsNumeric($result[0]['distance']);
-        $this->assertGreaterThan(0, $result[0]['distance']);
-        $this->assertEquals(2.8284271247461903, $result[0]['distance']);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
 }

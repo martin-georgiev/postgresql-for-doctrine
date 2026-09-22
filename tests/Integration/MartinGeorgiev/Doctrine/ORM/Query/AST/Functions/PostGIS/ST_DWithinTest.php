@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_DWithin;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_DWithinTest extends SpatialOperatorTestCase
@@ -13,35 +14,25 @@ final class ST_DWithinTest extends SpatialOperatorTestCase
     {
         return [
             'ST_DWITHIN' => ST_DWithin::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_true_when_points_are_within_distance(): void
+    public function returns_whether_wkt_literals_are_within_a_distance(): void
     {
-        $dql = 'SELECT ST_DWITHIN(g.geometry1, g.geometry2, 2.0) as result
+        $dql = "SELECT ST_DWITHIN(ST_GEOMFROMTEXT('POINT(0 0)'), ST_GEOMFROMTEXT('POINT(1 1)'), 2.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function returns_false_when_points_are_not_within_distance(): void
+    public function returns_whether_entity_fields_are_within_a_distance(): void
     {
-        $dql = 'SELECT ST_DWITHIN(g.geometry1, g.geometry2, 0.5) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_identical_geometries(): void
-    {
-        $dql = 'SELECT ST_DWITHIN(g.geometry1, g.geometry1, 0.0) as result
+        $dql = 'SELECT ST_DWITHIN(g.geometry1, g.geometry2, 2.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 

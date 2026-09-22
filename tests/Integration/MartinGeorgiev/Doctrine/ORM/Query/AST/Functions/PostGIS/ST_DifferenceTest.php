@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Difference;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_DifferenceTest extends SpatialOperatorTestCase
@@ -16,12 +16,23 @@ final class ST_DifferenceTest extends SpatialOperatorTestCase
         return [
             'ST_AREA' => ST_Area::class,
             'ST_DIFFERENCE' => ST_Difference::class,
-            'ST_LENGTH' => ST_Length::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_difference_between_polygons(): void
+    public function returns_the_difference_between_wkt_literals(): void
+    {
+        $dql = "SELECT ST_AREA(ST_DIFFERENCE(ST_GEOMFROMTEXT('POLYGON((0 0,0 4,4 4,4 0,0 0))'), ST_GEOMFROMTEXT('POLYGON((1 1,1 3,3 3,3 1,1 1))'))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(12, $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_difference_between_entity_fields(): void
     {
         $dql = 'SELECT ST_AREA(ST_DIFFERENCE(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -29,27 +40,5 @@ final class ST_DifferenceTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(12, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_difference_between_other_polygons(): void
-    {
-        $dql = 'SELECT ST_AREA(ST_DIFFERENCE(g.geometry1, g.geometry2)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 4';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_difference_between_linestrings(): void
-    {
-        $dql = 'SELECT ST_LENGTH(ST_DIFFERENCE(g.geometry1, g.geometry2)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveSmallParts;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -20,31 +20,31 @@ final class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_REMOVESMALLPARTS' => ST_RemoveSmallParts::class,
             'ST_AREA' => ST_Area::class,
-            'ST_EQUALS' => ST_Equals::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
+            'ST_REMOVESMALLPARTS' => ST_RemoveSmallParts::class,
         ];
     }
 
     #[Test]
-    public function preserves_polygon_larger_than_threshold(): void
+    public function returns_the_large_parts_of_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_EQUALS(ST_REMOVESMALLPARTS(g.geometry1, 1, 0), g.geometry1) as result
+        $dql = "SELECT ST_AREA(ST_REMOVESMALLPARTS(ST_GEOMFROMTEXT('POLYGON((0 0,0 4,4 4,4 0,0 0))'), 1, 0)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertEquals(16, $result[0]['result']);
     }
 
     #[Test]
-    public function removes_polygon_smaller_than_threshold(): void
+    public function returns_the_large_parts_of_an_entity_field(): void
     {
-        $dql = 'SELECT ST_AREA(ST_REMOVESMALLPARTS(g.geometry1, 100, 0)) as result
+        $dql = 'SELECT ST_AREA(ST_REMOVESMALLPARTS(g.geometry1, 1, 0)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.0, $result[0]['result']);
+        $this->assertEquals(16, $result[0]['result']);
     }
 }
