@@ -6,7 +6,6 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoordDim;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force3D;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Z;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_Force3DTest extends SpatialOperatorTestCase
@@ -16,7 +15,6 @@ final class ST_Force3DTest extends SpatialOperatorTestCase
         return [
             'ST_COORDDIM' => ST_CoordDim::class,
             'ST_FORCE3D' => ST_Force3D::class,
-            'ST_Z' => ST_Z::class,
         ];
     }
 

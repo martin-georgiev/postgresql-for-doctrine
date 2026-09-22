@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsEWKT;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
@@ -16,7 +15,6 @@ final class ST_GeomFromTextTest extends SpatialOperatorTestCase
         return [
             'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_ASTEXT' => ST_AsText::class,
-            'ST_ASEWKT' => ST_AsEWKT::class,
         ];
     }
 

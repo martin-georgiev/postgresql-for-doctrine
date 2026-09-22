@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValid;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeValid;
 use PHPUnit\Framework\Attributes\Test;
@@ -21,7 +20,6 @@ final class ST_MakeValidTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_EQUALS' => ST_Equals::class,
             'ST_ISVALID' => ST_IsValid::class,
             'ST_MAKEVALID' => ST_MakeValid::class,
         ];
