@@ -15,7 +15,7 @@ This document covers PostGIS spatial functions and operators available in this l
 **📝 Compatibility Notes**:
 - Most bounding box operators work primarily with **geometry** types
 - **Geography** types have limited operator support (mainly `&&`, `<->`, `<@>`)
-- **3D/n-dimensional operators** may require explicit type casting: `ST_GeomFromText('POINT Z(0 0 0)')`
+- **3D/n-dimensional operators** may require the geometry to be built explicitly: `ST_GEOMFROMTEXT('POINT Z(0 0 0)')`
 - Some advanced operators (`&&&`, `<<#>>`) may not be available in all PostGIS versions
 
 ### Bounding Box Operators
@@ -167,6 +167,17 @@ These functions create new geometry objects from coordinates, other geometries, 
 | ST_GeomFromGeoJSON | ST_GEOMFROMGEOJSON | Creates a geometry from a GeoJSON representation | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromGeoJSON` |
 | ST_AsGeoJSON | ST_ASGEOJSON | Returns the geometry as a GeoJSON element | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON` |
 
+## PostGIS Well-Known Text Functions
+
+These functions read and write the OGC Well-Known Text (WKT) representation and the PostGIS-specific Extended Well-Known Text (EWKT) one. EWKT carries the SRID as a `SRID=...;` prefix, plain WKT does not.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_GeomFromText | ST_GEOMFROMTEXT | Creates a geometry from a WKT representation, with an optional SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText` |
+| ST_GeomFromEWKT | ST_GEOMFROMEWKT | Creates a geometry from an EWKT representation, taking the SRID from the prefix | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromEWKT` |
+| ST_AsText | ST_ASTEXT | Returns the geometry or geography as WKT, without the SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText` |
+| ST_AsEWKT | ST_ASEWKT | Returns the geometry or geography as EWKT, with the SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsEWKT` |
+
 ## PostGIS Geometry Processing Functions
 
 These functions modify and transform geometries including buffering, simplification, coordinate system changes, and geometric transformations.
@@ -295,6 +306,24 @@ SELECT e, ST_AsGeoJSON(e.geometry, 9, 1) as geojson_with_bbox FROM Entity e
 -- Create geometry from GeoJSON
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
+
+-- Well-Known Text conversion
+-- Convert geometry to WKT, dropping the SRID
+SELECT e, ST_AsText(e.geometry) as wkt FROM Entity e
+
+-- Convert geometry to WKT with limited decimal precision
+SELECT e, ST_AsText(e.geometry, 2) as wkt FROM Entity e
+
+-- Convert geometry to EWKT, keeping the SRID
+SELECT e, ST_AsEWKT(e.geometry) as ewkt FROM Entity e
+
+-- Create geometry from WKT with an explicit SRID
+SELECT e FROM Entity e
+WHERE ST_Contains(e.polygon, ST_GeomFromText('POINT(1 2)', 4326)) = TRUE
+
+-- Create geometry from EWKT, where the SRID comes from the prefix
+SELECT e FROM Entity e
+WHERE ST_Contains(e.polygon, ST_GeomFromEWKT('SRID=4326;POINT(1 2)')) = TRUE
 
 -- Geometric operations and transformations
 -- Create buffer around geometry
