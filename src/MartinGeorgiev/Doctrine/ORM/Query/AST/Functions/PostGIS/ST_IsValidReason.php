@@ -9,8 +9,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 /**
  * Implementation of PostGIS ST_IsValidReason().
  *
- * Returns the reason a geometry is invalid, together with the offending location, or "Valid Geometry" when it
- * is well-formed. The optional flags argument selects the validity rules applied.
+ * Returns the reason a geometry is invalid, together with the offending location, or "Valid Geometry" when it is well-formed.
+ * The optional flags argument selects the validity rules applied.
  *
  * @see https://postgis.net/docs/ST_IsValidReason.html
  * @since 4.9
