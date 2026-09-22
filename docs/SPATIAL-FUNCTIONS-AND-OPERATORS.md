@@ -15,7 +15,7 @@ This document covers PostGIS spatial functions and operators available in this l
 **📝 Compatibility Notes**:
 - Most bounding box operators work primarily with **geometry** types
 - **Geography** types have limited operator support (mainly `&&`, `<->`, `<@>`)
-- **3D/n-dimensional operators** may require explicit type casting: `ST_GeomFromText('POINT Z(0 0 0)')`
+- **3D/n-dimensional operators** may require the geometry to be built explicitly: `ST_GEOMFROMTEXT('POINT Z(0 0 0)')`
 - Some advanced operators (`&&&`, `<<#>>`) may not be available in all PostGIS versions
 
 ### Bounding Box Operators
@@ -91,6 +91,7 @@ These functions return properties and information about geometries.
 | ST_HasZ | ST_HASZ | Returns true if the geometry has a Z coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ` |
 | ST_IsEmpty | ST_ISEMPTY | Returns true if the geometry is an empty geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsEmpty` |
 | ST_IsValid | ST_ISVALID | Returns true if the geometry is well-formed and valid | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValid` |
+| ST_IsValidReason | ST_ISVALIDREASON | Returns the reason why a geometry is invalid, or "Valid Geometry" when it is not | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValidReason` |
 | ST_NPoints | ST_NPOINTS | Returns the number of points (vertices) in a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NPoints` |
 | ST_NumCurves | ST_NUMCURVES | Returns the number of curves in a CompoundCurve | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumCurves` |
 | ST_NumGeometries | ST_NUMGEOMETRIES | Returns the number of elements in a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumGeometries` |
@@ -167,6 +168,17 @@ These functions create new geometry objects from coordinates, other geometries, 
 | ST_GeomFromGeoJSON | ST_GEOMFROMGEOJSON | Creates a geometry from a GeoJSON representation | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromGeoJSON` |
 | ST_AsGeoJSON | ST_ASGEOJSON | Returns the geometry as a GeoJSON element | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON` |
 
+## PostGIS Well-Known Text Functions
+
+These functions read and write the OGC Well-Known Text (WKT) representation and the PostGIS-specific Extended Well-Known Text (EWKT) one. EWKT carries the SRID as a `SRID=...;` prefix, plain WKT does not.
+
+| PostgreSQL functions | Register for DQL as | Description | Implemented by |
+|---|---|---|---|
+| ST_GeomFromText | ST_GEOMFROMTEXT | Creates a geometry from a WKT representation, with an optional SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText` |
+| ST_GeomFromEWKT | ST_GEOMFROMEWKT | Creates a geometry from an EWKT representation, taking the SRID from the prefix | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromEWKT` |
+| ST_AsText | ST_ASTEXT | Returns the geometry or geography as WKT, without the SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText` |
+| ST_AsEWKT | ST_ASEWKT | Returns the geometry or geography as EWKT, with the SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsEWKT` |
+
 ## PostGIS Geometry Processing Functions
 
 These functions modify and transform geometries including buffering, simplification, coordinate system changes, and geometric transformations.
@@ -186,6 +198,7 @@ These functions modify and transform geometries including buffering, simplificat
 | ST_Letters | ST_LETTERS | Creates geometries that look like letters | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Letters` |
 | ST_LineExtend | ST_LINEEXTEND | Returns a line extended forwards and backwards by specified distances | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineExtend` |
 | ST_LineToCurve | ST_LINETOCURVE | Converts linear geometries to curved geometries where possible | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineToCurve` |
+| ST_MakeValid | ST_MAKEVALID | Returns a valid geometry representing the same points as an invalid input | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeValid` |
 | ST_MinimumBoundingCircle | ST_MINIMUMBOUNDINGCIRCLE | Returns the smallest circle polygon that contains a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MinimumBoundingCircle` |
 | ST_OffsetCurve | ST_OFFSETCURVE | Returns an offset line at a given distance and side from an input line | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_OffsetCurve` |
 | ST_PointOnSurface | ST_POINTONSURFACE | Returns a point guaranteed to lie on the surface of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointOnSurface` |
@@ -219,98 +232,39 @@ These functions work with measures along linear geometries for operations like l
 
 ## Usage Examples
 
+These examples cover the cases where the DQL wiring is not obvious. Everything else follows the tables above — call the function with the arguments PostGIS documents.
+
 ```sql
--- Bounding box operations
--- Find geometries to the left of a reference point
+-- Boolean operators and functions need an explicit comparison in DQL
 SELECT e FROM Entity e WHERE STRICTLY_LEFT(e.geometry, 'POINT(0 0)') = TRUE
 
--- Find overlapping polygons
-SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, e.point) = TRUE
+SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
 
--- 3D spatial relationships
-SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1, 2 2 2, 0 0 0))') = TRUE
-
--- Distance calculations
--- Find nearest geometries
+-- Distance operators return numbers, so they can be selected and ordered by
 SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
 FROM Entity e ORDER BY distance LIMIT 10
 
--- Bounding box distance for index optimization
-SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
-
--- 3D distance calculations
-SELECT ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance FROM Entity e
-
--- Spatial relationship tests
--- Test if geometries intersect
-SELECT e FROM Entity e WHERE ST_Intersects(e.geometry, 'POINT(0 0)') = TRUE
-
--- Test if one geometry contains another
-SELECT e FROM Entity e WHERE ST_Contains(e.polygon, e.point) = TRUE
-
--- Test if geometries are within a distance
-SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
-
--- Test topological relationships with intersection matrix
+-- ST_Relate with 3 arguments returns boolean, with 2 it returns the intersection matrix
 SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'T*T***T**') = TRUE
 
--- Get intersection matrix between two geometries
 SELECT e, ST_Relate(e.geometry1, e.geometry2) as matrix FROM Entity e
 
--- Test if point is inside circle
-SELECT e FROM Entity e WHERE ST_PointInsideCircle(e.point, 0, 0, 1000) = TRUE
-
--- Analyze line crossing behavior
-SELECT e, ST_LineCrossingDirection(e.line1, e.line2) as crossing FROM Entity e
-WHERE ST_LineCrossingDirection(e.line1, e.line2) != 0
-
--- Measurements
--- Calculate areas and perimeters
-SELECT e, ST_Area(e.polygon) as area, ST_Perimeter(e.polygon) as perimeter
-FROM Entity e WHERE e.polygon IS NOT NULL
-
--- Calculate 3D measurements
-SELECT e, ST_3DLength(e.line3d) as length3d, ST_3DPerimeter(e.polygon3d) as perimeter3d
-FROM Entity e WHERE e.line3d IS NOT NULL OR e.polygon3d IS NOT NULL
-
--- Find geometries within distance
-SELECT e, ST_Distance(e.geometry, 'POINT(0 0)') as distance
-FROM Entity e ORDER BY distance LIMIT 10
-
--- Calculate azimuth between points
-SELECT e, ST_Azimuth(e.point1, e.point2) as azimuth_radians,
-       DEGREES(ST_Azimuth(e.point1, e.point2)) as azimuth_degrees
-FROM Entity e WHERE e.point1 IS NOT NULL AND e.point2 IS NOT NULL
-
--- GeoJSON conversion
--- Convert geometry to GeoJSON
-SELECT e, ST_AsGeoJSON(e.geometry) as geojson FROM Entity e
-
--- Convert geometry to GeoJSON with limited decimal precision
-SELECT e, ST_AsGeoJSON(e.geometry, 6) as geojson FROM Entity e
-
--- Convert geometry to GeoJSON with bounding box (options=1)
+-- Optional arguments: decimal precision, then GeoJSON options (1 = include the bounding box)
 SELECT e, ST_AsGeoJSON(e.geometry, 9, 1) as geojson_with_bbox FROM Entity e
 
--- Create geometry from GeoJSON
+-- ST_AsText drops the SRID and takes an optional precision; ST_AsEWKT keeps the SRID
+SELECT e, ST_AsText(e.geometry, 2) as wkt FROM Entity e
+
+-- WKT takes the SRID as a separate argument, EWKT carries it in the string itself
+SELECT e FROM Entity e
+WHERE ST_Contains(e.polygon, ST_GeomFromText('POINT(1 2)', 4326)) = TRUE
+
+SELECT e FROM Entity e
+WHERE ST_Contains(e.polygon, ST_GeomFromEWKT('SRID=4326;POINT(1 2)')) = TRUE
+
+-- Parameters bind inside spatial functions as usual
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
-
--- Geometric operations and transformations
--- Create buffer around geometry
-SELECT e, ST_Buffer(e.geometry, 100) as buffered_geometry FROM Entity e
-
--- Simplify complex geometries
-SELECT e, ST_Simplify(e.complex_geometry, 0.5) as simplified_geometry FROM Entity e
-
--- Transform coordinate systems
-SELECT e, ST_Transform(e.geometry, 4326) as wgs84_geometry FROM Entity e
-
--- Get convex hull
-SELECT e, ST_ConvexHull(e.geometry) as convex_hull FROM Entity e
-
--- Scale and rotate geometries
-SELECT e, ST_Scale(ST_Rotate(e.geometry, PI()/4), 2, 2) as scaled_rotated_geometry FROM Entity e
 ```
 
 **📝 Notes:**
