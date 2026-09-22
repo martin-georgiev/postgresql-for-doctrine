@@ -15,7 +15,7 @@ final class JsonbArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function writes_a_null_item_as_a_sql_null_element(): void
+    public function converts_a_null_item_to_a_sql_null_element(): void
     {
         [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
 

@@ -56,7 +56,7 @@ final class CompositeArrayTypeTest extends TestCase
     }
 
     #[Test]
-    public function type_will_be_registered(): void
+    public function is_registered(): void
     {
         $typeName = $this->getTypeName();
         $this->assertTrue(Type::hasType($typeName));
