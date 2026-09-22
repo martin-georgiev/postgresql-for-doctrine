@@ -266,6 +266,12 @@ WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
 ```
 
 **📝 Notes:**
-- `ST_Relate` is variadic: with 2 arguments it returns text (the intersection matrix), with 3 it returns boolean
-- `ST_LineCrossingDirection` returns an integer, not a boolean: `0` (no crossing), `1` (left to right), `-1` (right to left), `2` (multiple crossings)
-- All other spatial predicates return boolean and should be used with `= TRUE` or `= FALSE` in DQL
+- `ST_Relate` is a variadic function that accepts 2 or 3 arguments:
+  - With 2 arguments: returns text (intersection matrix)
+  - With 3 arguments: returns boolean (relationship test)
+- `ST_LineCrossingDirection` returns an integer (0, 1, -1, or 2) indicating crossing behavior:
+  - `0`: No crossing
+  - `1`: Left to right crossing
+  - `-1`: Right to left crossing
+  - `2`: Multiple crossings
+- All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
