@@ -33,7 +33,7 @@ final class Lseg extends BaseType
         }
 
         if (!$value instanceof LsegValueObject) {
-            throw InvalidLsegForPHPException::forInvalidType($value);
+            throw InvalidLsegForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ final class Lseg extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidLsegForDatabaseException::forInvalidType($value);
+            throw InvalidLsegForPHPException::forInvalidType($value);
         }
 
         try {
             return LsegValueObject::fromString($value);
         } catch (InvalidLsegException) {
-            throw InvalidLsegForDatabaseException::forInvalidFormat($value);
+            throw InvalidLsegForPHPException::forInvalidFormat($value);
         }
     }
 }

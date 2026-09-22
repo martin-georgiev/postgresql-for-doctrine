@@ -33,7 +33,7 @@ final class Path extends BaseType
         }
 
         if (!$value instanceof PathValueObject) {
-            throw InvalidPathForPHPException::forInvalidType($value);
+            throw InvalidPathForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ final class Path extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidPathForDatabaseException::forInvalidType($value);
+            throw InvalidPathForPHPException::forInvalidType($value);
         }
 
         try {
             return PathValueObject::fromString($value);
         } catch (InvalidPathException) {
-            throw InvalidPathForDatabaseException::forInvalidFormat($value);
+            throw InvalidPathForPHPException::forInvalidFormat($value);
         }
     }
 }

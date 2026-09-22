@@ -89,18 +89,18 @@ final class LineTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_inputs(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidLineForPHPException::class);
+        $this->expectException(InvalidLineForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
     }
 
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPHPValueInputs(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'string input' => ['{1,2,3}'],
@@ -111,18 +111,18 @@ final class LineTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $dbValue): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $dbValue): void
     {
-        $this->expectException(InvalidLineForDatabaseException::class);
+        $this->expectException(InvalidLineForPHPException::class);
         $this->fixture->convertToPHPValue($dbValue, $this->platform);
     }
 
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValueInputs(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'empty string' => [''],

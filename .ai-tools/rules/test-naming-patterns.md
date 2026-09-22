@@ -77,10 +77,6 @@ final class FooTest extends TestCase
 }
 ```
 
-**Exception convention for scalar types**:
-- `throws_exception_for_invalid_database_value_inputs` → tests `convertToDatabaseValue` with bad PHP input
-- `throws_exception_for_invalid_php_value_inputs` → tests `convertToPHPValue` with bad DB string
-
 ## Integration Test Structure: Scalar DBAL Types
 
 All extend `ScalarTypeTestCase` (which provides `roundtrips_null_value()`):

@@ -20,6 +20,11 @@ class InvalidPolygonForPHPException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Value must be a polygon, %s given', $value);
+        return self::create('Database value must be a string, %s given', $value);
+    }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Invalid polygon format in database: %s', $value);
     }
 }

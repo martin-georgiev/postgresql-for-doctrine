@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPolygonForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPolygonForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Polygon as PolygonValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -63,7 +63,7 @@ final class PolygonTypeTest extends TestCase
     #[Test]
     public function rejects_string_instead_of_value_object(): void
     {
-        $this->expectException(InvalidPolygonForPHPException::class);
+        $this->expectException(InvalidPolygonForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

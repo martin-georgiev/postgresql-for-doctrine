@@ -81,7 +81,7 @@ final class TsvectorTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
-        $this->expectException(InvalidTsvectorForPHPException::class);
+        $this->expectException(InvalidTsvectorForDatabaseException::class);
 
         $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
@@ -105,7 +105,7 @@ final class TsvectorTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
     {
-        $this->expectException(InvalidTsvectorForDatabaseException::class);
+        $this->expectException(InvalidTsvectorForPHPException::class);
 
         $this->fixture->convertToPHPValue($value, $this->platform);
     }

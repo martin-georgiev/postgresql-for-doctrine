@@ -33,7 +33,7 @@ final class Polygon extends BaseType
         }
 
         if (!$value instanceof PolygonValueObject) {
-            throw InvalidPolygonForPHPException::forInvalidType($value);
+            throw InvalidPolygonForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ final class Polygon extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidPolygonForDatabaseException::forInvalidType($value);
+            throw InvalidPolygonForPHPException::forInvalidType($value);
         }
 
         try {
             return PolygonValueObject::fromString($value);
         } catch (InvalidPolygonException) {
-            throw InvalidPolygonForDatabaseException::forInvalidFormat($value);
+            throw InvalidPolygonForPHPException::forInvalidFormat($value);
         }
     }
 }
