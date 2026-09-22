@@ -86,16 +86,25 @@ These functions return properties and information about geometries.
 |---|---|---|---|
 | ST_CoordDim | ST_COORDDIM | Returns the coordinate dimension of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoordDim` |
 | ST_CurveN | ST_CURVEN | Returns the Nth curve of a CompoundCurve | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveN` |
+| ST_EndPoint | ST_ENDPOINT | Returns the last point of a LineString or CircularString | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_EndPoint` |
+| ST_ExteriorRing | ST_EXTERIORRING | Returns the exterior ring of a Polygon as a LineString | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ExteriorRing` |
+| ST_GeometryN | ST_GEOMETRYN | Returns the Nth element of a geometry collection or multi-geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryN` |
 | ST_GeometryType | ST_GEOMETRYTYPE | Returns the SQL-MM type string of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryType` |
 | ST_HasM | ST_HASM | Returns true if the geometry has an M (measure) coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasM` |
 | ST_HasZ | ST_HASZ | Returns true if the geometry has a Z coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ` |
+| ST_InteriorRingN | ST_INTERIORRINGN | Returns the Nth interior ring (hole) of a Polygon as a LineString | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_InteriorRingN` |
+| ST_IsClosed | ST_ISCLOSED | Returns true if the start and end points of a LineString are the same | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsClosed` |
 | ST_IsEmpty | ST_ISEMPTY | Returns true if the geometry is an empty geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsEmpty` |
 | ST_IsValid | ST_ISVALID | Returns true if the geometry is well-formed and valid | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValid` |
 | ST_IsValidReason | ST_ISVALIDREASON | Returns the reason why a geometry is invalid, or "Valid Geometry" when it is not | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValidReason` |
 | ST_NPoints | ST_NPOINTS | Returns the number of points (vertices) in a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NPoints` |
 | ST_NumCurves | ST_NUMCURVES | Returns the number of curves in a CompoundCurve | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumCurves` |
 | ST_NumGeometries | ST_NUMGEOMETRIES | Returns the number of elements in a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumGeometries` |
+| ST_NumInteriorRings | ST_NUMINTERIORRINGS | Returns the number of interior rings (holes) of a Polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumInteriorRings` |
+| ST_NumPoints | ST_NUMPOINTS | Returns the number of points in a LineString or CircularString | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumPoints` |
+| ST_PointN | ST_POINTN | Returns the Nth point of a LineString or CircularString | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointN` |
 | ST_SRID | ST_SRID | Returns the spatial reference identifier of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SRID` |
+| ST_StartPoint | ST_STARTPOINT | Returns the first point of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_StartPoint` |
 | ST_X | ST_X | Returns the X coordinate of a Point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_X` |
 | ST_Y | ST_Y | Returns the Y coordinate of a Point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Y` |
 | ST_Z | ST_Z | Returns the Z coordinate of a Point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Z` |
