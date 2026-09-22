@@ -275,3 +275,29 @@ WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
   - `-1`: Right to left crossing
   - `2`: Multiple crossings
 - All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
+
+**🔍 DE-9IM Intersection Matrix Patterns for ST_Relate:**
+
+The DE-9IM (Dimensionally Extended 9-Intersection Model) uses a 9-character pattern where each character represents the intersection between:
+- Interior (I), Boundary (B), and Exterior (E) of geometry A
+- Interior (I), Boundary (B), and Exterior (E) of geometry B
+
+Common patterns:
+- `FF*FF****` = Disjoint (no intersection)
+- `T*****FF*` = Contains (A contains B)
+- `T*T***T**` = Intersects (geometries intersect)
+- `FT*******` = Touches (boundary intersection only)
+- `F**T*****` = Within (A is within B)
+- `T*T***T**` = Overlaps (partial overlap)
+
+**📊 Function Return Types:**
+- **Boolean functions**: Use with `= TRUE` or `= FALSE` in DQL
+- **Numeric functions**: Return values for calculations and ordering
+- **Geometry functions**: Return new geometries for further operations
+- **Text functions**: Return strings for pattern matching and display
+
+**💡 Tips for Usage:**
+1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL
+2. **Spatial functions** work best with proper geometry types and indexes
+3. **3D functions** require geometries with Z coordinates
+4. **Geography types** have limited operator support compared to geometry types
