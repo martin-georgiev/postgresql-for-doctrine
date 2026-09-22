@@ -25,6 +25,18 @@ services:
                 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\': ['description', 'see', 'since', 'author', 'implementationFirstLine']
                 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\': ['since', 'author']
                 'MartinGeorgiev\Utils\Exception\': ['since', 'author']
+    -
+        class: MartinGeorgiev\PHPStan\VariadicFunctionBooleanArgumentNodeMappingRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\VariadicFunctionHomogeneousNodeMappingRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\VariadicFunctionNodeMappingPatternOrderRule
+        tags:
+            - phpstan.rules.rule
 
 parameters:
     # Re-lists every node the extension bans by default, because supplying an Expr_FuncCall
