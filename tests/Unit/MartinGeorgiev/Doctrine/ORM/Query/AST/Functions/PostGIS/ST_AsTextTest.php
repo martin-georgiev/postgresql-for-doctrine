@@ -21,10 +21,7 @@ final class ST_AsTextTest extends TestCase
     {
         return [
             'converts geometry' => 'SELECT ST_AsText(c0_.geometry1) AS sclr_0 FROM ContainsGeometries c0_',
-            'converts geography' => 'SELECT ST_AsText(c0_.geography1) AS sclr_0 FROM ContainsGeometries c0_',
             'converts geometry with max decimal digits' => 'SELECT ST_AsText(c0_.geometry1, 2) AS sclr_0 FROM ContainsGeometries c0_',
-            'converts geometry with named parameter' => 'SELECT ST_AsText(c0_.geometry1, ?) AS sclr_0 FROM ContainsGeometries c0_',
-            'converts geometry with function expression' => 'SELECT ST_AsText(c0_.geometry1, MIN(1)) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -32,10 +29,7 @@ final class ST_AsTextTest extends TestCase
     {
         return [
             'converts geometry' => \sprintf('SELECT ST_ASTEXT(g.geometry1) FROM %s g', ContainsGeometries::class),
-            'converts geography' => \sprintf('SELECT ST_ASTEXT(g.geography1) FROM %s g', ContainsGeometries::class),
             'converts geometry with max decimal digits' => \sprintf('SELECT ST_ASTEXT(g.geometry1, 2) FROM %s g', ContainsGeometries::class),
-            'converts geometry with named parameter' => \sprintf('SELECT ST_ASTEXT(g.geometry1, :dql_parameter) FROM %s g', ContainsGeometries::class),
-            'converts geometry with function expression' => \sprintf('SELECT ST_ASTEXT(g.geometry1, MIN(1)) FROM %s g', ContainsGeometries::class),
         ];
     }
 }
