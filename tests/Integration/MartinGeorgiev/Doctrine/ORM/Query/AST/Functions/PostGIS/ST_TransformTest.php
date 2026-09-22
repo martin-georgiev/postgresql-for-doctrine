@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Transform;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -15,7 +14,6 @@ final class ST_TransformTest extends SpatialOperatorTestCase
     {
         return [
             'ST_ASGEOJSON' => ST_AsGeoJSON::class,
-            'ST_EQUALS' => ST_Equals::class,
             'ST_TRANSFORM' => ST_Transform::class,
         ];
     }
