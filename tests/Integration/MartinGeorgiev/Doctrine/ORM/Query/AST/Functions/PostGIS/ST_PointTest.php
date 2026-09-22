@@ -21,7 +21,7 @@ final class ST_PointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_point_with_correct_x(): void
+    public function returns_a_point_from_literal_coordinates(): void
     {
         $dql = 'SELECT ST_X(ST_POINT(42, 7)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,7 +32,7 @@ final class ST_PointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_point_with_srid(): void
+    public function respects_the_srid_argument(): void
     {
         $dql = 'SELECT ST_SRID(ST_POINT(1, 2, 4326)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

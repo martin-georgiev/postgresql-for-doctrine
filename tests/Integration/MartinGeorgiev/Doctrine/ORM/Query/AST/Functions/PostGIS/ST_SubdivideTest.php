@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Subdivide;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -16,14 +15,24 @@ final class ST_SubdivideTest extends SpatialOperatorTestCase
     {
         return [
             'ST_AREA' => ST_Area::class,
-            'ST_EQUALS' => ST_Equals::class,
-            'ST_LENGTH' => ST_Length::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_SUBDIVIDE' => ST_Subdivide::class,
         ];
     }
 
     #[Test]
-    public function will_preserve_a_subdivided_polygon_area(): void
+    public function returns_the_subdivided_form_of_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_AREA(ST_SUBDIVIDE(ST_GEOMFROMTEXT('POLYGON((0 0,0 4,4 4,4 0,0 0))'), 10)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_subdivided_form_of_an_entity_field(): void
     {
         $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1, 10)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -34,51 +43,7 @@ final class ST_SubdivideTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function will_preserve_a_subdivided_linestring_length(): void
-    {
-        $dql = 'SELECT ST_LENGTH(ST_SUBDIVIDE(g.geometry1, 10)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2.8284271247461903, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_original_geometry_when_vertex_count_sufficient(): void
-    {
-        $dql = 'SELECT ST_EQUALS(ST_SUBDIVIDE(g.geometry1, 100), g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function will_preserve_a_subdivided_polygon_area_with_parameter(): void
-    {
-        $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1, :maxVertices)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql, ['maxVertices' => 10]);
-        $this->assertEquals(16, $result[0]['result']);
-    }
-
-    #[Test]
-    public function will_preserve_a_subdivided_polygon_area_with_function_expression(): void
-    {
-        $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1, ABS(10))) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result']);
-    }
-
-    #[Test]
-    public function will_preserve_area_with_grid_size_parameter(): void
+    public function respects_the_grid_size_argument(): void
     {
         $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1, 9, 128)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

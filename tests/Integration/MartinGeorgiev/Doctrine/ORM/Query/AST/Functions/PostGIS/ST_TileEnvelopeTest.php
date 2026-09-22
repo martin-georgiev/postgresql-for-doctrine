@@ -21,24 +21,15 @@ final class ST_TileEnvelopeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_polygon_geometry(): void
+    public function returns_a_tile_envelope_from_literal_tile_indexes(): void
     {
-        $dql = 'SELECT ST_GEOMETRYTYPE(ST_TILEENVELOPE(10, 512, 384)) as result
+        $dql = 'SELECT ST_GEOMETRYTYPE(ST_TILEENVELOPE(10, 512, 384)) as result,
+                       ST_SRID(ST_TILEENVELOPE(10, 512, 384)) as srid
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_Polygon', $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_envelope_in_web_mercator_srid(): void
-    {
-        $dql = 'SELECT ST_SRID(ST_TILEENVELOPE(10, 512, 384)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3857, $result[0]['result']);
+        $this->assertEquals(3857, $result[0]['srid']);
     }
 }

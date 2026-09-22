@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
@@ -13,37 +14,30 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     {
         return [
             'ST_ASGEOJSON' => ST_AsGeoJSON::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_geojson_for_polygon(): void
+    public function returns_the_geojson_of_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_ASGEOJSON(g.geometry1) as result
+        $dql = "SELECT ST_ASGEOJSON(ST_GEOMFROMTEXT('POINT(1 2)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $geojson = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($geojson);
-        $this->assertSame('Polygon', $geojson['type']);
-        $this->assertIsArray($geojson['coordinates']);
+        $this->assertSame('{"type":"Point","coordinates":[1,2]}', $result[0]['result']);
     }
 
     #[Test]
-    public function returns_geojson_for_point(): void
+    public function returns_the_geojson_of_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geography1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $geojson = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($geojson);
-        $this->assertSame('Point', $geojson['type']);
-        $this->assertSame([-9.1393, 38.7223], $geojson['coordinates']);
+        $this->assertSame('{"type":"Point","coordinates":[-9.1393,38.7223]}', $result[0]['result']);
     }
 
     #[Test]
@@ -54,26 +48,17 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $geojson = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($geojson);
-        $this->assertSame('Point', $geojson['type']);
-        // With 2 decimal digits, coordinates should be truncated
-        $this->assertSame([-9.14, 38.72], $geojson['coordinates']);
+        $this->assertSame('{"type":"Point","coordinates":[-9.14,38.72]}', $result[0]['result']);
     }
 
     #[Test]
-    public function respects_options_parameter(): void
+    public function respects_the_options_flag(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geometry1, 9, 1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $geojson = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($geojson);
-        // Option 1 includes bounding box
-        $this->assertArrayHasKey('bbox', $geojson);
+        $this->assertSame('{"type":"Polygon","bbox":[0.000000000,0.000000000,4.000000000,4.000000000],"coordinates":[[[0,0],[0,4],[4,4],[4,0],[0,0]]]}', $result[0]['result']);
     }
 }

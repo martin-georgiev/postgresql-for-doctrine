@@ -21,7 +21,7 @@ final class ST_MakeEnvelopeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_polygon_envelope(): void
+    public function returns_an_envelope_from_literal_bounds(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_MAKEENVELOPE(0, 0, 1, 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,7 +32,7 @@ final class ST_MakeEnvelopeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_envelope_with_srid(): void
+    public function respects_the_srid_argument(): void
     {
         $dql = 'SELECT ST_SRID(ST_MAKEENVELOPE(0, 0, 1, 1, 4326)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

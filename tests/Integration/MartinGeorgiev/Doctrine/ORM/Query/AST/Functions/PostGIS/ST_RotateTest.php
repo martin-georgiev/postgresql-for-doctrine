@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Rotate;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_X;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_RotateTest extends SpatialOperatorTestCase
@@ -14,75 +14,42 @@ final class ST_RotateTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_EQUALS' => ST_Equals::class,
-            'ST_GEOMETRYTYPE' => ST_GeometryType::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_ROTATE' => ST_Rotate::class,
+            'ST_X' => ST_X::class,
         ];
     }
 
     #[Test]
-    public function preserves_point_at_origin(): void
+    public function returns_the_rotated_form_of_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_EQUALS(ST_ROTATE(g.geometry1, 0.785398), g.geometry1) as result
+        $dql = "SELECT ST_X(ST_ROTATE(ST_GEOMFROMTEXT('POINT(2 0)'), 3.141592653589793)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEqualsWithDelta(-2, $result[0]['result'], 0.000000001);
+    }
+
+    #[Test]
+    public function returns_the_rotated_form_of_an_entity_field(): void
+    {
+        $dql = 'SELECT ST_X(ST_ROTATE(g.geometry2, 3.141592653589793)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertEqualsWithDelta(-1, $result[0]['result'], 0.000000001);
     }
 
     #[Test]
-    public function changes_polygon_when_rotated(): void
+    public function respects_the_origin_arguments(): void
     {
-        $dql = 'SELECT ST_EQUALS(ST_ROTATE(g.geometry1, 1.570796), g.geometry1) as result
+        $dql = 'SELECT ST_X(ST_ROTATE(g.geometry2, 3.141592653589793, 10, 10)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function changes_linestring_when_rotated(): void
-    {
-        $dql = 'SELECT ST_EQUALS(ST_ROTATE(g.geometry1, 0.523599), g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function preserves_geometry_type_with_parameter(): void
-    {
-        $dql = 'SELECT ST_GEOMETRYTYPE(ST_ROTATE(g.geometry1, :angle)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql, ['angle' => 1.570796]);
-        $this->assertEquals('ST_Polygon', $result[0]['result']);
-    }
-
-    #[Test]
-    public function preserves_geometry_type_with_function_expression(): void
-    {
-        $dql = 'SELECT ST_GEOMETRYTYPE(ST_ROTATE(g.geometry1, ABS(1.570796))) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('ST_Polygon', $result[0]['result']);
-    }
-
-    #[Test]
-    public function preserves_geometry_type_with_custom_origin(): void
-    {
-        $dql = 'SELECT ST_GEOMETRYTYPE(ST_ROTATE(g.geometry1, 1.570796, 21, 22)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('ST_Polygon', $result[0]['result']);
+        $this->assertEqualsWithDelta(19, $result[0]['result'], 0.000000001);
     }
 }

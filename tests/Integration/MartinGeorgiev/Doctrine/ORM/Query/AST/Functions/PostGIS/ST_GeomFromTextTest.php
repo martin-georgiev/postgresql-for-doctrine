@@ -13,13 +13,13 @@ final class ST_GeomFromTextTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_ASTEXT' => ST_AsText::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function creates_geometry_from_wkt(): void
+    public function returns_the_geometry_of_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ASTEXT(ST_GEOMFROMTEXT('POINT(1 2)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_GeomFromTextTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function round_trips_a_stored_geometry(): void
+    public function returns_the_geometry_of_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASTEXT(ST_GEOMFROMTEXT(ST_ASTEXT(g.geometry1))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

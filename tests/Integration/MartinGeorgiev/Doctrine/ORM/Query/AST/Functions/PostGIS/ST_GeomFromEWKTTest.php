@@ -13,13 +13,13 @@ final class ST_GeomFromEWKTTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_GEOMFROMEWKT' => ST_GeomFromEWKT::class,
             'ST_ASEWKT' => ST_AsEWKT::class,
+            'ST_GEOMFROMEWKT' => ST_GeomFromEWKT::class,
         ];
     }
 
     #[Test]
-    public function creates_geometry_from_ewkt(): void
+    public function returns_the_geometry_of_an_ewkt_literal(): void
     {
         $dql = "SELECT ST_ASEWKT(ST_GEOMFROMEWKT('SRID=4326;POINT(1 2)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_GeomFromEWKTTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function round_trips_a_stored_geometry(): void
+    public function returns_the_geometry_of_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASEWKT(ST_GEOMFROMEWKT(ST_ASEWKT(g.geometry1))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
