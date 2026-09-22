@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class NDimensionalOverlapsTest extends SpatialOperatorTestCase
@@ -13,26 +14,27 @@ final class NDimensionalOverlapsTest extends SpatialOperatorTestCase
     {
         return [
             'ND_OVERLAPS' => NDimensionalOverlaps::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_true_when_2d_polygons_have_overlapping_bounding_boxes(): void
+    public function returns_whether_wkt_literal_bounding_boxes_overlap_in_n_dimensions(): void
     {
-        $dql = 'SELECT ND_OVERLAPS(g.geometry1, g.geometry2) as result
+        $dql = "SELECT ND_OVERLAPS(ST_GEOMFROMTEXT('POINT(1 1)'), ST_GEOMFROMTEXT('POINT(1 1)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
+    public function returns_whether_entity_field_bounding_boxes_overlap_in_n_dimensions(): void
     {
-        $dql = 'SELECT ND_OVERLAPS(g.geometry1, g.geometry1) as result
+        $dql = 'SELECT ND_OVERLAPS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

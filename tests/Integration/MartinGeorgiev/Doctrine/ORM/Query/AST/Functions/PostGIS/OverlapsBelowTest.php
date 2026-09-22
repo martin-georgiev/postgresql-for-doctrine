@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsBelow;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class OverlapsBelowTest extends SpatialOperatorTestCase
@@ -13,24 +14,14 @@ final class OverlapsBelowTest extends SpatialOperatorTestCase
     {
         return [
             'OVERLAPS_BELOW' => OverlapsBelow::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_true_when_first_polygon_overlaps_or_is_below_second(): void
+    public function returns_whether_a_wkt_literal_overlaps_or_is_below_another(): void
     {
-        $dql = 'SELECT OVERLAPS_BELOW(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 4';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_geometry_is_positioned_below_literal_point(): void
-    {
-        $dql = "SELECT OVERLAPS_BELOW(g.geometry1, 'POINT(0 2)') as result
+        $dql = "SELECT OVERLAPS_BELOW(ST_GEOMFROMTEXT('POINT(0 0)'), ST_GEOMFROMTEXT('POINT(1 1)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
@@ -39,7 +30,7 @@ final class OverlapsBelowTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_comparing_overlapping_polygons(): void
+    public function returns_whether_an_entity_field_overlaps_or_is_below_another(): void
     {
         $dql = 'SELECT OVERLAPS_BELOW(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

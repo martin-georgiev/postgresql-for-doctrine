@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyRight;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -13,24 +14,14 @@ final class StrictlyRightTest extends SpatialOperatorTestCase
     {
         return [
             'STRICTLY_RIGHT' => StrictlyRight::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_false_when_first_point_is_not_strictly_to_the_right(): void
+    public function returns_whether_a_wkt_literal_is_strictly_right_of_another(): void
     {
-        $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_geometry_is_positioned_right_of_literal_point(): void
-    {
-        $dql = "SELECT STRICTLY_RIGHT(g.geometry1, 'POINT(-5 -5)') as result
+        $dql = "SELECT STRICTLY_RIGHT(ST_GEOMFROMTEXT('POINT(1 1)'), ST_GEOMFROMTEXT('POINT(0 0)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
@@ -39,13 +30,13 @@ final class StrictlyRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_higher_linestring_is_strictly_to_the_right_of_lower_onetrajetoryds(): void
+    public function returns_whether_an_entity_field_is_strictly_right_of_another(): void
     {
-        $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result
+        $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
+                WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 }

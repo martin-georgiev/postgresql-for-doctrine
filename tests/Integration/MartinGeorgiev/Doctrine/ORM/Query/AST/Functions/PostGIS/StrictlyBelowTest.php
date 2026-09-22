@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyBelow;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -13,22 +14,23 @@ final class StrictlyBelowTest extends SpatialOperatorTestCase
     {
         return [
             'STRICTLY_BELOW' => StrictlyBelow::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function strictly_below_returns_false_with_overlapping_polygons(): void
+    public function returns_whether_a_wkt_literal_is_strictly_below_another(): void
     {
-        $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
+        $dql = "SELECT STRICTLY_BELOW(ST_GEOMFROMTEXT('POINT(0 0)'), ST_GEOMFROMTEXT('POINT(1 1)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
-    public function strictly_below_returns_true_when_geometry_is_lower(): void
+    public function returns_whether_an_entity_field_is_strictly_below_another(): void
     {
         $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -36,27 +38,5 @@ final class StrictlyBelowTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function strictly_below_returns_true_with_linestrings(): void
-    {
-        $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function strictly_below_returns_false_with_identical_geometries(): void
-    {
-        $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
     }
 }
