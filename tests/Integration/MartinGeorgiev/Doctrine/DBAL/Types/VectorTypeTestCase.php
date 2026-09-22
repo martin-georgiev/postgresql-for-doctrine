@@ -33,7 +33,7 @@ abstract class VectorTypeTestCase extends TestCase
      * asserting PostgreSQL rejects a value whose dimension does not match.
      */
     #[Test]
-    public function column_enforces_declared_dimension(): void
+    public function rejects_value_whose_dimension_does_not_match_the_declared_one(): void
     {
         $declaration = $this->getFieldDeclaration();
         $this->assertArrayHasKey('length', $declaration, 'Vector tests must declare a length to exercise the dimension-aware SQL declaration');

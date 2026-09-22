@@ -17,7 +17,7 @@ final class L2DistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_zero_for_identical_vectors(): void
+    public function returns_distance_from_a_vector_literal(): void
     {
         $dql = "SELECT L2_DISTANCE(t.vector1, '[1,2,3]') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t
@@ -27,7 +27,7 @@ final class L2DistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_positive_distance_for_different_vectors(): void
+    public function returns_distance_from_entity_fields(): void
     {
         $dql = 'SELECT L2_DISTANCE(t.vector1, t.vector2) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t

@@ -17,7 +17,7 @@ final class DaitchMokotoffTest extends TestCase
     }
 
     #[Test]
-    public function returns_soundex_codes_as_array(): void
+    public function returns_soundex_codes_from_a_string(): void
     {
         $dql = "SELECT DAITCH_MOKOTOFF('George') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ final class DaitchMokotoffTest extends TestCase
     }
 
     #[Test]
-    public function processes_text_field(): void
+    public function returns_soundex_codes_from_a_text_field(): void
     {
         $dql = 'SELECT DAITCH_MOKOTOFF(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

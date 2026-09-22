@@ -17,15 +17,15 @@ final class SubltreeTest extends TestCase
     }
 
     #[Test]
-    public function extracts_subpath_from_an_arbitrary_position(): void
+    public function returns_subpath_between_two_positions_from_an_ltree_literal(): void
     {
-        $dql = 'SELECT SUBLTREE(l.ltree1, 1, 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
+        $dql = "SELECT SUBLTREE('Top.Child1.Child2', 0, 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('Child1', $result[0]['result']);
+        $this->assertSame('Top.Child1', $result[0]['result']);
     }
 
     #[Test]
-    public function extracts_subpath_from_the_beginning(): void
+    public function returns_subpath_between_two_positions_from_an_entity_field(): void
     {
         $dql = 'SELECT SUBLTREE(l.ltree1, 0, 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);

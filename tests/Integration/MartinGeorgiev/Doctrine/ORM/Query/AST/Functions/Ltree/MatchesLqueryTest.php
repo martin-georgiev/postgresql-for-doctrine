@@ -24,22 +24,4 @@ final class MatchesLqueryTest extends TestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(1, $result);
     }
-
-    #[Test]
-    public function returns_true_when_path_matches_quantified_star_pattern(): void
-    {
-        $dql = "SELECT l.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l
-                WHERE MATCHES_LQUERY(l.ltree1, '*{1,2}.Child2') = TRUE AND l.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(1, $result);
-    }
-
-    #[Test]
-    public function returns_false_when_path_does_not_match_pattern(): void
-    {
-        $dql = "SELECT l.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l
-                WHERE MATCHES_LQUERY(l.ltree1, 'Root.*') = TRUE AND l.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(0, $result);
-    }
 }

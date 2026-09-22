@@ -49,7 +49,7 @@ final class ByteaTypeTest extends ScalarTypeTestCase
     }
 
     #[Test]
-    public function retrieves_raw_hex_bytea_inserted_directly(): void
+    public function converts_raw_hex_bytea_inserted_directly(): void
     {
         $columnType = $this->getPostgresTypeName();
         [$tableName, $columnName] = $this->prepareTestTable($columnType);
