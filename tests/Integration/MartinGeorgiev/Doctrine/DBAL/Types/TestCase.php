@@ -191,7 +191,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     #[Test]
-    public function type_will_be_registered(): void
+    public function is_registered(): void
     {
         $typeName = $this->getTypeName();
 

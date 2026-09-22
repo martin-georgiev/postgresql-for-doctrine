@@ -17,7 +17,7 @@ final class SetMasklenTest extends TestCase
     }
 
     #[Test]
-    public function sets_mask_length_from_literal(): void
+    public function returns_address_with_the_given_mask_length_from_literal(): void
     {
         $dql = "SELECT SET_MASKLEN('192.168.1.5/24', 16) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t
@@ -27,7 +27,7 @@ final class SetMasklenTest extends TestCase
     }
 
     #[Test]
-    public function sets_mask_length_from_field(): void
+    public function returns_address_with_the_given_mask_length_from_field(): void
     {
         $dql = 'SELECT SET_MASKLEN(t.ip, 16) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t

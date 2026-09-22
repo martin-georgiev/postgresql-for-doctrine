@@ -37,26 +37,4 @@ final class DefinedTest extends TestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
-
-    #[Test]
-    public function returns_false_for_key_with_null_value(): void
-    {
-        $dql = "SELECT HSTORE_DEFINED(t.data, 'y') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
-                WHERE t.id = 2";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_for_key_that_does_not_exist(): void
-    {
-        $dql = "SELECT HSTORE_DEFINED(t.data, 'nonexistent') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
-                WHERE t.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
 }

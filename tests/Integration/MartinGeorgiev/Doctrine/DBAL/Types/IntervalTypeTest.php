@@ -132,7 +132,7 @@ final class IntervalTypeTest extends TestCase
 
     #[DataProvider('provideIntervalStyles')]
     #[Test]
-    public function reads_values_written_under_any_interval_style(string $intervalStyle): void
+    public function converts_values_written_under_any_interval_style(string $intervalStyle): void
     {
         [$tableName, $columnName] = $this->prepareTestTable($this->getPostgresTypeName());
         $fullTableName = self::DATABASE_SCHEMA.'.'.$tableName;

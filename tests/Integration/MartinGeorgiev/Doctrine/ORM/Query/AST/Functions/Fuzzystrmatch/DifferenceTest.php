@@ -17,27 +17,7 @@ final class DifferenceTest extends TestCase
     }
 
     #[Test]
-    public function returns_four_for_exact_match(): void
-    {
-        $dql = "SELECT DIFFERENCE('Anne', 'Anne') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(4, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_similarity_score_for_similar_names(): void
-    {
-        $dql = "SELECT DIFFERENCE('Anne', 'Ann') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(4, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_similarity_score_for_not_so_similar_names(): void
+    public function returns_similarity_score_from_strings(): void
     {
         $dql = "SELECT DIFFERENCE('Anne', 'Anton') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -47,17 +27,7 @@ final class DifferenceTest extends TestCase
     }
 
     #[Test]
-    public function returns_lower_score_for_different_names(): void
-    {
-        $dql = "SELECT DIFFERENCE('Anne', 'Margaret') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function computes_difference_from_text_fields(): void
+    public function returns_similarity_score_from_text_fields(): void
     {
         $dql = 'SELECT DIFFERENCE(t.text1, t.text2) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

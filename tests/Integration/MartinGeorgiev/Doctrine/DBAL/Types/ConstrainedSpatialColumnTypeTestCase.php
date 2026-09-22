@@ -32,7 +32,7 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
     }
 
     #[Test]
-    public function declares_column_with_postgis_type_modifier(): void
+    public function creates_column_with_postgis_type_modifier(): void
     {
         $this->assertSame(
             \sprintf('%s(POINT,4326)', \strtoupper($this->getTypeName())),

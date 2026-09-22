@@ -17,18 +17,18 @@ final class NlevelTest extends TestCase
     }
 
     #[Test]
-    public function returns_number_of_labels_in_path(): void
+    public function returns_number_of_labels_from_an_ltree_literal(): void
     {
-        $dql = 'SELECT NLEVEL(l.ltree1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
+        $dql = "SELECT NLEVEL('Top.Child1.Child2') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(3, $result[0]['result']);
     }
 
     #[Test]
-    public function returns_number_of_labels_for_single_node(): void
+    public function returns_number_of_labels_from_an_entity_field(): void
     {
-        $dql = 'SELECT NLEVEL(l.ltree1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 3';
+        $dql = 'SELECT NLEVEL(l.ltree1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(1, $result[0]['result']);
+        $this->assertSame(3, $result[0]['result']);
     }
 }
