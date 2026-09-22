@@ -113,7 +113,7 @@ final readonly class VariadicFunctionDeclaration
             return null;
         }
 
-        $values = \array_values($scope->getType($returned)->getConstantScalarValues());
+        $values = $scope->getType($returned)->getConstantScalarValues();
         if (\count($values) !== 1 || !\is_int($values[0])) {
             return null;
         }
