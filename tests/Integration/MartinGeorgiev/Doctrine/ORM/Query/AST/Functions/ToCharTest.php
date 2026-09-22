@@ -22,14 +22,14 @@ final class ToCharTest extends TestCase
     protected function getStringFunctions(): array
     {
         return [
-            'to_char' => ToChar::class,
+            'TO_CHAR' => ToChar::class,
         ];
     }
 
     #[Test]
     public function returns_a_formatted_value_from_an_entity_field(): void
     {
-        $dql = "SELECT to_char(t.datetimetz1, 'HH12:MI:SS') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
+        $dql = "SELECT TO_CHAR(t.datetimetz1, 'HH12:MI:SS') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('10:30:00', $result[0]['result']);
     }
@@ -37,7 +37,7 @@ final class ToCharTest extends TestCase
     #[Test]
     public function returns_a_formatted_value_from_a_literal(): void
     {
-        $dql = "SELECT to_char(125.80, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
+        $dql = "SELECT TO_CHAR(125.80, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('125.80+', $result[0]['result']);
     }
@@ -46,7 +46,7 @@ final class ToCharTest extends TestCase
     public function rejects_a_null_argument(): void
     {
         $this->expectException(QueryException::class);
-        $dql = "SELECT to_char(NULL, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
+        $dql = "SELECT TO_CHAR(NULL, '999D99S') AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
 
