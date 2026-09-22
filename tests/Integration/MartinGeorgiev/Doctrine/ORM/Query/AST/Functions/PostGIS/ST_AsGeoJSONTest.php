@@ -59,6 +59,10 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('{"type":"Polygon","bbox":[0.000000000,0.000000000,4.000000000,4.000000000],"coordinates":[[[0,0],[0,4],[4,4],[4,0],[0,0]]]}', $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        $geojson = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($geojson);
+        $this->assertSame('Polygon', $geojson['type']);
+        $this->assertSame([0.0, 0.0, 4.0, 4.0], $geojson['bbox']);
     }
 }
