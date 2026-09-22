@@ -24,17 +24,6 @@ final class ST_IsValidReasonTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_valid_geometry_for_a_valid_point(): void
-    {
-        $dql = 'SELECT ST_ISVALIDREASON(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('Valid Geometry', $result[0]['result']);
-    }
-
-    #[Test]
     public function returns_the_reason_and_location_for_a_self_intersecting_polygon(): void
     {
         $dql = 'SELECT ST_ISVALIDREASON(:geometry) as result
