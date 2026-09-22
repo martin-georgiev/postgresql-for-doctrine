@@ -170,7 +170,7 @@ final class FooArrayTypeTest extends ArrayTypeTestCase
 
 A `'null'` row reads phpValue=null, postgresValue=null; an `'empty array'` row reads phpValue=[], postgresValue='{}'.
 
-**`provideValidArrayItemsForDatabase`**: `null` plus the valid items, whether those are strings or value objects. A NULL element is valid in every array type.
+**`provideValidArrayItemsForDatabase`**: `null` plus the valid items, whether those are strings or value objects. `CubeArray` is the one type rejecting a NULL element, so it lists it as invalid instead.
 
 ### Additional methods when the type overrides `isValidArrayItemForDatabase()`
 
