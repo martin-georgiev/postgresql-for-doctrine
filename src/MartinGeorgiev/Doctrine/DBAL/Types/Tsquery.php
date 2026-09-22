@@ -35,11 +35,11 @@ final class Tsquery extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidTsqueryForPHPException::forInvalidType($value);
+            throw InvalidTsqueryForDatabaseException::forInvalidType($value);
         }
 
         if ($value === '') {
-            throw InvalidTsqueryForPHPException::forInvalidFormat($value);
+            throw InvalidTsqueryForDatabaseException::forInvalidFormat($value);
         }
 
         return $value;
@@ -52,7 +52,7 @@ final class Tsquery extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidTsqueryForDatabaseException::forInvalidType($value);
+            throw InvalidTsqueryForPHPException::forInvalidType($value);
         }
 
         return $value;

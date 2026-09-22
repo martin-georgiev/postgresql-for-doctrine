@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPointForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point as PointValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -93,7 +93,7 @@ final class PointTypeTest extends TestCase
     #[Test]
     public function rejects_string_instead_of_value_object(): void
     {
-        $this->expectException(InvalidPointForPHPException::class);
+        $this->expectException(InvalidPointForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

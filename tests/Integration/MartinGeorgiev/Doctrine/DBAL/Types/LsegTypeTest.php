@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLsegForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLsegForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Lseg as LsegValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -62,7 +62,7 @@ final class LsegTypeTest extends TestCase
     #[Test]
     public function rejects_string_instead_of_value_object(): void
     {
-        $this->expectException(InvalidLsegForPHPException::class);
+        $this->expectException(InvalidLsegForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

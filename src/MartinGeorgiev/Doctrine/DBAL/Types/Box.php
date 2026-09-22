@@ -33,7 +33,7 @@ final class Box extends BaseType
         }
 
         if (!$value instanceof BoxValueObject) {
-            throw InvalidBoxForPHPException::forInvalidType($value);
+            throw InvalidBoxForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ final class Box extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidBoxForDatabaseException::forInvalidType($value);
+            throw InvalidBoxForPHPException::forInvalidType($value);
         }
 
         try {
             return BoxValueObject::fromString($value);
         } catch (InvalidBoxException) {
-            throw InvalidBoxForDatabaseException::forInvalidFormat($value);
+            throw InvalidBoxForPHPException::forInvalidFormat($value);
         }
     }
 }

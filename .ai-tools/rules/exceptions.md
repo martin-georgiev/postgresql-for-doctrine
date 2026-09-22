@@ -21,10 +21,6 @@ Examples:
 - `InvalidPointForPHPException` - for PHP conversion errors in Point type
 - `InvalidPointForDatabaseException` - for database conversion errors in Point type
 
-**Method mapping**:
-- `convertToPHPValue` / `transformArrayItemForPHP` → use `*ForPHPException`
-- `convertToDatabaseValue` / `transformArrayItemForPostgres` → use `*ForDatabaseException`
-
 **Location**: three namespaces, by usage:
 
 | Namespace | Use for |

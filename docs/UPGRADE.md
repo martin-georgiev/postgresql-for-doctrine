@@ -17,6 +17,13 @@ Value object exceptions moved into their own family and share one parent. Releas
 
 Catching through the DBAL types is unaffected — those translate value object failures as before.
 
+The `box`, `circle`, `line`, `lseg`, `path`, `point`, `polygon`, `tsquery` and `tsvector` types named their two exception families the wrong way round, against every other type in the library. Each failure keeps its message; only the class carrying it changes.
+
+| Was | Now |
+|---|---|
+| writing one of those nine threw `Invalid{Type}ForPHPException` | `Invalid{Type}ForDatabaseException`, as `convertToDatabaseValue` does everywhere else |
+| reading one of those nine threw `Invalid{Type}ForDatabaseException` | `Invalid{Type}ForPHPException`, as `convertToPHPValue` does everywhere else |
+
 ## How to Upgrade to Version 3.0
 
 ### 1. Review type handling in your code

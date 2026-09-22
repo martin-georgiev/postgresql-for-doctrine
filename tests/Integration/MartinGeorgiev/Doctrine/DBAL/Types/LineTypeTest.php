@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLineForPHPException;
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidLineForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Line as LineValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -60,7 +60,7 @@ final class LineTypeTest extends TestCase
     #[Test]
     public function rejects_string_instead_of_value_object(): void
     {
-        $this->expectException(InvalidLineForPHPException::class);
+        $this->expectException(InvalidLineForDatabaseException::class);
 
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

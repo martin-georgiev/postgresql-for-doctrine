@@ -35,11 +35,11 @@ final class Tsvector extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidTsvectorForPHPException::forInvalidType($value);
+            throw InvalidTsvectorForDatabaseException::forInvalidType($value);
         }
 
         if ($value === '') {
-            throw InvalidTsvectorForPHPException::forInvalidFormat($value);
+            throw InvalidTsvectorForDatabaseException::forInvalidFormat($value);
         }
 
         return $value;
@@ -52,7 +52,7 @@ final class Tsvector extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidTsvectorForDatabaseException::forInvalidType($value);
+            throw InvalidTsvectorForPHPException::forInvalidType($value);
         }
 
         return $value;

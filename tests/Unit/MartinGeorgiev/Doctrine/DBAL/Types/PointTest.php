@@ -82,7 +82,7 @@ final class PointTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidPointForPHPException::class);
+        $this->expectException(InvalidPointForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
     }
 
@@ -106,7 +106,7 @@ final class PointTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidPointForDatabaseException::class);
+        $this->expectException(InvalidPointForPHPException::class);
         $this->fixture->convertToPHPValue($phpValue, $this->platform);
     }
 

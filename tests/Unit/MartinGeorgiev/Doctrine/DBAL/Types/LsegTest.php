@@ -88,18 +88,18 @@ final class LsegTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueInputs')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_php_value_inputs(mixed $phpValue): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $phpValue): void
     {
-        $this->expectException(InvalidLsegForPHPException::class);
+        $this->expectException(InvalidLsegForDatabaseException::class);
         $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
     }
 
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidPHPValueInputs(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'string input' => ['[(1,2),(3,4)]'],
@@ -110,18 +110,18 @@ final class LsegTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidDatabaseValueInputs')]
+    #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_database_value_inputs(mixed $dbValue): void
+    public function throws_exception_for_invalid_php_value_inputs(mixed $dbValue): void
     {
-        $this->expectException(InvalidLsegForDatabaseException::class);
+        $this->expectException(InvalidLsegForPHPException::class);
         $this->fixture->convertToPHPValue($dbValue, $this->platform);
     }
 
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidDatabaseValueInputs(): array
+    public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'empty string' => [''],

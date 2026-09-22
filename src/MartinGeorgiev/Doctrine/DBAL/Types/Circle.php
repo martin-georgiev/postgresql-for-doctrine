@@ -33,7 +33,7 @@ final class Circle extends BaseType
         }
 
         if (!$value instanceof CircleValueObject) {
-            throw InvalidCircleForPHPException::forInvalidType($value);
+            throw InvalidCircleForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ final class Circle extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidCircleForDatabaseException::forInvalidType($value);
+            throw InvalidCircleForPHPException::forInvalidType($value);
         }
 
         try {
             return CircleValueObject::fromString($value);
         } catch (InvalidCircleException) {
-            throw InvalidCircleForDatabaseException::forInvalidFormat($value);
+            throw InvalidCircleForPHPException::forInvalidFormat($value);
         }
     }
 }

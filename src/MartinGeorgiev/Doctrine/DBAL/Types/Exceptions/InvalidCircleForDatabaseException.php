@@ -20,11 +20,6 @@ class InvalidCircleForDatabaseException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Database value must be a string, %s given', $value);
-    }
-
-    public static function forInvalidFormat(mixed $value): self
-    {
-        return self::create('Invalid circle format in database: %s', $value);
+        return self::create('Value must be a circle, %s given', $value);
     }
 }

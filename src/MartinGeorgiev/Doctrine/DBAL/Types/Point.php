@@ -33,7 +33,7 @@ class Point extends BaseType
         }
 
         if (!$value instanceof PointValueObject) {
-            throw InvalidPointForPHPException::forInvalidType($value);
+            throw InvalidPointForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ class Point extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidPointForDatabaseException::forInvalidType($value);
+            throw InvalidPointForPHPException::forInvalidType($value);
         }
 
         try {
             return PointValueObject::fromString($value);
         } catch (InvalidPointException) {
-            throw InvalidPointForDatabaseException::forInvalidFormat($value);
+            throw InvalidPointForPHPException::forInvalidFormat($value);
         }
     }
 }

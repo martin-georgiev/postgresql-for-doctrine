@@ -20,6 +20,11 @@ class InvalidPathForPHPException extends ConversionException
 
     public static function forInvalidType(mixed $value): self
     {
-        return self::create('Value must be a path, %s given', $value);
+        return self::create('Database value must be a string, %s given', $value);
+    }
+
+    public static function forInvalidFormat(mixed $value): self
+    {
+        return self::create('Invalid path format in database: %s', $value);
     }
 }
