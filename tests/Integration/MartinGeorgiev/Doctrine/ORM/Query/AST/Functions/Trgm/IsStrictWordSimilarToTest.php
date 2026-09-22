@@ -24,4 +24,13 @@ final class IsStrictWordSimilarToTest extends TestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(1, $result);
     }
+
+    #[Test]
+    public function returns_false_when_both_operands_are_entity_fields(): void
+    {
+        $dql = 'SELECT t.id FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
+                WHERE IS_STRICT_WORD_SIMILAR_TO(t.text2, t.text1) = TRUE AND t.id = 3';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertCount(0, $result);
+    }
 }
