@@ -6,6 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ExteriorRing;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_ExteriorRingTest extends SpatialOperatorTestCase
@@ -15,11 +16,23 @@ final class ST_ExteriorRingTest extends SpatialOperatorTestCase
         return [
             'ST_ASTEXT' => ST_AsText::class,
             'ST_EXTERIORRING' => ST_ExteriorRing::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_the_outer_ring_of_a_polygon(): void
+    public function parses_the_outer_ring_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_ASTEXT(ST_EXTERIORRING(ST_GEOMFROMTEXT('POLYGON((0 0,4 0,4 4,0 4,0 0))'))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('LINESTRING(0 0,4 0,4 4,0 4,0 0)', $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_outer_ring_of_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASTEXT(ST_EXTERIORRING(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

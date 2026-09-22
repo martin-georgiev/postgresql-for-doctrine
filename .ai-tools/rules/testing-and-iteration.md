@@ -31,31 +31,43 @@ protected function setUp(): void
 
 An integration test proves the DQL function reaches PostgreSQL and the result hydrates. What PostgreSQL then does with the value is PostgreSQL's contract, already tested upstream.
 
-**One test per arity.** A second test that only changes the input geometry, the index or the row exercises the same call and belongs to PostgreSQL, not here.
+**Every function owes two tests, and they are the minimum:**
+
+1. a **literal** — the function applied to a string the DQL itself spells, proving the argument parses
+2. an **entity field** — the function applied to a recorded column, proving a stored value binds and hydrates
+
+Beyond those two, add a test only for another **arity**. A test that just changes the input geometry, the index or the row repeats a call already covered and asserts a PostgreSQL rule instead of ours.
 
 ```php
-// ❌ One arity, two tests — the second asserts a PostGIS rule
+// ✓ The two halves every function owes
+parses_the_first_vertex_from_a_wkt_literal()     // ST_ASTEXT(ST_STARTPOINT(ST_GEOMFROMTEXT('LINESTRING(0 0,1 1,2 2)')))
+returns_the_first_vertex_of_an_entity_field()    // ST_ASTEXT(ST_STARTPOINT(g.geometry1))
+
+// ✓ A third, because ST_AsText takes an optional precision
+respects_max_decimal_digits()
+
+// ❌ One arity, and the second asserts a PostGIS rule
 returns_first_vertex_of_linestring()
 returns_first_vertex_of_polygon_ring()
 
 // ❌ Same — null for an out-of-range index is PostGIS's rule
-returns_nth_element_of_a_collection()
 returns_null_for_out_of_range_index()
-
-// ✓ ST_AsText takes an optional precision, so each arity earns a test
-returns_wkt_for_geography()
-respects_max_decimal_digits()
 ```
 
-Reach the function directly. Nesting helpers to manufacture an input tests the helpers:
+Reach the function directly. Nest a helper only to build an input the fixtures do not hold:
 
 ```php
-// ❌ Four functions deep to reach one
+// ❌ Four deep to reach one function
 ST_X(ST_STARTPOINT(ST_GEOMETRYN(ST_COLLECT(g.geometry1, g.geometry2), 1)))
 
 // ✓ A literal says what the input is
 ST_ASTEXT(ST_GEOMETRYN(ST_GEOMFROMTEXT('MULTIPOINT((1 2),(3 4))'), 1))
+
+// ✓ ST_COLLECT earns its place — no fixture column holds a collection
+ST_ASTEXT(ST_GEOMETRYN(ST_COLLECT(g.geometry1, g.geometry2), 1))
 ```
+
+Assert a computed geometry only after checking the value is identical on the oldest and newest PostGIS in `.github/workflows/integration-tests.yml`.
 
 ## Run Targeted Tests After Code Changes
 
