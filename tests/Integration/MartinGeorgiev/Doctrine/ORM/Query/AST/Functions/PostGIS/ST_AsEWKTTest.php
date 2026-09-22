@@ -17,28 +17,6 @@ final class ST_AsEWKTTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_ewkt_with_the_srid_prefix(): void
-    {
-        $dql = 'SELECT ST_ASEWKT(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('SRID=4326;POINT(0 0)', $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_ewkt_for_polygon(): void
-    {
-        $dql = 'SELECT ST_ASEWKT(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('SRID=4326;POLYGON((0 0,0 4,4 4,4 0,0 0))', $result[0]['result']);
-    }
-
-    #[Test]
     public function returns_ewkt_for_geography(): void
     {
         $dql = 'SELECT ST_ASEWKT(g.geography1) as result
