@@ -159,7 +159,7 @@ final class FooArrayTypeTest extends ArrayTypeTestCase
 
 ### Core methods — all array types
 
-These exact method and provider names are required on every array type unit test:
+What each method asserts:
 
 | Method | Provider | Exception | Tests |
 |--------|----------|-----------|-------|
@@ -173,11 +173,9 @@ These exact method and provider names are required on every array type unit test
 | `converts_null_item_to_php_value` | — | — | `assertNull($this->fixture->transformArrayItemForPHP(null))` |
 | `throws_exception_for_non_string_item_from_database` | — | `ForPHPException` | direct call: `$this->fixture->transformArrayItemForPHP(123)` |
 
-`provideValidTransformations` **must** include `'null'` (phpValue=null, postgresValue=null) and `'empty array'` (phpValue=[], postgresValue='{}') cases alongside real data.
+A `'null'` row reads phpValue=null, postgresValue=null; an `'empty array'` row reads phpValue=[], postgresValue='{}'.
 
-**`provideValidArrayItemsForDatabase`**:
-- For **primitive/string item types** (e.g., `MoneyArray`, `TextArray`): include `null` plus valid string items.
-- For **value-object item types** (e.g., `PointArray`, `LineArray`): include only valid VO instances — **no null**.
+**`provideValidArrayItemsForDatabase`**: `null` plus the valid items, whether those are strings or value objects. A NULL element is valid in every array type.
 
 ### Additional methods for value-object item types
 

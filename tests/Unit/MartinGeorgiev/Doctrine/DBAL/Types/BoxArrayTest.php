@@ -155,6 +155,13 @@ final class BoxArrayTest extends TestCase
     }
 
     #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidBoxArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
+    }
+
+    #[Test]
     public function returns_empty_array_for_empty_postgres_value(): void
     {
         $result = $this->fixture->convertToPHPValue('{}', $this->platform);
