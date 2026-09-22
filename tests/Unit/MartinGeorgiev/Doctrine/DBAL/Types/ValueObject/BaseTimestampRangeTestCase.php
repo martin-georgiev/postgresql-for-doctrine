@@ -14,6 +14,8 @@ use PHPUnit\Framework\Attributes\Test;
  * Provides common timestamp-specific test patterns.
  *
  * @template R of \DateTimeInterface
+ *
+ * @extends BaseRangeTestCase<R>
  */
 abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
 {

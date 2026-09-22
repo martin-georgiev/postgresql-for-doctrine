@@ -27,6 +27,9 @@ final class Int8RangeTest extends BaseRangeTestCase
         return Int8RangeValueObject::class;
     }
 
+    /**
+     * @return \Generator<string, array{Int8RangeValueObject|null, string|null}>
+     */
     public static function provideValidTransformations(): \Generator
     {
         yield 'simple range' => [

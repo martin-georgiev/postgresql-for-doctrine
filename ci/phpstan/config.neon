@@ -7,7 +7,6 @@ includes:
     - ./baselines/doctrine-version-variations.neon
     - ./baselines/lexer-variations.neon
     - ./baselines/phpstan-identifiers.neon
-    - ./baselines/range-baseline.neon
 
 services:
     -
@@ -23,6 +22,22 @@ services:
                 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\': ['description', 'see', 'since', 'author', 'implementationFirstLine']
                 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\': ['since', 'author']
                 'MartinGeorgiev\Utils\Exception\': ['since', 'author']
+    -
+        class: MartinGeorgiev\PHPStan\DataProviderDatasetKeyRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\DataProviderNamingRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\DataProviderReturnTypeRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\ConversionMethodDocBlockRule
+        tags:
+            - phpstan.rules.rule
     -
         class: MartinGeorgiev\PHPStan\ValueObjectImmutabilityRule
         tags:

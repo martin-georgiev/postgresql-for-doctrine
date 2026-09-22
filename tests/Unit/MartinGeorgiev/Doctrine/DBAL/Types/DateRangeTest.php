@@ -27,6 +27,9 @@ final class DateRangeTest extends BaseRangeTestCase
         return DateRangeValueObject::class;
     }
 
+    /**
+     * @return \Generator<string, array{DateRangeValueObject|null, string|null}>
+     */
     public static function provideValidTransformations(): \Generator
     {
         yield 'simple range' => [

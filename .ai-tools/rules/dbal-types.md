@@ -71,28 +71,7 @@ The description should call out non-obvious PostgreSQL semantics (case-insensiti
 
 ### Method PHPDoc: Minimal Only
 
-**Required**: PHPDoc on `convertToDatabaseValue` / `convertToPHPValue` carries `@param` (type-only, no description) and `@throws`. Nothing else.
-**Forbidden**: Restating what the method already says in its signature.
-
-```php
-// ❌ Wrong — restates the signature
-/**
- * Converts a value from its PHP representation to its PostgreSQL representation of the type.
- *
- * @param array|null $phpArray the value to convert
- *
- * @throws ConversionException When passed argument is not PHP array OR When invalid array items are detected
- */
-public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
-
-// ✓ Correct — minimal
-/**
- * @param array|null $phpArray
- *
- * @throws ConversionException
- */
-public function convertToDatabaseValue($phpArray, AbstractPlatform $platform): ?string
-```
+Running prose above the tags is for the non-obvious PostgreSQL reason only — `Lquery::convertToPHPValue()` explains why it does not re-validate. A restatement of the signature is not that.
 
 ### Data Provider Shape: The Named Key IS the Label
 
@@ -145,26 +124,6 @@ The `if (!$item instanceof X) throw` guard inside `transformArrayItemForPostgres
 ### Required Unit Test Methods
 
 See `test-naming-patterns.md` → **Required Unit Test Methods: Array DBAL Types** for the canonical method/provider/exception tables, `provideValidTransformations` content rules, and PHPStan ignore-line policy. The guard inside `transformArrayItemForPostgres` (described above) is the single intentionally uncovered line.
-
-### Integration Test Generics
-
-When the base class declares `@template`, every concrete subclass needs `@extends`:
-
-```php
-// ✓ Correct
-/** @extends RangeArrayTypeTestCase<DateRange> */
-final class DateRangeArrayTypeTest extends RangeArrayTypeTestCase
-```
-
-When the base class calls an abstract static method from an instance method, use `static::` not `self::`:
-
-```php
-// ✓ Correct — late static binding
-static::getRangeValueObjectClass()
-
-// ❌ Wrong — tries to call abstract method directly
-self::getRangeValueObjectClass()
-```
 
 ---
 

@@ -48,7 +48,7 @@ final class TextArrayTest extends TestCase
     }
 
     /**
-     * @return list<array{
+     * @return array<string, array{
      *     phpValue: array|null,
      *     postgresValue: string|null
      * }>
@@ -56,31 +56,31 @@ final class TextArrayTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            [
+            'null' => [
                 'phpValue' => null,
                 'postgresValue' => null,
             ],
-            [
+            'empty array' => [
                 'phpValue' => [],
                 'postgresValue' => '{}',
             ],
-            [
+            'single back-slash at the start and end' => [
                 'phpValue' => ['\single-back-slash-at-the-start-and-end\\'],
                 'postgresValue' => '{"\\\single-back-slash-at-the-start-and-end\\\"}',
             ],
-            [
+            'double back-slash at the end' => [
                 'phpValue' => ['double-back-slash-at-the-end\\\\'],
                 'postgresValue' => '{"double-back-slash-at-the-end\\\\\\\"}',
             ],
-            [
+            'triple back-slash in the middle' => [
                 'phpValue' => ['triple-\\\\\-back-slash-in-the-middle'],
                 'postgresValue' => '{"triple-\\\\\\\\\\\-back-slash-in-the-middle"}',
             ],
-            [
+            'quadruple back-slash' => [
                 'phpValue' => ['quadruple-back-slash\\\\\\\\'],
                 'postgresValue' => '{"quadruple-back-slash\\\\\\\\\\\\\\\"}',
             ],
-            [
+            'mixed scalars and quoted text' => [
                 'phpValue' => [
                     1,
                     '2',
@@ -98,7 +98,7 @@ final class TextArrayTest extends TestCase
                     {1,"2",3.4,"5.6","text","some text here","and some here","''\"quotes\"'' ain't no \"\"\"worry\"\"\", '''right''' Alexander O'Vechkin?","and \"double-quotes\""}
                     END,
             ],
-            [
+            'upper-case strings' => [
                 'phpValue' => ['STRING_A', 'STRING_B', 'STRING_C', 'STRING_D'],
                 'postgresValue' => '{"STRING_A","STRING_B","STRING_C","STRING_D"}',
             ],

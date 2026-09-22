@@ -234,31 +234,6 @@ Several distinct inputs asserting the same outcome is a provider case, not a coh
 
 ## Data Provider Conventions
 
-- Naming: `provide*` prefix, e.g., `provideValidTransformations`, `provideInvalidDatabaseValueInputs`
-- Return type: `array`, `\Generator`, or `iterable` (document with PHPDoc `@return`)
-- **Always use named string keys** for each dataset entry:
-
-```php
-/** @return array<string, array{phpValue: string|null, postgresValue: string|null}> */
-public static function provideValidTransformations(): array
-{
-    return [
-        'null' => ['phpValue' => null, 'postgresValue' => null],
-        'IPv4 address' => ['phpValue' => '192.168.1.1', 'postgresValue' => '192.168.1.1'],
-    ];
-}
-```
-
-Use `yield` form for generators:
-
-```php
-/** @return \Generator<string, array{string, Range}> */
-public static function provideFromStringTestCases(): \Generator
-{
-    yield 'simple range' => ['[1,10)', $expectedRange];
-}
-```
-
 ### One Dataset, Both Directions
 
 A `phpValue`/`postgresValue` row feeds the write test and the read test. Don't add a second method for the other direction.

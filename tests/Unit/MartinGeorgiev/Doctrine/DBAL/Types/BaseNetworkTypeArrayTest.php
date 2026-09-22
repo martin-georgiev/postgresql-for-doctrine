@@ -65,6 +65,9 @@ final class BaseNetworkTypeArrayTest extends TestCase
         $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
+    /**
+     * @return array<string, array{phpValue: array<string|null>|null, postgresValue: string|null}>
+     */
     public static function provideValidTransformations(): array
     {
         return [
@@ -100,6 +103,9 @@ final class BaseNetworkTypeArrayTest extends TestCase
         $this->fixture->transformArrayItemForPHP($arrayItem);
     }
 
+    /**
+     * @return array<string, array{arrayItem: mixed, exceptionMessage: string}>
+     */
     public static function provideInvalidValues(): array
     {
         return [
