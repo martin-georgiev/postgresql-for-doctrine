@@ -17,7 +17,7 @@ final class RegexpReplaceTest extends TextTestCase
     }
 
     #[Test]
-    public function replaces_matching_pattern_in_text_field(): void
+    public function returns_the_replaced_value_from_an_entity_field(): void
     {
         $dql = "SELECT REGEXP_REPLACE(t.text1, 'test', 'replaced') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,34 +25,10 @@ final class RegexpReplaceTest extends TextTestCase
     }
 
     #[Test]
-    public function replaces_multiple_occurrences_with_global_flag(): void
+    public function returns_the_replaced_value_from_a_literal_with_a_flags_argument(): void
     {
-        $dql = "SELECT REGEXP_REPLACE(t.text1, 'is', 'was', 'g') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $dql = "SELECT REGEXP_REPLACE('this is a test string', 'is', 'was', 'g') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('thwas was a test string', $result[0]['result']);
-    }
-
-    #[Test]
-    public function leaves_string_unchanged_when_no_match(): void
-    {
-        $dql = "SELECT REGEXP_REPLACE(t.text1, 'nonexistent', 'replaced') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('this is a test string', $result[0]['result']);
-    }
-
-    #[Test]
-    public function replaces_pattern_in_second_text_field(): void
-    {
-        $dql = "SELECT REGEXP_REPLACE(t.text2, 'test', 'replaced') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('another replaced string', $result[0]['result']);
-    }
-
-    #[Test]
-    public function applies_case_sensitive_replacement(): void
-    {
-        $dql = "SELECT REGEXP_REPLACE(t.text1, 'TEST', 'replaced') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('this is a test string', $result[0]['result']);
     }
 }

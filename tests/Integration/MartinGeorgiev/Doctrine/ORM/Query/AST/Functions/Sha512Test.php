@@ -19,7 +19,7 @@ final class Sha512Test extends TextTestCase
     }
 
     #[Test]
-    public function computes_sha512_of_a_string(): void
+    public function returns_the_sha512_hash_from_a_literal(): void
     {
         $dql = "SELECT SHA512('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -30,7 +30,7 @@ final class Sha512Test extends TextTestCase
     }
 
     #[Test]
-    public function computes_sha512_of_text_field(): void
+    public function returns_the_sha512_hash_from_an_entity_field(): void
     {
         $dql = 'SELECT SHA512(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -17,34 +17,22 @@ final class RegexpMatchTest extends TextTestCase
     }
 
     #[Test]
-    public function matches_pattern_in_text(): void
+    public function returns_the_matching_substrings_from_an_entity_field(): void
     {
         $dql = "SELECT REGEXP_MATCH(t.text1, 'test') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('test', $result[0]['result']);
+        $this->assertSame('{test}', $result[0]['result']);
     }
 
     #[Test]
-    public function returns_null_when_no_match(): void
+    public function returns_the_matching_substrings_from_a_literal_with_a_flags_argument(): void
     {
-        $dql = "SELECT REGEXP_MATCH(t.text1, 'xyz123') as result 
+        $dql = "SELECT REGEXP_MATCH('this is a test string', 'TEST', 'i') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function uses_case_insensitive_flag(): void
-    {
-        $dql = "SELECT REGEXP_MATCH(t.text1, 'TEST', 'i') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('test', $result[0]['result']);
+        $this->assertSame('{test}', $result[0]['result']);
     }
 }

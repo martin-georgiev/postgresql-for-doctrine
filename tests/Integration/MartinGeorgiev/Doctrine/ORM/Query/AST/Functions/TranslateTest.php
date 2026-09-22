@@ -17,7 +17,7 @@ final class TranslateTest extends TextTestCase
     }
 
     #[Test]
-    public function translates_characters_in_literal(): void
+    public function returns_the_translated_value_from_a_literal(): void
     {
         $dql = "SELECT TRANSLATE('hello', 'el', 'ip') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ final class TranslateTest extends TextTestCase
     }
 
     #[Test]
-    public function translates_characters_in_text_field(): void
+    public function returns_the_translated_value_from_an_entity_field(): void
     {
         $dql = "SELECT TRANSLATE(t.text1, 'foo', 'bar') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

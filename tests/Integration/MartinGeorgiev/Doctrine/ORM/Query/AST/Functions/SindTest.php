@@ -17,7 +17,7 @@ final class SindTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_sind_of_literal(): void
+    public function returns_the_sine_of_degrees_from_a_literal(): void
     {
         $dql = 'SELECT SIND(90.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class SindTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_sind_with_entity_property(): void
+    public function returns_the_sine_of_degrees_from_an_entity_field(): void
     {
         $dql = 'SELECT SIND(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

@@ -17,7 +17,7 @@ final class StatementTimestampTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_non_null_timestamp_string(): void
+    public function returns_a_timestamp(): void
     {
         $dql = 'SELECT STATEMENT_TIMESTAMP() as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

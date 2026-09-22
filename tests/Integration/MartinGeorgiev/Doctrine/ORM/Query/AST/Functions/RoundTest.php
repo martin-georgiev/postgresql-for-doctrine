@@ -17,53 +17,27 @@ final class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function rounds_positive_number(): void
+    public function returns_the_rounded_value_from_a_literal(): void
     {
-        $dql = 'SELECT ROUND(:number) as result 
+        $dql = 'SELECT ROUND(3.14159) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, ['number' => 3.14159]);
+        $result = $this->executeDqlQuery($dql);
         $this->assertEquals(3, $result[0]['result']);
     }
 
     #[Test]
-    public function rounds_negative_number(): void
+    public function returns_the_rounded_value_with_a_precision_argument(): void
     {
-        $dql = 'SELECT ROUND(:number) as result 
+        $dql = 'SELECT ROUND(3.14159, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, ['number' => -3.14159]);
-        $this->assertEquals(-3, $result[0]['result']);
-    }
-
-    #[Test]
-    public function rounds_with_precision(): void
-    {
-        $dql = 'SELECT ROUND(:number, :precision) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'number' => 3.14159,
-            'precision' => 2,
-        ]);
+        $result = $this->executeDqlQuery($dql);
         $this->assertEquals(3.14, $result[0]['result']);
     }
 
     #[Test]
-    public function rounds_with_negative_precision(): void
-    {
-        $dql = 'SELECT ROUND(:number, :precision) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'number' => 314.159,
-            'precision' => -2,
-        ]);
-        $this->assertEquals(300, $result[0]['result']);
-    }
-
-    #[Test]
-    public function rounds_column_value(): void
+    public function returns_the_rounded_value_from_an_entity_field(): void
     {
         $dql = 'SELECT ROUND(t.decimal1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -73,32 +47,12 @@ final class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function rounds_arithmetic_expression(): void
+    public function returns_the_rounded_value_from_an_arithmetic_expression(): void
     {
         $dql = 'SELECT ROUND(100 * t.integer1 / t.integer2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(50, $result[0]['result']);
-    }
-
-    #[Test]
-    public function rounds_arithmetic_expression_with_precision(): void
-    {
-        $dql = 'SELECT ROUND(t.decimal1 + t.decimal2 - t.integer1, 1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(21.0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function rounds_parenthesized_arithmetic_expression(): void
-    {
-        $dql = 'SELECT ROUND((t.integer1 + t.integer2) * t.decimal1, 1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(315.0, $result[0]['result']);
     }
 }

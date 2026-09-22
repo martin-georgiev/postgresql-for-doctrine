@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\DBAL\Exception\DriverException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -18,7 +17,7 @@ final class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function uses_with_explicit_config(): void
+    public function creates_a_tsquery_with_a_config_argument(): void
     {
         $dql = "SELECT websearch_to_tsquery('english', '\"sad cat\" or \"fat rat\"') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -26,7 +25,7 @@ final class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function uses_default_config(): void
+    public function creates_a_tsquery_from_a_literal(): void
     {
         $dql = "SELECT websearch_to_tsquery('\"sad cat\" or \"fat rat\"') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -34,11 +33,10 @@ final class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function throws_for_invalid_config_input(): void
+    public function creates_a_tsquery_from_an_entity_field(): void
     {
-        $this->expectException(DriverException::class);
-        $this->expectExceptionMessageMatches('/text search configuration .*invalid_regconfig.* does not exist/i');
-        $dql = "SELECT websearch_to_tsquery('invalid_regconfig', 'foo') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
-        $this->executeDqlQuery($dql);
+        $dql = 'SELECT websearch_to_tsquery(t.text1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame("'test' & 'string'", $result[0]['result']);
     }
 }

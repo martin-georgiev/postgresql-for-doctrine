@@ -17,7 +17,7 @@ final class ScaleTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_scale_of_literal(): void
+    public function returns_the_scale_from_a_literal(): void
     {
         $dql = 'SELECT SCALE(8.41) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class ScaleTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_scale_with_entity_property(): void
+    public function returns_the_scale_from_an_entity_field(): void
     {
         $dql = 'SELECT SCALE(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

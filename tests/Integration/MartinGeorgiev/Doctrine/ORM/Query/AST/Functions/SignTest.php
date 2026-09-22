@@ -17,7 +17,7 @@ final class SignTest extends NumericTestCase
     }
 
     #[Test]
-    public function sign_with_zero(): void
+    public function returns_the_sign_from_a_literal(): void
     {
         $dql = 'SELECT SIGN(0) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
@@ -27,7 +27,7 @@ final class SignTest extends NumericTestCase
     }
 
     #[Test]
-    public function sign_with_column_value(): void
+    public function returns_the_sign_from_an_entity_field(): void
     {
         $dql = 'SELECT SIGN(n.decimal1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
@@ -37,7 +37,7 @@ final class SignTest extends NumericTestCase
     }
 
     #[Test]
-    public function sign_with_arithmetic_expression(): void
+    public function returns_the_sign_from_an_arithmetic_expression(): void
     {
         $dql = 'SELECT SIGN(n.integer1 - n.integer2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n

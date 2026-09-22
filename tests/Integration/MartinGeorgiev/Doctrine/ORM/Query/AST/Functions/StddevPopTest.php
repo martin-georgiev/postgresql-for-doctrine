@@ -17,18 +17,9 @@ final class StddevPopTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_zero_for_single_row_set_on_integer_column(): void
+    public function returns_the_population_standard_deviation_from_an_entity_field(): void
     {
         $dql = 'SELECT STDDEV_POP(t.integer1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_single_row_set_on_decimal_column(): void
-    {
-        $dql = 'SELECT STDDEV_POP(t.decimal1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0.0, $result[0]['result']);

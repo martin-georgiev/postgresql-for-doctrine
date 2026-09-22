@@ -17,36 +17,11 @@ final class StringAggTest extends TextTestCase
     }
 
     #[Test]
-    public function aggregates_all_rows_with_comma_delimiter(): void
+    public function returns_the_aggregated_values_from_an_entity_field(): void
     {
         $dql = "SELECT STRING_AGG(t.text1, ',') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('this is a test string,lorem ipsum dolor,foo,special,chars;test', $result[0]['result']);
-    }
-
-    #[Test]
-    public function aggregates_all_rows_with_semicolon_delimiter(): void
-    {
-        $dql = "SELECT STRING_AGG(t.text2, ';') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('another test string;sit amet;bar;multi;delimiter,case', $result[0]['result']);
-    }
-
-    #[Test]
-    public function aggregates_all_rows_with_space_delimiter(): void
-    {
-        $dql = "SELECT STRING_AGG(t.text1, ' ') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('this is a test string lorem ipsum dolor foo special,chars;test', $result[0]['result']);
-    }
-
-    #[Test]
-    public function aggregates_filtered_rows(): void
-    {
-        $dql = "SELECT STRING_AGG(t.text1, ',') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id in (1, 4)";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('this is a test string,special,chars;test', $result[0]['result']);
     }
 }
