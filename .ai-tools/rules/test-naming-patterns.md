@@ -189,14 +189,12 @@ A `'null'` row reads phpValue=null, postgresValue=null; an `'empty array'` row r
 
 | Method | Provider | Exception | Tests |
 |--------|----------|-----------|-------|
-| `throws_exception_for_invalid_php_value_inputs` | `provideInvalidPHPValueInputs` | `ForPHPException` | malformed postgres strings passed to `convertToPHPValue` |
-| `throws_exception_for_non_string_inputs_to_database_conversion` | `provideInvalidPHPValueTypes` | `ForPHPException` | int, object, bool passed to `convertToDatabaseValue` |
+| `throws_exception_for_invalid_php_value_inputs` | `provideInvalidPHPValueInputs` | `ForPHPException` | malformed postgres literals passed to `convertToPHPValue` — a malformed item (`'{invalid}'`) throws, it does not yield `[]` |
 | `throws_exception_when_invalid_{type}_format_provided` | — | `ForPHPException` | direct call: `transformArrayItemForPHP('(invalid,string)')` |
-| `throws_exception_for_malformed_{type}_strings_in_database` | — | `ForPHPException` | `convertToPHPValue` with a malformed embedded item |
-| `throws_exception_for_invalid_{type}_array_items` | `provideInvalid{Type}ArrayItems` | `ForDatabaseException` | arrays of invalid items passed to `convertToDatabaseValue` |
-| `returns_empty_array_for_malformed_input` | `provideMalformedInputs` | — | malformed postgres strings that yield `[]` rather than throwing (`'{}'`, `'{invalid}'`, `'{""}'`) |
 
 `{type}` is replaced by the type name (e.g., `line`, `point`).
+
+A non-array PHP value, a rejected item and a malformed literal each meet a single guard in `BaseArray`, so a new input class is a row in the provider that already drives that guard — never a method of its own.
 
 ### PHPStan ignore lines on array type tests
 
@@ -234,9 +232,9 @@ The guard inside `transformArrayItemForPostgres` (see `dbal-types.md` § BaseArr
 - Unique behavior that doesn't vary by input: `throws_exception_for_non_string_item_from_database()` (always `transformArrayItemForPHP(123)`)
 - Multiple assertions about a **single** input: `returns_correct_coordinates_via_getters()` (one `Point`, asserts `getX()` and `getY()`)
 
-Several distinct inputs asserting the same outcome is a provider case, not a cohesive scenario — `returns_empty_array_for_malformed_input()` takes `provideMalformedInputs` for exactly this reason.
+Several distinct inputs asserting the same outcome is a provider case, not a cohesive scenario — `throws_exception_for_malformed_array_literal()` takes `provideMalformedInputs` for exactly this reason.
 
-**Exception — single-case provider is still correct** when the method belongs to a family of provider-driven methods for consistency. Example: `provideInvalidTypeInputs` always contains exactly one entry (`'string instead of array'`) but uses provider form because all sibling exception-test methods also use providers.
+**Exception — single-case provider is still correct** when the method belongs to a family of provider-driven methods for consistency. Example: `provideInvalidTypeInputs` often holds a single entry (`'string instead of array'`) but uses provider form because all sibling exception-test methods also use providers.
 
 ## Data Provider Conventions
 

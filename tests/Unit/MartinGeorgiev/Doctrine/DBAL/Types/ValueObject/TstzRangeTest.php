@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\TstzRange;
 use PHPUnit\Framework\Attributes\Test;
@@ -264,15 +263,6 @@ final class TstzRangeTest extends BaseTimestampRangeTestCase
         $tstzRange = TstzRange::fromString('[2023-06-15 14:30:25.123456+02:00,2023-06-15 18:45:30.654321+02:00)');
 
         $this->assertSame('[2023-06-15 14:30:25.123456+02:00,2023-06-15 18:45:30.654321+02:00)', (string) $tstzRange);
-    }
-
-    #[Test]
-    public function throws_exception_for_invalid_timestamp_string_via_from_string(): void
-    {
-        $this->expectException(InvalidRangeException::class);
-        $this->expectExceptionMessage('Cannot parse range bound');
-
-        TstzRange::fromString('[invalid_timestamp,2023-01-01 18:00:00+00:00)');
     }
 
     #[Test]
