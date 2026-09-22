@@ -154,6 +154,13 @@ final class LineArrayTest extends TestCase
         $this->assertNull($this->fixture->transformArrayItemForPHP(null));
     }
 
+    #[Test]
+    public function throws_exception_for_non_string_item_from_database(): void
+    {
+        $this->expectException(InvalidLineArrayItemForPHPException::class);
+        $this->fixture->transformArrayItemForPHP(123);
+    }
+
     #[DataProvider('provideMalformedInputs')]
     #[Test]
     public function throws_exception_for_malformed_array_literal(string $postgresValue): void

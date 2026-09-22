@@ -401,7 +401,7 @@ final class GeographyArrayTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_invalid_type_from_database(): void
+    public function throws_exception_for_non_string_item_from_database(): void
     {
         $this->expectException(InvalidGeographyForPHPException::class);
         $this->expectExceptionMessage('Database value must be a string');

@@ -159,29 +159,33 @@ final class FooArrayTypeTest extends ArrayTypeTestCase
 
 ### Core methods — all array types
 
-These exact method and provider names are required on every array type unit test:
-
 | Method | Provider | Exception | Tests |
 |--------|----------|-----------|-------|
 | `has_name` | — | — | `assertSame('foo[]', $this->fixture->getName())` |
 | `converts_to_database_value` | `provideValidTransformations` | — | round-trip including null and empty array cases |
 | `converts_to_php_value` | `provideValidTransformations` | — | same provider as above |
 | `throws_exception_for_invalid_type_inputs` | `provideInvalidTypeInputs` | `ForPHPException` | non-array scalar passed to `convertToDatabaseValue` — provider: `['string instead of array' => ['not-an-array']]` |
-| `throws_exception_for_invalid_database_value_inputs` | `provideInvalidDatabaseValueInputs` | `ForDatabaseException` | arrays whose items fail validation — passed to `convertToDatabaseValue` |
 | `validates_valid_array_item_for_database` | `provideValidArrayItemsForDatabase` | — | `assertTrue($this->fixture->isValidArrayItemForDatabase($value))` |
-| `validates_invalid_array_item_for_database` | `provideInvalidArrayItemsForDatabase` | — | `assertFalse($this->fixture->isValidArrayItemForDatabase($value))` |
 | `converts_null_item_to_php_value` | — | — | `assertNull($this->fixture->transformArrayItemForPHP(null))` |
+
+A `'null'` row reads phpValue=null, postgresValue=null; an `'empty array'` row reads phpValue=[], postgresValue='{}'.
+
+**`provideValidArrayItemsForDatabase`**: `null` plus the valid items, whether those are strings or value objects. A NULL element is valid in every array type.
+
+### Additional methods when the type overrides `isValidArrayItemForDatabase()`
+
+| Method | Provider | Exception | Tests |
+|--------|----------|-----------|-------|
+| `validates_invalid_array_item_for_database` | `provideInvalidArrayItemsForDatabase` | — | `assertFalse($this->fixture->isValidArrayItemForDatabase($value))` |
+| `throws_exception_for_invalid_database_value_inputs` | `provideInvalidDatabaseValueInputs` | `ForDatabaseException` | arrays whose items fail validation — passed to `convertToDatabaseValue` |
+
+### Additional method when `transformArrayItemForPHP()` throws for a non-string item
+
+| Method | Provider | Exception | Tests |
+|--------|----------|-----------|-------|
 | `throws_exception_for_non_string_item_from_database` | — | `ForPHPException` | direct call: `$this->fixture->transformArrayItemForPHP(123)` |
 
-`provideValidTransformations` **must** include `'null'` (phpValue=null, postgresValue=null) and `'empty array'` (phpValue=[], postgresValue='{}') cases alongside real data.
-
-**`provideValidArrayItemsForDatabase`**:
-- For **primitive/string item types** (e.g., `MoneyArray`, `TextArray`): include `null` plus valid string items.
-- For **value-object item types** (e.g., `PointArray`, `LineArray`): include only valid VO instances — **no null**.
-
 ### Additional methods for value-object item types
-
-Array types whose items are value objects require these additional tests:
 
 | Method | Provider | Exception | Tests |
 |--------|----------|-----------|-------|

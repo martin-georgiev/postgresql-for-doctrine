@@ -19,9 +19,28 @@ abstract class BaseNumericArrayTestCase extends TestCase
 
     #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function detects_invalid_for_transformation_php_value(mixed $phpValue): void
+    public function validates_invalid_array_item_for_database(mixed $phpValue): void
     {
         $this->assertFalse($this->fixture->isValidArrayItemForDatabase($phpValue));
+    }
+
+    #[DataProvider('provideInvalidTypeInputs')]
+    #[Test]
+    public function throws_exception_for_invalid_type_inputs(mixed $phpValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->fixture->convertToDatabaseValue($phpValue, $this->createStub(AbstractPlatform::class)); // @phpstan-ignore-line
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidTypeInputs(): array
+    {
+        return [
+            'string instead of array' => ['not-an-array'],
+        ];
     }
 
     #[DataProvider('provideInvalidDatabaseValueInputs')]

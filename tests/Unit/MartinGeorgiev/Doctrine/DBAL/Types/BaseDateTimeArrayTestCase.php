@@ -53,28 +53,68 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
         $this->assertSame($this->getExpectedTypeName(), $this->fixture->getName());
     }
 
+    /**
+     * @param array<int, null>|null $phpValue
+     */
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function converts_null_to_database_value(): void
+    public function converts_to_database_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertNull($this->fixture->convertToDatabaseValue(null, $this->platform));
+        $this->assertSame($postgresValue, $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
     }
 
+    /**
+     * @param array<int, null>|null $phpValue
+     */
+    #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function converts_null_to_php_value(): void
+    public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
+        $this->assertConvertedPHPValue($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
-    #[Test]
-    public function converts_empty_array_to_database_value(): void
+    /**
+     * A date carries a time zone and a calendar era, so it is spelled by the family tests instead of here.
+     *
+     * @return array<string, array{phpValue: array<int, null>|null, postgresValue: string|null}>
+     */
+    public static function provideValidTransformations(): array
     {
-        $this->assertSame('{}', $this->fixture->convertToDatabaseValue([], $this->platform));
+        return [
+            'null' => [
+                'phpValue' => null,
+                'postgresValue' => null,
+            ],
+            'empty array' => [
+                'phpValue' => [],
+                'postgresValue' => '{}',
+            ],
+            'a single null' => [
+                'phpValue' => [null],
+                'postgresValue' => '{NULL}',
+            ],
+            'nothing but nulls' => [
+                'phpValue' => [null, null],
+                'postgresValue' => '{NULL,NULL}',
+            ],
+        ];
     }
 
-    #[Test]
-    public function converts_empty_array_to_php_value(): void
+    /**
+     * @param array<int, \DateTimeInterface|null>|null $expected
+     */
+    protected function assertConvertedPHPValue(?array $expected, mixed $actual): void
     {
-        $this->assertSame([], $this->fixture->convertToPHPValue('{}', $this->platform));
+        $carriesADateTime = \is_array($expected)
+            && \array_filter($expected, static fn (mixed $item): bool => $item instanceof \DateTimeInterface) !== [];
+
+        if ($carriesADateTime) {
+            $this->assertEquals($expected, $actual);
+
+            return;
+        }
+
+        $this->assertSame($expected, $actual);
     }
 
     #[Test]
@@ -191,15 +231,15 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_non_array_input_to_database(): void
+    public function throws_exception_for_invalid_type_inputs(): void
     {
         $this->expectException(static::getPHPExceptionClass());
         $this->fixture->convertToDatabaseValue('not-an-array', $this->platform); // @phpstan-ignore-line
     }
 
-    #[DataProvider('provideInvalidItemsForDatabase')]
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_item_in_database_array(mixed $item): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $item): void
     {
         $this->expectException(static::getDatabaseExceptionClass());
         $this->fixture->convertToDatabaseValue([$item], $this->platform);
@@ -208,7 +248,7 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     /**
      * @return array<string, array{mixed}>
      */
-    public static function provideInvalidItemsForDatabase(): array
+    public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
             'string' => ['any-string'],
@@ -221,7 +261,7 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
 
     #[DataProvider('provideInvalidTypeInputsForPHP')]
     #[Test]
-    public function throws_exception_for_invalid_type_input_for_php(mixed $value): void
+    public function throws_exception_for_non_string_item_from_database(mixed $value): void
     {
         $this->expectException(static::getPHPExceptionClass());
         $this->fixture->transformArrayItemForPHP($value);

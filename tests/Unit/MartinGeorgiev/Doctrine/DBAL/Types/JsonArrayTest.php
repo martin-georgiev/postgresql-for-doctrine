@@ -174,6 +174,12 @@ final class JsonArrayTest extends TestCase
         ];
     }
 
+    #[Test]
+    public function converts_null_item_to_php_value(): void
+    {
+        $this->assertNull($this->fixture->transformArrayItemForPHP(null));
+    }
+
     #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void

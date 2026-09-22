@@ -228,18 +228,23 @@ final class IntervalArrayTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideInvalidDatabaseValueInputs')]
     #[Test]
-    public function throws_exception_for_invalid_string_item_in_database_array(): void
+    public function throws_exception_for_invalid_database_value_inputs(mixed $item): void
     {
         $this->expectException(InvalidIntervalArrayItemForDatabaseException::class);
-        $this->fixture->convertToDatabaseValue(['not-an-interval'], $this->platform);
+        $this->fixture->convertToDatabaseValue([$item], $this->platform);
     }
 
-    #[Test]
-    public function throws_exception_for_invalid_type_item_in_database_array(): void
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function provideInvalidDatabaseValueInputs(): array
     {
-        $this->expectException(InvalidIntervalArrayItemForDatabaseException::class);
-        $this->fixture->convertToDatabaseValue([42], $this->platform);
+        return [
+            'string that is not an interval' => ['not-an-interval'],
+            'integer' => [42],
+        ];
     }
 
     #[Test]

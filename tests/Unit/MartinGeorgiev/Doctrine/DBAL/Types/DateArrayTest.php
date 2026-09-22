@@ -84,28 +84,6 @@ final class DateArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function converts_multiple_dates_to_database_value(): void
-    {
-        $phpValue = [
-            new \DateTimeImmutable('2023-06-15'),
-            new \DateTimeImmutable('2024-02-29'),
-        ];
-        $this->assertSame('{"2023-06-15","2024-02-29"}', $this->fixture->convertToDatabaseValue($phpValue, $this->platform));
-    }
-
-    #[Test]
-    public function converts_multiple_dates_to_php_value(): void
-    {
-        $result = $this->fixture->convertToPHPValue('{2023-06-15,2024-02-29}', $this->platform);
-        $this->assertIsArray($result);
-        $this->assertCount(2, $result);
-        $this->assertInstanceOf(\DateTimeImmutable::class, $result[0]);
-        $this->assertInstanceOf(\DateTimeImmutable::class, $result[1]);
-        $this->assertSame('2023-06-15', $result[0]->format('Y-m-d'));
-        $this->assertSame('2024-02-29', $result[1]->format('Y-m-d'));
-    }
-
-    #[Test]
     public function validates_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15')));
@@ -179,5 +157,21 @@ final class DateArrayTest extends BaseDateTimeArrayTestCase
             'era suffix without a value' => [' BC'],
             'era suffix on a garbage string' => ['not-a-date BC'],
         ];
+    }
+
+    /**
+     * @return array<string, array{phpValue: array<int, \DateTimeInterface|null>|null, postgresValue: string|null}>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return \array_merge(parent::provideValidTransformations(), [
+            'multiple dates' => [
+                'phpValue' => [
+                    new \DateTimeImmutable('2023-06-15'),
+                    new \DateTimeImmutable('2024-02-29'),
+                ],
+                'postgresValue' => '{"2023-06-15","2024-02-29"}',
+            ],
+        ]);
     }
 }
