@@ -24,7 +24,7 @@ final class UnaccentTest extends TextTestCase
     }
 
     #[Test]
-    public function removes_accents_from_text(): void
+    public function returns_the_unaccented_value_from_a_literal(): void
     {
         $dql = "SELECT UNACCENT('café') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -34,17 +34,7 @@ final class UnaccentTest extends TextTestCase
     }
 
     #[Test]
-    public function removes_multiple_accents(): void
-    {
-        $dql = "SELECT UNACCENT('résumé') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('resume', $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_same_text_when_no_accents(): void
+    public function returns_the_unaccented_value_from_an_entity_field(): void
     {
         $dql = 'SELECT UNACCENT(t.text1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

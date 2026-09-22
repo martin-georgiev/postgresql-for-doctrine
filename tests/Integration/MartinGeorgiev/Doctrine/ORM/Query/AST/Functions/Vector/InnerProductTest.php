@@ -17,7 +17,7 @@ final class InnerProductTest extends TestCase
     }
 
     #[Test]
-    public function returns_correct_inner_product(): void
+    public function returns_inner_product_from_a_vector_literal(): void
     {
         $dql = "SELECT INNER_PRODUCT(t.vector1, '[1,2,3]') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t
@@ -27,7 +27,7 @@ final class InnerProductTest extends TestCase
     }
 
     #[Test]
-    public function returns_zero_for_orthogonal_vectors(): void
+    public function returns_inner_product_from_entity_fields(): void
     {
         $dql = 'SELECT INNER_PRODUCT(t.vector1, t.vector2) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsVectors t

@@ -26,7 +26,7 @@ final class ContainsWordSimilarToTest extends TestCase
     }
 
     #[Test]
-    public function returns_false_when_entity_fields_share_no_similar_words(): void
+    public function returns_false_when_both_operands_are_entity_fields(): void
     {
         $dql = 'SELECT t.id FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
                 WHERE CONTAINS_WORD_SIMILAR_TO(t.text1, t.text2) = TRUE AND t.id = 3';

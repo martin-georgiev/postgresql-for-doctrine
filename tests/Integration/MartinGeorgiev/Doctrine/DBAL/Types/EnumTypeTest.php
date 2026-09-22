@@ -62,7 +62,7 @@ final class EnumTypeTest extends TestCase
      * Enum types return the user-defined type name as-is (lowercase), not an uppercase SQL keyword.
      */
     #[Test]
-    public function type_will_be_registered(): void
+    public function is_registered(): void
     {
         $typeName = $this->getTypeName();
         $this->assertTrue(Type::hasType($typeName));

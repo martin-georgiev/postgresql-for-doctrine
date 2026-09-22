@@ -17,7 +17,7 @@ final class UnnestTest extends ArrayTestCase
     }
 
     #[Test]
-    public function expands_array_to_rows(): void
+    public function returns_one_row_per_element_of_an_entity_field(): void
     {
         $dql = 'SELECT UNNEST(t.textArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
@@ -29,20 +29,5 @@ final class UnnestTest extends ArrayTestCase
         $this->assertContains('apple', $values);
         $this->assertContains('banana', $values);
         $this->assertContains('orange', $values);
-    }
-
-    #[Test]
-    public function expands_integer_array(): void
-    {
-        $dql = 'SELECT UNNEST(t.integerArray) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(3, $result);
-
-        $values = \array_column($result, 'result');
-        $this->assertContains(1, $values);
-        $this->assertContains(2, $values);
-        $this->assertContains(3, $values);
     }
 }

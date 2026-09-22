@@ -17,7 +17,7 @@ final class TanTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_tan_of_literal(): void
+    public function returns_the_tangent_from_a_literal(): void
     {
         $dql = 'SELECT TAN(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class TanTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_tan_with_entity_property(): void
+    public function returns_the_tangent_from_an_entity_field(): void
     {
         $dql = 'SELECT TAN(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

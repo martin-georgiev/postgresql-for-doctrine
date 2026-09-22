@@ -17,7 +17,7 @@ final class TanhTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_tanh_of_literal(): void
+    public function returns_the_hyperbolic_tangent_from_a_literal(): void
     {
         $dql = 'SELECT TANH(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class TanhTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_tanh_with_entity_property(): void
+    public function returns_the_hyperbolic_tangent_from_an_entity_field(): void
     {
         $dql = 'SELECT TANH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

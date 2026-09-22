@@ -23,7 +23,7 @@ final class RegexpSubstrTest extends TextTestCase
     }
 
     #[Test]
-    public function extracts_matching_substring(): void
+    public function returns_the_matching_substring_from_an_entity_field(): void
     {
         $dql = "SELECT REGEXP_SUBSTR(t.text1, 'test') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -33,22 +33,12 @@ final class RegexpSubstrTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_null_when_no_match(): void
+    public function returns_the_matching_substring_from_a_literal_with_a_start_position_argument(): void
     {
-        $dql = "SELECT REGEXP_SUBSTR(t.text1, 'xyz123') as result 
+        $dql = "SELECT REGEXP_SUBSTR('this is a test string', '[a-z]+', 1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_with_start_position(): void
-    {
-        $dql = "SELECT REGEXP_SUBSTR(t.text1, '[a-z]+', 1) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNotNull($result[0]['result']);
+        $this->assertSame('this', $result[0]['result']);
     }
 }

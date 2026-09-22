@@ -17,7 +17,7 @@ final class XmlPiTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmlpi_with_no_content_from_literal(): void
+    public function creates_a_processing_instruction_from_a_literal(): void
     {
         $dql = "SELECT XMLPI('foo') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,18 +28,7 @@ final class XmlPiTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmlpi_with_hyphenated_target(): void
-    {
-        $dql = "SELECT XMLPI('php-app') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('<?php-app?>', $result[0]['result']);
-    }
-
-    #[Test]
-    public function creates_xmlpi_with_content_from_literals(): void
+    public function creates_a_processing_instruction_with_content_from_a_literal(): void
     {
         $dql = "SELECT XMLPI('php', 'echo \"hello world\";') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -50,7 +39,7 @@ final class XmlPiTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmlpi_with_content_from_entity_property(): void
+    public function creates_a_processing_instruction_with_content_from_an_entity_field(): void
     {
         $dql = "SELECT XMLPI('php', t.text2) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

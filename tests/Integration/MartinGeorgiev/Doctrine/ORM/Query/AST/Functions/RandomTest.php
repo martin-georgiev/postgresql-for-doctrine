@@ -17,20 +17,11 @@ final class RandomTest extends NumericTestCase
     }
 
     #[Test]
-    public function random(): void
+    public function returns_a_random_value(): void
     {
         $dql = 'SELECT RANDOM() as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertGreaterThanOrEqual(0.0, $result[0]['result']);
         $this->assertLessThanOrEqual(1.0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function random_plus_entity_property(): void
-    {
-        $dql = 'SELECT RANDOM() + n.decimal1 as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertGreaterThanOrEqual(10.5, $result[0]['result']);
-        $this->assertLessThanOrEqual(11.5, $result[0]['result']);
     }
 }

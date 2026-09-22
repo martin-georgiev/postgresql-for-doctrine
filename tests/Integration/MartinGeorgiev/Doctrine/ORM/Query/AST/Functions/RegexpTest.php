@@ -17,7 +17,7 @@ final class RegexpTest extends JsonTestCase
     }
 
     #[Test]
-    public function regexp(): void
+    public function returns_true_when_the_pattern_matches_a_literal(): void
     {
         // NOTE: Using a string literal for the first argument because DQL does not support ->> operator in this context.
         $dql = "SELECT REGEXP('John', 'J.*n') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
@@ -26,7 +26,7 @@ final class RegexpTest extends JsonTestCase
     }
 
     #[Test]
-    public function regexp_negative(): void
+    public function returns_false_when_the_pattern_does_not_match_a_literal(): void
     {
         $dql = "SELECT REGEXP('John', 'Jane') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
