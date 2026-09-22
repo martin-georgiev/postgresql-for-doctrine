@@ -17,7 +17,15 @@ final class Ltree2textTest extends TestCase
     }
 
     #[Test]
-    public function casts_ltree_to_text(): void
+    public function converts_ltree_to_text_from_an_ltree_literal(): void
+    {
+        $dql = "SELECT LTREE2TEXT('Top.Child1.Child2') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('Top.Child1.Child2', $result[0]['result']);
+    }
+
+    #[Test]
+    public function converts_ltree_to_text_from_an_entity_field(): void
     {
         $dql = 'SELECT LTREE2TEXT(l.ltree1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);

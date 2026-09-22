@@ -17,7 +17,7 @@ final class XmlConcatTest extends XmlTestCase
     }
 
     #[Test]
-    public function concatenates_literal_xml_values(): void
+    public function returns_the_concatenation_from_literals(): void
     {
         $dql = "SELECT XMLCONCAT('<a>hello</a>', '<b>world</b>', '<c>!</c>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t
@@ -28,7 +28,7 @@ final class XmlConcatTest extends XmlTestCase
     }
 
     #[Test]
-    public function concatenates_xml_values_with_entity_property(): void
+    public function returns_the_concatenation_from_an_entity_field(): void
     {
         $dql = "SELECT XMLCONCAT('<prefix/>', t.content) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t

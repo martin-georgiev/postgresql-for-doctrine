@@ -17,7 +17,7 @@ final class StrposTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_position_of_substring_in_literal(): void
+    public function returns_the_substring_position_from_a_literal(): void
     {
         $dql = "SELECT STRPOS('hello world', 'world') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ final class StrposTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_position_of_substring_in_text_field(): void
+    public function returns_the_substring_position_from_an_entity_field(): void
     {
         $dql = "SELECT STRPOS(t.text1, 'test') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

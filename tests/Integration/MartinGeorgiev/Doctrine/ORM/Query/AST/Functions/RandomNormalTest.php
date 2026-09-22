@@ -23,7 +23,7 @@ final class RandomNormalTest extends NumericTestCase
     }
 
     #[Test]
-    public function generates_random_normal_without_arguments(): void
+    public function returns_a_random_value_without_arguments(): void
     {
         $dql = 'SELECT RANDOM_NORMAL() as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -31,7 +31,7 @@ final class RandomNormalTest extends NumericTestCase
     }
 
     #[Test]
-    public function generates_random_normal_of_literals(): void
+    public function returns_a_random_value_from_literals(): void
     {
         $dql = 'SELECT RANDOM_NORMAL(100, 10) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -39,7 +39,7 @@ final class RandomNormalTest extends NumericTestCase
     }
 
     #[Test]
-    public function generates_random_normal_with_entity_properties(): void
+    public function returns_a_random_value_from_entity_fields(): void
     {
         $dql = 'SELECT RANDOM_NORMAL(n.decimal1, n.decimal2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

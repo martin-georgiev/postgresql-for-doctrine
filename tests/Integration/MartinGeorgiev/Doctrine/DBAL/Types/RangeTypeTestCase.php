@@ -155,7 +155,7 @@ abstract class RangeTypeTestCase extends TestCase
      */
     #[DataProvider('provideOperatorScenarios')]
     #[Test]
-    public function evaluates_operator_scenarios(string $dql, array $expectedIds): void
+    public function returns_rows_matching_operator_scenarios(string $dql, array $expectedIds): void
     {
         $result = $this->executeDqlQuery($dql);
         $this->assertIds($expectedIds, $result);

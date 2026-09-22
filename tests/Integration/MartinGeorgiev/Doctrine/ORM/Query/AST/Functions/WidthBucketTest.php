@@ -17,7 +17,7 @@ final class WidthBucketTest extends NumericTestCase
     }
 
     #[Test]
-    public function width_bucket(): void
+    public function returns_the_bucket_number_from_literals(): void
     {
         $dql = 'SELECT WIDTH_BUCKET(5.35, 0.024, 10.06, 5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class WidthBucketTest extends NumericTestCase
     }
 
     #[Test]
-    public function width_bucket_with_entity_property(): void
+    public function returns_the_bucket_number_from_an_entity_field(): void
     {
         $dql = 'SELECT WIDTH_BUCKET(n.decimal1, 0.0, 20.0, 4) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -33,7 +33,7 @@ final class WidthBucketTest extends NumericTestCase
     }
 
     #[Test]
-    public function width_bucket_with_arithmetic_expressions(): void
+    public function returns_the_bucket_number_from_arithmetic_expressions(): void
     {
         $dql = 'SELECT WIDTH_BUCKET(n.integer1 / 2, n.integer1 - 10, n.integer2 + 10, n.integer1 / 2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

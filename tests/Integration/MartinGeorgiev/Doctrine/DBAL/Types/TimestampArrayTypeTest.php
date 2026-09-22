@@ -55,7 +55,7 @@ final class TimestampArrayTypeTest extends ArrayTypeTestCase
     }
 
     #[Test]
-    public function reads_values_emitted_by_postgres(): void
+    public function converts_values_emitted_by_postgres(): void
     {
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();

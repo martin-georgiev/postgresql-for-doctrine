@@ -19,7 +19,7 @@ final class TsqueryPhraseTest extends TextTestCase
     }
 
     #[Test]
-    public function combines_tsqueries_into_phrase_query(): void
+    public function creates_a_phrase_query_from_two_tsqueries(): void
     {
         $dql = "SELECT TSQUERY_PHRASE(TO_TSQUERY('lorem'), TO_TSQUERY('ipsum')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -27,7 +27,7 @@ final class TsqueryPhraseTest extends TextTestCase
     }
 
     #[Test]
-    public function combines_tsqueries_with_explicit_distance(): void
+    public function creates_a_phrase_query_with_a_distance_argument(): void
     {
         $dql = "SELECT TSQUERY_PHRASE(TO_TSQUERY('lorem'), TO_TSQUERY('ipsum'), 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

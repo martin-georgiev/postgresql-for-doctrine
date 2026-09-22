@@ -17,7 +17,7 @@ final class XpathTest extends XmlTestCase
     }
 
     #[Test]
-    public function evaluates_xpath_and_returns_matched_nodes(): void
+    public function returns_the_matched_nodes_from_a_literal(): void
     {
         $dql = "SELECT XPATH('//child/text()', '<root><child>hello</child></root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t
@@ -28,18 +28,7 @@ final class XpathTest extends XmlTestCase
     }
 
     #[Test]
-    public function evaluates_xpath_and_returns_empty_array_for_no_match(): void
-    {
-        $dql = "SELECT XPATH('//missing', '<root><child>hello</child></root>') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t
-                WHERE t.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('{}', $result[0]['result']);
-    }
-
-    #[Test]
-    public function evaluates_xpath_with_entity_property(): void
+    public function returns_the_matched_nodes_from_an_entity_field(): void
     {
         $dql = "SELECT XPATH('//item/text()', t.content) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t

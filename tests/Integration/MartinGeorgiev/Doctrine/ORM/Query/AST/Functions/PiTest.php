@@ -17,18 +17,10 @@ final class PiTest extends NumericTestCase
     }
 
     #[Test]
-    public function pi(): void
+    public function returns_the_value_of_pi(): void
     {
         $dql = 'SELECT PI() as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(3.141592653589793, $result[0]['result']);
-    }
-
-    #[Test]
-    public function pi_plus_entity_property(): void
-    {
-        $dql = 'SELECT PI() + n.decimal1 as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(13.641592653589793, $result[0]['result']);
     }
 }

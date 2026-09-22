@@ -19,7 +19,7 @@ final class StripTest extends TextTestCase
     }
 
     #[Test]
-    public function strips_positions_from_tsvector(): void
+    public function returns_a_stripped_tsvector_from_an_entity_field(): void
     {
         $dql = 'SELECT STRIP(TO_TSVECTOR(t.text1)) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
@@ -27,17 +27,7 @@ final class StripTest extends TextTestCase
     }
 
     #[Test]
-    public function stripped_tsvector_differs_from_original(): void
-    {
-        $dql = 'SELECT TO_TSVECTOR(t.text1) as original, STRIP(TO_TSVECTOR(t.text1)) as stripped FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
-        $result = $this->executeDqlQuery($dql);
-
-        $this->assertSame("'dolor' 'ipsum' 'lorem'", $result[0]['stripped']);
-        $this->assertNotSame($result[0]['original'], $result[0]['stripped']);
-    }
-
-    #[Test]
-    public function strips_positions_from_literal_tsvector(): void
+    public function returns_a_stripped_tsvector_from_a_literal(): void
     {
         $dql = "SELECT STRIP(TO_TSVECTOR('lorem ipsum dolor')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

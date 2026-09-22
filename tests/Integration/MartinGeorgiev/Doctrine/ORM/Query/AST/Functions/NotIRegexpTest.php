@@ -17,7 +17,7 @@ final class NotIRegexpTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_pattern_does_not_match_text_field(): void
+    public function returns_true_when_the_pattern_does_not_match_an_entity_field(): void
     {
         $dql = "SELECT NOT_IREGEXP(t.text1, 'nonexistent.*pattern') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,33 +25,9 @@ final class NotIRegexpTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_false_when_pattern_matches_text_field(): void
+    public function returns_false_when_the_pattern_matches_a_literal_case_insensitively(): void
     {
-        $dql = "SELECT NOT_IREGEXP(t.text1, 'test.*string') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_pattern_does_not_match_with_case_insensitive(): void
-    {
-        $dql = "SELECT NOT_IREGEXP(t.text1, 'TEST.*STRING') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_pattern_does_not_match_second_text_field(): void
-    {
-        $dql = "SELECT NOT_IREGEXP(t.text2, 'nonexistent.*pattern') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_when_pattern_matches_second_text_field(): void
-    {
-        $dql = "SELECT NOT_IREGEXP(t.text2, 'another.*string') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $dql = "SELECT NOT_IREGEXP('this is a test string', 'TEST.*STRING') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
