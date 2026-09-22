@@ -8,7 +8,7 @@ type: always_apply
 
 # DBAL Value Object Conventions
 
-Value Objects under `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/` — the PHP representation of composite PostgreSQL types (geometric, ranges, intervals, ltree, …). DBAL type classes consume them via `transformArrayItemForPHP()` / `convertToPHPValue()`.
+The PHP representation of composite PostgreSQL types — geometric, ranges, intervals, ltree. DBAL types consume them through `transformArrayItemForPHP()` and `convertToPHPValue()`.
 
 See `exceptions.md` for VO-specific exceptions (`Types/ValueObject/Exceptions/` namespace).
 
@@ -24,7 +24,7 @@ What it cannot pick for you is which of the three shapes fits:
 
 ## Class-Level PHPDoc
 
-The description names the PostgreSQL type the VO represents and, where the string form is not obvious, shows it — `Format: (x1,y1),(x2,y2) — upper-right and lower-left corners.` for `Box`. Point `@see` at the anchor for that specific type, not the page it sits on: `datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES`, not `datatype-geometric.html`.
+Name the PostgreSQL type and, where the string form is not obvious, show it — `Format: (x1,y1),(x2,y2)` for `Box`. Point `@see` at that type's anchor, not the page it sits on: `datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES`.
 
 When the class is generic (extends a `@template` base), add `@extends` on the class block:
 
@@ -79,11 +79,9 @@ final readonly class Box extends BaseGeometricValue
 
 ## Validation and Exceptions
 
-**Required**: VO-specific exceptions live in `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/` as a `final class` with `for*`-named static factories. Both the name and the parent are settled by tooling — `Invalid{VOName}Exception` by `composer run-static-analysis`, the parent by `ParentByNamespaceRector`; the reason the parent matters is in `ci/rector/config.php`.
+VO exceptions live in `ValueObject/Exceptions/` as a `final class` with `for*`-named static factories. The name and the parent are both settled by tooling. Message building follows `exceptions.md` § Message Formatting.
 
-Message building follows `exceptions.md` § Message Formatting.
-
-Keep the class PHPDoc description to one line. Do not explain the parent or that these are not DBAL conversion exceptions — the namespace says it, and `exceptions.md` exempts this family from the parent-deviation PHPDoc requirement.
+Keep the class PHPDoc to one line; do not explain the parent — `ci/rector/config.php` says why it matters.
 
 ```php
 // ✓ Correct — throw VO-specific exception with for*-named factory

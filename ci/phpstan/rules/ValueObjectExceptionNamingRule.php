@@ -56,10 +56,12 @@ final readonly class ValueObjectExceptionNamingRule implements Rule
         }
 
         $namedValueObject = ValueObjectNamespace::VALUE_OBJECTS.$matches['valueObject'];
-        if (!$this->reflectionProvider->hasClass($namedValueObject)) {
+        $namesAValueObject = $this->reflectionProvider->hasClass($namedValueObject)
+            && ValueObjectNamespace::isValueObject($this->reflectionProvider->getClass($namedValueObject));
+        if (!$namesAValueObject) {
             return [
                 RuleErrorBuilder::message(\sprintf(
-                    'Value object exception %s names %s, which does not exist.',
+                    'Value object exception %s names %s, which is not a value object.',
                     $className,
                     $namedValueObject
                 ))
