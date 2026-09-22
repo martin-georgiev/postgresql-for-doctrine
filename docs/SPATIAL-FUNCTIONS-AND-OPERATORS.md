@@ -91,6 +91,7 @@ These functions return properties and information about geometries.
 | ST_HasZ | ST_HASZ | Returns true if the geometry has a Z coordinate | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ` |
 | ST_IsEmpty | ST_ISEMPTY | Returns true if the geometry is an empty geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsEmpty` |
 | ST_IsValid | ST_ISVALID | Returns true if the geometry is well-formed and valid | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValid` |
+| ST_IsValidReason | ST_ISVALIDREASON | Returns the reason why a geometry is invalid, or "Valid Geometry" when it is not | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValidReason` |
 | ST_NPoints | ST_NPOINTS | Returns the number of points (vertices) in a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NPoints` |
 | ST_NumCurves | ST_NUMCURVES | Returns the number of curves in a CompoundCurve | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumCurves` |
 | ST_NumGeometries | ST_NUMGEOMETRIES | Returns the number of elements in a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumGeometries` |
@@ -186,6 +187,7 @@ These functions modify and transform geometries including buffering, simplificat
 | ST_Letters | ST_LETTERS | Creates geometries that look like letters | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Letters` |
 | ST_LineExtend | ST_LINEEXTEND | Returns a line extended forwards and backwards by specified distances | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineExtend` |
 | ST_LineToCurve | ST_LINETOCURVE | Converts linear geometries to curved geometries where possible | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineToCurve` |
+| ST_MakeValid | ST_MAKEVALID | Returns a valid geometry representing the same points as an invalid input | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeValid` |
 | ST_MinimumBoundingCircle | ST_MINIMUMBOUNDINGCIRCLE | Returns the smallest circle polygon that contains a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MinimumBoundingCircle` |
 | ST_OffsetCurve | ST_OFFSETCURVE | Returns an offset line at a given distance and side from an input line | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_OffsetCurve` |
 | ST_PointOnSurface | ST_POINTONSURFACE | Returns a point guaranteed to lie on the surface of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointOnSurface` |
