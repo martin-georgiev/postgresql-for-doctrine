@@ -27,6 +27,9 @@ final class TstzRangeTest extends BaseRangeTestCase
         return TstzRangeValueObject::class;
     }
 
+    /**
+     * @return \Generator<string, array{TstzRangeValueObject|null, string|null}>
+     */
     public static function provideValidTransformations(): \Generator
     {
         yield 'simple range' => [

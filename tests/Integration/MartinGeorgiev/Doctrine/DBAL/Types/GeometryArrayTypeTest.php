@@ -66,6 +66,9 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
         $this->runDbalBindingRoundTrip($typeName, $columnType, $values);
     }
 
+    /**
+     * @return array<string, array{array<WktSpatialData>}>
+     */
     public static function provideSingleItemArrays(): array
     {
         return [

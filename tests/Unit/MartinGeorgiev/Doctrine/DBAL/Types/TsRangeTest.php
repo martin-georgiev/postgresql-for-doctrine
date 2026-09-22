@@ -27,6 +27,9 @@ final class TsRangeTest extends BaseRangeTestCase
         return TsRangeValueObject::class;
     }
 
+    /**
+     * @return \Generator<string, array{TsRangeValueObject|null, string|null}>
+     */
     public static function provideValidTransformations(): \Generator
     {
         yield 'simple range' => [

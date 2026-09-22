@@ -27,6 +27,9 @@ final class NumRangeTest extends BaseRangeTestCase
         return NumericRange::class;
     }
 
+    /**
+     * @return \Generator<string, array{NumericRange|null, string|null}>
+     */
     public static function provideValidTransformations(): \Generator
     {
         yield 'simple range' => [
