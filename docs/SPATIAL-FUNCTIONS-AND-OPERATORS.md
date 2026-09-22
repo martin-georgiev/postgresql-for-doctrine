@@ -230,151 +230,42 @@ These functions work with measures along linear geometries for operations like l
 
 ## Usage Examples
 
+These examples cover the cases where the DQL wiring is not obvious. Everything else follows the tables above — call the function with the arguments PostGIS documents.
+
 ```sql
--- Bounding box operations
--- Find geometries to the left of a reference point
+-- Boolean operators and functions need an explicit comparison in DQL
 SELECT e FROM Entity e WHERE STRICTLY_LEFT(e.geometry, 'POINT(0 0)') = TRUE
 
--- Find overlapping polygons
-SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, e.point) = TRUE
+SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
 
--- 3D spatial relationships
-SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1, 2 2 2, 0 0 0))') = TRUE
-
--- Distance calculations
--- Find nearest geometries
+-- Distance operators return numbers, so they can be selected and ordered by
 SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
 FROM Entity e ORDER BY distance LIMIT 10
 
--- Bounding box distance for index optimization
-SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
-
--- 3D distance calculations
-SELECT ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance FROM Entity e
-
--- Spatial relationship tests
--- Test if geometries intersect
-SELECT e FROM Entity e WHERE ST_Intersects(e.geometry, 'POINT(0 0)') = TRUE
-
--- Test if one geometry contains another
-SELECT e FROM Entity e WHERE ST_Contains(e.polygon, e.point) = TRUE
-
--- Test if geometries are within a distance
-SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
-
--- Test topological relationships with intersection matrix
+-- ST_Relate with 3 arguments returns boolean, with 2 it returns the intersection matrix
 SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'T*T***T**') = TRUE
 
--- Get intersection matrix between two geometries
 SELECT e, ST_Relate(e.geometry1, e.geometry2) as matrix FROM Entity e
 
--- Test if point is inside circle
-SELECT e FROM Entity e WHERE ST_PointInsideCircle(e.point, 0, 0, 1000) = TRUE
-
--- Analyze line crossing behavior
-SELECT e, ST_LineCrossingDirection(e.line1, e.line2) as crossing FROM Entity e
-WHERE ST_LineCrossingDirection(e.line1, e.line2) != 0
-
--- Measurements
--- Calculate areas and perimeters
-SELECT e, ST_Area(e.polygon) as area, ST_Perimeter(e.polygon) as perimeter
-FROM Entity e WHERE e.polygon IS NOT NULL
-
--- Calculate 3D measurements
-SELECT e, ST_3DLength(e.line3d) as length3d, ST_3DPerimeter(e.polygon3d) as perimeter3d
-FROM Entity e WHERE e.line3d IS NOT NULL OR e.polygon3d IS NOT NULL
-
--- Find geometries within distance
-SELECT e, ST_Distance(e.geometry, 'POINT(0 0)') as distance
-FROM Entity e ORDER BY distance LIMIT 10
-
--- Calculate azimuth between points
-SELECT e, ST_Azimuth(e.point1, e.point2) as azimuth_radians,
-       DEGREES(ST_Azimuth(e.point1, e.point2)) as azimuth_degrees
-FROM Entity e WHERE e.point1 IS NOT NULL AND e.point2 IS NOT NULL
-
--- GeoJSON conversion
--- Convert geometry to GeoJSON
-SELECT e, ST_AsGeoJSON(e.geometry) as geojson FROM Entity e
-
--- Convert geometry to GeoJSON with limited decimal precision
-SELECT e, ST_AsGeoJSON(e.geometry, 6) as geojson FROM Entity e
-
--- Convert geometry to GeoJSON with bounding box (options=1)
+-- Optional arguments: decimal precision, then GeoJSON options (1 = include the bounding box)
 SELECT e, ST_AsGeoJSON(e.geometry, 9, 1) as geojson_with_bbox FROM Entity e
 
--- Create geometry from GeoJSON
-SELECT e FROM Entity e
-WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
-
--- Well-Known Text conversion
--- Convert geometry to WKT, dropping the SRID
-SELECT e, ST_AsText(e.geometry) as wkt FROM Entity e
-
--- Convert geometry to WKT with limited decimal precision
+-- ST_AsText drops the SRID and takes an optional precision; ST_AsEWKT keeps the SRID
 SELECT e, ST_AsText(e.geometry, 2) as wkt FROM Entity e
 
--- Convert geometry to EWKT, keeping the SRID
-SELECT e, ST_AsEWKT(e.geometry) as ewkt FROM Entity e
-
--- Create geometry from WKT with an explicit SRID
+-- WKT takes the SRID as a separate argument, EWKT carries it in the string itself
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromText('POINT(1 2)', 4326)) = TRUE
 
--- Create geometry from EWKT, where the SRID comes from the prefix
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromEWKT('SRID=4326;POINT(1 2)')) = TRUE
 
--- Geometric operations and transformations
--- Create buffer around geometry
-SELECT e, ST_Buffer(e.geometry, 100) as buffered_geometry FROM Entity e
-
--- Simplify complex geometries
-SELECT e, ST_Simplify(e.complex_geometry, 0.5) as simplified_geometry FROM Entity e
-
--- Transform coordinate systems
-SELECT e, ST_Transform(e.geometry, 4326) as wgs84_geometry FROM Entity e
-
--- Get convex hull
-SELECT e, ST_ConvexHull(e.geometry) as convex_hull FROM Entity e
-
--- Scale and rotate geometries
-SELECT e, ST_Scale(ST_Rotate(e.geometry, PI()/4), 2, 2) as scaled_rotated_geometry FROM Entity e
+-- Parameters bind inside spatial functions as usual
+SELECT e FROM Entity e
+WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
 ```
 
 **📝 Notes:**
-- `ST_Relate` is a variadic function that accepts 2 or 3 arguments:
-  - With 2 arguments: returns text (intersection matrix)
-  - With 3 arguments: returns boolean (relationship test)
-- `ST_LineCrossingDirection` returns an integer (0, 1, -1, or 2) indicating crossing behavior:
-  - `0`: No crossing
-  - `1`: Left to right crossing
-  - `-1`: Right to left crossing
-  - `2`: Multiple crossings
-- All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
-
-**🔍 DE-9IM Intersection Matrix Patterns for ST_Relate:**
-
-The DE-9IM (Dimensionally Extended 9-Intersection Model) uses a 9-character pattern where each character represents the intersection between:
-- Interior (I), Boundary (B), and Exterior (E) of geometry A
-- Interior (I), Boundary (B), and Exterior (E) of geometry B
-
-Common patterns:
-- `FF*FF****` = Disjoint (no intersection)
-- `T*****FF*` = Contains (A contains B)
-- `T*T***T**` = Intersects (geometries intersect)
-- `FT*******` = Touches (boundary intersection only)
-- `F**T*****` = Within (A is within B)
-- `T*T***T**` = Overlaps (partial overlap)
-
-**📊 Function Return Types:**
-- **Boolean functions**: Use with `= TRUE` or `= FALSE` in DQL
-- **Numeric functions**: Return values for calculations and ordering
-- **Geometry functions**: Return new geometries for further operations
-- **Text functions**: Return strings for pattern matching and display
-
-**💡 Tips for Usage:**
-1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL
-2. **Spatial functions** work best with proper geometry types and indexes
-3. **3D functions** require geometries with Z coordinates
-4. **Geography types** have limited operator support compared to geometry types
+- `ST_Relate` is variadic: with 2 arguments it returns text (the intersection matrix), with 3 it returns boolean
+- `ST_LineCrossingDirection` returns an integer, not a boolean: `0` (no crossing), `1` (left to right), `-1` (right to left), `2` (multiple crossings)
+- All other spatial predicates return boolean and should be used with `= TRUE` or `= FALSE` in DQL
