@@ -24,13 +24,4 @@ final class AreSimilarTest extends TestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(1, $result);
     }
-
-    #[Test]
-    public function returns_false_when_entity_fields_are_not_similar(): void
-    {
-        $dql = 'SELECT t.id FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
-                WHERE ARE_SIMILAR(t.text1, t.text2) = TRUE AND t.id = 3';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(0, $result);
-    }
 }

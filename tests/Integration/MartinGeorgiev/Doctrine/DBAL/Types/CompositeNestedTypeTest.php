@@ -63,7 +63,7 @@ final class CompositeNestedTypeTest extends TestCase
     }
 
     #[Test]
-    public function type_will_be_registered(): void
+    public function is_registered(): void
     {
         $typeName = $this->getTypeName();
         $this->assertTrue(Type::hasType($typeName));
@@ -135,7 +135,7 @@ final class CompositeNestedTypeTest extends TestCase
     }
 
     #[Test]
-    public function decomposes_a_nested_composite_field(): void
+    public function converts_a_nested_composite_field(): void
     {
         [$tableName, $columnName] = $this->prepareTestTable($this->getTypeName());
 

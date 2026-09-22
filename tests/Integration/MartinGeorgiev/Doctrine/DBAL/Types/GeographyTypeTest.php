@@ -82,21 +82,21 @@ final class GeographyTypeTest extends TestCase
     }
 
     #[Test]
-    public function retrieves_null_geography_using_entity_manager_find(): void
+    public function roundtrips_null_value_using_entity_manager_find(): void
     {
         $this->runOrmFindRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), null);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function retrieves_geography_values_using_entity_manager_find(WktSpatialData $wktSpatialData): void
+    public function roundtrips_value_using_entity_manager_find(WktSpatialData $wktSpatialData): void
     {
         $this->runOrmFindRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
 
     #[DataProvider('provideValidTransformations')]
     #[Test]
-    public function retrieves_geography_values_using_dql_select(WktSpatialData $wktSpatialData): void
+    public function roundtrips_value_using_dql_select(WktSpatialData $wktSpatialData): void
     {
         $this->runOrmDqlSelectRoundTrip($this->getTypeName(), $this->getPostgresTypeName(), $wktSpatialData);
     }
