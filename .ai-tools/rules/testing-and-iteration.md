@@ -38,13 +38,16 @@ An integration test proves the DQL function reaches PostgreSQL and the result hy
 
 Beyond those two, add a test only for another **arity**. A test that just changes the input geometry, the index or the row repeats a call already covered and asserts a PostgreSQL rule instead of ours.
 
-```php
-// ✓ The two halves every function owes
-parses_the_first_vertex_from_a_wkt_literal()     // ST_ASTEXT(ST_STARTPOINT(ST_GEOMFROMTEXT('LINESTRING(0 0,1 1,2 2)')))
-returns_the_first_vertex_of_an_entity_field()    // ST_ASTEXT(ST_STARTPOINT(g.geometry1))
+Both halves take the **same verb from the table in `test-naming-patterns.md`** and name the same subject — only the source differs. Two verbs for one assertion is a naming difference dressed as a behavioural one.
 
-// ✓ A third, because ST_AsText takes an optional precision
-respects_max_decimal_digits()
+```php
+// ✓ The two halves every function owes — one verb, one subject, two sources
+returns_the_first_vertex_from_a_wkt_literal()    // ST_ASTEXT(ST_STARTPOINT(ST_GEOMFROMTEXT('LINESTRING(0 0,1 1,2 2)')))
+returns_the_first_vertex_from_an_entity_field()  // ST_ASTEXT(ST_STARTPOINT(g.geometry1))
+
+// ❌ Same assertion, two verbs
+parses_the_first_vertex_from_a_wkt_literal()
+returns_the_first_vertex_of_an_entity_field()
 
 // ❌ One arity, and the second asserts a PostGIS rule
 returns_first_vertex_of_linestring()

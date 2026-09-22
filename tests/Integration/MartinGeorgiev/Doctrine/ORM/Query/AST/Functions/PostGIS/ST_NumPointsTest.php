@@ -19,7 +19,7 @@ final class ST_NumPointsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function parses_the_vertex_count_from_a_wkt_literal(): void
+    public function returns_the_vertex_count_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_NUMPOINTS(ST_GEOMFROMTEXT('LINESTRING(0 0,1 1,2 2)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_NumPointsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_vertex_count_of_an_entity_field(): void
+    public function returns_the_vertex_count_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_NUMPOINTS(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

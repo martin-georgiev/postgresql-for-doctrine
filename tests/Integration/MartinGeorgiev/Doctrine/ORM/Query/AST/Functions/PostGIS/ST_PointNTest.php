@@ -21,7 +21,7 @@ final class ST_PointNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function parses_the_nth_vertex_from_a_wkt_literal(): void
+    public function returns_the_nth_vertex_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ASTEXT(ST_POINTN(ST_GEOMFROMTEXT('LINESTRING(0 0,1 1,2 2)'), 2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,7 +32,7 @@ final class ST_PointNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_nth_vertex_of_an_entity_field(): void
+    public function returns_the_nth_vertex_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASTEXT(ST_POINTN(g.geometry1, 2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -21,7 +21,7 @@ final class ST_ExteriorRingTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function parses_the_outer_ring_from_a_wkt_literal(): void
+    public function returns_the_outer_ring_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ASTEXT(ST_EXTERIORRING(ST_GEOMFROMTEXT('POLYGON((0 0,4 0,4 4,0 4,0 0))'))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,7 +32,7 @@ final class ST_ExteriorRingTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_outer_ring_of_an_entity_field(): void
+    public function returns_the_outer_ring_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASTEXT(ST_EXTERIORRING(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

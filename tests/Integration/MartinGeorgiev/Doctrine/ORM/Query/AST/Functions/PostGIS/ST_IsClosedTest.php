@@ -19,7 +19,7 @@ final class ST_IsClosedTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function parses_a_closed_linestring_from_a_wkt_literal(): void
+    public function returns_whether_a_wkt_literal_is_closed(): void
     {
         $dql = "SELECT ST_ISCLOSED(ST_GEOMFROMTEXT('LINESTRING(0 0,1 0,1 1,0 0)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

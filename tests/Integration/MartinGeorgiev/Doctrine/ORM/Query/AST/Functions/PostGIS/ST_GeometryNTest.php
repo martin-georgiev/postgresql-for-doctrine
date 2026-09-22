@@ -23,7 +23,7 @@ final class ST_GeometryNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function parses_the_nth_element_from_a_wkt_literal(): void
+    public function returns_the_nth_element_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ASTEXT(ST_GEOMETRYN(ST_GEOMFROMTEXT('MULTIPOINT((1 2),(3 4))'), 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -34,7 +34,7 @@ final class ST_GeometryNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_nth_element_of_entity_fields(): void
+    public function returns_the_nth_element_from_entity_fields(): void
     {
         $dql = 'SELECT ST_ASTEXT(ST_GEOMETRYN(ST_COLLECT(g.geometry1, g.geometry2), 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

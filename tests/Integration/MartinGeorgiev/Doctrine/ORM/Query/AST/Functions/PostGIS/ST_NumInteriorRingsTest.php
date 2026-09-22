@@ -21,7 +21,7 @@ final class ST_NumInteriorRingsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function parses_the_hole_count_from_a_wkt_literal(): void
+    public function returns_the_hole_count_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_NUMINTERIORRINGS(ST_GEOMFROMTEXT('POLYGON((0 0,4 0,4 4,0 4,0 0),(1 1,2 1,2 2,1 2,1 1))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,7 +32,7 @@ final class ST_NumInteriorRingsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_hole_count_cut_from_entity_fields(): void
+    public function returns_the_hole_count_from_entity_fields(): void
     {
         $dql = 'SELECT ST_NUMINTERIORRINGS(ST_DIFFERENCE(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

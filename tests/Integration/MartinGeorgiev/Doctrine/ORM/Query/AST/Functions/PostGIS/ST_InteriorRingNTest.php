@@ -23,7 +23,7 @@ final class ST_InteriorRingNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function parses_the_nth_hole_from_a_wkt_literal(): void
+    public function returns_the_nth_hole_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ASTEXT(ST_INTERIORRINGN(ST_GEOMFROMTEXT('POLYGON((0 0,4 0,4 4,0 4,0 0),(1 1,2 1,2 2,1 2,1 1))'), 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -34,7 +34,7 @@ final class ST_InteriorRingNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_nth_hole_cut_from_entity_fields(): void
+    public function returns_the_nth_hole_from_entity_fields(): void
     {
         $dql = 'SELECT ST_ASTEXT(ST_INTERIORRINGN(ST_DIFFERENCE(g.geometry1, g.geometry2), 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
