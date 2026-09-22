@@ -105,31 +105,6 @@ final class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function converts_multiple_timestamptz_values_to_database_value(): void
-    {
-        $phpValue = [
-            new \DateTimeImmutable('2023-06-15 10:30:45+00:00'),
-            new \DateTimeImmutable('2024-01-01 00:00:00+02:00'),
-        ];
-        $result = $this->fixture->convertToDatabaseValue($phpValue, $this->platform);
-        $this->assertSame('{"2023-06-15 10:30:45.000000+00:00","2024-01-01 00:00:00.000000+02:00"}', $result);
-    }
-
-    #[Test]
-    public function converts_multiple_timestamptz_values_to_php_value(): void
-    {
-        $result = $this->fixture->convertToPHPValue('{"2023-06-15 10:30:45.000000+00:00","2024-01-01 00:00:00.000000+02:00"}', $this->platform);
-        $this->assertIsArray($result);
-        $this->assertCount(2, $result);
-        $this->assertInstanceOf(\DateTimeImmutable::class, $result[0]);
-        $this->assertInstanceOf(\DateTimeImmutable::class, $result[1]);
-        $this->assertSame('2023-06-15 10:30:45', $result[0]->format('Y-m-d H:i:s'));
-        $this->assertSame('+00:00', $result[0]->format('P'));
-        $this->assertSame('2024-01-01 00:00:00', $result[1]->format('Y-m-d H:i:s'));
-        $this->assertSame('+02:00', $result[1]->format('P'));
-    }
-
-    #[Test]
     public function validates_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45+00:00')));
@@ -199,5 +174,21 @@ final class TimestampTzArrayTest extends BaseDateTimeArrayTestCase
             'era suffix without a value' => [' BC'],
             'era suffix on a timestamp without timezone' => ['0001-01-15 10:30:00 BC'],
         ];
+    }
+
+    /**
+     * @return array<string, array{phpValue: array<int, \DateTimeInterface|null>|null, postgresValue: string|null}>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return \array_merge(parent::provideValidTransformations(), [
+            'multiple timestamptz values' => [
+                'phpValue' => [
+                    new \DateTimeImmutable('2023-06-15 10:30:45+00:00'),
+                    new \DateTimeImmutable('2024-01-01 00:00:00+02:00'),
+                ],
+                'postgresValue' => '{"2023-06-15 10:30:45.000000+00:00","2024-01-01 00:00:00.000000+02:00"}',
+            ],
+        ]);
     }
 }

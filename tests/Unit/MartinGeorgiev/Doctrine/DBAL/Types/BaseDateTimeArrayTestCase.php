@@ -70,7 +70,7 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
     #[Test]
     public function converts_to_php_value(?array $phpValue, ?string $postgresValue): void
     {
-        $this->assertSame($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+        $this->assertConvertedPHPValue($phpValue, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
     }
 
     /**
@@ -98,6 +98,24 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
                 'postgresValue' => '{NULL,NULL}',
             ],
         ];
+    }
+
+    /**
+     * @param array<int, \DateTimeInterface|null>|null $expected
+     */
+    protected function assertConvertedPHPValue(?array $expected, mixed $actual): void
+    {
+        $carriesADateTime = \is_array($expected)
+            && \array_filter($expected, static fn (mixed $item): bool => $item instanceof \DateTimeInterface) !== [];
+
+        // A DateTimeImmutable is equal by value but never identical, so only rows without one can be identified.
+        if ($carriesADateTime) {
+            $this->assertEquals($expected, $actual);
+
+            return;
+        }
+
+        $this->assertSame($expected, $actual);
     }
 
     #[Test]

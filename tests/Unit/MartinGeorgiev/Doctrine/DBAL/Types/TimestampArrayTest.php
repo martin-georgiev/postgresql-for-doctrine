@@ -91,30 +91,6 @@ final class TimestampArrayTest extends BaseDateTimeArrayTestCase
     }
 
     #[Test]
-    public function converts_multiple_timestamps_to_database_value(): void
-    {
-        $first = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-15 10:30:45');
-        $second = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2024-01-01 00:00:00');
-        \assert($first instanceof \DateTimeImmutable);
-        \assert($second instanceof \DateTimeImmutable);
-
-        $result = $this->fixture->convertToDatabaseValue([$first, $second], $this->platform);
-        $this->assertSame('{"2023-06-15 10:30:45.000000","2024-01-01 00:00:00.000000"}', $result);
-    }
-
-    #[Test]
-    public function converts_multiple_timestamps_to_php_value(): void
-    {
-        $result = $this->fixture->convertToPHPValue('{"2023-06-15 10:30:45","2024-01-01 00:00:00"}', $this->platform);
-        $this->assertIsArray($result);
-        $this->assertCount(2, $result);
-        $this->assertInstanceOf(\DateTimeImmutable::class, $result[0]);
-        $this->assertInstanceOf(\DateTimeImmutable::class, $result[1]);
-        $this->assertSame('2023-06-15 10:30:45', $result[0]->format('Y-m-d H:i:s'));
-        $this->assertSame('2024-01-01 00:00:00', $result[1]->format('Y-m-d H:i:s'));
-    }
-
-    #[Test]
     public function validates_valid_array_item_for_database(): void
     {
         $this->assertTrue($this->fixture->isValidArrayItemForDatabase(new \DateTimeImmutable('2023-06-15 10:30:45')));
@@ -185,5 +161,21 @@ final class TimestampArrayTest extends BaseDateTimeArrayTestCase
             'date only' => ['2023-06-15'],
             'empty string' => [''],
         ];
+    }
+
+    /**
+     * @return array<string, array{phpValue: array<int, \DateTimeInterface|null>|null, postgresValue: string|null}>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return \array_merge(parent::provideValidTransformations(), [
+            'multiple timestamps' => [
+                'phpValue' => [
+                    new \DateTimeImmutable('2023-06-15 10:30:45'),
+                    new \DateTimeImmutable('2024-01-01 00:00:00'),
+                ],
+                'postgresValue' => '{"2023-06-15 10:30:45.000000","2024-01-01 00:00:00.000000"}',
+            ],
+        ]);
     }
 }
