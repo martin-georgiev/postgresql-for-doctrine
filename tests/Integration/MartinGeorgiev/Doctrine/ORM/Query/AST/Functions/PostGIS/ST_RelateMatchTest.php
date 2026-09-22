@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Relate;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RelateMatch;
 use PHPUnit\Framework\Attributes\Test;
@@ -14,7 +13,6 @@ final class ST_RelateMatchTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_RELATE' => ST_Relate::class,
             'ST_RELATEMATCH' => ST_RelateMatch::class,
         ];
