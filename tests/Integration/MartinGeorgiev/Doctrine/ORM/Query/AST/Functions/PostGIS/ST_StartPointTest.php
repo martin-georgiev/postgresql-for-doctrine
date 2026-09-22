@@ -28,8 +28,8 @@ final class ST_StartPointTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['x'], 0.0001);
-        $this->assertEqualsWithDelta(0.0, $result[0]['y'], 0.0001);
+        $this->assertEquals(0, $result[0]['x']);
+        $this->assertEquals(0, $result[0]['y']);
     }
 
     #[Test]
@@ -40,7 +40,7 @@ final class ST_StartPointTest extends SpatialOperatorTestCase
                 WHERE g.id = 2';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['x'], 0.0001);
-        $this->assertEqualsWithDelta(0.0, $result[0]['y'], 0.0001);
+        $this->assertEquals(0, $result[0]['x']);
+        $this->assertEquals(0, $result[0]['y']);
     }
 }

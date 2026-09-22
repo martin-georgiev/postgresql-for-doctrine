@@ -30,7 +30,7 @@ final class ST_GeometryNTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(0.0, $result[0]['result'], 0.0001);
+        $this->assertEquals(0, $result[0]['result']);
     }
 
     #[Test]

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Difference;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ExteriorRing;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,7 +14,6 @@ final class ST_ExteriorRingTest extends SpatialOperatorTestCase
     {
         return [
             'ST_EXTERIORRING' => ST_ExteriorRing::class,
-            'ST_DIFFERENCE' => ST_Difference::class,
             'ST_LENGTH' => ST_Length::class,
         ];
     }

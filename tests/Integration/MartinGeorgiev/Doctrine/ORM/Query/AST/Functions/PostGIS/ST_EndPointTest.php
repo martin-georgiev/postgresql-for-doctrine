@@ -28,8 +28,8 @@ final class ST_EndPointTest extends SpatialOperatorTestCase
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(2.0, $result[0]['x'], 0.0001);
-        $this->assertEqualsWithDelta(2.0, $result[0]['y'], 0.0001);
+        $this->assertEquals(2, $result[0]['x']);
+        $this->assertEquals(2, $result[0]['y']);
     }
 
     #[Test]
