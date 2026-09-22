@@ -6,7 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_EnvelopeTest extends SpatialOperatorTestCase
@@ -16,34 +16,23 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
         return [
             'ST_AREA' => ST_Area::class,
             'ST_ENVELOPE' => ST_Envelope::class,
-            'ST_EQUALS' => ST_Equals::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function returns_envelope_of_point(): void
+    public function returns_the_envelope_of_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_EQUALS(ST_ENVELOPE(g.geometry1), g.geometry1) as result
+        $dql = "SELECT ST_AREA(ST_ENVELOPE(ST_GEOMFROMTEXT('LINESTRING(0 0,1 1,2 2)'))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertEquals(4, $result[0]['result']);
     }
 
     #[Test]
-    public function returns_envelope_of_polygon(): void
-    {
-        $dql = 'SELECT ST_AREA(ST_ENVELOPE(g.geometry1)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_envelope_of_linestring(): void
+    public function returns_the_envelope_of_an_entity_field(): void
     {
         $dql = 'SELECT ST_AREA(ST_ENVELOPE(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

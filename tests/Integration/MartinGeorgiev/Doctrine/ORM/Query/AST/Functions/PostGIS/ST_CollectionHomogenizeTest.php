@@ -7,6 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Collect;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionHomogenize;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_CollectionHomogenizeTest extends SpatialOperatorTestCase
@@ -14,14 +15,26 @@ final class ST_CollectionHomogenizeTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_COLLECTIONHOMOGENIZE' => ST_CollectionHomogenize::class,
             'ST_COLLECT' => ST_Collect::class,
+            'ST_COLLECTIONHOMOGENIZE' => ST_CollectionHomogenize::class,
             'ST_GEOMETRYTYPE' => ST_GeometryType::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function homogenizes_collection_of_same_type_points(): void
+    public function returns_the_homogenized_collection_of_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_COLLECTIONHOMOGENIZE(ST_GEOMFROMTEXT('GEOMETRYCOLLECTION(POINT(0 0),POINT(1 1))'))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('ST_MultiPoint', $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_homogenized_collection_of_entity_fields(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_COLLECTIONHOMOGENIZE(ST_COLLECT(g.geometry1, g.geometry2))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

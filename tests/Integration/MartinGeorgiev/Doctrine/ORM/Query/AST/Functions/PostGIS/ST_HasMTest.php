@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasM;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -18,12 +19,24 @@ final class ST_HasMTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_HASM' => ST_HasM::class,
         ];
     }
 
     #[Test]
-    public function returns_false_for_2d_geometry(): void
+    public function returns_whether_a_wkt_literal_has_m(): void
+    {
+        $dql = "SELECT ST_HASM(ST_GEOMFROMTEXT('POINT M(0 0 5)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_whether_an_entity_field_has_m(): void
     {
         $dql = 'SELECT ST_HASM(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -31,16 +44,5 @@ final class ST_HasMTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_for_geometry_with_m(): void
-    {
-        $dql = 'SELECT ST_HASM(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 12';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
     }
 }

@@ -6,6 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_CoverageUnionTest extends SpatialOperatorTestCase
@@ -15,29 +16,24 @@ final class ST_CoverageUnionTest extends SpatialOperatorTestCase
         return [
             'ST_AREA' => ST_Area::class,
             'ST_COVERAGEUNION' => ST_CoverageUnion::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
-    public function computes_union_preserves_total_area(): void
+    public function returns_the_coverage_union_of_a_wkt_literal(): void
     {
-        // ST_CoverageUnion is an aggregate function - when applied to a single polygon,
-        // it should return the same polygon with the same area (16 for 4x4 polygon)
-        $dql = 'SELECT ST_AREA(ST_COVERAGEUNION(g.geometry1)) as result
+        $dql = "SELECT ST_AREA(ST_COVERAGEUNION(ST_GEOMFROMTEXT('POLYGON((0 0,0 4,4 4,4 0,0 0))'))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2
-                GROUP BY g.id';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
     }
 
     #[Test]
-    public function computes_union_of_adjacent_polygons(): void
+    public function returns_the_coverage_union_of_an_entity_field(): void
     {
-        // id=4: POLYGON((0 0, 0 2, 2 2, 2 0, 0 0)) - 2x2 polygon (area=4)
-        // id=13: POLYGON((2 0, 2 2, 4 2, 4 0, 2 0)) - adjacent 2x2 polygon (area=4)
-        // Together they form a valid coverage with combined area=8
         $dql = 'SELECT ST_AREA(ST_COVERAGEUNION(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id IN (4, 13)';
