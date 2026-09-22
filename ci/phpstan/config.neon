@@ -7,7 +7,6 @@ includes:
     - ./baselines/doctrine-version-variations.neon
     - ./baselines/lexer-variations.neon
     - ./baselines/phpstan-identifiers.neon
-    - ./baselines/range-baseline.neon
 
 services:
     -
