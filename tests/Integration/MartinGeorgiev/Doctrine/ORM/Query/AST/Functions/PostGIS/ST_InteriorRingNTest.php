@@ -30,15 +30,4 @@ final class ST_InteriorRingNTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('LINESTRING(1 1,2 1,2 2,1 2,1 1)', $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_null_for_out_of_range_index(): void
-    {
-        $dql = "SELECT ST_INTERIORRINGN(ST_GEOMFROMTEXT('POLYGON((0 0,4 0,4 4,0 4,0 0),(1 1,2 1,2 2,1 2,1 1))'), 2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
 }

@@ -28,15 +28,4 @@ final class ST_ExteriorRingTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('LINESTRING(0 0,0 4,4 4,4 0,0 0)', $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_null_for_linestring(): void
-    {
-        $dql = 'SELECT ST_EXTERIORRING(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
 }

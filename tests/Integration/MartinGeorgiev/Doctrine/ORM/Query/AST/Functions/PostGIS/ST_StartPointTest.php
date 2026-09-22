@@ -28,15 +28,4 @@ final class ST_StartPointTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('POINT(0 0)', $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_first_vertex_of_polygon_ring(): void
-    {
-        $dql = 'SELECT ST_ASTEXT(ST_STARTPOINT(g.geometry1)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('POINT(0 0)', $result[0]['result']);
-    }
 }

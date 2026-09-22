@@ -27,6 +27,36 @@ protected function setUp(): void
 // ❌ Don't add check — all tested versions (3.4+) support ST_LineExtend
 ```
 
+## Integration Tests Cover Our Call, Not PostgreSQL's Behaviour
+
+An integration test proves the DQL function reaches PostgreSQL and the result hydrates. What PostgreSQL then does with the value is PostgreSQL's contract, already tested upstream.
+
+**One test per arity.** A second test that only changes the input geometry, the index or the row exercises the same call and belongs to PostgreSQL, not here.
+
+```php
+// ❌ One arity, two tests — the second asserts a PostGIS rule
+returns_first_vertex_of_linestring()
+returns_first_vertex_of_polygon_ring()
+
+// ❌ Same — null for an out-of-range index is PostGIS's rule
+returns_nth_element_of_a_collection()
+returns_null_for_out_of_range_index()
+
+// ✓ ST_AsText takes an optional precision, so each arity earns a test
+returns_wkt_for_geography()
+respects_max_decimal_digits()
+```
+
+Reach the function directly. Nesting helpers to manufacture an input tests the helpers:
+
+```php
+// ❌ Four functions deep to reach one
+ST_X(ST_STARTPOINT(ST_GEOMETRYN(ST_COLLECT(g.geometry1, g.geometry2), 1)))
+
+// ✓ A literal says what the input is
+ST_ASTEXT(ST_GEOMETRYN(ST_GEOMFROMTEXT('MULTIPOINT((1 2),(3 4))'), 1))
+```
+
 ## Run Targeted Tests After Code Changes
 
 **Required**: Filter to the affected test class/method instead of running the whole suite.

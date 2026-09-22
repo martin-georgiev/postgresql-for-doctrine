@@ -28,15 +28,4 @@ final class ST_PointNTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('POINT(1 1)', $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_null_for_out_of_range_index(): void
-    {
-        $dql = 'SELECT ST_POINTN(g.geometry1, 10) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
 }

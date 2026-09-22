@@ -28,15 +28,4 @@ final class ST_NumInteriorRingsTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(1, $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_null_for_linestring(): void
-    {
-        $dql = 'SELECT ST_NUMINTERIORRINGS(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
 }
