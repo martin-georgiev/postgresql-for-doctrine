@@ -32,7 +32,7 @@ final class DataProviderAttribute
                     continue;
                 }
 
-                $argument = $attribute->args[$argumentIndex] ?? null;
+                $argument = self::methodNameArgument($attribute->args, $argumentIndex);
                 if ($argument instanceof Node\Arg && $argument->value instanceof Node\Scalar\String_) {
                     $references[] = [$argument->value->value, $attribute->getStartLine()];
                 }
@@ -40,5 +40,28 @@ final class DataProviderAttribute
         }
 
         return $references;
+    }
+
+    /**
+     * Both attributes name the method `methodName`, so a named argument finds it whatever its position.
+     *
+     * @param array<int, Node\Arg|Node\VariadicPlaceholder> $arguments
+     */
+    private static function methodNameArgument(array $arguments, int $argumentIndex): ?Node\Arg
+    {
+        foreach ($arguments as $argument) {
+            if ($argument instanceof Node\Arg && $argument->name?->toString() === 'methodName') {
+                return $argument;
+            }
+        }
+
+        $positional = [];
+        foreach ($arguments as $argument) {
+            if ($argument instanceof Node\Arg && !$argument->name instanceof Node\Identifier) {
+                $positional[] = $argument;
+            }
+        }
+
+        return $positional[$argumentIndex] ?? null;
     }
 }

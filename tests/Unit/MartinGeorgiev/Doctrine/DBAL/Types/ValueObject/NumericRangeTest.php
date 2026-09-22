@@ -165,6 +165,9 @@ final class NumericRangeTest extends BaseRangeTestCase
         NumericRange::fromString($input);
     }
 
+    /**
+     * @return \Generator<string, array{string, string}>
+     */
     public static function provideInvalidFromStringInputs(): \Generator
     {
         yield 'non-numeric value' => ['[not_numeric,10)', 'Range bound must be numeric'];
@@ -243,6 +246,9 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->assertSame($expectedUpperBoundedInfinity, $numericRange->isUpperBoundedInfinity());
     }
 
+    /**
+     * @return \Generator<string, array{float|int, float|int, string, bool, bool}>
+     */
     public static function providePhpInfConstantCases(): \Generator
     {
         yield 'upper bounded infinity' => [0, INF, '[0,Infinity)', false, true];

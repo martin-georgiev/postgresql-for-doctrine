@@ -38,28 +38,24 @@ final class DataProviderDatasetKeyRule implements Rule
             return [];
         }
 
-        $statements = $node->stmts ?? [];
-        $nodeFinder = new NodeFinder();
         $errors = [];
 
-        foreach ($nodeFinder->findInstanceOf($statements, Node\Stmt\Return_::class) as $return) {
-            foreach ($this->datasetListsIn($return->expr) as $datasetList) {
-                foreach ($datasetList->items as $item) {
-                    if ($item->unpack || $item->key instanceof Node\Scalar\String_) {
-                        continue;
-                    }
+        foreach ($this->ownStatementsOf($node) as $statement) {
+            if ($statement instanceof Node\Stmt\Return_) {
+                foreach ($this->datasetListsIn($statement->expr) as $datasetList) {
+                    foreach ($datasetList->items as $item) {
+                        if ($item->unpack || $this->isAStringKey($item->key, $scope)) {
+                            continue;
+                        }
 
-                    $errors[] = $this->unnamedDataset($providerName, $item->getStartLine());
+                        $errors[] = $this->unnamedDataset($providerName, $item->getStartLine());
+                    }
                 }
             }
-        }
 
-        foreach ($nodeFinder->findInstanceOf($statements, Node\Expr\Yield_::class) as $yield) {
-            if ($yield->key instanceof Node\Scalar\String_) {
-                continue;
+            if ($statement instanceof Node\Expr\Yield_ && !$this->isAStringKey($statement->key, $scope)) {
+                $errors[] = $this->unnamedDataset($providerName, $statement->getStartLine());
             }
-
-            $errors[] = $this->unnamedDataset($providerName, $yield->getStartLine());
         }
 
         return $errors;
@@ -94,6 +90,55 @@ final class DataProviderDatasetKeyRule implements Rule
         }
 
         return $datasetLists;
+    }
+
+    /**
+     * The provider's own returns and yields. A closure written inside it carries its own, which belong to it.
+     *
+     * @return list<Node>
+     */
+    private function ownStatementsOf(Node\Stmt\ClassMethod $classMethod): array
+    {
+        $nodeFinder = new NodeFinder();
+        $statements = $classMethod->stmts ?? [];
+
+        $nestedInAClosure = [];
+        foreach ($nodeFinder->findInstanceOf($statements, Node\FunctionLike::class) as $functionLike) {
+            foreach ($this->returnsAndYieldsIn($nodeFinder, $functionLike) as $nested) {
+                $nestedInAClosure[\spl_object_id($nested)] = true;
+            }
+        }
+
+        $own = [];
+        foreach ($this->returnsAndYieldsIn($nodeFinder, $statements) as $node) {
+            if (!isset($nestedInAClosure[\spl_object_id($node)])) {
+                $own[] = $node;
+            }
+        }
+
+        return $own;
+    }
+
+    /**
+     * @param array<array-key, Node>|Node $nodes
+     *
+     * @return list<Node>
+     */
+    private function returnsAndYieldsIn(NodeFinder $nodeFinder, array|Node $nodes): array
+    {
+        return \array_values(\array_merge(
+            $nodeFinder->findInstanceOf($nodes, Node\Stmt\Return_::class),
+            $nodeFinder->findInstanceOf($nodes, Node\Expr\Yield_::class)
+        ));
+    }
+
+    private function isAStringKey(?Node\Expr $expr, Scope $scope): bool
+    {
+        if (!$expr instanceof Node\Expr) {
+            return false;
+        }
+
+        return $scope->getType($expr)->isString()->yes();
     }
 
     private function unnamedDataset(string $providerName, int $line): IdentifierRuleError

@@ -403,6 +403,9 @@ final class DateRangeTest extends BaseRangeTestCase
         $this->assertSame($expectedString, (string) $dateRange, $description);
     }
 
+    /**
+     * @return \Generator<string, array{DateRange, string, string}>
+     */
     public static function provideLeapYearTestCases(): \Generator
     {
         yield 'leap year 2024' => [
@@ -429,6 +432,9 @@ final class DateRangeTest extends BaseRangeTestCase
         $this->assertSame($expectedString, (string) $dateRange, $description);
     }
 
+    /**
+     * @return \Generator<string, array{DateRange, string, string}>
+     */
     public static function provideEdgeCaseMonthTestCases(): \Generator
     {
         yield 'december crosses year boundary' => [

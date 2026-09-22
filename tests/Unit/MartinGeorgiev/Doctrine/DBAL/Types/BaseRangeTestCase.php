@@ -70,7 +70,7 @@ abstract class BaseRangeTestCase extends TestCase
     }
 
     /**
-     * Each array contains [phpValue, postgresValue] pairs.
+     * @return \Generator<string, array{R|null, string|null}>
      */
     abstract public static function provideValidTransformations(): \Generator;
 

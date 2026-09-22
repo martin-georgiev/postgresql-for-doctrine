@@ -147,6 +147,9 @@ final class Int8RangeTest extends BaseRangeTestCase
         new Int8Range($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
     }
 
+    /**
+     * @return \Generator<string, array{int|null, int|null, bool, bool, bool, bool, bool}>
+     */
     public static function provideBoundedInfinityConstructorCases(): \Generator
     {
         yield 'lower bounded infinity' => [null, 100, true, false, false, true, false];
@@ -164,6 +167,9 @@ final class Int8RangeTest extends BaseRangeTestCase
         Int8Range::fromString($input);
     }
 
+    /**
+     * @return \Generator<string, array{string}>
+     */
     public static function provideBoundedInfinityStringCases(): \Generator
     {
         yield 'lower bounded infinity' => ['[-infinity,100)'];
@@ -185,6 +191,9 @@ final class Int8RangeTest extends BaseRangeTestCase
         Int8Range::fromString($input);
     }
 
+    /**
+     * @return \Generator<string, array{string}>
+     */
     public static function provideNumericInfinityAbbreviationCases(): \Generator
     {
         yield 'lower bounded abbreviated infinity' => ['[-inf,100)'];

@@ -54,7 +54,7 @@ final class DataProviderReturnTypeRule implements Rule
         }
 
         $datasetType = $returnType->getIterableValueType();
-        $datasetsAreDescribed = !($datasetType instanceof MixedType) || $datasetType->isExplicitMixed();
+        $datasetsAreDescribed = !$datasetType instanceof MixedType;
         if ($datasetsAreDescribed) {
             return [];
         }
