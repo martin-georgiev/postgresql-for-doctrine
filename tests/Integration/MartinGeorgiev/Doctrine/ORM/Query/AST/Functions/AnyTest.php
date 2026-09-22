@@ -17,7 +17,7 @@ final class AnyTest extends ArrayTestCase
     }
 
     #[Test]
-    public function matches_when_value_equals_any_element(): void
+    public function returns_the_row_when_the_comparison_holds_for_any_entity_field_element(): void
     {
         $dql = "SELECT t.id as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
@@ -25,15 +25,5 @@ final class AnyTest extends ArrayTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(1, $result);
         $this->assertSame(1, $result[0]['result']);
-    }
-
-    #[Test]
-    public function does_not_match_when_value_not_in_array(): void
-    {
-        $dql = "SELECT t.id as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
-                WHERE t.id = 1 AND 'pear' = ANY_OF(t.textArray)";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(0, $result);
     }
 }

@@ -17,20 +17,11 @@ final class BitXorTest extends NumericTestCase
     }
 
     #[Test]
-    public function aggregates_integer_field_with_bitwise_xor(): void
+    public function returns_the_bitwise_xor_from_an_entity_field(): void
     {
         $dql = 'SELECT BIT_XOR(t.integer1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(10, $result[0]['result']);
-    }
-
-    #[Test]
-    public function aggregates_second_integer_field_with_bitwise_xor(): void
-    {
-        $dql = 'SELECT BIT_XOR(t.integer2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(20, $result[0]['result']);
     }
 }

@@ -17,7 +17,7 @@ final class JustifyIntervalTest extends DateTestCase
     }
 
     #[Test]
-    public function converts_negative_components_from_literal_to_equivalent_positive_form(): void
+    public function returns_the_justified_interval_from_an_interval_literal(): void
     {
         $dql = "SELECT JUSTIFY_INTERVAL('1 mon -1 hour') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t
@@ -28,7 +28,7 @@ final class JustifyIntervalTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_interval_unchanged_when_no_justification_needed(): void
+    public function returns_the_justified_interval_from_an_entity_field(): void
     {
         $dql = 'SELECT JUSTIFY_INTERVAL(t.dateinterval1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

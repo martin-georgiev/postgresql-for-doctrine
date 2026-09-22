@@ -23,7 +23,7 @@ final class Crc32Test extends TextTestCase
     }
 
     #[Test]
-    public function computes_crc32_of_a_string(): void
+    public function returns_the_crc32_checksum_from_a_text_literal(): void
     {
         $dql = "SELECT CRC32('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -35,7 +35,7 @@ final class Crc32Test extends TextTestCase
     }
 
     #[Test]
-    public function computes_crc32_of_text_field(): void
+    public function returns_the_crc32_checksum_from_an_entity_field(): void
     {
         $dql = 'SELECT CRC32(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -17,7 +17,7 @@ final class NotRegexpTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_pattern_does_not_match(): void
+    public function returns_true_when_the_pattern_does_not_match_an_entity_field(): void
     {
         $dql = "SELECT NOT_REGEXP(t.text1, 'xyz123') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -27,9 +27,9 @@ final class NotRegexpTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_false_when_pattern_matches(): void
+    public function returns_false_when_the_pattern_matches_a_literal(): void
     {
-        $dql = "SELECT NOT_REGEXP(t.text1, 'test') as result 
+        $dql = "SELECT NOT_REGEXP('this is a test string', 'test') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

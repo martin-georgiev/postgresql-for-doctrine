@@ -17,14 +17,24 @@ final class RepeatTest extends TextTestCase
     }
 
     #[Test]
-    public function repeats_string(): void
+    public function returns_the_repeated_value_from_an_entity_field(): void
     {
         $dql = 'SELECT REPEAT(t.text1, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t 
                 WHERE t.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
+        $this->assertSame('foofoo', $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_repeated_value_from_a_literal(): void
+    {
+        $dql = "SELECT REPEAT('foo', 2) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                WHERE t.id = 3";
+
+        $result = $this->executeDqlQuery($dql);
         $this->assertSame('foofoo', $result[0]['result']);
     }
 }

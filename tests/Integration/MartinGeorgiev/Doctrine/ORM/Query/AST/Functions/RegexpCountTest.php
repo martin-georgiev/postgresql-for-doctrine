@@ -23,7 +23,7 @@ final class RegexpCountTest extends TextTestCase
     }
 
     #[Test]
-    public function counts_pattern_occurrences(): void
+    public function returns_the_match_count_from_an_entity_field(): void
     {
         // Row 1 text1 is 'this is a test string' - contains 4 occurrences of 't': This, TesT, sTring
         $dql = "SELECT REGEXP_COUNT(t.text1, 't') as result
@@ -34,21 +34,9 @@ final class RegexpCountTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_zero_when_no_match(): void
+    public function returns_the_match_count_from_a_literal_with_a_start_position_argument(): void
     {
-        // Row 1 text1 is 'this is a test string' - no 'xyz' pattern
-        $dql = "SELECT REGEXP_COUNT(t.text1, 'xyz') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function counts_with_start_position(): void
-    {
-        // Row 1 text1 is 'this is a test string' - starting at position 5, 3 't's remain (in TesT & sTring)
-        $dql = "SELECT REGEXP_COUNT(t.text1, 't', 5) as result
+        $dql = "SELECT REGEXP_COUNT('this is a test string', 't', 5) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

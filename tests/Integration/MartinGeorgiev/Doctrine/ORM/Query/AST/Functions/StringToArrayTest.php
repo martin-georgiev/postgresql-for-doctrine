@@ -18,7 +18,7 @@ final class StringToArrayTest extends TextTestCase
     }
 
     #[Test]
-    public function splits_string_into_array(): void
+    public function returns_an_array_from_an_entity_field(): void
     {
         $dql = "SELECT STRING_TO_ARRAY(t.text1, ' ') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -35,9 +35,9 @@ final class StringToArrayTest extends TextTestCase
     }
 
     #[Test]
-    public function splits_by_comma_delimiter(): void
+    public function returns_an_array_from_a_literal(): void
     {
-        $dql = "SELECT STRING_TO_ARRAY(t.text1, ',') as result
+        $dql = "SELECT STRING_TO_ARRAY('special,chars;test', ',') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 4";
         $result = $this->executeDqlQuery($dql);

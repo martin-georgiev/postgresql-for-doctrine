@@ -17,7 +17,7 @@ final class AcoshTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_acosh_of_literal(): void
+    public function returns_the_inverse_hyperbolic_cosine_from_a_numeric_literal(): void
     {
         $dql = 'SELECT ACOSH(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class AcoshTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_acosh_with_entity_property(): void
+    public function returns_the_inverse_hyperbolic_cosine_from_an_entity_field(): void
     {
         $dql = 'SELECT ACOSH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

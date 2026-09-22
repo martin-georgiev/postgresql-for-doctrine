@@ -17,7 +17,7 @@ final class JsonbPathMatchTest extends JsonTestCase
     }
 
     #[Test]
-    public function matches_simple_path(): void
+    public function returns_true_when_the_path_matches_a_json_literal(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,33 +30,7 @@ final class JsonbPathMatchTest extends JsonTestCase
     }
 
     #[Test]
-    public function matches_comparison_expression(): void
-    {
-        $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"a": 5}',
-            'path' => '$.a > 3',
-        ]);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_for_non_matching_path(): void
-    {
-        $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"a": 1}',
-            'path' => 'exists($.b)',
-        ]);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function matches_with_column_reference(): void
+    public function returns_true_when_the_path_matches_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

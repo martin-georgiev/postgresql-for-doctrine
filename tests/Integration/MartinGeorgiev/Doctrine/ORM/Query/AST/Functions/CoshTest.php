@@ -17,7 +17,7 @@ final class CoshTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_cosh_of_literal(): void
+    public function returns_the_hyperbolic_cosine_from_a_numeric_literal(): void
     {
         $dql = 'SELECT COSH(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class CoshTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_cosh_with_entity_property(): void
+    public function returns_the_hyperbolic_cosine_from_an_entity_field(): void
     {
         $dql = 'SELECT COSH(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

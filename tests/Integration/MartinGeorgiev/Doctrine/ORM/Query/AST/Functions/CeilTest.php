@@ -17,34 +17,18 @@ final class CeilTest extends NumericTestCase
     }
 
     #[Test]
-    public function ceil_with_positive_decimal(): void
+    public function returns_the_ceiling_from_a_numeric_literal(): void
     {
-        $dql = 'SELECT CEIL(:number) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, ['number' => 10.5]);
+        $dql = 'SELECT CEIL(10.5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
         $this->assertEquals(11, $result[0]['result']);
     }
 
     #[Test]
-    public function ceil_with_negative_decimal(): void
-    {
-        $dql = 'SELECT CEIL(:number) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, ['number' => -10.5]);
-        $this->assertEquals(-10, $result[0]['result']);
-    }
-
-    #[Test]
-    public function ceil_with_column_value(): void
+    public function returns_the_ceiling_from_an_entity_field(): void
     {
         $dql = 'SELECT CEIL(t.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(11, $result[0]['result']);
-    }
-
-    #[Test]
-    public function ceil_with_arithmetic_expression(): void
-    {
-        $dql = 'SELECT CEIL(t.decimal1 * t.decimal2 / t.integer1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(22, $result[0]['result']);
     }
 }

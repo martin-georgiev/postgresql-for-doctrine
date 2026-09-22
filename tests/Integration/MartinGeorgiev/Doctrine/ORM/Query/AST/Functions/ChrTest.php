@@ -17,7 +17,7 @@ final class ChrTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_character_for_code_point_65(): void
+    public function returns_the_character_from_a_numeric_literal(): void
     {
         $dql = 'SELECT CHR(65) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
@@ -28,13 +28,13 @@ final class ChrTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_character_for_code_point_116(): void
+    public function returns_the_character_from_an_entity_field(): void
     {
-        $dql = 'SELECT CHR(116) as result
+        $dql = 'SELECT CHR(t.id + 64) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('t', $result[0]['result']);
+        $this->assertSame('A', $result[0]['result']);
     }
 }

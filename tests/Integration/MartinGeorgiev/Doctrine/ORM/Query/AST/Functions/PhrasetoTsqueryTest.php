@@ -17,7 +17,7 @@ final class PhrasetoTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_phrase_to_tsquery(): void
+    public function converts_a_literal_to_a_tsquery(): void
     {
         $dql = "SELECT PHRASETO_TSQUERY('morum ipsum') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class PhrasetoTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_phrase_with_config(): void
+    public function converts_a_literal_to_a_tsquery_with_a_config_argument(): void
     {
         $dql = "SELECT PHRASETO_TSQUERY('english', 'lorem ipsum') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -33,7 +33,7 @@ final class PhrasetoTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_field_value_to_phrase_tsquery(): void
+    public function converts_an_entity_field_to_a_tsquery(): void
     {
         $dql = 'SELECT PHRASETO_TSQUERY(t.text2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);

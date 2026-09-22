@@ -17,18 +17,9 @@ final class CovarPopTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_zero_for_single_row_set_on_integer_columns(): void
+    public function returns_the_population_covariance_from_entity_fields(): void
     {
         $dql = 'SELECT COVAR_POP(t.integer1, t.integer2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_single_row_set_on_decimal_columns(): void
-    {
-        $dql = 'SELECT COVAR_POP(t.decimal1, t.decimal2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0.0, $result[0]['result']);

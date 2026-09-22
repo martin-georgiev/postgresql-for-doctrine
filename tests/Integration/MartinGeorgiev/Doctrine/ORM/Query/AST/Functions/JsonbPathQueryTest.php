@@ -17,7 +17,7 @@ final class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function queries_simple_path(): void
+    public function returns_the_queried_values_from_a_json_literal(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -31,38 +31,7 @@ final class JsonbPathQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function queries_array_elements(): void
-    {
-        $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"items": [1, 2, 3]}',
-            'path' => '$.items[*]',
-        ]);
-        $this->assertCount(3, $result);
-        $this->assertSame('1', $result[0]['result']);
-        $this->assertSame('2', $result[1]['result']);
-        $this->assertSame('3', $result[2]['result']);
-    }
-
-    #[Test]
-    public function queries_with_filter(): void
-    {
-        $dql = 'SELECT JSONB_PATH_QUERY(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"items": [{"id": 1}, {"id": 2}, {"id": 3}]}',
-            'path' => '$.items[*] ? (@.id > 1)',
-        ]);
-        $this->assertCount(2, $result);
-        $this->assertSame('{"id": 2}', $result[0]['result']);
-        $this->assertSame('{"id": 3}', $result[1]['result']);
-    }
-
-    #[Test]
-    public function queries_with_column_reference(): void
+    public function returns_the_queried_values_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

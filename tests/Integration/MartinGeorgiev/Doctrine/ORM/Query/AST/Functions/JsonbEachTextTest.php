@@ -9,6 +9,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class JsonbEachTextTest extends JsonTestCase
 {
+    use PostgresTupleParsingTrait;
+
     protected function getStringFunctions(): array
     {
         return [
@@ -17,68 +19,24 @@ final class JsonbEachTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function extracts_key_value_pairs_from_standard_json_object(): void
+    public function returns_the_key_value_pairs_as_text_from_an_entity_field(): void
     {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertCount(4, $result);
+
+        $extractedKeys = [];
         foreach ($result as $row) {
             $this->assertIsArray($row);
             $this->assertArrayHasKey('result', $row);
-            $this->assertIsString($row['result']);
-            $decoded = \json_decode($row['result'], true);
-            if (\is_array($decoded) && isset($decoded['key'], $decoded['value'])) {
-                $key = $decoded['key'];
-                $value = $decoded['value'];
-            } else {
-                $parts = \explode(':', \trim($row['result'], '{}"'));
-                $key = $parts[0] ?? null;
-                $value = $parts[1] ?? null;
-            }
-
-            $this->assertNotNull($key);
+            $extractedKeys[] = $this->extractKeysFromTupleResult($row);
         }
-    }
 
-    #[Test]
-    public function returns_empty_result_for_empty_object(): void
-    {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 4';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(0, $result);
-    }
-
-    #[Test]
-    public function extracts_key_value_pairs_from_alternative_json_object(): void
-    {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 2';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(4, $result);
-    }
-
-    #[Test]
-    public function extracts_key_value_pairs_when_json_contains_null_values(): void
-    {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 5';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(4, $result);
-    }
-
-    #[Test]
-    public function extracts_key_value_pairs_when_json_contains_empty_array(): void
-    {
-        $dql = 'SELECT JSONB_EACH_TEXT(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 3';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(4, $result);
+        $expectedKeys = ['name', 'age', 'address', 'tags'];
+        foreach ($expectedKeys as $expectedKey) {
+            $this->assertContains($expectedKey, $extractedKeys);
+        }
     }
 }

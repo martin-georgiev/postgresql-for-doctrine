@@ -7,7 +7,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonToTsvector;
 use PHPUnit\Framework\Attributes\Test;
 
-final class JsonToTsvectorTest extends TextTestCase
+final class JsonToTsvectorTest extends JsonTestCase
 {
     protected function getStringFunctions(): array
     {
@@ -17,18 +17,18 @@ final class JsonToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_json_to_tsvector(): void
+    public function converts_an_entity_field_to_a_tsvector(): void
     {
-        $dql = "SELECT JSON_TO_TSVECTOR('{\"title\": \"lorem ipsum\"}', '[\"string\"]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $dql = "SELECT JSON_TO_TSVECTOR(t.jsonObject1, '[\"string\"]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame("'ipsum':2 'lorem':1", $result[0]['result']);
+        $this->assertSame("'develop':3 'john':1 'manag':5 'new':7 'york':8", $result[0]['result']);
     }
 
     #[Test]
-    public function converts_json_to_tsvector_with_config(): void
+    public function converts_an_entity_field_to_a_tsvector_with_a_text_search_config(): void
     {
-        $dql = "SELECT JSON_TO_TSVECTOR('english', '{\"body\": \"lorem ipsum dolor\"}', '[\"string\"]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
+        $dql = "SELECT JSON_TO_TSVECTOR('english', t.jsonObject1, '[\"string\"]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame("'dolor':3 'ipsum':2 'lorem':1", $result[0]['result']);
+        $this->assertSame("'develop':3 'john':1 'manag':5 'new':7 'york':8", $result[0]['result']);
     }
 }

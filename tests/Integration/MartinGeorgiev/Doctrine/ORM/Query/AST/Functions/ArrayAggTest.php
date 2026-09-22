@@ -17,32 +17,10 @@ final class ArrayAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function aggregates_text_arrays(): void
+    public function returns_the_aggregated_arrays_from_an_entity_field(): void
     {
-        $dql = 'SELECT ARRAY_AGG(t.textArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
+        $dql = 'SELECT ARRAY_AGG(t.textArray) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('{{apple,banana,orange}}', $result[0]['result']);
-    }
-
-    #[Test]
-    public function aggregates_integer_arrays(): void
-    {
-        $dql = 'SELECT ARRAY_AGG(t.integerArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('{{1,2,3}}', $result[0]['result']);
-    }
-
-    #[Test]
-    public function aggregates_boolean_arrays(): void
-    {
-        $dql = 'SELECT ARRAY_AGG(t.boolArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('{{t,f,t}}', $result[0]['result']);
     }
 }

@@ -21,7 +21,7 @@ final class MakeTimeTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function creates_time_from_components(): void
+    public function creates_a_time_from_literals(): void
     {
         $dql = "SELECT MAKE_TIME(
                     CAST(DATE_PART('hour', t.datetime1) AS INTEGER),
@@ -32,19 +32,17 @@ final class MakeTimeTest extends DateMakingTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('10:30:00', $result[0]['result']);
     }
 
     #[Test]
-    public function creates_time_from_entity_fields(): void
+    public function creates_a_time_from_entity_fields(): void
     {
         $dql = 'SELECT MAKE_TIME(n.integer1, n.integer2, 0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('10:20:00', $result[0]['result']);
     }
 }

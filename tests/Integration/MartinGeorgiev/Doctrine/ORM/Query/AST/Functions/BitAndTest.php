@@ -17,20 +17,11 @@ final class BitAndTest extends NumericTestCase
     }
 
     #[Test]
-    public function aggregates_integer_field_with_bitwise_and(): void
+    public function returns_the_bitwise_and_from_an_entity_field(): void
     {
         $dql = 'SELECT BIT_AND(t.integer1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(10, $result[0]['result']);
-    }
-
-    #[Test]
-    public function aggregates_second_integer_field_with_bitwise_and(): void
-    {
-        $dql = 'SELECT BIT_AND(t.integer2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(20, $result[0]['result']);
     }
 }

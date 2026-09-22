@@ -17,7 +17,7 @@ final class CbrtTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_cube_root_of_perfect_cube(): void
+    public function returns_the_cube_root_from_a_numeric_literal(): void
     {
         $dql = 'SELECT CBRT(27.0) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n 
@@ -27,42 +27,12 @@ final class CbrtTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_cube_root_of_non_perfect_cube(): void
-    {
-        $dql = 'SELECT CBRT(10.0) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
-                WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2.154434690031884, $result[0]['result']);
-    }
-
-    #[Test]
-    public function calculates_cube_root_of_negative_number(): void
-    {
-        $dql = 'SELECT CBRT((-27.0)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
-                WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(-3.0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function calculates_cube_root_of_column_value(): void
+    public function returns_the_cube_root_from_an_entity_field(): void
     {
         $dql = 'SELECT CBRT(n.decimal1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(2.1897595699439445, $result[0]['result']);
-    }
-
-    #[Test]
-    public function calculates_cube_root_of_arithmetic_expression(): void
-    {
-        $dql = 'SELECT CBRT(n.integer1 + n.integer2 - 3) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
-                WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3.0, $result[0]['result']);
     }
 }

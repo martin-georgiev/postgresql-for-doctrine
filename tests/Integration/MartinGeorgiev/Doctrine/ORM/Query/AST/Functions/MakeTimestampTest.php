@@ -21,7 +21,7 @@ final class MakeTimestampTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function creates_timestamp_from_components(): void
+    public function creates_a_timestamp_from_literals(): void
     {
         $dql = "SELECT MAKE_TIMESTAMP(
                     CAST(DATE_PART('year', t.datetime1) AS INTEGER),
@@ -35,19 +35,17 @@ final class MakeTimestampTest extends DateMakingTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023-06-15 10:30:00', $result[0]['result']);
     }
 
     #[Test]
-    public function creates_timestamp_from_entity_fields(): void
+    public function creates_a_timestamp_from_entity_fields(): void
     {
         $dql = 'SELECT MAKE_TIMESTAMP(2023, n.integer1, n.integer2, 10, 30, 0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023-10-20 10:30:00', $result[0]['result']);
     }
 }

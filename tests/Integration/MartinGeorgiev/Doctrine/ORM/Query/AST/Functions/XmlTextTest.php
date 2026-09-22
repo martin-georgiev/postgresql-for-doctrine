@@ -23,7 +23,7 @@ final class XmlTextTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmltext_from_literal(): void
+    public function creates_a_text_node_from_a_literal(): void
     {
         $dql = "SELECT XMLTEXT('hello') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -34,7 +34,7 @@ final class XmlTextTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmltext_with_entity_property(): void
+    public function creates_a_text_node_from_an_entity_field(): void
     {
         $dql = 'SELECT XMLTEXT(t.text2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

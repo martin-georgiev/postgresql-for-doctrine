@@ -21,7 +21,7 @@ final class MakeDateTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function creates_date_from_components(): void
+    public function creates_a_date_from_literals(): void
     {
         $dql = "SELECT MAKE_DATE(
                     CAST(DATE_PART('year', t.date1) AS INTEGER),
@@ -32,19 +32,17 @@ final class MakeDateTest extends DateMakingTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023-06-15', $result[0]['result']);
     }
 
     #[Test]
-    public function creates_date_from_entity_fields(): void
+    public function creates_a_date_from_entity_fields(): void
     {
         $dql = 'SELECT MAKE_DATE(2023, n.integer1, n.integer2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n
                 WHERE n.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023-10-20', $result[0]['result']);
     }
 }

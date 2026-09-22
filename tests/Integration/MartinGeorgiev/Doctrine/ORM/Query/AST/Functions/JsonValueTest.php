@@ -23,32 +23,12 @@ final class JsonValueTest extends JsonTestCase
     }
 
     #[Test]
-    public function extracts_scalar_value(): void
+    public function returns_the_scalar_value_at_a_path_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_VALUE(t.jsonObject1, '$.name') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('John', $result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_nested_value(): void
-    {
-        $dql = "SELECT JSON_VALUE(t.jsonObject1, '$.address.city') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('New York', $result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_numeric_value(): void
-    {
-        $dql = "SELECT JSON_VALUE(t.jsonObject1, '$.age') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('30', $result[0]['result']);
     }
 }

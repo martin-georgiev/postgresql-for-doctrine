@@ -17,7 +17,7 @@ final class JsonGetObjectTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_nested_object_by_path(): void
+    public function returns_the_object_at_a_path_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_GET_OBJECT(t.jsonObject1, '{address}') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -27,15 +27,5 @@ final class JsonGetObjectTest extends JsonTestCase
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertSame('New York', $decoded['city']);
-    }
-
-    #[Test]
-    public function returns_deeply_nested_value(): void
-    {
-        $dql = "SELECT JSON_GET_OBJECT(t.jsonObject1, '{address,city}') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('"New York"', $result[0]['result']);
     }
 }

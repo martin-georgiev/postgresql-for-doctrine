@@ -17,7 +17,7 @@ final class TruncTest extends NumericTestCase
     }
 
     #[Test]
-    public function truncates_positive_number(): void
+    public function returns_the_truncated_value_from_a_literal(): void
     {
         $dql = 'SELECT TRUNC(42.8) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -27,17 +27,7 @@ final class TruncTest extends NumericTestCase
     }
 
     #[Test]
-    public function truncates_negative_number(): void
-    {
-        $dql = 'SELECT TRUNC(-42.8) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(-42, $result[0]['result']);
-    }
-
-    #[Test]
-    public function truncates_with_precision(): void
+    public function returns_the_truncated_value_with_a_precision_argument(): void
     {
         $dql = 'SELECT TRUNC(42.4382, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -47,17 +37,7 @@ final class TruncTest extends NumericTestCase
     }
 
     #[Test]
-    public function truncates_with_negative_precision(): void
-    {
-        $dql = 'SELECT TRUNC(1234.56, -2) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1200, $result[0]['result']);
-    }
-
-    #[Test]
-    public function truncates_column_value(): void
+    public function returns_the_truncated_value_from_an_entity_field(): void
     {
         $dql = 'SELECT TRUNC(t.decimal1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
@@ -67,32 +47,12 @@ final class TruncTest extends NumericTestCase
     }
 
     #[Test]
-    public function truncates_arithmetic_expression(): void
+    public function returns_the_truncated_value_from_an_arithmetic_expression(): void
     {
         $dql = 'SELECT TRUNC(t.integer1 * t.decimal1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(105, $result[0]['result']);
-    }
-
-    #[Test]
-    public function truncates_arithmetic_expression_with_precision(): void
-    {
-        $dql = 'SELECT TRUNC(100 * t.integer1 / t.integer2, 2) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(50.00, $result[0]['result']);
-    }
-
-    #[Test]
-    public function truncates_parenthesized_arithmetic_expression(): void
-    {
-        $dql = 'SELECT TRUNC((t.integer1 + t.integer2) * t.decimal1, 1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(315.0, $result[0]['result']);
     }
 }

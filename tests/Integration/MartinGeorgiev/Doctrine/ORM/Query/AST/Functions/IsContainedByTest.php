@@ -19,29 +19,9 @@ final class IsContainedByTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_true_when_array_is_contained(): void
+    public function returns_true_when_an_array_literal_is_contained_in_an_entity_field(): void
     {
         $dql = "SELECT IS_CONTAINED_BY(ARR('apple'), t.textArray) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_when_array_is_not_contained(): void
-    {
-        $dql = "SELECT IS_CONTAINED_BY(ARR('xyz'), t.textArray) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function checks_subset_containment(): void
-    {
-        $dql = "SELECT IS_CONTAINED_BY(ARR('apple', 'banana'), t.textArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

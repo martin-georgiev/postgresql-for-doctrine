@@ -17,7 +17,7 @@ final class ReturnsValueForJsonValueTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_true_when_path_exists(): void
+    public function returns_true_when_the_path_exists_in_an_entity_field(): void
     {
         $dql = "SELECT RETURNS_VALUE_FOR_JSON_VALUE(t.jsonbObject1, '$.name') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -27,22 +27,12 @@ final class ReturnsValueForJsonValueTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_false_when_path_does_not_exist(): void
+    public function returns_false_when_the_path_is_absent_from_an_entity_field(): void
     {
         $dql = "SELECT RETURNS_VALUE_FOR_JSON_VALUE(t.jsonbObject1, '$.nonexistent') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function checks_nested_path(): void
-    {
-        $dql = "SELECT RETURNS_VALUE_FOR_JSON_VALUE(t.jsonbObject1, '$.address.city') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
     }
 }

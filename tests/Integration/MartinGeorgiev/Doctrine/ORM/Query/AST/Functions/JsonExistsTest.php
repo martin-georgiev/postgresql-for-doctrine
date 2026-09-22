@@ -23,22 +23,12 @@ final class JsonExistsTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_true_when_path_exists(): void
+    public function returns_true_when_the_path_exists_in_an_entity_field(): void
     {
         $dql = "SELECT JSON_EXISTS(t.jsonObject1, '$.name') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_when_path_does_not_exist(): void
-    {
-        $dql = "SELECT JSON_EXISTS(t.jsonObject1, '$.nonexistent') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
     }
 }

@@ -17,7 +17,7 @@ final class XmlAggTest extends XmlTestCase
     }
 
     #[Test]
-    public function aggregates_xml_content(): void
+    public function returns_the_aggregated_values_from_an_entity_field(): void
     {
         $dql = 'SELECT XML_AGG(t.content) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsXml t
@@ -28,7 +28,7 @@ final class XmlAggTest extends XmlTestCase
     }
 
     #[Test]
-    public function aggregates_xml_content_with_order_by(): void
+    public function returns_the_aggregated_values_with_an_order_by_clause(): void
     {
         $dql = 'SELECT XML_AGG(t.content ORDER BY t.id DESC) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsXml t

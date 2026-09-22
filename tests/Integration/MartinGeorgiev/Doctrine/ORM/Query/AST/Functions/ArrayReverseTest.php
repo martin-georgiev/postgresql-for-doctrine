@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReverse;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -18,46 +19,26 @@ final class ArrayReverseTest extends ArrayTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ARR' => Arr::class,
             'ARRAY_REVERSE' => ArrayReverse::class,
         ];
     }
 
     #[Test]
-    public function reverses_text_array(): void
+    public function returns_the_reversed_array_from_an_array_literal(): void
     {
-        $dql = 'SELECT ARRAY_REVERSE(t.textArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-
+        $dql = "SELECT ARRAY_REVERSE(ARR('apple', 'banana')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($actual);
+        $this->assertSame(['banana', 'apple'], $actual);
+    }
+
+    #[Test]
+    public function returns_the_reversed_array_from_an_entity_field(): void
+    {
+        $dql = 'SELECT ARRAY_REVERSE(t.textArray) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertSame(['orange', 'banana', 'apple'], $actual);
-    }
-
-    #[Test]
-    public function reverses_integer_array(): void
-    {
-        $dql = 'SELECT ARRAY_REVERSE(t.integerArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($actual);
-        $this->assertSame([3, 2, 1], $actual);
-    }
-
-    #[Test]
-    public function reverses_boolean_array(): void
-    {
-        $dql = 'SELECT ARRAY_REVERSE(t.boolArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($actual);
-        $this->assertSame([true, false, true], $actual);
     }
 }

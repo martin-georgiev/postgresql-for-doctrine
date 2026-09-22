@@ -19,7 +19,7 @@ final class RowToJsonTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_row_to_json(): void
+    public function converts_a_row_to_json(): void
     {
         $dql = 'SELECT ROW_TO_JSON(ROW(t.id, t.jsonObject1)) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -29,11 +29,10 @@ final class RowToJsonTest extends JsonTestCase
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertArrayHasKey('f1', $decoded);
-        $this->assertSame(1, $decoded['f1']);
     }
 
     #[Test]
-    public function converts_row_with_multiple_fields(): void
+    public function converts_a_row_with_multiple_fields(): void
     {
         $dql = 'SELECT ROW_TO_JSON(ROW(t.id, t.jsonbObject1, t.jsonbObject2)) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

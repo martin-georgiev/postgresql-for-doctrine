@@ -17,7 +17,7 @@ final class AtanhTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_atanh_of_literal(): void
+    public function returns_the_inverse_hyperbolic_tangent_from_a_numeric_literal(): void
     {
         $dql = 'SELECT ATANH(0.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class AtanhTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_atanh_with_entity_property(): void
+    public function returns_the_inverse_hyperbolic_tangent_from_an_entity_field(): void
     {
         $dql = 'SELECT ATANH(n.decimal2 / 100.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

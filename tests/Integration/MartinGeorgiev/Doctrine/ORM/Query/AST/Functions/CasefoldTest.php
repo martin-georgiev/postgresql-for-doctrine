@@ -23,7 +23,7 @@ final class CasefoldTest extends TextTestCase
     }
 
     #[Test]
-    public function casefolds_a_string(): void
+    public function returns_the_case_folded_text_from_a_text_literal(): void
     {
         $dql = "SELECT CASEFOLD('Hello Doctrine') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -34,7 +34,7 @@ final class CasefoldTest extends TextTestCase
     }
 
     #[Test]
-    public function casefolds_text_field(): void
+    public function returns_the_case_folded_text_from_an_entity_field(): void
     {
         $dql = 'SELECT CASEFOLD(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -23,7 +23,7 @@ final class JsonScalarTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_string_to_json_scalar(): void
+    public function converts_a_text_literal_to_a_json_scalar(): void
     {
         $dql = "SELECT JSON_SCALAR('hello') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -33,12 +33,12 @@ final class JsonScalarTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_number_to_json_scalar(): void
+    public function converts_an_entity_field_to_a_json_scalar(): void
     {
-        $dql = "SELECT JSON_SCALAR('42') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
+        $dql = 'SELECT JSON_SCALAR(t.id) as result 
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('"42"', $result[0]['result']);
+        $this->assertSame('1', $result[0]['result']);
     }
 }

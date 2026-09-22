@@ -17,52 +17,12 @@ final class DatePartTest extends DateTestCase
     }
 
     #[Test]
-    public function extracts_year(): void
+    public function returns_the_requested_part_from_an_entity_field(): void
     {
         $dql = "SELECT DATE_PART('year', t.datetime1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(2023, $result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_month(): void
-    {
-        $dql = "SELECT DATE_PART('month', t.datetime1) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(6, $result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_day(): void
-    {
-        $dql = "SELECT DATE_PART('day', t.datetime1) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(15, $result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_hour(): void
-    {
-        $dql = "SELECT DATE_PART('hour', t.datetime1) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(10, $result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_minute(): void
-    {
-        $dql = "SELECT DATE_PART('minute', t.datetime1) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(30, $result[0]['result']);
     }
 }

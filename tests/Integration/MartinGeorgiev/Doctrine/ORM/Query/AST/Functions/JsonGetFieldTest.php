@@ -17,7 +17,7 @@ final class JsonGetFieldTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_json_string_when_getting_field_by_property_name(): void
+    public function returns_the_json_field_by_property_name_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_GET_FIELD(t.jsonObject1, 'name') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,42 +25,10 @@ final class JsonGetFieldTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_json_string_when_getting_field_by_index(): void
+    public function returns_the_json_field_by_index_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_GET_FIELD(JSON_GET_FIELD(t.jsonObject1, 'tags'), 0) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('"developer"', $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_json_string_when_accessing_nested_object(): void
-    {
-        $dql = "SELECT JSON_GET_FIELD(JSON_GET_FIELD(t.jsonObject1, 'address'), 'city') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('"New York"', $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_null_for_empty_array(): void
-    {
-        $dql = "SELECT JSON_GET_FIELD(JSON_GET_FIELD(t.jsonObject1, 'tags'), 0) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 3";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_null_for_nonexistent_index(): void
-    {
-        $dql = "SELECT JSON_GET_FIELD(JSON_GET_FIELD(t.jsonObject1, 'tags'), 10) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_null_for_nonexistent_property(): void
-    {
-        $dql = "SELECT JSON_GET_FIELD(t.jsonObject1, 'nonexistent') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
     }
 }

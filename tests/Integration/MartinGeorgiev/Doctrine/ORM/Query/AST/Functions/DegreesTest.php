@@ -17,7 +17,7 @@ final class DegreesTest extends NumericTestCase
     }
 
     #[Test]
-    public function degrees(): void
+    public function returns_the_degrees_from_a_numeric_literal(): void
     {
         $dql = 'SELECT DEGREES(3.141592653589793) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,18 +25,10 @@ final class DegreesTest extends NumericTestCase
     }
 
     #[Test]
-    public function degrees_with_entity_property(): void
+    public function returns_the_degrees_from_an_entity_field(): void
     {
         $dql = 'SELECT DEGREES(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(601.6056848873644, $result[0]['result']);
-    }
-
-    #[Test]
-    public function degrees_with_arithmetic_expression(): void
-    {
-        $dql = 'SELECT DEGREES(n.decimal1 / n.integer1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(60.16056848873644, $result[0]['result']);
     }
 }

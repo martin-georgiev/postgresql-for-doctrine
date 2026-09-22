@@ -17,7 +17,7 @@ final class XmlCommentTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmlcomment_from_literal(): void
+    public function creates_a_comment_from_a_literal(): void
     {
         $dql = "SELECT XMLCOMMENT('hello') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ final class XmlCommentTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_xmlcomment_with_entity_property(): void
+    public function creates_a_comment_from_an_entity_field(): void
     {
         $dql = 'SELECT XMLCOMMENT(t.text2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

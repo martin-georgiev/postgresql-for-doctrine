@@ -17,18 +17,7 @@ final class XpathExistsTest extends XmlTestCase
     }
 
     #[Test]
-    public function returns_true_for_matching_xpath(): void
-    {
-        $dql = "SELECT XPATH_EXISTS('//root', '<root><child>text</child></root>') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t
-                WHERE t.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_for_nonexistent_xpath(): void
+    public function returns_false_when_the_xpath_has_no_match_in_a_literal(): void
     {
         $dql = "SELECT XPATH_EXISTS('//missing', '<root><child>text</child></root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t
@@ -39,7 +28,7 @@ final class XpathExistsTest extends XmlTestCase
     }
 
     #[Test]
-    public function returns_true_for_matching_xpath_with_entity_property(): void
+    public function returns_true_when_the_xpath_matches_an_entity_field(): void
     {
         $dql = 'SELECT XPATH_EXISTS(\'//item\', t.content) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsXml t

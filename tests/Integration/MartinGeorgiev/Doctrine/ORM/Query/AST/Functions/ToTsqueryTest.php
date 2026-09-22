@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsquery;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTsvector;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ToTsqueryTest extends TextTestCase
@@ -15,40 +13,36 @@ final class ToTsqueryTest extends TextTestCase
     {
         return [
             'TO_TSQUERY' => ToTsquery::class,
-            'TO_TSVECTOR' => ToTsvector::class,
-            'TSMATCH' => Tsmatch::class,
         ];
     }
 
     #[Test]
-    public function creates_tsquery_from_text(): void
+    public function creates_a_tsquery_from_a_literal(): void
     {
-        $dql = "SELECT t.id as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
-                WHERE TSMATCH(TO_TSVECTOR(t.text1), TO_TSQUERY('test')) = true 
-                AND t.id = 1";
+        $dql = "SELECT TO_TSQUERY('test') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(1, $result[0]['result']);
+        $this->assertSame("'test'", $result[0]['result']);
     }
 
     #[Test]
-    public function creates_tsquery_with_language(): void
+    public function creates_a_tsquery_from_an_entity_field(): void
     {
-        $dql = "SELECT t.id as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
-                WHERE TSMATCH(TO_TSVECTOR('english', t.text1), TO_TSQUERY('english', 'test')) = true 
-                AND t.id = 1";
+        $dql = 'SELECT TO_TSQUERY(t.text1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
+                WHERE t.id = 3';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(1, $result[0]['result']);
+        $this->assertSame("'foo'", $result[0]['result']);
     }
 
     #[Test]
-    public function returns_empty_when_no_match(): void
+    public function creates_a_tsquery_with_a_config_argument(): void
     {
-        $dql = "SELECT t.id as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
-                WHERE TSMATCH(TO_TSVECTOR(t.text1), TO_TSQUERY('nonexistent')) = true";
+        $dql = "SELECT TO_TSQUERY('english', 'test') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertCount(0, $result);
+        $this->assertSame("'test'", $result[0]['result']);
     }
 }
