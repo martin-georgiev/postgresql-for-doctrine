@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_EndPoint;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_X;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Y;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_EndPointTest extends SpatialOperatorTestCase
@@ -14,22 +13,20 @@ final class ST_EndPointTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ST_ASTEXT' => ST_AsText::class,
             'ST_ENDPOINT' => ST_EndPoint::class,
-            'ST_X' => ST_X::class,
-            'ST_Y' => ST_Y::class,
         ];
     }
 
     #[Test]
     public function returns_last_vertex_of_linestring(): void
     {
-        $dql = 'SELECT ST_X(ST_ENDPOINT(g.geometry1)) as x, ST_Y(ST_ENDPOINT(g.geometry1)) as y
+        $dql = 'SELECT ST_ASTEXT(ST_ENDPOINT(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2, $result[0]['x']);
-        $this->assertEquals(2, $result[0]['y']);
+        $this->assertSame('POINT(2 2)', $result[0]['result']);
     }
 
     #[Test]

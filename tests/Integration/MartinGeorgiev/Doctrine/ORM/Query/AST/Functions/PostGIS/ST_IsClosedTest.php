@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ExteriorRing;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsClosed;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -13,8 +13,8 @@ final class ST_IsClosedTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_ISCLOSED' => ST_IsClosed::class,
-            'ST_EXTERIORRING' => ST_ExteriorRing::class,
         ];
     }
 
@@ -30,11 +30,11 @@ final class ST_IsClosedTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_for_exterior_ring_of_polygon(): void
+    public function returns_true_for_closed_linestring(): void
     {
-        $dql = 'SELECT ST_ISCLOSED(ST_EXTERIORRING(g.geometry1)) as result
+        $dql = "SELECT ST_ISCLOSED(ST_GEOMFROMTEXT('LINESTRING(0 0,1 0,1 1,0 0)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

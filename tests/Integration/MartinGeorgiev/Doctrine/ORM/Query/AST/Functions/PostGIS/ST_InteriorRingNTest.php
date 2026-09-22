@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Difference;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_InteriorRingN;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_InteriorRingNTest extends SpatialOperatorTestCase
@@ -14,29 +14,29 @@ final class ST_InteriorRingNTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ST_ASTEXT' => ST_AsText::class,
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_INTERIORRINGN' => ST_InteriorRingN::class,
-            'ST_DIFFERENCE' => ST_Difference::class,
-            'ST_LENGTH' => ST_Length::class,
         ];
     }
 
     #[Test]
-    public function returns_the_hole_of_a_holed_polygon(): void
+    public function returns_the_nth_hole_of_a_polygon(): void
     {
-        $dql = 'SELECT ST_LENGTH(ST_INTERIORRINGN(ST_DIFFERENCE(g.geometry1, g.geometry2), 1)) as result
+        $dql = "SELECT ST_ASTEXT(ST_INTERIORRINGN(ST_GEOMFROMTEXT('POLYGON((0 0,4 0,4 4,0 4,0 0),(1 1,2 1,2 2,1 2,1 1))'), 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(8.0, $result[0]['result'], 0.0001);
+        $this->assertSame('LINESTRING(1 1,2 1,2 2,1 2,1 1)', $result[0]['result']);
     }
 
     #[Test]
     public function returns_null_for_out_of_range_index(): void
     {
-        $dql = 'SELECT ST_INTERIORRINGN(ST_DIFFERENCE(g.geometry1, g.geometry2), 2) as result
+        $dql = "SELECT ST_INTERIORRINGN(ST_GEOMFROMTEXT('POLYGON((0 0,4 0,4 4,0 4,0 0),(1 1,2 1,2 2,1 2,1 1))'), 2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertNull($result[0]['result']);

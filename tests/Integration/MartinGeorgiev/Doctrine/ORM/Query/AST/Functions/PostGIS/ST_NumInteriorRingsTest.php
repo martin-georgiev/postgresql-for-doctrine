@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Difference;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumInteriorRings;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -13,17 +13,17 @@ final class ST_NumInteriorRingsTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_NUMINTERIORRINGS' => ST_NumInteriorRings::class,
-            'ST_DIFFERENCE' => ST_Difference::class,
         ];
     }
 
     #[Test]
-    public function returns_one_for_polygon_with_a_single_hole(): void
+    public function returns_the_hole_count_of_a_polygon(): void
     {
-        $dql = 'SELECT ST_NUMINTERIORRINGS(ST_DIFFERENCE(g.geometry1, g.geometry2)) as result
+        $dql = "SELECT ST_NUMINTERIORRINGS(ST_GEOMFROMTEXT('POLYGON((0 0,4 0,4 4,0 4,0 0),(1 1,2 1,2 2,1 2,1 1))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(1, $result[0]['result']);
