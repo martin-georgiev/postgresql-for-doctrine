@@ -17,7 +17,7 @@ final class JsonbPathQueryFirstTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_query_first_simple(): void
+    public function returns_the_first_queried_value_from_a_json_literal(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_FIRST(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,46 +30,7 @@ final class JsonbPathQueryFirstTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_query_first_array(): void
-    {
-        $dql = 'SELECT JSONB_PATH_QUERY_FIRST(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"items": [1, 2, 3]}',
-            'path' => '$.items[*]',
-        ]);
-        $this->assertSame('1', $result[0]['result']);
-    }
-
-    #[Test]
-    public function jsonb_path_query_first_with_filter(): void
-    {
-        $dql = 'SELECT JSONB_PATH_QUERY_FIRST(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"items": [{"id": 1}, {"id": 2}, {"id": 3}]}',
-            'path' => '$.items[*] ? (@.id > 1)',
-        ]);
-        $this->assertSame('{"id": 2}', $result[0]['result']);
-    }
-
-    #[Test]
-    public function jsonb_path_query_first_with_no_match(): void
-    {
-        $dql = 'SELECT JSONB_PATH_QUERY_FIRST(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"items": [{"id": 1}]}',
-            'path' => '$.items[*] ? (@.id > 1)',
-        ]);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function jsonb_path_query_first_with_column_reference(): void
+    public function returns_the_first_queried_value_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_FIRST(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

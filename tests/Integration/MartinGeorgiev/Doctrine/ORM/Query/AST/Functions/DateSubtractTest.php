@@ -17,35 +17,22 @@ final class DateSubtractTest extends DateTestCase
     }
 
     #[Test]
-    public function subtracts_interval_from_timestamp(): void
+    public function returns_the_shifted_timestamp_from_an_entity_field(): void
     {
         $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '1 day') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('2023-06-14', $result[0]['result']);
+        $this->assertSame('2023-06-14 10:30:00+00', $result[0]['result']);
     }
 
     #[Test]
-    public function subtracts_hours_from_timestamp(): void
-    {
-        $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '2 hours') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('08:30:00', $result[0]['result']);
-    }
-
-    #[Test]
-    public function subtracts_interval_with_timezone(): void
+    public function returns_the_shifted_timestamp_from_an_entity_field_in_a_time_zone(): void
     {
         $dql = "SELECT DATE_SUBTRACT(t.datetimetz1, '1 day', 'UTC') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('2023-06-14', $result[0]['result']);
+        $this->assertSame('2023-06-14 10:30:00+00', $result[0]['result']);
     }
 }

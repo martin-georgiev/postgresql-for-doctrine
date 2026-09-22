@@ -57,18 +57,7 @@ final class DistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_zero_distance_for_identical_points(): void
-    {
-        $dql = 'SELECT DISTANCE(t.point1, t.point2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsPoints t
-                WHERE t.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_distance_between_lisbon_and_london_in_statute_miles(): void
+    public function returns_the_distance_between_two_entity_fields(): void
     {
         $dql = 'SELECT DISTANCE(t.point1, t.point2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsPoints t

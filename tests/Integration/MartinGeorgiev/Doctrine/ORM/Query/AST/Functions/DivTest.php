@@ -17,7 +17,7 @@ final class DivTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_div_of_literals(): void
+    public function returns_the_integer_quotient_from_numeric_literals(): void
     {
         $dql = 'SELECT DIV(9, 4) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class DivTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_div_with_entity_properties(): void
+    public function returns_the_integer_quotient_from_entity_fields(): void
     {
         $dql = 'SELECT DIV(n.integer1, n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

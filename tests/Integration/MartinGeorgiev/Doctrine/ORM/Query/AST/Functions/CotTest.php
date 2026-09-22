@@ -17,7 +17,7 @@ final class CotTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_cot_of_literal(): void
+    public function returns_the_cotangent_from_a_numeric_literal(): void
     {
         $dql = 'SELECT COT(1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class CotTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_cot_with_entity_property(): void
+    public function returns_the_cotangent_from_an_entity_field(): void
     {
         $dql = 'SELECT COT(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

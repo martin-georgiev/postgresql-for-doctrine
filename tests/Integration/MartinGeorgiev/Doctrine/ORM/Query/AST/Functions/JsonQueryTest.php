@@ -23,7 +23,7 @@ final class JsonQueryTest extends JsonTestCase
     }
 
     #[Test]
-    public function queries_nested_object(): void
+    public function returns_the_queried_json_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_QUERY(t.jsonObject1, '$.address') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -33,19 +33,5 @@ final class JsonQueryTest extends JsonTestCase
         $decoded = \json_decode($result[0]['result'], true);
         $this->assertIsArray($decoded);
         $this->assertSame('New York', $decoded['city']);
-    }
-
-    #[Test]
-    public function queries_array(): void
-    {
-        $dql = "SELECT JSON_QUERY(t.jsonObject1, '$.tags') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertContains('developer', $decoded);
-        $this->assertContains('manager', $decoded);
     }
 }

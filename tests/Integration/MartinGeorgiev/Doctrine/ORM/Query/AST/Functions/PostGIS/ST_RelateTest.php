@@ -24,7 +24,6 @@ final class ST_RelateTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertEquals('FF0FFF0F2', $result[0]['result']);
     }
 

@@ -17,7 +17,7 @@ final class GenerateNumericSeriesTest extends NumericTestCase
     }
 
     #[Test]
-    public function generates_integer_series_without_explicit_step(): void
+    public function returns_the_numeric_series_from_entity_fields(): void
     {
         $dql = 'SELECT GENERATE_NUMERIC_SERIES(t.integer1, t.integer2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -35,7 +35,7 @@ final class GenerateNumericSeriesTest extends NumericTestCase
     }
 
     #[Test]
-    public function generates_bigint_series_with_explicit_step(): void
+    public function returns_the_numeric_series_from_entity_fields_with_an_explicit_step(): void
     {
         $dql = 'SELECT GENERATE_NUMERIC_SERIES(t.bigint1, t.bigint2, 1000) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -53,20 +53,16 @@ final class GenerateNumericSeriesTest extends NumericTestCase
     }
 
     #[Test]
-    public function generates_decimal_series_without_explicit_step(): void
+    public function returns_the_numeric_series_from_numeric_literals(): void
     {
-        $dql = 'SELECT GENERATE_NUMERIC_SERIES(t.decimal1, t.decimal2) as result
+        $dql = 'SELECT GENERATE_NUMERIC_SERIES(1, 3) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
 
-        $this->assertCount(11, $result);
-
-        $this->assertIsString($result[0]['result']);
-        $this->assertEquals(10.5, (float) $result[0]['result']);
-
-        $this->assertIsString($result[10]['result']);
-        $this->assertEquals(20.5, (float) $result[10]['result']);
+        $this->assertCount(3, $result);
+        $this->assertSame(1, $result[0]['result']);
+        $this->assertSame(3, $result[2]['result']);
     }
 }

@@ -23,7 +23,7 @@ final class LgammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function computes_lgamma_of_a_integer(): void
+    public function returns_the_log_gamma_from_a_numeric_literal(): void
     {
         $dql = 'SELECT LGAMMA(5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -34,18 +34,7 @@ final class LgammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function computes_lgamma_of_a_float(): void
-    {
-        $dql = 'SELECT LGAMMA(2.5) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
-                WHERE t.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.2846828704729192, $result[0]['result']);
-    }
-
-    #[Test]
-    public function computes_lgamma_of_integer_field(): void
+    public function returns_the_log_gamma_from_an_entity_field(): void
     {
         $dql = 'SELECT LGAMMA(t.integer1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t

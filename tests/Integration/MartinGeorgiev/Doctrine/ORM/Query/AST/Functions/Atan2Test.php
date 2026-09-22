@@ -17,7 +17,7 @@ final class Atan2Test extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_atan2_of_literals(): void
+    public function returns_the_two_argument_arc_tangent_from_numeric_literals(): void
     {
         $dql = 'SELECT ATAN2(1.0, 1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class Atan2Test extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_atan2_with_entity_properties(): void
+    public function returns_the_two_argument_arc_tangent_from_entity_fields(): void
     {
         $dql = 'SELECT ATAN2(n.decimal1, n.decimal2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

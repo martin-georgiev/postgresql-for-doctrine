@@ -24,7 +24,6 @@ final class ReverseTest extends TextTestCase
                 WHERE t.id = 3';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('oof', $result[0]['result']);
     }
 

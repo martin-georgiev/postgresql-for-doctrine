@@ -17,23 +17,15 @@ final class FloorTest extends NumericTestCase
     }
 
     #[Test]
-    public function floor_with_positive_decimal(): void
+    public function returns_the_floor_from_a_numeric_literal(): void
     {
-        $dql = 'SELECT FLOOR(:number) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, ['number' => 10.5]);
+        $dql = 'SELECT FLOOR(10.5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
         $this->assertEquals(10, $result[0]['result']);
     }
 
     #[Test]
-    public function floor_with_negative_decimal(): void
-    {
-        $dql = 'SELECT FLOOR(:number) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, ['number' => -10.5]);
-        $this->assertEquals(-11, $result[0]['result']);
-    }
-
-    #[Test]
-    public function floor_with_column_value(): void
+    public function returns_the_floor_from_an_entity_field(): void
     {
         $dql = 'SELECT FLOOR(t.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);

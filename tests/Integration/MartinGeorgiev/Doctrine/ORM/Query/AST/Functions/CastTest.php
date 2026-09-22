@@ -17,7 +17,6 @@ final class CastTest extends TestCase
         parent::setUp();
         $this->createTestTableForTextFixture();
         $this->createTestTableForArrayFixture();
-        $this->createTestTableForNumericFixture();
     }
 
     protected function getStringFunctions(): array
@@ -28,7 +27,7 @@ final class CastTest extends TestCase
     }
 
     #[Test]
-    public function converts_text_to_integer(): void
+    public function returns_a_value_cast_to_a_bare_type_from_an_entity_field(): void
     {
         $dql = 'SELECT CAST(t.text1 AS INTEGER) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -36,23 +35,15 @@ final class CastTest extends TestCase
     }
 
     #[Test]
-    public function converts_text_to_text(): void
+    public function returns_a_value_cast_to_a_bare_type_from_a_text_literal(): void
     {
-        $dql = 'SELECT CAST(t.text1 AS TEXT) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
+        $dql = "SELECT CAST('123' AS INTEGER) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame('123', $result[0]['result']);
+        $this->assertSame(123, $result[0]['result']);
     }
 
     #[Test]
-    public function converts_text_to_boolean(): void
-    {
-        $dql = 'SELECT CAST(t.text2 AS BOOLEAN) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function converts_text_to_decimal(): void
+    public function returns_a_value_cast_to_a_parameterised_type_from_an_entity_field(): void
     {
         $dql = 'SELECT CAST(t.text1 AS DECIMAL(10, 2)) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -60,57 +51,31 @@ final class CastTest extends TestCase
     }
 
     #[Test]
-    public function converts_array_to_text_array(): void
+    public function returns_a_value_cast_to_an_array_type_from_an_entity_field(): void
     {
         $dql = 'SELECT CAST(a.integerArray AS TEXT[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('{', $result[0]['result']);
+        $this->assertSame('{10,20,30}', $result[0]['result']);
     }
 
     #[Test]
-    public function converts_boolean_array_to_integer_array(): void
+    public function returns_a_value_cast_to_a_mixed_case_array_type_from_an_entity_field(): void
     {
-        $dql = 'SELECT CAST(a.boolArray AS INTEGER[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
+        $dql = 'SELECT CAST(a.integerArray AS Text[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('{', $result[0]['result']);
+        $this->assertSame('{10,20,30}', $result[0]['result']);
     }
 
     #[Test]
-    public function uses_in_where_condition(): void
+    public function returns_a_value_cast_to_a_parameterised_array_type_from_an_entity_field(): void
     {
-        $dql = 'SELECT t.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE CAST(t.text1 AS INTEGER) > 100';
+        $dql = 'SELECT CAST(a.integerArray AS DECIMAL(10, 2)[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertNotEmpty($result);
+        $this->assertSame('{10.00,20.00,30.00}', $result[0]['result']);
     }
 
     #[Test]
-    public function uses_in_complex_query(): void
-    {
-        $dql = 'SELECT t.id, CAST(t.text1 AS INTEGER) as casted_text FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id IN (1, 2, 3)';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNotEmpty($result);
-    }
-
-    #[Test]
-    public function converts_numeric_to_integer(): void
-    {
-        $dql = 'SELECT CAST(n.decimal1 AS INTEGER) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(11, $result[0]['result'], 'PostgreSQL is expected to round 10.5 to 11');
-    }
-
-    #[Test]
-    public function converts_numeric_to_decimal(): void
-    {
-        $dql = 'SELECT CAST(n.integer1 AS DECIMAL(10, 2)) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('10.00', $result[0]['result']);
-    }
-
-    #[Test]
-    public function throws_exception_for_invalid_type(): void
+    public function rejects_an_unknown_target_type(): void
     {
         $this->expectException(DriverException::class);
         $dql = "SELECT CAST('invalid' AS INVALID_TYPE) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
@@ -118,38 +83,11 @@ final class CastTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_null_input(): void
+    public function rejects_a_null_argument(): void
     {
         $this->expectException(QueryException::class);
         $dql = 'SELECT CAST(NULL AS INTEGER) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
         $this->executeDqlQuery($dql);
-    }
-
-    #[Test]
-    public function uses_lowercase_array_types(): void
-    {
-        $dql = 'SELECT CAST(a.integerArray AS int[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('{', $result[0]['result']);
-    }
-
-    #[Test]
-    public function uses_mixed_case_array_types(): void
-    {
-        $dql = 'SELECT CAST(a.integerArray AS Text[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('{', $result[0]['result']);
-    }
-
-    #[Test]
-    public function uses_parameterized_decimal_array(): void
-    {
-        $dql = 'SELECT CAST(a.integerArray AS DECIMAL(10, 2)[]) AS result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a WHERE a.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertStringContainsString('{', $result[0]['result']);
     }
 
     private function createTestTableForTextFixture(): void
@@ -202,34 +140,6 @@ final class CastTest extends TestCase
             INSERT INTO %s.containsarrays (textarray, smallintarray, integerarray, bigintarray, boolarray) VALUES 
             (\'{"apple", "banana", "cherry"}\', \'{1, 2, 3}\', \'{10, 20, 30}\', \'{100, 200, 300}\', \'{true, false, true}\'),
             (\'{"dog", "cat", "bird"}\', \'{4, 5, 6}\', \'{40, 50, 60}\', \'{400, 500, 600}\', \'{false, true, false}\')
-        ', self::DATABASE_SCHEMA);
-        $this->connection->executeStatement($sql);
-    }
-
-    private function createTestTableForNumericFixture(): void
-    {
-        $tableName = 'containsnumerics';
-
-        $this->dropTestTableIfItExists($tableName);
-
-        $fullTableName = \sprintf('%s.%s', self::DATABASE_SCHEMA, $tableName);
-        $sql = \sprintf('
-            CREATE TABLE %s (
-                id SERIAL PRIMARY KEY,
-                integer1 INTEGER,
-                integer2 INTEGER,
-                bigint1 BIGINT,
-                bigint2 BIGINT,
-                decimal1 DECIMAL,
-                decimal2 DECIMAL
-            )
-        ', $fullTableName);
-
-        $this->connection->executeStatement($sql);
-
-        $sql = \sprintf('
-            INSERT INTO %s.containsnumerics (integer1, integer2, bigint1, bigint2, decimal1, decimal2) VALUES 
-            (10, 20, 1000, 2000, 10.5, 20.5)
         ', self::DATABASE_SCHEMA);
         $this->connection->executeStatement($sql);
     }

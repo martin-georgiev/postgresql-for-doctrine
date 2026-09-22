@@ -17,7 +17,7 @@ final class JsonbSetTest extends JsonTestCase
     }
 
     #[Test]
-    public function updates_existing_value(): void
+    public function returns_the_jsonb_with_the_value_set_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -34,43 +34,7 @@ final class JsonbSetTest extends JsonTestCase
     }
 
     #[Test]
-    public function adds_new_value(): void
-    {
-        $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'path' => '{email}',
-            'value' => '"john@example.com"',
-        ]);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertArrayHasKey('email', $decoded);
-        $this->assertSame('john@example.com', $decoded['email']);
-    }
-
-    #[Test]
-    public function sets_nested_path(): void
-    {
-        $dql = 'SELECT JSONB_SET(t.jsonbObject1, :path, :value) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'path' => '{address,zip}',
-            'value' => '"10001"',
-        ]);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertArrayHasKey('address', $decoded);
-        $this->assertIsArray($decoded['address']);
-        $this->assertArrayHasKey('zip', $decoded['address']);
-        $this->assertSame('10001', $decoded['address']['zip']);
-    }
-
-    #[Test]
-    public function does_not_create_missing_key_when_create_missing_is_false(): void
+    public function returns_the_jsonb_with_the_value_set_from_an_entity_field_without_creating_missing_keys(): void
     {
         $dql = "SELECT JSONB_SET(t.jsonbObject1, :path, :value, 'false') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ArrTest extends ArrayTestCase
@@ -14,28 +13,22 @@ final class ArrTest extends ArrayTestCase
     {
         return [
             'ARR' => Arr::class,
-            'CONTAINS' => Contains::class,
         ];
     }
 
     #[Test]
-    public function creates_array_from_values(): void
+    public function creates_an_array_from_text_literals(): void
     {
-        $dql = "SELECT t.id as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE CONTAINS(t.textArray, ARR('apple', 'banana')) = true 
-                AND t.id = 1";
+        $dql = "SELECT ARR('apple', 'banana') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(1, $result[0]['result']);
+        $this->assertSame('{apple,banana}', $result[0]['result']);
     }
 
     #[Test]
-    public function creates_single_element_array(): void
+    public function creates_an_array_from_an_entity_field(): void
     {
-        $dql = "SELECT t.id as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE CONTAINS(t.textArray, ARR('apple')) = true";
+        $dql = 'SELECT ARR(t.id) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertGreaterThan(0, \count($result));
+        $this->assertSame('{1}', $result[0]['result']);
     }
 }

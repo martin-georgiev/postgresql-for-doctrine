@@ -17,7 +17,7 @@ final class ClockTimestampTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_non_null_timestamp_string(): void
+    public function returns_the_clock_timestamp(): void
     {
         $dql = 'SELECT CLOCK_TIMESTAMP() as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

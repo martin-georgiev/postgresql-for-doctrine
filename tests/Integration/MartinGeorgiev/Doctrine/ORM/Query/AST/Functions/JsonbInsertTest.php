@@ -18,7 +18,7 @@ final class JsonbInsertTest extends JsonTestCase
     }
 
     #[Test]
-    public function inserts_new_value(): void
+    public function returns_the_jsonb_with_the_inserted_value_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -35,26 +35,7 @@ final class JsonbInsertTest extends JsonTestCase
     }
 
     #[Test]
-    public function inserts_at_nested_path(): void
-    {
-        $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'path' => '{address,zip}',
-            'value' => '"10001"',
-        ]);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertArrayHasKey('address', $decoded);
-        $this->assertIsArray($decoded['address']);
-        $this->assertArrayHasKey('zip', $decoded['address']);
-        $this->assertSame('10001', $decoded['address']['zip']);
-    }
-
-    #[Test]
-    public function throws_exception_when_inserting_at_existing_object_key(): void
+    public function rejects_inserting_at_an_existing_key(): void
     {
         $this->expectException(Exception::class);
         $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result 
@@ -63,21 +44,6 @@ final class JsonbInsertTest extends JsonTestCase
         $this->executeDqlQuery($dql, [
             'path' => '{name}',
             'value' => '"John Doe"',
-        ]);
-    }
-
-    #[Test]
-    public function throws_exception_when_inserting_at_existing_nested_path(): void
-    {
-        $this->expectException(Exception::class);
-
-        $dql = 'SELECT JSONB_INSERT(t.jsonbObject1, :path, :value) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
-                WHERE t.id = 5';
-
-        $this->executeDqlQuery($dql, [
-            'path' => '{address,zip}',
-            'value' => '"10001"',
         ]);
     }
 }

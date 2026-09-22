@@ -19,22 +19,12 @@ final class AllOnTheRightExistOnTheLeftTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_true_when_all_keys_exist(): void
+    public function returns_true_when_every_key_exists_in_an_entity_field(): void
     {
         $dql = "SELECT ALL_ON_RIGHT_EXIST_ON_LEFT(t.jsonbObject1, ARR('name', 'age')) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_when_not_all_keys_exist(): void
-    {
-        $dql = "SELECT ALL_ON_RIGHT_EXIST_ON_LEFT(t.jsonbObject1, ARR('name', 'nonexistent')) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
     }
 }

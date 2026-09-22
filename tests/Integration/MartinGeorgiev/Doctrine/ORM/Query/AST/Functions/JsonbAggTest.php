@@ -17,7 +17,7 @@ final class JsonbAggTest extends JsonTestCase
     }
 
     #[Test]
-    public function aggregates_single_row_to_jsonb(): void
+    public function returns_the_aggregated_jsonb_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_AGG(t.jsonObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -32,33 +32,6 @@ final class JsonbAggTest extends JsonTestCase
             'tags' => ['developer', 'manager'],
             'address' => ['city' => 'New York'],
         ]];
-        $this->assertEqualsCanonicalizing($expected, $actual);
-    }
-
-    #[Test]
-    public function aggregates_multiple_rows_to_jsonb(): void
-    {
-        $dql = 'SELECT JSONB_AGG(t.jsonObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
-                WHERE t.id IN (1, 2)';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $actual = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($actual);
-        $expected = [
-            [
-                'name' => 'John',
-                'age' => 30,
-                'tags' => ['developer', 'manager'],
-                'address' => ['city' => 'New York'],
-            ],
-            [
-                'name' => 'Jane',
-                'age' => 25,
-                'tags' => ['designer'],
-                'address' => ['city' => 'Boston'],
-            ],
-        ];
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
 }

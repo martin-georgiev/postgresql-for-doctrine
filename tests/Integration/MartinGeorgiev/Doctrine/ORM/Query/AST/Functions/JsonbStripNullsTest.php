@@ -17,17 +17,7 @@ final class JsonbStripNullsTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_strip_nulls(): void
-    {
-        $dql = 'SELECT JSONB_STRIP_NULLS(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-    }
-
-    #[Test]
-    public function jsonb_strip_nulls_with_null_values(): void
+    public function returns_the_jsonb_without_nulls_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_STRIP_NULLS(t.jsonbObject1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
@@ -39,7 +29,7 @@ final class JsonbStripNullsTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_strip_nulls_with_null_value_treatment_parameter(): void
+    public function returns_the_jsonb_without_nulls_from_an_entity_field_with_null_value_treatment(): void
     {
         $this->requirePostgresVersion(180000, 'null_value_treatment parameter for jsonb_strip_nulls');
 

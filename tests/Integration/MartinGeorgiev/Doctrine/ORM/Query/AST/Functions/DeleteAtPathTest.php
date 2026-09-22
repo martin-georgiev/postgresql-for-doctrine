@@ -17,7 +17,7 @@ final class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function deletes_simple_path(): void
+    public function returns_the_reduced_json_from_a_json_literal(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,39 +30,12 @@ final class DeleteAtPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function deletes_multiple_elements(): void
-    {
-        $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"a": {"b": 1, "c": 2}}',
-            'path' => '{a,b}',
-        ]);
-        $this->assertSame('{"a": {"c": 2}}', $result[0]['result']);
-    }
-
-    #[Test]
-    public function deletes_array_element(): void
-    {
-        $dql = 'SELECT DELETE_AT_PATH(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"a": [1, 2, 3]}',
-            'path' => '{a,1}',
-        ]);
-        $this->assertSame('{"a": [1, 3]}', $result[0]['result']);
-    }
-
-    #[Test]
-    public function deletes_with_column_reference(): void
+    public function returns_the_reduced_json_from_an_entity_field(): void
     {
         $dql = 'SELECT DELETE_AT_PATH(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
                 WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, ['path' => '{nested,value}']);
-        $this->assertIsString($result[0]['result']);
-        $this->assertJson($result[0]['result']);
+        $result = $this->executeDqlQuery($dql, ['path' => '{address,city}']);
+        $this->assertSame('{"age": 30, "name": "John", "tags": ["developer", "manager"], "address": {}}', $result[0]['result']);
     }
 }

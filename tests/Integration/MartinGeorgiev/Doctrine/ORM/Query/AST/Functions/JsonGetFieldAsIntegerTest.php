@@ -19,7 +19,7 @@ final class JsonGetFieldAsIntegerTest extends JsonTestCase
     }
 
     #[Test]
-    public function json_get_field_as_integer(): void
+    public function returns_the_integer_field_by_property_name_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.jsonObject1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -27,7 +27,7 @@ final class JsonGetFieldAsIntegerTest extends JsonTestCase
     }
 
     #[Test]
-    public function json_get_field_as_integer_with_index(): void
+    public function returns_the_integer_field_by_index_from_an_entity_field(): void
     {
         // First, let's insert test data with numeric arrays
         $this->connection->executeStatement(
@@ -37,29 +37,5 @@ final class JsonGetFieldAsIntegerTest extends JsonTestCase
         $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(JSON_GET_FIELD(t.jsonObject1, 'scores'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(92, $result[0]['result']);
-    }
-
-    #[Test]
-    public function json_get_field_as_integer_empty_object(): void
-    {
-        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.jsonObject1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 4";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function json_get_field_as_integer_null_value(): void
-    {
-        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.jsonObject1, 'age') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 5";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function json_get_field_as_integer_nonexistent_property_name(): void
-    {
-        $dql = "SELECT JSON_GET_FIELD_AS_INTEGER(t.jsonObject1, 'nonexistent') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
     }
 }

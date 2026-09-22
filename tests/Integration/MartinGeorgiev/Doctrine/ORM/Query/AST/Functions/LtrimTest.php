@@ -17,7 +17,7 @@ final class LtrimTest extends TextTestCase
     }
 
     #[Test]
-    public function trims_leading_spaces_from_literal(): void
+    public function returns_the_left_trimmed_text_from_a_text_literal(): void
     {
         $dql = "SELECT LTRIM('  hello') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ final class LtrimTest extends TextTestCase
     }
 
     #[Test]
-    public function trims_specified_leading_characters_from_text_field(): void
+    public function returns_the_left_trimmed_text_from_an_entity_field(): void
     {
         $dql = "SELECT LTRIM(t.text1, 'fobar') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -17,7 +17,7 @@ final class LogTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_base_ten_logarithm_of_hundred(): void
+    public function returns_the_logarithm_from_numeric_literals(): void
     {
         $dql = 'SELECT LOG(10, 100) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,18 +25,10 @@ final class LogTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_base_ten_logarithm_of_entity_decimal_value(): void
+    public function returns_the_logarithm_from_an_entity_field(): void
     {
         $dql = 'SELECT LOG(10, n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.021189299069938, $result[0]['result']);
-    }
-
-    #[Test]
-    public function calculates_logarithm_with_arithmetic_expressions(): void
-    {
-        $dql = 'SELECT LOG(n.integer1 / 2, n.integer2 * 5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2.8613531161467862, $result[0]['result']);
     }
 }

@@ -35,7 +35,6 @@ final class MakeTimestampTest extends DateMakingTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023-06-15 10:30:00', $result[0]['result']);
     }
 
@@ -47,7 +46,6 @@ final class MakeTimestampTest extends DateMakingTestCase
                 WHERE n.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023-10-20 10:30:00', $result[0]['result']);
     }
 }

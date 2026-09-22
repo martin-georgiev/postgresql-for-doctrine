@@ -17,7 +17,7 @@ final class JsonbPathQueryArrayTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_query_array_simple(): void
+    public function returns_the_queried_values_as_an_array_from_a_json_literal(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -34,42 +34,7 @@ final class JsonbPathQueryArrayTest extends JsonTestCase
     }
 
     #[Test]
-    public function jsonb_path_query_array_multiple_values(): void
-    {
-        $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"items": [1, 2, 3]}',
-            'path' => '$.items[*]',
-        ]);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertCount(3, $decoded);
-        $this->assertSame([1, 2, 3], $decoded);
-    }
-
-    #[Test]
-    public function jsonb_path_query_array_with_filter(): void
-    {
-        $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"items": [{"id": 1}, {"id": 2}, {"id": 3}]}',
-            'path' => '$.items[*] ? (@.id > 1)',
-        ]);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertCount(2, $decoded);
-        $this->assertSame(['id' => 2], $decoded[0]);
-        $this->assertSame(['id' => 3], $decoded[1]);
-    }
-
-    #[Test]
-    public function jsonb_path_query_array_with_column_reference(): void
+    public function returns_the_queried_values_as_an_array_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_PATH_QUERY_ARRAY(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

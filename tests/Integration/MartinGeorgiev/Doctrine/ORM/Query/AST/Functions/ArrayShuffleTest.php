@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -12,49 +13,26 @@ final class ArrayShuffleTest extends ArrayTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ARR' => Arr::class,
             'ARRAY_SHUFFLE' => ArrayShuffle::class,
         ];
     }
 
     #[Test]
-    public function shuffles_text_array(): void
+    public function returns_the_shuffled_array_from_an_array_literal(): void
     {
-        $dql = 'SELECT ARRAY_SHUFFLE(t.textArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-
+        $dql = "SELECT ARRAY_SHUFFLE(ARR('apple', 'banana')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        \assert(\is_countable($actual));
-        $this->assertCount(3, $actual);
+        $this->assertEqualsCanonicalizing(['apple', 'banana'], $actual);
+    }
+
+    #[Test]
+    public function returns_the_shuffled_array_from_an_entity_field(): void
+    {
+        $dql = 'SELECT ARRAY_SHUFFLE(t.textArray) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertEqualsCanonicalizing(['apple', 'banana', 'orange'], $actual);
-    }
-
-    #[Test]
-    public function shuffles_integer_array(): void
-    {
-        $dql = 'SELECT ARRAY_SHUFFLE(t.integerArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['result']);
-        \assert(\is_countable($actual));
-        $this->assertCount(3, $actual);
-        $this->assertEqualsCanonicalizing([1, 2, 3], $actual);
-    }
-
-    #[Test]
-    public function shuffles_boolean_array(): void
-    {
-        $dql = 'SELECT ARRAY_SHUFFLE(t.boolArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $actual = $this->transformPostgresArray($result[0]['result']);
-        \assert(\is_countable($actual));
-        $this->assertCount(3, $actual);
-        $this->assertEqualsCanonicalizing([true, false, true], $actual);
     }
 }

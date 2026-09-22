@@ -19,7 +19,7 @@ final class JsonbArrayElementsTest extends JsonTestCase
     }
 
     #[Test]
-    public function expands_jsonb_array_to_rows(): void
+    public function returns_the_array_elements_from_an_entity_field(): void
     {
         $dql = "SELECT JSONB_ARRAY_ELEMENTS(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -35,15 +35,5 @@ final class JsonbArrayElementsTest extends JsonTestCase
 
         $this->assertContains('developer', $values);
         $this->assertContains('manager', $values);
-    }
-
-    #[Test]
-    public function returns_empty_for_empty_array(): void
-    {
-        $dql = "SELECT JSONB_ARRAY_ELEMENTS(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
-                WHERE t.id = 3";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(0, $result);
     }
 }

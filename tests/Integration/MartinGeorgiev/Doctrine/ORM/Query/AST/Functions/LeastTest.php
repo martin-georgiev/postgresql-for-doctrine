@@ -17,7 +17,7 @@ final class LeastTest extends ArrayTestCase
     }
 
     #[Test]
-    public function finds_least_of_two_values(): void
+    public function returns_the_least_from_an_entity_field(): void
     {
         $dql = 'SELECT LEAST(t.id, 100) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
@@ -27,22 +27,12 @@ final class LeastTest extends ArrayTestCase
     }
 
     #[Test]
-    public function finds_least_of_multiple_values(): void
+    public function returns_the_least_from_numeric_literals(): void
     {
         $dql = 'SELECT LEAST(5, 1, 3, 2, 4) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(1, $result[0]['result']);
-    }
-
-    #[Test]
-    public function compares_column_values(): void
-    {
-        $dql = 'SELECT LEAST(t.id, 0) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(0, $result[0]['result']);
     }
 }

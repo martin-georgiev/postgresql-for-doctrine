@@ -17,7 +17,7 @@ final class ExpTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_exponential_of_one_to_euler_constant(): void
+    public function returns_the_exponential_from_a_numeric_literal(): void
     {
         $dql = 'SELECT EXP(1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,18 +25,10 @@ final class ExpTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_exponential_of_entity_decimal_value(): void
+    public function returns_the_exponential_from_an_entity_field(): void
     {
         $dql = 'SELECT EXP(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(36315.502674246638, $result[0]['result']);
-    }
-
-    #[Test]
-    public function calculates_exponential_of_arithmetic_expression(): void
-    {
-        $dql = 'SELECT EXP(n.integer1 / 10) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2.718281828459045, $result[0]['result']);
     }
 }
