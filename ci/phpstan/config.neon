@@ -24,6 +24,18 @@ services:
                 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\': ['since', 'author']
                 'MartinGeorgiev\Utils\Exception\': ['since', 'author']
     -
+        class: MartinGeorgiev\PHPStan\DataProviderDatasetKeyRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\DataProviderNamingRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\DataProviderReturnTypeRule
+        tags:
+            - phpstan.rules.rule
+    -
         class: MartinGeorgiev\PHPStan\ValueObjectImmutabilityRule
         tags:
             - phpstan.rules.rule

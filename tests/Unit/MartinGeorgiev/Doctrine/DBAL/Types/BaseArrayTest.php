@@ -54,7 +54,7 @@ final class BaseArrayTest extends TestCase
     }
 
     /**
-     * @return list<array{
+     * @return array<string, array{
      *     phpValue: array|null,
      *     postgresValue: string|null
      * }>
@@ -62,15 +62,15 @@ final class BaseArrayTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            [
+            'null' => [
                 'phpValue' => null,
                 'postgresValue' => null,
             ],
-            [
+            'empty array' => [
                 'phpValue' => [],
                 'postgresValue' => '{}',
             ],
-            [
+            'integers' => [
                 'phpValue' => [681, 1185, 1878, 1989],
                 'postgresValue' => '{681,1185,1878,1989}',
             ],
