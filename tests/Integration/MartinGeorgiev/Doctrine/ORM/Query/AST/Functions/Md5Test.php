@@ -24,7 +24,6 @@ final class Md5Test extends TextTestCase
                 WHERE t.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame(\md5('Hello Doctrine'), $result[0]['result']);
     }
 
@@ -36,7 +35,6 @@ final class Md5Test extends TextTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame(\md5('this is a test string'), $result[0]['result']);
     }
 }

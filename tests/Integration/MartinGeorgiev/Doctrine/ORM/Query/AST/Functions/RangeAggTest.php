@@ -21,7 +21,6 @@ final class RangeAggTest extends RangeTestCase
     {
         $dql = 'SELECT RANGE_AGG(t.int4Range) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsRanges t';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('{[1,15)}', $result[0]['result']);
     }
 }

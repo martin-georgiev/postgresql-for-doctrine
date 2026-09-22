@@ -35,7 +35,6 @@ final class FormatTest extends TextTestCase
                 WHERE t.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('foo - bar', $result[0]['result']);
     }
 }

@@ -24,7 +24,6 @@ final class JsonbTypeofTest extends JsonTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('object', $result[0]['result']);
     }
 }

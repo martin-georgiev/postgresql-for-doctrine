@@ -27,13 +27,8 @@ final class GenerateTimeSeriesTest extends DateTestCase
 
         $this->assertCount(3, $result);
 
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023-06-15 10:30:00', $result[0]['result']);
-
-        $this->assertIsString($result[1]['result']);
         $this->assertSame('2023-06-15 22:30:00', $result[1]['result']);
-
-        $this->assertIsString($result[2]['result']);
         $this->assertSame('2023-06-16 10:30:00', $result[2]['result']);
     }
 
@@ -48,13 +43,8 @@ final class GenerateTimeSeriesTest extends DateTestCase
 
         $this->assertCount(3, $result);
 
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('2023-06-15 10:30:00+00', $result[0]['result']);
-
-        $this->assertIsString($result[1]['result']);
         $this->assertSame('2023-06-15 22:30:00+00', $result[1]['result']);
-
-        $this->assertIsString($result[2]['result']);
         $this->assertSame('2023-06-16 10:30:00+00', $result[2]['result']);
     }
 }

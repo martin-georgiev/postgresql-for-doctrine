@@ -24,7 +24,6 @@ final class RightTest extends TextTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('string', $result[0]['result']);
     }
 
