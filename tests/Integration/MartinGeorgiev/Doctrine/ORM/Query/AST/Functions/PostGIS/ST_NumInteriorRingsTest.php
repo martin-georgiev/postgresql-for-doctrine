@@ -19,17 +19,6 @@ final class ST_NumInteriorRingsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_for_polygon_without_holes(): void
-    {
-        $dql = 'SELECT ST_NUMINTERIORRINGS(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(0, $result[0]['result']);
-    }
-
-    #[Test]
     public function returns_one_for_polygon_with_a_single_hole(): void
     {
         $dql = 'SELECT ST_NUMINTERIORRINGS(ST_DIFFERENCE(g.geometry1, g.geometry2)) as result

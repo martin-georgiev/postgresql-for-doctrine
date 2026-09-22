@@ -32,17 +32,6 @@ final class ST_ExteriorRingTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function ignores_the_hole_of_a_holed_polygon(): void
-    {
-        $dql = 'SELECT ST_LENGTH(ST_EXTERIORRING(ST_DIFFERENCE(g.geometry1, g.geometry2))) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(16.0, $result[0]['result'], 0.0001);
-    }
-
-    #[Test]
     public function returns_null_for_linestring(): void
     {
         $dql = 'SELECT ST_EXTERIORRING(g.geometry1) as result

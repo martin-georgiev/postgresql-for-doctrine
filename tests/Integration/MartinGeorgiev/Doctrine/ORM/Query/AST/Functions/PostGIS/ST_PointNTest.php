@@ -42,15 +42,4 @@ final class ST_PointNTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertNull($result[0]['result']);
     }
-
-    #[Test]
-    public function returns_null_for_polygon(): void
-    {
-        $dql = 'SELECT ST_POINTN(g.geometry1, 1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
 }

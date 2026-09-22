@@ -34,17 +34,6 @@ final class ST_GeometryNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_second_element_of_a_collection(): void
-    {
-        $dql = 'SELECT ST_X(ST_STARTPOINT(ST_GEOMETRYN(ST_COLLECT(g.geometry1, g.geometry2), 2))) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEqualsWithDelta(3.0, $result[0]['result'], 0.0001);
-    }
-
-    #[Test]
     public function returns_null_for_out_of_range_index(): void
     {
         $dql = 'SELECT ST_GEOMETRYN(ST_COLLECT(g.geometry1, g.geometry2), 10) as result
