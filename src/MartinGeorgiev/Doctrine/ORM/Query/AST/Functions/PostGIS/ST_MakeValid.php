@@ -9,9 +9,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
 /**
  * Implementation of PostGIS ST_MakeValid().
  *
- * Returns a valid geometry representing the same points as the input, repairing self-intersections and other
- * defects instead of erroring on them. The optional params argument selects the repair algorithm, e.g.
- * "method=linework" or "method=structure".
+ * Returns a valid geometry representing the same points as the input, repairing self-intersections and other defects instead of erroring on them.
+ * The optional params argument selects the repair algorithm, e.g. "method=linework" or "method=structure".
  *
  * @see https://postgis.net/docs/ST_MakeValid.html
  * @since 4.9
