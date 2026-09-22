@@ -8,52 +8,23 @@ type: always_apply
 
 # DBAL Value Object Conventions
 
-Value Objects under `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/` — the PHP representation of composite PostgreSQL types (geometric, ranges, intervals, ltree, …). DBAL type classes consume them via `transformArrayItemForPHP()` / `convertToPHPValue()`.
+The PHP representation of composite PostgreSQL types — geometric, ranges, intervals, ltree. DBAL types consume them through `transformArrayItemForPHP()` and `convertToPHPValue()`.
 
 See `exceptions.md` for VO-specific exceptions (`Types/ValueObject/Exceptions/` namespace).
 
 ## Immutability
 
-**Required**: VOs are immutable. Use one of:
+`composer run-static-analysis` holds a **concrete** VO final — or `@phpstan-consistent-constructor` when deliberately open for extension — with private readonly properties. An abstract base owes the readonly, never the final. Setters need no separate ban: writing to a readonly property outside the constructor is already an error.
 
-- `final readonly class Foo` — preferred for value-only VOs with no inheritance (`Box`, `Circle`, `Point`).
-- `final class Foo` with `private readonly` properties — for VOs that extend an abstract base (`DateRange extends Range`, `Box extends BaseGeometricValue`).
+Which of the three shapes fits is yours to pick:
+
+- `final readonly class Foo` — a VO with no parent (`Cube`, `Sparsevec`, `WktSpatialData`).
+- `final class Foo` with `private readonly` properties — for VOs extending an abstract base that is not itself readonly (`DateRange extends Range`).
 - `class Foo implements \Stringable` with `private readonly` properties — only when the VO is **designed to be extended** via `static` returns; mark with `@phpstan-consistent-constructor` (see `Ltree`).
-
-```php
-// ✓ Correct — final readonly, promoted constructor properties
-final readonly class Box extends BaseGeometricValue
-{
-    public function __construct(
-        private Point $upperRight,
-        private Point $lowerLeft,
-    ) {}
-}
-
-// ✓ Correct — extendable base with @phpstan-consistent-constructor
-/**
- * @phpstan-consistent-constructor
- */
-class Ltree implements \Stringable, \JsonSerializable
-{
-    public function __construct(
-        private readonly array $pathFromRoot,
-    ) {
-        self::assertListOfValidLtreeNodes($pathFromRoot);
-    }
-}
-
-// ❌ Wrong — mutable VO with public setters
-final class Box
-{
-    public Point $upperRight;
-    public function setUpperRight(Point $p): void { $this->upperRight = $p; }
-}
-```
 
 ## Class-Level PHPDoc
 
-The description names the PostgreSQL type the VO represents and, where the string form is not obvious, shows it — `Format: (x1,y1),(x2,y2) — upper-right and lower-left corners.` for `Box`. Point `@see` at the anchor for that specific type, not the page it sits on: `datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES`, not `datatype-geometric.html`.
+Name the PostgreSQL type and, where the string form is not obvious, show it — `Format: (x1,y1),(x2,y2)` for `Box`. Point `@see` at that type's anchor, not the page it sits on: `datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES`.
 
 When the class is generic (extends a `@template` base), add `@extends` on the class block:
 
@@ -71,6 +42,8 @@ final class DateRange extends Range
 ```
 
 ## Required Methods
+
+`__toString()` and a public static `fromString()` are kept present on every concrete VO by `composer run-static-analysis` — inheriting them from an abstract base counts, as the range VOs do. What they must **mean** is yours to get right:
 
 | Method | Required | Purpose |
 |--------|----------|---------|
@@ -106,11 +79,9 @@ final readonly class Box extends BaseGeometricValue
 
 ## Validation and Exceptions
 
-**Required**: VO-specific exceptions live in `src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Exceptions/`. Naming: `Invalid{VOName}Exception`. Pattern: `final class`, with `for*`-named static factories. The parent is set by `ParentByNamespaceRector`; the reason it matters is in `ci/rector/config.php`.
+VO exceptions live in `ValueObject/Exceptions/` as a `final class` with `for*`-named static factories. The name and the parent are both settled by tooling. Message building follows `exceptions.md` § Message Formatting.
 
-Message building follows `exceptions.md` § Message Formatting.
-
-Keep the class PHPDoc description to one line. Do not explain the parent or that these are not DBAL conversion exceptions — the namespace says it, and `exceptions.md` exempts this family from the parent-deviation PHPDoc requirement.
+Keep the class PHPDoc to one line; do not explain the parent — `ci/rector/config.php` says why it matters.
 
 ```php
 // ✓ Correct — throw VO-specific exception with for*-named factory

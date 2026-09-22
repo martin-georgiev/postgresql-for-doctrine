@@ -11,8 +11,6 @@ includes:
 
 services:
     -
-        # The class-level docblock each namespace owes. Longest matching prefix wins, so the
-        # exception sub-namespaces owe only @since and @author while their parents owe the full shape.
         class: MartinGeorgiev\PHPStan\ClassDocBlockRule
         tags:
             - phpstan.rules.rule
@@ -25,6 +23,18 @@ services:
                 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\': ['description', 'see', 'since', 'author', 'implementationFirstLine']
                 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\': ['since', 'author']
                 'MartinGeorgiev\Utils\Exception\': ['since', 'author']
+    -
+        class: MartinGeorgiev\PHPStan\ValueObjectImmutabilityRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\ValueObjectRequiredMethodsRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: MartinGeorgiev\PHPStan\ValueObjectExceptionNamingRule
+        tags:
+            - phpstan.rules.rule
     -
         class: MartinGeorgiev\PHPStan\VariadicFunctionBooleanArgumentNodeMappingRule
         tags:
