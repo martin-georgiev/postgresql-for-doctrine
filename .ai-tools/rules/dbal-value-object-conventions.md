@@ -14,11 +14,11 @@ See `exceptions.md` for VO-specific exceptions (`Types/ValueObject/Exceptions/` 
 
 ## Immutability
 
-`composer run-static-analysis` holds a VO final — or `@phpstan-consistent-constructor` when it is deliberately open for extension — with private readonly properties, and keeps an abstract base's state readonly too. Setters need no separate ban: writing to a readonly property outside the constructor is already an error.
+`composer run-static-analysis` holds a **concrete** VO final — or `@phpstan-consistent-constructor` when deliberately open for extension — with private readonly properties. An abstract base owes the readonly, never the final. Setters need no separate ban: writing to a readonly property outside the constructor is already an error.
 
-What it cannot pick for you is which of the three shapes fits:
+Which of the three shapes fits is yours to pick:
 
-- `final readonly class Foo` — preferred for value-only VOs with no inheritance (`Box`, `Circle`, `Point`).
+- `final readonly class Foo` — a VO with no parent (`Cube`, `Sparsevec`, `WktSpatialData`).
 - `final class Foo` with `private readonly` properties — for VOs extending an abstract base that is not itself readonly (`DateRange extends Range`).
 - `class Foo implements \Stringable` with `private readonly` properties — only when the VO is **designed to be extended** via `static` returns; mark with `@phpstan-consistent-constructor` (see `Ltree`).
 
