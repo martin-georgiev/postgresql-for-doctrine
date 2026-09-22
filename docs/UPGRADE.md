@@ -2,27 +2,19 @@
 
 ## How to Upgrade to Version 4.9
 
-Value object exceptions moved into their own family and share one parent. Released as a minor: these are internal construction details of the value objects, never part of the documented surface, so no code outside the library is expected to reference them.
+This release corrects the exceptions in two places. The value object ones are internal construction details, never part of the documented surface; the `Invalid{Type}For{PHP|Database}Exception` family is. Both ship as a minor — this library treats exception changes as backwards compatible.
 
 | Was | Now |
 |---|---|
-| range value objects threw `Types\Exceptions\InvalidRangeForPHPException`, a `ConversionException` | `Types\ValueObject\Exceptions\InvalidRangeException`, an `\InvalidArgumentException` — catch either |
+| range value objects threw `Types\Exceptions\InvalidRangeForPHPException`, a `ConversionException`, with `::forInvalidNumericBound()`, `::forInvalidIntegerBound()`, `::forInvalidDateTimeBound()` and `::forUnsupportedBoundedInfinity()` | `Types\ValueObject\Exceptions\InvalidRangeException`, an `\InvalidArgumentException` — catch either; the factories are removed there and keep their names here |
 | `InvalidCubeException extends ConversionException` | `extends \InvalidArgumentException` |
-| `InvalidPointException::forInvalidPointFormat()` | `::forInvalidFormat()` |
-| `InvalidWktSpatialDataException::forInvalidWktFormat()` | `::forInvalidFormat()` |
-| `InvalidRangeForPHPException::forInvalidNumericBound()`, `::forInvalidIntegerBound()`, `::forInvalidDateTimeBound()`, `::forUnsupportedBoundedInfinity()` | removed there, same names on `InvalidRangeException` |
+| `InvalidPointException::forInvalidPointFormat()`, `InvalidWktSpatialDataException::forInvalidWktFormat()` | both `::forInvalidFormat()` |
 | range and multirange value objects threw a bare `\InvalidArgumentException` | `InvalidRangeException`, `InvalidMultirangeException` |
 | their messages named the bound (`Lower bound must be ...`) and typed it with `gettype()` | one wording per reason, offending value shown verbatim |
 | `Sparsevec::fromString()` threw `Types\Exceptions\InvalidSparsevecForPHPException` | `InvalidSparsevecException`; the `sparsevec` type still surfaces the former |
+| `box`, `circle`, `line`, `lseg`, `path`, `point`, `polygon`, `tsquery` and `tsvector` threw `Invalid{Type}ForPHPException` on write and `Invalid{Type}ForDatabaseException` on read | the two families swap, matching every other type |
 
-Catching through the DBAL types is unaffected — those translate value object failures as before.
-
-The `box`, `circle`, `line`, `lseg`, `path`, `point`, `polygon`, `tsquery` and `tsvector` types named their two exception families the wrong way round, against every other type in the library. Each failure keeps its message; only the class carrying it changes.
-
-| Was | Now |
-|---|---|
-| writing one of those nine threw `Invalid{Type}ForPHPException` | `Invalid{Type}ForDatabaseException`, as `convertToDatabaseValue` does everywhere else |
-| reading one of those nine threw `Invalid{Type}ForDatabaseException` | `Invalid{Type}ForPHPException`, as `convertToPHPValue` does everywhere else |
+Only those nine change what the DBAL types throw — same messages, different class; every other type translates value object failures as before.
 
 ## How to Upgrade to Version 3.0
 
