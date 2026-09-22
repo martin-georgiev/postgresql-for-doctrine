@@ -108,7 +108,6 @@ abstract class BaseDateTimeArrayTestCase extends TestCase
         $carriesADateTime = \is_array($expected)
             && \array_filter($expected, static fn (mixed $item): bool => $item instanceof \DateTimeInterface) !== [];
 
-        // A DateTimeImmutable is equal by value but never identical, so only rows without one can be identified.
         if ($carriesADateTime) {
             $this->assertEquals($expected, $actual);
 
