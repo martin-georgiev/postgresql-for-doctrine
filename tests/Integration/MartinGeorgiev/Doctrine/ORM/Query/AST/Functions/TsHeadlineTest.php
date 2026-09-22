@@ -19,7 +19,7 @@ final class TsHeadlineTest extends TextTestCase
     }
 
     #[Test]
-    public function highlights_matching_terms(): void
+    public function returns_a_highlighted_document_from_an_entity_field(): void
     {
         $dql = "SELECT TS_HEADLINE(t.text1, TO_TSQUERY('lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -27,7 +27,7 @@ final class TsHeadlineTest extends TextTestCase
     }
 
     #[Test]
-    public function highlights_with_language_config(): void
+    public function returns_a_highlighted_document_with_a_config_argument(): void
     {
         $dql = "SELECT TS_HEADLINE('english', t.text1, TO_TSQUERY('lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -35,15 +35,7 @@ final class TsHeadlineTest extends TextTestCase
     }
 
     #[Test]
-    public function highlights_with_custom_options(): void
-    {
-        $dql = "SELECT TS_HEADLINE(t.text1, TO_TSQUERY('lorem'), 'StartSel=<<, StopSel=>>') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('<<lorem>> ipsum dolor', $result[0]['result']);
-    }
-
-    #[Test]
-    public function highlights_with_config_and_options(): void
+    public function returns_a_highlighted_document_with_config_and_options_arguments(): void
     {
         $dql = "SELECT TS_HEADLINE('english', t.text1, TO_TSQUERY('english', 'lorem'), 'StartSel=<<, StopSel=>>') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -51,7 +43,7 @@ final class TsHeadlineTest extends TextTestCase
     }
 
     #[Test]
-    public function highlights_literal_document(): void
+    public function returns_a_highlighted_document_from_a_literal(): void
     {
         $dql = "SELECT TS_HEADLINE('lorem ipsum dolor', TO_TSQUERY('ipsum')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

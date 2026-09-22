@@ -17,7 +17,7 @@ final class RadiansTest extends NumericTestCase
     }
 
     #[Test]
-    public function converts_degrees_to_radians(): void
+    public function converts_degrees_to_radians_from_a_literal(): void
     {
         $dql = 'SELECT RADIANS(180) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class RadiansTest extends NumericTestCase
     }
 
     #[Test]
-    public function converts_decimal_entity_property_to_radians(): void
+    public function converts_degrees_to_radians_from_an_entity_field(): void
     {
         $dql = 'SELECT RADIANS(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -33,7 +33,7 @@ final class RadiansTest extends NumericTestCase
     }
 
     #[Test]
-    public function converts_arithmetic_expression_to_radians(): void
+    public function converts_degrees_to_radians_from_an_arithmetic_expression(): void
     {
         $dql = 'SELECT RADIANS(n.integer1 * 18) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

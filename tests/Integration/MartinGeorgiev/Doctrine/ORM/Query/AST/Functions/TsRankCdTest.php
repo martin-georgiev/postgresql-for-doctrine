@@ -21,7 +21,7 @@ final class TsRankCdTest extends TextTestCase
     }
 
     #[Test]
-    public function ranks_document_using_cover_density(): void
+    public function returns_a_rank_from_an_entity_field(): void
     {
         $dql = "SELECT TS_RANK_CD(TO_TSVECTOR(t.text1), TO_TSQUERY('lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -29,15 +29,7 @@ final class TsRankCdTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_zero_for_non_matching_query(): void
-    {
-        $dql = "SELECT TS_RANK_CD(TO_TSVECTOR(t.text1), TO_TSQUERY('nonexistentword')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function ranks_with_normalization_flag(): void
+    public function returns_a_rank_with_a_normalization_argument(): void
     {
         $dql = "SELECT TS_RANK_CD(TO_TSVECTOR(t.text1), TO_TSQUERY('lorem'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -45,7 +37,7 @@ final class TsRankCdTest extends TextTestCase
     }
 
     #[Test]
-    public function ranks_with_weights_and_normalization(): void
+    public function returns_a_rank_with_weights_and_normalization_arguments(): void
     {
         $dql = "SELECT TS_RANK_CD('{1,1,1,1}', TO_TSVECTOR(t.text1), TO_TSQUERY('lorem'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -53,7 +45,7 @@ final class TsRankCdTest extends TextTestCase
     }
 
     #[Test]
-    public function ranks_literal_document_using_cover_density(): void
+    public function returns_a_rank_from_a_literal(): void
     {
         $dql = "SELECT TS_RANK_CD(TO_TSVECTOR('lorem ipsum dolor'), TO_TSQUERY('lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

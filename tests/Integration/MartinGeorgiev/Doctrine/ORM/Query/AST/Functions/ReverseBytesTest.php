@@ -25,7 +25,7 @@ final class ReverseBytesTest extends TextTestCase
     }
 
     #[Test]
-    public function reverses_a_bytea(): void
+    public function returns_the_reversed_bytes_from_a_literal(): void
     {
         $dql = "SELECT REVERSE_BYTES('\\x1234') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

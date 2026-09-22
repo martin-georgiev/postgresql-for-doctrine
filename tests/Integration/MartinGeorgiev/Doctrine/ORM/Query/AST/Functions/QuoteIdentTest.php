@@ -17,7 +17,7 @@ final class QuoteIdentTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_quoted_sql_identifier_from_literal(): void
+    public function returns_the_quoted_identifier_from_a_literal(): void
     {
         $dql = "SELECT QUOTE_IDENT('Hello World') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ final class QuoteIdentTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_quoted_sql_identifier_from_text_field(): void
+    public function returns_the_quoted_identifier_from_an_entity_field(): void
     {
         $dql = 'SELECT QUOTE_IDENT(t.text1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

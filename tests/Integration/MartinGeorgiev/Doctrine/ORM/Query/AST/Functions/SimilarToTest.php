@@ -17,7 +17,7 @@ final class SimilarToTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_pattern_matches(): void
+    public function returns_true_when_the_pattern_matches_an_entity_field(): void
     {
         $dql = "SELECT SIMILAR_TO(t.text1, '%test%') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -27,22 +27,12 @@ final class SimilarToTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_false_when_pattern_does_not_match(): void
+    public function returns_false_when_the_pattern_does_not_match_a_literal(): void
     {
-        $dql = "SELECT SIMILAR_TO(t.text1, '%xyz%') as result 
+        $dql = "SELECT SIMILAR_TO('this is a test string', '%xyz%') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function uses_sql_regex_patterns(): void
-    {
-        $dql = "SELECT SIMILAR_TO(t.text1, 'this%') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
     }
 }

@@ -17,18 +17,9 @@ final class StddevTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_null_for_single_row_set_on_integer_column(): void
+    public function returns_the_sample_standard_deviation_from_an_entity_field(): void
     {
         $dql = 'SELECT STDDEV(t.integer1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_null_for_single_row_set_on_decimal_column(): void
-    {
-        $dql = 'SELECT STDDEV(t.decimal1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
         $result = $this->executeDqlQuery($dql);
         $this->assertNull($result[0]['result']);

@@ -21,7 +21,7 @@ final class MakeTimeTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function creates_time_from_components(): void
+    public function creates_a_time_from_literals(): void
     {
         $dql = "SELECT MAKE_TIME(
                     CAST(DATE_PART('hour', t.datetime1) AS INTEGER),
@@ -37,7 +37,7 @@ final class MakeTimeTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function creates_time_from_entity_fields(): void
+    public function creates_a_time_from_entity_fields(): void
     {
         $dql = 'SELECT MAKE_TIME(n.integer1, n.integer2, 0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n

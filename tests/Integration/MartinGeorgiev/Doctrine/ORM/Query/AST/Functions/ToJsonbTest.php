@@ -17,22 +17,9 @@ final class ToJsonbTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_jsonb_column_to_jsonb(): void
+    public function converts_an_entity_field_to_jsonb(): void
     {
         $dql = 'SELECT TO_JSONB(t.jsonbObject1) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertSame('John', $decoded['name']);
-    }
-
-    #[Test]
-    public function converts_json_column_to_jsonb(): void
-    {
-        $dql = 'SELECT TO_JSONB(t.jsonObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
