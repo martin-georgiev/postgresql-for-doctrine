@@ -107,6 +107,8 @@ final class LsegArrayTest extends TestCase
                     'invalid',
                 ],
             ],
+            'array containing a boolean' => [[true]],
+            'array containing a plain object' => [[new \stdClass()]],
         ];
     }
 
@@ -125,6 +127,9 @@ final class LsegArrayTest extends TestCase
     {
         return [
             'string instead of array' => ['string value'],
+            'integer instead of array' => [123],
+            'object instead of array' => [new \stdClass()],
+            'boolean instead of array' => [true],
         ];
     }
 
@@ -182,61 +187,11 @@ final class LsegArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueTypes')]
-    #[Test]
-    public function throws_exception_for_non_string_inputs_to_database_conversion(mixed $value): void
-    {
-        $this->expectException(InvalidLsegArrayItemForPHPException::class);
-        $this->fixture->convertToDatabaseValue($value, $this->platform); // @phpstan-ignore-line
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidPHPValueTypes(): array
-    {
-        return [
-            'integer' => [123],
-            'object' => [new \stdClass()],
-            'boolean' => [true],
-        ];
-    }
-
     #[Test]
     public function throws_exception_when_invalid_lseg_format_provided(): void
     {
         $this->expectException(InvalidLsegArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP('(invalid,lseg)');
-    }
-
-    #[Test]
-    public function throws_exception_for_malformed_lseg_strings_in_database(): void
-    {
-        $this->expectException(InvalidLsegArrayItemForPHPException::class);
-        $this->fixture->convertToPHPValue('{"(invalid,lseg)"}', $this->platform);
-    }
-
-    #[DataProvider('provideInvalidLsegArrayItems')]
-    #[Test]
-    public function throws_exception_for_invalid_lseg_array_items(array $invalidArray): void
-    {
-        $this->expectException(InvalidLsegArrayItemForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{array}>
-     */
-    public static function provideInvalidLsegArrayItems(): array
-    {
-        return [
-            'integer item' => [[123]],
-            'string item' => [['not-a-lseg']],
-            'boolean item' => [[true]],
-            'object item' => [[new \stdClass()]],
-            'mixed invalid items' => [[123, 'not-a-lseg', true]],
-        ];
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

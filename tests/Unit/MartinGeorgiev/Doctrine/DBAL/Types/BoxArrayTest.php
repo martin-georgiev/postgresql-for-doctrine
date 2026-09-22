@@ -107,6 +107,8 @@ final class BoxArrayTest extends TestCase
                     'invalid',
                 ],
             ],
+            'array containing a boolean' => [[true]],
+            'array containing a plain object' => [[new \stdClass()]],
         ];
     }
 
@@ -125,6 +127,9 @@ final class BoxArrayTest extends TestCase
     {
         return [
             'string instead of array' => ['string value'],
+            'integer instead of array' => [123],
+            'object instead of array' => [new \stdClass()],
+            'boolean instead of array' => [true],
         ];
     }
 
@@ -168,61 +173,11 @@ final class BoxArrayTest extends TestCase
         $this->assertSame([], $result);
     }
 
-    #[DataProvider('provideInvalidPHPValueTypes')]
-    #[Test]
-    public function throws_exception_for_non_string_inputs_to_database_conversion(mixed $value): void
-    {
-        $this->expectException(InvalidBoxArrayItemForPHPException::class);
-        $this->fixture->convertToDatabaseValue($value, $this->platform); // @phpstan-ignore-line
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidPHPValueTypes(): array
-    {
-        return [
-            'integer' => [123],
-            'object' => [new \stdClass()],
-            'boolean' => [true],
-        ];
-    }
-
     #[Test]
     public function throws_exception_when_invalid_box_format_provided(): void
     {
         $this->expectException(InvalidBoxArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP('(invalid,box)');
-    }
-
-    #[Test]
-    public function throws_exception_for_malformed_box_strings_in_database(): void
-    {
-        $this->expectException(InvalidBoxArrayItemForPHPException::class);
-        $this->fixture->convertToPHPValue('{(invalid,box)}', $this->platform);
-    }
-
-    #[DataProvider('provideInvalidBoxArrayItems')]
-    #[Test]
-    public function throws_exception_for_invalid_box_array_items(array $invalidArray): void
-    {
-        $this->expectException(InvalidBoxArrayItemForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{array}>
-     */
-    public static function provideInvalidBoxArrayItems(): array
-    {
-        return [
-            'integer item' => [[123]],
-            'string item' => [['not-a-box']],
-            'boolean item' => [[true]],
-            'object item' => [[new \stdClass()]],
-            'mixed invalid items' => [[123, 'not-a-box', true]],
-        ];
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

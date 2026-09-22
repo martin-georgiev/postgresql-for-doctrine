@@ -205,14 +205,6 @@ final class EnumArrayTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_malformed_enum_strings_in_database(): void
-    {
-        $this->expectException(InvalidEnumArrayItemForPHPException::class);
-
-        $this->fixture->convertToPHPValue('{"purple"}', $this->platform);
-    }
-
-    #[Test]
     public function throws_exception_for_non_backed_enum_class_in_php_value(): void
     {
         $type = new class extends EnumArray {
@@ -272,27 +264,9 @@ final class EnumArrayTest extends TestCase
     {
         return [
             'string instead of array' => ['not-an-array'],
-        ];
-    }
-
-    #[DataProvider('provideInvalidPHPValueTypes')]
-    #[Test]
-    public function throws_exception_for_non_string_inputs_to_database_conversion(mixed $value): void
-    {
-        $this->expectException(InvalidEnumArrayItemForPHPException::class);
-
-        $this->fixture->convertToDatabaseValue($value, $this->platform); // @phpstan-ignore-line
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidPHPValueTypes(): array
-    {
-        return [
-            'integer' => [123],
-            'object' => [new \stdClass()],
-            'boolean' => [true],
+            'integer instead of array' => [123],
+            'object instead of array' => [new \stdClass()],
+            'boolean instead of array' => [true],
         ];
     }
 
@@ -314,30 +288,8 @@ final class EnumArrayTest extends TestCase
             'array of raw labels' => [['plain', 'with space']],
             'array of integers' => [[1, 2]],
             'mixed array of valid and invalid items' => [[TrickyLabels::PLAIN, 'with space']],
-        ];
-    }
-
-    #[DataProvider('provideInvalidEnumArrayItems')]
-    #[Test]
-    public function throws_exception_for_invalid_enum_array_items(array $invalidArray): void
-    {
-        $this->expectException(InvalidEnumArrayItemForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{array}>
-     */
-    public static function provideInvalidEnumArrayItems(): array
-    {
-        return [
-            'integer item' => [[123]],
-            'string item' => [['plain']],
-            'boolean item' => [[true]],
-            'object item' => [[new \stdClass()]],
-            'case of another enum' => [[Sizes::SMALL]],
-            'mixed invalid items' => [[123, 'plain', true]],
+            'array containing a boolean' => [[true]],
+            'array containing a plain object' => [[new \stdClass()]],
         ];
     }
 

@@ -113,6 +113,8 @@ final class PointArrayTest extends TestCase
                     'invalid',
                 ],
             ],
+            'array containing a boolean' => [[true]],
+            'array containing a plain object' => [[new \stdClass()]],
         ];
     }
 
@@ -131,6 +133,9 @@ final class PointArrayTest extends TestCase
     {
         return [
             'string instead of array' => ['string value'],
+            'integer instead of array' => [123],
+            'object instead of array' => [new \stdClass()],
+            'boolean instead of array' => [true],
         ];
     }
 
@@ -156,33 +161,6 @@ final class PointArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideNonArrayInputs')]
-    #[Test]
-    public function throws_exception_for_non_array_inputs_to_database_conversion(mixed $value): void
-    {
-        $this->expectException(InvalidPointArrayItemForPHPException::class);
-        $this->fixture->convertToDatabaseValue($value, $this->platform); // @phpstan-ignore-line
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideNonArrayInputs(): array
-    {
-        return [
-            'integer' => [123],
-            'object' => [new \stdClass()],
-            'boolean' => [true],
-        ];
-    }
-
-    #[Test]
-    public function throws_exception_for_array_with_string_items_in_database_conversion(): void
-    {
-        $this->expectException(InvalidPointArrayItemForDatabaseException::class);
-        $this->fixture->convertToDatabaseValue(['(1.23, 4.56)'], $this->platform);
-    }
-
     #[Test]
     public function throws_exception_when_invalid_point_format_provided(): void
     {
@@ -190,15 +168,6 @@ final class PointArrayTest extends TestCase
 
         $invalidPointString = '(invalid,point)';
         $this->fixture->transformArrayItemForPHP($invalidPointString);
-    }
-
-    #[Test]
-    public function throws_exception_for_malformed_point_strings_in_database(): void
-    {
-        $this->expectException(InvalidPointArrayItemForPHPException::class);
-
-        // This triggers the invalid format path without using reflection
-        $this->fixture->convertToPHPValue('{"(invalid,point)"}', $this->platform);
     }
 
     #[DataProvider('provideMalformedInputs')]
@@ -244,29 +213,6 @@ final class PointArrayTest extends TestCase
     {
         $this->expectException(InvalidPointArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP(123);
-    }
-
-    #[DataProvider('provideInvalidPointArrayItems')]
-    #[Test]
-    public function throws_exception_for_invalid_point_array_items(array $invalidArray): void
-    {
-        $this->expectException(InvalidPointArrayItemForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{array}>
-     */
-    public static function provideInvalidPointArrayItems(): array
-    {
-        return [
-            'integer item' => [[123]],
-            'string item' => [['not-a-point']],
-            'boolean item' => [[true]],
-            'object item' => [[new \stdClass()]],
-            'mixed invalid items' => [[123, 'not-a-point', true]],
-        ];
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

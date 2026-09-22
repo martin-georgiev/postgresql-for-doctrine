@@ -107,6 +107,8 @@ final class CircleArrayTest extends TestCase
                     'invalid',
                 ],
             ],
+            'array containing a boolean' => [[true]],
+            'array containing a plain object' => [[new \stdClass()]],
         ];
     }
 
@@ -125,6 +127,9 @@ final class CircleArrayTest extends TestCase
     {
         return [
             'string instead of array' => ['string value'],
+            'integer instead of array' => [123],
+            'object instead of array' => [new \stdClass()],
+            'boolean instead of array' => [true],
         ];
     }
 
@@ -182,61 +187,11 @@ final class CircleArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueTypes')]
-    #[Test]
-    public function throws_exception_for_non_string_inputs_to_database_conversion(mixed $value): void
-    {
-        $this->expectException(InvalidCircleArrayItemForPHPException::class);
-        $this->fixture->convertToDatabaseValue($value, $this->platform); // @phpstan-ignore-line
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidPHPValueTypes(): array
-    {
-        return [
-            'integer' => [123],
-            'object' => [new \stdClass()],
-            'boolean' => [true],
-        ];
-    }
-
     #[Test]
     public function throws_exception_when_invalid_circle_format_provided(): void
     {
         $this->expectException(InvalidCircleArrayItemForPHPException::class);
         $this->fixture->transformArrayItemForPHP('(invalid,circle)');
-    }
-
-    #[Test]
-    public function throws_exception_for_malformed_circle_strings_in_database(): void
-    {
-        $this->expectException(InvalidCircleArrayItemForPHPException::class);
-        $this->fixture->convertToPHPValue('{"(invalid,circle)"}', $this->platform);
-    }
-
-    #[DataProvider('provideInvalidCircleArrayItems')]
-    #[Test]
-    public function throws_exception_for_invalid_circle_array_items(array $invalidArray): void
-    {
-        $this->expectException(InvalidCircleArrayItemForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{array}>
-     */
-    public static function provideInvalidCircleArrayItems(): array
-    {
-        return [
-            'integer item' => [[123]],
-            'string item' => [['not-a-circle']],
-            'boolean item' => [[true]],
-            'object item' => [[new \stdClass()]],
-            'mixed invalid items' => [[123, 'not-a-circle', true]],
-        ];
     }
 
     #[DataProvider('provideValidArrayItemsForDatabase')]

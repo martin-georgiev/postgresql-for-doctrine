@@ -154,12 +154,13 @@ final class TimestampArrayTest extends BaseDateTimeArrayTestCase
     /**
      * @return array<string, array{string}>
      */
-    public static function provideInvalidFormatItemsFromDatabase(): array
+    public static function provideInvalidFormatInputsForPHP(): array
     {
         return [
             'garbage string' => ['not-a-timestamp'],
             'date only' => ['2023-06-15'],
             'empty string' => [''],
+            'era suffix without a value' => [' BC'],
         ];
     }
 

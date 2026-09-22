@@ -124,13 +124,6 @@ final class CubeArrayTest extends TestCase
         $this->fixture->transformArrayItemForPHP('(invalid,cube)');
     }
 
-    #[Test]
-    public function throws_exception_for_malformed_cube_strings_in_database(): void
-    {
-        $this->expectException(InvalidCubeArrayItemForPHPException::class);
-        $this->fixture->convertToPHPValue('{"(invalid,cube)"}', $this->platform);
-    }
-
     #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
@@ -167,26 +160,9 @@ final class CubeArrayTest extends TestCase
     {
         return [
             'string instead of array' => ['not-an-array'],
-        ];
-    }
-
-    #[DataProvider('provideInvalidPHPValueTypes')]
-    #[Test]
-    public function throws_exception_for_non_string_inputs_to_database_conversion(mixed $value): void
-    {
-        $this->expectException(InvalidCubeArrayItemForPHPException::class);
-        $this->fixture->convertToDatabaseValue($value, $this->platform); // @phpstan-ignore-line
-    }
-
-    /**
-     * @return array<string, array{mixed}>
-     */
-    public static function provideInvalidPHPValueTypes(): array
-    {
-        return [
-            'integer' => [123],
-            'object' => [new \stdClass()],
-            'boolean' => [true],
+            'integer instead of array' => [123],
+            'object instead of array' => [new \stdClass()],
+            'boolean instead of array' => [true],
         ];
     }
 
@@ -212,30 +188,9 @@ final class CubeArrayTest extends TestCase
                     'invalid',
                 ],
             ],
-        ];
-    }
-
-    #[DataProvider('provideInvalidCubeArrayItems')]
-    #[Test]
-    public function throws_exception_for_invalid_cube_array_items(array $invalidArray): void
-    {
-        $this->expectException(InvalidCubeArrayItemForDatabaseException::class);
-
-        $this->fixture->convertToDatabaseValue($invalidArray, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{array}>
-     */
-    public static function provideInvalidCubeArrayItems(): array
-    {
-        return [
-            'integer item' => [[123]],
-            'string item' => [['not-a-cube']],
-            'boolean item' => [[true]],
-            'object item' => [[new \stdClass()]],
-            'null item' => [[null]],
-            'mixed invalid items' => [[123, 'not-a-cube', true]],
+            'array containing a boolean' => [[true]],
+            'array containing a plain object' => [[new \stdClass()]],
+            'array containing a null' => [[null]],
         ];
     }
 

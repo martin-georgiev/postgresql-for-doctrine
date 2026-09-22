@@ -447,14 +447,6 @@ final class IntervalTest extends TestCase
         Interval::fromString('Pinvalid');
     }
 
-    #[Test]
-    public function throws_exception_for_unrecognized_postgres_format(): void
-    {
-        $this->expectException(InvalidIntervalException::class);
-        $this->expectExceptionMessage('Cannot parse interval string');
-        Interval::fromString('not-an-interval');
-    }
-
     #[DataProvider('provideUnparsableValues')]
     #[Test]
     public function throws_exception_for_unparsable_values(string $value): void
