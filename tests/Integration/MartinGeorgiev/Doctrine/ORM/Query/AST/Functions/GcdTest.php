@@ -17,7 +17,7 @@ final class GcdTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_gcd_of_literals(): void
+    public function returns_the_greatest_common_divisor_from_numeric_literals(): void
     {
         $dql = 'SELECT GCD(12, 8) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class GcdTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_gcd_with_entity_properties(): void
+    public function returns_the_greatest_common_divisor_from_entity_fields(): void
     {
         $dql = 'SELECT GCD(n.integer1, n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

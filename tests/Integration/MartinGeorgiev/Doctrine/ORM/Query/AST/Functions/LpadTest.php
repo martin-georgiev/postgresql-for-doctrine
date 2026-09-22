@@ -17,7 +17,7 @@ final class LpadTest extends TextTestCase
     }
 
     #[Test]
-    public function pads_literal_on_left_with_specified_fill(): void
+    public function returns_the_left_padded_text_from_a_text_literal(): void
     {
         $dql = "SELECT LPAD('hi', 5, '0') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ final class LpadTest extends TextTestCase
     }
 
     #[Test]
-    public function pads_text_field_on_left_with_spaces(): void
+    public function returns_the_left_padded_text_from_an_entity_field(): void
     {
         $dql = 'SELECT LPAD(t.text1, 5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

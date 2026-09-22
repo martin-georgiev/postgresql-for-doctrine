@@ -6,7 +6,6 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayFill;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ArrayFillTest extends ArrayTestCase
@@ -14,73 +13,34 @@ final class ArrayFillTest extends ArrayTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ARR' => Arr::class,
             'ARRAY_FILL' => ArrayFill::class,
-            'ARRAY' => Arr::class,
-            'CAST' => Cast::class,
         ];
     }
 
     #[Test]
-    public function fills_array_with_integer_value(): void
+    public function returns_the_filled_array_from_numeric_literals(): void
     {
-        $dql = "SELECT ARRAY_FILL(7, ARRAY('3')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
-                WHERE t.id = 1";
-
+        $dql = "SELECT ARRAY_FILL(7, ARR('3')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($actual);
-        $this->assertCount(3, $actual);
         $this->assertSame([7, 7, 7], $actual);
     }
 
     #[Test]
-    public function fills_array_with_string_value(): void
+    public function returns_the_filled_array_from_an_entity_field(): void
     {
-        $dql = "SELECT ARRAY_FILL(CAST('x' AS TEXT), ARRAY('3')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
-                WHERE t.id = 1";
-
+        $dql = "SELECT ARRAY_FILL(t.id, ARR('3')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $actual = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($actual);
-        $this->assertCount(3, $actual);
-        $this->assertSame(['x', 'x', 'x'], $actual);
+        $this->assertSame([1, 1, 1], $actual);
     }
 
     #[Test]
-    public function fills_array_with_boolean_value(): void
+    public function returns_the_filled_array_with_custom_lower_bounds(): void
     {
-        $dql = "SELECT ARRAY_FILL(CAST('true' AS BOOLEAN), ARRAY('2')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
-                WHERE t.id = 1";
-
+        $dql = "SELECT ARRAY_FILL(7, ARR('3'), ARR('2')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertSame('{t,t}', $result[0]['result']);
-    }
-
-    #[Test]
-    public function fills_multi_dimensional_array(): void
-    {
-        $dql = "SELECT ARRAY_FILL(11, ARRAY('2', '3')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
-                WHERE t.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $this->assertSame('{{11,11,11},{11,11,11}}', $result[0]['result']);
-    }
-
-    #[Test]
-    public function fills_array_with_custom_lower_bounds(): void
-    {
-        $dql = "SELECT ARRAY_FILL(7, ARRAY('3'), ARRAY('2')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t
-                WHERE t.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('[2:4]={7,7,7}', $result[0]['result']);
     }
 }

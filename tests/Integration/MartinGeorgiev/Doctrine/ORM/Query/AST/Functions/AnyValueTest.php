@@ -23,11 +23,12 @@ final class AnyValueTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_any_value_from_group(): void
+    public function returns_an_arbitrary_value_from_an_entity_field(): void
     {
         $dql = 'SELECT ANY_VALUE(t.text1) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t';
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
+                WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertNotNull($result[0]['result']);
+        $this->assertSame('this is a test string', $result[0]['result']);
     }
 }

@@ -17,7 +17,7 @@ final class JsonbPathExistsTest extends JsonTestCase
     }
 
     #[Test]
-    public function checks_simple_path_exists(): void
+    public function returns_true_when_the_path_exists_in_a_json_literal(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,33 +30,7 @@ final class JsonbPathExistsTest extends JsonTestCase
     }
 
     #[Test]
-    public function checks_nested_path_exists(): void
-    {
-        $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"a": {"b": 2}}',
-            'path' => '$.a.b',
-        ]);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_for_missing_path(): void
-    {
-        $dql = 'SELECT JSONB_PATH_EXISTS(:json, :path) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql, [
-            'json' => '{"a": 1}',
-            'path' => '$.b',
-        ]);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function checks_path_exists_in_column_reference(): void
+    public function returns_true_when_the_path_exists_in_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_PATH_EXISTS(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t

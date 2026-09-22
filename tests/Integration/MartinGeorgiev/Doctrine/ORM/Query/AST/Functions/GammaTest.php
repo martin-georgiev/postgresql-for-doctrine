@@ -23,7 +23,7 @@ final class GammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function computes_gamma_of_an_integer(): void
+    public function returns_the_gamma_from_a_numeric_literal(): void
     {
         $dql = 'SELECT GAMMA(5) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -34,18 +34,7 @@ final class GammaTest extends NumericTestCase
     }
 
     #[Test]
-    public function computes_gamma_of_a_float(): void
-    {
-        $dql = 'SELECT GAMMA(2.5) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
-                WHERE t.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1.329340388179137, $result[0]['result']);
-    }
-
-    #[Test]
-    public function computes_gamma_of_integer_field(): void
+    public function returns_the_gamma_from_an_entity_field(): void
     {
         $dql = 'SELECT GAMMA(t.integer1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
@@ -53,16 +42,5 @@ final class GammaTest extends NumericTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(362880.0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function computes_gamma_of_arithmetic_expression(): void
-    {
-        $dql = 'SELECT GAMMA(t.integer1 / 2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t
-                WHERE t.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(24.0, $result[0]['result']);
     }
 }

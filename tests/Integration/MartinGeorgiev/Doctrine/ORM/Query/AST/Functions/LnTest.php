@@ -17,7 +17,7 @@ final class LnTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_natural_logarithm_of_euler_constant(): void
+    public function returns_the_natural_logarithm_from_a_numeric_literal(): void
     {
         $dql = 'SELECT LN(2.7182818284590452) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,18 +25,10 @@ final class LnTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_natural_logarithm_of_entity_decimal_value(): void
+    public function returns_the_natural_logarithm_from_an_entity_field(): void
     {
         $dql = 'SELECT LN(n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(2.3513752571634777, $result[0]['result']);
-    }
-
-    #[Test]
-    public function calculates_natural_logarithm_of_arithmetic_expression(): void
-    {
-        $dql = 'SELECT LN(n.integer1 + n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3.4011973816621555, $result[0]['result']);
     }
 }

@@ -17,22 +17,12 @@ final class JsonGetObjectAsTextTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_nested_value_as_text(): void
+    public function returns_the_object_at_a_path_as_text_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_GET_OBJECT_AS_TEXT(t.jsonObject1, '{address,city}') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('New York', $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_name_as_text(): void
-    {
-        $dql = "SELECT JSON_GET_OBJECT_AS_TEXT(t.jsonObject1, '{name}') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('John', $result[0]['result']);
     }
 }

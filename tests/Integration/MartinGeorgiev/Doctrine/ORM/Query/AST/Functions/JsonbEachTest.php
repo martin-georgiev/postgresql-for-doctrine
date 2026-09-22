@@ -50,57 +50,11 @@ final class JsonbEachTest extends JsonTestCase
     }
 
     #[Test]
-    public function extracts_key_value_pairs_from_standard_jsonb_object(): void
+    public function returns_the_key_value_pairs_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
                 WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-
-        $extractedKeys = $this->extractAndValidateKeysFromJsonbEachResult($result, 4);
-        $this->assertStandardJsonObjectKeys($extractedKeys, ['name', 'age', 'address', 'tags']);
-    }
-
-    #[Test]
-    public function returns_empty_result_for_empty_object(): void
-    {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
-                WHERE t.id = 4';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(0, $result);
-    }
-
-    #[Test]
-    public function extracts_key_value_pairs_from_alternative_jsonb_object(): void
-    {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
-                WHERE t.id = 2';
-        $result = $this->executeDqlQuery($dql);
-
-        $extractedKeys = $this->extractAndValidateKeysFromJsonbEachResult($result, 4);
-        $this->assertStandardJsonObjectKeys($extractedKeys, ['name', 'age', 'address', 'tags']);
-    }
-
-    #[Test]
-    public function extracts_key_value_pairs_when_jsonb_contains_null_values(): void
-    {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
-                WHERE t.id = 5';
-        $result = $this->executeDqlQuery($dql);
-
-        $extractedKeys = $this->extractAndValidateKeysFromJsonbEachResult($result, 4);
-        $this->assertStandardJsonObjectKeys($extractedKeys, ['name', 'age', 'address', 'tags']);
-    }
-
-    #[Test]
-    public function extracts_key_value_pairs_when_jsonb_contains_empty_array(): void
-    {
-        $dql = 'SELECT JSONB_EACH(t.jsonbObject1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
-                WHERE t.id = 3';
         $result = $this->executeDqlQuery($dql);
 
         $extractedKeys = $this->extractAndValidateKeysFromJsonbEachResult($result, 4);

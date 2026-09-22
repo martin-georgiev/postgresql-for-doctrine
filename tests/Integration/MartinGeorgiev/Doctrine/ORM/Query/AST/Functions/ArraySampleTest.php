@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -18,48 +19,34 @@ final class ArraySampleTest extends ArrayTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ARR' => Arr::class,
             'ARRAY_SAMPLE' => ArraySample::class,
         ];
     }
 
     #[Test]
-    public function samples_elements_from_array_field(): void
+    public function returns_the_sampled_array_from_an_array_literal(): void
     {
-        $dql = 'SELECT a.textArray as source, ARRAY_SAMPLE(a.textArray, 3) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a
-                WHERE a.id = 1';
-
+        $dql = "SELECT ARRAY_SAMPLE(ARR('apple', 'banana', 'orange'), 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-
-        $this->assertIsArray($result[0]['source']);
-
-        $this->assertIsString($result[0]['result']);
-        $sampledArray = $this->transformPostgresArray($result[0]['result']);
-        $this->assertIsArray($sampledArray);
-
-        $this->assertCount(3, $sampledArray);
-        foreach ($sampledArray as $element) {
-            $this->assertContains($element, $result[0]['source']);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertIsArray($actual);
+        $this->assertCount(2, $actual);
+        foreach ($actual as $element) {
+            $this->assertContains($element, ['apple', 'banana', 'orange']);
         }
     }
 
     #[Test]
-    public function samples_single_element(): void
+    public function returns_the_sampled_array_from_an_entity_field(): void
     {
-        $dql = 'SELECT a.textArray as source, ARRAY_SAMPLE(a.textArray, 1) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays a
-                WHERE a.id = 3';
-
+        $dql = 'SELECT ARRAY_SAMPLE(t.textArray, 3) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-
-        $this->assertIsArray($result[0]['source']);
-
-        $this->assertIsString($result[0]['result']);
-        $sampledArray = $this->transformPostgresArray($result[0]['result']);
-
-        $this->assertIsArray($sampledArray);
-
-        $this->assertCount(1, $sampledArray);
-        $this->assertContains($sampledArray[0], $result[0]['source']);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertIsArray($actual);
+        $this->assertCount(3, $actual);
+        foreach ($actual as $element) {
+            $this->assertContains($element, ['apple', 'banana', 'orange']);
+        }
     }
 }

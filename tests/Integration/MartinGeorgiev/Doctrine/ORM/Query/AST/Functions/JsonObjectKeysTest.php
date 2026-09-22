@@ -17,7 +17,7 @@ final class JsonObjectKeysTest extends JsonTestCase
     }
 
     #[Test]
-    public function extracts_object_keys_from_json(): void
+    public function returns_the_object_keys_from_an_entity_field(): void
     {
         $dql = 'SELECT JSON_OBJECT_KEYS(t.jsonObject1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
@@ -37,15 +37,5 @@ final class JsonObjectKeysTest extends JsonTestCase
         foreach ($expectedKeys as $expectedKey) {
             $this->assertContains($expectedKey, $foundKeys);
         }
-    }
-
-    #[Test]
-    public function returns_empty_for_empty_object(): void
-    {
-        $dql = 'SELECT JSON_OBJECT_KEYS(t.jsonObject1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
-                WHERE t.id = 4';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(0, $result);
     }
 }

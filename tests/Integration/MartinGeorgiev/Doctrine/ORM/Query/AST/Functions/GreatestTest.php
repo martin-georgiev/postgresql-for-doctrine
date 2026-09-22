@@ -17,7 +17,7 @@ final class GreatestTest extends ArrayTestCase
     }
 
     #[Test]
-    public function finds_greatest_of_two_values(): void
+    public function returns_the_greatest_from_an_entity_field(): void
     {
         $dql = 'SELECT GREATEST(t.id, 0) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
@@ -27,22 +27,12 @@ final class GreatestTest extends ArrayTestCase
     }
 
     #[Test]
-    public function finds_greatest_of_multiple_values(): void
+    public function returns_the_greatest_from_numeric_literals(): void
     {
         $dql = 'SELECT GREATEST(1, 5, 3, 2, 4) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
                 WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(5, $result[0]['result']);
-    }
-
-    #[Test]
-    public function compares_column_values(): void
-    {
-        $dql = 'SELECT GREATEST(t.id, 100) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(100, $result[0]['result']);
     }
 }

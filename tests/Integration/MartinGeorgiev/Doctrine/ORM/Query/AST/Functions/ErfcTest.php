@@ -23,7 +23,7 @@ final class ErfcTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_erfc_of_literal(): void
+    public function returns_the_complementary_error_function_from_a_numeric_literal(): void
     {
         $dql = 'SELECT ERFC(1.0) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -31,7 +31,7 @@ final class ErfcTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_erfc_with_entity_expression(): void
+    public function returns_the_complementary_error_function_from_an_entity_field(): void
     {
         $dql = 'SELECT ERFC(n.decimal1 - 10) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

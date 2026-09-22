@@ -17,7 +17,7 @@ final class JustifyDaysTest extends DateTestCase
     }
 
     #[Test]
-    public function converts_days_from_literal_exceeding_threshold_to_months(): void
+    public function returns_the_justified_interval_from_an_interval_literal(): void
     {
         $dql = "SELECT JUSTIFY_DAYS('35 days') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t
@@ -28,7 +28,7 @@ final class JustifyDaysTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_interval_unchanged_when_below_threshold(): void
+    public function returns_the_justified_interval_from_an_entity_field(): void
     {
         $dql = 'SELECT JUSTIFY_DAYS(t.dateinterval1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

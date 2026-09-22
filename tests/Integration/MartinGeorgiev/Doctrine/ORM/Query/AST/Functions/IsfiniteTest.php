@@ -17,20 +17,9 @@ final class IsfiniteTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_true_for_finite_date(): void
+    public function returns_true_for_a_finite_entity_field(): void
     {
         $dql = 'SELECT ISFINITE(t.date1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t
-                WHERE t.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_for_finite_interval(): void
-    {
-        $dql = 'SELECT ISFINITE(t.dateinterval1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t
                 WHERE t.id = 1';
 

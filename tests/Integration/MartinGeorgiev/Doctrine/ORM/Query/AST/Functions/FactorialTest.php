@@ -17,7 +17,7 @@ final class FactorialTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_factorial_of_literal(): void
+    public function returns_the_factorial_from_a_numeric_literal(): void
     {
         $dql = 'SELECT FACTORIAL(5) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class FactorialTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_factorial_with_entity_property(): void
+    public function returns_the_factorial_from_an_entity_field(): void
     {
         $dql = 'SELECT FACTORIAL(n.integer1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

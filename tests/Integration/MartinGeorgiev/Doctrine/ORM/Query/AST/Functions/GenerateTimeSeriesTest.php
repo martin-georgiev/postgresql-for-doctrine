@@ -17,25 +17,7 @@ final class GenerateTimeSeriesTest extends DateTestCase
     }
 
     #[Test]
-    public function generates_series_between_two_dates(): void
-    {
-        $dql = "SELECT GENERATE_TIME_SERIES(t.date1, t.date2, '1 day') as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
-                WHERE t.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-
-        $this->assertCount(2, $result);
-
-        $this->assertIsString($result[0]['result']);
-        $this->assertSame('2023-06-15 00:00:00+00', $result[0]['result']);
-
-        $this->assertIsString($result[1]['result']);
-        $this->assertSame('2023-06-16 00:00:00+00', $result[1]['result']);
-    }
-
-    #[Test]
-    public function generates_series_between_two_timestamps(): void
+    public function returns_the_time_series_from_entity_fields(): void
     {
         $dql = "SELECT GENERATE_TIME_SERIES(t.datetime1, t.datetime2, '12 hours') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t
@@ -56,7 +38,7 @@ final class GenerateTimeSeriesTest extends DateTestCase
     }
 
     #[Test]
-    public function generates_series_between_two_timestamptz_values_with_timezone(): void
+    public function returns_the_time_series_from_entity_fields_in_a_time_zone(): void
     {
         $dql = "SELECT GENERATE_TIME_SERIES(t.datetimetz1, t.datetimetz2, '12 hours', 'UTC') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t

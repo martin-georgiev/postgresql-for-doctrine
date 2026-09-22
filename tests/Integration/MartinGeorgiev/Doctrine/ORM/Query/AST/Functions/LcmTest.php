@@ -17,7 +17,7 @@ final class LcmTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_lcm_of_literals(): void
+    public function returns_the_least_common_multiple_from_numeric_literals(): void
     {
         $dql = 'SELECT LCM(12, 8) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class LcmTest extends NumericTestCase
     }
 
     #[Test]
-    public function calculates_lcm_with_entity_properties(): void
+    public function returns_the_least_common_multiple_from_entity_fields(): void
     {
         $dql = 'SELECT LCM(n.integer1, n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);

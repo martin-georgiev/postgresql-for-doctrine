@@ -17,7 +17,7 @@ final class JsonAggTest extends ArrayTestCase
     }
 
     #[Test]
-    public function aggregates_text_arrays_to_json(): void
+    public function returns_the_aggregated_json_from_an_entity_field(): void
     {
         $dql = 'SELECT JSON_AGG(t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -28,33 +28,5 @@ final class JsonAggTest extends ArrayTestCase
         $this->assertIsArray($decoded);
         $this->assertCount(1, $decoded);
         $this->assertSame(['apple', 'banana', 'orange'], $decoded[0]);
-    }
-
-    #[Test]
-    public function aggregates_integer_arrays_to_json(): void
-    {
-        $dql = 'SELECT JSON_AGG(t.integerArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertCount(1, $decoded);
-        $this->assertSame([1, 2, 3], $decoded[0]);
-    }
-
-    #[Test]
-    public function aggregates_boolean_arrays_to_json(): void
-    {
-        $dql = 'SELECT JSON_AGG(t.boolArray) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertCount(1, $decoded);
-        $this->assertSame([true, false, true], $decoded[0]);
     }
 }

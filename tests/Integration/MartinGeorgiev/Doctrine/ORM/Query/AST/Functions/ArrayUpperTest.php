@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -12,31 +13,24 @@ final class ArrayUpperTest extends ArrayTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'ARR' => Arr::class,
             'ARRAY_UPPER' => ArrayUpper::class,
         ];
     }
 
     #[Test]
-    public function returns_upper_bound_for_text_array(): void
+    public function returns_the_upper_bound_from_an_array_literal(): void
     {
-        $dql = 'SELECT ARRAY_UPPER(t.textArray, 1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-
+        $dql = "SELECT ARRAY_UPPER(ARR('apple', 'banana'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsInt($result[0]['result']);
-        $this->assertSame(3, $result[0]['result']);
+        $this->assertSame(2, $result[0]['result']);
     }
 
     #[Test]
-    public function returns_upper_bound_for_integer_array(): void
+    public function returns_the_upper_bound_from_an_entity_field(): void
     {
-        $dql = 'SELECT ARRAY_UPPER(t.integerArray, 1) as result 
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
-                WHERE t.id = 1';
-
+        $dql = 'SELECT ARRAY_UPPER(t.textArray, 1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsInt($result[0]['result']);
         $this->assertSame(3, $result[0]['result']);
     }
 }

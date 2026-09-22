@@ -17,7 +17,7 @@ final class JustifyHoursTest extends DateTestCase
     }
 
     #[Test]
-    public function converts_hours_from_literal_exceeding_threshold_to_days(): void
+    public function returns_the_justified_interval_from_an_interval_literal(): void
     {
         $dql = "SELECT JUSTIFY_HOURS('27 hours') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t
@@ -28,7 +28,7 @@ final class JustifyHoursTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_interval_unchanged_when_below_threshold(): void
+    public function returns_the_justified_interval_from_an_entity_field(): void
     {
         $dql = 'SELECT JUSTIFY_HOURS(t.dateinterval1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

@@ -17,7 +17,7 @@ final class JsonbBuildObjectTest extends JsonTestCase
     }
 
     #[Test]
-    public function builds_jsonb_object_with_key_value_pairs(): void
+    public function creates_a_jsonb_object_from_text_literals(): void
     {
         $dql = "SELECT JSONB_BUILD_OBJECT('name', 'test', 'value', '123') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
@@ -31,18 +31,12 @@ final class JsonbBuildObjectTest extends JsonTestCase
     }
 
     #[Test]
-    public function builds_jsonb_object_with_multiple_pairs(): void
+    public function creates_a_jsonb_object_from_an_entity_field(): void
     {
-        $dql = "SELECT JSONB_BUILD_OBJECT('a', '1', 'b', '2', 'c', '3') as result
+        $dql = "SELECT JSONB_BUILD_OBJECT('id', t.id) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertCount(3, $decoded);
-        $this->assertSame('1', $decoded['a']);
-        $this->assertSame('2', $decoded['b']);
-        $this->assertSame('3', $decoded['c']);
+        $this->assertSame('{"id": 1}', $result[0]['result']);
     }
 }

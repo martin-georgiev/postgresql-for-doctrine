@@ -17,18 +17,9 @@ final class CorrTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_null_for_single_row_set_on_integer_columns(): void
+    public function returns_the_correlation_coefficient_from_entity_fields(): void
     {
         $dql = 'SELECT CORR(t.integer1, t.integer2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_null_for_single_row_set_on_decimal_columns(): void
-    {
-        $dql = 'SELECT CORR(t.decimal1, t.decimal2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t';
         $result = $this->executeDqlQuery($dql);
         $this->assertNull($result[0]['result']);

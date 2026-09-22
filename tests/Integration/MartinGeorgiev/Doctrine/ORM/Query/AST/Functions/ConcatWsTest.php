@@ -17,26 +17,24 @@ final class ConcatWsTest extends TextTestCase
     }
 
     #[Test]
-    public function concats_with_separator(): void
+    public function returns_the_concatenated_text_from_text_literals(): void
     {
-        $dql = "SELECT CONCAT_WS('-', t.text1, t.text2) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
+        $dql = "SELECT CONCAT_WS('-', 'foo', 'bar') as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('foo-bar', $result[0]['result']);
     }
 
     #[Test]
-    public function concats_multiple_values(): void
+    public function returns_the_concatenated_text_from_entity_fields(): void
     {
-        $dql = "SELECT CONCAT_WS(' ', t.text1, 'extra', t.text2) as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
+        $dql = "SELECT CONCAT_WS(' ', t.text1, 'extra', t.text2) as result
+                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE t.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
         $this->assertSame('foo extra bar', $result[0]['result']);
     }
 }

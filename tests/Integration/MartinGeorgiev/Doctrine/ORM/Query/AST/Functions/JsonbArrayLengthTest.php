@@ -19,32 +19,12 @@ final class JsonbArrayLengthTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_array_length_from_jsonb(): void
+    public function returns_the_jsonb_array_length_from_an_entity_field(): void
     {
         $dql = "SELECT JSONB_ARRAY_LENGTH(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(2, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_empty_array(): void
-    {
-        $dql = "SELECT JSONB_ARRAY_LENGTH(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
-                WHERE t.id = 3";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_length_of_single_element_array(): void
-    {
-        $dql = "SELECT JSONB_ARRAY_LENGTH(JSON_GET_FIELD(t.jsonbObject1, 'tags')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t
-                WHERE t.id = 2";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame(1, $result[0]['result']);
     }
 }

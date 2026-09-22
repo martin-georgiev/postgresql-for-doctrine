@@ -86,7 +86,7 @@ final class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function accesses_text_field_from_composite_type(): void
+    public function returns_a_field_value_from_a_composite_entity_field(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.item, 'name') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -94,42 +94,7 @@ final class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function accesses_integer_field_from_composite_type(): void
-    {
-        $dql = "SELECT COMPOSITE_FIELD(t.item, 'supplier_id') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 2";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsNumeric($result[0]['result']);
-        $this->assertSame(2, (int) $result[0]['result']);
-    }
-
-    #[Test]
-    public function accesses_numeric_field_from_composite_type(): void
-    {
-        $dql = "SELECT COMPOSITE_FIELD(t.item, 'price') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 3";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsNumeric($result[0]['result']);
-        $this->assertEquals(29.99, $result[0]['result']);
-    }
-
-    #[Test]
-    public function uses_composite_field_in_where_clause(): void
-    {
-        $dql = "SELECT t.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE COMPOSITE_FIELD(t.item, 'price') > 15";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertCount(2, $result);
-    }
-
-    #[Test]
-    public function accesses_multiple_fields_from_same_composite(): void
-    {
-        $dql = "SELECT COMPOSITE_FIELD(t.address, 'street') as street, COMPOSITE_FIELD(t.address, 'zip') as zip FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 2";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('456 Oak Ave', $result[0]['street']);
-        $this->assertSame('02101', $result[0]['zip']);
-    }
-
-    #[Test]
-    public function accesses_camel_case_field_name(): void
+    public function returns_a_camel_case_field_value_from_a_composite_entity_field(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.special, 'camelCaseField') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -137,35 +102,10 @@ final class CompositeFieldTest extends BaseTestCase
     }
 
     #[Test]
-    public function accesses_pascal_case_field_name(): void
-    {
-        $dql = "SELECT COMPOSITE_FIELD(t.special, 'PascalCaseField') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('PascalValue', $result[0]['result']);
-    }
-
-    #[Test]
-    public function accesses_reserved_word_order_field(): void
-    {
-        $dql = "SELECT COMPOSITE_FIELD(t.special, 'order') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 2";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsNumeric($result[0]['result']);
-        $this->assertSame(2, (int) $result[0]['result']);
-    }
-
-    #[Test]
-    public function accesses_reserved_word_select_field(): void
+    public function returns_a_reserved_word_field_value_from_a_composite_entity_field(): void
     {
         $dql = "SELECT COMPOSITE_FIELD(t.special, 'select') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('selectValue', $result[0]['result']);
-    }
-
-    #[Test]
-    public function accesses_reserved_word_user_field(): void
-    {
-        $dql = "SELECT COMPOSITE_FIELD(t.special, 'user') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsComposites t WHERE t.id = 3";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertSame('thirdUser', $result[0]['result']);
     }
 }

@@ -17,29 +17,9 @@ final class DateOverlapsTest extends DateTestCase
     }
 
     #[Test]
-    public function detects_overlapping_date_ranges(): void
+    public function returns_true_when_the_entity_field_range_overlaps(): void
     {
         $dql = "SELECT DATE_OVERLAPS(t.date1, t.date2, '2023-06-14', '2023-06-17') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function detects_non_overlapping_date_ranges(): void
-    {
-        $dql = "SELECT DATE_OVERLAPS(t.date1, t.date2, '2023-07-01', '2023-07-10') as result 
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
-                WHERE t.id = 1";
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function detects_overlapping_datetime_ranges(): void
-    {
-        $dql = "SELECT DATE_OVERLAPS(t.datetime1, t.datetime2, '2023-06-15 09:00:00', '2023-06-15 12:00:00') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

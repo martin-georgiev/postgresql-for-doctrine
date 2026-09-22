@@ -19,7 +19,7 @@ final class EncodeTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_hex_string_from_bytea_literal(): void
+    public function returns_the_encoded_text_from_a_text_literal(): void
     {
         $dql = "SELECT ENCODE('hello', 'hex') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -30,7 +30,7 @@ final class EncodeTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_hex_string_from_text_field_cast_to_bytea(): void
+    public function returns_the_encoded_text_from_an_entity_field(): void
     {
         $dql = "SELECT ENCODE(CAST(t.text1 AS bytea), 'hex') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

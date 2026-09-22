@@ -17,7 +17,7 @@ final class JsonExtractPathTest extends JsonTestCase
     }
 
     #[Test]
-    public function extracts_path_from_json(): void
+    public function returns_the_json_at_a_path_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_EXTRACT_PATH(t.jsonObject1, 'address', 'city') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

@@ -17,15 +17,12 @@ final class JsonbObjectAggTest extends JsonTestCase
     }
 
     #[Test]
-    public function aggregates_key_value_pairs_to_jsonb_object(): void
+    public function returns_the_aggregated_jsonb_object_from_an_entity_field(): void
     {
-        $dql = "SELECT JSONB_OBJECT_AGG('key', 'value') as result 
+        $dql = "SELECT JSONB_OBJECT_AGG('key', t.jsonbObject1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
                 WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $decoded = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($decoded);
-        $this->assertSame(['key' => 'value'], $decoded);
+        $this->assertSame('{"key": {"age": 30, "name": "John", "tags": ["developer", "manager"], "address": {"city": "New York"}}}', $result[0]['result']);
     }
 }

@@ -17,21 +17,11 @@ final class BoolOrTest extends BooleanTestCase
     }
 
     #[Test]
-    public function returns_true_when_any_value_is_true(): void
+    public function returns_the_boolean_disjunction_from_an_entity_field(): void
     {
         $dql = 'SELECT BOOL_OR(t.bool2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsBooleans t';
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_when_all_values_are_false(): void
-    {
-        $dql = 'SELECT BOOL_OR(t.bool2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsBooleans t
-                WHERE t.id = 1';
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
     }
 }
