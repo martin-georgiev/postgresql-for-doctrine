@@ -33,7 +33,7 @@ final class Line extends BaseType
         }
 
         if (!$value instanceof LineValueObject) {
-            throw InvalidLineForPHPException::forInvalidType($value);
+            throw InvalidLineForDatabaseException::forInvalidType($value);
         }
 
         return (string) $value;
@@ -46,13 +46,13 @@ final class Line extends BaseType
         }
 
         if (!\is_string($value)) {
-            throw InvalidLineForDatabaseException::forInvalidType($value);
+            throw InvalidLineForPHPException::forInvalidType($value);
         }
 
         try {
             return LineValueObject::fromString($value);
         } catch (InvalidLineException) {
-            throw InvalidLineForDatabaseException::forInvalidFormat($value);
+            throw InvalidLineForPHPException::forInvalidFormat($value);
         }
     }
 }

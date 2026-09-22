@@ -39,6 +39,10 @@ services:
         tags:
             - phpstan.rules.rule
     -
+        class: MartinGeorgiev\PHPStan\ExceptionFamilyByConversionMethodRule
+        tags:
+            - phpstan.rules.rule
+    -
         class: MartinGeorgiev\PHPStan\ValueObjectImmutabilityRule
         tags:
             - phpstan.rules.rule

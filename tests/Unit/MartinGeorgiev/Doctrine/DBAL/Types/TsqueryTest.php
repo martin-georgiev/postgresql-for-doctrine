@@ -89,7 +89,7 @@ final class TsqueryTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_database_value_inputs(mixed $value): void
     {
-        $this->expectException(InvalidTsqueryForPHPException::class);
+        $this->expectException(InvalidTsqueryForDatabaseException::class);
 
         $this->fixture->convertToDatabaseValue($value, $this->platform);
     }
@@ -113,7 +113,7 @@ final class TsqueryTest extends TestCase
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $value): void
     {
-        $this->expectException(InvalidTsqueryForDatabaseException::class);
+        $this->expectException(InvalidTsqueryForPHPException::class);
 
         $this->fixture->convertToPHPValue($value, $this->platform);
     }
