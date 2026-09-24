@@ -9,6 +9,8 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateOver;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumberOver;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -20,6 +22,7 @@ final class AggregateOverTest extends TestCase
             'ARRAY_AGG' => ArrayAgg::class,
             'FILTER' => AggregateFilter::class,
             'OVER' => AggregateOver::class,
+            'ROW_NUMBER_OVER' => RowNumberOver::class,
         ];
     }
 
@@ -81,6 +84,27 @@ final class AggregateOverTest extends TestCase
             'expression instead of a window specification' => ['OVER(COUNT(e.id), e.integer1)'],
             'window specification without a separating comma' => ['OVER(COUNT(e.id) ORDER BY e.integer2)'],
             'malformed frame' => ['OVER(SUM(e.decimal1), ORDER BY e.integer2 ROWS BETWEEN 1 PRECEDING)'],
+        ];
+    }
+
+    #[DataProvider('provideNonAggregateArguments')]
+    #[Test]
+    public function throws_exception_when_the_argument_is_not_an_aggregate(string $dqlFunctionCall): void
+    {
+        $this->expectException(ParserException::class);
+
+        $dql = \sprintf('SELECT %s FROM %s e', $dqlFunctionCall, ContainsNumerics::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideNonAggregateArguments(): array
+    {
+        return [
+            'scalar function' => ['OVER(ABS(e.integer1), PARTITION BY e.integer2)'],
+            'window function' => ['OVER(ROW_NUMBER_OVER(ORDER BY e.integer1), PARTITION BY e.integer2)'],
         ];
     }
 }

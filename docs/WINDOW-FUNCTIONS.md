@@ -96,7 +96,7 @@ Any aggregate becomes a window function once it has an `OVER (...)` clause. `OVE
 | `OVER(ARRAY_AGG(e.tag), PARTITION BY e.post)` | `array_agg(...) OVER (PARTITION BY ...)` |
 | `OVER(FILTER(SUM(e.amount), WHERE e.refunded = FALSE), PARTITION BY e.customer)` | `SUM(...) FILTER (WHERE ...) OVER (PARTITION BY ...)` |
 
-- The first argument is DQL's own `AVG`, `COUNT`, `MAX`, `MIN` or `SUM`, or any aggregate registered from this library, such as `ARRAY_AGG`, `STRING_AGG` or `BOOL_AND`.
+- The first argument is DQL's own `AVG`, `COUNT`, `MAX`, `MIN` or `SUM`, or any aggregate registered from this library, such as `ARRAY_AGG`, `STRING_AGG` or `BOOL_AND`. An aggregate of your own is accepted once it implements `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction`; any other function throws a `ParserException`.
 - `FILTER` goes inside `OVER`, mirroring SQL, where `FILTER (WHERE ...)` comes before `OVER (...)`.
 - Without a window specification the window is the whole result, so `OVER(COUNT(e.id))` repeats the total row count on every row.
 - PostgreSQL does not implement `DISTINCT` in window aggregates, so `OVER(COUNT(DISTINCT e.id))` is rejected by the database.
