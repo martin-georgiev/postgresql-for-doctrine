@@ -42,7 +42,7 @@ Both halves take the **same verb from the table in `test-naming-patterns.md`** a
 
 ```php
 // ✓ The two halves every function owes — one verb, one subject, two sources
-returns_the_first_vertex_from_a_wkt_literal()    // ST_ASTEXT(ST_STARTPOINT(ST_GEOMFROMTEXT('LINESTRING(0 0,1 1,2 2)')))
+returns_the_first_vertex_from_a_wkt_literal()    // ST_ASTEXT(ST_STARTPOINT('LINESTRING(0 0,1 1,2 2)'))
 returns_the_first_vertex_from_an_entity_field()  // ST_ASTEXT(ST_STARTPOINT(g.geometry1))
 
 // ❌ Same assertion, two verbs
@@ -63,12 +63,15 @@ Reach the function directly. Nest a helper only to build an input the fixtures d
 // ❌ Four deep to reach one function
 ST_X(ST_STARTPOINT(ST_GEOMETRYN(ST_COLLECT(g.geometry1, g.geometry2), 1)))
 
-// ✓ A literal says what the input is
-ST_ASTEXT(ST_GEOMETRYN(ST_GEOMFROMTEXT('MULTIPOINT((1 2),(3 4))'), 1))
+// ✓ A literal says what the input is. A bare WKT string needs no ST_GEOMFROMTEXT -
+//   PostgreSQL casts unknown to geometry, and PostGIS ships text overloads
+ST_ASTEXT(ST_GEOMETRYN('MULTIPOINT((1 2),(3 4))', 1))
 
 // ✓ ST_COLLECT earns its place — no fixture column holds a collection
 ST_ASTEXT(ST_GEOMETRYN(ST_COLLECT(g.geometry1, g.geometry2), 1))
 ```
+
+A bare literal arrives as `unknown`, so an **overloaded** operator can bind the wrong one and still pass. `'POINT(0 0)' ~ 'POINT(1 1)'` binds `textregexeq`, not `geometry_contains`. Type one operand, or make the class a documented exemption.
 
 Assert a computed geometry only after checking the value is identical on the oldest and newest PostGIS in `.github/workflows/integration-tests.yml`.
 
