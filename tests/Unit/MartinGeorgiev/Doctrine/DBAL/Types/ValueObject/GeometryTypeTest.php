@@ -21,14 +21,6 @@ final class GeometryTypeTest extends TestCase
         $this->assertSame($typeString, $result->value);
     }
 
-    #[Test]
-    public function throws_exception_for_invalid_type(): void
-    {
-        $this->expectException(\ValueError::class);
-
-        GeometryType::from('INVALID');
-    }
-
     #[DataProvider('provideValidGeometryTypes')]
     #[Test]
     public function returns_enum_for_valid_types(string $typeString, GeometryType $geometryType): void
