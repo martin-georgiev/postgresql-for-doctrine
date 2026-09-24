@@ -34,4 +34,15 @@ final class ST_CurveNTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_first_curve_with_measurable_length_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_LENGTH(ST_CURVEN('COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1), (3 1, 4 0))', 1)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 14";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
+    }
 }

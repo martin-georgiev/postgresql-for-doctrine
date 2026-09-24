@@ -32,4 +32,15 @@ final class ST_NumCurvesTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(3, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_curve_count_for_compound_curve_with_three_components_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_NUMCURVES('COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1), (3 1, 4 0))') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 14";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(3, $result[0]['result']);
+    }
 }

@@ -28,4 +28,15 @@ final class ST_PointOnSurfaceTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_point_inside_polygon_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_CONTAINS('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', ST_POINTONSURFACE('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

@@ -37,4 +37,15 @@ final class ST_DistanceTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(1585162.73961816, $result[0]['result'], 0.00000001);
     }
+
+    #[Test]
+    public function returns_distance_between_points_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_DISTANCE('POINT(0 0)', 'POINT(1 1)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
+    }
 }

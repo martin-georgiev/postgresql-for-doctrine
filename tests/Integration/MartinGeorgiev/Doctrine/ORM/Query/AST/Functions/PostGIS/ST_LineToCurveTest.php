@@ -28,4 +28,15 @@ final class ST_LineToCurveTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
+
+    #[Test]
+    public function converts_line_to_curve_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_LENGTH(ST_LINETOCURVE('LINESTRING(0 0, 1 1, 2 2)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
+    }
 }

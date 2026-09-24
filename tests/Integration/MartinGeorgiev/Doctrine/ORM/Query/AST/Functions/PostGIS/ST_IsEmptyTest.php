@@ -26,4 +26,15 @@ final class ST_IsEmptyTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_false_for_non_empty_point_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_ISEMPTY('POINT(0 0)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
+    }
 }

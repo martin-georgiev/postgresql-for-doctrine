@@ -37,4 +37,15 @@ final class ST_AsEWKTTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('SRID=4326;POINT(-9.14 38.72)', $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_ewkt_for_geography_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_ASEWKT('SRID=4326;POINT(-9.1393 38.7223)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('SRID=4326;POINT(-9.1393 38.7223)', $result[0]['result']);
+    }
 }

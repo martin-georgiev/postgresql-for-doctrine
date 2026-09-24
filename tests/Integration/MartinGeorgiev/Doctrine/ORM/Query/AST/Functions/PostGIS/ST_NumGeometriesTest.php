@@ -26,4 +26,15 @@ final class ST_NumGeometriesTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_one_for_single_geometry_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_NUMGEOMETRIES('POINT(0 0)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(1, $result[0]['result']);
+    }
 }

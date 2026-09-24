@@ -43,4 +43,17 @@ final class ST_Force2DTest extends SpatialOperatorTestCase
         $this->assertEquals(3, $result[0]['original']);
         $this->assertEquals(2, $result[0]['transformed']);
     }
+
+    #[Test]
+    public function preserves_2d_point_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_COORDDIM('POINT(0 0)') as original,
+                       ST_COORDDIM(ST_FORCE2D('POINT(0 0)')) as transformed
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(2, $result[0]['original']);
+        $this->assertEquals(2, $result[0]['transformed']);
+    }
 }

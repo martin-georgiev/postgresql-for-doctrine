@@ -28,4 +28,15 @@ final class ST_SplitTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(5.656854249492381, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_split_geometry_when_linestring_crosses_point_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_LENGTH(ST_SPLIT('LINESTRING(0 0, 4 4)', 'POINT(2 2)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 9";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(5.656854249492381, $result[0]['result']);
+    }
 }

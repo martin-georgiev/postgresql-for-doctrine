@@ -28,4 +28,15 @@ final class ST_MakeLineTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_LineString', $result[0]['result']);
     }
+
+    #[Test]
+    public function creates_linestring_from_two_points_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_MAKELINE('POINT(0 0)', 'POINT(1 1)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('ST_LineString', $result[0]['result']);
+    }
 }

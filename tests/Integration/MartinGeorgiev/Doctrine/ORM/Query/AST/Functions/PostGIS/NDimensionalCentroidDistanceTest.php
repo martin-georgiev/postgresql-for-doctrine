@@ -39,4 +39,16 @@ final class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
         $this->assertIsNumeric($result[0]['distance']);
         $this->assertGreaterThan(0, $result[0]['distance']);
     }
+
+    #[Test]
+    public function returns_distance_between_geometry_centroids_from_wkt_literals(): void
+    {
+        $dql = "SELECT ND_CENTROID_DISTANCE('POINT(0 0)', 'POINT(1 1)') as distance
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertIsNumeric($result[0]['distance']);
+        $this->assertGreaterThan(0, $result[0]['distance']);
+    }
 }

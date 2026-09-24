@@ -28,4 +28,15 @@ final class ST_ShortestLineTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_shortest_line_between_separate_points_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_LENGTH(ST_SHORTESTLINE('POINT(0 0)', 'POINT(1 1)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
+    }
 }

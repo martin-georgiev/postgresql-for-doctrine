@@ -26,4 +26,15 @@ final class ST_XTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_x_coordinate_of_a_point_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_X('POINT(1 1)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(1, $result[0]['result']);
+    }
 }

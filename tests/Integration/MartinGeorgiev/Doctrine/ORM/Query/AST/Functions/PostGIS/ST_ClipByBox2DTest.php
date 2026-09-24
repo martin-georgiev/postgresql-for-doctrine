@@ -28,4 +28,15 @@ final class ST_ClipByBox2DTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
     }
+
+    #[Test]
+    public function preserves_full_area_when_clipping_box_contains_entire_polygon_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_AREA(ST_CLIPBYBOX2D('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 'BOX(0 0, 4 4)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
 }

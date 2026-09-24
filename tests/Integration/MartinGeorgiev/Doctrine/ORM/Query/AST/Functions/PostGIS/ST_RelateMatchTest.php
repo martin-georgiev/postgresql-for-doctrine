@@ -28,4 +28,15 @@ final class ST_RelateMatchTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_true_when_fixture_geometry_relation_matches_disjoint_pattern_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_RELATEMATCH(ST_RELATE('POINT(0 0)', 'POINT(1 1)'), 'FF0FFF0F2') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

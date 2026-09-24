@@ -37,4 +37,15 @@ final class ST_RelateTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_de9im_matrix_for_disjoint_point_geometries_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_RELATE('POINT(0 0)', 'POINT(1 1)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('FF0FFF0F2', $result[0]['result']);
+    }
 }

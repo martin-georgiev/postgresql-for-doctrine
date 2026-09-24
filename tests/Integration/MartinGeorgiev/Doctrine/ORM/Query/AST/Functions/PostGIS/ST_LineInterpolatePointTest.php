@@ -28,4 +28,15 @@ final class ST_LineInterpolatePointTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_Point', $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_point_geometry_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_LINEINTERPOLATEPOINT('LINESTRING(0 0, 1 1, 2 2)', 0.5)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('ST_Point', $result[0]['result']);
+    }
 }

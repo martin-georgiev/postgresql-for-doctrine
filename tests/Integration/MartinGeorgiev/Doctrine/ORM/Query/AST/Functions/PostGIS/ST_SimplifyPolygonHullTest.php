@@ -41,4 +41,15 @@ final class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_outer_hull_equal_to_original_for_simple_polygon_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_EQUALS(ST_SIMPLIFYPOLYGONHULL('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 1.0), 'POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

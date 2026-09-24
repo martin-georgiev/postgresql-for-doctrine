@@ -26,4 +26,15 @@ final class ST_ZTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(5, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_z_coordinate_of_3d_point_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_Z('POINT Z(0 0 5)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 11";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(5, $result[0]['result']);
+    }
 }

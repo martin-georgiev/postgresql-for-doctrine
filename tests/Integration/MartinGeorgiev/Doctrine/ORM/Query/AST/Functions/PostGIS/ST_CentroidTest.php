@@ -28,4 +28,15 @@ final class ST_CentroidTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_centroid_for_point_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_EQUALS(ST_CENTROID('POINT(0 0)'), 'POINT(0 0)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

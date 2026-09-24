@@ -61,4 +61,19 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
         // Option 1 includes bounding box
         $this->assertArrayHasKey('bbox', $geojson);
     }
+
+    #[Test]
+    public function returns_geojson_for_polygon_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_ASGEOJSON('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
+        $geojson = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($geojson);
+        $this->assertSame('Polygon', $geojson['type']);
+        $this->assertIsArray($geojson['coordinates']);
+    }
 }

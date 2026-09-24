@@ -28,4 +28,15 @@ final class ST_CollectTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_multipoint_from_two_points_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_AREA(ST_COLLECT('POINT(0 0)', 'POINT(1 1)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0, $result[0]['result']);
+    }
 }

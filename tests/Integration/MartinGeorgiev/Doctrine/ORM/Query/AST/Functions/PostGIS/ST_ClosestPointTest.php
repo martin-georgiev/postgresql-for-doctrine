@@ -28,4 +28,15 @@ final class ST_ClosestPointTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_Point', $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_point_geometry_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_CLOSESTPOINT('POINT(0 0)', 'POINT(1 1)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('ST_Point', $result[0]['result']);
+    }
 }

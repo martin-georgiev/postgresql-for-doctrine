@@ -26,4 +26,15 @@ final class ST_3DLengthTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(2000, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_length_for_linestring_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_3DLENGTH('LINESTRING(0 0, 1000 0, 1000 1000)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 10";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(2000, $result[0]['result']);
+    }
 }

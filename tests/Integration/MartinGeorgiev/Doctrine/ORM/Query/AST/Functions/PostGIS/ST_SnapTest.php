@@ -28,4 +28,15 @@ final class ST_SnapTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_Polygon', $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_snapped_geometry_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_SNAP('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 'POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))', 2.0)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('ST_Polygon', $result[0]['result']);
+    }
 }

@@ -28,4 +28,15 @@ final class ST_CollectionExtractTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_extracted_point_from_geometry_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_EQUALS(ST_COLLECTIONEXTRACT('POINT(0 0)', 1), 'POINT(0 0)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

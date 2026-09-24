@@ -41,4 +41,15 @@ final class ST_TranslateTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_point_translated_by_offset_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_DISTANCE('POINT(0 0)', ST_TRANSLATE('POINT(0 0)', 10.0, 10.0)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(14.142135623730951, $result[0]['result']);
+    }
 }

@@ -28,4 +28,15 @@ final class ST_BoundaryTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_boundary_for_polygon_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_LENGTH(ST_BOUNDARY('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
 }

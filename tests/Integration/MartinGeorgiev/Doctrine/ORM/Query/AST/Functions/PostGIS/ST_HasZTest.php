@@ -32,4 +32,15 @@ final class ST_HasZTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_false_for_2d_geometry_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_HASZ('POINT(0 0)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
+    }
 }

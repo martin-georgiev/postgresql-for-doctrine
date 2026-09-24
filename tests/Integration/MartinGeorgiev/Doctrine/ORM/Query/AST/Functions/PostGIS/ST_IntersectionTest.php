@@ -28,4 +28,15 @@ final class ST_IntersectionTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_intersection_of_overlapping_polygons_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_AREA(ST_INTERSECTION('POLYGON((0 0, 0 2, 2 2, 2 0, 0 0))', 'POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 4";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(1, $result[0]['result']);
+    }
 }

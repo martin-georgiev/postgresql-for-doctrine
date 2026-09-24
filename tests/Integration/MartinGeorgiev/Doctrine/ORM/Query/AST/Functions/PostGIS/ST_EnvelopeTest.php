@@ -28,4 +28,15 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_envelope_of_point_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_EQUALS(ST_ENVELOPE('POINT(0 0)'), 'POINT(0 0)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

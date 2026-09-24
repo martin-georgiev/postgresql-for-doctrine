@@ -34,4 +34,15 @@ final class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function preserves_polygon_larger_than_threshold_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_EQUALS(ST_REMOVESMALLPARTS('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 1, 0), 'POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

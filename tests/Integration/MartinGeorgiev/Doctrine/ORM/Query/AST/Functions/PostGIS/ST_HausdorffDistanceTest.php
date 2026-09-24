@@ -37,4 +37,15 @@ final class ST_HausdorffDistanceTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_hausdorff_distance_between_points_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_HAUSDORFFDISTANCE('POINT(0 0)', 'POINT(1 1)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
+    }
 }

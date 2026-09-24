@@ -41,4 +41,15 @@ final class ST_RotateTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_Polygon', $result[0]['result']);
     }
+
+    #[Test]
+    public function preserves_point_at_origin_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_EQUALS(ST_ROTATE('POINT(0 0)', 0.785398), 'POINT(0 0)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

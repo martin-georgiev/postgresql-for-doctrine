@@ -58,4 +58,25 @@ final class ST_TransformTest extends SpatialOperatorTestCase
         $this->assertEqualsWithDelta(0.0, $firstPoint[0], 0.0000000001);
         $this->assertEqualsWithDelta(0.0, $firstPoint[1], 0.0000000001);
     }
+
+    #[Test]
+    public function converts_polygon_from_wgs84_to_web_mercator_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM('SRID=4326;POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 3857)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
+        $geojson = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($geojson);
+        $this->assertSame('Polygon', $geojson['type']);
+        $this->assertIsArray($geojson['coordinates']);
+        $outerRing = $geojson['coordinates'][0];
+        $this->assertIsArray($outerRing);
+        $vertex = $outerRing[2];
+        $this->assertIsArray($vertex);
+        $this->assertEqualsWithDelta(445277.96, $vertex[0], 0.01);
+        $this->assertEqualsWithDelta(445640.11, $vertex[1], 0.01);
+    }
 }

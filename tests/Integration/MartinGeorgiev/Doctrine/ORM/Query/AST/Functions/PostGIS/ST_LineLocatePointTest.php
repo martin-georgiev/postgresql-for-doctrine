@@ -26,4 +26,15 @@ final class ST_LineLocatePointTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0.5, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_half_for_midpoint_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_LINELOCATEPOINT('LINESTRING(0 0, 4 4)', 'POINT(2 2)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 9";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0.5, $result[0]['result']);
+    }
 }

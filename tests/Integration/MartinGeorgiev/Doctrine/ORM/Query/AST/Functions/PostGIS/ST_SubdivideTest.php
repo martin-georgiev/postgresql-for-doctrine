@@ -39,4 +39,15 @@ final class ST_SubdivideTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
     }
+
+    #[Test]
+    public function preserves_a_subdivided_polygon_area_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_AREA(ST_SUBDIVIDE('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 10)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
 }

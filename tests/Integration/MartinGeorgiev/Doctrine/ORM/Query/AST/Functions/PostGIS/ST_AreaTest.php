@@ -37,4 +37,15 @@ final class ST_AreaTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(386273830.62023926, $result[0]['result'], 0.001);
     }
+
+    #[Test]
+    public function returns_area_for_polygon_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_AREA('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
 }
