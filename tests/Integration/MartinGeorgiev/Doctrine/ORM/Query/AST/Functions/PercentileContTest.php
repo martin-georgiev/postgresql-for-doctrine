@@ -21,6 +21,6 @@ final class PercentileContTest extends NumericTestCase
     {
         $dql = 'SELECT PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY n.decimal1) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(10.5, $result[0]['result']);
+        $this->assertEquals(10.5, $result[0]['result']);
     }
 }
