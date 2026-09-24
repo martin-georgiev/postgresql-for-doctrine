@@ -17,7 +17,7 @@ final class ST_NumGeometriesTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_one_for_single_geometry(): void
+    public function returns_the_geometry_count_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_NUMGEOMETRIES(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_NumGeometriesTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_one_for_single_geometry_from_a_wkt_literal(): void
+    public function returns_the_geometry_count_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_NUMGEOMETRIES('POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -17,7 +17,7 @@ final class ST_EqualsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_geometries_are_not_equal(): void
+    public function returns_whether_the_geometries_are_equal_from_entity_fields(): void
     {
         $dql = 'SELECT ST_EQUALS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_EqualsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_geometries_are_not_equal_from_wkt_literals(): void
+    public function returns_whether_the_geometries_are_equal_from_wkt_literals(): void
     {
         $dql = "SELECT ST_EQUALS('POINT(0 0)', 'POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

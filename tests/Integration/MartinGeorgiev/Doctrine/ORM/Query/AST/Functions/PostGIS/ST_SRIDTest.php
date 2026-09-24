@@ -17,7 +17,7 @@ final class ST_SRIDTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_srid_of_geometry(): void
+    public function returns_the_srid_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_SRID(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

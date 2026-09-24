@@ -21,7 +21,7 @@ final class ST_GeomFromGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function roundtrips_point_geometry(): void
+    public function roundtrips_a_geojson_literal(): void
     {
         $dql = "SELECT ST_EQUALS(g.geometry1, ST_GEOMFROMGEOJSON('{\"type\":\"Point\",\"coordinates\":[0,0]}')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

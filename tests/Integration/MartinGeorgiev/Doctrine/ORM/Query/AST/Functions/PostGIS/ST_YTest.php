@@ -17,7 +17,7 @@ final class ST_YTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_y_coordinate_of_a_point(): void
+    public function returns_the_y_coordinate_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_Y(g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_YTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_y_coordinate_of_a_point_from_a_wkt_literal(): void
+    public function returns_the_y_coordinate_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_Y('POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -17,7 +17,7 @@ final class SpatialContainedByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_first_polygon_is_not_contained_by_overlapping_second(): void
+    public function returns_whether_the_bounding_box_is_contained_by_the_other_from_entity_fields(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class SpatialContainedByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_first_polygon_is_not_contained_by_overlapping_second_from_a_literal_operand(): void
+    public function returns_whether_the_bounding_box_is_contained_by_the_other_from_a_literal_operand(): void
     {
         $dql = "SELECT SPATIAL_CONTAINED_BY(g.geometry1, 'SRID=4326;POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

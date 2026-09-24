@@ -17,7 +17,7 @@ final class ST_ZTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_z_coordinate_of_3d_point(): void
+    public function returns_the_z_coordinate_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_Z(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_ZTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_z_coordinate_of_3d_point_from_a_wkt_literal(): void
+    public function returns_the_z_coordinate_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_Z('POINT Z(0 0 5)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

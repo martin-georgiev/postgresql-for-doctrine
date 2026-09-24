@@ -17,7 +17,7 @@ final class ST_LineLocatePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_half_for_midpoint(): void
+    public function returns_the_located_fraction_from_entity_fields(): void
     {
         $dql = 'SELECT ST_LINELOCATEPOINT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_LineLocatePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_half_for_midpoint_from_wkt_literals(): void
+    public function returns_the_located_fraction_from_wkt_literals(): void
     {
         $dql = "SELECT ST_LINELOCATEPOINT('LINESTRING(0 0, 4 4)', 'POINT(2 2)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -17,7 +17,7 @@ final class ST_3DDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_3d_distance_between_points(): void
+    public function returns_the_3d_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ST_3DDISTANCE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_3DDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_3d_distance_between_points_from_wkt_literals(): void
+    public function returns_the_3d_distance_from_wkt_literals(): void
     {
         $dql = "SELECT ST_3DDISTANCE('POINT(0 0)', 'POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -17,7 +17,7 @@ final class ST_AsEWKTTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_ewkt_for_geography(): void
+    public function returns_the_ewkt_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASEWKT(g.geography1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -39,7 +39,7 @@ final class ST_AsEWKTTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_ewkt_for_geography_from_a_wkt_literal(): void
+    public function returns_the_ewkt_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ASEWKT('SRID=4326;POINT(-9.1393 38.7223)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -21,7 +21,7 @@ final class ST_TranslateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_translated_by_offset(): void
+    public function returns_the_translated_geometry_from_entity_fields(): void
     {
         $dql = 'SELECT ST_DISTANCE(g.geometry1, ST_TRANSLATE(g.geometry1, 10.0, 10.0)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -43,7 +43,7 @@ final class ST_TranslateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_translated_by_offset_from_wkt_literals(): void
+    public function returns_the_translated_geometry_from_wkt_literals(): void
     {
         $dql = "SELECT ST_DISTANCE('POINT(0 0)', ST_TRANSLATE('POINT(0 0)', 10.0, 10.0)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

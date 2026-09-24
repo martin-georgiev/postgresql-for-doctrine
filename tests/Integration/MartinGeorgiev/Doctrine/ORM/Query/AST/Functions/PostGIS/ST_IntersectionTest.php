@@ -19,7 +19,7 @@ final class ST_IntersectionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_intersection_of_overlapping_polygons(): void
+    public function returns_the_intersection_from_entity_fields(): void
     {
         $dql = 'SELECT ST_AREA(ST_INTERSECTION(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_IntersectionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_intersection_of_overlapping_polygons_from_wkt_literals(): void
+    public function returns_the_intersection_from_wkt_literals(): void
     {
         $dql = "SELECT ST_AREA(ST_INTERSECTION('POLYGON((0 0, 0 2, 2 2, 2 0, 0 0))', 'POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

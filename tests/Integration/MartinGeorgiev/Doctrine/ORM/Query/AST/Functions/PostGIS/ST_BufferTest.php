@@ -19,7 +19,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_buffered_point(): void
+    public function returns_the_buffered_geometry_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_AREA(ST_BUFFER(g.geometry1, 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -52,7 +52,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_buffered_point_from_a_wkt_literal(): void
+    public function returns_the_buffered_geometry_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_AREA(ST_BUFFER('POINT(0 0)', 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

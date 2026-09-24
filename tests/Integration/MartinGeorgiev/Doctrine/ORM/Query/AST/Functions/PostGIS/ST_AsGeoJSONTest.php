@@ -17,7 +17,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_geojson_for_polygon(): void
+    public function returns_the_geojson_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -63,7 +63,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_geojson_for_polygon_from_a_wkt_literal(): void
+    public function returns_the_geojson_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ASGEOJSON('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

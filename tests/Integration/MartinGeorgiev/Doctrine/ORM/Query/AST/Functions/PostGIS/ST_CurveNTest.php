@@ -25,7 +25,7 @@ final class ST_CurveNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_first_curve_with_measurable_length(): void
+    public function returns_the_nth_curve_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_CURVEN(g.geometry1, 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -36,7 +36,7 @@ final class ST_CurveNTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_first_curve_with_measurable_length_from_a_wkt_literal(): void
+    public function returns_the_nth_curve_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_LENGTH(ST_CURVEN('COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1), (3 1, 4 0))', 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

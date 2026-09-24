@@ -17,7 +17,7 @@ final class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_distance_between_geometry_centroids(): void
+    public function returns_the_centroid_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ND_CENTROID_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -41,7 +41,7 @@ final class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_distance_between_geometry_centroids_from_wkt_literals(): void
+    public function returns_the_centroid_distance_from_wkt_literals(): void
     {
         $dql = "SELECT ND_CENTROID_DISTANCE('POINT(0 0)', 'POINT(1 1)') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

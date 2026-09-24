@@ -17,7 +17,7 @@ final class OverlapsAboveTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_polygons_are_at_same_vertical_level(): void
+    public function returns_whether_the_bounding_box_overlaps_above_from_entity_fields(): void
     {
         $dql = 'SELECT OVERLAPS_ABOVE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class OverlapsAboveTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometry_is_positioned_above_literal_point(): void
+    public function returns_whether_the_bounding_box_overlaps_above_from_a_literal_operand(): void
     {
         $dql = "SELECT OVERLAPS_ABOVE(g.geometry1, 'POINT(0 -1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

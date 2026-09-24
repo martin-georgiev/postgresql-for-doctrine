@@ -19,7 +19,7 @@ final class ST_CollectionExtractTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_extracted_point_from_geometry(): void
+    public function returns_the_extracted_collection_from_entity_fields(): void
     {
         $dql = 'SELECT ST_EQUALS(ST_COLLECTIONEXTRACT(g.geometry1, 1), g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_CollectionExtractTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_extracted_point_from_geometry_from_wkt_literals(): void
+    public function returns_the_extracted_collection_from_wkt_literals(): void
     {
         $dql = "SELECT ST_EQUALS(ST_COLLECTIONEXTRACT('POINT(0 0)', 1), 'POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

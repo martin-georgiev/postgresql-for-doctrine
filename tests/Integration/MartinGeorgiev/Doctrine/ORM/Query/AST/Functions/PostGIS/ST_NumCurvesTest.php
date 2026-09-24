@@ -23,7 +23,7 @@ final class ST_NumCurvesTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_curve_count_for_compound_curve_with_three_components(): void
+    public function returns_the_curve_count_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_NUMCURVES(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -34,7 +34,7 @@ final class ST_NumCurvesTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_curve_count_for_compound_curve_with_three_components_from_a_wkt_literal(): void
+    public function returns_the_curve_count_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_NUMCURVES('COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1), (3 1, 4 0))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

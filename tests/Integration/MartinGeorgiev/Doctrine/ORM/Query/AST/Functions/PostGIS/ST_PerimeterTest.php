@@ -17,7 +17,7 @@ final class ST_PerimeterTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_perimeter_for_polygon(): void
+    public function returns_the_perimeter_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_PERIMETER(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

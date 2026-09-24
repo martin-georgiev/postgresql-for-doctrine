@@ -17,7 +17,7 @@ final class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_de9im_matrix_for_disjoint_point_geometries(): void
+    public function returns_the_intersection_matrix_from_entity_fields(): void
     {
         $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -39,7 +39,7 @@ final class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_de9im_matrix_for_disjoint_point_geometries_from_wkt_literals(): void
+    public function returns_the_intersection_matrix_from_wkt_literals(): void
     {
         $dql = "SELECT ST_RELATE('POINT(0 0)', 'POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

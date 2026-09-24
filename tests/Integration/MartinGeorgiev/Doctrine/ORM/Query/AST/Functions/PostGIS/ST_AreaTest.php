@@ -17,7 +17,7 @@ final class ST_AreaTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_area_for_polygon(): void
+    public function returns_the_area_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_AREA(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -39,7 +39,7 @@ final class ST_AreaTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_area_for_polygon_from_a_wkt_literal(): void
+    public function returns_the_area_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_AREA('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

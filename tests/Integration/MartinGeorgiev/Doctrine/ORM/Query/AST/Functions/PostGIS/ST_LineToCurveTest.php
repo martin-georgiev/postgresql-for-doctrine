@@ -19,7 +19,7 @@ final class ST_LineToCurveTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function converts_line_to_curve(): void
+    public function converts_the_line_to_a_curve_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_LINETOCURVE(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_LineToCurveTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function converts_line_to_curve_from_a_wkt_literal(): void
+    public function converts_the_line_to_a_curve_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_LENGTH(ST_LINETOCURVE('LINESTRING(0 0, 1 1, 2 2)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

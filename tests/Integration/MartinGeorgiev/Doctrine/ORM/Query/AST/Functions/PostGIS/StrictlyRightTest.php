@@ -17,7 +17,7 @@ final class StrictlyRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_first_point_is_not_strictly_to_the_right(): void
+    public function returns_whether_the_bounding_box_is_strictly_right_from_entity_fields(): void
     {
         $dql = 'SELECT STRICTLY_RIGHT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class StrictlyRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometry_is_positioned_right_of_literal_point(): void
+    public function returns_whether_the_bounding_box_is_strictly_right_from_a_literal_operand(): void
     {
         $dql = "SELECT STRICTLY_RIGHT(g.geometry1, 'POINT(-5 -5)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

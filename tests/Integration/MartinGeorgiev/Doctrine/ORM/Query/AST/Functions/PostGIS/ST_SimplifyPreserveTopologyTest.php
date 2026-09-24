@@ -19,7 +19,7 @@ final class ST_SimplifyPreserveTopologyTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_simplified_linestring(): void
+    public function returns_the_topology_preserving_simplification_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_SIMPLIFYPRESERVETOPOLOGY(g.geometry1, 0.1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_SimplifyPreserveTopologyTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_simplified_linestring_from_a_wkt_literal(): void
+    public function returns_the_topology_preserving_simplification_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_LENGTH(ST_SIMPLIFYPRESERVETOPOLOGY('LINESTRING(0 0, 1 1, 2 2)', 0.1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

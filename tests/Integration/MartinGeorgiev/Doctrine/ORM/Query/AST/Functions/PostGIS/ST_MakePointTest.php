@@ -21,7 +21,7 @@ final class ST_MakePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_2d_point(): void
+    public function creates_the_point_from_numeric_literals(): void
     {
         $dql = 'SELECT ST_X(ST_MAKEPOINT(10, 20)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

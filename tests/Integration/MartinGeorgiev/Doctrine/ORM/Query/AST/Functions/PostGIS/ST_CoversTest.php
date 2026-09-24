@@ -17,7 +17,7 @@ final class ST_CoversTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries(): void
+    public function returns_whether_the_geometry_covers_the_other_from_entity_fields(): void
     {
         $dql = 'SELECT ST_COVERS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_CoversTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries_from_wkt_literals(): void
+    public function returns_whether_the_geometry_covers_the_other_from_wkt_literals(): void
     {
         $dql = "SELECT ST_COVERS('POINT(0 0)', 'POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

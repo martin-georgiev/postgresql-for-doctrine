@@ -17,7 +17,7 @@ final class ST_3DDWithinTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_3d_geometries_are_within_distance(): void
+    public function returns_whether_the_geometries_are_within_the_3d_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ST_3DDWITHIN(g.geometry1, g.geometry2, 10.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_3DDWithinTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_3d_geometries_are_within_distance_from_wkt_literals(): void
+    public function returns_whether_the_geometries_are_within_the_3d_distance_from_wkt_literals(): void
     {
         $dql = "SELECT ST_3DDWITHIN('POINT(0 0)', 'POINT(1 1)', 10.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

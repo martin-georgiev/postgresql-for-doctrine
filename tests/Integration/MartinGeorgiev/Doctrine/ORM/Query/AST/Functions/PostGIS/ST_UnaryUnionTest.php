@@ -19,7 +19,7 @@ final class ST_UnaryUnionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_unary_union_of_polygon(): void
+    public function returns_the_unary_union_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_AREA(ST_UNARYUNION(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_UnaryUnionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_unary_union_of_polygon_from_a_wkt_literal(): void
+    public function returns_the_unary_union_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_AREA(ST_UNARYUNION('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -25,7 +25,7 @@ final class ST_RemoveIrrelevantPointsForViewTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_area_for_simple_polygon(): void
+    public function returns_the_geometry_without_irrelevant_points_from_an_entity_field(): void
     {
         $dql = "SELECT ST_AREA(ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsGeometries g
@@ -36,7 +36,7 @@ final class ST_RemoveIrrelevantPointsForViewTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_area_for_simple_polygon_from_a_wkt_literal(): void
+    public function returns_the_geometry_without_irrelevant_points_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_AREA(ST_REMOVEIRRELEVANTPOINTSFORVIEW('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 'BOX(-10 -10, 10 10)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

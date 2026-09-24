@@ -23,7 +23,7 @@ final class ST_HasMTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_for_2d_geometry(): void
+    public function returns_whether_the_geometry_has_an_m_coordinate_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_HASM(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -34,7 +34,7 @@ final class ST_HasMTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_for_2d_geometry_from_a_wkt_literal(): void
+    public function returns_whether_the_geometry_has_an_m_coordinate_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_HASM('POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

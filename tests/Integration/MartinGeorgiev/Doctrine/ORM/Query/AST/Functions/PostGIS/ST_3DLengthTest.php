@@ -17,7 +17,7 @@ final class ST_3DLengthTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_length_for_linestring(): void
+    public function returns_the_3d_length_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_3DLENGTH(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_3DLengthTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_length_for_linestring_from_a_wkt_literal(): void
+    public function returns_the_3d_length_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_3DLENGTH('LINESTRING(0 0, 1000 0, 1000 1000)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

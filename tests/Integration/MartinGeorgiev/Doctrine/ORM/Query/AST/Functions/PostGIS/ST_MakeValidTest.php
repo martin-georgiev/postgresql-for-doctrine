@@ -26,7 +26,7 @@ final class ST_MakeValidTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_a_repaired_self_intersecting_polygon(): void
+    public function returns_the_repaired_geometry_from_a_bound_parameter(): void
     {
         $dql = 'SELECT ST_ISVALID(ST_MAKEVALID(:geometry)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -48,7 +48,7 @@ final class ST_MakeValidTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_an_already_valid_entity_field_unchanged(): void
+    public function returns_the_repaired_geometry_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_ISVALID(ST_MAKEVALID(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -19,7 +19,7 @@ final class ST_TransformTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function converts_polygon_from_wgs84_to_web_mercator(): void
+    public function returns_the_transformed_geometry_from_an_entity_field(): void
     {
         $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, 3857)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -60,7 +60,7 @@ final class ST_TransformTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function converts_polygon_from_wgs84_to_web_mercator_from_a_wkt_literal(): void
+    public function returns_the_transformed_geometry_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM('SRID=4326;POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 3857)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

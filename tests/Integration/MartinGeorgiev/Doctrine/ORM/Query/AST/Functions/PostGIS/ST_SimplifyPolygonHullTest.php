@@ -21,7 +21,7 @@ final class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_outer_hull_equal_to_original_for_simple_polygon(): void
+    public function returns_the_simplified_polygon_hull_from_entity_fields(): void
     {
         $dql = 'SELECT ST_EQUALS(ST_SIMPLIFYPOLYGONHULL(g.geometry1, 1.0), g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -43,7 +43,7 @@ final class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_outer_hull_equal_to_original_for_simple_polygon_from_wkt_literals(): void
+    public function returns_the_simplified_polygon_hull_from_wkt_literals(): void
     {
         $dql = "SELECT ST_EQUALS(ST_SIMPLIFYPOLYGONHULL('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 1.0), 'POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

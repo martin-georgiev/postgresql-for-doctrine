@@ -17,7 +17,7 @@ final class SpatialSameTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_different_point_geometries(): void
+    public function returns_whether_the_bounding_boxes_are_the_same_from_entity_fields(): void
     {
         $dql = 'SELECT SPATIAL_SAME(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class SpatialSameTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_different_point_geometries_from_a_literal_operand(): void
+    public function returns_whether_the_bounding_boxes_are_the_same_from_a_literal_operand(): void
     {
         $dql = "SELECT SPATIAL_SAME(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

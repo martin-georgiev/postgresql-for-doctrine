@@ -17,7 +17,7 @@ final class BoundingBoxDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_when_polygon_bounding_boxes_overlap(): void
+    public function returns_the_bounding_box_distance_from_wkt_literals(): void
     {
         $dql = "SELECT BOUNDING_BOX_DISTANCE('POLYGON((0 0, 2 0, 2 2, 0 2, 0 0))', 'POLYGON((1 1, 3 1, 3 3, 1 3, 1 1))') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class BoundingBoxDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_when_polygon_bounding_boxes_overlap_from_entity_fields(): void
+    public function returns_the_bounding_box_distance_from_entity_fields(): void
     {
         $dql = 'SELECT BOUNDING_BOX_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -17,7 +17,7 @@ final class OverlapsRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_left_geometry_is_to_the_left(): void
+    public function returns_whether_the_bounding_box_overlaps_right_from_entity_fields(): void
     {
         $dql = 'SELECT OVERLAPS_RIGHT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class OverlapsRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_left_geometry_is_to_the_left_from_a_literal_operand(): void
+    public function returns_whether_the_bounding_box_overlaps_right_from_a_literal_operand(): void
     {
         $dql = "SELECT OVERLAPS_RIGHT(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

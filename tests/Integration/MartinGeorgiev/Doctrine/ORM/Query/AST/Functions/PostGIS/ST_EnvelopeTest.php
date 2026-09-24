@@ -19,7 +19,7 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_envelope_of_point(): void
+    public function returns_the_envelope_from_entity_fields(): void
     {
         $dql = 'SELECT ST_EQUALS(ST_ENVELOPE(g.geometry1), g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_envelope_of_point_from_wkt_literals(): void
+    public function returns_the_envelope_from_wkt_literals(): void
     {
         $dql = "SELECT ST_EQUALS(ST_ENVELOPE('POINT(0 0)'), 'POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

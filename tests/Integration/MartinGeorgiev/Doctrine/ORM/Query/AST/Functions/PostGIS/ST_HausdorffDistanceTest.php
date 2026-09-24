@@ -17,7 +17,7 @@ final class ST_HausdorffDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_hausdorff_distance_between_points(): void
+    public function returns_the_hausdorff_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ST_HAUSDORFFDISTANCE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -39,7 +39,7 @@ final class ST_HausdorffDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_hausdorff_distance_between_points_from_wkt_literals(): void
+    public function returns_the_hausdorff_distance_from_wkt_literals(): void
     {
         $dql = "SELECT ST_HAUSDORFFDISTANCE('POINT(0 0)', 'POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -19,7 +19,7 @@ final class ST_LineInterpolatePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_geometry(): void
+    public function returns_the_interpolated_point_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_LINEINTERPOLATEPOINT(g.geometry1, 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_LineInterpolatePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_geometry_from_a_wkt_literal(): void
+    public function returns_the_interpolated_point_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_GEOMETRYTYPE(ST_LINEINTERPOLATEPOINT('LINESTRING(0 0, 1 1, 2 2)', 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

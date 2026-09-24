@@ -19,7 +19,7 @@ final class ST_ClipByBox2DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_full_area_when_clipping_box_contains_entire_polygon(): void
+    public function returns_the_clipped_geometry_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_AREA(ST_CLIPBYBOX2D(g.geometry1, \'BOX(0 0, 4 4)\')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_ClipByBox2DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_full_area_when_clipping_box_contains_entire_polygon_from_a_wkt_literal(): void
+    public function returns_the_clipped_geometry_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_AREA(ST_CLIPBYBOX2D('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 'BOX(0 0, 4 4)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

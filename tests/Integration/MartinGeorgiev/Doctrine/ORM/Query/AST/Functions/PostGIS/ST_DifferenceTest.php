@@ -19,7 +19,7 @@ final class ST_DifferenceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_difference_between_polygons(): void
+    public function returns_the_difference_from_entity_fields(): void
     {
         $dql = 'SELECT ST_AREA(ST_DIFFERENCE(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_DifferenceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_difference_between_polygons_from_wkt_literals(): void
+    public function returns_the_difference_from_wkt_literals(): void
     {
         $dql = "SELECT ST_AREA(ST_DIFFERENCE('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 'POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

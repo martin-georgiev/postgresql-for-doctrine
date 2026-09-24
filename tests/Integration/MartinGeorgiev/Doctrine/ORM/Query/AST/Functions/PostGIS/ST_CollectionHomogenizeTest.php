@@ -21,7 +21,7 @@ final class ST_CollectionHomogenizeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_homogenized_collection_of_same_type_points(): void
+    public function returns_the_homogenized_collection_from_entity_fields(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_COLLECTIONHOMOGENIZE(ST_COLLECT(g.geometry1, g.geometry2))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,7 +32,7 @@ final class ST_CollectionHomogenizeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_homogenized_collection_of_same_type_points_from_wkt_literals(): void
+    public function returns_the_homogenized_collection_from_wkt_literals(): void
     {
         $dql = "SELECT ST_GEOMETRYTYPE(ST_COLLECTIONHOMOGENIZE(ST_COLLECT('POINT(0 0)', 'POINT(1 1)'))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

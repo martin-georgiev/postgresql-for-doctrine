@@ -19,7 +19,7 @@ final class ST_Force2DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_2d_point(): void
+    public function returns_the_2d_geometry_from_entity_fields(): void
     {
         $dql = 'SELECT ST_COORDDIM(g.geometry1) as original,
                        ST_COORDDIM(ST_FORCE2D(g.geometry1)) as transformed
@@ -45,7 +45,7 @@ final class ST_Force2DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_2d_point_from_wkt_literals(): void
+    public function returns_the_2d_geometry_from_wkt_literals(): void
     {
         $dql = "SELECT ST_COORDDIM('POINT(0 0)') as original,
                        ST_COORDDIM(ST_FORCE2D('POINT(0 0)')) as transformed

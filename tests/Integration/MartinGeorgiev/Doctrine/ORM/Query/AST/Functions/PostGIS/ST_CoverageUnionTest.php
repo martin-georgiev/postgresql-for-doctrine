@@ -19,7 +19,7 @@ final class ST_CoverageUnionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_total_area_in_coverage_union(): void
+    public function returns_the_coverage_union_from_an_entity_field(): void
     {
         // ST_CoverageUnion is an aggregate function - when applied to a single polygon,
         // it should return the same polygon with the same area (16 for 4x4 polygon)

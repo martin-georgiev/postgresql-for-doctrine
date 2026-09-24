@@ -19,7 +19,7 @@ final class ST_PointOnSurfaceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_inside_polygon(): void
+    public function returns_the_point_on_the_surface_from_entity_fields(): void
     {
         $dql = 'SELECT ST_CONTAINS(g.geometry1, ST_POINTONSURFACE(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_PointOnSurfaceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_inside_polygon_from_wkt_literals(): void
+    public function returns_the_point_on_the_surface_from_wkt_literals(): void
     {
         $dql = "SELECT ST_CONTAINS('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', ST_POINTONSURFACE('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

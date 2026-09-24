@@ -24,7 +24,7 @@ final class ST_IsValidReasonTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_reason_and_location_for_a_self_intersecting_polygon(): void
+    public function returns_the_validity_reason_from_a_bound_parameter(): void
     {
         $dql = 'SELECT ST_ISVALIDREASON(:geometry) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -46,7 +46,7 @@ final class ST_IsValidReasonTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_reason_for_a_valid_entity_field(): void
+    public function returns_the_validity_reason_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_ISVALIDREASON(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

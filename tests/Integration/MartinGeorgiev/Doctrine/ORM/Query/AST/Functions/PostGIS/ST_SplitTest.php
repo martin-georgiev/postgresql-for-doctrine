@@ -19,7 +19,7 @@ final class ST_SplitTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_split_geometry_when_linestring_crosses_point(): void
+    public function returns_the_split_geometry_from_entity_fields(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_SPLIT(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_SplitTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_split_geometry_when_linestring_crosses_point_from_wkt_literals(): void
+    public function returns_the_split_geometry_from_wkt_literals(): void
     {
         $dql = "SELECT ST_LENGTH(ST_SPLIT('LINESTRING(0 0, 4 4)', 'POINT(2 2)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

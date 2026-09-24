@@ -19,7 +19,7 @@ final class ST_MakeLineTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_linestring_from_two_points(): void
+    public function creates_the_linestring_from_entity_fields(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_MAKELINE(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_MakeLineTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_linestring_from_two_points_from_wkt_literals(): void
+    public function creates_the_linestring_from_wkt_literals(): void
     {
         $dql = "SELECT ST_GEOMETRYTYPE(ST_MAKELINE('POINT(0 0)', 'POINT(1 1)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

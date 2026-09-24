@@ -19,7 +19,7 @@ final class ST_Force3DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_3d_point(): void
+    public function returns_the_3d_geometry_from_entity_fields(): void
     {
         $dql = 'SELECT ST_COORDDIM(g.geometry1) as original,
                        ST_COORDDIM(ST_FORCE3D(g.geometry1)) as transformed
@@ -45,7 +45,7 @@ final class ST_Force3DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_3d_point_from_wkt_literals(): void
+    public function returns_the_3d_geometry_from_wkt_literals(): void
     {
         $dql = "SELECT ST_COORDDIM('POINT Z(0 0 5)') as original,
                        ST_COORDDIM(ST_FORCE3D('POINT Z(0 0 5)')) as transformed

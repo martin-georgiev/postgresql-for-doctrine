@@ -17,7 +17,7 @@ final class ST_IsEmptyTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_for_non_empty_point(): void
+    public function returns_whether_the_geometry_is_empty_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_ISEMPTY(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_IsEmptyTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_for_non_empty_point_from_a_wkt_literal(): void
+    public function returns_whether_the_geometry_is_empty_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_ISEMPTY('POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

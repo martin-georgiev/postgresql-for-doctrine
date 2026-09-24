@@ -21,7 +21,7 @@ final class ST_PointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_point_with_correct_x(): void
+    public function creates_the_point_from_numeric_literals(): void
     {
         $dql = 'SELECT ST_X(ST_POINT(42, 7)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

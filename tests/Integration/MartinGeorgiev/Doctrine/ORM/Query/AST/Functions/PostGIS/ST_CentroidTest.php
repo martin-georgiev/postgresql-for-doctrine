@@ -19,7 +19,7 @@ final class ST_CentroidTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_centroid_for_point(): void
+    public function returns_the_centroid_from_entity_fields(): void
     {
         $dql = 'SELECT ST_EQUALS(ST_CENTROID(g.geometry1), g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_CentroidTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_centroid_for_point_from_wkt_literals(): void
+    public function returns_the_centroid_from_wkt_literals(): void
     {
         $dql = "SELECT ST_EQUALS(ST_CENTROID('POINT(0 0)'), 'POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

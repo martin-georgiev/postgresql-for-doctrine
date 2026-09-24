@@ -17,7 +17,7 @@ final class ST_DWithinTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_points_are_within_distance(): void
+    public function returns_whether_the_geometries_are_within_the_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ST_DWITHIN(g.geometry1, g.geometry2, 2.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_DWithinTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_points_are_within_distance_from_wkt_literals(): void
+    public function returns_whether_the_geometries_are_within_the_distance_from_wkt_literals(): void
     {
         $dql = "SELECT ST_DWITHIN('POINT(0 0)', 'POINT(1 1)', 2.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

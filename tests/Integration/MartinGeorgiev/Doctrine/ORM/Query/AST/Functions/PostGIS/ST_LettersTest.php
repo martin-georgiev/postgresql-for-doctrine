@@ -19,7 +19,7 @@ final class ST_LettersTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_geometry_with_consistent_area_for_same_letter(): void
+    public function creates_the_letter_geometry_from_a_text_literal(): void
     {
         $dql = "SELECT ST_AREA(ST_LETTERS('A')) as area1, ST_AREA(ST_LETTERS('A')) as area2
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsGeometries g

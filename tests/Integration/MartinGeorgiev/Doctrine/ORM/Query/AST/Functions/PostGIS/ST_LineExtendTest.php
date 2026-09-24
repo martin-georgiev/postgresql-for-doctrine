@@ -19,7 +19,7 @@ final class ST_LineExtendTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_line_extended_forward(): void
+    public function returns_the_extended_line_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_LINEEXTEND(g.geometry1, 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -45,7 +45,7 @@ final class ST_LineExtendTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_line_extended_forward_from_a_wkt_literal(): void
+    public function returns_the_extended_line_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_LENGTH(ST_LINEEXTEND('LINESTRING(0 0, 1 1, 2 2)', 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

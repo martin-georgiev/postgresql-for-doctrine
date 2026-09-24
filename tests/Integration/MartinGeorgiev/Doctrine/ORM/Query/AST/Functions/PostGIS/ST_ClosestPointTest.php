@@ -19,7 +19,7 @@ final class ST_ClosestPointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_geometry(): void
+    public function returns_the_closest_point_from_entity_fields(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_CLOSESTPOINT(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_ClosestPointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_geometry_from_wkt_literals(): void
+    public function returns_the_closest_point_from_wkt_literals(): void
     {
         $dql = "SELECT ST_GEOMETRYTYPE(ST_CLOSESTPOINT('POINT(0 0)', 'POINT(1 1)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

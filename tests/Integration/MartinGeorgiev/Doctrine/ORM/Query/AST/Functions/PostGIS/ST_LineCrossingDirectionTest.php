@@ -17,7 +17,7 @@ final class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_when_using_fixture_linestrings_that_do_not_cross(): void
+    public function returns_the_crossing_direction_from_entity_fields(): void
     {
         $dql = 'SELECT ST_LINECROSSINGDIRECTION(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_one_for_left_to_right_crossing(): void
+    public function returns_the_crossing_direction_from_wkt_literals(): void
     {
         $dql = 'SELECT ST_LINECROSSINGDIRECTION(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(0 2, 2 0)\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

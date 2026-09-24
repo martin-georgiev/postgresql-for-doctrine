@@ -19,7 +19,7 @@ final class ST_UnionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_union_of_two_geometries(): void
+    public function returns_the_union_from_entity_fields(): void
     {
         $dql = 'SELECT ST_AREA(ST_UNION(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_UnionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_union_of_two_geometries_from_a_literal_operand(): void
+    public function returns_the_union_from_a_literal_operand(): void
     {
         $dql = "SELECT ST_AREA(ST_UNION(g.geometry1, 'SRID=4326;POINT(1 1)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

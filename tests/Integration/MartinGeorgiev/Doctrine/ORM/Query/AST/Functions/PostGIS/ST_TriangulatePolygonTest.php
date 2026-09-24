@@ -19,7 +19,7 @@ final class ST_TriangulatePolygonTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_area_when_triangulating_polygon(): void
+    public function returns_the_triangulated_polygon_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_AREA(ST_TRIANGULATEPOLYGON(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_TriangulatePolygonTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_area_when_triangulating_polygon_from_a_wkt_literal(): void
+    public function returns_the_triangulated_polygon_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_AREA(ST_TRIANGULATEPOLYGON('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

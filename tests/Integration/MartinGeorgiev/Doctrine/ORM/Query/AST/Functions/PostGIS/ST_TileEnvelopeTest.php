@@ -19,7 +19,7 @@ final class ST_TileEnvelopeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_polygon_geometry(): void
+    public function returns_the_tile_envelope_from_numeric_literals(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_TILEENVELOPE(10, 512, 384)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

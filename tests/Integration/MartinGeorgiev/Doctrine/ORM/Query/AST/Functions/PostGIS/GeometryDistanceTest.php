@@ -17,7 +17,7 @@ final class GeometryDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_euclidean_distance_between_geometric_points(): void
+    public function returns_the_euclidean_distance_from_entity_fields(): void
     {
         $dql = 'SELECT GEOMETRY_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class GeometryDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_euclidean_distance_between_geometric_points_from_a_literal_operand(): void
+    public function returns_the_euclidean_distance_from_a_literal_operand(): void
     {
         $dql = "SELECT GEOMETRY_DISTANCE(g.geometry1, 'SRID=4326;POINT(1 1)') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

@@ -17,7 +17,7 @@ final class ST_Length2DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_length_for_linestring(): void
+    public function returns_the_2d_length_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_LENGTH2D(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_Length2DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_length_for_linestring_from_a_wkt_literal(): void
+    public function returns_the_2d_length_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_LENGTH2D('LINESTRING(0 0, 1 1, 2 2)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

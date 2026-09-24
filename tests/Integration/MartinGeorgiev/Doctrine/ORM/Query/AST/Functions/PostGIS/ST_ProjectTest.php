@@ -19,7 +19,7 @@ final class ST_ProjectTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_projected_point_with_literal_values(): void
+    public function returns_the_projected_point_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_DISTANCE(g.geometry1, ST_PROJECT(ST_PROJECT(g.geometry1, 1000, 0.785398), 1000, 0.785398 + 3.14159)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

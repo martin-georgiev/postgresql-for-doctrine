@@ -17,7 +17,7 @@ final class ST_3DIntersectsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries(): void
+    public function returns_whether_the_geometries_intersect_in_3d_from_entity_fields(): void
     {
         $dql = 'SELECT ST_3DINTERSECTS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_3DIntersectsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries_from_wkt_literals(): void
+    public function returns_whether_the_geometries_intersect_in_3d_from_wkt_literals(): void
     {
         $dql = "SELECT ST_3DINTERSECTS('POINT(0 0)', 'POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
