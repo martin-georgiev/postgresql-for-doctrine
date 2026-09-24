@@ -17,7 +17,7 @@ final class ToJsonTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_an_entity_field_to_json(): void
+    public function converts_the_value_to_json_from_an_entity_field(): void
     {
         $dql = 'SELECT TO_JSON(t.jsonObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

@@ -17,7 +17,7 @@ final class RegexpLikeTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_pattern_matches_an_entity_field(): void
+    public function returns_whether_the_pattern_matches_from_an_entity_field(): void
     {
         $dql = "SELECT REGEXP_LIKE(t.text1, 'test.*string') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class RegexpLikeTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_false_when_the_pattern_does_not_match_a_literal(): void
+    public function returns_whether_the_pattern_matches_from_a_text_literal(): void
     {
         $dql = "SELECT REGEXP_LIKE('this is a test string', 'nonexistent.*pattern') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

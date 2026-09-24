@@ -18,7 +18,7 @@ final class ToDateTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_a_literal_to_a_date(): void
+    public function converts_the_text_to_a_date_from_a_literal(): void
     {
         $dql = "SELECT TO_DATE('05 Dec 2000', 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

@@ -17,7 +17,7 @@ final class DateOverlapsTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_entity_field_range_overlaps(): void
+    public function returns_whether_the_date_ranges_overlap_from_a_literal_operand(): void
     {
         $dql = "SELECT DATE_OVERLAPS(t.date1, t.date2, '2023-06-14', '2023-06-17') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t 

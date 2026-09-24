@@ -19,7 +19,7 @@ final class IsContainedByTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_true_when_an_array_literal_is_contained_in_an_entity_field(): void
+    public function returns_whether_the_array_is_contained_from_a_literal_operand(): void
     {
         $dql = "SELECT IS_CONTAINED_BY(ARR('apple'), t.textArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 

@@ -17,7 +17,7 @@ final class MatchesLtxtqueryTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_when_path_labels_satisfy_conjunction(): void
+    public function returns_whether_the_query_matches_from_an_entity_field(): void
     {
         $dql = "SELECT l.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l
                 WHERE MATCHES_LTXTQUERY(l.ltree1, 'Top & Child2') = TRUE AND l.id = 1";

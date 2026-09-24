@@ -17,7 +17,7 @@ final class InetSameFamilyTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_for_addresses_of_the_same_family_from_literals(): void
+    public function returns_whether_the_addresses_share_a_family_from_literals(): void
     {
         $dql = "SELECT INET_SAME_FAMILY('192.168.1.5', '10.0.0.1') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t
@@ -27,7 +27,7 @@ final class InetSameFamilyTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_for_addresses_of_the_same_family_from_fields(): void
+    public function returns_whether_the_addresses_share_a_family_from_entity_fields(): void
     {
         $dql = 'SELECT INET_SAME_FAMILY(t.ip, t.ip) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t

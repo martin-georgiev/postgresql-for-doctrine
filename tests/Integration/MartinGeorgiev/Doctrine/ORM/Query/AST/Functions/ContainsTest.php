@@ -17,7 +17,7 @@ final class ContainsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_true_when_an_entity_field_contains_the_value(): void
+    public function returns_whether_the_array_contains_the_operand_from_an_entity_field(): void
     {
         $dql = 'SELECT CONTAINS(t.textArray, :value) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 

@@ -17,7 +17,7 @@ final class AkeysTest extends TestCase
     }
 
     #[Test]
-    public function returns_keys_as_array_from_hstore_literal(): void
+    public function returns_the_keys_as_an_array_from_an_hstore_literal(): void
     {
         $dql = "SELECT HSTORE_AKEYS('\"a\"=>\"1\",\"b\"=>\"2\"') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
@@ -29,7 +29,7 @@ final class AkeysTest extends TestCase
     }
 
     #[Test]
-    public function returns_keys_as_array_from_entity_property(): void
+    public function returns_the_keys_as_an_array_from_an_entity_field(): void
     {
         $dql = 'SELECT HSTORE_AKEYS(t.data) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsHstores t

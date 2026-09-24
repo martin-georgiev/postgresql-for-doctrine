@@ -17,7 +17,7 @@ final class SoundexTest extends TestCase
     }
 
     #[Test]
-    public function returns_soundex_code_from_a_string(): void
+    public function returns_the_soundex_code_from_a_text_literal(): void
     {
         $dql = "SELECT SOUNDEX('Anne') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ final class SoundexTest extends TestCase
     }
 
     #[Test]
-    public function returns_soundex_code_from_a_text_field(): void
+    public function returns_the_soundex_code_from_an_entity_field(): void
     {
         $dql = 'SELECT SOUNDEX(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

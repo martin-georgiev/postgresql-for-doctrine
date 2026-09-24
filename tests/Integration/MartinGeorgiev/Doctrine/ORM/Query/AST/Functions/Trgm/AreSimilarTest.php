@@ -17,7 +17,7 @@ final class AreSimilarTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_when_entity_fields_are_similar(): void
+    public function returns_whether_the_operands_are_similar_from_entity_fields(): void
     {
         $dql = 'SELECT t.id FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
                 WHERE ARE_SIMILAR(t.text1, t.text2) = TRUE AND t.id = 1';
