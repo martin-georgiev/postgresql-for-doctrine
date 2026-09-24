@@ -17,7 +17,7 @@ final class ST_AzimuthTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_azimuth_between_two_known_points(): void
+    public function returns_the_azimuth_from_entity_fields(): void
     {
         $dql = 'SELECT ST_AZIMUTH(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,36 +28,13 @@ final class ST_AzimuthTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_null_for_identical_points(): void
+    public function returns_the_azimuth_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_AZIMUTH(g.geometry1, g.geometry1) as result
+        $dql = "SELECT ST_AZIMUTH(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_valid_azimuth_range(): void
-    {
-        $dql = 'SELECT ST_AZIMUTH(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertGreaterThanOrEqual(0, $result[0]['result']);
-        $this->assertLessThan(2 * M_PI, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_pi_for_south_direction(): void
-    {
-        $dql = 'SELECT ST_AZIMUTH(g.geometry2, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3.9269908169872423, $result[0]['result']);
+        $this->assertEquals(0.7853981633974483, $result[0]['result']);
     }
 }

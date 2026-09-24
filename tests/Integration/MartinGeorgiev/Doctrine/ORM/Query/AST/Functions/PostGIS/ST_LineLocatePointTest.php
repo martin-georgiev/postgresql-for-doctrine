@@ -17,11 +17,22 @@ final class ST_LineLocatePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_half_for_midpoint(): void
+    public function returns_the_located_fraction_from_entity_fields(): void
     {
         $dql = 'SELECT ST_LINELOCATEPOINT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 9';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0.5, $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_located_fraction_from_a_literal_operand(): void
+    {
+        $dql = "SELECT ST_LINELOCATEPOINT(g.geometry1, 'POINT(2 2)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 9";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0.5, $result[0]['result']);

@@ -70,6 +70,18 @@ GEOMETRY_DISTANCE(g.geometry1, g.geometry2)
 
 A single-argument function has no mixed form, so an all-literal call is its only literal test; there the `WHERE` just limits the result to one row.
 
+A third test earns its place only on another arity, and takes `<verb>_the_<subject>_with_<argument>` — the pair's verb and subject, then the extra argument itself, never its value or the outcome.
+
+```php
+// ❌ names the input's shape, or the result
+returns_buffered_point_with_quad_segs_parameter()
+returns_inner_hull_contained_by_original()
+
+// ✓ same family as the pair, distinguished by the argument
+returns_the_buffered_geometry_with_quad_segs()
+returns_the_simplified_hull_with_is_outer()
+```
+
 Reach the function directly. Nest a helper only to build an input the fixtures do not hold:
 
 ```php

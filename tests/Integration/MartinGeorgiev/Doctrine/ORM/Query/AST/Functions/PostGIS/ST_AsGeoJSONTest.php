@@ -17,7 +17,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_geojson_for_polygon(): void
+    public function returns_the_geojson_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,22 +32,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_geojson_for_point(): void
-    {
-        $dql = 'SELECT ST_ASGEOJSON(g.geography1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $geojson = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($geojson);
-        $this->assertSame('Point', $geojson['type']);
-        $this->assertSame([-9.1393, 38.7223], $geojson['coordinates']);
-    }
-
-    #[Test]
-    public function respects_max_decimal_digits(): void
+    public function returns_the_geojson_with_max_decimal_digits(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geography1, 2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -63,7 +48,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function respects_options_parameter(): void
+    public function returns_the_geojson_with_options(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geometry1, 9, 1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -75,5 +60,20 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
         $this->assertIsArray($geojson);
         // Option 1 includes bounding box
         $this->assertArrayHasKey('bbox', $geojson);
+    }
+
+    #[Test]
+    public function returns_the_geojson_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_ASGEOJSON('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
+        $geojson = \json_decode($result[0]['result'], true);
+        $this->assertIsArray($geojson);
+        $this->assertSame('Polygon', $geojson['type']);
+        $this->assertIsArray($geojson['coordinates']);
     }
 }

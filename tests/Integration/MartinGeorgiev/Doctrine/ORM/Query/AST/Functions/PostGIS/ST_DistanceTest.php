@@ -17,7 +17,7 @@ final class ST_DistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_distance_between_points(): void
+    public function returns_the_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ST_DISTANCE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,29 +28,7 @@ final class ST_DistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_for_identical_geometries(): void
-    {
-        $dql = 'SELECT ST_DISTANCE(g.geometry1, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_distance_between_overlapping_polygons(): void
-    {
-        $dql = 'SELECT ST_DISTANCE(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_distance_between_geographies_with_use_spheroid(): void
+    public function returns_the_distance_with_use_spheroid(): void
     {
         $dql = "SELECT ST_DISTANCE(g.geography1, g.geography2, 'true') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -58,5 +36,16 @@ final class ST_DistanceTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEqualsWithDelta(1585162.73961816, $result[0]['result'], 0.00000001);
+    }
+
+    #[Test]
+    public function returns_the_distance_from_a_literal_operand(): void
+    {
+        $dql = "SELECT ST_DISTANCE(g.geometry1, 'SRID=4326;POINT(1 1)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
 }

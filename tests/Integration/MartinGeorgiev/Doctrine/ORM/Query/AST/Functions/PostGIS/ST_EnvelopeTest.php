@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use PHPUnit\Framework\Attributes\Test;
@@ -14,14 +13,13 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_AREA' => ST_Area::class,
             'ST_ENVELOPE' => ST_Envelope::class,
             'ST_EQUALS' => ST_Equals::class,
         ];
     }
 
     #[Test]
-    public function returns_envelope_of_point(): void
+    public function returns_the_envelope_from_entity_fields(): void
     {
         $dql = 'SELECT ST_EQUALS(ST_ENVELOPE(g.geometry1), g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,24 +30,13 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_envelope_of_polygon(): void
+    public function returns_the_envelope_from_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_AREA(ST_ENVELOPE(g.geometry1)) as result
+        $dql = "SELECT ST_EQUALS(ST_ENVELOPE('POINT(0 0)'), 'POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_envelope_of_linestring(): void
-    {
-        $dql = 'SELECT ST_AREA(ST_ENVELOPE(g.geometry1)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(4, $result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 }

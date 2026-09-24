@@ -17,7 +17,7 @@ final class SpatialContainedByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_first_polygon_is_not_contained_by_overlapping_second(): void
+    public function returns_whether_the_bounding_box_is_contained_by_the_other_from_entity_fields(): void
     {
         $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,24 +28,13 @@ final class SpatialContainedByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries(): void
+    public function returns_whether_the_bounding_box_is_contained_by_the_other_from_a_literal_operand(): void
     {
-        $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry2) as result
+        $dql = "SELECT SPATIAL_CONTAINED_BY(g.geometry1, 'SRID=4326;POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
-    {
-        $dql = 'SELECT SPATIAL_CONTAINED_BY(g.geometry1, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
     }
 }

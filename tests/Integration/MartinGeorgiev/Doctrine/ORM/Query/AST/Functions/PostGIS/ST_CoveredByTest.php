@@ -17,7 +17,7 @@ final class ST_CoveredByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries(): void
+    public function returns_whether_the_geometry_is_covered_by_the_other_from_entity_fields(): void
     {
         $dql = 'SELECT ST_COVEREDBY(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,24 +28,13 @@ final class ST_CoveredByTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
+    public function returns_whether_the_geometry_is_covered_by_the_other_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_COVEREDBY(g.geometry1, g.geometry1) as result
+        $dql = "SELECT ST_COVEREDBY(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_geometry_is_covered_by_another(): void
-    {
-        $dql = 'SELECT ST_COVEREDBY(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 6';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
+        $this->assertFalse($result[0]['result']);
     }
 }

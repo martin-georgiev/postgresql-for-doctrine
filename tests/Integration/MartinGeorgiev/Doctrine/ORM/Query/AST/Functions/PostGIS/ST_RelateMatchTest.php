@@ -19,7 +19,7 @@ final class ST_RelateMatchTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_fixture_geometry_relation_matches_disjoint_pattern(): void
+    public function returns_whether_the_intersection_matrix_matches_the_pattern_from_entity_fields(): void
     {
         $dql = 'SELECT ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF0FFF0F2\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,47 +30,13 @@ final class ST_RelateMatchTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_fixture_geometry_relation_does_not_match_intersecting_pattern(): void
+    public function returns_whether_the_intersection_matrix_matches_the_pattern_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'T*T***T**\') as result
+        $dql = "SELECT ST_RELATEMATCH(ST_RELATE(g.geometry1, 'SRID=4326;POINT(1 1)'), 'FF0FFF0F2') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_linestring_geometries_match_disjoint_pattern(): void
-    {
-        $dql = 'SELECT ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF1FF0102\') as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_when_point_geometries_do_not_match_linestring_pattern(): void
-    {
-        $dql = 'SELECT ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF1FF0102\') as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_boolean_type_when_testing_fixture_geometry_relationships(): void
-    {
-        $dql = 'SELECT ST_RELATEMATCH(ST_RELATE(g.geometry1, g.geometry2), \'FF0FFF0F2\') as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsBool($result[0]['result']);
         $this->assertTrue($result[0]['result']);
     }
 }

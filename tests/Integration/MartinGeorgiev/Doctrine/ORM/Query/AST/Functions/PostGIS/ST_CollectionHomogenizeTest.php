@@ -21,11 +21,22 @@ final class ST_CollectionHomogenizeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function homogenizes_collection_of_same_type_points(): void
+    public function returns_the_homogenized_collection_from_entity_fields(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_COLLECTIONHOMOGENIZE(ST_COLLECT(g.geometry1, g.geometry2))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('ST_MultiPoint', $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_homogenized_collection_from_wkt_literals(): void
+    {
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_COLLECTIONHOMOGENIZE(ST_COLLECT('POINT(0 0)', 'POINT(1 1)'))) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_MultiPoint', $result[0]['result']);

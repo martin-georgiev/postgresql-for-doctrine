@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveIrrelevantPointsForView;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -22,12 +21,11 @@ final class ST_RemoveIrrelevantPointsForViewTest extends SpatialOperatorTestCase
         return [
             'ST_REMOVEIRRELEVANTPOINTSFORVIEW' => ST_RemoveIrrelevantPointsForView::class,
             'ST_AREA' => ST_Area::class,
-            'ST_LENGTH' => ST_Length::class,
         ];
     }
 
     #[Test]
-    public function preserves_area_for_simple_polygon(): void
+    public function returns_the_geometry_without_irrelevant_points_from_an_entity_field(): void
     {
         $dql = "SELECT ST_AREA(ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsGeometries g
@@ -38,13 +36,13 @@ final class ST_RemoveIrrelevantPointsForViewTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_length_for_linestring(): void
+    public function returns_the_geometry_without_irrelevant_points_from_a_wkt_literal(): void
     {
-        $dql = "SELECT ST_LENGTH(ST_REMOVEIRRELEVANTPOINTSFORVIEW(g.geometry1, 'BOX(-10 -10, 10 10)')) as result
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsGeometries g
-                WHERE g.id = 3";
+        $dql = "SELECT ST_AREA(ST_REMOVEIRRELEVANTPOINTSFORVIEW('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 'BOX(-10 -10, 10 10)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2.8284271247461903, $result[0]['result']);
+        $this->assertEquals(16.0, $result[0]['result']);
     }
 }

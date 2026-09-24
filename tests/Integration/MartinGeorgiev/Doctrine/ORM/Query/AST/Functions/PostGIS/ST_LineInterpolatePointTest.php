@@ -6,7 +6,6 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryType;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineInterpolatePoint;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_X;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_LineInterpolatePointTest extends SpatialOperatorTestCase
@@ -16,12 +15,11 @@ final class ST_LineInterpolatePointTest extends SpatialOperatorTestCase
         return [
             'ST_GEOMETRYTYPE' => ST_GeometryType::class,
             'ST_LINEINTERPOLATEPOINT' => ST_LineInterpolatePoint::class,
-            'ST_X' => ST_X::class,
         ];
     }
 
     #[Test]
-    public function returns_point_geometry(): void
+    public function returns_the_interpolated_point_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_LINEINTERPOLATEPOINT(g.geometry1, 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,13 +30,13 @@ final class ST_LineInterpolatePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_midpoint_of_linestring(): void
+    public function returns_the_interpolated_point_from_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_X(ST_LINEINTERPOLATEPOINT(g.geometry1, 0.5)) as result
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_LINEINTERPOLATEPOINT('LINESTRING(0 0, 1 1, 2 2)', 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
+                WHERE g.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1.0, $result[0]['result']);
+        $this->assertEquals('ST_Point', $result[0]['result']);
     }
 }

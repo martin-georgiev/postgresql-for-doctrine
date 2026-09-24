@@ -17,7 +17,7 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_frechet_distance_between_disjoint_linestrings(): void
+    public function returns_the_frechet_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_frechet_distance_between_disjoint_linestrings_with_densify_frac_parameter(): void
+    public function returns_the_frechet_distance_with_densify_frac(): void
     {
         $dql = 'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2, 0.85) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -39,24 +39,13 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_for_identical_geometries(): void
+    public function returns_the_frechet_distance_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry1) as result
+        $dql = "SELECT ST_FRECHETDISTANCE(g.geometry1, 'SRID=4326;LINESTRING(3 3, 4 4, 5 5)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
+                WHERE g.id = 3";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_frechet_distance_between_overlapping_polygons(): void
-    {
-        $dql = 'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1.4142135623730951, $result[0]['result']);
+        $this->assertEquals(4.242640687119285, $result[0]['result']);
     }
 }

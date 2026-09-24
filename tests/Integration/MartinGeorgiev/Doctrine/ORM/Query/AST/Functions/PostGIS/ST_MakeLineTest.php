@@ -19,11 +19,22 @@ final class ST_MakeLineTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_linestring_from_two_points(): void
+    public function creates_the_linestring_from_entity_fields(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_MAKELINE(g.geometry1, g.geometry2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals('ST_LineString', $result[0]['result']);
+    }
+
+    #[Test]
+    public function creates_the_linestring_from_a_literal_operand(): void
+    {
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_MAKELINE(g.geometry1, 'SRID=4326;POINT(1 1)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_LineString', $result[0]['result']);

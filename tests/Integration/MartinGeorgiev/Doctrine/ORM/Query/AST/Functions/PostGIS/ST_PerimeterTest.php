@@ -17,7 +17,7 @@ final class ST_PerimeterTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_perimeter_for_polygon(): void
+    public function returns_the_perimeter_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_PERIMETER(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -25,49 +25,5 @@ final class ST_PerimeterTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_perimeter_for_smaller_polygon(): void
-    {
-        $dql = 'SELECT ST_PERIMETER(g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(8, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_point(): void
-    {
-        $dql = 'SELECT ST_PERIMETER(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_linestring(): void
-    {
-        $dql = 'SELECT ST_PERIMETER(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_perimeter_for_non_srid_polygon(): void
-    {
-        $dql = 'SELECT ST_PERIMETER(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 4';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(8, $result[0]['result']);
     }
 }

@@ -19,7 +19,7 @@ final class ST_Force4DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function promotes_2d_point_to_4d(): void
+    public function returns_the_4d_geometry_from_entity_fields(): void
     {
         $dql = 'SELECT ST_COORDDIM(g.geometry1) as original,
                        ST_COORDDIM(ST_FORCE4D(g.geometry1)) as transformed
@@ -32,7 +32,7 @@ final class ST_Force4DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function promotes_3d_point_to_4d(): void
+    public function converts_3d_point_to_4d(): void
     {
         $dql = 'SELECT ST_COORDDIM(g.geometry1) as original,
                        ST_COORDDIM(ST_FORCE4D(g.geometry1)) as transformed
@@ -41,6 +41,19 @@ final class ST_Force4DTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(3, $result[0]['original']);
+        $this->assertEquals(4, $result[0]['transformed']);
+    }
+
+    #[Test]
+    public function returns_the_4d_geometry_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_COORDDIM('POINT(0 0)') as original,
+                       ST_COORDDIM(ST_FORCE4D('POINT(0 0)')) as transformed
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(2, $result[0]['original']);
         $this->assertEquals(4, $result[0]['transformed']);
     }
 }

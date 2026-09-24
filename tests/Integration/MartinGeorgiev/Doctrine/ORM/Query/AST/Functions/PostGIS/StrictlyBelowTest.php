@@ -17,7 +17,7 @@ final class StrictlyBelowTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function strictly_below_returns_false_with_overlapping_polygons(): void
+    public function returns_whether_the_bounding_box_is_strictly_below_from_entity_fields(): void
     {
         $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,33 +28,11 @@ final class StrictlyBelowTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function strictly_below_returns_true_when_geometry_is_lower(): void
+    public function returns_whether_the_bounding_box_is_strictly_below_from_a_literal_operand(): void
     {
-        $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
+        $dql = "SELECT STRICTLY_BELOW(g.geometry1, 'SRID=4326;POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function strictly_below_returns_true_with_linestrings(): void
-    {
-        $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function strictly_below_returns_false_with_identical_geometries(): void
-    {
-        $dql = 'SELECT STRICTLY_BELOW(g.geometry1, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);

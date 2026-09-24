@@ -19,7 +19,7 @@ final class ST_LineExtendTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function extends_line_forward_increases_length(): void
+    public function returns_the_extended_line_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_LINEEXTEND(g.geometry1, 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,7 +32,7 @@ final class ST_LineExtendTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function extends_line_forward_and_backward_increases_length(): void
+    public function returns_the_extended_line_with_distance_backward(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_LINEEXTEND(g.geometry1, 0.5, 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -41,6 +41,19 @@ final class ST_LineExtendTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $originalLength = 2.8284271247461903;
         $expectedLength = $originalLength + 1.0;
+        $this->assertEqualsWithDelta($expectedLength, $result[0]['result'], 0.000000000000001);
+    }
+
+    #[Test]
+    public function returns_the_extended_line_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_LENGTH(ST_LINEEXTEND('LINESTRING(0 0, 1 1, 2 2)', 0.5)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3";
+
+        $result = $this->executeDqlQuery($dql);
+        $originalLength = 2.8284271247461903;
+        $expectedLength = $originalLength + 0.5;
         $this->assertEqualsWithDelta($expectedLength, $result[0]['result'], 0.000000000000001);
     }
 }

@@ -19,7 +19,7 @@ final class ST_CollectionExtractTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function extracts_point_from_geometry(): void
+    public function returns_the_extracted_collection_from_entity_fields(): void
     {
         $dql = 'SELECT ST_EQUALS(ST_COLLECTIONEXTRACT(g.geometry1, 1), g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,33 +30,11 @@ final class ST_CollectionExtractTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function extracts_polygon_from_geometry(): void
+    public function returns_the_extracted_collection_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_EQUALS(ST_COLLECTIONEXTRACT(g.geometry1, 3), g.geometry1) as result
+        $dql = "SELECT ST_EQUALS(ST_COLLECTIONEXTRACT(g.geometry1, 1), 'SRID=4326;POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_point_with_parameter(): void
-    {
-        $dql = 'SELECT ST_EQUALS(ST_COLLECTIONEXTRACT(g.geometry1, :type), g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql, ['type' => 1]);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function extracts_point_with_function_expression(): void
-    {
-        $dql = 'SELECT ST_EQUALS(ST_COLLECTIONEXTRACT(g.geometry1, ABS(1)), g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

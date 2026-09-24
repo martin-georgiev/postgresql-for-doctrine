@@ -17,7 +17,7 @@ final class OverlapsLeftTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_first_point_is_positioned_left_of_second(): void
+    public function returns_whether_the_bounding_box_overlaps_left_from_entity_fields(): void
     {
         $dql = 'SELECT OVERLAPS_LEFT(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,33 +28,11 @@ final class OverlapsLeftTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_geometry_positions_are_reversed(): void
+    public function returns_whether_the_bounding_box_overlaps_left_from_a_literal_operand(): void
     {
-        $dql = 'SELECT OVERLAPS_LEFT(g.geometry2, g.geometry1) as result
+        $dql = "SELECT OVERLAPS_LEFT(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_first_polygon_overlaps_or_is_left_of_second(): void
-    {
-        $dql = 'SELECT OVERLAPS_LEFT(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 4';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
-    {
-        $dql = 'SELECT OVERLAPS_LEFT(g.geometry1, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

@@ -21,12 +21,25 @@ final class ST_FlipCoordinatesTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function flips_coordinates(): void
+    public function returns_the_flipped_coordinates_from_entity_fields(): void
     {
         $dql = 'SELECT ST_X(g.geometry1) as original_x, ST_Y(g.geometry1) as original_y,
                        ST_X(ST_FLIPCOORDINATES(g.geometry1)) as flipped_x, ST_Y(ST_FLIPCOORDINATES(g.geometry1)) as flipped_y
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals($result[0]['original_y'], $result[0]['flipped_x']);
+        $this->assertEquals($result[0]['original_x'], $result[0]['flipped_y']);
+    }
+
+    #[Test]
+    public function returns_the_flipped_coordinates_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_X('POINT(0 0)') as original_x, ST_Y('POINT(0 0)') as original_y,
+                       ST_X(ST_FLIPCOORDINATES('POINT(0 0)')) as flipped_x, ST_Y(ST_FLIPCOORDINATES('POINT(0 0)')) as flipped_y
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals($result[0]['original_y'], $result[0]['flipped_x']);

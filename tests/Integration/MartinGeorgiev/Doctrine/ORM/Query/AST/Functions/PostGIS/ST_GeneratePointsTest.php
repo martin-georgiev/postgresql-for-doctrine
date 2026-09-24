@@ -19,7 +19,7 @@ final class ST_GeneratePointsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function generates_points_inside_polygon(): void
+    public function returns_the_generated_points_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_NPOINTS(ST_GENERATEPOINTS(g.geometry1, 5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -30,7 +30,7 @@ final class ST_GeneratePointsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function generates_points_with_seed(): void
+    public function returns_the_generated_points_with_seed(): void
     {
         $dql = 'SELECT ST_NPOINTS(ST_GENERATEPOINTS(g.geometry1, 3, 42)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -38,5 +38,16 @@ final class ST_GeneratePointsTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(3, $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_generated_points_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_NPOINTS(ST_GENERATEPOINTS('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 5)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(5, $result[0]['result']);
     }
 }

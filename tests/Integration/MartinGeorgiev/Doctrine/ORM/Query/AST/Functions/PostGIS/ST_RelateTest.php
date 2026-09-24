@@ -17,7 +17,7 @@ final class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_de9im_matrix_for_disjoint_point_geometries(): void
+    public function returns_the_intersection_matrix_from_entity_fields(): void
     {
         $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,7 +28,7 @@ final class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometries_match_disjoint_pattern(): void
+    public function returns_the_intersection_matrix_with_pattern(): void
     {
         $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2, \'FF0FFF0F2\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -39,13 +39,13 @@ final class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_geometries_do_not_match_intersecting_pattern(): void
+    public function returns_the_intersection_matrix_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2, \'T*T***T**\') as result
+        $dql = "SELECT ST_RELATE(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
+        $this->assertEquals('FF0FFF0F2', $result[0]['result']);
     }
 }

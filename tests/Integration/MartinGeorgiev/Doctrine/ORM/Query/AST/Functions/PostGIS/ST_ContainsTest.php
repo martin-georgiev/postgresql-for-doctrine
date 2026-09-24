@@ -17,7 +17,7 @@ final class ST_ContainsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_false_when_comparing_separate_point_geometries(): void
+    public function returns_whether_the_geometry_contains_the_other_from_entity_fields(): void
     {
         $dql = 'SELECT ST_CONTAINS(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,22 +28,11 @@ final class ST_ContainsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
+    public function returns_whether_the_geometry_contains_the_other_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_CONTAINS(g.geometry1, g.geometry1) as result
+        $dql = "SELECT ST_CONTAINS(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_false_when_polygons_only_overlap(): void
-    {
-        $dql = 'SELECT ST_CONTAINS(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 4';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);

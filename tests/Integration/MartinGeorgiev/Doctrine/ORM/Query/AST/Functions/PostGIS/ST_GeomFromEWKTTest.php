@@ -30,7 +30,7 @@ final class ST_GeomFromEWKTTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function round_trips_a_stored_geometry(): void
+    public function roundtrips_a_stored_geometry(): void
     {
         $dql = 'SELECT ST_ASEWKT(ST_GEOMFROMEWKT(ST_ASEWKT(g.geometry1))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

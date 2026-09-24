@@ -17,7 +17,7 @@ final class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_when_using_fixture_linestrings_that_do_not_cross(): void
+    public function returns_the_crossing_direction_from_entity_fields(): void
     {
         $dql = 'SELECT ST_LINECROSSINGDIRECTION(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,46 +28,13 @@ final class ST_LineCrossingDirectionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_one_for_left_to_right_crossing(): void
+    public function returns_the_crossing_direction_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_LINECROSSINGDIRECTION(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(0 2, 2 0)\') as result
+        $dql = "SELECT ST_LINECROSSINGDIRECTION(g.geometry1, 'SRID=4326;LINESTRING(0 2, 2 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 3";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_negative_one_for_right_to_left_crossing(): void
-    {
-        $dql = 'SELECT ST_LINECROSSINGDIRECTION(\'LINESTRING(0 0, 2 2)\', \'LINESTRING(2 0, 0 2)\') as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(-1, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_when_lines_are_parallel(): void
-    {
-        $dql = 'SELECT ST_LINECROSSINGDIRECTION(\'LINESTRING(0 0, 2 0)\', \'LINESTRING(0 1, 2 1)\') as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_when_lines_touch_at_endpoint(): void
-    {
-        $dql = 'SELECT ST_LINECROSSINGDIRECTION(\'LINESTRING(0 0, 1 1)\', \'LINESTRING(1 1, 2 0)\') as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
     }
 }

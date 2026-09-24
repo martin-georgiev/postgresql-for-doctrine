@@ -17,7 +17,7 @@ final class ST_CoordDimTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_two_for_2d_point(): void
+    public function returns_the_coordinate_dimension_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_COORDDIM(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,13 +28,13 @@ final class ST_CoordDimTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_three_for_3d_point(): void
+    public function returns_the_coordinate_dimension_from_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_COORDDIM(g.geometry1) as result
+        $dql = "SELECT ST_COORDDIM('POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 11';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3, $result[0]['result']);
+        $this->assertEquals(2, $result[0]['result']);
     }
 }

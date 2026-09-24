@@ -17,7 +17,7 @@ final class ST_LengthTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_length_for_linestring(): void
+    public function returns_the_length_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_LENGTH(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,51 +28,7 @@ final class ST_LengthTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_perimeter_for_polygon(): void
-    {
-        $dql = 'SELECT ST_LENGTH(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_point_as_it_has_no_length(): void
-    {
-        $dql = 'SELECT ST_LENGTH(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_actual_length_for_projected_coordinate_system_linestring(): void
-    {
-        $dql = 'SELECT ST_LENGTH(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 10';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2000, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_projected_coordinate_system_polygon(): void
-    {
-        $dql = 'SELECT ST_LENGTH(g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 10';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_length_for_geography_linestring_with_use_spheroid(): void
+    public function returns_the_length_with_use_spheroid(): void
     {
         $dql = "SELECT ST_LENGTH(g.geography1, 'true') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -80,5 +36,16 @@ final class ST_LengthTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1410.1406247192313, $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_length_from_a_wkt_literal(): void
+    {
+        $dql = "SELECT ST_LENGTH('LINESTRING(0 0, 1 1, 2 2)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 3";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
 }

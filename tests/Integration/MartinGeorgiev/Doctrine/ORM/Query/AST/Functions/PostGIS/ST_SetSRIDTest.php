@@ -19,22 +19,11 @@ final class ST_SetSRIDTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function sets_srid_on_geometry(): void
+    public function returns_the_geometry_with_the_srid_set_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_SRID(ST_SETSRID(g.geometry1, 3857)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 4';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3857, $result[0]['result']);
-    }
-
-    #[Test]
-    public function changes_srid_on_geometry_with_existing_srid(): void
-    {
-        $dql = 'SELECT ST_SRID(ST_SETSRID(g.geometry1, 3857)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(3857, $result[0]['result']);

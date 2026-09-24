@@ -17,7 +17,7 @@ final class ST_3DDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_3d_distance_between_points(): void
+    public function returns_the_3d_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ST_3DDISTANCE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,22 +28,11 @@ final class ST_3DDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_3d_distance_between_polygons(): void
+    public function returns_the_3d_distance_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_3DDISTANCE(g.geometry1, g.geometry2) as result
+        $dql = "SELECT ST_3DDISTANCE(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_3d_distance_between_linestrings(): void
-    {
-        $dql = 'SELECT ST_3DDISTANCE(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.4142135623730951, $result[0]['result']);

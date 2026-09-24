@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConcaveHull;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,13 +14,12 @@ final class ST_ConcaveHullTest extends SpatialOperatorTestCase
     {
         return [
             'ST_CONCAVEHULL' => ST_ConcaveHull::class,
-            'ST_AREA' => ST_Area::class,
             'ST_EQUALS' => ST_Equals::class,
         ];
     }
 
     #[Test]
-    public function concave_hull_of_convex_polygon_equals_original(): void
+    public function returns_the_concave_hull_from_entity_fields(): void
     {
         $dql = 'SELECT ST_EQUALS(ST_CONCAVEHULL(g.geometry1, 1.0), g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -32,13 +30,13 @@ final class ST_ConcaveHullTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function concave_hull_preserves_area_for_convex_polygon(): void
+    public function returns_the_concave_hull_from_a_literal_operand(): void
     {
-        $dql = 'SELECT ST_AREA(ST_CONCAVEHULL(g.geometry1, 1.0)) as result
+        $dql = "SELECT ST_EQUALS(ST_CONCAVEHULL(g.geometry1, 1.0), 'SRID=4326;POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 }

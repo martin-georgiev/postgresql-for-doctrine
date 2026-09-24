@@ -17,7 +17,7 @@ final class ST_3DPerimeterTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_3d_perimeter_for_polygon(): void
+    public function returns_the_3d_perimeter_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_3DPERIMETER(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,13 +28,13 @@ final class ST_3DPerimeterTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_for_point(): void
+    public function returns_the_3d_perimeter_from_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_3DPERIMETER(g.geometry1) as result
+        $dql = "SELECT ST_3DPERIMETER('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 2";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
+        $this->assertEquals(16, $result[0]['result']);
     }
 }

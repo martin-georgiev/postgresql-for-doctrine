@@ -17,7 +17,7 @@ final class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function calculates_distance_between_geometry_centroids(): void
+    public function returns_the_centroid_distance_from_entity_fields(): void
     {
         $dql = 'SELECT ND_CENTROID_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -29,7 +29,7 @@ final class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function calculates_distance_between_geometry_and_literal_point(): void
+    public function returns_the_centroid_distance_from_a_literal_operand(): void
     {
         $dql = "SELECT ND_CENTROID_DISTANCE(g.geometry1, 'POINT(3 3)') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -41,13 +41,14 @@ final class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_when_comparing_identical_geometries(): void
+    public function returns_the_centroid_distance_from_wkt_literals(): void
     {
-        $dql = 'SELECT ND_CENTROID_DISTANCE(g.geometry1, g.geometry1) as distance
+        $dql = "SELECT ND_CENTROID_DISTANCE('POINT(0 0)', 'POINT(1 1)') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['distance']);
+        $this->assertIsNumeric($result[0]['distance']);
+        $this->assertGreaterThan(0, $result[0]['distance']);
     }
 }

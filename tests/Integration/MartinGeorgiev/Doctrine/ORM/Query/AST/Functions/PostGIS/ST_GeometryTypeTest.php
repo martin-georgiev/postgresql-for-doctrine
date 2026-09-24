@@ -17,7 +17,7 @@ final class ST_GeometryTypeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_point_type(): void
+    public function returns_the_geometry_type_from_an_entity_field(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -28,13 +28,13 @@ final class ST_GeometryTypeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_polygon_type(): void
+    public function returns_the_geometry_type_from_a_wkt_literal(): void
     {
-        $dql = 'SELECT ST_GEOMETRYTYPE(g.geometry1) as result
+        $dql = "SELECT ST_GEOMETRYTYPE('POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('ST_Polygon', $result[0]['result']);
+        $this->assertEquals('ST_Point', $result[0]['result']);
     }
 }
