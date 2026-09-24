@@ -35,6 +35,14 @@ final class RowNumberOverTest extends NumericTestCase
     }
 
     #[Test]
+    public function returns_the_row_number_with_a_frame(): void
+    {
+        $dql = 'SELECT ROW_NUMBER_OVER(PARTITION BY n.integer1 ORDER BY n.integer2 ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE NO OTHERS) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(1, $result[0]['result']);
+    }
+
+    #[Test]
     public function returns_the_row_number_through_the_paginator(): void
     {
         $dql = 'SELECT n, ROW_NUMBER_OVER(PARTITION BY n.integer1 ORDER BY n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1 ORDER BY n.integer1';

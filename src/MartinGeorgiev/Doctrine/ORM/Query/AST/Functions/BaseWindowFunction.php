@@ -15,7 +15,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\NullLiteral;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
- * Renders FUNC_OVER(arg, ..., [PARTITION BY ...] [ORDER BY ...]) as func(arg, ...) OVER ([PARTITION BY ...] [ORDER BY ...]).
+ * Renders FUNC_OVER(arg, ..., [PARTITION BY ...] [ORDER BY ...] [frame]) as func(arg, ...) OVER ([PARTITION BY ...] [ORDER BY ...] [frame]).
  *
  * DQL cannot parse anything after a function's closing parenthesis, so the window specification rides inside the call
  * as the tail of its argument list. Subclasses declare their leading arguments with addNodeMapping() in

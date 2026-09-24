@@ -29,6 +29,7 @@ final class NtileOverTest extends TestCase
             'with multiple PARTITION BY expressions' => 'SELECT ntile(4) OVER (PARTITION BY c0_.integer1, c0_.bigint1 ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
             'with an entity field as the bucket count' => 'SELECT ntile(c0_.integer1) OVER (ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
             'with a parameter as the bucket count' => 'SELECT ntile(?) OVER (ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            'with only a frame after the bucket count' => 'SELECT ntile(4) OVER (ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sclr_0 FROM ContainsNumerics c0_',
         ];
     }
 
@@ -42,6 +43,7 @@ final class NtileOverTest extends TestCase
             'with multiple PARTITION BY expressions' => \sprintf('SELECT NTILE_OVER(4, PARTITION BY e.integer1, e.bigint1 ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
             'with an entity field as the bucket count' => \sprintf('SELECT NTILE_OVER(e.integer1, ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
             'with a parameter as the bucket count' => \sprintf('SELECT NTILE_OVER(:buckets, ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
+            'with only a frame after the bucket count' => \sprintf('SELECT NTILE_OVER(4, ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) FROM %s e', ContainsNumerics::class),
         ];
     }
 
