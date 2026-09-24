@@ -39,7 +39,7 @@ final class AggregateOverTest extends TestCase
             'windows with only a frame' => 'SELECT SUM(c0_.decimal1) OVER (ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING EXCLUDE CURRENT ROW) AS sclr_0 FROM ContainsNumerics c0_',
             'windows a library aggregate' => 'SELECT array_agg(c0_.integer1) OVER (PARTITION BY c0_.integer2) AS sclr_0 FROM ContainsNumerics c0_',
             'windows a filtered aggregate' => 'SELECT SUM(c0_.decimal1) FILTER (WHERE c0_.integer1 > 0) OVER (PARTITION BY c0_.integer2) AS sclr_0 FROM ContainsNumerics c0_',
-            'next to an entity and a result variable' => 'SELECT c0_.id AS id_0, c0_.integer1 AS integer1_1, c0_.integer2 AS integer2_2, c0_.bigint1 AS bigint1_3, c0_.bigint2 AS bigint2_4, c0_.decimal1 AS decimal1_5, c0_.decimal2 AS decimal2_6, SUM(c0_.decimal1) OVER (PARTITION BY c0_.integer1) AS sclr_7 FROM ContainsNumerics c0_ ORDER BY sclr_7 ASC',
+            'next to a field and a result variable' => 'SELECT c0_.id AS id_0, SUM(c0_.decimal1) OVER (PARTITION BY c0_.integer1) AS sclr_1 FROM ContainsNumerics c0_ ORDER BY sclr_1 ASC',
         ];
     }
 
@@ -56,7 +56,7 @@ final class AggregateOverTest extends TestCase
             'windows with only a frame' => \sprintf('SELECT OVER(SUM(e.decimal1), ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING EXCLUDE CURRENT ROW) FROM %s e', ContainsNumerics::class),
             'windows a library aggregate' => \sprintf('SELECT OVER(ARRAY_AGG(e.integer1), PARTITION BY e.integer2) FROM %s e', ContainsNumerics::class),
             'windows a filtered aggregate' => \sprintf('SELECT OVER(FILTER(SUM(e.decimal1), WHERE e.integer1 > 0), PARTITION BY e.integer2) FROM %s e', ContainsNumerics::class),
-            'next to an entity and a result variable' => \sprintf('SELECT e, OVER(SUM(e.decimal1), PARTITION BY e.integer1) AS total FROM %s e ORDER BY total', ContainsNumerics::class),
+            'next to a field and a result variable' => \sprintf('SELECT e.id, OVER(SUM(e.decimal1), PARTITION BY e.integer1) AS total FROM %s e ORDER BY total', ContainsNumerics::class),
         ];
     }
 
