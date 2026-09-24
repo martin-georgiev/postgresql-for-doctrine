@@ -102,8 +102,8 @@ This document covers PostgreSQL mathematical functions available in this library
 | covar_pop | COVAR_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop` |
 | covar_samp | COVAR_SAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp` |
 | mode() WITHIN GROUP (ORDER BY ...) | MODE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Mode` |
-| percentile_cont() WITHIN GROUP (ORDER BY ...) | PERCENTILE_CONT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont` |
-| percentile_disc() WITHIN GROUP (ORDER BY ...) | PERCENTILE_DISC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileDisc` |
+| percentile_cont(fraction) WITHIN GROUP (ORDER BY ...) | PERCENTILE_CONT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont` |
+| percentile_disc(fraction) WITHIN GROUP (ORDER BY ...) | PERCENTILE_DISC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileDisc` |
 | stddev | STDDEV | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev` |
 | stddev_pop | STDDEV_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop` |
 | var_pop | VAR_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop` |

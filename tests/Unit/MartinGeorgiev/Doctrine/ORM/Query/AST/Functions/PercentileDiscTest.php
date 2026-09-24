@@ -20,7 +20,7 @@ final class PercentileDiscTest extends TestCase
     {
         return [
             'orders ascending by default' => 'SELECT percentile_disc(0.5) WITHIN GROUP (ORDER BY c0_.integer1 ASC) AS sclr_0 FROM ContainsNumerics c0_',
-            'orders by several items' => 'SELECT percentile_disc(0.9) WITHIN GROUP (ORDER BY c0_.integer1 DESC, c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            'orders descending' => 'SELECT percentile_disc(0.9) WITHIN GROUP (ORDER BY c0_.integer1 DESC) AS sclr_0 FROM ContainsNumerics c0_',
         ];
     }
 
@@ -28,7 +28,7 @@ final class PercentileDiscTest extends TestCase
     {
         return [
             'orders ascending by default' => \sprintf('SELECT PERCENTILE_DISC(0.5 WITHIN GROUP ORDER BY e.integer1) FROM %s e', ContainsNumerics::class),
-            'orders by several items' => \sprintf('SELECT PERCENTILE_DISC(0.9 WITHIN GROUP ORDER BY e.integer1 DESC, e.integer2 ASC) FROM %s e', ContainsNumerics::class),
+            'orders descending' => \sprintf('SELECT PERCENTILE_DISC(0.9 WITHIN GROUP ORDER BY e.integer1 DESC) FROM %s e', ContainsNumerics::class),
         ];
     }
 }

@@ -48,6 +48,10 @@ abstract class BaseOrderedSetAggregateFunction extends BaseFunction
         $parser->match($shouldUseLexer ? Lexer::T_GROUP : TokenType::T_GROUP);
 
         $this->orderByClause = $parser->OrderByClause();
+        $aggregatesASingleSortExpression = \count($this->orderByClause->orderByItems) === 1;
+        if (!$aggregatesASingleSortExpression) {
+            $parser->syntaxError('a single ORDER BY item');
+        }
 
         $parser->match($shouldUseLexer ? Lexer::T_CLOSE_PARENTHESIS : TokenType::T_CLOSE_PARENTHESIS);
     }

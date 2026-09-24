@@ -61,6 +61,7 @@ final class PercentileContTest extends TestCase
             'missing fraction' => ['PERCENTILE_CONT(WITHIN GROUP ORDER BY e.decimal1)'],
             'fraction separated by a comma' => ['PERCENTILE_CONT(0.5, WITHIN GROUP ORDER BY e.decimal1)'],
             'another word in place of WITHIN' => ['PERCENTILE_CONT(0.5 INSIDE GROUP ORDER BY e.decimal1)'],
+            'several ORDER BY items' => ['PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY e.decimal1 DESC, e.decimal2 ASC)'],
         ];
     }
 }
