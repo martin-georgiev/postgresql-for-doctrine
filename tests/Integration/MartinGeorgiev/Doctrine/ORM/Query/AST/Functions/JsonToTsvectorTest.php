@@ -17,7 +17,7 @@ final class JsonToTsvectorTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_an_entity_field_to_a_tsvector(): void
+    public function converts_the_json_to_a_tsvector_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_TO_TSVECTOR(t.jsonObject1, '[\"string\"]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

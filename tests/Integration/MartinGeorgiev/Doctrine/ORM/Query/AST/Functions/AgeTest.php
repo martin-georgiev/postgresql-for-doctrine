@@ -17,7 +17,7 @@ final class AgeTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_the_age_between_two_entity_fields(): void
+    public function returns_the_age_from_entity_fields(): void
     {
         $dql = 'SELECT AGE(t.datetime2, t.datetime1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

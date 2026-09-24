@@ -17,7 +17,7 @@ final class LevenshteinLessEqualTest extends TestCase
     }
 
     #[Test]
-    public function returns_distance_from_strings(): void
+    public function returns_the_distance_from_text_literals(): void
     {
         $dql = "SELECT LEVENSHTEIN_LESS_EQUAL('kitten', 'sitting', 5) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ final class LevenshteinLessEqualTest extends TestCase
     }
 
     #[Test]
-    public function returns_distance_from_text_fields(): void
+    public function returns_the_distance_from_entity_fields(): void
     {
         $dql = 'SELECT LEVENSHTEIN_LESS_EQUAL(t.text1, t.text2, 10) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

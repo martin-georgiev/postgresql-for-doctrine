@@ -17,7 +17,7 @@ final class ToJsonbTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_an_entity_field_to_jsonb(): void
+    public function converts_the_value_to_jsonb_from_an_entity_field(): void
     {
         $dql = 'SELECT TO_JSONB(t.jsonbObject1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

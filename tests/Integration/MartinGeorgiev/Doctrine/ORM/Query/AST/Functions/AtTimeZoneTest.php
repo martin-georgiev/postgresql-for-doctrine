@@ -17,7 +17,7 @@ final class AtTimeZoneTest extends DateTestCase
     }
 
     #[Test]
-    public function converts_an_entity_field_to_another_time_zone(): void
+    public function converts_the_timestamp_to_another_time_zone_from_an_entity_field(): void
     {
         $dql = "SELECT AT_TIME_ZONE(t.datetimetz1, 'Europe/Athens') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t

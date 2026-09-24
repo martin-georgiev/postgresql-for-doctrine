@@ -19,7 +19,7 @@ final class RowToJsonTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_a_row_to_json(): void
+    public function converts_the_row_to_json_from_entity_fields(): void
     {
         $dql = 'SELECT ROW_TO_JSON(ROW(t.id, t.jsonObject1)) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

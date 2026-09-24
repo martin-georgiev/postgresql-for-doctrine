@@ -19,7 +19,7 @@ final class InArrayTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_value_is_in_an_entity_field(): void
+    public function returns_whether_the_value_is_present_from_an_entity_field(): void
     {
         $dql = 'SELECT IN_ARRAY(:value, t.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -30,7 +30,7 @@ final class InArrayTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_value_is_in_an_array_literal(): void
+    public function returns_whether_the_value_is_present_from_an_array_literal(): void
     {
         $dql = "SELECT IN_ARRAY(:value, ARR('apple', 'banana')) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 

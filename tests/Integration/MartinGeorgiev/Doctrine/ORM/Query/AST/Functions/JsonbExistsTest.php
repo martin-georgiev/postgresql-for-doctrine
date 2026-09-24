@@ -17,7 +17,7 @@ final class JsonbExistsTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_key_exists_in_an_entity_field(): void
+    public function returns_whether_the_key_exists_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_EXISTS(t.jsonbObject1, :key) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

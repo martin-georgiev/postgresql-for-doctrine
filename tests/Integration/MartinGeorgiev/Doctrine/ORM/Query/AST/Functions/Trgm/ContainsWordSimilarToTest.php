@@ -17,7 +17,7 @@ final class ContainsWordSimilarToTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_when_haystack_entity_field_contains_needle_as_word(): void
+    public function returns_whether_the_operands_are_word_similar_from_a_literal_operand(): void
     {
         $dql = "SELECT t.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
                 WHERE CONTAINS_WORD_SIMILAR_TO(t.text1, 'test') = TRUE AND t.id = 1";
@@ -26,7 +26,7 @@ final class ContainsWordSimilarToTest extends TestCase
     }
 
     #[Test]
-    public function returns_false_when_both_operands_are_entity_fields(): void
+    public function returns_whether_the_operands_are_word_similar_from_entity_fields(): void
     {
         $dql = 'SELECT t.id FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t
                 WHERE CONTAINS_WORD_SIMILAR_TO(t.text1, t.text2) = TRUE AND t.id = 3';

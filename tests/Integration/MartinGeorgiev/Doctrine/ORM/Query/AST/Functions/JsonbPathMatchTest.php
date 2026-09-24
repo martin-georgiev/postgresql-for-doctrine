@@ -17,7 +17,7 @@ final class JsonbPathMatchTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_path_matches_a_json_literal(): void
+    public function returns_whether_the_path_matches_from_a_bound_parameter(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(:json, :path) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 
@@ -30,7 +30,7 @@ final class JsonbPathMatchTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_path_matches_an_entity_field(): void
+    public function returns_whether_the_path_matches_from_an_entity_field(): void
     {
         $dql = 'SELECT JSONB_PATH_MATCH(t.jsonbObject1, :path) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t
