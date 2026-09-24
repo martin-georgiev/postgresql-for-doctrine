@@ -52,6 +52,12 @@ parameters:
         -
             message: '#Fetching deprecated class constant T_STRING of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_WHERE of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_(AVG|COUNT|MAX|MIN|SUM) of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
 
         # Matched with ORM 3.x only (TokenType enum replaced the int|string token).
         -

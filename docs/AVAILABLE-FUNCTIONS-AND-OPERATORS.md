@@ -88,6 +88,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `CONTAINS` (`@>`) - Test if array/range contains elements
 - `OVERLAPS` (`&&`) - Test if arrays/ranges overlap
 - `ARRAY_AGG` - Aggregate values into arrays
+- `FILTER` - Restrict the rows an aggregate reads (`FILTER (WHERE ...)`)
 
 **JSON Operations:** ([Complete documentation](ARRAY-AND-JSON-FUNCTIONS.md))
 - `JSON_GET_FIELD_AS_TEXT` (`->>`) - Extract JSON field as text

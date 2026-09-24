@@ -97,6 +97,7 @@ return RectorConfig::configure()
         ],
         // skip as it breaks support for Lexer constants on older Doctrine versions
         RenameClassConstFetchRector::class => [
+            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/AggregateFilter.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseAggregateFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseVariadicFunction.php',
@@ -106,6 +107,7 @@ return RectorConfig::configure()
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/StringAgg.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/XmlAgg.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/XmlPi.php',
+            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Traits/AggregateArgumentTrait.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Traits/DistinctableTrait.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Traits/OrderableTrait.php',
         ],

@@ -129,6 +129,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | array | ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr` |
 | value = ANY(list of values) | IN_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray` |
 | CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` |
+| aggregate FILTER (WHERE condition) | FILTER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter` |
 
 ## Usage Examples
 
@@ -142,6 +143,10 @@ SELECT e.id, JSON_BUILD_OBJECT('name', e.name, 'status', e.status, 'score', e.sc
 
 -- ARRAY_AGG with ORDER BY inside the aggregate
 SELECT e.category, ARRAY_AGG(e.id ORDER BY e.createdAt DESC) as entity_ids FROM Entity e GROUP BY e.category
+
+-- FILTER wraps any aggregate, DQL's own or this library's, and takes the condition after WHERE as its second argument
+SELECT e.category, FILTER(COUNT(e.id), WHERE e.status = 'active') as active_count FROM Entity e GROUP BY e.category
+SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archivedAt IS NULL) as live_ids FROM Entity e GROUP BY e.category
 ```
 
 **💡 Tips for Usage:**
