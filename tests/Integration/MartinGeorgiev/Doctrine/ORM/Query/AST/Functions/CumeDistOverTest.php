@@ -21,7 +21,7 @@ final class CumeDistOverTest extends NumericTestCase
     {
         $dql = 'SELECT CUME_DIST_OVER(PARTITION BY 1 ORDER BY n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(1.0, $result[0]['result']);
+        $this->assertEquals(1.0, $result[0]['result']);
     }
 
     #[Test]
@@ -29,6 +29,6 @@ final class CumeDistOverTest extends NumericTestCase
     {
         $dql = 'SELECT CUME_DIST_OVER(PARTITION BY n.integer1 ORDER BY n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(1.0, $result[0]['result']);
+        $this->assertEquals(1.0, $result[0]['result']);
     }
 }
