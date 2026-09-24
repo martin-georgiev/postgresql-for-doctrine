@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT ANY_VALUE(e.name) FROM Entity e"
  */
-class AnyValue extends BaseFunction
+class AnyValue extends BaseFunction implements AggregateFunction
 {
     protected function customizeFunction(): void
     {

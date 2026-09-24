@@ -23,7 +23,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * @example Using it in DQL: "SELECT XMLAGG(e.xml_data) FROM Entity e"
  */
-class XmlAgg extends BaseFunction
+class XmlAgg extends BaseFunction implements AggregateFunction
 {
     use OrderableTrait;
 

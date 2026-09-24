@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT COVAR_SAMP(e.y, e.x) FROM Entity e"
  */
-class CovarSamp extends BaseFunction
+class CovarSamp extends BaseFunction implements AggregateFunction
 {
     protected function customizeFunction(): void
     {

@@ -154,3 +154,4 @@ SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archived
 2. **Array functions** provide efficient PostgreSQL array operations
 3. **JSON functions** support both JSON and JSONB data types
 4. **JSONB functions** offer better performance for complex JSON operations
+5. **FILTER** accepts only an aggregate as its first argument: DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`, or a function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction`. Every aggregate in this library implements it; implement it on an aggregate of your own to wrap that one too. Anything else throws a `ParserException`, as PostgreSQL would reject it

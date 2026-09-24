@@ -17,7 +17,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-abstract class BaseAggregateFunction extends BaseFunction
+abstract class BaseAggregateFunction extends BaseFunction implements AggregateFunction
 {
     use OrderableTrait;
     use DistinctableTrait;
