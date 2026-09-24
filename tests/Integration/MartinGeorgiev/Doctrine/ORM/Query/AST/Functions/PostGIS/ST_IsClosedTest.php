@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsClosed;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -13,7 +12,6 @@ final class ST_IsClosedTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
             'ST_ISCLOSED' => ST_IsClosed::class,
         ];
     }
@@ -21,7 +19,7 @@ final class ST_IsClosedTest extends SpatialOperatorTestCase
     #[Test]
     public function returns_whether_a_wkt_literal_is_closed(): void
     {
-        $dql = "SELECT ST_ISCLOSED(ST_GEOMFROMTEXT('LINESTRING(0 0,1 0,1 1,0 0)')) as result
+        $dql = "SELECT ST_ISCLOSED('LINESTRING(0 0,1 0,1 1,0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

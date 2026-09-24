@@ -7,7 +7,6 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Post
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Collect;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryN;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ST_GeometryNTest extends SpatialOperatorTestCase
@@ -18,14 +17,13 @@ final class ST_GeometryNTest extends SpatialOperatorTestCase
             'ST_ASTEXT' => ST_AsText::class,
             'ST_COLLECT' => ST_Collect::class,
             'ST_GEOMETRYN' => ST_GeometryN::class,
-            'ST_GEOMFROMTEXT' => ST_GeomFromText::class,
         ];
     }
 
     #[Test]
     public function returns_the_nth_element_from_a_wkt_literal(): void
     {
-        $dql = "SELECT ST_ASTEXT(ST_GEOMETRYN(ST_GEOMFROMTEXT('MULTIPOINT((1 2),(3 4))'), 1)) as result
+        $dql = "SELECT ST_ASTEXT(ST_GEOMETRYN('MULTIPOINT((1 2),(3 4))', 1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
