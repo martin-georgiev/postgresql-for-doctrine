@@ -30,7 +30,7 @@ final class ST_OffsetCurveTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_offset_linestring_with_style_parameters(): void
+    public function returns_the_offset_curve_with_style(): void
     {
         $dql = "SELECT ST_GEOMETRYTYPE(ST_OFFSETCURVE(g.geometry1, 1, 'quad_segs=4 join=round')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

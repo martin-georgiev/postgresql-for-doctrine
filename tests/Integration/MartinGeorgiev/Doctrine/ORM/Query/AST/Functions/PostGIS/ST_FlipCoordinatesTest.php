@@ -34,7 +34,7 @@ final class ST_FlipCoordinatesTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_flipped_coordinates_from_wkt_literals(): void
+    public function returns_the_flipped_coordinates_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_X('POINT(0 0)') as original_x, ST_Y('POINT(0 0)') as original_y,
                        ST_X(ST_FLIPCOORDINATES('POINT(0 0)')) as flipped_x, ST_Y(ST_FLIPCOORDINATES('POINT(0 0)')) as flipped_y

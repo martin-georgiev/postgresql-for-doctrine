@@ -37,7 +37,7 @@ final class ST_MakeValidTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_a_repaired_self_intersecting_polygon_with_the_linework_method(): void
+    public function returns_the_repaired_geometry_with_params(): void
     {
         $dql = "SELECT ST_ISVALID(ST_MAKEVALID(:geometry, 'method=linework')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

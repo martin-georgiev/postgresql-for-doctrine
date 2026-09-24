@@ -28,7 +28,7 @@ final class ST_AsTextTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_wkt_with_max_decimal_digits(): void
+    public function returns_the_wkt_with_max_decimal_digits(): void
     {
         $dql = 'SELECT ST_ASTEXT(g.geography1, 2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

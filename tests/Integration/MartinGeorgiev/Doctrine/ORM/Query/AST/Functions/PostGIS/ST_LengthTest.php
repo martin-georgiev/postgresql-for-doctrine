@@ -28,7 +28,7 @@ final class ST_LengthTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_length_for_geography_linestring_with_use_spheroid(): void
+    public function returns_the_length_with_use_spheroid(): void
     {
         $dql = "SELECT ST_LENGTH(g.geography1, 'true') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

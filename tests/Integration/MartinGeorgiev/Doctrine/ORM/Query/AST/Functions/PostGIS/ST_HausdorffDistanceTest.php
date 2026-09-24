@@ -28,7 +28,7 @@ final class ST_HausdorffDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_hausdorff_distance_between_polygons_with_densify_frac_parameter(): void
+    public function returns_the_hausdorff_distance_with_densify_frac(): void
     {
         $dql = 'SELECT ST_HAUSDORFFDISTANCE(g.geometry1, g.geometry2, 0.8) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

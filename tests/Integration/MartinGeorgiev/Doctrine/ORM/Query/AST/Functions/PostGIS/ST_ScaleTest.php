@@ -32,7 +32,7 @@ final class ST_ScaleTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_scaled_polygon_with_z_factor(): void
+    public function returns_the_scaled_geometry_with_z_factor(): void
     {
         $dql = 'SELECT ST_AREA(ST_SCALE(g.geometry1, 2, 3, 15)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

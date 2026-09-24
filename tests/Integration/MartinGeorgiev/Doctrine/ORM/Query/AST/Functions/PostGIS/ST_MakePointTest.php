@@ -32,7 +32,7 @@ final class ST_MakePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_3d_point(): void
+    public function creates_the_point_with_z(): void
     {
         $dql = 'SELECT ST_Z(ST_MAKEPOINT(11, 22, 33)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

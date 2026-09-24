@@ -32,7 +32,7 @@ final class ST_RotateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_geometry_type_with_custom_origin(): void
+    public function returns_the_rotated_geometry_with_origin(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_ROTATE(g.geometry1, 1.570796, 21, 22)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

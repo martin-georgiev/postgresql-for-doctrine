@@ -30,7 +30,7 @@ final class ST_ConvexHullTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_convex_hull_from_wkt_literals(): void
+    public function returns_the_convex_hull_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_EQUALS(ST_CONVEXHULL('POINT(0 0)'), 'POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

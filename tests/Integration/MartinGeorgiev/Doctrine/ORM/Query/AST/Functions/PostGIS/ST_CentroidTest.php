@@ -30,7 +30,7 @@ final class ST_CentroidTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_centroid_from_wkt_literals(): void
+    public function returns_the_centroid_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_EQUALS(ST_CENTROID('POINT(0 0)'), 'POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

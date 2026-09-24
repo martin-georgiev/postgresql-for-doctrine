@@ -30,7 +30,7 @@ final class ST_GeneratePointsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_generated_points_with_seed(): void
+    public function returns_the_generated_points_with_seed(): void
     {
         $dql = 'SELECT ST_NPOINTS(ST_GENERATEPOINTS(g.geometry1, 3, 42)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

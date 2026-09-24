@@ -28,7 +28,7 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_frechet_distance_between_disjoint_linestrings_with_densify_frac_parameter(): void
+    public function returns_the_frechet_distance_with_densify_frac(): void
     {
         $dql = 'SELECT ST_FRECHETDISTANCE(g.geometry1, g.geometry2, 0.85) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

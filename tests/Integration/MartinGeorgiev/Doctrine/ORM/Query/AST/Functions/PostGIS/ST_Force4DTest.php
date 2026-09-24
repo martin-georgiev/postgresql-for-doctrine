@@ -45,7 +45,7 @@ final class ST_Force4DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_4d_geometry_from_wkt_literals(): void
+    public function returns_the_4d_geometry_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_COORDDIM('POINT(0 0)') as original,
                        ST_COORDDIM(ST_FORCE4D('POINT(0 0)')) as transformed

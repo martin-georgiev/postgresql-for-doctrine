@@ -32,7 +32,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_geojson_with_max_decimal_digits(): void
+    public function returns_the_geojson_with_max_decimal_digits(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geography1, 2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -48,7 +48,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_geojson_with_options_parameter(): void
+    public function returns_the_geojson_with_options(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geometry1, 9, 1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

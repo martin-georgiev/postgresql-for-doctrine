@@ -28,7 +28,7 @@ final class ST_RelateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_geometries_match_disjoint_pattern(): void
+    public function returns_the_intersection_matrix_with_pattern(): void
     {
         $dql = 'SELECT ST_RELATE(g.geometry1, g.geometry2, \'FF0FFF0F2\') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

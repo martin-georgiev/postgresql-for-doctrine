@@ -32,7 +32,7 @@ final class ST_PointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function creates_point_with_srid(): void
+    public function creates_the_point_with_srid(): void
     {
         $dql = 'SELECT ST_SRID(ST_POINT(1, 2, 4326)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
