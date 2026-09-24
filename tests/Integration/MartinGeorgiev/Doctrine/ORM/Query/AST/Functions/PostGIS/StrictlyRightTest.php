@@ -39,7 +39,7 @@ final class StrictlyRightTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_when_higher_linestring_is_strictly_to_the_right_of_lower_onetrajetoryds(): void
+    public function returns_true_when_higher_linestring_is_strictly_to_the_right_of_lower_one(): void
     {
         $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

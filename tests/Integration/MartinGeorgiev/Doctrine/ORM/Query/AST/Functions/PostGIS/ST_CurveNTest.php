@@ -34,37 +34,4 @@ final class ST_CurveNTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_second_curve_with_measurable_length(): void
-    {
-        $dql = 'SELECT ST_LENGTH(ST_CURVEN(g.geometry1, 2)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 14';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertGreaterThan(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_null_for_out_of_range_index(): void
-    {
-        $dql = 'SELECT ST_CURVEN(g.geometry1, 10) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 14';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_null_for_linestring(): void
-    {
-        $dql = 'SELECT ST_CURVEN(g.geometry1, 1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
 }

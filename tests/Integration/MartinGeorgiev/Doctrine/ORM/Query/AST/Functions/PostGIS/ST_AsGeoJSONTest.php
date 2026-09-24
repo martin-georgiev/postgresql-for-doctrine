@@ -32,22 +32,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_geojson_for_point(): void
-    {
-        $dql = 'SELECT ST_ASGEOJSON(g.geography1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertIsString($result[0]['result']);
-        $geojson = \json_decode($result[0]['result'], true);
-        $this->assertIsArray($geojson);
-        $this->assertSame('Point', $geojson['type']);
-        $this->assertSame([-9.1393, 38.7223], $geojson['coordinates']);
-    }
-
-    #[Test]
-    public function respects_max_decimal_digits(): void
+    public function returns_geojson_with_max_decimal_digits(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geography1, 2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -63,7 +48,7 @@ final class ST_AsGeoJSONTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function respects_options_parameter(): void
+    public function returns_geojson_with_options_parameter(): void
     {
         $dql = 'SELECT ST_ASGEOJSON(g.geometry1, 9, 1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

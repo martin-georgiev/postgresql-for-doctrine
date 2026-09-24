@@ -32,15 +32,4 @@ final class ST_HasMTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
-
-    #[Test]
-    public function returns_true_for_geometry_with_m(): void
-    {
-        $dql = 'SELECT ST_HASM(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 12';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
 }

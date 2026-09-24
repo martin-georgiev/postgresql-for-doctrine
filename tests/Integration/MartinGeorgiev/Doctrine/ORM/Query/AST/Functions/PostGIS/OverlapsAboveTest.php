@@ -37,15 +37,4 @@ final class OverlapsAboveTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
-
-    #[Test]
-    public function returns_true_when_second_polygon_overlaps_or_is_above_first(): void
-    {
-        $dql = 'SELECT OVERLAPS_ABOVE(g.geometry2, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
 }

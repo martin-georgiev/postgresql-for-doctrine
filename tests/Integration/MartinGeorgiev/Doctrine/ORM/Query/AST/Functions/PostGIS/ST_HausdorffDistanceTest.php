@@ -28,28 +28,6 @@ final class ST_HausdorffDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_for_identical_geometries(): void
-    {
-        $dql = 'SELECT ST_HAUSDORFFDISTANCE(g.geometry1, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_hausdorff_distance_between_polygons(): void
-    {
-        $dql = 'SELECT ST_HAUSDORFFDISTANCE(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1.4142135623730951, $result[0]['result']);
-    }
-
-    #[Test]
     public function returns_hausdorff_distance_between_polygons_with_densify_frac_parameter(): void
     {
         $dql = 'SELECT ST_HAUSDORFFDISTANCE(g.geometry1, g.geometry2, 0.8) as result

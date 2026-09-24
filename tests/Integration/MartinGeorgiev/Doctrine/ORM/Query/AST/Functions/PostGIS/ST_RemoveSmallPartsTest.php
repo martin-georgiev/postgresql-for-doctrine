@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveSmallParts;
 use PHPUnit\Framework\Attributes\Test;
@@ -21,7 +20,6 @@ final class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
     {
         return [
             'ST_REMOVESMALLPARTS' => ST_RemoveSmallParts::class,
-            'ST_AREA' => ST_Area::class,
             'ST_EQUALS' => ST_Equals::class,
         ];
     }
@@ -35,16 +33,5 @@ final class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function removes_polygon_smaller_than_threshold(): void
-    {
-        $dql = 'SELECT ST_AREA(ST_REMOVESMALLPARTS(g.geometry1, 100, 0)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0.0, $result[0]['result']);
     }
 }

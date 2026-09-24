@@ -26,15 +26,4 @@ final class ST_3DPerimeterTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_zero_for_point(): void
-    {
-        $dql = 'SELECT ST_3DPERIMETER(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
 }

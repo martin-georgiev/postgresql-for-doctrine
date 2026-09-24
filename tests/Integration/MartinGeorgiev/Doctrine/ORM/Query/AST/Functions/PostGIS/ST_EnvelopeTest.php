@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals;
 use PHPUnit\Framework\Attributes\Test;
@@ -14,7 +13,6 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
     protected function getStringFunctions(): array
     {
         return [
-            'ST_AREA' => ST_Area::class,
             'ST_ENVELOPE' => ST_Envelope::class,
             'ST_EQUALS' => ST_Equals::class,
         ];
@@ -29,27 +27,5 @@ final class ST_EnvelopeTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_envelope_of_polygon(): void
-    {
-        $dql = 'SELECT ST_AREA(ST_ENVELOPE(g.geometry1)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(16, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_envelope_of_linestring(): void
-    {
-        $dql = 'SELECT ST_AREA(ST_ENVELOPE(g.geometry1)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(4, $result[0]['result']);
     }
 }

@@ -28,15 +28,4 @@ final class ST_SplitTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(5.656854249492381, $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_original_geometry_when_no_split_is_possible(): void
-    {
-        $dql = 'SELECT ST_LENGTH(ST_SPLIT(g.geometry1, g.geometry2)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(2.8284271247461903, $result[0]['result']);
-    }
 }

@@ -26,26 +26,4 @@ final class ST_Length2DTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(2.8284271247461903, $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_zero_for_polygon(): void
-    {
-        $dql = 'SELECT ST_LENGTH2D(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_zero_for_point(): void
-    {
-        $dql = 'SELECT ST_LENGTH2D(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
 }

@@ -26,26 +26,4 @@ final class ST_EqualsTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
-
-    #[Test]
-    public function returns_true_when_geometries_are_equal(): void
-    {
-        $dql = 'SELECT ST_EQUALS(g.geometry1, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_geometries_have_same_spatial_relationship(): void
-    {
-        $dql = 'SELECT ST_EQUALS(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 7';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
 }

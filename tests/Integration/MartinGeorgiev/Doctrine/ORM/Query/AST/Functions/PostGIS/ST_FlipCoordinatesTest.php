@@ -21,7 +21,7 @@ final class ST_FlipCoordinatesTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function flips_coordinates(): void
+    public function returns_flipped_coordinates(): void
     {
         $dql = 'SELECT ST_X(g.geometry1) as original_x, ST_Y(g.geometry1) as original_y,
                        ST_X(ST_FLIPCOORDINATES(g.geometry1)) as flipped_x, ST_Y(ST_FLIPCOORDINATES(g.geometry1)) as flipped_y

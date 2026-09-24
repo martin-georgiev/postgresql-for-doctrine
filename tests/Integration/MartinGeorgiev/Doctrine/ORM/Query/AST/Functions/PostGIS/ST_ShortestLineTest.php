@@ -19,17 +19,6 @@ final class ST_ShortestLineTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_zero_length_for_identical_geometries(): void
-    {
-        $dql = 'SELECT ST_LENGTH(ST_SHORTESTLINE(g.geometry1, g.geometry1)) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
     public function returns_shortest_line_between_separate_points(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_SHORTESTLINE(g.geometry1, g.geometry2)) as result

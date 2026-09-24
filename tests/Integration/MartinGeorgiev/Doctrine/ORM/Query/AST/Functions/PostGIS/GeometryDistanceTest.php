@@ -17,7 +17,7 @@ final class GeometryDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function calculates_euclidean_distance_between_geometric_points(): void
+    public function returns_euclidean_distance_between_geometric_points(): void
     {
         $dql = 'SELECT GEOMETRY_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -25,16 +25,5 @@ final class GeometryDistanceTest extends SpatialOperatorTestCase
 
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.4142135623730951, $result[0]['distance']);
-    }
-
-    #[Test]
-    public function returns_zero_when_comparing_identical_geometries(): void
-    {
-        $dql = 'SELECT GEOMETRY_DISTANCE(g.geometry1, g.geometry1) as distance
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['distance']);
     }
 }

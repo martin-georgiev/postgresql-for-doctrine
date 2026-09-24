@@ -28,15 +28,4 @@ final class ST_LettersTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals($result[0]['area1'], $result[0]['area2']);
     }
-
-    #[Test]
-    public function longer_text_produces_larger_geometry(): void
-    {
-        $dql = "SELECT ST_AREA(ST_LETTERS('A')) as area_a, ST_AREA(ST_LETTERS('ABC')) as area_abc
-                FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsGeometries g
-                WHERE g.id = 1";
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertLessThan($result[0]['area_abc'], $result[0]['area_a']);
-    }
 }

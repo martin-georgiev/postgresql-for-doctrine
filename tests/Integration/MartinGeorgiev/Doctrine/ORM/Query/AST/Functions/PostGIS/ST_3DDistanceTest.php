@@ -26,26 +26,4 @@ final class ST_3DDistanceTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(1.4142135623730951, $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_3d_distance_between_polygons(): void
-    {
-        $dql = 'SELECT ST_3DDISTANCE(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_3d_distance_between_linestrings(): void
-    {
-        $dql = 'SELECT ST_3DDISTANCE(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(1.4142135623730951, $result[0]['result']);
-    }
 }

@@ -21,7 +21,7 @@ final class ST_CollectionHomogenizeTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function homogenizes_collection_of_same_type_points(): void
+    public function returns_homogenized_collection_of_same_type_points(): void
     {
         $dql = 'SELECT ST_GEOMETRYTYPE(ST_COLLECTIONHOMOGENIZE(ST_COLLECT(g.geometry1, g.geometry2))) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

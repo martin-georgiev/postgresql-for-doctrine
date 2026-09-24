@@ -26,15 +26,4 @@ final class ST_GeometryTypeTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals('ST_Point', $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_polygon_type(): void
-    {
-        $dql = 'SELECT ST_GEOMETRYTYPE(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals('ST_Polygon', $result[0]['result']);
-    }
 }

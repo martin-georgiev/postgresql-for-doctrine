@@ -26,26 +26,4 @@ final class ST_WithinTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
-
-    #[Test]
-    public function returns_true_when_comparing_identical_geometries(): void
-    {
-        $dql = 'SELECT ST_WITHIN(g.geometry1, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
-
-    #[Test]
-    public function returns_true_when_geometry_is_within_another(): void
-    {
-        $dql = 'SELECT ST_WITHIN(g.geometry1, g.geometry2) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 6';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
 }

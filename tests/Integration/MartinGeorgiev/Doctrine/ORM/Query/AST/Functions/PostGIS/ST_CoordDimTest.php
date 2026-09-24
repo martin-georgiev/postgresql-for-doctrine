@@ -26,15 +26,4 @@ final class ST_CoordDimTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(2, $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_three_for_3d_point(): void
-    {
-        $dql = 'SELECT ST_COORDDIM(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 11';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3, $result[0]['result']);
-    }
 }

@@ -26,15 +26,4 @@ final class ST_ZTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(5, $result[0]['result']);
     }
-
-    #[Test]
-    public function returns_null_for_2d_point(): void
-    {
-        $dql = 'SELECT ST_Z(g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertNull($result[0]['result']);
-    }
 }

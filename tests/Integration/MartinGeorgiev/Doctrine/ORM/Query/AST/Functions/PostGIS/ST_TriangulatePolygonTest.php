@@ -19,7 +19,7 @@ final class ST_TriangulatePolygonTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function triangulates_polygon_preserving_area(): void
+    public function preserves_area_when_triangulating_polygon(): void
     {
         $dql = 'SELECT ST_AREA(ST_TRIANGULATEPOLYGON(g.geometry1)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
