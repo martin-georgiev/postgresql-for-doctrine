@@ -52,6 +52,9 @@ parameters:
         -
             message: '#Fetching deprecated class constant T_STRING of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
+        -
+            message: '#Fetching deprecated class constant T_GROUP of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
 
         # Matched with ORM 3.x only (TokenType enum replaced the int|string token).
         -
