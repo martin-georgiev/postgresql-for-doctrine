@@ -29,7 +29,7 @@ final class TsRankTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_a_rank_with_a_normalization_argument(): void
+    public function returns_a_rank_with_a_normalization(): void
     {
         $dql = "SELECT TS_RANK(TO_TSVECTOR(t.text1), TO_TSQUERY('lorem'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -37,7 +37,7 @@ final class TsRankTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_a_rank_with_weights_and_normalization_arguments(): void
+    public function returns_a_rank_with_weights_and_normalization(): void
     {
         $dql = "SELECT TS_RANK('{1,1,1,1}', TO_TSVECTOR(t.text1), TO_TSQUERY('lorem'), 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);

@@ -29,7 +29,7 @@ final class JsonStripNullsTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_the_json_without_nulls_from_an_entity_field_with_null_value_treatment(): void
+    public function returns_the_json_without_nulls_with_null_value_treatment(): void
     {
         $this->requirePostgresVersion(180000, 'null_value_treatment parameter for json_strip_nulls');
 

@@ -37,7 +37,7 @@ final class ToTsvectorTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_a_tsvector_with_a_config_argument(): void
+    public function creates_a_tsvector_with_a_text_search_config(): void
     {
         $dql = "SELECT TO_TSVECTOR('english', t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

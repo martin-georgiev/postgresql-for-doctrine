@@ -32,7 +32,7 @@ final class RowToJsonTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_a_row_with_multiple_fields(): void
+    public function converts_the_row_to_json_with_multiple_fields(): void
     {
         $dql = 'SELECT ROW_TO_JSON(ROW(t.id, t.jsonbObject1, t.jsonbObject2)) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

@@ -27,7 +27,7 @@ final class TsqueryPhraseTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_a_phrase_query_with_a_distance_argument(): void
+    public function creates_a_phrase_query_with_a_distance(): void
     {
         $dql = "SELECT TSQUERY_PHRASE(TO_TSQUERY('lorem'), TO_TSQUERY('ipsum'), 2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

@@ -27,7 +27,7 @@ final class RegexpMatchTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_the_matching_substrings_from_a_literal_with_a_flags_argument(): void
+    public function returns_the_matching_substrings_with_flags(): void
     {
         $dql = "SELECT REGEXP_MATCH('this is a test string', 'TEST', 'i') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

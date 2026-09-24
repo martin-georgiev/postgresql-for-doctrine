@@ -17,7 +17,7 @@ final class WebsearchToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_a_tsquery_with_a_config_argument(): void
+    public function creates_a_tsquery_with_a_text_search_config(): void
     {
         $dql = "SELECT websearch_to_tsquery('english', '\"sad cat\" or \"fat rat\"') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

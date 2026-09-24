@@ -27,7 +27,7 @@ final class TsHeadlineTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_a_highlighted_document_with_a_config_argument(): void
+    public function returns_a_highlighted_document_with_a_text_search_config(): void
     {
         $dql = "SELECT TS_HEADLINE('english', t.text1, TO_TSQUERY('lorem')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);
@@ -35,7 +35,7 @@ final class TsHeadlineTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_a_highlighted_document_with_config_and_options_arguments(): void
+    public function returns_a_highlighted_document_with_a_text_search_config_and_options(): void
     {
         $dql = "SELECT TS_HEADLINE('english', t.text1, TO_TSQUERY('english', 'lorem'), 'StartSel=<<, StopSel=>>') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);

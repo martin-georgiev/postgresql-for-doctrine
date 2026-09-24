@@ -25,7 +25,7 @@ final class RegexpReplaceTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_the_replaced_value_from_a_literal_with_a_flags_argument(): void
+    public function returns_the_replaced_value_with_flags(): void
     {
         $dql = "SELECT REGEXP_REPLACE('this is a test string', 'is', 'was', 'g') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

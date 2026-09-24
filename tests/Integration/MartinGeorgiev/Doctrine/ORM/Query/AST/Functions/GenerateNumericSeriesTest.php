@@ -35,7 +35,7 @@ final class GenerateNumericSeriesTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_the_numeric_series_from_entity_fields_with_an_explicit_step(): void
+    public function returns_the_numeric_series_with_an_explicit_step(): void
     {
         $dql = 'SELECT GENERATE_NUMERIC_SERIES(t.bigint1, t.bigint2, 1000) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t

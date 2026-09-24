@@ -27,7 +27,7 @@ final class DateAddTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_the_shifted_timestamp_from_an_entity_field_in_a_time_zone(): void
+    public function returns_the_shifted_timestamp_with_a_time_zone(): void
     {
         $dql = "SELECT DATE_ADD(t.datetimetz1, '1 day', 'UTC') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t

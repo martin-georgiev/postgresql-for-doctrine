@@ -40,7 +40,7 @@ final class MakeTimestamptzTest extends DateMakingTestCase
     }
 
     #[Test]
-    public function creates_a_timestamptz_with_a_timezone_argument(): void
+    public function creates_a_timestamptz_with_a_time_zone(): void
     {
         $dql = "SELECT MAKE_TIMESTAMPTZ(
                     CAST(DATE_PART('year', t.datetimetz1) AS INTEGER),

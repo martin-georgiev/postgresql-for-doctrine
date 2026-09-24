@@ -37,7 +37,7 @@ final class Uuidv7Test extends NumericTestCase
     }
 
     #[Test]
-    public function returns_a_uuid_with_a_shift_argument(): void
+    public function returns_a_uuid_with_a_shift(): void
     {
         $dql = "SELECT UUIDV7('1 hour') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t

@@ -27,7 +27,7 @@ final class TruncTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_the_truncated_value_with_a_precision_argument(): void
+    public function returns_the_truncated_value_with_a_precision(): void
     {
         $dql = 'SELECT TRUNC(42.4382, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 

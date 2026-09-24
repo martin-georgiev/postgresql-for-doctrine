@@ -33,7 +33,7 @@ final class RegexpSubstrTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_the_matching_substring_from_a_literal_with_a_start_position_argument(): void
+    public function returns_the_matching_substring_with_a_start_position(): void
     {
         $dql = "SELECT REGEXP_SUBSTR('this is a test string', '[a-z]+', 1) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

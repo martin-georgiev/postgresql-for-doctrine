@@ -25,7 +25,7 @@ final class DaterangeTest extends DateTestCase
     }
 
     #[Test]
-    public function creates_a_date_range_from_entity_fields_with_explicit_bounds(): void
+    public function creates_a_date_range_with_explicit_bounds(): void
     {
         $dql = "SELECT DATERANGE(t.date1, t.date2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

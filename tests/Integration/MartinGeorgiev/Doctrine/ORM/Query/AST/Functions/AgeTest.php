@@ -28,7 +28,7 @@ final class AgeTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_the_age_of_an_entity_field_from_the_current_timestamp(): void
+    public function returns_the_age_from_the_current_timestamp(): void
     {
         $dql = 'SELECT AGE(t.datetime1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

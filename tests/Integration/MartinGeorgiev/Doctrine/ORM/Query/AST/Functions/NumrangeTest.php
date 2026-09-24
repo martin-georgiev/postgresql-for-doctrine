@@ -25,7 +25,7 @@ final class NumrangeTest extends NumericTestCase
     }
 
     #[Test]
-    public function creates_a_range_from_entity_fields_with_an_explicit_bounds_argument(): void
+    public function creates_a_range_with_explicit_bounds(): void
     {
         $dql = "SELECT NUMRANGE(t.decimal1, t.decimal2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
