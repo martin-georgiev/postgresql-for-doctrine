@@ -17,7 +17,7 @@ final class StartsWithTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_an_entity_field_starts_with_the_prefix(): void
+    public function returns_whether_the_prefix_matches_from_an_entity_field(): void
     {
         $dql = "SELECT STARTS_WITH(t.text1, 'this') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -27,7 +27,7 @@ final class StartsWithTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_false_when_a_literal_does_not_start_with_the_prefix(): void
+    public function returns_whether_the_prefix_matches_from_a_text_literal(): void
     {
         $dql = "SELECT STARTS_WITH('this is a test string', 'xyz') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

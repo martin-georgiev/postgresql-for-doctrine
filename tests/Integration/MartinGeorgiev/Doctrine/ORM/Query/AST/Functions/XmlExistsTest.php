@@ -17,7 +17,7 @@ final class XmlExistsTest extends XmlTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_xpath_matches_a_literal(): void
+    public function returns_whether_the_xpath_matches_from_a_literal(): void
     {
         $dql = "SELECT XMLEXISTS('//item', '<root><item>foo</item></root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsXml t
@@ -28,7 +28,7 @@ final class XmlExistsTest extends XmlTestCase
     }
 
     #[Test]
-    public function returns_false_when_the_xpath_has_no_match_in_an_entity_field(): void
+    public function returns_whether_the_xpath_matches_from_an_entity_field(): void
     {
         $dql = 'SELECT XMLEXISTS(\'//item\', t.content) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsXml t

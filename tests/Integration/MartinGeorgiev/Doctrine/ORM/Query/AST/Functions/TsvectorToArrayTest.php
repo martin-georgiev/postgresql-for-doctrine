@@ -20,7 +20,7 @@ final class TsvectorToArrayTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_an_entity_field_to_an_array_of_lexemes(): void
+    public function converts_the_tsvector_to_an_array_of_lexemes_from_an_entity_field(): void
     {
         $dql = 'SELECT TSVECTOR_TO_ARRAY(TO_TSVECTOR(t.text1)) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2';
         $result = $this->executeDqlQuery($dql);
@@ -31,7 +31,7 @@ final class TsvectorToArrayTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_a_literal_to_an_array_of_lexemes(): void
+    public function converts_the_tsvector_to_an_array_of_lexemes_from_a_literal(): void
     {
         $dql = "SELECT TSVECTOR_TO_ARRAY(TO_TSVECTOR('borum morum forum')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 2";
         $result = $this->executeDqlQuery($dql);

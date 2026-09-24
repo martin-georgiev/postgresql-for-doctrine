@@ -17,7 +17,7 @@ final class DifferenceTest extends TestCase
     }
 
     #[Test]
-    public function returns_similarity_score_from_strings(): void
+    public function returns_the_similarity_score_from_text_literals(): void
     {
         $dql = "SELECT DIFFERENCE('Anne', 'Anton') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ final class DifferenceTest extends TestCase
     }
 
     #[Test]
-    public function returns_similarity_score_from_text_fields(): void
+    public function returns_the_similarity_score_from_entity_fields(): void
     {
         $dql = 'SELECT DIFFERENCE(t.text1, t.text2) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -17,7 +17,7 @@ final class AnyTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_the_row_when_the_comparison_holds_for_any_entity_field_element(): void
+    public function returns_whether_the_comparison_holds_for_any_element_from_an_entity_field(): void
     {
         $dql = "SELECT t.id as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t

@@ -17,7 +17,7 @@ final class IsfiniteTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_true_for_a_finite_entity_field(): void
+    public function returns_whether_the_value_is_finite_from_an_entity_field(): void
     {
         $dql = 'SELECT ISFINITE(t.date1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsDates t

@@ -17,7 +17,7 @@ final class SimilarityDistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_distance_from_strings(): void
+    public function returns_the_distance_from_text_literals(): void
     {
         $dql = "SELECT SIMILARITY_DISTANCE('word', 'xyz') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ final class SimilarityDistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_distance_from_text_fields(): void
+    public function returns_the_distance_from_entity_fields(): void
     {
         $dql = 'SELECT SIMILARITY_DISTANCE(t.text1, t.text2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

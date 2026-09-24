@@ -17,7 +17,7 @@ final class JsonbToTsvectorTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_an_entity_field_to_a_tsvector(): void
+    public function converts_the_jsonb_to_a_tsvector_from_an_entity_field(): void
     {
         $dql = "SELECT JSONB_TO_TSVECTOR('english', t.jsonbObject1, '[\"string\"]') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t

@@ -17,7 +17,7 @@ final class DeleteTest extends TestCase
     }
 
     #[Test]
-    public function returns_hstore_without_deleted_key_from_literal(): void
+    public function returns_the_hstore_without_the_deleted_key_from_an_hstore_literal(): void
     {
         $dql = "SELECT HSTORE_DELETE('\"a\"=>\"1\",\"b\"=>\"2\"', 'a') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
@@ -28,7 +28,7 @@ final class DeleteTest extends TestCase
     }
 
     #[Test]
-    public function returns_hstore_without_deleted_key_from_entity_property(): void
+    public function returns_the_hstore_without_the_deleted_key_from_an_entity_field(): void
     {
         $dql = "SELECT HSTORE_DELETE(t.data, 'key1') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t

@@ -17,7 +17,7 @@ final class MatchesLqueryTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_when_path_matches_prefix_pattern(): void
+    public function returns_whether_the_pattern_matches_from_an_entity_field(): void
     {
         $dql = "SELECT l.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l
                 WHERE MATCHES_LQUERY(l.ltree1, 'Top.*') = TRUE AND l.id = 1";

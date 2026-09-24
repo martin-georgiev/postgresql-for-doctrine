@@ -17,7 +17,7 @@ final class UnnestTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_one_row_per_element_of_an_entity_field(): void
+    public function returns_one_row_per_element_from_an_entity_field(): void
     {
         $dql = 'SELECT UNNEST(t.textArray) as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t 

@@ -17,7 +17,7 @@ final class BroadcastTest extends TestCase
     }
 
     #[Test]
-    public function returns_broadcast_address_from_literal(): void
+    public function returns_the_broadcast_address_from_a_literal(): void
     {
         $dql = "SELECT BROADCAST('192.168.1.5/24') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t
@@ -27,7 +27,7 @@ final class BroadcastTest extends TestCase
     }
 
     #[Test]
-    public function returns_broadcast_address_from_field(): void
+    public function returns_the_broadcast_address_from_an_entity_field(): void
     {
         $dql = 'SELECT BROADCAST(t.ip) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t

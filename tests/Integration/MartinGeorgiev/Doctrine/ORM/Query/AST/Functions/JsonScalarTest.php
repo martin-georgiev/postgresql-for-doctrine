@@ -23,7 +23,7 @@ final class JsonScalarTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_a_text_literal_to_a_json_scalar(): void
+    public function converts_the_value_to_a_json_scalar_from_a_text_literal(): void
     {
         $dql = "SELECT JSON_SCALAR('hello') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 
@@ -33,7 +33,7 @@ final class JsonScalarTest extends JsonTestCase
     }
 
     #[Test]
-    public function converts_an_entity_field_to_a_json_scalar(): void
+    public function converts_the_value_to_a_json_scalar_from_an_entity_field(): void
     {
         $dql = 'SELECT JSON_SCALAR(t.id) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsJsons t 

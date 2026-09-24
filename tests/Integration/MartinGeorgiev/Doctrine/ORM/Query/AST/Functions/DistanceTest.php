@@ -57,7 +57,7 @@ final class DistanceTest extends TestCase
     }
 
     #[Test]
-    public function returns_the_distance_between_two_entity_fields(): void
+    public function returns_the_distance_from_entity_fields(): void
     {
         $dql = 'SELECT DISTANCE(t.point1, t.point2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsPoints t

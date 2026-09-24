@@ -18,7 +18,7 @@ final class ToNumberTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_a_literal_to_a_number(): void
+    public function converts_the_text_to_a_number_from_a_literal(): void
     {
         $dql = "SELECT TO_NUMBER('12,454.8-', '99G999D9S') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

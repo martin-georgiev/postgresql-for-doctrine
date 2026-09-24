@@ -23,7 +23,7 @@ final class JsonExistsTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_path_exists_in_an_entity_field(): void
+    public function returns_whether_the_path_exists_from_an_entity_field(): void
     {
         $dql = "SELECT JSON_EXISTS(t.jsonObject1, '$.name') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

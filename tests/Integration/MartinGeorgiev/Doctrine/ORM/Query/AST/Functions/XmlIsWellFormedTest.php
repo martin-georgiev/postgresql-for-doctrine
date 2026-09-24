@@ -17,7 +17,7 @@ final class XmlIsWellFormedTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_for_a_well_formed_literal(): void
+    public function returns_whether_the_value_is_well_formed_from_a_literal(): void
     {
         $dql = "SELECT XML_IS_WELL_FORMED('<root>test</root>') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -28,7 +28,7 @@ final class XmlIsWellFormedTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_for_a_well_formed_entity_field(): void
+    public function returns_whether_the_value_is_well_formed_from_an_entity_field(): void
     {
         $dql = 'SELECT XML_IS_WELL_FORMED(t.text1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts t

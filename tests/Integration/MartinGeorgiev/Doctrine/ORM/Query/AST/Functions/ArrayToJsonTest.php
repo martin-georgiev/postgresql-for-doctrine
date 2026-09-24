@@ -19,7 +19,7 @@ final class ArrayToJsonTest extends ArrayTestCase
     }
 
     #[Test]
-    public function converts_an_array_literal_to_json(): void
+    public function converts_the_array_to_json_from_an_array_literal(): void
     {
         $dql = "SELECT ARRAY_TO_JSON(ARR('apple', 'banana')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -27,7 +27,7 @@ final class ArrayToJsonTest extends ArrayTestCase
     }
 
     #[Test]
-    public function converts_an_entity_field_to_json(): void
+    public function converts_the_array_to_json_from_an_entity_field(): void
     {
         $dql = 'SELECT ARRAY_TO_JSON(t.textArray) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
