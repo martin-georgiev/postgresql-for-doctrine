@@ -26,4 +26,15 @@ final class SpatialContainsTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_false_when_comparing_separate_point_geometries_from_a_literal_operand(): void
+    {
+        $dql = "SELECT SPATIAL_CONTAINS(g.geometry1, 'SRID=4326;POINT(1 1)') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
+    }
 }

@@ -28,4 +28,15 @@ final class ST_UnionTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_union_of_two_geometries_from_a_literal_operand(): void
+    {
+        $dql = "SELECT ST_AREA(ST_UNION(g.geometry1, 'SRID=4326;POINT(1 1)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0, $result[0]['result']);
+    }
 }

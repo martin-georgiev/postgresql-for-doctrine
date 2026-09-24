@@ -26,4 +26,15 @@ final class StrictlyBelowTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertFalse($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_false_with_overlapping_polygons_from_a_literal_operand(): void
+    {
+        $dql = "SELECT STRICTLY_BELOW(g.geometry1, 'SRID=4326;POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))') as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertFalse($result[0]['result']);
+    }
 }
