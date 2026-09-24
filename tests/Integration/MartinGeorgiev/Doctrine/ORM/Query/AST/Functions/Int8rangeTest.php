@@ -25,7 +25,7 @@ final class Int8rangeTest extends NumericTestCase
     }
 
     #[Test]
-    public function creates_a_bigint_range_from_entity_fields_with_explicit_bounds(): void
+    public function creates_a_bigint_range_with_explicit_bounds(): void
     {
         $dql = "SELECT INT8RANGE(t.bigint1, t.bigint2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

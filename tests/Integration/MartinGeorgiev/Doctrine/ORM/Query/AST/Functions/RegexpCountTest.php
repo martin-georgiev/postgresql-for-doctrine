@@ -34,7 +34,7 @@ final class RegexpCountTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_the_match_count_from_a_literal_with_a_start_position_argument(): void
+    public function returns_the_match_count_with_a_start_position(): void
     {
         $dql = "SELECT REGEXP_COUNT('this is a test string', 't', 5) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

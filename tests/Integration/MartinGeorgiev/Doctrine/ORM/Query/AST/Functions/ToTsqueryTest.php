@@ -37,7 +37,7 @@ final class ToTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function creates_a_tsquery_with_a_config_argument(): void
+    public function creates_a_tsquery_with_a_text_search_config(): void
     {
         $dql = "SELECT TO_TSQUERY('english', 'test') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

@@ -33,7 +33,7 @@ final class GenerateTimeSeriesTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_the_time_series_from_entity_fields_in_a_time_zone(): void
+    public function returns_the_time_series_with_a_time_zone(): void
     {
         $dql = "SELECT GENERATE_TIME_SERIES(t.datetimetz1, t.datetimetz2, '12 hours', 'UTC') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t

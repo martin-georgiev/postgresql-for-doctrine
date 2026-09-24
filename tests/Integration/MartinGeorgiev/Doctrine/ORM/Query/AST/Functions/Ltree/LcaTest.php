@@ -33,7 +33,7 @@ final class LcaTest extends TestCase
     }
 
     #[Test]
-    public function returns_longest_common_ancestor_of_four_paths(): void
+    public function returns_longest_common_ancestor_with_four_paths(): void
     {
         $dql = "SELECT LCA(l.ltree1, l.ltree2, l.ltree3, '1.2.3.456') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 4";
         $result = $this->executeDqlQuery($dql);

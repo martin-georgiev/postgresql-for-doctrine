@@ -27,7 +27,7 @@ final class RoundTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_the_rounded_value_with_a_precision_argument(): void
+    public function returns_the_rounded_value_with_a_precision(): void
     {
         $dql = 'SELECT ROUND(3.14159, 2) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics t 

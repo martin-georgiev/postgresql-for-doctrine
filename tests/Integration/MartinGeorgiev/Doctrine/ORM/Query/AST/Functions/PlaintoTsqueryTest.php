@@ -25,7 +25,7 @@ final class PlaintoTsqueryTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_a_literal_to_a_tsquery_with_a_config_argument(): void
+    public function converts_the_text_to_a_tsquery_with_a_text_search_config(): void
     {
         $dql = "SELECT PLAINTO_TSQUERY('english', 'lorem ipsum') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

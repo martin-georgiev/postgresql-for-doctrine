@@ -33,7 +33,7 @@ final class SubpathTest extends TestCase
     }
 
     #[Test]
-    public function returns_subpath_without_a_length_argument(): void
+    public function returns_subpath_without_a_length(): void
     {
         $dql = 'SELECT SUBPATH(l.ltree1, 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1';
         $result = $this->executeDqlQuery($dql);

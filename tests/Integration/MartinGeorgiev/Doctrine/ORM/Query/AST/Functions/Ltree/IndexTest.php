@@ -33,7 +33,7 @@ final class IndexTest extends TestCase
     }
 
     #[Test]
-    public function returns_position_of_a_subpath_searched_from_an_offset(): void
+    public function returns_position_of_a_subpath_with_an_offset(): void
     {
         $dql = "SELECT INDEX(l.ltree1, 'Child1', 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1";
         $result = $this->executeDqlQuery($dql);

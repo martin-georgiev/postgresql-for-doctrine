@@ -34,7 +34,7 @@ final class JsonbSetTest extends JsonTestCase
     }
 
     #[Test]
-    public function returns_the_jsonb_with_the_value_set_from_an_entity_field_without_creating_missing_keys(): void
+    public function returns_the_jsonb_with_the_value_set_without_creating_missing_keys(): void
     {
         $dql = "SELECT JSONB_SET(t.jsonbObject1, :path, :value, 'false') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t 

@@ -25,7 +25,7 @@ final class Int4rangeTest extends NumericTestCase
     }
 
     #[Test]
-    public function creates_an_integer_range_from_entity_fields_with_explicit_bounds(): void
+    public function creates_an_integer_range_with_explicit_bounds(): void
     {
         $dql = "SELECT INT4RANGE(t.integer1, t.integer2, '(]') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
