@@ -16,9 +16,8 @@ use MartinGeorgiev\Utils\DoctrineOrm;
 /**
  * Renders FUNC_OVER(arg, ..., [PARTITION BY ...] [ORDER BY ...]) as func(arg, ...) OVER ([PARTITION BY ...] [ORDER BY ...]).
  *
- * DQL cannot parse anything after a function's closing parenthesis, so the window specification rides inside the call
- * as the tail of its argument list. Subclasses declare their leading arguments with addNodeMapping() in
- * customizeFunction(), one parser method per position; positions past getMinArgumentCount() are optional.
+ * Subclasses declare their leading arguments with addNodeMapping() in customizeFunction(), one parser method per
+ * position; positions past getMinArgumentCount() are optional.
  *
  * @since 4.9
  *
