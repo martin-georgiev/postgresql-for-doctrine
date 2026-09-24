@@ -30,9 +30,9 @@ final class ST_CollectTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_collected_geometry_from_wkt_literals(): void
+    public function returns_the_collected_geometry_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_AREA(ST_COLLECT('POINT(0 0)', 'POINT(1 1)')) as result
+        $dql = "SELECT ST_AREA(ST_COLLECT(g.geometry1, 'SRID=4326;POINT(1 1)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

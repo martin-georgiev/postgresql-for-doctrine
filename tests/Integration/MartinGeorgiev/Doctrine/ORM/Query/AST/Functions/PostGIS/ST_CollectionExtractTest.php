@@ -30,9 +30,9 @@ final class ST_CollectionExtractTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_extracted_collection_from_wkt_literals(): void
+    public function returns_the_extracted_collection_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_EQUALS(ST_COLLECTIONEXTRACT('POINT(0 0)', 1), 'POINT(0 0)') as result
+        $dql = "SELECT ST_EQUALS(ST_COLLECTIONEXTRACT(g.geometry1, 1), 'SRID=4326;POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

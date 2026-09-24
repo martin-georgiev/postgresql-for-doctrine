@@ -36,9 +36,9 @@ final class ST_RemoveSmallPartsTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_geometry_without_small_parts_from_wkt_literals(): void
+    public function returns_the_geometry_without_small_parts_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_EQUALS(ST_REMOVESMALLPARTS('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 1, 0), 'POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
+        $dql = "SELECT ST_EQUALS(ST_REMOVESMALLPARTS(g.geometry1, 1, 0), 'SRID=4326;POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2";
 

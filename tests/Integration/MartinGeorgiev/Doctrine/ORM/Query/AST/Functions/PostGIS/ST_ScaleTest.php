@@ -43,9 +43,9 @@ final class ST_ScaleTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_scaled_geometry_from_wkt_literals(): void
+    public function returns_the_scaled_geometry_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_EQUALS(ST_SCALE('POINT(0 0)', 2.0, 2.0), 'POINT(0 0)') as result
+        $dql = "SELECT ST_EQUALS(ST_SCALE(g.geometry1, 2.0, 2.0), 'SRID=4326;POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

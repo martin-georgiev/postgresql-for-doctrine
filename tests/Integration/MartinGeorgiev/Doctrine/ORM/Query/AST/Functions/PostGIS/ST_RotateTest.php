@@ -43,9 +43,9 @@ final class ST_RotateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_rotated_geometry_from_wkt_literals(): void
+    public function returns_the_rotated_geometry_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_EQUALS(ST_ROTATE('POINT(0 0)', 0.785398), 'POINT(0 0)') as result
+        $dql = "SELECT ST_EQUALS(ST_ROTATE(g.geometry1, 0.785398), 'SRID=4326;POINT(0 0)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

@@ -30,9 +30,9 @@ final class ST_IntersectionTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_intersection_from_wkt_literals(): void
+    public function returns_the_intersection_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_AREA(ST_INTERSECTION('POLYGON((0 0, 0 2, 2 2, 2 0, 0 0))', 'POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))')) as result
+        $dql = "SELECT ST_AREA(ST_INTERSECTION(g.geometry1, 'POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 4";
 

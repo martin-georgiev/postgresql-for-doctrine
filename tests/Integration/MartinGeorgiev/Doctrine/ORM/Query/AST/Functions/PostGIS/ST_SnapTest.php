@@ -30,9 +30,9 @@ final class ST_SnapTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_snapped_geometry_from_wkt_literals(): void
+    public function returns_the_snapped_geometry_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_GEOMETRYTYPE(ST_SNAP('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', 'POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))', 2.0)) as result
+        $dql = "SELECT ST_GEOMETRYTYPE(ST_SNAP(g.geometry1, 'SRID=4326;POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))', 2.0)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 2";
 
