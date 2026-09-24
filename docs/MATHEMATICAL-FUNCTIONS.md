@@ -101,6 +101,9 @@ This document covers PostgreSQL mathematical functions available in this library
 | corr | CORR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Corr` |
 | covar_pop | COVAR_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop` |
 | covar_samp | COVAR_SAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp` |
+| mode() WITHIN GROUP (ORDER BY ...) | MODE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Mode` |
+| percentile_cont() WITHIN GROUP (ORDER BY ...) | PERCENTILE_CONT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont` |
+| percentile_disc() WITHIN GROUP (ORDER BY ...) | PERCENTILE_DISC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileDisc` |
 | stddev | STDDEV | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev` |
 | stddev_pop | STDDEV_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop` |
 | var_pop | VAR_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop` |
@@ -136,6 +139,13 @@ SELECT e FROM Entity e WHERE RANDOM() < 0.1 ORDER BY RANDOM() LIMIT 100
 SELECT e.category,
        GREATEST(MAX(e.value), 0) as max_non_negative,
        LEAST(MIN(e.value), 100) as min_capped
+FROM Entity e GROUP BY e.category
+
+-- Ordered-set aggregates: DQL has no syntax after a closing parenthesis, so WITHIN GROUP ORDER BY goes inside it
+SELECT e.category,
+       PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY e.value) as median,
+       PERCENTILE_DISC(0.9 WITHIN GROUP ORDER BY e.value DESC) as top_decile,
+       MODE(WITHIN GROUP ORDER BY e.status) as most_common_status
 FROM Entity e GROUP BY e.category
 ```
 **📝 Function Categories:**
