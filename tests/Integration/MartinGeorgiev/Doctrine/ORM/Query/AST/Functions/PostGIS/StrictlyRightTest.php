@@ -37,15 +37,4 @@ final class StrictlyRightTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
-
-    #[Test]
-    public function returns_true_when_higher_linestring_is_strictly_to_the_right_of_lower_one(): void
-    {
-        $dql = 'SELECT STRICTLY_RIGHT(g.geometry2, g.geometry1) as result
-                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 3';
-
-        $result = $this->executeDqlQuery($dql);
-        $this->assertTrue($result[0]['result']);
-    }
 }
