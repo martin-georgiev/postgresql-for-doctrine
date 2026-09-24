@@ -29,7 +29,7 @@ final class NDimensionalCentroidDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_distance_between_geometry_and_literal_point(): void
+    public function returns_the_centroid_distance_from_a_literal_operand(): void
     {
         $dql = "SELECT ND_CENTROID_DISTANCE(g.geometry1, 'POINT(3 3)') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
