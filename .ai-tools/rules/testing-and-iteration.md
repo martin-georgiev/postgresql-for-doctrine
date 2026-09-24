@@ -57,6 +57,19 @@ returns_first_vertex_of_polygon_ring()
 returns_null_for_out_of_range_index()
 ```
 
+**The literal half keeps an entity field when the function takes more than one argument.** With every operand a literal, `FROM … WHERE g.id = N` contributes nothing — the query answers the same for any row, and the filter only looks like it matters.
+
+```php
+// ❌ both operands literal — the fixture row is decorative
+BOUNDING_BOX_DISTANCE('POLYGON((0 0, 2 0, 2 2, 0 2, 0 0))', 'POLYGON((1 1, 3 1, 3 3, 1 3, 1 1))')
+
+// ✓ the row is load-bearing and the literal still proves literal parsing
+GEOMETRY_DISTANCE(g.geometry1, 'SRID=4326;POINT(1 1)')
+GEOMETRY_DISTANCE(g.geometry1, g.geometry2)
+```
+
+A single-argument function has no mixed form, so an all-literal call is its only literal test; there the `WHERE` just limits the result to one row.
+
 Reach the function directly. Nest a helper only to build an input the fixtures do not hold:
 
 ```php
