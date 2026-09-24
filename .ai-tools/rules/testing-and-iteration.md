@@ -70,18 +70,6 @@ GEOMETRY_DISTANCE(g.geometry1, g.geometry2)
 
 A single-argument function has no mixed form, so an all-literal call is its only literal test; there the `WHERE` just limits the result to one row.
 
-**Both halves read the same fixture row and assert the same value** — that is what proves the two sources agree. On different rows they are two unrelated tests.
-
-```php
-// ❌ each half on its own row, so the answers have nothing to do with each other
-BOUNDING_BOX_DISTANCE(g.geometry1, 'POLYGON((1 1, 3 1, 3 3, 1 3, 1 1))')  // g.id = 1 → 1.4142135623730951
-BOUNDING_BOX_DISTANCE(g.geometry1, g.geometry2)                           // g.id = 2 → 0
-
-// ✓ one row, one answer
-BOUNDING_BOX_DISTANCE(g.geometry1, 'POLYGON((1 1, 3 1, 3 3, 1 3, 1 1))')  // g.id = 1 → 1.4142135623730951
-BOUNDING_BOX_DISTANCE(g.geometry1, g.geometry2)                           // g.id = 1 → 1.4142135623730951
-```
-
 A third test earns its place only on another arity, and takes `<verb>_the_<subject>_with_<argument>` — the pair's verb and subject, then the extra argument itself, never its value or the outcome.
 
 ```php
