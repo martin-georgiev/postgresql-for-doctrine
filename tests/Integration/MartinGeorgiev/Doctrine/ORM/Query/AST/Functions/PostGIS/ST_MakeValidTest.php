@@ -46,4 +46,15 @@ final class ST_MakeValidTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql, ['geometry' => self::SELF_INTERSECTING_POLYGON]);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_an_already_valid_entity_field_unchanged(): void
+    {
+        $dql = 'SELECT ST_ISVALID(ST_MAKEVALID(g.geometry1)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

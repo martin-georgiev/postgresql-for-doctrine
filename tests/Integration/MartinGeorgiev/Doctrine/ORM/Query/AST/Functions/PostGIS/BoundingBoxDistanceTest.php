@@ -26,4 +26,15 @@ final class BoundingBoxDistanceTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(0, $result[0]['distance']);
     }
+
+    #[Test]
+    public function returns_zero_when_polygon_bounding_boxes_overlap_from_entity_fields(): void
+    {
+        $dql = 'SELECT BOUNDING_BOX_DISTANCE(g.geometry1, g.geometry2) as distance
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(0, $result[0]['distance']);
+    }
 }

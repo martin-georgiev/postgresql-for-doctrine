@@ -44,4 +44,15 @@ final class ST_IsValidReasonTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql, ['geometry' => self::SELF_INTERSECTING_POLYGON]);
         $this->assertSame('Self-intersection', $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_the_reason_for_a_valid_entity_field(): void
+    {
+        $dql = 'SELECT ST_ISVALIDREASON(g.geometry1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('Valid Geometry', $result[0]['result']);
+    }
 }
