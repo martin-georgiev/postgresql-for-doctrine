@@ -21,10 +21,10 @@ final class OverlapsAboveTest extends SpatialOperatorTestCase
     {
         $dql = 'SELECT OVERLAPS_ABOVE(g.geometry1, g.geometry2) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 8';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertFalse($result[0]['result']);
+        $this->assertTrue($result[0]['result']);
     }
 
     #[Test]
@@ -32,7 +32,7 @@ final class OverlapsAboveTest extends SpatialOperatorTestCase
     {
         $dql = "SELECT OVERLAPS_ABOVE(g.geometry1, 'POINT(0 -1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1";
+                WHERE g.id = 8";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);

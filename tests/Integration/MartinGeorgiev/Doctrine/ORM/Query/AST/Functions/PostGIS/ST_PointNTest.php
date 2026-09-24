@@ -23,7 +23,7 @@ final class ST_PointNTest extends SpatialOperatorTestCase
     {
         $dql = "SELECT ST_ASTEXT(ST_POINTN('LINESTRING(0 0,1 1,2 2)', 2)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1";
+                WHERE g.id = 3";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('POINT(1 1)', $result[0]['result']);

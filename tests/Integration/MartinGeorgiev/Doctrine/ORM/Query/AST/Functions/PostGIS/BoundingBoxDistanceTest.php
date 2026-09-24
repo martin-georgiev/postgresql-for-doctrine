@@ -32,9 +32,9 @@ final class BoundingBoxDistanceTest extends SpatialOperatorTestCase
     {
         $dql = 'SELECT BOUNDING_BOX_DISTANCE(g.geometry1, g.geometry2) as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 2';
+                WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['distance']);
+        $this->assertEquals(1.4142135623730951, $result[0]['distance']);
     }
 }

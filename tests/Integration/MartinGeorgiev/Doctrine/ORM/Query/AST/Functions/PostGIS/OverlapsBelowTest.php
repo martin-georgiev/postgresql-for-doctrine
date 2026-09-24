@@ -32,7 +32,7 @@ final class OverlapsBelowTest extends SpatialOperatorTestCase
     {
         $dql = "SELECT OVERLAPS_BELOW(g.geometry1, 'POINT(0 2)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
-                WHERE g.id = 1";
+                WHERE g.id = 4";
 
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
