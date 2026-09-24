@@ -17,7 +17,7 @@ final class DmetaphoneAltTest extends TestCase
     }
 
     #[Test]
-    public function returns_alternate_double_metaphone_code_from_a_string(): void
+    public function returns_the_alternate_double_metaphone_code_from_a_text_literal(): void
     {
         $dql = "SELECT DMETAPHONE_ALT('gumbo') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t
@@ -27,7 +27,7 @@ final class DmetaphoneAltTest extends TestCase
     }
 
     #[Test]
-    public function returns_alternate_double_metaphone_code_from_a_text_field(): void
+    public function returns_the_alternate_double_metaphone_code_from_an_entity_field(): void
     {
         $dql = 'SELECT DMETAPHONE_ALT(t.text1) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t

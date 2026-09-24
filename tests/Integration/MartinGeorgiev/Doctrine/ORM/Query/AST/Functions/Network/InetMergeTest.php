@@ -17,7 +17,7 @@ final class InetMergeTest extends TestCase
     }
 
     #[Test]
-    public function returns_smallest_enclosing_network_from_literals(): void
+    public function returns_the_smallest_enclosing_network_from_literals(): void
     {
         $dql = "SELECT INET_MERGE('192.168.1.5/24', '10.0.0.1/8') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t
@@ -27,7 +27,7 @@ final class InetMergeTest extends TestCase
     }
 
     #[Test]
-    public function returns_smallest_enclosing_network_from_fields(): void
+    public function returns_the_smallest_enclosing_network_from_entity_fields(): void
     {
         $dql = 'SELECT INET_MERGE(t.ip, t.ip) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t

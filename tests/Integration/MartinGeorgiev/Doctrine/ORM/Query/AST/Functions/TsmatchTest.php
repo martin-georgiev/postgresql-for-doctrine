@@ -21,7 +21,7 @@ final class TsmatchTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_an_entity_field_matches_the_query(): void
+    public function returns_whether_the_query_matches_from_an_entity_field(): void
     {
         $dql = "SELECT TSMATCH(TO_TSVECTOR(t.text1), TO_TSQUERY('test')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -29,7 +29,7 @@ final class TsmatchTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_false_when_a_literal_does_not_match_the_query(): void
+    public function returns_whether_the_query_matches_from_a_text_literal(): void
     {
         $dql = "SELECT TSMATCH(TO_TSVECTOR('this is a test string'), TO_TSQUERY('nonexistent')) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

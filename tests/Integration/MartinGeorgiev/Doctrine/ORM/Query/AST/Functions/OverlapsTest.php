@@ -17,7 +17,7 @@ final class OverlapsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_true_when_an_entity_field_overlaps_a_literal(): void
+    public function returns_whether_the_arrays_overlap_from_a_literal_operand(): void
     {
         $dql = "SELECT OVERLAPS(t.textArray, '{\"banana\",\"grape\"}') as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t 
@@ -28,7 +28,7 @@ final class OverlapsTest extends ArrayTestCase
     }
 
     #[Test]
-    public function returns_true_when_two_entity_fields_overlap(): void
+    public function returns_whether_the_arrays_overlap_from_entity_fields(): void
     {
         $dql = 'SELECT OVERLAPS(t1.textArray, t2.textArray) as result 
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsArrays t1,

@@ -17,7 +17,7 @@ final class IRegexpTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_an_entity_field_matches_the_pattern(): void
+    public function returns_whether_the_pattern_matches_from_an_entity_field(): void
     {
         $dql = "SELECT IREGEXP(t.text1, 'test.*string') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);
@@ -25,7 +25,7 @@ final class IRegexpTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_a_text_literal_matches_the_pattern(): void
+    public function returns_whether_the_pattern_matches_from_a_text_literal(): void
     {
         $dql = "SELECT IREGEXP('this is a test string', 'TEST.*STRING') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

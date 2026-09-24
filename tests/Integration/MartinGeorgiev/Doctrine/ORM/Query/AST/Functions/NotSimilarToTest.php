@@ -17,7 +17,7 @@ final class NotSimilarToTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_true_when_the_pattern_does_not_match_an_entity_field(): void
+    public function returns_whether_the_pattern_does_not_match_from_an_entity_field(): void
     {
         $dql = "SELECT NOT_SIMILAR_TO(t.text1, '%xyz%') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 
@@ -27,7 +27,7 @@ final class NotSimilarToTest extends TextTestCase
     }
 
     #[Test]
-    public function returns_false_when_the_pattern_matches_a_literal(): void
+    public function returns_whether_the_pattern_does_not_match_from_a_text_literal(): void
     {
         $dql = "SELECT NOT_SIMILAR_TO('this is a test string', '%test%') as result 
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t 

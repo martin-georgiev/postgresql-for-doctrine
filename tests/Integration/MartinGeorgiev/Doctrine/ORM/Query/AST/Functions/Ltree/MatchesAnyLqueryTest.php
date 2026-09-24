@@ -19,7 +19,7 @@ final class MatchesAnyLqueryTest extends TestCase
     }
 
     #[Test]
-    public function returns_true_when_path_matches_one_of_the_patterns(): void
+    public function returns_whether_any_pattern_matches_from_an_entity_field(): void
     {
         $dql = "SELECT l.id FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l
                 WHERE MATCHES_ANY_LQUERY(l.ltree1, ARR('Root.*', 'Top.*')) = TRUE AND l.id = 1";

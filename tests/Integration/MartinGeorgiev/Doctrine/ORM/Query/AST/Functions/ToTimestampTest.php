@@ -18,7 +18,7 @@ final class ToTimestampTest extends TextTestCase
     }
 
     #[Test]
-    public function converts_a_literal_to_a_timestamp(): void
+    public function converts_the_text_to_a_timestamp_from_a_literal(): void
     {
         $dql = "SELECT TO_TIMESTAMP('05 Dec 2000 at 11:55 and 32 seconds', 'DD Mon YYYY tt HH24:MI ttt SS ttttttt') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $result = $this->executeDqlQuery($dql);

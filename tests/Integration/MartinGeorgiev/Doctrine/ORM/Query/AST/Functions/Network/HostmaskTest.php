@@ -17,7 +17,7 @@ final class HostmaskTest extends TestCase
     }
 
     #[Test]
-    public function returns_hostmask_from_literal(): void
+    public function returns_the_hostmask_from_a_literal(): void
     {
         $dql = "SELECT HOSTMASK('192.168.1.5/24') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t
@@ -27,7 +27,7 @@ final class HostmaskTest extends TestCase
     }
 
     #[Test]
-    public function returns_hostmask_from_field(): void
+    public function returns_the_hostmask_from_an_entity_field(): void
     {
         $dql = 'SELECT HOSTMASK(t.ip) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNetworks t

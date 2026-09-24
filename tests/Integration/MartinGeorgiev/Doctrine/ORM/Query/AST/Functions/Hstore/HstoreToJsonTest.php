@@ -17,7 +17,7 @@ final class HstoreToJsonTest extends TestCase
     }
 
     #[Test]
-    public function converts_hstore_literal_to_json(): void
+    public function converts_the_hstore_to_json_from_an_hstore_literal(): void
     {
         $dql = "SELECT HSTORE_TO_JSON('\"a\"=>\"1\",\"b\"=>\"2\"') as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsHstores t
@@ -32,7 +32,7 @@ final class HstoreToJsonTest extends TestCase
     }
 
     #[Test]
-    public function converts_entity_property_to_json(): void
+    public function converts_the_hstore_to_json_from_an_entity_field(): void
     {
         $dql = 'SELECT HSTORE_TO_JSON(t.data) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsHstores t
