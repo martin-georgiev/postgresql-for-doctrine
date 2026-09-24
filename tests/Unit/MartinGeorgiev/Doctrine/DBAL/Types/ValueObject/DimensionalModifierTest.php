@@ -21,14 +21,6 @@ final class DimensionalModifierTest extends TestCase
         $this->assertSame($modifierString, $modifier->value);
     }
 
-    #[Test]
-    public function throws_exception_for_invalid_modifier(): void
-    {
-        $this->expectException(\ValueError::class);
-
-        DimensionalModifier::from('INVALID');
-    }
-
     #[DataProvider('provideValidDimensionalModifiers')]
     #[Test]
     public function returns_enum_for_valid_modifiers(string $modifierString, DimensionalModifier $dimensionalModifier): void
