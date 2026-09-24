@@ -28,7 +28,7 @@ final class ST_DistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_distance_between_geographies_with_use_spheroid(): void
+    public function returns_the_distance_with_use_spheroid(): void
     {
         $dql = "SELECT ST_DISTANCE(g.geography1, g.geography2, 'true') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

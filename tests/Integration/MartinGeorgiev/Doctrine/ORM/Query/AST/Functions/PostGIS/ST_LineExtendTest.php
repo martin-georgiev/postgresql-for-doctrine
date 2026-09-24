@@ -32,7 +32,7 @@ final class ST_LineExtendTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_line_extended_forward_and_backward(): void
+    public function returns_the_extended_line_with_distance_backward(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_LINEEXTEND(g.geometry1, 0.5, 0.5)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

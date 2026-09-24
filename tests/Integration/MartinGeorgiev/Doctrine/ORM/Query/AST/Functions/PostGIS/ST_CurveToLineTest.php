@@ -30,7 +30,7 @@ final class ST_CurveToLineTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function converts_curve_with_tolerance_parameters(): void
+    public function converts_the_curve_to_a_line_with_tolerance(): void
     {
         $dql = 'SELECT ST_LENGTH(ST_CURVETOLINE(g.geometry1, 0.01, 1, 0)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

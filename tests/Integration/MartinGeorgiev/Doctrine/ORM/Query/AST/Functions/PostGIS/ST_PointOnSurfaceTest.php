@@ -30,7 +30,7 @@ final class ST_PointOnSurfaceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_point_on_the_surface_from_wkt_literals(): void
+    public function returns_the_point_on_the_surface_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_CONTAINS('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))', ST_POINTONSURFACE('POLYGON((0 0, 0 4, 4 4, 4 0, 0 0))')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

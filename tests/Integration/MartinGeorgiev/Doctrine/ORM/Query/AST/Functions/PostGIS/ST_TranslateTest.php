@@ -32,7 +32,7 @@ final class ST_TranslateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_polygon_translated_with_deltaz_parameter(): void
+    public function returns_the_translated_geometry_with_delta_z(): void
     {
         $dql = 'SELECT ST_AREA(ST_TRANSLATE(g.geometry1, 1, 2, 3)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

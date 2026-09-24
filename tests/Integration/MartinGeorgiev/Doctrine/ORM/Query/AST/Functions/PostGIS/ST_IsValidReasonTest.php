@@ -35,7 +35,7 @@ final class ST_IsValidReasonTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_reason_without_a_location_when_esri_flag_is_given(): void
+    public function returns_the_validity_reason_with_flags(): void
     {
         $dql = 'SELECT ST_ISVALIDREASON(:geometry, 1) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

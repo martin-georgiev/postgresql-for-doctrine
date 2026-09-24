@@ -40,7 +40,7 @@ final class ST_TransformTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function converts_geometry_with_proj_string(): void
+    public function returns_the_transformed_geometry_with_proj_string(): void
     {
         $dql = "SELECT ST_ASGEOJSON(ST_TRANSFORM(g.geometry1, '+proj=longlat +datum=WGS84')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

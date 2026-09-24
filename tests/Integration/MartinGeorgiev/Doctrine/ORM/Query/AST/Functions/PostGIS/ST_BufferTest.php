@@ -30,7 +30,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_buffered_point_with_quad_segs_parameter(): void
+    public function returns_the_buffered_geometry_with_quad_segs(): void
     {
         $dql = 'SELECT ST_AREA(ST_BUFFER(g.geometry1, 1, 32)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
@@ -41,7 +41,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_buffered_point_with_buffer_style_parameter(): void
+    public function returns_the_buffered_geometry_with_buffer_style(): void
     {
         $dql = "SELECT ST_AREA(ST_BUFFER(g.geometry1, 1, 'quad_segs=8')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

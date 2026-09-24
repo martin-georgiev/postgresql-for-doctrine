@@ -28,7 +28,7 @@ final class ST_IsValidTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_true_for_valid_point_with_flags(): void
+    public function returns_whether_the_geometry_is_valid_with_flags(): void
     {
         $dql = 'SELECT ST_ISVALID(g.geometry1, 0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

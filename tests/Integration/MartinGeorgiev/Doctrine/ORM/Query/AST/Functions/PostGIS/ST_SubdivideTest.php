@@ -30,7 +30,7 @@ final class ST_SubdivideTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function preserves_area_with_grid_size_parameter(): void
+    public function returns_the_subdivided_geometry_with_grid_size(): void
     {
         $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1, 9, 128)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g

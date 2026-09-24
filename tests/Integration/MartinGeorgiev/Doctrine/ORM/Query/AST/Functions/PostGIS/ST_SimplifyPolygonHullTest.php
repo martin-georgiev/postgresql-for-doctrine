@@ -32,7 +32,7 @@ final class ST_SimplifyPolygonHullTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_inner_hull_contained_by_original(): void
+    public function returns_the_simplified_polygon_hull_with_is_outer(): void
     {
         $dql = "SELECT ST_CONTAINS(g.geometry1, ST_SIMPLIFYPOLYGONHULL(g.geometry1, 0.5, 'false')) as result
                 FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsGeometries g

@@ -45,7 +45,7 @@ final class ST_Force3DTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_3d_geometry_from_wkt_literals(): void
+    public function returns_the_3d_geometry_from_a_wkt_literal(): void
     {
         $dql = "SELECT ST_COORDDIM('POINT Z(0 0 5)') as original,
                        ST_COORDDIM(ST_FORCE3D('POINT Z(0 0 5)')) as transformed
