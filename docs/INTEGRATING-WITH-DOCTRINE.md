@@ -449,6 +449,7 @@ $configuration->addCustomStringFunction('LAST_VALUE_OVER', MartinGeorgiev\Doctri
 $configuration->addCustomStringFunction('LEAD_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LeadOver::class);
 $configuration->addCustomStringFunction('NTH_VALUE_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValueOver::class);
 $configuration->addCustomStringFunction('NTILE_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver::class);
+$configuration->addCustomStringFunction('OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateOver::class);
 $configuration->addCustomStringFunction('PERCENT_RANK_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver::class);
 $configuration->addCustomStringFunction('RANK_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver::class);
 $configuration->addCustomStringFunction('ROW_NUMBER_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumberOver::class);

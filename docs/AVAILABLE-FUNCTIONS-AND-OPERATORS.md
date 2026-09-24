@@ -60,9 +60,9 @@ Complete documentation for PostgreSQL XML processing, validation, and XPath quer
 - Includes: XML aggregation (`xmlagg`), XML validation (`xml_is_well_formed`, `xml_is_well_formed_document`, `xml_is_well_formed_content`), XML construction (`xmltext`, `xmlcomment`, `xmlconcat`), XPath querying (`xpath`, `xpath_exists`)
 
 ### **🪟 Window Functions**
-Complete documentation for PostgreSQL window functions, with the `OVER (...)` specification written inside the call.
+Complete documentation for PostgreSQL window functions, with the `OVER (...)` specification, including frame clauses, written inside the call.
 - **[Window Functions](WINDOW-FUNCTIONS.md)**
-- Includes: `ROW_NUMBER_OVER`, `RANK_OVER`, `DENSE_RANK_OVER`, `PERCENT_RANK_OVER`, `CUME_DIST_OVER`, `NTILE_OVER`, `LAG_OVER`, `LEAD_OVER`, `FIRST_VALUE_OVER`, `LAST_VALUE_OVER`, `NTH_VALUE_OVER`
+- Includes: `ROW_NUMBER_OVER`, `RANK_OVER`, `DENSE_RANK_OVER`, `PERCENT_RANK_OVER`, `CUME_DIST_OVER`, `NTILE_OVER`, `LAG_OVER`, `LEAD_OVER`, `FIRST_VALUE_OVER`, `LAST_VALUE_OVER`, `NTH_VALUE_OVER`, and `OVER` for running any aggregate as a window function
 
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
@@ -159,6 +159,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `RANK_OVER`/`DENSE_RANK_OVER` - Rank rows with or without gaps after ties
 - `PERCENT_RANK_OVER`/`CUME_DIST_OVER` - Relative rank and cumulative distribution
 - `NTILE_OVER` - Split each partition into a number of buckets
+- `OVER` - Run an aggregate as a window function, e.g. running totals and moving averages
 - `LAG_OVER`/`LEAD_OVER` - Value from a row before or after the current one
 - `FIRST_VALUE_OVER`/`LAST_VALUE_OVER`/`NTH_VALUE_OVER` - Value from the first, last or n-th row of the window frame
 

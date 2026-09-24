@@ -10,6 +10,7 @@ DQL cannot parse anything after a function's closing parenthesis, so `OVER (...)
 | `ROW_NUMBER_OVER(PARTITION BY e.a ORDER BY e.b DESC)` | `row_number() OVER (PARTITION BY ... ORDER BY ... DESC)` |
 | `RANK_OVER(ORDER BY e.b)` | `rank() OVER (ORDER BY ... ASC)` |
 | `NTILE_OVER(4, PARTITION BY e.a ORDER BY e.b)` | `ntile(4) OVER (PARTITION BY ... ORDER BY ... ASC)` |
+| `OVER(SUM(e.amount), PARTITION BY e.a ORDER BY e.b)` | `SUM(...) OVER (PARTITION BY ... ORDER BY ... ASC)` |
 | `LAG_OVER(e.x, 1, 0, ORDER BY e.b)` | `lag(x, 1, 0) OVER (ORDER BY ... ASC)` |
 
 - `PARTITION BY` takes one or more comma-separated expressions: fields, arithmetic, function calls, literals and parameters.
@@ -45,7 +46,7 @@ A frame narrows the rows of the partition a function reads for the current row. 
 - `offset` is an integer, a decimal, a string literal or a parameter. A string literal serves `RANGE` over dates and timestamps, e.g. `RANGE BETWEEN '7 days' PRECEDING AND CURRENT ROW`.
 - The keywords are case-insensitive.
 - Only the syntax is checked in DQL. PostgreSQL rejects the combinations it does not allow, such as `UNBOUNDED FOLLOWING` as the start, a frame end before its start, or an offset `RANGE` without exactly one `ORDER BY` column.
-- The ranking functions and `LAG_OVER` / `LEAD_OVER` accept a frame but ignore it. Frames matter to `FIRST_VALUE_OVER`, `LAST_VALUE_OVER` and `NTH_VALUE_OVER`.
+- The ranking functions and `LAG_OVER` / `LEAD_OVER` accept a frame but ignore it. Frames matter to `FIRST_VALUE_OVER`, `LAST_VALUE_OVER`, `NTH_VALUE_OVER` and [aggregates run as window functions](#aggregates-as-window-functions).
 
 | DQL | Generated SQL |
 |---|---|
@@ -80,6 +81,26 @@ A frame narrows the rows of the partition a function reads for the current row. 
 - `LAST_VALUE_OVER` and `NTH_VALUE_OVER` look at the window frame, not the whole partition. With `ORDER BY` and no frame clause, PostgreSQL's default frame ends at the current row (and its peers), so `LAST_VALUE_OVER(e.x, ORDER BY e.b)` returns the current row's value rather than the partition's last one. Add `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING` to read the whole partition.
 - A bare string literal carries no type, so PostgreSQL rejects it as the value with `could not determine polymorphic type` - `first_value('abc')` and `lag('abc', 1)` both fail. Pass a field, a parameter or a typed expression instead. `LAG_OVER` / `LEAD_OVER` with a string literal default are the exception: `lag('abc', 1, 'none')` resolves both literals as text.
 
+## Aggregates as Window Functions
+
+Any aggregate becomes a window function once it has an `OVER (...)` clause. `OVER` takes the aggregate call as its first argument and the window specification after a comma:
+
+| PostgreSQL syntax | Register for DQL as | Implemented by |
+|---|---|---|
+| aggregate OVER (window specification) | OVER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateOver` |
+
+| DQL | Generated SQL |
+|---|---|
+| `OVER(COUNT(e.id))` | `COUNT(...) OVER ()` |
+| `OVER(SUM(e.amount), PARTITION BY e.customer ORDER BY e.createdAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)` | `SUM(...) OVER (PARTITION BY ... ORDER BY ... ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)` |
+| `OVER(ARRAY_AGG(e.tag), PARTITION BY e.post)` | `array_agg(...) OVER (PARTITION BY ...)` |
+| `OVER(FILTER(SUM(e.amount), WHERE e.refunded = FALSE), PARTITION BY e.customer)` | `SUM(...) FILTER (WHERE ...) OVER (PARTITION BY ...)` |
+
+- The first argument is DQL's own `AVG`, `COUNT`, `MAX`, `MIN` or `SUM`, or any aggregate registered from this library, such as `ARRAY_AGG`, `STRING_AGG` or `BOOL_AND`.
+- `FILTER` goes inside `OVER`, mirroring SQL, where `FILTER (WHERE ...)` comes before `OVER (...)`.
+- Without a window specification the window is the whole result, so `OVER(COUNT(e.id))` repeats the total row count on every row.
+- PostgreSQL does not implement `DISTINCT` in window aggregates, so `OVER(COUNT(DISTINCT e.id))` is rejected by the database.
+
 ## Usage Examples
 
 ```sql
@@ -98,6 +119,15 @@ SELECT s.id, PERCENT_RANK_OVER(PARTITION BY s.region ORDER BY s.amount) AS perce
 -- Split each region into quartiles; the bucket count can also be a parameter
 SELECT s.id, NTILE_OVER(4, PARTITION BY s.region ORDER BY s.amount) AS quartile FROM App\Entity\Sale s
 SELECT s.id, NTILE_OVER(:buckets, ORDER BY s.amount) AS bucket FROM App\Entity\Sale s
+
+-- Running total per customer, in order of creation
+SELECT o.id, OVER(SUM(o.amount), PARTITION BY o.customer ORDER BY o.createdAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS runningTotal FROM App\Entity\Order o
+
+-- Seven-day moving average over dates
+SELECT d.day, OVER(AVG(d.visits), ORDER BY d.day RANGE BETWEEN '6 days' PRECEDING AND CURRENT ROW) AS weeklyAverage FROM App\Entity\DailyStat d
+
+-- Each sale next to its region's total
+SELECT s.id, s.amount, OVER(SUM(s.amount), PARTITION BY s.region) AS regionTotal FROM App\Entity\Sale s
 
 -- Day-over-day change: the previous day's amount, or 0 on each product's first day
 SELECT s.day, s.amount - LAG_OVER(s.amount, 1, 0, PARTITION BY s.product ORDER BY s.day) AS change FROM App\Entity\Sale s
@@ -120,5 +150,5 @@ SELECT e, ROW_NUMBER_OVER(ORDER BY e.createdAt) AS position FROM App\Entity\Arti
 - **You cannot filter on a window result in DQL.** PostgreSQL computes window functions after `WHERE`, `GROUP BY` and `HAVING`, so `WHERE position = 1` is invalid SQL, not just invalid DQL. The standard fix - wrapping the query in a subquery in `FROM` and filtering outside it - is something DQL cannot express. For "top N per group" queries use a native query with a `ResultSetMapping`, or filter the rows in PHP.
 - **No named windows.** There is no `WINDOW w AS (...)` clause; every call spells out its own specification, even when several calls share it.
 - **No `NULLS FIRST` / `NULLS LAST`.** The window `ORDER BY` reuses DQL's `ORDER BY` items, which do not support them.
-- **Results hydrate as scalars.** A window result is a scalar column: `row_number`, `rank`, `dense_rank` and `ntile` come back as integers, `percent_rank` and `cume_dist` as floats. The value functions return their value's type, hydrated the way the driver returns it for that column type (for example, `DECIMAL` as a string). Selected next to an entity, each result row is a mixed array such as `[0 => $entity, 'position' => 1]`.
+- **Results hydrate as scalars.** A window result is a scalar column: `row_number`, `rank`, `dense_rank` and `ntile` come back as integers, `percent_rank` and `cume_dist` as floats, the value functions their value's type as the driver returns it for that column type (for example, `DECIMAL` as a string), and an `OVER` result as whatever the driver returns for the aggregate's type. Selected next to an entity, each result row is a mixed array such as `[0 => $entity, 'position' => 1]`.
 - **`Paginator` cannot sort by a window result by default.** With its defaults (`fetchJoinCollection: true` and output walkers enabled), Doctrine's `Paginator` rewrites the query's outer `ORDER BY` into its own `ROW_NUMBER() OVER (ORDER BY ...)`. Ordering by a window result alias then nests one window function inside another, which PostgreSQL rejects with `window functions are not allowed in window definitions`. Ordering by entity fields works. To order by the window result, construct the paginator with `new Paginator($query, false)` or call `$paginator->setUseOutputWalkers(false)`.

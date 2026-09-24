@@ -682,6 +682,7 @@ doctrine:
                         LEAD_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LeadOver
                         NTH_VALUE_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValueOver
                         NTILE_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver
+                        OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateOver
                         PERCENT_RANK_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver
                         RANK_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver
                         ROW_NUMBER_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumberOver
