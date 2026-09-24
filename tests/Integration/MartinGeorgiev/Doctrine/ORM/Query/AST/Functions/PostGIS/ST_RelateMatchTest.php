@@ -30,9 +30,9 @@ final class ST_RelateMatchTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_whether_the_intersection_matrix_matches_the_pattern_from_wkt_literals(): void
+    public function returns_whether_the_intersection_matrix_matches_the_pattern_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_RELATEMATCH(ST_RELATE('POINT(0 0)', 'POINT(1 1)'), 'FF0FFF0F2') as result
+        $dql = "SELECT ST_RELATEMATCH(ST_RELATE(g.geometry1, 'SRID=4326;POINT(1 1)'), 'FF0FFF0F2') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

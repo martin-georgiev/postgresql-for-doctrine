@@ -28,9 +28,9 @@ final class ST_ContainsProperlyTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_whether_the_geometry_contains_the_other_properly_from_wkt_literals(): void
+    public function returns_whether_the_geometry_contains_the_other_properly_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_CONTAINSPROPERLY('POINT(0 0)', 'POINT(1 1)') as result
+        $dql = "SELECT ST_CONTAINSPROPERLY(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

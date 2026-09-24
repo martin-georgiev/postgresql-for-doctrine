@@ -28,9 +28,9 @@ final class ST_3DDFullyWithinTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_whether_the_geometries_are_fully_within_the_3d_distance_from_wkt_literals(): void
+    public function returns_whether_the_geometries_are_fully_within_the_3d_distance_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_3DDFULLYWITHIN('POINT(0 0)', 'POINT(1 1)', 10.0) as result
+        $dql = "SELECT ST_3DDFULLYWITHIN(g.geometry1, 'SRID=4326;POINT(1 1)', 10.0) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
