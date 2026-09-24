@@ -692,6 +692,11 @@ return [
         # Window functions
         'CUME_DIST_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDistOver::class,
         'DENSE_RANK_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRankOver::class,
+        'FIRST_VALUE_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValueOver::class,
+        'LAG_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LagOver::class,
+        'LAST_VALUE_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValueOver::class,
+        'LEAD_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LeadOver::class,
+        'NTH_VALUE_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValueOver::class,
         'NTILE_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver::class,
         'PERCENT_RANK_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver::class,
         'RANK_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver::class,

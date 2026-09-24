@@ -154,6 +154,7 @@ $query = $em->createQuery('
   - Special aggregates (`any_value`, `xmlagg`)
 - **Window Functions**
   - Ranking (`row_number`, `rank`, `dense_rank`, `percent_rank`, `cume_dist`, `ntile`) with `PARTITION BY` and `ORDER BY`
+  - Value (`lag`, `lead`, `first_value`, `last_value`, `nth_value`)
 - **Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
   - Key and value extraction (`akeys`, `avals`, `skeys`, `svals`)
   - Key inspection (`defined`)

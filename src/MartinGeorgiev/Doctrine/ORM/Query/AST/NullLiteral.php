@@ -10,8 +10,8 @@ use Doctrine\ORM\Query\AST\Node;
  * Represents a literal SQL NULL.
  *
  * Doctrine's Literal node carries STRING, BOOLEAN and NUMERIC but has no NULL type, and NewValue() returns
- * PHP null rather than a Node for a literal NULL token. BaseVariadicFunction wraps that result in this node
- * to keep the argument a Node while still rendering as SQL NULL.
+ * PHP null rather than a Node for a literal NULL token. BaseVariadicFunction and BaseWindowFunction wrap that
+ * result in this node to keep the argument a Node while still rendering as SQL NULL.
  *
  * @since 4.8
  *

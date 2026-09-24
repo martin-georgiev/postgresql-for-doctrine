@@ -11,6 +11,7 @@ use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\WindowSpecificationTrait;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\NullLiteral;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
@@ -81,7 +82,8 @@ abstract class BaseWindowFunction extends BaseFunction
                 $parser->match($shouldUseLexer ? Lexer::T_COMMA : TokenType::T_COMMA);
             }
 
-            $argument = $parser->{$this->nodesMapping[$argumentCount]}();
+            // NewValue() returns PHP null rather than a Node for a literal NULL.
+            $argument = $parser->{$this->nodesMapping[$argumentCount]}() ?? new NullLiteral();
             \assert($argument instanceof Node || \is_string($argument));
             $this->arguments[] = $argument;
         }

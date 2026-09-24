@@ -442,6 +442,11 @@ $configuration->addCustomStringFunction('VARIANCE', MartinGeorgiev\Doctrine\ORM\
 # Window functions
 $configuration->addCustomStringFunction('CUME_DIST_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDistOver::class);
 $configuration->addCustomStringFunction('DENSE_RANK_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRankOver::class);
+$configuration->addCustomStringFunction('FIRST_VALUE_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValueOver::class);
+$configuration->addCustomStringFunction('LAG_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LagOver::class);
+$configuration->addCustomStringFunction('LAST_VALUE_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValueOver::class);
+$configuration->addCustomStringFunction('LEAD_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LeadOver::class);
+$configuration->addCustomStringFunction('NTH_VALUE_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValueOver::class);
 $configuration->addCustomStringFunction('NTILE_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver::class);
 $configuration->addCustomStringFunction('PERCENT_RANK_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver::class);
 $configuration->addCustomStringFunction('RANK_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver::class);

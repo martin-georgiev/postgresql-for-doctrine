@@ -675,6 +675,11 @@ doctrine:
                         # Window functions
                         CUME_DIST_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDistOver
                         DENSE_RANK_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRankOver
+                        FIRST_VALUE_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValueOver
+                        LAG_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LagOver
+                        LAST_VALUE_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValueOver
+                        LEAD_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LeadOver
+                        NTH_VALUE_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValueOver
                         NTILE_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver
                         PERCENT_RANK_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver
                         RANK_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver
