@@ -25,7 +25,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * @example Using it in DQL: "SELECT STRING_AGG(e.name, ',') FROM Entity e"
  */
-class StringAgg extends BaseFunction
+class StringAgg extends BaseFunction implements AggregateFunction
 {
     use OrderableTrait;
     use DistinctableTrait;

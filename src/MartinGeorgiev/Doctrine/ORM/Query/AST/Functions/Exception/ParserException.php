@@ -16,6 +16,11 @@ class ParserException extends \RuntimeException
         return new self($throwable->getMessage(), $throwable->getCode(), $throwable);
     }
 
+    public static function forNonAggregateArgument(string $functionName, string $argumentName): self
+    {
+        return new self(\sprintf('%s() requires an aggregate as its first argument, %s() given', $functionName, $argumentName));
+    }
+
     public static function forUnparsableArgumentList(string $functionName): self
     {
         return new self(\sprintf(

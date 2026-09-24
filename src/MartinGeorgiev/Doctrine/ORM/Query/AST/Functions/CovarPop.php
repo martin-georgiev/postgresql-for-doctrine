@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT COVAR_POP(e.y, e.x) FROM Entity e"
  */
-class CovarPop extends BaseFunction
+class CovarPop extends BaseFunction implements AggregateFunction
 {
     protected function customizeFunction(): void
     {

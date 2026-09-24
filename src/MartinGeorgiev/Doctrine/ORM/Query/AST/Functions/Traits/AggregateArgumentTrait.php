@@ -8,14 +8,16 @@ use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\TokenType;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Utils\DoctrineLexer;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 /**
- * Parses an aggregate call passed as an argument, so a wrapper can append a clause after its closing parenthesis.
+ * Parses the aggregate call a wrapper such as FILTER or OVER takes as its first argument.
  *
  * DQL's own aggregates (AVG, COUNT, MAX, MIN, SUM) are keywords the parser reads only through AggregateExpression();
- * everything else, including this library's aggregates and other wrappers, is a function declaration.
+ * any other function is accepted only when it implements AggregateFunction.
  *
  * @since 4.9
  *
@@ -34,6 +36,11 @@ trait AggregateArgumentTrait
             return $parser->AggregateExpression();
         }
 
-        return $parser->FunctionDeclaration();
+        $functionNode = $parser->FunctionDeclaration();
+        if (!$functionNode instanceof AggregateFunction) {
+            throw ParserException::forNonAggregateArgument($this->name, $functionNode->name);
+        }
+
+        return $functionNode;
     }
 }

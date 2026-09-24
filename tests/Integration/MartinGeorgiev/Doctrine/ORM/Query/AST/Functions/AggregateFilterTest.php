@@ -19,9 +19,9 @@ final class AggregateFilterTest extends NumericTestCase
     #[Test]
     public function returns_the_filtered_aggregate_from_a_literal(): void
     {
-        $dql = 'SELECT FILTER(SUM(n.integer1), WHERE n.integer2 = 20) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
+        $dql = 'SELECT FILTER(SUM(5), WHERE n.integer1 < n.integer2) as result FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics n WHERE n.id = 1';
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(10, $result[0]['result']);
+        $this->assertSame(5, $result[0]['result']);
     }
 
     #[Test]

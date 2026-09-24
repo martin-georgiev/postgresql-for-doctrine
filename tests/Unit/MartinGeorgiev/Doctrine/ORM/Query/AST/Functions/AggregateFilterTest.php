@@ -8,6 +8,7 @@ use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -76,6 +77,27 @@ final class AggregateFilterTest extends TestCase
             'literal instead of an aggregate' => ['FILTER(5, WHERE e.integer1 > 5)'],
             'unregistered function instead of an aggregate' => ['FILTER(UNKNOWN_AGG(e.integer1), WHERE e.integer1 > 5)'],
             'extra argument' => ['FILTER(COUNT(e.id), WHERE e.integer1 > 5, e.integer2)'],
+        ];
+    }
+
+    #[DataProvider('provideNonAggregateArguments')]
+    #[Test]
+    public function throws_exception_when_the_argument_is_not_an_aggregate(string $dqlFunctionCall): void
+    {
+        $this->expectException(ParserException::class);
+
+        $dql = \sprintf('SELECT %s FROM %s e', $dqlFunctionCall, ContainsNumerics::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideNonAggregateArguments(): array
+    {
+        return [
+            'scalar function' => ['FILTER(ABS(e.integer1), WHERE e.integer1 > 5)'],
+            'nested FILTER' => ['FILTER(FILTER(COUNT(e.id), WHERE e.integer1 > 5), WHERE e.integer2 > 5)'],
         ];
     }
 }
