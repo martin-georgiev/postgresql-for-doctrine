@@ -43,9 +43,9 @@ final class ST_TranslateTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_translated_geometry_from_wkt_literals(): void
+    public function returns_the_translated_geometry_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_DISTANCE('POINT(0 0)', ST_TRANSLATE('POINT(0 0)', 10.0, 10.0)) as result
+        $dql = "SELECT ST_DISTANCE('SRID=4326;POINT(0 0)', ST_TRANSLATE(g.geometry1, 10.0, 10.0)) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

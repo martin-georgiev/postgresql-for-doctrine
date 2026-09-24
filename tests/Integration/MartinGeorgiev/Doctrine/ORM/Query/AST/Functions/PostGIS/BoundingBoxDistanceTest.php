@@ -17,14 +17,14 @@ final class BoundingBoxDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_bounding_box_distance_from_wkt_literals(): void
+    public function returns_the_bounding_box_distance_from_a_literal_operand(): void
     {
-        $dql = "SELECT BOUNDING_BOX_DISTANCE('POLYGON((0 0, 2 0, 2 2, 0 2, 0 0))', 'POLYGON((1 1, 3 1, 3 3, 1 3, 1 1))') as distance
+        $dql = "SELECT BOUNDING_BOX_DISTANCE(g.geometry1, 'POLYGON((1 1, 3 1, 3 3, 1 3, 1 1))') as distance
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(0, $result[0]['distance']);
+        $this->assertEquals(1.4142135623730951, $result[0]['distance']);
     }
 
     #[Test]

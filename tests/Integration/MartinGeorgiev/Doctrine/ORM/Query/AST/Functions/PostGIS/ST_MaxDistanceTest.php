@@ -28,9 +28,9 @@ final class ST_MaxDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_maximum_distance_from_wkt_literals(): void
+    public function returns_the_maximum_distance_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_MAXDISTANCE('POINT(0 0)', 'POINT(1 1)') as result
+        $dql = "SELECT ST_MAXDISTANCE(g.geometry1, 'SRID=4326;POINT(1 1)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 1";
 

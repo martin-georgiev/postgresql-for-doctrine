@@ -30,9 +30,9 @@ final class ST_SplitTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_split_geometry_from_wkt_literals(): void
+    public function returns_the_split_geometry_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_LENGTH(ST_SPLIT('LINESTRING(0 0, 4 4)', 'POINT(2 2)')) as result
+        $dql = "SELECT ST_LENGTH(ST_SPLIT(g.geometry1, 'POINT(2 2)')) as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 9";
 

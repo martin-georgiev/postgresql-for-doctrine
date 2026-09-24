@@ -39,9 +39,9 @@ final class ST_FrechetDistanceTest extends SpatialOperatorTestCase
     }
 
     #[Test]
-    public function returns_the_frechet_distance_from_wkt_literals(): void
+    public function returns_the_frechet_distance_from_a_literal_operand(): void
     {
-        $dql = "SELECT ST_FRECHETDISTANCE('LINESTRING(0 0, 1 1, 2 2)', 'LINESTRING(3 3, 4 4, 5 5)') as result
+        $dql = "SELECT ST_FRECHETDISTANCE(g.geometry1, 'SRID=4326;LINESTRING(3 3, 4 4, 5 5)') as result
                 FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
                 WHERE g.id = 3";
 
