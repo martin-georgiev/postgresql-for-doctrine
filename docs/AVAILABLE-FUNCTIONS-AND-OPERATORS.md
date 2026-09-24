@@ -59,6 +59,11 @@ Complete documentation for PostgreSQL XML processing, validation, and XPath quer
 - **[XML Functions](XML-FUNCTIONS.md)**
 - Includes: XML aggregation (`xmlagg`), XML validation (`xml_is_well_formed`, `xml_is_well_formed_document`, `xml_is_well_formed_content`), XML construction (`xmltext`, `xmlcomment`, `xmlconcat`), XPath querying (`xpath`, `xpath_exists`)
 
+### **🪟 Window Functions**
+Complete documentation for PostgreSQL window functions, with the `OVER (...)` specification written inside the call.
+- **[Window Functions](WINDOW-FUNCTIONS.md)**
+- Includes: `ROW_NUMBER_OVER`, `RANK_OVER`, `DENSE_RANK_OVER`, `PERCENT_RANK_OVER`, `CUME_DIST_OVER`, `NTILE_OVER`
+
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
 - **[Network Address Functions](NETWORK-FUNCTIONS.md)**
@@ -147,6 +152,12 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
 - `UUID_EXTRACT_TIMESTAMP` - Extract timestamp from UUID v1 or v7
 - `UUID_EXTRACT_VERSION` - Extract version number from UUID
+
+**Window Operations:** ([Complete documentation](WINDOW-FUNCTIONS.md))
+- `ROW_NUMBER_OVER` - Number the rows of each partition
+- `RANK_OVER`/`DENSE_RANK_OVER` - Rank rows with or without gaps after ties
+- `PERCENT_RANK_OVER`/`CUME_DIST_OVER` - Relative rank and cumulative distribution
+- `NTILE_OVER` - Split each partition into a number of buckets
 
 **Network Address Operations:** ([Complete documentation](NETWORK-FUNCTIONS.md))
 - `HOST`/`NETWORK`/`BROADCAST` - Extract address parts

@@ -672,6 +672,14 @@ doctrine:
                         VAR_POP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop
                         VARIANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance
 
+                        # Window functions
+                        CUME_DIST_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDistOver
+                        DENSE_RANK_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRankOver
+                        NTILE_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver
+                        PERCENT_RANK_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver
+                        RANK_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver
+                        ROW_NUMBER_OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumberOver
+
                         # XML functions
                         XML_IS_WELL_FORMED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed
                         XML_IS_WELL_FORMED_CONTENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent

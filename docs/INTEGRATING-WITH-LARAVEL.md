@@ -689,6 +689,14 @@ return [
         'VAR_POP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop::class,
         'VARIANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class,
 
+        # Window functions
+        'CUME_DIST_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDistOver::class,
+        'DENSE_RANK_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRankOver::class,
+        'NTILE_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver::class,
+        'PERCENT_RANK_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver::class,
+        'RANK_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver::class,
+        'ROW_NUMBER_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumberOver::class,
+
         # XML functions
         'XML_IS_WELL_FORMED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class,
         'XML_IS_WELL_FORMED_CONTENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class,

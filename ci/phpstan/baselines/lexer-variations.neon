@@ -35,6 +35,9 @@ parameters:
             message: '#Fetching deprecated class constant T_ORDER of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
         -
+            message: '#Fetching deprecated class constant T_BY of class Doctrine\\ORM\\Query\\Lexer#'
+            reportUnmatched: false
+        -
             message: '#Fetching deprecated class constant T_INTEGER of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
         -

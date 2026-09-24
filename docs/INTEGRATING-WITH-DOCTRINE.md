@@ -439,6 +439,14 @@ $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\OR
 $configuration->addCustomStringFunction('VAR_POP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop::class);
 $configuration->addCustomStringFunction('VARIANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class);
 
+# Window functions
+$configuration->addCustomStringFunction('CUME_DIST_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDistOver::class);
+$configuration->addCustomStringFunction('DENSE_RANK_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRankOver::class);
+$configuration->addCustomStringFunction('NTILE_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver::class);
+$configuration->addCustomStringFunction('PERCENT_RANK_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver::class);
+$configuration->addCustomStringFunction('RANK_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver::class);
+$configuration->addCustomStringFunction('ROW_NUMBER_OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumberOver::class);
+
 # XML functions
 $configuration->addCustomStringFunction('XML_IS_WELL_FORMED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class);
 $configuration->addCustomStringFunction('XML_IS_WELL_FORMED_CONTENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class);
