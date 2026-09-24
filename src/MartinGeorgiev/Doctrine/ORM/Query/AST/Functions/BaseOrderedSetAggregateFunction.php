@@ -16,8 +16,6 @@ use MartinGeorgiev\Utils\DoctrineOrm;
 /**
  * Parses an ordered-set aggregate as FUNCTION(direct arguments WITHIN GROUP ORDER BY ...).
  *
- * WITHIN is not a DQL keyword and is matched by its value; GROUP, ORDER and BY are.
- *
  * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
