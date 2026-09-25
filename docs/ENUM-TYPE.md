@@ -185,7 +185,7 @@ ALTER TABLE orders ADD COLUMN status order_status NOT NULL DEFAULT 'pending';
 
 ### Why the library does not create the type for you
 
-Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: a label added by `ALTER TYPE ... ADD VALUE` cannot be used until the transaction that added it commits, and labels can be neither renamed nor removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
+Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: a label added by `ALTER TYPE ... ADD VALUE` cannot be used until the transaction that added it commits, and labels can be renamed but not removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
 
 ### Adding a new case
 
@@ -209,9 +209,22 @@ public function isTransactional(): bool
 
 Both need the `all_or_nothing` option off: it runs every migration in one transaction, and refuses a non-transactional one.
 
-### Renaming or removing a case
+### Renaming a case
 
-PostgreSQL does not support removing or renaming enum cases. The workaround is to create a new type and migrate the column:
+`ALTER TYPE ... RENAME VALUE` (PostgreSQL 10+) renames a label in place. PostgreSQL stores an enum value by the label's OID, not its text, so existing rows - array elements included - read back under the new name without being rewritten. The statement is safe inside the migration transaction, and the new label is usable straight away in the same transaction:
+
+```php
+public function up(Schema $schema): void
+{
+    $this->addSql("ALTER TYPE order_status RENAME VALUE 'shipped' TO 'dispatched'");
+}
+```
+
+Change the matching PHP enum case's backing value in the same deploy. Once the label is renamed, PostgreSQL rejects the old spelling on write, and the old PHP enum has no case for the new one on read (`InvalidEnumForPHPException`).
+
+### Removing a case
+
+PostgreSQL cannot remove an enum label (`DROP VALUE` is not implemented). The workaround is to create a new type and migrate the column:
 
 ```sql
 CREATE TYPE order_status_new AS ENUM ('pending', 'processing', 'shipped', 'cancelled', 'returned');
