@@ -101,10 +101,27 @@ This document covers PostgreSQL mathematical functions available in this library
 | corr | CORR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Corr` |
 | covar_pop | COVAR_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop` |
 | covar_samp | COVAR_SAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp` |
+| mode() WITHIN GROUP (ORDER BY ...) | MODE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Mode` |
+| percentile_cont(fraction) WITHIN GROUP (ORDER BY ...) | PERCENTILE_CONT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont` |
+| percentile_disc(fraction) WITHIN GROUP (ORDER BY ...) | PERCENTILE_DISC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileDisc` |
 | stddev | STDDEV | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev` |
 | stddev_pop | STDDEV_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop` |
 | var_pop | VAR_POP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop` |
 | variance | VARIANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance` |
+
+### `WITHIN GROUP` goes inside the parentheses in DQL
+
+In SQL, an ordered-set aggregate closes its parentheses and then takes `WITHIN GROUP (ORDER BY ...)`. DQL cannot parse anything after a function's closing parenthesis, so in DQL the clause moves **inside** the call:
+
+| SQL | DQL |
+|---|---|
+| `percentile_cont(0.5) WITHIN GROUP (ORDER BY e.value)` | `PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY e.value)` |
+| `percentile_disc(0.9) WITHIN GROUP (ORDER BY e.value DESC)` | `PERCENTILE_DISC(0.9 WITHIN GROUP ORDER BY e.value DESC)` |
+| `mode() WITHIN GROUP (ORDER BY e.status)` | `MODE(WITHIN GROUP ORDER BY e.status)` |
+
+- No comma between the fraction and `WITHIN GROUP`, and no parentheses around `ORDER BY ...`. `MODE` takes no fraction, so its call starts straight with `WITHIN GROUP`.
+- `ORDER BY` takes exactly one item, optionally with `ASC` / `DESC`. PostgreSQL rejects more than one, and DQL does not accept a literal there.
+- The fraction is a literal, a parameter, or an expression over columns listed in `GROUP BY`. PostgreSQL rejects a fraction that reads an ungrouped column.
 
 ## Utility and Miscellaneous Functions
 
@@ -136,6 +153,13 @@ SELECT e FROM Entity e WHERE RANDOM() < 0.1 ORDER BY RANDOM() LIMIT 100
 SELECT e.category,
        GREATEST(MAX(e.value), 0) as max_non_negative,
        LEAST(MIN(e.value), 100) as min_capped
+FROM Entity e GROUP BY e.category
+
+-- Ordered-set aggregates: WITHIN GROUP ORDER BY goes inside the parentheses (see above)
+SELECT e.category,
+       PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY e.value) as median,
+       PERCENTILE_DISC(0.9 WITHIN GROUP ORDER BY e.value DESC) as top_decile,
+       MODE(WITHIN GROUP ORDER BY e.status) as most_common_status
 FROM Entity e GROUP BY e.category
 ```
 **📝 Function Categories:**
