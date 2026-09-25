@@ -16,7 +16,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "WHERE ST_RelateMatch(intersection_matrix, 'T*T***T**') = TRUE"
+ * @example Using it in DQL: "WHERE ST_RelateMatch(ST_Relate(g.geometry1, g.geometry2), 'T*T***T**') = TRUE"
  */
 class ST_RelateMatch extends BaseFunction
 {

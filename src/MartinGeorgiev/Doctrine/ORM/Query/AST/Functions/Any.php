@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE e.value > ANY(SELECT value FROM OtherEntity)"
+ * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE e.value > ANY_OF(e.array)"
  */
 class Any extends BaseFunction
 {

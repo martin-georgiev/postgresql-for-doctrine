@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT ARR(1, 2, 3) FROM Entity e"
+ * @example Using it in DQL: "SELECT ARRAY('1', '2', '3') FROM Entity e"
  */
 class Arr extends BaseVariadicFunction
 {

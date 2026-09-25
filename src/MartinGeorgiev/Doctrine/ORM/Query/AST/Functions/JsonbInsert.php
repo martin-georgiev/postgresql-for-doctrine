@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL with path and value: "SELECT JSONB_INSERT(e.jsonbData, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}') FROM Entity e"
- * @example Using it in DQL with create_if_missing flag: "SELECT JSONB_INSERT(e.jsonbData, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', true) FROM Entity e"
+ * @example Using it in DQL with insert_after flag: "SELECT JSONB_INSERT(e.jsonbData, '{country}', '{\"iso_3166_a3_code\":\"BGR\"}', 'true') FROM Entity e"
  */
 class JsonbInsert extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
