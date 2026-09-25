@@ -87,8 +87,11 @@ trait WindowSpecificationTrait
         $clauses = [];
 
         if ($this->partitionByExpressions !== []) {
-            // SimpleArithmeticExpression() may hand back a bare identifier string, which dispatch() cannot render.
-            $partitionByExpressions = \array_map($sqlWalker->walkSimpleArithmeticExpression(...), $this->partitionByExpressions);
+            // SimpleArithmeticExpression() may hand back a bare result variable string, which only the walker can resolve.
+            $partitionByExpressions = \array_map(
+                static fn (Node|string $expression): string => $expression instanceof Node ? $expression->dispatch($sqlWalker) : $sqlWalker->walkArithmeticTerm($expression),
+                $this->partitionByExpressions
+            );
             $clauses[] = 'PARTITION BY '.\implode(', ', $partitionByExpressions);
         }
 
@@ -274,18 +277,13 @@ trait WindowSpecificationTrait
             return false;
         }
 
-        $value = $this->readWindowTokenProperty($token, 'value');
+        $value = DoctrineLexer::getTokenField($token, 'value');
 
         return \is_string($value) && \strtoupper($value) === $keyword;
     }
 
     private function getWindowTokenType(mixed $token): mixed
     {
-        return $this->readWindowTokenProperty($token, 'type');
-    }
-
-    private function readWindowTokenProperty(mixed $token, string $property): mixed
-    {
-        return \is_object($token) && \property_exists($token, $property) ? $token->{$property} : null;
+        return DoctrineLexer::getTokenField($token, 'type');
     }
 }
