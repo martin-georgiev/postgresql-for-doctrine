@@ -56,7 +56,7 @@ parameters:
             message: '#Fetching deprecated class constant T_WHERE of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
         -
-            message: '#Fetching deprecated class constant T_GROUP of class Doctrine\\ORM\\Query\\Lexer#'
+            message: '#Fetching deprecated class constant T_(AND|BETWEEN|BY|GROUP|INPUT_PARAMETER) of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
 
         # Matched with ORM 3.x only (TokenType enum replaced the int|string token).

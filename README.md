@@ -154,6 +154,8 @@ $query = $em->createQuery('
   - Statistical aggregates (`bool_and`, `bool_or`, `every`, `bit_and`, `bit_or`, `bit_xor`, `stddev`, `stddev_pop`, `var_pop`, `variance`, `corr`, `covar_pop`, `covar_samp`)
   - Ordered-set aggregates with `WITHIN GROUP (ORDER BY ...)` (`percentile_cont`, `percentile_disc`, `mode`)
   - Special aggregates (`any_value`, `xmlagg`)
+- **Window Functions**
+  - Any aggregate over a window with `OVER`, including `PARTITION BY`, `ORDER BY` and `ROWS`, `RANGE` and `GROUPS` frame clauses
 - **Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
   - Key and value extraction (`akeys`, `avals`, `skeys`, `svals`)
   - Key inspection (`defined`)
@@ -187,6 +189,7 @@ Full documentation:
   - [Mathematical Functions](docs/MATHEMATICAL-FUNCTIONS.md)
   - [Utility Functions](docs/UTILITY-FUNCTIONS.md)
   - [XML Functions](docs/XML-FUNCTIONS.md)
+  - [Window Functions](docs/WINDOW-FUNCTIONS.md)
   - [Network Address Functions](docs/NETWORK-FUNCTIONS.md)
 - [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
 - [Spatial Types](docs/SPATIAL-TYPES.md)

@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
+use Fixtures\MartinGeorgiev\Doctrine\Function\TestWindowFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter;
@@ -21,6 +22,7 @@ final class FilterTest extends TestCase
             'ARRAY_AGG' => ArrayAgg::class,
             'FILTER' => Filter::class,
             'PERCENTILE_CONT' => PercentileCont::class,
+            'TEST_WINDOW' => TestWindowFunction::class,
         ];
     }
 
@@ -101,6 +103,7 @@ final class FilterTest extends TestCase
     {
         return [
             'scalar function' => ['FILTER(ABS(e.integer1), WHERE e.integer1 > 5)'],
+            'window function' => ['FILTER(TEST_WINDOW(), WHERE e.integer1 > 5)'],
             'nested FILTER' => ['FILTER(FILTER(COUNT(e.id), WHERE e.integer1 > 5), WHERE e.integer2 > 5)'],
         ];
     }

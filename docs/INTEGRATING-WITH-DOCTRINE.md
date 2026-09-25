@@ -443,6 +443,9 @@ $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\OR
 $configuration->addCustomStringFunction('VAR_POP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop::class);
 $configuration->addCustomStringFunction('VARIANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class);
 
+# Window functions
+$configuration->addCustomStringFunction('OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over::class);
+
 # XML functions
 $configuration->addCustomStringFunction('XML_IS_WELL_FORMED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class);
 $configuration->addCustomStringFunction('XML_IS_WELL_FORMED_CONTENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class);
