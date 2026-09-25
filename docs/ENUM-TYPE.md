@@ -58,7 +58,8 @@ use Doctrine\DBAL\Types\Type as DoctrineType;
 DoctrineType::addType('order_status', OrderStatusType::class);
 
 // Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
-$em->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('order_status', 'order_status');
+$platform = $em->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('order_status', 'order_status');
 ```
 
 Without that mapping, schema introspection fails with `Unknown database type "order_status" requested`. The framework equivalents:
@@ -100,6 +101,7 @@ final class PaymentMethodType extends Enum
 DoctrineType::addType('order_status', OrderStatusType::class);
 DoctrineType::addType('payment_method', PaymentMethodType::class);
 
+// Schema tools (validation, migration diffs) also need PostgreSQL's type names mapped back to them:
 $platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('order_status', 'order_status');
 $platform->registerDoctrineTypeMapping('payment_method', 'payment_method');
@@ -127,6 +129,7 @@ final class OrderStatusArrayType extends EnumArray
 
 DoctrineType::addType('order_status[]', OrderStatusArrayType::class);
 
+// Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
 $platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('_order_status', 'order_status[]');
 ```

@@ -49,7 +49,8 @@ use Doctrine\DBAL\Types\Type as DoctrineType;
 DoctrineType::addType('inventory_item', InventoryItemType::class);
 
 // Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
-$em->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
+$platform = $em->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
 ```
 
 Without that mapping, schema introspection fails with `Unknown database type "inventory_item" requested`. The framework equivalents:
@@ -129,6 +130,7 @@ Register both types, as you would for any other pair of scalar and array types. 
 DoctrineType::addType('inventory_item', InventoryItemType::class);
 DoctrineType::addType('inventory_item[]', InventoryItemArrayType::class);
 
+// Schema tools (validation, migration diffs) also need PostgreSQL's type names mapped back to them:
 $platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
 $platform->registerDoctrineTypeMapping('_inventory_item', 'inventory_item[]');
