@@ -42,7 +42,7 @@ gh_edit_branch: main
 gh_edit_source: docs
 gh_edit_view_mode: edit
 
-footer_content: 'Released under the <a href="https://github.com/martin-georgiev/postgresql-for-doctrine/blob/main/LICENSE">MIT licence</a>.'
+footer_content: 'Released under the <a href="https://github.com/martin-georgiev/postgresql-for-doctrine/blob/main/LICENSE">MIT licence</a>. <a href="https://github.com/martin-georgiev/postgresql-for-doctrine/blob/main/docs/CONTRIBUTING.md">Contributing</a>'
 
 callouts:
   note:
@@ -51,6 +51,8 @@ callouts:
     color: red
 
 exclude:
+  # The optional-front-matter plugin skips CONTRIBUTING.md by design; the footers link to it on GitHub instead.
+  - CONTRIBUTING.md
   - assets/README.md
   - Gemfile
   - Gemfile.lock
@@ -108,5 +110,3 @@ defaults:
     values: { title: Use cases and examples, nav_order: 7 }
   - scope: { path: UPGRADE.md }
     values: { title: Upgrading, nav_order: 8 }
-  - scope: { path: CONTRIBUTING.md }
-    values: { title: Contributing, nav_order: 9 }
