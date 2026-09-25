@@ -195,6 +195,18 @@ SELECT o.id, o.amount / OVER(SUM(o.amount), PARTITION BY o.customer) AS share FR
 SELECT o.id, OVER(FILTER(SUM(o.amount), WHERE o.status = 'paid'), PARTITION BY o.customer) AS paidTotal FROM Order o
 ```
 
+The ranking functions (`ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE`) exist only inside `OVER`:
+
+```sql
+-- Number each customer's orders, newest first
+SELECT o.id, OVER(ROW_NUMBER(), PARTITION BY o.customer ORDER BY o.createdAt DESC) AS orderNumber FROM Order o
+
+-- Rank players by score; tied players share a rank
+SELECT p.name, OVER(RANK(), ORDER BY p.score DESC) AS scoreRank FROM Player p
+```
+
+> 📖 **See also**: [Ranking Functions](WINDOW-FUNCTIONS.md#ranking-functions)
+
 - Filtering on a window result (`WHERE runningTotal > 100`) is not possible in DQL; use a native query or filter in PHP.
 
 ## Using Range Types
