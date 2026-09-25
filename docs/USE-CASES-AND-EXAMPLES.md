@@ -246,13 +246,13 @@ if ($product->getPriceRange()->contains(25.00)) {
 
 ```sql
 -- Find products with overlapping price ranges
-SELECT p FROM Product p WHERE OVERLAPS(p.priceRange, NUMRANGE(20, 50)) = TRUE
+SELECT p FROM Product p WHERE OVERLAPS(p.priceRange, NUMRANGE('20', '50')) = TRUE
 
 -- Find products available in a specific period
 SELECT p FROM Product p WHERE CONTAINS(p.availabilityPeriod, DATERANGE('2024-06-01', '2024-06-30')) = TRUE
 
--- Find products with prices in a specific range
-SELECT p FROM Product p WHERE p.priceRange @> 25.0
+-- Find products whose price range contains 25.0 (a bare '25.0' would be read as a range literal and rejected)
+SELECT p FROM Product p WHERE CONTAINS(p.priceRange, NUMRANGE('25.0', '25.0', '[]')) = TRUE
 ```
 
 

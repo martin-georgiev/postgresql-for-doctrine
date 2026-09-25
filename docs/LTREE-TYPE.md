@@ -238,7 +238,7 @@ $dql = "SELECT LCA(e.path1, e.path2, e.path3) FROM Entity e";
 Casts text to ltree.
 
 ```php
-$dql = "SELECT e FROM Entity e WHERE e.path <@ TEXT2LTREE('Top.Sports')";
+$dql = "SELECT e FROM Entity e WHERE IS_CONTAINED_BY(e.path, TEXT2LTREE('Top.Sports')) = TRUE";
 ```
 
 #### `LTREE2TEXT(ltree)`
@@ -286,10 +286,10 @@ $dql = "SELECT e FROM Entity e WHERE MATCHES_LTXTQUERY(e.path, 'Sports & !Footba
 
 ```php
 // All descendants of Top.Sports
-$dql = "SELECT e FROM Entity e WHERE e.path <@ TEXT2LTREE('Top.Sports')";
+$dql = "SELECT e FROM Entity e WHERE MATCHES_LQUERY(e.path, 'Top.Sports.*') = TRUE";
 
 // All ancestors of a given path
-$dql = "SELECT e FROM Entity e WHERE TEXT2LTREE('Top.Sports.Football') <@ e.path";
+$dql = "SELECT e FROM Entity e WHERE IS_CONTAINED_BY(TEXT2LTREE('Top.Sports.Football'), e.path) = TRUE";
 
 // Entities at depth 2
 $dql = "SELECT e FROM Entity e WHERE NLEVEL(e.path) = 2";
@@ -313,6 +313,6 @@ $dql = "SELECT e FROM Entity e WHERE MATCHES_LQUERY(e.path, :pattern) = TRUE";
 ### Performance
 
 - Use GiST indexes on `ltree` columns
-- `<@` and `@>` operators use those indexes automatically, as do the `~`, `?` and `@` match operators
+- `IS_CONTAINED_BY` (`<@`) and `CONTAINS` (`@>`) use those indexes automatically, as do `MATCHES_LQUERY` (`~`), `MATCHES_ANY_LQUERY` (`?`) and `MATCHES_LTXTQUERY` (`@`)
 - `SUBPATH` with negative offsets is efficient for parent extraction
 - `LCA` is well-suited for finding shared ancestors in hierarchical queries

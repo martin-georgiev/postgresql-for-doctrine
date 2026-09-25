@@ -95,12 +95,12 @@ SELECT DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity 
 
 -- Range operators must be compared with = TRUE / = FALSE in Doctrine DQL
 SELECT e FROM Entity e WHERE OVERLAPS(e.active_period, DATERANGE('2023-01-01', '2023-12-31')) = TRUE
-SELECT e FROM Entity e WHERE CONTAINS(DATERANGE(DATE_SUBTRACT(CURRENT_DATE, 30), CURRENT_DATE), e.created_at) = TRUE
+SELECT e FROM Entity e WHERE CONTAINS(TSTZRANGE(DATE_SUBTRACT(CURRENT_TIMESTAMP(), '30 days'), CURRENT_TIMESTAMP()), e.start_tz) = TRUE
 
--- Group by calendar month using DATE_BIN + DATE_ADD
-SELECT DATERANGE(DATE_BIN('1 month', e.created_at, '2023-01-01'),
-                 DATE_ADD(DATE_BIN('1 month', e.created_at, '2023-01-01'), 30)) as month_range,
-       COUNT(*) as entity_count
+-- Group by calendar month using DATE_TRUNC + DATE_ADD
+SELECT TSTZRANGE(DATE_TRUNC('month', e.created_at),
+                 DATE_ADD(DATE_TRUNC('month', e.created_at), '1 month')) as month_range,
+       COUNT(e.id) as entity_count
 FROM Entity e
 GROUP BY month_range
 ORDER BY month_range
