@@ -1,24 +1,46 @@
-# ORM 2.x carries the deprecated Doctrine\ORM\Query\Lexer::T_* constants; ORM 3.x dropped them for the TokenType enum.
-# Every entry below matches one side of that split and not the other, so each is exempted rather than deleted.
+# The Doctrine Lexer and ORM majors disagree on how lexer tokens and the Lexer::T_* constants are typed.
+# Every entry below matches only some cells of the CI matrix and not the others, so each is exempted rather than deleted.
+# Grouped by version, oldest first: the lexer majors, then the ORM ranges.
 parameters:
     ignoreErrors:
-        # The lookahead array access is lexer 1.x only, and the two majors report it under different identifiers
-        # - notFound on 2.x, nonOffsetAccessible on 3.x - so no single in-code ignore holds on every cell.
+        # Lexer 1.x (ORM 2.14 only): tokens are arrays and AbstractLexer is not generic, so the object-token branches of
+        # DoctrineLexer and the lexer-split ternaries passed to isNextToken() are the ones reported.
+        -
+            message: "#Offset 'type' might not exist on array\\{value: int\\|string, type: int\\|string\\|null, position: int\\}\\|null#"
+            path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
+            reportUnmatched: false
+        -
+            message: '#Cannot access property \$(type|value) on array<string, int\|string\|null>#'
+            path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer::isNextToken\(\) expects int\|string, mixed given.#'
+            reportUnmatched: false
+
+        # Lexer 2.x: Token implements ArrayAccess, so DoctrineLexer's lexer 1.x array branch reads an offset that might not exist.
         -
             message: "#Offset 'type' might not exist on Doctrine\\\\Common\\\\Lexer\\\\Token#"
             path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
             reportUnmatched: false
+
+        # Lexer 3.x: Token dropped ArrayAccess, so the same array branch cannot read an offset at all.
         -
             message: '#Cannot access offset .type. on Doctrine\\Common\\Lexer\\Token#'
             path: ../../../src/MartinGeorgiev/Utils/DoctrineLexer.php
             reportUnmatched: false
 
-        # Matched with ORM 3.x only (the Lexer class survives, its T_* constants do not).
+        # ORM 2.14-2.18: the TokenType enum arrived in 2.19, so it is an unknown class and the lexer-split ternaries widen to mixed.
         -
-            message: '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
+            message: '#Access to constant T_[A-Z_]+ on an unknown class Doctrine\\ORM\\Query\\TokenType#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects [0-9|]+, mixed given.#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<int,string>::isNextToken\(\) expects [0-9|]+, mixed given.#'
             reportUnmatched: false
 
-        # Matched with ORM 2.x only (constants still present, but deprecated).
+        # ORM 2.x: the Lexer::T_* constants are still present, but deprecated.
         -
             message: '#Fetching deprecated class constant T_IDENTIFIER of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
@@ -59,7 +81,10 @@ parameters:
             message: '#Fetching deprecated class constant T_GROUP of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
 
-        # Matched with ORM 3.x only (TokenType enum replaced the int|string token).
+        # ORM 3.x: the Lexer class survives, its T_* constants do not, and the TokenType enum replaced the int|string token.
+        -
+            message: '#Access to undefined constant Doctrine\\ORM\\Query\\Lexer::T_[A-Z_]+#'
+            reportUnmatched: false
         -
             message: '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
             reportUnmatched: false

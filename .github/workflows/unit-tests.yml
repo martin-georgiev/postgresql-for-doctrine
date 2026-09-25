@@ -97,7 +97,7 @@ jobs:
       fail-fast: ${{ github.event_name == 'pull_request' }}
       matrix:
         php: ['8.2', '8.3', '8.4', '8.5']
-        doctrine-lexer: ['2.1', '3.0', 'latest']
+        doctrine-lexer: ['1.2', '2.1', '3.0', 'latest']
         doctrine-orm: ['2.14', '2.18', '3.0', 'latest']
         include:
           - php: '8.5' # Run coverage report only based on the latest dependencies
@@ -105,6 +105,13 @@ jobs:
             doctrine-orm: 'latest'
             calculate-code-coverage: true
         exclude:
+          # Lexer 1.x resolves only with ORM 2.14 (2.15+ require ^2)
+          - doctrine-orm: '2.18'
+            doctrine-lexer: '1.2'
+          - doctrine-orm: '3.0'
+            doctrine-lexer: '1.2'
+          - doctrine-orm: 'latest'
+            doctrine-lexer: '1.2'
           - doctrine-orm: '2.14'
             doctrine-lexer: '3.0'
           - doctrine-orm: '3.0'
@@ -139,11 +146,11 @@ jobs:
       - name: Install Doctrine Lexer dependency
         run: |
           if [ "${{ matrix.doctrine-lexer }}" = "1.2" ]; then
-            composer require doctrine/lexer "~1.2" --dev --prefer-dist --no-interaction --no-progress
+            composer require doctrine/lexer "~1.2.0" --dev --no-update --no-interaction
           elif [ "${{ matrix.doctrine-lexer }}" = "2.1" ]; then
-            composer require doctrine/lexer "~2.1" --dev --prefer-dist --no-interaction --no-progress
+            composer require doctrine/lexer "~2.1.0" --dev --no-update --no-interaction
           elif [ "${{ matrix.doctrine-lexer }}" = "3.0" ]; then
-            composer require doctrine/lexer "~3.0" --dev --prefer-dist --no-interaction --no-progress
+            composer require doctrine/lexer "~3.0.0" --dev --no-update --no-interaction
           else
             composer update --prefer-dist --no-interaction --no-progress
           fi
@@ -151,11 +158,16 @@ jobs:
       - name: Install Doctrine ORM dependency
         run: |
           if [ "${{ matrix.doctrine-orm }}" = "2.14" ]; then
-            composer require doctrine/orm "~2.14" --prefer-dist --no-interaction --no-progress --with-all-dependencies
+            composer require doctrine/orm "~2.14.0" --no-update --no-interaction
+            # ORM 2.14 caps symfony/console below 7, whose compiler pass breaks against symfony/dependency-injection 8
+            composer require --dev --no-update --no-interaction symfony/dependency-injection:"^6.4 || ^7.4" symfony/config:"^6.4 || ^7.4"
+            composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
           elif [ "${{ matrix.doctrine-orm }}" = "2.18" ]; then
-            composer require doctrine/orm "~2.18" --prefer-dist --no-interaction --no-progress --with-all-dependencies
+            composer require doctrine/orm "~2.18.0" --no-update --no-interaction
+            composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
           elif [ "${{ matrix.doctrine-orm }}" = "3.0" ]; then
-            composer require doctrine/orm "~3.0" --prefer-dist --no-interaction --no-progress --with-all-dependencies
+            composer require doctrine/orm "~3.0.0" --no-update --no-interaction
+            composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
           else
             composer update --prefer-dist --no-interaction --no-progress
           fi
