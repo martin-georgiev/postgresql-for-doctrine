@@ -56,10 +56,15 @@ The `TYPE_NAME` constant must match the PostgreSQL type name exactly - it is use
 use Doctrine\DBAL\Types\Type as DoctrineType;
 
 DoctrineType::addType('order_status', OrderStatusType::class);
-$platform->registerDoctrineTypeMapping('order_status', 'order_status');
+
+// Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
+$em->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('order_status', 'order_status');
 ```
 
-The platform mapping lets schema introspection (schema validation, migration diffs) resolve the column's database type; without it Doctrine reports `Unknown database type "order_status" requested`.
+Without that mapping, schema introspection fails with `Unknown database type "order_status" requested`. The framework equivalents:
+
+- **Symfony**: `order_status: order_status` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
+- **Laravel**: `'order_status' => 'order_status'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
 
 ### 5. Use in an entity
 
@@ -94,6 +99,8 @@ final class PaymentMethodType extends Enum
 
 DoctrineType::addType('order_status', OrderStatusType::class);
 DoctrineType::addType('payment_method', PaymentMethodType::class);
+
+$platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('order_status', 'order_status');
 $platform->registerDoctrineTypeMapping('payment_method', 'payment_method');
 ```
@@ -119,10 +126,15 @@ final class OrderStatusArrayType extends EnumArray
 }
 
 DoctrineType::addType('order_status[]', OrderStatusArrayType::class);
+
+$platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('_order_status', 'order_status[]');
 ```
 
-PostgreSQL reports an array column's type as the element type prefixed with an underscore (`_order_status`), so that is the name to map.
+PostgreSQL reports an array column's type as the element type prefixed with an underscore (`_order_status`), so that is the name to map. The framework equivalents:
+
+- **Symfony**: `_order_status: 'order_status[]'` under `doctrine.dbal.connections.default.mapping_types` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
+- **Laravel**: `'_order_status' => 'order_status[]'` under the entity manager's `'mapping_types'` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
 
 The scalar and the array type are independent registrations - add whichever ones your schema uses.
 
