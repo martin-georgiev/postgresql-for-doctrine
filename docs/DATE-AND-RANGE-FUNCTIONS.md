@@ -35,8 +35,7 @@ This document covers PostgreSQL date, time, and range functions available in thi
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
-| at time zone | AT_TIME_ZONE | Converts time data between different time zones (behavior depends on whether the input has a time zone offset)
- | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone` |
+| at time zone | AT_TIME_ZONE | Converts time data between different time zones (behavior depends on whether the input has a time zone offset) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone` |
 
 ## Range Functions
 
@@ -124,7 +123,7 @@ PostgreSQL ranges support different bound types:
 - **numrange**: Numeric ranges (decimal/float)
 
 ### Empty and Infinite Ranges
-- Empty ranges: `DATERANGE(NULL, NULL)`
+- Empty ranges: a range containing no values, which PostgreSQL prints as `empty` (e.g. `DATERANGE('2023-01-01', '2023-01-01')`). In PHP, use `DateRange::empty()` and `isEmpty()` — see [Empty Ranges](RANGE-TYPES.md#empty-ranges). A range with two `NULL` bounds is not empty: it is `(,)`, unbounded on both sides
 - Infinite ranges: Use `NULL` for unbounded sides
 - Example: `DATERANGE('2023-01-01', NULL)` represents "from 2023-01-01 onwards"
 

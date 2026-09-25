@@ -10,7 +10,7 @@ src/MartinGeorgiev/Doctrine/
   DBAL/Types/Exceptions/   # Domain-specific exceptions per type
   DBAL/Types/ValueObject/  # Immutable value objects for composite types
   DBAL/Types/Traits/       # Shared validation/conversion traits
-  ORM/Query/AST/Functions/ # DQL function implementations (~340 functions)
+  ORM/Query/AST/Functions/ # DQL function implementations (~475 functions)
     Network/               # Network address functions (inet, cidr, macaddr)
     PostGIS/               # Spatial functions (ST_*)
     Ltree/                 # Hierarchical label tree functions

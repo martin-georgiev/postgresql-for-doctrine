@@ -2,7 +2,7 @@
 
 ## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
 
-`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is probably one of the most common DQL errors you may experience when working with this library. The cause for is that when parsing the DQL Doctrine won't recognize `ILIKE` as a known operator. In fact `ILIKE` is registered as a boolean function.
+`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is probably one of the most common DQL errors you may experience when working with this library. The cause for this is that when parsing the DQL Doctrine won't recognize `ILIKE` as a known operator. In fact `ILIKE` is registered as a boolean function.
 Doctrine doesn't provide easy support for implementing custom operators. This may change in the future but for now it is easier to trick the DQL parser with a boolean expression.
 
 Example intent with PostgreSQL:
@@ -46,7 +46,7 @@ Note: Keys must always be string literals, while values can be either string lit
 
 ## Using JSON Path Functions
 
-PostgreSQL 14+ introduced JSON path functions that provide a powerful way to query JSON data. Here are some examples:
+PostgreSQL 12+ introduced JSON path functions that provide a powerful way to query JSON data. Here are some examples:
 
 > 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
 
@@ -86,7 +86,7 @@ SELECT e.id, REGEXP_SUBSTR(e.text, 'https?://[\w.-]+') as url FROM Entity e
 
 ## Using Date Functions
 
-PostgreSQL 14+ introduced additional date functions that provide more flexibility when working with dates and timestamps:
+Newer PostgreSQL versions introduced additional date functions (`DATE_BIN` in 14, `DATE_ADD` and `DATE_SUBTRACT` in 16) that provide more flexibility when working with dates and timestamps:
 
 > 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for complete date/time and range function documentation
 
