@@ -25,7 +25,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * @example Using it in DQL: "SELECT FILTER(COUNT(e.id), WHERE e.score > 5) FROM Entity e"
  */
-class AggregateFilter extends BaseFunction implements AggregateFunction
+class Filter extends BaseFunction implements AggregateFunction
 {
     use AggregateArgumentTrait;
 

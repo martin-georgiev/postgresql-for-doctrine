@@ -662,7 +662,7 @@ doctrine:
                         COVAR_POP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop
                         COVAR_SAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp
                         EVERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every
-                        FILTER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter
+                        FILTER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter
                         JSON_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg
                         JSON_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg
                         JSONB_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg
