@@ -199,13 +199,12 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `XPATH_EXISTS` - Test if an XPath expression matches any node in an XML value
 
 **Window Functions:** ([Complete documentation](WINDOW-FUNCTIONS.md))
-- `FIRST_VALUE` - Return the value at the first row of the window frame
-- `LAG` - Return the value from a row a given offset before the current row, or a default
-- `LAST_VALUE` - Return the value at the last row of the window frame
-- `LEAD` - Return the value from a row a given offset after the current row, or a default
-- `NTH_VALUE` - Return the value at the n-th row of the window frame
 - `OVER` - Run an aggregate or a window function over a window, e.g. running totals and moving averages
-- `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE` - Number, rank or bucket each row within its partition, used inside `OVER`
+- `ROW_NUMBER`/`RANK`/`DENSE_RANK` - Number or rank rows within their partition
+- `PERCENT_RANK`/`CUME_DIST` - Relative rank and cumulative distribution within the partition
+- `NTILE` - Split the partition into a number of buckets
+- `LAG`/`LEAD` - Value from a row before or after the current one
+- `FIRST_VALUE`/`LAST_VALUE`/`NTH_VALUE` - Value from the first, last or n-th row of the window frame
 
 ## 📋 Summary of Available Function Categories
 
