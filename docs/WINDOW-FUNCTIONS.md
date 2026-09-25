@@ -83,7 +83,7 @@ These are window-only functions: they exist only inside `OVER`, and number or ra
 
 - `ROW_NUMBER` numbers the rows 1, 2, 3, ... with no ties; peers are numbered in an unspecified order.
 - `RANK` gives peers the same rank and leaves a gap after them (1, 1, 3); `DENSE_RANK` leaves none (1, 1, 2).
-- `PERCENT_RANK` is `(rank - 1) / (rows in the partition - 1)`, and `CUME_DIST` is the fraction of rows in the partition that precede the current row or are its peers. Both return `double precision`.
+- `PERCENT_RANK` is `(rank - 1) / (rows in the partition - 1)`, or `0.0` for a single-row partition, and `CUME_DIST` is the fraction of rows in the partition that precede the current row or are its peers. Both return `double precision`.
 - `NTILE(n)` divides the partition into `n` buckets as equally as possible and returns the current row's bucket, from 1 to `n`. The bucket count is an integer, a field, an arithmetic expression or a parameter.
 - Frame clauses do not affect ranking functions; PostgreSQL ignores them.
 
