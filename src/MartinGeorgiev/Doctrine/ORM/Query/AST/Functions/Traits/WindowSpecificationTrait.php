@@ -132,9 +132,7 @@ trait WindowSpecificationTrait
         }
 
         $shouldUseLexer = DoctrineOrm::isPre219();
-        $tokenTypesStartingTheExtent = $shouldUseLexer
-            ? [Lexer::T_BETWEEN, Lexer::T_INTEGER, Lexer::T_FLOAT, Lexer::T_STRING, Lexer::T_INPUT_PARAMETER]
-            : [TokenType::T_BETWEEN, TokenType::T_INTEGER, TokenType::T_FLOAT, TokenType::T_STRING, TokenType::T_INPUT_PARAMETER];
+        $tokenTypesStartingTheExtent = $shouldUseLexer ? [Lexer::T_BETWEEN, Lexer::T_INTEGER, Lexer::T_FLOAT, Lexer::T_STRING, Lexer::T_INPUT_PARAMETER] : [TokenType::T_BETWEEN, TokenType::T_INTEGER, TokenType::T_FLOAT, TokenType::T_STRING, TokenType::T_INPUT_PARAMETER];
 
         return \in_array($this->getWindowTokenType($tokenAfterMode), $tokenTypesStartingTheExtent, true)
             || $this->isKeywordIdentifier($tokenAfterMode, 'UNBOUNDED')
@@ -191,9 +189,7 @@ trait WindowSpecificationTrait
             return;
         }
 
-        $literalOffsetTokenTypes = $shouldUseLexer
-            ? [Lexer::T_INTEGER, Lexer::T_FLOAT, Lexer::T_STRING]
-            : [TokenType::T_INTEGER, TokenType::T_FLOAT, TokenType::T_STRING];
+        $literalOffsetTokenTypes = $shouldUseLexer ? [Lexer::T_INTEGER, Lexer::T_FLOAT, Lexer::T_STRING] : [TokenType::T_INTEGER, TokenType::T_FLOAT, TokenType::T_STRING];
 
         if ($this->isKeywordIdentifier($lexer->lookahead, 'UNBOUNDED')) {
             $this->matchKeywordIdentifier($parser, 'UNBOUNDED');
