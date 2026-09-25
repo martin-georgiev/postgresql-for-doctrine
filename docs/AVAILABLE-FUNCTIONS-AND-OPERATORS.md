@@ -59,6 +59,11 @@ Complete documentation for PostgreSQL XML processing, validation, and XPath quer
 - **[XML Functions](XML-FUNCTIONS.md)**
 - Includes: XML aggregation (`xmlagg`), XML validation (`xml_is_well_formed`, `xml_is_well_formed_document`, `xml_is_well_formed_content`), XML construction (`xmltext`, `xmlcomment`, `xmlconcat`), XPath querying (`xpath`, `xpath_exists`)
 
+### **🪟 Window Functions**
+Complete documentation for PostgreSQL window functions, with `OVER` wrapping the call and its window specification, including frame clauses.
+- **[Window Functions](WINDOW-FUNCTIONS.md)**
+- Includes: `OVER` for running any aggregate as a window function
+
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
 - **[Network Address Functions](NETWORK-FUNCTIONS.md)**
@@ -192,6 +197,9 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `XMLTEXT` - Create an XML text node (with entity escaping)
 - `XPATH` - Evaluate an XPath expression against an XML value, returning matched nodes
 - `XPATH_EXISTS` - Test if an XPath expression matches any node in an XML value
+
+**Window Functions:** ([Complete documentation](WINDOW-FUNCTIONS.md))
+- `OVER` - Run an aggregate or a window function over a window, e.g. running totals and moving averages
 
 ## 📋 Summary of Available Function Categories
 

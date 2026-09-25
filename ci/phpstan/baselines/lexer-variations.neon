@@ -42,43 +42,7 @@ parameters:
 
         # ORM 2.x: the Lexer::T_* constants are still present, but deprecated.
         -
-            message: '#Fetching deprecated class constant T_IDENTIFIER of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_OPEN_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_CLOSE_PARENTHESIS of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_COMMA of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_ORDER of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_INTEGER of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_FLOAT of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_AS of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_NONE of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_DISTINCT of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_STRING of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_WHERE of class Doctrine\\ORM\\Query\\Lexer#'
-            reportUnmatched: false
-        -
-            message: '#Fetching deprecated class constant T_GROUP of class Doctrine\\ORM\\Query\\Lexer#'
+            message: '#Fetching deprecated class constant T_(AND|AS|BETWEEN|BY|CLOSE_PARENTHESIS|COMMA|DISTINCT|FLOAT|GROUP|IDENTIFIER|INPUT_PARAMETER|INTEGER|NONE|OPEN_PARENTHESIS|ORDER|STRING|WHERE) of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
 
         # ORM 3.x: the Lexer class survives, its T_* constants do not, and the TokenType enum replaced the int|string token.

@@ -169,6 +169,34 @@ SELECT e.category FROM Entity e GROUP BY e.category HAVING FILTER(COUNT(e.id), W
 
 - The first argument must be an aggregate; a scalar function or a nested `FILTER` throws a `ParserException`.
 
+## Running Totals and Moving Averages with OVER
+
+PostgreSQL runs an aggregate over a window of rows with `OVER (...)`, written in SQL after the call: `SUM(o.amount) OVER (PARTITION BY o.customer ORDER BY o.createdAt)`. DQL cannot parse anything after a function's closing parenthesis, so `OVER` wraps the call instead, with the window specification as its second argument:
+
+```sql
+-- SQL:  SUM(o.amount) OVER (PARTITION BY o.customer ORDER BY o.createdAt)
+-- DQL:  OVER(SUM(o.amount), PARTITION BY o.customer ORDER BY o.createdAt)
+```
+
+> 📖 **See also**: [Window Functions](WINDOW-FUNCTIONS.md#over-wraps-the-call-in-dql) for the full list of rules
+
+```sql
+-- Running total per customer
+SELECT o.id, OVER(SUM(o.amount), PARTITION BY o.customer ORDER BY o.createdAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS runningTotal
+FROM Order o
+
+-- Seven-day moving average
+SELECT d.day, OVER(AVG(d.visits), ORDER BY d.day RANGE BETWEEN '6 days' PRECEDING AND CURRENT ROW) AS weeklyAverage FROM DailyStat d
+
+-- Each order's share of its customer's total
+SELECT o.id, o.amount / OVER(SUM(o.amount), PARTITION BY o.customer) AS share FROM Order o
+
+-- Paid revenue per customer next to every order, with FILTER inside OVER as in SQL
+SELECT o.id, OVER(FILTER(SUM(o.amount), WHERE o.status = 'paid'), PARTITION BY o.customer) AS paidTotal FROM Order o
+```
+
+- Filtering on a window result (`WHERE runningTotal > 100`) is not possible in DQL; use a native query or filter in PHP.
+
 ## Using Range Types
 
 PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:

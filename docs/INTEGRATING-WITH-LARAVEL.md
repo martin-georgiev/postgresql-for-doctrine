@@ -693,6 +693,9 @@ return [
         'VAR_POP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop::class,
         'VARIANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class,
 
+        # Window functions
+        'OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over::class,
+
         # XML functions
         'XML_IS_WELL_FORMED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class,
         'XML_IS_WELL_FORMED_CONTENT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent::class,

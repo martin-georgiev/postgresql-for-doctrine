@@ -676,6 +676,9 @@ doctrine:
                         VAR_POP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\VarPop
                         VARIANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance
 
+                        # Window functions
+                        OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over
+
                         # XML functions
                         XML_IS_WELL_FORMED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed
                         XML_IS_WELL_FORMED_CONTENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent
