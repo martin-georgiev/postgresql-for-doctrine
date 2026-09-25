@@ -387,7 +387,7 @@ return [
 > Columns holding an array of that enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`, registered alongside the scalar one:
 >
 > ```php
-> 'types' => [
+> 'custom_types' => [
 >     'status' => App\Doctrine\Type\StatusType::class,
 >     'status[]' => App\Doctrine\Type\StatusArrayType::class,
 > ],
@@ -399,7 +399,7 @@ return [
 > Columns holding an array of that composite get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray`, registered alongside the scalar one:
 >
 > ```php
-> 'types' => [
+> 'custom_types' => [
 >     'inventory_item' => App\Doctrine\Type\InventoryItemType::class,
 >     'inventory_item[]' => App\Doctrine\Type\InventoryItemArrayType::class,
 > ],
