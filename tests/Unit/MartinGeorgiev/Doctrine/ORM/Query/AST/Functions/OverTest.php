@@ -6,22 +6,22 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateOver;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumberOver;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-final class AggregateOverTest extends TestCase
+final class OverTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
             'ARRAY_AGG' => ArrayAgg::class,
-            'FILTER' => AggregateFilter::class,
-            'OVER' => AggregateOver::class,
+            'FILTER' => Filter::class,
+            'OVER' => Over::class,
             'ROW_NUMBER_OVER' => RowNumberOver::class,
         ];
     }

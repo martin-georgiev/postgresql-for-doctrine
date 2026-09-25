@@ -25,7 +25,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * @example Using it in DQL: "SELECT OVER(SUM(e.amount), PARTITION BY e.customer ORDER BY e.createdAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) FROM Entity e"
  */
-class AggregateOver extends BaseFunction
+class Over extends BaseFunction
 {
     use AggregateArgumentTrait;
     use WindowSpecificationTrait;

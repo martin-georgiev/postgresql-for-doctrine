@@ -87,7 +87,7 @@ Any aggregate becomes a window function once it has an `OVER (...)` clause. `OVE
 
 | PostgreSQL syntax | Register for DQL as | Implemented by |
 |---|---|---|
-| aggregate OVER (window specification) | OVER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateOver` |
+| aggregate OVER (window specification) | OVER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over` |
 
 | DQL | Generated SQL |
 |---|---|

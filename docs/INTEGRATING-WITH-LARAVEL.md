@@ -702,7 +702,7 @@ return [
         'LEAD_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LeadOver::class,
         'NTH_VALUE_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValueOver::class,
         'NTILE_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NtileOver::class,
-        'OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateOver::class,
+        'OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over::class,
         'PERCENT_RANK_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRankOver::class,
         'RANK_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RankOver::class,
         'ROW_NUMBER_OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumberOver::class,

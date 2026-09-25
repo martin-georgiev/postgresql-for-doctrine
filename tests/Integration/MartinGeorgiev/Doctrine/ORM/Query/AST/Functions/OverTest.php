@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateOver;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over;
 use PHPUnit\Framework\Attributes\Test;
 
-final class AggregateOverTest extends NumericTestCase
+final class OverTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
         return [
-            'OVER' => AggregateOver::class,
+            'OVER' => Over::class,
         ];
     }
 
