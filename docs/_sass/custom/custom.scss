@@ -1,0 +1,79 @@
+// Documentation pages. The landing page has its own stylesheet (assets/css/landing.css).
+
+.site-title {
+  gap: 0.6rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.site-mark {
+  flex: none;
+  width: 28px;
+  height: 28px;
+}
+
+.site-mark--dark,
+[data-theme="dark"] .site-mark--light {
+  display: none;
+}
+
+[data-theme="dark"] .site-mark--dark {
+  display: block;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.015em;
+}
+
+h1 picture img {
+  vertical-align: -0.12em;
+}
+
+code,
+pre,
+.highlight {
+  font-variation-settings: "wdth" 87.5;
+}
+
+:not(pre) > code {
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.main-content a:not(.btn) {
+  text-underline-offset: 0.18em;
+}
+
+:focus-visible {
+  outline: 2px solid $link-color;
+  outline-offset: 2px;
+}
+
+.main-header {
+  align-items: center;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-left: 0.5rem;
+  padding: 0;
+  border: 1px solid $border-color;
+  border-radius: 50%;
+  background: transparent;
+  color: $body-text-color;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: $link-color;
+}
+
+.theme-toggle[aria-pressed="true"] .theme-toggle__moon {
+  fill: currentColor;
+}

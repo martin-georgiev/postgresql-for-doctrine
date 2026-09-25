@@ -1,0 +1,56 @@
+<script>
+  (function () {
+    var storageKey = 'pfd-theme';
+    var root = document.documentElement;
+    var systemDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+    function storedTheme() {
+      try { return localStorage.getItem(storageKey); } catch (error) { return null; }
+    }
+
+    function preferredTheme() {
+      return storedTheme() || (systemDark && systemDark.matches ? 'dark' : 'light');
+    }
+
+    function applyTheme(theme) {
+      var isDark = theme === 'dark';
+      root.setAttribute('data-theme', theme);
+
+      var docsStylesheet = document.querySelector('link[href$="just-the-docs-default.css"], link[href$="just-the-docs-pfd-dark.css"]');
+      if (docsStylesheet) {
+        docsStylesheet.href = docsStylesheet.href.replace(/just-the-docs-(default|pfd-dark)\.css$/, isDark ? 'just-the-docs-pfd-dark.css' : 'just-the-docs-default.css');
+      }
+
+      // The docs pick their logo with <picture> for GitHub, which follows only the system setting.
+      document.querySelectorAll('picture source[media="(prefers-color-scheme: dark)"], picture source[data-dark-logo]').forEach(function (source) {
+        source.setAttribute('data-dark-logo', '');
+        source.media = isDark ? 'all' : 'not all';
+      });
+
+      document.querySelectorAll('[data-theme-toggle]').forEach(function (toggle) {
+        toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      });
+    }
+
+    applyTheme(preferredTheme());
+    document.addEventListener('DOMContentLoaded', function () { applyTheme(root.getAttribute('data-theme')); });
+
+    document.addEventListener('click', function (event) {
+      var toggle = event.target.closest('[data-theme-toggle]');
+      if (!toggle) {
+        return;
+      }
+      var nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem(storageKey, nextTheme); } catch (error) {}
+      applyTheme(nextTheme);
+    });
+
+    if (systemDark && systemDark.addEventListener) {
+      systemDark.addEventListener('change', function (event) {
+        if (!storedTheme()) {
+          applyTheme(event.matches ? 'dark' : 'light');
+        }
+      });
+    }
+  }());
+</script>

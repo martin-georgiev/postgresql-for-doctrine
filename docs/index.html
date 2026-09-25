@@ -1,0 +1,179 @@
+---
+layout: landing
+title: PostgreSQL for Doctrine
+description: Map PostgreSQL arrays, JSONB, ranges, PostGIS geometries, pgvector embeddings and over 100 column types in Doctrine, and call over 450 PostgreSQL functions and operators from DQL.
+nav_exclude: true
+---
+<section class="hero wrap" aria-labelledby="hero-title">
+  <div class="hero__intro">
+    <h1 id="hero-title">Use PostgreSQL's own types and functions in&nbsp;Doctrine</h1>
+    <p class="lede">
+      Map arrays, JSONB, ranges, PostGIS geometries, pgvector embeddings and over 100 column types to your entities,
+      and call over 450 PostgreSQL functions and operators straight from DQL.
+    </p>
+
+    <div class="install">
+      <code class="install__command" id="install-command">composer require martin-georgiev/postgresql-for-doctrine</code>
+      <button type="button" class="install__copy" data-copy-target="install-command">Copy</button>
+      <span class="visually-hidden" role="status" aria-live="polite" data-copy-status></span>
+    </div>
+
+    <p class="hero__setup">
+      Set it up with
+      <a href="{{ site.baseurl }}{% link INTEGRATING-WITH-DOCTRINE.md %}">Doctrine</a>,
+      <a href="{{ site.baseurl }}{% link INTEGRATING-WITH-SYMFONY.md %}">Symfony</a> or
+      <a href="{{ site.baseurl }}{% link INTEGRATING-WITH-LARAVEL.md %}">Laravel</a>.
+    </p>
+  </div>
+
+  <div class="translator">
+    <p class="translator__intro" id="translator-intro">The query you would write in PostgreSQL, and the DQL that produces it.</p>
+    <div class="translator__tabs" role="tablist" aria-labelledby="translator-intro">
+      <button type="button" role="tab" id="tab-jsonb" aria-controls="pair-jsonb" aria-selected="true">JSONB</button>
+      <button type="button" role="tab" id="tab-arrays" aria-controls="pair-arrays" aria-selected="false" tabindex="-1">Arrays</button>
+      <button type="button" role="tab" id="tab-ranges" aria-controls="pair-ranges" aria-selected="false" tabindex="-1">Ranges</button>
+      <button type="button" role="tab" id="tab-postgis" aria-controls="pair-postgis" aria-selected="false" tabindex="-1">PostGIS</button>
+      <button type="button" role="tab" id="tab-pgvector" aria-controls="pair-pgvector" aria-selected="false" tabindex="-1">pgvector</button>
+      <button type="button" role="tab" id="tab-search" aria-controls="pair-search" aria-selected="false" tabindex="-1">Full-text search</button>
+      <button type="button" role="tab" id="tab-window" aria-controls="pair-window" aria-selected="false" tabindex="-1">Window functions</button>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-jsonb" aria-labelledby="tab-jsonb" tabindex="0">
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM users
+WHERE profile <b class="op">-&gt;&gt;</b> 'country' = 'NL'</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT u.id FROM App\Entity\User u
+WHERE <b class="fn">JSON_GET_FIELD_AS_TEXT</b>(u.profile, 'country') = 'NL'</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-arrays" aria-labelledby="tab-arrays" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM posts
+WHERE tags <b class="op">&amp;&amp;</b> ARRAY['php', 'postgres']</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT p.id FROM App\Entity\Post p
+WHERE <b class="fn">OVERLAPS</b>(p.tags, ARRAY('php', 'postgres')) = TRUE</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-ranges" aria-labelledby="tab-ranges" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM bookings
+WHERE stay <b class="op">&amp;&amp;</b> daterange('2026-07-01', '2026-07-31')</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT b.id FROM App\Entity\Booking b
+WHERE <b class="fn">OVERLAPS</b>(b.stay, DATERANGE('2026-07-01', '2026-07-31')) = TRUE</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-postgis" aria-labelledby="tab-postgis" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM stores
+WHERE <b class="op">ST_DWithin</b>(location, 'POINT(4.9 52.37)', 500)</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT s.id FROM App\Entity\Store s
+WHERE <b class="fn">ST_DWITHIN</b>(s.location, 'POINT(4.9 52.37)', 500) = TRUE</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-pgvector" aria-labelledby="tab-pgvector" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM documents
+ORDER BY embedding <b class="op">&lt;=&gt;</b> :query</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT d.id, <b class="fn">COSINE_DISTANCE</b>(d.embedding, :query) AS HIDDEN distance
+FROM App\Entity\Document d
+ORDER BY distance</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-search" aria-labelledby="tab-search" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM articles
+WHERE to_tsvector('english', body)
+  <b class="op">@@</b> plainto_tsquery('english', :terms)</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT a.id FROM App\Entity\Article a
+WHERE <b class="fn">TSMATCH</b>(
+  TO_TSVECTOR('english', a.body),
+  PLAINTO_TSQUERY('english', :terms)
+) = TRUE</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-window" aria-labelledby="tab-window" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id,
+  SUM(amount) <b class="op">OVER</b> (PARTITION BY customer_id ORDER BY placed_at)
+FROM orders</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT o.id,
+  <b class="fn">OVER</b>(SUM(o.amount), PARTITION BY o.customer ORDER BY o.placedAt)
+FROM App\Entity\Order o</code></pre></div>
+    </div>
+  </div>
+</section>
+
+<section class="coverage wrap" aria-labelledby="coverage-title">
+  <h2 id="coverage-title">What you can map and query</h2>
+  <div class="coverage__columns">
+    <div class="coverage__group">
+      <h3>Column types</h3>
+      <dl class="catalogue">
+        <div><dt><a href="{{ site.baseurl }}{% link AVAILABLE-TYPES.md %}">Arrays</a></dt><dd>Of nearly every core type, from <code>integer[]</code> and <code>text[]</code> to <code>jsonb[]</code>, <code>uuid[]</code> and <code>inet[]</code></dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link AVAILABLE-TYPES.md %}">JSON and JSONB</a></dt><dd>Read back as PHP arrays, scalars and nested structures included</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link RANGE-TYPES.md %}">Ranges</a></dt><dd>Date, timestamp and numeric ranges and multiranges as value objects, infinite bounds included</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link SPATIAL-TYPES.md %}">PostGIS</a></dt><dd>Geometry and geography columns, with their geometry type and SRID</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link AVAILABLE-TYPES.md %}">pgvector</a></dt><dd><code>vector</code>, <code>halfvec</code> and <code>sparsevec</code> embeddings for similarity search</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link LTREE-TYPE.md %}">Hierarchies</a></dt><dd><code>ltree</code> paths, and <code>lquery</code> and <code>ltxtquery</code> patterns to match them</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link ENUM-TYPE.md %}">Your own types</a></dt><dd>PostgreSQL enums backed by PHP enums, and <a href="{{ site.baseurl }}{% link COMPOSITE-TYPE.md %}">composite types</a></dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link AVAILABLE-TYPES.md %}">And more</a></dt><dd>Network addresses, geometric shapes, bit strings, money, XML, hstore, citext, cube and ULID</dd></div>
+      </dl>
+    </div>
+
+    <div class="coverage__group">
+      <h3>Functions and operators in DQL</h3>
+      <dl class="catalogue">
+        <div><dt><a href="{{ site.baseurl }}{% link ARRAY-AND-JSON-FUNCTIONS.md %}">Arrays and JSON</a></dt><dd>Containment and overlap, JSON paths, and aggregation with ordering and <code>FILTER</code></dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link TEXT-AND-PATTERN-FUNCTIONS.md %}">Text search</a></dt><dd>Full-text search, regular expressions, trigram similarity and fuzzy matching</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link DATE-AND-RANGE-FUNCTIONS.md %}">Dates and ranges</a></dt><dd>Range operators, date arithmetic and time series</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link SPATIAL-FUNCTIONS-AND-OPERATORS.md %}">PostGIS</a></dt><dd>Spatial relationships, measurements, constructors and validation</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link WINDOW-FUNCTIONS.md %}">Window functions</a></dt><dd>Rankings, running totals and moving averages with <code>OVER</code></dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link MATHEMATICAL-FUNCTIONS.md %}">Statistics</a></dt><dd>Medians, percentiles and other statistical aggregates, plus trigonometry and rounding</dd></div>
+        <div><dt><a href="{{ site.baseurl }}{% link AVAILABLE-FUNCTIONS-AND-OPERATORS.md %}">And more</a></dt><dd>Network addresses, hstore, XML and XPath, UUIDs and formatting</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="steps wrap" aria-labelledby="steps-title">
+  <h2 id="steps-title">From install to your first query</h2>
+  <ol class="steps__list">
+    <li>
+      <h3>Install the package</h3>
+      <pre><code>composer require martin-georgiev/postgresql-for-doctrine</code></pre>
+    </li>
+    <li>
+      <h3>Register what you use</h3>
+      <p>Register each type and function with Doctrine, or list them in your <a href="{{ site.baseurl }}{% link INTEGRATING-WITH-SYMFONY.md %}">Symfony</a> or <a href="{{ site.baseurl }}{% link INTEGRATING-WITH-LARAVEL.md %}">Laravel</a> configuration.</p>
+      <pre><code>use Doctrine\DBAL\Types\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
+
+Type::addType('text[]', TextArray::class);
+$configuration-&gt;addCustomStringFunction('CONTAINS', Contains::class);</code></pre>
+    </li>
+    <li>
+      <h3>Map the column and query it</h3>
+      <pre><code>#[ORM\Column(type: 'text[]')]
+private array $tags;
+
+$em-&gt;createQuery('
+    SELECT p FROM App\Entity\Post p
+    WHERE CONTAINS(p.tags, ARRAY(:tag)) = TRUE
+')-&gt;setParameter('tag', 'postgres')-&gt;getResult();</code></pre>
+    </li>
+  </ol>
+</section>
+
+<section class="support wrap" aria-labelledby="support-title">
+  <h2 id="support-title">Tested in CI against</h2>
+  <table class="support__table">
+    <tbody>
+      <tr><th scope="row">PHP</th><td>8.2 to 8.5</td></tr>
+      <tr><th scope="row">PostgreSQL</th><td>16 to 18</td></tr>
+      <tr><th scope="row">PostGIS</th><td>3.4 to 3.6</td></tr>
+      <tr><th scope="row">Doctrine ORM</th><td>2.14, 2.18 and 3</td></tr>
+      <tr><th scope="row">Doctrine Lexer</th><td>1.2, 2.1 and 3</td></tr>
+    </tbody>
+  </table>
+</section>
