@@ -281,28 +281,28 @@ try {
     // Invalid WKT format
     $invalid = WktSpatialData::fromString('INVALID(1 2)');
 } catch (InvalidWktSpatialDataException $e) {
-    // Throws: "Unsupported geometry type: INVALID"
+    // Throws: "Unsupported geometry type: 'INVALID'. Supported types: POINT, LINESTRING, POLYGON, …"
 }
 
 try {
     // Empty coordinate section
     $empty = WktSpatialData::fromString('POINT()');
 } catch (InvalidWktSpatialDataException $e) {
-    // Throws: "Empty coordinate section in WKT"
+    // Throws: "Invalid Wkt: empty coordinate/body section"
 }
 
 try {
     // Invalid SRID format
     $invalidSrid = WktSpatialData::fromString('SRID=abc;POINT(1 2)');
 } catch (InvalidWktSpatialDataException $e) {
-    // Throws: "Invalid SRID value: abc"
+    // Throws: "Invalid Srid value in Ewkt: 'abc'"
 }
 
 try {
     // Missing semicolon in EWKT
     $missingSemicolon = WktSpatialData::fromString('SRID=4326POINT(1 2)');
 } catch (InvalidWktSpatialDataException $e) {
-    // Throws: "Missing semicolon in EWKT format"
+    // Throws: "Invalid Ewkt: missing semicolon after Srid prefix"
 }
 ```
 

@@ -62,7 +62,7 @@ $platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('order_status', 'order_status');
 ```
 
-Without that mapping, schema introspection fails with `Unknown database type "order_status" requested`. The framework equivalents:
+Without that mapping, schema introspection fails with `Unknown database type "order_status" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
 
 - **Symfony**: `order_status: order_status` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
 - **Laravel**: `'order_status' => 'order_status'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
@@ -204,7 +204,7 @@ Doctrine's schema tool models tables, not user-defined types, and PostgreSQL con
 
 ### Adding a new case
 
-Since PostgreSQL 12, `ALTER TYPE ... ADD VALUE` is allowed inside a transaction block, but the new label cannot be used until that transaction commits - PostgreSQL rejects it with `unsafe use of new value`. A plain `addSql()` in a Doctrine Migrations `up()` is therefore enough on its own:
+Since PostgreSQL 12, `ALTER TYPE ... ADD VALUE` is allowed inside a transaction block, but the new label cannot be used until that transaction commits - PostgreSQL rejects it with `unsafe use of new value "returned" of enum type order_status`. A plain `addSql()` in a Doctrine Migrations `up()` is therefore enough on its own:
 
 ```php
 public function up(Schema $schema): void

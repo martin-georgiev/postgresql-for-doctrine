@@ -53,7 +53,7 @@ $platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
 ```
 
-Without that mapping, schema introspection fails with `Unknown database type "inventory_item" requested`. The framework equivalents:
+Without that mapping, schema introspection fails with `Unknown database type "inventory_item" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
 
 - **Symfony**: `inventory_item: inventory_item` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
 - **Laravel**: `'inventory_item' => 'inventory_item'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
