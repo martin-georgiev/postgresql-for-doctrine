@@ -383,7 +383,7 @@ SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1,
 SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
 FROM Entity e
 ORDER BY distance
-LIMIT 10
+-- DQL has no LIMIT: cap the rows with $query->setMaxResults(10)
 
 -- Find geometries within a specific distance (using bounding box distance for performance)
 SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
@@ -396,7 +396,7 @@ WHERE e.trajectory1 IS NOT NULL
 -- 3D distance calculations
 SELECT e, ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance3d
 FROM Entity e
-WHERE ND_BOUNDING_BOX_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
+WHERE ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
 ```
 
 #### Operator Conflicts and Best Practices
@@ -419,12 +419,12 @@ SELECT e FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE            -- Text
 -- Use bounding box operators for initial filtering (they use spatial indexes)
 SELECT e FROM Entity e
 WHERE OVERLAPS(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE
-  AND ST_Intersects(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))')  -- Exact check
+  AND ST_Intersects(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE  -- Exact check
 
 -- Use distance operators for nearest neighbor queries
 SELECT e FROM Entity e
 ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
-LIMIT 10
+-- DQL has no LIMIT: cap the rows with $query->setMaxResults(10)
 ```
 
 For array columns, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md).

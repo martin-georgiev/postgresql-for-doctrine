@@ -251,7 +251,7 @@ SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
 
 -- Distance operators return numbers, so they can be selected and ordered by
 SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
-FROM Entity e ORDER BY distance LIMIT 10
+FROM Entity e ORDER BY distance -- DQL has no LIMIT: cap the rows with $query->setMaxResults(10)
 
 -- ST_Relate with 3 arguments returns boolean, with 2 it returns the intersection matrix
 SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'T*T***T**') = TRUE

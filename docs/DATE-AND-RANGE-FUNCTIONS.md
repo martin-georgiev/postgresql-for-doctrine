@@ -88,7 +88,7 @@ WHERE e1.end_date < e2.start_date
 SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 hour', 'Europe/Sofia') as hour FROM Entity e WHERE e.id = 1
 
 -- DATE_BIN: snap a timestamp to the nearest interval boundary relative to an origin
-SELECT DATE_BIN('1 month', e.created_at, '2023-01-01') as month_start FROM Entity e
+SELECT DATE_BIN('7 days', e.created_at, '2023-01-02') as week_start FROM Entity e
 
 -- Range bounds: third argument controls inclusivity — default is '[)' (inclusive lower, exclusive upper)
 SELECT DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity e
@@ -125,8 +125,8 @@ PostgreSQL ranges support different bound types:
 
 ### Empty and Infinite Ranges
 - Empty ranges: `DATERANGE(NULL, NULL)`
-- Infinite ranges: Use `NULL` for unbounded sides
-- Example: `DATERANGE('2023-01-01', NULL)` represents "from 2023-01-01 onwards"
+- Infinite ranges: Use a parameter set to `null` for unbounded sides (DQL does not accept a bare `NULL` argument)
+- Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 
 **💡 Tips for Usage:**
 1. **Range operators** should be used with `= TRUE` or `= FALSE` in DQL
