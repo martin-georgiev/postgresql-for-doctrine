@@ -288,15 +288,8 @@ trait WindowSpecificationTrait
         return $this->readWindowTokenProperty($token, 'type');
     }
 
-    /**
-     * Lexer 1.x hands out tokens as arrays, later majors as objects.
-     */
     private function readWindowTokenProperty(mixed $token, string $property): mixed
     {
-        if (\is_array($token)) {
-            return $token[$property] ?? null;
-        }
-
         return \is_object($token) && \property_exists($token, $property) ? $token->{$property} : null;
     }
 }
