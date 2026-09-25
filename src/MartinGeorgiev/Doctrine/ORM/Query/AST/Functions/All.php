@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL ALL().
  *
- * Evaluates to true if all subquery rows satisfy the condition.
+ * Evaluates to true if the comparison holds for every element of the array expression.
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-subquery.html#FUNCTIONS-SUBQUERY-ALL
  * @since 0.1

@@ -7,7 +7,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Implementation of PostgreSQL ANY().
  *
- * Evaluates to true if any subquery row satisfies the condition.
+ * Evaluates to true if the comparison holds for at least one element of the array expression.
  *
  * @see https://www.postgresql.org/docs/9.4/static/functions-subquery.html#FUNCTIONS-SUBQUERY-ANY-SOME
  * @since 0.1
