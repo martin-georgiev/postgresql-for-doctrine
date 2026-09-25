@@ -12,10 +12,10 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  * Returns the n-D distance between A and B bounding boxes.
  * This operator works with multi-dimensional geometries.
  *
- * Note: The <<#>> operator was removed from PostGIS in version 2.2.0 when true KNN distance
- * support was added to the <<->> operator, making bounding box distance variants obsolete.
- * This class is kept for legacy compatibility only and will not work with PostGIS 2.2+.
- * The recommendation is to use NDimensionalCentroidDistance (using <<->>) instead.
+ * Note: No released PostGIS provides the <<#>> operator. It existed only in PostGIS 2.2
+ * development builds and was dropped before 2.2.0, although the PostGIS manual listed it
+ * with "Availability: 2.2.0" up to 3.4. The recommendation is to use
+ * NDimensionalCentroidDistance (using <<->>) instead.
  *
  * @see https://postgis.net/docs/reference.html#Operators_Distance
  * @since 3.5

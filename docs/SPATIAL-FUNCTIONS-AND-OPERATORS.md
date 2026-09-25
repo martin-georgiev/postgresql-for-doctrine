@@ -16,7 +16,7 @@ This document covers PostGIS spatial functions and operators available in this l
 - Most bounding box operators work primarily with **geometry** types
 - **Geography** types have limited operator support (mainly `&&`, `<->`)
 - **3D/n-dimensional operators** may require the geometry to be built explicitly: `ST_GEOMFROMTEXT('POINT Z(0 0 0)')`
-- Some advanced operators (`&&&`, `<<#>>`) may not be available in all PostGIS versions
+- Some advanced operators (`&&&`) may not be available in all PostGIS versions, and no released PostGIS provides `<<#>>` (see `ND_BOUNDING_BOX_DISTANCE` below)
 
 ### Bounding Box Operators
 
@@ -48,6 +48,8 @@ These operators calculate distances between geometries. All return numeric value
 | <#> | BOUNDING_BOX_DISTANCE | Returns the 2D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance` |
 | <<->> | ND_CENTROID_DISTANCE | Returns n-D distance between centroids of bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance` |
 | <<#>> | ND_BOUNDING_BOX_DISTANCE | Returns the n-D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance` |
+
+> ⚠️ **`<<#>>` is not in any released PostGIS.** It existed only in PostGIS 2.2 development builds and was dropped before 2.2.0, although the PostGIS manual listed it with "Availability: 2.2.0" up to 3.4. Every PostGIS release from 2.1 to 3.6 rejects it with `operator does not exist: geometry <<#>> geometry`. Use `ND_CENTROID_DISTANCE` (`<<->>`) for n-D distance.
 
 ## PostGIS Spatial Relationship Functions
 
