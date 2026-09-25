@@ -433,6 +433,9 @@ $configuration->addCustomStringFunction('JSON_AGG', MartinGeorgiev\Doctrine\ORM\
 $configuration->addCustomStringFunction('JSON_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class);
 $configuration->addCustomStringFunction('JSONB_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class);
 $configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg::class);
+$configuration->addCustomStringFunction('MODE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Mode::class);
+$configuration->addCustomStringFunction('PERCENTILE_CONT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont::class);
+$configuration->addCustomStringFunction('PERCENTILE_DISC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileDisc::class);
 $configuration->addCustomStringFunction('STDDEV', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev::class);
 $configuration->addCustomStringFunction('STDDEV_POP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop::class);
 $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);

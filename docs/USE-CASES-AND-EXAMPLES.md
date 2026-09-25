@@ -107,6 +107,35 @@ SELECT DATE_TRUNC('day', e.timestampWithTz) FROM Entity e
 SELECT DATE_TRUNC('day', e.timestampWithTz, 'UTC') FROM Entity e
 ```
 
+## Medians, Percentiles and the Most Common Value
+
+PostgreSQL computes these with ordered-set aggregates, written in SQL as `percentile_cont(0.5) WITHIN GROUP (ORDER BY e.value)`. DQL cannot parse anything after a function's closing parenthesis, so the `WITHIN GROUP ORDER BY` part moves **inside** the call, with no comma before it and no parentheses around it:
+
+```sql
+-- SQL:  percentile_cont(0.5) WITHIN GROUP (ORDER BY o.total)
+-- DQL:  PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total)
+```
+
+> 📖 **See also**: [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql) for the full list of rules
+
+```sql
+-- Median order value per customer (interpolated between the two middle values)
+SELECT c.id, PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total) AS medianTotal
+FROM Order o JOIN o.customer c GROUP BY c.id
+
+-- 95th percentile response time, always a value that was actually recorded
+SELECT PERCENTILE_DISC(0.95 WITHIN GROUP ORDER BY r.durationMs) AS p95 FROM Request r
+
+-- The fraction can be a parameter
+SELECT PERCENTILE_CONT(:fraction WITHIN GROUP ORDER BY r.durationMs) AS percentile FROM Request r
+
+-- Most common status per category; MODE takes no fraction, so the call starts with WITHIN GROUP
+SELECT e.category, MODE(WITHIN GROUP ORDER BY e.status) AS commonStatus FROM Entity e GROUP BY e.category
+```
+
+- `ORDER BY` takes exactly one item; PostgreSQL rejects more.
+- The fraction must not read an ungrouped column: use a literal, a parameter, or columns listed in `GROUP BY`.
+
 ## Using Range Types
 
 PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:
