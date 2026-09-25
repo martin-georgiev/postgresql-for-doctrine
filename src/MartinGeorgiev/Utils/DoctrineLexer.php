@@ -61,4 +61,16 @@ final class DoctrineLexer
 
         return $lexer->token?->value;
     }
+
+    /**
+     * Reads a field of any token the lexer hands out, including a peeked one: an array before Lexer 2.0, an object since.
+     */
+    public static function getTokenField(mixed $token, string $field): mixed
+    {
+        if (\is_array($token)) {
+            return $token[$field] ?? null;
+        }
+
+        return \is_object($token) && \property_exists($token, $field) ? $token->{$field} : null;
+    }
 }

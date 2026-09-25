@@ -274,18 +274,13 @@ trait WindowSpecificationTrait
             return false;
         }
 
-        $value = $this->readWindowTokenProperty($token, 'value');
+        $value = DoctrineLexer::getTokenField($token, 'value');
 
         return \is_string($value) && \strtoupper($value) === $keyword;
     }
 
     private function getWindowTokenType(mixed $token): mixed
     {
-        return $this->readWindowTokenProperty($token, 'type');
-    }
-
-    private function readWindowTokenProperty(mixed $token, string $property): mixed
-    {
-        return \is_object($token) && \property_exists($token, $property) ? $token->{$property} : null;
+        return DoctrineLexer::getTokenField($token, 'type');
     }
 }
