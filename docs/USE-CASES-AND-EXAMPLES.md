@@ -193,6 +193,9 @@ SELECT o.id, o.amount / OVER(SUM(o.amount), PARTITION BY o.customer) AS share FR
 
 -- Paid revenue per customer next to every order, with FILTER inside OVER as in SQL
 SELECT o.id, OVER(FILTER(SUM(o.amount), WHERE o.status = 'paid'), PARTITION BY o.customer) AS paidTotal FROM Order o
+
+-- Each order next to the customer's previous order amount, 0 for their first order
+SELECT o.id, o.amount, OVER(LAG(o.amount, 1, 0), PARTITION BY o.customer ORDER BY o.createdAt) AS previousAmount FROM Order o
 ```
 
 - Filtering on a window result (`WHERE runningTotal > 100`) is not possible in DQL; use a native query or filter in PHP.

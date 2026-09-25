@@ -444,6 +444,11 @@ $configuration->addCustomStringFunction('VAR_POP', MartinGeorgiev\Doctrine\ORM\Q
 $configuration->addCustomStringFunction('VARIANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class);
 
 # Window functions
+$configuration->addCustomStringFunction('FIRST_VALUE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue::class);
+$configuration->addCustomStringFunction('LAG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag::class);
+$configuration->addCustomStringFunction('LAST_VALUE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValue::class);
+$configuration->addCustomStringFunction('LEAD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lead::class);
+$configuration->addCustomStringFunction('NTH_VALUE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValue::class);
 $configuration->addCustomStringFunction('OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over::class);
 
 # XML functions

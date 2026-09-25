@@ -694,6 +694,11 @@ return [
         'VARIANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class,
 
         # Window functions
+        'FIRST_VALUE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue::class,
+        'LAG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag::class,
+        'LAST_VALUE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValue::class,
+        'LEAD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lead::class,
+        'NTH_VALUE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValue::class,
         'OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over::class,
 
         # XML functions

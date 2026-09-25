@@ -62,7 +62,7 @@ Complete documentation for PostgreSQL XML processing, validation, and XPath quer
 ### **🪟 Window Functions**
 Complete documentation for PostgreSQL window functions, with `OVER` wrapping the call and its window specification, including frame clauses.
 - **[Window Functions](WINDOW-FUNCTIONS.md)**
-- Includes: `OVER` for running any aggregate as a window function
+- Includes: `OVER` for running any aggregate as a window function, value functions (`lag`, `lead`, `first_value`, `last_value`, `nth_value`)
 
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
@@ -199,6 +199,11 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `XPATH_EXISTS` - Test if an XPath expression matches any node in an XML value
 
 **Window Functions:** ([Complete documentation](WINDOW-FUNCTIONS.md))
+- `FIRST_VALUE` - Return the value at the first row of the window frame
+- `LAG` - Return the value from a row a given offset before the current row, or a default
+- `LAST_VALUE` - Return the value at the last row of the window frame
+- `LEAD` - Return the value from a row a given offset after the current row, or a default
+- `NTH_VALUE` - Return the value at the n-th row of the window frame
 - `OVER` - Run an aggregate or a window function over a window, e.g. running totals and moving averages
 
 ## 📋 Summary of Available Function Categories

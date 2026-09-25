@@ -677,6 +677,11 @@ doctrine:
                         VARIANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance
 
                         # Window functions
+                        FIRST_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue
+                        LAG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag
+                        LAST_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValue
+                        LEAD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lead
+                        NTH_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValue
                         OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over
 
                         # XML functions

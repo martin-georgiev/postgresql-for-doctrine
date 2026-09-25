@@ -156,6 +156,7 @@ $query = $em->createQuery('
   - Special aggregates (`any_value`, `xmlagg`)
 - **Window Functions**
   - Any aggregate over a window with `OVER`, including `PARTITION BY`, `ORDER BY` and `ROWS`, `RANGE` and `GROUPS` frame clauses
+  - Value functions (`lag`, `lead`, `first_value`, `last_value`, `nth_value`)
 - **Hstore Functions** (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
   - Key and value extraction (`akeys`, `avals`, `skeys`, `svals`)
   - Key inspection (`defined`)
