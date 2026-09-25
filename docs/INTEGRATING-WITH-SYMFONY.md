@@ -441,24 +441,33 @@ doctrine:
                         ARRAY_PREPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend
                         ARRAY_REMOVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove
                         ARRAY_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace
+                        ARRAY_REVERSE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReverse
                         ARRAY_SAMPLE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample
                         ARRAY_SHUFFLE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle
+                        ARRAY_SORT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySort
                         ARRAY_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson
                         ARRAY_TO_STRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString
                         ARRAY_UPPER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper
                         ASCII: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ascii
                         BTRIM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Btrim
+                        CASEFOLD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Casefold
                         CHAR_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CharLength
                         CHR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Chr
+                        CONCAT_WS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ConcatWs
                         DECODE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Decode
                         ENCODE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Encode
+                        FORMAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Format
                         INITCAP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Initcap
+                        LEFT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Left
                         LPAD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lpad
                         LTRIM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltrim
                         OCTET_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OctetLength
                         QUOTE_IDENT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteIdent
                         QUOTE_LITERAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteLiteral
                         QUOTE_NULLABLE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteNullable
+                        REPEAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Repeat
+                        REVERSE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Reverse
+                        RIGHT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Right
                         RPAD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rpad
                         RTRIM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rtrim
                         SPLIT_PART: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart
@@ -476,6 +485,8 @@ doctrine:
                         JSON_EACH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach
                         JSON_EACH_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText
                         JSON_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExists
+                        JSON_EXTRACT_PATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExtractPath
+                        JSON_EXTRACT_PATH_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExtractPathText
                         JSON_GET_FIELD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField
                         JSON_GET_FIELD_AS_INTEGER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger
                         JSON_GET_FIELD_AS_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText
@@ -500,6 +511,8 @@ doctrine:
                         JSONB_EACH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach
                         JSONB_EACH_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText
                         JSONB_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists
+                        JSONB_EXTRACT_PATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExtractPath
+                        JSONB_EXTRACT_PATH_TEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExtractPathText
                         JSONB_INSERT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert
                         JSONB_OBJECT_KEYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys
                         JSONB_PATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathExists
@@ -511,11 +524,13 @@ doctrine:
                         JSONB_SET: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet
                         JSONB_SET_LAX: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax
                         JSONB_STRIP_NULLS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls
+                        JSONB_TYPEOF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbTypeof
                         TO_JSONB: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb
 
                         # text search specific
                         ARRAY_TO_TSVECTOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToTsvector
                         JSON_TO_TSVECTOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonToTsvector
+                        JSONB_TO_TSVECTOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbToTsvector
                         PHRASETO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PhrasetoTsquery
                         PLAINTO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PlaintoTsquery
                         SETWEIGHT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Setweight
@@ -531,17 +546,25 @@ doctrine:
                         WEBSEARCH_TO_TSQUERY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery
 
                         # date specific functions
+                        AGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Age
+                        AT_TIME_ZONE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone
                         CLOCK_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp
                         DATE_ADD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd
                         DATE_BIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin
                         DATE_EXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract
                         DATE_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps
+                        DATE_PART: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DatePart
                         DATE_SUBTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract
                         DATE_TRUNC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc
+                        GENERATE_TIME_SERIES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateTimeSeries
                         ISFINITE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite
                         JUSTIFY_DAYS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyDays
                         JUSTIFY_HOURS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours
                         JUSTIFY_INTERVAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval
+                        MAKE_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate
+                        MAKE_TIME: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime
+                        MAKE_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp
+                        MAKE_TIMESTAMPTZ: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz
                         STATEMENT_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp
                         TRANSACTION_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp
 
@@ -563,8 +586,11 @@ doctrine:
                         EXP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp
                         FACTORIAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Factorial
                         FLOOR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor
+                        GAMMA: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gamma
                         GCD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gcd
+                        GENERATE_NUMERIC_SERIES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateNumericSeries
                         LCM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lcm
+                        LGAMMA: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lgamma
                         LN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln
                         LOG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log
                         MIN_SCALE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MinScale
@@ -605,6 +631,7 @@ doctrine:
                         TANH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh
 
                         # other operators
+                        COMPOSITE_FIELD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CompositeField
                         ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
                         SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo
                         NOT_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo
@@ -651,6 +678,188 @@ doctrine:
                         HSTORE_TO_JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJson
                         HSTORE_TO_JSON_LOOSE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose
 
+                        # PostGIS functions
+                        ST_3DDFULLYWITHIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDFullyWithin
+                        ST_3DDISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDistance
+                        ST_3DDWITHIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDWithin
+                        ST_3DINTERSECTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DIntersects
+                        ST_3DLENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DLength
+                        ST_3DPERIMETER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DPerimeter
+                        ST_AREA: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area
+                        ST_ASEWKT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsEWKT
+                        ST_ASGEOJSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON
+                        ST_ASTEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText
+                        ST_AZIMUTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Azimuth
+                        ST_BOUNDARY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Boundary
+                        ST_BUFFER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Buffer
+                        ST_CENTROID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Centroid
+                        ST_CLIPBYBOX2D: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ClipByBox2D
+                        ST_CLOSESTPOINT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ClosestPoint
+                        ST_COLLECT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Collect
+                        ST_COLLECTIONEXTRACT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionExtract
+                        ST_COLLECTIONHOMOGENIZE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionHomogenize
+                        ST_CONCAVEHULL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConcaveHull
+                        ST_CONTAINS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Contains
+                        ST_CONTAINSPROPERLY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ContainsProperly
+                        ST_CONVEXHULL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConvexHull
+                        ST_COORDDIM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoordDim
+                        ST_COVERAGEUNION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion
+                        ST_COVEREDBY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoveredBy
+                        ST_COVERS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Covers
+                        ST_CROSSES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Crosses
+                        ST_CURVEN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveN
+                        ST_CURVETOLINE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveToLine
+                        ST_DFULLYWITHIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_DFullyWithin
+                        ST_DIFFERENCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Difference
+                        ST_DISJOINT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Disjoint
+                        ST_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Distance
+                        ST_DWITHIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_DWithin
+                        ST_ENDPOINT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_EndPoint
+                        ST_ENVELOPE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope
+                        ST_EQUALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals
+                        ST_EXTERIORRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ExteriorRing
+                        ST_FLIPCOORDINATES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_FlipCoordinates
+                        ST_FORCE2D: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force2D
+                        ST_FORCE3D: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force3D
+                        ST_FORCE4D: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force4D
+                        ST_FRECHETDISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_FrechetDistance
+                        ST_GENERATEPOINTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeneratePoints
+                        ST_GEOMETRYN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryN
+                        ST_GEOMETRYTYPE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryType
+                        ST_GEOMFROMEWKT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromEWKT
+                        ST_GEOMFROMGEOJSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromGeoJSON
+                        ST_GEOMFROMTEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText
+                        ST_HASM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasM
+                        ST_HASZ: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ
+                        ST_HAUSDORFFDISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HausdorffDistance
+                        ST_INTERIORRINGN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_InteriorRingN
+                        ST_INTERSECTION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Intersection
+                        ST_INTERSECTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Intersects
+                        ST_ISCLOSED: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsClosed
+                        ST_ISEMPTY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsEmpty
+                        ST_ISVALID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValid
+                        ST_ISVALIDREASON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValidReason
+                        ST_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length
+                        ST_LENGTH2D: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length2D
+                        ST_LETTERS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Letters
+                        ST_LINECROSSINGDIRECTION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineCrossingDirection
+                        ST_LINEEXTEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineExtend
+                        ST_LINEINTERPOLATEPOINT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineInterpolatePoint
+                        ST_LINELOCATEPOINT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineLocatePoint
+                        ST_LINESUBSTRING: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineSubstring
+                        ST_LINETOCURVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineToCurve
+                        ST_MAKEENVELOPE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeEnvelope
+                        ST_MAKELINE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeLine
+                        ST_MAKEPOINT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakePoint
+                        ST_MAKEVALID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeValid
+                        ST_MAXDISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MaxDistance
+                        ST_MINIMUMBOUNDINGCIRCLE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MinimumBoundingCircle
+                        ST_NPOINTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NPoints
+                        ST_NUMCURVES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumCurves
+                        ST_NUMGEOMETRIES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumGeometries
+                        ST_NUMINTERIORRINGS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumInteriorRings
+                        ST_NUMPOINTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumPoints
+                        ST_OFFSETCURVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_OffsetCurve
+                        ST_ORDERINGEQUALS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_OrderingEquals
+                        ST_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Overlaps
+                        ST_PERIMETER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Perimeter
+                        ST_POINT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Point
+                        ST_POINTINSIDECIRCLE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointInsideCircle
+                        ST_POINTN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointN
+                        ST_POINTONSURFACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointOnSurface
+                        ST_PROJECT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Project
+                        ST_RELATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Relate
+                        ST_RELATEMATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RelateMatch
+                        ST_REMOVEIRRELEVANTPOINTSFORVIEW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveIrrelevantPointsForView
+                        ST_REMOVESMALLPARTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveSmallParts
+                        ST_REVERSE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Reverse
+                        ST_ROTATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Rotate
+                        ST_SCALE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Scale
+                        ST_SEGMENTIZE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Segmentize
+                        ST_SETSRID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SetSRID
+                        ST_SHORTESTLINE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ShortestLine
+                        ST_SIMPLIFY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Simplify
+                        ST_SIMPLIFYPOLYGONHULL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPolygonHull
+                        ST_SIMPLIFYPRESERVETOPOLOGY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPreserveTopology
+                        ST_SIMPLIFYVW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyVW
+                        ST_SNAP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Snap
+                        ST_SPLIT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Split
+                        ST_SRID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SRID
+                        ST_STARTPOINT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_StartPoint
+                        ST_SUBDIVIDE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Subdivide
+                        ST_SYMDIFFERENCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SymDifference
+                        ST_TILEENVELOPE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TileEnvelope
+                        ST_TOUCHES: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Touches
+                        ST_TRANSFORM: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Transform
+                        ST_TRANSLATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Translate
+                        ST_TRIANGULATEPOLYGON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TriangulatePolygon
+                        ST_UNARYUNION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_UnaryUnion
+                        ST_UNION: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Union
+                        ST_VORONOIPOLYGONS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_VoronoiPolygons
+                        ST_WITHIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Within
+                        ST_X: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_X
+                        ST_Y: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Y
+                        ST_Z: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Z
+
+                        # PostGIS operators
+                        BOUNDING_BOX_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance # <#>
+                        GEOMETRY_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance # <->
+                        ND_BOUNDING_BOX_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance # <<#>>
+                        ND_CENTROID_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance # <<->>
+                        ND_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps # &&&
+                        OVERLAPS_ABOVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsAbove # |&>
+                        OVERLAPS_BELOW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsBelow # &<|
+                        OVERLAPS_LEFT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsLeft # &<
+                        OVERLAPS_RIGHT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsRight # &>
+                        SPATIAL_CONTAINED_BY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialContainedBy # @
+                        SPATIAL_CONTAINS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialContains # ~
+                        SPATIAL_SAME: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialSame # ~=
+                        STRICTLY_ABOVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyAbove # |>>
+                        STRICTLY_BELOW: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyBelow # <<|
+                        STRICTLY_LEFT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyLeft # <<
+                        STRICTLY_RIGHT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyRight # >>
+                        TRAJECTORY_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\TrajectoryDistance # |=|
+
+                        # pg_trgm functions
+                        SIMILARITY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\Similarity
+                        STRICT_WORD_SIMILARITY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarity
+                        WORD_SIMILARITY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarity
+
+                        # pg_trgm operators
+                        ARE_SIMILAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\AreSimilar # %
+                        CONTAINS_STRICT_WORD_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ContainsStrictWordSimilarTo # %>>
+                        CONTAINS_WORD_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ContainsWordSimilarTo # %>
+                        IS_STRICT_WORD_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\IsStrictWordSimilarTo # <<%
+                        IS_WORD_SIMILAR_TO: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\IsWordSimilarTo # <%
+                        REVERSE_STRICT_WORD_SIMILARITY_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseStrictWordSimilarityDistance # <->>>
+                        REVERSE_WORD_SIMILARITY_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseWordSimilarityDistance # <->>
+                        SIMILARITY_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\SimilarityDistance # <->
+                        STRICT_WORD_SIMILARITY_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarityDistance # <<<->
+                        WORD_SIMILARITY_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarityDistance # <<->
+
+                        # fuzzystrmatch functions
+                        DAITCH_MOKOTOFF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DaitchMokotoff
+                        DIFFERENCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Difference
+                        DMETAPHONE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Dmetaphone
+                        DMETAPHONE_ALT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DmetaphoneAlt
+                        LEVENSHTEIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Levenshtein
+                        LEVENSHTEIN_LESS_EQUAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\LevenshteinLessEqual
+                        METAPHONE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Metaphone
+                        SOUNDEX: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Soundex
+
+                        # network address functions
+                        ABBREV: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Abbrev
+                        BROADCAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Broadcast
+                        FAMILY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Family
+                        HOST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Host
+                        HOSTMASK: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Hostmask
+                        INET_MERGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\InetMerge
+                        INET_SAME_FAMILY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\InetSameFamily
+                        MASKLEN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Masklen
+                        NETMASK: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Netmask
+                        NETWORK: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Network
+                        SET_MASKLEN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\SetMasklen
+
                         # aggregation functions
                         ARRAY_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg
                         BIT_AND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitAnd
@@ -670,6 +879,8 @@ doctrine:
                         MODE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Mode
                         PERCENTILE_CONT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont
                         PERCENTILE_DISC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileDisc
+                        RANGE_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeAgg
+                        RANGE_INTERSECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeIntersectAgg
                         STDDEV: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev
                         STDDEV_POP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
