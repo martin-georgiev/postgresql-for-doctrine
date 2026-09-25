@@ -224,11 +224,22 @@ Change the matching PHP enum case's backing value in the same deploy. Once the l
 
 ### Removing a case
 
-PostgreSQL cannot remove an enum label (`DROP VALUE` is not implemented). The workaround is to create a new type and migrate the column:
+PostgreSQL cannot remove an enum label (`DROP VALUE` is not implemented). Instead, move the data off the label, create a type without it, convert every column that uses the old type, and swap the names. Removing `processing` from the `orders` table above:
 
-```sql
-CREATE TYPE order_status_new AS ENUM ('pending', 'processing', 'shipped', 'cancelled', 'returned');
-ALTER TABLE orders ALTER COLUMN status TYPE order_status_new USING status::text::order_status_new;
-DROP TYPE order_status;
-ALTER TYPE order_status_new RENAME TO order_status;
+```php
+public function up(Schema $schema): void
+{
+    $this->addSql("UPDATE orders SET status = 'pending' WHERE status = 'processing'");
+    $this->addSql("UPDATE orders SET status_trail = array_remove(status_trail, 'processing')");
+    $this->addSql("CREATE TYPE order_status_new AS ENUM ('pending', 'shipped', 'cancelled', 'returned')");
+    $this->addSql('ALTER TABLE orders ALTER COLUMN status DROP DEFAULT, ALTER COLUMN status_trail DROP DEFAULT');
+    $this->addSql('ALTER TABLE orders
+        ALTER COLUMN status TYPE order_status_new USING status::text::order_status_new,
+        ALTER COLUMN status_trail TYPE order_status_new[] USING status_trail::text[]::order_status_new[]');
+    $this->addSql('DROP TYPE order_status');
+    $this->addSql('ALTER TYPE order_status_new RENAME TO order_status');
+    $this->addSql("ALTER TABLE orders ALTER COLUMN status SET DEFAULT 'pending', ALTER COLUMN status_trail SET DEFAULT '{}'");
+}
 ```
+
+A row still holding the removed label makes the conversion fail, so decide where those rows go first. The defaults are dropped and restored because PostgreSQL cannot cast a default to the new type automatically. The whole sequence runs inside the migration's transaction. Remove the matching case from the PHP enum in the same deploy.
