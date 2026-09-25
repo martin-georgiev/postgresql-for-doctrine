@@ -193,6 +193,9 @@ SELECT o.id, o.amount / OVER(SUM(o.amount), PARTITION BY o.customer) AS share FR
 
 -- Paid revenue per customer next to every order, with FILTER inside OVER as in SQL
 SELECT o.id, OVER(FILTER(SUM(o.amount), WHERE o.status = 'paid'), PARTITION BY o.customer) AS paidTotal FROM Order o
+
+-- Each order next to the customer's previous order amount, 0 for their first order
+SELECT o.id, o.amount, OVER(LAG(o.amount, 1, 0), PARTITION BY o.customer ORDER BY o.createdAt) AS previousAmount FROM Order o
 ```
 
 The ranking functions (`ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE`) exist only inside `OVER`:

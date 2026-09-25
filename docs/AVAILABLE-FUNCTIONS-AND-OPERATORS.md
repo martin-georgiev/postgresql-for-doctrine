@@ -62,7 +62,7 @@ Complete documentation for PostgreSQL XML processing, validation, and XPath quer
 ### **🪟 Window Functions**
 Complete documentation for PostgreSQL window functions, with `OVER` wrapping the call and its window specification, including frame clauses.
 - **[Window Functions](WINDOW-FUNCTIONS.md)**
-- Includes: `OVER` for running any aggregate as a window function, and the ranking functions `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE`
+- Includes: `OVER` for running any aggregate as a window function, the ranking functions `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE`, and the value functions `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, `NTH_VALUE`
 
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
@@ -200,7 +200,11 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 
 **Window Functions:** ([Complete documentation](WINDOW-FUNCTIONS.md))
 - `OVER` - Run an aggregate or a window function over a window, e.g. running totals and moving averages
-- `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE` - Number, rank or bucket each row within its partition, used inside `OVER`
+- `ROW_NUMBER`/`RANK`/`DENSE_RANK` - Number or rank rows within their partition
+- `PERCENT_RANK`/`CUME_DIST` - Relative rank and cumulative distribution within the partition
+- `NTILE` - Split the partition into a number of buckets
+- `LAG`/`LEAD` - Value from a row before or after the current one
+- `FIRST_VALUE`/`LAST_VALUE`/`NTH_VALUE` - Value from the first, last or n-th row of the window frame
 
 ## 📋 Summary of Available Function Categories
 

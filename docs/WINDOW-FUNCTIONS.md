@@ -26,7 +26,7 @@ In SQL, `OVER (...)` follows the function's closing parenthesis. DQL cannot pars
 
 - DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`.
 - Any aggregate from this library, such as `ARRAY_AGG`, `STRING_AGG` or `BOOL_AND`, and a `FILTER(...)` around one.
-- A window-only function: the [ranking functions](#ranking-functions) `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST` and `NTILE`, or any other function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WindowFunction`. Implement it, or `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction` for an aggregate, on a function of your own to window that one too.
+- A window-only function: the [ranking functions](#ranking-functions) `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST` and `NTILE`, the [value functions](#value-functions) `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE`, or any other function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WindowFunction`. Implement it, or `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction` for an aggregate, on a function of your own to window that one too.
 
 Anything else, including a scalar function or a nested `OVER`, throws a `ParserException`, as PostgreSQL would reject it.
 
@@ -101,6 +101,31 @@ SELECT s.id, OVER(NTILE(4), PARTITION BY s.region ORDER BY s.amount) AS quartile
 SELECT p.name, OVER(PERCENT_RANK(), ORDER BY p.score) AS percentile FROM App\Entity\Player p
 ```
 
+## Value Functions
+
+A value function returns a value read from another row of the window.
+
+| PostgreSQL function | Register for DQL as | Arguments | Implemented by |
+|---|---|---|---|
+| lag(value [, offset [, default]]) | LAG | 1 to 3 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag` |
+| lead(value [, offset [, default]]) | LEAD | 1 to 3 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lead` |
+| first_value(value) | FIRST_VALUE | 1 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue` |
+| last_value(value) | LAST_VALUE | 1 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValue` |
+| nth_value(value, n) | NTH_VALUE | 2 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValue` |
+
+| SQL | DQL |
+|---|---|
+| `lag(e.price) OVER (PARTITION BY e.product ORDER BY e.day)` | `OVER(LAG(e.price), PARTITION BY e.product ORDER BY e.day)` |
+| `lag(e.price, 2, 0) OVER (ORDER BY e.day)` | `OVER(LAG(e.price, 2, 0), ORDER BY e.day)` |
+| `lead(e.price, 1, NULL) OVER (ORDER BY e.day)` | `OVER(LEAD(e.price, 1, NULL), ORDER BY e.day)` |
+| `first_value(e.price) OVER (ORDER BY e.day)` | `OVER(FIRST_VALUE(e.price), ORDER BY e.day)` |
+| `last_value(e.price) OVER (ORDER BY e.day ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)` | `OVER(LAST_VALUE(e.price), ORDER BY e.day ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)` |
+| `nth_value(e.price, 2) OVER (ORDER BY e.day)` | `OVER(NTH_VALUE(e.price, 2), ORDER BY e.day)` |
+
+- `LAG` and `LEAD` read the row `offset` rows before or after the current one within the partition. `offset` defaults to 1, and `default` (NULL unless given) is returned when that row does not exist. `default` may be a literal `NULL`.
+- `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE` read the window frame, not the whole partition. With an `ORDER BY` the default frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`, which ends at the current row's last peer (the last row with the same `ORDER BY` values). So `LAST_VALUE` returns that peer's value, which differs from the current row's when peers hold different values, and `NTH_VALUE` returns NULL until the frame reaches its n-th row. Add a tie-breaker to `ORDER BY` (e.g. the id) or use an explicit `ROWS` frame to make the result deterministic, and `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING` to read the whole partition.
+- The value argument is polymorphic, so PostgreSQL cannot resolve a bare string literal such as `LAG('none')`, nor a parameter, and fails with `could not determine polymorphic type because input has type unknown`. Pass a field, an expression over one, or a numeric literal. A string literal or a parameter as `default` is fine, as the value argument already decides the type.
+
 ## Usage Examples
 
 ```sql
@@ -115,6 +140,12 @@ SELECT s.id, s.amount, OVER(SUM(s.amount), PARTITION BY s.region) AS regionTotal
 
 -- Next to a selected entity: each result row is [0 => Order, 'runningTotal' => ...]
 SELECT o, OVER(SUM(o.amount), ORDER BY o.createdAt) AS runningTotal FROM App\Entity\Order o ORDER BY o.createdAt
+
+-- Day-over-day change per product, 0 on each product's first day
+SELECT p.day, p.price - OVER(LAG(p.price, 1, p.price), PARTITION BY p.product ORDER BY p.day) AS change FROM App\Entity\DailyPrice p
+
+-- Each sale next to the highest amount in its region
+SELECT s.id, s.amount, OVER(LAST_VALUE(s.amount), PARTITION BY s.region ORDER BY s.amount ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS regionHighest FROM App\Entity\Sale s
 ```
 
 ## Limitations

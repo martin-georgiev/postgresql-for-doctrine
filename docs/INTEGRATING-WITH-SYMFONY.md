@@ -679,6 +679,11 @@ doctrine:
                         # Window functions
                         CUME_DIST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDist
                         DENSE_RANK: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRank
+                        FIRST_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue
+                        LAG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag
+                        LAST_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValue
+                        LEAD: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lead
+                        NTH_VALUE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValue
                         NTILE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ntile
                         OVER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over
                         PERCENT_RANK: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRank
