@@ -444,12 +444,18 @@ $configuration->addCustomStringFunction('VAR_POP', MartinGeorgiev\Doctrine\ORM\Q
 $configuration->addCustomStringFunction('VARIANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class);
 
 # Window functions
+$configuration->addCustomStringFunction('CUME_DIST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDist::class);
+$configuration->addCustomStringFunction('DENSE_RANK', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRank::class);
 $configuration->addCustomStringFunction('FIRST_VALUE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue::class);
 $configuration->addCustomStringFunction('LAG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag::class);
 $configuration->addCustomStringFunction('LAST_VALUE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValue::class);
 $configuration->addCustomStringFunction('LEAD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lead::class);
 $configuration->addCustomStringFunction('NTH_VALUE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValue::class);
+$configuration->addCustomStringFunction('NTILE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ntile::class);
 $configuration->addCustomStringFunction('OVER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over::class);
+$configuration->addCustomStringFunction('PERCENT_RANK', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRank::class);
+$configuration->addCustomStringFunction('RANK', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rank::class);
+$configuration->addCustomStringFunction('ROW_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumber::class);
 
 # XML functions
 $configuration->addCustomStringFunction('XML_IS_WELL_FORMED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class);

@@ -62,7 +62,7 @@ Complete documentation for PostgreSQL XML processing, validation, and XPath quer
 ### **🪟 Window Functions**
 Complete documentation for PostgreSQL window functions, with `OVER` wrapping the call and its window specification, including frame clauses.
 - **[Window Functions](WINDOW-FUNCTIONS.md)**
-- Includes: `OVER` for running any aggregate as a window function, value functions (`lag`, `lead`, `first_value`, `last_value`, `nth_value`)
+- Includes: `OVER` for running any aggregate as a window function, the ranking functions `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE`, and the value functions `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, `NTH_VALUE`
 
 ### **🌐 Network Address Functions**
 Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
@@ -205,6 +205,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `LEAD` - Return the value from a row a given offset after the current row, or a default
 - `NTH_VALUE` - Return the value at the n-th row of the window frame
 - `OVER` - Run an aggregate or a window function over a window, e.g. running totals and moving averages
+- `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE` - Number, rank or bucket each row within its partition, used inside `OVER`
 
 ## 📋 Summary of Available Function Categories
 

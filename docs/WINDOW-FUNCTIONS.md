@@ -26,7 +26,7 @@ In SQL, `OVER (...)` follows the function's closing parenthesis. DQL cannot pars
 
 - DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`.
 - Any aggregate from this library, such as `ARRAY_AGG`, `STRING_AGG` or `BOOL_AND`, and a `FILTER(...)` around one.
-- A window-only function: the [value functions](#value-functions) `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE`, or any other function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WindowFunction`. Implement it, or `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction` for an aggregate, on a function of your own to window that one too.
+- A window-only function: the [ranking functions](#ranking-functions) `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST` and `NTILE`, the [value functions](#value-functions) `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE`, or any other function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WindowFunction`. Implement it, or `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction` for an aggregate, on a function of your own to window that one too.
 
 Anything else, including a scalar function or a nested `OVER`, throws a `ParserException`, as PostgreSQL would reject it.
 
@@ -67,6 +67,39 @@ A frame narrows the rows of the partition a function reads for the current row. 
 - `offset` is an integer, a decimal, a string literal or a parameter. A string literal serves `RANGE` over dates and timestamps, e.g. `RANGE BETWEEN '7 days' PRECEDING AND CURRENT ROW`.
 - The keywords are case-insensitive.
 - Only the syntax is checked in DQL. PostgreSQL rejects the combinations it does not allow, such as `UNBOUNDED FOLLOWING` as the start, a frame end before its start, or an offset `RANGE` without exactly one `ORDER BY` column.
+
+## Ranking Functions
+
+These are window-only functions: they exist only inside `OVER`, and number or rank each row within its partition in the order of the window's `ORDER BY`. Rows with equal `ORDER BY` values are peers.
+
+| PostgreSQL function | Register for DQL as | Arguments | Implemented by |
+|---|---|---|---|
+| row_number | ROW_NUMBER | none | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumber` |
+| rank | RANK | none | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rank` |
+| dense_rank | DENSE_RANK | none | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRank` |
+| percent_rank | PERCENT_RANK | none | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRank` |
+| cume_dist | CUME_DIST | none | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDist` |
+| ntile | NTILE | number of buckets | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ntile` |
+
+- `ROW_NUMBER` numbers the rows 1, 2, 3, ... with no ties; peers are numbered in an unspecified order.
+- `RANK` gives peers the same rank and leaves a gap after them (1, 1, 3); `DENSE_RANK` leaves none (1, 1, 2).
+- `PERCENT_RANK` is `(rank - 1) / (rows in the partition - 1)`, or `0.0` for a single-row partition, and `CUME_DIST` is the fraction of rows in the partition that precede the current row or are its peers. Both return `double precision`.
+- `NTILE(n)` divides the partition into `n` buckets as equally as possible and returns the current row's bucket, from 1 to `n`. The bucket count is an integer, a field, an arithmetic expression or a parameter.
+- Frame clauses do not affect ranking functions; PostgreSQL ignores them.
+
+```sql
+-- Number each customer's orders, newest first
+SELECT o.id, OVER(ROW_NUMBER(), PARTITION BY o.customer ORDER BY o.createdAt DESC) AS orderNumber FROM App\Entity\Order o
+
+-- A leaderboard: RANK skips after ties (1, 1, 3), DENSE_RANK does not (1, 1, 2)
+SELECT p.name, p.score, OVER(RANK(), ORDER BY p.score DESC) AS scoreRank, OVER(DENSE_RANK(), ORDER BY p.score DESC) AS denseScoreRank FROM App\Entity\Player p
+
+-- Split each region's sales into quartiles
+SELECT s.id, OVER(NTILE(4), PARTITION BY s.region ORDER BY s.amount) AS quartile FROM App\Entity\Sale s
+
+-- Where each score sits in the distribution, from 0 to 1
+SELECT p.name, OVER(PERCENT_RANK(), ORDER BY p.score) AS percentile FROM App\Entity\Player p
+```
 
 ## Value Functions
 
@@ -118,6 +151,7 @@ SELECT s.id, s.amount, OVER(LAST_VALUE(s.amount), PARTITION BY s.region ORDER BY
 ## Limitations
 
 - **You cannot filter on a window result in DQL.** PostgreSQL computes window functions after `WHERE`, `GROUP BY` and `HAVING`, so `WHERE runningTotal > 100` is invalid SQL, not just invalid DQL. The standard fix - wrapping the query in a subquery in `FROM` and filtering outside it - is something DQL cannot express. Use a native query with a `ResultSetMapping`, or filter the rows in PHP.
+- **A window-only function outside `OVER` parses, but PostgreSQL rejects it when the query runs** (`window function row_number requires an OVER clause`).
 - **No named windows.** There is no `WINDOW w AS (...)` clause; every call spells out its own specification, even when several calls share it.
 - **No `NULLS FIRST` / `NULLS LAST`.** The window `ORDER BY` reuses DQL's `ORDER BY` items, which do not support them.
 - **No `DISTINCT` in a window aggregate.** PostgreSQL rejects `OVER(COUNT(DISTINCT e.id))`.

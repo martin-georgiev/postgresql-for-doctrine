@@ -694,12 +694,18 @@ return [
         'VARIANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Variance::class,
 
         # Window functions
+        'CUME_DIST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CumeDist::class,
+        'DENSE_RANK' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DenseRank::class,
         'FIRST_VALUE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue::class,
         'LAG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag::class,
         'LAST_VALUE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValue::class,
         'LEAD' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lead::class,
         'NTH_VALUE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValue::class,
+        'NTILE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ntile::class,
         'OVER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over::class,
+        'PERCENT_RANK' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentRank::class,
+        'RANK' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rank::class,
+        'ROW_NUMBER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowNumber::class,
 
         # XML functions
         'XML_IS_WELL_FORMED' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed::class,
