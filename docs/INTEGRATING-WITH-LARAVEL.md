@@ -20,6 +20,8 @@ php artisan vendor:publish --tag="config" --provider="LaravelDoctrine\ORM\Doctri
 
 Register the DBAL types you plan to use. The **full set** of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
 
+The per-manager `mapping_types` block maps PostgreSQL's own type names (like `_text` or `jsonb`) to the registered Doctrine types, and is the Laravel equivalent of calling `registerDoctrineTypeMapping()` on the platform.
+
 ```php
 <?php
 // config/doctrine.php
@@ -31,7 +33,7 @@ return [
         'default' => [
             // ... other configuration
 
-            'type_mappings' => [
+            'mapping_types' => [
                 // Binary type mappings
                 'bytea' => 'bytea',
                 'bytea[]' => 'bytea[]',
@@ -385,7 +387,7 @@ return [
 > Columns holding an array of that enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`, registered alongside the scalar one:
 >
 > ```php
-> 'types' => [
+> 'custom_types' => [
 >     'status' => App\Doctrine\Type\StatusType::class,
 >     'status[]' => App\Doctrine\Type\StatusArrayType::class,
 > ],
@@ -397,7 +399,7 @@ return [
 > Columns holding an array of that composite get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray`, registered alongside the scalar one:
 >
 > ```php
-> 'types' => [
+> 'custom_types' => [
 >     'inventory_item' => App\Doctrine\Type\InventoryItemType::class,
 >     'inventory_item[]' => App\Doctrine\Type\InventoryItemArrayType::class,
 > ],
