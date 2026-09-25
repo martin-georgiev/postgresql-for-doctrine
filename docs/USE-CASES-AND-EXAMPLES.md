@@ -396,7 +396,7 @@ WHERE e.trajectory1 IS NOT NULL
 -- 3D distance calculations
 SELECT e, ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance3d
 FROM Entity e
-WHERE ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
+WHERE ND_BOUNDING_BOX_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
 ```
 
 #### Operator Conflicts and Best Practices
