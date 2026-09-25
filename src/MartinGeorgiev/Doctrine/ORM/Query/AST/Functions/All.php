@@ -9,7 +9,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * Evaluates to true if the comparison holds for every element of the array expression.
  *
- * @see https://www.postgresql.org/docs/9.4/static/functions-subquery.html#FUNCTIONS-SUBQUERY-ALL
+ * @see https://www.postgresql.org/docs/18/functions-comparisons.html#FUNCTIONS-COMPARISONS-ALL
  * @since 0.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
