@@ -23,7 +23,7 @@ If your application relies on automatic type conversion between PostgreSQL and P
 
 ```php
 // Before: Might convert '1.0' to integer 1
-$tags = $entity- >getTags(); // ['1.0', '2.5']
+$tags = $entity->getTags(); // ['1.0', '2.5']
 $numericValue = $tags[0] + 2; // Would work even if string
 
 // After: Preserves '1.0' as string
