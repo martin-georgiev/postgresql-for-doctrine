@@ -20,7 +20,7 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-abstract class BaseOrderedSetAggregateFunction extends BaseFunction
+abstract class BaseOrderedSetAggregateFunction extends BaseFunction implements AggregateFunction
 {
     use OrderableTrait;
 
