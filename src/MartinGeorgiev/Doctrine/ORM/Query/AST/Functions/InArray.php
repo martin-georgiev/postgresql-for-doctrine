@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE IN_ARRAY(e.confirmedValue, e.aliasValues) = TRUE"
+ * @example Using it in DQL: "SELECT e.id FROM Entity e WHERE IN_ARRAY(:value, e.aliasValues) = TRUE"
  */
 class InArray extends BaseFunction
 {

@@ -18,7 +18,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOpti
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_LENGTH(g.geometry) FROM Entity g"
- * @example Using it in DQL (geography): "SELECT ST_LENGTH(g.geography, TRUE) FROM Entity g"
+ * @example Using it in DQL (geography): "SELECT ST_LENGTH(g.geography, 'true') FROM Entity g"
  */
 class ST_Length extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {

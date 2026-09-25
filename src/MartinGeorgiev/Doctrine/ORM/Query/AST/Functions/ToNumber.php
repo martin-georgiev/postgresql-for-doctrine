@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Andrei Karpilin <karpilin@gmail.com>
  *
- * @example Using it in DQL: "SELECT TO_NUMBER(e.text) FROM Entity e"
+ * @example Using it in DQL: "SELECT TO_NUMBER(e.text, '99G999D9S') FROM Entity e"
  */
 class ToNumber extends BaseFunction
 {

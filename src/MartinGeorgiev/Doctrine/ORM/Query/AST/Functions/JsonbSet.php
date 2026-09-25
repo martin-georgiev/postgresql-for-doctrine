@@ -20,7 +20,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL with path and value: "SELECT JSONB_SET(e.jsonbData, '{address,city}', '\"Sofia\"') FROM Entity e"
- * @example Using it in DQL with create_if_missing flag: "SELECT JSONB_SET(e.jsonbData, '{address,city}', '\"Sofia\"', false) FROM Entity e"
+ * @example Using it in DQL with create_if_missing flag: "SELECT JSONB_SET(e.jsonbData, '{address,city}', '\"Sofia\"', 'false') FROM Entity e"
  */
 class JsonbSet extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
