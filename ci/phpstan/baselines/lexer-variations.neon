@@ -59,6 +59,17 @@ parameters:
             message: '#Fetching deprecated class constant T_GROUP of class Doctrine\\ORM\\Query\\Lexer#'
             reportUnmatched: false
 
+        # Matched with ORM 2.14-2.18 only (the TokenType enum arrived in 2.19, so the lexer-split ternaries widen to mixed).
+        -
+            message: '#Access to constant T_[A-Z_]+ on an unknown class Doctrine\\ORM\\Query\\TokenType#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects [0-9|]+, mixed given.#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$type of method Doctrine\\Common\\Lexer\\AbstractLexer<int,string>::isNextToken\(\) expects [0-9|]+, mixed given.#'
+            reportUnmatched: false
+
         # Matched with ORM 3.x only (TokenType enum replaced the int|string token).
         -
             message: '#Parameter \#1 \$token of method Doctrine\\ORM\\Query\\Parser::match\(\) expects Doctrine\\ORM\\Query\\TokenType, mixed given.#'
