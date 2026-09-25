@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont;
 use PHPUnit\Framework\Attributes\Test;
 
-final class AggregateFilterTest extends NumericTestCase
+final class FilterTest extends NumericTestCase
 {
     protected function getStringFunctions(): array
     {
         return [
             'ARRAY_AGG' => ArrayAgg::class,
-            'FILTER' => AggregateFilter::class,
+            'FILTER' => Filter::class,
             'PERCENTILE_CONT' => PercentileCont::class,
         ];
     }

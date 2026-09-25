@@ -6,20 +6,20 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-final class AggregateFilterTest extends TestCase
+final class FilterTest extends TestCase
 {
     protected function getStringFunctions(): array
     {
         return [
             'ARRAY_AGG' => ArrayAgg::class,
-            'FILTER' => AggregateFilter::class,
+            'FILTER' => Filter::class,
             'PERCENTILE_CONT' => PercentileCont::class,
         ];
     }

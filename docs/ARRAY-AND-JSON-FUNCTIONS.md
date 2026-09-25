@@ -129,7 +129,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | array | ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr` |
 | value = ANY(list of values) | IN_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray` |
 | CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` |
-| aggregate FILTER (WHERE condition) | FILTER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter` |
+| aggregate FILTER (WHERE condition) | FILTER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter` |
 
 ### `FILTER` wraps the aggregate in DQL
 

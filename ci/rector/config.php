@@ -97,8 +97,6 @@ return RectorConfig::configure()
         ],
         // skip as it breaks support for Lexer constants on older Doctrine versions
         RenameClassConstFetchRector::class => [
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/AggregateFilter.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/AggregateOver.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseAggregateFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseOrderedSetAggregateFunction.php',
@@ -106,7 +104,9 @@ return RectorConfig::configure()
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseWindowFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Cast.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/CompositeField.php',
+            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Filter.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/JsonGetField.php',
+            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Over.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/StringAgg.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/XmlAgg.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/XmlPi.php',

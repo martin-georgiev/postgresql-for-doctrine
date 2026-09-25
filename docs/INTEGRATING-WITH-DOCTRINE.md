@@ -429,7 +429,7 @@ $configuration->addCustomStringFunction('CORR', MartinGeorgiev\Doctrine\ORM\Quer
 $configuration->addCustomStringFunction('COVAR_POP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop::class);
 $configuration->addCustomStringFunction('COVAR_SAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp::class);
 $configuration->addCustomStringFunction('EVERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every::class);
-$configuration->addCustomStringFunction('FILTER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter::class);
+$configuration->addCustomStringFunction('FILTER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter::class);
 $configuration->addCustomStringFunction('JSON_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class);
 $configuration->addCustomStringFunction('JSON_OBJECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class);
 $configuration->addCustomStringFunction('JSONB_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class);
