@@ -62,13 +62,13 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 // Single-item geometry[] array
 $qb = $connection->createQueryBuilder();
 $qb->insert('locations')->values(['geometries' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', [WktSpatialData::fromWkt('POINT(0 0)')], 'geometry[]');
+$qb->setParameter('wktSpatialData', [WktSpatialData::fromString('POINT(0 0)')], 'geometry[]');
 $qb->executeStatement();
 
 // Single geography value
 $qb = $connection->createQueryBuilder();
 $qb->insert('places')->values(['locations' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
+$qb->setParameter('wktSpatialData', WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
 $qb->executeStatement();
 ```
 
@@ -77,12 +77,12 @@ $qb->executeStatement();
 
 ```php
 // Single-item arrays
-$singleGeometry = [WktSpatialData::fromWkt('POINT(0 0)')];
-$singleGeography = [WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)')];
+$singleGeometry = [WktSpatialData::fromString('POINT(0 0)')];
+$singleGeography = [WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)')];
 
 // Complex single geometries
-$complexGeometry = [WktSpatialData::fromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))')];
-$geometryWithSrid = [WktSpatialData::fromWkt('SRID=4326;LINESTRING(-122 37,-121 38)')];
+$complexGeometry = [WktSpatialData::fromString('POLYGON((0 0,0 1,1 1,1 0,0 0))')];
+$geometryWithSrid = [WktSpatialData::fromString('SRID=4326;LINESTRING(-122 37,-121 38)')];
 ```
 
 ## Multi-Item Arrays
@@ -91,8 +91,8 @@ Multi-item `geometry[]` and `geography[]` arrays bind through Doctrine DBAL like
 
 ```php
 $entity->setGeometries([
-    WktSpatialData::fromWkt('POINT(1 2)'),
-    WktSpatialData::fromWkt('LINESTRING(0 0,1 1)'),
+    WktSpatialData::fromString('POINT(1 2)'),
+    WktSpatialData::fromString('LINESTRING(0 0,1 1)'),
 ]);
 ```
 

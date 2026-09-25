@@ -326,19 +326,19 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 // Insert a single geometry value
 $qb = $connection->createQueryBuilder();
 $qb->insert('places')->values(['location' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('POINT(1 2)'), 'geometry');
+$qb->setParameter('wktSpatialData', WktSpatialData::fromString('POINT(1 2)'), 'geometry');
 $qb->executeStatement();
 
 // Insert a single geography value with SRID
 $qb = $connection->createQueryBuilder();
 $qb->insert('places')->values(['boundary' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
+$qb->setParameter('wktSpatialData', WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
 $qb->executeStatement();
 
 // Insert a single-item geometry[] array
 $qb = $connection->createQueryBuilder();
 $qb->insert('routes')->values(['geometriesLines' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', [WktSpatialData::fromWkt('LINESTRING(0 0, 1 1)')], 'geometry[]');
+$qb->setParameter('wktSpatialData', [WktSpatialData::fromString('LINESTRING(0 0, 1 1)')], 'geometry[]');
 $qb->executeStatement();
 ```
 
@@ -450,7 +450,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 DoctrineType::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
 DoctrineType::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
 
-$location = WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)');
+$location = WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)');
 $entity->setLocation($location);
 ```
 
