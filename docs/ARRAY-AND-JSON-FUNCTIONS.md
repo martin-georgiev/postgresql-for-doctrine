@@ -131,6 +131,21 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` |
 | aggregate FILTER (WHERE condition) | FILTER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFilter` |
 
+### `FILTER` wraps the aggregate in DQL
+
+In SQL, `FILTER (WHERE ...)` follows the aggregate's closing parenthesis. DQL cannot parse anything after a function's closing parenthesis, so in DQL `FILTER` becomes a function **around** the aggregate, with the condition as its second argument:
+
+| SQL | DQL |
+|---|---|
+| `COUNT(e.id) FILTER (WHERE e.status = 'active')` | `FILTER(COUNT(e.id), WHERE e.status = 'active')` |
+| `SUM(e.amount) FILTER (WHERE e.refunded = false)` | `FILTER(SUM(e.amount), WHERE e.refunded = FALSE)` |
+| `array_agg(e.id ORDER BY e.createdAt) FILTER (WHERE e.archivedAt IS NULL)` | `FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archivedAt IS NULL)` |
+| `percentile_cont(0.5) WITHIN GROUP (ORDER BY e.amount) FILTER (WHERE e.paid = true)` | `FILTER(PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY e.amount), WHERE e.paid = TRUE)` |
+
+- A comma separates the aggregate from `WHERE`, and the condition has no parentheses around it.
+- The first argument must be an aggregate: DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`, or a function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction`. Every aggregate in this library implements it; implement it on an aggregate of your own to wrap that one too. Anything else, including a nested `FILTER`, throws a `ParserException`, as PostgreSQL would reject it.
+- The condition takes anything a DQL `WHERE` does, including parameters.
+
 ## Usage Examples
 
 ```sql
@@ -144,7 +159,7 @@ SELECT e.id, JSON_BUILD_OBJECT('name', e.name, 'status', e.status, 'score', e.sc
 -- ARRAY_AGG with ORDER BY inside the aggregate
 SELECT e.category, ARRAY_AGG(e.id ORDER BY e.createdAt DESC) as entity_ids FROM Entity e GROUP BY e.category
 
--- FILTER wraps any aggregate, DQL's own or this library's, and takes the condition after WHERE as its second argument
+-- FILTER wraps the aggregate in DQL (see above)
 SELECT e.category, FILTER(COUNT(e.id), WHERE e.status = 'active') as active_count FROM Entity e GROUP BY e.category
 SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archivedAt IS NULL) as live_ids FROM Entity e GROUP BY e.category
 ```
@@ -154,4 +169,3 @@ SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archived
 2. **Array functions** provide efficient PostgreSQL array operations
 3. **JSON functions** support both JSON and JSONB data types
 4. **JSONB functions** offer better performance for complex JSON operations
-5. **FILTER** accepts only an aggregate as its first argument: DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`, or a function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction`. Every aggregate in this library implements it; implement it on an aggregate of your own to wrap that one too. Anything else throws a `ParserException`, as PostgreSQL would reject it

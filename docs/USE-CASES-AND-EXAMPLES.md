@@ -136,6 +136,39 @@ SELECT e.category, MODE(WITHIN GROUP ORDER BY e.status) AS commonStatus FROM Ent
 - `ORDER BY` takes exactly one item; PostgreSQL rejects more.
 - The fraction must not read an ungrouped column: use a literal, a parameter, or columns listed in `GROUP BY`.
 
+## Aggregating Only Some Rows with FILTER
+
+PostgreSQL restricts the rows a single aggregate reads with `FILTER (WHERE ...)`, written in SQL after the aggregate: `COUNT(o.id) FILTER (WHERE o.status = 'paid')`. DQL cannot parse anything after a function's closing parenthesis, so `FILTER` wraps the aggregate instead, with the condition as its second argument:
+
+```sql
+-- SQL:  COUNT(o.id) FILTER (WHERE o.status = 'paid')
+-- DQL:  FILTER(COUNT(o.id), WHERE o.status = 'paid')
+```
+
+> 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md#filter-wraps-the-aggregate-in-dql) for the full list of rules
+
+```sql
+-- Several conditional counts in one pass, instead of one query per status
+SELECT c.id,
+       COUNT(o.id) AS allOrders,
+       FILTER(COUNT(o.id), WHERE o.status = 'paid') AS paidOrders,
+       FILTER(COUNT(o.id), WHERE o.status = 'refunded') AS refundedOrders
+FROM Order o JOIN o.customer c GROUP BY c.id
+
+-- Revenue this year next to all-time revenue; the condition can take parameters
+SELECT c.id, SUM(o.total) AS allTime, FILTER(SUM(o.total), WHERE o.placedAt >= :startOfYear) AS thisYear
+FROM Order o JOIN o.customer c GROUP BY c.id
+
+-- The library's own aggregates wrap the same way
+SELECT p.id, FILTER(ARRAY_AGG(t.name ORDER BY t.name), WHERE t.archived = FALSE) AS activeTags
+FROM Post p JOIN p.tags t GROUP BY p.id
+
+-- Filter in HAVING too: categories with more than ten active items
+SELECT e.category FROM Entity e GROUP BY e.category HAVING FILTER(COUNT(e.id), WHERE e.active = TRUE) > 10
+```
+
+- The first argument must be an aggregate; a scalar function or a nested `FILTER` throws a `ParserException`.
+
 ## Using Range Types
 
 PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:
