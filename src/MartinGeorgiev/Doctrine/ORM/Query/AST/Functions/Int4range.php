@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT INT4RANGE(1, 10) FROM Entity e"
+ * @example Using it in DQL: "SELECT INT4RANGE('1', '10') FROM Entity e"
  */
 class Int4range extends BaseVariadicFunction
 {

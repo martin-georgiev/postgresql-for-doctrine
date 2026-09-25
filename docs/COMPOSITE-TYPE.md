@@ -47,8 +47,16 @@ final class InventoryItemType extends Composite
 use Doctrine\DBAL\Types\Type as DoctrineType;
 
 DoctrineType::addType('inventory_item', InventoryItemType::class);
+
+// Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
+$platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
 ```
+
+Without that mapping, schema introspection fails with `Unknown database type "inventory_item" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
+
+- **Symfony**: `inventory_item: inventory_item` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
+- **Laravel**: `'inventory_item' => 'inventory_item'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
 
 ### 4. Use in an entity
 
@@ -116,7 +124,22 @@ final class InventoryItemArrayType extends CompositeArray
 }
 ```
 
-Register both types, as you would for any other pair of scalar and array types. PostgreSQL escapes at both levels - a field holding a comma arrives as `{"(\"a,b\",1)"}` - which the type handles for you.
+Register both types, as you would for any other pair of scalar and array types. PostgreSQL reports an array column's type as the element type prefixed with an underscore, so the array's schema-tool mapping is `_inventory_item`:
+
+```php
+DoctrineType::addType('inventory_item', InventoryItemType::class);
+DoctrineType::addType('inventory_item[]', InventoryItemArrayType::class);
+
+// Schema tools (validation, migration diffs) also need PostgreSQL's type names mapped back to them:
+$platform = $em->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
+$platform->registerDoctrineTypeMapping('_inventory_item', 'inventory_item[]');
+```
+
+- **Symfony**: `_inventory_item: 'inventory_item[]'` under `doctrine.dbal.connections.default.mapping_types` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
+- **Laravel**: `'_inventory_item' => 'inventory_item[]'` under the entity manager's `'mapping_types'` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
+
+PostgreSQL escapes at both levels - a field holding a comma arrives as `{"(\"a,b\",1)"}` - which the type handles for you.
 
 ## Value stability
 

@@ -56,7 +56,16 @@ The `TYPE_NAME` constant must match the PostgreSQL type name exactly - it is use
 use Doctrine\DBAL\Types\Type as DoctrineType;
 
 DoctrineType::addType('order_status', OrderStatusType::class);
+
+// Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
+$platform = $em->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('order_status', 'order_status');
 ```
+
+Without that mapping, schema introspection fails with `Unknown database type "order_status" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
+
+- **Symfony**: `order_status: order_status` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
+- **Laravel**: `'order_status' => 'order_status'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
 
 ### 5. Use in an entity
 
@@ -73,7 +82,7 @@ class Order
 
 ## Multiple enum types
 
-Each PostgreSQL enum requires its own subclass and `addType` call.
+Each PostgreSQL enum requires its own subclass, `addType` call and platform mapping.
 
 ```php
 // Two PostgreSQL enums → two subclasses
@@ -91,6 +100,11 @@ final class PaymentMethodType extends Enum
 
 DoctrineType::addType('order_status', OrderStatusType::class);
 DoctrineType::addType('payment_method', PaymentMethodType::class);
+
+// Schema tools (validation, migration diffs) also need PostgreSQL's type names mapped back to them:
+$platform = $em->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('order_status', 'order_status');
+$platform->registerDoctrineTypeMapping('payment_method', 'payment_method');
 ```
 
 ## Arrays of enum values
@@ -114,7 +128,16 @@ final class OrderStatusArrayType extends EnumArray
 }
 
 DoctrineType::addType('order_status[]', OrderStatusArrayType::class);
+
+// Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
+$platform = $em->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('_order_status', 'order_status[]');
 ```
+
+PostgreSQL reports an array column's type as the element type prefixed with an underscore (`_order_status`), so that is the name to map. The framework equivalents:
+
+- **Symfony**: `_order_status: 'order_status[]'` under `doctrine.dbal.connections.default.mapping_types` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
+- **Laravel**: `'_order_status' => 'order_status[]'` under the entity manager's `'mapping_types'` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
 
 The scalar and the array type are independent registrations - add whichever ones your schema uses.
 
@@ -177,33 +200,61 @@ ALTER TABLE orders ADD COLUMN status order_status NOT NULL DEFAULT 'pending';
 
 ### Why the library does not create the type for you
 
-Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: `ALTER TYPE ... ADD VALUE` cannot run inside a transaction, and labels can be neither renamed nor removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
+Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: a label added by `ALTER TYPE ... ADD VALUE` cannot be used until the transaction that added it commits, and labels can be renamed but not removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
 
 ### Adding a new case
 
-`ALTER TYPE ... ADD VALUE` cannot run inside a transaction. In Symfony Migrations, use `$this->addSql()` directly. Doctrine Migrations wraps each migration in a transaction by default, so you must opt out:
+Since PostgreSQL 12, `ALTER TYPE ... ADD VALUE` is allowed inside a transaction block, but the new label cannot be used until that transaction commits - PostgreSQL rejects it with `unsafe use of new value "returned" of enum type order_status`. A plain `addSql()` in a Doctrine Migrations `up()` is therefore enough on its own:
 
 ```php
-public function preUp(Schema $schema): void
-{
-    $this->connection->executeStatement('ALTER TYPE order_status ADD VALUE \'returned\'');
-}
-
 public function up(Schema $schema): void
 {
-    // other schema changes that can run in a transaction
+    $this->addSql("ALTER TYPE order_status ADD VALUE 'returned'");
 }
 ```
 
-Alternatively, run it outside a transaction block in your migration tool.
+Doctrine Migrations wraps each migration in a single transaction, and `preUp()` runs inside it too. When the same migration also uses the new label (a backfill `UPDATE`, a column `DEFAULT`), move that work into a later migration or make this one non-transactional. On PostgreSQL 11 and earlier, which refuse `ADD VALUE` on an existing type inside a transaction block, only the non-transactional route works:
 
-### Renaming or removing a case
-
-PostgreSQL does not support removing or renaming enum cases. The workaround is to create a new type and migrate the column:
-
-```sql
-CREATE TYPE order_status_new AS ENUM ('pending', 'processing', 'shipped', 'cancelled', 'returned');
-ALTER TABLE orders ALTER COLUMN status TYPE order_status_new USING status::text::order_status_new;
-DROP TYPE order_status;
-ALTER TYPE order_status_new RENAME TO order_status;
+```php
+public function isTransactional(): bool
+{
+    return false;
+}
 ```
+
+Both need the `all_or_nothing` option off: it runs every migration in one transaction, and refuses a non-transactional one.
+
+### Renaming a case
+
+`ALTER TYPE ... RENAME VALUE` (PostgreSQL 10+) renames a label in place. PostgreSQL stores an enum value by the label's OID, not its text, so existing rows - array elements included - read back under the new name without being rewritten. The statement is safe inside the migration transaction, and the new label is usable straight away in the same transaction:
+
+```php
+public function up(Schema $schema): void
+{
+    $this->addSql("ALTER TYPE order_status RENAME VALUE 'shipped' TO 'dispatched'");
+}
+```
+
+Change the matching PHP enum case's backing value in the same deploy. Once the label is renamed, PostgreSQL rejects the old spelling on write, and the old PHP enum has no case for the new one on read (`InvalidEnumForPHPException`).
+
+### Removing a case
+
+PostgreSQL cannot remove an enum label (`DROP VALUE` is not implemented). Instead, move the data off the label, create a type without it, convert every column that uses the old type, and swap the names. Removing `processing` from the `orders` table above:
+
+```php
+public function up(Schema $schema): void
+{
+    $this->addSql("UPDATE orders SET status = 'pending' WHERE status = 'processing'");
+    $this->addSql("UPDATE orders SET status_trail = array_remove(status_trail, 'processing')");
+    $this->addSql("CREATE TYPE order_status_new AS ENUM ('pending', 'shipped', 'cancelled', 'returned')");
+    $this->addSql('ALTER TABLE orders ALTER COLUMN status DROP DEFAULT, ALTER COLUMN status_trail DROP DEFAULT');
+    $this->addSql('ALTER TABLE orders
+        ALTER COLUMN status TYPE order_status_new USING status::text::order_status_new,
+        ALTER COLUMN status_trail TYPE order_status_new[] USING status_trail::text[]::order_status_new[]');
+    $this->addSql('DROP TYPE order_status');
+    $this->addSql('ALTER TYPE order_status_new RENAME TO order_status');
+    $this->addSql("ALTER TABLE orders ALTER COLUMN status SET DEFAULT 'pending', ALTER COLUMN status_trail SET DEFAULT '{}'");
+}
+```
+
+A row still holding the removed label makes the conversion fail, so decide where those rows go first. The defaults are dropped and restored because PostgreSQL cannot cast a default to the new type automatically. The whole sequence runs inside the migration's transaction. Remove the matching case from the PHP enum in the same deploy.

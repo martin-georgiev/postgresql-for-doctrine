@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT ARRAY_NDIMS(e.array) FROM Entity e"
+ * @example Using it in DQL: "SELECT ARRAY_NUMBER_OF_DIMENSIONS(e.array) FROM Entity e"
  */
 class ArrayNumberOfDimensions extends BaseFunction
 {

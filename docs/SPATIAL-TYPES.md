@@ -36,9 +36,9 @@ The `WktSpatialData` value object provides multiple ways to create spatial data:
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
 // Parse complete WKT/EWKT strings
-$point = WktSpatialData::fromWkt('POINT(1 2)');
-$pointWithSrid = WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)');
-$line = WktSpatialData::fromWkt('LINESTRING(0 0, 1 1, 2 2)');
+$point = WktSpatialData::fromString('POINT(1 2)');
+$pointWithSrid = WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)');
+$line = WktSpatialData::fromString('LINESTRING(0 0, 1 1, 2 2)');
 ```
 
 ### From Components (Programmatic)
@@ -105,66 +105,66 @@ The library supports all PostGIS geometry types through the `GeometryType` enum:
 ### Basic Geometry Types
 ```php
 // Point geometry
-$point = WktSpatialData::fromWkt('POINT(1 2)');
-$point3d = WktSpatialData::fromWkt('POINT Z(1 2 3)');
-$pointMeasured = WktSpatialData::fromWkt('POINT M(1 2 4)');
-$point4d = WktSpatialData::fromWkt('POINT ZM(1 2 3 4)');
+$point = WktSpatialData::fromString('POINT(1 2)');
+$point3d = WktSpatialData::fromString('POINT Z(1 2 3)');
+$pointMeasured = WktSpatialData::fromString('POINT M(1 2 4)');
+$point4d = WktSpatialData::fromString('POINT ZM(1 2 3 4)');
 
 // Line geometry
-$line = WktSpatialData::fromWkt('LINESTRING(0 0, 1 1, 2 2)');
-$line3d = WktSpatialData::fromWkt('LINESTRING Z(0 0 0, 1 1 1, 2 2 2)');
+$line = WktSpatialData::fromString('LINESTRING(0 0, 1 1, 2 2)');
+$line3d = WktSpatialData::fromString('LINESTRING Z(0 0 0, 1 1 1, 2 2 2)');
 
 // Polygon geometry
-$polygon = WktSpatialData::fromWkt('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))');
-$polygonWithHoles = WktSpatialData::fromWkt('POLYGON((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))');
+$polygon = WktSpatialData::fromString('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))');
+$polygonWithHoles = WktSpatialData::fromString('POLYGON((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))');
 ```
 
 ### Multi-Geometry Types
 ```php
 // Multi-point
-$multiPoint = WktSpatialData::fromWkt('MULTIPOINT((1 2), (3 4), (5 6))');
+$multiPoint = WktSpatialData::fromString('MULTIPOINT((1 2), (3 4), (5 6))');
 
 // Multi-line
-$multiLine = WktSpatialData::fromWkt('MULTILINESTRING((0 0, 1 1), (2 2, 3 3))');
+$multiLine = WktSpatialData::fromString('MULTILINESTRING((0 0, 1 1), (2 2, 3 3))');
 
 // Multi-polygon
-$multiPolygon = WktSpatialData::fromWkt('MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))');
+$multiPolygon = WktSpatialData::fromString('MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))');
 ```
 
 ### Collection Types
 ```php
 // Geometry collection
-$collection = WktSpatialData::fromWkt('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))');
+$collection = WktSpatialData::fromString('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))');
 ```
 
 ### Circular Geometry Types (PostGIS Extensions)
 ```php
 // Circular string
-$circularString = WktSpatialData::fromWkt('CIRCULARSTRING(0 0, 1 1, 2 0)');
+$circularString = WktSpatialData::fromString('CIRCULARSTRING(0 0, 1 1, 2 0)');
 
 // Compound curve
-$compoundCurve = WktSpatialData::fromWkt('COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))');
+$compoundCurve = WktSpatialData::fromString('COMPOUNDCURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))');
 
 // Curve polygon
-$curvePolygon = WktSpatialData::fromWkt('CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0))');
+$curvePolygon = WktSpatialData::fromString('CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0))');
 
 // Multi-curve
-$multiCurve = WktSpatialData::fromWkt('MULTICURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))');
+$multiCurve = WktSpatialData::fromString('MULTICURVE((0 0, 1 1), CIRCULARSTRING(1 1, 2 0, 3 1))');
 
 // Multi-surface
-$multiSurface = WktSpatialData::fromWkt('MULTISURFACE(CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0)))');
+$multiSurface = WktSpatialData::fromString('MULTISURFACE(CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0)))');
 ```
 
 ### Triangle and TIN Types
 ```php
 // Triangle
-$triangle = WktSpatialData::fromWkt('TRIANGLE((0 0, 1 0, 0.5 1, 0 0))');
+$triangle = WktSpatialData::fromString('TRIANGLE((0 0, 1 0, 0.5 1, 0 0))');
 
 // TIN (Triangulated Irregular Network)
-$tin = WktSpatialData::fromWkt('TIN(((0 0, 1 0, 0.5 1, 0 0)), ((1 0, 2 0, 1.5 1, 1 0)))');
+$tin = WktSpatialData::fromString('TIN(((0 0, 1 0, 0.5 1, 0 0)), ((1 0, 2 0, 1.5 1, 1 0)))');
 
 // Polyhedral surface
-$polyhedralSurface = WktSpatialData::fromWkt('POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((0 0, 0 1, 0 0 1, 0 0)))');
+$polyhedralSurface = WktSpatialData::fromString('POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((0 0, 0 1, 0 0 1, 0 0)))');
 ```
 
 ## Column options for DDL
@@ -248,7 +248,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
 $qb = $connection->createQueryBuilder();
 $qb->insert('places')->values(['location' => ':location']);
-$qb->setParameter('location', WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
+$qb->setParameter('location', WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
 $qb->executeStatement();
 ```
 
@@ -260,8 +260,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 $qb = $connection->createQueryBuilder();
 $qb->insert('locations')->values(['geometries' => ':geometries']);
 $qb->setParameter('geometries', [
-    WktSpatialData::fromWkt('POINT(0 0)'),
-    WktSpatialData::fromWkt('POINT(1 1)'),
+    WktSpatialData::fromString('POINT(0 0)'),
+    WktSpatialData::fromString('POINT(1 1)'),
 ], 'geometry[]');
 $qb->executeStatement();
 ```
@@ -279,51 +279,51 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialD
 
 try {
     // Invalid WKT format
-    $invalid = WktSpatialData::fromWkt('INVALID(1 2)');
+    $invalid = WktSpatialData::fromString('INVALID(1 2)');
 } catch (InvalidWktSpatialDataException $e) {
-    // Throws: "Unsupported geometry type: INVALID"
+    // Throws: "Unsupported geometry type: 'INVALID'. Supported types: POINT, LINESTRING, POLYGON, …"
 }
 
 try {
     // Empty coordinate section
-    $empty = WktSpatialData::fromWkt('POINT()');
+    $empty = WktSpatialData::fromString('POINT()');
 } catch (InvalidWktSpatialDataException $e) {
-    // Throws: "Empty coordinate section in WKT"
+    // Throws: "Invalid Wkt: empty coordinate/body section"
 }
 
 try {
     // Invalid SRID format
-    $invalidSrid = WktSpatialData::fromWkt('SRID=abc;POINT(1 2)');
+    $invalidSrid = WktSpatialData::fromString('SRID=abc;POINT(1 2)');
 } catch (InvalidWktSpatialDataException $e) {
-    // Throws: "Invalid SRID value: abc"
+    // Throws: "Invalid Srid value in Ewkt: 'abc'"
 }
 
 try {
     // Missing semicolon in EWKT
-    $missingSemicolon = WktSpatialData::fromWkt('SRID=4326POINT(1 2)');
+    $missingSemicolon = WktSpatialData::fromString('SRID=4326POINT(1 2)');
 } catch (InvalidWktSpatialDataException $e) {
-    // Throws: "Missing semicolon in EWKT format"
+    // Throws: "Invalid Ewkt: missing semicolon after Srid prefix"
 }
 ```
 
 ### Database Conversion Errors
 
 ```php
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException;
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPException;
 
-// Invalid type passed to geometry column
+// Invalid type passed to a geometry column
 try {
-    $qb->setParameter('geom', 'not a geometry', 'geometry');
-} catch (InvalidGeometryForPHPException $e) {
-    // Throws: "Invalid type for geometry column"
+    $geometryType->convertToDatabaseValue('not a geometry', $platform);
+} catch (InvalidGeometryForDatabaseException $e) {
+    // Throws: "Value must be a Geometry value object, 'not a geometry' given"
 }
 
-// Invalid format from database
+// Invalid format from the database
 try {
     $geometryType->convertToPHPValue('invalid wkt from db', $platform);
-} catch (InvalidGeometryForDatabaseException $e) {
-    // Throws: "Invalid format for geometry value"
+} catch (InvalidGeometryForPHPException $e) {
+    // Throws: "Invalid Geometry value object format: 'invalid wkt from db'"
 }
 ```
 
@@ -333,7 +333,7 @@ try {
 // Validate WKT before database operations
 function validateSpatialData(string $wkt): bool {
     try {
-        WktSpatialData::fromWkt($wkt);
+        WktSpatialData::fromString($wkt);
         return true;
     } catch (InvalidWktSpatialDataException) {
         return false;
@@ -341,13 +341,13 @@ function validateSpatialData(string $wkt): bool {
 }
 
 // Check geometry type before processing
-$spatialData = WktSpatialData::fromWkt('POINT(1 2)');
+$spatialData = WktSpatialData::fromString('POINT(1 2)');
 if ($spatialData->getGeometryType() === GeometryType::POINT) {
     // Process point-specific logic
 }
 
 // Validate SRID for geography operations
-$geographyData = WktSpatialData::fromWkt('SRID=4326;POINT(-122 37)');
+$geographyData = WktSpatialData::fromString('SRID=4326;POINT(-122 37)');
 if ($geographyData->getSrid() === 4326) {
     // Valid for geography operations
 }

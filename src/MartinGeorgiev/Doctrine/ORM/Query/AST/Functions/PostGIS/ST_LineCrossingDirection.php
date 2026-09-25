@@ -16,7 +16,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseFunction;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT ST_LineCrossingDirection(g.geometry1, g.geometry2) as result"
+ * @example Using it in DQL: "SELECT ST_LineCrossingDirection(g.geometry1, g.geometry2) FROM Entity g"
  */
 class ST_LineCrossingDirection extends BaseFunction
 {

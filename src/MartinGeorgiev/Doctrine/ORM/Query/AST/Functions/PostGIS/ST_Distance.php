@@ -18,7 +18,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOpti
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT ST_DISTANCE(g1.geometry, g2.geometry) FROM Entity g1, Entity g2"
- * @example Using it in DQL (geography): "SELECT ST_DISTANCE(g1.geography, g2.geography, TRUE) FROM Entity g1, Entity g2"
+ * @example Using it in DQL (geography): "SELECT ST_DISTANCE(g1.geography, g2.geography, 'true') FROM Entity g1, Entity g2"
  */
 class ST_Distance extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {
