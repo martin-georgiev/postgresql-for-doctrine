@@ -100,6 +100,7 @@ return RectorConfig::configure()
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/AggregateFilter.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseAggregateFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseFunction.php',
+            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseOrderedSetAggregateFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseVariadicFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Cast.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/CompositeField.php',

@@ -667,6 +667,9 @@ doctrine:
                         JSON_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg
                         JSONB_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg
                         JSONB_OBJECT_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectAgg
+                        MODE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Mode
+                        PERCENTILE_CONT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont
+                        PERCENTILE_DISC: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileDisc
                         STDDEV: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev
                         STDDEV_POP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop
                         STRING_AGG: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg
