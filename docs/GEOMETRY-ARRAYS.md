@@ -59,7 +59,7 @@ class Location
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
-// Single-item geometry[] array (supported)
+// Single-item geometry[] array
 $qb = $connection->createQueryBuilder();
 $qb->insert('locations')->values(['geometries' => ':wktSpatialData']);
 $qb->setParameter('wktSpatialData', [WktSpatialData::fromWkt('POINT(0 0)')], 'geometry[]');
@@ -114,56 +114,6 @@ SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 
 See also: Spatial foundations and parser behavior in the Spatial Types document.
 
-```php
-// Build arrays in application code, then use raw SQL with placeholders
-$geometries = ['POINT(1 2)', 'POINT(3 4)', 'LINESTRING(0 0,1 1)'];
-$placeholders = implode(',', array_fill(0, count($geometries), '?::geometry'));
-$sql = "INSERT INTO locations (geometries) VALUES (ARRAY[$placeholders])";
-$connection->executeStatement($sql, $geometries);
-```
-
-### Option 4: JSON Storage Alternative
-
-For complex multi-item scenarios, consider using JSON storage:
-
-```php
-/**
- * @ORM\Column(type="json")
- */
-private array $geometriesAsJson;
-
-public function setGeometries(array $wktStrings): void
-{
-    $this->geometriesAsJson = $wktStrings;
-}
-
-public function getGeometries(): array
-{
-    return array_map(
-        fn(string $wkt) => WktSpatialData::fromWkt($wkt),
-        $this->geometriesAsJson
-    );
-}
-```
-
-## Test Coverage
-
-### Integration Tests
-- ✅ **Single-item arrays**: Fully tested against real PostgreSQL database
-- ✅ **Multi-item arrays**: Bound through DBAL, including arrays carrying a `null` element
-- ✅ **All geometry types**: POINT, LINESTRING, POLYGON, MULTIPOINT, etc.
-- ✅ **Dimensional modifiers**: Z, M, ZM coordinates
-- ✅ **SRID support**: EWKT format with coordinate systems
-- ✅ **Geography specifics**: Auto-SRID behavior, world coordinates
-
-The integration tests cover single-item and multi-item arrays bound through DBAL, alongside the SQL `ARRAY[]` constructor form.
-
-### Unit Tests
-- ✅ **Multi-item arrays**: Tested for parsing logic
-- ✅ **Mixed scenarios**: Different geometry types, SRIDs, dimensions
-- ✅ **Edge cases**: Empty arrays, complex combinations
-- ✅ **Round-trip conversion**: Database ↔ PHP object conversion
-
 ## Supported Features
 
 ### Geometry Types
@@ -182,17 +132,8 @@ The integration tests cover single-item and multi-item arrays bound through DBAL
 - ✅ **World coordinates**: Null Island, poles, date line
 - ✅ **Geographic calculations**: Proper spherical geometry
 
-## Best Practices
-
-1. **Use single-item arrays** when possible for maximum compatibility
-2. **Test thoroughly** with your specific geometry combinations
-3. **Consider alternatives** (JSON, separate tables) for complex multi-item scenarios
-4. **Use raw SQL** when you need multi-item arrays and can control the SQL generation
-5. **State tested versions** — e.g., "Verified on PostgreSQL 16.x + PostGIS 3.5.x"; monitor PostGIS updates in case this changes.
-
 ## Performance Considerations
 
-- **Single-item arrays**: Excellent performance, full PostgreSQL optimization
 - **Indexing**: GiST/operator classes only support spatial types like `geometry`/`geography` and cannot directly index SQL array types like `geometry[]`. For proper spatial indexing, consider:
   - Normalizing arrays into separate geometry rows with individual GiST indexes
   - Materializing a single geometry (e.g., union or bounding geometry) into a `geometry` column for GiST indexing

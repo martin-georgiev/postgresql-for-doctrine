@@ -56,7 +56,10 @@ The `TYPE_NAME` constant must match the PostgreSQL type name exactly - it is use
 use Doctrine\DBAL\Types\Type as DoctrineType;
 
 DoctrineType::addType('order_status', OrderStatusType::class);
+$platform->registerDoctrineTypeMapping('order_status', 'order_status');
 ```
+
+The platform mapping lets schema introspection (schema validation, migration diffs) resolve the column's database type; without it Doctrine reports `Unknown database type "order_status" requested`.
 
 ### 5. Use in an entity
 
@@ -73,7 +76,7 @@ class Order
 
 ## Multiple enum types
 
-Each PostgreSQL enum requires its own subclass and `addType` call.
+Each PostgreSQL enum requires its own subclass, `addType` call and platform mapping.
 
 ```php
 // Two PostgreSQL enums → two subclasses
@@ -91,6 +94,8 @@ final class PaymentMethodType extends Enum
 
 DoctrineType::addType('order_status', OrderStatusType::class);
 DoctrineType::addType('payment_method', PaymentMethodType::class);
+$platform->registerDoctrineTypeMapping('order_status', 'order_status');
+$platform->registerDoctrineTypeMapping('payment_method', 'payment_method');
 ```
 
 ## Arrays of enum values
@@ -114,7 +119,10 @@ final class OrderStatusArrayType extends EnumArray
 }
 
 DoctrineType::addType('order_status[]', OrderStatusArrayType::class);
+$platform->registerDoctrineTypeMapping('_order_status', 'order_status[]');
 ```
+
+PostgreSQL reports an array column's type as the element type prefixed with an underscore (`_order_status`), so that is the name to map.
 
 The scalar and the array type are independent registrations - add whichever ones your schema uses.
 
@@ -177,25 +185,29 @@ ALTER TABLE orders ADD COLUMN status order_status NOT NULL DEFAULT 'pending';
 
 ### Why the library does not create the type for you
 
-Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: `ALTER TYPE ... ADD VALUE` cannot run inside a transaction, and labels can be neither renamed nor removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
+Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: a label added by `ALTER TYPE ... ADD VALUE` cannot be used until the transaction that added it commits, and labels can be neither renamed nor removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
 
 ### Adding a new case
 
-`ALTER TYPE ... ADD VALUE` cannot run inside a transaction. In Symfony Migrations, use `$this->addSql()` directly. Doctrine Migrations wraps each migration in a transaction by default, so you must opt out:
+Since PostgreSQL 12, `ALTER TYPE ... ADD VALUE` is allowed inside a transaction block, but the new label cannot be used until that transaction commits - PostgreSQL rejects it with `unsafe use of new value`. A plain `addSql()` in a Doctrine Migrations `up()` is therefore enough on its own:
 
 ```php
-public function preUp(Schema $schema): void
-{
-    $this->connection->executeStatement('ALTER TYPE order_status ADD VALUE \'returned\'');
-}
-
 public function up(Schema $schema): void
 {
-    // other schema changes that can run in a transaction
+    $this->addSql("ALTER TYPE order_status ADD VALUE 'returned'");
 }
 ```
 
-Alternatively, run it outside a transaction block in your migration tool.
+Doctrine Migrations wraps each migration in a single transaction, and `preUp()` runs inside it too. When the same migration also uses the new label (a backfill `UPDATE`, a column `DEFAULT`), move that work into a later migration or make this one non-transactional. On PostgreSQL 11 and earlier, which refuse `ADD VALUE` on an existing type inside a transaction block, only the non-transactional route works:
+
+```php
+public function isTransactional(): bool
+{
+    return false;
+}
+```
+
+Both need the `all_or_nothing` option off: it runs every migration in one transaction, and refuses a non-transactional one.
 
 ### Renaming or removing a case
 

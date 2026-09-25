@@ -294,6 +294,8 @@ SELECT p FROM Product p WHERE COMPOSITE_FIELD(p.item, 'price') > 10.00
 
 ### Entity Configuration
 
+Map the column to a subclass of `Composite` registered under the composite type's name - here an `InventoryItemType` registered as `inventory_item`. [Composite Types](COMPOSITE-TYPE.md) shows how to create and register it.
+
 ```php
 use Doctrine\ORM\Mapping as ORM;
 
@@ -305,9 +307,11 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    // Map composite type column as string - the actual type is handled by PostgreSQL
-    #[ORM\Column(type: 'string')]
-    private string $item;
+    /**
+     * @var array{name: string|null, supplier_id: int|null, price: string|null}|null
+     */
+    #[ORM\Column(type: 'inventory_item', nullable: true)]
+    private ?array $item = null;
 }
 ```
 
@@ -441,12 +445,12 @@ CREATE TABLE places (
 
 ```php
 use Doctrine\DBAL\Types\Type as DoctrineType;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Geometry as GeometryValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
 DoctrineType::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
 DoctrineType::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
 
-$location = GeometryValueObject::fromWKT('SRID=4326;POINT(-122.4194 37.7749)');
+$location = WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)');
 $entity->setLocation($location);
 ```
 

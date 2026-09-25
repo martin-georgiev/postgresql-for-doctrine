@@ -309,21 +309,21 @@ try {
 ### Database Conversion Errors
 
 ```php
+use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException;
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeographyForPHPException;
 
-// Invalid type passed to geometry column
+// Invalid type passed to a geometry column
 try {
-    $qb->setParameter('geom', 'not a geometry', 'geometry');
-} catch (InvalidGeometryForPHPException $e) {
-    // Throws: "Invalid type for geometry column"
+    $geometryType->convertToDatabaseValue('not a geometry', $platform);
+} catch (InvalidGeometryForDatabaseException $e) {
+    // Throws: "Value must be a Geometry value object, 'not a geometry' given"
 }
 
-// Invalid format from database
+// Invalid format from the database
 try {
     $geometryType->convertToPHPValue('invalid wkt from db', $platform);
-} catch (InvalidGeometryForDatabaseException $e) {
-    // Throws: "Invalid format for geometry value"
+} catch (InvalidGeometryForPHPException $e) {
+    // Throws: "Invalid Geometry value object format: 'invalid wkt from db'"
 }
 ```
 
