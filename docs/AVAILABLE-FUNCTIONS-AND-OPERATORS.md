@@ -141,7 +141,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `ROUND`/`SCALE`/`MIN_SCALE`/`TRIM_SCALE` - Numeric precision functions
 - `RANDOM`/`RANDOM_NORMAL` - Generate random numbers
 - **Bitwise/Boolean Aggregates**: `BIT_AND`, `BIT_OR`, `BIT_XOR`, `BOOL_AND`, `BOOL_OR`, `EVERY`
-- **Statistical Aggregates**: `CORR`, `COVAR_POP`, `COVAR_SAMP`, `STDDEV`, `STDDEV_POP`, `VAR_POP`, `VARIANCE`
+- **Statistical Aggregates**: `CORR`, `COVAR_POP`, `COVAR_SAMP`, `MODE`, `PERCENTILE_CONT`, `PERCENTILE_DISC`, `STDDEV`, `STDDEV_POP`, `VAR_POP`, `VARIANCE`
 
 **Utility Functions:** ([Complete documentation](UTILITY-FUNCTIONS.md))
 - `CAST` - General type conversion
@@ -250,7 +250,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **Basic Math**: Power, square root, trigonometric functions
 - **Statistical**: Random numbers, rounding, precision functions
 - **Bitwise/Boolean Aggregates**: bit_and, bit_or, bit_xor, bool_and, bool_or, every
-- **Statistical Aggregates**: corr, covar_pop, covar_samp, stddev, stddev_pop, var_pop, variance
+- **Statistical Aggregates**: corr, covar_pop, covar_samp, mode, percentile_cont, percentile_disc, stddev, stddev_pop, var_pop, variance
 
 ### **Utility Functions**
 - **Type Conversion**: `CAST` for general type conversion
