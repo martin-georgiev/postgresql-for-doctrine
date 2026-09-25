@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT JSONB_PATH_MATCH(e.jsonbData, 'exists($.a[*] ? (@ >= 2 && @ <= 4))')"
+ * @example Using it in DQL: "SELECT JSONB_PATH_MATCH(e.jsonbData, 'exists($.a[*] ? (@ >= 2 && @ <= 4))') FROM Entity e"
  */
 class JsonbPathMatch extends BaseVariadicFunctionWithOptionalBooleanLastArgument
 {

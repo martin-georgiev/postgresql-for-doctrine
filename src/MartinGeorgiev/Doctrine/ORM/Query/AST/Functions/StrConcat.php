@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
  *
- * @example Using it in DQL: "SELECT STR_CONCAT(e.firstName, e.lastName) FROM Entity e"
+ * @example Using it in DQL: "SELECT STRCONCAT(e.firstName, e.lastName) FROM Entity e"
  */
 class StrConcat extends BaseFunction
 {

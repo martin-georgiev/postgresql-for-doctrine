@@ -19,7 +19,9 @@
 
 ```php
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 
 // Register types with Doctrine
 DoctrineType::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
@@ -172,11 +174,14 @@ $query = $em->createQuery('
   - Number theory functions (`gcd`, `lcm`, `factorial`, `div`)
   - Statistical functions (`erf`, `erfc`, `random_normal`)
 - **Range Functions**
+  - Range construction (`daterange`, `int4range`, `int8range`, `numrange`, `tsrange`, `tstzrange`)
+  - Range aggregation (`range_agg`, `range_intersect_agg`)
 - **Utility Functions**
   - Type casting (`cast`)
   - Data formatting (`to_char`, `to_number`)
   - UUID generation and inspection (`uuidv4`, `uuidv7`, `uuid_extract_timestamp`, `uuid_extract_version`)
-- **Vector Distance Functions**
+- **Vector Distance Functions** (requires [pgvector](https://github.com/pgvector/pgvector) extension)
+  - Distance and similarity (`l2_distance`, `cosine_distance`, `inner_product`)
 
 Full documentation:
 - [Available Types](docs/AVAILABLE-TYPES.md)

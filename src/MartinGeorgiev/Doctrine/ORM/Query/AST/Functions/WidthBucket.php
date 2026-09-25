@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT WIDTH_BUCKET(operand, b1, b2, count) FROM Entity e"
+ * @example Using it in DQL: "SELECT WIDTH_BUCKET(e.value, 0.0, 20.0, 4) FROM Entity e"
  */
 class WidthBucket extends BaseArithmeticFunction
 {

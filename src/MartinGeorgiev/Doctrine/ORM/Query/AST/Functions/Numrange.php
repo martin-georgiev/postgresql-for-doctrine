@@ -14,7 +14,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT NUMRANGE(1.5, 10.5) FROM Entity e"
+ * @example Using it in DQL: "SELECT NUMRANGE('1.5', '10.5') FROM Entity e"
  */
 class Numrange extends BaseVariadicFunction
 {

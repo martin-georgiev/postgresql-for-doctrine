@@ -133,7 +133,7 @@ In SQL, an ordered-set aggregate closes its parentheses and then takes `WITHIN G
 | reverse (bytea) | REVERSE_BYTES | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ReverseBytes` |
 | row | ROW | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row` |
 | row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
-| xmlagg | XML_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
+| xmlagg | XMLAGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
 
 ## Usage Examples
 
@@ -142,7 +142,7 @@ In SQL, an ordered-set aggregate closes its parentheses and then takes `WITHIN G
 SELECT WIDTH_BUCKET(e.score, 0, 100, 10) as bucket, COUNT(e.id) as count
 FROM Entity e GROUP BY bucket ORDER BY bucket
 
--- POWER used for square root and Pythagorean distance (no SQRT() in DQL)
+-- POWER used for square root and Pythagorean distance
 SELECT POWER(e.value, 0.5) as square_root FROM Entity e WHERE e.value > 0
 SELECT POWER(POWER(e.x2 - e.x1, 2) + POWER(e.y2 - e.y1, 2), 0.5) as distance FROM Entity e
 

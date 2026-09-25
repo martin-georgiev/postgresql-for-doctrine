@@ -2,7 +2,7 @@
 
 ## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
 
-`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'"` (or similar) is probably one of the most common DQL errors you may experience when working with this library. The cause for is that when parsing the DQL Doctrine won't recognize `ILIKE` as a known operator. In fact `ILIKE` is registered as a boolean function.
+`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is probably one of the most common DQL errors you may experience when working with this library. The cause for this is that when parsing the DQL Doctrine won't recognize `ILIKE` as a known operator. In fact `ILIKE` is registered as a boolean function.
 Doctrine doesn't provide easy support for implementing custom operators. This may change in the future but for now it is easier to trick the DQL parser with a boolean expression.
 
 Example intent with PostgreSQL:
@@ -46,7 +46,7 @@ Note: Keys must always be string literals, while values can be either string lit
 
 ## Using JSON Path Functions
 
-PostgreSQL 14+ introduced JSON path functions that provide a powerful way to query JSON data. Here are some examples:
+PostgreSQL 12+ introduced JSON path functions that provide a powerful way to query JSON data. Here are some examples:
 
 > 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
 
@@ -86,7 +86,7 @@ SELECT e.id, REGEXP_SUBSTR(e.text, 'https?://[\w.-]+') as url FROM Entity e
 
 ## Using Date Functions
 
-PostgreSQL 14+ introduced additional date functions that provide more flexibility when working with dates and timestamps:
+Newer PostgreSQL versions introduced additional date functions (`DATE_BIN` in 14, `DATE_ADD` and `DATE_SUBTRACT` in 16) that provide more flexibility when working with dates and timestamps:
 
 > 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for complete date/time and range function documentation
 
@@ -294,6 +294,8 @@ SELECT p FROM Product p WHERE COMPOSITE_FIELD(p.item, 'price') > 10.00
 
 ### Entity Configuration
 
+Map the column to a subclass of `Composite` registered under the composite type's name - here an `InventoryItemType` registered as `inventory_item`. [Composite Types](COMPOSITE-TYPE.md) shows how to create and register it.
+
 ```php
 use Doctrine\ORM\Mapping as ORM;
 
@@ -305,9 +307,11 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    // Map composite type column as string - the actual type is handled by PostgreSQL
-    #[ORM\Column(type: 'string')]
-    private string $item;
+    /**
+     * @var array{name: string|null, supplier_id: int|null, price: string|null}|null
+     */
+    #[ORM\Column(type: 'inventory_item', nullable: true)]
+    private ?array $item = null;
 }
 ```
 
@@ -322,19 +326,19 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 // Insert a single geometry value
 $qb = $connection->createQueryBuilder();
 $qb->insert('places')->values(['location' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('POINT(1 2)'), 'geometry');
+$qb->setParameter('wktSpatialData', WktSpatialData::fromString('POINT(1 2)'), 'geometry');
 $qb->executeStatement();
 
 // Insert a single geography value with SRID
 $qb = $connection->createQueryBuilder();
 $qb->insert('places')->values(['boundary' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', WktSpatialData::fromWkt('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
+$qb->setParameter('wktSpatialData', WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
 $qb->executeStatement();
 
 // Insert a single-item geometry[] array
 $qb = $connection->createQueryBuilder();
 $qb->insert('routes')->values(['geometriesLines' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', [WktSpatialData::fromWkt('LINESTRING(0 0, 1 1)')], 'geometry[]');
+$qb->setParameter('wktSpatialData', [WktSpatialData::fromString('LINESTRING(0 0, 1 1)')], 'geometry[]');
 $qb->executeStatement();
 ```
 
@@ -441,12 +445,12 @@ CREATE TABLE places (
 
 ```php
 use Doctrine\DBAL\Types\Type as DoctrineType;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Geometry as GeometryValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
 DoctrineType::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
 DoctrineType::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
 
-$location = GeometryValueObject::fromWKT('SRID=4326;POINT(-122.4194 37.7749)');
+$location = WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)');
 $entity->setLocation($location);
 ```
 
