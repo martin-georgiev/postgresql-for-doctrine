@@ -87,8 +87,11 @@ trait WindowSpecificationTrait
         $clauses = [];
 
         if ($this->partitionByExpressions !== []) {
-            // SimpleArithmeticExpression() may hand back a bare identifier string, which dispatch() cannot render.
-            $partitionByExpressions = \array_map($sqlWalker->walkSimpleArithmeticExpression(...), $this->partitionByExpressions);
+            // SimpleArithmeticExpression() may hand back a bare result variable string, which only the walker can resolve.
+            $partitionByExpressions = \array_map(
+                static fn (Node|string $expression): string => $expression instanceof Node ? $expression->dispatch($sqlWalker) : $sqlWalker->walkArithmeticTerm($expression),
+                $this->partitionByExpressions
+            );
             $clauses[] = 'PARTITION BY '.\implode(', ', $partitionByExpressions);
         }
 
