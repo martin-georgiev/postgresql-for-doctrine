@@ -20,6 +20,8 @@ php artisan vendor:publish --tag="config" --provider="LaravelDoctrine\ORM\Doctri
 
 Register the DBAL types you plan to use. The **full set** of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
 
+The per-manager `mapping_types` block maps PostgreSQL's own type names (like `_text` or `jsonb`) to the registered Doctrine types, and is the Laravel equivalent of calling `registerDoctrineTypeMapping()` on the platform.
+
 ```php
 <?php
 // config/doctrine.php
@@ -31,7 +33,7 @@ return [
         'default' => [
             // ... other configuration
 
-            'type_mappings' => [
+            'mapping_types' => [
                 // Binary type mappings
                 'bytea' => 'bytea',
                 'bytea[]' => 'bytea[]',
