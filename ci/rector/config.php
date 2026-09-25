@@ -103,6 +103,7 @@ return RectorConfig::configure()
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseVariadicFunction.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Cast.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/CompositeField.php',
+            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Filter.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/JsonGetField.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/StringAgg.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/XmlAgg.php',

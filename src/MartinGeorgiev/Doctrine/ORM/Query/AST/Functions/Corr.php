@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT CORR(e.y, e.x) FROM Entity e"
  */
-class Corr extends BaseFunction
+class Corr extends BaseFunction implements AggregateFunction
 {
     protected function customizeFunction(): void
     {

@@ -679,6 +679,7 @@ return [
         'COVAR_POP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarPop::class,
         'COVAR_SAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CovarSamp::class,
         'EVERY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every::class,
+        'FILTER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter::class,
         'JSON_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg::class,
         'JSON_OBJECT_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonObjectAgg::class,
         'JSONB_AGG' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbAgg::class,

@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT JSONB_OBJECT_AGG(e.key, e.value) FROM Entity e"
  */
-class JsonbObjectAgg extends BaseFunction
+class JsonbObjectAgg extends BaseFunction implements AggregateFunction
 {
     protected function customizeFunction(): void
     {
