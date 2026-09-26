@@ -202,15 +202,6 @@ $muted-text-color: $search-result-preview-color;
     font-size: 0.85rem;
   }
 
-  pre {
-    margin: 0 0 0.75rem;
-    padding: 0.75rem;
-    overflow-x: auto;
-    border: 1px solid $body-text-color;
-    border-radius: 4px;
-    background-color: $code-background-color;
-  }
-
   .pair pre {
     margin: 0;
   }
@@ -282,5 +273,21 @@ $muted-text-color: $search-result-preview-color;
 
   .catalogue dt a {
     font-weight: 650;
+  }
+}
+
+// The highlighter wraps only languages it knows; a ```dql fence arrives as a bare <pre>.
+.main-content pre:not(.highlight) {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem;
+  overflow-x: auto;
+  border: 1px solid $body-text-color;
+  border-radius: 4px;
+  background-color: $code-background-color;
+
+  > code {
+    padding: 0;
+    border: 0;
+    background: none;
   }
 }
