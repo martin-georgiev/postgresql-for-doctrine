@@ -4,7 +4,18 @@ DQL is Doctrine's query language, not PostgreSQL's, so PostgreSQL syntax you alr
 
 > **See also:** [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) · [Window Functions](WINDOW-FUNCTIONS.md) · [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md)
 
-The examples use a small shop: `App\Entity\Product p` (`name`, `price`, `tags` as `text[]`, `attributes` as `jsonb`, `category` as `ltree`, `status`), `App\Entity\Customer c` (`name`, `points`, `roles` as `jsonb`), `App\Entity\Sale s` (`reference`, `customer`, `amount`, `status`, `placedAt` as `timestamptz`), `App\Entity\Store st` (`name`, `location` as `geography`), `App\Entity\Booking b` (`store`, `slot` as `tstzrange`) and `App\Entity\Article a` (`title`, `body`, `search` as `tsvector`, `embedding` as `vector`). Every function is registered under the DQL name the setup guides use, as in [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md).
+The examples query a small shop:
+
+| Entity | Alias | Fields |
+|---|---|---|
+| `App\Entity\Product` | `p` | `name`, `price`, `tags` (`text[]`), `attributes` (`jsonb`), `category` (`ltree`), `status` |
+| `App\Entity\Customer` | `c` | `name`, `points`, `roles` (`jsonb`) |
+| `App\Entity\Sale` | `s` | `reference`, `customer`, `amount`, `status`, `placedAt` (`timestamptz`) |
+| `App\Entity\Store` | `st` | `name`, `location` (`geography`) |
+| `App\Entity\Booking` | `b` | `store`, `slot` (`tstzrange`) |
+| `App\Entity\Article` | `a` | `title`, `body`, `search` (`tsvector`), `embedding` (`vector`) |
+
+Every function is registered under the DQL name the setup guides use, as in [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md).
 
 ## Function and operator names
 
