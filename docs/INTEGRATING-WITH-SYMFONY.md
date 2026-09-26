@@ -804,7 +804,6 @@ doctrine:
                         # PostGIS operators
                         BOUNDING_BOX_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance # <#>
                         GEOMETRY_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance # <->
-                        ND_BOUNDING_BOX_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance # <<#>>
                         ND_CENTROID_DISTANCE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance # <<->>
                         ND_OVERLAPS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps # &&&
                         OVERLAPS_ABOVE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsAbove # |&>

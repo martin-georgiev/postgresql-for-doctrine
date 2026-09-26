@@ -824,7 +824,6 @@ return [
         # PostGIS operators
         'BOUNDING_BOX_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance::class, // <#>
         'GEOMETRY_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance::class, // <->
-        'ND_BOUNDING_BOX_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance::class, // <<#>>
         'ND_CENTROID_DISTANCE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance::class, // <<->>
         'ND_OVERLAPS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps::class, // &&&
         'OVERLAPS_ABOVE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsAbove::class, // |&>

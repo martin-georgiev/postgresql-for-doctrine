@@ -128,7 +128,7 @@ $query = $em->createQuery('
 - **PostGIS Spatial Operations**
   - Bounding box relationships (`<<`, `>>`, `&<`, `&>`, `|&>`, `&<|`, `<<|`, `|>>`)
   - Spatial containment (`@`, `~`)
-  - Distance calculations (`<->`, `<#>`, `<<->>`, `<<#>>`, `|=|`)
+  - Distance calculations (`<->`, `<#>`, `<<->>`, `|=|`)
   - N-dimensional operations (`&&&`)
 
 ### Functions

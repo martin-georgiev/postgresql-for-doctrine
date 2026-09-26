@@ -16,6 +16,8 @@ This release corrects the exceptions in two places. The value object ones are in
 
 Only those nine change what the DBAL types throw — same messages, different class; every other type translates value object failures as before.
 
+`ND_BOUNDING_BOX_DISTANCE` (`NDimensionalBoundingBoxDistance`) is removed. It rendered PostGIS's `<<#>>` operator, which no released PostGIS provides, so every query using it already failed with `operator does not exist: geometry <<#>> geometry`. Delete its registration line; for an n-D distance use `ND_CENTROID_DISTANCE` (`<<->>`).
+
 ## How to Upgrade to Version 3.0
 
 ### 1. Review type handling in your code

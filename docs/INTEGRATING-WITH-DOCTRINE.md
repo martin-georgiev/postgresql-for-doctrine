@@ -571,7 +571,6 @@ $configuration->addCustomStringFunction('ST_Z', MartinGeorgiev\Doctrine\ORM\Quer
 # PostGIS operators
 $configuration->addCustomStringFunction('BOUNDING_BOX_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance::class); # <#>
 $configuration->addCustomStringFunction('GEOMETRY_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance::class); # <->
-$configuration->addCustomStringFunction('ND_BOUNDING_BOX_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance::class); # <<#>>
 $configuration->addCustomStringFunction('ND_CENTROID_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance::class); # <<->>
 $configuration->addCustomStringFunction('ND_OVERLAPS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps::class); # &&&
 $configuration->addCustomStringFunction('OVERLAPS_ABOVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsAbove::class); # |&>
