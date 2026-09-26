@@ -8,7 +8,7 @@
 
 ## `OVER` wraps the call in DQL
 
-DQL cannot parse `OVER (...)` after the call's closing parenthesis, so `OVER` wraps the call instead, with the window specification as its second argument; [OVER wraps the call](DQL-DIALECT.md#over-wraps-the-call) explains the shape.
+In SQL, `OVER (...)` follows the function's closing parenthesis. DQL cannot parse anything after a function's closing parenthesis, so in DQL `OVER` becomes a function **around** the call, with the window specification as its second argument:
 
 | SQL | DQL |
 |---|---|
@@ -18,11 +18,17 @@ DQL cannot parse `OVER (...)` after the call's closing parenthesis, so `OVER` wr
 | `array_agg(e.tag) OVER (PARTITION BY e.post)` | `OVER(ARRAY_AGG(e.tag), PARTITION BY e.post)` |
 | `SUM(e.amount) FILTER (WHERE e.refunded = false) OVER (PARTITION BY e.customer)` | `OVER(FILTER(SUM(e.amount), WHERE e.refunded = FALSE), PARTITION BY e.customer)` |
 
+- A comma separates the call from the window specification, and the specification has no parentheses around it.
 - Without a window specification the window is the whole result, so `OVER(COUNT(e.id))` repeats the total row count on every row.
+- `FILTER` goes inside `OVER`, mirroring SQL, where `FILTER (WHERE ...)` comes before `OVER (...)`. See [`FILTER` wraps the aggregate in DQL](ARRAY-AND-JSON-FUNCTIONS.md#filter-wraps-the-aggregate-in-dql).
 
 ### What `OVER` accepts
 
-DQL's own aggregates, any aggregate from this library and a `FILTER(...)` around one, and the window-only [ranking functions](#ranking-functions) and [value functions](#value-functions). [What FILTER and OVER accept](DQL-DIALECT.md#what-filter-and-over-accept) covers the rest, including windowing a function of your own.
+- DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`.
+- Any aggregate from this library, such as `ARRAY_AGG`, `STRING_AGG` or `BOOL_AND`, and a `FILTER(...)` around one.
+- A window-only function: the [ranking functions](#ranking-functions) `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST` and `NTILE`, the [value functions](#value-functions) `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE`, or any other function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WindowFunction`. Implement it, or `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction` for an aggregate, on a function of your own to window that one too.
+
+Anything else, including a scalar function or a nested `OVER`, throws a `ParserException`, as PostgreSQL would reject it.
 
 ## Window Specification
 

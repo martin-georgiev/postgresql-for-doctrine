@@ -6,7 +6,11 @@ This document covers PostGIS spatial functions and operators available in this l
 
 ## PostGIS Spatial Operators
 
-Some of these operators also mean something for text, arrays or ltree; [One operator, several DQL names](DQL-DIALECT.md#one-operator-several-dql-names) lists which DQL name goes with each meaning.
+**⚠️ Important**: Some operators have dual meanings for different data types. Use the specific DQL function names to avoid conflicts:
+
+- **`@`**: Use `CONTAINS` for arrays/JSON, `SPATIAL_CONTAINED_BY` for geometry/geography
+- **`~`**: Use `REGEXP` for text patterns, `SPATIAL_CONTAINS` for geometry/geography
+- **`&&`**: Use `OVERLAPS` for arrays/JSON, spatial overlaps work automatically with geometry/geography
 
 **📝 Compatibility Notes**:
 - Most bounding box operators work primarily with **geometry** types
@@ -16,7 +20,7 @@ Some of these operators also mean something for text, arrays or ltree; [One oper
 
 ### Bounding Box Operators
 
-These operators work with geometry and geography bounding boxes. All return boolean values, so compare them with `= TRUE` or `= FALSE` in DQL ([The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
+These operators work with geometry and geography bounding boxes. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**.
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
@@ -46,7 +50,7 @@ These operators calculate distances between geometries. All return numeric value
 
 ## PostGIS Spatial Relationship Functions
 
-These functions determine spatial relationships between geometries. Most return boolean values, so compare them with `= TRUE` or `= FALSE` in DQL ([The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)), but there are exceptions: `ST_Relate(geom, geom)` returns text (intersection matrix) and `ST_LineCrossingDirection` returns integer (crossing behavior).
+These functions determine spatial relationships between geometries. Most return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**, but there are exceptions: `ST_Relate(geom, geom)` returns text (intersection matrix) and `ST_LineCrossingDirection` returns integer (crossing behavior).
 
 | PostgreSQL functions | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
@@ -279,7 +283,7 @@ WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
   - `1`: Left to right crossing
   - `-1`: Right to left crossing
   - `2`: Multiple crossings
-- All other functions return boolean values → [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)
+- All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
 
 **🔍 DE-9IM Intersection Matrix Patterns for ST_Relate:**
 
@@ -296,13 +300,13 @@ Common patterns:
 - `T*T***T**` = Overlaps (partial overlap)
 
 **📊 Function Return Types:**
-- **Boolean functions**: Use with `= TRUE` or `= FALSE` in DQL → [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)
+- **Boolean functions**: Use with `= TRUE` or `= FALSE` in DQL
 - **Numeric functions**: Return values for calculations and ordering
 - **Geometry functions**: Return new geometries for further operations
 - **Text functions**: Return strings for pattern matching and display
 
 **💡 Tips for Usage:**
-1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL → [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)
+1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL
 2. **Spatial functions** work best with proper geometry types and indexes
 3. **3D functions** require geometries with Z coordinates
 4. **Geography types** have limited operator support compared to geometry types
