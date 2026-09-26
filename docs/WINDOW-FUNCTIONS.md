@@ -88,8 +88,8 @@ These are window-only functions: they exist only inside `OVER`, and number or ra
 - Frame clauses do not affect ranking functions; PostgreSQL ignores them.
 
 ```sql
--- Number each customer's orders, newest first
-SELECT o.id, OVER(ROW_NUMBER(), PARTITION BY o.customer ORDER BY o.createdAt DESC) AS orderNumber FROM App\Entity\Order o
+-- Number each customer's sales, newest first
+SELECT s.id, OVER(ROW_NUMBER(), PARTITION BY s.customer ORDER BY s.placedAt DESC) AS saleNumber FROM App\Entity\Sale s
 
 -- A leaderboard: RANK skips after ties (1, 1, 3), DENSE_RANK does not (1, 1, 2)
 SELECT p.name, p.score, OVER(RANK(), ORDER BY p.score DESC) AS scoreRank, OVER(DENSE_RANK(), ORDER BY p.score DESC) AS denseScoreRank FROM App\Entity\Player p
@@ -129,8 +129,8 @@ A value function returns a value read from another row of the window.
 ## Usage Examples
 
 ```sql
--- Running total per customer, in order of creation
-SELECT o.id, OVER(SUM(o.amount), PARTITION BY o.customer ORDER BY o.createdAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS runningTotal FROM App\Entity\Order o
+-- Running total per customer, in the order they were placed
+SELECT s.id, OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS runningTotal FROM App\Entity\Sale s
 
 -- Seven-day moving average over dates
 SELECT d.day, OVER(AVG(d.visits), ORDER BY d.day RANGE BETWEEN '6 days' PRECEDING AND CURRENT ROW) AS weeklyAverage FROM App\Entity\DailyStat d
@@ -138,8 +138,8 @@ SELECT d.day, OVER(AVG(d.visits), ORDER BY d.day RANGE BETWEEN '6 days' PRECEDIN
 -- Each sale next to its region's total
 SELECT s.id, s.amount, OVER(SUM(s.amount), PARTITION BY s.region) AS regionTotal FROM App\Entity\Sale s
 
--- Next to a selected entity: each result row is [0 => Order, 'runningTotal' => ...]
-SELECT o, OVER(SUM(o.amount), ORDER BY o.createdAt) AS runningTotal FROM App\Entity\Order o ORDER BY o.createdAt
+-- Next to a selected entity: each result row is [0 => Sale, 'runningTotal' => ...]
+SELECT s, OVER(SUM(s.amount), ORDER BY s.placedAt) AS runningTotal FROM App\Entity\Sale s ORDER BY s.placedAt
 
 -- Day-over-day change per product, 0 on each product's first day
 SELECT p.day, p.price - OVER(LAG(p.price, 1, p.price), PARTITION BY p.product ORDER BY p.day) AS change FROM App\Entity\DailyPrice p

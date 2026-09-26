@@ -15,7 +15,7 @@ PostgreSQL [native enum types](https://www.postgresql.org/docs/18/datatype-enum.
 ### 1. Create the PostgreSQL enum type
 
 ```sql
-CREATE TYPE order_status AS ENUM ('pending', 'processing', 'shipped', 'cancelled');
+CREATE TYPE sale_status AS ENUM ('pending', 'processing', 'shipped', 'cancelled');
 ```
 
 ### 2. Define a PHP-backed enum
@@ -23,7 +23,7 @@ CREATE TYPE order_status AS ENUM ('pending', 'processing', 'shipped', 'cancelled
 Values must match the PostgreSQL enum cases exactly (case-sensitive).
 
 ```php
-enum OrderStatus: string
+enum SaleStatus: string
 {
     case PENDING    = 'pending';
     case PROCESSING = 'processing';
@@ -37,13 +37,13 @@ enum OrderStatus: string
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\Enum;
 
-final class OrderStatusType extends Enum
+final class SaleStatusType extends Enum
 {
-    protected const TYPE_NAME = 'order_status';
+    protected const TYPE_NAME = 'sale_status';
 
     protected function getEnumClass(): string
     {
-        return OrderStatus::class;
+        return SaleStatus::class;
     }
 }
 ```
@@ -55,17 +55,17 @@ The `TYPE_NAME` constant must match the PostgreSQL type name exactly - it is use
 ```php
 use Doctrine\DBAL\Types\Type as DoctrineType;
 
-DoctrineType::addType('order_status', OrderStatusType::class);
+DoctrineType::addType('sale_status', SaleStatusType::class);
 
 // Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
 $platform = $em->getConnection()->getDatabasePlatform();
-$platform->registerDoctrineTypeMapping('order_status', 'order_status');
+$platform->registerDoctrineTypeMapping('sale_status', 'sale_status');
 ```
 
-Without that mapping, schema introspection fails with `Unknown database type "order_status" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
+Without that mapping, schema introspection fails with `Unknown database type "sale_status" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
 
-- **Symfony**: `order_status: order_status` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
-- **Laravel**: `'order_status' => 'order_status'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
+- **Symfony**: `sale_status: sale_status` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
+- **Laravel**: `'sale_status' => 'sale_status'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
 
 ### 5. Use in an entity
 
@@ -73,10 +73,10 @@ Without that mapping, schema introspection fails with `Unknown database type "or
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-class Order
+class Sale
 {
-    #[ORM\Column(type: 'order_status')]
-    private OrderStatus $status;
+    #[ORM\Column(type: 'sale_status')]
+    private SaleStatus $status;
 }
 ```
 
@@ -86,10 +86,10 @@ Each PostgreSQL enum requires its own subclass, `addType` call and platform mapp
 
 ```php
 // Two PostgreSQL enums → two subclasses
-final class OrderStatusType extends Enum
+final class SaleStatusType extends Enum
 {
-    protected const TYPE_NAME = 'order_status';
-    protected function getEnumClass(): string { return OrderStatus::class; }
+    protected const TYPE_NAME = 'sale_status';
+    protected function getEnumClass(): string { return SaleStatus::class; }
 }
 
 final class PaymentMethodType extends Enum
@@ -98,18 +98,18 @@ final class PaymentMethodType extends Enum
     protected function getEnumClass(): string { return PaymentMethod::class; }
 }
 
-DoctrineType::addType('order_status', OrderStatusType::class);
+DoctrineType::addType('sale_status', SaleStatusType::class);
 DoctrineType::addType('payment_method', PaymentMethodType::class);
 
 // Schema tools (validation, migration diffs) also need PostgreSQL's type names mapped back to them:
 $platform = $em->getConnection()->getDatabasePlatform();
-$platform->registerDoctrineTypeMapping('order_status', 'order_status');
+$platform->registerDoctrineTypeMapping('sale_status', 'sale_status');
 $platform->registerDoctrineTypeMapping('payment_method', 'payment_method');
 ```
 
 ## Arrays of enum values
 
-A column declared as `order_status[]` maps to a PHP array of `OrderStatus` cases through
+A column declared as `sale_status[]` maps to a PHP array of `SaleStatus` cases through
 [`EnumArray`](../src/MartinGeorgiev/Doctrine/DBAL/Types/EnumArray.php). It is configured exactly like `Enum`: one
 concrete subclass per PostgreSQL enum, declaring `TYPE_NAME` and implementing `getEnumClass()`. The only difference is
 that `TYPE_NAME` carries the `[]` suffix.
@@ -117,49 +117,49 @@ that `TYPE_NAME` carries the `[]` suffix.
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\EnumArray;
 
-final class OrderStatusArrayType extends EnumArray
+final class SaleStatusArrayType extends EnumArray
 {
-    protected const TYPE_NAME = 'order_status[]';
+    protected const TYPE_NAME = 'sale_status[]';
 
     protected function getEnumClass(): string
     {
-        return OrderStatus::class;
+        return SaleStatus::class;
     }
 }
 
-DoctrineType::addType('order_status[]', OrderStatusArrayType::class);
+DoctrineType::addType('sale_status[]', SaleStatusArrayType::class);
 
 // Schema tools (validation, migration diffs) also need PostgreSQL's type name mapped back to it:
 $platform = $em->getConnection()->getDatabasePlatform();
-$platform->registerDoctrineTypeMapping('_order_status', 'order_status[]');
+$platform->registerDoctrineTypeMapping('_sale_status', 'sale_status[]');
 ```
 
-PostgreSQL reports an array column's type as the element type prefixed with an underscore (`_order_status`), so that is the name to map. The framework equivalents:
+PostgreSQL reports an array column's type as the element type prefixed with an underscore (`_sale_status`), so that is the name to map. The framework equivalents:
 
-- **Symfony**: `_order_status: 'order_status[]'` under `doctrine.dbal.connections.default.mapping_types` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
-- **Laravel**: `'_order_status' => 'order_status[]'` under the entity manager's `'mapping_types'` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
+- **Symfony**: `_sale_status: 'sale_status[]'` under `doctrine.dbal.connections.default.mapping_types` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
+- **Laravel**: `'_sale_status' => 'sale_status[]'` under the entity manager's `'mapping_types'` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
 
 The scalar and the array type are independent registrations - add whichever ones your schema uses.
 
 ```sql
-CREATE TABLE orders (
+CREATE TABLE sales (
     id           SERIAL PRIMARY KEY,
-    status       order_status NOT NULL,
-    status_trail order_status[] NOT NULL DEFAULT '{}'
+    status       sale_status NOT NULL,
+    status_trail sale_status[] NOT NULL DEFAULT '{}'
 );
 ```
 
 ```php
 #[ORM\Entity]
-class Order
+class Sale
 {
-    #[ORM\Column(type: 'order_status')]
-    private OrderStatus $status;
+    #[ORM\Column(type: 'sale_status')]
+    private SaleStatus $status;
 
     /**
-     * @var array<int, OrderStatus>
+     * @var array<int, SaleStatus>
      */
-    #[ORM\Column(type: 'order_status[]')]
+    #[ORM\Column(type: 'sale_status[]')]
     private array $statusTrail = [];
 }
 ```
@@ -177,14 +177,14 @@ A `NULL` element inside the array maps to a PHP `null` entry, and `null` entries
 distinct from a `NULL` column, which maps to `null` instead of an array.
 
 ```php
-$order->statusTrail = [OrderStatus::PENDING, null, OrderStatus::SHIPPED]; // {"pending",NULL,"shipped"}
+$sale->statusTrail = [SaleStatus::PENDING, null, SaleStatus::SHIPPED]; // {"pending",NULL,"shipped"}
 ```
 
 A label spelled exactly `NULL` stays a label. PostgreSQL quotes it (`"NULL"`) and leaves a real NULL element bare, so the
 two round-trip distinctly:
 
 ```php
-$order->statusTrail = [Status::NULL_LABEL, null]; // {"NULL",NULL} — first is the label, second is SQL NULL
+$sale->statusTrail = [Status::NULL_LABEL, null]; // {"NULL",NULL} — first is the label, second is SQL NULL
 ```
 
 ## Migrations
@@ -194,8 +194,8 @@ $order->statusTrail = [Status::NULL_LABEL, null]; // {"NULL",NULL} — first is 
 Write the statement by hand, keeping the labels in step with the PHP enum's cases:
 
 ```sql
-CREATE TYPE order_status AS ENUM ('pending', 'processing', 'shipped', 'cancelled');
-ALTER TABLE orders ADD COLUMN status order_status NOT NULL DEFAULT 'pending';
+CREATE TYPE sale_status AS ENUM ('pending', 'processing', 'shipped', 'cancelled');
+ALTER TABLE sales ADD COLUMN status sale_status NOT NULL DEFAULT 'pending';
 ```
 
 ### Why the library does not create the type for you
@@ -204,12 +204,12 @@ Doctrine's schema tool models tables, not user-defined types, and PostgreSQL con
 
 ### Adding a new case
 
-Since PostgreSQL 12, `ALTER TYPE ... ADD VALUE` is allowed inside a transaction block, but the new label cannot be used until that transaction commits - PostgreSQL rejects it with `unsafe use of new value "returned" of enum type order_status`. A plain `addSql()` in a Doctrine Migrations `up()` is therefore enough on its own:
+Since PostgreSQL 12, `ALTER TYPE ... ADD VALUE` is allowed inside a transaction block, but the new label cannot be used until that transaction commits - PostgreSQL rejects it with `unsafe use of new value "returned" of enum type sale_status`. A plain `addSql()` in a Doctrine Migrations `up()` is therefore enough on its own:
 
 ```php
 public function up(Schema $schema): void
 {
-    $this->addSql("ALTER TYPE order_status ADD VALUE 'returned'");
+    $this->addSql("ALTER TYPE sale_status ADD VALUE 'returned'");
 }
 ```
 
@@ -231,7 +231,7 @@ Both need the `all_or_nothing` option off: it runs every migration in one transa
 ```php
 public function up(Schema $schema): void
 {
-    $this->addSql("ALTER TYPE order_status RENAME VALUE 'shipped' TO 'dispatched'");
+    $this->addSql("ALTER TYPE sale_status RENAME VALUE 'shipped' TO 'dispatched'");
 }
 ```
 
@@ -239,21 +239,21 @@ Change the matching PHP enum case's backing value in the same deploy. Once the l
 
 ### Removing a case
 
-PostgreSQL cannot remove an enum label (`DROP VALUE` is not implemented). Instead, move the data off the label, create a type without it, convert every column that uses the old type, and swap the names. Removing `processing` from the `orders` table above:
+PostgreSQL cannot remove an enum label (`DROP VALUE` is not implemented). Instead, move the data off the label, create a type without it, convert every column that uses the old type, and swap the names. Removing `processing` from the `sales` table above:
 
 ```php
 public function up(Schema $schema): void
 {
-    $this->addSql("UPDATE orders SET status = 'pending' WHERE status = 'processing'");
-    $this->addSql("UPDATE orders SET status_trail = array_remove(status_trail, 'processing')");
-    $this->addSql("CREATE TYPE order_status_new AS ENUM ('pending', 'shipped', 'cancelled', 'returned')");
-    $this->addSql('ALTER TABLE orders ALTER COLUMN status DROP DEFAULT, ALTER COLUMN status_trail DROP DEFAULT');
-    $this->addSql('ALTER TABLE orders
-        ALTER COLUMN status TYPE order_status_new USING status::text::order_status_new,
-        ALTER COLUMN status_trail TYPE order_status_new[] USING status_trail::text[]::order_status_new[]');
-    $this->addSql('DROP TYPE order_status');
-    $this->addSql('ALTER TYPE order_status_new RENAME TO order_status');
-    $this->addSql("ALTER TABLE orders ALTER COLUMN status SET DEFAULT 'pending', ALTER COLUMN status_trail SET DEFAULT '{}'");
+    $this->addSql("UPDATE sales SET status = 'pending' WHERE status = 'processing'");
+    $this->addSql("UPDATE sales SET status_trail = array_remove(status_trail, 'processing')");
+    $this->addSql("CREATE TYPE sale_status_new AS ENUM ('pending', 'shipped', 'cancelled', 'returned')");
+    $this->addSql('ALTER TABLE sales ALTER COLUMN status DROP DEFAULT, ALTER COLUMN status_trail DROP DEFAULT');
+    $this->addSql('ALTER TABLE sales
+        ALTER COLUMN status TYPE sale_status_new USING status::text::sale_status_new,
+        ALTER COLUMN status_trail TYPE sale_status_new[] USING status_trail::text[]::sale_status_new[]');
+    $this->addSql('DROP TYPE sale_status');
+    $this->addSql('ALTER TYPE sale_status_new RENAME TO sale_status');
+    $this->addSql("ALTER TABLE sales ALTER COLUMN status SET DEFAULT 'pending', ALTER COLUMN status_trail SET DEFAULT '{}'");
 }
 ```
 
