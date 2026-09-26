@@ -76,6 +76,7 @@
             "Ci\\MartinGeorgiev\\Docs\\": "ci/docs/",
             "Ci\\MartinGeorgiev\\PHPStan\\": "ci/phpstan/rules/",
             "Ci\\MartinGeorgiev\\Shared\\": "ci/shared/",
+            "Ci\\MartinGeorgiev\\TestSuite\\": "ci/test-suite/",
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
             "Tests\\Integration\\MartinGeorgiev\\": "tests/Integration/MartinGeorgiev/",
             "Tests\\Unit\\MartinGeorgiev\\": "tests/Unit/MartinGeorgiev/"
@@ -96,6 +97,7 @@
         "ekino/phpstan-banned-code": "^3.2.0",
         "friendsofphp/php-cs-fixer": "^3.95.15",
         "league/commonmark": "^2.10.3",
+        "nikic/php-parser": "^5.9.0",
         "phpstan/phpstan": "^2.2.8",
         "phpstan/phpstan-deprecation-rules": "^2.0.4",
         "phpstan/phpstan-doctrine": "^2.0.28",
@@ -141,6 +143,9 @@
         "rector": [
             "rector --config=./ci/rector/config.php --ansi --no-progress-bar"
         ],
+        "test-suite:registrations": [
+            "Ci\\MartinGeorgiev\\TestSuite\\IntegrationTestRegistrationChecker::run"
+        ],
 
         "check-code-style": [
             "@php-cs-fixer --dry-run",
@@ -153,6 +158,9 @@
         "check-docs": [
             "@docs:dql-examples",
             "@docs:registrations"
+        ],
+        "check-test-suite": [
+            "@test-suite:registrations"
         ],
         "run-static-analysis": [
             "@phpstan",
