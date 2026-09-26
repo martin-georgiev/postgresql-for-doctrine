@@ -139,7 +139,7 @@ In SQL, an ordered-set aggregate closes its parentheses and then takes `WITHIN G
 
 ```sql
 -- WIDTH_BUCKET: bucket number (1-based) for a value in a histogram with N equal-width buckets
-SELECT WIDTH_BUCKET(e.score, 0, 100, 10) as bucket, COUNT(*) as count
+SELECT WIDTH_BUCKET(e.score, 0, 100, 10) as bucket, COUNT(e.id) as count
 FROM Entity e GROUP BY bucket ORDER BY bucket
 
 -- POWER used for square root and Pythagorean distance
@@ -147,7 +147,7 @@ SELECT POWER(e.value, 0.5) as square_root FROM Entity e WHERE e.value > 0
 SELECT POWER(POWER(e.x2 - e.x1, 2) + POWER(e.y2 - e.y1, 2), 0.5) as distance FROM Entity e
 
 -- Random reservoir sampling: WHERE filters ~10% of rows, ORDER BY shuffles them
-SELECT e FROM Entity e WHERE RANDOM() < 0.1 ORDER BY RANDOM() LIMIT 100
+SELECT e FROM Entity e WHERE RANDOM() < 0.1 ORDER BY RANDOM() -- DQL has no LIMIT: cap the rows with $query->setMaxResults(100)
 
 -- GREATEST/LEAST with aggregates — clamp aggregate results to a floor or ceiling
 SELECT e.category,

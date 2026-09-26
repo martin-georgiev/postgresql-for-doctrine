@@ -337,7 +337,7 @@ Use in DQL:
 $dql = "
     SELECT p 
     FROM Product p 
-    WHERE OVERLAPS(p.priceRange, NUMRANGE(20, 50)) = TRUE
+    WHERE OVERLAPS(p.priceRange, NUMRANGE('20', '50')) = TRUE
 ";
 
 // Find events in a date range

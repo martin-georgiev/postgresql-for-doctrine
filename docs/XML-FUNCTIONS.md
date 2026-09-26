@@ -25,9 +25,9 @@ SELECT e.category, XMLAGG(e.xmlData ORDER BY e.createdAt) FROM App\Entity\Articl
 -- xml_is_well_formed uses the session xmloption (DOCUMENT or CONTENT mode)
 -- xml_is_well_formed_document always requires a single root element
 -- xml_is_well_formed_content accepts fragments and plain text nodes
-SELECT XML_IS_WELL_FORMED(e.xmlData) FROM App\Entity\Article e
-SELECT XML_IS_WELL_FORMED_DOCUMENT(e.xmlData) FROM App\Entity\Article e
-SELECT XML_IS_WELL_FORMED_CONTENT(e.xmlData) FROM App\Entity\Article e
+SELECT XML_IS_WELL_FORMED(e.xmlText) FROM App\Entity\Article e
+SELECT XML_IS_WELL_FORMED_DOCUMENT(e.xmlText) FROM App\Entity\Article e
+SELECT XML_IS_WELL_FORMED_CONTENT(e.xmlText) FROM App\Entity\Article e
 
 -- XPath text() node extraction and attribute predicates
 SELECT XPATH('//item/title/text()', e.xmlData) FROM App\Entity\Article e WHERE e.id = :id

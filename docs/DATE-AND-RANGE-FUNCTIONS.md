@@ -87,19 +87,19 @@ WHERE e1.end_date < e2.start_date
 SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 hour', 'Europe/Sofia') as hour FROM Entity e WHERE e.id = 1
 
 -- DATE_BIN: snap a timestamp to the nearest interval boundary relative to an origin
-SELECT DATE_BIN('1 month', e.created_at, '2023-01-01') as month_start FROM Entity e
+SELECT DATE_BIN('7 days', e.created_at, '2023-01-02') as week_start FROM Entity e
 
 -- Range bounds: third argument controls inclusivity — default is '[)' (inclusive lower, exclusive upper)
 SELECT DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity e
 
 -- Range operators must be compared with = TRUE / = FALSE in Doctrine DQL
 SELECT e FROM Entity e WHERE OVERLAPS(e.active_period, DATERANGE('2023-01-01', '2023-12-31')) = TRUE
-SELECT e FROM Entity e WHERE CONTAINS(DATERANGE(DATE_SUBTRACT(CURRENT_DATE, 30), CURRENT_DATE), e.created_at) = TRUE
+SELECT e FROM Entity e WHERE CONTAINS(TSTZRANGE(DATE_SUBTRACT(CURRENT_TIMESTAMP(), '30 days'), CURRENT_TIMESTAMP()), e.start_tz) = TRUE
 
--- Group by calendar month using DATE_BIN + DATE_ADD
-SELECT DATERANGE(DATE_BIN('1 month', e.created_at, '2023-01-01'),
-                 DATE_ADD(DATE_BIN('1 month', e.created_at, '2023-01-01'), 30)) as month_range,
-       COUNT(*) as entity_count
+-- Group by calendar month using DATE_TRUNC + DATE_ADD
+SELECT TSTZRANGE(DATE_TRUNC('month', e.created_at),
+                 DATE_ADD(DATE_TRUNC('month', e.created_at), '1 month')) as month_range,
+       COUNT(e.id) as entity_count
 FROM Entity e
 GROUP BY month_range
 ORDER BY month_range
@@ -124,8 +124,8 @@ PostgreSQL ranges support different bound types:
 
 ### Empty and Infinite Ranges
 - Empty ranges: a range containing no values, which PostgreSQL prints as `empty` (e.g. `DATERANGE('2023-01-01', '2023-01-01')`). In PHP, use `DateRange::empty()` and `isEmpty()` — see [Empty Ranges](RANGE-TYPES.md#empty-ranges). A range with two `NULL` bounds is not empty: it is `(,)`, unbounded on both sides
-- Infinite ranges: Use `NULL` for unbounded sides
-- Example: `DATERANGE('2023-01-01', NULL)` represents "from 2023-01-01 onwards"
+- Infinite ranges: Use a parameter set to `null` for unbounded sides (DQL does not accept a bare `NULL` argument)
+- Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 
 **💡 Tips for Usage:**
 1. **Range operators** should be used with `= TRUE` or `= FALSE` in DQL

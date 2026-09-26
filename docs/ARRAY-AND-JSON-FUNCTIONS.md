@@ -131,6 +131,8 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 | CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` |
 | aggregate FILTER (WHERE condition) | FILTER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter` |
 
+`ARRAY` takes strings, fields, parameters and function calls; a bare number such as `ARRAY(1, 2)` does not parse. Quoted elements build a `text[]`, which PostgreSQL will not compare with a non-text array column — there, pass a PostgreSQL array literal instead: `CONTAINS(e.integerArray, '{1,2}') = TRUE`.
+
 ### `FILTER` wraps the aggregate in DQL
 
 In SQL, `FILTER (WHERE ...)` follows the aggregate's closing parenthesis. DQL cannot parse anything after a function's closing parenthesis, so in DQL `FILTER` becomes a function **around** the aggregate, with the condition as its second argument:

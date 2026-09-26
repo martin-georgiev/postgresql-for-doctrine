@@ -246,13 +246,13 @@ if ($product->getPriceRange()->contains(25.00)) {
 
 ```sql
 -- Find products with overlapping price ranges
-SELECT p FROM Product p WHERE OVERLAPS(p.priceRange, NUMRANGE(20, 50)) = TRUE
+SELECT p FROM Product p WHERE OVERLAPS(p.priceRange, NUMRANGE('20', '50')) = TRUE
 
 -- Find products available in a specific period
 SELECT p FROM Product p WHERE CONTAINS(p.availabilityPeriod, DATERANGE('2024-06-01', '2024-06-30')) = TRUE
 
--- Find products with prices in a specific range
-SELECT p FROM Product p WHERE p.priceRange @> 25.0
+-- Find products whose price range contains 25.0 (a bare '25.0' would be read as a range literal and rejected)
+SELECT p FROM Product p WHERE CONTAINS(p.priceRange, NUMRANGE('25.0', '25.0', '[]')) = TRUE
 ```
 
 
@@ -383,11 +383,10 @@ SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1,
 #### Distance-Based Queries
 
 ```sql
--- Find the 10 nearest geometries to a point
+-- Find the nearest geometries to a point
 SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
 FROM Entity e
 ORDER BY distance
-LIMIT 10
 
 -- Find geometries within a specific distance (using bounding box distance for performance)
 SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
@@ -423,12 +422,11 @@ SELECT e FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE            -- Text
 -- Use bounding box operators for initial filtering (they use spatial indexes)
 SELECT e FROM Entity e
 WHERE OVERLAPS(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE
-  AND ST_Intersects(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))')  -- Exact check
+  AND ST_Intersects(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE  -- Exact check
 
 -- Use distance operators for nearest neighbor queries
 SELECT e FROM Entity e
 ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
-LIMIT 10
 ```
 
 For array columns, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md).
