@@ -383,11 +383,10 @@ SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1,
 #### Distance-Based Queries
 
 ```sql
--- Find the 10 nearest geometries to a point
+-- Find the nearest geometries to a point
 SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
 FROM Entity e
 ORDER BY distance
--- DQL has no LIMIT: cap the rows with $query->setMaxResults(10)
 
 -- Find geometries within a specific distance (using bounding box distance for performance)
 SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
@@ -428,7 +427,6 @@ WHERE OVERLAPS(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE
 -- Use distance operators for nearest neighbor queries
 SELECT e FROM Entity e
 ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
--- DQL has no LIMIT: cap the rows with $query->setMaxResults(10)
 ```
 
 For array columns, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md).
