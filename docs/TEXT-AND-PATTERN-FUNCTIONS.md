@@ -6,21 +6,13 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 ## Text and Pattern Operators
 
-**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
-
-| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
-|---|---|---|---|
-| `~` | N/A | `SPATIAL_CONTAINS` (bounding box contains) | `REGEXP` (text pattern matching) |
-
-**Usage Guidelines:**
-- **Text**: Use `REGEXP`, `IREGEXP` for pattern matching
-- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
+Each operator is a function in DQL, and the boolean ones need `= TRUE`; [One operator, several DQL names](DQL-DIALECT.md#one-operator-several-dql-names) lists the operators other types share, such as `~`, and which DQL name goes with each.
 
 ### Text and Pattern Operators
 
 | PostgreSQL operator | Register for DQL as | Implemented by |
 |---|---|---|
-| ilike | ILIKE ([Usage note](USE-CASES-AND-EXAMPLES.md)) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike` |
+| ilike | ILIKE ([Usage note](DQL-DIALECT.md#boolean-functions-need-a-comparison)) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike` |
 | similar to | SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo` |
 | not similar to | NOT_SIMILAR_TO | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo` |
 | ~ | REGEXP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Regexp` |
@@ -174,7 +166,7 @@ SELECT e.category, STRING_AGG(e.name, ', ' ORDER BY e.name) as names FROM Entity
 ```
 
 **💡 Tips for Usage:**
-1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
+1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL → [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)
 2. **Regular expressions** use PostgreSQL's POSIX regular expression syntax
 3. **Full-text search** requires proper text search configuration and indexes
 4. **ILIKE** provides case-insensitive pattern matching similar to `LIKE`

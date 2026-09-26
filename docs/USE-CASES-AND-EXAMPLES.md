@@ -1,28 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Common Use Cases and Examples
 
-## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
-
-`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is probably one of the most common DQL errors you may experience when working with this library. The cause for this is that when parsing the DQL Doctrine won't recognize `ILIKE` as a known operator. In fact `ILIKE` is registered as a boolean function.
-Doctrine doesn't provide easy support for implementing custom operators. This may change in the future but for now it is easier to trick the DQL parser with a boolean expression.
-
-Example intent with PostgreSQL:
-```sql
-SELECT * FROM emails WHERE subject ILIKE 'Test email';
-```
-
-Intuitively, one may assume the below DQL. However it will not work:
-```sql
-SELECT e
-FROM EmailEntity e
-WHERE e.subject ILIKE 'Test email'
-```
-
-The correct DQL is with a boolean expression that will parse correctly and can look like this:
-```sql
-SELECT e
-FROM EmailEntity e
-WHERE ILIKE(e.subject, 'Test email') = TRUE
-```
+`ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and the other operator-like functions are boolean functions, so a DQL `WHERE` clause needs them compared with `= TRUE`, as in `WHERE ILIKE(e.subject, 'Test email') = TRUE`; [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison) explains the `Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` error.
 
 ## Using JSON_BUILD_OBJECT and JSONB_BUILD_OBJECT
 
@@ -402,19 +380,7 @@ FROM Entity e
 WHERE ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
 ```
 
-#### Operator Conflicts and Best Practices
-
-Some operators have different meanings for different data types. Use specific function names to avoid conflicts:
-
-```sql
--- ✅ CORRECT: Use specific function names
-SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('tag1')) = TRUE      -- Array containment
-SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, e.point) = TRUE -- Spatial containment
-SELECT e FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE            -- Text pattern matching
-
--- ❌ AVOID: Ambiguous usage that might conflict
--- The @ and ~ operators have different meanings for arrays vs spatial data
-```
+Some operators mean different things for arrays, text and geometry; [One operator, several DQL names](DQL-DIALECT.md#one-operator-several-dql-names) lists which DQL name goes with each meaning.
 
 #### Performance Tips
 

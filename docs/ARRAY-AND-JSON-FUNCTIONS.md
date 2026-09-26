@@ -6,17 +6,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 
 ## Array and JSON Operators
 
-**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
-
-| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
-|---|---|---|---|
-| `@>` | `CONTAINS` (arrays contain elements) | Works automatically with geometry/geography | N/A |
-| `<@` | `IS_CONTAINED_BY` (element in array) | Works automatically with geometry/geography | N/A |
-| `&&` | `OVERLAPS` (arrays/ranges overlap) | Works automatically with geometry/geography | N/A |
-
-**Usage Guidelines:**
-- **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
-- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
+Each operator is a function in DQL, and the boolean ones need `= TRUE`; [One operator, several DQL names](DQL-DIALECT.md#one-operator-several-dql-names) lists the operators other types share and which DQL name goes with each.
 
 ### Array and JSON Operators
 
@@ -135,7 +125,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 
 ### `FILTER` wraps the aggregate in DQL
 
-In SQL, `FILTER (WHERE ...)` follows the aggregate's closing parenthesis. DQL cannot parse anything after a function's closing parenthesis, so in DQL `FILTER` becomes a function **around** the aggregate, with the condition as its second argument:
+DQL cannot parse `FILTER (WHERE ...)` after the aggregate's closing parenthesis, so `FILTER` wraps the aggregate instead; [FILTER wraps the aggregate](DQL-DIALECT.md#filter-wraps-the-aggregate) explains the shape and what it accepts.
 
 | SQL | DQL |
 |---|---|
@@ -143,10 +133,6 @@ In SQL, `FILTER (WHERE ...)` follows the aggregate's closing parenthesis. DQL ca
 | `SUM(e.amount) FILTER (WHERE e.refunded = false)` | `FILTER(SUM(e.amount), WHERE e.refunded = FALSE)` |
 | `array_agg(e.id ORDER BY e.createdAt) FILTER (WHERE e.archivedAt IS NULL)` | `FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archivedAt IS NULL)` |
 | `percentile_cont(0.5) WITHIN GROUP (ORDER BY e.amount) FILTER (WHERE e.paid = true)` | `FILTER(PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY e.amount), WHERE e.paid = TRUE)` |
-
-- A comma separates the aggregate from `WHERE`, and the condition has no parentheses around it.
-- The first argument must be an aggregate: DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`, or a function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction`. Every aggregate in this library implements it; implement it on an aggregate of your own to wrap that one too. Anything else, including a nested `FILTER`, throws a `ParserException`, as PostgreSQL would reject it.
-- The condition takes anything a DQL `WHERE` does, including parameters.
 
 ## Usage Examples
 
@@ -167,7 +153,7 @@ SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archived
 ```
 
 **💡 Tips for Usage:**
-1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
+1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL → [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)
 2. **Array functions** provide efficient PostgreSQL array operations
 3. **JSON functions** support both JSON and JSONB data types
 4. **JSONB functions** offer better performance for complex JSON operations
