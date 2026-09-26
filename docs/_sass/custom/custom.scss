@@ -195,7 +195,7 @@ $muted-text-color: $search-result-preview-color;
     font-size: 0.85rem;
   }
 
-  .pair pre {
+  .pair > .pair__side > pre {
     margin: 0;
   }
 
