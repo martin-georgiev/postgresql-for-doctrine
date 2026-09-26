@@ -6,14 +6,11 @@ namespace Tests\Unit\MartinGeorgiev;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class RegistrationCompletenessTest extends TestCase
 {
-    use IntegrationGuideFunctionRegistrationsTrait;
-
     /**
      * @var string
      */
@@ -91,101 +88,6 @@ final class RegistrationCompletenessTest extends TestCase
             self::FUNCTION_INTEGRATION_TEST_DIRECTORY,
             self::class
         ));
-    }
-
-    #[DataProvider('provideDocumentationThatMustListEveryType')]
-    #[Test]
-    public function documents_every_declared_type(string $documentationFile, string $registrationPattern): void
-    {
-        $documentation = $this->readRepositoryFile($documentationFile);
-        $undocumented = \array_values(\array_filter(
-            $this->declaredTypeNames(),
-            static fn (string $typeName): bool => \preg_match(\sprintf($registrationPattern, \preg_quote($typeName, '/')), $documentation) !== 1
-        ));
-
-        $this->assertSame([], $undocumented, \sprintf(
-            'Every type name declared as a constant in %s must be registered in %s.',
-            self::TYPE_DECLARATION_FILE,
-            $documentationFile
-        ));
-    }
-
-    /**
-     * Each pattern is the shape a registration takes in that file, so a passing mention - an alias, a prose example -
-     * cannot stand in for one. Symfony quotes only the names YAML would otherwise misread.
-     *
-     * @return array<string, array{documentationFile: string, registrationPattern: string}>
-     */
-    public static function provideDocumentationThatMustListEveryType(): array
-    {
-        return [
-            'type catalogue' => ['documentationFile' => 'docs/AVAILABLE-TYPES.md', 'registrationPattern' => '/\| %s \| /'],
-            'Doctrine integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-DOCTRINE.md', 'registrationPattern' => "/addType\\('%s', /"],
-            'Symfony integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-SYMFONY.md', 'registrationPattern' => "/^ *'?%s'?: MartinGeorgiev/m"],
-            'Laravel integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-LARAVEL.md', 'registrationPattern' => "/'%s' => /"],
-        ];
-    }
-
-    #[DataProvider('provideDocumentationThatMustRegisterEveryFunction')]
-    #[Test]
-    public function documents_every_function_class(string $documentationFile, string $registrationPattern): void
-    {
-        $registrations = self::functionRegistrationsIn($documentationFile, $registrationPattern);
-        $registrationCountByClass = \array_count_values(\array_column($registrations, 'class'));
-        \ksort($registrationCountByClass);
-        $namesRegisteredMoreThanOnce = \array_keys(\array_filter(
-            \array_count_values(\array_column($registrations, 'name')),
-            static fn (int $count): bool => $count > 1
-        ));
-
-        $this->assertSame(\array_fill_keys($this->concreteFunctionClasses(), 1), $registrationCountByClass, \sprintf(
-            'Every concrete function class in %s must be registered exactly once in %s, and nothing else registered there.',
-            self::FUNCTION_SOURCE_DIRECTORY,
-            $documentationFile
-        ));
-        $this->assertSame([], $namesRegisteredMoreThanOnce, \sprintf(
-            'Every DQL function name must be registered only once in %s.',
-            $documentationFile
-        ));
-    }
-
-    /**
-     * Each pattern captures a DQL name and a class under `MartinGeorgiev\Doctrine\ORM\`, so the type registrations
-     * in the same guides never pass for function registrations.
-     *
-     * @return array<string, array{documentationFile: string, registrationPattern: string}>
-     */
-    public static function provideDocumentationThatMustRegisterEveryFunction(): array
-    {
-        return [
-            'Doctrine integration guide' => ['documentationFile' => self::DOCTRINE_INTEGRATION_GUIDE, 'registrationPattern' => self::DOCTRINE_FUNCTION_REGISTRATION_PATTERN],
-            ...self::provideDocumentationThatMustMatchTheDoctrineGuide(),
-        ];
-    }
-
-    #[DataProvider('provideDocumentationThatMustMatchTheDoctrineGuide')]
-    #[Test]
-    public function documents_the_function_names_the_doctrine_guide_registers(string $documentationFile, string $registrationPattern): void
-    {
-        $registeredFunctions = \array_column(self::functionRegistrationsIn($documentationFile, $registrationPattern), 'class', 'name');
-        \ksort($registeredFunctions);
-
-        $this->assertSame(self::functionsRegisteredByTheDoctrineGuide(), $registeredFunctions, \sprintf(
-            '%s must register every function under the same DQL name as %s.',
-            $documentationFile,
-            self::DOCTRINE_INTEGRATION_GUIDE
-        ));
-    }
-
-    /**
-     * @return array<string, array{documentationFile: string, registrationPattern: string}>
-     */
-    public static function provideDocumentationThatMustMatchTheDoctrineGuide(): array
-    {
-        return [
-            'Symfony integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-SYMFONY.md', 'registrationPattern' => "/^ *'?(?<name>\\w+)'?: (?<class>MartinGeorgiev\\\\Doctrine\\\\ORM\\\\[\\w\\\\]+)/m"],
-            'Laravel integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-LARAVEL.md', 'registrationPattern' => "/'(?<name>[^']+)' => (?<class>MartinGeorgiev\\\\Doctrine\\\\ORM\\\\[\\w\\\\]+)::class/"],
-        ];
     }
 
     /**

@@ -23,9 +23,6 @@ deptrac:
       collectors:
         - type: class
           value: ^Fixtures\\MartinGeorgiev\\.*
-        # The entities the documentation's examples query
-        - type: class
-          value: ^App\\Entity\\.*
     - name: Integration Tests
       collectors:
         - type: class

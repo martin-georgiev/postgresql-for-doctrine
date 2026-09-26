@@ -71,6 +71,9 @@ jobs:
       - name: Check code style
         run: composer check-code-style
 
+      - name: Check documentation
+        run: composer check-docs
+
       - name: Check for security vulnerabilities in 3rd party dependencies
         run: composer audit
 

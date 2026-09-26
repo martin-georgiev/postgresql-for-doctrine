@@ -73,8 +73,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\": "fixtures/App/",
+            "App\\Entity\\": "ci/docs/Entity/",
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
+            "MartinGeorgiev\\Docs\\": "ci/docs/",
             "MartinGeorgiev\\PHPStan\\": "ci/phpstan/rules/",
             "Tests\\Integration\\MartinGeorgiev\\": "tests/Integration/MartinGeorgiev/",
             "Tests\\Unit\\MartinGeorgiev\\": "tests/Unit/MartinGeorgiev/"
@@ -112,6 +113,12 @@
         "deptrac": [
             "deptrac analyze --config-file=./ci/deptrac/config.yml --cache-file=./ci/deptrac/.cache --no-interaction --no-progress"
         ],
+        "docs:dql-examples": [
+            "MartinGeorgiev\\Docs\\DqlExampleChecker::run"
+        ],
+        "docs:registrations": [
+            "MartinGeorgiev\\Docs\\SetupGuideChecker::run"
+        ],
         "php-cs-fixer": [
             "php-cs-fixer fix --config=./ci/php-cs-fixer/config.php --allow-unsupported-php-version=yes --show-progress=none --no-interaction --diff -v"
         ],
@@ -141,6 +148,10 @@
         "fix-code-style": [
             "@rector",
             "@php-cs-fixer"
+        ],
+        "check-docs": [
+            "@docs:dql-examples",
+            "@docs:registrations"
         ],
         "run-static-analysis": [
             "@phpstan",
