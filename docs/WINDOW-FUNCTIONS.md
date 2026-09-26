@@ -94,8 +94,8 @@ SELECT s.id, OVER(ROW_NUMBER(), PARTITION BY s.customer ORDER BY s.placedAt DESC
 -- A leaderboard: RANK skips after ties (1, 1, 3), DENSE_RANK does not (1, 1, 2)
 SELECT p.name, p.score, OVER(RANK(), ORDER BY p.score DESC) AS scoreRank, OVER(DENSE_RANK(), ORDER BY p.score DESC) AS denseScoreRank FROM App\Entity\Player p
 
--- Split each region's sales into quartiles
-SELECT s.id, OVER(NTILE(4), PARTITION BY s.region ORDER BY s.amount) AS quartile FROM App\Entity\Sale s
+-- Split each region's orders into quartiles
+SELECT o.id, OVER(NTILE(4), PARTITION BY o.region ORDER BY o.amount) AS quartile FROM App\Entity\Order o
 
 -- Where each score sits in the distribution, from 0 to 1
 SELECT p.name, OVER(PERCENT_RANK(), ORDER BY p.score) AS percentile FROM App\Entity\Player p
@@ -135,8 +135,8 @@ SELECT s.id, OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt ROW
 -- Seven-day moving average over dates
 SELECT d.day, OVER(AVG(d.visits), ORDER BY d.day RANGE BETWEEN '6 days' PRECEDING AND CURRENT ROW) AS weeklyAverage FROM App\Entity\DailyStat d
 
--- Each sale next to its region's total
-SELECT s.id, s.amount, OVER(SUM(s.amount), PARTITION BY s.region) AS regionTotal FROM App\Entity\Sale s
+-- Each order next to its region's total
+SELECT o.id, o.amount, OVER(SUM(o.amount), PARTITION BY o.region) AS regionTotal FROM App\Entity\Order o
 
 -- Next to a selected entity: each result row is [0 => Sale, 'runningTotal' => ...]
 SELECT s, OVER(SUM(s.amount), ORDER BY s.placedAt) AS runningTotal FROM App\Entity\Sale s ORDER BY s.placedAt
@@ -144,8 +144,8 @@ SELECT s, OVER(SUM(s.amount), ORDER BY s.placedAt) AS runningTotal FROM App\Enti
 -- Day-over-day change per product, 0 on each product's first day
 SELECT p.day, p.price - OVER(LAG(p.price, 1, p.price), PARTITION BY p.product ORDER BY p.day) AS change FROM App\Entity\DailyPrice p
 
--- Each sale next to the highest amount in its region
-SELECT s.id, s.amount, OVER(LAST_VALUE(s.amount), PARTITION BY s.region ORDER BY s.amount ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS regionHighest FROM App\Entity\Sale s
+-- Each order next to the highest amount in its region
+SELECT o.id, o.amount, OVER(LAST_VALUE(o.amount), PARTITION BY o.region ORDER BY o.amount ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS regionHighest FROM App\Entity\Order o
 ```
 
 ## Limitations
