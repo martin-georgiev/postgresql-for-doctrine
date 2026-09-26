@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Rector;
+namespace Ci\MartinGeorgiev\Rector;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;

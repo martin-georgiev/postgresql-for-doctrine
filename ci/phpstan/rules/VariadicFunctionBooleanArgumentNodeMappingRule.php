@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\PHPStan;
+namespace Ci\MartinGeorgiev\PHPStan;
 
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunctionWithOptionalBooleanLastArgument;
 use PhpParser\Node;
