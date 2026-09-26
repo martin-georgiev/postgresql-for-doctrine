@@ -2,6 +2,8 @@
 
 This document provides an overview of PostgreSQL functions and operators available in this library. For detailed documentation of specific function categories, see the specialized documentation files linked below.
 
+> **See also:** [What comes back: hydration](HYDRATION.md) for the PHP value a function result arrives as
+
 ## Operator Conflicts and Usage Notes
 
 **⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:

@@ -1,5 +1,7 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Available Types
 
+> **See also:** [What comes back: hydration](HYDRATION.md) for the PHP value each type hydrates to
+
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
 |---|---|---|
 | bytea | bytea | `MartinGeorgiev\Doctrine\DBAL\Types\Bytea` |
