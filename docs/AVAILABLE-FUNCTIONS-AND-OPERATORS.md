@@ -8,8 +8,8 @@ This document provides an overview of PostgreSQL functions and operators availab
 
 | Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
 |---|---|---|---|
-| `@>` | `CONTAINS` (arrays contain elements) | Works automatically with geometry/geography | N/A |
-| `<@` | `IS_CONTAINED_BY` (element in array) | Works automatically with geometry/geography | N/A |
+| `@>` | `CONTAINS` (arrays contain elements) | N/A (PostGIS defines no `@>`; see `~`) | N/A |
+| `<@` | `IS_CONTAINED_BY` (element in array) | N/A (PostGIS defines no `<@`; see `@`) | N/A |
 | `@` | N/A | `SPATIAL_CONTAINED_BY` (bounding box contained) | N/A |
 | `~` | N/A | `SPATIAL_CONTAINS` (bounding box contains) | `REGEXP` (text pattern matching) |
 | `&&` | `OVERLAPS` (arrays/ranges overlap) | Works automatically with geometry/geography | N/A |
@@ -19,6 +19,7 @@ This document provides an overview of PostgreSQL functions and operators availab
 - **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations → [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching → [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - **Boolean operators**: All spatial operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
+- **The rules behind these names**, and the ones every function follows (`= TRUE`, `FILTER` and `OVER`, literals and parameters): [The DQL dialect](DQL-DIALECT.md)
 
 ## 📚 Function and Operator Categories
 

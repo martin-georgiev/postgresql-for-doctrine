@@ -86,14 +86,6 @@ pre,
   fill: currentColor;
 }
 
-// Tables and code use the full content width; running text keeps a readable measure.
-.main-content > main > p,
-.main-content > main > ul,
-.main-content > main > ol,
-.main-content > main > blockquote {
-  max-width: 46rem;
-}
-
 // Home page (index.html). Brand accents from assets/README.md; purple is lifted on the dark scheme for contrast.
 $brand-orange: #fc6a31;
 $brand-purple: #777bb4;
@@ -103,6 +95,7 @@ $muted-text-color: $search-result-preview-color;
 .home {
   .hero {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }
 
@@ -202,16 +195,7 @@ $muted-text-color: $search-result-preview-color;
     font-size: 0.85rem;
   }
 
-  pre {
-    margin: 0 0 0.75rem;
-    padding: 0.75rem;
-    overflow-x: auto;
-    border: 1px solid $body-text-color;
-    border-radius: 4px;
-    background-color: $code-background-color;
-  }
-
-  .pair pre {
+  .pair > .pair__side > pre {
     margin: 0;
   }
 
@@ -269,8 +253,10 @@ $muted-text-color: $search-result-preview-color;
     }
   }
 
+  // The theme pins dt and dd to columns 1 and 2, which squeezes dt to nothing in the one-column layout.
   .catalogue dt,
   .catalogue dd {
+    grid-column: auto;
     margin: 0;
     padding: 0;
     text-align: left;
@@ -282,5 +268,21 @@ $muted-text-color: $search-result-preview-color;
 
   .catalogue dt a {
     font-weight: 650;
+  }
+}
+
+// The highlighter wraps only languages it knows; a ```dql fence arrives as a bare <pre>.
+.main-content pre:not(.highlight) {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem;
+  overflow-x: auto;
+  border: 1px solid $body-text-color;
+  border-radius: 4px;
+  background-color: $code-background-color;
+
+  > code {
+    padding: 0;
+    border: 0;
+    background: none;
   }
 }

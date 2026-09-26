@@ -12,8 +12,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * A boolean argument has to be read by StringPrimary. DQL has no boolean literal, so callers spell it `'true'`, which
- * ArithmeticPrimary rejects outright - making the whole overload unreachable.
+ * A boolean argument has to be read by StringPrimary, so every boolean is spelled `'true'` or `'false'`. ArithmeticPrimary
+ * also accepts DQL's bare `TRUE` and `FALSE` literals, which would give the same argument a second spelling.
  *
  * Extending BaseVariadicFunctionWithOptionalBooleanLastArgument is the only signal that an argument is boolean.
  *
