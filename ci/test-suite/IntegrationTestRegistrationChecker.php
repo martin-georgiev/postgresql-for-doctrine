@@ -6,6 +6,13 @@ namespace Ci\MartinGeorgiev\TestSuite;
 
 use Ci\MartinGeorgiev\Shared\Repository;
 use MartinGeorgiev\Doctrine\DBAL\Type;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\NodeFinder;
+use PhpParser\ParserFactory;
 
 final readonly class IntegrationTestRegistrationChecker
 {
@@ -76,14 +83,30 @@ final readonly class IntegrationTestRegistrationChecker
      */
     private function typeNamesInTheIntegrationTypesMap(): array
     {
-        $source = $this->repository->read(self::TYPE_REGISTRATION_FILE);
-        if (\preg_match('/\$typesMap = \[(?<entries>.*?)\n\s*\];/s', $source, $typesMap) !== 1) {
-            throw new \RuntimeException(\sprintf('Could not find the $typesMap array in %s.', self::TYPE_REGISTRATION_FILE));
+        $typeNames = [];
+        foreach ($this->typesMapIn(self::TYPE_REGISTRATION_FILE)->items as $entry) {
+            if (!$entry->key instanceof String_) {
+                throw new \RuntimeException(\sprintf('The $typesMap in %s has an entry without a string key on line %d.', self::TYPE_REGISTRATION_FILE, $entry->getStartLine()));
+            }
+
+            $typeNames[] = $entry->key->value;
         }
 
-        \preg_match_all("/'(?<typeName>[^']+)' =>/", $typesMap['entries'], $entries);
+        return $typeNames;
+    }
 
-        return $entries['typeName'];
+    private function typesMapIn(string $relativePath): Array_
+    {
+        $statements = (new ParserFactory())->createForHostVersion()->parse($this->repository->read($relativePath)) ?? [];
+        $typesMapAssignment = (new NodeFinder())->findFirst(
+            $statements,
+            static fn (Node $node): bool => $node instanceof Assign && $node->var instanceof Variable && $node->var->name === 'typesMap' && $node->expr instanceof Array_
+        );
+        if (!$typesMapAssignment instanceof Assign || !$typesMapAssignment->expr instanceof Array_) {
+            throw new \RuntimeException(\sprintf('Could not find the $typesMap array in %s.', $relativePath));
+        }
+
+        return $typesMapAssignment->expr;
     }
 
     /**

@@ -97,6 +97,7 @@
         "ekino/phpstan-banned-code": "^3.2.0",
         "friendsofphp/php-cs-fixer": "^3.95.15",
         "league/commonmark": "^2.10.3",
+        "nikic/php-parser": "^5.9.0",
         "phpstan/phpstan": "^2.2.8",
         "phpstan/phpstan-deprecation-rules": "^2.0.4",
         "phpstan/phpstan-doctrine": "^2.0.28",
