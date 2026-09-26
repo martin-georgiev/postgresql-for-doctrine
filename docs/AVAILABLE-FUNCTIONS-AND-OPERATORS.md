@@ -8,8 +8,8 @@ This document provides an overview of PostgreSQL functions and operators availab
 
 | Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
 |---|---|---|---|
-| `@>` | `CONTAINS` (arrays contain elements) | Works automatically with geometry/geography | N/A |
-| `<@` | `IS_CONTAINED_BY` (element in array) | Works automatically with geometry/geography | N/A |
+| `@>` | `CONTAINS` (arrays contain elements) | N/A (PostGIS defines no `@>`; see `~`) | N/A |
+| `<@` | `IS_CONTAINED_BY` (element in array) | N/A (PostGIS defines no `<@`; see `@`) | N/A |
 | `@` | N/A | `SPATIAL_CONTAINED_BY` (bounding box contained) | N/A |
 | `~` | N/A | `SPATIAL_CONTAINS` (bounding box contains) | `REGEXP` (text pattern matching) |
 | `&&` | `OVERLAPS` (arrays/ranges overlap) | Works automatically with geometry/geography | N/A |

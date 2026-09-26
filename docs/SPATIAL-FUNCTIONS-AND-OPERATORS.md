@@ -8,8 +8,8 @@ This document covers PostGIS spatial functions and operators available in this l
 
 **⚠️ Important**: Some operators have dual meanings for different data types. Use the specific DQL function names to avoid conflicts:
 
-- **`@`**: Use `CONTAINS` for arrays/JSON, `SPATIAL_CONTAINED_BY` for geometry/geography
-- **`~`**: Use `REGEXP` for text patterns, `SPATIAL_CONTAINS` for geometry/geography
+- **`@`**: Use `SPATIAL_CONTAINED_BY` for geometry; arrays and JSON use `<@` (`IS_CONTAINED_BY`) instead
+- **`~`**: Use `REGEXP` for text patterns, `SPATIAL_CONTAINS` for geometry
 - **`&&`**: Use `OVERLAPS` for arrays/JSON, spatial overlaps work automatically with geometry/geography
 
 **📝 Compatibility Notes**:
@@ -20,7 +20,7 @@ This document covers PostGIS spatial functions and operators available in this l
 
 ### Bounding Box Operators
 
-These operators work with geometry and geography bounding boxes. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
+These operators work with geometry bounding boxes; PostGIS does not define them for geography. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|

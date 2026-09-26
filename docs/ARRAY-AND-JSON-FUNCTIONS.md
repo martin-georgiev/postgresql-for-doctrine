@@ -10,8 +10,8 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 
 | Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
 |---|---|---|---|
-| `@>` | `CONTAINS` (arrays contain elements) | Works automatically with geometry/geography | N/A |
-| `<@` | `IS_CONTAINED_BY` (element in array) | Works automatically with geometry/geography | N/A |
+| `@>` | `CONTAINS` (arrays contain elements) | N/A (PostGIS defines no `@>`; see `~`) | N/A |
+| `<@` | `IS_CONTAINED_BY` (element in array) | N/A (PostGIS defines no `<@`; see `@`) | N/A |
 | `&&` | `OVERLAPS` (arrays/ranges overlap) | Works automatically with geometry/geography | N/A |
 
 **Usage Guidelines:**
