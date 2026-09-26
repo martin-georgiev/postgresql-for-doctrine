@@ -57,7 +57,11 @@
         "vector-search",
         "embeddings"
     ],
+    "homepage": "https://postgresql-for-doctrine.dev",
     "license": "MIT",
+    "support": {
+        "docs": "https://postgresql-for-doctrine.dev"
+    },
     "authors": [
         {
             "name": "Martin Georgiev",

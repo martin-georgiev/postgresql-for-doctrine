@@ -9,6 +9,8 @@
 
 <p align="center">Enhances Doctrine with PostgreSQL-specific features and functions. Supports PostgreSQL 9.4+ and PHP 8.2+.</p>
 
+<p align="center"><a href="https://postgresql-for-doctrine.dev">Documentation at postgresql-for-doctrine.dev</a></p>
+
 <p align="center">
   <a href="https://coveralls.io/github/martin-georgiev/postgresql-for-doctrine?branch=main"><img src="https://coveralls.io/repos/github/martin-georgiev/postgresql-for-doctrine/badge.svg?branch=main" alt="Coverage Status"></a>
   <a href="https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine"><img src="https://poser.pugx.org/martin-georgiev/postgresql-for-doctrine/version" alt="Latest Stable Version"></a>
@@ -183,7 +185,7 @@ $query = $em->createQuery('
 - **Vector Distance Functions** (requires [pgvector](https://github.com/pgvector/pgvector) extension)
   - Distance and similarity (`l2_distance`, `cosine_distance`, `inner_product`)
 
-Full documentation:
+Full documentation, also published at [postgresql-for-doctrine.dev](https://postgresql-for-doctrine.dev):
 - [Available Types](docs/AVAILABLE-TYPES.md)
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
 - [PostgreSQL ltree Types](docs/LTREE-TYPE.md)

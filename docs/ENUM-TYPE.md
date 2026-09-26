@@ -6,7 +6,7 @@ PostgreSQL [native enum types](https://www.postgresql.org/docs/18/datatype-enum.
 
 ## How it works
 
-[`Enum`](../src/MartinGeorgiev/Doctrine/DBAL/Types/Enum.php) is an abstract base class. You create one concrete subclass per PostgreSQL enum type. The subclass declares `TYPE_NAME` (matching the PostgreSQL type name exactly) and implements `getEnumClass()` returning the fully-qualified name of a PHP `BackedEnum`.
+[`Enum`](https://github.com/martin-georgiev/postgresql-for-doctrine/blob/main/src/MartinGeorgiev/Doctrine/DBAL/Types/Enum.php) is an abstract base class. You create one concrete subclass per PostgreSQL enum type. The subclass declares `TYPE_NAME` (matching the PostgreSQL type name exactly) and implements `getEnumClass()` returning the fully-qualified name of a PHP `BackedEnum`.
 
 **Only string-backed PHP enums are supported.** PostgreSQL enum values are text labels, so int-backed enums cannot be mapped correctly.
 
