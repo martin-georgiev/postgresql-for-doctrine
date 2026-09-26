@@ -6,6 +6,7 @@ namespace Ci\MartinGeorgiev\Docs;
 
 use Ci\MartinGeorgiev\Shared\Repository;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
@@ -86,7 +87,9 @@ final readonly class DqlExampleChecker
     {
         $repository = new Repository();
         $dqlExampleCollector = new DqlExampleCollector($repository);
-        $functionClassByRegisteredName = (new SetupGuides($repository))->functionsRegisteredByTheDoctrineGuide();
+        $setupGuides = new SetupGuides($repository);
+        self::registerTypes($setupGuides->typesRegisteredByTheDoctrineGuide());
+        $functionClassByRegisteredName = $setupGuides->functionsRegisteredByTheDoctrineGuide();
         $checker = new self(self::entityManagerRegistering($functionClassByRegisteredName, $repository), $functionClassByRegisteredName);
         $docblockExamples = $dqlExampleCollector->docblockExamples();
         $dqlFenceStatements = $dqlExampleCollector->dqlFenceStatements();
@@ -107,6 +110,22 @@ final readonly class DqlExampleChecker
         ));
 
         return $failureCount === 0;
+    }
+
+    /**
+     * @param array<string, class-string<DoctrineType>> $typeClassByName
+     */
+    private static function registerTypes(array $typeClassByName): void
+    {
+        foreach ($typeClassByName as $name => $typeClass) {
+            if (DoctrineType::hasType($name)) {
+                DoctrineType::overrideType($name, $typeClass);
+
+                continue;
+            }
+
+            DoctrineType::addType($name, $typeClass);
+        }
     }
 
     /**
