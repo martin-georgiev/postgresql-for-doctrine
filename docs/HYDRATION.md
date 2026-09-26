@@ -18,7 +18,7 @@ SELECT p.tags, ARRAY_APPEND(p.tags, 'new') AS extended FROM App\Entity\Product p
 ['tags' => ['php', 'postgres'], 'extended' => '{php,postgres,new}']
 ```
 
-The scalar result methods are the exception. `getScalarResult()`, `getSingleColumnResult()` and `getSingleScalarResult()` return a selected field path as the database sent it - `'{php,postgres}'` for `p.tags`, `'42.00'` for `p.price`, `'2026-09-26 10:30:00+00'` for `o.placedAt`. Only the fields of a selected entity (`SELECT p`) are still converted by `getScalarResult()`.
+The scalar result methods are the exception. `getScalarResult()`, `getSingleColumnResult()` and `getSingleScalarResult()` return a selected field path as the database sent it - `'{php,postgres}'` for `p.tags`, `'42.00'` for `p.price`, `'2026-09-26 10:30:00+00'` for `s.placedAt`. Only the fields of a selected entity (`SELECT p`) are still converted by `getScalarResult()`.
 
 The driver types only three families itself: `boolean` arrives as `bool`, `smallint`, `integer` and `bigint` as `int`, `real` and `double precision` as `float`. Every other PostgreSQL type - `numeric`, timestamps, intervals, arrays, ranges, JSON, `ltree`, `hstore`, geometry - arrives as its PostgreSQL text form.
 
@@ -115,16 +115,16 @@ A value computed by the query - an aggregate, a window function, any function of
 
 | Expression | PostgreSQL type | PHP value |
 |---|---|---|
-| `COUNT(o.id)`, `FILTER(COUNT(o.id), WHERE o.status = 'paid')`, `LENGTH(p.name)` | `bigint`, `integer` | `3` (`int`) |
-| `OVER(ROW_NUMBER(), ORDER BY o.total DESC)`, `OVER(RANK(), …)` | `bigint` | `1` (`int`) |
+| `COUNT(s.id)`, `FILTER(COUNT(s.id), WHERE s.status = 'paid')`, `LENGTH(p.name)` | `bigint`, `integer` | `3` (`int`) |
+| `OVER(ROW_NUMBER(), ORDER BY s.amount DESC)`, `OVER(RANK(), …)` | `bigint` | `1` (`int`) |
 | `SUM(c.points)` on an `integer` column | `bigint` | `150` (`int`) |
-| `SUM(o.total)`, `MAX(o.total)`, `o.total * 2`, `ROUND(o.total, 1)` | `numeric` | `'76.99'` (`string`) |
+| `SUM(s.amount)`, `MAX(s.amount)`, `s.amount * 2`, `ROUND(s.amount, 1)` | `numeric` | `'76.99'` (`string`) |
 | `AVG(c.points)` on an `integer` column | `numeric` | `'75.0000000000000000'` (`string`) |
-| `OVER(SUM(o.total), PARTITION BY o.customer ORDER BY o.placedAt)` | `numeric` | `'42.00'` (`string`) |
-| `DATE_EXTRACT('year', o.placedAt)`, `CAST(c.points AS DECIMAL(10, 2))` | `numeric` | `'2026'`, `'120.00'` (`string`) |
-| `DATE_PART('year', o.placedAt)`, `SQRT(c.points)`, `PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total)` | `double precision` | `2026.0`, `10.954451150103322`, `25.0` (`float`) |
-| `OVER(PERCENT_RANK(), …)`, `ST_DISTANCE(s.location, …)`, `COSINE_DISTANCE(a.embedding, …)`, `TS_RANK(a.search, …)` | `double precision`, `real` | `float` |
-| `CONTAINS(p.tags, ARRAY('php'))`, `IN_ARRAY(:tag, p.tags)`, `ST_DWITHIN(s.location, …, 200000)` | `boolean` | `true` (`bool`) |
+| `OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt)` | `numeric` | `'42.00'` (`string`) |
+| `DATE_EXTRACT('year', s.placedAt)`, `CAST(c.points AS DECIMAL(10, 2))` | `numeric` | `'2026'`, `'120.00'` (`string`) |
+| `DATE_PART('year', s.placedAt)`, `SQRT(c.points)`, `PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY s.amount)` | `double precision` | `2026.0`, `10.954451150103322`, `25.0` (`float`) |
+| `OVER(PERCENT_RANK(), …)`, `ST_DISTANCE(st.location, …)`, `COSINE_DISTANCE(a.embedding, …)`, `TS_RANK(a.search, …)` | `double precision`, `real` | `float` |
+| `CONTAINS(p.tags, ARRAY('php'))`, `IN_ARRAY(:tag, p.tags)`, `ST_DWITHIN(st.location, …, 200000)` | `boolean` | `true` (`bool`) |
 | `ARRAY_AGG(p.name)`, `ARRAY_APPEND(p.tags, 'new')` | `text[]` | `'{"The Pragmatic Programmer",Dune,"Gift card"}'` (`string`) |
 | `ARRAY_AGG(p.id)` | `integer[]` | `'{1,2,3}'` (`string`) |
 | `RANGE_AGG(b.slot)` | `tstzmultirange` | `'{["2026-09-26 10:00:00+00","2026-09-26 11:00:00+00")}'` (`string`) |
@@ -133,10 +133,10 @@ A value computed by the query - an aggregate, a window function, any function of
 | `JSON_GET_FIELD_AS_INTEGER(p.attributes, 'size')` | `bigint` | `42` (`int`) |
 | `JSONB_BUILD_OBJECT('name', p.name)`, `JSONB_AGG(p.name)` | `jsonb` | `'{"name": "Dune"}'` (`string`) |
 | `SUBPATH(p.category, 0, 1)` | `ltree` | `'books'` (`string`) |
-| `ST_CENTROID(s.location)` | `geography` | `'0101000020E6100000…'` (EWKB hex `string`) |
-| `ST_ASTEXT(s.location)`, `ST_ASGEOJSON(s.location)` | `text` | `'POINT(23.32 42.69)'`, `'{"type":"Point","coordinates":[23.32,42.69]}'` |
-| `MAX(o.placedAt)`, `DATE_TRUNC('day', o.placedAt)` | `timestamptz` | `'2026-09-26 00:00:00+00'` (`string`) |
-| `AGE(o.placedAt, '2026-01-01')` | `interval` | `'8 mons 25 days 10:30:00'` (`string`) |
+| `ST_CENTROID(st.location)` | `geography` | `'0101000020E6100000…'` (EWKB hex `string`) |
+| `ST_ASTEXT(st.location)`, `ST_ASGEOJSON(st.location)` | `text` | `'POINT(23.32 42.69)'`, `'{"type":"Point","coordinates":[23.32,42.69]}'` |
+| `MAX(s.placedAt)`, `DATE_TRUNC('day', s.placedAt)` | `timestamptz` | `'2026-09-26 00:00:00+00'` (`string`) |
+| `AGE(s.placedAt, '2026-01-01')` | `interval` | `'8 mons 25 days 10:30:00'` (`string`) |
 | `TO_TSVECTOR('english', a.body)` | `tsvector` | `"'cat':3 'fat':2 'sat':4"` (`string`) |
 | `DECODE('0102', 'hex')` | `bytea` | a stream `resource` |
 
@@ -185,12 +185,12 @@ If you need exact decimals, compute in `numeric` and keep the string.
 Selecting an entity together with a computed value gives a mixed row: the entity under key `0`, each scalar under its alias.
 
 ```dql
-SELECT o, OVER(SUM(o.total), PARTITION BY o.customer ORDER BY o.placedAt) AS runningTotal FROM App\Entity\Order o ORDER BY o.id
+SELECT s, OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt) AS runningTotal FROM App\Entity\Sale s ORDER BY s.id
 ```
 
 ```text
-[0 => Order {id: 1, …}, 'runningTotal' => '42.00']
-[0 => Order {id: 2, …}, 'runningTotal' => '51.99']
+[0 => Sale {id: 1, …}, 'runningTotal' => '42.00']
+[0 => Sale {id: 2, …}, 'runningTotal' => '51.99']
 ```
 
 ### DTOs with SELECT NEW
@@ -198,7 +198,7 @@ SELECT o, OVER(SUM(o.total), PARTITION BY o.customer ORDER BY o.placedAt) AS run
 `SELECT NEW` passes each value to the constructor after the same rule: a field path arrives converted, a computed value arrives as the driver returns it.
 
 ```dql
-SELECT NEW App\Dto\CustomerTotal(c.name, SUM(o.total)) FROM App\Entity\Order o JOIN o.customer c GROUP BY c.id, c.name
+SELECT NEW App\Dto\CustomerTotal(c.name, SUM(s.amount)) FROM App\Entity\Sale s JOIN s.customer c GROUP BY c.id, c.name
 ```
 
 ```php
@@ -219,11 +219,11 @@ Scalar strings are formatted by the connection's session settings, so the same q
 
 | Expression | `TimeZone = 'UTC'`, `IntervalStyle = 'postgres'` | `TimeZone = 'Europe/Sofia'`, `IntervalStyle = 'iso_8601'` |
 |---|---|---|
-| `o.placedAt` (field) | `2026-09-26 10:30:00+00:00` | `2026-09-26 13:30:00+03:00` |
-| `DATE_TRUNC('day', o.placedAt)` | `'2026-09-26 00:00:00+00'` | `'2026-09-26 00:00:00+03'` |
+| `s.placedAt` (field) | `2026-09-26 10:30:00+00:00` | `2026-09-26 13:30:00+03:00` |
+| `DATE_TRUNC('day', s.placedAt)` | `'2026-09-26 00:00:00+00'` | `'2026-09-26 00:00:00+03'` |
 | `b.slot` (field) | `[2026-09-26 10:00:00+00:00,2026-09-26 11:00:00+00:00)` | `[2026-09-26 13:00:00+03:00,2026-09-26 14:00:00+03:00)` |
 | a mapped `interval` field | `Interval` `1 year 2 mons 3 days 04:05:06` | the same `Interval` |
-| `AGE(o.placedAt, '2026-01-01')` | `'8 mons 25 days 10:30:00'` | `'P8M25DT13H30M'` |
+| `AGE(s.placedAt, '2026-01-01')` | `'8 mons 25 days 10:30:00'` | `'P8M25DT13H30M'` |
 
 Mapped values move too, but they carry their offset, so they still compare correctly; strings only change their text. `DATE_TRUNC` and `AGE` also change their answer, not just their format, because the day boundary is local to the session zone. Set the session zone explicitly (`SET TIME ZONE 'UTC'` on connect) if you parse these strings. The `Interval` type reads every `IntervalStyle`, so `$connection->convertToPHPValue($row['age'], 'interval')` works whichever one the server uses.
 
