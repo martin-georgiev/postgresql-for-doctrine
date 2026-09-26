@@ -65,6 +65,9 @@ jobs:
           elif echo "$CHANGED_FILES" | grep -q "^fixtures/"; then
             echo "src_changed=true" >> $GITHUB_OUTPUT
             echo "::notice::Fixture files changed, unit tests will run"
+          elif echo "$CHANGED_FILES" | grep -q -e "^docs/" -e "^README\.md$"; then
+            echo "src_changed=true" >> $GITHUB_OUTPUT
+            echo "::notice::Documentation changed, unit tests will run to parse its DQL examples"
           elif echo "$CHANGED_FILES" | grep -q "^\.github/"; then
             echo "src_changed=true" >> $GITHUB_OUTPUT
             echo "::notice::GitHub workflow files changed, unit tests will run"
