@@ -197,6 +197,20 @@ $muted-text-color: $search-result-preview-color;
     font-weight: 600;
   }
 
+  .pair__side--sql .pair__lang {
+    color: $link-color;
+  }
+
+  .pair__side--dql .pair__lang {
+    color: $brand-purple-text;
+  }
+
+  .pair__note {
+    margin: 0.4rem 0 0;
+    color: $muted-text-color;
+    font-size: 0.85rem;
+  }
+
   pre {
     margin: 0 0 0.75rem;
     padding: 0.75rem;

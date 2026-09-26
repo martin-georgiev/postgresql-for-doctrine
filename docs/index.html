@@ -40,6 +40,7 @@ description: Map PostgreSQL arrays, JSONB, ranges, PostGIS geometries, pgvector 
       <button type="button" role="tab" id="tab-window" aria-controls="pair-window" aria-selected="false" tabindex="-1">Window functions</button>
       <button type="button" role="tab" id="tab-aggregates" aria-controls="pair-aggregates" aria-selected="false" tabindex="-1">Aggregates</button>
       <button type="button" role="tab" id="tab-hierarchies" aria-controls="pair-hierarchies" aria-selected="false" tabindex="-1">Hierarchies</button>
+      <button type="button" role="tab" id="tab-custom-types" aria-controls="pair-custom-types" aria-selected="false" tabindex="-1">Enums and composites</button>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-jsonb" aria-labelledby="tab-jsonb" tabindex="0">
@@ -123,6 +124,16 @@ WHERE path <b class="op">~</b> 'Top.Sports.*'</code></pre></div>
       {% include pair_arrow.html %}
       <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT c.id FROM App\Entity\Category c
 WHERE <b class="fn">MATCHES_LQUERY</b>(c.path, 'Top.Sports.*') = TRUE</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-custom-types" aria-labelledby="tab-custom-types" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM shipments
+WHERE status = 'delivered'
+  AND <b class="op">(address).city</b> = 'Sofia'</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT s.id FROM App\Entity\Shipment s
+WHERE s.status = :status
+  AND <b class="fn">COMPOSITE_FIELD</b>(s.address, 'city') = 'Sofia'</code></pre><p class="pair__note"><code>:status</code> takes the PHP enum case <code>ShipmentStatus::Delivered</code>.</p></div>
     </div>
   </div>
 </section>
