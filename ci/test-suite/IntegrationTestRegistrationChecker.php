@@ -6,7 +6,6 @@ namespace Ci\MartinGeorgiev\TestSuite;
 
 use Ci\MartinGeorgiev\Shared\Repository;
 use MartinGeorgiev\Doctrine\DBAL\Type;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance;
 
 final readonly class IntegrationTestRegistrationChecker
 {
@@ -24,15 +23,6 @@ final readonly class IntegrationTestRegistrationChecker
      * @var string
      */
     private const FUNCTION_INTEGRATION_TEST_NAMESPACE = 'Tests\\Integration\\MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
-
-    /**
-     * PostGIS removed `<<#>>` in 2.2.0, so no version in the CI matrix can execute it and no integration test can cover it.
-     *
-     * @var array
-     */
-    private const FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS = [
-        NDimensionalBoundingBoxDistance::class,
-    ];
 
     private function __construct(
         private Repository $repository,
@@ -105,14 +95,8 @@ final readonly class IntegrationTestRegistrationChecker
 
         $failures = [];
         foreach ($this->repository->concreteFunctionClasses() as $functionClass) {
-            $hasAnIntegrationTest = \in_array($functionClass, $functionClassesWithAnIntegrationTest, true);
-            $isExempt = \in_array($functionClass, self::FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS, true);
-            if (!$hasAnIntegrationTest && !$isExempt) {
+            if (!\in_array($functionClass, $functionClassesWithAnIntegrationTest, true)) {
                 $failures[] = \sprintf('%s: no getStringFunctions() in %s registers it', $functionClass, self::FUNCTION_INTEGRATION_TEST_DIRECTORY);
-            }
-
-            if ($hasAnIntegrationTest && $isExempt) {
-                $failures[] = \sprintf('%s: has an integration test now, so drop it from %s::FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS', $functionClass, self::class);
             }
         }
 
