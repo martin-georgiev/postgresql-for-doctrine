@@ -42,6 +42,9 @@ description: Map PostgreSQL arrays, JSONB, ranges, PostGIS geometries, pgvector 
       <button type="button" role="tab" id="tab-hierarchies" aria-controls="pair-hierarchies" aria-selected="false" tabindex="-1">Hierarchies</button>
       <button type="button" role="tab" id="tab-enums" aria-controls="pair-enums" aria-selected="false" tabindex="-1">Enums</button>
       <button type="button" role="tab" id="tab-composites" aria-controls="pair-composites" aria-selected="false" tabindex="-1">Composite types</button>
+      <button type="button" role="tab" id="tab-fuzzy" aria-controls="pair-fuzzy" aria-selected="false" tabindex="-1">Fuzzy search</button>
+      <button type="button" role="tab" id="tab-jsonpath" aria-controls="pair-jsonpath" aria-selected="false" tabindex="-1">JSON paths</button>
+      <button type="button" role="tab" id="tab-dates" aria-controls="pair-dates" aria-selected="false" tabindex="-1">Dates</button>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-jsonb" aria-labelledby="tab-jsonb" tabindex="0">
@@ -149,6 +152,33 @@ WHERE <b class="op">(address).city</b> = 'Sofia'</code></pre></div>
       {% include pair_arrow.html %}
       <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT s.id FROM App\Entity\Store s
 WHERE <b class="fn">COMPOSITE_FIELD</b>(s.address, 'city') = 'Sofia'</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-fuzzy" aria-labelledby="tab-fuzzy" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM products
+WHERE name <b class="op">%</b> :query
+ORDER BY similarity(name, :query) DESC</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT p.id, <b class="fn">SIMILARITY</b>(p.name, :query) AS HIDDEN score
+FROM App\Entity\Product p
+WHERE <b class="fn">ARE_SIMILAR</b>(p.name, :query) = TRUE
+ORDER BY score DESC</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-jsonpath" aria-labelledby="tab-jsonpath" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM products
+WHERE attributes <b class="op">@?</b> '$.sizes[*] ? (@ &gt; 40)'</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT p.id FROM App\Entity\Product p
+WHERE <b class="fn">JSONB_PATH_EXISTS</b>(p.attributes, '$.sizes[*] ? (@ &gt; 40)') = TRUE</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-dates" aria-labelledby="tab-dates" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT <b class="op">date_trunc</b>('day', placed_at) AS day, COUNT(*)
+FROM orders GROUP BY day</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT <b class="fn">DATE_TRUNC</b>('day', o.placedAt) AS day, COUNT(o.id)
+FROM App\Entity\Order o GROUP BY day</code></pre></div>
     </div>
   </div>
 </section>
