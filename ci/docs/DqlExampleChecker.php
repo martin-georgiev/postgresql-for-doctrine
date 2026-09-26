@@ -205,7 +205,7 @@ final readonly class DqlExampleChecker
     private function placeholderFieldsByAlias(string $example): array
     {
         $withoutStringLiterals = (string) \preg_replace("/'(?:[^']|'')*'/", "''", $example);
-        \preg_match_all('/(?<![\w:.])(?<alias>[a-z]\w*)\.(?<field>[A-Za-z_]\w*)/', $withoutStringLiterals, $fieldReferences, \PREG_SET_ORDER);
+        \preg_match_all('/(?<![\w:.])(?<alias>[a-z_]\w*)\.(?<field>[A-Za-z_]\w*)/', $withoutStringLiterals, $fieldReferences, \PREG_SET_ORDER);
 
         $placeholderFieldsByAlias = [];
         foreach ($fieldReferences as $fieldReference) {
@@ -274,7 +274,7 @@ final readonly class DqlExampleChecker
     private function withEntityPlaceholdersReplacedBy(array $fixtureEntityByAlias, string $dql): string
     {
         return (string) \preg_replace_callback(
-            '/\bEntity\s+(?<alias>[a-z]\w*)/',
+            '/\bEntity\s+(?<alias>[a-z_]\w*)/',
             static fn (array $match): string => '\\'.($fixtureEntityByAlias[$match['alias']] ?? ContainsTexts::class).' '.$match['alias'],
             $dql
         );

@@ -68,40 +68,54 @@ final readonly class DqlExampleCollector
     private function dqlFenceBodiesIn(string $documentationFile): array
     {
         $fenceBodies = [];
-        $openDqlFenceBody = null;
+        $openFence = null;
+        $openFenceBody = [];
         foreach ($this->repository->readLines($documentationFile) as $index => $line) {
-            $fenceLanguage = $this->fenceLanguageOf($line);
-            if ($fenceLanguage === null) {
-                if ($openDqlFenceBody !== null) {
-                    $openDqlFenceBody[$index + 1] = $line;
+            if ($openFence === null) {
+                $openFence = $this->openingFenceOf($line);
+                $openFenceBody = [];
+
+                continue;
+            }
+
+            if ($this->closesFence($openFence['marker'], $line)) {
+                if ($openFence['language'] === 'dql') {
+                    $fenceBodies[] = $openFenceBody;
                 }
 
-                continue;
-            }
-
-            if ($openDqlFenceBody !== null) {
-                $fenceBodies[] = $openDqlFenceBody;
-                $openDqlFenceBody = null;
+                $openFence = null;
 
                 continue;
             }
 
-            if ($fenceLanguage === 'dql') {
-                $openDqlFenceBody = [];
-            }
+            $openFenceBody[$index + 1] = $line;
         }
 
-        $endsInsideAnUnclosedDqlFence = $openDqlFenceBody !== null;
+        $endsInsideAnUnclosedDqlFence = $openFence !== null && $openFence['language'] === 'dql';
         if ($endsInsideAnUnclosedDqlFence) {
-            $fenceBodies[] = $openDqlFenceBody;
+            $fenceBodies[] = $openFenceBody;
         }
 
         return $fenceBodies;
     }
 
-    private function fenceLanguageOf(string $line): ?string
+    /**
+     * @return array{marker: string, language: string}|null
+     */
+    private function openingFenceOf(string $line): ?array
     {
-        return \preg_match('/^\s*```(?<language>\w*)\s*$/', $line, $fence) === 1 ? $fence['language'] : null;
+        if (\preg_match('/^\s*(?<marker>`{3,}|~{3,})\s*(?<language>[^\s`]*)/', $line, $fence) !== 1) {
+            return null;
+        }
+
+        return ['marker' => $fence['marker'], 'language' => $fence['language']];
+    }
+
+    private function closesFence(string $openingMarker, string $line): bool
+    {
+        $closingMarkerPattern = \sprintf('/^\s*%s{%d,}\s*\z/', \preg_quote($openingMarker[0], '/'), \strlen($openingMarker));
+
+        return \preg_match($closingMarkerPattern, $line) === 1;
     }
 
     /**
