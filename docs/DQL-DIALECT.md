@@ -317,7 +317,7 @@ SELECT TSTZRANGE(s.placedAt, :null) AS fromThenOn FROM App\Entity\Sale s
 
 ### Boolean and time-zone arguments
 
-Some functions take an optional boolean or time-zone argument as their last one. DQL has no literal the library could check for either, so both are written as string literals and checked while the query is parsed:
+Some functions take an optional boolean or time-zone argument as their last one. Both positions take a string: DQL's `TRUE` and `FALSE` literals are not accepted there, and DQL has no time-zone literal. So both are written as string literals and checked while the query is parsed:
 
 - Booleans are `'true'` or `'false'` and they are supported in `ARRAY_TO_JSON`, `ROW_TO_JSON`, `JSON_STRIP_NULLS`, `JSONB_STRIP_NULLS`, `JSONB_SET`, `JSONB_INSERT`, `JSONB_PATH_EXISTS`, `JSONB_PATH_MATCH`, `JSONB_PATH_QUERY`, `JSONB_PATH_QUERY_ARRAY`, `JSONB_PATH_QUERY_FIRST`, `ST_AREA`, `ST_LENGTH`, `ST_DISTANCE`, `ST_CLOSESTPOINT`, `ST_LINELOCATEPOINT`, `ST_LINEINTERPOLATEPOINT`, `ST_CONCAVEHULL`, `ST_SIMPLIFYPOLYGONHULL`, `ST_REMOVEIRRELEVANTPOINTSFORVIEW`. A bare `TRUE`, a parameter or any other string is rejected.
 - Time zones are checked with PHP's `DateTimeZone`. A spelling that only PostgreSQL knows, such as the [POSIX `'UTC+2'`](https://www.postgresql.org/docs/18/datetime-posix-timezone-specs.html), is rejected in `DATE_TRUNC`, `DATE_ADD`, `DATE_SUBTRACT`, `MAKE_TIMESTAMPTZ`.
