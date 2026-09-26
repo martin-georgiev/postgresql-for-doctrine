@@ -253,11 +253,12 @@ $muted-text-color: $search-result-preview-color;
 
   .catalogue > div {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.1rem 1.25rem;
     padding-block: 0.55rem;
   }
 
-  @media (min-width: 40rem) {
+  @media (min-width: 30rem) {
     .catalogue > div {
       grid-template-columns: 9rem minmax(0, 1fr);
     }
