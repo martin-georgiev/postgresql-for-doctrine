@@ -73,7 +73,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Entity\\": "ci/docs/Entity/",
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
             "MartinGeorgiev\\Docs\\": "ci/docs/",
             "MartinGeorgiev\\PHPStan\\": "ci/phpstan/rules/",

@@ -114,7 +114,6 @@ final readonly class DqlExampleChecker
     private static function entityManagerRegistering(array $functionClassByRegisteredName, Repository $repository): EntityManager
     {
         $configuration = ORMSetup::createAttributeMetadataConfiguration([
-            __DIR__.'/Entity',
             $repository->rootDirectory.'/fixtures/MartinGeorgiev/Doctrine/Entity',
         ], true);
         foreach ($functionClassByRegisteredName as $name => $functionClass) {
