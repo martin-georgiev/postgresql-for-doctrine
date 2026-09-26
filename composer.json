@@ -73,7 +73,9 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Ci\\MartinGeorgiev\\Docs\\": "ci/docs/",
             "Ci\\MartinGeorgiev\\PHPStan\\": "ci/phpstan/rules/",
+            "Ci\\MartinGeorgiev\\Shared\\": "ci/shared/",
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
             "Tests\\Integration\\MartinGeorgiev\\": "tests/Integration/MartinGeorgiev/",
             "Tests\\Unit\\MartinGeorgiev\\": "tests/Unit/MartinGeorgiev/"
@@ -93,6 +95,7 @@
         "doctrine/orm": "~2.14||~3.0",
         "ekino/phpstan-banned-code": "^3.2.0",
         "friendsofphp/php-cs-fixer": "^3.95.15",
+        "league/commonmark": "^2.10.3",
         "phpstan/phpstan": "^2.2.8",
         "phpstan/phpstan-deprecation-rules": "^2.0.4",
         "phpstan/phpstan-doctrine": "^2.0.28",
@@ -110,6 +113,12 @@
     "scripts": {
         "deptrac": [
             "deptrac analyze --config-file=./ci/deptrac/config.yml --cache-file=./ci/deptrac/.cache --no-interaction --no-progress"
+        ],
+        "docs:dql-examples": [
+            "Ci\\MartinGeorgiev\\Docs\\DqlExampleChecker::run"
+        ],
+        "docs:registrations": [
+            "Ci\\MartinGeorgiev\\Docs\\SetupGuideChecker::run"
         ],
         "php-cs-fixer": [
             "php-cs-fixer fix --config=./ci/php-cs-fixer/config.php --allow-unsupported-php-version=yes --show-progress=none --no-interaction --diff -v"
@@ -140,6 +149,10 @@
         "fix-code-style": [
             "@rector",
             "@php-cs-fixer"
+        ],
+        "check-docs": [
+            "@docs:dql-examples",
+            "@docs:registrations"
         ],
         "run-static-analysis": [
             "@phpstan",

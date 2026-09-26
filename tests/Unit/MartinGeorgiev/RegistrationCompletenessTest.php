@@ -6,7 +6,6 @@ namespace Tests\Unit\MartinGeorgiev;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -89,39 +88,6 @@ final class RegistrationCompletenessTest extends TestCase
             self::FUNCTION_INTEGRATION_TEST_DIRECTORY,
             self::class
         ));
-    }
-
-    #[DataProvider('provideDocumentationThatMustListEveryType')]
-    #[Test]
-    public function documents_every_declared_type(string $documentationFile, string $registrationPattern): void
-    {
-        $documentation = $this->readRepositoryFile($documentationFile);
-        $undocumented = \array_values(\array_filter(
-            $this->declaredTypeNames(),
-            static fn (string $typeName): bool => \preg_match(\sprintf($registrationPattern, \preg_quote($typeName, '/')), $documentation) !== 1
-        ));
-
-        $this->assertSame([], $undocumented, \sprintf(
-            'Every type name declared as a constant in %s must be registered in %s.',
-            self::TYPE_DECLARATION_FILE,
-            $documentationFile
-        ));
-    }
-
-    /**
-     * Each pattern is the shape a registration takes in that file, so a passing mention - an alias, a prose example -
-     * cannot stand in for one. Symfony quotes only the names YAML would otherwise misread.
-     *
-     * @return array<string, array{documentationFile: string, registrationPattern: string}>
-     */
-    public static function provideDocumentationThatMustListEveryType(): array
-    {
-        return [
-            'type catalogue' => ['documentationFile' => 'docs/AVAILABLE-TYPES.md', 'registrationPattern' => '/\| %s \| /'],
-            'Doctrine integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-DOCTRINE.md', 'registrationPattern' => "/addType\\('%s', /"],
-            'Symfony integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-SYMFONY.md', 'registrationPattern' => "/^ *'?%s'?: MartinGeorgiev/m"],
-            'Laravel integration guide' => ['documentationFile' => 'docs/INTEGRATING-WITH-LARAVEL.md', 'registrationPattern' => "/'%s' => /"],
-        ];
     }
 
     /**
