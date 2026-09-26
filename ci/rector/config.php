@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+use Ci\MartinGeorgiev\Rector\MethodOrderRector;
+use Ci\MartinGeorgiev\Rector\ParentByNamespaceRector;
+use Ci\MartinGeorgiev\Rector\TestDoubleIntersectionVarRector;
+use Ci\MartinGeorgiev\Rector\VarTagByConstantValueRector;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use MartinGeorgiev\Rector\MethodOrderRector;
-use MartinGeorgiev\Rector\ParentByNamespaceRector;
-use MartinGeorgiev\Rector\TestDoubleIntersectionVarRector;
-use MartinGeorgiev\Rector\VarTagByConstantValueRector;
 use PHPUnit\Framework\MockObject\MockObject;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;

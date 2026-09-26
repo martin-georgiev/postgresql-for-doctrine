@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\PHPStan;
+namespace Ci\MartinGeorgiev\PHPStan;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
