@@ -38,6 +38,8 @@ description: Map PostgreSQL arrays, JSONB, ranges, PostGIS geometries, pgvector 
       <button type="button" role="tab" id="tab-pgvector" aria-controls="pair-pgvector" aria-selected="false" tabindex="-1">pgvector</button>
       <button type="button" role="tab" id="tab-search" aria-controls="pair-search" aria-selected="false" tabindex="-1">Full-text search</button>
       <button type="button" role="tab" id="tab-window" aria-controls="pair-window" aria-selected="false" tabindex="-1">Window functions</button>
+      <button type="button" role="tab" id="tab-aggregates" aria-controls="pair-aggregates" aria-selected="false" tabindex="-1">Aggregates</button>
+      <button type="button" role="tab" id="tab-hierarchies" aria-controls="pair-hierarchies" aria-selected="false" tabindex="-1">Hierarchies</button>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-jsonb" aria-labelledby="tab-jsonb" tabindex="0">
@@ -101,6 +103,26 @@ FROM orders</code></pre></div>
       <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT o.id,
   <b class="fn">OVER</b>(SUM(o.amount), PARTITION BY o.customer ORDER BY o.placedAt)
 FROM App\Entity\Order o</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-aggregates" aria-labelledby="tab-aggregates" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT customer_id,
+  COUNT(*) <b class="op">FILTER</b> (WHERE status = 'paid') AS paid,
+  PERCENTILE_CONT(0.5) <b class="op">WITHIN GROUP</b> (ORDER BY total) AS median_total
+FROM orders GROUP BY customer_id</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT IDENTITY(o.customer),
+  <b class="fn">FILTER</b>(COUNT(o.id), WHERE o.status = 'paid') AS paid,
+  <b class="fn">PERCENTILE_CONT</b>(0.5 WITHIN GROUP ORDER BY o.total) AS medianTotal
+FROM App\Entity\Order o GROUP BY o.customer</code></pre></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-hierarchies" aria-labelledby="tab-hierarchies" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM categories
+WHERE path <b class="op">~</b> 'Top.Sports.*'</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT c.id FROM App\Entity\Category c
+WHERE <b class="fn">MATCHES_LQUERY</b>(c.path, 'Top.Sports.*') = TRUE</code></pre></div>
     </div>
   </div>
 </section>
