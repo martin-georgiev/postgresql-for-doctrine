@@ -77,3 +77,11 @@ pre,
 .theme-toggle[aria-pressed="true"] .theme-toggle__moon {
   fill: currentColor;
 }
+
+// Tables and code use the full content width; running text keeps a readable measure.
+.main-content > p,
+.main-content > ul,
+.main-content > ol,
+.main-content > blockquote {
+  max-width: 46rem;
+}

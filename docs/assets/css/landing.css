@@ -101,7 +101,7 @@ h3 {
 
 .wrap {
   width: 100%;
-  max-width: 74rem;
+  max-width: 84rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
 }
@@ -309,6 +309,10 @@ h3 {
 
 .pair {
   display: grid;
+}
+
+.pair[hidden] {
+  display: none;
 }
 
 .pair:focus-visible {
