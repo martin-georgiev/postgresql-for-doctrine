@@ -240,6 +240,10 @@ final class DocumentationExamplesTest extends TestCase
                     $statementLines[] = \rtrim($line);
                 }
             }
+
+            if ($statementLines !== []) {
+                $statements[$documentationFile.':'.$statementStart] = ['dql' => \implode("\n", $statementLines)];
+            }
         }
 
         return $statements === [] ? ['no dql fence yet' => ['dql' => self::NO_DQL_FENCE]] : $statements;
