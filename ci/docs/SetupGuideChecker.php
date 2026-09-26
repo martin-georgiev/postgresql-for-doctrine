@@ -29,7 +29,7 @@ final readonly class SetupGuideChecker
     /**
      * @return list<string>
      */
-    public function failures(): array
+    private function failures(): array
     {
         return [
             ...$this->undocumentedTypes(),

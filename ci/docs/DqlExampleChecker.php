@@ -73,32 +73,20 @@ final readonly class DqlExampleChecker
         'row' => ContainsNumerics::class,
     ];
 
-    private EntityManager $entityManager;
-
     /**
      * @param array<string, class-string<FunctionNode>> $functionClassByRegisteredName
      */
     public function __construct(
-        Repository $repository,
+        private EntityManager $entityManager,
         private array $functionClassByRegisteredName,
-    ) {
-        $configuration = ORMSetup::createAttributeMetadataConfiguration([
-            __DIR__.'/Entity',
-            $repository->rootDirectory.'/fixtures/MartinGeorgiev/Doctrine/Entity',
-        ], true);
-        foreach ($functionClassByRegisteredName as $name => $functionClass) {
-            $configuration->addCustomStringFunction($name, $functionClass);
-        }
-
-        $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true], $configuration);
-        $this->entityManager = new EntityManager($connection, $configuration);
-    }
+    ) {}
 
     public static function run(): bool
     {
         $repository = new Repository();
         $dqlExampleCollector = new DqlExampleCollector($repository);
-        $checker = new self($repository, (new SetupGuides($repository))->functionsRegisteredByTheDoctrineGuide());
+        $functionClassByRegisteredName = (new SetupGuides($repository))->functionsRegisteredByTheDoctrineGuide();
+        $checker = new self(self::entityManagerRegistering($functionClassByRegisteredName, $repository), $functionClassByRegisteredName);
         $docblockExamples = $dqlExampleCollector->docblockExamples();
         $dqlFenceStatements = $dqlExampleCollector->dqlFenceStatements();
 
@@ -121,9 +109,27 @@ final readonly class DqlExampleChecker
     }
 
     /**
+     * @param array<string, class-string<FunctionNode>> $functionClassByRegisteredName
+     */
+    private static function entityManagerRegistering(array $functionClassByRegisteredName, Repository $repository): EntityManager
+    {
+        $configuration = ORMSetup::createAttributeMetadataConfiguration([
+            __DIR__.'/Entity',
+            $repository->rootDirectory.'/fixtures/MartinGeorgiev/Doctrine/Entity',
+        ], true);
+        foreach ($functionClassByRegisteredName as $name => $functionClass) {
+            $configuration->addCustomStringFunction($name, $functionClass);
+        }
+
+        $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true], $configuration);
+
+        return new EntityManager($connection, $configuration);
+    }
+
+    /**
      * @return list<string>
      */
-    public function failuresOf(DqlExample $dqlExample): array
+    private function failuresOf(DqlExample $dqlExample): array
     {
         if ($dqlExample->documentedFunctionClass === null) {
             $parseError = $this->parseErrorOf($dqlExample->dql);
@@ -181,59 +187,96 @@ final readonly class DqlExampleChecker
 
     private function withPlaceholdersMappedToFixtures(string $example): string
     {
-        $withoutStringLiterals = (string) \preg_replace("/'(?:[^']|'')*'/", "''", $example);
-        \preg_match_all('/(?<![\w:.])(?<alias>[a-z]\w*)\.(?<field>[A-Za-z_]\w*)/', $withoutStringLiterals, $fieldReferences, \PREG_SET_ORDER);
-
-        $fieldsByAlias = [];
-        foreach ($fieldReferences as $fieldReference) {
-            $fieldsByAlias[$fieldReference['alias']][$fieldReference['field']] = true;
-        }
-
-        $dql = $example;
-        $isAWhereClauseOnly = \preg_match('/^\s*WHERE\b/i', $dql) === 1;
-        if ($isAWhereClauseOnly) {
-            $aliases = \array_keys($fieldsByAlias) ?: ['e'];
-            $from = \implode(', ', \array_map(static fn (string $alias): string => 'Entity '.$alias, $aliases));
-            $dql = \sprintf('SELECT %s.id FROM %s %s', $aliases[0], $from, \trim($dql));
-        }
+        $placeholderFieldsByAlias = $this->placeholderFieldsByAlias($example);
+        $dql = $this->asACompleteStatement($example, \array_keys($placeholderFieldsByAlias));
 
         $fixtureEntityByAlias = [];
-        foreach ($fieldsByAlias as $alias => $fields) {
-            $fixtureEntity = $this->fixtureEntityNamedBy((string) (\array_key_first(\array_diff_key($fields, ['id' => true])) ?? 'text'));
-            $fixtureEntityByAlias[$alias] = $fixtureEntity;
-
-            $fixtureColumns = \array_values(\array_diff(\array_keys(\get_class_vars($fixtureEntity)), ['id']));
-            $fixtureColumnByField = [];
-            $columnIndex = 0;
-            foreach (\array_keys($fields) as $field) {
-                $fixtureColumnByField[$field] = $field === 'id' ? 'id' : $fixtureColumns[$columnIndex++ % \count($fixtureColumns)];
-            }
-
-            $dql = (string) \preg_replace_callback(
-                '/(?<![\w:.])'.\preg_quote($alias, '/').'\.(?<field>[A-Za-z_]\w*)/',
-                static fn (array $match): string => $alias.'.'.($fixtureColumnByField[$match['field']] ?? $match['field']),
-                $dql
-            );
+        foreach ($placeholderFieldsByAlias as $alias => $placeholderFields) {
+            $fixtureEntityByAlias[$alias] = $this->fixtureEntityNamedBy($placeholderFields);
+            $dql = $this->withFieldsMappedToColumnsOf($fixtureEntityByAlias[$alias], $alias, $placeholderFields, $dql);
         }
 
-        return (string) \preg_replace_callback(
-            '/\bEntity\s+(?<alias>[a-z]\w*)/',
-            static fn (array $match): string => '\\'.($fixtureEntityByAlias[$match['alias']] ?? ContainsTexts::class).' '.$match['alias'],
-            $dql
-        );
+        return $this->withEntityPlaceholdersReplacedBy($fixtureEntityByAlias, $dql);
     }
 
     /**
+     * @return array<string, list<string>>
+     */
+    private function placeholderFieldsByAlias(string $example): array
+    {
+        $withoutStringLiterals = (string) \preg_replace("/'(?:[^']|'')*'/", "''", $example);
+        \preg_match_all('/(?<![\w:.])(?<alias>[a-z]\w*)\.(?<field>[A-Za-z_]\w*)/', $withoutStringLiterals, $fieldReferences, \PREG_SET_ORDER);
+
+        $placeholderFieldsByAlias = [];
+        foreach ($fieldReferences as $fieldReference) {
+            $placeholderFieldsByAlias[$fieldReference['alias']][$fieldReference['field']] = $fieldReference['field'];
+        }
+
+        return \array_map(\array_values(...), $placeholderFieldsByAlias);
+    }
+
+    /**
+     * @param list<string> $aliases
+     */
+    private function asACompleteStatement(string $example, array $aliases): string
+    {
+        $isAWhereClauseOnly = \preg_match('/^\s*WHERE\b/i', $example) === 1;
+        if (!$isAWhereClauseOnly) {
+            return $example;
+        }
+
+        $aliases = $aliases ?: ['e'];
+        $from = \implode(', ', \array_map(static fn (string $alias): string => 'Entity '.$alias, $aliases));
+
+        return \sprintf('SELECT %s.id FROM %s %s', $aliases[0], $from, \trim($example));
+    }
+
+    /**
+     * @param list<string> $placeholderFields
+     *
      * @return class-string
      */
-    private function fixtureEntityNamedBy(string $placeholderField): string
+    private function fixtureEntityNamedBy(array $placeholderFields): string
     {
+        $namingField = \strtolower(\array_values(\array_diff($placeholderFields, ['id']))[0] ?? 'text');
         foreach (self::FIXTURE_ENTITY_BY_PLACEHOLDER_FIELD_KEYWORD as $keyword => $fixtureEntity) {
-            if (\str_contains(\strtolower($placeholderField), $keyword)) {
+            if (\str_contains($namingField, $keyword)) {
                 return $fixtureEntity;
             }
         }
 
         return ContainsTexts::class;
+    }
+
+    /**
+     * @param class-string $fixtureEntity
+     * @param list<string> $placeholderFields
+     */
+    private function withFieldsMappedToColumnsOf(string $fixtureEntity, string $alias, array $placeholderFields, string $dql): string
+    {
+        $fixtureColumns = \array_values(\array_diff(\array_keys(\get_class_vars($fixtureEntity)), ['id']));
+        $fixtureColumnByField = [];
+        $columnIndex = 0;
+        foreach ($placeholderFields as $placeholderField) {
+            $fixtureColumnByField[$placeholderField] = $placeholderField === 'id' ? 'id' : $fixtureColumns[$columnIndex++ % \count($fixtureColumns)];
+        }
+
+        return (string) \preg_replace_callback(
+            '/(?<![\w:.])'.\preg_quote($alias, '/').'\.(?<field>[A-Za-z_]\w*)/',
+            static fn (array $match): string => $alias.'.'.($fixtureColumnByField[$match['field']] ?? $match['field']),
+            $dql
+        );
+    }
+
+    /**
+     * @param array<string, class-string> $fixtureEntityByAlias
+     */
+    private function withEntityPlaceholdersReplacedBy(array $fixtureEntityByAlias, string $dql): string
+    {
+        return (string) \preg_replace_callback(
+            '/\bEntity\s+(?<alias>[a-z]\w*)/',
+            static fn (array $match): string => '\\'.($fixtureEntityByAlias[$match['alias']] ?? ContainsTexts::class).' '.$match['alias'],
+            $dql
+        );
     }
 }
