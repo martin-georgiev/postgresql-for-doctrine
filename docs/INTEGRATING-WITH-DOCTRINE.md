@@ -208,24 +208,33 @@ $configuration->addCustomStringFunction('ARRAY_POSITIONS', MartinGeorgiev\Doctri
 $configuration->addCustomStringFunction('ARRAY_PREPEND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayPrepend::class);
 $configuration->addCustomStringFunction('ARRAY_REMOVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayRemove::class);
 $configuration->addCustomStringFunction('ARRAY_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReplace::class);
+$configuration->addCustomStringFunction('ARRAY_REVERSE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayReverse::class);
 $configuration->addCustomStringFunction('ARRAY_SAMPLE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySample::class);
 $configuration->addCustomStringFunction('ARRAY_SHUFFLE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayShuffle::class);
+$configuration->addCustomStringFunction('ARRAY_SORT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArraySort::class);
 $configuration->addCustomStringFunction('ARRAY_TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToJson::class);
 $configuration->addCustomStringFunction('ARRAY_TO_STRING', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToString::class);
 $configuration->addCustomStringFunction('ARRAY_UPPER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper::class);
 $configuration->addCustomStringFunction('ASCII', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ascii::class);
 $configuration->addCustomStringFunction('BTRIM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Btrim::class);
+$configuration->addCustomStringFunction('CASEFOLD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Casefold::class);
 $configuration->addCustomStringFunction('CHAR_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CharLength::class);
 $configuration->addCustomStringFunction('CHR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Chr::class);
+$configuration->addCustomStringFunction('CONCAT_WS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ConcatWs::class);
 $configuration->addCustomStringFunction('DECODE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Decode::class);
 $configuration->addCustomStringFunction('ENCODE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Encode::class);
+$configuration->addCustomStringFunction('FORMAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Format::class);
 $configuration->addCustomStringFunction('INITCAP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Initcap::class);
+$configuration->addCustomStringFunction('LEFT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Left::class);
 $configuration->addCustomStringFunction('LPAD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lpad::class);
 $configuration->addCustomStringFunction('LTRIM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltrim::class);
 $configuration->addCustomStringFunction('OCTET_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\OctetLength::class);
 $configuration->addCustomStringFunction('QUOTE_IDENT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteIdent::class);
 $configuration->addCustomStringFunction('QUOTE_LITERAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteLiteral::class);
 $configuration->addCustomStringFunction('QUOTE_NULLABLE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\QuoteNullable::class);
+$configuration->addCustomStringFunction('REPEAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Repeat::class);
+$configuration->addCustomStringFunction('REVERSE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Reverse::class);
+$configuration->addCustomStringFunction('RIGHT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Right::class);
 $configuration->addCustomStringFunction('RPAD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rpad::class);
 $configuration->addCustomStringFunction('RTRIM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Rtrim::class);
 $configuration->addCustomStringFunction('SPLIT_PART', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SplitPart::class);
@@ -243,6 +252,8 @@ $configuration->addCustomStringFunction('JSON_BUILD_OBJECT', MartinGeorgiev\Doct
 $configuration->addCustomStringFunction('JSON_EACH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEach::class);
 $configuration->addCustomStringFunction('JSON_EACH_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonEachText::class);
 $configuration->addCustomStringFunction('JSON_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExists::class);
+$configuration->addCustomStringFunction('JSON_EXTRACT_PATH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExtractPath::class);
+$configuration->addCustomStringFunction('JSON_EXTRACT_PATH_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonExtractPathText::class);
 $configuration->addCustomStringFunction('JSON_GET_FIELD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetField::class);
 $configuration->addCustomStringFunction('JSON_GET_FIELD_AS_INTEGER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger::class);
 $configuration->addCustomStringFunction('JSON_GET_FIELD_AS_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsText::class);
@@ -267,6 +278,8 @@ $configuration->addCustomStringFunction('JSONB_BUILD_OBJECT', MartinGeorgiev\Doc
 $configuration->addCustomStringFunction('JSONB_EACH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEach::class);
 $configuration->addCustomStringFunction('JSONB_EACH_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbEachText::class);
 $configuration->addCustomStringFunction('JSONB_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExists::class);
+$configuration->addCustomStringFunction('JSONB_EXTRACT_PATH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExtractPath::class);
+$configuration->addCustomStringFunction('JSONB_EXTRACT_PATH_TEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbExtractPathText::class);
 $configuration->addCustomStringFunction('JSONB_INSERT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbInsert::class);
 $configuration->addCustomStringFunction('JSONB_OBJECT_KEYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbObjectKeys::class);
 $configuration->addCustomStringFunction('JSONB_PATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbPathExists::class);
@@ -278,11 +291,13 @@ $configuration->addCustomStringFunction('JSONB_PRETTY', MartinGeorgiev\Doctrine\
 $configuration->addCustomStringFunction('JSONB_SET', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSet::class);
 $configuration->addCustomStringFunction('JSONB_SET_LAX', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbSetLax::class);
 $configuration->addCustomStringFunction('JSONB_STRIP_NULLS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbStripNulls::class);
+$configuration->addCustomStringFunction('JSONB_TYPEOF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbTypeof::class);
 $configuration->addCustomStringFunction('TO_JSONB', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb::class);
 
 # text search specific
 $configuration->addCustomStringFunction('ARRAY_TO_TSVECTOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayToTsvector::class);
 $configuration->addCustomStringFunction('JSON_TO_TSVECTOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonToTsvector::class);
+$configuration->addCustomStringFunction('JSONB_TO_TSVECTOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbToTsvector::class);
 $configuration->addCustomStringFunction('PHRASETO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PhrasetoTsquery::class);
 $configuration->addCustomStringFunction('PLAINTO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PlaintoTsquery::class);
 $configuration->addCustomStringFunction('SETWEIGHT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Setweight::class);
@@ -298,17 +313,25 @@ $configuration->addCustomStringFunction('TSVECTOR_TO_ARRAY', MartinGeorgiev\Doct
 $configuration->addCustomStringFunction('WEBSEARCH_TO_TSQUERY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery::class);
 
 # date specific functions
+$configuration->addCustomStringFunction('AGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Age::class);
+$configuration->addCustomStringFunction('AT_TIME_ZONE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone::class);
 $configuration->addCustomStringFunction('CLOCK_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ClockTimestamp::class);
 $configuration->addCustomStringFunction('DATE_ADD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateAdd::class);
 $configuration->addCustomStringFunction('DATE_BIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateBin::class);
 $configuration->addCustomStringFunction('DATE_EXTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateExtract::class);
 $configuration->addCustomStringFunction('DATE_OVERLAPS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateOverlaps::class);
+$configuration->addCustomStringFunction('DATE_PART', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DatePart::class);
 $configuration->addCustomStringFunction('DATE_SUBTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateSubtract::class);
 $configuration->addCustomStringFunction('DATE_TRUNC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\DateTrunc::class);
+$configuration->addCustomStringFunction('GENERATE_TIME_SERIES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateTimeSeries::class);
 $configuration->addCustomStringFunction('ISFINITE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Isfinite::class);
 $configuration->addCustomStringFunction('JUSTIFY_DAYS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyDays::class);
 $configuration->addCustomStringFunction('JUSTIFY_HOURS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours::class);
 $configuration->addCustomStringFunction('JUSTIFY_INTERVAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval::class);
+$configuration->addCustomStringFunction('MAKE_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate::class);
+$configuration->addCustomStringFunction('MAKE_TIME', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime::class);
+$configuration->addCustomStringFunction('MAKE_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp::class);
+$configuration->addCustomStringFunction('MAKE_TIMESTAMPTZ', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz::class);
 $configuration->addCustomStringFunction('STATEMENT_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StatementTimestamp::class);
 $configuration->addCustomStringFunction('TRANSACTION_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp::class);
 
@@ -330,8 +353,11 @@ $configuration->addCustomStringFunction('ERFC', MartinGeorgiev\Doctrine\ORM\Quer
 $configuration->addCustomStringFunction('EXP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exp::class);
 $configuration->addCustomStringFunction('FACTORIAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Factorial::class);
 $configuration->addCustomStringFunction('FLOOR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Floor::class);
+$configuration->addCustomStringFunction('GAMMA', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gamma::class);
 $configuration->addCustomStringFunction('GCD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Gcd::class);
+$configuration->addCustomStringFunction('GENERATE_NUMERIC_SERIES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenerateNumericSeries::class);
 $configuration->addCustomStringFunction('LCM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lcm::class);
+$configuration->addCustomStringFunction('LGAMMA', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lgamma::class);
 $configuration->addCustomStringFunction('LN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ln::class);
 $configuration->addCustomStringFunction('LOG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Log::class);
 $configuration->addCustomStringFunction('MIN_SCALE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MinScale::class);
@@ -372,6 +398,7 @@ $configuration->addCustomStringFunction('TAND', MartinGeorgiev\Doctrine\ORM\Quer
 $configuration->addCustomStringFunction('TANH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tanh::class);
 
 # other operators
+$configuration->addCustomStringFunction('COMPOSITE_FIELD', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\CompositeField::class);
 $configuration->addCustomStringFunction('ILIKE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike::class);
 $configuration->addCustomStringFunction('SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\SimilarTo::class);
 $configuration->addCustomStringFunction('NOT_SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NotSimilarTo::class);
@@ -418,6 +445,188 @@ $configuration->addCustomStringFunction('HSTORE_SVALS', MartinGeorgiev\Doctrine\
 $configuration->addCustomStringFunction('HSTORE_TO_JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJson::class);
 $configuration->addCustomStringFunction('HSTORE_TO_JSON_LOOSE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Hstore\HstoreToJsonLoose::class);
 
+# PostGIS functions
+$configuration->addCustomStringFunction('ST_3DDFULLYWITHIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDFullyWithin::class);
+$configuration->addCustomStringFunction('ST_3DDISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDistance::class);
+$configuration->addCustomStringFunction('ST_3DDWITHIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DDWithin::class);
+$configuration->addCustomStringFunction('ST_3DINTERSECTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DIntersects::class);
+$configuration->addCustomStringFunction('ST_3DLENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DLength::class);
+$configuration->addCustomStringFunction('ST_3DPERIMETER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_3DPerimeter::class);
+$configuration->addCustomStringFunction('ST_AREA', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Area::class);
+$configuration->addCustomStringFunction('ST_ASEWKT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsEWKT::class);
+$configuration->addCustomStringFunction('ST_ASGEOJSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON::class);
+$configuration->addCustomStringFunction('ST_ASTEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText::class);
+$configuration->addCustomStringFunction('ST_AZIMUTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Azimuth::class);
+$configuration->addCustomStringFunction('ST_BOUNDARY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Boundary::class);
+$configuration->addCustomStringFunction('ST_BUFFER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Buffer::class);
+$configuration->addCustomStringFunction('ST_CENTROID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Centroid::class);
+$configuration->addCustomStringFunction('ST_CLIPBYBOX2D', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ClipByBox2D::class);
+$configuration->addCustomStringFunction('ST_CLOSESTPOINT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ClosestPoint::class);
+$configuration->addCustomStringFunction('ST_COLLECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Collect::class);
+$configuration->addCustomStringFunction('ST_COLLECTIONEXTRACT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionExtract::class);
+$configuration->addCustomStringFunction('ST_COLLECTIONHOMOGENIZE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionHomogenize::class);
+$configuration->addCustomStringFunction('ST_CONCAVEHULL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConcaveHull::class);
+$configuration->addCustomStringFunction('ST_CONTAINS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Contains::class);
+$configuration->addCustomStringFunction('ST_CONTAINSPROPERLY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ContainsProperly::class);
+$configuration->addCustomStringFunction('ST_CONVEXHULL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ConvexHull::class);
+$configuration->addCustomStringFunction('ST_COORDDIM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoordDim::class);
+$configuration->addCustomStringFunction('ST_COVERAGEUNION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion::class);
+$configuration->addCustomStringFunction('ST_COVEREDBY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoveredBy::class);
+$configuration->addCustomStringFunction('ST_COVERS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Covers::class);
+$configuration->addCustomStringFunction('ST_CROSSES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Crosses::class);
+$configuration->addCustomStringFunction('ST_CURVEN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveN::class);
+$configuration->addCustomStringFunction('ST_CURVETOLINE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CurveToLine::class);
+$configuration->addCustomStringFunction('ST_DFULLYWITHIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_DFullyWithin::class);
+$configuration->addCustomStringFunction('ST_DIFFERENCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Difference::class);
+$configuration->addCustomStringFunction('ST_DISJOINT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Disjoint::class);
+$configuration->addCustomStringFunction('ST_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Distance::class);
+$configuration->addCustomStringFunction('ST_DWITHIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_DWithin::class);
+$configuration->addCustomStringFunction('ST_ENDPOINT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_EndPoint::class);
+$configuration->addCustomStringFunction('ST_ENVELOPE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Envelope::class);
+$configuration->addCustomStringFunction('ST_EQUALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Equals::class);
+$configuration->addCustomStringFunction('ST_EXTERIORRING', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ExteriorRing::class);
+$configuration->addCustomStringFunction('ST_FLIPCOORDINATES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_FlipCoordinates::class);
+$configuration->addCustomStringFunction('ST_FORCE2D', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force2D::class);
+$configuration->addCustomStringFunction('ST_FORCE3D', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force3D::class);
+$configuration->addCustomStringFunction('ST_FORCE4D', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Force4D::class);
+$configuration->addCustomStringFunction('ST_FRECHETDISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_FrechetDistance::class);
+$configuration->addCustomStringFunction('ST_GENERATEPOINTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeneratePoints::class);
+$configuration->addCustomStringFunction('ST_GEOMETRYN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryN::class);
+$configuration->addCustomStringFunction('ST_GEOMETRYTYPE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeometryType::class);
+$configuration->addCustomStringFunction('ST_GEOMFROMEWKT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromEWKT::class);
+$configuration->addCustomStringFunction('ST_GEOMFROMGEOJSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromGeoJSON::class);
+$configuration->addCustomStringFunction('ST_GEOMFROMTEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromText::class);
+$configuration->addCustomStringFunction('ST_HASM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasM::class);
+$configuration->addCustomStringFunction('ST_HASZ', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HasZ::class);
+$configuration->addCustomStringFunction('ST_HAUSDORFFDISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_HausdorffDistance::class);
+$configuration->addCustomStringFunction('ST_INTERIORRINGN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_InteriorRingN::class);
+$configuration->addCustomStringFunction('ST_INTERSECTION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Intersection::class);
+$configuration->addCustomStringFunction('ST_INTERSECTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Intersects::class);
+$configuration->addCustomStringFunction('ST_ISCLOSED', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsClosed::class);
+$configuration->addCustomStringFunction('ST_ISEMPTY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsEmpty::class);
+$configuration->addCustomStringFunction('ST_ISVALID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValid::class);
+$configuration->addCustomStringFunction('ST_ISVALIDREASON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_IsValidReason::class);
+$configuration->addCustomStringFunction('ST_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length::class);
+$configuration->addCustomStringFunction('ST_LENGTH2D', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Length2D::class);
+$configuration->addCustomStringFunction('ST_LETTERS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Letters::class);
+$configuration->addCustomStringFunction('ST_LINECROSSINGDIRECTION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineCrossingDirection::class);
+$configuration->addCustomStringFunction('ST_LINEEXTEND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineExtend::class);
+$configuration->addCustomStringFunction('ST_LINEINTERPOLATEPOINT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineInterpolatePoint::class);
+$configuration->addCustomStringFunction('ST_LINELOCATEPOINT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineLocatePoint::class);
+$configuration->addCustomStringFunction('ST_LINESUBSTRING', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineSubstring::class);
+$configuration->addCustomStringFunction('ST_LINETOCURVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineToCurve::class);
+$configuration->addCustomStringFunction('ST_MAKEENVELOPE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeEnvelope::class);
+$configuration->addCustomStringFunction('ST_MAKELINE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeLine::class);
+$configuration->addCustomStringFunction('ST_MAKEPOINT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakePoint::class);
+$configuration->addCustomStringFunction('ST_MAKEVALID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MakeValid::class);
+$configuration->addCustomStringFunction('ST_MAXDISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MaxDistance::class);
+$configuration->addCustomStringFunction('ST_MINIMUMBOUNDINGCIRCLE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_MinimumBoundingCircle::class);
+$configuration->addCustomStringFunction('ST_NPOINTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NPoints::class);
+$configuration->addCustomStringFunction('ST_NUMCURVES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumCurves::class);
+$configuration->addCustomStringFunction('ST_NUMGEOMETRIES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumGeometries::class);
+$configuration->addCustomStringFunction('ST_NUMINTERIORRINGS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumInteriorRings::class);
+$configuration->addCustomStringFunction('ST_NUMPOINTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_NumPoints::class);
+$configuration->addCustomStringFunction('ST_OFFSETCURVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_OffsetCurve::class);
+$configuration->addCustomStringFunction('ST_ORDERINGEQUALS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_OrderingEquals::class);
+$configuration->addCustomStringFunction('ST_OVERLAPS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Overlaps::class);
+$configuration->addCustomStringFunction('ST_PERIMETER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Perimeter::class);
+$configuration->addCustomStringFunction('ST_POINT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Point::class);
+$configuration->addCustomStringFunction('ST_POINTINSIDECIRCLE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointInsideCircle::class);
+$configuration->addCustomStringFunction('ST_POINTN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointN::class);
+$configuration->addCustomStringFunction('ST_POINTONSURFACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_PointOnSurface::class);
+$configuration->addCustomStringFunction('ST_PROJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Project::class);
+$configuration->addCustomStringFunction('ST_RELATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Relate::class);
+$configuration->addCustomStringFunction('ST_RELATEMATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RelateMatch::class);
+$configuration->addCustomStringFunction('ST_REMOVEIRRELEVANTPOINTSFORVIEW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveIrrelevantPointsForView::class);
+$configuration->addCustomStringFunction('ST_REMOVESMALLPARTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_RemoveSmallParts::class);
+$configuration->addCustomStringFunction('ST_REVERSE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Reverse::class);
+$configuration->addCustomStringFunction('ST_ROTATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Rotate::class);
+$configuration->addCustomStringFunction('ST_SCALE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Scale::class);
+$configuration->addCustomStringFunction('ST_SEGMENTIZE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Segmentize::class);
+$configuration->addCustomStringFunction('ST_SETSRID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SetSRID::class);
+$configuration->addCustomStringFunction('ST_SHORTESTLINE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_ShortestLine::class);
+$configuration->addCustomStringFunction('ST_SIMPLIFY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Simplify::class);
+$configuration->addCustomStringFunction('ST_SIMPLIFYPOLYGONHULL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPolygonHull::class);
+$configuration->addCustomStringFunction('ST_SIMPLIFYPRESERVETOPOLOGY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyPreserveTopology::class);
+$configuration->addCustomStringFunction('ST_SIMPLIFYVW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SimplifyVW::class);
+$configuration->addCustomStringFunction('ST_SNAP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Snap::class);
+$configuration->addCustomStringFunction('ST_SPLIT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Split::class);
+$configuration->addCustomStringFunction('ST_SRID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SRID::class);
+$configuration->addCustomStringFunction('ST_STARTPOINT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_StartPoint::class);
+$configuration->addCustomStringFunction('ST_SUBDIVIDE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Subdivide::class);
+$configuration->addCustomStringFunction('ST_SYMDIFFERENCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_SymDifference::class);
+$configuration->addCustomStringFunction('ST_TILEENVELOPE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TileEnvelope::class);
+$configuration->addCustomStringFunction('ST_TOUCHES', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Touches::class);
+$configuration->addCustomStringFunction('ST_TRANSFORM', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Transform::class);
+$configuration->addCustomStringFunction('ST_TRANSLATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Translate::class);
+$configuration->addCustomStringFunction('ST_TRIANGULATEPOLYGON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TriangulatePolygon::class);
+$configuration->addCustomStringFunction('ST_UNARYUNION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_UnaryUnion::class);
+$configuration->addCustomStringFunction('ST_UNION', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Union::class);
+$configuration->addCustomStringFunction('ST_VORONOIPOLYGONS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_VoronoiPolygons::class);
+$configuration->addCustomStringFunction('ST_WITHIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Within::class);
+$configuration->addCustomStringFunction('ST_X', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_X::class);
+$configuration->addCustomStringFunction('ST_Y', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Y::class);
+$configuration->addCustomStringFunction('ST_Z', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Z::class);
+
+# PostGIS operators
+$configuration->addCustomStringFunction('BOUNDING_BOX_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance::class); # <#>
+$configuration->addCustomStringFunction('GEOMETRY_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\GeometryDistance::class); # <->
+$configuration->addCustomStringFunction('ND_BOUNDING_BOX_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance::class); # <<#>>
+$configuration->addCustomStringFunction('ND_CENTROID_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance::class); # <<->>
+$configuration->addCustomStringFunction('ND_OVERLAPS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps::class); # &&&
+$configuration->addCustomStringFunction('OVERLAPS_ABOVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsAbove::class); # |&>
+$configuration->addCustomStringFunction('OVERLAPS_BELOW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsBelow::class); # &<|
+$configuration->addCustomStringFunction('OVERLAPS_LEFT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsLeft::class); # &<
+$configuration->addCustomStringFunction('OVERLAPS_RIGHT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\OverlapsRight::class); # &>
+$configuration->addCustomStringFunction('SPATIAL_CONTAINED_BY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialContainedBy::class); # @
+$configuration->addCustomStringFunction('SPATIAL_CONTAINS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialContains::class); # ~
+$configuration->addCustomStringFunction('SPATIAL_SAME', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\SpatialSame::class); # ~=
+$configuration->addCustomStringFunction('STRICTLY_ABOVE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyAbove::class); # |>>
+$configuration->addCustomStringFunction('STRICTLY_BELOW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyBelow::class); # <<|
+$configuration->addCustomStringFunction('STRICTLY_LEFT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyLeft::class); # <<
+$configuration->addCustomStringFunction('STRICTLY_RIGHT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyRight::class); # >>
+$configuration->addCustomStringFunction('TRAJECTORY_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\TrajectoryDistance::class); # |=|
+
+# pg_trgm functions
+$configuration->addCustomStringFunction('SIMILARITY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\Similarity::class);
+$configuration->addCustomStringFunction('STRICT_WORD_SIMILARITY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarity::class);
+$configuration->addCustomStringFunction('WORD_SIMILARITY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarity::class);
+
+# pg_trgm operators
+$configuration->addCustomStringFunction('ARE_SIMILAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\AreSimilar::class); # %
+$configuration->addCustomStringFunction('CONTAINS_STRICT_WORD_SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ContainsStrictWordSimilarTo::class); # %>>
+$configuration->addCustomStringFunction('CONTAINS_WORD_SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ContainsWordSimilarTo::class); # %>
+$configuration->addCustomStringFunction('IS_STRICT_WORD_SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\IsStrictWordSimilarTo::class); # <<%
+$configuration->addCustomStringFunction('IS_WORD_SIMILAR_TO', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\IsWordSimilarTo::class); # <%
+$configuration->addCustomStringFunction('REVERSE_STRICT_WORD_SIMILARITY_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseStrictWordSimilarityDistance::class); # <->>>
+$configuration->addCustomStringFunction('REVERSE_WORD_SIMILARITY_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseWordSimilarityDistance::class); # <->>
+$configuration->addCustomStringFunction('SIMILARITY_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\SimilarityDistance::class); # <->
+$configuration->addCustomStringFunction('STRICT_WORD_SIMILARITY_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarityDistance::class); # <<<->
+$configuration->addCustomStringFunction('WORD_SIMILARITY_DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\WordSimilarityDistance::class); # <<->
+
+# fuzzystrmatch functions
+$configuration->addCustomStringFunction('DAITCH_MOKOTOFF', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DaitchMokotoff::class);
+$configuration->addCustomStringFunction('DIFFERENCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Difference::class);
+$configuration->addCustomStringFunction('DMETAPHONE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Dmetaphone::class);
+$configuration->addCustomStringFunction('DMETAPHONE_ALT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\DmetaphoneAlt::class);
+$configuration->addCustomStringFunction('LEVENSHTEIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Levenshtein::class);
+$configuration->addCustomStringFunction('LEVENSHTEIN_LESS_EQUAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\LevenshteinLessEqual::class);
+$configuration->addCustomStringFunction('METAPHONE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Metaphone::class);
+$configuration->addCustomStringFunction('SOUNDEX', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Soundex::class);
+
+# network address functions
+$configuration->addCustomStringFunction('ABBREV', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Abbrev::class);
+$configuration->addCustomStringFunction('BROADCAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Broadcast::class);
+$configuration->addCustomStringFunction('FAMILY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Family::class);
+$configuration->addCustomStringFunction('HOST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Host::class);
+$configuration->addCustomStringFunction('HOSTMASK', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Hostmask::class);
+$configuration->addCustomStringFunction('INET_MERGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\InetMerge::class);
+$configuration->addCustomStringFunction('INET_SAME_FAMILY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\InetSameFamily::class);
+$configuration->addCustomStringFunction('MASKLEN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Masklen::class);
+$configuration->addCustomStringFunction('NETMASK', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Netmask::class);
+$configuration->addCustomStringFunction('NETWORK', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Network::class);
+$configuration->addCustomStringFunction('SET_MASKLEN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\SetMasklen::class);
+
 # aggregation functions
 $configuration->addCustomStringFunction('ARRAY_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg::class);
 $configuration->addCustomStringFunction('BIT_AND', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitAnd::class);
@@ -437,6 +646,8 @@ $configuration->addCustomStringFunction('JSONB_OBJECT_AGG', MartinGeorgiev\Doctr
 $configuration->addCustomStringFunction('MODE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Mode::class);
 $configuration->addCustomStringFunction('PERCENTILE_CONT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileCont::class);
 $configuration->addCustomStringFunction('PERCENTILE_DISC', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PercentileDisc::class);
+$configuration->addCustomStringFunction('RANGE_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeAgg::class);
+$configuration->addCustomStringFunction('RANGE_INTERSECT_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeIntersectAgg::class);
 $configuration->addCustomStringFunction('STDDEV', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Stddev::class);
 $configuration->addCustomStringFunction('STDDEV_POP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StddevPop::class);
 $configuration->addCustomStringFunction('STRING_AGG', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg::class);
