@@ -6,7 +6,7 @@ PostgreSQL [composite (row) types](https://www.postgresql.org/docs/18/rowtypes.h
 
 ## How it works
 
-[`Composite`](../src/MartinGeorgiev/Doctrine/DBAL/Types/Composite.php) is an abstract base class. You create one concrete subclass per PostgreSQL composite type. The subclass declares `TYPE_NAME` (matching the PostgreSQL type name exactly) and implements `getFieldTypes()`, which maps each field name to the Doctrine type used to convert it.
+[`Composite`](https://github.com/martin-georgiev/postgresql-for-doctrine/blob/main/src/MartinGeorgiev/Doctrine/DBAL/Types/Composite.php) is an abstract base class. You create one concrete subclass per PostgreSQL composite type. The subclass declares `TYPE_NAME` (matching the PostgreSQL type name exactly) and implements `getFieldTypes()`, which maps each field name to the Doctrine type used to convert it.
 
 A composite column becomes a PHP `array` keyed by those field names, with each field already converted by its Doctrine type - so an `integer` field arrives as an `int`, a `date` field as a `DateTime`, a `json` field as an `array`.
 

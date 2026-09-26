@@ -1,0 +1,112 @@
+title: PostgreSQL for Doctrine
+description: Use PostgreSQL's column types, functions and operators in Doctrine ORM and DQL.
+url: https://postgresql-for-doctrine.dev
+baseurl: ""
+repository: martin-georgiev/postgresql-for-doctrine
+
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+color_scheme: pfd-light
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+  - jekyll-seo-tag
+  - jekyll-default-layout
+
+# The Markdown in this folder is read on GitHub as well, so it carries no front matter:
+# links between files stay as `FILE.md` and each page's title and place in the navigation are set below.
+relative_links:
+  enabled: true
+  collections: false
+optional_front_matter:
+  remove_originals: true
+
+search_enabled: true
+search:
+  heading_level: 3
+  button: true
+heading_anchors: true
+back_to_top: true
+back_to_top_text: Back to top
+
+aux_links:
+  GitHub: https://github.com/martin-georgiev/postgresql-for-doctrine
+  Packagist: https://packagist.org/packages/martin-georgiev/postgresql-for-doctrine
+
+gh_edit_link: true
+gh_edit_link_text: Edit this page on GitHub
+gh_edit_repository: https://github.com/martin-georgiev/postgresql-for-doctrine
+gh_edit_branch: main
+gh_edit_source: docs
+gh_edit_view_mode: edit
+
+footer_content: 'Released under the <a href="https://github.com/martin-georgiev/postgresql-for-doctrine/blob/main/LICENSE">MIT licence</a>. <a href="https://github.com/martin-georgiev/postgresql-for-doctrine/blob/main/docs/CONTRIBUTING.md">Contributing</a>'
+
+callouts:
+  note:
+    color: blue
+  warning:
+    color: red
+
+exclude:
+  # The optional-front-matter plugin skips CONTRIBUTING.md by design; the footers link to it on GitHub instead.
+  - CONTRIBUTING.md
+  - assets/README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+
+defaults:
+  - scope: { path: INTEGRATING-WITH-DOCTRINE.md }
+    values: { title: Doctrine setup, nav_order: 2 }
+  - scope: { path: INTEGRATING-WITH-SYMFONY.md }
+    values: { title: Symfony setup, nav_order: 3 }
+  - scope: { path: INTEGRATING-WITH-LARAVEL.md }
+    values: { title: Laravel setup, nav_order: 4 }
+
+  - scope: { path: AVAILABLE-TYPES.md }
+    values: { title: Types, nav_order: 5, has_children: true }
+  - scope: { path: RANGE-TYPES.md }
+    values: { title: Ranges, parent: Types, nav_order: 1 }
+  - scope: { path: SPATIAL-TYPES.md }
+    values: { title: PostGIS geometry and geography, parent: Types, nav_order: 2 }
+  - scope: { path: GEOMETRY-ARRAYS.md }
+    values: { title: Geometry arrays, parent: Types, nav_order: 3 }
+  - scope: { path: LTREE-TYPE.md }
+    values: { title: Ltree, parent: Types, nav_order: 4 }
+  - scope: { path: ENUM-TYPE.md }
+    values: { title: Enums, parent: Types, nav_order: 5 }
+  - scope: { path: COMPOSITE-TYPE.md }
+    values: { title: Composite types, parent: Types, nav_order: 6 }
+  - scope: { path: INFINITY.md }
+    values: { title: Infinity, parent: Types, nav_order: 7 }
+
+  - scope: { path: AVAILABLE-FUNCTIONS-AND-OPERATORS.md }
+    values: { title: Functions and operators, nav_order: 6, has_children: true }
+  - scope: { path: ARRAY-AND-JSON-FUNCTIONS.md }
+    values: { title: Arrays and JSON, parent: Functions and operators, nav_order: 1 }
+  - scope: { path: TEXT-AND-PATTERN-FUNCTIONS.md }
+    values: { title: Text and pattern matching, parent: Functions and operators, nav_order: 2 }
+  - scope: { path: DATE-AND-RANGE-FUNCTIONS.md }
+    values: { title: Dates and ranges, parent: Functions and operators, nav_order: 3 }
+  - scope: { path: SPATIAL-FUNCTIONS-AND-OPERATORS.md }
+    values: { title: PostGIS spatial, parent: Functions and operators, nav_order: 4 }
+  - scope: { path: WINDOW-FUNCTIONS.md }
+    values: { title: Window functions, parent: Functions and operators, nav_order: 5 }
+  - scope: { path: MATHEMATICAL-FUNCTIONS.md }
+    values: { title: Mathematics and statistics, parent: Functions and operators, nav_order: 6 }
+  - scope: { path: NETWORK-FUNCTIONS.md }
+    values: { title: Network addresses, parent: Functions and operators, nav_order: 7 }
+  - scope: { path: HSTORE-FUNCTIONS.md }
+    values: { title: Hstore, parent: Functions and operators, nav_order: 8 }
+  - scope: { path: XML-FUNCTIONS.md }
+    values: { title: XML, parent: Functions and operators, nav_order: 9 }
+  - scope: { path: UTILITY-FUNCTIONS.md }
+    values: { title: Utilities, parent: Functions and operators, nav_order: 10 }
+
+  - scope: { path: USE-CASES-AND-EXAMPLES.md }
+    values: { title: Use cases and examples, nav_order: 7 }
+  - scope: { path: UPGRADE.md }
+    values: { title: Upgrading, nav_order: 8 }

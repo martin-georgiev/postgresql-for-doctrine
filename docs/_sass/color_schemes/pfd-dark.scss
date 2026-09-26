@@ -1,0 +1,19 @@
+// The dark ground of logo-dark.svg. Brand blue and purple are lifted to lighter tints so links keep their contrast.
+@import "./color_schemes/dark";
+
+$color-scheme: dark;
+$body-background-color: #11161d;
+$sidebar-color: #0d1117;
+$border-color: #263140;
+$body-heading-color: #edf1f6;
+$body-text-color: #c9d3de;
+$link-color: #8db4de;
+$nav-child-link-color: #b3bfcc;
+$base-button-color: #1b2430;
+$btn-primary-color: #336791;
+$code-background-color: #171e27;
+$code-linenumber-color: #7a8594;
+$feedback-color: #171e27;
+$table-background-color: #11161d;
+$search-background-color: #171e27;
+$search-result-preview-color: #9aa6b4;
