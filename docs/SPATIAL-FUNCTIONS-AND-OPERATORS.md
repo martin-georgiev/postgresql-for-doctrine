@@ -16,7 +16,7 @@ This document covers PostGIS spatial functions and operators available in this l
 - Most bounding box operators work primarily with **geometry** types
 - **Geography** types have limited operator support (mainly `&&`, `<->`)
 - **3D/n-dimensional operators** may require the geometry to be built explicitly: `ST_GEOMFROMTEXT('POINT Z(0 0 0)')`
-- Some advanced operators (`&&&`, `<<#>>`) may not be available in all PostGIS versions
+- Some advanced operators (`&&&`) may not be available in all PostGIS versions
 
 ### Bounding Box Operators
 
@@ -47,7 +47,6 @@ These operators calculate distances between geometries. All return numeric value
 | \|=\| | TRAJECTORY_DISTANCE | Returns distance between trajectories at closest point of approach | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\TrajectoryDistance` |
 | <#> | BOUNDING_BOX_DISTANCE | Returns the 2D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance` |
 | <<->> | ND_CENTROID_DISTANCE | Returns n-D distance between centroids of bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance` |
-| <<#>> | ND_BOUNDING_BOX_DISTANCE | Returns the n-D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance` |
 
 ## PostGIS Spatial Relationship Functions
 

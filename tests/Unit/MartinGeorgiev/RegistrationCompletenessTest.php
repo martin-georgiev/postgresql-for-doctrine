@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\MartinGeorgiev;
 
 use MartinGeorgiev\Doctrine\DBAL\Type;
-use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalBoundingBoxDistance;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -55,15 +54,6 @@ final class RegistrationCompletenessTest extends TestCase
      */
     private const NON_FUNCTION_SOURCE_SUBFOLDERS = ['Exception', 'Traits'];
 
-    /**
-     * PostGIS removed `<<#>>` in 2.2.0, so no version in the CI matrix can execute it and no integration test can cover it.
-     *
-     * @var list<class-string>
-     */
-    private const FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS = [
-        NDimensionalBoundingBoxDistance::class,
-    ];
-
     #[Test]
     public function registers_every_declared_type_with_the_integration_test_case(): void
     {
@@ -82,11 +72,10 @@ final class RegistrationCompletenessTest extends TestCase
             $this->functionClassesRegisteredForIntegrationTests()
         ));
 
-        $this->assertSame(self::FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS, $unregistered, \sprintf(
-            'Every concrete function class in %s must be registered in a getStringFunctions() of some test case in %s. Register the class there, or - when no tested PostgreSQL version can run it - add it to %s::FUNCTIONS_UNSUPPORTED_BY_EVERY_TESTED_POSTGIS.',
+        $this->assertSame([], $unregistered, \sprintf(
+            'Every concrete function class in %s must be registered in a getStringFunctions() of some test case in %s.',
             self::FUNCTION_SOURCE_DIRECTORY,
-            self::FUNCTION_INTEGRATION_TEST_DIRECTORY,
-            self::class
+            self::FUNCTION_INTEGRATION_TEST_DIRECTORY
         ));
     }
 
