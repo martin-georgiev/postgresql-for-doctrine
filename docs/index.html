@@ -29,7 +29,7 @@ description: Map PostgreSQL arrays, JSONB, ranges, PostGIS geometries, pgvector 
   </div>
 
   <div class="translator">
-    <p class="translator__intro" id="translator-intro">The query you would write in PostgreSQL, and the DQL that produces it.</p>
+    <p class="translator__intro" id="translator-intro">The query you would write in PostgreSQL, and the Doctrine code that produces it.</p>
     <div class="translator__tabs" role="tablist" aria-labelledby="translator-intro">
       <button type="button" role="tab" id="tab-jsonb" aria-controls="pair-jsonb" aria-selected="true">JSONB</button>
       <button type="button" role="tab" id="tab-arrays" aria-controls="pair-arrays" aria-selected="false" tabindex="-1">Arrays</button>
@@ -40,100 +40,113 @@ description: Map PostgreSQL arrays, JSONB, ranges, PostGIS geometries, pgvector 
       <button type="button" role="tab" id="tab-window" aria-controls="pair-window" aria-selected="false" tabindex="-1">Window functions</button>
       <button type="button" role="tab" id="tab-aggregates" aria-controls="pair-aggregates" aria-selected="false" tabindex="-1">Aggregates</button>
       <button type="button" role="tab" id="tab-hierarchies" aria-controls="pair-hierarchies" aria-selected="false" tabindex="-1">Hierarchies</button>
-      <button type="button" role="tab" id="tab-custom-types" aria-controls="pair-custom-types" aria-selected="false" tabindex="-1">Enums and composites</button>
+      <button type="button" role="tab" id="tab-enums" aria-controls="pair-enums" aria-selected="false" tabindex="-1">Enums</button>
+      <button type="button" role="tab" id="tab-composites" aria-controls="pair-composites" aria-selected="false" tabindex="-1">Composite types</button>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-jsonb" aria-labelledby="tab-jsonb" tabindex="0">
-      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM users
-WHERE profile <b class="op">-&gt;&gt;</b> 'country' = 'NL'</code></pre></div>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM product
+WHERE attributes <b class="op">-&gt;&gt;</b> 'color' = 'red'</code></pre></div>
       {% include pair_arrow.html %}
-      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT u.id FROM App\Entity\User u
-WHERE <b class="fn">JSON_GET_FIELD_AS_TEXT</b>(u.profile, 'country') = 'NL'</code></pre></div>
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT p.id FROM App\Entity\Product p
+WHERE <b class="fn">JSON_GET_FIELD_AS_TEXT</b>(p.attributes, 'color') = 'red'</code></pre></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-arrays" aria-labelledby="tab-arrays" tabindex="0" hidden>
-      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM posts
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM product
 WHERE tags <b class="op">&amp;&amp;</b> ARRAY['php', 'postgres']</code></pre></div>
       {% include pair_arrow.html %}
-      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT p.id FROM App\Entity\Post p
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT p.id FROM App\Entity\Product p
 WHERE <b class="fn">OVERLAPS</b>(p.tags, ARRAY('php', 'postgres')) = TRUE</code></pre></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-ranges" aria-labelledby="tab-ranges" tabindex="0" hidden>
-      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM bookings
-WHERE stay <b class="op">&amp;&amp;</b> daterange('2026-07-01', '2026-07-31')</code></pre></div>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM booking
+WHERE slot <b class="op">&amp;&amp;</b> tstzrange('2026-07-01', '2026-07-02')</code></pre></div>
       {% include pair_arrow.html %}
       <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT b.id FROM App\Entity\Booking b
-WHERE <b class="fn">OVERLAPS</b>(b.stay, DATERANGE('2026-07-01', '2026-07-31')) = TRUE</code></pre></div>
+WHERE <b class="fn">OVERLAPS</b>(b.slot, TSTZRANGE('2026-07-01', '2026-07-02')) = TRUE</code></pre></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-postgis" aria-labelledby="tab-postgis" tabindex="0" hidden>
-      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM stores
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM store
 WHERE <b class="op">ST_DWithin</b>(location, 'POINT(4.9 52.37)', 500)</code></pre></div>
       {% include pair_arrow.html %}
-      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT s.id FROM App\Entity\Store s
-WHERE <b class="fn">ST_DWITHIN</b>(s.location, 'POINT(4.9 52.37)', 500) = TRUE</code></pre></div>
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT st.id FROM App\Entity\Store st
+WHERE <b class="fn">ST_DWITHIN</b>(st.location, 'POINT(4.9 52.37)', 500) = TRUE</code></pre><p class="pair__note"><code>location</code> is a <code>geography</code> column, so the distance is in metres.</p></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-pgvector" aria-labelledby="tab-pgvector" tabindex="0" hidden>
-      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM documents
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM article
 ORDER BY embedding <b class="op">&lt;=&gt;</b> :query</code></pre></div>
       {% include pair_arrow.html %}
-      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT d.id, <b class="fn">COSINE_DISTANCE</b>(d.embedding, :query) AS HIDDEN distance
-FROM App\Entity\Document d
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT a.id, <b class="fn">COSINE_DISTANCE</b>(a.embedding, :query) AS HIDDEN distance
+FROM App\Entity\Article a
 ORDER BY distance</code></pre></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-search" aria-labelledby="tab-search" tabindex="0" hidden>
-      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM articles
-WHERE to_tsvector('english', body)
-  <b class="op">@@</b> plainto_tsquery('english', :terms)</code></pre></div>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM article
+WHERE search <b class="op">@@</b> plainto_tsquery('english', :terms)</code></pre></div>
       {% include pair_arrow.html %}
       <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT a.id FROM App\Entity\Article a
-WHERE <b class="fn">TSMATCH</b>(
-  TO_TSVECTOR('english', a.body),
-  PLAINTO_TSQUERY('english', :terms)
-) = TRUE</code></pre></div>
+WHERE <b class="fn">TSMATCH</b>(a.search, PLAINTO_TSQUERY('english', :terms)) = TRUE</code></pre></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-window" aria-labelledby="tab-window" tabindex="0" hidden>
       <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id,
   SUM(amount) <b class="op">OVER</b> (PARTITION BY customer_id ORDER BY placed_at)
-FROM orders</code></pre></div>
+FROM sale</code></pre></div>
       {% include pair_arrow.html %}
-      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT o.id,
-  <b class="fn">OVER</b>(SUM(o.amount), PARTITION BY o.customer ORDER BY o.placedAt)
-FROM App\Entity\Order o</code></pre></div>
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT s.id,
+  <b class="fn">OVER</b>(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt)
+FROM App\Entity\Sale s</code></pre></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-aggregates" aria-labelledby="tab-aggregates" tabindex="0" hidden>
       <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT customer_id,
   COUNT(*) <b class="op">FILTER</b> (WHERE status = 'paid') AS paid,
-  PERCENTILE_CONT(0.5) <b class="op">WITHIN GROUP</b> (ORDER BY total) AS median
-FROM orders GROUP BY customer_id</code></pre></div>
+  PERCENTILE_CONT(0.5) <b class="op">WITHIN GROUP</b> (ORDER BY amount) AS median
+FROM sale GROUP BY customer_id</code></pre></div>
       {% include pair_arrow.html %}
-      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT IDENTITY(o.customer),
-  <b class="fn">FILTER</b>(COUNT(o.id), WHERE o.status = 'paid') AS paid,
-  <b class="fn">PERCENTILE_CONT</b>(0.5 WITHIN GROUP ORDER BY o.total) AS median
-FROM App\Entity\Order o GROUP BY o.customer</code></pre></div>
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT IDENTITY(s.customer),
+  <b class="fn">FILTER</b>(COUNT(s.id), WHERE s.status = 'paid') AS paid,
+  <b class="fn">PERCENTILE_CONT</b>(0.5 WITHIN GROUP ORDER BY s.amount) AS median
+FROM App\Entity\Sale s GROUP BY s.customer</code></pre></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-hierarchies" aria-labelledby="tab-hierarchies" tabindex="0" hidden>
-      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM categories
-WHERE path <b class="op">~</b> 'Top.Sports.*'</code></pre></div>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM product
+WHERE category <b class="op">~</b> 'Books.Databases.*'</code></pre></div>
       {% include pair_arrow.html %}
-      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT c.id FROM App\Entity\Category c
-WHERE <b class="fn">MATCHES_LQUERY</b>(c.path, 'Top.Sports.*') = TRUE</code></pre></div>
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT p.id FROM App\Entity\Product p
+WHERE <b class="fn">MATCHES_LQUERY</b>(p.category, 'Books.Databases.*') = TRUE</code></pre></div>
     </div>
 
-    <div class="pair" role="tabpanel" id="pair-custom-types" aria-labelledby="tab-custom-types" tabindex="0" hidden>
-      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM shipments
-WHERE status = 'delivered'
-  AND <b class="op">(address).city</b> = 'Sofia'</code></pre></div>
+    <div class="pair" role="tabpanel" id="pair-enums" aria-labelledby="tab-enums" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>CREATE TYPE sale_status AS <b class="op">ENUM</b> ('pending', 'paid');
+
+SELECT id FROM sale WHERE status = 'paid'</code></pre></div>
       {% include pair_arrow.html %}
-      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT s.id FROM App\Entity\Shipment s
-WHERE s.status = :status
-  AND <b class="fn">COMPOSITE_FIELD</b>(s.address, 'city') = 'Sofia'</code></pre><p class="pair__note"><code>:status</code> takes the PHP enum case <code>ShipmentStatus::Delivered</code>.</p></div>
+      <div class="pair__side pair__side--dql"><span class="pair__lang">PHP</span><pre><code>enum SaleStatus: string
+{
+    case Pending = 'pending';
+    case Paid = 'paid';
+}
+
+#[ORM\Column(type: 'sale_status')]
+public SaleStatus $status;
+
+$em-&gt;createQuery('SELECT s.id FROM App\Entity\Sale s WHERE s.status = :status')
+    -&gt;setParameter('status', <b class="fn">SaleStatus::Paid</b>);</code></pre><p class="pair__note"><code>sale_status</code> is registered by a small <code>Enum</code> subclass; see <a href="{{ site.baseurl }}{% link ENUM-TYPE.md %}">Enums</a>.</p></div>
+    </div>
+
+    <div class="pair" role="tabpanel" id="pair-composites" aria-labelledby="tab-composites" tabindex="0" hidden>
+      <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT id FROM store
+WHERE <b class="op">(address).city</b> = 'Sofia'</code></pre></div>
+      {% include pair_arrow.html %}
+      <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT st.id FROM App\Entity\Store st
+WHERE <b class="fn">COMPOSITE_FIELD</b>(st.address, 'city') = 'Sofia'</code></pre></div>
     </div>
   </div>
 </section>
@@ -193,7 +206,7 @@ $configuration-&gt;addCustomStringFunction('CONTAINS', Contains::class);</code><
 private array $tags;
 
 $em-&gt;createQuery('
-    SELECT p FROM App\Entity\Post p
+    SELECT p FROM App\Entity\Product p
     WHERE CONTAINS(p.tags, ARRAY(:tag)) = TRUE
 ')-&gt;setParameter('tag', 'postgres')-&gt;getResult();</code></pre>
     </li>

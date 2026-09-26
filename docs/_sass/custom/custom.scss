@@ -101,12 +101,6 @@ $brand-purple-text: if($color-scheme == dark, #a9acdd, #5b5f9e);
 $muted-text-color: $search-result-preview-color;
 
 .home {
-  section + section {
-    margin-top: 3rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid $border-color;
-  }
-
   .hero {
     display: grid;
     gap: 2.5rem;
@@ -120,22 +114,9 @@ $muted-text-color: $search-result-preview-color;
     }
   }
 
-  .hero h1 {
-    margin-top: 0;
-    font-size: 2.6rem;
-    font-weight: 750;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-  }
-
-  .lede {
-    font-size: 1.15rem;
-  }
-
   .hero__setup,
   .translator__intro,
-  .pair__lang,
-  .coverage h3 {
+  .pair__lang {
     color: $muted-text-color;
   }
 
@@ -269,10 +250,6 @@ $muted-text-color: $search-result-preview-color;
     .coverage__columns {
       grid-template-columns: 1fr 1fr;
     }
-  }
-
-  .coverage h3 {
-    font-size: 1rem;
   }
 
   .catalogue {
