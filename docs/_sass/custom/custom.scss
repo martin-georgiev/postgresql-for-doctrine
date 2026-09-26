@@ -40,6 +40,16 @@ pre,
   border-radius: 3px;
 }
 
+.main-content .anchor-heading {
+  position: static;
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.3em;
+  padding: 0;
+  vertical-align: -0.05em;
+}
+
 .main-content a:not(.btn) {
   text-underline-offset: 0.18em;
 }

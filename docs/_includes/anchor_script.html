@@ -2,6 +2,11 @@
   // GitHub keeps a leading dash in the anchor of a heading that starts with an emoji ("#-ltree-functions"),
   // while the site's Markdown renderer drops it ("#ltree-functions"). The docs link with GitHub's form.
   document.addEventListener('DOMContentLoaded', function () {
+    // The theme puts the link icon in the left margin, where it collides with list numbers.
+    document.querySelectorAll('.main-content .anchor-heading').forEach(function (anchor) {
+      anchor.parentElement.appendChild(anchor);
+    });
+
     function withoutLeadingDash(hash) {
       return hash.replace(/^#-+/, '#');
     }
