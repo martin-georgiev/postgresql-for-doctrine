@@ -2,23 +2,7 @@
 
 This document provides an overview of PostgreSQL functions and operators available in this library. For detailed documentation of specific function categories, see the specialized documentation files linked below.
 
-## Operator Conflicts and Usage Notes
-
-**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
-
-| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
-|---|---|---|---|
-| `@>` | `CONTAINS` (arrays contain elements) | Works automatically with geometry/geography | N/A |
-| `<@` | `IS_CONTAINED_BY` (element in array) | Works automatically with geometry/geography | N/A |
-| `@` | N/A | `SPATIAL_CONTAINED_BY` (bounding box contained) | N/A |
-| `~` | N/A | `SPATIAL_CONTAINS` (bounding box contains) | `REGEXP` (text pattern matching) |
-| `&&` | `OVERLAPS` (arrays/ranges overlap) | Works automatically with geometry/geography | N/A |
-
-**Usage Guidelines:**
-- **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
-- **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations → [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
-- **Text**: Use `REGEXP`, `IREGEXP` for pattern matching → [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
-- **Boolean operators**: All spatial operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
+Every PostgreSQL operator is a function in DQL, some operators have one DQL name per meaning, and the boolean functions need `= TRUE`: [The DQL dialect](DQL-DIALECT.md) explains the naming rule, the shared operators and the rest of what differs from PostgreSQL's own syntax.
 
 ## 📚 Function and Operator Categories
 
@@ -278,7 +262,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 ---
 
 **💡 Tips for Usage:**
-1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL → [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md)
+1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL → [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)
 2. **Spatial functions** work best with proper geometry types and indexes → [Spatial Types](SPATIAL-TYPES.md)
 3. **Array functions** provide efficient PostgreSQL array operations → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
 4. **JSON functions** support both JSON and JSONB data types → [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)

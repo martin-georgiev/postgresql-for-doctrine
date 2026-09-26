@@ -111,17 +111,13 @@ This document covers PostgreSQL mathematical functions available in this library
 
 ### `WITHIN GROUP` goes inside the parentheses in DQL
 
-In SQL, an ordered-set aggregate closes its parentheses and then takes `WITHIN GROUP (ORDER BY ...)`. DQL cannot parse anything after a function's closing parenthesis, so in DQL the clause moves **inside** the call:
+DQL cannot parse `WITHIN GROUP (ORDER BY ...)` after the call's closing parenthesis, so the clause moves inside the call; [WITHIN GROUP moves inside the call](DQL-DIALECT.md#within-group-moves-inside-the-call) explains the shape and its limits.
 
 | SQL | DQL |
 |---|---|
 | `percentile_cont(0.5) WITHIN GROUP (ORDER BY e.value)` | `PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY e.value)` |
 | `percentile_disc(0.9) WITHIN GROUP (ORDER BY e.value DESC)` | `PERCENTILE_DISC(0.9 WITHIN GROUP ORDER BY e.value DESC)` |
 | `mode() WITHIN GROUP (ORDER BY e.status)` | `MODE(WITHIN GROUP ORDER BY e.status)` |
-
-- No comma between the fraction and `WITHIN GROUP`, and no parentheses around `ORDER BY ...`. `MODE` takes no fraction, so its call starts straight with `WITHIN GROUP`.
-- `ORDER BY` takes exactly one item, optionally with `ASC` / `DESC`. PostgreSQL rejects more than one, and DQL does not accept a literal there.
-- The fraction is a literal, a parameter, or an expression over columns listed in `GROUP BY`. PostgreSQL rejects a fraction that reads an ungrouped column.
 
 ## Utility and Miscellaneous Functions
 

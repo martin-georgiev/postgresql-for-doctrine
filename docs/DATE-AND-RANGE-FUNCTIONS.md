@@ -128,7 +128,7 @@ PostgreSQL ranges support different bound types:
 - Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 
 **💡 Tips for Usage:**
-1. **Range operators** should be used with `= TRUE` or `= FALSE` in DQL
+1. **Range operators** should be used with `= TRUE` or `= FALSE` in DQL → [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)
 2. **Date functions** work with PostgreSQL's rich date/time types
 3. **Range types** provide efficient storage and querying for value ranges
 4. **Overlaps testing** is optimized with proper indexes on range columns

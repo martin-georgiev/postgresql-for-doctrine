@@ -256,7 +256,7 @@ $dql = "SELECT LTREE2TEXT(e.path) FROM Entity e";
 | `ltree ? lquery[]` | `MATCHES_ANY_LQUERY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesAnyLquery` |
 | `ltree @ ltxtquery` | `MATCHES_LTXTQUERY` | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ltree\MatchesLtxtquery` |
 
-All three return a boolean and must be compared with `= TRUE` or `= FALSE` when used in a DQL `WHERE` clause.
+All three return a boolean and must be compared with `= TRUE` or `= FALSE` when used in a DQL `WHERE` clause ([The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
 The pattern argument is cast to `lquery` / `ltxtquery` in the generated SQL, so plain DQL string literals and bound parameters work without any further ceremony.
 
 #### `MATCHES_LQUERY(ltree, lquery)`
