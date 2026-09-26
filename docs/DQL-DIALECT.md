@@ -4,7 +4,7 @@ DQL is Doctrine's query language, not PostgreSQL's, so PostgreSQL syntax you alr
 
 > **See also:** [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) · [Window Functions](WINDOW-FUNCTIONS.md) · [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md)
 
-The examples use a small shop: `App\Entity\Product p` (`name`, `price`, `tags` as `text[]`, `attributes` as `jsonb`, `category` as `ltree`, `status`), `App\Entity\Customer c` (`name`, `points`, `roles` as `jsonb`), `App\Entity\Order o` (`reference`, `customer`, `total`, `status`, `placedAt` as `timestamptz`), `App\Entity\Store s` (`name`, `location` as `geography`), `App\Entity\Booking b` (`store`, `slot` as `tstzrange`) and `App\Entity\Article a` (`title`, `body`, `search` as `tsvector`, `embedding` as `vector`). Every function is registered under the DQL name the setup guides use, as in [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md).
+The examples use a small shop: `App\Entity\Product p` (`name`, `price`, `tags` as `text[]`, `attributes` as `jsonb`, `category` as `ltree`, `status`), `App\Entity\Customer c` (`name`, `points`, `roles` as `jsonb`), `App\Entity\Sale s` (`reference`, `customer`, `amount`, `status`, `placedAt` as `timestamptz`), `App\Entity\Store st` (`name`, `location` as `geography`), `App\Entity\Booking b` (`store`, `slot` as `tstzrange`) and `App\Entity\Article a` (`title`, `body`, `search` as `tsvector`, `embedding` as `vector`). Every function is registered under the DQL name the setup guides use, as in [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md).
 
 ## Function and operator names
 
@@ -36,7 +36,7 @@ You choose the name when you call `addCustomStringFunction()`. The setup guides,
 | `reverse(bytea)` | `REVERSE_BYTES` | `REVERSE` is the text function |
 | `CAST(value AS type)` | `CAST` | DQL has no cast of its own |
 
-Three DQL names are also Doctrine built-ins: `DATE_ADD`, `BIT_AND` and `BIT_OR`. Doctrine looks up registered functions first, so once you register the library's versions, they replace Doctrine's everywhere in the application: `DATE_ADD(o.placedAt, 1, 'day')` stops parsing (`got '1'`), and `BIT_AND` becomes the aggregate rather than Doctrine's two-argument bitwise AND. Register them only if you want PostgreSQL's meaning.
+Three DQL names are also Doctrine built-ins: `DATE_ADD`, `BIT_AND` and `BIT_OR`. Doctrine looks up registered functions first, so once you register the library's versions, they replace Doctrine's everywhere in the application: `DATE_ADD(s.placedAt, 1, 'day')` stops parsing (`got '1'`), and `BIT_AND` becomes the aggregate rather than Doctrine's two-argument bitwise AND. Register them only if you want PostgreSQL's meaning.
 
 ### One operator, several DQL names
 
@@ -70,25 +70,25 @@ Some habits carry over with a different argument order or spelling:
 
 | You may know | DQL with this library | Note |
 |---|---|---|
-| `MONTH(o.placedAt)`, `EXTRACT(MONTH FROM o.placedAt)` | `DATE_EXTRACT('month', o.placedAt)` | The field comes first, in single quotes |
-| `DATE(o.placedAt)` | `CAST(o.placedAt AS DATE)` | `DATE_TRUNC('day', o.placedAt)` keeps a timestamp |
-| `DATE_FORMAT(o.placedAt, '%Y-%m')` | `TO_CHAR(o.placedAt, 'YYYY-MM')` | PostgreSQL template patterns |
-| `DATE_ADD(o.placedAt, INTERVAL 1 DAY)` | `DATE_ADD(o.placedAt, '1 day')` | The interval is a string; see the note on built-ins above |
+| `MONTH(s.placedAt)`, `EXTRACT(MONTH FROM s.placedAt)` | `DATE_EXTRACT('month', s.placedAt)` | The field comes first, in single quotes |
+| `DATE(s.placedAt)` | `CAST(s.placedAt AS DATE)` | `DATE_TRUNC('day', s.placedAt)` keeps a timestamp |
+| `DATE_FORMAT(s.placedAt, '%Y-%m')` | `TO_CHAR(s.placedAt, 'YYYY-MM')` | PostgreSQL template patterns |
+| `DATE_ADD(s.placedAt, INTERVAL 1 DAY)` | `DATE_ADD(s.placedAt, '1 day')` | The interval is a string; see the note on built-ins above |
 | `NOW()` | `CURRENT_TIMESTAMP()` | Built into DQL |
-| `CAST(o.total AS SIGNED)` | `CAST(o.total AS INTEGER)` | The type name is not quoted |
-| `GROUP_CONCAT(o.reference ORDER BY o.placedAt SEPARATOR ', ')` | `STRING_AGG(o.reference, ', ' ORDER BY o.placedAt)` | |
+| `CAST(s.amount AS SIGNED)` | `CAST(s.amount AS INTEGER)` | The type name is not quoted |
+| `GROUP_CONCAT(s.reference ORDER BY s.placedAt SEPARATOR ', ')` | `STRING_AGG(s.reference, ', ' ORDER BY s.placedAt)` | |
 | `p.name REGEXP '^Road'` | `REGEXP(p.name, '^Road') = TRUE` | |
 | `FIND_IN_SET(:tag, ...)` | `IN_ARRAY(:tag, p.tags) = TRUE` or `:tag = ANY_OF(p.tags)` | |
 
 ```dql
-SELECT DATE_EXTRACT('month', o.placedAt) AS month, COUNT(o.id) AS orders FROM App\Entity\Order o GROUP BY month
+SELECT DATE_EXTRACT('month', s.placedAt) AS month, COUNT(s.id) AS sales FROM App\Entity\Sale s GROUP BY month
 ```
 
 Both arguments of `DATE_EXTRACT` are strings to DQL, so swapping them still parses. PostgreSQL rejects the result:
 
 ```text
 -- parses, PostgreSQL rejects it: syntax error at or near "."
-SELECT DATE_EXTRACT(o.placedAt, 'month') FROM App\Entity\Order o
+SELECT DATE_EXTRACT(s.placedAt, 'month') FROM App\Entity\Sale s
 ```
 
 ## Boolean functions need a comparison
@@ -96,23 +96,23 @@ SELECT DATE_EXTRACT(o.placedAt, 'month') FROM App\Entity\Order o
 A `WHERE` or `HAVING` clause in DQL is built from conditions: comparisons, `LIKE`, `IN`, `IS NULL`, `EXISTS` and the like. A function call on its own is a value, not a condition, so the parser stops after it and asks for a comparison operator. Compare a boolean function with `TRUE`:
 
 ```sql
-SELECT o.* FROM orders o WHERE o.reference ILIKE 'A-%'
+SELECT s.* FROM sale s WHERE s.reference ILIKE 'A-%'
 ```
 
 ```dql
-SELECT o FROM App\Entity\Order o WHERE ILIKE(o.reference, :q) = TRUE
+SELECT s FROM App\Entity\Sale s WHERE ILIKE(s.reference, :q) = TRUE
 ```
 
 Without the comparison, and with the SQL operator, the query does not parse:
 
 ```text
 -- does not parse: Error: Expected =, <, <=, <>, >, >=, !=, got 'ORDER'
-SELECT o FROM App\Entity\Order o WHERE ILIKE(o.reference, :q) ORDER BY o.id
+SELECT s FROM App\Entity\Sale s WHERE ILIKE(s.reference, :q) ORDER BY s.id
 ```
 
 ```text
 -- does not parse: Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'
-SELECT o FROM App\Entity\Order o WHERE o.reference ILIKE :q
+SELECT s FROM App\Entity\Sale s WHERE s.reference ILIKE :q
 ```
 
 When nothing follows the function, the message ends in `got end of string.` instead.
@@ -141,7 +141,7 @@ SELECT p.name, CONTAINS(p.tags, ARRAY('sport')) AS isSport FROM App\Entity\Produ
 In `HAVING` the boolean aggregates take the same comparison:
 
 ```dql
-SELECT c.name FROM App\Entity\Order o JOIN o.customer c GROUP BY c.name HAVING BOOL_AND(ILIKE(o.reference, 'A%')) = TRUE
+SELECT c.name FROM App\Entity\Sale s JOIN s.customer c GROUP BY c.name HAVING BOOL_AND(ILIKE(s.reference, 'A%')) = TRUE
 ```
 
 These DQL names return a boolean:
@@ -169,17 +169,17 @@ PostgreSQL attaches some clauses to a call after its closing parenthesis: `FILTE
 
 | SQL | DQL |
 |---|---|
-| `count(o.id) FILTER (WHERE o.status = 'paid')` | `FILTER(COUNT(o.id), WHERE o.status = 'paid')` |
-| `sum(o.total) OVER (PARTITION BY o.customer_id ORDER BY o.placed_at)` | `OVER(SUM(o.total), PARTITION BY o.customer ORDER BY o.placedAt)` |
-| `sum(o.total) FILTER (WHERE o.status = 'paid') OVER (PARTITION BY o.customer_id)` | `OVER(FILTER(SUM(o.total), WHERE o.status = 'paid'), PARTITION BY o.customer)` |
-| `percentile_cont(0.5) WITHIN GROUP (ORDER BY o.total)` | `PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total)` |
-| `mode() WITHIN GROUP (ORDER BY o.status)` | `MODE(WITHIN GROUP ORDER BY o.status)` |
+| `count(s.id) FILTER (WHERE s.status = 'paid')` | `FILTER(COUNT(s.id), WHERE s.status = 'paid')` |
+| `sum(s.amount) OVER (PARTITION BY s.customer_id ORDER BY s.placed_at)` | `OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt)` |
+| `sum(s.amount) FILTER (WHERE s.status = 'paid') OVER (PARTITION BY s.customer_id)` | `OVER(FILTER(SUM(s.amount), WHERE s.status = 'paid'), PARTITION BY s.customer)` |
+| `percentile_cont(0.5) WITHIN GROUP (ORDER BY s.amount)` | `PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY s.amount)` |
+| `mode() WITHIN GROUP (ORDER BY s.status)` | `MODE(WITHIN GROUP ORDER BY s.status)` |
 
 Written the SQL way, DQL takes the clause keyword for a column alias and fails on the parenthesis after it:
 
 ```text
 -- does not parse: Error: Expected Doctrine\ORM\Query\TokenType::T_FROM, got '('
-SELECT c.name, COUNT(o.id) FILTER (WHERE o.status = 'paid') FROM App\Entity\Order o JOIN o.customer c GROUP BY c.name
+SELECT c.name, COUNT(s.id) FILTER (WHERE s.status = 'paid') FROM App\Entity\Sale s JOIN s.customer c GROUP BY c.name
 ```
 
 Doctrine ORM 2 prints the token as `Doctrine\ORM\Query\Lexer::T_FROM`.
@@ -191,8 +191,8 @@ Doctrine ORM 2 prints the token as `Doctrine\ORM\Query\Lexer::T_FROM`.
 `FILTER` takes the aggregate, a comma, `WHERE` and the condition. The condition takes anything a DQL `WHERE` does, parameters included, and needs no parentheses. It works in `SELECT` and in `HAVING`, and counts several subsets in one pass over the rows:
 
 ```dql
-SELECT c.name, COUNT(o.id) AS allOrders, FILTER(COUNT(o.id), WHERE o.status = 'paid') AS paidOrders, FILTER(SUM(o.total), WHERE o.placedAt >= :startOfYear) AS paidThisYear
-FROM App\Entity\Order o JOIN o.customer c
+SELECT c.name, COUNT(s.id) AS allSales, FILTER(COUNT(s.id), WHERE s.status = 'paid') AS paidSales, FILTER(SUM(s.amount), WHERE s.placedAt >= :startOfYear) AS paidThisYear
+FROM App\Entity\Sale s JOIN s.customer c
 GROUP BY c.name
 ```
 
@@ -203,8 +203,8 @@ GROUP BY c.name
 `OVER` takes the call, a comma and the window specification: `PARTITION BY`, `ORDER BY` and a frame, in that order, each optional, with no parentheses around them. Without a specification the window is the whole result. `FILTER` goes inside `OVER`, as it comes before `OVER` in SQL.
 
 ```dql
-SELECT o.reference, OVER(SUM(o.total), PARTITION BY o.customer ORDER BY o.placedAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS runningTotal
-FROM App\Entity\Order o
+SELECT s.reference, OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS runningTotal
+FROM App\Entity\Sale s
 ```
 
 The window specification, the frame clauses and the ranking and value functions are covered in [Window Functions](WINDOW-FUNCTIONS.md).
@@ -216,8 +216,8 @@ The window specification, the frame clauses and the ranking and value functions 
 The fraction, then `WITHIN GROUP ORDER BY` and the sort expression, with no comma before `WITHIN` and no parentheses around `ORDER BY`. `MODE` takes no fraction, so its call starts with `WITHIN GROUP`. The fraction is a literal, a parameter, or an expression over grouped columns.
 
 ```dql
-SELECT c.name, PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total) AS medianTotal, MODE(WITHIN GROUP ORDER BY o.status) AS usualStatus
-FROM App\Entity\Order o JOIN o.customer c
+SELECT c.name, PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY s.amount) AS medianAmount, MODE(WITHIN GROUP ORDER BY s.status) AS usualStatus
+FROM App\Entity\Sale s JOIN s.customer c
 GROUP BY c.name
 ```
 
@@ -225,13 +225,13 @@ GROUP BY c.name
 
 ```text
 -- does not parse: Error: Expected a single ORDER BY item, got ')'
-SELECT PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total, o.id) FROM App\Entity\Order o
+SELECT PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY s.amount, s.id) FROM App\Entity\Sale s
 ```
 
 An ordered-set aggregate is an aggregate like any other, so `FILTER` wraps it:
 
 ```dql
-SELECT FILTER(PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total), WHERE o.status = 'paid') AS medianPaid FROM App\Entity\Order o
+SELECT FILTER(PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY s.amount), WHERE s.status = 'paid') AS medianPaid FROM App\Entity\Sale s
 ```
 
 ### DISTINCT and ORDER BY inside an aggregate
@@ -239,8 +239,8 @@ SELECT FILTER(PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total), WHERE o.status
 These already sit inside the parentheses in SQL, so DQL takes them as written, with no comma before `ORDER BY`:
 
 ```dql
-SELECT c.name, STRING_AGG(DISTINCT o.status, ', ' ORDER BY o.status) AS statuses
-FROM App\Entity\Order o JOIN o.customer c
+SELECT c.name, STRING_AGG(DISTINCT s.status, ', ' ORDER BY s.status) AS statuses
+FROM App\Entity\Sale s JOIN s.customer c
 GROUP BY c.name
 ```
 
@@ -254,7 +254,7 @@ GROUP BY c.name
 The sort items are DQL `ORDER BY` items, which have no `NULLS FIRST` or `NULLS LAST`. The aggregated value is a field, a string, a parameter or a function call; arithmetic stops the parser at the operator (`Expected Doctrine\ORM\Query\TokenType::T_CLOSE_PARENTHESIS, got '*'`), so wrap it in a function that takes arithmetic, such as `CAST`:
 
 ```dql
-SELECT ARRAY_AGG(CAST(o.total * 2 AS NUMERIC)) AS doubled FROM App\Entity\Order o
+SELECT ARRAY_AGG(CAST(s.amount * 2 AS NUMERIC)) AS doubled FROM App\Entity\Sale s
 ```
 
 ### What FILTER and OVER accept
@@ -265,7 +265,7 @@ Anything else, including a nested `FILTER` or `OVER`, throws a `ParserException`
 
 ```text
 -- does not parse: FILTER() requires an aggregate as its first argument, upper() given
-SELECT FILTER(UPPER(o.status), WHERE o.status = 'paid') FROM App\Entity\Order o
+SELECT FILTER(UPPER(s.status), WHERE s.status = 'paid') FROM App\Entity\Sale s
 ```
 
 The PostGIS aggregates, `ST_COVERAGEUNION` and the one-argument `ST_MAKELINE`, do not implement `AggregateFunction`, so neither can be wrapped.
@@ -287,7 +287,7 @@ A DQL string is single-quoted. A double-quoted word is not a string:
 
 ```text
 -- does not parse: Error: Expected StateFieldPathExpression | string | InputParameter | FunctionsReturningStrings | AggregateExpression, got '"'
-SELECT DATE_EXTRACT("month", o.placedAt) FROM App\Entity\Order o
+SELECT DATE_EXTRACT("month", s.placedAt) FROM App\Entity\Sale s
 ```
 
 A number in a string-primary position fails with the same message, `got '20'`. Quote it, and PostgreSQL converts the string to the type it needs:
@@ -303,7 +303,7 @@ SELECT NUMRANGE('20', '50') AS priceBand FROM App\Entity\Product p
 `NULL` is accepted only in the new-value positions listed above. Anywhere else it fails with `got 'NULL'`; bind a parameter set to `null` instead:
 
 ```dql
-SELECT TSTZRANGE(o.placedAt, :null) AS fromThenOn FROM App\Entity\Order o
+SELECT TSTZRANGE(s.placedAt, :null) AS fromThenOn FROM App\Entity\Sale s
 ```
 
 ### Boolean and time-zone arguments
@@ -319,7 +319,7 @@ SELECT JSONB_SET(p.attributes, '{color}', '"blue"', 'false') AS recoloured FROM 
 
 ```text
 -- does not parse: Invalid timezone "UTC+3" provided for date_trunc. Must be a valid PHP timezone identifier.
-SELECT DATE_TRUNC('day', o.placedAt, 'UTC+3') FROM App\Entity\Order o
+SELECT DATE_TRUNC('day', s.placedAt, 'UTC+3') FROM App\Entity\Sale s
 ```
 
 ### Binding parameters
@@ -327,7 +327,7 @@ SELECT DATE_TRUNC('day', o.placedAt, 'UTC+3') FROM App\Entity\Order o
 A parameter reaches PostgreSQL untyped, and PostgreSQL gives it the type the other operand needs. That is why a WKT string can stand for a `geography` value and a `'[1,2,3]'` string for a vector:
 
 ```dql
-SELECT s.name FROM App\Entity\Store s WHERE ST_DWITHIN(s.location, :here, 20000) = TRUE
+SELECT st.name FROM App\Entity\Store st WHERE ST_DWITHIN(st.location, :here, 20000) = TRUE
 ```
 
 ```php
@@ -368,11 +368,11 @@ $query->setParameter('path', '$.sizes[*] ? (@ == "M")');
 
 ### CAST
 
-`CAST` takes the target type as an unquoted, one-word identifier, with up to two integer parameters and an optional `[]`: `CAST(o.total AS INTEGER)`, `CAST(o.total AS NUMERIC(12, 4))`, `CAST('{1,2}' AS INTEGER[])`. For two-word types use the one-word alias PostgreSQL provides, such as `FLOAT8` for `double precision` or `TIMESTAMPTZ` for `timestamp with time zone`:
+`CAST` takes the target type as an unquoted, one-word identifier, with up to two integer parameters and an optional `[]`: `CAST(s.amount AS INTEGER)`, `CAST(s.amount AS NUMERIC(12, 4))`, `CAST('{1,2}' AS INTEGER[])`. For two-word types use the one-word alias PostgreSQL provides, such as `FLOAT8` for `double precision` or `TIMESTAMPTZ` for `timestamp with time zone`:
 
 ```text
 -- does not parse: Error: Expected Doctrine\ORM\Query\TokenType::T_CLOSE_PARENTHESIS, got 'PRECISION'
-SELECT CAST(o.total AS DOUBLE PRECISION) FROM App\Entity\Order o
+SELECT CAST(s.amount AS DOUBLE PRECISION) FROM App\Entity\Sale s
 ```
 
 ## What DQL cannot do
@@ -389,26 +389,26 @@ DQL maps queries onto entities, so some SQL has no DQL form at all. For those, d
 | `INTERVAL '30 days'` | DQL has no interval literal (`Expected end of string, got '30 days'`) | Pass the interval as a string, `DATE_SUBTRACT(CURRENT_TIMESTAMP(), '30 days')`, or compute the bound in PHP and bind it |
 | `JSON_TABLE` | Not implemented | A native query |
 
-The latest order of each customer with a window function. Each row holds the entity at index 0 and the scalar under its alias:
+The latest sale of each customer with a window function. Each row holds the entity at index 0 and the scalar under its alias:
 
 ```php
 $rows = $entityManager->createQuery(
-    'SELECT o, OVER(ROW_NUMBER(), PARTITION BY o.customer ORDER BY o.placedAt DESC) AS recency FROM App\Entity\Order o'
+    'SELECT s, OVER(ROW_NUMBER(), PARTITION BY s.customer ORDER BY s.placedAt DESC) AS recency FROM App\Entity\Sale s'
 )->getResult();
 
-$latestOrders = array_column(array_filter($rows, fn (array $row): bool => $row['recency'] === 1), 0);
+$latestSales = array_column(array_filter($rows, fn (array $row): bool => $row['recency'] === 1), 0);
 ```
 
 The same with `DISTINCT ON` in a native query, which leaves the other rows in the database:
 
 ```php
 $rsm = new ResultSetMappingBuilder($entityManager);
-$rsm->addRootEntityFromClassMetadata(Order::class, 'o');
+$rsm->addRootEntityFromClassMetadata(Sale::class, 's');
 
-$sql = 'SELECT DISTINCT ON (o.customer_id) '.$rsm->generateSelectClause()
-    .' FROM orders o ORDER BY o.customer_id, o.placed_at DESC';
+$sql = 'SELECT DISTINCT ON (s.customer_id) '.$rsm->generateSelectClause()
+    .' FROM sale s ORDER BY s.customer_id, s.placed_at DESC';
 
-$latestOrders = $entityManager->createNativeQuery($sql, $rsm)->getResult();
+$latestSales = $entityManager->createNativeQuery($sql, $rsm)->getResult();
 ```
 
 An upsert through DBAL:
@@ -424,13 +424,13 @@ $entityManager->getConnection()->executeStatement(
 ## Gotchas
 
 - **`Expected =, <, <=, <>, >, >=, !=, got 'ORDER'`** (or `got end of string.`): a boolean function stands alone in `WHERE` or `HAVING`. Add `= TRUE`, see [Boolean functions need a comparison](#boolean-functions-need-a-comparison).
-- **`Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'`**, or `got '@'`: PostgreSQL operator syntax in DQL. Use the function, such as `ILIKE(o.reference, :q) = TRUE`.
+- **`Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'`**, or `got '@'`: PostgreSQL operator syntax in DQL. Use the function, such as `ILIKE(s.reference, :q) = TRUE`.
 - **`Expected Doctrine\ORM\Query\TokenType::T_SELECT, got 'p'`** (ORM 2: `Doctrine\ORM\Query\Lexer::T_SELECT`) for `:tag = ANY(p.tags)`: `ANY` is DQL's subquery keyword. Use `:tag = ANY_OF(p.tags)` or `IN_ARRAY(:tag, p.tags) = TRUE`.
-- **`Expected Doctrine\ORM\Query\TokenType::T_FROM, got '('`** after `COUNT(o.id) FILTER` or `SUM(o.total) OVER`: an SQL clause after the closing parenthesis. Wrap the call, see [After the closing parenthesis](#after-the-closing-parenthesis).
+- **`Expected Doctrine\ORM\Query\TokenType::T_FROM, got '('`** after `COUNT(s.id) FILTER` or `SUM(s.amount) OVER`: an SQL clause after the closing parenthesis. Wrap the call, see [After the closing parenthesis](#after-the-closing-parenthesis).
 - **`Expected StateFieldPathExpression | string | InputParameter | FunctionsReturningStrings | AggregateExpression, got '"'`**, `got '20'` or `got 'NULL'`: a double-quoted string, a number or `NULL` where a string primary goes. Single-quote strings and numbers; bind `null` as a parameter.
 - **`operator does not exist: geometry @> geometry`**: `CONTAINS` on geometries. Use `SPATIAL_CONTAINS` or `ST_CONTAINS`.
 - **`operator does not exist: record = boolean`**: a PHP array bound without a type expanded into a list. Pass the type name, `setParameter('tags', $tags, 'text[]')`.
-- **`syntax error at or near "."`** from `EXTRACT(o0_.placed_at FROM 'month')`: `DATE_EXTRACT` with its arguments swapped. The field comes first: `DATE_EXTRACT('month', o.placedAt)`.
+- **`syntax error at or near "."`** from `EXTRACT(s0_.placed_at FROM 'month')`: `DATE_EXTRACT` with its arguments swapped. The field comes first: `DATE_EXTRACT('month', s.placedAt)`.
 - **`Invalid boolean value "yes" provided for ST_Distance. Must be "true" or "false".`** or **`The boolean parameter for ST_Distance must be a string literal, got Doctrine\ORM\Query\AST\InputParameter`**: write the boolean as the literal `'true'` or `'false'`.
 - **A `catch (QueryException $e)` misses `date_trunc() requires at least 2 arguments`**: argument-count errors throw `InvalidArgumentForVariadicFunctionException`, an `\InvalidArgumentException`, and wrapper errors throw `ParserException`, a `\RuntimeException`. Catch those too.
 
