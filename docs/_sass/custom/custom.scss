@@ -95,6 +95,7 @@ $muted-text-color: $search-result-preview-color;
 .home {
   .hero {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }
 
@@ -252,8 +253,10 @@ $muted-text-color: $search-result-preview-color;
     }
   }
 
+  // The theme pins dt and dd to columns 1 and 2, which squeezes dt to nothing in the one-column layout.
   .catalogue dt,
   .catalogue dd {
+    grid-column: auto;
     margin: 0;
     padding: 0;
     text-align: left;
