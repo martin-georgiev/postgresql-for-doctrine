@@ -1,5 +1,33 @@
 # Changelog
 
+## [4.9.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.8.1...v4.9.0) (2026-09-26)
+
+
+### Features
+
+* Add PostGIS geometry validation and repair functions through `ST_MakeValid` and `ST_IsValidReason` ([#772](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/772)) ([ee07212](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ee07212e86c4667b2a0dd5eb6da8c15681ab1226))
+* Add PostGIS OGC element accessors ([#775](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/775)) ([13585e8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/13585e86b237964bcb7c27853962c0599bd065df))
+* Add PostGIS WKT and EWKT text conversion functions ([#773](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/773)) ([63d3f61](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/63d3f6130901afca9ce789ac44cd622b675e3c5b))
+* Add support for the aggregate `FILTER` clause ([#792](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/792)) ([f98c93d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/f98c93d47f8a249572f9ca7906b0b29d3b1c57b0))
+* Add support for the ordered-set aggregates (`MODE()`, `PERCENTILE_DISC()`, `PERCENTILE_CONT()`) ([#793](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/793)) ([8c0c8fd](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8c0c8fd605b4e164ec6c742cf67a69378172597c))
+* Add support for the ranking window functions (`ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE`) ([#799](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/799)) ([e6188f5](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e6188f57b2a45a6b78192cafeaa35f831cfcefbd))
+* Add support for the value window functions (`LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, `NTH_VALUE`) ([#800](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/800)) ([e0f978c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e0f978c7f2d23ffb640a940e07678255d761a548))
+* Add support for window functions through `OVER` ([#798](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/798)) ([4209935](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4209935aa40e2ba5e65830ea94712ac129b9681f))
+* Let `WktSpatialData` parse under the same-named `fromString` method like every other value object ([#767](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/767)) ([5a95db7](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5a95db703eb6d7fed9e0527aed67a11285a397db))
+* Value objects throw their own exception ([#752](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/752)) ([a50c9db](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a50c9db03caae262c3d62e9c97bd9788f048737b))
+
+
+### Bug Fixes
+
+* Remove `ND_BOUNDING_BOX_DISTANCE`, whose `<<#>>` operator was never released in a stable PostGIS version ([#813](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/813)) ([1be13d3](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1be13d33b0c5ba1112dc7763c1b776553ee8fdd9))
+* Swap the inverted exception family on some DBAL types ([#781](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/781)) ([7f02b8d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7f02b8d446c8a28f82befec80685cd24ed6d878e))
+
+
+### Code Refactoring
+
+* The exception factories follow their own message rule ([#757](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/757)) ([b89c15d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/b89c15dd5a680de7fac9fcbba51786867e329975))
+* The value objects throw their own exception family ([#754](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/754)) ([c7b316b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c7b316bb55f857131c91aa26e2689015148c4326))
+
 ## [4.8.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.8.0...v4.8.1) (2026-09-21)
 
 
