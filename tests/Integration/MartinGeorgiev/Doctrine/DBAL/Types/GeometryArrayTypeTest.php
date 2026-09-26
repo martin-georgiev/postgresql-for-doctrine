@@ -15,14 +15,9 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
         return 'geometry[]';
     }
 
-    protected function getSelectExpression(string $columnName): string
+    protected function getEntityColumnName(): string
     {
-        return \sprintf(
-            'ARRAY(SELECT CASE WHEN ST_SRID(geom) = 0 THEN ST_AsText(geom) ELSE '
-            ."'SRID=' || ST_SRID(geom) || ';' || ST_AsText(geom) END FROM unnest(\"%s\") AS geom) AS \"%s\"",
-            $columnName,
-            $columnName
-        );
+        return 'geometries';
     }
 
     #[DataProvider('provideMultiItemArrays')]
@@ -52,6 +47,11 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
             'multi item with a null element' => [[
                 WktSpatialData::fromString('POINT(1 2)'),
                 null,
+            ]],
+            'mixed srids' => [[
+                WktSpatialData::fromString('POINT(1 2)'),
+                WktSpatialData::fromString('SRID=3857;POINT(3 4)'),
+                WktSpatialData::fromString('SRID=4326;POINT(5 6)'),
             ]],
         ];
     }

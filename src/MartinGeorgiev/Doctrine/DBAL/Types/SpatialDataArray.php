@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
@@ -62,6 +63,32 @@ abstract class SpatialDataArray extends BaseArray
             // Multiple spaces: POINT  Z -> POINT Z
             \sprintf('/^%s\s+%s\b/', $geometryTypesPattern, $modifiersPattern) => '$1 $2',
         ];
+    }
+
+    /**
+     * ORM 2.x applies convertToPHPValueSQL() only to types that declare they can require SQL conversion.
+     */
+    public function canRequireSQLConversion(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Rebuilds the array from each element's EWKT, the form the scalar spatial types read.
+     *
+     * PostgreSQL otherwise returns the elements as EWKB hex, which WktSpatialData cannot parse.
+     * An ARRAY() subquery over a NULL column yields '{}', so a NULL column is kept NULL explicitly.
+     * A subquery guarantees no row order of its own, so WITH ORDINALITY pins the elements to their stored order.
+     *
+     * @param non-empty-string $sqlExpr
+     * @param AbstractPlatform $platform
+     */
+    public function convertToPHPValueSQL($sqlExpr, $platform): string
+    {
+        return \sprintf(
+            "CASE WHEN %1\$s IS NULL THEN NULL ELSE ARRAY(SELECT CASE WHEN ST_SRID(item) = 0 THEN ST_AsText(item) ELSE 'SRID=' || ST_SRID(item) || ';' || ST_AsText(item) END FROM unnest(%1\$s) WITH ORDINALITY AS items(item, position) ORDER BY position) END",
+            $sqlExpr
+        );
     }
 
     protected function transformArrayItemForPostgres(mixed $item): string

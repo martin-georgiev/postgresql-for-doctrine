@@ -10,6 +10,14 @@ parameters:
                 - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/BaseTypeTest.php
             reportUnmatched: false
 
+        # DBAL 3.x only: canRequireSQLConversion() is deprecated there, gone in 4.x. ORM 2.x still reads it
+        -
+            message: '#^Call to deprecated method canRequireSQLConversion\(\) of class #'
+            paths:
+                - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/GeographyArrayTest.php
+                - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/GeometryArrayTest.php
+            reportUnmatched: false
+
         # ORM 2.x only: set{Metadata,Query}CacheImpl() deprecated there, removed in 3.x. Call sites branch at runtime
         -
             message: '#^Call to function method_exists\(\) with Doctrine\\ORM\\Configuration and ''set(Metadata|Query)CacheImpl'' will always evaluate to true\.$#'
