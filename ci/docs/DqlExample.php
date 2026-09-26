@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Docs;
+namespace Ci\MartinGeorgiev\Docs;
 
 final readonly class DqlExample
 {

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Docs;
+namespace Ci\MartinGeorgiev\Docs;
 
+use Ci\MartinGeorgiev\Shared\Repository;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 
 final readonly class SetupGuides
@@ -26,12 +27,9 @@ final readonly class SetupGuides
     /**
      * @var string
      */
-    public const TYPE_CATALOGUE = 'docs/AVAILABLE-TYPES.md';
+    private const TYPE_CATALOGUE = 'docs/AVAILABLE-TYPES.md';
 
     /**
-     * A registration must take the shape the file gives it, so a passing mention cannot stand in for one.
-     * Symfony quotes only the type names YAML would otherwise misread.
-     *
      * @var array<string, string>
      */
     private const TYPE_REGISTRATION_PATTERN_BY_FILE = [

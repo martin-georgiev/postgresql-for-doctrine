@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Docs;
+namespace Ci\MartinGeorgiev\Shared;
 
 final readonly class Repository
 {
@@ -14,7 +14,7 @@ final readonly class Repository
     /**
      * @var string
      */
-    public const FUNCTION_SOURCE_NAMESPACE = 'MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
+    private const FUNCTION_SOURCE_NAMESPACE = 'MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
 
     /**
      * @var list<string>
@@ -88,18 +88,5 @@ final readonly class Repository
         \sort($functionClasses);
 
         return $functionClasses;
-    }
-
-    /**
-     * @return list<string>
-     */
-    public function documentationFiles(): array
-    {
-        $documentationFiles = \array_map(
-            fn (string $path): string => \substr($path, \strlen($this->rootDirectory) + 1),
-            \glob($this->rootDirectory.'/docs/*.md') ?: []
-        );
-
-        return [...$documentationFiles, 'README.md'];
     }
 }

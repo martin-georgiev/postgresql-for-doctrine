@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Docs;
+namespace Ci\MartinGeorgiev\Docs;
 
+use Ci\MartinGeorgiev\Shared\Repository;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 
 final readonly class SetupGuideChecker

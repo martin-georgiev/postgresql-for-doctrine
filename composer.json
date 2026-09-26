@@ -73,8 +73,9 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Ci\\MartinGeorgiev\\Docs\\": "ci/docs/",
+            "Ci\\MartinGeorgiev\\Shared\\": "ci/shared/",
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
-            "MartinGeorgiev\\Docs\\": "ci/docs/",
             "MartinGeorgiev\\PHPStan\\": "ci/phpstan/rules/",
             "Tests\\Integration\\MartinGeorgiev\\": "tests/Integration/MartinGeorgiev/",
             "Tests\\Unit\\MartinGeorgiev\\": "tests/Unit/MartinGeorgiev/"
@@ -113,10 +114,10 @@
             "deptrac analyze --config-file=./ci/deptrac/config.yml --cache-file=./ci/deptrac/.cache --no-interaction --no-progress"
         ],
         "docs:dql-examples": [
-            "MartinGeorgiev\\Docs\\DqlExampleChecker::run"
+            "Ci\\MartinGeorgiev\\Docs\\DqlExampleChecker::run"
         ],
         "docs:registrations": [
-            "MartinGeorgiev\\Docs\\SetupGuideChecker::run"
+            "Ci\\MartinGeorgiev\\Docs\\SetupGuideChecker::run"
         ],
         "php-cs-fixer": [
             "php-cs-fixer fix --config=./ci/php-cs-fixer/config.php --allow-unsupported-php-version=yes --show-progress=none --no-interaction --diff -v"
