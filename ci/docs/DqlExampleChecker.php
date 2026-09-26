@@ -77,7 +77,7 @@ final readonly class DqlExampleChecker
     /**
      * @param array<string, class-string<FunctionNode>> $functionClassByRegisteredName
      */
-    public function __construct(
+    private function __construct(
         private EntityManager $entityManager,
         private array $functionClassByRegisteredName,
     ) {}

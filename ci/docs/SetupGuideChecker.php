@@ -9,7 +9,7 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 
 final readonly class SetupGuideChecker
 {
-    public function __construct(
+    private function __construct(
         private Repository $repository,
         private SetupGuides $setupGuides,
     ) {}
