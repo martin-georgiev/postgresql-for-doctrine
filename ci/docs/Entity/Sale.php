@@ -8,8 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
-#[ORM\Table(name: 'orders')]
-class Order
+class Sale
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
@@ -23,7 +22,7 @@ class Order
     public Customer $customer;
 
     #[ORM\Column(type: Types::DECIMAL)]
-    public string $total;
+    public string $amount;
 
     #[ORM\Column(type: Types::STRING)]
     public string $status;
