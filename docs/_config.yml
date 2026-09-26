@@ -65,6 +65,8 @@ defaults:
     values: { title: Symfony setup, nav_order: 3 }
   - scope: { path: INTEGRATING-WITH-LARAVEL.md }
     values: { title: Laravel setup, nav_order: 4 }
+  - scope: { path: DQL-DIALECT.md }
+    values: { title: The DQL dialect, nav_order: 4.5 }
 
   - scope: { path: AVAILABLE-TYPES.md }
     values: { title: Types, nav_order: 5, has_children: true }
