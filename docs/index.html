@@ -1,10 +1,12 @@
 ---
-layout: landing
-title: PostgreSQL for Doctrine
+layout: default
+title: Home
+nav_order: 1
+permalink: /
 description: Map PostgreSQL arrays, JSONB, ranges, PostGIS geometries, pgvector embeddings and over 100 column types in Doctrine, and call over 450 PostgreSQL functions and operators from DQL.
-nav_exclude: true
 ---
-<section class="hero wrap" aria-labelledby="hero-title">
+<div class="home">
+<section class="hero" aria-labelledby="hero-title">
   <div class="hero__intro">
     <h1 id="hero-title">Use PostgreSQL's own types and functions in&nbsp;Doctrine</h1>
     <p class="lede">
@@ -103,7 +105,7 @@ FROM App\Entity\Order o</code></pre></div>
   </div>
 </section>
 
-<section class="coverage wrap" aria-labelledby="coverage-title">
+<section class="coverage" aria-labelledby="coverage-title">
   <h2 id="coverage-title">What you can map and query</h2>
   <div class="coverage__columns">
     <div class="coverage__group">
@@ -135,7 +137,7 @@ FROM App\Entity\Order o</code></pre></div>
   </div>
 </section>
 
-<section class="steps wrap" aria-labelledby="steps-title">
+<section class="steps" aria-labelledby="steps-title">
   <h2 id="steps-title">From install to your first query</h2>
   <ol class="steps__list">
     <li>
@@ -165,9 +167,9 @@ $em-&gt;createQuery('
   </ol>
 </section>
 
-<section class="support wrap" aria-labelledby="support-title">
+<section class="support" aria-labelledby="support-title">
   <h2 id="support-title">Tested in CI against</h2>
-  <table class="support__table">
+  <table>
     <tbody>
       <tr><th scope="row">PHP</th><td>8.2 to 8.5</td></tr>
       <tr><th scope="row">PostgreSQL</th><td>16 to 18</td></tr>
@@ -177,3 +179,6 @@ $em-&gt;createQuery('
     </tbody>
   </table>
 </section>
+</div>
+
+<script src="{{ '/assets/js/home.js' | relative_url }}" defer></script>

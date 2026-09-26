@@ -1,5 +1,3 @@
-// Documentation pages. The landing page has its own stylesheet (assets/css/landing.css).
-
 .site-title {
   gap: 0.6rem;
   font-weight: 650;
@@ -84,4 +82,189 @@ pre,
 .main-content > main > ol,
 .main-content > main > blockquote {
   max-width: 46rem;
+}
+
+// Home page (index.html). Brand accents from assets/README.md; purple is lifted on the dark scheme for contrast.
+$brand-orange: #fc6a31;
+$brand-purple: #777bb4;
+$brand-purple-text: if($color-scheme == dark, #a9acdd, #5b5f9e);
+$muted-text-color: $search-result-preview-color;
+
+.home {
+  section + section {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid $border-color;
+  }
+
+  .hero {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 84rem) {
+    .hero {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: start;
+      gap: 3.5rem;
+    }
+  }
+
+  .hero h1 {
+    margin-top: 0;
+    font-size: 2.6rem;
+    font-weight: 750;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+
+  .lede {
+    font-size: 1.15rem;
+  }
+
+  .hero__setup,
+  .translator__intro,
+  .pair__lang,
+  .coverage h3 {
+    color: $muted-text-color;
+  }
+
+  .install {
+    display: flex;
+    border: 1px solid $border-color;
+    border-radius: 6px;
+    background: $code-background-color;
+  }
+
+  .install__command {
+    flex: 1;
+    min-width: 0;
+    padding: 0.7rem 0.9rem;
+    overflow-x: auto;
+    border: 0;
+    background: none;
+    white-space: nowrap;
+  }
+
+  .install__copy {
+    flex: none;
+    padding: 0 1rem;
+    border: 0;
+    border-radius: 0 5px 5px 0;
+    background: $brand-orange;
+    color: #141a22;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .translator__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .translator__tabs [role="tab"] {
+    margin-bottom: -1px;
+    padding: 0.4rem 0;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: $muted-text-color;
+    font: inherit;
+    font-weight: 550;
+    cursor: pointer;
+  }
+
+  .translator__tabs [role="tab"]:hover,
+  .translator__tabs [role="tab"][aria-selected="true"] {
+    color: $body-heading-color;
+  }
+
+  .translator__tabs [role="tab"][aria-selected="true"] {
+    border-bottom-color: $link-color;
+  }
+
+  .pair[hidden] {
+    display: none;
+  }
+
+  .pair__lang {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .pair pre {
+    margin: 0;
+  }
+
+  .pair__side--dql pre {
+    border-left: 3px solid $brand-purple;
+  }
+
+  .pair b {
+    font-weight: 700;
+  }
+
+  .pair .op {
+    color: $link-color;
+  }
+
+  .pair .fn {
+    color: $brand-purple-text;
+  }
+
+  .pair__arrow {
+    margin: 0.5rem 0 0.3rem 1rem;
+    fill: $brand-orange;
+    transform: rotate(90deg);
+  }
+
+  .coverage__columns {
+    display: grid;
+    gap: 1rem 3rem;
+  }
+
+  @media (min-width: 84rem) {
+    .coverage__columns {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .coverage h3 {
+    font-size: 1rem;
+  }
+
+  .catalogue {
+    display: block;
+  }
+
+  .catalogue > div {
+    display: grid;
+    gap: 0.1rem 1.25rem;
+    padding-block: 0.55rem;
+  }
+
+  @media (min-width: 40rem) {
+    .catalogue > div {
+      grid-template-columns: 9rem minmax(0, 1fr);
+    }
+  }
+
+  .catalogue dt,
+  .catalogue dd {
+    margin: 0;
+    padding: 0;
+  }
+
+  .catalogue dt::after {
+    content: none;
+  }
+
+  .catalogue dt a {
+    font-weight: 650;
+  }
 }
