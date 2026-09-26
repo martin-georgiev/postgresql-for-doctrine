@@ -74,9 +74,9 @@
     "autoload-dev": {
         "psr-4": {
             "Ci\\MartinGeorgiev\\Docs\\": "ci/docs/",
+            "Ci\\MartinGeorgiev\\PHPStan\\": "ci/phpstan/rules/",
             "Ci\\MartinGeorgiev\\Shared\\": "ci/shared/",
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
-            "MartinGeorgiev\\PHPStan\\": "ci/phpstan/rules/",
             "Tests\\Integration\\MartinGeorgiev\\": "tests/Integration/MartinGeorgiev/",
             "Tests\\Unit\\MartinGeorgiev\\": "tests/Unit/MartinGeorgiev/"
         }

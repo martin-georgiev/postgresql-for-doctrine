@@ -10,7 +10,7 @@ includes:
 
 services:
     -
-        class: MartinGeorgiev\PHPStan\ClassDocBlockRule
+        class: Ci\MartinGeorgiev\PHPStan\ClassDocBlockRule
         tags:
             - phpstan.rules.rule
         arguments:
@@ -23,47 +23,47 @@ services:
                 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\': ['since', 'author']
                 'MartinGeorgiev\Utils\Exception\': ['since', 'author']
     -
-        class: MartinGeorgiev\PHPStan\DataProviderDatasetKeyRule
+        class: Ci\MartinGeorgiev\PHPStan\DataProviderDatasetKeyRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\DataProviderNamingRule
+        class: Ci\MartinGeorgiev\PHPStan\DataProviderNamingRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\DataProviderReturnTypeRule
+        class: Ci\MartinGeorgiev\PHPStan\DataProviderReturnTypeRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\ConversionMethodDocBlockRule
+        class: Ci\MartinGeorgiev\PHPStan\ConversionMethodDocBlockRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\ExceptionFamilyByConversionMethodRule
+        class: Ci\MartinGeorgiev\PHPStan\ExceptionFamilyByConversionMethodRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\ValueObjectImmutabilityRule
+        class: Ci\MartinGeorgiev\PHPStan\ValueObjectImmutabilityRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\ValueObjectRequiredMethodsRule
+        class: Ci\MartinGeorgiev\PHPStan\ValueObjectRequiredMethodsRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\ValueObjectExceptionNamingRule
+        class: Ci\MartinGeorgiev\PHPStan\ValueObjectExceptionNamingRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\VariadicFunctionBooleanArgumentNodeMappingRule
+        class: Ci\MartinGeorgiev\PHPStan\VariadicFunctionBooleanArgumentNodeMappingRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\VariadicFunctionHomogeneousNodeMappingRule
+        class: Ci\MartinGeorgiev\PHPStan\VariadicFunctionHomogeneousNodeMappingRule
         tags:
             - phpstan.rules.rule
     -
-        class: MartinGeorgiev\PHPStan\VariadicFunctionNodeMappingPatternOrderRule
+        class: Ci\MartinGeorgiev\PHPStan\VariadicFunctionNodeMappingPatternOrderRule
         tags:
             - phpstan.rules.rule
 
