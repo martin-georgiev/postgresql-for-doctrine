@@ -5,12 +5,23 @@ declare(strict_types=1);
 namespace Ci\MartinGeorgiev\Docs;
 
 use Ci\MartinGeorgiev\Shared\Repository;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
+use League\CommonMark\Parser\MarkdownParser;
 
 final readonly class DqlExampleCollector
 {
+    private MarkdownParser $markdownParser;
+
     public function __construct(
         private Repository $repository,
-    ) {}
+    ) {
+        $environment = new Environment();
+        $environment->addExtension(new CommonMarkCoreExtension());
+
+        $this->markdownParser = new MarkdownParser($environment);
+    }
 
     /**
      * @return list<DqlExample>
@@ -68,54 +79,18 @@ final readonly class DqlExampleCollector
     private function dqlFenceBodiesIn(string $documentationFile): array
     {
         $fenceBodies = [];
-        $openFence = null;
-        $openFenceBody = [];
-        foreach ($this->repository->readLines($documentationFile) as $index => $line) {
-            if ($openFence === null) {
-                $openFence = $this->openingFenceOf($line);
-                $openFenceBody = [];
-
+        foreach ($this->markdownParser->parse($this->repository->read($documentationFile))->iterator() as $node) {
+            $isADqlFence = $node instanceof FencedCode && ($node->getInfoWords()[0] ?? '') === 'dql';
+            if (!$isADqlFence) {
                 continue;
             }
 
-            if ($this->closesFence($openFence['marker'], $line)) {
-                if ($openFence['language'] === 'dql') {
-                    $fenceBodies[] = $openFenceBody;
-                }
-
-                $openFence = null;
-
-                continue;
-            }
-
-            $openFenceBody[$index + 1] = $line;
-        }
-
-        $endsInsideAnUnclosedDqlFence = $openFence !== null && $openFence['language'] === 'dql';
-        if ($endsInsideAnUnclosedDqlFence) {
-            $fenceBodies[] = $openFenceBody;
+            $openingFenceLine = $node->getStartLine() ?? throw new \LogicException(\sprintf('A fence in %s has no line number.', $documentationFile));
+            $bodyLines = \explode("\n", $node->getLiteral());
+            $fenceBodies[] = \array_combine(\range($openingFenceLine + 1, $openingFenceLine + \count($bodyLines)), $bodyLines);
         }
 
         return $fenceBodies;
-    }
-
-    /**
-     * @return array{marker: string, language: string}|null
-     */
-    private function openingFenceOf(string $line): ?array
-    {
-        if (\preg_match('/^\s*(?<marker>`{3,}|~{3,})\s*(?<language>[^\s`]*)/', $line, $fence) !== 1) {
-            return null;
-        }
-
-        return ['marker' => $fence['marker'], 'language' => $fence['language']];
-    }
-
-    private function closesFence(string $openingMarker, string $line): bool
-    {
-        $closingMarkerPattern = \sprintf('/^\s*%s{%d,}\s*\z/', \preg_quote($openingMarker[0], '/'), \strlen($openingMarker));
-
-        return \preg_match($closingMarkerPattern, $line) === 1;
     }
 
     /**
