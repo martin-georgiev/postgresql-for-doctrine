@@ -16,7 +16,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 
 **Usage Guidelines:**
 - **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
-- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
+- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 
 ### Array and JSON Operators
 

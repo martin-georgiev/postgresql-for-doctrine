@@ -14,7 +14,7 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 **Usage Guidelines:**
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching
-- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
+- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 
 ### Text and Pattern Operators
 

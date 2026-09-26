@@ -20,7 +20,7 @@ This document covers PostGIS spatial functions and operators available in this l
 
 ### Bounding Box Operators
 
-These operators work with geometry and geography bounding boxes. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**.
+These operators work with geometry and geography bounding boxes. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
