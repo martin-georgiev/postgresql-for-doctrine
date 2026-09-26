@@ -197,6 +197,15 @@ $muted-text-color: $search-result-preview-color;
     font-weight: 600;
   }
 
+  pre {
+    margin: 0 0 0.75rem;
+    padding: 0.75rem;
+    overflow-x: auto;
+    border: 1px solid $body-text-color;
+    border-radius: 4px;
+    background-color: $code-background-color;
+  }
+
   .pair pre {
     margin: 0;
   }
@@ -258,6 +267,7 @@ $muted-text-color: $search-result-preview-color;
   .catalogue dd {
     margin: 0;
     padding: 0;
+    text-align: left;
   }
 
   .catalogue dt::after {
