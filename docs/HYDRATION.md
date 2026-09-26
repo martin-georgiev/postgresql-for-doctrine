@@ -33,10 +33,10 @@ What an entity property, a `getArrayResult()` row or a field path read with `get
 | `text[]`, `varchar[]`, `citext[]` | `TextArray`, `VarcharArray`, `CitextArray` | `list<string\|null>` | Items stay strings: `{php,1.0,true}` reads as `['php', '1.0', 'true']` |
 | `smallint[]`, `integer[]`, `bigint[]` | `SmallIntArray`, `IntegerArray`, `BigIntArray` | `list<int\|null>` | |
 | `real[]`, `double precision[]` | `RealArray`, `DoublePrecisionArray` | `list<float\|null>` | `Infinity` and `NaN` become `INF` and `NAN` ([Infinity Values](INFINITY.md)) |
-| `numeric[]` | `NumericArray` | `list<string\|null>` | `{1.50,NaN}` reads as `['1.50', 'NaN']`; the scale is kept ([note](AVAILABLE-TYPES.md#numeric-array-type)) |
+| `numeric[]` | `NumericArray` | `list<string\|null>` | `{1.50,NaN}` reads as `['1.50', 'NaN']`; the scale is kept ([Available Types](AVAILABLE-TYPES.md#numeric-array-type)) |
 | `boolean[]` | `BooleanArray` | `list<bool\|null>` | |
-| `uuid[]`, `inet[]`, `cidr[]`, `macaddr[]` | `UuidArray`, `InetArray`, … | `list<string\|null>` | ([note](AVAILABLE-TYPES.md#uuid-array-type)) |
-| `date[]`, `timestamp[]`, `timestamptz[]` | `DateArray`, `TimestampArray`, `TimestampTzArray` | `list<\DateTimeImmutable\|DateTimeInfinity\|null>` | `infinity` reads as `DateTimeInfinity::POSITIVE` ([note](AVAILABLE-TYPES.md#datetime-array-types)) |
+| `uuid[]`, `inet[]`, `cidr[]`, `macaddr[]` | `UuidArray`, `InetArray`, … | `list<string\|null>` | ([Available Types](AVAILABLE-TYPES.md#uuid-array-type)) |
+| `date[]`, `timestamp[]`, `timestamptz[]` | `DateArray`, `TimestampArray`, `TimestampTzArray` | `list<\DateTimeImmutable\|DateTimeInfinity\|null>` | `infinity` reads as `DateTimeInfinity::POSITIVE` ([Available Types](AVAILABLE-TYPES.md#datetime-array-types)) |
 | `interval[]` | `IntervalArray` | `list<Interval\|null>` | |
 | `jsonb[]`, `json[]` | `JsonbArray`, `JsonArray` | `list<array\|int\|float\|string\|bool\|null>` | JSON `null` and SQL `NULL` both read as `null` |
 | `ltree[]` | `LtreeArray` | `list<Ltree\|null>` | |
@@ -60,7 +60,7 @@ What an entity property, a `getArrayResult()` row or a field path read with `get
 | `cube` | `Cube` | `Cube` value object | |
 | `point`, `box`, `circle`, `line`, `lseg`, `path`, `polygon` | `Point`, `Box`, … | the value object of the same name | PostgreSQL stores a box upper-right first: `(1,2),(3,4)` reads as `(3,4),(1,2)` |
 | `bytea` | `Bytea` | `string` (binary) | Not a stream |
-| `money` | `Money` | `string` | Formatted by the server locale: `'$1,234.56'` ([note](AVAILABLE-TYPES.md#money-type)) |
+| `money` | `Money` | `string` | Formatted by the server locale: `'$1,234.56'` ([Available Types](AVAILABLE-TYPES.md#money-type)) |
 | `citext`, `inet`, `cidr`, `macaddr`, `macaddr8`, `tsvector`, `tsquery`, `xml`, `bit`, `bit varying`, `timetz` | `Citext`, `Inet`, … | `string` | |
 | `numeric` | Doctrine's `decimal` | `string` | Doctrine's choice, not this library's: `'42.00'` |
 
@@ -231,7 +231,7 @@ Mapped values move too, but they carry their offset, so they still compare corre
 
 - **`JSON_GET_FIELD` returns `'"red"'` with the quotes** → the `->` operator returns `jsonb`, and its text form is JSON → use `JSON_GET_FIELD_AS_TEXT` (`->>`) for text, or `JSON_GET_FIELD_AS_INTEGER` for a number.
 - **A `jsonb` integer above `9223372036854775807` arrives as a `float`, or `1.0` survives a round trip** → the class registered as `jsonb` is not this library's `Jsonb`: DBAL 4.4 registers its own `Doctrine\DBAL\Types\JsonbType` under that name, and `Type::addType('jsonb', …)` then fails with `Type "jsonb" already exists` → register with `Type::overrideType('jsonb', Jsonb::class)`, and check `Type::getType('jsonb')::class`.
-- **Loading an entity with a `geometry[]` or `geography[]` column throws `Invalid Geometry value object format: '0101000020E6…'`** → PostgreSQL sends each element as EWKB hex, and the array types read only WKT (measured on DBAL 4.4 / ORM 3.7) → read the column through a native query that converts each element, `ARRAY(SELECT CASE WHEN ST_SRID(e) = 0 THEN ST_AsText(e) ELSE 'SRID=' || ST_SRID(e) || ';' || ST_AsText(e) END FROM unnest(col) AS e)`, mapped with `$rsm->addScalarResult('col', 'col', 'geometry[]')` and read with `getResult()`.
+- **Loading an entity with a `geometry[]` or `geography[]` column throws `Invalid Geometry value object format: '0101000020E6…'`** → PostgreSQL sends each element as EWKB hex and the array types read only WKT (measured on DBAL 4.4 / ORM 3.7) → read the column with a native query that selects `ARRAY(SELECT CASE WHEN ST_SRID(e) = 0 THEN ST_AsText(e) ELSE 'SRID=' || ST_SRID(e) || ';' || ST_AsText(e) END FROM unnest(col) AS e)` as a `geometry[]` scalar, and fetch it with `getResult()`.
 - **`getSingleScalarResult()` returns `'{php,postgres}'` for `p.tags`** → the scalar result methods skip the DBAL type, both for a DQL field path and for a native query scalar mapped with a type → use `getSingleResult()` or `getResult()` and take the column from the row.
 - **`AVG(c.points)` returns `'75.0000000000000000'`** → PostgreSQL averages integers as `numeric` → round in SQL: `ROUND(AVG(c.points), 2)` returns `'75.00'`.
 - **`Cannot assign int to property App\Entity\Product::$attributes of type ?array`** → the row holds a JSON scalar, which `Jsonb` returns as a scalar → type the property `mixed`, or keep scalars out of the column.
