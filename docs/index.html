@@ -108,12 +108,12 @@ FROM App\Entity\Order o</code></pre></div>
     <div class="pair" role="tabpanel" id="pair-aggregates" aria-labelledby="tab-aggregates" tabindex="0" hidden>
       <div class="pair__side pair__side--sql"><span class="pair__lang">PostgreSQL</span><pre><code>SELECT customer_id,
   COUNT(*) <b class="op">FILTER</b> (WHERE status = 'paid') AS paid,
-  PERCENTILE_CONT(0.5) <b class="op">WITHIN GROUP</b> (ORDER BY total) AS median_total
+  PERCENTILE_CONT(0.5) <b class="op">WITHIN GROUP</b> (ORDER BY total) AS median
 FROM orders GROUP BY customer_id</code></pre></div>
       {% include pair_arrow.html %}
       <div class="pair__side pair__side--dql"><span class="pair__lang">DQL</span><pre><code>SELECT IDENTITY(o.customer),
   <b class="fn">FILTER</b>(COUNT(o.id), WHERE o.status = 'paid') AS paid,
-  <b class="fn">PERCENTILE_CONT</b>(0.5 WITHIN GROUP ORDER BY o.total) AS medianTotal
+  <b class="fn">PERCENTILE_CONT</b>(0.5 WITHIN GROUP ORDER BY o.total) AS median
 FROM App\Entity\Order o GROUP BY o.customer</code></pre></div>
     </div>
 
