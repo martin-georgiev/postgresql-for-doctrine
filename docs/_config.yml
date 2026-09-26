@@ -108,7 +108,9 @@ defaults:
 
   - scope: { path: DQL-DIALECT.md }
     values: { title: The DQL dialect, nav_order: 7 }
+  - scope: { path: HYDRATION.md }
+    values: { title: "What comes back: hydration", nav_order: 8 }
   - scope: { path: USE-CASES-AND-EXAMPLES.md }
-    values: { title: Use cases and examples, nav_order: 8 }
+    values: { title: Use cases and examples, nav_order: 9 }
   - scope: { path: UPGRADE.md }
-    values: { title: Upgrading, nav_order: 9 }
+    values: { title: Upgrading, nav_order: 10 }
