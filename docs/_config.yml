@@ -1,7 +1,7 @@
 title: PostgreSQL for Doctrine
 description: Use PostgreSQL's column types, functions and operators in Doctrine ORM and DQL.
-url: https://martin-georgiev.github.io
-baseurl: /postgresql-for-doctrine
+url: https://postgresql-for-doctrine.dev
+baseurl: ""
 repository: martin-georgiev/postgresql-for-doctrine
 
 remote_theme: just-the-docs/just-the-docs@v0.12.0
