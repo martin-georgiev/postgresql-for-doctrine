@@ -137,8 +137,10 @@ SELECT id FROM sale WHERE status = 'paid'</code></pre></div>
 #[ORM\Column(type: 'sale_status')]
 public SaleStatus $status;
 
-$em-&gt;createQuery('SELECT s.id FROM App\Entity\Sale s WHERE s.status = :status')
-    -&gt;setParameter('status', <b class="fn">SaleStatus::Paid</b>);</code></pre><p class="pair__note"><code>sale_status</code> is registered by a small <code>Enum</code> subclass; see <a href="{{ site.baseurl }}{% link ENUM-TYPE.md %}">Enums</a>.</p></div>
+$em-&gt;createQuery('
+    SELECT s.id FROM App\Entity\Sale s
+    WHERE s.status = :status
+')-&gt;setParameter('status', <b class="fn">SaleStatus::Paid</b>);</code></pre><p class="pair__note"><code>sale_status</code> is registered by a small <code>Enum</code> subclass; see <a href="{{ site.baseurl }}{% link ENUM-TYPE.md %}">Enums</a>.</p></div>
     </div>
 
     <div class="pair" role="tabpanel" id="pair-composites" aria-labelledby="tab-composites" tabindex="0" hidden>
