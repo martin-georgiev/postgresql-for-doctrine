@@ -79,9 +79,9 @@ pre,
 }
 
 // Tables and code use the full content width; running text keeps a readable measure.
-.main-content > p,
-.main-content > ul,
-.main-content > ol,
-.main-content > blockquote {
+.main-content > main > p,
+.main-content > main > ul,
+.main-content > main > ol,
+.main-content > main > blockquote {
   max-width: 46rem;
 }
