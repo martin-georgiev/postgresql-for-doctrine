@@ -8,7 +8,7 @@ This document covers PostGIS spatial functions and operators available in this l
 
 **⚠️ Important**: Some operators have dual meanings for different data types. Use the specific DQL function names to avoid conflicts:
 
-- **`@`**: Use `SPATIAL_CONTAINED_BY` for geometry; arrays and JSON use `<@` (`IS_CONTAINED_BY`) instead
+- **`@`**: Use `SPATIAL_CONTAINED_BY` for geometry (arrays and JSON use `IS_CONTAINED_BY` instead)
 - **`~`**: Use `REGEXP` for text patterns, `SPATIAL_CONTAINS` for geometry
 - **`&&`**: Use `OVERLAPS` for arrays/JSON, spatial overlaps work automatically with geometry/geography
 

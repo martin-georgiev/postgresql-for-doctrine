@@ -65,8 +65,6 @@ defaults:
     values: { title: Symfony setup, nav_order: 3 }
   - scope: { path: INTEGRATING-WITH-LARAVEL.md }
     values: { title: Laravel setup, nav_order: 4 }
-  - scope: { path: DQL-DIALECT.md }
-    values: { title: The DQL dialect, nav_order: 4.5 }
 
   - scope: { path: AVAILABLE-TYPES.md }
     values: { title: Types, nav_order: 5, has_children: true }
@@ -108,7 +106,9 @@ defaults:
   - scope: { path: UTILITY-FUNCTIONS.md }
     values: { title: Utilities, parent: Functions and operators, nav_order: 10 }
 
+  - scope: { path: DQL-DIALECT.md }
+    values: { title: The DQL dialect, nav_order: 7 }
   - scope: { path: USE-CASES-AND-EXAMPLES.md }
-    values: { title: Use cases and examples, nav_order: 7 }
+    values: { title: Use cases and examples, nav_order: 8 }
   - scope: { path: UPGRADE.md }
-    values: { title: Upgrading, nav_order: 8 }
+    values: { title: Upgrading, nav_order: 9 }

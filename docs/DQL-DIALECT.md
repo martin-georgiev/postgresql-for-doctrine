@@ -1,10 +1,16 @@
 # The DQL dialect
 
-DQL is Doctrine's query language, not PostgreSQL's, so PostgreSQL syntax you already know often does not parse as written. This page covers the rules that apply to every function the library adds: what each PostgreSQL operator and function is called in DQL, why boolean functions need `= TRUE`, how clauses written after a closing parenthesis move inside it, what each argument accepts, and what to do when DQL cannot express a query at all.
+Being Doctrine's query language, DQL syntax is different from the PostgreSQL's one you already know. PostgreSQL's syntax often does not parse as written in DQL. This page covers rules and patterns that the library follows:
+
+- what each PostgreSQL operator and function is called in DQL;
+- why boolean functions need `= TRUE`;
+- how clauses written after a closing parenthesis move inside it;
+- what each argument accepts; and
+- what to do when DQL cannot express a query at all.
 
 > **See also:** [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) · [Window Functions](WINDOW-FUNCTIONS.md) · [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md)
 
-The examples query a small shop:
+The examples we used for the query examples follow a simplified entity model for a small shop:
 
 | Entity | Alias | Fields |
 |---|---|---|
@@ -33,8 +39,8 @@ SELECT p.name FROM App\Entity\Product p WHERE CONTAINS(p.tags, ARRAY('sport')) =
 
 You choose the name when you call `addCustomStringFunction()`. The setup guides, the examples and the issue tracker all use the same rule, so keep to it unless you have a reason not to:
 
-- A PostgreSQL function keeps its name, upper-cased: `jsonb_path_exists` is `JSONB_PATH_EXISTS`, PostGIS's `ST_DWithin` is `ST_DWITHIN`, pg_trgm's `similarity` is `SIMILARITY`.
-- An operator or an SQL construct gets a name that says what it does: `@>` is `CONTAINS`, `->>` is `JSON_GET_FIELD_AS_TEXT`, `ilike` is `ILIKE`, `@@` is `TSMATCH`, `AT TIME ZONE` is `AT_TIME_ZONE`, `(a, b) OVERLAPS (c, d)` is `DATE_OVERLAPS`, `value = ANY(array)` is `IN_ARRAY`, and `ARRAY[...]` is `ARRAY(...)`.
+- A PostgreSQL function usually keeps its name in DQL but upper-cased: `jsonb_path_exists` is `JSONB_PATH_EXISTS`, PostGIS's `ST_DWithin` is `ST_DWITHIN`, pg_trgm's `similarity` is `SIMILARITY`.
+- An operator or an SQL construct gets a name that says what it does: `@>` is `CONTAINS`, `->>` is `JSON_GET_FIELD_AS_TEXT`, `@@` is `TSMATCH`, `AT TIME ZONE` is `AT_TIME_ZONE`, `(a, b) OVERLAPS (c, d)` is `DATE_OVERLAPS`, `value = ANY(array)` is `IN_ARRAY`, and `ARRAY[...]` is `ARRAY(...)`.
 - A few functions are renamed, so that the name says what it works on or does not collide with DQL:
 
 | PostgreSQL | DQL name | Why |
@@ -47,7 +53,7 @@ You choose the name when you call `addCustomStringFunction()`. The setup guides,
 | `reverse(bytea)` | `REVERSE_BYTES` | `REVERSE` is the text function |
 | `CAST(value AS type)` | `CAST` | DQL has no cast of its own |
 
-Three DQL names are also Doctrine built-ins: `DATE_ADD`, `BIT_AND` and `BIT_OR`. Doctrine looks up registered functions first, so once you register the library's versions, they replace Doctrine's everywhere in the application: `DATE_ADD(s.placedAt, 1, 'day')` stops parsing (`got '1'`), and `BIT_AND` becomes the aggregate rather than Doctrine's two-argument bitwise AND. Register them only if you want PostgreSQL's meaning.
+Three DQL names are also Doctrine built-ins: `DATE_ADD`, `BIT_AND` and `BIT_OR`. Doctrine looks up registered functions first, so once you register the library's versions, they replace Doctrine's everywhere in the application: `DATE_ADD(s.placedAt, 1, 'day')` stops parsing (`got '1'`), and `BIT_AND` becomes the aggregate rather than Doctrine's two-argument bitwise AND. **Register them only if you want PostgreSQL's meaning.**
 
 ### One operator, several DQL names
 
@@ -68,12 +74,12 @@ PostgreSQL picks an operator's implementation from the types of its operands, so
 | `<->` | `GEOMETRY_DISTANCE` | Distance between two geometries | `PostGIS\GeometryDistance` |
 | `<->` | `SIMILARITY_DISTANCE` | pg_trgm: one minus the similarity of two strings | `Trgm\SimilarityDistance` |
 
-Except for the ltree casts, names that share an operator render the same SQL, so it is still the operand types that decide what runs: `SPATIAL_CONTAINS(p.name, 'x')` runs a regular expression. Two consequences follow:
+Except for the _ltree_ casts, names that share an operator render the same SQL, so it is still the operand types that decide what runs: `SPATIAL_CONTAINS(p.name, 'x')` runs a regular expression. Two consequences follow:
 
 - `@>` and `<@` have no geometry variant; for spatial containment use `SPATIAL_CONTAINS` (bounding boxes) or `ST_CONTAINS` (exact shapes).
 - When both operands are bare string literals, PostgreSQL resolves them as `text`. `'POLYGON((0 0,2 0,2 2,0 2,0 0))' ~ 'POINT(1 1)'` is a regular-expression match and returns false, while the same call with the polygon cast to `geometry` returns true. Keep a column on one side, or give one literal a type with `CAST(... AS GEOMETRY)`.
 
-pgvector's distance operators are reached through the functions `L2_DISTANCE`, `COSINE_DISTANCE` and `INNER_PRODUCT` instead. In the SQL Doctrine logs, the `?` operators appear doubled, as `??`: PDO would read a single `?` as a placeholder, and turns `??` back into `?` before PostgreSQL sees it.
+_pgvector_'s distance operators are reached through the functions `L2_DISTANCE`, `COSINE_DISTANCE` and `INNER_PRODUCT` instead. In the SQL Doctrine logs, the `?` operators appear doubled, as `??`: PDO would read a single `?` as a placeholder, and turns `??` back into `?` before PostgreSQL sees it.
 
 ### Coming from MySQL or DoctrineExtensions
 
@@ -126,7 +132,7 @@ SELECT s FROM App\Entity\Sale s WHERE ILIKE(s.reference, :q) ORDER BY s.id
 SELECT s FROM App\Entity\Sale s WHERE s.reference ILIKE :q
 ```
 
-When nothing follows the function, the message ends in `got end of string.` instead.
+When nothing follows the function, the message ends in a `got end of string` error instead.
 
 The comparison costs nothing. PostgreSQL removes `= true` before planning, so an index on the operator is used as if you had written the bare operator:
 
@@ -193,11 +199,7 @@ Written the SQL way, DQL takes the clause keyword for a column alias and fails o
 SELECT c.name, COUNT(s.id) FILTER (WHERE s.status = 'paid') FROM App\Entity\Sale s JOIN s.customer c GROUP BY c.name
 ```
 
-Doctrine ORM 2 prints the token as `Doctrine\ORM\Query\Lexer::T_FROM`.
-
 ### FILTER wraps the aggregate
-
-> **Since 4.9:** earlier releases have no way to write `FILTER` in DQL.
 
 `FILTER` takes the aggregate, a comma, `WHERE` and the condition. The condition takes anything a DQL `WHERE` does, parameters included, and needs no parentheses. It works in `SELECT` and in `HAVING`, and counts several subsets in one pass over the rows:
 
@@ -209,8 +211,6 @@ GROUP BY c.name
 
 ### OVER wraps the call
 
-> **Since 4.9:** earlier releases have no way to write `OVER` in DQL.
-
 `OVER` takes the call, a comma and the window specification: `PARTITION BY`, `ORDER BY` and a frame, in that order, each optional, with no parentheses around them. Without a specification the window is the whole result. `FILTER` goes inside `OVER`, as it comes before `OVER` in SQL.
 
 ```dql
@@ -221,8 +221,6 @@ FROM App\Entity\Sale s
 The window specification, the frame clauses and the ranking and value functions are covered in [Window Functions](WINDOW-FUNCTIONS.md).
 
 ### WITHIN GROUP moves inside the call
-
-> **Since 4.9:** `PERCENTILE_CONT`, `PERCENTILE_DISC` and `MODE` are new in 4.9.
 
 The fraction, then `WITHIN GROUP ORDER BY` and the sort expression, with no comma before `WITHIN` and no parentheses around `ORDER BY`. `MODE` takes no fraction, so its call starts with `WITHIN GROUP`. The fraction is a literal, a parameter, or an expression over grouped columns.
 
@@ -262,7 +260,7 @@ GROUP BY c.name
 | Neither | `ANY_VALUE`, `CORR`, `COVAR_POP`, `COVAR_SAMP`, `JSON_OBJECT_AGG`, `JSONB_OBJECT_AGG` |
 | `DISTINCT` only | DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM` |
 
-The sort items are DQL `ORDER BY` items, which have no `NULLS FIRST` or `NULLS LAST`. The aggregated value is a field, a string, a parameter or a function call; arithmetic stops the parser at the operator (`Expected Doctrine\ORM\Query\TokenType::T_CLOSE_PARENTHESIS, got '*'`), so wrap it in a function that takes arithmetic, such as `CAST`:
+The sort items are DQL `ORDER BY` items, which have no `NULLS FIRST` or `NULLS LAST`. The aggregated value is a field, a string, a parameter or a function call; arithmetic stops the parser at the operator with an error. To overcome this, wrap it in a function that takes arithmetic, such as `CAST`:
 
 ```dql
 SELECT ARRAY_AGG(CAST(s.amount * 2 AS NUMERIC)) AS doubled FROM App\Entity\Sale s
@@ -321,8 +319,8 @@ SELECT TSTZRANGE(s.placedAt, :null) AS fromThenOn FROM App\Entity\Sale s
 
 Some functions take an optional boolean or time-zone argument as their last one. DQL has no literal the library could check for either, so both are written as string literals and checked while the query is parsed:
 
-- Booleans are `'true'` or `'false'`: `ARRAY_TO_JSON`, `ROW_TO_JSON`, `JSON_STRIP_NULLS`, `JSONB_STRIP_NULLS`, `JSONB_SET`, `JSONB_INSERT`, `JSONB_PATH_EXISTS`, `JSONB_PATH_MATCH`, `JSONB_PATH_QUERY`, `JSONB_PATH_QUERY_ARRAY`, `JSONB_PATH_QUERY_FIRST`, `ST_AREA`, `ST_LENGTH`, `ST_DISTANCE`, `ST_CLOSESTPOINT`, `ST_LINELOCATEPOINT`, `ST_LINEINTERPOLATEPOINT`, `ST_CONCAVEHULL`, `ST_SIMPLIFYPOLYGONHULL`, `ST_REMOVEIRRELEVANTPOINTSFORVIEW`. A bare `TRUE`, a parameter or any other string is rejected.
-- Time zones are checked with PHP's `DateTimeZone`, so a spelling only PostgreSQL knows, such as the POSIX `'UTC+3'`, is rejected: `DATE_TRUNC`, `DATE_ADD`, `DATE_SUBTRACT`, `MAKE_TIMESTAMPTZ`.
+- Booleans are `'true'` or `'false'` and they are supported in `ARRAY_TO_JSON`, `ROW_TO_JSON`, `JSON_STRIP_NULLS`, `JSONB_STRIP_NULLS`, `JSONB_SET`, `JSONB_INSERT`, `JSONB_PATH_EXISTS`, `JSONB_PATH_MATCH`, `JSONB_PATH_QUERY`, `JSONB_PATH_QUERY_ARRAY`, `JSONB_PATH_QUERY_FIRST`, `ST_AREA`, `ST_LENGTH`, `ST_DISTANCE`, `ST_CLOSESTPOINT`, `ST_LINELOCATEPOINT`, `ST_LINEINTERPOLATEPOINT`, `ST_CONCAVEHULL`, `ST_SIMPLIFYPOLYGONHULL`, `ST_REMOVEIRRELEVANTPOINTSFORVIEW`. A bare `TRUE`, a parameter or any other string is rejected.
+- Time zones are checked with PHP's `DateTimeZone`. A spelling that only PostgreSQL knows, such as the POSIX `'UTC+2'`, is rejected in `DATE_TRUNC`, `DATE_ADD`, `DATE_SUBTRACT`, `MAKE_TIMESTAMPTZ`.
 
 ```dql
 SELECT JSONB_SET(p.attributes, '{color}', '"blue"', 'false') AS recoloured FROM App\Entity\Product p
@@ -392,7 +390,7 @@ DQL maps queries onto entities, so some SQL has no DQL form at all. For those, d
 
 | You want | Why DQL cannot | Instead |
 |---|---|---|
-| `DISTINCT ON (...)` | DQL has no `DISTINCT ON` | Since 4.9, number the rows with `OVER(ROW_NUMBER(), PARTITION BY ... ORDER BY ...)` and keep the first in PHP; or a native query |
+| `DISTINCT ON (...)` | DQL has no `DISTINCT ON` | Number the rows with `OVER(ROW_NUMBER(), PARTITION BY ... ORDER BY ...)` and keep the first in PHP; or a native query |
 | `WHERE` on a window result | PostgreSQL computes windows after `WHERE`; the fix is a subquery in `FROM`, which DQL does not have | Filter in PHP, or a native query |
 | A set-returning function as a row source, such as `FROM jsonb_array_elements(...)` | DQL's `FROM` takes entities only (`Class 'JSONB_ARRAY_ELEMENTS' is not defined`) | Call it in `SELECT`, where it returns one row per element, or a native query |
 | `WITH` (common table expressions) | Not in DQL | A native query |
