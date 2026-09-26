@@ -234,6 +234,10 @@ $muted-text-color: $search-result-preview-color;
     margin: 0;
   }
 
+  .pair__side--sql pre {
+    border-left: 3px solid $link-color;
+  }
+
   .pair__side--dql pre {
     border-left: 3px solid $brand-purple;
   }
