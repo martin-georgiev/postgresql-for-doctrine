@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ci\MartinGeorgiev\Docs;
 
 use Ci\MartinGeorgiev\Shared\Repository;
+use Doctrine\DBAL\Types\Type as DoctrineType;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 
 final readonly class SetupGuides
@@ -47,6 +48,11 @@ final readonly class SetupGuides
         self::SYMFONY => "/^ *'?(?<name>\\w+)'?: (?<class>MartinGeorgiev\\\\Doctrine\\\\ORM\\\\[\\w\\\\]+)/m",
         self::LARAVEL => "/'(?<name>[^']+)' => (?<class>MartinGeorgiev\\\\Doctrine\\\\ORM\\\\[\\w\\\\]+)::class/",
     ];
+
+    /**
+     * @var string
+     */
+    private const DOCTRINE_TYPE_CLASS_REGISTRATION_PATTERN = "/addType\\('(?<name>[^']+)', \"(?<class>MartinGeorgiev[\\\\\\w]+)\"\\)/";
 
     public function __construct(
         private Repository $repository,
@@ -110,5 +116,25 @@ final readonly class SetupGuides
         \ksort($functionClassByName);
 
         return $functionClassByName;
+    }
+
+    /**
+     * @return array<string, class-string<DoctrineType>> type name => DBAL type class
+     */
+    public function typesRegisteredByTheDoctrineGuide(): array
+    {
+        \preg_match_all(self::DOCTRINE_TYPE_CLASS_REGISTRATION_PATTERN, $this->repository->read(self::DOCTRINE), $registrations, \PREG_SET_ORDER);
+
+        $typeClassByName = [];
+        foreach ($registrations as $registration) {
+            $typeClass = \str_replace('\\\\', '\\', $registration['class']);
+            if (!\is_a($typeClass, DoctrineType::class, true)) {
+                throw new \RuntimeException(\sprintf('%s registers %s under %s, which is not a DBAL type class.', self::DOCTRINE, $typeClass, $registration['name']));
+            }
+
+            $typeClassByName[$registration['name']] = $typeClass;
+        }
+
+        return $typeClassByName;
     }
 }
