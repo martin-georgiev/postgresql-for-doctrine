@@ -4,7 +4,7 @@ This guide covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For 
 
 ### Register DBAL Types
 
-Register the DBAL types you plan to use. The **full set** of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
+Register the [DBAL types](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#custom-mapping-types) you plan to use. The **full set** of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
 
 ```php
 <?php
@@ -155,7 +155,7 @@ DoctrineType::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector")
 
 ### Register DQL Functions
 
-Register the functions you'll use in your DQL queries. The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+Register the functions you'll use in your [DQL queries](https://www.doctrine-project.org/projects/doctrine-orm/en/current/cookbook/dql-user-defined-functions.html). The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
 - [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
 - [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)

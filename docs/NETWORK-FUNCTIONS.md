@@ -2,7 +2,7 @@
 
 > 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) for the `inet`, `cidr`, `macaddr`, and `macaddr8` DBAL types
 
-| PostgreSQL functions | Register for DQL as | Implemented by |
+| [PostgreSQL functions](https://www.postgresql.org/docs/18/functions-net.html#CIDR-INET-FUNCTIONS-TABLE) | Register for DQL as | Implemented by |
 |---|---|---|
 | abbrev | ABBREV | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Abbrev` |
 | broadcast | BROADCAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Network\Broadcast` |

@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Date, Time, and Range Functions
 
-This document covers PostgreSQL date, time, and range functions available in this library.
+This document covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/functions-datetime.html), and [range functions](https://www.postgresql.org/docs/18/functions-range.html) available in this library.
 
 > 📖 **See also**: [Range Types](RANGE-TYPES.md) for range value objects and [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical date and range examples
 
@@ -108,7 +108,7 @@ ORDER BY month_range
 **📝 Range Type Notes:**
 
 ### Range Bounds
-PostgreSQL ranges support different bound types:
+PostgreSQL ranges support [different bound types](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INCLUSIVITY):
 - `'[)'` - Lower bound inclusive, upper bound exclusive (default)
 - `'()'` - Both bounds exclusive
 - `'[]'` - Both bounds inclusive
@@ -123,7 +123,7 @@ PostgreSQL ranges support different bound types:
 - **numrange**: Numeric ranges (decimal/float)
 
 ### Empty and Infinite Ranges
-- Empty ranges: a range containing no values, which PostgreSQL prints as `empty` (e.g. `DATERANGE('2023-01-01', '2023-01-01')`). In PHP, use `DateRange::empty()` and `isEmpty()` — see [Empty Ranges](RANGE-TYPES.md#empty-ranges). A range with two `NULL` bounds is not empty: it is `(,)`, unbounded on both sides
+- Empty ranges: a range containing no values, which PostgreSQL prints as `empty` (e.g. `DATERANGE('2023-01-01', '2023-01-01')`). In PHP, use `DateRange::empty()` and `isEmpty()` — see [Empty Ranges](RANGE-TYPES.md#empty-ranges). A range with two `NULL` bounds is not empty: it is `(,)`, [unbounded on both sides](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INFINITE)
 - Infinite ranges: Use a parameter set to `null` for unbounded sides (DQL does not accept a bare `NULL` argument)
 - Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 

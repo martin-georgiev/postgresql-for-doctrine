@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Mathematical Functions
 
-This document covers PostgreSQL mathematical functions available in this library.
+This document covers PostgreSQL [mathematical functions](https://www.postgresql.org/docs/18/functions-math.html) available in this library.
 
 > 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
 
@@ -111,7 +111,7 @@ This document covers PostgreSQL mathematical functions available in this library
 
 ### `WITHIN GROUP` goes inside the parentheses in DQL
 
-In SQL, an ordered-set aggregate closes its parentheses and then takes `WITHIN GROUP (ORDER BY ...)`. DQL cannot parse anything after a function's closing parenthesis, so in DQL the clause moves **inside** the call:
+In SQL, an [ordered-set aggregate](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE) closes its parentheses and then takes `WITHIN GROUP (ORDER BY ...)`. DQL cannot parse anything after a function's closing parenthesis, so in DQL the clause moves **inside** the call:
 
 | SQL | DQL |
 |---|---|

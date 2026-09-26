@@ -4,7 +4,7 @@ This guide covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle
 
 ### Register DBAL Types
 
-Register the DBAL types you plan to use. The full set of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
+Register the [DBAL types](https://symfony.com/doc/current/doctrine/dbal.html#registering-custom-mapping-types) you plan to use. The full set of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
 
 ```yaml
 # config/packages/doctrine.yaml
@@ -181,7 +181,7 @@ doctrine:
 
 ### Configure Type Mappings
 
-Add mapping between DBAL and PostgreSQL data types. PostgreSQL normally prefixes array data-types with `_`. Note the PostgreSQL-specific naming for integers (`int2`, `int4`, `int8`).
+Add [mapping between DBAL and PostgreSQL data types](https://symfony.com/doc/current/doctrine/dbal.html#registering-custom-mapping-types-in-the-schematool). PostgreSQL normally [prefixes array data-types with `_`](https://www.postgresql.org/docs/18/sql-createtype.html#SQL-CREATETYPE-ARRAY). Note the PostgreSQL-specific naming for integers (`int2`, `int4`, `int8`).
 
 ```yaml
 # config/packages/doctrine.yaml
@@ -392,7 +392,7 @@ doctrine:
 
 ### Register DQL Functions
 
-Register the functions you'll use in your DQL queries. The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+Register the functions you'll use in your [DQL queries](https://symfony.com/doc/current/doctrine/custom_dql_functions.html). The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
 - [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
 - [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)

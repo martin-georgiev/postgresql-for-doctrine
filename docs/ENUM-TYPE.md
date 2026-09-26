@@ -62,7 +62,7 @@ $platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('sale_status', 'sale_status');
 ```
 
-Without that mapping, schema introspection fails with `Unknown database type "sale_status" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
+Without that mapping, [schema introspection](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#detection-of-database-types) fails with `Unknown database type "sale_status" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
 
 - **Symfony**: `sale_status: sale_status` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
 - **Laravel**: `'sale_status' => 'sale_status'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
@@ -134,7 +134,7 @@ $platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('_sale_status', 'sale_status[]');
 ```
 
-PostgreSQL reports an array column's type as the element type prefixed with an underscore (`_sale_status`), so that is the name to map. The framework equivalents:
+PostgreSQL reports an array column's type as the [element type prefixed with an underscore](https://www.postgresql.org/docs/18/sql-createtype.html#SQL-CREATETYPE-ARRAY) (`_sale_status`), so that is the name to map. The framework equivalents:
 
 - **Symfony**: `_sale_status: 'sale_status[]'` under `doctrine.dbal.connections.default.mapping_types` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
 - **Laravel**: `'_sale_status' => 'sale_status[]'` under the entity manager's `'mapping_types'` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
@@ -200,7 +200,7 @@ ALTER TABLE sales ADD COLUMN status sale_status NOT NULL DEFAULT 'pending';
 
 ### Why the library does not create the type for you
 
-Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: a label added by `ALTER TYPE ... ADD VALUE` cannot be used until the transaction that added it commits, and labels can be renamed but not removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
+Doctrine's schema tool models tables, not user-defined types, and PostgreSQL constrains what a generated migration could safely do anyway: a label added by `ALTER TYPE ... ADD VALUE` [cannot be used until the transaction that added it commits](https://www.postgresql.org/docs/18/sql-altertype.html), and labels can be renamed but not removed. Automatic creation and diffing would therefore have to guess at transactional boundaries and at recreate-and-migrate strategies. Writing the statements yourself keeps that sequencing in your migration tool, where it belongs.
 
 ### Adding a new case
 
@@ -213,7 +213,7 @@ public function up(Schema $schema): void
 }
 ```
 
-Doctrine Migrations wraps each migration in a single transaction, and `preUp()` runs inside it too. When the same migration also uses the new label (a backfill `UPDATE`, a column `DEFAULT`), move that work into a later migration or make this one non-transactional. On PostgreSQL 11 and earlier, which refuse `ADD VALUE` on an existing type inside a transaction block, only the non-transactional route works:
+Doctrine Migrations [wraps each migration in a single transaction](https://www.doctrine-project.org/projects/doctrine-migrations/en/current/reference/configuration.html#using-or-not-using-transactions), and `preUp()` runs inside it too. When the same migration also uses the new label (a backfill `UPDATE`, a column `DEFAULT`), move that work into a later migration or make this one non-transactional. On PostgreSQL 11 and earlier, which refuse `ADD VALUE` on an existing type inside a transaction block, only the non-transactional route works:
 
 ```php
 public function isTransactional(): bool
@@ -239,7 +239,7 @@ Change the matching PHP enum case's backing value in the same deploy. Once the l
 
 ### Removing a case
 
-PostgreSQL cannot remove an enum label (`DROP VALUE` is not implemented). Instead, move the data off the label, create a type without it, convert every column that uses the old type, and swap the names. Removing `processing` from the `sales` table above:
+PostgreSQL [cannot remove an enum label](https://www.postgresql.org/docs/18/datatype-enum.html#DATATYPE-ENUM-IMPLEMENTATION-DETAILS) (`DROP VALUE` is not implemented). Instead, move the data off the label, create a type without it, convert every column that uses the old type, and swap the names. Removing `processing` from the `sales` table above:
 
 ```php
 public function up(Schema $schema): void
