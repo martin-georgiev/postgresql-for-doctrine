@@ -73,6 +73,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "App\\": "fixtures/App/",
             "Fixtures\\MartinGeorgiev\\": "fixtures/MartinGeorgiev/",
             "MartinGeorgiev\\PHPStan\\": "ci/phpstan/rules/",
             "Tests\\Integration\\MartinGeorgiev\\": "tests/Integration/MartinGeorgiev/",
