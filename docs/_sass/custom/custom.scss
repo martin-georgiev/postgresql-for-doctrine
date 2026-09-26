@@ -86,14 +86,6 @@ pre,
   fill: currentColor;
 }
 
-// Tables and code use the full content width; running text keeps a readable measure.
-.main-content > main > p,
-.main-content > main > ul,
-.main-content > main > ol,
-.main-content > main > blockquote {
-  max-width: 46rem;
-}
-
 // Home page (index.html). Brand accents from assets/README.md; purple is lifted on the dark scheme for contrast.
 $brand-orange: #fc6a31;
 $brand-purple: #777bb4;
