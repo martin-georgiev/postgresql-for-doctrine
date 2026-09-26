@@ -20,9 +20,9 @@ SELECT p.tags, ARRAY_APPEND(p.tags, 'new') AS extended FROM App\Entity\Product p
 
 The scalar result methods are the exception. `getScalarResult()`, `getSingleColumnResult()` and `getSingleScalarResult()` return a selected field path as the database sent it - `'{php,postgres}'` for `p.tags`, `'42.00'` for `p.price`, `'2026-09-26 10:30:00+00'` for `s.placedAt`. Only the fields of a selected entity (`SELECT p`) are still converted by `getScalarResult()`.
 
-The driver types only three families itself: `boolean` arrives as `bool`, `smallint`, `integer` and `bigint` as `int`, [`real` and `double precision` as `float`](https://www.php.net/manual/en/migration84.other-changes.php#migration84.other-changes.functions.pdo-pgsql). Every other PostgreSQL type - `numeric`, [timestamps](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-OUTPUT), [intervals](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-INTERVAL-OUTPUT), [arrays](https://www.postgresql.org/docs/18/arrays.html#ARRAYS-IO), [ranges](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-IO), JSON, `ltree`, `hstore`, geometry - arrives as its PostgreSQL text form.
+The driver types only three families itself: `boolean` arrives as `bool`, `smallint`, `integer` and `bigint` as `int`, [`real` and `double precision` as `float`](https://www.php.net/manual/en/migration84.other-changes.php#migration84.other-changes.functions.pdo-pgsql) from PHP 8.4 (as numeric strings before). Every other PostgreSQL type - `numeric`, [timestamps](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-OUTPUT), [intervals](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-INTERVAL-OUTPUT), [arrays](https://www.postgresql.org/docs/18/arrays.html#ARRAYS-IO), [ranges](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-IO), JSON, `ltree`, `hstore`, geometry - arrives as its PostgreSQL text form.
 
-Every value on this page was measured against PostgreSQL 18 and PostGIS 3.6 with DBAL 4.4 and ORM 3.7, with the session time zone set to `UTC`.
+Every value on this page was measured against PostgreSQL 18 and PostGIS 3.6 with PHP 8.5, DBAL 4.4 and ORM 3.7, with the session time zone set to `UTC`.
 
 ## Mapped columns by family
 
@@ -60,7 +60,7 @@ What an entity property, a `getArrayResult()` row or a field path read with `get
 | `cube` | `Cube` | `Cube` value object | |
 | `point`, `box`, `circle`, `line`, `lseg`, `path`, `polygon` | `Point`, `Box`, … | the value object of the same name | [PostgreSQL stores a box upper-right first](https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES): `(1,2),(3,4)` reads as `(3,4),(1,2)` |
 | `bytea` | `Bytea` | `string` (binary) | Not a stream |
-| `money` | `Money` | `string` | [Formatted by the server locale](https://www.postgresql.org/docs/18/datatype-money.html#DATATYPE-MONEY): `'$1,234.56'` ([Available Types](AVAILABLE-TYPES.md#money-type)) |
+| `money` | `Money` | `string` | [Formatted by the `lc_monetary` setting](https://www.postgresql.org/docs/18/datatype-money.html#DATATYPE-MONEY): `'$1,234.56'` ([Available Types](AVAILABLE-TYPES.md#money-type)) |
 | `citext`, `inet`, `cidr`, `macaddr`, `macaddr8`, `tsvector`, `tsquery`, `xml`, `bit`, `bit varying`, `timetz` | `Citext`, `Inet`, … | `string` | |
 | `numeric` | [Doctrine's `decimal`](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#decimal) | `string` | Doctrine's choice, not this library's: `'42.00'` |
 
@@ -140,6 +140,8 @@ A value computed by the query - an aggregate, a window function, any function of
 | [`TO_TSVECTOR('english', a.body)`](https://www.postgresql.org/docs/18/functions-textsearch.html#TEXTSEARCH-FUNCTIONS-TABLE) | `tsvector` | `"'cat':3 'fat':2 'sat':4"` (`string`) |
 | [`DECODE('0102', 'hex')`](https://www.postgresql.org/docs/18/functions-binarystring.html#FUNCTION-DECODE) | `bytea` | [a stream `resource`](https://www.php.net/manual/en/ref.pdo-pgsql.php#ref.pdo-pgsql.general-notes) |
 
+> **Note:** before PHP 8.4, pdo_pgsql returns `double precision` and `real` as numeric strings, so the `float` rows above arrive as strings.
+
 [`ARRAY_AGG` over no rows returns `null`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE), not `'{}'`.
 
 ### Turn a string back into the mapped value
@@ -172,7 +174,7 @@ For a geometry, convert inside the query instead: wrap the function in `ST_ASTEX
 
 ### Floating-point results
 
-`double precision` and `real` results are PHP floats with [the usual binary rounding](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-FLOAT): `CAST('0.1' AS FLOAT8) + CAST('0.2' AS FLOAT8)` arrives as `0.30000000000000004`. [Compare them with a tolerance](https://www.php.net/manual/en/language.types.float.php#language.types.float.comparison), never with `===`:
+From PHP 8.4, `double precision` and `real` results are PHP floats with [the usual binary rounding](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-FLOAT): `CAST('0.1' AS FLOAT8) + CAST('0.2' AS FLOAT8)` arrives as `0.30000000000000004`. [Compare them with a tolerance](https://www.php.net/manual/en/language.types.float.php#language.types.float.comparison), never with `===`:
 
 ```php
 self::assertEqualsWithDelta(132095.96, $row['metres'], 0.01);
