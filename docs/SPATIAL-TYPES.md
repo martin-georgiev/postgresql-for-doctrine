@@ -1,53 +1,28 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Spatial types (foundations)
 
-This page describes the core primitives used by the spatial DBAL types: parsing, normalization, and enum-driven patterns.
-
-## SpatialDataArray base class
-
-`SpatialDataArray` is the base for `GeometryArray` and `GeographyArray`. It provides:
-- Parsing of PostgreSQL array literals containing WKT/EWKT elements
-  - Handles nested parentheses and quoted/unquoted array elements
-  - Splits correctly even when commas occur inside coordinate lists
-- Normalization of dimensional modifiers and spacing
-  - `POINTZ(...)` → `POINT Z(...)`
-  - `LINESTRINGM(...)` → `LINESTRING M(...)`
-  - `POLYGONZM(...)` → `POLYGON ZM(...)`
-  - `POINT Z (...)` → `POINT Z(...)`
-  - `SRID=4326;POINT Z (...)` → `SRID=4326;POINT Z(...)`
-
-Parsing outputs a list of `WktSpatialData` value objects that Doctrine DBAL can bind.
+A `geometry` or `geography` column maps to the `WktSpatialData` value object, which holds the value as WKT or EWKT text. This page shows how to build one, which geometry types it accepts, how to constrain a column, and what fails.
 
 > **See also:** [PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for working with spatial data in queries
 
-## Enum-driven patterns
-
-Two enums drive normalization so the code and docs remain consistent:
-- `GeometryType` - set of supported geometry type names (`POINT`, `LINESTRING`, `POLYGON` and the rest)
-- `DimensionalModifier` - dimensional markers (`Z`, `M`, `ZM`)
-
-Regex patterns for geometry type detection and dimensional modifier handling are built from these enums instead of hardcoded strings.
-
 ## Creating spatial data
 
-The `WktSpatialData` value object provides multiple ways to create spatial data:
+Build a `WktSpatialData` from a string, from its parts, or with the point shortcuts:
 
-### From WKT string (traditional)
+### From a WKT or EWKT string
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
-// Parse complete WKT/EWKT strings
 $point = WktSpatialData::fromString('POINT(1 2)');
 $pointWithSrid = WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)');
 $line = WktSpatialData::fromString('LINESTRING(0 0, 1 1, 2 2)');
 ```
 
-### From components (programmatic)
+### From its parts
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
 
-// Build from individual components
 $point = WktSpatialData::fromComponents(
     GeometryType::POINT,
     '1 2'
@@ -77,7 +52,7 @@ $polygon4d = WktSpatialData::fromComponents(
 );
 ```
 
-### Convenience methods for points
+### Point shortcuts
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
@@ -100,7 +75,7 @@ $location3d = WktSpatialData::point3d(-122.4194, 37.7749, 100, 4326);
 
 ## Supported geometry types
 
-The library supports all PostGIS geometry types through the `GeometryType` enum:
+`WktSpatialData` accepts every geometry type PostGIS has; the `GeometryType` enum lists them.
 
 ### Basic geometry types
 ```php
@@ -137,7 +112,7 @@ $multiPolygon = WktSpatialData::fromString('MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0
 $collection = WktSpatialData::fromString('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))');
 ```
 
-### Circular geometry types (PostGIS extensions)
+### Curved geometry types
 ```php
 // Circular string
 $circularString = WktSpatialData::fromString('CIRCULARSTRING(0 0, 1 1, 2 0)');
@@ -217,9 +192,9 @@ Both options are optional and independent:
 
 ## Geography vs geometry specifics
 
-- Geometry accepts WKT and [EWKT](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT) (`SRID=...;...`).
-- Geography commonly uses SRID 4326; EWKT is supported: `SRID=4326;POINT(...)`.
-- Dimensional modifiers (Z, M, ZM) are normalized consistently for both types.
+- Both accept WKT and [EWKT](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT), which adds the SRID in front: `SRID=4326;POINT(1 2)`.
+- A `geography` value always has an SRID. PostGIS stores SRID-less input as 4326, so `POINT(1 2)` reads back as `SRID=4326;POINT(1 2)`.
+- Both normalize the dimensional modifiers (`Z`, `M`, `ZM`) the same way.
 
 ## Arrays
 
@@ -228,7 +203,7 @@ Both options are optional and independent:
 
 See [Geometry and geography arrays](GEOMETRY-ARRAYS.md) for details and examples.
 
-## Minimal examples
+## Registering and binding
 
 ### Registration
 
@@ -270,15 +245,16 @@ See [Geometry and geography arrays](GEOMETRY-ARRAYS.md) for more array examples.
 
 ## Error handling and validation
 
-The spatial types provide error handling for invalid spatial data:
+A malformed string fails when you build the value object, before anything reaches PostgreSQL. A wrong value handed to the DBAL type fails in the type.
 
-### Common validation errors
+### Invalid WKT
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
 try {
-    // Invalid WKT format
+    // Unknown geometry type
     $invalid = WktSpatialData::fromString('INVALID(1 2)');
 } catch (InvalidWktSpatialDataException $e) {
     // Throws: "Unsupported geometry type: 'INVALID'. Supported types: POINT, LINESTRING, POLYGON, …"
@@ -306,7 +282,7 @@ try {
 }
 ```
 
-### Database conversion errors
+### Invalid values in the DBAL type
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForDatabaseException;
@@ -327,10 +303,11 @@ try {
 }
 ```
 
-### Validation best practices
+### Checking a value before you use it
+
+`fromString()` is the validator: catch its exception to test a string, then read the type and SRID from the value object.
 
 ```php
-// Validate WKT before database operations
 function validateSpatialData(string $wkt): bool {
     try {
         WktSpatialData::fromString($wkt);
@@ -340,15 +317,21 @@ function validateSpatialData(string $wkt): bool {
     }
 }
 
-// Check geometry type before processing
-$spatialData = WktSpatialData::fromString('POINT(1 2)');
-if ($spatialData->getGeometryType() === GeometryType::POINT) {
-    // Process point-specific logic
-}
-
-// Validate SRID for geography operations
-$geographyData = WktSpatialData::fromString('SRID=4326;POINT(-122 37)');
-if ($geographyData->getSrid() === 4326) {
-    // Valid for geography operations
-}
+$spatialData = WktSpatialData::fromString('SRID=4326;POINT(-122 37)');
+$spatialData->getGeometryType(); // GeometryType::POINT
+$spatialData->getSrid();         // 4326, or null when the string carries no SRID
 ```
+
+## How the values are parsed
+
+`WktSpatialData::fromString()` reads WKT and EWKT and writes the dimensional modifier in one spelling:
+
+- `POINTZ(...)` → `POINT Z(...)`
+- `LINESTRINGM(...)` → `LINESTRING M(...)`
+- `POLYGONZM(...)` → `POLYGON ZM(...)`
+- `POINT Z (...)` → `POINT Z(...)`
+- `SRID=4326;POINT Z (...)` → `SRID=4326;POINT Z(...)`
+
+The type names and modifiers it accepts come from two enums, `GeometryType` and `DimensionalModifier`.
+
+`GeometryArray` and `GeographyArray` share the `SpatialDataArray` base. It splits a PostgreSQL array literal into items, quoted or not, and keeps an item whole when its coordinate list contains commas or nested parentheses.

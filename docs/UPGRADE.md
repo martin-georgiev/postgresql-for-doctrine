@@ -20,21 +20,18 @@ Only those nine change what the DBAL types throw - same messages, different clas
 
 ## How to upgrade to version 3.0
 
-### 1. Review type handling in your code
-If your application relies on automatic type conversion between PostgreSQL and PHP (such as expecting string numbers to be converted to actual numbers or vice versa), you need to update your code to explicitly handle type conversion where needed.
+### 1. Array items keep their type
+
+Since 3.0 the array types keep each item's type in both directions: `1` stays an `int`, `1.5` a `float`, `'1'` a string and `true` a `bool`, and `'1.23e5'` keeps its notation. Before 3.0 a numeric string in a `text[]` could arrive as a number. Where your code relied on that, convert explicitly:
 
 ```php
-// Before: Might convert '1.0' to integer 1
-$tags = $entity->getTags(); // ['1.0', '2.5']
-$numericValue = $tags[0] + 2; // Would work even if string
-
-// After: Preserves '1.0' as string
-$tags = $entity->getTags(); // ['1.0', '2.5']
-$numericValue = (float)$tags[0] + 2; // Explicit conversion needed
+$tags = $entity->getTags();    // a text[] holding {1.0,2.5} reads as ['1.0', '2.5']
+$total = (float) $tags[0] + 2; // convert where you need a number
 ```
 
-### 2. Update your code to handle exceptions
-If you catch specific exception types when working with `JsonbArray`, update your exception handling to catch the new `InvalidJsonItemForPHPException` and `InvalidJsonArrayItemForPHPException`.
+### 2. `JsonbArray` throws its own exceptions
+
+A `JsonbArray` item that cannot be converted now throws `InvalidJsonItemForPHPException` or `InvalidJsonArrayItemForPHPException` instead of the generic `TypeException`. Update the `catch` blocks that caught the old one:
 
 ```php
 // Before
@@ -52,6 +49,6 @@ try {
 }
 ```
 
-### 3. Test thoroughly
-Since these changes affect data type handling at a fundamental level, thoroughly test all database interactions, especially those involving array types, to ensure your application handles the preserved types correctly.
+### 3. Test the array columns
 
+The array columns are the ones whose values can change type, so run your tests against every query that reads or writes one.

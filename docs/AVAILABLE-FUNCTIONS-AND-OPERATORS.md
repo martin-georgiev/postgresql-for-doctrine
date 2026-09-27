@@ -8,7 +8,7 @@ This page lists the PostgreSQL functions and operators available in this library
 
 Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
-| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
+| Operator | Array/JSON usage | Spatial usage | Text/pattern usage |
 |---|---|---|---|
 | `@>` | `CONTAINS` (arrays contain elements) | N/A (PostGIS defines no `@>`; see `~`) | N/A |
 | `<@` | `IS_CONTAINED_BY` (element in array) | N/A (PostGIS defines no `<@`; see `@`) | N/A |
@@ -20,70 +20,48 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 - **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations → [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md)
 - **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations → [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching → [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
-- **Boolean operators**: All spatial operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**
+- **Boolean operators**: the containment, overlap and bounding box operators return booleans and **must be compared with `= TRUE` or `= FALSE` in DQL**
 - **The rules behind these names**, and the ones every function follows (`= TRUE`, `FILTER` and `OVER`, literals and parameters): [The DQL dialect](DQL-DIALECT.md)
 
 ## Function and operator categories
 
-This library provides comprehensive PostgreSQL function and operator support organized into the following categories:
+Each category has its own page:
 
 ### Array and JSON functions
-Complete documentation for array manipulation and JSON/JSONB operations.
-- **[Array and JSON functions and operators](ARRAY-AND-JSON-FUNCTIONS.md)**
-- Includes: Array operators (`@>`, `<@`, `&&`), JSON operators (`->`, `->>`, `#>`, `#>>`), array functions, JSON functions, JSONB functions
+[Array and JSON functions and operators](ARRAY-AND-JSON-FUNCTIONS.md): the array operators (`@>`, `<@`, `&&`), the JSON operators (`->`, `->>`, `#>`, `#>>`), and the array, JSON, JSONB and JSON path functions.
 
 ### PostGIS spatial functions
-Complete documentation for PostGIS spatial operations and geometry processing.
-- **[PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md)**
-- Includes: Bounding box operators, distance operators, spatial relationship functions, measurement functions, overlay functions, geometry processing functions
+[PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md): the bounding box and distance operators, and the accessor, constructor, relationship, measurement, overlay, processing, editor and linear referencing functions.
 
 ### Text and pattern functions
-Complete documentation for text processing, pattern matching, regular expressions, and hashing.
-- **[Text and pattern functions and operators](TEXT-AND-PATTERN-FUNCTIONS.md)**
-- Includes: Text operators (`~`, `ilike`, `@@`), regular expression functions, text processing functions, full-text search functions, fuzzy string matching functions, hashing and checksum functions
+[Text and pattern functions and operators](TEXT-AND-PATTERN-FUNCTIONS.md): the text operators (`~`, `ilike`, `@@`), regular expressions, text processing, full-text search, fuzzy string matching, and hashing and checksums.
 
 ### Date and range functions
-Complete documentation for date/time operations and range type functions.
-- **[Date, time, and range functions](DATE-AND-RANGE-FUNCTIONS.md)**
-- Includes: Date/time functions, range creation functions, range operators, temporal operations
+[Date, time, and range functions](DATE-AND-RANGE-FUNCTIONS.md): date and time arithmetic and extraction, range constructors, and the range operators.
 
 ### Mathematical functions
-Complete documentation for mathematical operations.
-- **[Mathematical functions](MATHEMATICAL-FUNCTIONS.md)**
-- Includes: Mathematical functions, trigonometric functions, statistical functions
+[Mathematical functions](MATHEMATICAL-FUNCTIONS.md): arithmetic, rounding, trigonometry, random numbers, the bitwise and boolean aggregates (`BIT_AND`, `BOOL_OR`, `EVERY`, …) and the statistical aggregates (`CORR`, `STDDEV`, `PERCENTILE_CONT`, `MODE`, …).
 
 ### Utility functions
-Complete documentation for type conversion, formatting, and UUID functions.
-- **[Utility functions](UTILITY-FUNCTIONS.md)**
-- Includes: Type casting (`cast`), data formatting (`to_char`, `to_number`), UUID generation and inspection (`uuidv4`, `uuidv7`, `uuid_extract_timestamp`, `uuid_extract_version`)
+[Utility functions](UTILITY-FUNCTIONS.md): type casting (`CAST`), formatting (`TO_CHAR`, `TO_NUMBER`), and UUID generation and inspection (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`, `UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`).
 
 ### XML functions
-Complete documentation for PostgreSQL XML processing, validation, and XPath querying.
-- **[XML functions](XML-FUNCTIONS.md)**
-- Includes: XML aggregation (`xmlagg`), XML validation (`xml_is_well_formed`, `xml_is_well_formed_document`, `xml_is_well_formed_content`), XML construction (`xmltext`, `xmlcomment`, `xmlconcat`), XPath querying (`xpath`, `xpath_exists`)
+[XML functions](XML-FUNCTIONS.md): aggregation (`XMLAGG`), well-formedness checks (`XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT`), construction (`XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI`) and XPath (`XPATH`, `XPATH_EXISTS`, `XMLEXISTS`).
 
 ### Window functions
-Complete documentation for PostgreSQL window functions, with `OVER` wrapping the call and its window specification, including frame clauses.
-- **[Window functions](WINDOW-FUNCTIONS.md)**
-- Includes: `OVER` for running any aggregate as a window function, the ranking functions `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE`, and the value functions `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, `NTH_VALUE`
+[Window functions](WINDOW-FUNCTIONS.md): `OVER` for running any aggregate over a window, with frame clauses, the ranking functions `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST` and `NTILE`, and the value functions `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE`.
 
 ### Network address functions
-Complete documentation for PostgreSQL network address operations on `inet` and `cidr` types.
-- **[Network address functions](NETWORK-FUNCTIONS.md)**
-- Includes: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK`, `FAMILY`, `MASKLEN`, `ABBREV`, `INET_MERGE`, `INET_SAME_FAMILY`, `SET_MASKLEN`
+[Network address functions](NETWORK-FUNCTIONS.md): taking an `inet` or `cidr` value apart (`HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK`), reading it (`FAMILY`, `MASKLEN`, `ABBREV`), combining two (`INET_MERGE`, `INET_SAME_FAMILY`) and changing the mask (`SET_MASKLEN`).
 
 ### Hstore functions (requires [hstore](https://www.postgresql.org/docs/18/hstore.html) extension)
-Key-value store operations using the PostgreSQL `hstore` type.
-- **[Hstore functions](HSTORE-FUNCTIONS.md)**
-- Includes: `HSTORE_AKEYS`, `HSTORE_AVALS`, `HSTORE_SKEYS`, `HSTORE_SVALS`, `HSTORE_TO_JSON`, `HSTORE_TO_JSON_LOOSE`, `HSTORE_DEFINED`, `HSTORE_DELETE`
+[Hstore functions](HSTORE-FUNCTIONS.md): keys and values as arrays or sets (`HSTORE_AKEYS`, `HSTORE_SKEYS`, `HSTORE_AVALS`, `HSTORE_SVALS`), `HSTORE_DEFINED`, `HSTORE_DELETE`, and conversion to JSON (`HSTORE_TO_JSON`, `HSTORE_TO_JSON_LOOSE`).
 
 ### Ltree functions
-Complete documentation for PostgreSQL ltree (label tree) operations and hierarchical data processing.
-- **[Ltree functions](LTREE-TYPE.md)**
-- Includes: Path manipulation functions, ancestor/descendant operations, type conversion functions
+[PostgreSQL ltree types](LTREE-TYPE.md): extracting subpaths, path length and position, the longest common ancestor, conversion to and from text, and the `lquery` and `ltxtquery` match operators.
 
 ### Vector distance functions (requires [pgvector](https://github.com/pgvector/pgvector) extension)
-Distance functions for fixed-dimension float vectors stored with the `vector` type.
+Distance functions for fixed-dimension float vectors stored with the `vector` type:
 - `L2_DISTANCE` - Euclidean (L2) distance between two vectors
 - `COSINE_DISTANCE` - Cosine distance between two vectors
 - `INNER_PRODUCT` - Inner (dot) product of two vectors
@@ -92,26 +70,26 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 
 ### Most commonly used functions
 
-**Array Operations:** ([Complete documentation](ARRAY-AND-JSON-FUNCTIONS.md))
+**Array Operations:** ([full list](ARRAY-AND-JSON-FUNCTIONS.md))
 - `CONTAINS` (`@>`) - Test if array/range contains elements
 - `OVERLAPS` (`&&`) - Test if arrays/ranges overlap
 - `ARRAY_AGG` - Aggregate values into arrays
 - `FILTER` - Restrict the rows an aggregate reads (`FILTER (WHERE ...)`)
 
-**JSON Operations:** ([Complete documentation](ARRAY-AND-JSON-FUNCTIONS.md))
+**JSON Operations:** ([full list](ARRAY-AND-JSON-FUNCTIONS.md))
 - `JSON_GET_FIELD_AS_TEXT` (`->>`) - Extract JSON field as text
 - `JSON_BUILD_OBJECT` - Build JSON objects
 - `JSONB_PATH_EXISTS` - Test JSON path existence
 
-**Spatial Operations:** ([Complete documentation](SPATIAL-FUNCTIONS-AND-OPERATORS.md))
+**Spatial Operations:** ([full list](SPATIAL-FUNCTIONS-AND-OPERATORS.md))
 - `ST_INTERSECTS` - Test if geometries intersect
 - `ST_DISTANCE` - Calculate distance between geometries
 - `ST_CONTAINS` - Test spatial containment
 
-**Text Operations:** ([Complete documentation](TEXT-AND-PATTERN-FUNCTIONS.md))
+**Text Operations:** ([full list](TEXT-AND-PATTERN-FUNCTIONS.md))
 - `ASCII` - Get numeric code of first character
 - `BTRIM`/`LTRIM`/`RTRIM` - Trim characters from string ends
-- `CASEFOLD` - Advanced case-insensitive text comparison with Unicode support
+- `CASEFOLD` - Fold case for a case-insensitive comparison that follows Unicode (PostgreSQL 18)
 - `CHR` - Get character from code point
 - `ILIKE` - Case-insensitive pattern matching
 - `INITCAP` - Capitalize first letter of each word
@@ -127,7 +105,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `CRC32`/`CRC32C` - CRC checksum computation
 - `REVERSE_BYTES` - Reverse byte order for bytea values
 
-**Date/Range Operations:** ([Complete documentation](DATE-AND-RANGE-FUNCTIONS.md))
+**Date/Range Operations:** ([full list](DATE-AND-RANGE-FUNCTIONS.md))
 - `CLOCK_TIMESTAMP` - Current timestamp at call time
 - `DATE_ADD` - Add interval to date
 - `DATE_EXTRACT` - Extract date components
@@ -137,7 +115,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `STATEMENT_TIMESTAMP` - Timestamp of current SQL statement
 - `TRANSACTION_TIMESTAMP` - Timestamp of current transaction
 
-**Mathematical Operations:** ([Complete documentation](MATHEMATICAL-FUNCTIONS.md))
+**Mathematical Operations:** ([full list](MATHEMATICAL-FUNCTIONS.md))
 - `DIV`/`GCD`/`LCM`/`FACTORIAL` - Integer arithmetic functions
 - `ERF`/`ERFC` - Error and complementary error functions
 - `GAMMA`/`LGAMMA` - Gamma function for statistical calculations
@@ -147,28 +125,28 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **Bitwise/Boolean Aggregates**: `BIT_AND`, `BIT_OR`, `BIT_XOR`, `BOOL_AND`, `BOOL_OR`, `EVERY`
 - **Statistical Aggregates**: `CORR`, `COVAR_POP`, `COVAR_SAMP`, `MODE`, `PERCENTILE_CONT`, `PERCENTILE_DISC`, `STDDEV`, `STDDEV_POP`, `VAR_POP`, `VARIANCE`
 
-**Utility Functions:** ([Complete documentation](UTILITY-FUNCTIONS.md))
+**Utility Functions:** ([full list](UTILITY-FUNCTIONS.md))
 - `CAST` - General type conversion
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
 - `GEN_RANDOM_UUID` - Generate a random UUID (version 4)
 - `UUIDV4` - Explicit UUID version 4 generation
-- `UUIDV7` - Generate timestamp-ordered UUIDs (version 7) for better database performance
+- `UUIDV7` - Generate a UUID (version 7) that sorts by creation time
 - `UUID_EXTRACT_TIMESTAMP` - Extract timestamp from UUID v1 or v7
 - `UUID_EXTRACT_VERSION` - Extract version number from UUID
 
-**Network Address Operations:** ([Complete documentation](NETWORK-FUNCTIONS.md))
+**Network Address Operations:** ([full list](NETWORK-FUNCTIONS.md))
 - `HOST`/`NETWORK`/`BROADCAST` - Extract address parts
 - `MASKLEN`/`NETMASK`/`HOSTMASK` - Mask information
 - `INET_MERGE` - Smallest network containing two addresses
 
-**Hstore Operations:** ([Complete documentation](HSTORE-FUNCTIONS.md))
+**Hstore Operations:** ([full list](HSTORE-FUNCTIONS.md))
 - `HSTORE_AKEYS` - Return hstore keys as an array
 - `HSTORE_AVALS` - Return hstore values as an array
 - `HSTORE_DEFINED` - Check if key exists and is not NULL
 - `HSTORE_DELETE` - Delete key from hstore
 
-**Ltree Operations:** ([Complete documentation](LTREE-TYPE.md))
+**Ltree Operations:** ([full list](LTREE-TYPE.md))
 - `SUBLTREE` - Extract subpath from ltree
 - `SUBPATH` - Extract subpath with offset and length
 - `NLEVEL` - Get number of labels in path
@@ -188,7 +166,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 **Composite Types:**
 - `COMPOSITE_FIELD` - Access a field from a PostgreSQL composite type column → [Use cases and examples](USE-CASES-AND-EXAMPLES.md#using-postgresql-composite-types)
 
-**XML Functions:** ([Complete documentation](XML-FUNCTIONS.md))
+**XML Functions:** ([full list](XML-FUNCTIONS.md))
 - `XML_IS_WELL_FORMED` - Check whether a text string is well-formed XML
 - `XML_IS_WELL_FORMED_CONTENT` - Check whether a text string is well-formed XML content
 - `XML_IS_WELL_FORMED_DOCUMENT` - Check whether a text string is a well-formed XML document
@@ -201,7 +179,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `XPATH` - Evaluate an XPath expression against an XML value, returning matched nodes
 - `XPATH_EXISTS` - Test if an XPath expression matches any node in an XML value
 
-**Window Functions:** ([Complete documentation](WINDOW-FUNCTIONS.md))
+**Window Functions:** ([full list](WINDOW-FUNCTIONS.md))
 - `OVER` - Run an aggregate or a window function over a window, such as running totals and moving averages
 - `ROW_NUMBER`/`RANK`/`DENSE_RANK` - Number or rank rows within their partition
 - `PERCENT_RANK`/`CUME_DIST` - Relative rank and cumulative distribution within the partition
@@ -209,80 +187,10 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `LAG`/`LEAD` - Value from a row before or after the current one
 - `FIRST_VALUE`/`LAST_VALUE`/`NTH_VALUE` - Value from the first, last or n-th row of the window frame
 
-## Summary of available function categories
+## Related pages
 
-### Array & JSON functions
-- **Array Operations**: Manipulate PostgreSQL arrays (append, remove, replace, shuffle)
-- **JSON Functions**: Work with JSON/JSONB data types
-- **JSONB Path Functions**: Advanced JSONB querying with path expressions
-
-### Spatial functions (PostGIS)
-- **Accessor Functions**: Retrieve geometry properties
-- **Constructor Functions**: Create geometries from coordinates and parameters
-- **Relationship Functions**: Test spatial relationships between geometries
-- **Measurement Functions**: Calculate distances, areas, lengths, and angles
-- **Overlay Functions**: Perform geometric operations (intersection, union, difference)
-- **Processing Functions**: Transform, simplify, and modify geometries
-- **Editor Functions**: Modify geometry properties (SRID, coordinates, snapping, segmentizing)
-- **Linear Referencing Functions**: Locate points and substrings along linear geometries
-
-### Text & pattern functions
-- **Regexp Functions**: Pattern matching and replacement
-- **Text Functions**: String manipulation and searching (`ascii`, `btrim`, `chr`, `initcap`, `lpad`, `ltrim`, `octet_length`, `quote_ident`, `quote_literal`, `quote_nullable`, `rpad`, `rtrim`, `strpos`, `translate`, and more)
-- **Full-Text Search**: PostgreSQL's text search capabilities
-- **Fuzzy String Matching**: Phonetic and edit distance algorithms (fuzzystrmatch extension)
-- **Hashing & Checksum**: MD5, SHA-2 family, CRC32, CRC32C, REVERSE_BYTES
-
-### Date & range functions
-- **Date Operations**: Add/subtract dates, extract components
-- **Range Types**: Create and work with various range types
-- **Overlap Testing**: Check if date ranges overlap
-
-### Hstore functions (requires hstore extension)
-- **Key Operations**: Get keys as array or set (`akeys`, `skeys`)
-- **Value Operations**: Get values as array or set (`avals`, `svals`)
-- **Inspection**: Check if key is defined and non-NULL (`defined`)
-- **Manipulation**: Delete key from hstore (`delete`)
-- **Conversion**: Convert hstore to JSON, with strict or loose typing (`hstore_to_json`, `hstore_to_json_loose`)
-
-### Ltree functions
-- **Path Operations**: Extract subpaths, manipulate hierarchical paths
-- **Ancestor Operations**: Find common ancestors, calculate path levels
-- **Type Conversion**: Convert between `ltree` and text types
-
-### Mathematical functions
-- **Basic Math**: Power, square root, trigonometric functions
-- **Statistical**: Random numbers, rounding, precision functions
-- **Bitwise/Boolean Aggregates**: bit_and, bit_or, bit_xor, bool_and, bool_or, every
-- **Statistical Aggregates**: corr, covar_pop, covar_samp, mode, percentile_cont, percentile_disc, stddev, stddev_pop, var_pop, variance
-
-### Utility functions
-- **Type Conversion**: `CAST` for general type conversion
-- **Formatting**: `TO_CHAR` for numbers and dates, `TO_NUMBER` for parsing
-- **UUID**: Generation (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`) and inspection (`UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`)
-
-### XML functions
-- **Aggregation**: `XMLAGG` - aggregate XML values with optional ordering
-- **Validation**: `XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT` - check XML well-formedness
-- **Construction**: `XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI` - create and combine XML values
-- **XPath Querying**: `XPATH`, `XPATH_EXISTS`, `XMLEXISTS` - extract nodes and test existence
-
-### Network address functions
-- **Extraction**: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK` - decompose `inet`/`cidr` types
-- **Inspection**: `FAMILY`, `MASKLEN`, `ABBREV` - address metadata
-- **Multi-address**: `INET_MERGE`, `INET_SAME_FAMILY` - compare or combine addresses
-- **Modification**: `SET_MASKLEN` - adjust subnet mask length
-
-### Operators
-- **Array Operators**: Contains, overlaps, element testing
-- **Spatial Operators**: Bounding box and distance operations
-- **Text Operators**: Pattern matching and concatenation
-
----
-
-**For More Information:**
-- [Available types](AVAILABLE-TYPES.md) - PostgreSQL data types supported by this library
-- [Value objects for range types](RANGE-TYPES.md) - Working with range value objects
-- [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) - Practical examples and patterns
-- [Spatial types](SPATIAL-TYPES.md) - PostGIS geometry and geography types
-- [Geometry arrays](GEOMETRY-ARRAYS.md) - Working with arrays of geometric types
+- [Available types](AVAILABLE-TYPES.md): the PostgreSQL types this library maps
+- [PostgreSQL range types](RANGE-TYPES.md): the range value objects
+- [Common use cases and examples](USE-CASES-AND-EXAMPLES.md): the functions in whole queries
+- [Spatial types](SPATIAL-TYPES.md): the `geometry` and `geography` value object
+- [Geometry and geography arrays](GEOMETRY-ARRAYS.md): arrays of spatial values

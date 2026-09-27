@@ -2,13 +2,13 @@
 
 This page covers PostgreSQL [array](https://www.postgresql.org/docs/18/functions-array.html) and [JSON/JSONB](https://www.postgresql.org/docs/18/functions-json.html) operators and functions available in this library.
 
-> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for practical JSON and array usage examples
+> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## Array and JSON operators
 
 Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
-| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
+| Operator | Array/JSON usage | Spatial usage | Text/pattern usage |
 |---|---|---|---|
 | `@>` | `CONTAINS` (arrays contain elements) | N/A (PostGIS defines no `@>`; see `~`) | N/A |
 | `<@` | `IS_CONTAINED_BY` (element in array) | N/A (PostGIS defines no `<@`; see `@`) | N/A |

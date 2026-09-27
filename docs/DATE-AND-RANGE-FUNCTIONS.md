@@ -2,7 +2,7 @@
 
 This page covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/functions-datetime.html), and [range functions](https://www.postgresql.org/docs/18/functions-range.html) available in this library.
 
-> **See also:** [Range types](RANGE-TYPES.md) for range value objects and [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for practical date and range examples
+> **See also:** [Range types](RANGE-TYPES.md) for range value objects and [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## Date and time functions
 

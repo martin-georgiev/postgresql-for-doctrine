@@ -2,13 +2,13 @@
 
 This page covers PostgreSQL [text processing](https://www.postgresql.org/docs/18/functions-string.html), [pattern matching](https://www.postgresql.org/docs/18/functions-matching.html), and regular expression functions and operators available in this library.
 
-> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for practical text processing and regular expression examples
+> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## Text and pattern operators
 
 Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
-| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
+| Operator | Array/JSON usage | Spatial usage | Text/pattern usage |
 |---|---|---|---|
 | `~` | N/A | `SPATIAL_CONTAINS` (bounding box contains) | `REGEXP` (text pattern matching) |
 

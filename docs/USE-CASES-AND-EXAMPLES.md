@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Common use cases and examples
 
-## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
+## Operators such as `ILIKE` are functions in DQL
 
 `Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is one of the most common DQL errors with this library. `ILIKE` is not one of [the operators DQL knows](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#other-expressions-1), and Doctrine has no way to add one, so this library registers `ILIKE` as a boolean function instead. [A boolean function needs a comparison](DQL-DIALECT.md#boolean-functions-need-a-comparison).
 
@@ -23,31 +23,34 @@ FROM EmailEntity e
 WHERE ILIKE(e.subject, 'Test email') = TRUE
 ```
 
+`CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and the other operators this library adds work the same way.
+
 ## Using JSON_BUILD_OBJECT and JSONB_BUILD_OBJECT
 
-These functions currently only support string literals and object references as arguments. Here are some valid examples:
+Both functions take keys and values in turns. Each argument can be a string literal, a field, or an expression such as an aggregate. A number, `TRUE`, `FALSE` or `NULL` written straight into the DQL does not parse. A bare parameter parses, but PostgreSQL rejects it with `could not determine data type of parameter`, so wrap it in `CAST`:
 
-> **See also:** [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSON/JSONB function documentation
+> **See also:** [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md) for every JSON and JSONB function
 
 ```sql
--- Basic usage with string literals and entity properties
+-- Fields and string literals
 SELECT JSON_BUILD_OBJECT('name', e.userName, 'email', e.userEmail) FROM User e
-
--- Multiple key-value pairs
 SELECT JSONB_BUILD_OBJECT('id', e.id, 'status', 'active', 'type', e.userType) FROM Employee e
 
--- Invalid usage (will not work):
-SELECT JSON_BUILD_OBJECT('count', COUNT(*))  -- Aggregate functions not supported
-SELECT JSONB_BUILD_OBJECT('number', 123)     -- All number types, NULL and boolean values not supported currently
-```
+-- An aggregate as a value
+SELECT JSON_BUILD_OBJECT('category', e.category, 'count', COUNT(e.id)) FROM Entity e GROUP BY e.category
 
-Keys must always be string literals, while values can be either string literals or object property references.
+-- A number from a parameter
+SELECT JSONB_BUILD_OBJECT('limit', CAST(:limit AS INTEGER)) FROM Entity e
+
+-- Does not parse: a number, boolean or NULL literal
+SELECT JSONB_BUILD_OBJECT('number', 123) FROM Entity e
+```
 
 ## Using JSON path functions
 
-PostgreSQL 12+ introduced [JSON path functions](https://www.postgresql.org/docs/18/functions-json.html#FUNCTIONS-SQLJSON-PATH) that provide a powerful way to query JSON data. Here are some examples:
+The [JSON path functions](https://www.postgresql.org/docs/18/functions-json.html#FUNCTIONS-SQLJSON-PATH) query a `jsonb` value with a path expression. They need PostgreSQL 12 or newer, and the two that return a boolean need `= TRUE`:
 
-> **See also:** [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
+> **See also:** [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md) for every JSON path function
 
 ```sql
 -- Check if a JSON path exists with a condition
@@ -68,9 +71,9 @@ SELECT e.id, JSONB_PATH_QUERY_FIRST(e.jsonData, '$.items[*] ? (@.featured == tru
 
 ## Using regular expression functions
 
-PostgreSQL 15+ introduced additional regular expression functions that provide more flexibility when working with text data:
+`REGEXP_COUNT`, `REGEXP_INSTR` and `REGEXP_SUBSTR` need PostgreSQL 15 or newer:
 
-> **See also:** [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md) for complete regular expression and text processing documentation
+> **See also:** [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md) for every regular expression and text function
 
 ```sql
 -- Count occurrences of a pattern
@@ -85,9 +88,9 @@ SELECT e.id, REGEXP_SUBSTR(e.text, 'https?://[\w.-]+') as url FROM Entity e
 
 ## Using date functions
 
-Newer PostgreSQL versions introduced additional date functions (`DATE_BIN` in 14, `DATE_ADD` and `DATE_SUBTRACT` in 16) that provide more flexibility when working with dates and timestamps:
+`DATE_BIN` needs PostgreSQL 14 or newer, and `DATE_ADD` and `DATE_SUBTRACT` need PostgreSQL 16. The time zone argument is optional:
 
-> **See also:** [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md) for complete date/time and range function documentation
+> **See also:** [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md) for every date, time and range function
 
 ```sql
 -- Bin timestamps into 15-minute intervals
@@ -213,9 +216,9 @@ SELECT p.name, OVER(RANK(), ORDER BY p.score DESC) AS scoreRank FROM Player p
 
 ## Using range types
 
-PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:
+Map a range column to its value object, then query it with the range operators:
 
-> **See also:** [Range types](RANGE-TYPES.md) for complete range value object documentation and [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions
+> **See also:** [Range types](RANGE-TYPES.md) for the range value objects and [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions
 
 ```php
 // Entity with range fields
@@ -254,10 +257,9 @@ SELECT p FROM Product p WHERE CONTAINS(p.availabilityPeriod, DATERANGE('2024-06-
 SELECT p FROM Product p WHERE CONTAINS(p.priceRange, NUMRANGE('25.0', '25.0', '[]')) = TRUE
 ```
 
-
 ## Using PostgreSQL composite types
 
-PostgreSQL composite types allow you to define custom structured types with named fields. This library provides the `COMPOSITE_FIELD` function to access fields from composite type columns in DQL.
+A composite type groups named fields into one column. `COMPOSITE_FIELD` reads a single field of it in DQL.
 
 > **See also:** [PostgreSQL composite types](COMPOSITE-TYPE.md) · [composite types in the PostgreSQL manual](https://www.postgresql.org/docs/18/rowtypes.html)
 
@@ -316,11 +318,27 @@ class Product
 
 ## Using PostGIS types
 
+> **Requires the [`postgis`](https://postgis.net/docs/postgis_installation.html) extension:** `CREATE EXTENSION IF NOT EXISTS postgis;`
 
 ### Using PostGIS types with Doctrine DBAL (geometry/geography)
 
+Register the types, then bind `WktSpatialData` values. They travel to and from PostgreSQL as WKT or EWKT text.
+
+```sql
+CREATE TABLE places (
+    id SERIAL PRIMARY KEY,
+    location GEOMETRY,
+    boundary GEOGRAPHY
+);
+```
+
 ```php
+use Doctrine\DBAL\Types\Type as DoctrineType;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
+
+DoctrineType::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
+DoctrineType::addType('geometry[]', MartinGeorgiev\Doctrine\DBAL\Types\GeometryArray::class);
+DoctrineType::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
 
 // Insert a single geometry value
 $qb = $connection->createQueryBuilder();
@@ -341,7 +359,7 @@ $qb->setParameter('wktSpatialData', [WktSpatialData::fromString('LINESTRING(0 0,
 $qb->executeStatement();
 ```
 
-Dimensional modifiers are supported and normalized:
+`WktSpatialData` writes each dimensional modifier in one spelling:
 
 ```
 POINTZ(1 2 3)              => POINT Z(1 2 3)
@@ -350,11 +368,13 @@ POLYGONZM((...))           => POLYGON ZM((...))
 POINT Z (1 2 3)            => POINT Z(1 2 3)
 ```
 
+For array columns, see [Geometry and geography arrays](GEOMETRY-ARRAYS.md).
+
 ### Using PostGIS spatial operators in DQL
 
-PostGIS spatial operators allow you to perform spatial queries using bounding box relationships and distance calculations. The bounding box operators return booleans and must be compared with `= TRUE` or `= FALSE` in DQL; the distance operators return numbers.
+The PostGIS operators compare bounding boxes or measure distances. The bounding box operators return booleans and must be compared with `= TRUE` or `= FALSE` in DQL; the distance operators return numbers.
 
-> **See also:** [PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for complete spatial function documentation
+> **See also:** [PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for every spatial function and operator
 
 #### Bounding box spatial relationships
 
@@ -366,7 +386,7 @@ SELECT e FROM Entity e WHERE STRICTLY_LEFT(e.geometry, 'POINT(0 0)') = TRUE
 SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, 'POINT(1 1)') = TRUE
 
 -- Find geometries contained within a bounding box
-SELECT e FROM Entity e WHERE SPATIAL_CONTAINED_BY(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE
+SELECT e FROM Entity e WHERE SPATIAL_CONTAINED_BY(e.geometry, 'POLYGON((0 0, 20 0, 20 20, 0 20, 0 0))') = TRUE
 
 -- Check if two geometries have the same bounding box
 SELECT e FROM Entity e WHERE SPATIAL_SAME(e.geometry1, e.geometry2) = TRUE
@@ -375,8 +395,8 @@ SELECT e FROM Entity e WHERE SPATIAL_SAME(e.geometry1, e.geometry2) = TRUE
 SELECT e FROM Entity e WHERE STRICTLY_ABOVE(e.geometry, 'LINESTRING(0 0, 5 0)') = TRUE
 SELECT e FROM Entity e WHERE OVERLAPS_BELOW(e.geometry, 'POLYGON((0 5, 5 5, 5 10, 0 10, 0 5))') = TRUE
 
--- 3D spatial relationships
-SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1, 2 2 2, 0 0 0))') = TRUE
+-- n-D bounding boxes overlap
+SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 0 0, 1 1 1, 0 0 0))') = TRUE
 ```
 
 #### Distance-based queries
@@ -387,7 +407,7 @@ SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
 FROM Entity e
 ORDER BY distance
 
--- Find geometries within a specific distance (using bounding box distance for performance)
+-- Geometries whose bounding box lies within 1000 units of the point; for an exact distance use ST_DWITHIN
 SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
 
 -- Calculate trajectory distances (for linestrings with measure values)
@@ -395,70 +415,37 @@ SELECT TRAJECTORY_DISTANCE(e.trajectory1, e.trajectory2) as closest_approach
 FROM Entity e
 WHERE e.trajectory1 IS NOT NULL
 
--- 3D distance calculations
+-- n-D distance between the bounding box centroids
 SELECT e, ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) as distance3d
 FROM Entity e
 WHERE ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
 ```
 
-#### Operator conflicts and best practices
+#### Operators with several meanings
 
-Some operators have different meanings for different data types. Use specific function names to avoid conflicts:
+Containment is `@>` for arrays and `~` for geometries, and `~` also matches a regular expression against text. Each meaning has its own DQL name:
 
 ```sql
--- Each meaning has its own function name
 SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('tag1')) = TRUE      -- Array containment
 SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, e.point) = TRUE -- Spatial containment
 SELECT e FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE            -- Text pattern matching
-
--- @ and ~ mean different things for arrays, geometries and text, so DQL gives each meaning its own name
 ```
 
-#### Performance tips
+#### Using the spatial index
 
 ```sql
--- Use bounding box operators for initial filtering (they use spatial indexes)
-SELECT e FROM Entity e
-WHERE OVERLAPS(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE
-  AND ST_Intersects(e.geometry, 'POLYGON((0 0, 10 10, 20 20, 0 0))') = TRUE  -- Exact check
+-- ST_INTERSECTS checks the bounding boxes against the spatial index by itself; no pre-filter is needed
+SELECT e FROM Entity e WHERE ST_INTERSECTS(e.geometry, 'POLYGON((0 0, 20 0, 20 20, 0 20, 0 0))') = TRUE
 
--- Use distance operators for nearest neighbor queries
-SELECT e FROM Entity e
-ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
+-- Nearest first; with setMaxResults() PostgreSQL reads the nearest rows straight from the GiST index
+SELECT e FROM Entity e ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
 ```
-
-For array columns, see [Geometry and geography arrays](GEOMETRY-ARRAYS.md).
-
-The library provides DBAL type support for PostGIS `geometry` and `geography` types. Example usage:
-
-```sql
-CREATE TABLE places (
-    id SERIAL PRIMARY KEY,
-    location GEOMETRY,
-    boundary GEOGRAPHY
-);
-```
-
-```php
-use Doctrine\DBAL\Types\Type as DoctrineType;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
-
-DoctrineType::addType('geography', MartinGeorgiev\Doctrine\DBAL\Types\Geography::class);
-DoctrineType::addType('geometry', MartinGeorgiev\Doctrine\DBAL\Types\Geometry::class);
-
-$location = WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)');
-$entity->setLocation($location);
-```
-
-Notes:
-- Values round-trip as EWKT/WKT strings at the database boundary.
-- Integration tests automatically enable the `postgis` extension; ensure PostGIS is available in your environment.
 
 ## Hierarchical data with ltree
 
 > **See also:** [PostgreSQL ltree types](LTREE-TYPE.md) for type reference and DQL functions
 
-This example shows a self-referential entity with ltree path management and cascading path updates in Symfony.
+An entity that points to its parent and keeps its `ltree` path in step with it, plus a Symfony listener that moves the descendants along when a node moves.
 
 ### Entity
 
@@ -539,7 +526,7 @@ class MyEntity implements \Stringable
 }
 ```
 
-Create the GiST index manually in a migration - Doctrine cannot generate ltree-specific operator class syntax:
+Doctrine cannot declare an index with an `ltree` operator class, so create it in a migration:
 
 ```sql
 CREATE INDEX my_entity_path_gist_idx ON my_entity USING GIST (path gist_ltree_ops(siglen=100));
@@ -549,7 +536,7 @@ CREATE INDEX my_entity_path_gin_idx ON my_entity USING GIN (path gin_ltree_ops);
 
 ### Cascading path updates
 
-Changing an entity's parent requires cascading the path change to all descendants - Doctrine does not handle this automatically. Use an [`onFlush`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush) listener:
+When a node gets a new parent, every descendant's path has to change too. Doctrine does not do that for you; an [`onFlush`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush) listener can:
 
 ```php
 <?php
