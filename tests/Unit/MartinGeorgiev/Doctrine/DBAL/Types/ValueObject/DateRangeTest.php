@@ -133,6 +133,17 @@ final class DateRangeTest extends BaseRangeTestCase
                 ),
                 'expectedEmpty' => false,
             ],
+            'adjacent exclusive days should be empty' => [
+                'range' => DateRange::fromString('(2024-01-01,2024-01-02)'),
+                'expectedEmpty' => true,
+            ],
+            'two times of one day should be empty' => [
+                'range' => new DateRange(
+                    new \DateTimeImmutable('2024-01-01 10:00'),
+                    new \DateTimeImmutable('2024-01-01 15:00')
+                ),
+                'expectedEmpty' => true,
+            ],
             'equal infinite bounds exclusive should be empty' => [
                 'range' => DateRange::fromString('[infinity,infinity)'),
                 'expectedEmpty' => true,
@@ -233,6 +244,11 @@ final class DateRangeTest extends BaseRangeTestCase
             $unboundedUpper,
             new \DateTimeImmutable('2022-12-31'),
             false,
+        ];
+        yield 'single inclusive day contains a time on that day' => [
+            DateRange::fromString('[2024-01-01,2024-01-01]'),
+            new \DateTimeImmutable('2024-01-01 12:00'),
+            true,
         ];
         yield 'range between both infinities contains a date' => [
             DateRange::fromString('[-infinity,infinity)'),
@@ -418,9 +434,9 @@ final class DateRangeTest extends BaseRangeTestCase
         $reverseRange = new DateRange($date2, $date1); // 20:00 to 10:00
         $this->assertTrue($reverseRange->isEmpty());
 
-        // When lower < upper, range should not be empty
-        $normalRange = new DateRange($date1, $date2); // 10:00 to 20:00
-        $this->assertFalse($normalRange->isEmpty());
+        // Both times fall on one date, and PostgreSQL stores [2023-06-15,2023-06-15), which holds no date
+        $sameDayRange = new DateRange($date1, $date2); // 10:00 to 20:00
+        $this->assertTrue($sameDayRange->isEmpty());
 
         // When lower == upper with exclusive bounds, should be empty
         $equalExclusive = new DateRange($date1, $date1, false, false);
