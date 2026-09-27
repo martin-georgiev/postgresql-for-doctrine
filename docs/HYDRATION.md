@@ -1,14 +1,15 @@
 # What comes back: hydration
 
-This page answers "what PHP value do I get?" for a mapped column and for a value a DQL query computes. Read it when a total arrives as a string, an array arrives as `'{a,b}'`, or a `jsonb` property typed `array` receives an `int`.
+This page tells you which PHP value you get back from a query, and what to do when it is a string you did not expect.
 
 > **See also:** [Available Types](AVAILABLE-TYPES.md) · [Infinity Values](INFINITY.md) · [Window Functions](WINDOW-FUNCTIONS.md)
 
-## The rule
+## In short
 
-A **field path** goes through [its DBAL type](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/basic-mapping.html#doctrine-mapping-types); **anything else** is whatever `pdo_pgsql` returns.
+Doctrine converts a value only when it knows its type.
 
-`p.tags` is a field path, so the `text[]` DBAL type converts it in a hydrated entity, in `getArrayResult()`, in a scalar `SELECT` read with `getResult()`, `getSingleResult()` or `getOneOrNullResult()`, and as an argument of `SELECT NEW`. Wrap the same field in a function and the conversion is gone, because Doctrine does not know what type the function returns:
+- **A mapped field** such as `p.tags` is converted by [its DBAL type](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/basic-mapping.html#doctrine-mapping-types). A `text[]` column arrives as a PHP array.
+- **Anything the query computes** - a function, an aggregate, arithmetic - is not converted. Doctrine does not know what type it returns, so you get the value exactly as the PostgreSQL driver hands it over, usually a string.
 
 ```dql
 SELECT p.tags, ARRAY_APPEND(p.tags, 'new') AS extended FROM App\Entity\Product p WHERE p.id = 1
@@ -18,135 +19,16 @@ SELECT p.tags, ARRAY_APPEND(p.tags, 'new') AS extended FROM App\Entity\Product p
 ['tags' => ['php', 'postgres'], 'extended' => '{php,postgres,new}']
 ```
 
-The scalar result methods are the exception. `getScalarResult()`, `getSingleColumnResult()` and `getSingleScalarResult()` return a selected field path as the database sent it - `'{php,postgres}'` for `p.tags`, `'42.00'` for `p.price`, `'2026-09-26 10:30:00+00'` for `s.placedAt`. Only the fields of a selected entity (`SELECT p`) are still converted by `getScalarResult()`.
+Two things to know on top of that:
 
-The driver types only three families itself: `boolean` arrives as `bool`, `smallint`, `integer` and `bigint` as `int`, [`real` and `double precision` as `float`](https://www.php.net/manual/en/migration84.other-changes.php#migration84.other-changes.functions.pdo-pgsql) from PHP 8.4 (as numeric strings before). Every other PostgreSQL type - `numeric`, [timestamps](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-OUTPUT), [intervals](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-INTERVAL-OUTPUT), [arrays](https://www.postgresql.org/docs/18/arrays.html#ARRAYS-IO), [ranges](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-IO), JSON, `ltree`, `hstore`, geometry - arrives as its PostgreSQL text form.
+1. **`getScalarResult()`, `getSingleColumnResult()` and `getSingleScalarResult()` convert nothing**, not even a mapped field: `p.tags` arrives as `'{php,postgres}'` and `p.price` as `'42.00'`. Use `getResult()`, `getSingleResult()` or `getOneOrNullResult()` when you want mapped fields converted.
+2. **The driver converts a few types by itself**, even for computed values: `boolean` becomes `bool`; `smallint`, `integer` and `bigint` become `int`; `real` and `double precision` become `float` [from PHP 8.4](https://www.php.net/manual/en/migration84.other-changes.php#migration84.other-changes.functions.pdo-pgsql) (numeric strings before).
 
-Every value on this page was measured against PostgreSQL 18 and PostGIS 3.6 with PHP 8.5, DBAL 4.4 and ORM 3.7, with the session time zone set to `UTC`.
+The values on this page were measured on PostgreSQL 18 and PostGIS 3.6 with PHP 8.5, DBAL 4.4 and ORM 3.7, with the session time zone set to `UTC`.
 
-## Mapped columns by family
+## Converting a computed value yourself
 
-What an entity property, a `getArrayResult()` row or a field path read with `getResult()` holds. The family pages carry the details; this table only says what you get.
-
-| Column type | DBAL type | PHP value | Notes |
-|---|---|---|---|
-| `text[]`, `varchar[]`, `citext[]` | `TextArray`, `VarcharArray`, `CitextArray` | `list<string\|null>` | Items stay strings: `{php,1.0,true}` reads as `['php', '1.0', 'true']` |
-| `smallint[]`, `integer[]`, `bigint[]` | `SmallIntArray`, `IntegerArray`, `BigIntArray` | `list<int\|null>` | |
-| `real[]`, `double precision[]` | `RealArray`, `DoublePrecisionArray` | `list<float\|null>` | `Infinity` and `NaN` become `INF` and `NAN` ([Infinity Values](INFINITY.md)) |
-| `numeric[]` | `NumericArray` | `list<string\|null>` | `{1.50,NaN}` reads as `['1.50', 'NaN']`; the scale is kept ([Available Types](AVAILABLE-TYPES.md#numeric-array-type)) |
-| `boolean[]` | `BooleanArray` | `list<bool\|null>` | |
-| `uuid[]`, `inet[]`, `cidr[]`, `macaddr[]` | `UuidArray`, `InetArray`, … | `list<string\|null>` | ([Available Types](AVAILABLE-TYPES.md#uuid-array-type)) |
-| `date[]`, `timestamp[]`, `timestamptz[]` | `DateArray`, `TimestampArray`, `TimestampTzArray` | `list<\DateTimeImmutable\|DateTimeInfinity\|null>` | `infinity` reads as `DateTimeInfinity::POSITIVE` ([Available Types](AVAILABLE-TYPES.md#datetime-array-types)) |
-| `interval[]` | `IntervalArray` | `list<Interval\|null>` | |
-| `jsonb[]`, `json[]` | `JsonbArray`, `JsonArray` | `list<array\|int\|float\|string\|bool\|null>` | JSON `null` and SQL `NULL` both read as `null` |
-| `ltree[]` | `LtreeArray` | `list<Ltree\|null>` | |
-| `hstore[]` | `HstoreArray` | `list<array<string, string\|null>>` | |
-| `int4range[]` and the other range arrays | `Int4RangeArray`, … | `list<Int4Range\|null>`, … | |
-| an enum array | your `EnumArray` subclass | `list<YourEnum\|null>` | ([PostgreSQL Enum Types](ENUM-TYPE.md)) |
-| `geometry[]`, `geography[]` | `GeometryArray`, `GeographyArray` | none - reading throws | See [Gotchas](#gotchas) |
-| `int4range`, `int8range` | `Int4Range`, `Int8Range` | `Int4Range`, `Int8Range` | [PostgreSQL canonicalises](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-DISCRETE) `[1,5]` to `[1,6)` |
-| `numrange` | `NumRange` | `NumericRange` | Bounds are PHP `int`/`float`: `[1.50,9.99)` reads as `[1.5,9.99)` |
-| `daterange`, `tsrange`, `tstzrange` | `DateRange`, `TsRange`, `TstzRange` | `DateRange`, `TsRange`, `TstzRange` | `tstzrange` bounds carry [the session time zone](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-TIMEZONES) |
-| `int4multirange` and the other multiranges | `Int4Multirange`, … | `Int4Multirange`, … | ([PostgreSQL Range Types](RANGE-TYPES.md)) |
-| `interval` | `Interval` | `Interval` value object, not `\DateInterval` | `toDateInterval()` gives you a `\DateInterval` |
-| `jsonb` | `Jsonb` | `array\|int\|float\|string\|bool\|null` | See [jsonb values](#jsonb-values) |
-| `geometry`, `geography` | `Geometry`, `Geography` | `WktSpatialData` | `SRID=4326;POINT(23.32 42.69)`; [a `geography` value always carries its SRID](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables) |
-| a user-defined enum | your `Enum` subclass | the enum case | |
-| a user-defined composite | your `Composite` subclass | see [PostgreSQL Composite Types](COMPOSITE-TYPE.md) | |
-| `ltree` | `Ltree` | `Ltree` value object | `lquery` and `ltxtquery` read as strings |
-| `hstore` | `Hstore` | `array<string, string\|null>` | |
-| `vector`, `halfvec` | `Vector`, `Halfvec` | `list<float>` | |
-| `sparsevec` | `Sparsevec` | `Sparsevec` value object | |
-| `cube` | `Cube` | `Cube` value object | |
-| `point`, `box`, `circle`, `line`, `lseg`, `path`, `polygon` | `Point`, `Box`, … | the value object of the same name | [PostgreSQL stores a box upper-right first](https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES): `(1,2),(3,4)` reads as `(3,4),(1,2)` |
-| `bytea` | `Bytea` | `string` (binary) | Not a stream |
-| `money` | `Money` | `string` | [Formatted by the `lc_monetary` setting](https://www.postgresql.org/docs/18/datatype-money.html#DATATYPE-MONEY): `'$1,234.56'` ([Available Types](AVAILABLE-TYPES.md#money-type)) |
-| `citext`, `inet`, `cidr`, `macaddr`, `macaddr8`, `tsvector`, `tsquery`, `xml`, `bit`, `bit varying`, `timetz` | `Citext`, `Inet`, … | `string` | |
-| `numeric` | [Doctrine's `decimal`](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#decimal) | `string` | Doctrine's choice, not this library's: `'42.00'` |
-
-A `NULL` element reads as `null` in every array type listed.
-
-### jsonb values
-
-`Jsonb` returns whatever the stored JSON is, so a property typed `array` breaks on the first row that holds a scalar. Type the property `mixed`, or `array|int|float|string|bool|null`, unless every row is guaranteed to be an object or a list.
-
-| Stored JSON | PHP value |
-|---|---|
-| `{"color": "red", "size": 42}` | `['size' => 42, 'color' => 'red']` - an associative array, never an object; [PostgreSQL reorders the keys](https://www.postgresql.org/docs/18/datatype-json.html#DATATYPE-JSON) |
-| `[1, 2]` | `[1, 2]` |
-| `42` | `42` (`int`) |
-| `1.5`, `1.0` | `1.5`, `1.0` (`float`) |
-| `"x"` | `'x'` |
-| `true` | `true` |
-| `null` | `null`, the same as a SQL `NULL` |
-| `9223372036854775807` | `9223372036854775807` (`int`, `PHP_INT_MAX`) |
-| `9223372036854775808` and larger | `'9223372036854775808'` (`string`) |
-
-### Empty strings
-
-Most column types reject `''` outright, so an empty string can only come back from the few that accept it:
-
-| Column type | Stored as | PHP value |
-|---|---|---|
-| `citext`, `tsvector`, `tsquery` | `''` | `''` |
-| `ltree` | `''` | an `Ltree` with no labels |
-| `hstore` | `''` | `[]` |
-| `money` | `$0.00` | `'$0.00'` |
-| `bytea` | [`\x`](https://www.postgresql.org/docs/18/datatype-binary.html#DATATYPE-BINARY-BYTEA-HEX-FORMAT) (no bytes) | `null` |
-| `bit varying` | `''` | `null` |
-| `xml` | `''` | `null` |
-
-An empty `bytea`, `bit varying` or `xml` value cannot be told apart from `NULL` after hydration.
-
-### Values that change on the way back
-
-What you write is not always what you read after `$entityManager->clear()`:
-
-- `text[]` writes non-strings as their text: `[1, true, 1.5]` reads back as `['1', 'true', '1.5']`.
-- `jsonb` drops a zero fraction on write: `['weight' => 1.0]` reads back as `['weight' => 1]`.
-- `tstzrange` reads back in the session time zone: a `TstzRange` written with `+03:00` bounds comes back as the same instants in `+00:00` under a `UTC` session.
-- `int4range` and `numrange` change as described in the table above.
-
-## DQL scalar results
-
-A value computed by the query - an aggregate, a window function, any function of this library - is not converted by any DBAL type. These are the values the book's queries return:
-
-> **Since 4.9:** `OVER`, `FILTER` and `WITHIN GROUP` are new; see [Window Functions](WINDOW-FUNCTIONS.md).
-
-| Expression | PostgreSQL type | PHP value |
-|---|---|---|
-| [`COUNT(s.id)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE), `FILTER(COUNT(s.id), WHERE s.status = 'paid')`, [`LENGTH(p.name)`](https://www.postgresql.org/docs/18/functions-string.html#FUNCTIONS-STRING-OTHER) | `bigint`, `integer` | `3` (`int`) |
-| [`OVER(ROW_NUMBER(), ORDER BY s.amount DESC)`](https://www.postgresql.org/docs/18/functions-window.html#FUNCTIONS-WINDOW-TABLE), [`OVER(RANK(), …)`](https://www.postgresql.org/docs/18/functions-window.html#FUNCTIONS-WINDOW-TABLE) | `bigint` | `1` (`int`) |
-| [`SUM(c.points)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE) on an `integer` column | `bigint` | `150` (`int`) |
-| [`SUM(s.amount)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE), [`MAX(s.amount)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE), [`s.amount * 2`](https://www.postgresql.org/docs/18/functions-math.html#FUNCTIONS-MATH-OP-TABLE), [`ROUND(s.amount, 1)`](https://www.postgresql.org/docs/18/functions-math.html#FUNCTIONS-MATH-FUNC-TABLE) | `numeric` | `'76.99'` (`string`) |
-| [`AVG(c.points)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE) on an `integer` column | `numeric` | `'75.0000000000000000'` (`string`) |
-| `OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt)` | `numeric` | `'42.00'` (`string`) |
-| [`DATE_EXTRACT('year', s.placedAt)`](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT), [`CAST(c.points AS DECIMAL(10, 2))`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) | `numeric` | `'2026'`, `'120.00'` (`string`) |
-| [`DATE_PART('year', s.placedAt)`](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT), [`SQRT(c.points)`](https://www.postgresql.org/docs/18/functions-math.html#FUNCTIONS-MATH-FUNC-TABLE), [`PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY s.amount)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE) | `double precision` | `2026.0`, `10.954451150103322`, `25.0` (`float`) |
-| [`OVER(PERCENT_RANK(), …)`](https://www.postgresql.org/docs/18/functions-window.html#FUNCTIONS-WINDOW-TABLE), [`ST_DISTANCE(st.location, …)`](https://postgis.net/docs/ST_Distance.html), [`COSINE_DISTANCE(a.embedding, …)`](https://github.com/pgvector/pgvector#user-content-vector-functions), [`TS_RANK(a.search, …)`](https://www.postgresql.org/docs/18/textsearch-controls.html#TEXTSEARCH-RANKING) | `double precision`, `real` | `float` |
-| [`CONTAINS(p.tags, ARRAY('php'))`](https://www.postgresql.org/docs/18/functions-array.html#ARRAY-OPERATORS-TABLE), [`IN_ARRAY(:tag, p.tags)`](https://www.postgresql.org/docs/18/functions-comparisons.html#FUNCTIONS-COMPARISONS-ANY-SOME), [`ST_DWITHIN(st.location, …, 200000)`](https://postgis.net/docs/ST_DWithin.html) | `boolean` | `true` (`bool`) |
-| [`ARRAY_AGG(p.name)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE), [`ARRAY_APPEND(p.tags, 'new')`](https://www.postgresql.org/docs/18/functions-array.html#ARRAY-FUNCTIONS-TABLE) | `text[]` | `'{"The Pragmatic Programmer",Dune,"Gift card"}'` (`string`) |
-| `ARRAY_AGG(p.id)` | `integer[]` | `'{1,2,3}'` (`string`) |
-| [`RANGE_AGG(b.slot)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE) | `tstzmultirange` | `'{["2026-09-26 10:00:00+00","2026-09-26 11:00:00+00")}'` (`string`) |
-| [`JSON_GET_FIELD(p.attributes, 'color')`](https://www.postgresql.org/docs/18/functions-json.html#FUNCTIONS-JSON-OP-TABLE) | `jsonb` | `'"red"'` (`string`, JSON-encoded) |
-| [`JSON_GET_FIELD_AS_TEXT(p.attributes, 'color')`](https://www.postgresql.org/docs/18/functions-json.html#FUNCTIONS-JSON-OP-TABLE) | `text` | `'red'` (`string`) |
-| `JSON_GET_FIELD_AS_INTEGER(p.attributes, 'size')` | `bigint` | `42` (`int`) |
-| [`JSONB_BUILD_OBJECT('name', p.name)`](https://www.postgresql.org/docs/18/functions-json.html#FUNCTIONS-JSON-CREATION-TABLE), [`JSONB_AGG(p.name)`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE) | `jsonb` | `'{"name": "Dune"}'` (`string`) |
-| [`SUBPATH(p.category, 0, 1)`](https://www.postgresql.org/docs/18/ltree.html#LTREE-FUNC-TABLE) | `ltree` | `'books'` (`string`) |
-| [`ST_CENTROID(st.location)`](https://postgis.net/docs/ST_Centroid.html) | `geography` | `'0101000020E6100000…'` ([EWKB hex](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT) `string`) |
-| [`ST_ASTEXT(st.location)`](https://postgis.net/docs/ST_AsText.html), [`ST_ASGEOJSON(st.location)`](https://postgis.net/docs/ST_AsGeoJSON.html) | `text` | `'POINT(23.32 42.69)'`, `'{"type":"Point","coordinates":[23.32,42.69]}'` |
-| `MAX(s.placedAt)`, [`DATE_TRUNC('day', s.placedAt)`](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-TRUNC) | `timestamptz` | `'2026-09-26 00:00:00+00'` (`string`) |
-| [`AGE(s.placedAt, '2026-01-01')`](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-TABLE) | `interval` | `'8 mons 25 days 10:30:00'` (`string`) |
-| [`TO_TSVECTOR('english', a.body)`](https://www.postgresql.org/docs/18/functions-textsearch.html#TEXTSEARCH-FUNCTIONS-TABLE) | `tsvector` | `"'cat':3 'fat':2 'sat':4"` (`string`) |
-| [`DECODE('0102', 'hex')`](https://www.postgresql.org/docs/18/functions-binarystring.html#FUNCTION-DECODE) | `bytea` | [a stream `resource`](https://www.php.net/manual/en/ref.pdo-pgsql.php#ref.pdo-pgsql.general-notes) |
-
-> **Note:** before PHP 8.4, pdo_pgsql returns `double precision` and `real` as numeric strings, so the `float` rows above arrive as strings.
-
-[`ARRAY_AGG` over no rows returns `null`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE), not `'{}'`.
-
-### Turn a string back into the mapped value
-
-When a computed value has the same PostgreSQL type as one of your mapped columns, convert it with the DBAL type yourself. `Connection::convertToPHPValue()` takes the DBAL type name:
+If a computed value has the same PostgreSQL type as one of your mapped columns, pass it through that DBAL type:
 
 ```dql
 SELECT ARRAY_APPEND(p.tags, 'new') AS tags FROM App\Entity\Product p WHERE p.id = 1
@@ -157,9 +39,9 @@ $row = $query->getSingleResult();
 $tags = $entityManager->getConnection()->convertToPHPValue($row['tags'], 'text[]'); // ['php', 'postgres', 'new']
 ```
 
-The same call turns a `RANGE_AGG(b.slot)` string into a `TstzMultirange` with `'tstzmultirange'`, a `JSONB_BUILD_OBJECT(…)` string into an array with `'jsonb'`, and an `AGE(…)` string into an `Interval` with `'interval'`.
+The same works with `'tstzmultirange'` for a `RANGE_AGG(…)` result, `'jsonb'` for a `JSONB_BUILD_OBJECT(…)` result and `'interval'` for an `AGE(…)` result.
 
-For an array whose element type has no DBAL type of its own, the parser the array types use is public:
+For an array type that has no DBAL type, use the parser the array types use:
 
 ```php
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
@@ -168,23 +50,48 @@ PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray('{1,2,3}');
 PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray('{1,2,3}', preserveStringTypes: true);  // ['1', '2', '3']
 ```
 
-Without `preserveStringTypes` the parser guesses each item's type, so `{php,1.0,true}` becomes `['php', 1.0, true]`. Pass `true` for text arrays. It handles one-dimensional arrays only, and returns `[]` for `'{}'`.
+Pass `preserveStringTypes: true` for text arrays; without it, `{php,1.0,true}` becomes `['php', 1.0, true]`. The parser handles one-dimensional arrays only.
 
-For a geometry, convert inside the query instead: wrap the function in `ST_ASTEXT` or `ST_ASGEOJSON`, or compare with [`ST_EQUALS`](https://postgis.net/docs/ST_Equals.html) and read the boolean. The raw value is EWKB hex.
+For a geometry, convert inside the query: wrap it in `ST_ASTEXT` or `ST_ASGEOJSON`. The raw value is [EWKB hex](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT).
 
-### Floating-point results
+## What a computed value arrives as
 
-From PHP 8.4, `double precision` and `real` results are PHP floats with [the usual binary rounding](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-FLOAT): `CAST('0.1' AS FLOAT8) + CAST('0.2' AS FLOAT8)` arrives as `0.30000000000000004`. [Compare them with a tolerance](https://www.php.net/manual/en/language.types.float.php#language.types.float.comparison), never with `===`:
+> **Since 4.9:** `OVER`, `FILTER` and `WITHIN GROUP` are new; see [Window Functions](WINDOW-FUNCTIONS.md).
 
-```php
-self::assertEqualsWithDelta(132095.96, $row['metres'], 0.01);
-```
+The PHP value depends only on the PostgreSQL type the expression returns:
 
-If you need exact decimals, [compute in `numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) and keep the string.
+| PostgreSQL result type | PHP value | Examples |
+|---|---|---|
+| `smallint`, `integer`, `bigint` | `int` | `COUNT(s.id)` → `3`, `OVER(ROW_NUMBER(), ORDER BY s.amount DESC)` → `1`, `SUM(c.points)` → `150` |
+| `boolean` | `bool` | `CONTAINS(p.tags, ARRAY('php'))` → `true` |
+| `real`, `double precision` | `float` (a numeric string before PHP 8.4) | `SQRT(c.points)` → `10.954451150103322`, `DATE_PART('year', s.placedAt)` → `2026.0` |
+| [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) | `string` | `SUM(s.amount)` → `'76.99'`, `DATE_EXTRACT('year', s.placedAt)` → `'2026'` |
+| `bytea` | [a stream `resource`](https://www.php.net/manual/en/ref.pdo-pgsql.php#ref.pdo-pgsql.general-notes) | `DECODE('0102', 'hex')` |
+| anything else | `string`, in PostgreSQL's text form | see below |
 
-### Entities next to scalars
+"Anything else" covers [arrays](https://www.postgresql.org/docs/18/arrays.html#ARRAYS-IO), [ranges](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-IO), JSON, [timestamps](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-OUTPUT), [intervals](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-INTERVAL-OUTPUT), `ltree` and geometry:
 
-Selecting an entity together with a computed value gives [a mixed row](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#pure-and-mixed-results): the entity under key `0`, each scalar under its alias.
+| Expression | PHP value |
+|---|---|
+| `ARRAY_AGG(p.id)` | `'{1,2,3}'` |
+| `JSON_GET_FIELD(p.attributes, 'color')` | `'"red"'`, with the quotes, because `->` returns `jsonb` |
+| `JSON_GET_FIELD_AS_TEXT(p.attributes, 'color')` | `'red'` |
+| `JSONB_BUILD_OBJECT('name', p.name)` | `'{"name": "Dune"}'` |
+| `DATE_TRUNC('day', s.placedAt)` | `'2026-09-26 00:00:00+00'` |
+| `AGE(s.placedAt, '2026-01-01')` | `'8 mons 25 days 10:30:00'` |
+| `SUBPATH(p.category, 0, 1)` | `'books'` |
+| `ST_CENTROID(st.location)` | `'0101000020E6100000…'` (EWKB hex) |
+| `ST_ASTEXT(st.location)` | `'POINT(23.32 42.69)'` |
+
+A few results that surprise people:
+
+- [`AVG` of an integer column is `numeric`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE), so `AVG(c.points)` returns `'75.0000000000000000'`. Round it in the query: `ROUND(AVG(c.points), 2)` returns `'75.00'`.
+- [`ARRAY_AGG` over no rows returns `null`](https://www.postgresql.org/docs/18/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE), not `'{}'`.
+- Floats carry [the usual binary rounding](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-FLOAT): `CAST('0.1' AS FLOAT8) + CAST('0.2' AS FLOAT8)` returns `0.30000000000000004`. [Compare floats with a tolerance](https://www.php.net/manual/en/language.types.float.php#language.types.float.comparison), or compute in `numeric` when you need exact decimals.
+
+### An entity and a computed value in one row
+
+Selecting both gives [a mixed row](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#pure-and-mixed-results): the entity under key `0` and each computed value under its alias.
 
 ```dql
 SELECT s, OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt) AS runningTotal FROM App\Entity\Sale s ORDER BY s.id
@@ -197,7 +104,7 @@ SELECT s, OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt) AS ru
 
 ### DTOs with SELECT NEW
 
-[`SELECT NEW` passes each value to the constructor](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#new-operator-syntax) after the same rule: a field path arrives converted, a computed value arrives as the driver returns it.
+[`SELECT NEW`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#new-operator-syntax) follows the same rule: a mapped field arrives converted, a computed value arrives as the driver returns it. Type each constructor parameter by what it receives:
 
 ```dql
 SELECT NEW App\Dto\CustomerTotal(c.name, SUM(s.amount)) FROM App\Entity\Sale s JOIN s.customer c GROUP BY c.id, c.name
@@ -208,42 +115,90 @@ final class CustomerTotal
 {
     public function __construct(
         public readonly string $name,
-        public readonly string $total, // numeric arrives as '51.99', not as a float
+        public readonly string $total, // SUM of a numeric column arrives as '51.99', not as a float
     ) {}
 }
 ```
 
-Type a constructor parameter that receives an aggregate, a window function or any other computed value by the table above, not by the column it was computed from.
+## What a mapped column arrives as
 
-### Session settings leak into strings
+What an entity property holds, and what a mapped field holds in a `getResult()` or `getArrayResult()` row. [Available Types](AVAILABLE-TYPES.md) lists the DBAL type for each column type.
 
-Scalar strings are formatted by the connection's session settings, so the same query returns different text on two servers. [`TimeZone`](https://www.postgresql.org/docs/18/runtime-config-client.html#GUC-TIMEZONE) changes every `timestamptz` value, and [`IntervalStyle`](https://www.postgresql.org/docs/18/runtime-config-client.html#GUC-INTERVALSTYLE) changes every `interval` string:
-
-| Expression | `TimeZone = 'UTC'`, `IntervalStyle = 'postgres'` | `TimeZone = 'Europe/Sofia'`, `IntervalStyle = 'iso_8601'` |
+| Column type | PHP value | Good to know |
 |---|---|---|
-| `s.placedAt` (field) | `2026-09-26 10:30:00+00:00` | `2026-09-26 13:30:00+03:00` |
-| `DATE_TRUNC('day', s.placedAt)` | `'2026-09-26 00:00:00+00'` | `'2026-09-26 00:00:00+03'` |
-| `b.slot` (field) | `[2026-09-26 10:00:00+00:00,2026-09-26 11:00:00+00:00)` | `[2026-09-26 13:00:00+03:00,2026-09-26 14:00:00+03:00)` |
-| a mapped `interval` field | `Interval` `1 year 2 mons 3 days 04:05:06` | the same `Interval` |
-| `AGE(s.placedAt, '2026-01-01')` | `'8 mons 25 days 10:30:00'` | `'P8M25DT13H30M'` |
+| `text[]`, `varchar[]`, `citext[]` | `list<string\|null>` | Items stay strings: `{php,1.0,true}` reads as `['php', '1.0', 'true']` |
+| `smallint[]`, `integer[]`, `bigint[]` | `list<int\|null>` | |
+| `real[]`, `double precision[]` | `list<float\|null>` | `Infinity` and `NaN` become `INF` and `NAN` ([Infinity Values](INFINITY.md)) |
+| `numeric[]` | `list<string\|null>` | Keeps the scale: `{1.50,NaN}` reads as `['1.50', 'NaN']` |
+| `boolean[]` | `list<bool\|null>` | |
+| `uuid[]`, `inet[]`, `cidr[]`, `macaddr[]` | `list<string\|null>` | |
+| `date[]`, `timestamp[]`, `timestamptz[]` | `list<\DateTimeImmutable\|DateTimeInfinity\|null>` | `infinity` reads as `DateTimeInfinity::POSITIVE` |
+| `interval[]` | `list<Interval\|null>` | |
+| `jsonb[]`, `json[]` | `list<array\|int\|float\|string\|bool\|null>` | |
+| `ltree[]` | `list<Ltree\|null>` | |
+| `hstore[]` | `list<array<string, string\|null>>` | |
+| `int4range[]` and the other range arrays | `list<Int4Range\|null>`, … | |
+| an enum array | `list<YourEnum\|null>` | See [PostgreSQL Enum Types](ENUM-TYPE.md) |
+| `geometry[]`, `geography[]` | reading fails | See [Errors](#errors) |
+| `int4range`, `int8range` | `Int4Range`, `Int8Range` | |
+| `numrange` | `NumericRange` | Bounds are PHP `int` or `float` |
+| `daterange`, `tsrange`, `tstzrange` | `DateRange`, `TsRange`, `TstzRange` | |
+| `int4multirange` and the other multiranges | `Int4Multirange`, … | See [PostgreSQL Range Types](RANGE-TYPES.md) |
+| `interval` | `Interval`, not `\DateInterval` | `toDateInterval()` gives you a `\DateInterval` |
+| `jsonb` | `array\|int\|float\|string\|bool\|null` | See [jsonb](#jsonb) |
+| `geometry`, `geography` | `WktSpatialData` | `SRID=4326;POINT(23.32 42.69)`; [a `geography` value always has an SRID](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables) |
+| a user-defined enum | the enum case | |
+| a user-defined composite | see [PostgreSQL Composite Types](COMPOSITE-TYPE.md) | |
+| `ltree` | `Ltree` | `lquery` and `ltxtquery` read as strings |
+| `hstore` | `array<string, string\|null>` | |
+| `vector`, `halfvec` | `list<float>` | |
+| `sparsevec`, `cube` | `Sparsevec`, `Cube` | |
+| `point`, `box`, `circle`, `line`, `lseg`, `path`, `polygon` | the value object of the same name | |
+| `bytea` | `string` (binary), not a stream | |
+| `money` | `string` | [Formatted by the `lc_monetary` setting](https://www.postgresql.org/docs/18/datatype-money.html#DATATYPE-MONEY): `'$1,234.56'` |
+| `citext`, `inet`, `cidr`, `macaddr`, `macaddr8`, `tsvector`, `tsquery`, `xml`, `bit`, `bit varying`, `timetz` | `string` | |
+| `numeric` | `string` | [Doctrine's `decimal` type](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#decimal), not this library: `'42.00'` |
 
-Mapped values move too, but they carry their offset, so they still compare correctly; strings only change their text. [`DATE_TRUNC`](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-TRUNC) and `AGE` also change their answer, not just their format, because the day boundary is local to the session zone. Set the session zone explicitly (`SET TIME ZONE 'UTC'` on connect) if you parse these strings. The `Interval` type reads every `IntervalStyle`, so `$connection->convertToPHPValue($row['age'], 'interval')` works whichever one the server uses.
+A `NULL` array item reads as `null`.
 
-## Gotchas
+### jsonb
 
-- **`JSON_GET_FIELD` returns `'"red"'` with the quotes** → the `->` operator returns `jsonb`, and its text form is JSON → use `JSON_GET_FIELD_AS_TEXT` (`->>`) for text, or `JSON_GET_FIELD_AS_INTEGER` for a number.
-- **A `jsonb` integer above `9223372036854775807` arrives as a `float`, or `1.0` survives a round trip** → the class registered as `jsonb` is not this library's `Jsonb`: DBAL 4.4 [registers its own `Doctrine\DBAL\Types\JsonbType`](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#jsonb) under that name, and `Type::addType('jsonb', …)` then fails with `Type "jsonb" already exists` → register with `Type::overrideType('jsonb', Jsonb::class)`, and check `Type::getType('jsonb')::class`.
-- **Loading an entity with a `geometry[]` or `geography[]` column throws `Invalid Geometry value object format: '0101000020E6…'`** → PostgreSQL sends each element as EWKB hex and the array types read only WKT (measured on DBAL 4.4 / ORM 3.7) → read the column with a native query that selects `ARRAY(SELECT CASE WHEN ST_SRID(e) = 0 THEN ST_AsText(e) ELSE 'SRID=' || ST_SRID(e) || ';' || ST_AsText(e) END FROM unnest(col) AS e)` as a `geometry[]` scalar, and fetch it with `getResult()`.
-- **`getSingleScalarResult()` returns `'{php,postgres}'` for `p.tags`** → the scalar result methods skip the DBAL type, both for a DQL field path and for a native query scalar mapped with a type → use `getSingleResult()` or `getResult()` and take the column from the row.
-- **`AVG(c.points)` returns `'75.0000000000000000'`** → PostgreSQL averages integers as `numeric` → round in SQL: `ROUND(AVG(c.points), 2)` returns `'75.00'`.
-- **`Cannot assign int to property App\Entity\Product::$attributes of type ?array`** → the row holds a JSON scalar, which `Jsonb` returns as a scalar → type the property `mixed`, or keep scalars out of the column.
-- **A `numrange` bound loses digits** → `NumericRange` holds PHP `int`/`float` → select the column with `CAST(… AS TEXT)`, which keeps `'[1.50,9.99)'`, when the digits matter.
+A `jsonb` column returns whatever JSON it holds - not always an array. If a row can hold a plain number or string, type the property `mixed` (or `array|int|float|string|bool|null`), or PHP throws `Cannot assign int to property … of type ?array`.
 
-## Reference
+| Stored JSON | PHP value |
+|---|---|
+| `{"color": "red", "size": 42}` | `['size' => 42, 'color' => 'red']`, an array, never an object ([PostgreSQL reorders the keys](https://www.postgresql.org/docs/18/datatype-json.html#DATATYPE-JSON)) |
+| `[1, 2]` | `[1, 2]` |
+| `42` | `42` |
+| `1.5`, `1.0` | `1.5`, `1.0` |
+| `"x"` | `'x'` |
+| `true` | `true` |
+| `null` | `null`, the same as SQL `NULL` |
+| `9223372036854775808` and larger | `'9223372036854775808'`, a string, because it does not fit in an `int` |
 
-- [Available Types](AVAILABLE-TYPES.md) - every DBAL type and its column type
-- [PostgreSQL Range Types](RANGE-TYPES.md), [Infinity Values](INFINITY.md) - range value objects, infinite bounds
-- [Spatial Types (Foundations)](SPATIAL-TYPES.md) - `WktSpatialData`
-- [PostgreSQL ltree Types](LTREE-TYPE.md), [PostgreSQL Enum Types](ENUM-TYPE.md), [PostgreSQL Composite Types](COMPOSITE-TYPE.md)
-- [Array and JSON Functions and Operators](ARRAY-AND-JSON-FUNCTIONS.md) - the `JSON_GET_FIELD` family
-- [Window Functions](WINDOW-FUNCTIONS.md) - `OVER`, `FILTER` and their result rows
+### Values that read back differently
+
+What you save is not always what you load after `$entityManager->clear()`:
+
+- `text[]` stores non-strings as text: `[1, true, 1.5]` reads back as `['1', 'true', '1.5']`.
+- `jsonb` drops a zero fraction: `['weight' => 1.0]` reads back as `['weight' => 1]`.
+- `int4range` and `int8range` [are normalised by PostgreSQL](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-DISCRETE): `[1,5]` reads back as `[1,6)`.
+- `numrange` bounds lose trailing zeros: `[1.50,9.99)` reads back as `[1.5,9.99)`. Select `CAST(… AS TEXT)` when the digits matter.
+- `tstzrange` reads back in the session time zone: the same instants, with a different offset.
+- `box` [is stored upper-right corner first](https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES): `(1,2),(3,4)` reads back as `(3,4),(1,2)`.
+- An empty `bytea`, `bit varying` or `xml` value reads back as `null`, the same as SQL `NULL`. An empty `hstore` reads back as `[]` and an empty `ltree` as an `Ltree` with no labels.
+
+## Time zone and interval style
+
+Dates and intervals that arrive as strings are formatted by the connection's session settings, so the same query can return different text on two servers. [`TimeZone`](https://www.postgresql.org/docs/18/runtime-config-client.html#GUC-TIMEZONE) changes every `timestamptz` string, and [`IntervalStyle`](https://www.postgresql.org/docs/18/runtime-config-client.html#GUC-INTERVALSTYLE) changes every `interval` string. With `TimeZone = 'Europe/Sofia'` and `IntervalStyle = 'iso_8601'`, `AGE(s.placedAt, '2026-01-01')` returns `'P8M25DT13H30M'` instead of `'8 mons 25 days 10:30:00'` - a different answer, not just a different format, because the day starts at a different instant.
+
+If you read these strings, set the time zone when you connect (`SET TIME ZONE 'UTC'`). Mapped date and range fields are safe: they keep their offset, so they compare correctly under any zone. The `Interval` type reads every `IntervalStyle`, so `convertToPHPValue($row['age'], 'interval')` works on any server.
+
+## Errors
+
+| You see | Why | Fix |
+|---|---|---|
+| `getSingleScalarResult()` returns `'{php,postgres}'` for `p.tags` | The scalar result methods skip the DBAL type | Use `getSingleResult()` and take the column from the row |
+| `Cannot assign int to property App\Entity\Product::$attributes of type ?array` | That row's `jsonb` value is a plain number | Type the property `mixed`; see [jsonb](#jsonb) |
+| `Type "jsonb" already exists`, or a big `jsonb` integer arrives as a `float` | DBAL 4.3+ [ships its own `jsonb` type](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#jsonb) | Register this library's type with `Type::overrideType('jsonb', Jsonb::class)` |
+| Loading a `geometry[]` or `geography[]` column fails with `Invalid Geometry value object format: '0101000020E6…'` | PostgreSQL sends the items as EWKB hex; the array types read only WKT | Read the column with a native query that selects `ARRAY(SELECT CASE WHEN ST_SRID(e) = 0 THEN ST_AsText(e) ELSE 'SRID=' \|\| ST_SRID(e) \|\| ';' \|\| ST_AsText(e) END FROM unnest(col) AS e)` |
