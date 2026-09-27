@@ -422,9 +422,9 @@ final class DateRangeTest extends BaseRangeTestCase
         $reverseRange = new DateRange($date2, $date1); // 20:00 to 10:00
         $this->assertTrue($reverseRange->isEmpty());
 
-        // When lower < upper, range should not be empty
-        $normalRange = new DateRange($date1, $date2); // 10:00 to 20:00
-        $this->assertFalse($normalRange->isEmpty());
+        // Both times fall on one date, and PostgreSQL stores [2023-06-15,2023-06-15), which holds no date
+        $sameDayRange = new DateRange($date1, $date2); // 10:00 to 20:00
+        $this->assertTrue($sameDayRange->isEmpty());
 
         // When lower == upper with exclusive bounds, should be empty
         $equalExclusive = new DateRange($date1, $date1, false, false);

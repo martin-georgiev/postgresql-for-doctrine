@@ -50,7 +50,28 @@ final class DateRange extends Range
             throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $b);
         }
 
-        return $a->getTimestamp() <=> $b->getTimestamp();
+        return $this->calendarDate($a) <=> $this->calendarDate($b);
+    }
+
+    protected function hasNoValueBetween(mixed $lower, mixed $upper): bool
+    {
+        if (!$lower instanceof \DateTimeInterface || !$upper instanceof \DateTimeInterface) {
+            return false;
+        }
+
+        $nextDay = \DateTimeImmutable::createFromInterface($lower)->modify('+1 day');
+
+        return $this->calendarDate($nextDay) === $this->calendarDate($upper);
+    }
+
+    /**
+     * A daterange holds dates, so the time of day a bound carries does not order it, just as formatValue() drops it.
+     *
+     * @return array{int, int, int}
+     */
+    private function calendarDate(\DateTimeInterface $date): array
+    {
+        return [(int) $date->format('Y'), (int) $date->format('n'), (int) $date->format('j')];
     }
 
     protected function formatValue(mixed $value): string
