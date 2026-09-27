@@ -38,13 +38,15 @@ abstract class BaseSpatialType extends BaseType
      * - If SRID is 0 (no SRID), returns plain WKT: "POINT(1 2)"
      * - If SRID is set, returns EWKT with SRID prefix: "SRID=4326;POINT(1 2)"
      *
+     * ST_AsText keeps 15 decimals by default and drops the rest; 25 is enough for every double to read back unchanged.
+     *
      * @param non-empty-string $sqlExpr
      * @param AbstractPlatform $platform
      */
     public function convertToPHPValueSQL($sqlExpr, $platform): string
     {
         return \sprintf(
-            "CASE WHEN ST_SRID(%s) = 0 THEN ST_AsText(%s) ELSE 'SRID=' || ST_SRID(%s) || ';' || ST_AsText(%s) END",
+            "CASE WHEN ST_SRID(%s) = 0 THEN ST_AsText(%s, 25) ELSE 'SRID=' || ST_SRID(%s) || ';' || ST_AsText(%s, 25) END",
             $sqlExpr,
             $sqlExpr,
             $sqlExpr,
