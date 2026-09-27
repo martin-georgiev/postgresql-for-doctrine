@@ -90,6 +90,9 @@ final class GeographyArrayTypeTest extends SpatialArrayTypeTestCase
             'single polygon' => [[
                 WktSpatialData::fromString('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
             ]],
+            'single point with full double precision' => [[
+                WktSpatialData::fromString('SRID=4326;POINT(-122.41941234567891 0.00012345678901234567)'),
+            ]],
             'single multipoint' => [[
                 WktSpatialData::fromString('SRID=4326;MULTIPOINT((-122.4194 37.7749),(-122.4094 37.7849))'),
             ]],

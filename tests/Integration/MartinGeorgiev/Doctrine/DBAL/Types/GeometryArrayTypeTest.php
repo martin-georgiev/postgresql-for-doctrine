@@ -100,6 +100,9 @@ final class GeometryArrayTypeTest extends SpatialArrayTypeTestCase
             'single multipoint' => [[
                 WktSpatialData::fromString('MULTIPOINT((1 2),(3 4))'),
             ]],
+            'single point with full double precision' => [[
+                WktSpatialData::fromString('POINT(0.12345678901234566 0.00012345678901234567)'),
+            ]],
             'single complex geometry with srid' => [[
                 WktSpatialData::fromString('SRID=4326;POLYGON((-122.5 37.7,-122.5 37.8,-122.4 37.8,-122.4 37.7,-122.5 37.7))'),
             ]],

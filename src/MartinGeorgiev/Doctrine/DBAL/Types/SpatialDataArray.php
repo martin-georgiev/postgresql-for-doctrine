@@ -79,6 +79,7 @@ abstract class SpatialDataArray extends BaseArray
      * PostgreSQL otherwise returns the elements as EWKB hex, which WktSpatialData cannot parse.
      * An ARRAY() subquery over a NULL column yields '{}', so a NULL column is kept NULL explicitly.
      * A subquery guarantees no row order of its own, so WITH ORDINALITY pins the elements to their stored order.
+     * ST_AsText keeps 15 decimals by default and drops the rest; 25 is enough for every double to read back unchanged.
      *
      * @param non-empty-string $sqlExpr
      * @param AbstractPlatform $platform
@@ -86,7 +87,7 @@ abstract class SpatialDataArray extends BaseArray
     public function convertToPHPValueSQL($sqlExpr, $platform): string
     {
         return \sprintf(
-            "CASE WHEN %1\$s IS NULL THEN NULL ELSE ARRAY(SELECT CASE WHEN ST_SRID(item) = 0 THEN ST_AsText(item) ELSE 'SRID=' || ST_SRID(item) || ';' || ST_AsText(item) END FROM unnest(%1\$s) WITH ORDINALITY AS items(item, position) ORDER BY position) END",
+            "CASE WHEN %1\$s IS NULL THEN NULL ELSE ARRAY(SELECT CASE WHEN ST_SRID(item) = 0 THEN ST_AsText(item, 25) ELSE 'SRID=' || ST_SRID(item) || ';' || ST_AsText(item, 25) END FROM unnest(%1\$s) WITH ORDINALITY AS items(item, position) ORDER BY position) END",
             $sqlExpr
         );
     }

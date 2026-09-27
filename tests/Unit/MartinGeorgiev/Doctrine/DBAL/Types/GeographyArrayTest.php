@@ -41,7 +41,7 @@ final class GeographyArrayTest extends TestCase
         $sql = $this->type->convertToPHPValueSQL('geom_col', $this->platform);
 
         $this->assertSame(
-            "CASE WHEN geom_col IS NULL THEN NULL ELSE ARRAY(SELECT CASE WHEN ST_SRID(item) = 0 THEN ST_AsText(item) ELSE 'SRID=' || ST_SRID(item) || ';' || ST_AsText(item) END FROM unnest(geom_col) WITH ORDINALITY AS items(item, position) ORDER BY position) END",
+            "CASE WHEN geom_col IS NULL THEN NULL ELSE ARRAY(SELECT CASE WHEN ST_SRID(item) = 0 THEN ST_AsText(item, 25) ELSE 'SRID=' || ST_SRID(item) || ';' || ST_AsText(item, 25) END FROM unnest(geom_col) WITH ORDINALITY AS items(item, position) ORDER BY position) END",
             $sql
         );
     }
