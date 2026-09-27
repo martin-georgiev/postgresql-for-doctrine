@@ -6,7 +6,9 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsOrderedItems;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringAgg;
+use PHPUnit\Framework\Attributes\Test;
 
 final class StringAggTest extends TestCase
 {
@@ -51,5 +53,15 @@ final class StringAggTest extends TestCase
             "keeps a fetch-joined collection's order out of the aggregate" => \sprintf("SELECT o, i FROM %s o JOIN o.items i WHERE o.id IN (SELECT o2.id FROM %s o2 JOIN o2.items i2 GROUP BY o2.id HAVING STRING_AGG(i2.name, ',' ORDER BY i2.name) <> '')", ContainsOrderedItems::class, ContainsOrderedItems::class),
             "keeps a fetch-joined collection's order when the aggregate orders by the same column" => \sprintf("SELECT o, i FROM %s o JOIN o.items i GROUP BY o.id, i.id HAVING STRING_AGG(i.name, ',' ORDER BY i.position) <> ''", ContainsOrderedItems::class),
         ];
+    }
+
+    #[Test]
+    public function throws_exception_for_a_select_list_alias_in_order_by(): void
+    {
+        $this->expectException(ParserException::class);
+        $this->expectExceptionMessage('ORDER BY of an aggregate or a window cannot refer to a select-list alias');
+
+        $dql = \sprintf("SELECT e.text1 AS t, STRING_AGG(e.text2, ',' ORDER BY t) FROM %s e", ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }
