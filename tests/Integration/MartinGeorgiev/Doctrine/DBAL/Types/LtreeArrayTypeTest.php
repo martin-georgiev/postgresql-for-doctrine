@@ -48,6 +48,13 @@ final class LtreeArrayTypeTest extends ArrayTypeTestCase
                 new LtreeValueObject(['baz']),
             ]],
             'empty ltree array' => [[]],
+            'single empty ltree' => [[
+                new LtreeValueObject([]),
+            ]],
+            'empty ltree after a path' => [[
+                new LtreeValueObject(['foo', 'bar']),
+                new LtreeValueObject([]),
+            ]],
         ];
     }
 

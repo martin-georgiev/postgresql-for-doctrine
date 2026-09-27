@@ -91,6 +91,14 @@ final class LtreeArrayTest extends TestCase
                 'phpValue' => [new LtreeValueObject(['1', '2', '3'])],
                 'postgresValue' => '{1.2.3}',
             ],
+            'empty ltree' => [
+                'phpValue' => [new LtreeValueObject([])],
+                'postgresValue' => '{""}',
+            ],
+            'empty ltree after a path' => [
+                'phpValue' => [new LtreeValueObject(['Top', 'Sports']), new LtreeValueObject([])],
+                'postgresValue' => '{Top.Sports,""}',
+            ],
         ];
     }
 
