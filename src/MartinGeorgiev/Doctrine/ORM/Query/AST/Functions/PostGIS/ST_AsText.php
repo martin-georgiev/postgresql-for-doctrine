@@ -25,7 +25,7 @@ class ST_AsText extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,ArithmeticPrimary',
+            'StringPrimary,SimpleArithmeticExpression',
             'StringPrimary',
         ];
     }

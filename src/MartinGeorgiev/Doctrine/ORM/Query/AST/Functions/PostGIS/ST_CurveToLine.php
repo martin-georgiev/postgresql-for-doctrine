@@ -24,9 +24,9 @@ class ST_CurveToLine extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary',
-            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
-            'StringPrimary,ArithmeticPrimary',
+            'StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,SimpleArithmeticExpression',
             'StringPrimary',
         ];
     }

@@ -28,8 +28,8 @@ class LevenshteinLessEqual extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary',
-            'StringPrimary,StringPrimary,ArithmeticPrimary',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression',
         ];
     }
 

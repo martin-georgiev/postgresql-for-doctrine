@@ -25,6 +25,6 @@ class ST_DFullyWithin extends BaseFunction
         $this->setFunctionPrototype('ST_DFullyWithin(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

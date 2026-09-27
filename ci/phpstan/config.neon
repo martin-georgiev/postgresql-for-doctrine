@@ -55,6 +55,10 @@ services:
         tags:
             - phpstan.rules.rule
     -
+        class: Ci\MartinGeorgiev\PHPStan\FunctionNumericArgumentNodeMappingRule
+        tags:
+            - phpstan.rules.rule
+    -
         class: Ci\MartinGeorgiev\PHPStan\VariadicFunctionBooleanArgumentNodeMappingRule
         tags:
             - phpstan.rules.rule

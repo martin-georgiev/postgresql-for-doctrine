@@ -23,6 +23,6 @@ class ArraySample extends BaseFunction
     {
         $this->setFunctionPrototype('array_sample(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

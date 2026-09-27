@@ -28,7 +28,7 @@ class Levenshtein extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression',
             'StringPrimary,StringPrimary',
         ];
     }

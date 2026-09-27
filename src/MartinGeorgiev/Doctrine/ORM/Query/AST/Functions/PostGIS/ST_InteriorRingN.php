@@ -25,6 +25,6 @@ class ST_InteriorRingN extends BaseFunction
     {
         $this->setFunctionPrototype('ST_InteriorRingN(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

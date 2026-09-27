@@ -21,6 +21,6 @@ class PercentileDisc extends BaseOrderedSetAggregateFunction
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('percentile_disc(%s) WITHIN GROUP (%s)');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

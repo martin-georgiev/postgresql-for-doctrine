@@ -24,7 +24,7 @@ class ST_LineSubstring extends BaseFunction
     {
         $this->setFunctionPrototype('ST_LineSubstring(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }
