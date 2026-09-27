@@ -126,31 +126,31 @@ What an entity property holds, and what a mapped field holds in a `getResult()` 
 
 | Column type | PHP value | Good to know |
 |---|---|---|
-| `text[]`, `varchar[]`, `citext[]` | `list<string\|null>` | Items stay strings: `{php,1.0,true}` reads as `['php', '1.0', 'true']` |
-| `smallint[]`, `integer[]`, `bigint[]` | `list<int\|null>` | |
-| `real[]`, `double precision[]` | `list<float\|null>` | `Infinity` and `NaN` become `INF` and `NAN` ([Infinity Values](INFINITY.md)) |
-| `numeric[]` | `list<string\|null>` | Keeps the scale: `{1.50,NaN}` reads as `['1.50', 'NaN']` |
-| `boolean[]` | `list<bool\|null>` | |
-| `uuid[]`, `inet[]`, `cidr[]`, `macaddr[]` | `list<string\|null>` | |
-| `date[]`, `timestamp[]`, `timestamptz[]` | `list<\DateTimeImmutable\|DateTimeInfinity\|null>` | `infinity` reads as `DateTimeInfinity::POSITIVE` |
-| `interval[]` | `list<Interval\|null>` | |
-| `jsonb[]`, `json[]` | `list<array\|int\|float\|string\|bool\|null>` | |
-| `ltree[]` | `list<Ltree\|null>` | |
-| `hstore[]` | `list<array<string, string\|null>>` | |
-| `int4range[]` and the other range arrays | `list<Int4Range\|null>`, … | |
-| an enum array | `list<YourEnum\|null>` | See [PostgreSQL Enum Types](ENUM-TYPE.md) |
+| `text[]`, `varchar[]`, `citext[]` | `list<?string>` | Items stay strings: `{php,1.0,true}` reads as `['php', '1.0', 'true']` |
+| `smallint[]`, `integer[]`, `bigint[]` | `list<?int>` | |
+| `real[]`, `double precision[]` | `list<?float>` | `Infinity` and `NaN` become `INF` and `NAN` ([Infinity Values](INFINITY.md)) |
+| `numeric[]` | `list<?string>` | Keeps the scale: `{1.50,NaN}` reads as `['1.50', 'NaN']` |
+| `boolean[]` | `list<?bool>` | |
+| `uuid[]`, `inet[]`, `cidr[]`, `macaddr[]` | `list<?string>` | |
+| `date[]`, `timestamp[]`, `timestamptz[]` | a `list` of `\DateTimeImmutable`, `DateTimeInfinity` or `null` | `infinity` reads as `DateTimeInfinity::POSITIVE` |
+| `interval[]` | `list<?Interval>` | |
+| `jsonb[]`, `json[]` | a `list` of [jsonb](#jsonb) values | |
+| `ltree[]` | `list<?Ltree>` | |
+| `hstore[]` | `list<array<string, ?string>>` | |
+| `int4range[]` and the other range arrays | `list<?Int4Range>`, … | |
+| an enum array | `list<?YourEnum>` | See [PostgreSQL Enum Types](ENUM-TYPE.md) |
 | `geometry[]`, `geography[]` | reading fails | See [Errors](#errors) |
 | `int4range`, `int8range` | `Int4Range`, `Int8Range` | |
 | `numrange` | `NumericRange` | Bounds are PHP `int` or `float` |
 | `daterange`, `tsrange`, `tstzrange` | `DateRange`, `TsRange`, `TstzRange` | |
 | `int4multirange` and the other multiranges | `Int4Multirange`, … | See [PostgreSQL Range Types](RANGE-TYPES.md) |
 | `interval` | `Interval`, not `\DateInterval` | `toDateInterval()` gives you a `\DateInterval` |
-| `jsonb` | `array\|int\|float\|string\|bool\|null` | See [jsonb](#jsonb) |
+| `jsonb` | `array`, `int`, `float`, `string`, `bool` or `null` | See [jsonb](#jsonb) |
 | `geometry`, `geography` | `WktSpatialData` | `SRID=4326;POINT(23.32 42.69)`; [a `geography` value always has an SRID](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables) |
 | a user-defined enum | the enum case | |
 | a user-defined composite | see [PostgreSQL Composite Types](COMPOSITE-TYPE.md) | |
 | `ltree` | `Ltree` | `lquery` and `ltxtquery` read as strings |
-| `hstore` | `array<string, string\|null>` | |
+| `hstore` | `array<string, ?string>` | |
 | `vector`, `halfvec` | `list<float>` | |
 | `sparsevec`, `cube` | `Sparsevec`, `Cube` | |
 | `point`, `box`, `circle`, `line`, `lseg`, `path`, `polygon` | the value object of the same name | |
@@ -196,9 +196,7 @@ If you read these strings, set the time zone when you connect (`SET TIME ZONE 'U
 
 ## Errors
 
-| You see | Why | Fix |
-|---|---|---|
-| `getSingleScalarResult()` returns `'{php,postgres}'` for `p.tags` | The scalar result methods skip the DBAL type | Use `getSingleResult()` and take the column from the row |
-| `Cannot assign int to property App\Entity\Product::$attributes of type ?array` | That row's `jsonb` value is a plain number | Type the property `mixed`; see [jsonb](#jsonb) |
-| `Type "jsonb" already exists`, or a big `jsonb` integer arrives as a `float` | DBAL 4.3+ [ships its own `jsonb` type](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#jsonb) | Register this library's type with `Type::overrideType('jsonb', Jsonb::class)` |
-| Loading a `geometry[]` or `geography[]` column fails with `Invalid Geometry value object format: '0101000020E6…'` | PostgreSQL sends the items as EWKB hex; the array types read only WKT | Read the column with a native query that selects `ARRAY(SELECT CASE WHEN ST_SRID(e) = 0 THEN ST_AsText(e) ELSE 'SRID=' \|\| ST_SRID(e) \|\| ';' \|\| ST_AsText(e) END FROM unnest(col) AS e)` |
+- **`getSingleScalarResult()` returns `'{php,postgres}'` for `p.tags`.** The scalar result methods skip the DBAL type. Use `getSingleResult()` and take the column from the row.
+- **`Cannot assign int to property App\Entity\Product::$attributes of type ?array`.** That row's `jsonb` value is a plain number. Type the property `mixed`; see [jsonb](#jsonb).
+- **`Type "jsonb" already exists`, or a big `jsonb` integer arrives as a `float`.** DBAL 4.3+ [ships its own `jsonb` type](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#jsonb). Register this library's type with `Type::overrideType('jsonb', Jsonb::class)`.
+- **Loading a `geometry[]` or `geography[]` column fails with `Invalid Geometry value object format: '0101000020E6…'`.** PostgreSQL sends the items as EWKB hex, and the array types read only WKT. Read the column with a native query that selects `ARRAY(SELECT CASE WHEN ST_SRID(e) = 0 THEN ST_AsText(e) ELSE 'SRID=' || ST_SRID(e) || ';' || ST_AsText(e) END FROM unnest(col) AS e)`.
