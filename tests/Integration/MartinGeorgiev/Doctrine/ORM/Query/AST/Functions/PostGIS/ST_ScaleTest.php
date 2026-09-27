@@ -52,4 +52,15 @@ final class ST_ScaleTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_the_scaled_geometry_with_a_geometry_factor(): void
+    {
+        $dql = "SELECT ST_AREA(ST_SCALE(g.geometry1, 'POINT(2 3)')) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2";
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(96.0, $result[0]['result']);
+    }
 }

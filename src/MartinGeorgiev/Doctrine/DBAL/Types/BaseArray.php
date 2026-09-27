@@ -147,15 +147,15 @@ abstract class BaseArray extends BaseType
      */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        $trimmed = \trim($postgresArray);
-        $isAWellFormedBracedArrayLiteral = \str_starts_with($trimmed, '{') && \str_ends_with($trimmed, '}');
-        if (!$isAWellFormedBracedArrayLiteral) {
-            $this->throwInvalidArrayFormatException($postgresArray);
-        }
-
         try {
+            $literal = PostgresArrayToPHPArrayTransformer::withoutIndexBounds(\trim($postgresArray));
+            $isAWellFormedBracedArrayLiteral = \str_starts_with($literal, '{') && \str_ends_with($literal, '}');
+            if (!$isAWellFormedBracedArrayLiteral) {
+                $this->throwInvalidArrayFormatException($postgresArray);
+            }
+
             return PostgresArrayToPHPArrayTransformer::transformPostgresArrayToPHPArray(
-                $postgresArray,
+                $literal,
                 preserveStringTypes: true,
                 delimiter: $this->getArrayElementDelimiter()
             );
