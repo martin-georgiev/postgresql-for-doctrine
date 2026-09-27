@@ -227,10 +227,12 @@ FROM App\Entity\Sale s GROUP BY day</code></pre></div>
       <p>Register each type and function with Doctrine, or list them in your <a href="{{ site.baseurl }}{% link INTEGRATING-WITH-SYMFONY.md %}">Symfony</a> or <a href="{{ site.baseurl }}{% link INTEGRATING-WITH-LARAVEL.md %}">Laravel</a> configuration.</p>
       <pre><code>use Doctrine\DBAL\Types\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\TextArray;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains;
 
 Type::addType('text[]', TextArray::class);
-$configuration-&gt;addCustomStringFunction('CONTAINS', Contains::class);</code></pre>
+$configuration-&gt;addCustomStringFunction('CONTAINS', Contains::class);
+$configuration-&gt;addCustomStringFunction('ARRAY', Arr::class);</code></pre>
     </li>
     <li>
       <h3>Map the column and query it</h3>
@@ -243,6 +245,7 @@ $em-&gt;createQuery('
 ')-&gt;setParameter('tag', 'postgres')-&gt;getResult();</code></pre>
     </li>
   </ol>
+  <p><a href="{{ site.baseurl }}{% link GETTING-STARTED.md %}">Getting started</a> walks through the same steps for Doctrine, Symfony and Laravel, with the table, the schema mappings and what each query returns.</p>
 </section>
 
 <section class="support" aria-labelledby="support-title">

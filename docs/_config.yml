@@ -59,15 +59,17 @@ exclude:
   - vendor
 
 defaults:
+  - scope: { path: GETTING-STARTED.md }
+    values: { title: Getting started, nav_order: 2 }
   - scope: { path: INTEGRATING-WITH-DOCTRINE.md }
-    values: { title: Doctrine setup, nav_order: 2 }
+    values: { title: Doctrine setup, nav_order: 3 }
   - scope: { path: INTEGRATING-WITH-SYMFONY.md }
-    values: { title: Symfony setup, nav_order: 3 }
+    values: { title: Symfony setup, nav_order: 4 }
   - scope: { path: INTEGRATING-WITH-LARAVEL.md }
-    values: { title: Laravel setup, nav_order: 4 }
+    values: { title: Laravel setup, nav_order: 5 }
 
   - scope: { path: AVAILABLE-TYPES.md }
-    values: { title: Types, nav_order: 5, has_children: true }
+    values: { title: Types, nav_order: 6, has_children: true }
   - scope: { path: RANGE-TYPES.md }
     values: { title: Ranges, parent: Types, nav_order: 1 }
   - scope: { path: SPATIAL-TYPES.md }
@@ -84,7 +86,7 @@ defaults:
     values: { title: Infinity, parent: Types, nav_order: 7 }
 
   - scope: { path: AVAILABLE-FUNCTIONS-AND-OPERATORS.md }
-    values: { title: Functions and operators, nav_order: 6, has_children: true }
+    values: { title: Functions and operators, nav_order: 7, has_children: true }
   - scope: { path: ARRAY-AND-JSON-FUNCTIONS.md }
     values: { title: Arrays and JSON, parent: Functions and operators, nav_order: 1 }
   - scope: { path: TEXT-AND-PATTERN-FUNCTIONS.md }
@@ -107,10 +109,12 @@ defaults:
     values: { title: Utilities, parent: Functions and operators, nav_order: 10 }
 
   - scope: { path: DQL-DIALECT.md }
-    values: { title: The DQL dialect, nav_order: 7 }
+    values: { title: The DQL dialect, nav_order: 8 }
   - scope: { path: HYDRATION.md }
-    values: { title: "What comes back: hydration", nav_order: 8 }
+    values: { title: "What comes back: hydration", nav_order: 9 }
   - scope: { path: USE-CASES-AND-EXAMPLES.md }
-    values: { title: Use cases and examples, nav_order: 9 }
+    values: { title: Use cases and examples, nav_order: 10 }
+  - scope: { path: TROUBLESHOOTING.md }
+    values: { title: Troubleshooting, nav_order: 11 }
   - scope: { path: UPGRADE.md }
-    values: { title: Upgrading, nav_order: 10 }
+    values: { title: Upgrading, nav_order: 12 }

@@ -191,6 +191,7 @@ $query = $em->createQuery('
   - Distance and similarity (`l2_distance`, `cosine_distance`, `inner_product`)
 
 Full documentation, also published at [postgresql-for-doctrine.dev](https://postgresql-for-doctrine.dev):
+- [Getting started](docs/GETTING-STARTED.md) - From install to a first query
 - [Available Types](docs/AVAILABLE-TYPES.md)
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
 - [PostgreSQL ltree Types](docs/LTREE-TYPE.md)
@@ -209,12 +210,15 @@ Full documentation, also published at [postgresql-for-doctrine.dev](https://post
 - [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
 - [Spatial Types](docs/SPATIAL-TYPES.md)
 - [Geometry Arrays](docs/GEOMETRY-ARRAYS.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md) - Common errors, by the message you see
 
 ## 📦 Installation
 
 ```bash
 composer require martin-georgiev/postgresql-for-doctrine
 ```
+
+Then follow [Getting started](docs/GETTING-STARTED.md) to register a type and a function and run a first query.
 
 ## 🔧 Integration Guides
 
