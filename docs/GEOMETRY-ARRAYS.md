@@ -30,24 +30,22 @@ $platform->registerDoctrineTypeMapping('_geography', 'geography[]');
 ### Entity Definition
 
 ```php
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
+#[ORM\Entity]
 class Location
 {
-    /**
-     * @var WktSpatialData[]
-     * @ORM\Column(type="geometry[]")
-     */
+    /** @var list<?WktSpatialData> */
+    #[ORM\Column(type: 'geometry[]')]
     private array $geometries;
 
-    /**
-     * @var WktSpatialData[]
-     * @ORM\Column(type="geography[]")
-     */
+    /** @var list<?WktSpatialData> */
+    #[ORM\Column(type: 'geography[]')]
     private array $geographies;
 
-    public function setGeometries(WktSpatialData ...$geometries): void
+    /** @param list<?WktSpatialData> $geometries */
+    public function setGeometries(array $geometries): void
     {
         $this->geometries = $geometries;
     }
