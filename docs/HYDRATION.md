@@ -1,4 +1,4 @@
-# Query results
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Query results
 
 This page tells you which PHP value you get back from a query, and what to do when it is a string you did not expect.
 

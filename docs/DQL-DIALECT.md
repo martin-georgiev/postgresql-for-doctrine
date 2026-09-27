@@ -1,4 +1,4 @@
-# Writing DQL
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Writing DQL
 
 Being Doctrine's query language, DQL syntax is different from the PostgreSQL's one you already know. PostgreSQL's syntax often does not parse as written in DQL. This page covers rules and patterns that the library follows:
 
