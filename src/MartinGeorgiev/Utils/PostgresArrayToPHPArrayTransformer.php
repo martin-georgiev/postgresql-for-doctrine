@@ -44,7 +44,7 @@ class PostgresArrayToPHPArrayTransformer
      */
     public static function transformPostgresArrayToPHPArray(string $postgresArray, bool $preserveStringTypes = false, string $delimiter = self::POSTGRESQL_DEFAULT_TYPDELIM): array
     {
-        $trimmed = \trim($postgresArray);
+        $trimmed = self::withoutIndexBounds(\trim($postgresArray));
 
         if ($trimmed === '' || \strtolower($trimmed) === self::POSTGRESQL_NULL_VALUE) {
             return [];
@@ -112,6 +112,25 @@ class PostgresArrayToPHPArrayTransformer
         }
 
         return (array) $decoded;
+    }
+
+    /**
+     * PostgreSQL prefixes an array whose index does not start at 1 with its bounds, as in [0:2]={5,1,2}.
+     * A PHP list carries no such bounds, so a one-dimensional prefix is dropped. A prefix per dimension marks a multi-dimensional array.
+     *
+     * @throws InvalidArrayFormatException when the prefix belongs to a multi-dimensional array
+     */
+    public static function withoutIndexBounds(string $postgresArray): string
+    {
+        if (\preg_match('/^(?:\[[+-]?\d+:[+-]?\d+\])+=/', $postgresArray, $matches) !== 1) {
+            return $postgresArray;
+        }
+
+        if (\substr_count($matches[0], '[') > 1) {
+            throw InvalidArrayFormatException::multiDimensionalArrayNotSupported();
+        }
+
+        return \substr($postgresArray, \strlen($matches[0]));
     }
 
     /**

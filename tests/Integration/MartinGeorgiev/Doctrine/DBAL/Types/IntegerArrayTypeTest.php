@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use PHPUnit\Framework\Attributes\Test;
+
 final class IntegerArrayTypeTest extends ArrayTypeTestCase
 {
     protected function getTypeName(): string
@@ -22,5 +24,16 @@ final class IntegerArrayTypeTest extends ArrayTypeTestCase
             'integer array with max values' => [[2147483647, -2147483648, 0]],
             'array with a null element' => [[1, null, 3]],
         ];
+    }
+
+    #[Test]
+    public function converts_values_emitted_by_postgres(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $result = $this->fetchConvertedValueForPostgresLiteral($typeName, $columnType, '[0:2]={5,1,2}');
+
+        $this->assertSame([5, 1, 2], $result);
     }
 }

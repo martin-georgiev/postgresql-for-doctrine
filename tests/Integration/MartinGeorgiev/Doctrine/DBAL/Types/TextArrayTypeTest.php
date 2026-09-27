@@ -101,4 +101,15 @@ final class TextArrayTypeTest extends ArrayTypeTestCase
             ],
         ];
     }
+
+    #[Test]
+    public function converts_values_emitted_by_postgres(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $result = $this->fetchConvertedValueForPostgresLiteral($typeName, $columnType, '[2:3]={a,b}');
+
+        $this->assertSame(['a', 'b'], $result);
+    }
 }
