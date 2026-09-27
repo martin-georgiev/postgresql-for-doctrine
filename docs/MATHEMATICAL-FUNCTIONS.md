@@ -137,30 +137,57 @@ In SQL, an [ordered-set aggregate](https://www.postgresql.org/docs/18/functions-
 
 ## Usage examples
 
+The results come from these rows of `Entity`, where `value` and the coordinates are `double precision`:
+
+| id | category | status | score | value | x1 | y1 | x2 | y2 |
+|---|---|---|---|---|---|---|---|---|
+| 1 | books | active | 91 | 16 | 0 | 0 | 3 | 4 |
+| 2 | books | active | 78 | 49 | 1 | 1 | 4 | 5 |
+| 3 | books | draft | 85 | 120 | 0 | 0 | 0 | 2 |
+| 4 | music | draft | 42 | -5 | 2 | 2 | 2 | 2 |
+
+Each `-- →` line under a query is one row of `getResult()`, measured on PostgreSQL 18 with PHP 8.5, DBAL 4.5 and ORM 3.7 and the session time zone set to UTC; [What comes back: hydration](HYDRATION.md) explains the PHP types. A query without its own `ORDER BY` returns rows in no set order; the results list them in the order of the sample rows, or by group after a `GROUP BY`.
+
 ```sql
 -- WIDTH_BUCKET: bucket number (1-based) for a value in a histogram with N equal-width buckets
 SELECT WIDTH_BUCKET(e.score, 0, 100, 10) as bucket, COUNT(e.id) as count
 FROM Entity e GROUP BY bucket ORDER BY bucket
+-- → ['bucket' => 5, 'count' => 1]
+--   ['bucket' => 8, 'count' => 1]
+--   ['bucket' => 9, 'count' => 1]
+--   ['bucket' => 10, 'count' => 1]
 
 -- POWER used for square root and Pythagorean distance
 SELECT POWER(e.value, 0.5) as square_root FROM Entity e WHERE e.value > 0
+-- → ['square_root' => 4.0]
+--   ['square_root' => 7.0]
+--   ['square_root' => 10.954451150103322]
 SELECT POWER(POWER(e.x2 - e.x1, 2) + POWER(e.y2 - e.y1, 2), 0.5) as distance FROM Entity e
+-- → ['distance' => 5.0]
+--   ['distance' => 5.0]
+--   ['distance' => 2.0]
+--   ['distance' => 0.0]
 
 -- Random reservoir sampling: WHERE filters ~10% of rows, ORDER BY shuffles them
 SELECT e FROM Entity e WHERE RANDOM() < 0.1 ORDER BY RANDOM() -- DQL has no LIMIT: cap the rows with $query->setMaxResults(100)
+-- → each row with a one-in-ten chance, in random order
 
 -- GREATEST/LEAST with aggregates - clamp aggregate results to a floor or ceiling
 SELECT e.category,
        GREATEST(MAX(e.value), 0) as max_non_negative,
        LEAST(MIN(e.value), 100) as min_capped
 FROM Entity e GROUP BY e.category
+-- → ['category' => 'books', 'max_non_negative' => 120.0, 'min_capped' => 16.0]
+--   ['category' => 'music', 'max_non_negative' => 0.0, 'min_capped' => -5.0]
 
 -- Ordered-set aggregates: WITHIN GROUP ORDER BY goes inside the parentheses (see above)
 SELECT e.category,
        PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY e.value) as median,
-       PERCENTILE_DISC(0.9 WITHIN GROUP ORDER BY e.value DESC) as top_decile,
+       PERCENTILE_DISC(0.9 WITHIN GROUP ORDER BY e.value) as top_decile,
        MODE(WITHIN GROUP ORDER BY e.status) as most_common_status
 FROM Entity e GROUP BY e.category
+-- → ['category' => 'books', 'median' => 49.0, 'top_decile' => 120.0, 'most_common_status' => 'active']
+--   ['category' => 'music', 'median' => -5.0, 'top_decile' => -5.0, 'most_common_status' => 'draft']
 ```
 **Function Categories:**
 

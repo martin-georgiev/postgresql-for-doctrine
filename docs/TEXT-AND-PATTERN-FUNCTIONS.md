@@ -156,21 +156,41 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 
 ## Usage examples
 
+The results come from these rows of `Entity`:
+
+| id | email | text | content | category | name |
+|---|---|---|---|---|---|
+| 1 | ada@example.com | Released on 2026-09-27 | The search engine ranks the search terms | books | Dune |
+| 2 | not-an-email | No date here | A search for other terms | books | Neuromancer |
+| 3 | miles@jazz.example.org | Recorded 1959-03-02 | Nothing relevant | music | Kind of Blue |
+
+Each `-- →` line under a query is one row of `getResult()`, measured on PostgreSQL 18 with PHP 8.5, DBAL 4.5 and ORM 3.7 and the session time zone set to UTC; [What comes back: hydration](HYDRATION.md) explains the PHP types. A query without its own `ORDER BY` returns rows in no set order; the results list them in the order of the sample rows, or by group after a `GROUP BY`.
+
 ```sql
 -- REGEXP_LIKE with a real-world email pattern - POSIX syntax, not SQL LIKE syntax
 SELECT e FROM Entity e WHERE REGEXP_LIKE(e.email, '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$') = TRUE
+-- → [Entity {id: 1}, Entity {id: 3}]
 
 -- REGEXP_MATCH returns an array of capture groups (one element per group)
 SELECT REGEXP_MATCH(e.text, '([0-9]{4})-([0-9]{2})-([0-9]{2})') as date_parts FROM Entity e
+-- → ['date_parts' => '{2026,09,27}']
+--   ['date_parts' => null]
+--   ['date_parts' => '{1959,03,02}']
 
 -- Full-text search: combine TO_TSVECTOR + TO_TSQUERY; must use = TRUE in DQL WHERE clauses
 SELECT e FROM Entity e WHERE TSMATCH(TO_TSVECTOR(e.content), TO_TSQUERY('search & terms')) = TRUE
+-- → [Entity {id: 1}, Entity {id: 2}]
 
 -- TS_RANK: sort by relevance score - smaller values are less relevant
 SELECT e, TS_RANK(TO_TSVECTOR(e.content), TO_TSQUERY('search')) as rank FROM Entity e ORDER BY rank DESC
+-- → [0 => Entity {id: 1}, 'rank' => 0.075990885]
+--   [0 => Entity {id: 2}, 'rank' => 0.06079271]
+--   [0 => Entity {id: 3}, 'rank' => 0.0]
 
 -- STRING_AGG with separator - requires GROUP BY
 SELECT e.category, STRING_AGG(e.name, ', ' ORDER BY e.name) as names FROM Entity e GROUP BY e.category
+-- → ['category' => 'books', 'names' => 'Dune, Neuromancer']
+--   ['category' => 'music', 'names' => 'Kind of Blue']
 ```
 
 **Tips:**
