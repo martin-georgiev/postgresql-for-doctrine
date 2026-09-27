@@ -61,6 +61,7 @@ final class CidrTypeTest extends ScalarTypeTestCase
             'invalid network format' => ['invalid-network'],
             'triple segment CIDR' => ['192.168.1.0/24/24'],
             'decimal netmask' => ['192.168.1.0/24.5'],
+            'host bits set right of the netmask' => ['192.168.1.1/24'],
         ];
     }
 }
