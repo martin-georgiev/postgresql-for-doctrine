@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Spatial types (foundations)
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostGIS geometry and geography
 
 A `geometry` or `geography` column maps to the `WktSpatialData` value object, which holds the value as WKT or EWKT text. This page shows how to build one, which geometry types it accepts, how to constrain a column, and what fails.
 

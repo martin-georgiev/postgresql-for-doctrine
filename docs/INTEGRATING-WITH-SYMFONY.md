@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Integration with Symfony
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Symfony setup
 
 This page covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle.
 
@@ -397,7 +397,7 @@ Register the functions you use in your [DQL queries](https://symfony.com/doc/cur
 - [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md)
-- [Mathematical functions](MATHEMATICAL-FUNCTIONS.md)
+- [Mathematical and statistical functions](MATHEMATICAL-FUNCTIONS.md)
 - [Utility functions](UTILITY-FUNCTIONS.md)
 
 ```yaml

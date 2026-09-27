@@ -1,4 +1,4 @@
-# What comes back: hydration
+# Query results
 
 This page tells you which PHP value you get back from a query, and what to do when it is a string you did not expect.
 

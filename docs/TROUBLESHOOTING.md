@@ -2,7 +2,7 @@
 
 This page lists the errors people meet most often with this library, by the message you see, with the cause and the fix. The messages are copied from Doctrine DBAL 4.5 and ORM 3.7 on PostgreSQL 18; the platform class, the column number and the parameter number depend on your versions and your query.
 
-> **See also:** [Getting started](GETTING-STARTED.md) · [The DQL dialect](DQL-DIALECT.md) · [What comes back: hydration](HYDRATION.md)
+> **See also:** [Getting started](GETTING-STARTED.md) · [Writing DQL](DQL-DIALECT.md) · [Query results](HYDRATION.md)
 
 ## When Doctrine parses the query
 
@@ -10,7 +10,7 @@ This page lists the errors people meet most often with this library, by the mess
 
 **Cause:** the query calls a function that is not registered.
 
-**Fix:** register every function the query calls, including helpers such as `ARRAY`, as [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md#register-dql-functions), [Integration with Symfony](INTEGRATING-WITH-SYMFONY.md#register-dql-functions) or [Integration with Laravel](INTEGRATING-WITH-LARAVEL.md#register-dql-functions) shows.
+**Fix:** register every function the query calls, including helpers such as `ARRAY`, as [Doctrine setup](INTEGRATING-WITH-DOCTRINE.md#register-dql-functions), [Symfony setup](INTEGRATING-WITH-SYMFONY.md#register-dql-functions) or [Laravel setup](INTEGRATING-WITH-LARAVEL.md#register-dql-functions) shows.
 
 ### `Expected =, <, <=, <>, >, >=, !=, got end of string.`
 
@@ -148,4 +148,4 @@ For example `'{books,php,new}'` instead of a PHP array.
 
 **Cause:** the scalar result methods skip the DBAL type, even for a mapped field.
 
-**Fix:** use `getSingleResult()` and take the column from the row; see [What comes back: hydration](HYDRATION.md#in-short).
+**Fix:** use `getSingleResult()` and take the column from the row; see [Query results](HYDRATION.md#in-short).

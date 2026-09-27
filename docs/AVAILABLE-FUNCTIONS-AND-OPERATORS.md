@@ -2,7 +2,7 @@
 
 This page lists the PostgreSQL functions and operators available in this library. Each category below links to its own page with the details.
 
-> **See also:** [What comes back: hydration](HYDRATION.md) for the PHP value a function result arrives as
+> **See also:** [Query results](HYDRATION.md) for the PHP value a function result arrives as
 
 ## Operator conflicts and usage notes
 
@@ -21,7 +21,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 - **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations → [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching → [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - **Boolean operators**: the containment, overlap and bounding box operators return booleans and **must be compared with `= TRUE` or `= FALSE` in DQL**
-- **The rules behind these names**, and the ones every function follows (`= TRUE`, `FILTER` and `OVER`, literals and parameters): [The DQL dialect](DQL-DIALECT.md)
+- **The rules behind these names**, and the ones every function follows (`= TRUE`, `FILTER` and `OVER`, literals and parameters): [Writing DQL](DQL-DIALECT.md)
 
 ## Function and operator categories
 
@@ -40,7 +40,7 @@ Each category has its own page:
 [Date, time, and range functions](DATE-AND-RANGE-FUNCTIONS.md): date and time arithmetic and extraction, range constructors, and the range operators.
 
 ### Mathematical functions
-[Mathematical functions](MATHEMATICAL-FUNCTIONS.md): arithmetic, rounding, trigonometry, random numbers, the bitwise and boolean aggregates (`BIT_AND`, `BOOL_OR`, `EVERY`, …) and the statistical aggregates (`CORR`, `STDDEV`, `PERCENTILE_CONT`, `MODE`, …).
+[Mathematical and statistical functions](MATHEMATICAL-FUNCTIONS.md): arithmetic, rounding, trigonometry, random numbers, the bitwise and boolean aggregates (`BIT_AND`, `BOOL_OR`, `EVERY`, …) and the statistical aggregates (`CORR`, `STDDEV`, `PERCENTILE_CONT`, `MODE`, …).
 
 ### Utility functions
 [Utility functions](UTILITY-FUNCTIONS.md): type casting (`CAST`), formatting (`TO_CHAR`, `TO_NUMBER`), and UUID generation and inspection (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`, `UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`).
@@ -164,7 +164,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `INNER_PRODUCT` - Inner product of two vectors
 
 **Composite Types:**
-- `COMPOSITE_FIELD` - Access a field from a PostgreSQL composite type column → [Use cases and examples](USE-CASES-AND-EXAMPLES.md#using-postgresql-composite-types)
+- `COMPOSITE_FIELD` - Access a field from a PostgreSQL composite type column → [Examples](USE-CASES-AND-EXAMPLES.md#using-postgresql-composite-types)
 
 **XML Functions:** ([full list](XML-FUNCTIONS.md))
 - `XML_IS_WELL_FORMED` - Check whether a text string is well-formed XML
@@ -191,6 +191,6 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 
 - [Available types](AVAILABLE-TYPES.md): the PostgreSQL types this library maps
 - [PostgreSQL range types](RANGE-TYPES.md): the range value objects
-- [Common use cases and examples](USE-CASES-AND-EXAMPLES.md): the functions in whole queries
-- [Spatial types](SPATIAL-TYPES.md): the `geometry` and `geography` value object
+- [Examples](USE-CASES-AND-EXAMPLES.md): the functions in whole queries
+- [PostGIS geometry and geography](SPATIAL-TYPES.md): the `geometry` and `geography` value object
 - [Geometry and geography arrays](GEOMETRY-ARRAYS.md): arrays of spatial values

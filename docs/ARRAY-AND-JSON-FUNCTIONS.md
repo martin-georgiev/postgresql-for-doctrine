@@ -2,7 +2,7 @@
 
 This page covers PostgreSQL [array](https://www.postgresql.org/docs/18/functions-array.html) and [JSON/JSONB](https://www.postgresql.org/docs/18/functions-json.html) operators and functions available in this library.
 
-> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
+> **See also:** [Examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## Array and JSON operators
 
@@ -16,7 +16,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 
 **Usage Guidelines:**
 - **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
-- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
+- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [Writing DQL](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 
 ### Array and JSON operators
 

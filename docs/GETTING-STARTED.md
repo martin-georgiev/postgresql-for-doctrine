@@ -64,7 +64,7 @@ doctrine:
                 ARRAY_APPEND: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAppend
 ```
 
-These keys go next to the ones the Symfony recipe already puts under `dbal` and `orm`. If your configuration lists `connections` or `entity_managers`, put `mapping_types` under the connection and `dql` under the entity manager instead, as [Integration with Symfony](INTEGRATING-WITH-SYMFONY.md) shows.
+These keys go next to the ones the Symfony recipe already puts under `dbal` and `orm`. If your configuration lists `connections` or `entity_managers`, put `mapping_types` under the connection and `dql` under the entity manager instead, as [Symfony setup](INTEGRATING-WITH-SYMFONY.md) shows.
 
 ### With Laravel
 
@@ -94,7 +94,7 @@ return [
 ];
 ```
 
-This needs the [Laravel Doctrine](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/) package; [Integration with Laravel](INTEGRATING-WITH-LARAVEL.md) shows how to install it.
+This needs the [Laravel Doctrine](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/) package; [Laravel setup](INTEGRATING-WITH-LARAVEL.md) shows how to install it.
 
 ## 3. Map a column
 
@@ -147,7 +147,7 @@ $products = $entityManager
 [Product {name: 'Doctrine in Action', tags: ['books', 'php']}]
 ```
 
-`CONTAINS(p.tags, ARRAY(:tag)) = TRUE` becomes `(p0_.tags @> ARRAY[?]) = true` in SQL. DQL only accepts a function in `WHERE` as part of a comparison, which is why it ends in `= TRUE`; [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison) explains the rule.
+`CONTAINS(p.tags, ARRAY(:tag)) = TRUE` becomes `(p0_.tags @> ARRAY[?]) = true` in SQL. DQL only accepts a function in `WHERE` as part of a comparison, which is why it ends in `= TRUE`; [Writing DQL](DQL-DIALECT.md#boolean-functions-need-a-comparison) explains the rule.
 
 A value the query computes comes back differently from a mapped field:
 
@@ -164,12 +164,12 @@ $rows = $entityManager
 ]
 ```
 
-`p.tags` would arrive as a PHP array, because Doctrine converts a mapped field with its type. `extended` is computed by the query, so Doctrine hands it over as PostgreSQL's text. [What comes back: hydration](HYDRATION.md) shows how to convert it.
+`p.tags` would arrive as a PHP array, because Doctrine converts a mapped field with its type. `extended` is computed by the query, so Doctrine hands it over as PostgreSQL's text. [Query results](HYDRATION.md) shows how to convert it.
 
 ## Where to go next
 
-- The full registration lists: [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md), [Integration with Symfony](INTEGRATING-WITH-SYMFONY.md), [Integration with Laravel](INTEGRATING-WITH-LARAVEL.md)
+- The full registration lists: [Doctrine setup](INTEGRATING-WITH-DOCTRINE.md), [Symfony setup](INTEGRATING-WITH-SYMFONY.md), [Laravel setup](INTEGRATING-WITH-LARAVEL.md)
 - Every type and the PHP value it maps to: [Available types](AVAILABLE-TYPES.md)
 - Every function and operator, by category: [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md)
-- How PostgreSQL syntax is written in DQL: [The DQL dialect](DQL-DIALECT.md)
+- How PostgreSQL syntax is written in DQL: [Writing DQL](DQL-DIALECT.md)
 - An error you do not recognise: [Troubleshooting](TROUBLESHOOTING.md)

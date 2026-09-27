@@ -1,8 +1,8 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Mathematical functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Mathematical and statistical functions
 
 This page covers PostgreSQL [mathematical functions](https://www.postgresql.org/docs/18/functions-math.html) available in this library.
 
-> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
+> **See also:** [Examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## Trigonometric functions
 

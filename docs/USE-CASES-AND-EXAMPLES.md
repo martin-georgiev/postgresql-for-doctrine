@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Common use cases and examples
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Examples
 
 This page shows common tasks as DQL, each with the result it returns from the sample rows below, with times in UTC. Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
 
@@ -230,7 +230,7 @@ PostgreSQL computes these with ordered-set aggregates, written in SQL as `percen
 -- DQL:  PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total)
 ```
 
-> **See also:** [Mathematical functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql) for the full list of rules
+> **See also:** [Mathematical and statistical functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql) for the full list of rules
 
 ```sql
 -- Median order value per customer (interpolated between the two middle values)

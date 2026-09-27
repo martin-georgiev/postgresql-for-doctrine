@@ -2,7 +2,7 @@
 
 This page covers [PostGIS spatial functions and operators](https://postgis.net/docs/reference.html) available in this library for working with geometry and geography data types.
 
-> **See also:** [Spatial types](SPATIAL-TYPES.md) for geometry/geography types and [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
+> **See also:** [PostGIS geometry and geography](SPATIAL-TYPES.md) for the column types and [Examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## PostGIS spatial operators
 
@@ -20,7 +20,7 @@ Some operators have dual meanings for different data types. Use the specific DQL
 
 ### Bounding box operators
 
-These operators work with geometry bounding boxes; PostGIS does not define them for geography. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
+These operators work with geometry bounding boxes; PostGIS does not define them for geography. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [Writing DQL](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|

@@ -2,7 +2,7 @@
 
 This page covers PostgreSQL [text processing](https://www.postgresql.org/docs/18/functions-string.html), [pattern matching](https://www.postgresql.org/docs/18/functions-matching.html), and regular expression functions and operators available in this library.
 
-> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
+> **See also:** [Examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## Text and pattern operators
 
@@ -14,7 +14,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 
 **Usage Guidelines:**
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching
-- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
+- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [Writing DQL](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 
 ### Text and pattern operators
 
