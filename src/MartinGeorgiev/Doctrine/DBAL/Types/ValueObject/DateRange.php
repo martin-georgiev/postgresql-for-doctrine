@@ -26,6 +26,8 @@ final class DateRange extends Range
         bool $isExplicitlyEmpty = false,
         bool $isLowerBoundedInfinity = false,
         bool $isUpperBoundedInfinity = false,
+        bool $isLowerInfinityNegative = true,
+        bool $isUpperInfinityNegative = false,
     ) {
         if ($lower !== null && !$lower instanceof \DateTimeInterface) {
             throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $lower, InvalidRangeException::LOWER_BOUND);
@@ -35,7 +37,7 @@ final class DateRange extends Range
             throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $upper, InvalidRangeException::UPPER_BOUND);
         }
 
-        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
+        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity, $isLowerInfinityNegative, $isUpperInfinityNegative);
     }
 
     protected function compareBounds(mixed $a, mixed $b): int
