@@ -32,6 +32,17 @@ final class ST_MakePointTest extends SpatialOperatorTestCase
     }
 
     #[Test]
+    public function creates_the_point_from_negative_numeric_literals(): void
+    {
+        $dql = 'SELECT ST_X(ST_MAKEPOINT(-71.1, 42.3)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(-71.1, $result[0]['result']);
+    }
+
+    #[Test]
     public function creates_the_point_with_z(): void
     {
         $dql = 'SELECT ST_Z(ST_MAKEPOINT(11, 22, 33)) as result
