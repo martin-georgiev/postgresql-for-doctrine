@@ -75,15 +75,15 @@ defaults:
   - scope: { path: SPATIAL-TYPES.md }
     values: { title: PostGIS geometry and geography, parent: Types, nav_order: 2 }
   - scope: { path: GEOMETRY-ARRAYS.md }
-    values: { title: Geometry arrays, parent: Types, nav_order: 3 }
+    values: { title: Geometry and geography arrays, parent: Types, nav_order: 3 }
   - scope: { path: LTREE-TYPE.md }
-    values: { title: Ltree, parent: Types, nav_order: 4 }
+    values: { title: Ltree, parent: Types, nav_order: 6 }
   - scope: { path: ENUM-TYPE.md }
-    values: { title: Enums, parent: Types, nav_order: 5 }
+    values: { title: Enums, parent: Types, nav_order: 4 }
   - scope: { path: COMPOSITE-TYPE.md }
-    values: { title: Composite types, parent: Types, nav_order: 6 }
+    values: { title: Composite types, parent: Types, nav_order: 5 }
   - scope: { path: INFINITY.md }
-    values: { title: Infinity, parent: Types, nav_order: 7 }
+    values: { title: Infinity values, parent: Types, nav_order: 7 }
 
   - scope: { path: AVAILABLE-FUNCTIONS-AND-OPERATORS.md }
     values: { title: Functions and operators, nav_order: 4, has_children: true }
@@ -94,7 +94,7 @@ defaults:
   - scope: { path: DATE-AND-RANGE-FUNCTIONS.md }
     values: { title: Dates and ranges, parent: Functions and operators, nav_order: 3 }
   - scope: { path: SPATIAL-FUNCTIONS-AND-OPERATORS.md }
-    values: { title: PostGIS spatial, parent: Functions and operators, nav_order: 4 }
+    values: { title: PostGIS, parent: Functions and operators, nav_order: 4 }
   - scope: { path: WINDOW-FUNCTIONS.md }
     values: { title: Window functions, parent: Functions and operators, nav_order: 5 }
   - scope: { path: MATHEMATICAL-FUNCTIONS.md }
@@ -109,11 +109,11 @@ defaults:
     values: { title: Utilities, parent: Functions and operators, nav_order: 10 }
 
   - scope: { path: DQL-DIALECT.md }
-    values: { title: The DQL dialect, nav_order: 5 }
+    values: { title: Writing DQL, nav_order: 5 }
   - scope: { path: HYDRATION.md }
-    values: { title: "What comes back: hydration", nav_order: 6 }
+    values: { title: Query results, nav_order: 6 }
   - scope: { path: USE-CASES-AND-EXAMPLES.md }
-    values: { title: Use cases and examples, nav_order: 7 }
+    values: { title: Examples, nav_order: 7 }
   - scope: { path: TROUBLESHOOTING.md }
     values: { title: Troubleshooting, nav_order: 8 }
   - scope: { path: UPGRADE.md }
