@@ -18,19 +18,6 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
         ];
     }
 
-    protected function getSelectExpression(string $columnName): string
-    {
-        return \sprintf(
-            'CASE WHEN ST_SRID("%s") = 0 THEN ST_AsText("%s") ELSE '
-            ."'SRID=' || ST_SRID(\"%s\") || ';' || ST_AsText(\"%s\") END AS \"%s\"",
-            $columnName,
-            $columnName,
-            $columnName,
-            $columnName,
-            $columnName
-        );
-    }
-
     #[Test]
     public function creates_column_with_postgis_type_modifier(): void
     {

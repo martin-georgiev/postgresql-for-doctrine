@@ -64,17 +64,19 @@ abstract class TestCase extends BaseTestCase
      */
     protected function fetchConvertedValue(string $typeName, string $tableName, string $columnName): mixed
     {
+        $type = Type::getType($typeName);
+        $platform = $this->connection->getDatabasePlatform();
+        $columnSql = $type->convertToPHPValueSQL(\sprintf('"%s"', $columnName), $platform);
+
         $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select($this->getSelectExpression($columnName))
+        $queryBuilder->select(\sprintf('%s AS "%s"', $columnSql, $columnName))
             ->from(self::DATABASE_SCHEMA.'.'.$tableName)
             ->where('id = 1');
 
         $row = $queryBuilder->executeQuery()->fetchAssociative();
         \assert(\is_array($row) && \array_key_exists($columnName, $row));
 
-        $platform = $this->connection->getDatabasePlatform();
-
-        return Type::getType($typeName)->convertToPHPValue($row[$columnName], $platform);
+        return $type->convertToPHPValue($row[$columnName], $platform);
     }
 
     protected function assertRoundTrip(string $typeName, mixed $expected, mixed $retrieved): void
@@ -207,10 +209,5 @@ abstract class TestCase extends BaseTestCase
         if (\method_exists($type, 'requiresSQLCommentHint')) {
             $this->assertFalse($type->requiresSQLCommentHint($platform));
         }
-    }
-
-    protected function getSelectExpression(string $columnName): string
-    {
-        return $columnName;
     }
 }
