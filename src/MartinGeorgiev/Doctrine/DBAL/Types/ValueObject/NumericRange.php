@@ -110,6 +110,9 @@ final class NumericRange extends Range
     /**
      * NaN sorts above `Infinity`, which makes `[1,Infinity)` exclude it while the unbounded `[1,)` contains it.
      * Unlike the other subtypes, `numeric` also holds the infinities themselves.
+     *
+     * A numeric string is always finite, since is_numeric() accepts no spelling of infinity, but one beyond the float
+     * range, such as `1e999`, casts to INF.
      */
     protected function compareWithInfinity(mixed $value, bool $isNegative): int
     {
@@ -119,6 +122,10 @@ final class NumericRange extends Range
 
         if ($this->isNotANumber($value)) {
             return 1;
+        }
+
+        if (\is_string($value)) {
+            return parent::compareWithInfinity($value, $isNegative);
         }
 
         return (float) $value <=> ($isNegative ? -\INF : \INF);
