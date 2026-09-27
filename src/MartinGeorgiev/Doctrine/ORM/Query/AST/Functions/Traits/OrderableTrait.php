@@ -30,6 +30,14 @@ trait OrderableTrait
 
     protected function getOptionalOrderByClause(SqlWalker $sqlWalker): string
     {
-        return $this->orderByClause instanceof OrderByClause ? $this->orderByClause->dispatch($sqlWalker) : '';
+        if (!$this->orderByClause instanceof OrderByClause) {
+            return '';
+        }
+
+        // Walking the items instead of the clause keeps Doctrine from appending the #[OrderBy] columns of a
+        // fetch-joined collection, which belong to the outer query and not to the aggregate.
+        $orderByItems = \array_map($sqlWalker->walkOrderByItem(...), $this->orderByClause->orderByItems);
+
+        return ' ORDER BY '.\implode(', ', $orderByItems);
     }
 }
