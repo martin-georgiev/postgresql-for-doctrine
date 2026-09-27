@@ -63,8 +63,8 @@ final class CidrTest extends TestCase
                 'postgresValue' => '192.168.0.0/24',
             ],
             'IPv4 CIDR with min netmask' => [
-                'phpValue' => '10.0.0.0/0',
-                'postgresValue' => '10.0.0.0/0',
+                'phpValue' => '0.0.0.0/0',
+                'postgresValue' => '0.0.0.0/0',
             ],
             'IPv4 CIDR with max netmask' => [
                 'phpValue' => '172.16.0.0/32',
@@ -75,8 +75,8 @@ final class CidrTest extends TestCase
                 'postgresValue' => '2001:db8::/32',
             ],
             'IPv6 CIDR with min netmask' => [
-                'phpValue' => 'fe80::/0',
-                'postgresValue' => 'fe80::/0',
+                'phpValue' => '::/0',
+                'postgresValue' => '::/0',
             ],
             'IPv6 CIDR with max netmask' => [
                 'phpValue' => '2001:db8::/128',
