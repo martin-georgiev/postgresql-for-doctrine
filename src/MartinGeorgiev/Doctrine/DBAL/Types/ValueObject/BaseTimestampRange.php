@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresEraConversionTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 
 /**
@@ -15,6 +16,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeExcept
  */
 abstract class BaseTimestampRange extends Range
 {
+    use PostgresEraConversionTrait;
+
     public function __construct(
         ?\DateTimeInterface $lower,
         ?\DateTimeInterface $upper,
@@ -55,7 +58,7 @@ abstract class BaseTimestampRange extends Range
         }
 
         try {
-            return new \DateTimeImmutable($value);
+            return new \DateTimeImmutable(self::signYearForPhpParser($value));
         } catch (\Exception $exception) {
             throw InvalidRangeException::forUnparsableBound($value, $exception);
         }

@@ -22,6 +22,6 @@ final class TsRange extends BaseTimestampRange
             throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $value);
         }
 
-        return $value->format('Y-m-d H:i:s.u');
+        return self::formatInPostgresEra($value, 'Y-m-d H:i:s.u');
     }
 }
