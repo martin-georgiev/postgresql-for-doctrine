@@ -26,6 +26,6 @@ class Metaphone extends BaseFunction
     {
         $this->setFunctionPrototype('metaphone(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

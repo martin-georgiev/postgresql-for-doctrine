@@ -24,8 +24,8 @@ class ST_GeneratePoints extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
-            'StringPrimary,ArithmeticPrimary',
+            'StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,SimpleArithmeticExpression',
         ];
     }
 

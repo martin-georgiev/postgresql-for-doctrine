@@ -6,7 +6,7 @@ cat <<'RULES'
 
 - **Exceptions**: `*ForPHPException` in `convertToPHPValue`; `*ForDatabaseException` in `convertToDatabaseValue` — NEVER swap, NEVER use generic exceptions
 - **PHPStan**: ALWAYS use `--configuration=ci/phpstan/config.neon` — never run without it
-- **DQL booleans**: `StringPrimary` not `ArithmeticPrimary`; `BooleanValidationTrait`; patterns longest-first
+- **DQL arguments**: numbers `SimpleArithmeticExpression` (`ArithmeticPrimary` rejects `-1`); booleans `StringPrimary` + `BooleanValidationTrait`; patterns longest-first
 - **PostGIS**: Results are WKB hex — use `ST_EQUALS`/`ST_LENGTH`/`assertEqualsWithDelta`, not string assertions
 - **Tests**: Max 3 fix attempts then ask user; use central fixtures; filter by specific IDs
 - **@since**: Check GitHub for next release version — NEVER guess

@@ -24,8 +24,8 @@ class ST_PointInsideCircle extends BaseFunction
     {
         $this->setFunctionPrototype('ST_PointInsideCircle(%s, %s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

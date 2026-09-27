@@ -24,8 +24,8 @@ class TsRankCd extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,StringPrimary,StringPrimary,ArithmeticPrimary',
-            'StringPrimary,StringPrimary,ArithmeticPrimary',
+            'StringPrimary,StringPrimary,StringPrimary,SimpleArithmeticExpression',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression',
             'StringPrimary,StringPrimary',
         ];
     }

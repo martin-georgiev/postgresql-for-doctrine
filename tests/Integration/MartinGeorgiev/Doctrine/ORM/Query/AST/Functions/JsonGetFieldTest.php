@@ -31,4 +31,12 @@ final class JsonGetFieldTest extends JsonTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('"developer"', $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_the_json_field_by_negative_index_from_an_entity_field(): void
+    {
+        $dql = "SELECT JSON_GET_FIELD(JSON_GET_FIELD(t.jsonObject1, 'tags'), -1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsJsons t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('"manager"', $result[0]['result']);
+    }
 }

@@ -22,6 +22,6 @@ class ArrayUpper extends BaseFunction
     {
         $this->setFunctionPrototype('array_upper(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

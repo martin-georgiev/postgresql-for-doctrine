@@ -25,6 +25,6 @@ class ST_3DDWithin extends BaseFunction
         $this->setFunctionPrototype('ST_3DDWithin(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

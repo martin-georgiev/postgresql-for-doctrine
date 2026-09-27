@@ -24,6 +24,6 @@ class ST_Segmentize extends BaseFunction
     {
         $this->setFunctionPrototype('ST_Segmentize(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

@@ -1,5 +1,5 @@
 ---
-description: "Variadic DQL functions: boolean StringPrimary, BooleanValidationTrait"
+description: "Variadic DQL functions: numeric SimpleArithmeticExpression, boolean StringPrimary, BooleanValidationTrait"
 alwaysApply: true
 trigger: always_on
 applyTo: "**"
@@ -8,15 +8,18 @@ type: always_apply
 
 # Variadic Function Development
 
+## Numeric Parameters in DQL
+Read a numeric argument with `SimpleArithmeticExpression`, never `ArithmeticPrimary`. `ArithmeticPrimary` takes no sign, so DQL rejects `ST_MAKEPOINT(-71.1, 42.3)` before PostgreSQL sees it. `composer run-static-analysis` flags it in a node mapping pattern, in `addNodeMapping()` and in a direct parser call.
+
 ## Boolean Parameters in DQL
-DQL has `TRUE` and `FALSE` literals, and `ArithmeticPrimary` accepts them as well as string literals; `StringPrimary` accepts only the string. For variadic functions with boolean optional parameters, use `StringPrimary` in the node mapping pattern, not `ArithmeticPrimary`, so every boolean argument has one spelling: the string literal `'true'` or `'false'`.
+DQL has `TRUE` and `FALSE` literals, and `SimpleArithmeticExpression` accepts them as well as string literals; `StringPrimary` accepts only the string. For variadic functions with boolean optional parameters, use `StringPrimary` in the node mapping pattern, not `SimpleArithmeticExpression`, so every boolean argument has one spelling: the string literal `'true'` or `'false'`.
 
 ```
 // ✓ Correct — booleans pass through StringPrimary
-'StringPrimary,ArithmeticPrimary,StringPrimary'   // (geometry, float, boolean)
+'StringPrimary,SimpleArithmeticExpression,StringPrimary'   // (geometry, float, boolean)
 
-// ❌ Wrong — ArithmeticPrimary also accepts a bare TRUE, a second spelling
-'StringPrimary,ArithmeticPrimary,ArithmeticPrimary'
+// ❌ Wrong — SimpleArithmeticExpression also accepts a bare TRUE, a second spelling
+'StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression'
 ```
 
 **DQL usage**: `ST_CONCAVEHULL(g.geometry, 0.99, 'true')` not `ST_CONCAVEHULL(g.geometry, 0.99, true)`

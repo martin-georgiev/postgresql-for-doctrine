@@ -9,9 +9,10 @@ Subdirectories map to PostgreSQL extensions or built-in domains: `PostGIS/`, `Ne
 ## 2. Create the function class
 
 Follow the reference function's structure. Key rules:
-- Pure numeric functions: extend `BaseArithmeticFunction` (uses `SimpleArithmeticExpression`), override `getMinArgumentCount()`/`getMaxArgumentCount()` for multi-arg. Do NOT extend `BaseVariadicFunction` with `ArithmeticPrimary` for numeric-only functions.
-- Only use `BaseVariadicFunction` directly when different node types are needed per argument position (e.g., `StringPrimary` mixed with `ArithmeticPrimary`).
-- Boolean parameters MUST use `StringPrimary`, not `ArithmeticPrimary` (see `.ai-tools/rules/variadic-functions.md`)
+- Pure numeric functions: extend `BaseArithmeticFunction` (uses `SimpleArithmeticExpression`), override `getMinArgumentCount()`/`getMaxArgumentCount()` for multi-arg. Do NOT extend `BaseVariadicFunction` directly for numeric-only functions.
+- Only use `BaseVariadicFunction` directly when different node types are needed per argument position (e.g., `StringPrimary` mixed with `SimpleArithmeticExpression`).
+- Numeric arguments MUST use `SimpleArithmeticExpression`, not `ArithmeticPrimary`, which rejects a signed number such as `-1`
+- Boolean parameters MUST use `StringPrimary`, not `SimpleArithmeticExpression` (see `.ai-tools/rules/variadic-functions.md`)
 - Use `BooleanValidationTrait` for boolean validation
 - Order node mapping patterns longest-first
 

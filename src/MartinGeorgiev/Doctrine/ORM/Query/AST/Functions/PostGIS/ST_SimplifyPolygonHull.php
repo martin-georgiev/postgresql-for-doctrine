@@ -25,8 +25,8 @@ class ST_SimplifyPolygonHull extends BaseVariadicFunctionWithOptionalBooleanLast
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,ArithmeticPrimary,StringPrimary',
-            'StringPrimary,ArithmeticPrimary',
+            'StringPrimary,SimpleArithmeticExpression,StringPrimary',
+            'StringPrimary,SimpleArithmeticExpression',
         ];
     }
 

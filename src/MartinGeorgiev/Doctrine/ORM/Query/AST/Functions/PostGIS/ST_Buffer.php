@@ -26,9 +26,9 @@ class ST_Buffer extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
-            'StringPrimary,ArithmeticPrimary,StringPrimary',
-            'StringPrimary,ArithmeticPrimary',
+            'StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,SimpleArithmeticExpression,StringPrimary',
+            'StringPrimary,SimpleArithmeticExpression',
         ];
     }
 

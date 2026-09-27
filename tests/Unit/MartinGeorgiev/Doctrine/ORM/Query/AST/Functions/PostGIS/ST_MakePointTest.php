@@ -25,6 +25,7 @@ final class ST_MakePointTest extends TestCase
             'creates 2D point' => 'SELECT ST_MakePoint(1, 2) AS sclr_0 FROM ContainsGeometries c0_',
             'creates 3DZ point' => 'SELECT ST_MakePoint(1, 2, 3) AS sclr_0 FROM ContainsGeometries c0_',
             'creates 4D point' => 'SELECT ST_MakePoint(1, 2, 3, 4) AS sclr_0 FROM ContainsGeometries c0_',
+            'creates 2D point from negative coordinates' => 'SELECT ST_MakePoint(-71.1, 42.3) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -34,6 +35,7 @@ final class ST_MakePointTest extends TestCase
             'creates 2D point' => 'SELECT ST_MAKEPOINT(1, 2) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             'creates 3DZ point' => 'SELECT ST_MAKEPOINT(1, 2, 3) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             'creates 4D point' => 'SELECT ST_MAKEPOINT(1, 2, 3, 4) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'creates 2D point from negative coordinates' => 'SELECT ST_MAKEPOINT(-71.1, 42.3) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 

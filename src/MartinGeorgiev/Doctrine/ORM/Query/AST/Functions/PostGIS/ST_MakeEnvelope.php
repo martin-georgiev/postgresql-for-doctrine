@@ -23,7 +23,7 @@ class ST_MakeEnvelope extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['ArithmeticPrimary'];
+        return ['SimpleArithmeticExpression'];
     }
 
     protected function getFunctionName(): string
