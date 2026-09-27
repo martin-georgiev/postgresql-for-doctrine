@@ -117,7 +117,7 @@ final class NumericRange extends Range
 
     protected function formatValue(mixed $value): string
     {
-        if ($this->isNotANumber($value)) {
+        if (\is_float($value)) {
             return self::formatFloat($value);
         }
 
@@ -152,13 +152,22 @@ final class NumericRange extends Range
             throw InvalidRangeException::forInvalidBoundType('numeric', $value);
         }
 
+        // A float holds integers exactly only up to 2^53, so an integer literal is read as one directly.
+        $intValue = \filter_var($value, \FILTER_VALIDATE_INT);
+        if ($intValue !== false) {
+            return $intValue;
+        }
+
         $floatValue = (float) $value;
         if (!\is_finite($floatValue)) {
             throw InvalidRangeException::forNonFiniteBound($value);
         }
 
-        $intValue = (int) $floatValue;
+        $isWithinIntegerRange = $floatValue >= \PHP_INT_MIN && $floatValue < \PHP_INT_MAX;
+        if ($isWithinIntegerRange && $floatValue === \floor($floatValue)) {
+            return (int) $floatValue;
+        }
 
-        return $floatValue === (float) $intValue ? $intValue : $floatValue;
+        return $floatValue;
     }
 }
