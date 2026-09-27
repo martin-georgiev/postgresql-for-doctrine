@@ -101,11 +101,37 @@ final readonly class WktSpatialData implements \Stringable
         }
 
         $geometryType = GeometryType::tryFrom($typeString);
+        $mayCarryAGluedModifier = $geometryType === null && $dimensionalModifier === null;
+        if ($mayCarryAGluedModifier) {
+            [$geometryType, $dimensionalModifier] = self::splitGluedDimensionalModifier($typeString);
+        }
+
         if ($geometryType === null) {
             throw InvalidWktSpatialDataException::forUnsupportedGeometryType($typeString);
         }
 
         return new self($srid, $geometryType, $body, $dimensionalModifier);
+    }
+
+    /**
+     * ST_AsEWKT() glues the modifier to the type name, as in POINTM(1 2 3), so POINTM reads as POINT M.
+     *
+     * @return array{GeometryType|null, DimensionalModifier|null}
+     */
+    private static function splitGluedDimensionalModifier(string $typeString): array
+    {
+        foreach (DimensionalModifier::cases() as $dimensionalModifier) {
+            if (!\str_ends_with($typeString, $dimensionalModifier->value)) {
+                continue;
+            }
+
+            $geometryType = GeometryType::tryFrom(\substr($typeString, 0, -\strlen($dimensionalModifier->value)));
+            if ($geometryType instanceof GeometryType) {
+                return [$geometryType, $dimensionalModifier];
+            }
+        }
+
+        return [null, null];
     }
 
     /**
