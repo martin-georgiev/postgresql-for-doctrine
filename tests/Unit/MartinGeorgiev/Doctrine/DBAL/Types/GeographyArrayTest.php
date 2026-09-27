@@ -36,6 +36,23 @@ final class GeographyArrayTest extends TestCase
     }
 
     #[Test]
+    public function wraps_sql_expression_for_ewkt_conversion(): void
+    {
+        $sql = $this->type->convertToPHPValueSQL('geom_col', $this->platform);
+
+        $this->assertSame(
+            "CASE WHEN geom_col IS NULL THEN NULL ELSE ARRAY(SELECT CASE WHEN ST_SRID(item) = 0 THEN ST_AsText(item, 25) ELSE 'SRID=' || ST_SRID(item) || ';' || ST_AsText(item, 25) END FROM unnest(geom_col) WITH ORDINALITY AS items(item, position) ORDER BY position) END",
+            $sql
+        );
+    }
+
+    #[Test]
+    public function returns_true_for_sql_conversion_requirement(): void
+    {
+        $this->assertTrue($this->type->canRequireSQLConversion());
+    }
+
+    #[Test]
     public function converts_null_to_database_value(): void
     {
         $result = $this->type->convertToDatabaseValue(null, $this->platform);

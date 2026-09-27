@@ -15,6 +15,8 @@ parameters:
             message: '#^Call to deprecated method canRequireSQLConversion\(\) of class #'
             paths:
                 - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/BaseSpatialTypeTestCase.php
+                - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/GeographyArrayTest.php
+                - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/GeometryArrayTest.php
             reportUnmatched: false
 
         # ORM 2.x only: set{Metadata,Query}CacheImpl() deprecated there, removed in 3.x. Call sites branch at runtime
