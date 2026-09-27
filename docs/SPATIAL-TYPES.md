@@ -169,7 +169,7 @@ $polyhedralSurface = WktSpatialData::fromString('POLYHEDRALSURFACE(((0 0, 0 1, 1
 
 ## Column options for DDL
 
-By default `geometry` and `geography` columns are declared as bare `GEOMETRY` / `GEOGRAPHY`. A bare `GEOMETRY` column accepts any subtype and any SRID. A bare `GEOGRAPHY` column is narrower: it accepts only geography-compatible subtypes (PostGIS rejects e.g. `TIN`) and geodetic lon/lat SRIDs, and stores SRID-less input as SRID 4326. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
+By default `geometry` and `geography` columns are declared as bare `GEOMETRY` / `GEOGRAPHY`. A bare `GEOMETRY` column accepts any subtype and any SRID. A bare `GEOGRAPHY` column is [narrower](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables): it accepts only geography-compatible subtypes (PostGIS rejects e.g. `TIN`) and geodetic lon/lat SRIDs, and stores SRID-less input as SRID 4326. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
 
 | Option | Type | Meaning |
 |---|---|---|
@@ -213,11 +213,11 @@ Both options are optional and independent:
 - `geography` only supports lon/lat reference systems; PostgreSQL rejects e.g. `GEOGRAPHY(POINT,3857)` at `CREATE TABLE` time.
 - A constrained column coerces values that carry no SRID: inserting `POINT(1 2)` into `GEOMETRY(POINT,4326)` stores `SRID=4326;POINT(1 2)`.
 - Doctrine's schema comparator does not understand PostGIS type modifiers, so `doctrine:schema:update` and diff-based migration generation may report spurious changes for these columns. Manage them with explicit migrations.
-- Spatial (GiST) indexes are not covered by these options. Declare them in a migration with raw SQL: `CREATE INDEX idx_place_location ON place USING GIST (location);`
+- [Spatial (GiST) indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes) are not covered by these options. Declare them in a migration with raw SQL: `CREATE INDEX idx_place_location ON place USING GIST (location);`
 
 ## Geography vs Geometry specifics
 
-- Geometry accepts WKT and EWKT (`SRID=...;...`).
+- Geometry accepts WKT and [EWKT](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT) (`SRID=...;...`).
 - Geography commonly uses SRID 4326; EWKT is supported (e.g., `SRID=4326;POINT(...)`).
 - Dimensional modifiers (Z, M, ZM) are normalized consistently for both types.
 

@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL ltree Types
 
-PostgreSQL's `ltree` extension stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST indexes. It also ships two companion query types — `lquery` for path patterns and `ltxtquery` for full-text style label queries.
+PostgreSQL's [`ltree` extension](https://www.postgresql.org/docs/18/ltree.html) stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST indexes. It also ships two companion query types — `lquery` for path patterns and `ltxtquery` for full-text style label queries.
 
 > 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) | [Ltree Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) | [Hierarchical Data with `ltree`](USE-CASES-AND-EXAMPLES.md#hierarchical-data-with-ltree)
 
@@ -64,7 +64,7 @@ $path->getParent();                                     // Top.Sports
 $path->withLeaf('UEFA');                                // Top.Sports.Football.UEFA
 ```
 
-🗃️ Doctrine can't define GiST indexes with the required ltree operator classes. Create the index manually in a migration:
+🗃️ Doctrine can't define GiST indexes with the [required ltree operator classes](https://www.postgresql.org/docs/18/ltree.html#LTREE-INDEXES). Create the index manually in a migration:
 
 ```sql
 CREATE INDEX category_path_gist_idx ON category USING GIST (path gist_ltree_ops(siglen=100));
@@ -111,7 +111,7 @@ class SavedFilter
 $filter->pattern = 'Top.*{1,2}.sport@*.!football|tennis';
 ```
 
-Pattern syntax, as accepted by PostgreSQL:
+Pattern syntax, [as accepted by PostgreSQL](https://www.postgresql.org/docs/18/ltree.html#LTREE-DEFINITIONS):
 
 | Element | Meaning |
 |---------|---------|

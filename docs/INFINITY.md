@@ -15,7 +15,7 @@ Items of `numeric[]` are the exception: they stay strings so that arbitrary prec
 
 ## Range bounds: boolean flags
 
-A range bound is marked with `isLowerBoundedInfinity()` / `isUpperBoundedInfinity()`, kept distinct from a `null` bound, because PostgreSQL keeps them distinct too:
+A range bound is marked with `isLowerBoundedInfinity()` / `isUpperBoundedInfinity()`, kept distinct from a `null` bound, because [PostgreSQL keeps them distinct too](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INFINITE):
 
 ```sql
 SELECT '[-infinity,infinity)'::daterange = '(,)'::daterange; -- false
@@ -25,7 +25,7 @@ SELECT lower('[-infinity,infinity)'::daterange);             -- -infinity
 
 `null` already carries "this end is unbounded", so a bound of infinity needs a third state next to it — hence the flag. See [Range Types](RANGE-TYPES.md#infinity-support), which also covers the `NumericRange(0, INF)` shorthand.
 
-`NaN` needs no flag of its own. PostgreSQL orders it above every `numeric` value rather than leaving the end open, so it is a bound like any other and travels as `NAN` in the bound itself — the float shape above, inside a range. See [NaN Bounds](RANGE-TYPES.md#nan-bounds).
+`NaN` needs no flag of its own. PostgreSQL [orders it above every `numeric` value](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) rather than leaving the end open, so it is a bound like any other and travels as `NAN` in the bound itself — the float shape above, inside a range. See [NaN Bounds](RANGE-TYPES.md#nan-bounds).
 
 ## Array elements: an enum sentinel
 
@@ -44,7 +44,7 @@ Forcing the three into one shape would make two of them worse: floats would carr
 
 The input grammar is not the same across families, which is why the library recognizes several sets of tokens rather than one:
 
-| Input | `date`, `timestamp` | `float8` | `numeric` |
+| Input | [`date`, `timestamp`](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-SPECIAL-VALUES) | [`float8`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-FLOAT) | `numeric` |
 |---|---|---|---|
 | `infinity`, `-infinity` | accepted | accepted | accepted |
 | `inf`, `-inf` | rejected | accepted | accepted |

@@ -2,7 +2,7 @@
 
 > 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) for the `xml` and `xml[]` DBAL types
 
-| PostgreSQL function | Register for DQL as | Implemented by |
+| [PostgreSQL function](https://www.postgresql.org/docs/18/functions-xml.html) | Register for DQL as | Implemented by |
 |---|---|---|
 | xml_is_well_formed | XML_IS_WELL_FORMED | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormed` |
 | xml_is_well_formed_content | XML_IS_WELL_FORMED_CONTENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlIsWellFormedContent` |

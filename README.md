@@ -79,7 +79,7 @@ $query = $em->createQuery('
   - Path (`path`, `path[]`)
   - Point (`point`, `point[]`)
   - Polygon (`polygon`, `polygon[]`)
-  - PostGIS Geometry (`geometry`, `geometry[]`)
+  - [PostGIS](https://postgis.net/docs/) Geometry (`geometry`, `geometry[]`)
   - PostGIS Geography (`geography`, `geography[]`)
 - **Range Types**
   - Date and time ranges (`daterange`, `daterange[]`, `tsrange`, `tsrange[]`, `tstzrange`, `tstzrange[]`)
@@ -103,7 +103,7 @@ $query = $em->createQuery('
 - **XML Types**
   - Native XML document storage (`xml`, `xml[]`)
 - **Hierarchical Types**
-  - Label-tree data (`ltree`, `ltree[]`)
+  - [Label-tree data](https://www.postgresql.org/docs/18/ltree.html) (`ltree`, `ltree[]`)
 - **Vector Types** (requires [pgvector](https://github.com/pgvector/pgvector) extension)
   - Fixed-dimension float vector (`vector`)
   - Half-precision float vector (`halfvec`)
