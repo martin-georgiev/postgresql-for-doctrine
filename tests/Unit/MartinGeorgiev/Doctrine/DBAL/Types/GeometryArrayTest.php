@@ -267,6 +267,10 @@ final class GeometryArrayTest extends TestCase
     public static function provideValidPostgresArraysForPHP(): array
     {
         return [
+            'index starting below one' => [
+                '[0:0]={"POINT(1 2)"}',
+                ['POINT(1 2)'],
+            ],
             'single point' => [
                 '{POINT(1 2)}',
                 ['POINT(1 2)'],
