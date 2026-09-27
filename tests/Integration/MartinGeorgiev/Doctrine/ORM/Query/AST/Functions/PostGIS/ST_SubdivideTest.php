@@ -50,4 +50,15 @@ final class ST_SubdivideTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertEquals(16, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_the_subdivided_geometry_without_max_vertices(): void
+    {
+        $dql = 'SELECT ST_AREA(ST_SUBDIVIDE(g.geometry1)) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 2';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertEquals(16, $result[0]['result']);
+    }
 }

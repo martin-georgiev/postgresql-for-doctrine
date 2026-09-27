@@ -105,7 +105,23 @@ abstract class Range implements \Stringable
             return true;
         }
 
-        return $comparison === 0 && (!$this->isLowerBracketInclusive || !$this->isUpperBracketInclusive);
+        if ($comparison === 0) {
+            return !$this->isLowerBracketInclusive || !$this->isUpperBracketInclusive;
+        }
+
+        $areBothBoundsExclusive = !$this->isLowerBracketInclusive && !$this->isUpperBracketInclusive;
+        $areBothBoundsFinite = !$this->isLowerBoundedInfinity && !$this->isUpperBoundedInfinity;
+
+        return $areBothBoundsExclusive && $areBothBoundsFinite && $this->hasNoValueBetween($this->lower, $this->upper);
+    }
+
+    /**
+     * A continuous subtype holds a value between any two distinct ones. A discrete one holds none between neighbours,
+     * which is why PostgreSQL reads `(1,2)` as empty.
+     */
+    protected function hasNoValueBetween(mixed $lower, mixed $upper): bool
+    {
+        return false;
     }
 
     private function compareLowerWithUpper(): int
