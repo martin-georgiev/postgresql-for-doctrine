@@ -86,6 +86,14 @@ final class Int4RangeTest extends BaseRangeTestCase
                 'range' => new Int4Range(5, 5, true, true),
                 'expectedEmpty' => false,
             ],
+            'adjacent exclusive bounds should be empty' => [
+                'range' => new Int4Range(1, 2, false, false),
+                'expectedEmpty' => true,
+            ],
+            'exclusive bounds two apart should not be empty' => [
+                'range' => new Int4Range(1, 3, false, false),
+                'expectedEmpty' => false,
+            ],
         ];
     }
 

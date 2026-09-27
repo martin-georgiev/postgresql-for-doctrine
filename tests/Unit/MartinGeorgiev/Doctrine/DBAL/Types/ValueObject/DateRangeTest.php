@@ -133,6 +133,17 @@ final class DateRangeTest extends BaseRangeTestCase
                 ),
                 'expectedEmpty' => false,
             ],
+            'adjacent exclusive days should be empty' => [
+                'range' => DateRange::fromString('(2024-01-01,2024-01-02)'),
+                'expectedEmpty' => true,
+            ],
+            'two times of one day should be empty' => [
+                'range' => new DateRange(
+                    new \DateTimeImmutable('2024-01-01 10:00'),
+                    new \DateTimeImmutable('2024-01-01 15:00')
+                ),
+                'expectedEmpty' => true,
+            ],
             'equal infinite bounds exclusive should be empty' => [
                 'range' => DateRange::fromString('[infinity,infinity)'),
                 'expectedEmpty' => true,
@@ -233,6 +244,11 @@ final class DateRangeTest extends BaseRangeTestCase
             $unboundedUpper,
             new \DateTimeImmutable('2022-12-31'),
             false,
+        ];
+        yield 'single inclusive day contains a time on that day' => [
+            DateRange::fromString('[2024-01-01,2024-01-01]'),
+            new \DateTimeImmutable('2024-01-01 12:00'),
+            true,
         ];
         yield 'range between both infinities contains a date' => [
             DateRange::fromString('[-infinity,infinity)'),
