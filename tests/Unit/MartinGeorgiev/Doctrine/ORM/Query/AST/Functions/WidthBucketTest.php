@@ -37,7 +37,7 @@ final class WidthBucketTest extends TestCase
     }
 
     #[Test]
-    public function throws_exception_for_too_few_arguments(): void
+    public function throws_exception_for_three_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
         $this->expectExceptionMessage('WIDTH_BUCKET() cannot be called with 3 arguments');
@@ -53,6 +53,16 @@ final class WidthBucketTest extends TestCase
         $this->expectExceptionMessage('WIDTH_BUCKET() requires between 2 and 4 arguments');
 
         $dql = \sprintf('SELECT WIDTH_BUCKET(e.decimal1, 0.0, 20.0, 4, 5) FROM %s e', ContainsDecimals::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
+    public function throws_exception_for_too_few_arguments(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('WIDTH_BUCKET() requires at least 2 arguments');
+
+        $dql = \sprintf('SELECT WIDTH_BUCKET(e.decimal1) FROM %s e', ContainsDecimals::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }
