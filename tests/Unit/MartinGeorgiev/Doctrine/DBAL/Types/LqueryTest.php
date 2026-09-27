@@ -58,6 +58,10 @@ final class LqueryTest extends TestCase
                 'phpValue' => null,
                 'databaseValue' => null,
             ],
+            'decimal digit and letter number labels' => [
+                'phpValue' => 'a٣.Ⅻ',
+                'databaseValue' => 'a٣.Ⅻ',
+            ],
             'single label' => [
                 'phpValue' => 'Top',
                 'databaseValue' => 'Top',
@@ -120,6 +124,7 @@ final class LqueryTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
+            'a numeric character that is not a digit' => ['a²'],
             'integer input' => [42],
             'float input' => [3.14],
             'array input' => [['not', 'a', 'string']],
