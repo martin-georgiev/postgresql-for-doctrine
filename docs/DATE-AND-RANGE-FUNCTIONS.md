@@ -1,10 +1,10 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Date, Time, and Range Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Date, time, and range functions
 
-This document covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/functions-datetime.html), and [range functions](https://www.postgresql.org/docs/18/functions-range.html) available in this library.
+This page covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/functions-datetime.html), and [range functions](https://www.postgresql.org/docs/18/functions-range.html) available in this library.
 
-> 📖 **See also**: [Range Types](RANGE-TYPES.md) for range value objects and [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical date and range examples
+> **See also:** [Range types](RANGE-TYPES.md) for range value objects and [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
-## Date and Time Functions
+## Date and time functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -31,13 +31,13 @@ This document covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/
 | to_timestamp | TO_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp` |
 | transaction_timestamp | TRANSACTION_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp` |
 
-## Date and Time Operators
+## Date and time operators
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
 | at time zone | AT_TIME_ZONE | Converts time data between different time zones (behavior depends on whether the input has a time zone offset) | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AtTimeZone` |
 
-## Range Functions
+## Range functions
 
 PostgreSQL provides several range types for representing ranges of values. These functions create and work with range types.
 
@@ -50,7 +50,7 @@ PostgreSQL provides several range types for representing ranges of values. These
 | tsrange | TSRANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange` |
 | tstzrange | TSTZRANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange` |
 
-## Range Aggregate Functions
+## Range aggregate functions
 
 These aggregate functions operate on range values.
 
@@ -59,7 +59,7 @@ These aggregate functions operate on range values.
 | range_agg | RANGE_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeAgg` |
 | range_intersect_agg | RANGE_INTERSECT_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeIntersectAgg` |
 
-## Range Operators
+## Range operators
 
 Range types work with the general operators for containment and overlap testing:
 
@@ -69,7 +69,7 @@ Range types work with the general operators for containment and overlap testing:
 | <@ | IS_CONTAINED_BY | Tests if element or range is contained by range | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\IsContainedBy` |
 | && | OVERLAPS | Tests if ranges overlap | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps` |
 
-## Usage Examples
+## Usage examples
 
 ```sql
 -- Find gaps in date ranges
@@ -89,7 +89,7 @@ SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 hour', 'Europe/Sofia') as h
 -- DATE_BIN: snap a timestamp to the nearest interval boundary relative to an origin
 SELECT DATE_BIN('7 days', e.created_at, '2023-01-02') as week_start FROM Entity e
 
--- Range bounds: third argument controls inclusivity — default is '[)' (inclusive lower, exclusive upper)
+-- Range bounds: third argument controls inclusivity - default is '[)' (inclusive lower, exclusive upper)
 SELECT DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity e
 
 -- Range operators must be compared with = TRUE / = FALSE in Doctrine DQL
@@ -105,16 +105,16 @@ GROUP BY month_range
 ORDER BY month_range
 ```
 
-**📝 Range Type Notes:**
+**Range Type Notes:**
 
-### Range Bounds
+### Range bounds
 PostgreSQL ranges support [different bound types](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INCLUSIVITY):
 - `'[)'` - Lower bound inclusive, upper bound exclusive (default)
 - `'()'` - Both bounds exclusive
 - `'[]'` - Both bounds inclusive
 - `'(]'` - Lower bound exclusive, upper bound inclusive
 
-### Range Types Available
+### Range types available
 - **daterange**: Date ranges (without time)
 - **tsrange**: Timestamp ranges (without timezone)
 - **tstzrange**: Timestamp ranges (with timezone)
@@ -122,15 +122,12 @@ PostgreSQL ranges support [different bound types](https://www.postgresql.org/doc
 - **int8range**: 64-bit integer ranges
 - **numrange**: Numeric ranges (decimal/float)
 
-### Empty and Infinite Ranges
-- Empty ranges: a range containing no values, which PostgreSQL prints as `empty` (e.g. `DATERANGE('2023-01-01', '2023-01-01')`). In PHP, use `DateRange::empty()` and `isEmpty()` — see [Empty Ranges](RANGE-TYPES.md#empty-ranges). A range with two `NULL` bounds is not empty: it is `(,)`, [unbounded on both sides](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INFINITE)
+### Empty and infinite ranges
+- Empty ranges: a range containing no values, which PostgreSQL prints as `empty` (such as `DATERANGE('2023-01-01', '2023-01-01')`). In PHP, use `DateRange::empty()` and `isEmpty()` - see [Empty ranges](RANGE-TYPES.md#empty-ranges). A range with two `NULL` bounds is not empty: it is `(,)`, [unbounded on both sides](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INFINITE)
 - Infinite ranges: Use a parameter set to `null` for unbounded sides (DQL does not accept a bare `NULL` argument)
 - Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 
-**💡 Tips for Usage:**
-1. **Range operators** should be used with `= TRUE` or `= FALSE` in DQL (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
-2. **Date functions** work with PostgreSQL's rich date/time types
-3. **Range types** provide efficient storage and querying for value ranges
-4. **Overlaps testing** is optimized with proper indexes on range columns
-5. **Date extraction** supports many field types: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, DOW (day of week), DOY (day of year)
-6. **Range bounds** default to `[)` (inclusive lower, exclusive upper) if not specified
+**Tips:**
+- Compare the range operators with `= TRUE` or `= FALSE` in DQL (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
+- A [GiST index](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INDEXING) on a range column speeds up the overlap and containment operators.
+- `DATE_PART` and `DATE_EXTRACT` take [any field PostgreSQL knows](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT), such as `year`, `month`, `dow` (day of week) and `doy` (day of year).

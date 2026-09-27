@@ -8,7 +8,7 @@ Being Doctrine's query language, DQL syntax is different from the PostgreSQL's o
 - what each argument accepts; and
 - what to do when DQL cannot express a query at all.
 
-> **See also:** [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) · [Window Functions](WINDOW-FUNCTIONS.md) · [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md)
+> **See also:** [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) · [Window functions](WINDOW-FUNCTIONS.md) · [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md)
 
 The examples we used for the query examples follow a simplified entity model for a small shop:
 
@@ -218,7 +218,7 @@ SELECT s.reference, OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.place
 FROM App\Entity\Sale s
 ```
 
-The window specification, the frame clauses and the ranking and value functions are covered in [Window Functions](WINDOW-FUNCTIONS.md).
+The window specification, the frame clauses and the ranking and value functions are covered in [Window functions](WINDOW-FUNCTIONS.md).
 
 ### WITHIN GROUP moves inside the call
 
@@ -445,8 +445,8 @@ $entityManager->getConnection()->executeStatement(
 
 ## Reference
 
-- [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md): every DQL name, by category
-- [Window Functions](WINDOW-FUNCTIONS.md): the window specification, frames, and the ranking and value functions
-- [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql): the ordered-set aggregates
-- [Array and JSON Functions and Operators](ARRAY-AND-JSON-FUNCTIONS.md): the array and JSON operators and aggregates
+- [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md): every DQL name, by category
+- [Window functions](WINDOW-FUNCTIONS.md): the window specification, frames, and the ranking and value functions
+- [Mathematical functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql): the ordered-set aggregates
+- [Array and JSON functions and operators](ARRAY-AND-JSON-FUNCTIONS.md): the array and JSON operators and aggregates
 - [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md) · [Integration with Symfony](INTEGRATING-WITH-SYMFONY.md) · [Integration with Laravel](INTEGRATING-WITH-LARAVEL.md): the registered DQL names

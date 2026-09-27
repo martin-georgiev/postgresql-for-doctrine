@@ -1,6 +1,6 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Window Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Window functions
 
-> 📖 **See also**: [PostgreSQL window functions](https://www.postgresql.org/docs/18/functions-window.html) and [window function calls](https://www.postgresql.org/docs/18/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)
+> **See also:** [PostgreSQL window functions](https://www.postgresql.org/docs/18/functions-window.html) and [window function calls](https://www.postgresql.org/docs/18/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS)
 
 | PostgreSQL syntax | Register for DQL as | Implemented by |
 |---|---|---|
@@ -30,7 +30,7 @@ In SQL, `OVER (...)` follows the function's closing parenthesis. DQL cannot pars
 
 Anything else, including a scalar function or a nested `OVER`, throws a `ParserException`, as PostgreSQL would reject it.
 
-## Window Specification
+## Window specification
 
 ```
 [PARTITION BY expression [, ...]] [ORDER BY expression [ASC | DESC] [, ...]] [frame clause]
@@ -40,7 +40,7 @@ Anything else, including a scalar function or a nested `OVER`, throws a `ParserE
 - `ORDER BY` takes the same items as a DQL `ORDER BY`, each with an optional `ASC` / `DESC`.
 - Every clause is optional, and they come in the order `PARTITION BY`, `ORDER BY`, frame.
 
-## Frame Clauses
+## Frame clauses
 
 A frame narrows the rows of the partition a function reads for the current row. It follows `ORDER BY` (or stands on its own) and is written exactly as in SQL:
 
@@ -64,11 +64,11 @@ A frame narrows the rows of the partition a function reads for the current row. 
 | `EXCLUDE TIES` | The peers of the current row, keeping the row itself |
 | `EXCLUDE NO OTHERS` | Nothing (the default) |
 
-- `offset` is an integer, a decimal, a string literal or a parameter. A string literal serves `RANGE` over dates and timestamps, e.g. `RANGE BETWEEN '7 days' PRECEDING AND CURRENT ROW`.
+- `offset` is an integer, a decimal, a string literal or a parameter. A string literal serves `RANGE` over dates and timestamps, such as `RANGE BETWEEN '7 days' PRECEDING AND CURRENT ROW`.
 - The keywords are case-insensitive.
 - Only the syntax is checked in DQL. PostgreSQL rejects the combinations it does not allow, such as `UNBOUNDED FOLLOWING` as the start, a frame end before its start, or an offset `RANGE` without exactly one `ORDER BY` column.
 
-## Ranking Functions
+## Ranking functions
 
 These are window-only functions: they exist only inside `OVER`, and number or rank each row within its partition in the order of the window's `ORDER BY`. Rows with equal `ORDER BY` values are peers.
 
@@ -101,7 +101,7 @@ SELECT s.id, OVER(NTILE(4), PARTITION BY s.region ORDER BY s.amount) AS quartile
 SELECT p.name, OVER(PERCENT_RANK(), ORDER BY p.score) AS percentile FROM App\Entity\Player p
 ```
 
-## Value Functions
+## Value functions
 
 A value function returns a value read from another row of the window.
 
@@ -123,10 +123,10 @@ A value function returns a value read from another row of the window.
 | `nth_value(e.price, 2) OVER (ORDER BY e.day)` | `OVER(NTH_VALUE(e.price, 2), ORDER BY e.day)` |
 
 - `LAG` and `LEAD` read the row `offset` rows before or after the current one within the partition. `offset` defaults to 1, and `default` (NULL unless given) is returned when that row does not exist. `default` may be a literal `NULL`.
-- `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE` read the window frame, not the whole partition. With an `ORDER BY` the default frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`, which ends at the current row's last peer (the last row with the same `ORDER BY` values). So `LAST_VALUE` returns that peer's value, which differs from the current row's when peers hold different values, and `NTH_VALUE` returns NULL until the frame reaches its n-th row. Add a tie-breaker to `ORDER BY` (e.g. the id) or use an explicit `ROWS` frame to make the result deterministic, and `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING` to read the whole partition.
+- `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE` read the window frame, not the whole partition. With an `ORDER BY` the default frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`, which ends at the current row's last peer (the last row with the same `ORDER BY` values). So `LAST_VALUE` returns that peer's value, which differs from the current row's when peers hold different values, and `NTH_VALUE` returns NULL until the frame reaches its n-th row. Add a tie-breaker to `ORDER BY`, such as the id, or use an explicit `ROWS` frame to make the result deterministic, and `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING` to read the whole partition.
 - The value argument is polymorphic, so PostgreSQL cannot resolve a bare string literal such as `LAG('none')`, nor a parameter, and fails with `could not determine polymorphic type because input has type unknown`. Pass a field, an expression over one, or a numeric literal. A string literal or a parameter as `default` is fine, as the value argument already decides the type.
 
-## Usage Examples
+## Usage examples
 
 ```sql
 -- Running total per customer, in the order they were placed

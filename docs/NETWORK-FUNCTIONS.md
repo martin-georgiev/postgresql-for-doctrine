@@ -1,6 +1,6 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Network Address Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Network address functions
 
-> 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) for the `inet`, `cidr`, `macaddr`, and `macaddr8` DBAL types
+> **See also:** [Available types](AVAILABLE-TYPES.md) for the `inet`, `cidr`, `macaddr`, and `macaddr8` DBAL types
 
 | [PostgreSQL functions](https://www.postgresql.org/docs/18/functions-net.html#CIDR-INET-FUNCTIONS-TABLE) | Register for DQL as | Implemented by |
 |---|---|---|

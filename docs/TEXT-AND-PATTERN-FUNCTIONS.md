@@ -1,14 +1,14 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Text and Pattern Functions and Operators
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Text and pattern functions and operators
 
-This document covers PostgreSQL [text processing](https://www.postgresql.org/docs/18/functions-string.html), [pattern matching](https://www.postgresql.org/docs/18/functions-matching.html), and regular expression functions and operators available in this library.
+This page covers PostgreSQL [text processing](https://www.postgresql.org/docs/18/functions-string.html), [pattern matching](https://www.postgresql.org/docs/18/functions-matching.html), and regular expression functions and operators available in this library.
 
-> 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical text processing and regular expression examples
+> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
-## Text and Pattern Operators
+## Text and pattern operators
 
-**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
+Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
-| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
+| Operator | Array/JSON usage | Spatial usage | Text/pattern usage |
 |---|---|---|---|
 | `~` | N/A | `SPATIAL_CONTAINS` (bounding box contains) | `REGEXP` (text pattern matching) |
 
@@ -16,7 +16,7 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching
 - **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 
-### Text and Pattern Operators
+### Text and pattern operators
 
 | PostgreSQL operator | Register for DQL as | Implemented by |
 |---|---|---|
@@ -30,7 +30,7 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 | @@ | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` |
 | \|\| | STRCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat` |
 
-## Regular Expression Functions
+## Regular expression functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -41,7 +41,7 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 | regexp_replace | REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace` |
 | regexp_substr | REGEXP_SUBSTR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr` |
 
-## Text Processing Functions
+## Text processing functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -75,7 +75,7 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 | translate | TRANSLATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate` |
 | unaccent | UNACCENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent` |
 
-## Full-Text Search Functions
+## Full-text search functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -94,9 +94,9 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 | tsvector_to_array | TSVECTOR_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsvectorToArray` |
 | websearch_to_tsquery | WEBSEARCH_TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery` |
 
-## Fuzzy String Matching Functions (fuzzystrmatch extension)
+## Fuzzy string matching functions (fuzzystrmatch extension)
 
-> ⚠️ **Note**: These functions require the PostgreSQL [`fuzzystrmatch`](https://www.postgresql.org/docs/18/fuzzystrmatch.html) extension to be installed and enabled in your database.
+> **Requires the [`fuzzystrmatch`](https://www.postgresql.org/docs/18/fuzzystrmatch.html) extension:** `CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;`
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -109,9 +109,9 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 | metaphone | METAPHONE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Metaphone` |
 | soundex | SOUNDEX | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Soundex` |
 
-## Trigram Similarity Functions (pg_trgm extension)
+## Trigram similarity functions (pg_trgm extension)
 
-> ⚠️ **Note**: These functions and operators require the PostgreSQL [`pg_trgm`](https://www.postgresql.org/docs/18/pgtrgm.html) extension to be installed and enabled.
+> **Requires the [`pg_trgm`](https://www.postgresql.org/docs/18/pgtrgm.html) extension:** `CREATE EXTENSION IF NOT EXISTS pg_trgm;`
 
 ### Similarity functions
 
@@ -141,7 +141,7 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 | <<<-> | STRICT_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarityDistance` |
 | <->>> | REVERSE_STRICT_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseStrictWordSimilarityDistance` |
 
-## Hashing and Checksum Functions
+## Hashing and checksum functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -154,10 +154,10 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 | sha384 | SHA384 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384` |
 | sha512 | SHA512 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512` |
 
-## Usage Examples
+## Usage examples
 
 ```sql
--- REGEXP_LIKE with a real-world email pattern — POSIX syntax, not SQL LIKE syntax
+-- REGEXP_LIKE with a real-world email pattern - POSIX syntax, not SQL LIKE syntax
 SELECT e FROM Entity e WHERE REGEXP_LIKE(e.email, '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$') = TRUE
 
 -- REGEXP_MATCH returns an array of capture groups (one element per group)
@@ -166,18 +166,16 @@ SELECT REGEXP_MATCH(e.text, '([0-9]{4})-([0-9]{2})-([0-9]{2})') as date_parts FR
 -- Full-text search: combine TO_TSVECTOR + TO_TSQUERY; must use = TRUE in DQL WHERE clauses
 SELECT e FROM Entity e WHERE TSMATCH(TO_TSVECTOR(e.content), TO_TSQUERY('search & terms')) = TRUE
 
--- TS_RANK: sort by relevance score — smaller values are less relevant
+-- TS_RANK: sort by relevance score - smaller values are less relevant
 SELECT e, TS_RANK(TO_TSVECTOR(e.content), TO_TSQUERY('search')) as rank FROM Entity e ORDER BY rank DESC
 
--- STRING_AGG with separator — requires GROUP BY
+-- STRING_AGG with separator - requires GROUP BY
 SELECT e.category, STRING_AGG(e.name, ', ' ORDER BY e.name) as names FROM Entity e GROUP BY e.category
 ```
 
-**💡 Tips for Usage:**
-1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
-2. **Regular expressions** use PostgreSQL's POSIX regular expression syntax
-3. **Full-text search** requires proper text search configuration and indexes
-4. **ILIKE** provides case-insensitive pattern matching similar to `LIKE`
-5. **UNACCENT** requires the [`unaccent`](https://www.postgresql.org/docs/18/unaccent.html) extension to be installed in PostgreSQL
-6. **String aggregation** with `STRING_AGG` allows custom separators and ordering
-7. **Fuzzy string matching** functions require the `fuzzystrmatch` extension to be installed in PostgreSQL
+**Tips:**
+- `REGEXP`, `IREGEXP` and the `REGEXP_*` functions take [POSIX regular expressions](https://www.postgresql.org/docs/18/functions-matching.html#FUNCTIONS-POSIX-REGEXP), not `LIKE` patterns.
+- `ILIKE` is `LIKE` without case sensitivity.
+- Full-text search stays fast on large tables with a [GIN index](https://www.postgresql.org/docs/18/textsearch-indexes.html) on the `tsvector`.
+- `UNACCENT` requires the [`unaccent`](https://www.postgresql.org/docs/18/unaccent.html) extension: `CREATE EXTENSION IF NOT EXISTS unaccent;`
+- `STRING_AGG` takes the separator as its second argument and an `ORDER BY` inside the call.

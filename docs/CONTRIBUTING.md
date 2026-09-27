@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Contributing
 
-## 🧑‍💻 Development with Devenv
+## Development with devenv
 
 This project supports [devenv.sh](https://devenv.sh/) for a consistent
 development environment:
@@ -171,10 +171,10 @@ Update the devenv by:
 
 ## Before opening your first PR
 
-For the sake of clear Git history and speedy review of your PR,
-please verify that the suggested changes are in line with the project's standards.
-Code style, static analysis, and file validation scripts are already provided
-and can easily be run from project's root:
+For a clear Git history and a quick review of your PR,
+check that your changes follow the project's standards.
+The code style, static analysis and file validation scripts
+run from the project's root:
 
 - Check for consistent code style:
 
@@ -250,14 +250,14 @@ class ArrayAppend extends BaseFunction
 }
 ```
 
-⚠️ **Beware:** you cannot use **?** (e.g. the `??` operator) as part of any
+You cannot use **?** (including the `??` operator) as part of any
 function prototype in Doctrine.
 It causes query parsing failures.
 
 
-## Testing: Patterns and Guidelines
+## Testing: patterns and guidelines
 
-This project has a rich, well-structured test suite consisting of fast unit tests and database-backed integration tests. Please follow the conventions below when adding or modifying tests.
+The test suite has fast unit tests and database-backed integration tests. Follow the conventions below when you add or change a test.
 
 ### Tools and how to run tests
 - Framework: PHPUnit 10 (PHP attributes like #[Test], #[DataProvider])
@@ -295,7 +295,7 @@ Keep unit tests fast and deterministic; use integration tests to validate behavi
 ### Unit test patterns and conventions
 - Location: tests/Unit/...
 - Naming:
-  - Class names end with `Test` (e.g., `PointTest`, `CidrTest`)
+  - Class names end with `Test` (`PointTest`, `CidrTest`)
   - One file/class per subject
   - Concrete tests may be `final`
 - Structure:
@@ -303,8 +303,8 @@ Keep unit tests fast and deterministic; use integration tests to validate behavi
   - Use `setUp()` to create an `AbstractPlatform` mock and the subject under test when testing DBAL Types
   - Use `#[DataProvider]` for bidirectional transformation scenarios (one provider used for both PHP->DB and DB->PHP tests)
 - Assertions:
-  - Use domain-specific exceptions in negative tests (e.g., `InvalidCidrForPHPException`, `InvalidRangeForDatabaseException`)
-  - Prefer dedicated assertion helpers provided by base classes (e.g., range equality helpers) when available
+  - Use domain-specific exceptions in negative tests (`InvalidCidrForPHPException`, `InvalidRangeForDatabaseException`)
+  - Prefer dedicated assertion helpers provided by base classes (such as the range equality helpers) when available
 - Value Object Range tests:
   - Reuse base classes:
     - `tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/BaseRangeTestCase`
@@ -334,7 +334,7 @@ Anti-patterns to avoid in unit tests:
     - Range types: `RangeTypeTestCase` (includes operator tests and `assertRangeEquals`)
     - Spatial arrays: `SpatialArrayTypeTestCase` (ARRAY[...] insertion for WKT)
 - Per-type organization:
-  - One integration test class per DBAL Type (e.g., `MacaddrTypeTest`, `JsonbTypeTest`, `IntegerArrayTypeTest`)
+  - One integration test class per DBAL Type (`MacaddrTypeTest`, `JsonbTypeTest`, `IntegerArrayTypeTest`)
   - Implement:
     - `protected function getTypeName(): string` (Doctrine type name)
     - `protected function getPostgresTypeName(): string` (column type)

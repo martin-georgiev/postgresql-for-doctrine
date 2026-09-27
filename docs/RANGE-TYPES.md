@@ -1,10 +1,10 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL Range Types
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL range types
 
 PostgreSQL range types represent ranges of values of some element type (called the range's subtype). This library provides support for all [PostgreSQL built-in range types](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-BUILTIN).
 
-> 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions and operators in DQL queries
+> **See also:** [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions and operators in DQL queries
 
-## Available Range Types
+## Available range types
 
 | Range Type | PostgreSQL Type | Value Type | Description |
 |---|---|---|---|
@@ -15,7 +15,7 @@ PostgreSQL range types represent ranges of values of some element type (called t
 | TsRange | TSRANGE | DateTimeInterface | Timestamp ranges without timezone |
 | TstzRange | TSTZRANGE | DateTimeInterface | Timestamp ranges with timezone |
 
-## Basic Usage
+## Basic usage
 
 ### Registration
 
@@ -32,7 +32,7 @@ DoctrineType::addType('tsrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TsRange
 DoctrineType::addType('tstzrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TstzRange");
 ```
 
-### Entity Usage
+### Entity usage
 
 ```php
 use Doctrine\ORM\Mapping as ORM;
@@ -60,9 +60,9 @@ class Product
 }
 ```
 
-## Range Construction
+## Range construction
 
-### Inclusive vs Exclusive Bounds
+### Inclusive vs exclusive bounds
 
 Ranges support both inclusive `[` and exclusive `(` bounds:
 
@@ -79,7 +79,7 @@ $range = new NumericRange(0, 100, false, true);
 $range = new NumericRange(5, 15, true, true);
 ```
 
-### Infinite Ranges
+### Infinite ranges
 
 Ranges can be unbounded on either side:
 
@@ -94,7 +94,7 @@ $range = new NumericRange(null, 100, false, true);
 $range = NumericRange::infinite();
 ```
 
-### Empty Ranges
+### Empty ranges
 
 ```php
 // Create an explicitly empty range
@@ -106,7 +106,7 @@ if ($range->isEmpty()) {
 }
 ```
 
-## Numeric Ranges (NUMRANGE)
+## Numeric ranges (NUMRANGE)
 
 For arbitrary precision numeric values:
 
@@ -125,7 +125,7 @@ if ($priceRange->contains(25.00)) {
 $range = NumericRange::fromString('[10.5,99.99)');
 ```
 
-## Integer Ranges
+## Integer ranges
 
 ### Int4Range (4-byte integers)
 
@@ -150,7 +150,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Int8Range;
 $range = new Int8Range(PHP_INT_MIN, PHP_INT_MAX);
 ```
 
-## Date Ranges (DATERANGE)
+## Date ranges (DATERANGE)
 
 For date-only ranges without time components:
 
@@ -175,7 +175,7 @@ if ($eventPeriod->contains($checkDate)) {
 }
 ```
 
-## Timestamp Ranges
+## Timestamp ranges
 
 ### TsRange (without timezone)
 
@@ -201,9 +201,9 @@ $meetingTime = new TstzRange(
 );
 ```
 
-## Range Operations
+## Range operations
 
-### Contains Check
+### Contains check
 
 ```php
 $range = new NumericRange(1, 10);
@@ -213,7 +213,7 @@ if ($range->contains(5)) {
 }
 ```
 
-### String Representation
+### String representation
 
 ```php
 $range = new NumericRange(1.5, 10.7);
@@ -226,7 +226,7 @@ $range = new DateRange(
 echo $range; // Outputs: [2024-01-01,2024-12-31)
 ```
 
-### Parsing from String Values
+### Parsing from string values
 
 ```php
 // Parse PostgreSQL range strings
@@ -235,7 +235,7 @@ $dateRange = DateRange::fromString('[2024-01-01,2024-12-31)');
 $emptyRange = NumericRange::fromString('empty');
 ```
 
-### Infinity Support
+### Infinity support
 
 [PostgreSQL distinguishes](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INFINITE) between **unbounded** ranges and ranges **bounded by infinity**:
 
@@ -286,9 +286,9 @@ echo $range; // [0,Infinity)
 $same = new NumericRange(0, null, true, false, false, false, true);
 ```
 
-**Note**: Integer ranges (INT4RANGE, INT8RANGE) do not support infinity values in PostgreSQL.
+Integer ranges (INT4RANGE, INT8RANGE) do not support infinity values in PostgreSQL.
 
-### NaN Bounds
+### NaN bounds
 
 `NUMRANGE` and `NUMMULTIRANGE` also take `NaN` as a bound. It is not an open end: PostgreSQL gives `numeric` a [total order](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) in which `NaN` sits above every other value, `Infinity` included, and equals itself. `NaN` therefore travels as the bound value, using PHP's `NAN` constant rather than a flag:
 
@@ -313,11 +313,11 @@ NumericRange::fromString('[1,)')->contains(NAN);        // true - an open end ha
 echo NumericRange::fromString('[NaN,NaN)');             // empty - equal bounds, exclusive brackets
 ```
 
-**Note**: Only the numeric range types take a `NaN` bound. `NaN` belongs to PostgreSQL's numeric and floating-point types, so a date, timestamp or integer range rejects it — `DateRange::fromString('[2024-01-01,NaN)')` throws, exactly as `SELECT '[2024-01-01,NaN)'::daterange` errors.
+Only the numeric range types take a `NaN` bound. `NaN` belongs to PostgreSQL's numeric and floating-point types, so a date, timestamp or integer range rejects it - `DateRange::fromString('[2024-01-01,NaN)')` throws, exactly as `SELECT '[2024-01-01,NaN)'::daterange` errors.
 
-> 📖 **See also**: [Infinity Values](INFINITY.md) for why a bound of infinity is a flag here, a native `INF` for floats and an enum for datetime array items.
+> **See also:** [Infinity values](INFINITY.md) for why a bound of infinity is a flag here, a native `INF` for floats and an enum for datetime array items.
 
-## DQL Usage with Range Functions
+## DQL usage with range functions
 
 Register range functions for DQL queries:
 
@@ -348,9 +348,9 @@ $dql = "
 ";
 ```
 
-## Common Use Cases
+## Common use cases
 
-### Price Ranges
+### Price ranges
 
 ```php
 #[ORM\Entity]
@@ -371,7 +371,7 @@ class Product
 }
 ```
 
-### Availability Periods
+### Availability periods
 
 ```php
 #[ORM\Entity]
@@ -392,7 +392,7 @@ class Room
 }
 ```
 
-### Age Restrictions
+### Age restrictions
 
 ```php
 #[ORM\Entity]

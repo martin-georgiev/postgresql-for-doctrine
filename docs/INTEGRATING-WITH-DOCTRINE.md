@@ -1,10 +1,10 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Integration with Doctrine
 
-This guide covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For older versions, please refer to previous documentation versions.
+This page covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For older versions, see the documentation of an earlier release.
 
-### Register DBAL Types
+### Register DBAL types
 
-Register the [DBAL types](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#custom-mapping-types) you plan to use. The **full set** of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
+Register the [DBAL types](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#custom-mapping-types) you plan to use. The **full set** of available types can be found in [Available types](AVAILABLE-TYPES.md).
 
 ```php
 <?php
@@ -158,15 +158,15 @@ DoctrineType::addType('vector', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Vector")
 ```
 
 
-### Register DQL Functions
+### Register DQL functions
 
-Register the functions you'll use in your [DQL queries](https://www.doctrine-project.org/projects/doctrine-orm/en/current/cookbook/dql-user-defined-functions.html). The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
-- [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
-- [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
-- [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
-- [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
-- [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
-- [Utility Functions](UTILITY-FUNCTIONS.md)
+Register the functions you use in your [DQL queries](https://www.doctrine-project.org/projects/doctrine-orm/en/current/cookbook/dql-user-defined-functions.html). The full set of available functions and operators can be found in the [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+- [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md)
+- [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+- [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
+- [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md)
+- [Mathematical functions](MATHEMATICAL-FUNCTIONS.md)
+- [Utility functions](UTILITY-FUNCTIONS.md)
 
 ```php
 <?php
@@ -717,7 +717,7 @@ $connection = DriverManager::getConnection([
 $em = new EntityManager($connection, $configuration);
 ```
 
-### Register Platform Type Mappings
+### Register platform type mappings
 
 Register type mappings between PostgreSQL and Doctrine types. This is required for schema introspection and migrations. Based on the [Doctrine documentation](https://www.doctrine-project.org/projects/doctrine-orm/en/current/cookbook/custom-mapping-types.html).
 
@@ -920,10 +920,10 @@ $platform->registerDoctrineTypeMapping('sparsevec', 'sparsevec');
 $platform->registerDoctrineTypeMapping('vector', 'vector');
 ```
 
-### Mapping User-Defined PostgreSQL Enum Types
+### Mapping user-defined PostgreSQL enum types
 
 For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above.
-Columns holding an array of that enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`. See [ENUM-TYPE.md](ENUM-TYPE.md) for a full example.
+Columns holding an array of that enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`. See [PostgreSQL enum types](ENUM-TYPE.md) for a full example.
 
 
 ```php
@@ -967,9 +967,9 @@ $platform->registerDoctrineTypeMapping('status[]', 'status[]');
 $platform->registerDoctrineTypeMapping('_status', 'status[]');
 ```
 
-### Mapping User-Defined PostgreSQL Composite Types
+### Mapping user-defined PostgreSQL composite types
 
-For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above. See [COMPOSITE-TYPE.md](COMPOSITE-TYPE.md) for a full example.
+For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above. See [PostgreSQL composite types](COMPOSITE-TYPE.md) for a full example.
 
 ```php
 <?php
@@ -1020,7 +1020,7 @@ $platform->registerDoctrineTypeMapping('inventory_item[]', 'inventory_item[]');
 $platform->registerDoctrineTypeMapping('_inventory_item', 'inventory_item[]');
 ```
 
-### Usage in Entities
+### Usage in entities
 
 Once types are registered, you can use them in your Doctrine entities:
 

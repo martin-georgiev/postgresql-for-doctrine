@@ -156,6 +156,31 @@ final class WktSpatialDataTest extends TestCase
             'unsupported geometry type' => ['UNSUPPORTED(1 2)'],
             'whitespace-only coordinates' => ['POINT(   )'],
             'missing space before empty' => ['POINTEMPTY'],
+            'glued and spaced modifier' => ['POINTZ M(1 2 3)'],
+            'glued modifier on an unknown type' => ['CIRCLEZ(1 2 3)'],
+        ];
+    }
+
+    #[DataProvider('provideGluedDimensionalModifierWkt')]
+    #[Test]
+    public function normalizes_glued_dimensional_modifier(string $wkt, string $expectedWkt): void
+    {
+        $this->assertSame($expectedWkt, (string) WktSpatialData::fromString($wkt));
+    }
+
+    /**
+     * @return array<string, array{wkt: string, expectedWkt: string}>
+     */
+    public static function provideGluedDimensionalModifierWkt(): array
+    {
+        return [
+            'point z' => ['wkt' => 'POINTZ(1 2 3)', 'expectedWkt' => 'POINT Z(1 2 3)'],
+            'point m' => ['wkt' => 'POINTM(1 2 3)', 'expectedWkt' => 'POINT M(1 2 3)'],
+            'point zm' => ['wkt' => 'POINTZM(1 2 3 4)', 'expectedWkt' => 'POINT ZM(1 2 3 4)'],
+            'linestring m' => ['wkt' => 'LINESTRINGM(0 0 1, 1 1 2)', 'expectedWkt' => 'LINESTRING M(0 0 1, 1 1 2)'],
+            'polygon zm' => ['wkt' => 'POLYGONZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 0 0 0 1))', 'expectedWkt' => 'POLYGON ZM((0 0 0 1, 0 1 0 1, 1 1 0 1, 0 0 0 1))'],
+            'point m with srid' => ['wkt' => 'SRID=4326;POINTM(1 2 3)', 'expectedWkt' => 'SRID=4326;POINT M(1 2 3)'],
+            'point m empty' => ['wkt' => 'POINTM EMPTY', 'expectedWkt' => 'POINT M EMPTY'],
         ];
     }
 

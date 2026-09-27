@@ -1,14 +1,10 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Geometry and Geography Arrays
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Geometry and geography arrays
 
-This document explains the usage of PostgreSQL `geometry` and `geography` array types in Doctrine DBAL.
+A `geometry[]` or `geography[]` column holds several spatial values in one row. This library maps it to a PHP list of `WktSpatialData` value objects, one per item, with `null` for a `NULL` item.
 
-> 📖 **See also**: [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for spatial functions that work with geometry and geography data
+> **See also:** [PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for spatial functions that work with geometry and geography data
 
-## Overview
-
-The `GeometryArray` and `GeographyArray` types provide support for PostgreSQL's `GEOMETRY[]` and `GEOGRAPHY[]` array types, allowing you to store collections of spatial data in a single database column. 
-
-## Registration and Type Mapping
+## Registration and type mapping
 
 ```php
 use Doctrine\DBAL\Types\Type as DoctrineType;
@@ -25,84 +21,57 @@ $platform->registerDoctrineTypeMapping('geography', 'geography');
 $platform->registerDoctrineTypeMapping('_geography', 'geography[]');
 ```
 
-## Basic Usage
+The platform mappings let schema introspection recognise the columns. PostgreSQL names an array column's type after its item type with a leading underscore.
 
-### Entity Definition
+## Mapping a column
 
 ```php
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use Doctrine\ORM\Mapping as ORM;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
+#[ORM\Entity]
 class Location
 {
-    /**
-     * @var WktSpatialData[]
-     * @ORM\Column(type="geometry[]")
-     */
+    /** @var list<?WktSpatialData> */
+    #[ORM\Column(type: 'geometry[]')]
     private array $geometries;
 
-    /**
-     * @var WktSpatialData[]
-     * @ORM\Column(type="geography[]")
-     */
+    /** @var list<?WktSpatialData> */
+    #[ORM\Column(type: 'geography[]')]
     private array $geographies;
 
-    public function setGeometries(WktSpatialData ...$geometries): void
+    /** @param list<?WktSpatialData> $geometries */
+    public function setGeometries(array $geometries): void
     {
         $this->geometries = $geometries;
     }
 }
 ```
 
-### Parameter Binding with DBAL
+## Writing and reading
+
+Pass a list of `WktSpatialData` to the entity, or bind one with DBAL:
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
-// Single-item geometry[] array
-$qb = $connection->createQueryBuilder();
-$qb->insert('locations')->values(['geometries' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', [WktSpatialData::fromString('POINT(0 0)')], 'geometry[]');
-$qb->executeStatement();
-
-// Single geography value
-$qb = $connection->createQueryBuilder();
-$qb->insert('places')->values(['locations' => ':wktSpatialData']);
-$qb->setParameter('wktSpatialData', WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'), 'geography');
-$qb->executeStatement();
-```
-
-
-### Working Examples
-
-```php
-// Single-item arrays
-$singleGeometry = [WktSpatialData::fromString('POINT(0 0)')];
-$singleGeography = [WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)')];
-
-// Complex single geometries
-$complexGeometry = [WktSpatialData::fromString('POLYGON((0 0,0 1,1 1,1 0,0 0))')];
-$geometryWithSrid = [WktSpatialData::fromString('SRID=4326;LINESTRING(-122 37,-121 38)')];
-```
-
-## Multi-Item Arrays
-
-Multi-item `geometry[]` and `geography[]` arrays bind through Doctrine DBAL like any other array type:
-
-```php
-$entity->setGeometries([
+$location->setGeometries([
     WktSpatialData::fromString('POINT(1 2)'),
-    WktSpatialData::fromString('LINESTRING(0 0,1 1)'),
+    WktSpatialData::fromString('SRID=3857;LINESTRING(0 0, 1 1)'),
+    null,
 ]);
+
+$qb = $connection->createQueryBuilder();
+$qb->insert('locations')->values(['geometries' => ':geometries']);
+$qb->setParameter('geometries', [WktSpatialData::fromString('POINT(0 0)')], 'geometry[]');
+$qb->executeStatement();
 ```
 
-A `null` element is written as a SQL NULL element and read back as `null`.
+Loading the entity gives the same list back. The items of one array may mix geometry types, SRIDs and dimensions, and every type in [Supported geometry types](SPATIAL-TYPES.md#supported-geometry-types) works as an item. A `geography` item written without an SRID reads back with `SRID=4326`, because [PostGIS gives every geography value one](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables).
 
-## Normalization Rules (Dimensional Modifiers)
+## Dimensional modifiers
 
-The library normalizes dimensional modifiers based on enums for geometry types and modifiers.
-
-Examples:
+An array item reads back with its dimensional modifier spelled `POINT Z(…)`, whichever way PostgreSQL printed it:
 
 ```text
 POINTZ(1 2 3)               => POINT Z(1 2 3)
@@ -112,30 +81,13 @@ POINT Z (1 2 3)             => POINT Z(1 2 3)
 SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 ```
 
-See also: Spatial foundations and parser behavior in the Spatial Types document.
+The glued spelling on the first three lines works only here: `WktSpatialData` and the scalar `geometry` and `geography` types reject it. [How dimensional modifiers are spelled](SPATIAL-TYPES.md#how-dimensional-modifiers-are-spelled) compares the two.
 
-## Supported Features
+## Indexing
 
-### Geometry Types
-- ✅ POINT, LINESTRING, POLYGON
-- ✅ MULTIPOINT, MULTILINESTRING, MULTIPOLYGON
-- ✅ GEOMETRYCOLLECTION
-- ✅ All other PostGIS geometry types as of v3.5
+A GiST index cannot index an array column, so the items of a `geometry[]` get no spatial index. When you query the items spatially, either:
 
-### Coordinate Systems
-- ✅ **SRID support**: `SRID=4326;POINT(-122 37)`
-- ✅ **Dimensional modifiers**: Z (elevation), M (measure), ZM
-- ✅ **Mixed coordinates**: Arrays with different SRIDs/dimensions
+- store each geometry in its own row, with a GiST index on that column, or
+- keep a `geometry` column next to the array that holds their union or bounding box, and index that.
 
-### Geography Features
-- ✅ **Auto-SRID**: Geography types [automatically get SRID=4326 if none is provided](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables)
-- ✅ **World coordinates**: Null Island, poles, date line
-- ✅ **Geographic calculations**: Proper spherical geometry
-
-## Performance Considerations
-
-- **Indexing**: GiST/operator classes only support spatial types like `geometry`/`geography` and cannot directly index SQL array types like `geometry[]`. For proper spatial indexing, consider:
-  - Normalizing arrays into separate geometry rows with individual GiST indexes
-  - Materializing a single geometry (e.g., union or bounding geometry) into a `geometry` column for GiST indexing
-  - See the [PostGIS FAQ on spatial indexes](https://postgis.net/documentation/faq/spatial-indexes/) for details
-- **Query optimization**: Use appropriate spatial operators and indexes on individual geometry columns, not arrays
+The [PostGIS FAQ on spatial indexes](https://postgis.net/documentation/faq/spatial-indexes/) has more.

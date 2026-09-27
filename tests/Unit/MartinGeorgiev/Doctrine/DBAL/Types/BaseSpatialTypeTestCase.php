@@ -203,6 +203,27 @@ abstract class BaseSpatialTypeTestCase extends TestCase
         ];
     }
 
+    #[DataProvider('provideGluedDimensionalModifierPostgresValues')]
+    #[Test]
+    public function normalizes_glued_dimensional_modifier_for_php_value(string $postgresValue, string $expectedWkt): void
+    {
+        $result = $this->fixture->convertToPHPValue($postgresValue, $this->platform);
+
+        $this->assertInstanceOf(WktSpatialData::class, $result);
+        $this->assertSame($expectedWkt, (string) $result);
+    }
+
+    /**
+     * @return array<string, array{postgresValue: string, expectedWkt: string}>
+     */
+    public static function provideGluedDimensionalModifierPostgresValues(): array
+    {
+        return [
+            'point m' => ['postgresValue' => 'POINTM(1 2 3)', 'expectedWkt' => 'POINT M(1 2 3)'],
+            'linestring m with srid' => ['postgresValue' => 'SRID=4326;LINESTRINGM(0 0 1, 1 1 2)', 'expectedWkt' => 'SRID=4326;LINESTRING M(0 0 1, 1 1 2)'],
+        ];
+    }
+
     /**
      * @param array<string, mixed> $fieldDeclaration
      */
@@ -353,7 +374,7 @@ abstract class BaseSpatialTypeTestCase extends TestCase
         $sql = $this->fixture->convertToPHPValueSQL('geom_col', $this->platform);
 
         $this->assertSame(
-            "CASE WHEN ST_SRID(geom_col) = 0 THEN ST_AsText(geom_col) ELSE 'SRID=' || ST_SRID(geom_col) || ';' || ST_AsText(geom_col) END",
+            "CASE WHEN ST_SRID(geom_col) = 0 THEN ST_AsText(geom_col, 25) ELSE 'SRID=' || ST_SRID(geom_col) || ';' || ST_AsText(geom_col, 25) END",
             $sql
         );
     }
