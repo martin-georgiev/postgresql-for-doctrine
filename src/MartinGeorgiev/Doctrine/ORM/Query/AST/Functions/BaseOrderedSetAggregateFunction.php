@@ -60,7 +60,7 @@ abstract class BaseOrderedSetAggregateFunction extends BaseFunction implements A
             $dispatched[] = $node instanceof Node ? $node->dispatch($sqlWalker) : 'null';
         }
 
-        // The walker prefixes the clause with a space, sized for following an argument rather than an opening parenthesis.
+        // getOptionalOrderByClause() prefixes the clause with a space, sized for following an argument rather than an opening parenthesis.
         $dispatched[] = \ltrim($this->getOptionalOrderByClause($sqlWalker));
 
         return \vsprintf($this->functionPrototype, $dispatched);

@@ -37,14 +37,14 @@ trait OrderableTrait
             return '';
         }
 
-        return ' ORDER BY '.$this->walkOrderByItemsLeavingTheOuterQueryOrderIntact($sqlWalker, $this->orderByClause);
+        return ' '.$this->walkOrderByClauseLeavingTheOuterQueryOrderIntact($sqlWalker, $this->orderByClause);
     }
 
     /**
      * Doctrine's walkOrderByClause() appends the #[OrderBy] columns of a fetch-joined collection, and walkOrderByItem()
      * records each column it renders so the outer query skips it. Both belong to the outer query, not to this ORDER BY.
      */
-    private function walkOrderByItemsLeavingTheOuterQueryOrderIntact(SqlWalker $sqlWalker, OrderByClause $orderByClause): string
+    private function walkOrderByClauseLeavingTheOuterQueryOrderIntact(SqlWalker $sqlWalker, OrderByClause $orderByClause): string
     {
         $orderByItems = \array_map(
             static function (OrderByItem $orderByItem) use ($sqlWalker): string {
@@ -65,6 +65,6 @@ trait OrderableTrait
             $orderByClause->orderByItems
         );
 
-        return \implode(', ', $orderByItems);
+        return 'ORDER BY '.\implode(', ', $orderByItems);
     }
 }

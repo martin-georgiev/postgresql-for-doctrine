@@ -96,7 +96,7 @@ trait WindowSpecificationTrait
         }
 
         if ($this->orderByClause instanceof OrderByClause) {
-            $clauses[] = 'ORDER BY '.$this->walkOrderByItemsLeavingTheOuterQueryOrderIntact($sqlWalker, $this->orderByClause);
+            $clauses[] = $this->walkOrderByClauseLeavingTheOuterQueryOrderIntact($sqlWalker, $this->orderByClause);
         }
 
         if ($this->frameClauseParts !== []) {
