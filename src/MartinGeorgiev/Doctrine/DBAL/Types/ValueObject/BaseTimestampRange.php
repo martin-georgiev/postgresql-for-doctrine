@@ -23,8 +23,10 @@ abstract class BaseTimestampRange extends Range
         bool $isExplicitlyEmpty = false,
         bool $isLowerBoundedInfinity = false,
         bool $isUpperBoundedInfinity = false,
+        bool $isLowerInfinityNegative = true,
+        bool $isUpperInfinityNegative = false,
     ) {
-        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity);
+        parent::__construct($lower, $upper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $isLowerBoundedInfinity, $isUpperBoundedInfinity, $isLowerInfinityNegative, $isUpperInfinityNegative);
     }
 
     protected function compareBounds(mixed $a, mixed $b): int

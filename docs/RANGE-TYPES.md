@@ -261,6 +261,17 @@ $range->isUpperBoundedInfinity(); // true
 $range->isLowerBoundedInfinity(); // false
 ```
 
+A bound of infinity usually takes the sign of its end, but PostgreSQL also takes `[infinity,)` and `(,-infinity]`, which hold no finite value. The sign is kept, and the 8th and 9th constructor parameters set it:
+
+```php
+$range = DateRange::fromString('[infinity,)');
+echo $range; // [infinity,)
+$range->contains(new \DateTimeImmutable('2024-01-01')); // false
+
+echo new DateRange(null, null, true, false, false, true, false, false); // [infinity,)
+echo new NumericRange(INF, null);                                         // [Infinity,)
+```
+
 **Spelling follows the element type**, matching PostgreSQL:
 
 | Range type | Accepted bound spellings | Emitted spelling |

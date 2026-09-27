@@ -29,6 +29,8 @@ final class NumericRange extends Range
         bool $isExplicitlyEmpty = false,
         bool $isLowerBoundedInfinity = false,
         bool $isUpperBoundedInfinity = false,
+        bool $isLowerInfinityNegative = true,
+        bool $isUpperInfinityNegative = false,
     ) {
         $normalizedLower = $lower;
         $normalizedUpper = $upper;
@@ -38,6 +40,7 @@ final class NumericRange extends Range
         if ($lower !== null && \is_float($lower) && \is_infinite($lower)) {
             $normalizedLower = null;
             $inferredLowerBoundedInfinityFlag = true;
+            $isLowerInfinityNegative = $lower < 0;
         } elseif ($lower !== null) {
             $this->assertUsableBound($lower, InvalidRangeException::LOWER_BOUND);
         }
@@ -45,11 +48,12 @@ final class NumericRange extends Range
         if ($upper !== null && \is_float($upper) && \is_infinite($upper)) {
             $normalizedUpper = null;
             $inferredUpperBoundedInfinityFlag = true;
+            $isUpperInfinityNegative = $upper < 0;
         } elseif ($upper !== null) {
             $this->assertUsableBound($upper, InvalidRangeException::UPPER_BOUND);
         }
 
-        parent::__construct($normalizedLower, $normalizedUpper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $inferredLowerBoundedInfinityFlag, $inferredUpperBoundedInfinityFlag);
+        parent::__construct($normalizedLower, $normalizedUpper, $isLowerBracketInclusive, $isUpperBracketInclusive, $isExplicitlyEmpty, $inferredLowerBoundedInfinityFlag, $inferredUpperBoundedInfinityFlag, $isLowerInfinityNegative, $isUpperInfinityNegative);
     }
 
     private function assertUsableBound(mixed $bound, string $position): void
@@ -105,14 +109,26 @@ final class NumericRange extends Range
 
     /**
      * NaN sorts above `Infinity`, which makes `[1,Infinity)` exclude it while the unbounded `[1,)` contains it.
+     * Unlike the other subtypes, `numeric` also holds the infinities themselves.
+     *
+     * A numeric string is always finite, since is_numeric() accepts no spelling of infinity, but one beyond the float
+     * range, such as `1e999`, casts to INF.
      */
-    public function contains(mixed $target): bool
+    protected function compareWithInfinity(mixed $value, bool $isNegative): int
     {
-        if ($this->isNotANumber($target) && $this->isUpperBoundedInfinity()) {
-            return false;
+        if (!\is_numeric($value)) {
+            throw InvalidRangeException::forInvalidBoundType('numeric', $value);
         }
 
-        return parent::contains($target);
+        if ($this->isNotANumber($value)) {
+            return 1;
+        }
+
+        if (\is_string($value)) {
+            return parent::compareWithInfinity($value, $isNegative);
+        }
+
+        return (float) $value <=> ($isNegative ? -\INF : \INF);
     }
 
     protected function formatValue(mixed $value): string
@@ -131,6 +147,11 @@ final class NumericRange extends Range
     protected static function isInfinityString(string $value): bool
     {
         return self::isNonFiniteString($value) && \is_infinite(self::parseFloat($value));
+    }
+
+    protected static function isNegativeInfinityString(string $value): bool
+    {
+        return self::isInfinityString($value) && self::parseFloat($value) < 0;
     }
 
     protected static function formatInfinityBound(bool $isNegative): string

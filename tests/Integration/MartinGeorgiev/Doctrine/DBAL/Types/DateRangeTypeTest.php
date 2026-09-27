@@ -82,6 +82,30 @@ final class DateRangeTypeTest extends RangeTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInfiniteBoundsOfEitherSign')]
+    #[Test]
+    public function preserves_the_sign_of_an_infinite_bound_emitted_by_postgres(string $postgresLiteral): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $result = $this->fetchConvertedValueForPostgresLiteral($typeName, $columnType, $postgresLiteral);
+
+        $this->assertInstanceOf(DateRangeValueObject::class, $result);
+        $this->assertSame($postgresLiteral, (string) $result);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInfiniteBoundsOfEitherSign(): array
+    {
+        return [
+            'positive infinity lower bound' => ['[infinity,)'],
+            'negative infinity upper bound' => ['(,-infinity]'],
+        ];
+    }
+
     /**
      * @return array<string, array{string, array<int>}> [dql, expectedIds]
      */

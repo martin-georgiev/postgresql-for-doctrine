@@ -56,6 +56,30 @@ final class NumRangeTypeTest extends RangeTypeTestCase
         ];
     }
 
+    #[DataProvider('provideInfiniteBoundsOfEitherSign')]
+    #[Test]
+    public function preserves_the_sign_of_an_infinite_bound_emitted_by_postgres(string $postgresLiteral): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $result = $this->fetchConvertedValueForPostgresLiteral($typeName, $columnType, $postgresLiteral);
+
+        $this->assertInstanceOf(NumRangeValueObject::class, $result);
+        $this->assertSame($postgresLiteral, (string) $result);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInfiniteBoundsOfEitherSign(): array
+    {
+        return [
+            'positive infinity lower bound' => ['[Infinity,)'],
+            'negative infinity upper bound' => ['(,-Infinity]'],
+        ];
+    }
+
     /**
      * PostgreSQL orders NaN above every other numeric value, so it bounds a range rather than opening it.
      */

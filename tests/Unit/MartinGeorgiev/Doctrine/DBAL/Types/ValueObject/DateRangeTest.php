@@ -133,6 +133,14 @@ final class DateRangeTest extends BaseRangeTestCase
                 ),
                 'expectedEmpty' => false,
             ],
+            'equal infinite bounds exclusive should be empty' => [
+                'range' => DateRange::fromString('[infinity,infinity)'),
+                'expectedEmpty' => true,
+            ],
+            'equal infinite bounds inclusive should not be empty' => [
+                'range' => DateRange::fromString('[infinity,infinity]'),
+                'expectedEmpty' => false,
+            ],
         ];
     }
 
@@ -224,6 +232,21 @@ final class DateRangeTest extends BaseRangeTestCase
         yield 'unbounded upper excludes below lower' => [
             $unboundedUpper,
             new \DateTimeImmutable('2022-12-31'),
+            false,
+        ];
+        yield 'range between both infinities contains a date' => [
+            DateRange::fromString('[-infinity,infinity)'),
+            new \DateTimeImmutable('2023-06-15'),
+            true,
+        ];
+        yield 'positive infinity lower bound excludes every date' => [
+            DateRange::fromString('[infinity,)'),
+            new \DateTimeImmutable('2023-06-15'),
+            false,
+        ];
+        yield 'negative infinity upper bound excludes every date' => [
+            DateRange::fromString('(,-infinity]'),
+            new \DateTimeImmutable('2023-06-15'),
             false,
         ];
     }
@@ -446,6 +469,27 @@ final class DateRangeTest extends BaseRangeTestCase
             DateRange::month(2023, 1),
             '[2023-01-01,2023-02-01)',
             'January should start year correctly',
+        ];
+    }
+
+    #[DataProvider('provideInfiniteBoundsOfEitherSign')]
+    #[Test]
+    public function preserves_the_sign_of_an_infinite_bound(string $range): void
+    {
+        $this->assertSame($range, (string) $this->parseFromString($range));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInfiniteBoundsOfEitherSign(): array
+    {
+        return [
+            'negative infinity lower bound' => ['[-infinity,infinity)'],
+            'positive infinity lower bound' => ['[infinity,)'],
+            'negative infinity upper bound' => ['(,-infinity]'],
+            'both bounds positive infinity' => ['[infinity,infinity]'],
+            'both bounds negative infinity' => ['[-infinity,-infinity]'],
         ];
     }
 }

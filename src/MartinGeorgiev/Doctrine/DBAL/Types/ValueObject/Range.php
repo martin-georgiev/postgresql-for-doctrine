@@ -48,6 +48,8 @@ abstract class Range implements \Stringable
      * @param R|null $upper
      * @param bool $isLowerBoundedInfinity For types supporting infinity (timestamps, dates, numeric), indicates lower bound is explicitly infinity
      * @param bool $isUpperBoundedInfinity For types supporting infinity (timestamps, dates, numeric), indicates upper bound is explicitly infinity
+     * @param bool $isLowerInfinityNegative PostgreSQL also takes `[infinity,)`, a lower bound above every finite value
+     * @param bool $isUpperInfinityNegative PostgreSQL also takes `(,-infinity]`, an upper bound below every finite value
      */
     public function __construct(
         protected readonly mixed $lower,
@@ -57,6 +59,8 @@ abstract class Range implements \Stringable
         protected readonly bool $isExplicitlyEmpty = false,
         protected readonly bool $isLowerBoundedInfinity = false,
         protected readonly bool $isUpperBoundedInfinity = false,
+        protected readonly bool $isLowerInfinityNegative = true,
+        protected readonly bool $isUpperInfinityNegative = false,
     ) {}
 
     public function __toString(): string
@@ -68,8 +72,8 @@ abstract class Range implements \Stringable
         $lowerBracket = $this->isLowerBracketInclusive ? self::BRACKET_LOWER_INCLUSIVE : self::BRACKET_LOWER_EXCLUSIVE;
         $upperBracket = $this->isUpperBracketInclusive ? self::BRACKET_UPPER_INCLUSIVE : self::BRACKET_UPPER_EXCLUSIVE;
 
-        $formattedLowerBound = $this->isLowerBoundedInfinity ? static::formatInfinityBound(true) : ($this->lower === null ? '' : $this->formatValue($this->lower));
-        $formattedUpperBound = $this->isUpperBoundedInfinity ? static::formatInfinityBound(false) : ($this->upper === null ? '' : $this->formatValue($this->upper));
+        $formattedLowerBound = $this->isLowerBoundedInfinity ? static::formatInfinityBound($this->isLowerInfinityNegative) : ($this->lower === null ? '' : $this->formatValue($this->lower));
+        $formattedUpperBound = $this->isUpperBoundedInfinity ? static::formatInfinityBound($this->isUpperInfinityNegative) : ($this->upper === null ? '' : $this->formatValue($this->upper));
 
         return $lowerBracket.$formattedLowerBound.','.$formattedUpperBound.$upperBracket;
     }
@@ -90,11 +94,13 @@ abstract class Range implements \Stringable
             return true;
         }
 
-        if ($this->lower === null || $this->upper === null) {
+        $isLowerUnbounded = $this->lower === null && !$this->isLowerBoundedInfinity;
+        $isUpperUnbounded = $this->upper === null && !$this->isUpperBoundedInfinity;
+        if ($isLowerUnbounded || $isUpperUnbounded) {
             return false;
         }
 
-        $comparison = $this->compareBounds($this->lower, $this->upper);
+        $comparison = $this->compareLowerWithUpper();
         if ($comparison > 0) {
             return true;
         }
@@ -102,13 +108,46 @@ abstract class Range implements \Stringable
         return $comparison === 0 && (!$this->isLowerBracketInclusive || !$this->isUpperBracketInclusive);
     }
 
+    private function compareLowerWithUpper(): int
+    {
+        if ($this->isLowerBoundedInfinity && $this->isUpperBoundedInfinity) {
+            $lowerSign = $this->isLowerInfinityNegative ? -1 : 1;
+            $upperSign = $this->isUpperInfinityNegative ? -1 : 1;
+
+            return $lowerSign <=> $upperSign;
+        }
+
+        if ($this->isLowerBoundedInfinity) {
+            return -$this->compareWithInfinity($this->upper, $this->isLowerInfinityNegative);
+        }
+
+        if ($this->isUpperBoundedInfinity) {
+            return $this->compareWithInfinity($this->lower, $this->isUpperInfinityNegative);
+        }
+
+        return $this->compareBounds($this->lower, $this->upper);
+    }
+
     abstract protected function compareBounds(mixed $a, mixed $b): int;
+
+    /**
+     * Every value the subtype holds in PHP is finite, so it lies above negative infinity and below positive infinity.
+     */
+    protected function compareWithInfinity(mixed $value, bool $isNegative): int
+    {
+        return $isNegative ? 1 : -1;
+    }
 
     abstract protected function formatValue(mixed $value): string;
 
     protected static function isInfinityString(string $value): bool
     {
         return self::normalizeInfinity($value) !== null;
+    }
+
+    protected static function isNegativeInfinityString(string $value): bool
+    {
+        return self::normalizeInfinity($value) === '-infinity';
     }
 
     /**
@@ -135,6 +174,8 @@ abstract class Range implements \Stringable
 
         $isLowerBoundedInfinity = false;
         $isUpperBoundedInfinity = false;
+        $isLowerInfinityNegative = true;
+        $isUpperInfinityNegative = false;
         /** @var R|null $lowerBoundValue */
         $lowerBoundValue = null;
         /** @var R|null $upperBoundValue */
@@ -142,17 +183,19 @@ abstract class Range implements \Stringable
 
         if ($matches[2] !== '') {
             $isLowerBoundedInfinity = static::isInfinityString($lowerBoundString);
+            $isLowerInfinityNegative = !$isLowerBoundedInfinity || static::isNegativeInfinityString($lowerBoundString);
             /** @var R|null $lowerBoundValue */
             $lowerBoundValue = static::parseValue($lowerBoundString);
         }
 
         if ($matches[3] !== '') {
             $isUpperBoundedInfinity = static::isInfinityString($upperBoundString);
+            $isUpperInfinityNegative = $isUpperBoundedInfinity && static::isNegativeInfinityString($upperBoundString);
             /** @var R|null $upperBoundValue */
             $upperBoundValue = static::parseValue($upperBoundString);
         }
 
-        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive, false, $isLowerBoundedInfinity, $isUpperBoundedInfinity); // @phpstan-ignore new.static
+        return new static($lowerBoundValue, $upperBoundValue, $isLowerBracketInclusive, $isUpperBracketInclusive, false, $isLowerBoundedInfinity, $isUpperBoundedInfinity, $isLowerInfinityNegative, $isUpperInfinityNegative); // @phpstan-ignore new.static
     }
 
     abstract protected static function parseValue(string $value): mixed;
@@ -168,19 +211,23 @@ abstract class Range implements \Stringable
         }
 
         // Check lower bound
-        if ($this->lower !== null) {
-            $comparison = $this->compareBounds($target, $this->lower);
-            if ($comparison < 0 || ($comparison === 0 && !$this->isLowerBracketInclusive)) {
-                return false;
-            }
+        $comparison = match (true) {
+            $this->isLowerBoundedInfinity => $this->compareWithInfinity($target, $this->isLowerInfinityNegative),
+            $this->lower !== null => $this->compareBounds($target, $this->lower),
+            default => null,
+        };
+        if ($comparison !== null && ($comparison < 0 || ($comparison === 0 && !$this->isLowerBracketInclusive))) {
+            return false;
         }
 
         // Check upper bound
-        if ($this->upper !== null) {
-            $comparison = $this->compareBounds($target, $this->upper);
-            if ($comparison > 0 || ($comparison === 0 && !$this->isUpperBracketInclusive)) {
-                return false;
-            }
+        $comparison = match (true) {
+            $this->isUpperBoundedInfinity => $this->compareWithInfinity($target, $this->isUpperInfinityNegative),
+            $this->upper !== null => $this->compareBounds($target, $this->upper),
+            default => null,
+        };
+        if ($comparison !== null && ($comparison > 0 || ($comparison === 0 && !$this->isUpperBracketInclusive))) {
+            return false;
         }
 
         return true;
