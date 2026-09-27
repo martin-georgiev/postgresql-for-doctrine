@@ -21,6 +21,14 @@ abstract class BaseSpatialType extends BaseType
     use SpatialColumnOptionsSQLDeclarationTrait;
 
     /**
+     * ORM 2.x applies convertToPHPValueSQL() only to types that declare they can require SQL conversion.
+     */
+    public function canRequireSQLConversion(): bool
+    {
+        return true;
+    }
+
+    /**
      * Modifies the SQL expression to convert spatial data from binary to EWKT format.
      *
      * This ensures PostgreSQL returns spatial data in text format (EWKT) instead of binary (EWKB).
