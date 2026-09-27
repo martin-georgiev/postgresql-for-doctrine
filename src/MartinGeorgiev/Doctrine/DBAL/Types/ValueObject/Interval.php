@@ -501,16 +501,45 @@ class Interval implements \Stringable
 
     private static function timeToMicroseconds(string $hours, string $minutes, string $seconds, string $fraction): int
     {
-        $microseconds = (float) $hours * self::MICROSECONDS_PER_HOUR
-            + (float) $minutes * self::MICROSECONDS_PER_MINUTE
-            + (float) $seconds * self::MICROSECONDS_PER_SECOND;
+        return self::assertExactMicroseconds(
+            (int) $hours * self::MICROSECONDS_PER_HOUR
+                + (int) $minutes * self::MICROSECONDS_PER_MINUTE
+                + (int) $seconds * self::MICROSECONDS_PER_SECOND
+                + self::fractionToMicroseconds($fraction),
+            \sprintf('%s:%s', $hours, $minutes)
+        );
+    }
 
-        if ($fraction !== '') {
-            // PostgreSQL rounds a sub-microsecond remainder, so 00:00:00.9999995 is a whole second
-            $microseconds += \round((float) ('0.'.$fraction) * self::MICROSECONDS_PER_SECOND);
+    /**
+     * PostgreSQL rounds a sub-microsecond remainder half to even, so 00:00:00.0000025 is 2 microseconds
+     * and 00:00:00.9999995 is a whole second. Reading the digits keeps that exact where a float would not.
+     */
+    private static function fractionToMicroseconds(string $fraction): int
+    {
+        $microseconds = (int) \str_pad(\substr($fraction, 0, 6), 6, '0');
+        $remainder = \rtrim(\substr($fraction, 6), '0');
+        if ($remainder === '') {
+            return $microseconds;
         }
 
-        return self::toMicroseconds($microseconds, \sprintf('%s:%s', $hours, $minutes));
+        $isPastHalf = $remainder[0] > '5' || ($remainder[0] === '5' && \strlen($remainder) > 1);
+        $isAHalfAfterAnOddMicrosecond = $remainder === '5' && $microseconds % 2 === 1;
+
+        return $microseconds + (int) ($isPastHalf || $isAHalfAfterAnOddMicrosecond);
+    }
+
+    /**
+     * Integer arithmetic stays exact up to PHP_INT_MAX and turns into a float past it, which a float cannot count exactly.
+     *
+     * @throws InvalidIntervalException
+     */
+    private static function assertExactMicroseconds(float|int $microseconds, string $amount): int
+    {
+        if (!\is_int($microseconds)) {
+            throw InvalidIntervalException::forOutOfRangeAmount($amount);
+        }
+
+        return $microseconds;
     }
 
     /**
@@ -621,12 +650,13 @@ class Interval implements \Stringable
 
         // DateInterval never normalizes what is assigned to it.
         // A fraction of a second of one or more, or a time field past its own range, arrives here as-is.
-        $microseconds = self::toMicroseconds(
+        $amount = \sprintf('%d:%d:%d', $dateInterval->h, $dateInterval->i, $dateInterval->s);
+        $microseconds = self::assertExactMicroseconds(
             $dateInterval->h * self::MICROSECONDS_PER_HOUR
                 + $dateInterval->i * self::MICROSECONDS_PER_MINUTE
                 + $dateInterval->s * self::MICROSECONDS_PER_SECOND
-                + $dateInterval->f * self::MICROSECONDS_PER_SECOND,
-            \sprintf('%d:%d:%d', $dateInterval->h, $dateInterval->i, $dateInterval->s)
+                + self::toMicroseconds($dateInterval->f * self::MICROSECONDS_PER_SECOND, $amount),
+            $amount
         );
 
         return self::createIntervalFromParts([
