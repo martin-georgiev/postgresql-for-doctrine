@@ -168,6 +168,17 @@ final class NumericRangeTest extends BaseRangeTestCase
         $numericRange->contains('invalid');
     }
 
+    #[Test]
+    public function throws_exception_for_invalid_numeric_target_against_an_infinite_bound(): void
+    {
+        $numericRange = NumericRange::fromString('[Infinity,)');
+
+        $this->expectException(InvalidRangeException::class);
+        $this->expectExceptionMessage('Range bound must be numeric');
+
+        $numericRange->contains('invalid');
+    }
+
     #[DataProvider('provideInvalidFromStringInputs')]
     #[Test]
     public function throws_exception_for_invalid_from_string_input(string $input, string $expectedMessage): void
