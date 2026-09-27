@@ -443,6 +443,18 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->assertSame('[1,Infinity)', (string) new NumericRange(1, \INF));
     }
 
+    /**
+     * PostgreSQL prints a stored `numeric` bound with its scale, so a whole number arrives as `10.00`.
+     */
+    #[Test]
+    public function parses_a_whole_number_printed_with_a_scale_as_an_integer(): void
+    {
+        $numericRange = NumericRange::fromString('[1.0,10.00)');
+
+        $this->assertSame(1, $numericRange->getLower());
+        $this->assertSame(10, $numericRange->getUpper());
+    }
+
     #[Test]
     public function preserves_full_float_precision(): void
     {
