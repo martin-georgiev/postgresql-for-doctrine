@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS;
 
+use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Scale;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TestCase;
 
 final class ST_ScaleTest extends TestCase
@@ -36,5 +39,25 @@ final class ST_ScaleTest extends TestCase
             'SELECT ST_SCALE(g.geometry1, 2, 2, 1) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             "SELECT ST_SCALE(g.geometry1, 'POINT(2 3)') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g",
         ];
+    }
+
+    #[Test]
+    public function throws_exception_for_too_few_arguments(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('ST_Scale() requires at least 2 arguments');
+
+        $dql = \sprintf('SELECT ST_SCALE(g.geometry1) FROM %s g', ContainsGeometries::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
+    public function throws_exception_for_too_many_arguments(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('ST_Scale() requires between 2 and 4 arguments');
+
+        $dql = \sprintf('SELECT ST_SCALE(g.geometry1, 2, 2, 1, 1) FROM %s g', ContainsGeometries::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }
