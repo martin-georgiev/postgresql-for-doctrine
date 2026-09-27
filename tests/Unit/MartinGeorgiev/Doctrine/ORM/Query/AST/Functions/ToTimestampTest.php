@@ -43,4 +43,14 @@ final class ToTimestampTest extends TestCase
         $dql = \sprintf('SELECT TO_TIMESTAMP() FROM %s e', ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
+
+    #[Test]
+    public function throws_exception_for_too_many_arguments(): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+        $this->expectExceptionMessage('to_timestamp() requires between 1 and 2 arguments');
+
+        $dql = \sprintf("SELECT TO_TIMESTAMP(e.text1, 'DD Mon YYYY', 'extra') FROM %s e", ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
 }
