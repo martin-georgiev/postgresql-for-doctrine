@@ -185,6 +185,7 @@ What you save is not always what you load after `$entityManager->clear()`:
 - `tstzrange` reads back in the session time zone: the same instants, with a different offset.
 - `box` [is stored upper-right corner first](https://www.postgresql.org/docs/18/datatype-geometric.html#DATATYPE-GEOMETRIC-BOXES): `(1,2),(3,4)` reads back as `(3,4),(1,2)`.
 - An empty `bytea`, `bit varying` or `xml` value reads back as `null`, the same as SQL `NULL`. An empty `hstore` reads back as `[]` and an empty `ltree` as an `Ltree` with no labels.
+- `bytea` and `bytea[]` need [`bytea_output`](https://www.postgresql.org/docs/18/runtime-config-client.html#GUC-BYTEA-OUTPUT) at its default, `hex`. With `escape`, `bytea[]` cannot be read, and neither can `bytea` through DBAL's `pgsql` driver, which decodes only the hex format.
 
 ## Time zone and interval style
 
