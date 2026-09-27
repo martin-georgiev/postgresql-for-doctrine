@@ -116,7 +116,8 @@ SELECT DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity 
 
 -- Range operators must be compared with = TRUE / = FALSE in Doctrine DQL
 SELECT e FROM Entity e WHERE OVERLAPS(e.active_period, DATERANGE('2023-01-01', '2023-12-31')) = TRUE
--- → [Entity {id: 1}, Entity {id: 3}]
+-- → Entity {id: 1}
+--   Entity {id: 3}
 SELECT e FROM Entity e WHERE CONTAINS(TSTZRANGE(DATE_SUBTRACT(CURRENT_TIMESTAMP(), '30 days'), CURRENT_TIMESTAMP()), e.start_tz) = TRUE
 -- → the rows whose start_tz falls in the 30 days before the query runs
 

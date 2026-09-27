@@ -253,10 +253,11 @@ Each `-- →` line under a query is one row of `getResult()`, measured on Postgr
 ```sql
 -- Boolean operators and functions need an explicit comparison in DQL
 SELECT e FROM Entity e WHERE STRICTLY_LEFT(e.geometry, 'POINT(0 0)') = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 
 SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
--- → [Entity {id: 1}, Entity {id: 2}]
+-- → Entity {id: 1}
+--   Entity {id: 2}
 
 -- Distance operators return numbers, so they can be selected and ordered by
 SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
@@ -266,7 +267,7 @@ FROM Entity e ORDER BY distance
 
 -- ST_Relate with 3 arguments returns boolean, with 2 it returns the intersection matrix
 SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'T*T***T**') = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 
 SELECT e, ST_Relate(e.geometry1, e.geometry2) as matrix FROM Entity e
 -- → [0 => Entity {id: 1}, 'matrix' => '212101212']
@@ -285,16 +286,16 @@ SELECT e, ST_AsText(e.geometry, 2) as wkt FROM Entity e
 -- WKT takes the SRID as a separate argument, EWKT carries it in the string itself
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromText('POINT(1 2)', 4326)) = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromEWKT('SRID=4326;POINT(1 2)')) = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 
 -- Parameters bind inside spatial functions as usual
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 ```
 
 **Notes:**

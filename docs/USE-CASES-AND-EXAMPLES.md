@@ -83,7 +83,8 @@ Call `ILIKE` as a function and compare the result with `TRUE`:
 SELECT e
 FROM EmailEntity e
 WHERE ILIKE(e.subject, 'Test email') = TRUE
--- → [EmailEntity {id: 1}, EmailEntity {id: 2}]
+-- → EmailEntity {id: 1}
+--   EmailEntity {id: 2}
 ```
 
 `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and the other operators this library adds work the same way.
@@ -125,11 +126,11 @@ The [JSON path functions](https://www.postgresql.org/docs/18/functions-json.html
 ```sql
 -- Check if a JSON path exists with a condition
 SELECT e FROM Entity e WHERE JSONB_PATH_EXISTS(e.jsonData, '$.items[*] ? (@.price > 100)') = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 
 -- Check if a JSON path matches a condition
 SELECT e FROM Entity e WHERE JSONB_PATH_MATCH(e.jsonData, 'exists($.items[*] ? (@.price >= 50 && @.price <= 100))') = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 
 -- Extract all items matching a path query
 SELECT e.id, JSONB_PATH_QUERY(e.jsonData, '$.items[*].name') FROM Entity e
@@ -400,15 +401,15 @@ if ($product->getPriceRange()->contains(25.00)) {
 ```sql
 -- Find products with overlapping price ranges
 SELECT p FROM Product p WHERE OVERLAPS(p.priceRange, NUMRANGE('20', '50')) = TRUE
--- → [Product {id: 1}]
+-- → Product {id: 1}
 
 -- Find products available in a specific period
 SELECT p FROM Product p WHERE CONTAINS(p.availabilityPeriod, DATERANGE('2024-06-01', '2024-06-30')) = TRUE
--- → [Product {id: 1}]
+-- → Product {id: 1}
 
 -- Find products whose price range contains 25.0 (a bare '25.0' would be read as a range literal and rejected)
 SELECT p FROM Product p WHERE CONTAINS(p.priceRange, NUMRANGE('25.0', '25.0', '[]')) = TRUE
--- → [Product {id: 1}]
+-- → Product {id: 1}
 ```
 
 ## Using PostgreSQL composite types
@@ -447,7 +448,7 @@ SELECT COMPOSITE_FIELD(p.item, 'name') FROM Product p
 
 -- Use composite fields in WHERE clauses
 SELECT p FROM Product p WHERE COMPOSITE_FIELD(p.item, 'price') > 10.00
--- → [Product {id: 2}]
+-- → Product {id: 2}
 ```
 
 ### Entity configuration
@@ -531,29 +532,34 @@ The PostGIS operators compare bounding boxes or measure distances. The bounding 
 ```sql
 -- Find geometries to the left of a reference point
 SELECT e FROM Entity e WHERE STRICTLY_LEFT(e.geometry, 'POINT(0 0)') = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 
 -- Find geometries that spatially contain a point (bounding box level)
 SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, 'POINT(1 1)') = TRUE
--- → [Entity {id: 1}, Entity {id: 3}]
+-- → Entity {id: 1}
+--   Entity {id: 3}
 
 -- Find geometries contained within a bounding box
 SELECT e FROM Entity e WHERE SPATIAL_CONTAINED_BY(e.geometry, 'POLYGON((0 0, 20 0, 20 20, 0 20, 0 0))') = TRUE
--- → [Entity {id: 2}]
+-- → Entity {id: 2}
 
 -- Check if two geometries have the same bounding box
 SELECT e FROM Entity e WHERE SPATIAL_SAME(e.geometry1, e.geometry2) = TRUE
--- → [Entity {id: 1}, Entity {id: 3}]
+-- → Entity {id: 1}
+--   Entity {id: 3}
 
 -- Vertical relationships
 SELECT e FROM Entity e WHERE STRICTLY_ABOVE(e.geometry, 'LINESTRING(0 0, 5 0)') = TRUE
--- → [Entity {id: 1}, Entity {id: 2}, Entity {id: 3}]
+-- → Entity {id: 1}
+--   Entity {id: 2}
+--   Entity {id: 3}
 SELECT e FROM Entity e WHERE OVERLAPS_BELOW(e.geometry, 'POLYGON((0 5, 5 5, 5 10, 0 10, 0 5))') = TRUE
--- → [Entity {id: 1}, Entity {id: 3}]
+-- → Entity {id: 1}
+--   Entity {id: 3}
 
 -- n-D bounding boxes overlap
 SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 0 0, 1 1 1, 0 0 0))') = TRUE
--- → [Entity {id: 1}]
+-- → Entity {id: 1}
 ```
 
 #### Distance-based queries
@@ -569,7 +575,9 @@ ORDER BY distance
 
 -- Geometries whose bounding box lies within 1000 units of the point; for an exact distance use ST_DWITHIN
 SELECT e FROM Entity e WHERE BOUNDING_BOX_DISTANCE(e.geometry, 'POINT(0 0)') < 1000
--- → [Entity {id: 1}, Entity {id: 2}, Entity {id: 3}]
+-- → Entity {id: 1}
+--   Entity {id: 2}
+--   Entity {id: 3}
 
 -- Calculate trajectory distances (for linestrings with measure values)
 SELECT TRAJECTORY_DISTANCE(e.trajectory1, e.trajectory2) as closest_approach
@@ -600,11 +608,13 @@ SELECT e FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE            -- Text
 ```sql
 -- ST_INTERSECTS checks the bounding boxes against the spatial index by itself; no pre-filter is needed
 SELECT e FROM Entity e WHERE ST_INTERSECTS(e.geometry, 'POLYGON((0 0, 20 0, 20 20, 0 20, 0 0))') = TRUE
--- → [Entity {id: 2}]
+-- → Entity {id: 2}
 
 -- Nearest first; with setMaxResults() PostgreSQL reads the nearest rows straight from the GiST index
 SELECT e FROM Entity e ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
--- → [Entity {id: 1}, Entity {id: 2}, Entity {id: 3}]
+-- → Entity {id: 1}
+--   Entity {id: 2}
+--   Entity {id: 3}
 ```
 
 ## Hierarchical data with ltree

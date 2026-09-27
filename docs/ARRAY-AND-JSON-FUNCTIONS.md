@@ -163,9 +163,11 @@ Each `-- →` line under a query is one row of `getResult()`, measured on Postgr
 ```sql
 -- DQL array literal syntax: ARRAY('val1', 'val2') - not standard PHP array notation
 SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('important', 'urgent')) = TRUE
--- → [Entity {id: 1}, Entity {id: 3}]
+-- → Entity {id: 1}
+--   Entity {id: 3}
 SELECT e FROM Entity e WHERE OVERLAPS(e.categories, ARRAY('admin', 'user')) = TRUE
--- → [Entity {id: 1}, Entity {id: 2}]
+-- → Entity {id: 1}
+--   Entity {id: 2}
 
 -- JSON_BUILD_OBJECT takes alternating key/value pairs; result is a JSON object
 SELECT e.id, JSON_BUILD_OBJECT('name', e.name, 'status', e.status, 'score', e.score) as json_data FROM Entity e
