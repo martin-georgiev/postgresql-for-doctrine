@@ -27,12 +27,26 @@ final class RealArrayTest extends BaseFloatArrayTestCase
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
             'too large' => ['3.5E+38'],
             'too small' => ['-3.5E+38'],
-            'too many decimal places' => ['1.1234567'],
-            'many trailing zeros' => ['1.123000000'],
-            'large number with excess precision' => ['123456.1234567'],
-            'negative with excess precision' => ['-1.1234567'],
-            'too close to zero' => ['1.17E-38'],
-            'too close to zero (negative)' => ['-1.17E-38'],
+            'rounds to zero in real' => ['7e-46'],
+            'rounds to zero in real (negative)' => ['-7e-46'],
+        ]);
+    }
+
+    /**
+     * PostgreSQL rounds a value to the nearest real, so digits past real's precision and subnormals are both stored.
+     *
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return \array_merge(parent::provideValidArrayItemsForDatabase(), [
+            'more digits than real keeps' => ['1.1234567'],
+            'trailing zeros past real precision' => ['1.123000000'],
+            'large number with more digits than real keeps' => ['123456.1234567'],
+            'negative with more digits than real keeps' => ['-1.1234567'],
+            'subnormal' => ['1.17E-38'],
+            'negative subnormal' => ['-1.17E-38'],
+            'smallest subnormal' => ['1e-45'],
         ]);
     }
 

@@ -30,6 +30,7 @@ final class RealArrayTypeTest extends FloatArrayTypeTestCase
             'real array with zero' => [[0.0, 1.5, -1.5]],
             'empty real array' => [[]],
             'real array with large numbers' => [[3.402823e+6, -3.402823e+6]],
+            'real array with seven fractional digits and a subnormal' => [[1.1234567, 1.0E-45]],
             'array with a null element' => [[1, null, 3]],
         ];
     }
