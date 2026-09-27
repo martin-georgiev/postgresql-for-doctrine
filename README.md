@@ -26,7 +26,12 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 
 // Register types with Doctrine
-DoctrineType::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+// DBAL 4.3+ ships its own jsonb type, which, unlike this one, reads integers beyond PHP_INT_MAX as floats and writes 1.0 instead of 1
+if (DoctrineType::hasType('jsonb')) {
+    DoctrineType::overrideType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+} else {
+    DoctrineType::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+}
 DoctrineType::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 DoctrineType::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 
