@@ -17,6 +17,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
  * @example Using it in DQL: "SELECT LCA(e.path1, e.path2) FROM Entity e"
+ * @example Using it in DQL with an array of paths: "SELECT LCA(e.paths) FROM Entity e"
  */
 class Lca extends BaseVariadicFunction
 {
@@ -32,7 +33,7 @@ class Lca extends BaseVariadicFunction
 
     protected function getMinArgumentCount(): int
     {
-        return 2;
+        return 1;
     }
 
     protected function getMaxArgumentCount(): int

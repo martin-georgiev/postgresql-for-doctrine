@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\QueryException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -28,7 +28,7 @@ final class ToTimestampTest extends TextTestCase
     #[Test]
     public function rejects_a_numeric_format_argument(): void
     {
-        $this->expectException(QueryException::class);
+        $this->expectException(ParserException::class);
         $dql = "SELECT TO_TIMESTAMP('05 Dec 2000', 1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
@@ -36,7 +36,7 @@ final class ToTimestampTest extends TextTestCase
     #[Test]
     public function rejects_a_null_argument(): void
     {
-        $this->expectException(QueryException::class);
+        $this->expectException(ParserException::class);
         $dql = "SELECT TO_TIMESTAMP(NULL, 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
