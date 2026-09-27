@@ -253,6 +253,18 @@ final class DateRangeTest extends BaseRangeTestCase
 
     public static function provideFromStringTestCases(): \Generator
     {
+        yield 'PostgreSQL output with a five-digit year' => [
+            '[10000-01-01,10000-01-05)',
+            new DateRange(new \DateTimeImmutable('+10000-01-01'), new \DateTimeImmutable('+10000-01-05')),
+        ];
+        yield 'PostgreSQL output with a BC era' => [
+            '["0044-03-15 BC","0044-03-16 BC")',
+            new DateRange(new \DateTimeImmutable('-0043-03-15'), new \DateTimeImmutable('-0043-03-16')),
+        ];
+        yield 'PostgreSQL output with a 29 February of a BC leap year' => [
+            '["0001-02-29 BC","0001-03-01 BC")',
+            new DateRange(new \DateTimeImmutable('+0000-02-29'), new \DateTimeImmutable('+0000-03-01')),
+        ];
         yield 'simple date range' => [
             '[2023-01-01,2023-12-31)',
             new DateRange(

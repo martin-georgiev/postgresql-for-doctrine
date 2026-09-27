@@ -21,6 +21,8 @@ final class TstzRangeTypeTest extends RangeTypeTestCase
     public static function provideValidTransformations(): array
     {
         return [
+            'tstzrange with a five-digit year' => [new TstzRangeValueObject(new \DateTimeImmutable('+10000-01-01 10:00:00+00:00'), new \DateTimeImmutable('+10000-01-02 00:00:00+00:00'))],
+            'tstzrange with a BC era' => [new TstzRangeValueObject(new \DateTimeImmutable('-0043-03-15 10:00:00+00:00'), new \DateTimeImmutable('-0043-03-16 00:00:00+00:00'))],
             'simple tstzrange' => [new TstzRangeValueObject(
                 new \DateTimeImmutable('2023-01-01 10:00:00+00:00'),
                 new \DateTimeImmutable('2023-01-01 18:00:00+00:00'),
