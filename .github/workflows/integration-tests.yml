@@ -88,7 +88,7 @@ jobs:
     needs: should-run
     if: needs.should-run.outputs.run == 'true'
     runs-on: ubuntu-latest
-    name: "PostgreSQL ${{ matrix.postgres }} + PostGIS ${{ matrix.postgis }} + PHP ${{ matrix.php }}"
+    name: "PostgreSQL ${{ matrix.postgres }} + PostGIS ${{ matrix.postgis }} + PHP ${{ matrix.php }} + Doctrine ORM ${{ matrix.doctrine-orm }}"
 
     strategy:
       fail-fast: ${{ github.event_name == 'pull_request' }}
@@ -96,6 +96,7 @@ jobs:
         php: ['8.2', '8.3', '8.4', '8.5']
         postgis: ['3.4', '3.5', '3.6']
         postgres: ['16', '17', '18']
+        doctrine-orm: ['latest']
         exclude:
           # PostgreSQL 16: Docker images support only for PostGIS 3.4, 3.5
           - postgres: '16'
@@ -111,6 +112,11 @@ jobs:
             postgres: '18'
             postgis: '3.6'
             calculate-code-coverage: true
+          # ORM 2.x applies convertToPHPValueSQL() only to types that opt in, ORM 3.x to every type
+          - php: '8.5'
+            postgres: '18'
+            postgis: '3.6'
+            doctrine-orm: '2.20'
 
     services:
       postgres:
@@ -152,13 +158,19 @@ jobs:
           path: |
             ${{ steps.composer-cache-dir.outputs.dir }}
             vendor
-          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-orm-${{ matrix.doctrine-orm }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php }}-composer-
+            ${{ runner.os }}-php-${{ matrix.php }}-orm-${{ matrix.doctrine-orm }}-composer-
             ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: |
+          if [ "${{ matrix.doctrine-orm }}" = "2.20" ]; then
+            composer require doctrine/orm "~2.20.0" --no-update --no-interaction
+            composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
+          else
+            composer install --prefer-dist --no-interaction --no-progress
+          fi
 
       - name: Install PostgreSQL client tools
         run: |
