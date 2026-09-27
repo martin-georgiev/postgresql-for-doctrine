@@ -55,9 +55,7 @@ final class DateRange extends Range
 
     protected function hasNoValueBetween(mixed $lower, mixed $upper): bool
     {
-        if (!$lower instanceof \DateTimeInterface || !$upper instanceof \DateTimeInterface) {
-            return false;
-        }
+        \assert($lower instanceof \DateTimeInterface && $upper instanceof \DateTimeInterface);
 
         $nextDay = \DateTimeImmutable::createFromInterface($lower)->modify('+1 day');
 
