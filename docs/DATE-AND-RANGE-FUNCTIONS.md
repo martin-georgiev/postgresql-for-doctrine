@@ -127,10 +127,7 @@ PostgreSQL ranges support [different bound types](https://www.postgresql.org/doc
 - Infinite ranges: Use a parameter set to `null` for unbounded sides (DQL does not accept a bare `NULL` argument)
 - Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 
-**Tips for Usage:**
-1. **Range operators** should be used with `= TRUE` or `= FALSE` in DQL (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
-2. **Date functions** work with PostgreSQL's rich date/time types
-3. **Range types** provide efficient storage and querying for value ranges
-4. **Overlaps testing** is optimized with proper indexes on range columns
-5. **Date extraction** supports many field types: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, DOW (day of week), DOY (day of year)
-6. **Range bounds** default to `[)` (inclusive lower, exclusive upper) if not specified
+**Tips:**
+- Compare the range operators with `= TRUE` or `= FALSE` in DQL (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
+- A [GiST index](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INDEXING) on a range column speeds up the overlap and containment operators.
+- `DATE_PART` and `DATE_EXTRACT` take [any field PostgreSQL knows](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT), such as `year`, `month`, `dow` (day of week) and `doy` (day of year).

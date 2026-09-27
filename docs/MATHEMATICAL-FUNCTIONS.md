@@ -172,9 +172,8 @@ FROM Entity e GROUP BY e.category
 - **Comparison**: GREATEST, LEAST for finding extremes
 - **Utility**: SIGN, RANDOM, PI for various mathematical needs
 
-**Tips for Usage:**
-1. **Mathematical functions** work with numeric types and return appropriate precision
-2. **WIDTH_BUCKET** is excellent for creating histograms and analytics
-3. **RANDOM()** generates values between 0 and 1
-4. **GREATEST/LEAST** can take multiple arguments and handle NULL values
-5. **Logarithmic functions** require positive input values
+**Tips:**
+- `WIDTH_BUCKET` numbers the equal-width bucket a value falls into, which is what a histogram groups by.
+- `RANDOM()` returns a value from 0 up to, but not including, 1.
+- `GREATEST` and `LEAST` skip `NULL` arguments; they return `NULL` only when every argument is `NULL`.
+- `LN` and `LOG` fail on zero and on negative numbers.

@@ -308,8 +308,6 @@ Common patterns:
 - **Geometry functions**: Return new geometries for further operations
 - **Text functions**: Return strings for pattern matching and display
 
-**Tips for Usage:**
-1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL
-2. **Spatial functions** work best with proper geometry types and indexes
-3. **3D functions** require geometries with Z coordinates
-4. **Geography types** have limited operator support compared to geometry types
+**Tips:**
+- A [GiST index](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes) on a geometry or geography column serves the bounding box operators and relationship functions such as `ST_INTERSECTS` and `ST_DWITHIN`.
+- The `ST_3D…` functions use the Z coordinate, so store geometries with one (`POINT Z(1 2 3)`) when you need them.

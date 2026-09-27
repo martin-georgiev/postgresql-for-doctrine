@@ -280,18 +280,6 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 
 ---
 
-**Tips for Usage:**
-1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL → [Common use cases and examples](USE-CASES-AND-EXAMPLES.md)
-2. **Spatial functions** work best with proper geometry types and indexes → [Spatial types](SPATIAL-TYPES.md)
-3. **Array functions** provide efficient PostgreSQL array operations → [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md)
-4. **JSON functions** support both JSON and JSONB data types → [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md)
-5. **Range functions** provide efficient storage and querying for value ranges → [Range types](RANGE-TYPES.md)
-6. **Mathematical functions** work with numeric types and return appropriate precision → [Mathematical functions](MATHEMATICAL-FUNCTIONS.md)
-7. **Utility functions** provide type casting, formatting, and UUID operations → [Utility functions](UTILITY-FUNCTIONS.md)
-8. **Ltree functions** provide efficient hierarchical data operations and path manipulation → [Ltree functions](LTREE-TYPE.md)
-
----
-
 **For More Information:**
 - [Available types](AVAILABLE-TYPES.md) - PostgreSQL data types supported by this library
 - [Value objects for range types](RANGE-TYPES.md) - Working with range value objects

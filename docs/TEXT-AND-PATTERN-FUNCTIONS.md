@@ -173,11 +173,9 @@ SELECT e, TS_RANK(TO_TSVECTOR(e.content), TO_TSQUERY('search')) as rank FROM Ent
 SELECT e.category, STRING_AGG(e.name, ', ' ORDER BY e.name) as names FROM Entity e GROUP BY e.category
 ```
 
-**Tips for Usage:**
-1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
-2. **Regular expressions** use PostgreSQL's POSIX regular expression syntax
-3. **Full-text search** requires proper text search configuration and indexes
-4. **ILIKE** provides case-insensitive pattern matching similar to `LIKE`
-5. **UNACCENT** requires the [`unaccent`](https://www.postgresql.org/docs/18/unaccent.html) extension to be installed in PostgreSQL
-6. **String aggregation** with `STRING_AGG` allows custom separators and ordering
-7. **Fuzzy string matching** functions require the `fuzzystrmatch` extension to be installed in PostgreSQL
+**Tips:**
+- `REGEXP`, `IREGEXP` and the `REGEXP_*` functions take [POSIX regular expressions](https://www.postgresql.org/docs/18/functions-matching.html#FUNCTIONS-POSIX-REGEXP), not `LIKE` patterns.
+- `ILIKE` is `LIKE` without case sensitivity.
+- Full-text search stays fast on large tables with a [GIN index](https://www.postgresql.org/docs/18/textsearch-indexes.html) on the `tsvector`.
+- `UNACCENT` requires the [`unaccent`](https://www.postgresql.org/docs/18/unaccent.html) extension: `CREATE EXTENSION IF NOT EXISTS unaccent;`
+- `STRING_AGG` takes the separator as its second argument and an `ORDER BY` inside the call.

@@ -165,9 +165,3 @@ SELECT e.category, ARRAY_AGG(e.id ORDER BY e.createdAt DESC) as entity_ids FROM 
 SELECT e.category, FILTER(COUNT(e.id), WHERE e.status = 'active') as active_count FROM Entity e GROUP BY e.category
 SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archivedAt IS NULL) as live_ids FROM Entity e GROUP BY e.category
 ```
-
-**Tips for Usage:**
-1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
-2. **Array functions** provide efficient PostgreSQL array operations
-3. **JSON functions** support both JSON and JSONB data types
-4. **JSONB functions** offer better performance for complex JSON operations
