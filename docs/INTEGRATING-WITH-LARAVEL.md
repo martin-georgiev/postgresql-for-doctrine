@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Integration with Laravel
 
-This guide covers integration with Laravel 11.x+ using the community-supported [Laravel Doctrine](https://www.laraveldoctrine.org/) package (`laravel-doctrine/orm` v3.x).
+This guide covers integration with Laravel 11.x+ using the community-supported [Laravel Doctrine](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/) package (`laravel-doctrine/orm` v3.x).
 
 ### Installation
 
