@@ -444,7 +444,7 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     /**
-     * PostgreSQL prints a stored `numeric` bound with its scale, so a whole number arrives as `10.00`.
+     * PostgreSQL keeps the scale a `numeric` bound was written or computed with, so a whole number can arrive as `10.0` or `5.00`.
      */
     #[Test]
     public function parses_a_whole_number_printed_with_a_scale_as_an_integer(): void
