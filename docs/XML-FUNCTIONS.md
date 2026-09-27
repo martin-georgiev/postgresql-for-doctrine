@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> XML Functions
 
-> 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) for the `xml` and `xml[]` DBAL types
+> **See also:** [Available Types](AVAILABLE-TYPES.md) for the `xml` and `xml[]` DBAL types
 
 | [PostgreSQL function](https://www.postgresql.org/docs/18/functions-xml.html) | Register for DQL as | Implemented by |
 |---|---|---|

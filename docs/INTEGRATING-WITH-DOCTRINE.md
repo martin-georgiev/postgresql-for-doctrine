@@ -4,7 +4,7 @@ This guide covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For 
 
 ### Register DBAL Types
 
-Register the [DBAL types](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#custom-mapping-types) you plan to use. The **full set** of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
+Register the [DBAL types](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#custom-mapping-types) you plan to use. The **full set** of available types can be found in [Available Types](AVAILABLE-TYPES.md).
 
 ```php
 <?php
@@ -923,7 +923,7 @@ $platform->registerDoctrineTypeMapping('vector', 'vector');
 ### Mapping User-Defined PostgreSQL Enum Types
 
 For each PostgreSQL native `ENUM` type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Enum` and register it like the examples above.
-Columns holding an array of that enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`. See [ENUM-TYPE.md](ENUM-TYPE.md) for a full example.
+Columns holding an array of that enum get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray`. See [PostgreSQL Enum Types](ENUM-TYPE.md) for a full example.
 
 
 ```php
@@ -969,7 +969,7 @@ $platform->registerDoctrineTypeMapping('_status', 'status[]');
 
 ### Mapping User-Defined PostgreSQL Composite Types
 
-For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above. See [COMPOSITE-TYPE.md](COMPOSITE-TYPE.md) for a full example.
+For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above. See [PostgreSQL Composite Types](COMPOSITE-TYPE.md) for a full example.
 
 ```php
 <?php

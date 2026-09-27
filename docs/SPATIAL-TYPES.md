@@ -17,7 +17,7 @@ This document describes the core primitives used by the spatial DBAL types: pars
 
 Parsing outputs a list of `WktSpatialData` value objects that Doctrine DBAL can bind.
 
-> 📖 **See also**: [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for working with spatial data in queries
+> **See also:** [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for working with spatial data in queries
 
 ## Enum-driven patterns
 
@@ -226,7 +226,7 @@ Both options are optional and independent:
 - `GEOMETRY[]` and `GEOGRAPHY[]` bind through DBAL parameter binding, with any number of elements.
 - A `null` element is written as a SQL NULL element and read back as `null`.
 
-See [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for details and examples.
+See [Geometry and Geography Arrays](GEOMETRY-ARRAYS.md) for details and examples.
 
 ## Minimal examples
 
@@ -266,7 +266,7 @@ $qb->setParameter('geometries', [
 $qb->executeStatement();
 ```
 
-See [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md) for more array examples.
+See [Geometry and Geography Arrays](GEOMETRY-ARRAYS.md) for more array examples.
 
 ## Error Handling and Validation
 

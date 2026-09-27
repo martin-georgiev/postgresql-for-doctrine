@@ -2,7 +2,7 @@
 
 This document explains the usage of PostgreSQL `geometry` and `geography` array types in Doctrine DBAL.
 
-> 📖 **See also**: [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for spatial functions that work with geometry and geography data
+> **See also:** [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for spatial functions that work with geometry and geography data
 
 ## Overview
 
@@ -112,7 +112,7 @@ POINT Z (1 2 3)             => POINT Z(1 2 3)
 SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 ```
 
-See also: Spatial foundations and parser behavior in the Spatial Types document.
+> **See also:** [Spatial Types](SPATIAL-TYPES.md) for the parser behind these rules
 
 ## Supported Features
 

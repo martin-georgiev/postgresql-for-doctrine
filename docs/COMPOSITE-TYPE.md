@@ -2,7 +2,7 @@
 
 PostgreSQL [composite (row) types](https://www.postgresql.org/docs/18/rowtypes.html) bundle several named fields into a single column type. Like enums, they are user-defined - there is no pre-registered constant, so each PostgreSQL composite type maps to its own subclass of `Composite`.
 
-> 📖 **See also**: [Available Types](AVAILABLE-TYPES.md), [Enum Types](ENUM-TYPE.md)
+> **See also:** [Available Types](AVAILABLE-TYPES.md) · [PostgreSQL Enum Types](ENUM-TYPE.md)
 
 ## How it works
 

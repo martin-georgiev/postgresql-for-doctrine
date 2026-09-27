@@ -2,7 +2,7 @@
 
 PostgreSQL's [`ltree` extension](https://www.postgresql.org/docs/18/ltree.html) stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST indexes. It also ships two companion query types — `lquery` for path patterns and `ltxtquery` for full-text style label queries.
 
-> 📖 **See also**: [Available Types](AVAILABLE-TYPES.md) | [Ltree Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) | [Hierarchical Data with `ltree`](USE-CASES-AND-EXAMPLES.md#hierarchical-data-with-ltree)
+> **See also:** [Available Types](AVAILABLE-TYPES.md) · [Ltree Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) · [Hierarchical Data with `ltree`](USE-CASES-AND-EXAMPLES.md#hierarchical-data-with-ltree)
 
 ## Requirements
 
@@ -166,7 +166,7 @@ No PostgreSQL operator consumes this type — it is provided so that collections
 
 ## Label-tree Functions
 
-> 📖 **See also**: [AVAILABLE-FUNCTIONS-AND-OPERATORS.md](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) for the full function index
+> **See also:** [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#-ltree-functions) for the full function index
 
 ### Path Manipulation Functions
 

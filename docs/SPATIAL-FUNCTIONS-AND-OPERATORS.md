@@ -2,7 +2,7 @@
 
 This document covers [PostGIS spatial functions and operators](https://postgis.net/docs/reference.html) available in this library for working with geometry and geography data types.
 
-> 📖 **See also**: [Spatial Types](SPATIAL-TYPES.md) for geometry/geography types and [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical spatial query examples
+> **See also:** [Spatial Types](SPATIAL-TYPES.md) for geometry/geography types and [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical spatial query examples
 
 ## PostGIS Spatial Operators
 

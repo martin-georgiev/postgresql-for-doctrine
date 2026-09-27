@@ -18,7 +18,7 @@ php artisan vendor:publish --tag="config" --provider="LaravelDoctrine\ORM\Doctri
 
 ### Register DBAL Types
 
-Register the [DBAL types](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#custom-types) you plan to use. The **full set** of available types can be found in [AVAILABLE-TYPES.md](AVAILABLE-TYPES.md).
+Register the [DBAL types](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#custom-types) you plan to use. The **full set** of available types can be found in [Available Types](AVAILABLE-TYPES.md).
 
 The [per-manager `mapping_types` block](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#entity-manager) maps PostgreSQL's own type names (like `_text` or `jsonb`) to the registered Doctrine types, and is the Laravel equivalent of calling `registerDoctrineTypeMapping()` on the platform.
 
@@ -393,7 +393,7 @@ return [
 > ],
 > ```
 >
-> See [ENUM-TYPE.md](ENUM-TYPE.md) for a full example.
+> See [PostgreSQL Enum Types](ENUM-TYPE.md) for a full example.
 
 > **User-defined composite types**: For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above.
 > Columns holding an array of that composite get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray`, registered alongside the scalar one:
@@ -405,7 +405,7 @@ return [
 > ],
 > ```
 >
-> See [COMPOSITE-TYPE.md](COMPOSITE-TYPE.md) for a full example.
+> See [PostgreSQL Composite Types](COMPOSITE-TYPE.md) for a full example.
 
 
 ### Register DQL Functions

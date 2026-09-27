@@ -2,7 +2,7 @@
 
 This document covers PostgreSQL [mathematical functions](https://www.postgresql.org/docs/18/functions-math.html) available in this library.
 
-> 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
+> **See also:** [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
 
 ## Trigonometric Functions
 

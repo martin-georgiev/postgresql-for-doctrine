@@ -28,7 +28,7 @@ WHERE ILIKE(e.subject, 'Test email') = TRUE
 
 These functions currently only support string literals and object references as arguments. Here are some valid examples:
 
-> 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSON/JSONB function documentation
+> **See also:** [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSON/JSONB function documentation
 
 ```sql
 -- Basic usage with string literals and entity properties
@@ -48,7 +48,7 @@ Note: Keys must always be string literals, while values can be either string lit
 
 PostgreSQL 12+ introduced [JSON path functions](https://www.postgresql.org/docs/18/functions-json.html#FUNCTIONS-SQLJSON-PATH) that provide a powerful way to query JSON data. Here are some examples:
 
-> 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
+> **See also:** [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
 
 ```sql
 -- Check if a JSON path exists with a condition
@@ -71,7 +71,7 @@ SELECT e.id, JSONB_PATH_QUERY_FIRST(e.jsonData, '$.items[*] ? (@.featured == tru
 
 PostgreSQL 15+ introduced additional regular expression functions that provide more flexibility when working with text data:
 
-> 📖 **See also**: [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md) for complete regular expression and text processing documentation
+> **See also:** [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md) for complete regular expression and text processing documentation
 
 ```sql
 -- Count occurrences of a pattern
@@ -88,7 +88,7 @@ SELECT e.id, REGEXP_SUBSTR(e.text, 'https?://[\w.-]+') as url FROM Entity e
 
 Newer PostgreSQL versions introduced additional date functions (`DATE_BIN` in 14, `DATE_ADD` and `DATE_SUBTRACT` in 16) that provide more flexibility when working with dates and timestamps:
 
-> 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for complete date/time and range function documentation
+> **See also:** [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for complete date/time and range function documentation
 
 ```sql
 -- Bin timestamps into 15-minute intervals
@@ -116,7 +116,7 @@ PostgreSQL computes these with ordered-set aggregates, written in SQL as `percen
 -- DQL:  PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total)
 ```
 
-> 📖 **See also**: [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql) for the full list of rules
+> **See also:** [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql) for the full list of rules
 
 ```sql
 -- Median order value per customer (interpolated between the two middle values)
@@ -145,7 +145,7 @@ PostgreSQL restricts the rows a single aggregate reads with `FILTER (WHERE ...)`
 -- DQL:  FILTER(COUNT(o.id), WHERE o.status = 'paid')
 ```
 
-> 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md#filter-wraps-the-aggregate-in-dql) for the full list of rules
+> **See also:** [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md#filter-wraps-the-aggregate-in-dql) for the full list of rules
 
 ```sql
 -- Several conditional counts in one pass, instead of one query per status
@@ -178,7 +178,7 @@ PostgreSQL runs an aggregate over a window of rows with `OVER (...)`, written in
 -- DQL:  OVER(SUM(o.amount), PARTITION BY o.customer ORDER BY o.createdAt)
 ```
 
-> 📖 **See also**: [Window Functions](WINDOW-FUNCTIONS.md#over-wraps-the-call-in-dql) for the full list of rules
+> **See also:** [Window Functions](WINDOW-FUNCTIONS.md#over-wraps-the-call-in-dql) for the full list of rules
 
 ```sql
 -- Running total per customer
@@ -208,7 +208,7 @@ SELECT o.id, OVER(ROW_NUMBER(), PARTITION BY o.customer ORDER BY o.createdAt DES
 SELECT p.name, OVER(RANK(), ORDER BY p.score DESC) AS scoreRank FROM Player p
 ```
 
-> 📖 **See also**: [Ranking Functions](WINDOW-FUNCTIONS.md#ranking-functions)
+> **See also:** [Ranking Functions](WINDOW-FUNCTIONS.md#ranking-functions)
 
 - Filtering on a window result (`WHERE runningTotal > 100`) is not possible in DQL; use a native query or filter in PHP.
 
@@ -216,7 +216,7 @@ SELECT p.name, OVER(RANK(), ORDER BY p.score DESC) AS scoreRank FROM Player p
 
 PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:
 
-> 📖 **See also**: [Range Types](RANGE-TYPES.md) for complete range value object documentation and [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions
+> **See also:** [Range Types](RANGE-TYPES.md) for complete range value object documentation and [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions
 
 ```php
 // Entity with range fields
@@ -260,7 +260,7 @@ SELECT p FROM Product p WHERE CONTAINS(p.priceRange, NUMRANGE('25.0', '25.0', '[
 
 PostgreSQL composite types allow you to define custom structured types with named fields. This library provides the `COMPOSITE_FIELD` function to access fields from composite type columns in DQL.
 
-> 📖 **See also**: [PostgreSQL Composite Types Documentation](https://www.postgresql.org/docs/17/rowtypes.html)
+> **See also:** [PostgreSQL Composite Types](COMPOSITE-TYPE.md) · [composite types in the PostgreSQL manual](https://www.postgresql.org/docs/18/rowtypes.html)
 
 ### Creating Composite Types in PostgreSQL
 
@@ -355,7 +355,7 @@ POINT Z (1 2 3)            => POINT Z(1 2 3)
 
 PostGIS spatial operators allow you to perform spatial queries using bounding box relationships and distance calculations. **Important**: All spatial operators return boolean values and shall be used with `= TRUE` or `= FALSE` in DQL.
 
-> 📖 **See also**: [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for complete spatial function documentation
+> **See also:** [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for complete spatial function documentation
 
 #### Bounding Box Spatial Relationships
 
@@ -429,7 +429,7 @@ SELECT e FROM Entity e
 ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
 ```
 
-For array columns, see [GEOMETRY-ARRAYS.md](./GEOMETRY-ARRAYS.md).
+For array columns, see [Geometry and Geography Arrays](GEOMETRY-ARRAYS.md).
 
 The library provides DBAL type support for PostGIS `geometry` and `geography` types. Example usage:
 
@@ -458,7 +458,7 @@ Notes:
 
 ## Hierarchical Data with ltree
 
-> 📖 **See also**: [`ltree` Types](LTREE-TYPE.md) for type reference and DQL functions
+> **See also:** [`ltree` Types](LTREE-TYPE.md) for type reference and DQL functions
 
 This example shows a self-referential entity with ltree path management and cascading path updates in Symfony.
 

@@ -2,7 +2,7 @@
 
 PostgreSQL range types represent ranges of values of some element type (called the range's subtype). This library provides support for all [PostgreSQL built-in range types](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-BUILTIN).
 
-> 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions and operators in DQL queries
+> **See also:** [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions and operators in DQL queries
 
 ## Available Range Types
 
@@ -315,7 +315,7 @@ echo NumericRange::fromString('[NaN,NaN)');             // empty - equal bounds,
 
 **Note**: Only the numeric range types take a `NaN` bound. `NaN` belongs to PostgreSQL's numeric and floating-point types, so a date, timestamp or integer range rejects it — `DateRange::fromString('[2024-01-01,NaN)')` throws, exactly as `SELECT '[2024-01-01,NaN)'::daterange` errors.
 
-> 📖 **See also**: [Infinity Values](INFINITY.md) for why a bound of infinity is a flag here, a native `INF` for floats and an enum for datetime array items.
+> **See also:** [Infinity Values](INFINITY.md) for why a bound of infinity is a flag here, a native `INF` for floats and an enum for datetime array items.
 
 ## DQL Usage with Range Functions
 
