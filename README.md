@@ -26,7 +26,12 @@ use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
 
 // Register types with Doctrine
-DoctrineType::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+// DBAL 4.3+ ships its own jsonb type, which, unlike this one, reads integers beyond PHP_INT_MAX as floats and writes 1.0 instead of 1
+if (DoctrineType::hasType('jsonb')) {
+    DoctrineType::overrideType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+} else {
+    DoctrineType::addType('jsonb', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\Jsonb");
+}
 DoctrineType::addType('text[]', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\TextArray");
 DoctrineType::addType('numrange', "MartinGeorgiev\\Doctrine\\DBAL\\Types\\NumRange");
 
@@ -79,7 +84,7 @@ $query = $em->createQuery('
   - Path (`path`, `path[]`)
   - Point (`point`, `point[]`)
   - Polygon (`polygon`, `polygon[]`)
-  - PostGIS Geometry (`geometry`, `geometry[]`)
+  - [PostGIS](https://postgis.net/docs/) Geometry (`geometry`, `geometry[]`)
   - PostGIS Geography (`geography`, `geography[]`)
 - **Range Types**
   - Date and time ranges (`daterange`, `daterange[]`, `tsrange`, `tsrange[]`, `tstzrange`, `tstzrange[]`)
@@ -103,7 +108,7 @@ $query = $em->createQuery('
 - **XML Types**
   - Native XML document storage (`xml`, `xml[]`)
 - **Hierarchical Types**
-  - Label-tree data (`ltree`, `ltree[]`)
+  - [Label-tree data](https://www.postgresql.org/docs/18/ltree.html) (`ltree`, `ltree[]`)
 - **Vector Types** (requires [pgvector](https://github.com/pgvector/pgvector) extension)
   - Fixed-dimension float vector (`vector`)
   - Half-precision float vector (`halfvec`)

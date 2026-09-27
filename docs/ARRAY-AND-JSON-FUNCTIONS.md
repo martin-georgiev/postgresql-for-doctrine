@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Array and JSON Functions and Operators
 
-This document covers PostgreSQL array and JSON/JSONB operators and functions available in this library.
+This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/functions-array.html) and [JSON/JSONB](https://www.postgresql.org/docs/18/functions-json.html) operators and functions available in this library.
 
 > 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical JSON and array usage examples
 
@@ -135,7 +135,7 @@ This document covers PostgreSQL array and JSON/JSONB operators and functions ava
 
 ### `FILTER` wraps the aggregate in DQL
 
-In SQL, `FILTER (WHERE ...)` follows the aggregate's closing parenthesis. DQL cannot parse anything after a function's closing parenthesis, so in DQL `FILTER` becomes a function **around** the aggregate, with the condition as its second argument:
+In SQL, [`FILTER (WHERE ...)`](https://www.postgresql.org/docs/18/sql-expressions.html#SYNTAX-AGGREGATES) follows the aggregate's closing parenthesis. DQL cannot parse anything after a function's closing parenthesis, so in DQL `FILTER` becomes a function **around** the aggregate, with the condition as its second argument:
 
 | SQL | DQL |
 |---|---|

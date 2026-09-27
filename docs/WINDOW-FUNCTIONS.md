@@ -150,7 +150,7 @@ SELECT s.id, s.amount, OVER(LAST_VALUE(s.amount), PARTITION BY s.region ORDER BY
 
 ## Limitations
 
-- **You cannot filter on a window result in DQL.** PostgreSQL computes window functions after `WHERE`, `GROUP BY` and `HAVING`, so `WHERE runningTotal > 100` is invalid SQL, not just invalid DQL. The standard fix - wrapping the query in a subquery in `FROM` and filtering outside it - is something DQL cannot express. Use a native query with a `ResultSetMapping`, or filter the rows in PHP.
+- **You cannot filter on a window result in DQL.** PostgreSQL [computes window functions after `WHERE`, `GROUP BY` and `HAVING`](https://www.postgresql.org/docs/18/tutorial-window.html), so `WHERE runningTotal > 100` is invalid SQL, not just invalid DQL. The standard fix - wrapping the query in a subquery in `FROM` and filtering outside it - is something DQL cannot express. Use a [native query with a `ResultSetMapping`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/native-sql.html#the-resultsetmapping), or filter the rows in PHP.
 - **A window-only function outside `OVER` parses, but PostgreSQL rejects it when the query runs** (`window function row_number requires an OVER clause`).
 - **No named windows.** There is no `WINDOW w AS (...)` clause; every call spells out its own specification, even when several calls share it.
 - **No `NULLS FIRST` / `NULLS LAST`.** The window `ORDER BY` reuses DQL's `ORDER BY` items, which do not support them.

@@ -53,7 +53,7 @@ $platform = $em->getConnection()->getDatabasePlatform();
 $platform->registerDoctrineTypeMapping('inventory_item', 'inventory_item');
 ```
 
-Without that mapping, schema introspection fails with `Unknown database type "inventory_item" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
+Without that mapping, [schema introspection](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#detection-of-database-types) fails with `Unknown database type "inventory_item" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.` (the platform class varies with your DBAL and PostgreSQL versions). The framework equivalents:
 
 - **Symfony**: `inventory_item: inventory_item` under `doctrine.dbal.connections.default.mapping_types` in `config/packages/doctrine.yaml` ([setup guide](INTEGRATING-WITH-SYMFONY.md#configure-type-mappings))
 - **Laravel**: `'inventory_item' => 'inventory_item'` under the entity manager's `'mapping_types'` in `config/doctrine.php` ([setup guide](INTEGRATING-WITH-LARAVEL.md#register-dbal-types))
@@ -96,7 +96,7 @@ PostgreSQL distinguishes a NULL column from a row whose fields are all NULL, and
 | `['name' => null, 'supplier_id' => null, 'price' => null]` | `(,,)` |
 | `['name' => '', 'supplier_id' => null, 'price' => null]` | `("",,)` |
 
-Note that an unquoted empty field means NULL, while `""` means the empty string. The unquoted word `NULL` is *not* a null - it is the four-character string `"NULL"`.
+Note that [an unquoted empty field means NULL](https://www.postgresql.org/docs/18/rowtypes.html#ROWTYPES-IO-SYNTAX), while `""` means the empty string. The unquoted word `NULL` is *not* a null - it is the four-character string `"NULL"`.
 
 ## Field types
 
@@ -124,7 +124,7 @@ final class InventoryItemArrayType extends CompositeArray
 }
 ```
 
-Register both types, as you would for any other pair of scalar and array types. PostgreSQL reports an array column's type as the element type prefixed with an underscore, so the array's schema-tool mapping is `_inventory_item`:
+Register both types, as you would for any other pair of scalar and array types. PostgreSQL reports an array column's type as the [element type prefixed with an underscore](https://www.postgresql.org/docs/18/sql-createtype.html#SQL-CREATETYPE-ARRAY), so the array's schema-tool mapping is `_inventory_item`:
 
 ```php
 DoctrineType::addType('inventory_item', InventoryItemType::class);
@@ -146,7 +146,7 @@ PostgreSQL escapes at both levels - a field holding a comma arrives as `{"(\"a,b
 What this type writes is byte-identical to what PostgreSQL emits for the same value, so a value does not drift across repeated save-load cycles. Three field types are re-rendered by PostgreSQL itself rather than echoed back verbatim; the PHP value still round-trips, but the stored literal differs from the one that was written:
 
 - `timestamptz` is rendered in the session time zone (`2024-01-15 10:30:00+00` under UTC, `2024-01-15 12:30:00+02` under `Europe/Sofia`). The same instant comes back either way.
-- `jsonb` normalizes whitespace and key order. Use `json` if you need to preserve the document verbatim.
+- `jsonb` [normalizes whitespace and key order](https://www.postgresql.org/docs/18/datatype-json.html). Use `json` if you need to preserve the document verbatim.
 - `numeric` keeps the scale you supply (`9.90` stays `9.90`) but canonicalizes exponent notation (`1e10` becomes `10000000000`).
 
 ## Mapping to an object
