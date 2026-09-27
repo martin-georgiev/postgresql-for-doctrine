@@ -4,6 +4,20 @@ A `geometry` or `geography` column maps to the `WktSpatialData` value object, wh
 
 > **See also:** [PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for working with spatial data in queries
 
+## How dimensional modifiers are spelled
+
+A dimensional modifier (`Z`, `M` or `ZM`) follows the type name, and the value you get back is always spelled `POINT Z(…)`: one space before the modifier, none after it. What you write is not always what you read back:
+
+| You write | `WktSpatialData`, `geometry`, `geography` | `geometry[]`, `geography[]` |
+|---|---|---|
+| `POINT Z (1 2 3)` | `POINT Z(1 2 3)` | `POINT Z(1 2 3)` |
+| `SRID=4326;POINT Z (1 2 3)` | `SRID=4326;POINT Z(1 2 3)` | `SRID=4326;POINT Z(1 2 3)` |
+| `POINTZ(1 2 3)` | rejected | `POINT Z(1 2 3)` |
+| `LINESTRINGM(0 0 1, 1 1 2)` | rejected | `LINESTRING M(0 0 1, 1 1 2)` |
+| `POLYGONZM((…))` | rejected | `POLYGON ZM((…))` |
+
+Where a value is rejected, `WktSpatialData::fromString()` throws `InvalidWktSpatialDataException`, and the `geometry` and `geography` types throw their `Invalid…ForPHPException` on read. Only the array types accept the glued spelling. Write `POINT Z(…)` yourself, and compare values in that spelling rather than in the string you started from.
+
 ## Creating spatial data
 
 Build a `WktSpatialData` from a string, from its parts, or with the point shortcuts:
@@ -324,14 +338,6 @@ $spatialData->getSrid();         // 4326, or null when the string carries no SRI
 
 ## How the values are parsed
 
-`WktSpatialData::fromString()` reads WKT and EWKT and writes the dimensional modifier in one spelling:
+`WktSpatialData::fromString()` reads WKT and EWKT. The type names and modifiers it accepts come from two enums, `GeometryType` and `DimensionalModifier`.
 
-- `POINTZ(...)` → `POINT Z(...)`
-- `LINESTRINGM(...)` → `LINESTRING M(...)`
-- `POLYGONZM(...)` → `POLYGON ZM(...)`
-- `POINT Z (...)` → `POINT Z(...)`
-- `SRID=4326;POINT Z (...)` → `SRID=4326;POINT Z(...)`
-
-The type names and modifiers it accepts come from two enums, `GeometryType` and `DimensionalModifier`.
-
-`GeometryArray` and `GeographyArray` share the `SpatialDataArray` base. It splits a PostgreSQL array literal into items, quoted or not, and keeps an item whole when its coordinate list contains commas or nested parentheses.
+`GeometryArray` and `GeographyArray` share the `SpatialDataArray` base. It splits a PostgreSQL array literal into items, quoted or not, and keeps an item whole when its coordinate list contains commas or nested parentheses. It also rewrites the glued `POINTZ(…)` spelling to `POINT Z(…)` before handing each item to `WktSpatialData`, which is why only the array types accept it.

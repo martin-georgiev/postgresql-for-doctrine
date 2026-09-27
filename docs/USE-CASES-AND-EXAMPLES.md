@@ -359,14 +359,7 @@ $qb->setParameter('wktSpatialData', [WktSpatialData::fromString('LINESTRING(0 0,
 $qb->executeStatement();
 ```
 
-`WktSpatialData` writes each dimensional modifier in one spelling:
-
-```
-POINTZ(1 2 3)              => POINT Z(1 2 3)
-LINESTRINGM(0 0 1, 1 1 2)  => LINESTRING M(0 0 1, 1 1 2)
-POLYGONZM((...))           => POLYGON ZM((...))
-POINT Z (1 2 3)            => POINT Z(1 2 3)
-```
+A value reads back with its dimensional modifier spelled `POINT Z(1 2 3)`, even when you wrote `POINT Z (1 2 3)`. The glued `POINTZ(1 2 3)` is rejected; see [How dimensional modifiers are spelled](SPATIAL-TYPES.md#how-dimensional-modifiers-are-spelled).
 
 For array columns, see [Geometry and geography arrays](GEOMETRY-ARRAYS.md).
 

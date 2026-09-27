@@ -71,7 +71,7 @@ Loading the entity gives the same list back. The items of one array may mix geom
 
 ## Dimensional modifiers
 
-`WktSpatialData` writes each dimensional modifier in one spelling, so the inputs on the left read back as the values on the right:
+An array item reads back with its dimensional modifier spelled `POINT Z(…)`, whichever way PostgreSQL printed it:
 
 ```text
 POINTZ(1 2 3)               => POINT Z(1 2 3)
@@ -81,7 +81,7 @@ POINT Z (1 2 3)             => POINT Z(1 2 3)
 SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 ```
 
-> **See also:** [Spatial types](SPATIAL-TYPES.md) for the parser behind these rules
+The glued spelling on the first three lines works only here: `WktSpatialData` and the scalar `geometry` and `geography` types reject it. [How dimensional modifiers are spelled](SPATIAL-TYPES.md#how-dimensional-modifiers-are-spelled) compares the two.
 
 ## Indexing
 
