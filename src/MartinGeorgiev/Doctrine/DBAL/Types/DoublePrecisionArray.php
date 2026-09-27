@@ -31,13 +31,11 @@ class DoublePrecisionArray extends BaseFloatArray
         return '1.7976931348623157E+308';
     }
 
-    protected function getMaxPrecision(): int
+    /**
+     * A PHP float is a double, so a value that rounds to zero in double precision already parses as zero.
+     */
+    protected function getLargestMagnitudeRoundingToZero(): string
     {
-        return 15;
-    }
-
-    protected function getMinAbsoluteValue(): string
-    {
-        return '2.2250738585072014E-308';
+        return '0';
     }
 }

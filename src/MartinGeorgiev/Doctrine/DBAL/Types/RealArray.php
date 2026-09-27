@@ -31,13 +31,11 @@ class RealArray extends BaseFloatArray
         return '3.4028235E+38';
     }
 
-    protected function getMaxPrecision(): int
+    /**
+     * Half the smallest subnormal real, 2^-150: a tie at it rounds to even, which is zero.
+     */
+    protected function getLargestMagnitudeRoundingToZero(): string
     {
-        return 6;
-    }
-
-    protected function getMinAbsoluteValue(): string
-    {
-        return '1.17549435E-38';
+        return '7.006492321624085E-46';
     }
 }

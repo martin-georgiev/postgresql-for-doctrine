@@ -26,9 +26,11 @@ abstract class BaseFloatArray extends BaseArray
 
     abstract protected function getMaxValue(): string;
 
-    abstract protected function getMaxPrecision(): int;
-
-    abstract protected function getMinAbsoluteValue(): string;
+    /**
+     * PostgreSQL rounds a value to the nearest one its type holds, subnormals included, and rejects only a non-zero value
+     * that rounds to zero. This is the largest magnitude that does.
+     */
+    abstract protected function getLargestMagnitudeRoundingToZero(): string;
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
@@ -69,14 +71,6 @@ abstract class BaseFloatArray extends BaseArray
 
         $floatValue = (float) $stringValue;
 
-        $isScientificNotation = \str_contains($stringValue, 'e') || \str_contains($stringValue, 'E');
-        if (!$isScientificNotation && \str_contains($stringValue, '.')) {
-            $parts = \explode('.', $stringValue);
-            if (\strlen($parts[1]) > $this->getMaxPrecision()) {
-                throw InvalidFloatArrayItemForDatabaseException::isANormalNumberWithExcessPrecision($item);
-            }
-        }
-
         $isBelowMinValue = $floatValue < (float) $this->getMinValue();
         if ($isBelowMinValue) {
             throw InvalidFloatArrayItemForDatabaseException::isBelowMinValue($item);
@@ -87,10 +81,10 @@ abstract class BaseFloatArray extends BaseArray
             throw InvalidFloatArrayItemForDatabaseException::isAboveMaxValue($item);
         }
 
-        // Check if value is too close to zero
-        $absoluteValue = \abs($floatValue);
-        $isTooCloseToZero = $absoluteValue > 0 && $absoluteValue < (float) $this->getMinAbsoluteValue();
-        if ($isTooCloseToZero) {
+        $mantissa = (string) \preg_replace('/[eE].*\z/', '', $stringValue);
+        $isNonZero = \preg_match('/[1-9]/', $mantissa) === 1;
+        $roundsToZero = $isNonZero && \abs($floatValue) <= (float) $this->getLargestMagnitudeRoundingToZero();
+        if ($roundsToZero) {
             throw InvalidFloatArrayItemForDatabaseException::absoluteValueIsTooCloseToZero($item);
         }
     }
