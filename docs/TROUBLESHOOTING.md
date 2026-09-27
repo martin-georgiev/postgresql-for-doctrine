@@ -6,37 +6,85 @@ This page lists the errors people meet most often with this library, by the mess
 
 ## When Doctrine parses the query
 
-**`Error: Expected known function, got 'ARRAY'`**
+### `Expected known function, got 'ARRAY'`
 
-The query uses a function that is not registered. Register every function the query calls, including helpers such as `ARRAY`: see [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md#register-dql-functions), [Integration with Symfony](INTEGRATING-WITH-SYMFONY.md#register-dql-functions) or [Integration with Laravel](INTEGRATING-WITH-LARAVEL.md#register-dql-functions).
+**Cause:** the query calls a function that is not registered.
 
-**`Error: Expected =, <, <=, <>, >, >=, !=, got end of string.`**, or `got 'ORDER'`
+**Fix:** register every function the query calls, including helpers such as `ARRAY`, as [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md#register-dql-functions), [Integration with Symfony](INTEGRATING-WITH-SYMFONY.md#register-dql-functions) or [Integration with Laravel](INTEGRATING-WITH-LARAVEL.md#register-dql-functions) shows.
 
-A function that returns a boolean stands alone in `WHERE` or `HAVING`. DQL accepts a function there only as part of a comparison, so add `= TRUE`: `WHERE CONTAINS(p.tags, ARRAY('php')) = TRUE`. [Boolean functions need a comparison](DQL-DIALECT.md#boolean-functions-need-a-comparison) explains the rule.
+### `Expected =, <, <=, <>, >, >=, !=, got end of string.`
 
-**`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'`**
+The same error can end in `got 'ORDER'`, or in whatever else follows the function.
 
-The query uses PostgreSQL's operator syntax, `i.subject ILIKE 'test%'`. DQL has no such operator; call the function instead: `ILIKE(i.subject, 'test%') = TRUE`. [Function and operator names](DQL-DIALECT.md#function-and-operator-names) lists the DQL name of every operator.
+**Cause:** a function that returns a boolean stands alone in `WHERE` or `HAVING`. DQL accepts a function there only as part of a comparison; [Boolean functions need a comparison](DQL-DIALECT.md#boolean-functions-need-a-comparison) explains the rule.
+
+**Fix:** compare it with `TRUE`:
+
+```sql
+WHERE CONTAINS(p.tags, ARRAY('php')) = TRUE
+```
+
+### `Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'`
+
+**Cause:** the query uses PostgreSQL's operator syntax, `i.subject ILIKE 'test%'`, and DQL has no such operator. [Function and operator names](DQL-DIALECT.md#function-and-operator-names) lists the DQL name of every operator.
+
+**Fix:** call the function instead:
+
+```sql
+WHERE ILIKE(i.subject, 'test%') = TRUE
+```
 
 ## When the schema tool or a migration runs
 
-**`Unknown database type "text[]" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.`**
+### `Unknown database type "text[]" requested`
 
-Doctrine is writing DDL for a column of this type and cannot find the type's own name on the platform. Register it: `$platform->registerDoctrineTypeMapping('text[]', 'text[]')`.
+```text
+Unknown database type "text[]" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.
+```
 
-**`Unknown database type "_text" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.`**
+**Cause:** Doctrine is writing DDL for a column of this type and cannot find the type's own name on the platform.
 
-Doctrine is reading a column back from the database, for `doctrine:schema:update` or a migration diff, and PostgreSQL reports an array column's type with a leading underscore. Map that name too: `$platform->registerDoctrineTypeMapping('_text', 'text[]')`. The schema tools read every table in the database, not only the ones your entities map, unless a schema filter limits them, so an unmapped array column anywhere triggers it. Your own [enum](ENUM-TYPE.md#4-register-the-type) and [composite](COMPOSITE-TYPE.md#3-register-the-type) types need mappings too; their pages list them.
+**Fix:** register the type's name as a mapping:
 
-**`Type "jsonb" already exists.`**
+```php
+$platform->registerDoctrineTypeMapping('text[]', 'text[]');
+```
 
-DBAL 4.3 and later [ship their own `jsonb` type](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#jsonb). Replace it with this library's: `Type::overrideType('jsonb', Jsonb::class)`.
+### `Unknown database type "_text" requested`
+
+```text
+Unknown database type "_text" requested, Doctrine\DBAL\Platforms\PostgreSQL120Platform may not support it.
+```
+
+**Cause:** Doctrine is reading a column back from the database, for `doctrine:schema:update` or a migration diff, and PostgreSQL reports an array column's type with a leading underscore. The schema tools read every table in the database, not only the ones your entities map, unless a schema filter limits them, so an unmapped array column anywhere triggers it.
+
+**Fix:** map that name too:
+
+```php
+$platform->registerDoctrineTypeMapping('_text', 'text[]');
+```
+
+Your own [enum](ENUM-TYPE.md#4-register-the-type) and [composite](COMPOSITE-TYPE.md#3-register-the-type) types need mappings too; their pages list them.
+
+### `Type "jsonb" already exists.`
+
+**Cause:** DBAL 4.3 and later [ship their own `jsonb` type](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#jsonb).
+
+**Fix:** replace it with this library's:
+
+```php
+Type::overrideType('jsonb', Jsonb::class);
+```
 
 ## When PostgreSQL runs the query
 
-**`type "ltree" does not exist`**, or **`function similarity(text, unknown) does not exist`**
+### `type "ltree" does not exist`
 
-The PostgreSQL extension behind the type or function is not installed in this database. Install it once per database, for example in a migration:
+The same cause shows up for a function as `function similarity(text, unknown) does not exist`.
+
+**Cause:** the PostgreSQL extension behind the type or function is not installed in this database.
+
+**Fix:** install it once per database, for example in a migration:
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS ltree;
@@ -56,24 +104,48 @@ CREATE EXTENSION IF NOT EXISTS ltree;
 | `unaccent` | `UNACCENT` |
 | `earthdistance` | `DISTANCE`; `CREATE EXTENSION earthdistance CASCADE` also installs `cube` |
 
-**`operator does not exist: integer[] @> text[]`**
+### `operator does not exist: integer[] @> text[]`
 
-`ARRAY('1', '2')` builds a `text[]`, and PostgreSQL will not compare it with an `integer[]` column. Pass a PostgreSQL array literal instead, which takes the column's type: `CONTAINS(i.numbers, '{1,2}') = TRUE`.
+**Cause:** `ARRAY('1', '2')` builds a `text[]`, and PostgreSQL will not compare it with an `integer[]` column.
 
-**`could not determine data type of parameter $1`**
+**Fix:** pass a PostgreSQL array literal instead, which takes the column's type:
 
-A function such as `JSONB_BUILD_OBJECT` accepts any type, so PostgreSQL cannot tell what a bare parameter is. Cast it: `JSONB_BUILD_OBJECT('limit', CAST(:limit AS INTEGER))`.
+```sql
+WHERE CONTAINS(i.numbers, '{1,2}') = TRUE
+```
+
+### `could not determine data type of parameter $1`
+
+**Cause:** a function such as `JSONB_BUILD_OBJECT` accepts any type, so PostgreSQL cannot tell what a bare parameter is.
+
+**Fix:** cast the parameter:
+
+```sql
+JSONB_BUILD_OBJECT('limit', CAST(:limit AS INTEGER))
+```
 
 ## When Doctrine hydrates the result
 
-**`Cannot assign int to property App\Entity\Item::$attributes of type ?array`**
+### `Cannot assign int to property … of type ?array`
 
-That row's `jsonb` value is a plain number, not an object or an array. Type the property `mixed`; see [jsonb](HYDRATION.md#jsonb).
+```text
+Cannot assign int to property App\Entity\Item::$attributes of type ?array
+```
 
-**A computed value arrives as a string, such as `'{books,php,new}'`**
+**Cause:** that row's `jsonb` value is a plain number, not an object or an array.
 
-Doctrine converts a mapped field with its type, but hands a value the query computes over as PostgreSQL's text. [Converting a computed value yourself](HYDRATION.md#converting-a-computed-value-yourself) shows how to turn it into a PHP value.
+**Fix:** type the property `mixed`; see [jsonb](HYDRATION.md#jsonb).
 
-**`getSingleScalarResult()` returns `'{php,postgres}'` for an array field**
+### A computed value arrives as a string
 
-The scalar result methods skip the DBAL type, even for a mapped field. Use `getSingleResult()` and take the column from the row; see [What comes back: hydration](HYDRATION.md#in-short).
+For example `'{books,php,new}'` instead of a PHP array.
+
+**Cause:** Doctrine converts a mapped field with its type, but hands a value the query computes over as PostgreSQL's text.
+
+**Fix:** convert it yourself, as [Converting a computed value yourself](HYDRATION.md#converting-a-computed-value-yourself) shows.
+
+### `getSingleScalarResult()` returns `'{php,postgres}'` for an array field
+
+**Cause:** the scalar result methods skip the DBAL type, even for a mapped field.
+
+**Fix:** use `getSingleResult()` and take the column from the row; see [What comes back: hydration](HYDRATION.md#in-short).
