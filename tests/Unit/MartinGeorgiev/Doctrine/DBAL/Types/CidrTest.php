@@ -115,6 +115,8 @@ final class CidrTest extends TestCase
             'malformed CIDR with spaces' => ['192.168.0.0 / 24'],
             'invalid IPv4 address' => ['256.256.256.0/24'],
             'invalid IPv6 address' => ['2001:xyz::/32'],
+            'IPv4 host bits set right of the netmask' => ['192.168.1.1/24'],
+            'IPv6 host bits set right of the netmask' => ['2001:db8::1/32'],
             'IPv4 invalid netmask low' => ['192.168.0.0/-1'],
             'IPv4 invalid netmask high' => ['192.168.0.0/33'],
             'IPv6 invalid netmask low' => ['2001:db8::/-1'],
