@@ -16,7 +16,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 
 **Usage Guidelines:**
 - **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
-- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [Writing DQL](DQL-DIALECT.md#boolean-functions-need-a-comparison))
+- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [Writing DQL](WRITING-DQL.md#boolean-functions-need-a-comparison))
 
 ### Array and JSON operators
 

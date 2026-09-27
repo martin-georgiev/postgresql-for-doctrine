@@ -147,7 +147,7 @@ $products = $entityManager
 [Product {name: 'Doctrine in Action', tags: ['books', 'php']}]
 ```
 
-`CONTAINS(p.tags, ARRAY(:tag)) = TRUE` becomes `(p0_.tags @> ARRAY[?]) = true` in SQL. DQL only accepts a function in `WHERE` as part of a comparison, which is why it ends in `= TRUE`; [Writing DQL](DQL-DIALECT.md#boolean-functions-need-a-comparison) explains the rule.
+`CONTAINS(p.tags, ARRAY(:tag)) = TRUE` becomes `(p0_.tags @> ARRAY[?]) = true` in SQL. DQL only accepts a function in `WHERE` as part of a comparison, which is why it ends in `= TRUE`; [Writing DQL](WRITING-DQL.md#boolean-functions-need-a-comparison) explains the rule.
 
 A value the query computes comes back differently from a mapped field:
 
@@ -164,12 +164,12 @@ $rows = $entityManager
 ]
 ```
 
-`p.tags` would arrive as a PHP array, because Doctrine converts a mapped field with its type. `extended` is computed by the query, so Doctrine hands it over as PostgreSQL's text. [Query results](HYDRATION.md) shows how to convert it.
+`p.tags` would arrive as a PHP array, because Doctrine converts a mapped field with its type. `extended` is computed by the query, so Doctrine hands it over as PostgreSQL's text. [Query results](QUERY-RESULTS.md) shows how to convert it.
 
 ## Where to go next
 
 - The full registration lists: [Doctrine setup](INTEGRATING-WITH-DOCTRINE.md), [Symfony setup](INTEGRATING-WITH-SYMFONY.md), [Laravel setup](INTEGRATING-WITH-LARAVEL.md)
 - Every type and the PHP value it maps to: [Available types](AVAILABLE-TYPES.md)
 - Every function and operator, by category: [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md)
-- How PostgreSQL syntax is written in DQL: [Writing DQL](DQL-DIALECT.md)
+- How PostgreSQL syntax is written in DQL: [Writing DQL](WRITING-DQL.md)
 - An error you do not recognise: [Troubleshooting](TROUBLESHOOTING.md)

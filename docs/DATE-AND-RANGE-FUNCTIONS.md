@@ -155,6 +155,6 @@ PostgreSQL ranges support [different bound types](https://www.postgresql.org/doc
 - Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 
 **Tips:**
-- Compare the range operators with `= TRUE` or `= FALSE` in DQL (see [Writing DQL](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
+- Compare the range operators with `= TRUE` or `= FALSE` in DQL (see [Writing DQL](WRITING-DQL.md#boolean-functions-need-a-comparison)).
 - A [GiST index](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INDEXING) on a range column speeds up the overlap and containment operators.
 - `DATE_PART` and `DATE_EXTRACT` take [any field PostgreSQL knows](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT), such as `year`, `month`, `dow` (day of week) and `doy` (day of year).

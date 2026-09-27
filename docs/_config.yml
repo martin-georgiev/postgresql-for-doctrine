@@ -14,6 +14,7 @@ plugins:
   - jekyll-optional-front-matter
   - jekyll-seo-tag
   - jekyll-default-layout
+  - jekyll-redirect-from
 
 # The Markdown in this folder is read on GitHub as well, so it carries no front matter:
 # links between files stay as `FILE.md` and each page's title and place in the navigation are set below.
@@ -72,8 +73,8 @@ defaults:
     values: { title: Types, nav_order: 3, has_children: true }
   - scope: { path: RANGE-TYPES.md }
     values: { title: Ranges, parent: Types, nav_order: 1 }
-  - scope: { path: SPATIAL-TYPES.md }
-    values: { title: PostGIS geometry and geography, parent: Types, nav_order: 2 }
+  - scope: { path: POSTGIS-GEOMETRY-AND-GEOGRAPHY.md }
+    values: { title: PostGIS geometry and geography, parent: Types, nav_order: 2, redirect_from: /SPATIAL-TYPES.html }
   - scope: { path: GEOMETRY-ARRAYS.md }
     values: { title: Geometry and geography arrays, parent: Types, nav_order: 3 }
   - scope: { path: LTREE-TYPE.md }
@@ -108,10 +109,10 @@ defaults:
   - scope: { path: UTILITY-FUNCTIONS.md }
     values: { title: Utilities, parent: Functions and operators, nav_order: 10 }
 
-  - scope: { path: DQL-DIALECT.md }
-    values: { title: Writing DQL, nav_order: 5 }
-  - scope: { path: HYDRATION.md }
-    values: { title: Query results, nav_order: 6 }
+  - scope: { path: WRITING-DQL.md }
+    values: { title: Writing DQL, nav_order: 5, redirect_from: /DQL-DIALECT.html }
+  - scope: { path: QUERY-RESULTS.md }
+    values: { title: Query results, nav_order: 6, redirect_from: /HYDRATION.html }
   - scope: { path: USE-CASES-AND-EXAMPLES.md }
     values: { title: Examples, nav_order: 7 }
   - scope: { path: TROUBLESHOOTING.md }

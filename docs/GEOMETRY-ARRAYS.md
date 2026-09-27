@@ -67,7 +67,7 @@ $qb->setParameter('geometries', [WktSpatialData::fromString('POINT(0 0)')], 'geo
 $qb->executeStatement();
 ```
 
-Loading the entity gives the same list back. The items of one array may mix geometry types, SRIDs and dimensions, and every type in [Supported geometry types](SPATIAL-TYPES.md#supported-geometry-types) works as an item. A `geography` item written without an SRID reads back with `SRID=4326`, because [PostGIS gives every geography value one](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables).
+Loading the entity gives the same list back. The items of one array may mix geometry types, SRIDs and dimensions, and every type in [Supported geometry types](POSTGIS-GEOMETRY-AND-GEOGRAPHY.md#supported-geometry-types) works as an item. A `geography` item written without an SRID reads back with `SRID=4326`, because [PostGIS gives every geography value one](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables).
 
 ## Dimensional modifiers
 
@@ -81,7 +81,7 @@ POINT Z (1 2 3)             => POINT Z(1 2 3)
 SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 ```
 
-> **See also:** [How dimensional modifiers are spelled](SPATIAL-TYPES.md#how-dimensional-modifiers-are-spelled)
+> **See also:** [How dimensional modifiers are spelled](POSTGIS-GEOMETRY-AND-GEOGRAPHY.md#how-dimensional-modifiers-are-spelled)
 
 ## Constraining the items
 
@@ -94,7 +94,7 @@ The `geometry_type` and `srid` column options work on the array types too. The m
 private array $stops;
 ```
 
-An item of another geometry type or SRID fails at insert time, and an item without an SRID is stored with 4326. [Column options for DDL](SPATIAL-TYPES.md#column-options-for-ddl) lists the options.
+An item of another geometry type or SRID fails at insert time, and an item without an SRID is stored with 4326. [Column options for DDL](POSTGIS-GEOMETRY-AND-GEOGRAPHY.md#column-options-for-ddl) lists the options.
 
 ## Indexing
 

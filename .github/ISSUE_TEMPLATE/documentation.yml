@@ -40,7 +40,7 @@ body:
         - TEXT-AND-PATTERN-FUNCTIONS.md
         - DATE-AND-RANGE-FUNCTIONS.md
         - MATHEMATICAL-FUNCTIONS.md
-        - SPATIAL-TYPES.md
+        - POSTGIS-GEOMETRY-AND-GEOGRAPHY.md
         - GEOMETRY-ARRAYS.md
         - LTREE-TYPE.md
         - USE-CASES-AND-EXAMPLES.md

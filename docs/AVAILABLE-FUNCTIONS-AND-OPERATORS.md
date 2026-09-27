@@ -2,7 +2,7 @@
 
 This page lists the PostgreSQL functions and operators available in this library. Each category below links to its own page with the details.
 
-> **See also:** [Query results](HYDRATION.md) for the PHP value a function result arrives as
+> **See also:** [Query results](QUERY-RESULTS.md) for the PHP value a function result arrives as
 
 ## Operator conflicts and usage notes
 
@@ -21,7 +21,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 - **Spatial**: Use `SPATIAL_CONTAINS`, `SPATIAL_CONTAINED_BY` for explicit spatial bounding box operations → [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching → [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - **Boolean operators**: the containment, overlap and bounding box operators return booleans and **must be compared with `= TRUE` or `= FALSE` in DQL**
-- **The rules behind these names**, and the ones every function follows (`= TRUE`, `FILTER` and `OVER`, literals and parameters): [Writing DQL](DQL-DIALECT.md)
+- **The rules behind these names**, and the ones every function follows (`= TRUE`, `FILTER` and `OVER`, literals and parameters): [Writing DQL](WRITING-DQL.md)
 
 ## Function and operator categories
 
@@ -192,5 +192,5 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - [Available types](AVAILABLE-TYPES.md): the PostgreSQL types this library maps
 - [PostgreSQL range types](RANGE-TYPES.md): the range value objects
 - [Examples](USE-CASES-AND-EXAMPLES.md): the functions in whole queries
-- [PostGIS geometry and geography](SPATIAL-TYPES.md): the `geometry` and `geography` value object
+- [PostGIS geometry and geography](POSTGIS-GEOMETRY-AND-GEOGRAPHY.md): the `geometry` and `geography` value object
 - [Geometry and geography arrays](GEOMETRY-ARRAYS.md): arrays of spatial values

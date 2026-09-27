@@ -2,7 +2,7 @@
 
 This page lists the errors people meet most often with this library, by the message you see, with the cause and the fix. The messages are copied from Doctrine DBAL 4.5 and ORM 3.7 on PostgreSQL 18; the platform class, the column number and the parameter number depend on your versions and your query.
 
-> **See also:** [Getting started](GETTING-STARTED.md) · [Writing DQL](DQL-DIALECT.md) · [Query results](HYDRATION.md)
+> **See also:** [Getting started](GETTING-STARTED.md) · [Writing DQL](WRITING-DQL.md) · [Query results](QUERY-RESULTS.md)
 
 ## When Doctrine parses the query
 
@@ -16,7 +16,7 @@ This page lists the errors people meet most often with this library, by the mess
 
 The same error can end in `got 'ORDER'`, or in whatever else follows the function.
 
-**Cause:** a function that returns a boolean stands alone in `WHERE` or `HAVING`. DQL accepts a function there only as part of a comparison; [Boolean functions need a comparison](DQL-DIALECT.md#boolean-functions-need-a-comparison) explains the rule.
+**Cause:** a function that returns a boolean stands alone in `WHERE` or `HAVING`. DQL accepts a function there only as part of a comparison; [Boolean functions need a comparison](WRITING-DQL.md#boolean-functions-need-a-comparison) explains the rule.
 
 **Fix:** compare it with `TRUE`:
 
@@ -26,7 +26,7 @@ WHERE CONTAINS(p.tags, ARRAY('php')) = TRUE
 
 ### `Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'`
 
-**Cause:** the query uses PostgreSQL's operator syntax, `i.subject ILIKE 'test%'`, and DQL has no such operator. [Function and operator names](DQL-DIALECT.md#function-and-operator-names) lists the DQL name of every operator.
+**Cause:** the query uses PostgreSQL's operator syntax, `i.subject ILIKE 'test%'`, and DQL has no such operator. [Function and operator names](WRITING-DQL.md#function-and-operator-names) lists the DQL name of every operator.
 
 **Fix:** call the function instead:
 
@@ -134,7 +134,7 @@ Cannot assign int to property App\Entity\Item::$attributes of type ?array
 
 **Cause:** that row's `jsonb` value is a plain number, not an object or an array.
 
-**Fix:** type the property `mixed`; see [jsonb](HYDRATION.md#jsonb).
+**Fix:** type the property `mixed`; see [jsonb](QUERY-RESULTS.md#jsonb).
 
 ### A computed value arrives as a string
 
@@ -142,10 +142,10 @@ For example `'{books,php,new}'` instead of a PHP array.
 
 **Cause:** Doctrine converts a mapped field with its type, but hands a value the query computes over as PostgreSQL's text.
 
-**Fix:** convert it yourself, as [Converting a computed value yourself](HYDRATION.md#converting-a-computed-value-yourself) shows.
+**Fix:** convert it yourself, as [Converting a computed value yourself](QUERY-RESULTS.md#converting-a-computed-value-yourself) shows.
 
 ### `getSingleScalarResult()` returns `'{php,postgres}'` for an array field
 
 **Cause:** the scalar result methods skip the DBAL type, even for a mapped field.
 
-**Fix:** use `getSingleResult()` and take the column from the row; see [Query results](HYDRATION.md#in-short).
+**Fix:** use `getSingleResult()` and take the column from the row; see [Query results](QUERY-RESULTS.md#in-short).

@@ -196,7 +196,7 @@ Full documentation, also published at [postgresql-for-doctrine.dev](https://post
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
 - [PostgreSQL ltree Types](docs/LTREE-TYPE.md)
 - [Infinity Values](docs/INFINITY.md)
-- [Writing DQL](docs/DQL-DIALECT.md) - How PostgreSQL syntax is written in DQL
+- [Writing DQL](docs/WRITING-DQL.md) - How PostgreSQL syntax is written in DQL
 - [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md) - Overview and cross-references
   - [Array and JSON Functions](docs/ARRAY-AND-JSON-FUNCTIONS.md)
   - [PostGIS Spatial Functions](docs/SPATIAL-FUNCTIONS-AND-OPERATORS.md)
@@ -208,7 +208,7 @@ Full documentation, also published at [postgresql-for-doctrine.dev](https://post
   - [Window Functions](docs/WINDOW-FUNCTIONS.md)
   - [Network Address Functions](docs/NETWORK-FUNCTIONS.md)
 - [Examples](docs/USE-CASES-AND-EXAMPLES.md)
-- [PostGIS geometry and geography](docs/SPATIAL-TYPES.md)
+- [PostGIS geometry and geography](docs/POSTGIS-GEOMETRY-AND-GEOGRAPHY.md)
 - [Geometry Arrays](docs/GEOMETRY-ARRAYS.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md) - Common errors, by the message you see
 

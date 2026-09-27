@@ -64,7 +64,7 @@ Of the `Tag` rows, only `legacy` is archived.
 
 ## Operators such as `ILIKE` are functions in DQL
 
-`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is one of the most common DQL errors with this library. `ILIKE` is not one of [the operators DQL knows](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#other-expressions-1), and Doctrine has no way to add one, so this library registers `ILIKE` as a boolean function instead. [A boolean function needs a comparison](DQL-DIALECT.md#boolean-functions-need-a-comparison).
+`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is one of the most common DQL errors with this library. `ILIKE` is not one of [the operators DQL knows](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#other-expressions-1), and Doctrine has no way to add one, so this library registers `ILIKE` as a boolean function instead. [A boolean function needs a comparison](WRITING-DQL.md#boolean-functions-need-a-comparison).
 
 In PostgreSQL you would write:
 ```sql
@@ -517,7 +517,7 @@ $qb->setParameter('wktSpatialData', [WktSpatialData::fromString('LINESTRING(0 0,
 $qb->executeStatement();
 ```
 
-A value reads back with its dimensional modifier spelled `POINT Z(1 2 3)`, whether you wrote `POINT Z (1 2 3)` or `POINTZ(1 2 3)`; see [How dimensional modifiers are spelled](SPATIAL-TYPES.md#how-dimensional-modifiers-are-spelled).
+A value reads back with its dimensional modifier spelled `POINT Z(1 2 3)`, whether you wrote `POINT Z (1 2 3)` or `POINTZ(1 2 3)`; see [How dimensional modifiers are spelled](POSTGIS-GEOMETRY-AND-GEOGRAPHY.md#how-dimensional-modifiers-are-spelled).
 
 For array columns, see [Geometry and geography arrays](GEOMETRY-ARRAYS.md).
 

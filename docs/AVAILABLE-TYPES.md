@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Available types
 
-> **See also:** [Query results](HYDRATION.md) for the PHP value each type hydrates to
+> **See also:** [Query results](QUERY-RESULTS.md) for the PHP value each type hydrates to
 
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
 |---|---|---|
@@ -151,7 +151,7 @@ class Place
 
 Omitting both options keeps the bare `GEOMETRY` / `GEOGRAPHY` declaration. On an array type the modifier goes on the item type: `GEOMETRY(POINT,4326)[]`.
 
-> **See also:** [PostGIS geometry and geography](SPATIAL-TYPES.md#column-options-for-ddl) for the full option reference
+> **See also:** [PostGIS geometry and geography](POSTGIS-GEOMETRY-AND-GEOGRAPHY.md#column-options-for-ddl) for the full option reference
 
 ---
 
