@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DimensionalModifier;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\SpatialDataReadTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
@@ -23,63 +21,13 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 abstract class SpatialDataArray extends BaseArray
 {
-    /**
-     * Get a regex pattern that matches all supported geometry types.
-     *
-     * This method dynamically builds the pattern from the GeometryType enum
-     * to ensure consistency and eliminate duplication.
-     */
-    private function getGeometryTypesPattern(): string
-    {
-        $geometryTypes = \array_map(
-            static fn (GeometryType $geometryType): string => $geometryType->value,
-            GeometryType::cases()
-        );
-
-        return '('.\implode('|', $geometryTypes).')';
-    }
-
-    /**
-     * Build dimensional modifier regex patterns for geometry type normalization.
-     *
-     * Uses the DimensionalModifier enum to ensure consistency and eliminate duplication.
-     *
-     * @return array<string, string> Array of regex pattern => replacement pairs
-     */
-    private function getDimensionalModifierPatterns(): array
-    {
-        $geometryTypesPattern = $this->getGeometryTypesPattern();
-        $modifierValues = \array_map(
-            static fn (DimensionalModifier $dimensionalModifier): string => $dimensionalModifier->value,
-            DimensionalModifier::cases()
-        );
-        $modifiersPattern = '('.\implode('|', $modifierValues).')';
-
-        return [
-            // No-space variants: POINTZM/POINTZ/POINTM -> POINT ZM|Z|M (built from enum)
-            \sprintf('/^%s%s\b/', $geometryTypesPattern, $modifiersPattern) => '$1 $2',
-            // ST_AsText extra space format: POINT Z ( -> POINT Z(
-            \sprintf('/^%s\s+%s\s+\(/', $geometryTypesPattern, $modifiersPattern) => '$1 $2(',
-            // Multiple spaces: POINT  Z -> POINT Z
-            \sprintf('/^%s\s+%s\b/', $geometryTypesPattern, $modifiersPattern) => '$1 $2',
-        ];
-    }
-
-    /**
-     * ORM 2.x applies convertToPHPValueSQL() only to types that declare they can require SQL conversion.
-     */
-    public function canRequireSQLConversion(): bool
-    {
-        return true;
-    }
+    use SpatialDataReadTrait;
 
     /**
      * Rebuilds the array from each element's EWKT, the form the scalar spatial types read.
      *
-     * PostgreSQL otherwise returns the elements as EWKB hex, which WktSpatialData cannot parse.
      * An ARRAY() subquery over a NULL column yields '{}', so a NULL column is kept NULL explicitly.
      * A subquery guarantees no row order of its own, so WITH ORDINALITY pins the elements to their stored order.
-     * ST_AsText keeps 15 decimals by default and drops the rest; 25 is enough for every double to read back unchanged.
      *
      * @param non-empty-string $sqlExpr
      * @param AbstractPlatform $platform
@@ -87,8 +35,9 @@ abstract class SpatialDataArray extends BaseArray
     public function convertToPHPValueSQL($sqlExpr, $platform): string
     {
         return \sprintf(
-            "CASE WHEN %1\$s IS NULL THEN NULL ELSE ARRAY(SELECT CASE WHEN ST_SRID(item) = 0 THEN ST_AsText(item, 25) ELSE 'SRID=' || ST_SRID(item) || ';' || ST_AsText(item, 25) END FROM unnest(%1\$s) WITH ORDINALITY AS items(item, position) ORDER BY position) END",
-            $sqlExpr
+            'CASE WHEN %1$s IS NULL THEN NULL ELSE ARRAY(SELECT %2$s FROM unnest(%1$s) WITH ORDINALITY AS items(item, position) ORDER BY position) END',
+            $sqlExpr,
+            $this->selectAsEwkt('item')
         );
     }
 
@@ -224,63 +173,6 @@ abstract class SpatialDataArray extends BaseArray
 
     public function transformArrayItemForPHP(mixed $item): ?WktSpatialData
     {
-        if ($item === null) {
-            return null;
-        }
-
-        if (!\is_string($item)) {
-            $this->throwInvalidTypeExceptionForPHP($item);
-        }
-
-        try {
-            $normalizedWkt = $this->normalizePostgreSQLDimensionalModifiers($item);
-
-            return WktSpatialData::fromString($normalizedWkt);
-        } catch (InvalidWktSpatialDataException) {
-            $this->throwInvalidFormatExceptionForPHP($item);
-        }
+        return $this->readWktSpatialData($item);
     }
-
-    /**
-     * Normalize PostgreSQL dimensional modifier format to standard WKT format.
-     *
-     * PostgreSQL can return dimensional modifiers in different formats:
-     * - ST_AsEWKT(): POINTZ, POINTM, POINTZM (no spaces)
-     * - ST_AsText(): POINT Z, POINT M, POINT ZM (with spaces)
-     * - Hybrid approach: SRID=4326;POINT Z (1 2 3) (SRID + extra space)
-     */
-    private function normalizePostgreSQLDimensionalModifiers(string $wkt): string
-    {
-        // Handle SRID prefix if present
-        $sridPrefix = '';
-        $hasSrid = \str_starts_with($wkt, 'SRID=');
-        if ($hasSrid) {
-            $sridSeparatorPosition = \strpos($wkt, ';');
-            if ($sridSeparatorPosition === false) {
-                throw InvalidWktSpatialDataException::forMissingSemicolonInEwkt();
-            }
-
-            $sridPrefix = \substr($wkt, 0, $sridSeparatorPosition + 1);
-            $wkt = \substr($wkt, $sridSeparatorPosition + 1);
-        }
-
-        // Normalize dimensional modifiers using patterns built from WktGeometryType enum
-        foreach ($this->getDimensionalModifierPatterns() as $pattern => $replacement) {
-            $wkt = \preg_replace($pattern, $replacement, (string) $wkt);
-        }
-
-        return $sridPrefix.$wkt;
-    }
-
-    /**
-     * Creates an exception for invalid type during PHP conversion.
-     * Subclasses should override this to provide specific exception types.
-     */
-    abstract protected function throwInvalidTypeExceptionForPHP(mixed $item): never;
-
-    /**
-     * Creates an exception for invalid format during PHP conversion.
-     * Subclasses should override this to provide specific exception types.
-     */
-    abstract protected function throwInvalidFormatExceptionForPHP(mixed $item): never;
 }
