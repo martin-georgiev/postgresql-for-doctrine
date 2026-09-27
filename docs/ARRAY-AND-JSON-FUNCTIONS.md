@@ -2,7 +2,7 @@
 
 This page covers PostgreSQL [array](https://www.postgresql.org/docs/18/functions-array.html) and [JSON/JSONB](https://www.postgresql.org/docs/18/functions-json.html) operators and functions available in this library.
 
-> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
+> **See also:** [Examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## Array and JSON operators
 
@@ -16,7 +16,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 
 **Usage Guidelines:**
 - **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
-- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
+- **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [Writing DQL](WRITING-DQL.md#boolean-functions-need-a-comparison))
 
 ### Array and JSON operators
 
@@ -150,18 +150,41 @@ In SQL, [`FILTER (WHERE ...)`](https://www.postgresql.org/docs/18/sql-expression
 
 ## Usage examples
 
+The results come from these rows of `Entity`:
+
+| id | name | status | score | category | tags | categories | createdAt | archivedAt |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Dune | active | 91 | books | `{important,urgent}` | `{admin}` | 2026-01-10 09:00 | |
+| 2 | Neuromancer | active | 78 | books | `{important}` | `{user,guest}` | 2026-02-05 09:00 | 2026-06-01 09:00 |
+| 3 | Kind of Blue | draft | 85 | music | `{urgent,important,later}` | `{guest}` | 2026-03-15 09:00 | |
+
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
+
 ```sql
 -- DQL array literal syntax: ARRAY('val1', 'val2') - not standard PHP array notation
 SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('important', 'urgent')) = TRUE
+-- → Entity {id: 1}
+--   Entity {id: 3}
 SELECT e FROM Entity e WHERE OVERLAPS(e.categories, ARRAY('admin', 'user')) = TRUE
+-- → Entity {id: 1}
+--   Entity {id: 2}
 
 -- JSON_BUILD_OBJECT takes alternating key/value pairs; result is a JSON object
 SELECT e.id, JSON_BUILD_OBJECT('name', e.name, 'status', e.status, 'score', e.score) as json_data FROM Entity e
+-- → ['id' => 1, 'json_data' => '{"name" : "Dune", "status" : "active", "score" : 91}']
+--   ['id' => 2, 'json_data' => '{"name" : "Neuromancer", "status" : "active", "score" : 78}']
+--   ['id' => 3, 'json_data' => '{"name" : "Kind of Blue", "status" : "draft", "score" : 85}']
 
 -- ARRAY_AGG with ORDER BY inside the aggregate
 SELECT e.category, ARRAY_AGG(e.id ORDER BY e.createdAt DESC) as entity_ids FROM Entity e GROUP BY e.category
+-- → ['category' => 'books', 'entity_ids' => '{2,1}']
+--   ['category' => 'music', 'entity_ids' => '{3}']
 
 -- FILTER wraps the aggregate in DQL (see above)
 SELECT e.category, FILTER(COUNT(e.id), WHERE e.status = 'active') as active_count FROM Entity e GROUP BY e.category
+-- → ['category' => 'books', 'active_count' => 2]
+--   ['category' => 'music', 'active_count' => 0]
 SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archivedAt IS NULL) as live_ids FROM Entity e GROUP BY e.category
+-- → ['category' => 'books', 'live_ids' => '{1}']
+--   ['category' => 'music', 'live_ids' => '{3}']
 ```

@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Integration with Laravel
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Laravel setup
 
 This page covers integration with Laravel 11.x+ using the community-supported [Laravel Doctrine](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/) package (`laravel-doctrine/orm` v3.x).
 
@@ -415,7 +415,7 @@ Register the functions you use in your [DQL queries](https://laravel-doctrine-or
 - [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md)
-- [Mathematical functions](MATHEMATICAL-FUNCTIONS.md)
+- [Mathematical and statistical functions](MATHEMATICAL-FUNCTIONS.md)
 - [Utility functions](UTILITY-FUNCTIONS.md)
 
 Add the function configuration to your `config/doctrine.php`:

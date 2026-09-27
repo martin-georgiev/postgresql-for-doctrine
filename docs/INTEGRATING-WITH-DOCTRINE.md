@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Integration with Doctrine
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Doctrine setup
 
 This page covers integration with Doctrine DBAL 3.x/4.x and ORM 2.14+/3.x. For older versions, see the documentation of an earlier release.
 
@@ -165,7 +165,7 @@ Register the functions you use in your [DQL queries](https://www.doctrine-projec
 - [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
 - [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md)
-- [Mathematical functions](MATHEMATICAL-FUNCTIONS.md)
+- [Mathematical and statistical functions](MATHEMATICAL-FUNCTIONS.md)
 - [Utility functions](UTILITY-FUNCTIONS.md)
 
 ```php

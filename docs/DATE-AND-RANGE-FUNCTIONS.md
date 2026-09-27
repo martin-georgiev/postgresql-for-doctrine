@@ -2,7 +2,7 @@
 
 This page covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/functions-datetime.html), and [range functions](https://www.postgresql.org/docs/18/functions-range.html) available in this library.
 
-> **See also:** [Range types](RANGE-TYPES.md) for range value objects and [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
+> **See also:** [Range types](RANGE-TYPES.md) for range value objects and [Examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## Date and time functions
 
@@ -71,6 +71,16 @@ Range types work with the general operators for containment and overlap testing:
 
 ## Usage examples
 
+The results come from these rows of `Entity`, with times in UTC:
+
+| id | start_date | end_date | start_tz | end_tz | created_at | active_period |
+|---|---|---|---|---|---|---|
+| 1 | 2026-01-01 | 2026-01-10 | 2026-10-24 21:00 | 2026-10-26 22:00 | 2026-01-14 10:30 | `[2023-03-01,2023-06-01)` |
+| 2 | 2026-01-20 | 2026-01-31 | 2026-08-01 08:00 | 2026-08-01 09:00 | 2026-01-28 16:00 | `[2024-01-01,2024-02-01)` |
+| 3 | 2026-02-15 | 2026-02-20 | 2026-09-20 08:00 | 2026-09-20 08:30 | 2026-02-03 12:00 | `[2023-12-15,2024-01-15)` |
+
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
+
 ```sql
 -- Find gaps in date ranges
 SELECT e1.end_date, e2.start_date,
@@ -82,19 +92,34 @@ WHERE e1.end_date < e2.start_date
  WHERE OVERLAPS(DATERANGE(e1.end_date, e2.start_date),
                 DATERANGE(e3.start_date, e3.end_date)) = TRUE
 )
+-- → ['end_date' => DateTimeImmutable('2026-01-10'), 'start_date' => DateTimeImmutable('2026-01-20'), 'gap_range' => '[2026-01-10,2026-01-20)']
+--   ['end_date' => DateTimeImmutable('2026-01-31'), 'start_date' => DateTimeImmutable('2026-02-15'), 'gap_range' => '[2026-01-31,2026-02-15)']
 
--- GENERATE_TIME_SERIES: optional 4th argument outputs all timestamps in a target timezone
-SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 hour', 'Europe/Sofia') as hour FROM Entity e WHERE e.id = 1
+-- GENERATE_TIME_SERIES: the optional 4th argument is the time zone the steps are counted in,
+-- so a daily series stays on local midnight across a daylight-saving change
+SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 day', 'Europe/Sofia') as day FROM Entity e WHERE e.id = 1
+-- → ['day' => '2026-10-24 21:00:00+00']
+--   ['day' => '2026-10-25 22:00:00+00']
+--   ['day' => '2026-10-26 22:00:00+00']
 
 -- DATE_BIN: snap a timestamp to the nearest interval boundary relative to an origin
 SELECT DATE_BIN('7 days', e.created_at, '2023-01-02') as week_start FROM Entity e
+-- → ['week_start' => '2026-01-12 00:00:00+00']
+--   ['week_start' => '2026-01-26 00:00:00+00']
+--   ['week_start' => '2026-02-02 00:00:00+00']
 
 -- Range bounds: third argument controls inclusivity - default is '[)' (inclusive lower, exclusive upper)
 SELECT DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity e
+-- → ['inclusive_range' => '[2026-01-01,2026-01-11)']
+--   ['inclusive_range' => '[2026-01-20,2026-02-01)']
+--   ['inclusive_range' => '[2026-02-15,2026-02-21)']
 
 -- Range operators must be compared with = TRUE / = FALSE in Doctrine DQL
 SELECT e FROM Entity e WHERE OVERLAPS(e.active_period, DATERANGE('2023-01-01', '2023-12-31')) = TRUE
+-- → Entity {id: 1}
+--   Entity {id: 3}
 SELECT e FROM Entity e WHERE CONTAINS(TSTZRANGE(DATE_SUBTRACT(CURRENT_TIMESTAMP(), '30 days'), CURRENT_TIMESTAMP()), e.start_tz) = TRUE
+-- → the rows whose start_tz falls in the 30 days before the query runs
 
 -- Group by calendar month using DATE_TRUNC + DATE_ADD
 SELECT TSTZRANGE(DATE_TRUNC('month', e.created_at),
@@ -103,6 +128,8 @@ SELECT TSTZRANGE(DATE_TRUNC('month', e.created_at),
 FROM Entity e
 GROUP BY month_range
 ORDER BY month_range
+-- → ['month_range' => '["2026-01-01 00:00:00+00","2026-02-01 00:00:00+00")', 'entity_count' => 2]
+--   ['month_range' => '["2026-02-01 00:00:00+00","2026-03-01 00:00:00+00")', 'entity_count' => 1]
 ```
 
 **Range Type Notes:**
@@ -128,6 +155,6 @@ PostgreSQL ranges support [different bound types](https://www.postgresql.org/doc
 - Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 
 **Tips:**
-- Compare the range operators with `= TRUE` or `= FALSE` in DQL (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
+- Compare the range operators with `= TRUE` or `= FALSE` in DQL (see [Writing DQL](WRITING-DQL.md#boolean-functions-need-a-comparison)).
 - A [GiST index](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INDEXING) on a range column speeds up the overlap and containment operators.
 - `DATE_PART` and `DATE_EXTRACT` take [any field PostgreSQL knows](https://www.postgresql.org/docs/18/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT), such as `year`, `month`, `dow` (day of week) and `doy` (day of year).

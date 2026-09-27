@@ -191,24 +191,26 @@ $query = $em->createQuery('
   - Distance and similarity (`l2_distance`, `cosine_distance`, `inner_product`)
 
 Full documentation, also published at [postgresql-for-doctrine.dev](https://postgresql-for-doctrine.dev):
+- [Getting started](docs/GETTING-STARTED.md) - From install to a first query
 - [Available Types](docs/AVAILABLE-TYPES.md)
 - [Value Objects for Range Types](docs/RANGE-TYPES.md)
 - [PostgreSQL ltree Types](docs/LTREE-TYPE.md)
 - [Infinity Values](docs/INFINITY.md)
-- [The DQL dialect](docs/DQL-DIALECT.md) - How PostgreSQL syntax is written in DQL
+- [Writing DQL](docs/WRITING-DQL.md) - How PostgreSQL syntax is written in DQL
 - [Available Functions and Operators](docs/AVAILABLE-FUNCTIONS-AND-OPERATORS.md) - Overview and cross-references
   - [Array and JSON Functions](docs/ARRAY-AND-JSON-FUNCTIONS.md)
   - [PostGIS Spatial Functions](docs/SPATIAL-FUNCTIONS-AND-OPERATORS.md)
   - [Text and Pattern Functions](docs/TEXT-AND-PATTERN-FUNCTIONS.md)
   - [Date and Range Functions](docs/DATE-AND-RANGE-FUNCTIONS.md)
-  - [Mathematical Functions](docs/MATHEMATICAL-FUNCTIONS.md)
+  - [Mathematical and statistical functions](docs/MATHEMATICAL-FUNCTIONS.md)
   - [Utility Functions](docs/UTILITY-FUNCTIONS.md)
   - [XML Functions](docs/XML-FUNCTIONS.md)
   - [Window Functions](docs/WINDOW-FUNCTIONS.md)
   - [Network Address Functions](docs/NETWORK-FUNCTIONS.md)
-- [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md)
-- [Spatial Types](docs/SPATIAL-TYPES.md)
+- [Examples](docs/USE-CASES-AND-EXAMPLES.md)
+- [PostGIS geometry and geography](docs/POSTGIS-GEOMETRY-AND-GEOGRAPHY.md)
 - [Geometry Arrays](docs/GEOMETRY-ARRAYS.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md) - Common errors, by the message you see
 
 ## 📦 Installation
 
@@ -216,14 +218,16 @@ Full documentation, also published at [postgresql-for-doctrine.dev](https://post
 composer require martin-georgiev/postgresql-for-doctrine
 ```
 
+Then follow [Getting started](docs/GETTING-STARTED.md) to register a type and a function and run a first query.
+
 ## 🔧 Integration Guides
 
-- [Integrating with Symfony](docs/INTEGRATING-WITH-SYMFONY.md)
-- [Integrating with Laravel](docs/INTEGRATING-WITH-LARAVEL.md)
-- [Integrating with Doctrine](docs/INTEGRATING-WITH-DOCTRINE.md)
+- [Symfony setup](docs/INTEGRATING-WITH-SYMFONY.md)
+- [Laravel setup](docs/INTEGRATING-WITH-LARAVEL.md)
+- [Doctrine setup](docs/INTEGRATING-WITH-DOCTRINE.md)
 
 ## 💡 Usage Examples
-See our [Common Use Cases and Examples](docs/USE-CASES-AND-EXAMPLES.md) for detailed code samples.
+See our [Examples](docs/USE-CASES-AND-EXAMPLES.md) for detailed code samples.
 
 ## 🧪 Testing
 

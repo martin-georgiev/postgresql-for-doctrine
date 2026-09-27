@@ -128,24 +128,75 @@ A value function returns a value read from another row of the window.
 
 ## Usage examples
 
+The results come from these rows. `Sale` belongs to a `Customer`; `amount` and `price` are `numeric(10,2)`, and times are in UTC.
+
+| Sale id | customer | region | amount | placedAt |
+|---|---|---|---|---|
+| 1 | 1 | north | 42.00 | 2026-09-01 10:00 |
+| 2 | 2 | south | 20.00 | 2026-09-02 10:00 |
+| 3 | 1 | north | 9.99 | 2026-09-03 10:00 |
+| 4 | 2 | north | 35.00 | 2026-09-04 10:00 |
+
+| DailyStat day | visits |
+|---|---|
+| 2026-09-01 | 100 |
+| 2026-09-02 | 140 |
+| 2026-09-03 | 90 |
+| 2026-09-08 | 70 |
+
+| DailyPrice product | day | price |
+|---|---|---|
+| tea | 2026-09-01 | 4.50 |
+| tea | 2026-09-02 | 4.80 |
+| tea | 2026-09-03 | 4.60 |
+| coffee | 2026-09-01 | 7.00 |
+| coffee | 2026-09-02 | 7.25 |
+
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
+
 ```sql
 -- Running total per customer, in the order they were placed
 SELECT s.id, OVER(SUM(s.amount), PARTITION BY s.customer ORDER BY s.placedAt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS runningTotal FROM App\Entity\Sale s
+-- → ['id' => 1, 'runningTotal' => '42.00']
+--   ['id' => 2, 'runningTotal' => '20.00']
+--   ['id' => 3, 'runningTotal' => '51.99']
+--   ['id' => 4, 'runningTotal' => '55.00']
 
 -- Seven-day moving average over dates
 SELECT d.day, OVER(AVG(d.visits), ORDER BY d.day RANGE BETWEEN '6 days' PRECEDING AND CURRENT ROW) AS weeklyAverage FROM App\Entity\DailyStat d
+-- → ['day' => DateTimeImmutable('2026-09-01'), 'weeklyAverage' => '100.0000000000000000']
+--   ['day' => DateTimeImmutable('2026-09-02'), 'weeklyAverage' => '120.0000000000000000']
+--   ['day' => DateTimeImmutable('2026-09-03'), 'weeklyAverage' => '110.0000000000000000']
+--   ['day' => DateTimeImmutable('2026-09-08'), 'weeklyAverage' => '100.0000000000000000']
 
 -- Each sale next to its region's total
 SELECT s.id, s.amount, OVER(SUM(s.amount), PARTITION BY s.region) AS regionTotal FROM App\Entity\Sale s
+-- → ['id' => 1, 'amount' => '42.00', 'regionTotal' => '86.99']
+--   ['id' => 2, 'amount' => '20.00', 'regionTotal' => '20.00']
+--   ['id' => 3, 'amount' => '9.99', 'regionTotal' => '86.99']
+--   ['id' => 4, 'amount' => '35.00', 'regionTotal' => '86.99']
 
 -- Next to a selected entity: each result row is [0 => Sale, 'runningTotal' => ...]
 SELECT s, OVER(SUM(s.amount), ORDER BY s.placedAt) AS runningTotal FROM App\Entity\Sale s ORDER BY s.placedAt
+-- → [0 => Sale {id: 1}, 'runningTotal' => '42.00']
+--   [0 => Sale {id: 2}, 'runningTotal' => '62.00']
+--   [0 => Sale {id: 3}, 'runningTotal' => '71.99']
+--   [0 => Sale {id: 4}, 'runningTotal' => '106.99']
 
 -- Day-over-day change per product, 0 on each product's first day
-SELECT p.day, p.price - OVER(LAG(p.price, 1, p.price), PARTITION BY p.product ORDER BY p.day) AS change FROM App\Entity\DailyPrice p
+SELECT p.product, p.day, p.price - OVER(LAG(p.price, 1, p.price), PARTITION BY p.product ORDER BY p.day) AS change FROM App\Entity\DailyPrice p
+-- → ['product' => 'tea', 'day' => DateTimeImmutable('2026-09-01'), 'change' => '0.00']
+--   ['product' => 'tea', 'day' => DateTimeImmutable('2026-09-02'), 'change' => '0.30']
+--   ['product' => 'tea', 'day' => DateTimeImmutable('2026-09-03'), 'change' => '-0.20']
+--   ['product' => 'coffee', 'day' => DateTimeImmutable('2026-09-01'), 'change' => '0.00']
+--   ['product' => 'coffee', 'day' => DateTimeImmutable('2026-09-02'), 'change' => '0.25']
 
 -- Each sale next to the highest amount in its region
 SELECT s.id, s.amount, OVER(LAST_VALUE(s.amount), PARTITION BY s.region ORDER BY s.amount ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS regionHighest FROM App\Entity\Sale s
+-- → ['id' => 1, 'amount' => '42.00', 'regionHighest' => '42.00']
+--   ['id' => 2, 'amount' => '20.00', 'regionHighest' => '20.00']
+--   ['id' => 3, 'amount' => '9.99', 'regionHighest' => '42.00']
+--   ['id' => 4, 'amount' => '35.00', 'regionHighest' => '42.00']
 ```
 
 ## Limitations

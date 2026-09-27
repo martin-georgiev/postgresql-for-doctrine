@@ -1,4 +1,4 @@
-# The DQL dialect
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Writing DQL
 
 Being Doctrine's query language, DQL syntax is different from the PostgreSQL's one you already know. PostgreSQL's syntax often does not parse as written in DQL. This page covers rules and patterns that the library follows:
 
@@ -8,7 +8,7 @@ Being Doctrine's query language, DQL syntax is different from the PostgreSQL's o
 - what each argument accepts; and
 - what to do when DQL cannot express a query at all.
 
-> **See also:** [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) · [Window functions](WINDOW-FUNCTIONS.md) · [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md)
+> **See also:** [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) · [Window functions](WINDOW-FUNCTIONS.md) · [Doctrine setup](INTEGRATING-WITH-DOCTRINE.md)
 
 The examples we used for the query examples follow a simplified entity model for a small shop:
 
@@ -21,7 +21,7 @@ The examples we used for the query examples follow a simplified entity model for
 | `App\Entity\Booking` | `b` | `store`, `slot` (`tstzrange`) |
 | `App\Entity\Article` | `a` | `title`, `body`, `search` (`tsvector`), `embedding` (`vector`) |
 
-Every function is registered under the DQL name the setup guides use, as in [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md).
+Every function is registered under the DQL name the setup guides use, as in [Doctrine setup](INTEGRATING-WITH-DOCTRINE.md).
 
 ## Function and operator names
 
@@ -447,6 +447,6 @@ $entityManager->getConnection()->executeStatement(
 
 - [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md): every DQL name, by category
 - [Window functions](WINDOW-FUNCTIONS.md): the window specification, frames, and the ranking and value functions
-- [Mathematical functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql): the ordered-set aggregates
+- [Mathematical and statistical functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql): the ordered-set aggregates
 - [Array and JSON functions and operators](ARRAY-AND-JSON-FUNCTIONS.md): the array and JSON operators and aggregates
-- [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md) · [Integration with Symfony](INTEGRATING-WITH-SYMFONY.md) · [Integration with Laravel](INTEGRATING-WITH-LARAVEL.md): the registered DQL names
+- [Doctrine setup](INTEGRATING-WITH-DOCTRINE.md) · [Symfony setup](INTEGRATING-WITH-SYMFONY.md) · [Laravel setup](INTEGRATING-WITH-LARAVEL.md): the registered DQL names

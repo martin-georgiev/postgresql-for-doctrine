@@ -83,7 +83,7 @@ These are NOT auto-generated — agents must update them manually:
 - `docs/INTEGRATING-WITH-DOCTRINE.md` — add type registration example
 - `docs/INTEGRATING-WITH-SYMFONY.md` — add Symfony config entry
 - `docs/INTEGRATING-WITH-LARAVEL.md` — add Laravel config entry
-- Group-specific doc if one exists (e.g., `docs/RANGE-TYPES.md`, `docs/SPATIAL-TYPES.md`, `docs/GEOMETRY-ARRAYS.md`, `docs/LTREE-TYPE.md`)
+- Group-specific doc if one exists (e.g., `docs/RANGE-TYPES.md`, `docs/POSTGIS-GEOMETRY-AND-GEOGRAPHY.md`, `docs/GEOMETRY-ARRAYS.md`, `docs/LTREE-TYPE.md`)
 - `README.md` — only if this is a brand new feature group not yet mentioned
 
 Read each doc before editing to match the existing format.

@@ -18,22 +18,47 @@
 
 ## Usage examples
 
+The results come from these rows of `App\Entity\Article`, read with PostgreSQL's default `xmloption`, `content`:
+
+| id | category | xmlData | xmlText | createdAt |
+|---|---|---|---|---|
+| 1 | news | `<feed><item active="true"><title>First</title></item><item><title>Second</title></item></feed>` | `<feed><item/></feed>` | 2026-09-01 08:00 |
+| 2 | news | `<feed><item><title>Third</title></item></feed>` | `<item/><item/>` | 2026-09-02 08:00 |
+| 3 | blog | `<feed/>` | `plain text` | 2026-09-03 08:00 |
+
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
+
 ```sql
 -- ORDER BY inside the aggregate - not obvious in Doctrine DQL
 SELECT e.category, XMLAGG(e.xmlData ORDER BY e.createdAt) FROM App\Entity\Article e GROUP BY e.category
+-- → ['category' => 'blog', 1 => '<feed/>']
+--   ['category' => 'news', 1 => '<feed><item active="true"><title>First</title></item><item><title>Second</title></item></feed><feed><item><title>Third</title></item></feed>']
 
 -- xml_is_well_formed uses the session xmloption (DOCUMENT or CONTENT mode)
 -- xml_is_well_formed_document always requires a single root element
 -- xml_is_well_formed_content accepts fragments and plain text nodes
 SELECT XML_IS_WELL_FORMED(e.xmlText) FROM App\Entity\Article e
+-- → [1 => true]
+--   [1 => true]
+--   [1 => true]
 SELECT XML_IS_WELL_FORMED_DOCUMENT(e.xmlText) FROM App\Entity\Article e
+-- → [1 => true]
+--   [1 => false]
+--   [1 => false]
 SELECT XML_IS_WELL_FORMED_CONTENT(e.xmlText) FROM App\Entity\Article e
+-- → [1 => true]
+--   [1 => true]
+--   [1 => true]
 
 -- XPath text() node extraction and attribute predicates
 SELECT XPATH('//item/title/text()', e.xmlData) FROM App\Entity\Article e WHERE e.id = :id
+-- → [1 => '{First,Second}']
 SELECT XPATH_EXISTS('//item[@active="true"]', e.xmlData) FROM App\Entity\Article e WHERE e.id = :id
+-- → [1 => true]
 
 -- XPath existence test (boolean) and XML processing instruction
 SELECT XMLEXISTS('//item', e.xmlData) FROM App\Entity\Article e WHERE e.id = :id
+-- → [1 => true]
 SELECT XMLPI('php', 'echo "hello";') FROM App\Entity\Article e WHERE e.id = :id
+-- → [1 => '<?php echo "hello";?>']
 ```

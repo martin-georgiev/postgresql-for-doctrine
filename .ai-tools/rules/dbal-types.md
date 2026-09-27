@@ -61,7 +61,7 @@ Scalar and array variants must be registered as adjacent pairs (see § Documenta
 | File | When to update |
 |------|---------------|
 | `README.md` | Only when introducing a brand-new feature **group** (e.g. first range type, first PostGIS type). Routine additions within an existing group: do **not** touch README. |
-| `docs/{GROUP}-TYPE.md` / `docs/{GROUP}-TYPES.md` | If the type belongs to a group with its own dedicated doc (`RANGE-TYPES.md`, `SPATIAL-TYPES.md`, `GEOMETRY-ARRAYS.md`, `LTREE-TYPE.md`, `ENUM-TYPE.md`, etc.) |
+| `docs/{GROUP}-TYPE.md` / `docs/{GROUP}-TYPES.md` | If the type belongs to a group with its own dedicated doc (`RANGE-TYPES.md`, `POSTGIS-GEOMETRY-AND-GEOGRAPHY.md`, `GEOMETRY-ARRAYS.md`, `LTREE-TYPE.md`, `ENUM-TYPE.md`, etc.) |
 
 ## Class Conventions
 

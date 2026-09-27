@@ -2,7 +2,7 @@
 
 This page covers [PostGIS spatial functions and operators](https://postgis.net/docs/reference.html) available in this library for working with geometry and geography data types.
 
-> **See also:** [Spatial types](SPATIAL-TYPES.md) for geometry/geography types and [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
+> **See also:** [PostGIS geometry and geography](POSTGIS-GEOMETRY-AND-GEOGRAPHY.md) for the column types and [Examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
 ## PostGIS spatial operators
 
@@ -20,7 +20,7 @@ Some operators have dual meanings for different data types. Use the specific DQL
 
 ### Bounding box operators
 
-These operators work with geometry bounding boxes; PostGIS does not define them for geography. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
+These operators work with geometry bounding boxes; PostGIS does not define them for geography. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [Writing DQL](WRITING-DQL.md#boolean-functions-need-a-comparison)).
 
 | PostgreSQL operator | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
@@ -241,37 +241,61 @@ These functions work with measures along linear geometries for operations like l
 
 These examples cover the cases where the DQL wiring is not obvious. Everything else follows the tables above - call the function with the arguments PostGIS documents.
 
+The results come from these rows of `Entity`. `polygon` carries SRID 4326; the other columns have no SRID.
+
+| id | geometry | geometry1 | geometry2 | polygon |
+|---|---|---|---|---|
+| 1 | `POINT(-3 1.123456)` | `POLYGON((0 0,4 0,4 4,0 4,0 0))` | `POLYGON((2 2,6 2,6 6,2 6,2 2))` | `SRID=4326;POLYGON((0 0,5 0,5 5,0 5,0 0))` |
+| 2 | `POINT(700 0)` | `POLYGON((0 0,4 0,4 4,0 4,0 0))` | `POLYGON((5 5,6 5,6 6,5 6,5 5))` | `SRID=4326;POLYGON((10 10,12 10,12 12,10 12,10 10))` |
+
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
+
 ```sql
 -- Boolean operators and functions need an explicit comparison in DQL
 SELECT e FROM Entity e WHERE STRICTLY_LEFT(e.geometry, 'POINT(0 0)') = TRUE
+-- → Entity {id: 1}
 
 SELECT e FROM Entity e WHERE ST_DWithin(e.geometry, 'POINT(0 0)', 1000) = TRUE
+-- → Entity {id: 1}
+--   Entity {id: 2}
 
 -- Distance operators return numbers, so they can be selected and ordered by
 SELECT e, GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)') as distance
 FROM Entity e ORDER BY distance
+-- → [0 => Entity {id: 1}, 'distance' => 3.203459596114176]
+--   [0 => Entity {id: 2}, 'distance' => 700.0]
 
 -- ST_Relate with 3 arguments returns boolean, with 2 it returns the intersection matrix
 SELECT e FROM Entity e WHERE ST_Relate(e.geometry1, e.geometry2, 'T*T***T**') = TRUE
+-- → Entity {id: 1}
 
 SELECT e, ST_Relate(e.geometry1, e.geometry2) as matrix FROM Entity e
+-- → [0 => Entity {id: 1}, 'matrix' => '212101212']
+--   [0 => Entity {id: 2}, 'matrix' => 'FF2FF1212']
 
 -- Optional arguments: decimal precision, then GeoJSON options (1 = include the bounding box)
 SELECT e, ST_AsGeoJSON(e.geometry, 9, 1) as geojson_with_bbox FROM Entity e
+-- → [0 => Entity {id: 1}, 'geojson_with_bbox' => '{"type":"Point","bbox":[-3.000000000,1.123456000,-3.000000000,1.123456000],"coordinates":[-3,1.123456]}']
+--   [0 => Entity {id: 2}, 'geojson_with_bbox' => '{"type":"Point","bbox":[700.000000000,0.000000000,700.000000000,0.000000000],"coordinates":[700,0]}']
 
 -- ST_AsText drops the SRID and takes an optional precision; ST_AsEWKT keeps the SRID
 SELECT e, ST_AsText(e.geometry, 2) as wkt FROM Entity e
+-- → [0 => Entity {id: 1}, 'wkt' => 'POINT(-3 1.12)']
+--   [0 => Entity {id: 2}, 'wkt' => 'POINT(700 0)']
 
 -- WKT takes the SRID as a separate argument, EWKT carries it in the string itself
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromText('POINT(1 2)', 4326)) = TRUE
+-- → Entity {id: 1}
 
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromEWKT('SRID=4326;POINT(1 2)')) = TRUE
+-- → Entity {id: 1}
 
 -- Parameters bind inside spatial functions as usual
 SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
+-- → Entity {id: 1}
 ```
 
 **Notes:**
