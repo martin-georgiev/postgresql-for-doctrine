@@ -39,4 +39,15 @@ final class ST_CollectionExtractTest extends SpatialOperatorTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertTrue($result[0]['result']);
     }
+
+    #[Test]
+    public function returns_the_extracted_collection_without_a_type(): void
+    {
+        $dql = 'SELECT ST_EQUALS(ST_COLLECTIONEXTRACT(g.geometry1), g.geometry1) as result
+                FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g
+                WHERE g.id = 1';
+
+        $result = $this->executeDqlQuery($dql);
+        $this->assertTrue($result[0]['result']);
+    }
 }

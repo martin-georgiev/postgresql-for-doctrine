@@ -23,6 +23,7 @@ final class WidthBucketTest extends TestCase
         return [
             'assigns field value to histogram bucket' => 'SELECT WIDTH_BUCKET(c0_.decimal1, 0.0, 20.0, 4) AS sclr_0 FROM ContainsDecimals c0_',
             'assigns literal value to histogram bucket' => 'SELECT WIDTH_BUCKET(15, 0.0, 20.0, 4) AS sclr_0 FROM ContainsDecimals c0_',
+            'assigns field value to a bucket between thresholds' => 'SELECT WIDTH_BUCKET(c0_.decimal1, ?) AS sclr_0 FROM ContainsDecimals c0_',
         ];
     }
 
@@ -31,6 +32,7 @@ final class WidthBucketTest extends TestCase
         return [
             'assigns field value to histogram bucket' => \sprintf('SELECT WIDTH_BUCKET(e.decimal1, 0.0, 20.0, 4) FROM %s e', ContainsDecimals::class),
             'assigns literal value to histogram bucket' => \sprintf('SELECT WIDTH_BUCKET(15, 0.0, 20.0, 4) FROM %s e', ContainsDecimals::class),
+            'assigns field value to a bucket between thresholds' => \sprintf('SELECT WIDTH_BUCKET(e.decimal1, :thresholds) FROM %s e', ContainsDecimals::class),
         ];
     }
 
@@ -38,7 +40,7 @@ final class WidthBucketTest extends TestCase
     public function throws_exception_for_too_few_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('WIDTH_BUCKET() requires exactly 4 arguments');
+        $this->expectExceptionMessage('WIDTH_BUCKET() cannot be called with 3 arguments');
 
         $dql = \sprintf('SELECT WIDTH_BUCKET(e.decimal1, 0.0, 20.0) FROM %s e', ContainsDecimals::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
@@ -48,7 +50,7 @@ final class WidthBucketTest extends TestCase
     public function throws_exception_for_too_many_arguments(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('WIDTH_BUCKET() requires exactly 4 arguments');
+        $this->expectExceptionMessage('WIDTH_BUCKET() requires between 2 and 4 arguments');
 
         $dql = \sprintf('SELECT WIDTH_BUCKET(e.decimal1, 0.0, 20.0, 4, 5) FROM %s e', ContainsDecimals::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();

@@ -40,4 +40,12 @@ final class ToTimestampTest extends TextTestCase
         $dql = "SELECT TO_TIMESTAMP(NULL, 'DD Mon YYYY') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1";
         $this->executeDqlQuery($dql);
     }
+
+    #[Test]
+    public function converts_the_epoch_to_a_timestamp_from_a_literal(): void
+    {
+        $dql = 'SELECT TO_TIMESTAMP(0) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsTexts t WHERE t.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('1970-01-01 00:00:00+00', $result[0]['result']);
+    }
 }
