@@ -353,7 +353,7 @@ abstract class BaseSpatialTypeTestCase extends TestCase
         $sql = $this->fixture->convertToPHPValueSQL('geom_col', $this->platform);
 
         $this->assertSame(
-            "CASE WHEN ST_SRID(geom_col) = 0 THEN ST_AsText(geom_col) ELSE 'SRID=' || ST_SRID(geom_col) || ';' || ST_AsText(geom_col) END",
+            "CASE WHEN ST_SRID(geom_col) = 0 THEN ST_AsText(geom_col, 25) ELSE 'SRID=' || ST_SRID(geom_col) || ';' || ST_AsText(geom_col, 25) END",
             $sql
         );
     }

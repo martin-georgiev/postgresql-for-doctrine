@@ -59,7 +59,7 @@ final class GeographyTypeTest extends TestCase
     protected function getSelectExpression(string $columnName): string
     {
         // For geography, avoid adding SRID prefix to preserve original input format
-        return \sprintf('ST_AsText("%s"::geometry) AS "%s"', $columnName, $columnName);
+        return \sprintf('ST_AsText("%s"::geometry, 25) AS "%s"', $columnName, $columnName);
     }
 
     #[Test]
@@ -111,6 +111,7 @@ final class GeographyTypeTest extends TestCase
             'linestring' => [WktSpatialData::fromString('LINESTRING(0 0,1 1,2 2)')],
             'polygon' => [WktSpatialData::fromString('POLYGON((0 0,0 1,1 1,1 0,0 0))')],
             'geometrycollection' => [WktSpatialData::fromString('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
+            'point with full double precision' => [WktSpatialData::fromString('POINT(-122.41941234567891 0.00012345678901234567)')],
             'point z' => [WktSpatialData::fromString('POINT Z(-122.4194 37.7749 100)')],
             'linestring m' => [WktSpatialData::fromString('LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
             'polygon zm' => [WktSpatialData::fromString('POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],

@@ -59,8 +59,8 @@ final class GeometryTypeTest extends TestCase
     protected function getSelectExpression(string $columnName): string
     {
         return \sprintf(
-            'CASE WHEN ST_SRID("%s") = 0 THEN ST_AsText("%s") ELSE '
-            ."'SRID=' || ST_SRID(\"%s\") || ';' || ST_AsText(\"%s\") END AS \"%s\"",
+            'CASE WHEN ST_SRID("%s") = 0 THEN ST_AsText("%s", 25) ELSE '
+            ."'SRID=' || ST_SRID(\"%s\") || ';' || ST_AsText(\"%s\", 25) END AS \"%s\"",
             $columnName,
             $columnName,
             $columnName,
@@ -119,6 +119,7 @@ final class GeometryTypeTest extends TestCase
             'polygon' => [WktSpatialData::fromString('POLYGON((0 0,0 1,1 1,1 0,0 0))')],
             'geometrycollection' => [WktSpatialData::fromString('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
             'point with srid' => [WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)')],
+            'point with full double precision' => [WktSpatialData::fromString('POINT(0.12345678901234566 0.00012345678901234567)')],
             'point z' => [WktSpatialData::fromString('POINT Z(1 2 3)')],
             'linestring m' => [WktSpatialData::fromString('LINESTRING M(0 0 1,1 1 2)')],
             'polygon zm' => [WktSpatialData::fromString('POLYGON ZM((0 0 0 1,0 1 0 1,1 1 0 1,1 0 0 1,0 0 0 1))')],
