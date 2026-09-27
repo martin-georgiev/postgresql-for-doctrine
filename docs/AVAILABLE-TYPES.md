@@ -218,7 +218,7 @@ class Permissions
 
 ## Numeric array type
 
-The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather than floats. PostgreSQL's [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) is an arbitrary-precision type, and converting its values to PHP floats would silently lose precision and trailing zeros - the same reason Doctrine's own `decimal` type uses strings.
+The `numeric[]` type maps array items to PHP strings such as `'502.00'` rather than floats. PostgreSQL's [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) is an arbitrary-precision type, and converting its values to PHP floats would silently lose precision and trailing zeros - the same reason Doctrine's own `decimal` type uses strings.
 
 - Array items written to the database must be numeric strings (or `null`); PHP integers and floats are rejected
 - `decimal[]` is a PostgreSQL alias of `numeric[]` - columns declared as `DECIMAL[]` are reported by PostgreSQL as `numeric[]`, so this type covers both
@@ -266,7 +266,7 @@ Two further ranges PostgreSQL accepts are mapped without a sentinel, because `\D
 The `uuid[]` type validates UUID format and returns `string[]` rather than UUID value objects. This design decision keeps the library lightweight and framework-agnostic:
 
 - **No additional dependencies** - Works without requiring `ramsey/uuid` or `symfony/uid`
-- **Consistent with other array types** - Follows the same pattern as `TextArray`, `IntegerArray`, etc.
+- **Consistent with other array types** - Follows the same pattern as `TextArray` and `IntegerArray`
 - **Framework agnostic** - Compatible with any UUID library of your choice
 
 If you need UUID objects, convert the strings:
@@ -285,7 +285,7 @@ $uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuid
 
 ## Money type
 
-The `money` type maps PostgreSQL's [`money`](https://www.postgresql.org/docs/18/datatype-money.html) data type and returns locale-formatted strings (e.g. `$1,234.56`). PostgreSQL formats money values according to the server's `lc_monetary` locale setting, so the exact output format depends on your database configuration.
+The `money` type maps PostgreSQL's [`money`](https://www.postgresql.org/docs/18/datatype-money.html) data type and returns locale-formatted strings such as `$1,234.56`. PostgreSQL formats money values according to the server's `lc_monetary` locale setting, so the exact output format depends on your database configuration.
 
 **Important considerations:**
 
@@ -333,7 +333,7 @@ CREATE EXTENSION IF NOT EXISTS citext;
 
 It is a case-insensitive text type: comparisons are case-insensitive in PostgreSQL while the original casing of values is preserved. It maps to `string` in PHP and behaves identically to `text` for storage and retrieval - the difference is purely in how PostgreSQL evaluates equality and ordering.
 
-Use `citext` when you want case-insensitive lookups (e.g. usernames, email addresses) without lowercasing values on write.
+Use `citext` when you want case-insensitive lookups, such as usernames and email addresses, without lowercasing values on write.
 
 ---
 

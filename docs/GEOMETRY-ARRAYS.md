@@ -134,6 +134,6 @@ SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 
 - **Indexing**: GiST/operator classes only support spatial types like `geometry`/`geography` and cannot directly index SQL array types like `geometry[]`. For proper spatial indexing, consider:
   - Normalizing arrays into separate geometry rows with individual GiST indexes
-  - Materializing a single geometry (e.g., union or bounding geometry) into a `geometry` column for GiST indexing
+  - Materializing a single geometry (such as a union or a bounding geometry) into a `geometry` column for GiST indexing
   - See the [PostGIS FAQ on spatial indexes](https://postgis.net/documentation/faq/spatial-indexes/) for details
 - **Query optimization**: Use appropriate spatial operators and indexes on individual geometry columns, not arrays

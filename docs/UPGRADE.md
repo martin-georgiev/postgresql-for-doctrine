@@ -21,7 +21,7 @@ Only those nine change what the DBAL types throw - same messages, different clas
 ## How to upgrade to version 3.0
 
 ### 1. Review type handling in your code
-If your application relies on automatic type conversion between PostgreSQL and PHP (e.g., expecting string numbers to be converted to actual numbers or vice versa), you need to update your code to explicitly handle type conversion where needed.
+If your application relies on automatic type conversion between PostgreSQL and PHP (such as expecting string numbers to be converted to actual numbers or vice versa), you need to update your code to explicitly handle type conversion where needed.
 
 ```php
 // Before: Might convert '1.0' to integer 1

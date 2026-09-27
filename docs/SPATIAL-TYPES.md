@@ -22,7 +22,7 @@ Parsing outputs a list of `WktSpatialData` value objects that Doctrine DBAL can 
 ## Enum-driven patterns
 
 Two enums drive normalization so the code and docs remain consistent:
-- `GeometryType` - set of supported geometry type names (`POINT`, `LINESTRING`, `POLYGON`, etc.)
+- `GeometryType` - set of supported geometry type names (`POINT`, `LINESTRING`, `POLYGON` and the rest)
 - `DimensionalModifier` - dimensional markers (`Z`, `M`, `ZM`)
 
 Regex patterns for geometry type detection and dimensional modifier handling are built from these enums instead of hardcoded strings.
@@ -169,12 +169,12 @@ $polyhedralSurface = WktSpatialData::fromString('POLYHEDRALSURFACE(((0 0, 0 1, 1
 
 ## Column options for DDL
 
-By default `geometry` and `geography` columns are declared as bare `GEOMETRY` / `GEOGRAPHY`. A bare `GEOMETRY` column accepts any subtype and any SRID. A bare `GEOGRAPHY` column is [narrower](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables): it accepts only geography-compatible subtypes (PostGIS rejects e.g. `TIN`) and geodetic lon/lat SRIDs, and stores SRID-less input as SRID 4326. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
+By default `geometry` and `geography` columns are declared as bare `GEOMETRY` / `GEOGRAPHY`. A bare `GEOMETRY` column accepts any subtype and any SRID. A bare `GEOGRAPHY` column is [narrower](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables): it accepts only geography-compatible subtypes (PostGIS rejects `TIN`, for example) and geodetic lon/lat SRIDs, and stores SRID-less input as SRID 4326. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
 
 | Option | Type | Meaning |
 |---|---|---|
-| `geometry_type` | string | The geometry subtype, e.g. `Point`, `LineString`, `MultiPolygon`. Case-insensitive. May carry a dimensional modifier suffix: `PointZ`, `PointM`, `PointZM`. Use `Geometry` for "any subtype". |
-| `srid` | int | The spatial reference system identifier, e.g. `4326`. Must be a non-negative integer. |
+| `geometry_type` | string | The geometry subtype, such as `Point`, `LineString`, `MultiPolygon`. Case-insensitive. May carry a dimensional modifier suffix: `PointZ`, `PointM`, `PointZM`. Use `Geometry` for "any subtype". |
+| `srid` | int | The spatial reference system identifier, such as `4326`. Must be a non-negative integer. |
 
 ```php
 use Doctrine\ORM\Mapping as ORM;
@@ -210,7 +210,7 @@ Both options are optional and independent:
 ### Caveats
 
 - The options only shape the DDL that Doctrine generates. They do not alter value conversion - a `WktSpatialData` carrying a different subtype is still handed to PostgreSQL, which rejects it at insert time.
-- `geography` only supports lon/lat reference systems; PostgreSQL rejects e.g. `GEOGRAPHY(POINT,3857)` at `CREATE TABLE` time.
+- `geography` only supports lon/lat reference systems; PostgreSQL rejects `GEOGRAPHY(POINT,3857)` at `CREATE TABLE` time.
 - A constrained column coerces values that carry no SRID: inserting `POINT(1 2)` into `GEOMETRY(POINT,4326)` stores `SRID=4326;POINT(1 2)`.
 - Doctrine's schema comparator does not understand PostGIS type modifiers, so `doctrine:schema:update` and diff-based migration generation may report spurious changes for these columns. Manage them with explicit migrations.
 - [Spatial (GiST) indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes) are not covered by these options. Declare them in a migration with raw SQL: `CREATE INDEX idx_place_location ON place USING GIST (location);`
@@ -218,7 +218,7 @@ Both options are optional and independent:
 ## Geography vs geometry specifics
 
 - Geometry accepts WKT and [EWKT](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT) (`SRID=...;...`).
-- Geography commonly uses SRID 4326; EWKT is supported (e.g., `SRID=4326;POINT(...)`).
+- Geography commonly uses SRID 4326; EWKT is supported: `SRID=4326;POINT(...)`.
 - Dimensional modifiers (Z, M, ZM) are normalized consistently for both types.
 
 ## Arrays

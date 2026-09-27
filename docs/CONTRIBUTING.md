@@ -250,7 +250,7 @@ class ArrayAppend extends BaseFunction
 }
 ```
 
-⚠️ **Beware:** you cannot use **?** (e.g. the `??` operator) as part of any
+⚠️ **Beware:** you cannot use **?** (including the `??` operator) as part of any
 function prototype in Doctrine.
 It causes query parsing failures.
 
@@ -295,7 +295,7 @@ Keep unit tests fast and deterministic; use integration tests to validate behavi
 ### Unit test patterns and conventions
 - Location: tests/Unit/...
 - Naming:
-  - Class names end with `Test` (e.g., `PointTest`, `CidrTest`)
+  - Class names end with `Test` (`PointTest`, `CidrTest`)
   - One file/class per subject
   - Concrete tests may be `final`
 - Structure:
@@ -303,8 +303,8 @@ Keep unit tests fast and deterministic; use integration tests to validate behavi
   - Use `setUp()` to create an `AbstractPlatform` mock and the subject under test when testing DBAL Types
   - Use `#[DataProvider]` for bidirectional transformation scenarios (one provider used for both PHP->DB and DB->PHP tests)
 - Assertions:
-  - Use domain-specific exceptions in negative tests (e.g., `InvalidCidrForPHPException`, `InvalidRangeForDatabaseException`)
-  - Prefer dedicated assertion helpers provided by base classes (e.g., range equality helpers) when available
+  - Use domain-specific exceptions in negative tests (`InvalidCidrForPHPException`, `InvalidRangeForDatabaseException`)
+  - Prefer dedicated assertion helpers provided by base classes (such as the range equality helpers) when available
 - Value Object Range tests:
   - Reuse base classes:
     - `tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/BaseRangeTestCase`
@@ -334,7 +334,7 @@ Anti-patterns to avoid in unit tests:
     - Range types: `RangeTypeTestCase` (includes operator tests and `assertRangeEquals`)
     - Spatial arrays: `SpatialArrayTypeTestCase` (ARRAY[...] insertion for WKT)
 - Per-type organization:
-  - One integration test class per DBAL Type (e.g., `MacaddrTypeTest`, `JsonbTypeTest`, `IntegerArrayTypeTest`)
+  - One integration test class per DBAL Type (`MacaddrTypeTest`, `JsonbTypeTest`, `IntegerArrayTypeTest`)
   - Implement:
     - `protected function getTypeName(): string` (Doctrine type name)
     - `protected function getPostgresTypeName(): string` (column type)

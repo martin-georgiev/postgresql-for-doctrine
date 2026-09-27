@@ -202,7 +202,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `XPATH_EXISTS` - Test if an XPath expression matches any node in an XML value
 
 **Window Functions:** ([Complete documentation](WINDOW-FUNCTIONS.md))
-- `OVER` - Run an aggregate or a window function over a window, e.g. running totals and moving averages
+- `OVER` - Run an aggregate or a window function over a window, such as running totals and moving averages
 - `ROW_NUMBER`/`RANK`/`DENSE_RANK` - Number or rank rows within their partition
 - `PERCENT_RANK`/`CUME_DIST` - Relative rank and cumulative distribution within the partition
 - `NTILE` - Split the partition into a number of buckets
