@@ -187,13 +187,40 @@ final class ByteaArrayTest extends TestCase
     }
 
     /**
+     * @param list<string|null> $expectedPHPArray
+     */
+    #[DataProvider('provideValidPostgresArraysForPHP')]
+    #[Test]
+    public function converts_values_emitted_by_postgres(string $postgresValue, array $expectedPHPArray): void
+    {
+        $this->assertSame($expectedPHPArray, $this->fixture->convertToPHPValue($postgresValue, $this->platform));
+    }
+
+    /**
+     * PostgreSQL writes bytea in the escape format when bytea_output is set to 'escape'.
+     *
+     * @return array<string, array{string, list<string|null>}>
+     */
+    public static function provideValidPostgresArraysForPHP(): array
+    {
+        return [
+            'escape output with a backslash, quotes and bytes outside printable ASCII' => [
+                <<<'LITERAL'
+                    {"a\\\\'\"\\000\\001B\\377",abc,"",NULL}
+                    LITERAL,
+                ["a\\'\"\x00\x01B\xFF", 'abc', '', null],
+            ],
+        ];
+    }
+
+    /**
      * @return array<string, array{string}>
      */
     public static function provideInvalidPHPValueInputs(): array
     {
         return [
             'non-string item' => ['{42}'],
-            'without hex prefix' => ['{"hello"}'],
+            'lone backslash in the escape format' => ['{"\\\\q"}'],
             'invalid hex content' => ['{"\\\\xZZZZ"}'],
         ];
     }
