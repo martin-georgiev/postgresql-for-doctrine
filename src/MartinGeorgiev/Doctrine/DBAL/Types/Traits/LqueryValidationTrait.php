@@ -17,7 +17,7 @@ trait LqueryValidationTrait
      *
      * @var string
      */
-    private const LQUERY_ITEM = '(?:\*|!?[\p{L}\p{N}_-]+[@*%]*(?:\|[\p{L}\p{N}_-]+[@*%]*)*)(?:\{(?:\d+|\d*,\d*)\})?';
+    private const LQUERY_ITEM = '(?:\*|!?[\p{L}\p{Nd}\p{Nl}_-]+[@*%]*(?:\|[\p{L}\p{Nd}\p{Nl}_-]+[@*%]*)*)(?:\{(?:\d+|\d*,\d*)\})?';
 
     /**
      * @var string
