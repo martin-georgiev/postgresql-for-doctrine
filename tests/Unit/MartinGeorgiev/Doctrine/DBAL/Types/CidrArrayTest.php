@@ -101,6 +101,8 @@ final class CidrArrayTest extends TestCase
             'integer item' => [[123]],
             'invalid IPv4' => [['256.256.256.0/24']],
             'invalid IPv6' => [['2001:xyz::/32']],
+            'IPv4 host bits set right of the netmask' => [['192.168.1.1/24']],
+            'IPv6 host bits set right of the netmask' => [['2001:db8::1/32']],
             'missing netmask' => [['192.168.1.0']],
             'invalid netmask IPv4' => [['192.168.1.0/33']],
             'invalid netmask IPv6' => [['2001:db8::/129']],
