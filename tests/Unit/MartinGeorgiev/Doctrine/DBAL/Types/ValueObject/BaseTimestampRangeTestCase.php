@@ -73,6 +73,31 @@ abstract class BaseTimestampRangeTestCase extends BaseRangeTestCase
                 ),
                 'expectedEmpty' => false,
             ],
+            'equal infinite bounds exclusive should be empty' => [
+                'range' => $this->parseFromString('[infinity,infinity)'),
+                'expectedEmpty' => true,
+            ],
+        ];
+    }
+
+    #[DataProvider('provideInfiniteBoundsOfEitherSign')]
+    #[Test]
+    public function preserves_the_sign_of_an_infinite_bound(string $range): void
+    {
+        $this->assertSame($range, (string) $this->parseFromString($range));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInfiniteBoundsOfEitherSign(): array
+    {
+        return [
+            'negative infinity lower bound' => ['[-infinity,infinity)'],
+            'positive infinity lower bound' => ['[infinity,)'],
+            'negative infinity upper bound' => ['(,-infinity]'],
+            'both bounds positive infinity' => ['[infinity,infinity]'],
+            'both bounds negative infinity' => ['[-infinity,-infinity]'],
         ];
     }
 

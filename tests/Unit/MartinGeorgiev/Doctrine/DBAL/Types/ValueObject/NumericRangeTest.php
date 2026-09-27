@@ -86,6 +86,10 @@ final class NumericRangeTest extends BaseRangeTestCase
                 'range' => new NumericRange(5.0, 5.0, true, true),
                 'expectedEmpty' => false,
             ],
+            'equal infinite bounds exclusive should be empty' => [
+                'range' => NumericRange::fromString('[Infinity,Infinity)'),
+                'expectedEmpty' => true,
+            ],
         ];
     }
 
@@ -108,6 +112,15 @@ final class NumericRangeTest extends BaseRangeTestCase
         $unboundedUpper = new NumericRange(1, null);
         yield 'unbounded upper contains value in range' => [$unboundedUpper, 100, true];
         yield 'unbounded upper excludes below lower' => [$unboundedUpper, 0, false];
+
+        yield 'positive infinity lower bound excludes a finite value' => [NumericRange::fromString('[Infinity,)'), 5, false];
+        yield 'positive infinity lower bound contains Infinity' => [NumericRange::fromString('[Infinity,)'), \INF, true];
+        yield 'negative infinity upper bound excludes a finite value' => [NumericRange::fromString('(,-Infinity]'), 5, false];
+        yield 'negative infinity upper bound contains -Infinity' => [NumericRange::fromString('(,-Infinity]'), -\INF, true];
+        yield 'exclusive infinite upper bound excludes Infinity' => [new NumericRange(0, \INF), \INF, false];
+        yield 'inclusive infinite upper bound contains Infinity' => [new NumericRange(0, \INF, true, true), \INF, true];
+        yield 'inclusive negative infinite lower bound contains -Infinity' => [new NumericRange(-\INF, 0), -\INF, true];
+        yield 'exclusive negative infinite lower bound excludes -Infinity' => [new NumericRange(-\INF, 0, false), -\INF, false];
     }
 
     public static function provideFromStringTestCases(): \Generator
@@ -247,13 +260,15 @@ final class NumericRangeTest extends BaseRangeTestCase
     }
 
     /**
-     * @return \Generator<string, array{float|int, float|int, string, bool, bool}>
+     * @return \Generator<string, array{float|int|null, float|int|null, string, bool, bool}>
      */
     public static function providePhpInfConstantCases(): \Generator
     {
         yield 'upper bounded infinity' => [0, INF, '[0,Infinity)', false, true];
         yield 'lower bounded infinity' => [-INF, 100, '[-Infinity,100)', true, false];
         yield 'both bounds infinity' => [-INF, INF, '[-Infinity,Infinity)', true, true];
+        yield 'lower bounded positive infinity' => [INF, null, '[Infinity,)', true, false];
+        yield 'upper bounded negative infinity' => [null, -INF, '[,-Infinity)', false, true];
     }
 
     #[DataProvider('provideInfinitySpellings')]
@@ -439,5 +454,26 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function keeps_an_explicit_infinity_bound(): void
     {
         $this->assertSame('[1,Infinity)', (string) new NumericRange(1, \INF));
+    }
+
+    #[DataProvider('provideInfiniteBoundsOfEitherSign')]
+    #[Test]
+    public function preserves_the_sign_of_an_infinite_bound(string $range): void
+    {
+        $this->assertSame($range, (string) $this->parseFromString($range));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInfiniteBoundsOfEitherSign(): array
+    {
+        return [
+            'negative infinity lower bound' => ['[-Infinity,Infinity)'],
+            'positive infinity lower bound' => ['[Infinity,)'],
+            'negative infinity upper bound' => ['(,-Infinity]'],
+            'both bounds positive infinity' => ['[Infinity,Infinity]'],
+            'both bounds negative infinity' => ['[-Infinity,-Infinity]'],
+        ];
     }
 }
