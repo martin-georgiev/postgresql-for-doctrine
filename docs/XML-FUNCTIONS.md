@@ -1,6 +1,6 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> XML Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> XML functions
 
-> **See also:** [Available Types](AVAILABLE-TYPES.md) for the `xml` and `xml[]` DBAL types
+> **See also:** [Available types](AVAILABLE-TYPES.md) for the `xml` and `xml[]` DBAL types
 
 | [PostgreSQL function](https://www.postgresql.org/docs/18/functions-xml.html) | Register for DQL as | Implemented by |
 |---|---|---|
@@ -16,7 +16,7 @@
 | xpath | XPATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath` |
 | xpath_exists | XPATH_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists` |
 
-## Usage Examples
+## Usage examples
 
 ```sql
 -- ORDER BY inside the aggregate — not obvious in Doctrine DQL

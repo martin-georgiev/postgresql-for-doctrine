@@ -16,9 +16,9 @@ Then publish the configuration:
 php artisan vendor:publish --tag="config" --provider="LaravelDoctrine\ORM\DoctrineServiceProvider"
 ```
 
-### Register DBAL Types
+### Register DBAL types
 
-Register the [DBAL types](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#custom-types) you plan to use. The **full set** of available types can be found in [Available Types](AVAILABLE-TYPES.md).
+Register the [DBAL types](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#custom-types) you plan to use. The **full set** of available types can be found in [Available types](AVAILABLE-TYPES.md).
 
 The [per-manager `mapping_types` block](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#entity-manager) maps PostgreSQL's own type names (like `_text` or `jsonb`) to the registered Doctrine types, and is the Laravel equivalent of calling `registerDoctrineTypeMapping()` on the platform.
 
@@ -393,7 +393,7 @@ return [
 > ],
 > ```
 >
-> See [PostgreSQL Enum Types](ENUM-TYPE.md) for a full example.
+> See [PostgreSQL enum types](ENUM-TYPE.md) for a full example.
 
 > **User-defined composite types**: For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above.
 > Columns holding an array of that composite get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray`, registered alongside the scalar one:
@@ -405,18 +405,18 @@ return [
 > ],
 > ```
 >
-> See [PostgreSQL Composite Types](COMPOSITE-TYPE.md) for a full example.
+> See [PostgreSQL composite types](COMPOSITE-TYPE.md) for a full example.
 
 
-### Register DQL Functions
+### Register DQL functions
 
-Register the functions you use in your [DQL queries](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#custom-functions). The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
-- [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
-- [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
-- [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
-- [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
-- [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
-- [Utility Functions](UTILITY-FUNCTIONS.md)
+Register the functions you use in your [DQL queries](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#custom-functions). The full set of available functions and operators can be found in the [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+- [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md)
+- [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+- [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
+- [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md)
+- [Mathematical functions](MATHEMATICAL-FUNCTIONS.md)
+- [Utility functions](UTILITY-FUNCTIONS.md)
 
 Add the function configuration to your `config/doctrine.php`:
 
@@ -963,7 +963,7 @@ return [
 ```
 
 
-### Usage in Entities
+### Usage in entities
 
 Once configured, you can use PostgreSQL types in your Laravel entities:
 

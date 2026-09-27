@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Available Types
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Available types
 
 > **See also:** [What comes back: hydration](HYDRATION.md) for the PHP value each type hydrates to
 
@@ -123,12 +123,12 @@
 | sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` (see [note](#pgvector-types)) |
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` (see [note](#pgvector-types)) |
 |---|---|---|
-| *(user-defined enum)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Enum` (see [Enum Types](ENUM-TYPE.md)) |
-| *(user-defined enum)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray` (see [Enum Types](ENUM-TYPE.md)) |
-| *(user-defined composite)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Composite` (see [Composite Types](COMPOSITE-TYPE.md)) |
-| *(user-defined composite)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray` (see [Composite Types](COMPOSITE-TYPE.md)) |
+| *(user-defined enum)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Enum` (see [Enum types](ENUM-TYPE.md)) |
+| *(user-defined enum)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray` (see [Enum types](ENUM-TYPE.md)) |
+| *(user-defined composite)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Composite` (see [Composite types](COMPOSITE-TYPE.md)) |
+| *(user-defined composite)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray` (see [Composite types](COMPOSITE-TYPE.md)) |
 
-## PostGIS Spatial Types
+## PostGIS spatial types
 
 The `geometry` and `geography` types accept the `geometry_type` and `srid` column options, which emit a PostGIS type modifier so the subtype and spatial reference system are enforced by the database:
 
@@ -151,11 +151,11 @@ class Place
 
 Omitting both options keeps the bare `GEOMETRY` / `GEOGRAPHY` declaration.
 
-> **See also:** [Spatial Types](SPATIAL-TYPES.md#column-options-for-ddl) for the full option reference
+> **See also:** [Spatial types](SPATIAL-TYPES.md#column-options-for-ddl) for the full option reference
 
 ---
 
-## pgvector Types
+## pgvector types
 
 The `vector`, `halfvec`, and `sparsevec` types use the `length` column option to specify the number of dimensions:
 
@@ -184,7 +184,7 @@ Omitting `length` produces a dimensionless column (`VECTOR` with no size), which
 
 ---
 
-## Bit String Types
+## Bit string types
 
 The `bit` and `bit varying` types support an optional `length` parameter via column attribute:
 
@@ -216,7 +216,7 @@ class Permissions
 
 ---
 
-## Numeric Array Type
+## Numeric array type
 
 The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather than floats. PostgreSQL's [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) is an arbitrary-precision type, and converting its values to PHP floats would silently lose precision and trailing zeros — the same reason Doctrine's own `decimal` type uses strings.
 
@@ -233,7 +233,7 @@ Each is accepted in the single spelling PostgreSQL prints. It reads `'nan'` and 
 
 ---
 
-## Datetime Array Types
+## Datetime array types
 
 Items of `date[]`, `timestamp[]` and `timestamptz[]` map to `\DateTimeImmutable`, with one exception: PostgreSQL's [`infinity` and `-infinity`](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-SPECIAL-TABLE) sort before and after every other value of their type and have no `\DateTimeImmutable` counterpart, so they map to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity` enum instead. Reading a column that may hold them means widening the item check:
 
@@ -257,11 +257,11 @@ Two further ranges PostgreSQL accepts are mapped without a sentinel, because `\D
 - **Years before 1 AD.** PostgreSQL numbers them in the BC era and has no year zero, while PHP numbers them astronomically and does. `0001-01-15 BC` therefore reads back as PHP year `0000`, and `0002-01-15 BC` as PHP year `-0001`. Format such values with `X` rather than `Y` to keep the sign visible.
 - **Years past 9999.** They round-trip unchanged; `Y` prints them in full.
 
-> **See also:** [Infinity Values](INFINITY.md) for why an array item uses this enum while a float uses `INF` and a range bound uses a flag.
+> **See also:** [Infinity values](INFINITY.md) for why an array item uses this enum while a float uses `INF` and a range bound uses a flag.
 
 ---
 
-## UUID Array Type
+## UUID array type
 
 The `uuid[]` type validates UUID format and returns `string[]` rather than UUID value objects. This design decision keeps the library lightweight and framework-agnostic:
 
@@ -283,7 +283,7 @@ $uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuid
 
 ---
 
-## Money Type
+## Money type
 
 The `money` type maps PostgreSQL's [`money`](https://www.postgresql.org/docs/18/datatype-money.html) data type and returns locale-formatted strings (e.g. `$1,234.56`). PostgreSQL formats money values according to the server's `lc_monetary` locale setting, so the exact output format depends on your database configuration.
 
@@ -311,7 +311,7 @@ Note that both examples above assume USD — you must know the currency independ
 
 ---
 
-## Hstore Type
+## Hstore type
 
 The `hstore` type requires the PostgreSQL [`hstore`](https://www.postgresql.org/docs/18/hstore.html) extension. Enable it with:
 
@@ -323,7 +323,7 @@ It maps to `array<string, string|null>` in PHP. Keys and values are always strin
 
 ---
 
-## Citext Type
+## Citext type
 
 The `citext` type requires the PostgreSQL [`citext`](https://www.postgresql.org/docs/18/citext.html) extension. Enable it with:
 
@@ -337,7 +337,7 @@ Use `citext` when you want case-insensitive lookups (e.g. usernames, email addre
 
 ---
 
-## ULID Type
+## ULID type
 
 The `ulid` type requires the third-party [`pgx_ulid`](https://github.com/pksunkara/pgx_ulid) PostgreSQL extension. Enable it with:
 
@@ -351,7 +351,7 @@ Use `ulid` when you want sortable, timestamp-prefixed identifiers that are short
 
 ---
 
-## Cube Type
+## Cube type
 
 The `cube` type requires the PostgreSQL [`cube`](https://www.postgresql.org/docs/18/cube.html) extension. Enable it with:
 

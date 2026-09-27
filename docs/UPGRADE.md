@@ -1,6 +1,6 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Upgrade Instructions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Upgrade instructions
 
-## How to Upgrade to Version 4.9
+## How to upgrade to version 4.9
 
 This release corrects the exceptions in two places. The value object ones are internal construction details, never part of the documented surface; the `Invalid{Type}For{PHP|Database}Exception` family is. Both ship as a minor — this library treats exception changes as backwards compatible.
 
@@ -18,7 +18,7 @@ Only those nine change what the DBAL types throw — same messages, different cl
 
 `ND_BOUNDING_BOX_DISTANCE` (`NDimensionalBoundingBoxDistance`) is removed. It rendered PostGIS's `<<#>>` operator, which no released PostGIS provides, so every query using it already failed with `operator does not exist: geometry <<#>> geometry`. Delete its registration line; for an n-D distance use `ND_CENTROID_DISTANCE` (`<<->>`).
 
-## How to Upgrade to Version 3.0
+## How to upgrade to version 3.0
 
 ### 1. Review type handling in your code
 If your application relies on automatic type conversion between PostgreSQL and PHP (e.g., expecting string numbers to be converted to actual numbers or vice versa), you need to update your code to explicitly handle type conversion where needed.

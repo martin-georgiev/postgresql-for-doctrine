@@ -1,10 +1,10 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Mathematical Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Mathematical functions
 
 This page covers PostgreSQL [mathematical functions](https://www.postgresql.org/docs/18/functions-math.html) available in this library.
 
-> **See also:** [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
+> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
 
-## Trigonometric Functions
+## Trigonometric functions
 
 ### Radian-based functions
 
@@ -38,7 +38,7 @@ This page covers PostgreSQL [mathematical functions](https://www.postgresql.org/
 | atand | ATAND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atand` |
 | atan2d | ATAN2D | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2d` |
 
-## Mathematical Functions
+## Mathematical functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -73,7 +73,7 @@ This page covers PostgreSQL [mathematical functions](https://www.postgresql.org/
 | trunc | TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc` |
 | width_bucket | WIDTH_BUCKET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket` |
 
-## Hashing & Cryptographic Functions
+## Hashing & cryptographic functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -83,7 +83,7 @@ This page covers PostgreSQL [mathematical functions](https://www.postgresql.org/
 | sha384 | SHA384 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384` |
 | sha512 | SHA512 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512` |
 
-## Bitwise and Boolean Aggregate Functions
+## Bitwise and boolean aggregate functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -94,7 +94,7 @@ This page covers PostgreSQL [mathematical functions](https://www.postgresql.org/
 | bool_or | BOOL_OR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolOr` |
 | every | EVERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every` |
 
-## Statistical Aggregate Functions
+## Statistical aggregate functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -123,7 +123,7 @@ In SQL, an [ordered-set aggregate](https://www.postgresql.org/docs/18/functions-
 - `ORDER BY` takes exactly one item, optionally with `ASC` / `DESC`. PostgreSQL rejects more than one, and DQL does not accept a literal there.
 - The fraction is a literal, a parameter, or an expression over columns listed in `GROUP BY`. PostgreSQL rejects a fraction that reads an ungrouped column.
 
-## Utility and Miscellaneous Functions
+## Utility and miscellaneous functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -135,7 +135,7 @@ In SQL, an [ordered-set aggregate](https://www.postgresql.org/docs/18/functions-
 | row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
 | xmlagg | XMLAGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
 
-## Usage Examples
+## Usage examples
 
 ```sql
 -- WIDTH_BUCKET: bucket number (1-based) for a value in a histogram with N equal-width buckets
@@ -164,7 +164,7 @@ FROM Entity e GROUP BY e.category
 ```
 **Function Categories:**
 
-### **Mathematical Functions**
+### Mathematical functions
 - **Basic Math**: CEIL, FLOOR, ROUND, TRUNC for rounding operations
 - **Power Functions**: POWER, CBRT, EXP for exponential calculations
 - **Logarithmic**: LN, LOG for logarithmic operations

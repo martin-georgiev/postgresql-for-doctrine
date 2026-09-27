@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Common Use Cases and Examples
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Common use cases and examples
 
 ## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
 
@@ -27,7 +27,7 @@ WHERE ILIKE(e.subject, 'Test email') = TRUE
 
 These functions currently only support string literals and object references as arguments. Here are some valid examples:
 
-> **See also:** [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSON/JSONB function documentation
+> **See also:** [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSON/JSONB function documentation
 
 ```sql
 -- Basic usage with string literals and entity properties
@@ -43,11 +43,11 @@ SELECT JSONB_BUILD_OBJECT('number', 123)     -- All number types, NULL and boole
 
 Keys must always be string literals, while values can be either string literals or object property references.
 
-## Using JSON Path Functions
+## Using JSON path functions
 
 PostgreSQL 12+ introduced [JSON path functions](https://www.postgresql.org/docs/18/functions-json.html#FUNCTIONS-SQLJSON-PATH) that provide a powerful way to query JSON data. Here are some examples:
 
-> **See also:** [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
+> **See also:** [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
 
 ```sql
 -- Check if a JSON path exists with a condition
@@ -66,11 +66,11 @@ SELECT e.id, JSONB_PATH_QUERY_ARRAY(e.jsonData, '$.items[*].id') FROM Entity e
 SELECT e.id, JSONB_PATH_QUERY_FIRST(e.jsonData, '$.items[*] ? (@.featured == true)') FROM Entity e
 ```
 
-## Using Regular Expression Functions
+## Using regular expression functions
 
 PostgreSQL 15+ introduced additional regular expression functions that provide more flexibility when working with text data:
 
-> **See also:** [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md) for complete regular expression and text processing documentation
+> **See also:** [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md) for complete regular expression and text processing documentation
 
 ```sql
 -- Count occurrences of a pattern
@@ -83,11 +83,11 @@ SELECT e.id, REGEXP_INSTR(e.text, 'important') as position FROM Entity e
 SELECT e.id, REGEXP_SUBSTR(e.text, 'https?://[\w.-]+') as url FROM Entity e
 ```
 
-## Using Date Functions
+## Using date functions
 
 Newer PostgreSQL versions introduced additional date functions (`DATE_BIN` in 14, `DATE_ADD` and `DATE_SUBTRACT` in 16) that provide more flexibility when working with dates and timestamps:
 
-> **See also:** [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for complete date/time and range function documentation
+> **See also:** [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md) for complete date/time and range function documentation
 
 ```sql
 -- Bin timestamps into 15-minute intervals
@@ -106,7 +106,7 @@ SELECT DATE_TRUNC('day', e.timestampWithTz) FROM Entity e
 SELECT DATE_TRUNC('day', e.timestampWithTz, 'UTC') FROM Entity e
 ```
 
-## Medians, Percentiles and the Most Common Value
+## Medians, percentiles and the most common value
 
 PostgreSQL computes these with ordered-set aggregates, written in SQL as `percentile_cont(0.5) WITHIN GROUP (ORDER BY e.value)`. DQL cannot parse anything after a function's closing parenthesis, so the `WITHIN GROUP ORDER BY` part moves **inside** the call, with no comma before it and no parentheses around it:
 
@@ -115,7 +115,7 @@ PostgreSQL computes these with ordered-set aggregates, written in SQL as `percen
 -- DQL:  PERCENTILE_CONT(0.5 WITHIN GROUP ORDER BY o.total)
 ```
 
-> **See also:** [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql) for the full list of rules
+> **See also:** [Mathematical functions](MATHEMATICAL-FUNCTIONS.md#within-group-goes-inside-the-parentheses-in-dql) for the full list of rules
 
 ```sql
 -- Median order value per customer (interpolated between the two middle values)
@@ -135,7 +135,7 @@ SELECT e.category, MODE(WITHIN GROUP ORDER BY e.status) AS commonStatus FROM Ent
 - `ORDER BY` takes exactly one item; PostgreSQL rejects more.
 - The fraction must not read an ungrouped column: use a literal, a parameter, or columns listed in `GROUP BY`.
 
-## Aggregating Only Some Rows with FILTER
+## Aggregating only some rows with FILTER
 
 PostgreSQL restricts the rows a single aggregate reads with `FILTER (WHERE ...)`, written in SQL after the aggregate: `COUNT(o.id) FILTER (WHERE o.status = 'paid')`. DQL cannot parse anything after a function's closing parenthesis, so `FILTER` wraps the aggregate instead, with the condition as its second argument:
 
@@ -144,7 +144,7 @@ PostgreSQL restricts the rows a single aggregate reads with `FILTER (WHERE ...)`
 -- DQL:  FILTER(COUNT(o.id), WHERE o.status = 'paid')
 ```
 
-> **See also:** [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md#filter-wraps-the-aggregate-in-dql) for the full list of rules
+> **See also:** [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md#filter-wraps-the-aggregate-in-dql) for the full list of rules
 
 ```sql
 -- Several conditional counts in one pass, instead of one query per status
@@ -168,7 +168,7 @@ SELECT e.category FROM Entity e GROUP BY e.category HAVING FILTER(COUNT(e.id), W
 
 - The first argument must be an aggregate; a scalar function or a nested `FILTER` throws a `ParserException`.
 
-## Running Totals and Moving Averages with OVER
+## Running totals and moving averages with OVER
 
 PostgreSQL runs an aggregate over a window of rows with `OVER (...)`, written in SQL after the call: `SUM(o.amount) OVER (PARTITION BY o.customer ORDER BY o.createdAt)`. DQL cannot parse anything after a function's closing parenthesis, so `OVER` wraps the call instead, with the window specification as its second argument:
 
@@ -177,7 +177,7 @@ PostgreSQL runs an aggregate over a window of rows with `OVER (...)`, written in
 -- DQL:  OVER(SUM(o.amount), PARTITION BY o.customer ORDER BY o.createdAt)
 ```
 
-> **See also:** [Window Functions](WINDOW-FUNCTIONS.md#over-wraps-the-call-in-dql) for the full list of rules
+> **See also:** [Window functions](WINDOW-FUNCTIONS.md#over-wraps-the-call-in-dql) for the full list of rules
 
 ```sql
 -- Running total per customer
@@ -207,15 +207,15 @@ SELECT o.id, OVER(ROW_NUMBER(), PARTITION BY o.customer ORDER BY o.createdAt DES
 SELECT p.name, OVER(RANK(), ORDER BY p.score DESC) AS scoreRank FROM Player p
 ```
 
-> **See also:** [Ranking Functions](WINDOW-FUNCTIONS.md#ranking-functions)
+> **See also:** [Ranking functions](WINDOW-FUNCTIONS.md#ranking-functions)
 
 - Filtering on a window result (`WHERE runningTotal > 100`) is not possible in DQL; use a native query or filter in PHP.
 
-## Using Range Types
+## Using range types
 
 PostgreSQL range types allow you to work with ranges of values efficiently. Here are practical examples:
 
-> **See also:** [Range Types](RANGE-TYPES.md) for complete range value object documentation and [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions
+> **See also:** [Range types](RANGE-TYPES.md) for complete range value object documentation and [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions
 
 ```php
 // Entity with range fields
@@ -255,13 +255,13 @@ SELECT p FROM Product p WHERE CONTAINS(p.priceRange, NUMRANGE('25.0', '25.0', '[
 ```
 
 
-## Using PostgreSQL Composite Types
+## Using PostgreSQL composite types
 
 PostgreSQL composite types allow you to define custom structured types with named fields. This library provides the `COMPOSITE_FIELD` function to access fields from composite type columns in DQL.
 
-> **See also:** [PostgreSQL Composite Types](COMPOSITE-TYPE.md) · [composite types in the PostgreSQL manual](https://www.postgresql.org/docs/18/rowtypes.html)
+> **See also:** [PostgreSQL composite types](COMPOSITE-TYPE.md) · [composite types in the PostgreSQL manual](https://www.postgresql.org/docs/18/rowtypes.html)
 
-### Creating Composite Types in PostgreSQL
+### Creating composite types in PostgreSQL
 
 ```sql
 -- Create a composite type for inventory items
@@ -281,7 +281,7 @@ CREATE TABLE products (
 INSERT INTO products (item) VALUES (ROW('Widget', 1, 9.99));
 ```
 
-### Accessing Composite Fields in DQL
+### Accessing composite fields in DQL
 
 ```sql
 -- Access a field from a composite type
@@ -291,9 +291,9 @@ SELECT COMPOSITE_FIELD(p.item, 'name') FROM Product p
 SELECT p FROM Product p WHERE COMPOSITE_FIELD(p.item, 'price') > 10.00
 ```
 
-### Entity Configuration
+### Entity configuration
 
-Map the column to a subclass of `Composite` registered under the composite type's name - here an `InventoryItemType` registered as `inventory_item`. [Composite Types](COMPOSITE-TYPE.md) shows how to create and register it.
+Map the column to a subclass of `Composite` registered under the composite type's name - here an `InventoryItemType` registered as `inventory_item`. [Composite types](COMPOSITE-TYPE.md) shows how to create and register it.
 
 ```php
 use Doctrine\ORM\Mapping as ORM;
@@ -314,10 +314,10 @@ class Product
 }
 ```
 
-## Using PostGIS Types
+## Using PostGIS types
 
 
-### Using PostGIS Types with Doctrine DBAL (Geometry/Geography)
+### Using PostGIS types with Doctrine DBAL (geometry/geography)
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
@@ -350,13 +350,13 @@ POLYGONZM((...))           => POLYGON ZM((...))
 POINT Z (1 2 3)            => POINT Z(1 2 3)
 ```
 
-### Using PostGIS Spatial Operators in DQL
+### Using PostGIS spatial operators in DQL
 
 PostGIS spatial operators allow you to perform spatial queries using bounding box relationships and distance calculations. The bounding box operators return booleans and must be compared with `= TRUE` or `= FALSE` in DQL; the distance operators return numbers.
 
-> **See also:** [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for complete spatial function documentation
+> **See also:** [PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for complete spatial function documentation
 
-#### Bounding Box Spatial Relationships
+#### Bounding box spatial relationships
 
 ```sql
 -- Find geometries to the left of a reference point
@@ -379,7 +379,7 @@ SELECT e FROM Entity e WHERE OVERLAPS_BELOW(e.geometry, 'POLYGON((0 5, 5 5, 5 10
 SELECT e FROM Entity e WHERE ND_OVERLAPS(e.geometry3d, 'POLYGON Z((0 0 0, 1 1 1, 2 2 2, 0 0 0))') = TRUE
 ```
 
-#### Distance-Based Queries
+#### Distance-based queries
 
 ```sql
 -- Find the nearest geometries to a point
@@ -401,7 +401,7 @@ FROM Entity e
 WHERE ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
 ```
 
-#### Operator Conflicts and Best Practices
+#### Operator conflicts and best practices
 
 Some operators have different meanings for different data types. Use specific function names to avoid conflicts:
 
@@ -415,7 +415,7 @@ SELECT e FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE            -- Text
 -- The @ and ~ operators have different meanings for arrays vs spatial data
 ```
 
-#### Performance Tips
+#### Performance tips
 
 ```sql
 -- Use bounding box operators for initial filtering (they use spatial indexes)
@@ -428,7 +428,7 @@ SELECT e FROM Entity e
 ORDER BY GEOMETRY_DISTANCE(e.geometry, 'POINT(0 0)')
 ```
 
-For array columns, see [Geometry and Geography Arrays](GEOMETRY-ARRAYS.md).
+For array columns, see [Geometry and geography arrays](GEOMETRY-ARRAYS.md).
 
 The library provides DBAL type support for PostGIS `geometry` and `geography` types. Example usage:
 
@@ -455,9 +455,9 @@ Notes:
 - Values round-trip as EWKT/WKT strings at the database boundary.
 - Integration tests automatically enable the `postgis` extension; ensure PostGIS is available in your environment.
 
-## Hierarchical Data with ltree
+## Hierarchical data with ltree
 
-> **See also:** [`ltree` Types](LTREE-TYPE.md) for type reference and DQL functions
+> **See also:** [PostgreSQL ltree types](LTREE-TYPE.md) for type reference and DQL functions
 
 This example shows a self-referential entity with ltree path management and cascading path updates in Symfony.
 
@@ -548,7 +548,7 @@ CREATE INDEX my_entity_path_gist_idx ON my_entity USING GIST (path gist_ltree_op
 CREATE INDEX my_entity_path_gin_idx ON my_entity USING GIN (path gin_ltree_ops);
 ```
 
-### Cascading Path Updates
+### Cascading path updates
 
 Changing an entity's parent requires cascading the path change to all descendants — Doctrine does not handle this automatically. Use an [`onFlush`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush) listener:
 

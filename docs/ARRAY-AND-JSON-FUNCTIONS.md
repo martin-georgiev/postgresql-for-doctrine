@@ -1,10 +1,10 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Array and JSON Functions and Operators
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Array and JSON functions and operators
 
 This page covers PostgreSQL [array](https://www.postgresql.org/docs/18/functions-array.html) and [JSON/JSONB](https://www.postgresql.org/docs/18/functions-json.html) operators and functions available in this library.
 
-> **See also:** [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical JSON and array usage examples
+> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for practical JSON and array usage examples
 
-## Array and JSON Operators
+## Array and JSON operators
 
 Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
@@ -18,7 +18,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 - **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
 - **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 
-### Array and JSON Operators
+### Array and JSON operators
 
 | PostgreSQL operator | Register for DQL as | Implemented by |
 |---|---|---|
@@ -35,7 +35,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | #> | JSON_GET_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject` |
 | #>> | JSON_GET_OBJECT_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText` |
 
-## Array Functions
+## Array functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -66,7 +66,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | string_to_array | STRING_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray` |
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` |
 
-## JSON Functions
+## JSON functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -92,7 +92,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | to_json | TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson` |
 | to_jsonb | TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb` |
 
-## JSONB Functions
+## JSONB functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -122,7 +122,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | jsonb_to_tsvector | JSONB_TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbToTsvector` |
 | jsonb_typeof | JSONB_TYPEOF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbTypeof` |
 
-## Bonus Helpers
+## Bonus helpers
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -148,7 +148,7 @@ In SQL, [`FILTER (WHERE ...)`](https://www.postgresql.org/docs/18/sql-expression
 - The first argument must be an aggregate: DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`, or a function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction`. Every aggregate in this library implements it; implement it on an aggregate of your own to wrap that one too. Anything else, including a nested `FILTER`, throws a `ParserException`, as PostgreSQL would reject it.
 - The condition takes anything a DQL `WHERE` does, including parameters.
 
-## Usage Examples
+## Usage examples
 
 ```sql
 -- DQL array literal syntax: ARRAY('val1', 'val2') — not standard PHP array notation

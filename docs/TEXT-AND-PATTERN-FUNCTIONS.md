@@ -1,10 +1,10 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Text and Pattern Functions and Operators
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Text and pattern functions and operators
 
 This page covers PostgreSQL [text processing](https://www.postgresql.org/docs/18/functions-string.html), [pattern matching](https://www.postgresql.org/docs/18/functions-matching.html), and regular expression functions and operators available in this library.
 
-> **See also:** [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical text processing and regular expression examples
+> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for practical text processing and regular expression examples
 
-## Text and Pattern Operators
+## Text and pattern operators
 
 Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
@@ -16,7 +16,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 - **Text**: Use `REGEXP`, `IREGEXP` for pattern matching
 - **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 
-### Text and Pattern Operators
+### Text and pattern operators
 
 | PostgreSQL operator | Register for DQL as | Implemented by |
 |---|---|---|
@@ -30,7 +30,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | @@ | TSMATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsmatch` |
 | \|\| | STRCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat` |
 
-## Regular Expression Functions
+## Regular expression functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -41,7 +41,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | regexp_replace | REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace` |
 | regexp_substr | REGEXP_SUBSTR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr` |
 
-## Text Processing Functions
+## Text processing functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -75,7 +75,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | translate | TRANSLATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate` |
 | unaccent | UNACCENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent` |
 
-## Full-Text Search Functions
+## Full-text search functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -94,7 +94,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | tsvector_to_array | TSVECTOR_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TsvectorToArray` |
 | websearch_to_tsquery | WEBSEARCH_TO_TSQUERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WebsearchToTsquery` |
 
-## Fuzzy String Matching Functions (fuzzystrmatch extension)
+## Fuzzy string matching functions (fuzzystrmatch extension)
 
 > **Requires the [`fuzzystrmatch`](https://www.postgresql.org/docs/18/fuzzystrmatch.html) extension:** `CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;`
 
@@ -109,7 +109,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | metaphone | METAPHONE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Metaphone` |
 | soundex | SOUNDEX | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Fuzzystrmatch\Soundex` |
 
-## Trigram Similarity Functions (pg_trgm extension)
+## Trigram similarity functions (pg_trgm extension)
 
 > **Requires the [`pg_trgm`](https://www.postgresql.org/docs/18/pgtrgm.html) extension:** `CREATE EXTENSION IF NOT EXISTS pg_trgm;`
 
@@ -141,7 +141,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | <<<-> | STRICT_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\StrictWordSimilarityDistance` |
 | <->>> | REVERSE_STRICT_WORD_SIMILARITY_DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trgm\ReverseStrictWordSimilarityDistance` |
 
-## Hashing and Checksum Functions
+## Hashing and checksum functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -154,7 +154,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | sha384 | SHA384 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384` |
 | sha512 | SHA512 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512` |
 
-## Usage Examples
+## Usage examples
 
 ```sql
 -- REGEXP_LIKE with a real-world email pattern — POSIX syntax, not SQL LIKE syntax

@@ -2,9 +2,9 @@
 
 This page covers integration with Symfony 6.4+ and 7.x using the DoctrineBundle.
 
-### Register DBAL Types
+### Register DBAL types
 
-Register the [DBAL types](https://symfony.com/doc/current/doctrine/dbal.html#registering-custom-mapping-types) you plan to use. The full set of available types can be found in [Available Types](AVAILABLE-TYPES.md).
+Register the [DBAL types](https://symfony.com/doc/current/doctrine/dbal.html#registering-custom-mapping-types) you plan to use. The full set of available types can be found in [Available types](AVAILABLE-TYPES.md).
 
 ```yaml
 # config/packages/doctrine.yaml
@@ -163,7 +163,7 @@ doctrine:
 >             status[]: App\Doctrine\Type\StatusArrayType
 > ```
 >
-> See [PostgreSQL Enum Types](ENUM-TYPE.md) for a full example.
+> See [PostgreSQL enum types](ENUM-TYPE.md) for a full example.
 
 > **User-defined composite types**: For each PostgreSQL composite (row) type, create a concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\Composite` and register it like the examples above.
 > Columns holding an array of that composite get a second concrete class extending `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray`, registered alongside the scalar one:
@@ -176,10 +176,10 @@ doctrine:
 >             inventory_item[]: App\Doctrine\Type\InventoryItemArrayType
 > ```
 >
-> See [PostgreSQL Composite Types](COMPOSITE-TYPE.md) for a full example.
+> See [PostgreSQL composite types](COMPOSITE-TYPE.md) for a full example.
 
 
-### Configure Type Mappings
+### Configure type mappings
 
 Add [mapping between DBAL and PostgreSQL data types](https://symfony.com/doc/current/doctrine/dbal.html#registering-custom-mapping-types-in-the-schematool). PostgreSQL normally [prefixes array data-types with `_`](https://www.postgresql.org/docs/18/sql-createtype.html#SQL-CREATETYPE-ARRAY). Note the PostgreSQL-specific naming for integers (`int2`, `int4`, `int8`).
 
@@ -390,15 +390,15 @@ doctrine:
 ```
 
 
-### Register DQL Functions
+### Register DQL functions
 
-Register the functions you use in your [DQL queries](https://symfony.com/doc/current/doctrine/custom_dql_functions.html). The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
-- [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
-- [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
-- [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)
-- [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md)
-- [Mathematical Functions](MATHEMATICAL-FUNCTIONS.md)
-- [Utility Functions](UTILITY-FUNCTIONS.md)
+Register the functions you use in your [DQL queries](https://symfony.com/doc/current/doctrine/custom_dql_functions.html). The full set of available functions and operators can be found in the [Available functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+- [Array and JSON functions](ARRAY-AND-JSON-FUNCTIONS.md)
+- [PostGIS spatial functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
+- [Text and pattern functions](TEXT-AND-PATTERN-FUNCTIONS.md)
+- [Date and range functions](DATE-AND-RANGE-FUNCTIONS.md)
+- [Mathematical functions](MATHEMATICAL-FUNCTIONS.md)
+- [Utility functions](UTILITY-FUNCTIONS.md)
 
 ```yaml
 # config/packages/doctrine.yaml
@@ -938,7 +938,7 @@ doctrine:
                         TO_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp
 ```
 
-### Usage in Entities
+### Usage in entities
 
 Once configured, you can use the PostgreSQL types in your Symfony entities:
 

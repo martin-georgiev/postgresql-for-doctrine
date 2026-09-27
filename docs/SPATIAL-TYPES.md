@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Spatial Types (Foundations)
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Spatial types (foundations)
 
 This page describes the core primitives used by the spatial DBAL types: parsing, normalization, and enum-driven patterns.
 
@@ -17,7 +17,7 @@ This page describes the core primitives used by the spatial DBAL types: parsing,
 
 Parsing outputs a list of `WktSpatialData` value objects that Doctrine DBAL can bind.
 
-> **See also:** [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for working with spatial data in queries
+> **See also:** [PostGIS spatial functions and operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for working with spatial data in queries
 
 ## Enum-driven patterns
 
@@ -27,11 +27,11 @@ Two enums drive normalization so the code and docs remain consistent:
 
 Regex patterns for geometry type detection and dimensional modifier handling are built from these enums instead of hardcoded strings.
 
-## Creating Spatial Data
+## Creating spatial data
 
 The `WktSpatialData` value object provides multiple ways to create spatial data:
 
-### From WKT String (Traditional)
+### From WKT string (traditional)
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
@@ -41,7 +41,7 @@ $pointWithSrid = WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'
 $line = WktSpatialData::fromString('LINESTRING(0 0, 1 1, 2 2)');
 ```
 
-### From Components (Programmatic)
+### From components (programmatic)
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
@@ -77,7 +77,7 @@ $polygon4d = WktSpatialData::fromComponents(
 );
 ```
 
-### Convenience Methods for Points
+### Convenience methods for points
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
@@ -98,11 +98,11 @@ $location3d = WktSpatialData::point3d(-122.4194, 37.7749, 100, 4326);
 // Result: SRID=4326;POINT Z(-122.4194 37.7749 100)
 ```
 
-## Supported Geometry Types
+## Supported geometry types
 
 The library supports all PostGIS geometry types through the `GeometryType` enum:
 
-### Basic Geometry Types
+### Basic geometry types
 ```php
 // Point geometry
 $point = WktSpatialData::fromString('POINT(1 2)');
@@ -119,7 +119,7 @@ $polygon = WktSpatialData::fromString('POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))');
 $polygonWithHoles = WktSpatialData::fromString('POLYGON((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))');
 ```
 
-### Multi-Geometry Types
+### Multi-geometry types
 ```php
 // Multi-point
 $multiPoint = WktSpatialData::fromString('MULTIPOINT((1 2), (3 4), (5 6))');
@@ -131,13 +131,13 @@ $multiLine = WktSpatialData::fromString('MULTILINESTRING((0 0, 1 1), (2 2, 3 3))
 $multiPolygon = WktSpatialData::fromString('MULTIPOLYGON(((0 0, 0 1, 1 1, 1 0, 0 0)), ((2 2, 2 3, 3 3, 3 2, 2 2)))');
 ```
 
-### Collection Types
+### Collection types
 ```php
 // Geometry collection
 $collection = WktSpatialData::fromString('GEOMETRYCOLLECTION(POINT(1 2), LINESTRING(0 0, 1 1))');
 ```
 
-### Circular Geometry Types (PostGIS Extensions)
+### Circular geometry types (PostGIS extensions)
 ```php
 // Circular string
 $circularString = WktSpatialData::fromString('CIRCULARSTRING(0 0, 1 1, 2 0)');
@@ -155,7 +155,7 @@ $multiCurve = WktSpatialData::fromString('MULTICURVE((0 0, 1 1), CIRCULARSTRING(
 $multiSurface = WktSpatialData::fromString('MULTISURFACE(CURVEPOLYGON(CIRCULARSTRING(0 0, 1 1, 2 0, 0 0)))');
 ```
 
-### Triangle and TIN Types
+### Triangle and TIN types
 ```php
 // Triangle
 $triangle = WktSpatialData::fromString('TRIANGLE((0 0, 1 0, 0.5 1, 0 0))');
@@ -215,7 +215,7 @@ Both options are optional and independent:
 - Doctrine's schema comparator does not understand PostGIS type modifiers, so `doctrine:schema:update` and diff-based migration generation may report spurious changes for these columns. Manage them with explicit migrations.
 - [Spatial (GiST) indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes) are not covered by these options. Declare them in a migration with raw SQL: `CREATE INDEX idx_place_location ON place USING GIST (location);`
 
-## Geography vs Geometry specifics
+## Geography vs geometry specifics
 
 - Geometry accepts WKT and [EWKT](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT) (`SRID=...;...`).
 - Geography commonly uses SRID 4326; EWKT is supported (e.g., `SRID=4326;POINT(...)`).
@@ -226,7 +226,7 @@ Both options are optional and independent:
 - `GEOMETRY[]` and `GEOGRAPHY[]` bind through DBAL parameter binding, with any number of elements.
 - A `null` element is written as a SQL NULL element and read back as `null`.
 
-See [Geometry and Geography Arrays](GEOMETRY-ARRAYS.md) for details and examples.
+See [Geometry and geography arrays](GEOMETRY-ARRAYS.md) for details and examples.
 
 ## Minimal examples
 
@@ -266,13 +266,13 @@ $qb->setParameter('geometries', [
 $qb->executeStatement();
 ```
 
-See [Geometry and Geography Arrays](GEOMETRY-ARRAYS.md) for more array examples.
+See [Geometry and geography arrays](GEOMETRY-ARRAYS.md) for more array examples.
 
-## Error Handling and Validation
+## Error handling and validation
 
 The spatial types provide error handling for invalid spatial data:
 
-### Common Validation Errors
+### Common validation errors
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
@@ -306,7 +306,7 @@ try {
 }
 ```
 
-### Database Conversion Errors
+### Database conversion errors
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForDatabaseException;
@@ -327,7 +327,7 @@ try {
 }
 ```
 
-### Validation Best Practices
+### Validation best practices
 
 ```php
 // Validate WKT before database operations

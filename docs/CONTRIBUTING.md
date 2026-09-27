@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Contributing
 
-## 🧑‍💻 Development with Devenv
+## Development with devenv
 
 This project supports [devenv.sh](https://devenv.sh/) for a consistent
 development environment:
@@ -255,7 +255,7 @@ function prototype in Doctrine.
 It causes query parsing failures.
 
 
-## Testing: Patterns and Guidelines
+## Testing: patterns and guidelines
 
 This project has a rich, well-structured test suite consisting of fast unit tests and database-backed integration tests. Please follow the conventions below when adding or modifying tests.
 
