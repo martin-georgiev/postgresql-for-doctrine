@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL Range Types
 
-PostgreSQL range types represent ranges of values of some element type (called the range's subtype). This library provides support for all PostgreSQL built-in range types.
+PostgreSQL range types represent ranges of values of some element type (called the range's subtype). This library provides support for all [PostgreSQL built-in range types](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-BUILTIN).
 
 > 📖 **See also**: [Date and Range Functions](DATE-AND-RANGE-FUNCTIONS.md) for range functions and operators in DQL queries
 
@@ -237,7 +237,7 @@ $emptyRange = NumericRange::fromString('empty');
 
 ### Infinity Support
 
-PostgreSQL distinguishes between **unbounded** ranges and ranges **bounded by infinity**:
+[PostgreSQL distinguishes](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INFINITE) between **unbounded** ranges and ranges **bounded by infinity**:
 
 - **Unbounded**: `[0,)` - no upper bound
 - **Bounded by infinity**: `[0,infinity)` - explicitly bounded by the infinity value
@@ -290,7 +290,7 @@ $same = new NumericRange(0, null, true, false, false, false, true);
 
 ### NaN Bounds
 
-`NUMRANGE` and `NUMMULTIRANGE` also take `NaN` as a bound. It is not an open end: PostgreSQL gives `numeric` a total order in which `NaN` sits above every other value, `Infinity` included, and equals itself. `NaN` therefore travels as the bound value, using PHP's `NAN` constant rather than a flag:
+`NUMRANGE` and `NUMMULTIRANGE` also take `NaN` as a bound. It is not an open end: PostgreSQL gives `numeric` a [total order](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) in which `NaN` sits above every other value, `Infinity` included, and equals itself. `NaN` therefore travels as the bound value, using PHP's `NAN` constant rather than a flag:
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;

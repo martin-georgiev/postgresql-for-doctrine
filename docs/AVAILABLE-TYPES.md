@@ -1,5 +1,7 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Available Types
 
+> **See also:** [What comes back: hydration](HYDRATION.md) for the PHP value each type hydrates to
+
 | PostgreSQL type in practical use | PostgreSQL internal system catalogue name | Implemented by |
 |---|---|---|
 | bytea | bytea | `MartinGeorgiev\Doctrine\DBAL\Types\Bytea` |
@@ -178,7 +180,7 @@ class Embedding
 }
 ```
 
-**Important:** Omitting `length` produces a dimensionless column (`VECTOR` with no size), which is valid DDL but cannot be indexed with HNSW or IVFFlat indexes. Always specify `length` for production use.
+**Important:** Omitting `length` produces a dimensionless column (`VECTOR` with no size), which is valid DDL but [cannot be indexed with HNSW or IVFFlat indexes](https://github.com/pgvector/pgvector#can-i-store-vectors-with-different-dimensions-in-the-same-column). Always specify `length` for production use.
 
 ---
 
@@ -210,7 +212,7 @@ class Permissions
 }
 ```
 
-**Important:** `BIT` without a length defaults to `BIT(1)` in PostgreSQL, which stores exactly one bit. Use `BIT VARYING` for variable-length bit strings, or specify an explicit length with `BIT(n)`.
+**Important:** `BIT` without a length [defaults to `BIT(1)`](https://www.postgresql.org/docs/18/datatype-bit.html) in PostgreSQL, which stores exactly one bit. Use `BIT VARYING` for variable-length bit strings, or specify an explicit length with `BIT(n)`.
 
 ---
 

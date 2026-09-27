@@ -128,7 +128,7 @@ See also: Spatial foundations and parser behavior in the Spatial Types document.
 - ✅ **Mixed coordinates**: Arrays with different SRIDs/dimensions
 
 ### Geography Features
-- ✅ **Auto-SRID**: Geography types automatically get SRID=4326 if none is provided
+- ✅ **Auto-SRID**: Geography types [automatically get SRID=4326 if none is provided](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables)
 - ✅ **World coordinates**: Null Island, poles, date line
 - ✅ **Geographic calculations**: Proper spherical geometry
 

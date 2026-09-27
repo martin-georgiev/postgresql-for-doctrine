@@ -358,6 +358,12 @@ abstract class BaseSpatialTypeTestCase extends TestCase
         );
     }
 
+    #[Test]
+    public function returns_true_for_sql_conversion_requirement(): void
+    {
+        $this->assertTrue($this->fixture->canRequireSQLConversion());
+    }
+
     #[DataProvider('provideInvalidInputValues')]
     #[Test]
     public function throws_exception_for_invalid_php_value_when_converting_to_database_value(mixed $phpValue): void

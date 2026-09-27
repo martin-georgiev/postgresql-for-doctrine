@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostGIS Spatial Functions and Operators
 
-This document covers PostGIS spatial functions and operators available in this library for working with geometry and geography data types.
+This document covers [PostGIS spatial functions and operators](https://postgis.net/docs/reference.html) available in this library for working with geometry and geography data types.
 
 > 📖 **See also**: [Spatial Types](SPATIAL-TYPES.md) for geometry/geography types and [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical spatial query examples
 
@@ -177,7 +177,7 @@ These functions create new geometry objects from coordinates, other geometries, 
 
 ## PostGIS Well-Known Text Functions
 
-These functions read and write the OGC Well-Known Text (WKT) representation and the PostGIS-specific Extended Well-Known Text (EWKT) one. EWKT carries the SRID as a `SRID=...;` prefix, plain WKT does not.
+These functions read and write the OGC Well-Known Text (WKT) representation and the [PostGIS-specific Extended Well-Known Text (EWKT)](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT) one. EWKT carries the SRID as a `SRID=...;` prefix, plain WKT does not.
 
 | PostgreSQL functions | Register for DQL as | Description | Implemented by |
 |---|---|---|---|
@@ -278,25 +278,28 @@ WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
 - `ST_Relate` is a variadic function that accepts 2 or 3 arguments:
   - With 2 arguments: returns text (intersection matrix)
   - With 3 arguments: returns boolean (relationship test)
-- `ST_LineCrossingDirection` returns an integer (0, 1, -1, or 2) indicating crossing behavior:
+- `ST_LineCrossingDirection` returns an integer (-3 to 3) indicating crossing behavior:
   - `0`: No crossing
   - `1`: Left to right crossing
   - `-1`: Right to left crossing
-  - `2`: Multiple crossings
+  - `2`: Multiple crossings, the last one left to right
+  - `-2`: Multiple crossings, the last one right to left
+  - `3`: Multiple crossings ending on the starting side, the first one left to right
+  - `-3`: Multiple crossings ending on the starting side, the first one right to left
 - All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
 
 **🔍 DE-9IM Intersection Matrix Patterns for ST_Relate:**
 
-The DE-9IM (Dimensionally Extended 9-Intersection Model) uses a 9-character pattern where each character represents the intersection between:
+The [DE-9IM (Dimensionally Extended 9-Intersection Model)](https://postgis.net/docs/using_postgis_query.html#DE-9IM) uses a 9-character pattern where each character represents the intersection between:
 - Interior (I), Boundary (B), and Exterior (E) of geometry A
 - Interior (I), Boundary (B), and Exterior (E) of geometry B
 
 Common patterns:
 - `FF*FF****` = Disjoint (no intersection)
 - `T*****FF*` = Contains (A contains B)
-- `T*T***T**` = Intersects (geometries intersect)
-- `FT*******` = Touches (boundary intersection only)
-- `F**T*****` = Within (A is within B)
+- `T********`, `*T*******`, `***T*****` or `****T****` = Intersects (geometries intersect)
+- `FT*******`, `F**T*****` or `F***T****` = Touches (boundary intersection only)
+- `T*F**F***` = Within (A is within B)
 - `T*T***T**` = Overlaps (partial overlap)
 
 **📊 Function Return Types:**

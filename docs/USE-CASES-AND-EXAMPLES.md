@@ -2,7 +2,7 @@
 
 ## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
 
-`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is probably one of the most common DQL errors you may experience when working with this library. The cause for this is that when parsing the DQL Doctrine won't recognize `ILIKE` as a known operator. In fact `ILIKE` is registered as a boolean function.
+`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is probably one of the most common DQL errors you may experience when working with this library. The cause for this is that when parsing the DQL Doctrine won't recognize `ILIKE` as a [known operator](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#other-expressions-1). In fact `ILIKE` is registered as a boolean function.
 Doctrine doesn't provide easy support for implementing custom operators. This may change in the future but for now it is easier to trick the DQL parser with a boolean expression.
 
 Example intent with PostgreSQL:
@@ -46,7 +46,7 @@ Note: Keys must always be string literals, while values can be either string lit
 
 ## Using JSON Path Functions
 
-PostgreSQL 12+ introduced JSON path functions that provide a powerful way to query JSON data. Here are some examples:
+PostgreSQL 12+ introduced [JSON path functions](https://www.postgresql.org/docs/18/functions-json.html#FUNCTIONS-SQLJSON-PATH) that provide a powerful way to query JSON data. Here are some examples:
 
 > 📖 **See also**: [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md) for complete JSONB path function documentation
 
@@ -551,7 +551,7 @@ CREATE INDEX my_entity_path_gin_idx ON my_entity USING GIN (path gin_ltree_ops);
 
 ### Cascading Path Updates
 
-⚠️ Changing an entity's parent requires cascading the path change to all descendants — Doctrine does not handle this automatically. Use an `onFlush` listener:
+⚠️ Changing an entity's parent requires cascading the path change to all descendants — Doctrine does not handle this automatically. Use an [`onFlush`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush) listener:
 
 ```php
 <?php

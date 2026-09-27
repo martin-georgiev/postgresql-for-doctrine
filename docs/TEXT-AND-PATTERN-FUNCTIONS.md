@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Text and Pattern Functions and Operators
 
-This document covers PostgreSQL text processing, pattern matching, and regular expression functions and operators available in this library.
+This document covers PostgreSQL [text processing](https://www.postgresql.org/docs/18/functions-string.html), [pattern matching](https://www.postgresql.org/docs/18/functions-matching.html), and regular expression functions and operators available in this library.
 
 > 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical text processing and regular expression examples
 
@@ -96,7 +96,7 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 ## Fuzzy String Matching Functions (fuzzystrmatch extension)
 
-> ⚠️ **Note**: These functions require the PostgreSQL `fuzzystrmatch` extension to be installed and enabled in your database.
+> ⚠️ **Note**: These functions require the PostgreSQL [`fuzzystrmatch`](https://www.postgresql.org/docs/18/fuzzystrmatch.html) extension to be installed and enabled in your database.
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -111,7 +111,7 @@ This document covers PostgreSQL text processing, pattern matching, and regular e
 
 ## Trigram Similarity Functions (pg_trgm extension)
 
-> ⚠️ **Note**: These functions and operators require the PostgreSQL `pg_trgm` extension to be installed and enabled.
+> ⚠️ **Note**: These functions and operators require the PostgreSQL [`pg_trgm`](https://www.postgresql.org/docs/18/pgtrgm.html) extension to be installed and enabled.
 
 ### Similarity functions
 
@@ -178,6 +178,6 @@ SELECT e.category, STRING_AGG(e.name, ', ' ORDER BY e.name) as names FROM Entity
 2. **Regular expressions** use PostgreSQL's POSIX regular expression syntax
 3. **Full-text search** requires proper text search configuration and indexes
 4. **ILIKE** provides case-insensitive pattern matching similar to `LIKE`
-5. **UNACCENT** requires the `unaccent` extension to be installed in PostgreSQL
+5. **UNACCENT** requires the [`unaccent`](https://www.postgresql.org/docs/18/unaccent.html) extension to be installed in PostgreSQL
 6. **String aggregation** with `STRING_AGG` allows custom separators and ordering
 7. **Fuzzy string matching** functions require the `fuzzystrmatch` extension to be installed in PostgreSQL
