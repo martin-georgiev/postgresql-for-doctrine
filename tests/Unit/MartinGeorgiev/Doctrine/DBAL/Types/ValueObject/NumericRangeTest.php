@@ -121,6 +121,9 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'inclusive infinite upper bound contains Infinity' => [new NumericRange(0, \INF, true, true), \INF, true];
         yield 'inclusive negative infinite lower bound contains -Infinity' => [new NumericRange(-\INF, 0), -\INF, true];
         yield 'exclusive negative infinite lower bound excludes -Infinity' => [new NumericRange(-\INF, 0, false), -\INF, false];
+        yield 'infinite upper bound contains a numeric string beyond the float range' => [new NumericRange(0, \INF), '1e999', true];
+        yield 'infinite lower bound contains a negative numeric string beyond the float range' => [new NumericRange(-\INF, 0, false), '-1e999', true];
+        yield 'positive infinity bounds exclude a numeric string beyond the float range' => [NumericRange::fromString('[Infinity,Infinity]'), '1e999', false];
     }
 
     public static function provideFromStringTestCases(): \Generator
