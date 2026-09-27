@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 
+use MartinGeorgiev\Utils\PreciseFloatFormatter;
+
 /**
  * @since 4.8
  *
@@ -25,8 +27,7 @@ trait PostgresFloatConversionTrait
     protected const FLOAT_PATTERN = '[+-]?'.self::UNSIGNED_FLOAT_PATTERN;
 
     /**
-     * Casting a float to string is bound by the `precision` ini setting (14 by default). This rewrites the value before
-     * it reaches PostgreSQL. Fall back to the 17-digit form, which always round-trips, whenever the short one does not.
+     * Spells the non-finite values the way PostgreSQL emits them and keeps every digit of a finite one.
      */
     protected static function formatFloat(float $value): string
     {
@@ -38,12 +39,7 @@ trait PostgresFloatConversionTrait
             return $value > 0 ? 'Infinity' : '-Infinity';
         }
 
-        $shortForm = (string) $value;
-        if ((float) $shortForm === $value) {
-            return $shortForm;
-        }
-
-        return \sprintf('%.17H', $value);
+        return PreciseFloatFormatter::format($value);
     }
 
     /**

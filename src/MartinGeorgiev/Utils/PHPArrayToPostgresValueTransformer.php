@@ -55,8 +55,12 @@ class PHPArrayToPostgresValueTransformer
             return 'NULL';
         }
 
-        if (\is_int($value) || \is_float($value)) {
+        if (\is_int($value)) {
             return (string) $value;
+        }
+
+        if (\is_float($value)) {
+            return PreciseFloatFormatter::format($value);
         }
 
         if (\is_bool($value)) {
