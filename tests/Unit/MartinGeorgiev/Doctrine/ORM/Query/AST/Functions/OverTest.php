@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
+use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsOrderedItems;
 use Fixtures\MartinGeorgiev\Doctrine\Function\TestWindowFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
@@ -65,6 +66,8 @@ final class OverTest extends TestCase
             'with a frame excluding no others' => 'SELECT COUNT(c0_.id) OVER (ORDER BY c0_.integer2 ASC ROWS UNBOUNDED PRECEDING EXCLUDE NO OTHERS) AS sclr_0 FROM ContainsNumerics c0_',
             'with lowercase frame keywords' => 'SELECT COUNT(c0_.id) OVER (ORDER BY c0_.integer2 ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE GROUP) AS sclr_0 FROM ContainsNumerics c0_',
             'windows a window function' => 'SELECT test_window() OVER (ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            "keeps a fetch-joined collection's order out of the window" => 'SELECT c0_.id AS id_0, o1_.id AS id_1, o1_.name AS name_2, o1_.position AS position_3, o1_.owner_id AS owner_id_4 FROM ContainsOrderedItems c0_ INNER JOIN OrderedItem o1_ ON c0_.id = o1_.owner_id WHERE c0_.id IN (SELECT MIN(c2_.id) OVER (ORDER BY o3_.name ASC) AS sclr_5 FROM ContainsOrderedItems c2_ INNER JOIN OrderedItem o3_ ON c2_.id = o3_.owner_id) ORDER BY o1_.position ASC',
+            "keeps a fetch-joined collection's order when the window orders by the same column" => 'SELECT MIN(o0_.id) OVER (ORDER BY o0_.position ASC) AS sclr_0, c1_.id AS id_1, o0_.id AS id_2, o0_.name AS name_3, o0_.position AS position_4, o0_.owner_id AS owner_id_5 FROM ContainsOrderedItems c1_ INNER JOIN OrderedItem o0_ ON c1_.id = o0_.owner_id ORDER BY o0_.position ASC',
         ];
     }
 
@@ -107,6 +110,8 @@ final class OverTest extends TestCase
             'with a frame excluding no others' => \sprintf('SELECT OVER(COUNT(e.id), ORDER BY e.integer2 ROWS UNBOUNDED PRECEDING EXCLUDE NO OTHERS) FROM %s e', ContainsNumerics::class),
             'with lowercase frame keywords' => \sprintf('SELECT OVER(COUNT(e.id), ORDER BY e.integer2 rows between unbounded preceding and current row exclude group) FROM %s e', ContainsNumerics::class),
             'windows a window function' => \sprintf('SELECT OVER(TEST_WINDOW(), ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
+            "keeps a fetch-joined collection's order out of the window" => \sprintf('SELECT o, i FROM %s o JOIN o.items i WHERE o.id IN (SELECT OVER(MIN(o2.id), ORDER BY i2.name) FROM %s o2 JOIN o2.items i2)', ContainsOrderedItems::class, ContainsOrderedItems::class),
+            "keeps a fetch-joined collection's order when the window orders by the same column" => \sprintf('SELECT o, i, OVER(MIN(i.id), ORDER BY i.position) FROM %s o JOIN o.items i', ContainsOrderedItems::class),
         ];
     }
 

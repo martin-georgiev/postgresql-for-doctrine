@@ -96,10 +96,7 @@ trait WindowSpecificationTrait
         }
 
         if ($this->orderByClause instanceof OrderByClause) {
-            // Walking the items instead of the clause keeps Doctrine from appending the #[OrderBy] columns of a
-            // fetch-joined collection, which belong to the outer query and not to the window.
-            $orderByItems = \array_map($sqlWalker->walkOrderByItem(...), $this->orderByClause->orderByItems);
-            $clauses[] = 'ORDER BY '.\implode(', ', $orderByItems);
+            $clauses[] = $this->walkOrderByClauseLeavingTheOuterQueryOrderIntact($sqlWalker, $this->orderByClause);
         }
 
         if ($this->frameClauseParts !== []) {
