@@ -130,7 +130,7 @@
 
 ## PostGIS spatial types
 
-The `geometry` and `geography` types accept the `geometry_type` and `srid` column options, which emit a PostGIS type modifier so the subtype and spatial reference system are enforced by the database:
+The `geometry` and `geography` types and their arrays accept the `geometry_type` and `srid` column options, which emit a PostGIS type modifier so the subtype and spatial reference system are enforced by the database:
 
 ```php
 use Doctrine\ORM\Mapping as ORM;
@@ -149,7 +149,7 @@ class Place
 }
 ```
 
-Omitting both options keeps the bare `GEOMETRY` / `GEOGRAPHY` declaration.
+Omitting both options keeps the bare `GEOMETRY` / `GEOGRAPHY` declaration. On an array type the modifier goes on the item type: `GEOMETRY(POINT,4326)[]`.
 
 > **See also:** [Spatial types](SPATIAL-TYPES.md#column-options-for-ddl) for the full option reference
 
