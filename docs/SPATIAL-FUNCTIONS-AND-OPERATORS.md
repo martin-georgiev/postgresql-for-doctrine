@@ -1,24 +1,24 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostGIS Spatial Functions and Operators
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostGIS spatial functions and operators
 
-This document covers [PostGIS spatial functions and operators](https://postgis.net/docs/reference.html) available in this library for working with geometry and geography data types.
+This page covers [PostGIS spatial functions and operators](https://postgis.net/docs/reference.html) available in this library for working with geometry and geography data types.
 
-> 📖 **See also**: [Spatial Types](SPATIAL-TYPES.md) for geometry/geography types and [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical spatial query examples
+> **See also:** [Spatial types](SPATIAL-TYPES.md) for geometry/geography types and [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
-## PostGIS Spatial Operators
+## PostGIS spatial operators
 
-**⚠️ Important**: Some operators have dual meanings for different data types. Use the specific DQL function names to avoid conflicts:
+Some operators have dual meanings for different data types. Use the specific DQL function names to avoid conflicts:
 
 - **`@`**: Use `SPATIAL_CONTAINED_BY` for geometry (arrays and JSON use `IS_CONTAINED_BY` instead)
 - **`~`**: Use `REGEXP` for text patterns, `SPATIAL_CONTAINS` for geometry
 - **`&&`**: Use `OVERLAPS` for arrays/JSON, spatial overlaps work automatically with geometry/geography
 
-**📝 Compatibility Notes**:
+**Compatibility Notes:**
 - Most bounding box operators work primarily with **geometry** types
 - **Geography** types have limited operator support (mainly `&&`, `<->`)
 - **3D/n-dimensional operators** may require the geometry to be built explicitly: `ST_GEOMFROMTEXT('POINT Z(0 0 0)')`
 - Some advanced operators (`&&&`) may not be available in all PostGIS versions
 
-### Bounding Box Operators
+### Bounding box operators
 
 These operators work with geometry bounding boxes; PostGIS does not define them for geography. All return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison)).
 
@@ -37,7 +37,7 @@ These operators work with geometry bounding boxes; PostGIS does not define them 
 | <<\| | STRICTLY_BELOW | Returns TRUE if A's bounding box is strictly below B's | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\StrictlyBelow` |
 | &&& | ND_OVERLAPS | Returns TRUE if A's n-D bounding box intersects B's n-D bounding box | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalOverlaps` |
 
-### Distance Operators
+### Distance operators
 
 These operators calculate distances between geometries. All return numeric values.
 
@@ -48,7 +48,7 @@ These operators calculate distances between geometries. All return numeric value
 | <#> | BOUNDING_BOX_DISTANCE | Returns the 2D distance between A and B bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\BoundingBoxDistance` |
 | <<->> | ND_CENTROID_DISTANCE | Returns n-D distance between centroids of bounding boxes | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\NDimensionalCentroidDistance` |
 
-## PostGIS Spatial Relationship Functions
+## PostGIS spatial relationship functions
 
 These functions determine spatial relationships between geometries. Most return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL**, but there are exceptions: `ST_Relate(geom, geom)` returns text (intersection matrix) and `ST_LineCrossingDirection` returns integer (crossing behavior).
 
@@ -76,7 +76,7 @@ These functions determine spatial relationships between geometries. Most return 
 | ST_Touches | ST_TOUCHES | Tests if two geometries have at least one point in common, but their interiors do not intersect | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Touches` |
 | ST_Within | ST_WITHIN | Tests if every point of A lies in B, and their interiors have a point in common | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Within` |
 
-## PostGIS Geometry Accessor Functions
+## PostGIS geometry accessor functions
 
 These functions return properties and information about geometries.
 
@@ -107,7 +107,7 @@ These functions return properties and information about geometries.
 | ST_Y | ST_Y | Returns the Y coordinate of a Point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Y` |
 | ST_Z | ST_Z | Returns the Z coordinate of a Point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Z` |
 
-## PostGIS Measurement Functions
+## PostGIS measurement functions
 
 These functions calculate various measurements of geometries including lengths, areas, distances, and angles.
 
@@ -130,7 +130,7 @@ These functions calculate various measurements of geometries including lengths, 
 | ST_Azimuth | ST_AZIMUTH | Returns the azimuth between two points in radians | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Azimuth` |
 | ST_Project | ST_PROJECT | Projects a point along a geodesic by distance and azimuth | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_Project` |
 
-## PostGIS Overlay Functions
+## PostGIS overlay functions
 
 These functions perform geometric operations between geometries including intersection, union, difference, and splitting.
 
@@ -148,7 +148,7 @@ These functions perform geometric operations between geometries including inters
 | ST_CollectionExtract | ST_COLLECTIONEXTRACT | Extracts a specific type from a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionExtract` |
 | ST_CollectionHomogenize | ST_COLLECTIONHOMOGENIZE | Homogenizes a geometry collection | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CollectionHomogenize` |
 
-## PostGIS Coverage Functions
+## PostGIS coverage functions
 
 These functions work with polygonal coverages (sets of non-overlapping polygons that share edges).
 
@@ -156,7 +156,7 @@ These functions work with polygonal coverages (sets of non-overlapping polygons 
 |---|---|---|---|
 | ST_CoverageUnion | ST_COVERAGEUNION | Computes the union of a set of polygons forming a coverage by removing shared edges | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_CoverageUnion` |
 
-## PostGIS Geometry Constructor Functions
+## PostGIS geometry constructor functions
 
 These functions create new geometry objects from coordinates, other geometries, or well-known representations.
 
@@ -175,7 +175,7 @@ These functions create new geometry objects from coordinates, other geometries, 
 | ST_GeomFromGeoJSON | ST_GEOMFROMGEOJSON | Creates a geometry from a GeoJSON representation | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_GeomFromGeoJSON` |
 | ST_AsGeoJSON | ST_ASGEOJSON | Returns the geometry as a GeoJSON element | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsGeoJSON` |
 
-## PostGIS Well-Known Text Functions
+## PostGIS well-known text functions
 
 These functions read and write the OGC Well-Known Text (WKT) representation and the [PostGIS-specific Extended Well-Known Text (EWKT)](https://postgis.net/docs/using_postgis_dbmanagement.html#EWKB_EWKT) one. EWKT carries the SRID as a `SRID=...;` prefix, plain WKT does not.
 
@@ -186,7 +186,7 @@ These functions read and write the OGC Well-Known Text (WKT) representation and 
 | ST_AsText | ST_ASTEXT | Returns the geometry or geography as WKT, without the SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsText` |
 | ST_AsEWKT | ST_ASEWKT | Returns the geometry or geography as EWKT, with the SRID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_AsEWKT` |
 
-## PostGIS Geometry Processing Functions
+## PostGIS geometry processing functions
 
 These functions modify and transform geometries including buffering, simplification, coordinate system changes, and geometric transformations.
 
@@ -227,7 +227,7 @@ These functions modify and transform geometries including buffering, simplificat
 | ST_TriangulatePolygon | ST_TRIANGULATEPOLYGON | Computes the constrained Delaunay triangulation of a polygon | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_TriangulatePolygon` |
 | ST_VoronoiPolygons | ST_VORONOIPOLYGONS | Returns the 2D Voronoi diagram polygons from the vertices of a geometry | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_VoronoiPolygons` |
 
-## PostGIS Linear Referencing Functions
+## PostGIS linear referencing functions
 
 These functions work with measures along linear geometries for operations like locating points along routes.
 
@@ -237,9 +237,9 @@ These functions work with measures along linear geometries for operations like l
 | ST_LineLocatePoint | ST_LINELOCATEPOINT | Returns the fractional location of the closest point on a line to a given point | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineLocatePoint` |
 | ST_LineSubstring | ST_LINESUBSTRING | Returns the portion of a line between two fractional locations | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PostGIS\ST_LineSubstring` |
 
-## Usage Examples
+## Usage examples
 
-These examples cover the cases where the DQL wiring is not obvious. Everything else follows the tables above — call the function with the arguments PostGIS documents.
+These examples cover the cases where the DQL wiring is not obvious. Everything else follows the tables above - call the function with the arguments PostGIS documents.
 
 ```sql
 -- Boolean operators and functions need an explicit comparison in DQL
@@ -274,7 +274,7 @@ SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
 ```
 
-**📝 Notes:**
+**Notes:**
 - `ST_Relate` is a variadic function that accepts 2 or 3 arguments:
   - With 2 arguments: returns text (intersection matrix)
   - With 3 arguments: returns boolean (relationship test)
@@ -288,7 +288,7 @@ WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
   - `-3`: Multiple crossings ending on the starting side, the first one right to left
 - All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
 
-**🔍 DE-9IM Intersection Matrix Patterns for ST_Relate:**
+**DE-9IM Intersection Matrix Patterns for ST_Relate:**
 
 The [DE-9IM (Dimensionally Extended 9-Intersection Model)](https://postgis.net/docs/using_postgis_query.html#DE-9IM) uses a 9-character pattern where each character represents the intersection between:
 - Interior (I), Boundary (B), and Exterior (E) of geometry A
@@ -302,14 +302,12 @@ Common patterns:
 - `T*F**F***` = Within (A is within B)
 - `T*T***T**` = Overlaps (partial overlap)
 
-**📊 Function Return Types:**
+**Function Return Types:**
 - **Boolean functions**: Use with `= TRUE` or `= FALSE` in DQL
 - **Numeric functions**: Return values for calculations and ordering
 - **Geometry functions**: Return new geometries for further operations
 - **Text functions**: Return strings for pattern matching and display
 
-**💡 Tips for Usage:**
-1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL
-2. **Spatial functions** work best with proper geometry types and indexes
-3. **3D functions** require geometries with Z coordinates
-4. **Geography types** have limited operator support compared to geometry types
+**Tips:**
+- A [GiST index](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes) on a geometry or geography column serves the bounding box operators and relationship functions such as `ST_INTERSECTS` and `ST_DWITHIN`.
+- The `ST_3D…` functions use the Z coordinate, so store geometries with one (`POINT Z(1 2 3)`) when you need them.

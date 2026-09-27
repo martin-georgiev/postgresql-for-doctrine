@@ -2,7 +2,7 @@
 
 This page tells you which PHP value you get back from a query, and what to do when it is a string you did not expect.
 
-> **See also:** [Available Types](AVAILABLE-TYPES.md) · [Infinity Values](INFINITY.md) · [Window Functions](WINDOW-FUNCTIONS.md)
+> **See also:** [Available types](AVAILABLE-TYPES.md) · [Infinity values](INFINITY.md) · [Window functions](WINDOW-FUNCTIONS.md)
 
 ## In short
 
@@ -120,13 +120,13 @@ final class CustomerTotal
 
 ## What a mapped column arrives as
 
-What an entity property holds, and what a mapped field holds in a `getResult()` or `getArrayResult()` row. [Available Types](AVAILABLE-TYPES.md) lists the DBAL type for each column type.
+What an entity property holds, and what a mapped field holds in a `getResult()` or `getArrayResult()` row. [Available types](AVAILABLE-TYPES.md) lists the DBAL type for each column type.
 
 | Column type | PHP value | Good to know |
 |---|---|---|
 | `text[]`, `varchar[]`, `citext[]` | `list<?string>` | Items stay strings: `{php,1.0,true}` reads as `['php', '1.0', 'true']` |
 | `smallint[]`, `integer[]`, `bigint[]` | `list<?int>` | |
-| `real[]`, `double precision[]` | `list<?float>` | `Infinity` and `NaN` become `INF` and `NAN` ([Infinity Values](INFINITY.md)) |
+| `real[]`, `double precision[]` | `list<?float>` | `Infinity` and `NaN` become `INF` and `NAN` ([Infinity values](INFINITY.md)) |
 | `numeric[]` | `list<?string>` | Keeps the scale: `{1.50,NaN}` reads as `['1.50', 'NaN']` |
 | `boolean[]` | `list<?bool>` | |
 | `uuid[]`, `inet[]`, `cidr[]`, `macaddr[]` | `list<?string>` | |
@@ -136,17 +136,17 @@ What an entity property holds, and what a mapped field holds in a `getResult()` 
 | `ltree[]` | `list<?Ltree>` | |
 | `hstore[]` | `list<array<string, ?string>>` | |
 | `int4range[]` and the other range arrays | `list<?Int4Range>`, … | |
-| an enum array | `list<?YourEnum>` | See [PostgreSQL Enum Types](ENUM-TYPE.md) |
+| an enum array | `list<?YourEnum>` | See [PostgreSQL enum types](ENUM-TYPE.md) |
 | `geometry[]`, `geography[]` | reading fails | See [Errors](#errors) |
 | `int4range`, `int8range` | `Int4Range`, `Int8Range` | |
 | `numrange` | `NumericRange` | Bounds are PHP `int` or `float` |
 | `daterange`, `tsrange`, `tstzrange` | `DateRange`, `TsRange`, `TstzRange` | |
-| `int4multirange` and the other multiranges | `Int4Multirange`, … | See [PostgreSQL Range Types](RANGE-TYPES.md) |
+| `int4multirange` and the other multiranges | `Int4Multirange`, … | See [PostgreSQL range types](RANGE-TYPES.md) |
 | `interval` | `Interval`, not `\DateInterval` | `toDateInterval()` gives you a `\DateInterval` |
 | `jsonb` | `array`, `int`, `float`, `string`, `bool` or `null` | See [jsonb](#jsonb) |
 | `geometry`, `geography` | `WktSpatialData` | `SRID=4326;POINT(23.32 42.69)`; [a `geography` value always has an SRID](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables) |
 | a user-defined enum | the enum case | |
-| a user-defined composite | see [PostgreSQL Composite Types](COMPOSITE-TYPE.md) | |
+| a user-defined composite | see [PostgreSQL composite types](COMPOSITE-TYPE.md) | |
 | `ltree` | `Ltree` | `lquery` and `ltxtquery` read as strings |
 | `hstore` | `array<string, ?string>` | |
 | `vector`, `halfvec` | `list<float>` | |

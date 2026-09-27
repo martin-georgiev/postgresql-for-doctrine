@@ -1,14 +1,14 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Array and JSON Functions and Operators
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Array and JSON functions and operators
 
-This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/functions-array.html) and [JSON/JSONB](https://www.postgresql.org/docs/18/functions-json.html) operators and functions available in this library.
+This page covers PostgreSQL [array](https://www.postgresql.org/docs/18/functions-array.html) and [JSON/JSONB](https://www.postgresql.org/docs/18/functions-json.html) operators and functions available in this library.
 
-> 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical JSON and array usage examples
+> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
-## Array and JSON Operators
+## Array and JSON operators
 
-**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
+Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
-| Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
+| Operator | Array/JSON usage | Spatial usage | Text/pattern usage |
 |---|---|---|---|
 | `@>` | `CONTAINS` (arrays contain elements) | N/A (PostGIS defines no `@>`; see `~`) | N/A |
 | `<@` | `IS_CONTAINED_BY` (element in array) | N/A (PostGIS defines no `<@`; see `@`) | N/A |
@@ -18,7 +18,7 @@ This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/funct
 - **Arrays/JSON**: Use `CONTAINS`, `IS_CONTAINED_BY`, `OVERLAPS` for array and JSON operations
 - **Boolean operators**: All operators return boolean values and **should be used with `= TRUE` or `= FALSE` in DQL** (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 
-### Array and JSON Operators
+### Array and JSON operators
 
 | PostgreSQL operator | Register for DQL as | Implemented by |
 |---|---|---|
@@ -35,7 +35,7 @@ This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/funct
 | #> | JSON_GET_OBJECT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObject` |
 | #>> | JSON_GET_OBJECT_AS_TEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetObjectAsText` |
 
-## Array Functions
+## Array functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -66,7 +66,7 @@ This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/funct
 | string_to_array | STRING_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray` |
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` |
 
-## JSON Functions
+## JSON functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -92,7 +92,7 @@ This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/funct
 | to_json | TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson` |
 | to_jsonb | TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb` |
 
-## JSONB Functions
+## JSONB functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -122,7 +122,7 @@ This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/funct
 | jsonb_to_tsvector | JSONB_TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbToTsvector` |
 | jsonb_typeof | JSONB_TYPEOF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbTypeof` |
 
-## Bonus Helpers
+## Bonus helpers
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -131,7 +131,7 @@ This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/funct
 | CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` |
 | aggregate FILTER (WHERE condition) | FILTER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter` |
 
-`ARRAY` takes strings, fields, parameters and function calls; a bare number such as `ARRAY(1, 2)` does not parse. Quoted elements build a `text[]`, which PostgreSQL will not compare with a non-text array column — there, pass a PostgreSQL array literal instead: `CONTAINS(e.integerArray, '{1,2}') = TRUE`.
+`ARRAY` takes strings, fields, parameters and function calls; a bare number such as `ARRAY(1, 2)` does not parse. Quoted elements build a `text[]`, which PostgreSQL will not compare with a non-text array column - there, pass a PostgreSQL array literal instead: `CONTAINS(e.integerArray, '{1,2}') = TRUE`.
 
 ### `FILTER` wraps the aggregate in DQL
 
@@ -148,10 +148,10 @@ In SQL, [`FILTER (WHERE ...)`](https://www.postgresql.org/docs/18/sql-expression
 - The first argument must be an aggregate: DQL's own `AVG`, `COUNT`, `MAX`, `MIN` and `SUM`, or a function implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\AggregateFunction`. Every aggregate in this library implements it; implement it on an aggregate of your own to wrap that one too. Anything else, including a nested `FILTER`, throws a `ParserException`, as PostgreSQL would reject it.
 - The condition takes anything a DQL `WHERE` does, including parameters.
 
-## Usage Examples
+## Usage examples
 
 ```sql
--- DQL array literal syntax: ARRAY('val1', 'val2') — not standard PHP array notation
+-- DQL array literal syntax: ARRAY('val1', 'val2') - not standard PHP array notation
 SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('important', 'urgent')) = TRUE
 SELECT e FROM Entity e WHERE OVERLAPS(e.categories, ARRAY('admin', 'user')) = TRUE
 
@@ -165,9 +165,3 @@ SELECT e.category, ARRAY_AGG(e.id ORDER BY e.createdAt DESC) as entity_ids FROM 
 SELECT e.category, FILTER(COUNT(e.id), WHERE e.status = 'active') as active_count FROM Entity e GROUP BY e.category
 SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archivedAt IS NULL) as live_ids FROM Entity e GROUP BY e.category
 ```
-
-**💡 Tips for Usage:**
-1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
-2. **Array functions** provide efficient PostgreSQL array operations
-3. **JSON functions** support both JSON and JSONB data types
-4. **JSONB functions** offer better performance for complex JSON operations

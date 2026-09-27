@@ -1,10 +1,10 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Mathematical Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Mathematical functions
 
-This document covers PostgreSQL [mathematical functions](https://www.postgresql.org/docs/18/functions-math.html) available in this library.
+This page covers PostgreSQL [mathematical functions](https://www.postgresql.org/docs/18/functions-math.html) available in this library.
 
-> 📖 **See also**: [Common Use Cases and Examples](USE-CASES-AND-EXAMPLES.md) for practical mathematical function examples
+> **See also:** [Common use cases and examples](USE-CASES-AND-EXAMPLES.md) for these functions in whole queries
 
-## Trigonometric Functions
+## Trigonometric functions
 
 ### Radian-based functions
 
@@ -38,7 +38,7 @@ This document covers PostgreSQL [mathematical functions](https://www.postgresql.
 | atand | ATAND | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atand` |
 | atan2d | ATAN2D | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Atan2d` |
 
-## Mathematical Functions
+## Mathematical functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -73,7 +73,7 @@ This document covers PostgreSQL [mathematical functions](https://www.postgresql.
 | trunc | TRUNC | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Trunc` |
 | width_bucket | WIDTH_BUCKET | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WidthBucket` |
 
-## Hashing & Cryptographic Functions
+## Hashing & cryptographic functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -83,7 +83,7 @@ This document covers PostgreSQL [mathematical functions](https://www.postgresql.
 | sha384 | SHA384 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384` |
 | sha512 | SHA512 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512` |
 
-## Bitwise and Boolean Aggregate Functions
+## Bitwise and boolean aggregate functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -94,7 +94,7 @@ This document covers PostgreSQL [mathematical functions](https://www.postgresql.
 | bool_or | BOOL_OR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BoolOr` |
 | every | EVERY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Every` |
 
-## Statistical Aggregate Functions
+## Statistical aggregate functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -123,7 +123,7 @@ In SQL, an [ordered-set aggregate](https://www.postgresql.org/docs/18/functions-
 - `ORDER BY` takes exactly one item, optionally with `ASC` / `DESC`. PostgreSQL rejects more than one, and DQL does not accept a literal there.
 - The fraction is a literal, a parameter, or an expression over columns listed in `GROUP BY`. PostgreSQL rejects a fraction that reads an ungrouped column.
 
-## Utility and Miscellaneous Functions
+## Utility and miscellaneous functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -135,7 +135,7 @@ In SQL, an [ordered-set aggregate](https://www.postgresql.org/docs/18/functions-
 | row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
 | xmlagg | XMLAGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlAgg` |
 
-## Usage Examples
+## Usage examples
 
 ```sql
 -- WIDTH_BUCKET: bucket number (1-based) for a value in a histogram with N equal-width buckets
@@ -149,7 +149,7 @@ SELECT POWER(POWER(e.x2 - e.x1, 2) + POWER(e.y2 - e.y1, 2), 0.5) as distance FRO
 -- Random reservoir sampling: WHERE filters ~10% of rows, ORDER BY shuffles them
 SELECT e FROM Entity e WHERE RANDOM() < 0.1 ORDER BY RANDOM() -- DQL has no LIMIT: cap the rows with $query->setMaxResults(100)
 
--- GREATEST/LEAST with aggregates — clamp aggregate results to a floor or ceiling
+-- GREATEST/LEAST with aggregates - clamp aggregate results to a floor or ceiling
 SELECT e.category,
        GREATEST(MAX(e.value), 0) as max_non_negative,
        LEAST(MIN(e.value), 100) as min_capped
@@ -162,9 +162,9 @@ SELECT e.category,
        MODE(WITHIN GROUP ORDER BY e.status) as most_common_status
 FROM Entity e GROUP BY e.category
 ```
-**📝 Function Categories:**
+**Function Categories:**
 
-### **Mathematical Functions**
+### Mathematical functions
 - **Basic Math**: CEIL, FLOOR, ROUND, TRUNC for rounding operations
 - **Power Functions**: POWER, CBRT, EXP for exponential calculations
 - **Logarithmic**: LN, LOG for logarithmic operations
@@ -172,9 +172,8 @@ FROM Entity e GROUP BY e.category
 - **Comparison**: GREATEST, LEAST for finding extremes
 - **Utility**: SIGN, RANDOM, PI for various mathematical needs
 
-**💡 Tips for Usage:**
-1. **Mathematical functions** work with numeric types and return appropriate precision
-2. **WIDTH_BUCKET** is excellent for creating histograms and analytics
-3. **RANDOM()** generates values between 0 and 1
-4. **GREATEST/LEAST** can take multiple arguments and handle NULL values
-5. **Logarithmic functions** require positive input values
+**Tips:**
+- `WIDTH_BUCKET` numbers the equal-width bucket a value falls into, which is what a histogram groups by.
+- `RANDOM()` returns a value from 0 up to, but not including, 1.
+- `GREATEST` and `LEAST` skip `NULL` arguments; they return `NULL` only when every argument is `NULL`.
+- `LN` and `LOG` fail on zero and on negative numbers.

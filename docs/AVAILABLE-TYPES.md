@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Available Types
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Available types
 
 > **See also:** [What comes back: hydration](HYDRATION.md) for the PHP value each type hydrates to
 
@@ -123,12 +123,12 @@
 | sparsevec | sparsevec | `MartinGeorgiev\Doctrine\DBAL\Types\Sparsevec` (see [note](#pgvector-types)) |
 | vector | vector | `MartinGeorgiev\Doctrine\DBAL\Types\Vector` (see [note](#pgvector-types)) |
 |---|---|---|
-| *(user-defined enum)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Enum` (see [Enum Types](ENUM-TYPE.md)) |
-| *(user-defined enum)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray` (see [Enum Types](ENUM-TYPE.md)) |
-| *(user-defined composite)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Composite` (see [Composite Types](COMPOSITE-TYPE.md)) |
-| *(user-defined composite)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray` (see [Composite Types](COMPOSITE-TYPE.md)) |
+| *(user-defined enum)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Enum` (see [Enum types](ENUM-TYPE.md)) |
+| *(user-defined enum)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\EnumArray` (see [Enum types](ENUM-TYPE.md)) |
+| *(user-defined composite)* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\Composite` (see [Composite types](COMPOSITE-TYPE.md)) |
+| *(user-defined composite)[]* | *(any)* | `MartinGeorgiev\Doctrine\DBAL\Types\CompositeArray` (see [Composite types](COMPOSITE-TYPE.md)) |
 
-## PostGIS Spatial Types
+## PostGIS spatial types
 
 The `geometry` and `geography` types accept the `geometry_type` and `srid` column options, which emit a PostGIS type modifier so the subtype and spatial reference system are enforced by the database:
 
@@ -139,11 +139,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 #[ORM\Entity]
 class Place
 {
-    // GEOGRAPHY(POINT,4326) — only WGS 84 points are accepted
+    // GEOGRAPHY(POINT,4326) - only WGS 84 points are accepted
     #[ORM\Column(type: 'geography', options: ['geometry_type' => 'Point', 'srid' => 4326])]
     private WktSpatialData $location;
 
-    // GEOMETRY — unconstrained, accepts any geometry
+    // GEOMETRY - unconstrained, accepts any geometry
     #[ORM\Column(type: 'geometry')]
     private WktSpatialData $shape;
 }
@@ -151,11 +151,11 @@ class Place
 
 Omitting both options keeps the bare `GEOMETRY` / `GEOGRAPHY` declaration.
 
-> 📖 **See also**: [Spatial Types](SPATIAL-TYPES.md#column-options-for-ddl) for the full option reference
+> **See also:** [Spatial types](SPATIAL-TYPES.md#column-options-for-ddl) for the full option reference
 
 ---
 
-## pgvector Types
+## pgvector types
 
 The `vector`, `halfvec`, and `sparsevec` types use the `length` column option to specify the number of dimensions:
 
@@ -166,25 +166,25 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec;
 #[ORM\Entity]
 class Embedding
 {
-    // VECTOR(1536) — fixed 1536-dimensional float vector
+    // VECTOR(1536) - fixed 1536-dimensional float vector
     #[ORM\Column(type: 'vector', length: 1536)]
     private array $embedding;
 
-    // HALFVEC(1024) — half-precision float vector
+    // HALFVEC(1024) - half-precision float vector
     #[ORM\Column(type: 'halfvec', length: 1024)]
     private array $smallEmbedding;
 
-    // SPARSEVEC(4096) — sparse vector with up to 4096 dimensions
+    // SPARSEVEC(4096) - sparse vector with up to 4096 dimensions
     #[ORM\Column(type: 'sparsevec', length: 4096)]
     private Sparsevec $sparseEmbedding;
 }
 ```
 
-**Important:** Omitting `length` produces a dimensionless column (`VECTOR` with no size), which is valid DDL but [cannot be indexed with HNSW or IVFFlat indexes](https://github.com/pgvector/pgvector#can-i-store-vectors-with-different-dimensions-in-the-same-column). Always specify `length` for production use.
+Omitting `length` produces a dimensionless column (`VECTOR` with no size), which is valid DDL but [cannot be indexed with HNSW or IVFFlat indexes](https://github.com/pgvector/pgvector#can-i-store-vectors-with-different-dimensions-in-the-same-column). Always specify `length` for production use.
 
 ---
 
-## Bit String Types
+## Bit string types
 
 The `bit` and `bit varying` types support an optional `length` parameter via column attribute:
 
@@ -194,34 +194,34 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class Permissions
 {
-    // BIT(1) — fixed single bit (default when no length specified)
+    // BIT(1) - fixed single bit (default when no length specified)
     #[ORM\Column(type: 'bit')]
     private string $active;
 
-    // BIT(8) — fixed 8-bit flags
+    // BIT(8) - fixed 8-bit flags
     #[ORM\Column(type: 'bit', length: 8)]
     private string $flags;
 
-    // BIT VARYING — unlimited length (default when no length specified)
+    // BIT VARYING - unlimited length (default when no length specified)
     #[ORM\Column(type: 'bit varying')]
     private string $mask;
 
-    // BIT VARYING(64) — variable length, up to 64 bits
+    // BIT VARYING(64) - variable length, up to 64 bits
     #[ORM\Column(type: 'bit varying', length: 64)]
     private string $features;
 }
 ```
 
-**Important:** `BIT` without a length [defaults to `BIT(1)`](https://www.postgresql.org/docs/18/datatype-bit.html) in PostgreSQL, which stores exactly one bit. Use `BIT VARYING` for variable-length bit strings, or specify an explicit length with `BIT(n)`.
+`BIT` without a length [defaults to `BIT(1)`](https://www.postgresql.org/docs/18/datatype-bit.html) in PostgreSQL, which stores exactly one bit. Use `BIT VARYING` for variable-length bit strings, or specify an explicit length with `BIT(n)`.
 
 ---
 
-## Numeric Array Type
+## Numeric array type
 
-The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather than floats. PostgreSQL's [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) is an arbitrary-precision type, and converting its values to PHP floats would silently lose precision and trailing zeros — the same reason Doctrine's own `decimal` type uses strings.
+The `numeric[]` type maps array items to PHP strings such as `'502.00'` rather than floats. PostgreSQL's [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) is an arbitrary-precision type, and converting its values to PHP floats would silently lose precision and trailing zeros - the same reason Doctrine's own `decimal` type uses strings.
 
 - Array items written to the database must be numeric strings (or `null`); PHP integers and floats are rejected
-- `decimal[]` is a PostgreSQL alias of `numeric[]` — columns declared as `DECIMAL[]` are reported by PostgreSQL as `numeric[]`, so this type covers both
+- `decimal[]` is a PostgreSQL alias of `numeric[]` - columns declared as `DECIMAL[]` are reported by PostgreSQL as `numeric[]`, so this type covers both
 - `numeric` also carries the non-finite values `'NaN'`, `'Infinity'` and `'-Infinity'`, which are items like any other here:
 
 ```php
@@ -233,7 +233,7 @@ Each is accepted in the single spelling PostgreSQL prints. It reads `'nan'` and 
 
 ---
 
-## Datetime Array Types
+## Datetime array types
 
 Items of `date[]`, `timestamp[]` and `timestamptz[]` map to `\DateTimeImmutable`, with one exception: PostgreSQL's [`infinity` and `-infinity`](https://www.postgresql.org/docs/18/datatype-datetime.html#DATATYPE-DATETIME-SPECIAL-TABLE) sort before and after every other value of their type and have no `\DateTimeImmutable` counterpart, so they map to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\DateTimeInfinity` enum instead. Reading a column that may hold them means widening the item check:
 
@@ -257,19 +257,19 @@ Two further ranges PostgreSQL accepts are mapped without a sentinel, because `\D
 - **Years before 1 AD.** PostgreSQL numbers them in the BC era and has no year zero, while PHP numbers them astronomically and does. `0001-01-15 BC` therefore reads back as PHP year `0000`, and `0002-01-15 BC` as PHP year `-0001`. Format such values with `X` rather than `Y` to keep the sign visible.
 - **Years past 9999.** They round-trip unchanged; `Y` prints them in full.
 
-> 📖 **See also**: [Infinity Values](INFINITY.md) for why an array item uses this enum while a float uses `INF` and a range bound uses a flag.
+> **See also:** [Infinity values](INFINITY.md) for why an array item uses this enum while a float uses `INF` and a range bound uses a flag.
 
 ---
 
-## UUID Array Type
+## UUID array type
 
 The `uuid[]` type validates UUID format and returns `string[]` rather than UUID value objects. This design decision keeps the library lightweight and framework-agnostic:
 
 - **No additional dependencies** - Works without requiring `ramsey/uuid` or `symfony/uid`
-- **Consistent with other array types** - Follows the same pattern as `TextArray`, `IntegerArray`, etc.
+- **Consistent with other array types** - Follows the same pattern as `TextArray` and `IntegerArray`
 - **Framework agnostic** - Compatible with any UUID library of your choice
 
-If you need UUID objects, you can easily convert the strings:
+If you need UUID objects, convert the strings:
 
 ```php
 // With ramsey/uuid
@@ -283,13 +283,13 @@ $uuids = array_map(fn(string $uuid) => Uuid::fromString($uuid), $entity->getUuid
 
 ---
 
-## Money Type
+## Money type
 
-The `money` type maps PostgreSQL's [`money`](https://www.postgresql.org/docs/18/datatype-money.html) data type and returns locale-formatted strings (e.g. `$1,234.56`). PostgreSQL formats money values according to the server's `lc_monetary` locale setting, so the exact output format depends on your database configuration.
+The `money` type maps PostgreSQL's [`money`](https://www.postgresql.org/docs/18/datatype-money.html) data type and returns locale-formatted strings such as `$1,234.56`. PostgreSQL formats money values according to the server's `lc_monetary` locale setting, so the exact output format depends on your database configuration.
 
 **Important considerations:**
 
-- PostgreSQL's `money` type does **not** store currency information — the currency symbol is purely a formatting artifact of the server locale
+- PostgreSQL's `money` type does **not** store currency information - the currency symbol is purely a formatting artifact of the server locale
 - If you need multi-currency support, consider using `numeric` with application-level currency handling instead
 - Values written to the database must contain at least one digit; full format validation is deferred to PostgreSQL
 
@@ -307,11 +307,11 @@ use Brick\Money\Money;
 $money = Money::of(preg_replace('/[^0-9.\-]/', '', $entity->getPrice()), 'USD');
 ```
 
-Note that both examples above assume USD — you must know the currency independently since PostgreSQL does not store it.
+Note that both examples above assume USD - you must know the currency independently since PostgreSQL does not store it.
 
 ---
 
-## Hstore Type
+## Hstore type
 
 The `hstore` type requires the PostgreSQL [`hstore`](https://www.postgresql.org/docs/18/hstore.html) extension. Enable it with:
 
@@ -323,7 +323,7 @@ It maps to `array<string, string|null>` in PHP. Keys and values are always strin
 
 ---
 
-## Citext Type
+## Citext type
 
 The `citext` type requires the PostgreSQL [`citext`](https://www.postgresql.org/docs/18/citext.html) extension. Enable it with:
 
@@ -331,13 +331,13 @@ The `citext` type requires the PostgreSQL [`citext`](https://www.postgresql.org/
 CREATE EXTENSION IF NOT EXISTS citext;
 ```
 
-It is a case-insensitive text type: comparisons are case-insensitive in PostgreSQL while the original casing of values is preserved. It maps to `string` in PHP and behaves identically to `text` for storage and retrieval — the difference is purely in how PostgreSQL evaluates equality and ordering.
+It is a case-insensitive text type: comparisons are case-insensitive in PostgreSQL while the original casing of values is preserved. It maps to `string` in PHP and behaves identically to `text` for storage and retrieval - the difference is purely in how PostgreSQL evaluates equality and ordering.
 
-Use `citext` when you want case-insensitive lookups (e.g. usernames, email addresses) without lowercasing values on write.
+Use `citext` when you want case-insensitive lookups, such as usernames and email addresses, without lowercasing values on write.
 
 ---
 
-## ULID Type
+## ULID type
 
 The `ulid` type requires the third-party [`pgx_ulid`](https://github.com/pksunkara/pgx_ulid) PostgreSQL extension. Enable it with:
 
@@ -345,13 +345,13 @@ The `ulid` type requires the third-party [`pgx_ulid`](https://github.com/pksunka
 CREATE EXTENSION IF NOT EXISTS ulid;
 ```
 
-A ULID is a 26-character [Crockford base32](https://github.com/ulid/spec) identifier (uppercase, first character `0`–`7`) stored as a compact 128-bit binary value. It maps to `string` in PHP. PostgreSQL outputs the canonical uppercase form on retrieval; the DBAL type normalizes values to uppercase on write as well, so round-trips are stable even for lowercase input.
+A ULID is a 26-character [Crockford base32](https://github.com/ulid/spec) identifier (uppercase, first character `0` to `7`) stored as a compact 128-bit binary value. It maps to `string` in PHP. PostgreSQL outputs the canonical uppercase form on retrieval; the DBAL type normalizes values to uppercase on write as well, so round-trips are stable even for lowercase input.
 
 Use `ulid` when you want sortable, timestamp-prefixed identifiers that are shorter and more index-friendly than UUIDs.
 
 ---
 
-## Cube Type
+## Cube type
 
 The `cube` type requires the PostgreSQL [`cube`](https://www.postgresql.org/docs/18/cube.html) extension. Enable it with:
 
@@ -359,7 +359,7 @@ The `cube` type requires the PostgreSQL [`cube`](https://www.postgresql.org/docs
 CREATE EXTENSION IF NOT EXISTS cube;
 ```
 
-A cube is a multidimensional value that is either a point — `(1, 2, 3)` — or a box spanned by two opposite corners — `(1, 2, 3),(4, 5, 6)`. Both corners always carry the same number of dimensions. It maps to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube` value object in PHP:
+A cube is a multidimensional value that is either a point - `(1, 2, 3)` - or a box spanned by two opposite corners - `(1, 2, 3),(4, 5, 6)`. Both corners always carry the same number of dimensions. It maps to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube` value object in PHP:
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube;

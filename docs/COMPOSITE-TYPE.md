@@ -1,8 +1,8 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL Composite Types
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL composite types
 
 PostgreSQL [composite (row) types](https://www.postgresql.org/docs/18/rowtypes.html) bundle several named fields into a single column type. Like enums, they are user-defined - there is no pre-registered constant, so each PostgreSQL composite type maps to its own subclass of `Composite`.
 
-> 📖 **See also**: [Available Types](AVAILABLE-TYPES.md), [Enum Types](ENUM-TYPE.md)
+> **See also:** [Available types](AVAILABLE-TYPES.md) · [PostgreSQL enum types](ENUM-TYPE.md)
 
 ## How it works
 
@@ -10,7 +10,7 @@ PostgreSQL [composite (row) types](https://www.postgresql.org/docs/18/rowtypes.h
 
 A composite column becomes a PHP `array` keyed by those field names, with each field already converted by its Doctrine type - so an `integer` field arrives as an `int`, a `date` field as a `DateTime`, a `json` field as an `array`.
 
-> ⚠️ **Field order is the contract.** PostgreSQL record literals are positional; the field *names* exist only on the PHP side. If `getFieldTypes()` lists the fields in a different order from `CREATE TYPE`, values are silently written into the wrong columns. Keep the two in step.
+> **Field order is the contract.** PostgreSQL record literals are positional; the field *names* exist only on the PHP side. If `getFieldTypes()` lists the fields in a different order from `CREATE TYPE`, values are silently written into the wrong columns. Keep the two in step.
 
 ## Setup
 
@@ -221,4 +221,4 @@ ALTER TYPE inventory_item RENAME ATTRIBUTE name TO title CASCADE;
 
 `CASCADE` is required when tables already use the type. Update `getFieldTypes()` after any of them.
 
-Adding or dropping an attribute changes the field count, which is reported as `InvalidCompositeForPHPException` on the next read rather than silently mis-assigning values. A rename isn't caught: the count still matches, so reads keep succeeding and simply return the old key names.
+Adding or dropping an attribute changes the field count, which is reported as `InvalidCompositeForPHPException` on the next read rather than silently mis-assigning values. A rename is not caught: the count still matches, so reads keep succeeding and return the old key names.

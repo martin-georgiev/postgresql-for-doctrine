@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Utility Functions
+# <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Utility functions
 
 | PostgreSQL function | Register for DQL as | Implemented by |
 |---|---|---|
@@ -13,8 +13,8 @@
 | <@> | DISTANCE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance` |
 
 
-**Note**: `TO_NUMBER` supports Roman numeral conversion via the [`RN` pattern](https://www.postgresql.org/docs/18/functions-formatting.html#FUNCTIONS-FORMATTING-NUMERIC-TABLE) (PostgreSQL 18+).
+`TO_NUMBER` supports Roman numeral conversion via the [`RN` pattern](https://www.postgresql.org/docs/18/functions-formatting.html#FUNCTIONS-FORMATTING-NUMERIC-TABLE) (PostgreSQL 18+).
 
-**Note**: `DISTANCE` is the [earthdistance](https://www.postgresql.org/docs/18/earthdistance.html#EARTHDISTANCE-POINT-BASED) `point <@> point` operator. It returns the great-circle distance in statute miles between two `point` values written as (longitude, latitude). It is not a PostGIS operator and does not accept `geometry` or `geography` values.
+`DISTANCE` is the [earthdistance](https://www.postgresql.org/docs/18/earthdistance.html#EARTHDISTANCE-POINT-BASED) `point <@> point` operator. It returns the great-circle distance in statute miles between two `point` values written as (longitude, latitude). It is not a PostGIS operator and does not accept `geometry` or `geography` values.
 
-> ⚠️ **Requires extension**: `CREATE EXTENSION IF NOT EXISTS earthdistance CASCADE;` - earthdistance depends on `cube`, which `CASCADE` installs.
+> **Requires the [`earthdistance`](https://www.postgresql.org/docs/18/earthdistance.html) extension:** `CREATE EXTENSION IF NOT EXISTS earthdistance CASCADE;` - earthdistance depends on `cube`, which `CASCADE` installs.
