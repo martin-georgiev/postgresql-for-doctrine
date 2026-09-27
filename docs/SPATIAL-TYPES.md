@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Spatial Types (Foundations)
 
-This document describes the core primitives used by the spatial DBAL types: parsing, normalization, and enum-driven patterns.
+This page describes the core primitives used by the spatial DBAL types: parsing, normalization, and enum-driven patterns.
 
 ## SpatialDataArray base class
 

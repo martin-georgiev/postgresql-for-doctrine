@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Geometry and Geography Arrays
 
-This document explains the usage of PostgreSQL `geometry` and `geography` array types in Doctrine DBAL.
+This page shows how to use the PostgreSQL `geometry[]` and `geography[]` array types with Doctrine.
 
 > **See also:** [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for spatial functions that work with geometry and geography data
 

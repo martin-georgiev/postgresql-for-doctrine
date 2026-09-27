@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Available Functions and Operators
 
-This document provides an overview of PostgreSQL functions and operators available in this library. For detailed documentation of specific function categories, see the specialized documentation files linked below.
+This page lists the PostgreSQL functions and operators available in this library. Each category below links to its own page with the details.
 
 > **See also:** [What comes back: hydration](HYDRATION.md) for the PHP value a function result arrives as
 
