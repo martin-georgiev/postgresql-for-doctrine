@@ -32,23 +32,35 @@ body:
       description: Which documentation is affected?
       options:
         - README.md
-        - AVAILABLE-TYPES.md
-        - RANGE-TYPES.md
-        - AVAILABLE-FUNCTIONS-AND-OPERATORS.md
-        - ARRAY-AND-JSON-FUNCTIONS.md
-        - SPATIAL-FUNCTIONS-AND-OPERATORS.md
-        - TEXT-AND-PATTERN-FUNCTIONS.md
-        - DATE-AND-RANGE-FUNCTIONS.md
-        - MATHEMATICAL-FUNCTIONS.md
-        - POSTGIS-GEOMETRY-AND-GEOGRAPHY.md
-        - GEOMETRY-ARRAYS.md
-        - LTREE-TYPE.md
-        - USE-CASES-AND-EXAMPLES.md
+        - GETTING-STARTED.md
+        - INTEGRATING-WITH-DOCTRINE.md
         - INTEGRATING-WITH-SYMFONY.md
         - INTEGRATING-WITH-LARAVEL.md
-        - INTEGRATING-WITH-DOCTRINE.md
-        - CONTRIBUTING.md
+        - AVAILABLE-TYPES.md
+        - RANGE-TYPES.md
+        - POSTGIS-GEOMETRY-AND-GEOGRAPHY.md
+        - GEOMETRY-ARRAYS.md
+        - ENUM-TYPE.md
+        - COMPOSITE-TYPE.md
+        - LTREE-TYPE.md
+        - INFINITY.md
+        - AVAILABLE-FUNCTIONS-AND-OPERATORS.md
+        - ARRAY-AND-JSON-FUNCTIONS.md
+        - TEXT-AND-PATTERN-FUNCTIONS.md
+        - DATE-AND-RANGE-FUNCTIONS.md
+        - SPATIAL-FUNCTIONS-AND-OPERATORS.md
+        - WINDOW-FUNCTIONS.md
+        - MATHEMATICAL-FUNCTIONS.md
+        - NETWORK-FUNCTIONS.md
+        - HSTORE-FUNCTIONS.md
+        - XML-FUNCTIONS.md
+        - UTILITY-FUNCTIONS.md
+        - WRITING-DQL.md
+        - QUERY-RESULTS.md
+        - USE-CASES-AND-EXAMPLES.md
+        - TROUBLESHOOTING.md
         - UPGRADE.md
+        - CONTRIBUTING.md
         - Code Comments/PHPDoc
         - Other
     validations:
