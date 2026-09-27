@@ -56,8 +56,6 @@ For a geometry, convert inside the query: wrap it in `ST_ASTEXT` or `ST_ASGEOJSO
 
 ## What a computed value arrives as
 
-> **Since 4.9:** `OVER`, `FILTER` and `WITHIN GROUP` are new; see [Window Functions](WINDOW-FUNCTIONS.md).
-
 The PHP value depends only on the PostgreSQL type the expression returns:
 
 | PostgreSQL result type | PHP value | Examples |
