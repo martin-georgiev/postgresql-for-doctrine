@@ -117,20 +117,20 @@ SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 ## Supported Features
 
 ### Geometry Types
-- ✅ POINT, LINESTRING, POLYGON
-- ✅ MULTIPOINT, MULTILINESTRING, MULTIPOLYGON
-- ✅ GEOMETRYCOLLECTION
-- ✅ All other PostGIS geometry types as of v3.5
+- POINT, LINESTRING, POLYGON
+- MULTIPOINT, MULTILINESTRING, MULTIPOLYGON
+- GEOMETRYCOLLECTION
+- All other PostGIS geometry types as of v3.5
 
 ### Coordinate Systems
-- ✅ **SRID support**: `SRID=4326;POINT(-122 37)`
-- ✅ **Dimensional modifiers**: Z (elevation), M (measure), ZM
-- ✅ **Mixed coordinates**: Arrays with different SRIDs/dimensions
+- **SRID support**: `SRID=4326;POINT(-122 37)`
+- **Dimensional modifiers**: Z (elevation), M (measure), ZM
+- **Mixed coordinates**: Arrays with different SRIDs/dimensions
 
 ### Geography Features
-- ✅ **Auto-SRID**: Geography types [automatically get SRID=4326 if none is provided](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables)
-- ✅ **World coordinates**: Null Island, poles, date line
-- ✅ **Geographic calculations**: Proper spherical geometry
+- **Auto-SRID**: Geography types [automatically get SRID=4326 if none is provided](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables)
+- **World coordinates**: Null Island, poles, date line
+- **Geographic calculations**: Proper spherical geometry
 
 ## Performance Considerations
 

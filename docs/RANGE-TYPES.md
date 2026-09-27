@@ -286,7 +286,7 @@ echo $range; // [0,Infinity)
 $same = new NumericRange(0, null, true, false, false, false, true);
 ```
 
-**Note**: Integer ranges (INT4RANGE, INT8RANGE) do not support infinity values in PostgreSQL.
+Integer ranges (INT4RANGE, INT8RANGE) do not support infinity values in PostgreSQL.
 
 ### NaN Bounds
 
@@ -313,7 +313,7 @@ NumericRange::fromString('[1,)')->contains(NAN);        // true - an open end ha
 echo NumericRange::fromString('[NaN,NaN)');             // empty - equal bounds, exclusive brackets
 ```
 
-**Note**: Only the numeric range types take a `NaN` bound. `NaN` belongs to PostgreSQL's numeric and floating-point types, so a date, timestamp or integer range rejects it — `DateRange::fromString('[2024-01-01,NaN)')` throws, exactly as `SELECT '[2024-01-01,NaN)'::daterange` errors.
+Only the numeric range types take a `NaN` bound. `NaN` belongs to PostgreSQL's numeric and floating-point types, so a date, timestamp or integer range rejects it — `DateRange::fromString('[2024-01-01,NaN)')` throws, exactly as `SELECT '[2024-01-01,NaN)'::daterange` errors.
 
 > **See also:** [Infinity Values](INFINITY.md) for why a bound of infinity is a flag here, a native `INF` for floats and an enum for datetime array items.
 

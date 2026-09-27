@@ -6,7 +6,7 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 
 ## Text and Pattern Operators
 
-**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
+Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
 | Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
 |---|---|---|---|
@@ -96,7 +96,7 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 
 ## Fuzzy String Matching Functions (fuzzystrmatch extension)
 
-> ⚠️ **Note**: These functions require the PostgreSQL [`fuzzystrmatch`](https://www.postgresql.org/docs/18/fuzzystrmatch.html) extension to be installed and enabled in your database.
+> **Requires the [`fuzzystrmatch`](https://www.postgresql.org/docs/18/fuzzystrmatch.html) extension:** `CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;`
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
@@ -111,7 +111,7 @@ This document covers PostgreSQL [text processing](https://www.postgresql.org/doc
 
 ## Trigram Similarity Functions (pg_trgm extension)
 
-> ⚠️ **Note**: These functions and operators require the PostgreSQL [`pg_trgm`](https://www.postgresql.org/docs/18/pgtrgm.html) extension to be installed and enabled.
+> **Requires the [`pg_trgm`](https://www.postgresql.org/docs/18/pgtrgm.html) extension:** `CREATE EXTENSION IF NOT EXISTS pg_trgm;`
 
 ### Similarity functions
 
@@ -173,7 +173,7 @@ SELECT e, TS_RANK(TO_TSVECTOR(e.content), TO_TSQUERY('search')) as rank FROM Ent
 SELECT e.category, STRING_AGG(e.name, ', ' ORDER BY e.name) as names FROM Entity e GROUP BY e.category
 ```
 
-**💡 Tips for Usage:**
+**Tips for Usage:**
 1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
 2. **Regular expressions** use PostgreSQL's POSIX regular expression syntax
 3. **Full-text search** requires proper text search configuration and indexes

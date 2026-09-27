@@ -6,13 +6,13 @@ This document covers [PostGIS spatial functions and operators](https://postgis.n
 
 ## PostGIS Spatial Operators
 
-**⚠️ Important**: Some operators have dual meanings for different data types. Use the specific DQL function names to avoid conflicts:
+Some operators have dual meanings for different data types. Use the specific DQL function names to avoid conflicts:
 
 - **`@`**: Use `SPATIAL_CONTAINED_BY` for geometry (arrays and JSON use `IS_CONTAINED_BY` instead)
 - **`~`**: Use `REGEXP` for text patterns, `SPATIAL_CONTAINS` for geometry
 - **`&&`**: Use `OVERLAPS` for arrays/JSON, spatial overlaps work automatically with geometry/geography
 
-**📝 Compatibility Notes**:
+**Compatibility Notes:**
 - Most bounding box operators work primarily with **geometry** types
 - **Geography** types have limited operator support (mainly `&&`, `<->`)
 - **3D/n-dimensional operators** may require the geometry to be built explicitly: `ST_GEOMFROMTEXT('POINT Z(0 0 0)')`
@@ -274,7 +274,7 @@ SELECT e FROM Entity e
 WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
 ```
 
-**📝 Notes:**
+**Notes:**
 - `ST_Relate` is a variadic function that accepts 2 or 3 arguments:
   - With 2 arguments: returns text (intersection matrix)
   - With 3 arguments: returns boolean (relationship test)
@@ -288,7 +288,7 @@ WHERE ST_Contains(e.polygon, ST_GeomFromGeoJSON(:geojson)) = TRUE
   - `-3`: Multiple crossings ending on the starting side, the first one right to left
 - All other functions return boolean values and should be used with `= TRUE` or `= FALSE` in DQL
 
-**🔍 DE-9IM Intersection Matrix Patterns for ST_Relate:**
+**DE-9IM Intersection Matrix Patterns for ST_Relate:**
 
 The [DE-9IM (Dimensionally Extended 9-Intersection Model)](https://postgis.net/docs/using_postgis_query.html#DE-9IM) uses a 9-character pattern where each character represents the intersection between:
 - Interior (I), Boundary (B), and Exterior (E) of geometry A
@@ -302,13 +302,13 @@ Common patterns:
 - `T*F**F***` = Within (A is within B)
 - `T*T***T**` = Overlaps (partial overlap)
 
-**📊 Function Return Types:**
+**Function Return Types:**
 - **Boolean functions**: Use with `= TRUE` or `= FALSE` in DQL
 - **Numeric functions**: Return values for calculations and ordering
 - **Geometry functions**: Return new geometries for further operations
 - **Text functions**: Return strings for pattern matching and display
 
-**💡 Tips for Usage:**
+**Tips for Usage:**
 1. **Boolean functions** should be used with `= TRUE` or `= FALSE` in DQL
 2. **Spatial functions** work best with proper geometry types and indexes
 3. **3D functions** require geometries with Z coordinates

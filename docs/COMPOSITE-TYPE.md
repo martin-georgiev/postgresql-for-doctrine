@@ -10,7 +10,7 @@ PostgreSQL [composite (row) types](https://www.postgresql.org/docs/18/rowtypes.h
 
 A composite column becomes a PHP `array` keyed by those field names, with each field already converted by its Doctrine type - so an `integer` field arrives as an `int`, a `date` field as a `DateTime`, a `json` field as an `array`.
 
-> ⚠️ **Field order is the contract.** PostgreSQL record literals are positional; the field *names* exist only on the PHP side. If `getFieldTypes()` lists the fields in a different order from `CREATE TYPE`, values are silently written into the wrong columns. Keep the two in step.
+> **Field order is the contract.** PostgreSQL record literals are positional; the field *names* exist only on the PHP side. If `getFieldTypes()` lists the fields in a different order from `CREATE TYPE`, values are silently written into the wrong columns. Keep the two in step.
 
 ## Setup
 

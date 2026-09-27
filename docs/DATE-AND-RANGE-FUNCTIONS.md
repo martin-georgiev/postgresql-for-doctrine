@@ -105,7 +105,7 @@ GROUP BY month_range
 ORDER BY month_range
 ```
 
-**📝 Range Type Notes:**
+**Range Type Notes:**
 
 ### Range Bounds
 PostgreSQL ranges support [different bound types](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INCLUSIVITY):
@@ -127,7 +127,7 @@ PostgreSQL ranges support [different bound types](https://www.postgresql.org/doc
 - Infinite ranges: Use a parameter set to `null` for unbounded sides (DQL does not accept a bare `NULL` argument)
 - Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 
-**💡 Tips for Usage:**
+**Tips for Usage:**
 1. **Range operators** should be used with `= TRUE` or `= FALSE` in DQL (see [The DQL dialect](DQL-DIALECT.md#boolean-functions-need-a-comparison))
 2. **Date functions** work with PostgreSQL's rich date/time types
 3. **Range types** provide efficient storage and querying for value ranges

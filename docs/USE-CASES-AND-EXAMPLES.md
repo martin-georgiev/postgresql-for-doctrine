@@ -42,7 +42,7 @@ SELECT JSON_BUILD_OBJECT('count', COUNT(*))  -- Aggregate functions not supporte
 SELECT JSONB_BUILD_OBJECT('number', 123)     -- All number types, NULL and boolean values not supported currently
 ```
 
-Note: Keys must always be string literals, while values can be either string literals or object property references.
+Keys must always be string literals, while values can be either string literals or object property references.
 
 ## Using JSON Path Functions
 
@@ -353,7 +353,7 @@ POINT Z (1 2 3)            => POINT Z(1 2 3)
 
 ### Using PostGIS Spatial Operators in DQL
 
-PostGIS spatial operators allow you to perform spatial queries using bounding box relationships and distance calculations. **Important**: All spatial operators return boolean values and shall be used with `= TRUE` or `= FALSE` in DQL.
+PostGIS spatial operators allow you to perform spatial queries using bounding box relationships and distance calculations. The bounding box operators return booleans and must be compared with `= TRUE` or `= FALSE` in DQL; the distance operators return numbers.
 
 > **See also:** [PostGIS Spatial Functions and Operators](SPATIAL-FUNCTIONS-AND-OPERATORS.md) for complete spatial function documentation
 
@@ -541,7 +541,7 @@ class MyEntity implements \Stringable
 }
 ```
 
-🗃️ Create the GiST index manually in a migration — Doctrine can't generate ltree-specific operator class syntax:
+Create the GiST index manually in a migration — Doctrine can't generate ltree-specific operator class syntax:
 
 ```sql
 CREATE INDEX my_entity_path_gist_idx ON my_entity USING GIST (path gist_ltree_ops(siglen=100));
@@ -551,7 +551,7 @@ CREATE INDEX my_entity_path_gin_idx ON my_entity USING GIN (path gin_ltree_ops);
 
 ### Cascading Path Updates
 
-⚠️ Changing an entity's parent requires cascading the path change to all descendants — Doctrine does not handle this automatically. Use an [`onFlush`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush) listener:
+Changing an entity's parent requires cascading the path change to all descendants — Doctrine does not handle this automatically. Use an [`onFlush`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush) listener:
 
 ```php
 <?php

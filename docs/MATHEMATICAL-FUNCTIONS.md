@@ -162,7 +162,7 @@ SELECT e.category,
        MODE(WITHIN GROUP ORDER BY e.status) as most_common_status
 FROM Entity e GROUP BY e.category
 ```
-**📝 Function Categories:**
+**Function Categories:**
 
 ### **Mathematical Functions**
 - **Basic Math**: CEIL, FLOOR, ROUND, TRUNC for rounding operations
@@ -172,7 +172,7 @@ FROM Entity e GROUP BY e.category
 - **Comparison**: GREATEST, LEAST for finding extremes
 - **Utility**: SIGN, RANDOM, PI for various mathematical needs
 
-**💡 Tips for Usage:**
+**Tips for Usage:**
 1. **Mathematical functions** work with numeric types and return appropriate precision
 2. **WIDTH_BUCKET** is excellent for creating histograms and analytics
 3. **RANDOM()** generates values between 0 and 1

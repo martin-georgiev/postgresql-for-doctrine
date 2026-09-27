@@ -6,7 +6,7 @@ This document covers PostgreSQL [array](https://www.postgresql.org/docs/18/funct
 
 ## Array and JSON Operators
 
-**⚠️ Important**: Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
+Some PostgreSQL operators have multiple meanings depending on the data types involved. This library provides specific DQL function names to avoid conflicts:
 
 | Operator | Array/JSON Usage | Spatial Usage | Text/Pattern Usage |
 |---|---|---|---|
@@ -166,7 +166,7 @@ SELECT e.category, FILTER(COUNT(e.id), WHERE e.status = 'active') as active_coun
 SELECT e.category, FILTER(ARRAY_AGG(e.id ORDER BY e.createdAt), WHERE e.archivedAt IS NULL) as live_ids FROM Entity e GROUP BY e.category
 ```
 
-**💡 Tips for Usage:**
+**Tips for Usage:**
 1. **Boolean operators** should be used with `= TRUE` or `= FALSE` in DQL
 2. **Array functions** provide efficient PostgreSQL array operations
 3. **JSON functions** support both JSON and JSONB data types

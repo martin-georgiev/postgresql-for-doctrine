@@ -2,7 +2,7 @@
 
 > **See also:** [Available Types](AVAILABLE-TYPES.md) for the `hstore` and `hstore[]` DBAL types · [Integration with Doctrine](INTEGRATING-WITH-DOCTRINE.md)
 
-> ⚠️ **Requires extension**: [`CREATE EXTENSION IF NOT EXISTS hstore;`](https://www.postgresql.org/docs/18/hstore.html)
+> **Requires the [`hstore`](https://www.postgresql.org/docs/18/hstore.html) extension:** `CREATE EXTENSION IF NOT EXISTS hstore;`
 
 | PostgreSQL function | Register for DQL as | Implemented by |
 |---|---|---|
