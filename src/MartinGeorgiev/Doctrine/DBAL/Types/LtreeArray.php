@@ -35,7 +35,10 @@ class LtreeArray extends BaseArray
             throw InvalidLtreeArrayItemForDatabaseException::forInvalidType($item);
         }
 
-        return (string) $item;
+        // An unquoted empty item disappears from '{}' and breaks '{a.b,}', so PostgreSQL needs it as "".
+        $path = (string) $item;
+
+        return $path === '' ? '""' : $path;
     }
 
     public function isValidArrayItemForDatabase(mixed $item): bool
