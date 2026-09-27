@@ -24,7 +24,10 @@ class ST_CollectionExtract extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,SimpleArithmeticExpression'];
+        return [
+            'StringPrimary,SimpleArithmeticExpression',
+            'StringPrimary',
+        ];
     }
 
     protected function getFunctionName(): string
