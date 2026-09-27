@@ -406,13 +406,12 @@ WHERE ND_CENTROID_DISTANCE(e.geometry3d1, e.geometry3d2) < 500
 Some operators have different meanings for different data types. Use specific function names to avoid conflicts:
 
 ```sql
--- ✅ CORRECT: Use specific function names
+-- Each meaning has its own function name
 SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('tag1')) = TRUE      -- Array containment
 SELECT e FROM Entity e WHERE SPATIAL_CONTAINS(e.polygon, e.point) = TRUE -- Spatial containment
 SELECT e FROM Entity e WHERE REGEXP(e.text, 'pattern') = TRUE            -- Text pattern matching
 
--- ❌ AVOID: Ambiguous usage that might conflict
--- The @ and ~ operators have different meanings for arrays vs spatial data
+-- @ and ~ mean different things for arrays, geometries and text, so DQL gives each meaning its own name
 ```
 
 #### Performance tips

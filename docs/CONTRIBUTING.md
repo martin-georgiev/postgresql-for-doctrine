@@ -171,10 +171,10 @@ Update the devenv by:
 
 ## Before opening your first PR
 
-For the sake of clear Git history and speedy review of your PR,
-please verify that the suggested changes are in line with the project's standards.
-Code style, static analysis, and file validation scripts are already provided
-and can easily be run from project's root:
+For a clear Git history and a quick review of your PR,
+check that your changes follow the project's standards.
+The code style, static analysis and file validation scripts
+run from the project's root:
 
 - Check for consistent code style:
 
@@ -250,14 +250,14 @@ class ArrayAppend extends BaseFunction
 }
 ```
 
-⚠️ **Beware:** you cannot use **?** (including the `??` operator) as part of any
+You cannot use **?** (including the `??` operator) as part of any
 function prototype in Doctrine.
 It causes query parsing failures.
 
 
 ## Testing: patterns and guidelines
 
-This project has a rich, well-structured test suite consisting of fast unit tests and database-backed integration tests. Please follow the conventions below when adding or modifying tests.
+The test suite has fast unit tests and database-backed integration tests. Follow the conventions below when you add or change a test.
 
 ### Tools and how to run tests
 - Framework: PHPUnit 10 (PHP attributes like #[Test], #[DataProvider])
