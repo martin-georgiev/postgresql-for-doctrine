@@ -45,6 +45,12 @@ parameters:
             path: ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseFunctionTest.php
             reportUnmatched: false
 
+        # Matched with ORM 3.x only: Parser::SimpleArithmeticExpression() may return a result variable's name as a string there.
+        -
+            message: '#^Property MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\BaseFunction::\$nodes \(list<Doctrine\\ORM\\Query\\AST\\Node\|null>\) does not accept array\{Doctrine\\ORM\\Query\\AST\\Node, Doctrine\\ORM\\Query\\AST\\Node\|string\}\.$#'
+            path: ../../../src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/JsonGetField.php
+            reportUnmatched: false
+
         # lexer 3.x only: Token dropped ArrayAccess, so DoctrineLexer's pre-2.0 array fallbacks read as unreachable.
         -
             message: '#^Call to function is_array\(\) with Doctrine\\Common\\Lexer\\Token\|null will always evaluate to false\.$#'
