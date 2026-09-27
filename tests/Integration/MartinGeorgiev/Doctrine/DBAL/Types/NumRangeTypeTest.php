@@ -25,6 +25,7 @@ final class NumRangeTypeTest extends RangeTypeTestCase
             'numrange with inclusive bounds' => [new NumRangeValueObject(5.5, 15.7, true, true)],
             'numrange with negative values' => [new NumRangeValueObject(-100.5, 100.7, false, false)],
             'numrange with high precision' => [new NumRangeValueObject(1.123456789, 10.987654321, false, false)],
+            'numrange with integers beyond float precision' => [new NumRangeValueObject(9007199254740993, 9007199254740995)],
         ];
     }
 

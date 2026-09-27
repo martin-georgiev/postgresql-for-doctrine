@@ -11,7 +11,7 @@ PostgreSQL range types represent ranges of values of some element type (called t
 | DateRange | DATERANGE | DateTimeInterface | Date ranges (without time) |
 | Int4Range | INT4RANGE | int | 4-byte integer ranges |
 | Int8Range | INT8RANGE | int | 8-byte integer ranges |
-| NumRange | NUMRANGE | int/float | Numeric ranges with arbitrary precision |
+| NumRange | NUMRANGE | int/float | Numeric ranges |
 | TsRange | TSRANGE | DateTimeInterface | Timestamp ranges without timezone |
 | TstzRange | TSTZRANGE | DateTimeInterface | Timestamp ranges with timezone |
 
@@ -108,7 +108,7 @@ if ($range->isEmpty()) {
 
 ## Numeric ranges (NUMRANGE)
 
-For arbitrary precision numeric values:
+PostgreSQL keeps a `numeric` bound to any precision. PHP reads it back as an `int` when it is a whole number an `int` can hold, and as a `float` otherwise, so a bound with more than 17 significant digits comes back rounded: `[0.12345678901234567890,1)` reads as `[0.12345678901234568,1)`.
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;

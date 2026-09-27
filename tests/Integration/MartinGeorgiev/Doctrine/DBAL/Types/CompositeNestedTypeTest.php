@@ -120,6 +120,17 @@ final class CompositeNestedTypeTest extends TestCase
                 'weight' => 0.0,
                 'metadata' => [],
             ]],
+            'float needing more than 14 significant digits' => [[
+                'label' => 'bulk',
+                'item' => $item,
+                'packed_at' => new \DateTimeImmutable('2024-01-15 10:30:00'),
+                'delivered_at' => new \DateTimeImmutable('2024-01-15 10:30:00', new \DateTimeZone('UTC')),
+                'dispatched_on' => new \DateTimeImmutable('2024-01-15 00:00:00'),
+                'is_express' => true,
+                'tracking_id' => '550e8400-e29b-41d4-a716-446655440000',
+                'weight' => 12345678.901234567,
+                'metadata' => [],
+            ]],
             'all fields null' => [[
                 'label' => null,
                 'item' => null,
