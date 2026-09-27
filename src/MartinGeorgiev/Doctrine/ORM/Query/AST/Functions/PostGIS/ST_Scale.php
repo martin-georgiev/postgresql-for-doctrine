@@ -20,12 +20,16 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  * @example Using it in DQL: "SELECT ST_SCALE(g.geometry, 2, 2) FROM Entity g"
  * @example Using it in DQL (3D): "SELECT ST_SCALE(g.geometry, 2, 2, 1) FROM Entity g"
  * @example Using it in DQL with a geometry factor: "SELECT ST_SCALE(g.geometry, 'POINT(2 3)') FROM Entity g"
+ * @example Using it in DQL with a geometry factor and origin: "SELECT ST_SCALE(g.geometry, 'POINT(2 3)', 'POINT(1 1)') FROM Entity g"
  */
 class ST_Scale extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression'];
+        return [
+            'StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,StringPrimary,StringPrimary',
+        ];
     }
 
     protected function getFunctionName(): string
