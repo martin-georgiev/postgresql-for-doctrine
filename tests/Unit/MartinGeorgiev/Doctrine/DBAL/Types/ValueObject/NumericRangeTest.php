@@ -121,6 +121,8 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'bounded by positive infinity' => ['[1,Infinity)', new NumericRange(1, INF)];
         yield 'bounded by abbreviated negative infinity' => ['[-inf,10)', new NumericRange(-INF, 10)];
         yield 'bounded by abbreviated positive infinity' => ['[1,inf)', new NumericRange(1, INF)];
+        yield 'integers beyond float precision' => ['[9007199254740993,9007199254740995)', new NumericRange(9007199254740993, 9007199254740995)];
+        yield 'integer beyond the PHP integer range' => ['[1,100000000000000000000)', new NumericRange(1, 1.0E+20)];
         yield 'empty range' => ['empty', NumericRange::empty()];
     }
 
@@ -439,5 +441,28 @@ final class NumericRangeTest extends BaseRangeTestCase
     public function keeps_an_explicit_infinity_bound(): void
     {
         $this->assertSame('[1,Infinity)', (string) new NumericRange(1, \INF));
+    }
+
+    /**
+     * PostgreSQL keeps the scale a `numeric` bound was written or computed with, so a whole number can arrive as `10.0` or `5.00`.
+     */
+    #[Test]
+    public function parses_a_whole_number_printed_with_a_scale_as_an_integer(): void
+    {
+        $numericRange = NumericRange::fromString('[1.0,10.00)');
+
+        $this->assertSame(1, $numericRange->getLower());
+        $this->assertSame(10, $numericRange->getUpper());
+    }
+
+    #[Test]
+    public function preserves_full_float_precision(): void
+    {
+        $bound = 0.30000000000000004;
+
+        $numericRange = new NumericRange($bound, 1);
+
+        $this->assertSame('[0.30000000000000004,1)', (string) $numericRange);
+        $this->assertSame($bound, NumericRange::fromString((string) $numericRange)->getLower());
     }
 }
