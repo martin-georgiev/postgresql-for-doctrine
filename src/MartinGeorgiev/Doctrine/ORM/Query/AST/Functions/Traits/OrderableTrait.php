@@ -12,7 +12,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
-use MartinGeorgiev\Utils\DoctrineLexer;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
 trait OrderableTrait
@@ -49,18 +49,14 @@ trait OrderableTrait
         $orderByItems = \array_map(
             static function (OrderByItem $orderByItem) use ($sqlWalker): string {
                 $expression = $orderByItem->expression;
-                $sortDirection = \strtoupper($orderByItem->type);
-                if ($expression instanceof Node) {
-                    $sql = $expression->dispatch($sqlWalker);
-
-                    return ($expression instanceof Subselect ? '('.$sql.')' : $sql).' '.$sortDirection;
+                $isASelectListAlias = !$expression instanceof Node;
+                if ($isASelectListAlias) {
+                    throw ParserException::forSelectListAliasInOrderBy();
                 }
 
-                \assert(\is_string($expression));
-                $resultVariable = DoctrineLexer::getTokenField($sqlWalker->getQueryComponent($expression)['token'], 'value');
-                \assert(\is_string($resultVariable));
+                $sql = $expression->dispatch($sqlWalker);
 
-                return $sqlWalker->walkResultVariable($resultVariable).' '.$sortDirection;
+                return ($expression instanceof Subselect ? '('.$sql.')' : $sql).' '.\strtoupper($orderByItem->type);
             },
             $orderByClause->orderByItems
         );
