@@ -184,7 +184,7 @@ A label spelled exactly `NULL` stays a label. PostgreSQL quotes it (`"NULL"`) an
 two round-trip distinctly:
 
 ```php
-$sale->statusTrail = [Status::NULL_LABEL, null]; // {"NULL",NULL} — first is the label, second is SQL NULL
+$sale->statusTrail = [Status::NULL_LABEL, null]; // {"NULL",NULL} - first is the label, second is SQL NULL
 ```
 
 ## Migrations

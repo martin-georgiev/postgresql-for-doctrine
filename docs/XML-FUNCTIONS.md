@@ -19,7 +19,7 @@
 ## Usage examples
 
 ```sql
--- ORDER BY inside the aggregate — not obvious in Doctrine DQL
+-- ORDER BY inside the aggregate - not obvious in Doctrine DQL
 SELECT e.category, XMLAGG(e.xmlData ORDER BY e.createdAt) FROM App\Entity\Article e GROUP BY e.category
 
 -- xml_is_well_formed uses the session xmloption (DOCUMENT or CONTENT mode)

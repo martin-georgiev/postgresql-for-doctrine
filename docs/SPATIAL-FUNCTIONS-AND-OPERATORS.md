@@ -239,7 +239,7 @@ These functions work with measures along linear geometries for operations like l
 
 ## Usage examples
 
-These examples cover the cases where the DQL wiring is not obvious. Everything else follows the tables above — call the function with the arguments PostGIS documents.
+These examples cover the cases where the DQL wiring is not obvious. Everything else follows the tables above - call the function with the arguments PostGIS documents.
 
 ```sql
 -- Boolean operators and functions need an explicit comparison in DQL

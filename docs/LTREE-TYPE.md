@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> PostgreSQL ltree types
 
-PostgreSQL's [`ltree` extension](https://www.postgresql.org/docs/18/ltree.html) stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST indexes. It also ships two companion query types — `lquery` for path patterns and `ltxtquery` for full-text style label queries.
+PostgreSQL's [`ltree` extension](https://www.postgresql.org/docs/18/ltree.html) stores hierarchical label-tree paths (e.g. `Top.Sports.Football`) and supports ancestor/descendant queries with GiST indexes. It also ships two companion query types - `lquery` for path patterns and `ltxtquery` for full-text style label queries.
 
 > **See also:** [Available types](AVAILABLE-TYPES.md) · [Ltree functions and operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md#ltree-functions) · [Hierarchical data with `ltree`](USE-CASES-AND-EXAMPLES.md#hierarchical-data-with-ltree)
 
@@ -162,7 +162,7 @@ PostgreSQL normalizes operator spacing on storage, so `Earth&Moon` is read back 
 ## ltxtquery[]
 
 Stores an array of `ltxtquery` queries. Maps to `array<string>` in PHP. Null elements are supported.
-No PostgreSQL operator consumes this type — it is provided so that collections of saved queries can be persisted in a single column.
+No PostgreSQL operator consumes this type - it is provided so that collections of saved queries can be persisted in a single column.
 
 ## Label-tree functions
 

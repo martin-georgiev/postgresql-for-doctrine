@@ -22,8 +22,8 @@ Parsing outputs a list of `WktSpatialData` value objects that Doctrine DBAL can 
 ## Enum-driven patterns
 
 Two enums drive normalization so the code and docs remain consistent:
-- `GeometryType` – set of supported geometry type names (`POINT`, `LINESTRING`, `POLYGON`, etc.)
-- `DimensionalModifier` – dimensional markers (`Z`, `M`, `ZM`)
+- `GeometryType` - set of supported geometry type names (`POINT`, `LINESTRING`, `POLYGON`, etc.)
+- `DimensionalModifier` - dimensional markers (`Z`, `M`, `ZM`)
 
 Regex patterns for geometry type detection and dimensional modifier handling are built from these enums instead of hardcoded strings.
 
@@ -187,15 +187,15 @@ class Place
     #[ORM\Column(type: 'geography', options: ['geometry_type' => 'Point', 'srid' => 4326])]
     private WktSpatialData $location;
 
-    // GEOMETRY(POLYGONZ) — 3D polygons, SRID unconstrained
+    // GEOMETRY(POLYGONZ) - 3D polygons, SRID unconstrained
     #[ORM\Column(type: 'geometry', options: ['geometry_type' => 'PolygonZ'])]
     private WktSpatialData $volume;
 
-    // GEOMETRY(GEOMETRY,3857) — any subtype, but SRID pinned to Web Mercator
+    // GEOMETRY(GEOMETRY,3857) - any subtype, but SRID pinned to Web Mercator
     #[ORM\Column(type: 'geometry', options: ['srid' => 3857])]
     private WktSpatialData $tileShape;
 
-    // GEOMETRY — unconstrained
+    // GEOMETRY - unconstrained
     #[ORM\Column(type: 'geometry')]
     private WktSpatialData $shape;
 }
@@ -209,7 +209,7 @@ Both options are optional and independent:
 
 ### Caveats
 
-- The options only shape the DDL that Doctrine generates. They do not alter value conversion — a `WktSpatialData` carrying a different subtype is still handed to PostgreSQL, which rejects it at insert time.
+- The options only shape the DDL that Doctrine generates. They do not alter value conversion - a `WktSpatialData` carrying a different subtype is still handed to PostgreSQL, which rejects it at insert time.
 - `geography` only supports lon/lat reference systems; PostgreSQL rejects e.g. `GEOGRAPHY(POINT,3857)` at `CREATE TABLE` time.
 - A constrained column coerces values that carry no SRID: inserting `POINT(1 2)` into `GEOMETRY(POINT,4326)` stores `SRID=4326;POINT(1 2)`.
 - Doctrine's schema comparator does not understand PostGIS type modifiers, so `doctrine:schema:update` and diff-based migration generation may report spurious changes for these columns. Manage them with explicit migrations.

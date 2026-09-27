@@ -149,7 +149,7 @@ SELECT POWER(POWER(e.x2 - e.x1, 2) + POWER(e.y2 - e.y1, 2), 0.5) as distance FRO
 -- Random reservoir sampling: WHERE filters ~10% of rows, ORDER BY shuffles them
 SELECT e FROM Entity e WHERE RANDOM() < 0.1 ORDER BY RANDOM() -- DQL has no LIMIT: cap the rows with $query->setMaxResults(100)
 
--- GREATEST/LEAST with aggregates — clamp aggregate results to a floor or ceiling
+-- GREATEST/LEAST with aggregates - clamp aggregate results to a floor or ceiling
 SELECT e.category,
        GREATEST(MAX(e.value), 0) as max_non_negative,
        LEAST(MIN(e.value), 100) as min_capped

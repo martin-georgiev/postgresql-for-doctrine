@@ -157,7 +157,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 ## Usage examples
 
 ```sql
--- REGEXP_LIKE with a real-world email pattern — POSIX syntax, not SQL LIKE syntax
+-- REGEXP_LIKE with a real-world email pattern - POSIX syntax, not SQL LIKE syntax
 SELECT e FROM Entity e WHERE REGEXP_LIKE(e.email, '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$') = TRUE
 
 -- REGEXP_MATCH returns an array of capture groups (one element per group)
@@ -166,10 +166,10 @@ SELECT REGEXP_MATCH(e.text, '([0-9]{4})-([0-9]{2})-([0-9]{2})') as date_parts FR
 -- Full-text search: combine TO_TSVECTOR + TO_TSQUERY; must use = TRUE in DQL WHERE clauses
 SELECT e FROM Entity e WHERE TSMATCH(TO_TSVECTOR(e.content), TO_TSQUERY('search & terms')) = TRUE
 
--- TS_RANK: sort by relevance score — smaller values are less relevant
+-- TS_RANK: sort by relevance score - smaller values are less relevant
 SELECT e, TS_RANK(TO_TSVECTOR(e.content), TO_TSQUERY('search')) as rank FROM Entity e ORDER BY rank DESC
 
--- STRING_AGG with separator — requires GROUP BY
+-- STRING_AGG with separator - requires GROUP BY
 SELECT e.category, STRING_AGG(e.name, ', ' ORDER BY e.name) as names FROM Entity e GROUP BY e.category
 ```
 

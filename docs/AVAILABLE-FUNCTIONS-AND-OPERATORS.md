@@ -84,9 +84,9 @@ Complete documentation for PostgreSQL ltree (label tree) operations and hierarch
 
 ### Vector distance functions (requires [pgvector](https://github.com/pgvector/pgvector) extension)
 Distance functions for fixed-dimension float vectors stored with the `vector` type.
-- `L2_DISTANCE` — Euclidean (L2) distance between two vectors
-- `COSINE_DISTANCE` — Cosine distance between two vectors
-- `INNER_PRODUCT` — Inner (dot) product of two vectors
+- `L2_DISTANCE` - Euclidean (L2) distance between two vectors
+- `COSINE_DISTANCE` - Cosine distance between two vectors
+- `INNER_PRODUCT` - Inner (dot) product of two vectors
 
 ## Quick reference
 
@@ -262,16 +262,16 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - **UUID**: Generation (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`) and inspection (`UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`)
 
 ### XML functions
-- **Aggregation**: `XMLAGG` — aggregate XML values with optional ordering
-- **Validation**: `XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT` — check XML well-formedness
-- **Construction**: `XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI` — create and combine XML values
-- **XPath Querying**: `XPATH`, `XPATH_EXISTS`, `XMLEXISTS` — extract nodes and test existence
+- **Aggregation**: `XMLAGG` - aggregate XML values with optional ordering
+- **Validation**: `XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT` - check XML well-formedness
+- **Construction**: `XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI` - create and combine XML values
+- **XPath Querying**: `XPATH`, `XPATH_EXISTS`, `XMLEXISTS` - extract nodes and test existence
 
 ### Network address functions
-- **Extraction**: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK` — decompose `inet`/`cidr` types
-- **Inspection**: `FAMILY`, `MASKLEN`, `ABBREV` — address metadata
-- **Multi-address**: `INET_MERGE`, `INET_SAME_FAMILY` — compare or combine addresses
-- **Modification**: `SET_MASKLEN` — adjust subnet mask length
+- **Extraction**: `HOST`, `BROADCAST`, `NETWORK`, `NETMASK`, `HOSTMASK` - decompose `inet`/`cidr` types
+- **Inspection**: `FAMILY`, `MASKLEN`, `ABBREV` - address metadata
+- **Multi-address**: `INET_MERGE`, `INET_SAME_FAMILY` - compare or combine addresses
+- **Modification**: `SET_MASKLEN` - adjust subnet mask length
 
 ### Operators
 - **Array Operators**: Contains, overlaps, element testing

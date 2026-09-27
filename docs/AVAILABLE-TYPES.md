@@ -139,11 +139,11 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 #[ORM\Entity]
 class Place
 {
-    // GEOGRAPHY(POINT,4326) — only WGS 84 points are accepted
+    // GEOGRAPHY(POINT,4326) - only WGS 84 points are accepted
     #[ORM\Column(type: 'geography', options: ['geometry_type' => 'Point', 'srid' => 4326])]
     private WktSpatialData $location;
 
-    // GEOMETRY — unconstrained, accepts any geometry
+    // GEOMETRY - unconstrained, accepts any geometry
     #[ORM\Column(type: 'geometry')]
     private WktSpatialData $shape;
 }
@@ -166,15 +166,15 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Sparsevec;
 #[ORM\Entity]
 class Embedding
 {
-    // VECTOR(1536) — fixed 1536-dimensional float vector
+    // VECTOR(1536) - fixed 1536-dimensional float vector
     #[ORM\Column(type: 'vector', length: 1536)]
     private array $embedding;
 
-    // HALFVEC(1024) — half-precision float vector
+    // HALFVEC(1024) - half-precision float vector
     #[ORM\Column(type: 'halfvec', length: 1024)]
     private array $smallEmbedding;
 
-    // SPARSEVEC(4096) — sparse vector with up to 4096 dimensions
+    // SPARSEVEC(4096) - sparse vector with up to 4096 dimensions
     #[ORM\Column(type: 'sparsevec', length: 4096)]
     private Sparsevec $sparseEmbedding;
 }
@@ -194,19 +194,19 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class Permissions
 {
-    // BIT(1) — fixed single bit (default when no length specified)
+    // BIT(1) - fixed single bit (default when no length specified)
     #[ORM\Column(type: 'bit')]
     private string $active;
 
-    // BIT(8) — fixed 8-bit flags
+    // BIT(8) - fixed 8-bit flags
     #[ORM\Column(type: 'bit', length: 8)]
     private string $flags;
 
-    // BIT VARYING — unlimited length (default when no length specified)
+    // BIT VARYING - unlimited length (default when no length specified)
     #[ORM\Column(type: 'bit varying')]
     private string $mask;
 
-    // BIT VARYING(64) — variable length, up to 64 bits
+    // BIT VARYING(64) - variable length, up to 64 bits
     #[ORM\Column(type: 'bit varying', length: 64)]
     private string $features;
 }
@@ -218,10 +218,10 @@ class Permissions
 
 ## Numeric array type
 
-The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather than floats. PostgreSQL's [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) is an arbitrary-precision type, and converting its values to PHP floats would silently lose precision and trailing zeros — the same reason Doctrine's own `decimal` type uses strings.
+The `numeric[]` type maps array items to PHP strings (e.g. `'502.00'`) rather than floats. PostgreSQL's [`numeric`](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) is an arbitrary-precision type, and converting its values to PHP floats would silently lose precision and trailing zeros - the same reason Doctrine's own `decimal` type uses strings.
 
 - Array items written to the database must be numeric strings (or `null`); PHP integers and floats are rejected
-- `decimal[]` is a PostgreSQL alias of `numeric[]` — columns declared as `DECIMAL[]` are reported by PostgreSQL as `numeric[]`, so this type covers both
+- `decimal[]` is a PostgreSQL alias of `numeric[]` - columns declared as `DECIMAL[]` are reported by PostgreSQL as `numeric[]`, so this type covers both
 - `numeric` also carries the non-finite values `'NaN'`, `'Infinity'` and `'-Infinity'`, which are items like any other here:
 
 ```php
@@ -289,7 +289,7 @@ The `money` type maps PostgreSQL's [`money`](https://www.postgresql.org/docs/18/
 
 **Important considerations:**
 
-- PostgreSQL's `money` type does **not** store currency information — the currency symbol is purely a formatting artifact of the server locale
+- PostgreSQL's `money` type does **not** store currency information - the currency symbol is purely a formatting artifact of the server locale
 - If you need multi-currency support, consider using `numeric` with application-level currency handling instead
 - Values written to the database must contain at least one digit; full format validation is deferred to PostgreSQL
 
@@ -307,7 +307,7 @@ use Brick\Money\Money;
 $money = Money::of(preg_replace('/[^0-9.\-]/', '', $entity->getPrice()), 'USD');
 ```
 
-Note that both examples above assume USD — you must know the currency independently since PostgreSQL does not store it.
+Note that both examples above assume USD - you must know the currency independently since PostgreSQL does not store it.
 
 ---
 
@@ -331,7 +331,7 @@ The `citext` type requires the PostgreSQL [`citext`](https://www.postgresql.org/
 CREATE EXTENSION IF NOT EXISTS citext;
 ```
 
-It is a case-insensitive text type: comparisons are case-insensitive in PostgreSQL while the original casing of values is preserved. It maps to `string` in PHP and behaves identically to `text` for storage and retrieval — the difference is purely in how PostgreSQL evaluates equality and ordering.
+It is a case-insensitive text type: comparisons are case-insensitive in PostgreSQL while the original casing of values is preserved. It maps to `string` in PHP and behaves identically to `text` for storage and retrieval - the difference is purely in how PostgreSQL evaluates equality and ordering.
 
 Use `citext` when you want case-insensitive lookups (e.g. usernames, email addresses) without lowercasing values on write.
 
@@ -345,7 +345,7 @@ The `ulid` type requires the third-party [`pgx_ulid`](https://github.com/pksunka
 CREATE EXTENSION IF NOT EXISTS ulid;
 ```
 
-A ULID is a 26-character [Crockford base32](https://github.com/ulid/spec) identifier (uppercase, first character `0`–`7`) stored as a compact 128-bit binary value. It maps to `string` in PHP. PostgreSQL outputs the canonical uppercase form on retrieval; the DBAL type normalizes values to uppercase on write as well, so round-trips are stable even for lowercase input.
+A ULID is a 26-character [Crockford base32](https://github.com/ulid/spec) identifier (uppercase, first character `0` to `7`) stored as a compact 128-bit binary value. It maps to `string` in PHP. PostgreSQL outputs the canonical uppercase form on retrieval; the DBAL type normalizes values to uppercase on write as well, so round-trips are stable even for lowercase input.
 
 Use `ulid` when you want sortable, timestamp-prefixed identifiers that are shorter and more index-friendly than UUIDs.
 
@@ -359,7 +359,7 @@ The `cube` type requires the PostgreSQL [`cube`](https://www.postgresql.org/docs
 CREATE EXTENSION IF NOT EXISTS cube;
 ```
 
-A cube is a multidimensional value that is either a point — `(1, 2, 3)` — or a box spanned by two opposite corners — `(1, 2, 3),(4, 5, 6)`. Both corners always carry the same number of dimensions. It maps to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube` value object in PHP:
+A cube is a multidimensional value that is either a point - `(1, 2, 3)` - or a box spanned by two opposite corners - `(1, 2, 3),(4, 5, 6)`. Both corners always carry the same number of dimensions. It maps to the `MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube` value object in PHP:
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Cube;

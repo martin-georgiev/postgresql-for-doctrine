@@ -131,7 +131,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | CAST(json ->> node as BIGINT) | JSON_GET_FIELD_AS_INTEGER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonGetFieldAsInteger` |
 | aggregate FILTER (WHERE condition) | FILTER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter` |
 
-`ARRAY` takes strings, fields, parameters and function calls; a bare number such as `ARRAY(1, 2)` does not parse. Quoted elements build a `text[]`, which PostgreSQL will not compare with a non-text array column — there, pass a PostgreSQL array literal instead: `CONTAINS(e.integerArray, '{1,2}') = TRUE`.
+`ARRAY` takes strings, fields, parameters and function calls; a bare number such as `ARRAY(1, 2)` does not parse. Quoted elements build a `text[]`, which PostgreSQL will not compare with a non-text array column - there, pass a PostgreSQL array literal instead: `CONTAINS(e.integerArray, '{1,2}') = TRUE`.
 
 ### `FILTER` wraps the aggregate in DQL
 
@@ -151,7 +151,7 @@ In SQL, [`FILTER (WHERE ...)`](https://www.postgresql.org/docs/18/sql-expression
 ## Usage examples
 
 ```sql
--- DQL array literal syntax: ARRAY('val1', 'val2') — not standard PHP array notation
+-- DQL array literal syntax: ARRAY('val1', 'val2') - not standard PHP array notation
 SELECT e FROM Entity e WHERE CONTAINS(e.tags, ARRAY('important', 'urgent')) = TRUE
 SELECT e FROM Entity e WHERE OVERLAPS(e.categories, ARRAY('admin', 'user')) = TRUE
 

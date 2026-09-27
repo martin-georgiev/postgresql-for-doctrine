@@ -540,7 +540,7 @@ class MyEntity implements \Stringable
 }
 ```
 
-Create the GiST index manually in a migration — Doctrine cannot generate ltree-specific operator class syntax:
+Create the GiST index manually in a migration - Doctrine cannot generate ltree-specific operator class syntax:
 
 ```sql
 CREATE INDEX my_entity_path_gist_idx ON my_entity USING GIST (path gist_ltree_ops(siglen=100));
@@ -550,7 +550,7 @@ CREATE INDEX my_entity_path_gin_idx ON my_entity USING GIN (path gin_ltree_ops);
 
 ### Cascading path updates
 
-Changing an entity's parent requires cascading the path change to all descendants — Doctrine does not handle this automatically. Use an [`onFlush`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush) listener:
+Changing an entity's parent requires cascading the path change to all descendants - Doctrine does not handle this automatically. Use an [`onFlush`](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush) listener:
 
 ```php
 <?php

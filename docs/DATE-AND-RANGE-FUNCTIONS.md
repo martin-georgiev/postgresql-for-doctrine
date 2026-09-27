@@ -89,7 +89,7 @@ SELECT GENERATE_TIME_SERIES(e.start_tz, e.end_tz, '1 hour', 'Europe/Sofia') as h
 -- DATE_BIN: snap a timestamp to the nearest interval boundary relative to an origin
 SELECT DATE_BIN('7 days', e.created_at, '2023-01-02') as week_start FROM Entity e
 
--- Range bounds: third argument controls inclusivity — default is '[)' (inclusive lower, exclusive upper)
+-- Range bounds: third argument controls inclusivity - default is '[)' (inclusive lower, exclusive upper)
 SELECT DATERANGE(e.start_date, e.end_date, '[]') as inclusive_range FROM Entity e
 
 -- Range operators must be compared with = TRUE / = FALSE in Doctrine DQL
@@ -123,7 +123,7 @@ PostgreSQL ranges support [different bound types](https://www.postgresql.org/doc
 - **numrange**: Numeric ranges (decimal/float)
 
 ### Empty and infinite ranges
-- Empty ranges: a range containing no values, which PostgreSQL prints as `empty` (e.g. `DATERANGE('2023-01-01', '2023-01-01')`). In PHP, use `DateRange::empty()` and `isEmpty()` — see [Empty ranges](RANGE-TYPES.md#empty-ranges). A range with two `NULL` bounds is not empty: it is `(,)`, [unbounded on both sides](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INFINITE)
+- Empty ranges: a range containing no values, which PostgreSQL prints as `empty` (e.g. `DATERANGE('2023-01-01', '2023-01-01')`). In PHP, use `DateRange::empty()` and `isEmpty()` - see [Empty ranges](RANGE-TYPES.md#empty-ranges). A range with two `NULL` bounds is not empty: it is `(,)`, [unbounded on both sides](https://www.postgresql.org/docs/18/rangetypes.html#RANGETYPES-INFINITE)
 - Infinite ranges: Use a parameter set to `null` for unbounded sides (DQL does not accept a bare `NULL` argument)
 - Example: `DATERANGE('2023-01-01', :noEnd)` with `:noEnd` set to `null` represents "from 2023-01-01 onwards"
 

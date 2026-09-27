@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Infinity values
 
-PostgreSQL has infinity in several type families, and this library gives it three different PHP shapes. The shape is not a style choice — it follows from what `null` already means in that position.
+PostgreSQL has infinity in several type families, and this library gives it three different PHP shapes. The shape is not a style choice - it follows from what `null` already means in that position.
 
 ## Floats: PHP's `INF` and `NAN`
 
@@ -11,7 +11,7 @@ Items of `real[]` and `double precision[]`, `Cube` coordinates and the geometric
 new Point(\INF, 2.0);      // point -> (Infinity,2)
 ```
 
-Items of `numeric[]` are the exception: they stay strings so that arbitrary precision survives, and their non-finite values stay strings with them — `'NaN'`, `'Infinity'`, `'-Infinity'`, spelled the way PostgreSQL prints them. See [Numeric array type](AVAILABLE-TYPES.md#numeric-array-type).
+Items of `numeric[]` are the exception: they stay strings so that arbitrary precision survives, and their non-finite values stay strings with them - `'NaN'`, `'Infinity'`, `'-Infinity'`, spelled the way PostgreSQL prints them. See [Numeric array type](AVAILABLE-TYPES.md#numeric-array-type).
 
 ## Range bounds: boolean flags
 
@@ -23,9 +23,9 @@ SELECT lower('(,)'::daterange) IS NULL;                      -- true
 SELECT lower('[-infinity,infinity)'::daterange);             -- -infinity
 ```
 
-`null` already carries "this end is unbounded", so a bound of infinity needs a third state next to it — hence the flag. See [Range types](RANGE-TYPES.md#infinity-support), which also covers the `NumericRange(0, INF)` shorthand.
+`null` already carries "this end is unbounded", so a bound of infinity needs a third state next to it - hence the flag. See [Range types](RANGE-TYPES.md#infinity-support), which also covers the `NumericRange(0, INF)` shorthand.
 
-`NaN` needs no flag of its own. PostgreSQL [orders it above every `numeric` value](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) rather than leaving the end open, so it is a bound like any other and travels as `NAN` in the bound itself — the float shape above, inside a range. See [NaN bounds](RANGE-TYPES.md#nan-bounds).
+`NaN` needs no flag of its own. PostgreSQL [orders it above every `numeric` value](https://www.postgresql.org/docs/18/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) rather than leaving the end open, so it is a bound like any other and travels as `NAN` in the bound itself - the float shape above, inside a range. See [NaN bounds](RANGE-TYPES.md#nan-bounds).
 
 ## Array elements: an enum sentinel
 
