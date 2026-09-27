@@ -21,8 +21,8 @@ class MakeDate extends BaseFunction
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('make_date(%s, %s, %s)');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

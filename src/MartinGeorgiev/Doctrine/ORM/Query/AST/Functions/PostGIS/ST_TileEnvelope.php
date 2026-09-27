@@ -25,9 +25,9 @@ class ST_TileEnvelope extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,StringPrimary,ArithmeticPrimary',
-            'ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary,StringPrimary',
-            'ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary',
+            'SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression,StringPrimary,SimpleArithmeticExpression',
+            'SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression,StringPrimary',
+            'SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression',
         ];
     }
 

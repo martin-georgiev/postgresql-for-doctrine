@@ -21,11 +21,11 @@ class MakeTimestamp extends BaseFunction
     protected function customizeFunction(): void
     {
         $this->setFunctionPrototype('make_timestamp(%s, %s, %s, %s, %s, %s)');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

@@ -25,7 +25,7 @@ class ST_RemoveSmallParts extends BaseFunction
     {
         $this->setFunctionPrototype('ST_RemoveSmallParts(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

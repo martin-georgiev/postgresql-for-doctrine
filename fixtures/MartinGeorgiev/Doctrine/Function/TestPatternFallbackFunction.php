@@ -21,7 +21,7 @@ class TestPatternFallbackFunction extends BaseVariadicFunction
     {
         return [
             'StringPrimary,StringPrimary',
-            'ArithmeticPrimary,ArithmeticPrimary',
+            'SimpleArithmeticExpression,SimpleArithmeticExpression',
         ];
     }
 

@@ -39,9 +39,9 @@ class JsonGetField extends BaseFunction
 
         // Second parameter can be either an index or a property name
         try {
-            $nodeForJsonIndexOrPropertyName = $parser->ArithmeticPrimary();
+            $nodeForJsonIndexOrPropertyName = $parser->SimpleArithmeticExpression();
         } catch (QueryException) {
-            // If ArithmeticPrimary fails (e.g., when encountering a property name rather than an index), try StringPrimary
+            // If SimpleArithmeticExpression fails (e.g., when encountering a property name rather than an index), try StringPrimary
             $nodeForJsonIndexOrPropertyName = $parser->StringPrimary();
         }
 

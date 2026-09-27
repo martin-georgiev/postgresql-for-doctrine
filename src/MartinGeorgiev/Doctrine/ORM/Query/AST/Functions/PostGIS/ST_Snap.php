@@ -25,6 +25,6 @@ class ST_Snap extends BaseFunction
         $this->setFunctionPrototype('ST_Snap(%s, %s, %s)');
         $this->addNodeMapping('StringPrimary');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

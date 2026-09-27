@@ -21,8 +21,8 @@ class RegexpCount extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,StringPrimary,ArithmeticPrimary,StringPrimary',
-            'StringPrimary,StringPrimary,ArithmeticPrimary',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression,StringPrimary',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression',
             'StringPrimary,StringPrimary',
         ];
     }

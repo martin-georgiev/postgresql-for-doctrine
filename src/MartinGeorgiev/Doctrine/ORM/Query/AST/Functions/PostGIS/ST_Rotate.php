@@ -26,9 +26,9 @@ class ST_Rotate extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary',
-            'StringPrimary,ArithmeticPrimary,StringPrimary',
-            'StringPrimary,ArithmeticPrimary',
+            'StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,SimpleArithmeticExpression,StringPrimary',
+            'StringPrimary,SimpleArithmeticExpression',
         ];
     }
 

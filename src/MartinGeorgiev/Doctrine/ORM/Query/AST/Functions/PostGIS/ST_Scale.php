@@ -24,7 +24,7 @@ class ST_Scale extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,ArithmeticPrimary,ArithmeticPrimary,ArithmeticPrimary'];
+        return ['StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,SimpleArithmeticExpression'];
     }
 
     protected function getFunctionName(): string

@@ -25,6 +25,6 @@ class ST_PointN extends BaseFunction
     {
         $this->setFunctionPrototype('ST_PointN(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

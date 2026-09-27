@@ -25,6 +25,6 @@ class ST_CurveN extends BaseFunction
     {
         $this->setFunctionPrototype('ST_CurveN(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }
