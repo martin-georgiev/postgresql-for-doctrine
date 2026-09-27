@@ -221,4 +221,4 @@ ALTER TYPE inventory_item RENAME ATTRIBUTE name TO title CASCADE;
 
 `CASCADE` is required when tables already use the type. Update `getFieldTypes()` after any of them.
 
-Adding or dropping an attribute changes the field count, which is reported as `InvalidCompositeForPHPException` on the next read rather than silently mis-assigning values. A rename isn't caught: the count still matches, so reads keep succeeding and simply return the old key names.
+Adding or dropping an attribute changes the field count, which is reported as `InvalidCompositeForPHPException` on the next read rather than silently mis-assigning values. A rename is not caught: the count still matches, so reads keep succeeding and return the old key names.

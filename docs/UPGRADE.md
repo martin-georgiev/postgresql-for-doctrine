@@ -21,7 +21,7 @@ Only those nine change what the DBAL types throw — same messages, different cl
 ## How to Upgrade to Version 3.0
 
 ### 1. Review type handling in your code
-If your application relies on automatic type conversion between PostgreSQL and PHP (e.g., expecting string numbers to be converted to actual numbers or vice versa), you'll need to update your code to explicitly handle type conversion where needed.
+If your application relies on automatic type conversion between PostgreSQL and PHP (e.g., expecting string numbers to be converted to actual numbers or vice versa), you need to update your code to explicitly handle type conversion where needed.
 
 ```php
 // Before: Might convert '1.0' to integer 1
@@ -34,7 +34,7 @@ $numericValue = (float)$tags[0] + 2; // Explicit conversion needed
 ```
 
 ### 2. Update your code to handle exceptions
-If you're catching specific exception types when working with `JsonbArray`, update your exception handling to catch the new `InvalidJsonItemForPHPException` and `InvalidJsonArrayItemForPHPException`.
+If you catch specific exception types when working with `JsonbArray`, update your exception handling to catch the new `InvalidJsonItemForPHPException` and `InvalidJsonArrayItemForPHPException`.
 
 ```php
 // Before

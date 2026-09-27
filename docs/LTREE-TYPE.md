@@ -64,7 +64,7 @@ $path->getParent();                                     // Top.Sports
 $path->withLeaf('UEFA');                                // Top.Sports.Football.UEFA
 ```
 
-Doctrine can't define GiST indexes with the [required ltree operator classes](https://www.postgresql.org/docs/18/ltree.html#LTREE-INDEXES). Create the index manually in a migration:
+Doctrine cannot define GiST indexes with the [required ltree operator classes](https://www.postgresql.org/docs/18/ltree.html#LTREE-INDEXES). Create the index manually in a migration:
 
 ```sql
 CREATE INDEX category_path_gist_idx ON category USING GIST (path gist_ltree_ops(siglen=100));

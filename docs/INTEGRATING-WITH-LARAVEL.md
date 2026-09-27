@@ -410,7 +410,7 @@ return [
 
 ### Register DQL Functions
 
-Register the functions you'll use in your [DQL queries](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#custom-functions). The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
+Register the functions you use in your [DQL queries](https://laravel-doctrine-orm-official.readthedocs.io/en/latest/configuration.html#custom-functions). The full set of available functions and operators can be found in the [Available Functions and Operators](AVAILABLE-FUNCTIONS-AND-OPERATORS.md) documentation and its specialized sub-pages:
 - [Array and JSON Functions](ARRAY-AND-JSON-FUNCTIONS.md)
 - [PostGIS Spatial Functions](SPATIAL-FUNCTIONS-AND-OPERATORS.md)
 - [Text and Pattern Functions](TEXT-AND-PATTERN-FUNCTIONS.md)

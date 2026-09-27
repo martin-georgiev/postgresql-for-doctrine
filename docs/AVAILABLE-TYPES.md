@@ -269,7 +269,7 @@ The `uuid[]` type validates UUID format and returns `string[]` rather than UUID 
 - **Consistent with other array types** - Follows the same pattern as `TextArray`, `IntegerArray`, etc.
 - **Framework agnostic** - Compatible with any UUID library of your choice
 
-If you need UUID objects, you can easily convert the strings:
+If you need UUID objects, convert the strings:
 
 ```php
 // With ramsey/uuid

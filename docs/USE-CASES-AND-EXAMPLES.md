@@ -2,22 +2,21 @@
 
 ## Clarification on usage of `ILIKE`, `CONTAINS`, `IS_CONTAINED_BY`, `DATE_OVERLAPS` and other operator-like functions
 
-`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is probably one of the most common DQL errors you may experience when working with this library. The cause for this is that when parsing the DQL Doctrine won't recognize `ILIKE` as a [known operator](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#other-expressions-1). In fact `ILIKE` is registered as a boolean function.
-Doctrine doesn't provide easy support for implementing custom operators. This may change in the future but for now it is easier to trick the DQL parser with a boolean expression.
+`Error: Expected =, <, <=, <>, >, >=, !=, got 'ILIKE'` (the column number depends on your query) is one of the most common DQL errors with this library. `ILIKE` is not one of [the operators DQL knows](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html#other-expressions-1), and Doctrine has no way to add one, so this library registers `ILIKE` as a boolean function instead. [A boolean function needs a comparison](DQL-DIALECT.md#boolean-functions-need-a-comparison).
 
-Example intent with PostgreSQL:
+In PostgreSQL you would write:
 ```sql
 SELECT * FROM emails WHERE subject ILIKE 'Test email';
 ```
 
-Intuitively, one may assume the below DQL. However it will not work:
+The same in DQL does not parse:
 ```sql
 SELECT e
 FROM EmailEntity e
 WHERE e.subject ILIKE 'Test email'
 ```
 
-The correct DQL is with a boolean expression that will parse correctly and can look like this:
+Call `ILIKE` as a function and compare the result with `TRUE`:
 ```sql
 SELECT e
 FROM EmailEntity e
@@ -541,7 +540,7 @@ class MyEntity implements \Stringable
 }
 ```
 
-Create the GiST index manually in a migration — Doctrine can't generate ltree-specific operator class syntax:
+Create the GiST index manually in a migration — Doctrine cannot generate ltree-specific operator class syntax:
 
 ```sql
 CREATE INDEX my_entity_path_gist_idx ON my_entity USING GIST (path gist_ltree_ops(siglen=100));
