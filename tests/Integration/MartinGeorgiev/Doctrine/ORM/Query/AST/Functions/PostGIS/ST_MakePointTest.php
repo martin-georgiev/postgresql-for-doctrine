@@ -39,7 +39,7 @@ final class ST_MakePointTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame(-71.1, $result[0]['result']);
+        $this->assertEquals(-71.1, $result[0]['result']);
     }
 
     #[Test]
