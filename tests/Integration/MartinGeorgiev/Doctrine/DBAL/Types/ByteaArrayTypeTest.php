@@ -15,19 +15,6 @@ final class ByteaArrayTypeTest extends ArrayTypeTestCase
     }
 
     /**
-     * @return array<string, array{array<int, string|null>}>
-     */
-    public static function provideValidTransformations(): array
-    {
-        return [
-            'array of ascii strings' => [['hello', 'world']],
-            'array with null item' => [['hello', null, 'world']],
-            'array with binary data' => [["binary\x00data", "\xFF\xFE"]],
-            'array with empty string' => [['']],
-        ];
-    }
-
-    /**
      * @param array<int, string|null> $arrayValue
      */
     #[DataProvider('provideValidTransformations')]
@@ -44,5 +31,18 @@ final class ByteaArrayTypeTest extends ArrayTypeTestCase
         } finally {
             $this->connection->executeStatement('RESET bytea_output');
         }
+    }
+
+    /**
+     * @return array<string, array{array<int, string|null>}>
+     */
+    public static function provideValidTransformations(): array
+    {
+        return [
+            'array of ascii strings' => [['hello', 'world']],
+            'array with null item' => [['hello', null, 'world']],
+            'array with binary data' => [["binary\x00data", "\xFF\xFE"]],
+            'array with empty string' => [['']],
+        ];
     }
 }

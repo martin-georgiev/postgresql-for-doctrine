@@ -187,6 +187,17 @@ final class ByteaArrayTest extends TestCase
     }
 
     /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidPHPValueInputs(): array
+    {
+        return [
+            'lone backslash in the escape format' => ['{"\\\\q"}'],
+            'invalid hex content' => ['{"\\\\xZZZZ"}'],
+        ];
+    }
+
+    /**
      * @param list<string|null> $expectedPHPArray
      */
     #[DataProvider('provideValidPostgresArraysForPHP')]
@@ -210,18 +221,7 @@ final class ByteaArrayTest extends TestCase
                     LITERAL,
                 ["a\\'\"\x00\x01B\xFF", 'abc', '', null],
             ],
-        ];
-    }
-
-    /**
-     * @return array<string, array{string}>
-     */
-    public static function provideInvalidPHPValueInputs(): array
-    {
-        return [
-            'non-string item' => ['{42}'],
-            'lone backslash in the escape format' => ['{"\\\\q"}'],
-            'invalid hex content' => ['{"\\\\xZZZZ"}'],
+            'escape output of digits, which PostgreSQL leaves unquoted' => ['{42}', ['42']],
         ];
     }
 

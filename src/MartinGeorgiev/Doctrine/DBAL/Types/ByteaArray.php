@@ -23,6 +23,16 @@ class ByteaArray extends BaseStringArray
      */
     protected const TYPE_NAME = Type::BYTEA_ARRAY;
 
+    /**
+     * @var string
+     */
+    private const ESCAPE_FORMAT_PATTERN = '/\A(?:[^\\\\]|\\\\\\\\|\\\\[0-3][0-7]{2})*\z/s';
+
+    /**
+     * @var string
+     */
+    private const ESCAPE_SEQUENCE_PATTERN = '/\\\\(\\\\|[0-3][0-7]{2})/';
+
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
         return $item === null || \is_string($item);
@@ -47,8 +57,9 @@ class ByteaArray extends BaseStringArray
             return null;
         }
 
+        // The escape format doubles every backslash, so a value opening with a single one can only be hex
         if (!\str_starts_with($result, '\\x')) {
-            throw InvalidBytesArrayItemForPHPException::forInvalidFormat($result);
+            return $this->decodeEscapeFormat($result);
         }
 
         $decoded = @\hex2bin(\substr($result, 2));
@@ -58,6 +69,23 @@ class ByteaArray extends BaseStringArray
         }
 
         return $decoded;
+    }
+
+    /**
+     * PostgreSQL writes bytea in the escape format when bytea_output is 'escape': a backslash is doubled,
+     * a byte outside printable ASCII is a backslash and three octal digits, and every other byte stands for itself.
+     */
+    private function decodeEscapeFormat(string $value): string
+    {
+        if (\preg_match(self::ESCAPE_FORMAT_PATTERN, $value) !== 1) {
+            throw InvalidBytesArrayItemForPHPException::forInvalidFormat($value);
+        }
+
+        return (string) \preg_replace_callback(
+            self::ESCAPE_SEQUENCE_PATTERN,
+            static fn (array $matches): string => $matches[1] === '\\' ? '\\' : \pack('C', \octdec($matches[1])),
+            $value
+        );
     }
 
     protected function throwInvalidTypeExceptionForPHP(mixed $item): never
