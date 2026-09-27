@@ -12,6 +12,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
 /**
  * Adds option-aware SQL declaration for PostGIS types that support a type modifier.
  * Generates `TYPE(subtype,srid)` from the `geometry_type` and `srid` column options, otherwise bare `TYPE`.
+ * An array type carries the modifier on its item type, so `TYPE[]` becomes `TYPE(subtype,srid)[]`.
  *
  * @since 4.8
  *
@@ -39,12 +40,19 @@ trait SpatialColumnOptionsSQLDeclarationTrait
             return $typeName;
         }
 
-        $subtype = $geometryType ?? self::ANY_GEOMETRY_SUBTYPE;
-        if ($srid === null) {
-            return \sprintf('%s(%s)', $typeName, $subtype);
+        $arraySuffix = '';
+        $isAnArrayType = \str_ends_with($typeName, '[]');
+        if ($isAnArrayType) {
+            $arraySuffix = '[]';
+            $typeName = \substr($typeName, 0, -2);
         }
 
-        return \sprintf('%s(%s,%d)', $typeName, $subtype, $srid);
+        $subtype = $geometryType ?? self::ANY_GEOMETRY_SUBTYPE;
+        if ($srid === null) {
+            return \sprintf('%s(%s)%s', $typeName, $subtype, $arraySuffix);
+        }
+
+        return \sprintf('%s(%s,%d)%s', $typeName, $subtype, $srid, $arraySuffix);
     }
 
     /**

@@ -19,6 +19,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class GeometryArrayTest extends TestCase
 {
+    use SpatialColumnOptionsTestTrait;
+
     private GeometryArray $type;
 
     private AbstractPlatform&Stub $platform;
@@ -27,6 +29,19 @@ final class GeometryArrayTest extends TestCase
     {
         $this->type = new GeometryArray();
         $this->platform = $this->createStub(AbstractPlatform::class);
+    }
+
+    /**
+     * @param array<string, mixed> $fieldDeclaration
+     */
+    protected function getSQLDeclarationFor(array $fieldDeclaration): string
+    {
+        return $this->type->getSQLDeclaration($fieldDeclaration, $this->platform);
+    }
+
+    protected function getExpectedSQLDeclaration(string $typeModifier): string
+    {
+        return 'GEOMETRY'.$typeModifier.'[]';
     }
 
     #[Test]

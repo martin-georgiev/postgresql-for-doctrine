@@ -18,13 +18,23 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
         ];
     }
 
+    protected function getExpectedColumnType(): string
+    {
+        return \sprintf('%s(POINT,4326)', \strtoupper($this->getTypeName()));
+    }
+
+    /**
+     * The value a column of this type holds for one spatial value.
+     */
+    protected function toColumnValue(WktSpatialData $wktSpatialData): mixed
+    {
+        return $wktSpatialData;
+    }
+
     #[Test]
     public function creates_column_with_postgis_type_modifier(): void
     {
-        $this->assertSame(
-            \sprintf('%s(POINT,4326)', \strtoupper($this->getTypeName())),
-            $this->getPostgresTypeName()
-        );
+        $this->assertSame($this->getExpectedColumnType(), $this->getPostgresTypeName());
     }
 
     #[Test]
@@ -33,7 +43,7 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runDbalBindingRoundTrip($typeName, $columnType, WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'));
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $this->toColumnValue(WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)')));
     }
 
     #[Test]
@@ -45,8 +55,8 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
         $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
             $typeName,
             $columnType,
-            WktSpatialData::fromString('POINT(-122.4194 37.7749)'),
-            WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)')
+            $this->toColumnValue(WktSpatialData::fromString('POINT(-122.4194 37.7749)')),
+            $this->toColumnValue(WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)'))
         );
     }
 
@@ -58,6 +68,6 @@ abstract class ConstrainedSpatialColumnTypeTestCase extends TestCase
         $typeName = $this->getTypeName();
         $columnType = $this->getPostgresTypeName();
 
-        $this->runDbalBindingRoundTrip($typeName, $columnType, WktSpatialData::fromString('SRID=4326;LINESTRING(0 0,1 1)'));
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $this->toColumnValue(WktSpatialData::fromString('SRID=4326;LINESTRING(0 0,1 1)')));
     }
 }

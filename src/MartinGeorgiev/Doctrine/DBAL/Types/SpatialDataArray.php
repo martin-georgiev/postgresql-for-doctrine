@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\SpatialColumnOptionsSQLDeclarationTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\SpatialDataReadTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
@@ -21,6 +22,7 @@ use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
  */
 abstract class SpatialDataArray extends BaseArray
 {
+    use SpatialColumnOptionsSQLDeclarationTrait;
     use SpatialDataReadTrait;
 
     /**
