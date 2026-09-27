@@ -79,7 +79,7 @@ The results come from these rows of `Entity`, with times in UTC:
 | 2 | 2026-01-20 | 2026-01-31 | 2026-08-01 08:00 | 2026-08-01 09:00 | 2026-01-28 16:00 | `[2024-01-01,2024-02-01)` |
 | 3 | 2026-02-15 | 2026-02-20 | 2026-09-20 08:00 | 2026-09-20 08:30 | 2026-02-03 12:00 | `[2023-12-15,2024-01-15)` |
 
-Each `-- →` line under a query is one row of `getResult()`, measured on PostgreSQL 18 with PHP 8.5, DBAL 4.5 and ORM 3.7 and the session time zone set to UTC; [What comes back: hydration](HYDRATION.md) explains the PHP types. A query without its own `ORDER BY` returns rows in no set order; the results list them in the order of the sample rows, or by group after a `GROUP BY`.
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
 
 ```sql
 -- Find gaps in date ranges

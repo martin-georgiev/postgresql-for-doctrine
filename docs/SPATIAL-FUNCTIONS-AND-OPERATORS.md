@@ -241,14 +241,14 @@ These functions work with measures along linear geometries for operations like l
 
 These examples cover the cases where the DQL wiring is not obvious. Everything else follows the tables above - call the function with the arguments PostGIS documents.
 
-The results come from these rows of `Entity`, measured on PostGIS 3.6. `polygon` carries SRID 4326; the other columns have no SRID.
+The results come from these rows of `Entity`. `polygon` carries SRID 4326; the other columns have no SRID.
 
 | id | geometry | geometry1 | geometry2 | polygon |
 |---|---|---|---|---|
 | 1 | `POINT(-3 1.123456)` | `POLYGON((0 0,4 0,4 4,0 4,0 0))` | `POLYGON((2 2,6 2,6 6,2 6,2 2))` | `SRID=4326;POLYGON((0 0,5 0,5 5,0 5,0 0))` |
 | 2 | `POINT(700 0)` | `POLYGON((0 0,4 0,4 4,0 4,0 0))` | `POLYGON((5 5,6 5,6 6,5 6,5 5))` | `SRID=4326;POLYGON((10 10,12 10,12 12,10 12,10 10))` |
 
-Each `-- →` line under a query is one row of `getResult()`, measured on PostgreSQL 18 with PHP 8.5, DBAL 4.5 and ORM 3.7 and the session time zone set to UTC; [What comes back: hydration](HYDRATION.md) explains the PHP types. A query without its own `ORDER BY` returns rows in no set order; the results list them in the order of the sample rows, or by group after a `GROUP BY`.
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
 
 ```sql
 -- Boolean operators and functions need an explicit comparison in DQL

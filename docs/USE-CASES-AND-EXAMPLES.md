@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg"><img src="assets/logo.svg" alt="" width="32" height="32" align="absmiddle"></picture> Common use cases and examples
 
-This page shows common tasks as DQL, each with the result it returns. The results come from the sample rows below, measured on PostgreSQL 18 and PostGIS 3.6 with PHP 8.5, DBAL 4.5 and ORM 3.7, and the session time zone set to UTC. Each `-- →` line under a query is one row of `getResult()`; [What comes back: hydration](HYDRATION.md) explains the PHP types. A query without its own `ORDER BY` returns rows in no set order; the results list them in the order of the sample rows, or by group after a `GROUP BY`.
+This page shows common tasks as DQL, each with the result it returns from the sample rows below, with times in UTC. Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
 
 <details markdown="1">
 <summary>The sample rows behind the results</summary>

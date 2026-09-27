@@ -26,7 +26,7 @@ The results come from these rows of `App\Entity\Article`, read with PostgreSQL's
 | 2 | news | `<feed><item><title>Third</title></item></feed>` | `<item/><item/>` | 2026-09-02 08:00 |
 | 3 | blog | `<feed/>` | `plain text` | 2026-09-03 08:00 |
 
-Each `-- →` line under a query is one row of `getResult()`, measured on PostgreSQL 18 with PHP 8.5, DBAL 4.5 and ORM 3.7 and the session time zone set to UTC; [What comes back: hydration](HYDRATION.md) explains the PHP types. A query without its own `ORDER BY` returns rows in no set order; the results list them in the order of the sample rows, or by group after a `GROUP BY`.
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
 
 ```sql
 -- ORDER BY inside the aggregate - not obvious in Doctrine DQL

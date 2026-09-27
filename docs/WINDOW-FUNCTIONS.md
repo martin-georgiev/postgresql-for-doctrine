@@ -152,7 +152,7 @@ The results come from these rows. `Sale` belongs to a `Customer`; `amount` and `
 | coffee | 2026-09-01 | 7.00 |
 | coffee | 2026-09-02 | 7.25 |
 
-Each `-- →` line under a query is one row of `getResult()`, measured on PostgreSQL 18 with PHP 8.5, DBAL 4.5 and ORM 3.7 and the session time zone set to UTC; [What comes back: hydration](HYDRATION.md) explains the PHP types. A query without its own `ORDER BY` returns rows in no set order; the results list them in the order of the sample rows, or by group after a `GROUP BY`.
+Each `-- →` line under a query is one row of its result. A query without its own `ORDER BY` has its rows listed in sample-row order, or by group.
 
 ```sql
 -- Running total per customer, in the order they were placed
