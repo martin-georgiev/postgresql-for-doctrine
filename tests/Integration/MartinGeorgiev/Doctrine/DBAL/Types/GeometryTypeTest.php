@@ -56,19 +56,6 @@ final class GeometryTypeTest extends TestCase
         $this->assertWktEquals($expected, $actual);
     }
 
-    protected function getSelectExpression(string $columnName): string
-    {
-        return \sprintf(
-            'CASE WHEN ST_SRID("%s") = 0 THEN ST_AsText("%s", 25) ELSE '
-            ."'SRID=' || ST_SRID(\"%s\") || ';' || ST_AsText(\"%s\", 25) END AS \"%s\"",
-            $columnName,
-            $columnName,
-            $columnName,
-            $columnName,
-            $columnName
-        );
-    }
-
     #[Test]
     public function roundtrips_null_value(): void
     {

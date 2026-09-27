@@ -56,12 +56,6 @@ final class GeographyTypeTest extends TestCase
         $this->assertWktEquals($expected, $actual);
     }
 
-    protected function getSelectExpression(string $columnName): string
-    {
-        // For geography, avoid adding SRID prefix to preserve original input format
-        return \sprintf('ST_AsText("%s"::geometry, 25) AS "%s"', $columnName, $columnName);
-    }
-
     #[Test]
     public function roundtrips_null_value(): void
     {
@@ -79,6 +73,20 @@ final class GeographyTypeTest extends TestCase
         $columnType = $this->getPostgresTypeName();
 
         $this->runDbalBindingRoundTrip($typeName, $columnType, $wktSpatialData);
+    }
+
+    #[Test]
+    public function normalizes_sridless_value_to_srid_4326(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
+            $typeName,
+            $columnType,
+            WktSpatialData::fromString('POINT(-122.4194 37.7749)'),
+            WktSpatialData::fromString('SRID=4326;POINT(-122.4194 37.7749)')
+        );
     }
 
     #[Test]
@@ -107,18 +115,18 @@ final class GeographyTypeTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
-            'point' => [WktSpatialData::fromString('POINT(1 2)')],
-            'linestring' => [WktSpatialData::fromString('LINESTRING(0 0,1 1,2 2)')],
-            'polygon' => [WktSpatialData::fromString('POLYGON((0 0,0 1,1 1,1 0,0 0))')],
-            'geometrycollection' => [WktSpatialData::fromString('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
-            'point with full double precision' => [WktSpatialData::fromString('POINT(-122.41941234567891 0.00012345678901234567)')],
-            'point z' => [WktSpatialData::fromString('POINT Z(-122.4194 37.7749 100)')],
-            'linestring m' => [WktSpatialData::fromString('LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
-            'polygon zm' => [WktSpatialData::fromString('POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],
-            'point empty' => [WktSpatialData::fromString('POINT EMPTY')],
-            'polygon empty' => [WktSpatialData::fromString('POLYGON EMPTY')],
-            'geometrycollection empty' => [WktSpatialData::fromString('GEOMETRYCOLLECTION EMPTY')],
-            'point z empty' => [WktSpatialData::fromString('POINT Z EMPTY')],
+            'point' => [WktSpatialData::fromString('SRID=4326;POINT(1 2)')],
+            'linestring' => [WktSpatialData::fromString('SRID=4326;LINESTRING(0 0,1 1,2 2)')],
+            'polygon' => [WktSpatialData::fromString('SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))')],
+            'geometrycollection' => [WktSpatialData::fromString('SRID=4326;GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 0,1 1))')],
+            'point with full double precision' => [WktSpatialData::fromString('SRID=4326;POINT(-122.41941234567891 0.00012345678901234567)')],
+            'point z' => [WktSpatialData::fromString('SRID=4326;POINT Z(-122.4194 37.7749 100)')],
+            'linestring m' => [WktSpatialData::fromString('SRID=4326;LINESTRING M(-122.4194 37.7749 1,-122.4094 37.7849 2)')],
+            'polygon zm' => [WktSpatialData::fromString('SRID=4326;POLYGON ZM((-122.5 37.7 0 1,-122.5 37.8 0 1,-122.4 37.8 0 1,-122.4 37.7 0 1,-122.5 37.7 0 1))')],
+            'point empty' => [WktSpatialData::fromString('SRID=4326;POINT EMPTY')],
+            'polygon empty' => [WktSpatialData::fromString('SRID=4326;POLYGON EMPTY')],
+            'geometrycollection empty' => [WktSpatialData::fromString('SRID=4326;GEOMETRYCOLLECTION EMPTY')],
+            'point z empty' => [WktSpatialData::fromString('SRID=4326;POINT Z EMPTY')],
         ];
     }
 }

@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Type;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidGeometryForPHPException;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
-use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 
 /**
  * Implementation of PostGIS GEOMETRY data type.
@@ -26,33 +23,18 @@ final class Geometry extends BaseSpatialType
      */
     protected const TYPE_NAME = Type::GEOMETRY;
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    protected function throwInvalidTypeExceptionForDatabase(mixed $value): never
     {
-        if ($value === null) {
-            return null;
-        }
-
-        if (!$value instanceof WktSpatialData) {
-            throw InvalidGeometryForDatabaseException::forInvalidType($value);
-        }
-
-        return (string) $value;
+        throw InvalidGeometryForDatabaseException::forInvalidType($value);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?WktSpatialData
+    protected function throwInvalidTypeExceptionForPHP(mixed $value): never
     {
-        if ($value === null) {
-            return null;
-        }
+        throw InvalidGeometryForPHPException::forInvalidType($value);
+    }
 
-        if (!\is_string($value)) {
-            throw InvalidGeometryForPHPException::forInvalidType($value);
-        }
-
-        try {
-            return WktSpatialData::fromString($value);
-        } catch (InvalidWktSpatialDataException) {
-            throw InvalidGeometryForPHPException::forInvalidFormat($value);
-        }
+    protected function throwInvalidFormatExceptionForPHP(mixed $value): never
+    {
+        throw InvalidGeometryForPHPException::forInvalidFormat($value);
     }
 }

@@ -137,7 +137,7 @@ What an entity property holds, and what a mapped field holds in a `getResult()` 
 | `hstore[]` | `list<array<string, ?string>>` | |
 | `int4range[]` and the other range arrays | `list<?Int4Range>`, … | |
 | an enum array | `list<?YourEnum>` | See [PostgreSQL enum types](ENUM-TYPE.md) |
-| `geometry[]`, `geography[]` | reading fails | See [Errors](#errors) |
+| `geometry[]`, `geography[]` | `list<?WktSpatialData>` | |
 | `int4range`, `int8range` | `Int4Range`, `Int8Range` | |
 | `numrange` | `NumericRange` | Bounds are PHP `int` or `float` |
 | `daterange`, `tsrange`, `tstzrange` | `DateRange`, `TsRange`, `TstzRange` | |
@@ -197,4 +197,3 @@ If you read these strings, set the time zone when you connect (`SET TIME ZONE 'U
 - **`getSingleScalarResult()` returns `'{php,postgres}'` for `p.tags`.** The scalar result methods skip the DBAL type. Use `getSingleResult()` and take the column from the row.
 - **`Cannot assign int to property App\Entity\Product::$attributes of type ?array`.** That row's `jsonb` value is a plain number. Type the property `mixed`; see [jsonb](#jsonb).
 - **`Type "jsonb" already exists`, or a big `jsonb` integer arrives as a `float`.** DBAL 4.3+ [ships its own `jsonb` type](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/types.html#jsonb). Register this library's type with `Type::overrideType('jsonb', Jsonb::class)`.
-- **Loading a `geometry[]` or `geography[]` column fails with `Invalid Geometry value object format: '0101000020E6…'`.** PostgreSQL sends the items as EWKB hex, and the array types read only WKT. Read the column with a native query that selects `ARRAY(SELECT CASE WHEN ST_SRID(e) = 0 THEN ST_AsText(e) ELSE 'SRID=' || ST_SRID(e) || ';' || ST_AsText(e) END FROM unnest(col) AS e)`.

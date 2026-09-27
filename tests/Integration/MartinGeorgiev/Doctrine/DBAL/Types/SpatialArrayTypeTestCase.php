@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Types\Type;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsSpatialArrays;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -33,14 +32,6 @@ abstract class SpatialArrayTypeTestCase extends TestCase
         ', $fullTableName);
 
         $this->connection->executeStatement($sql);
-    }
-
-    protected function getSelectExpression(string $columnName): string
-    {
-        $platform = $this->connection->getDatabasePlatform();
-        $columnSql = Type::getType($this->getTypeName())->convertToPHPValueSQL(\sprintf('"%s"', $columnName), $platform);
-
-        return \sprintf('%s AS "%s"', $columnSql, $columnName);
     }
 
     #[Test]

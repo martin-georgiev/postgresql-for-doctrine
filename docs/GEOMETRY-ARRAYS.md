@@ -71,7 +71,7 @@ Loading the entity gives the same list back. The items of one array may mix geom
 
 ## Dimensional modifiers
 
-An array item reads back with its dimensional modifier spelled `POINT Z(…)`, whichever way PostgreSQL printed it:
+An array item reads back with its dimensional modifier spelled `POINT Z(…)`, exactly like a single value:
 
 ```text
 POINTZ(1 2 3)               => POINT Z(1 2 3)
@@ -81,7 +81,20 @@ POINT Z (1 2 3)             => POINT Z(1 2 3)
 SRID=4326;POINT Z (1 2 3)   => SRID=4326;POINT Z(1 2 3)
 ```
 
-The glued spelling on the first three lines works only here: `WktSpatialData` and the scalar `geometry` and `geography` types reject it. [How dimensional modifiers are spelled](SPATIAL-TYPES.md#how-dimensional-modifiers-are-spelled) compares the two.
+> **See also:** [How dimensional modifiers are spelled](SPATIAL-TYPES.md#how-dimensional-modifiers-are-spelled)
+
+## Constraining the items
+
+The `geometry_type` and `srid` column options work on the array types too. The modifier goes on the item type, so PostgreSQL checks every item:
+
+```php
+// GEOMETRY(POINT,4326)[]
+/** @var list<?WktSpatialData> */
+#[ORM\Column(type: 'geometry[]', options: ['geometry_type' => 'Point', 'srid' => 4326])]
+private array $stops;
+```
+
+An item of another geometry type or SRID fails at insert time, and an item without an SRID is stored with 4326. [Column options for DDL](SPATIAL-TYPES.md#column-options-for-ddl) lists the options.
 
 ## Indexing
 

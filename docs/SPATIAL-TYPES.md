@@ -8,15 +8,15 @@ A `geometry` or `geography` column maps to the `WktSpatialData` value object, wh
 
 A dimensional modifier (`Z`, `M` or `ZM`) follows the type name, and the value you get back is always spelled `POINT Z(…)`: one space before the modifier, none after it. What you write is not always what you read back:
 
-| You write | `WktSpatialData`, `geometry`, `geography` | `geometry[]`, `geography[]` |
-|---|---|---|
-| `POINT Z (1 2 3)` | `POINT Z(1 2 3)` | `POINT Z(1 2 3)` |
-| `SRID=4326;POINT Z (1 2 3)` | `SRID=4326;POINT Z(1 2 3)` | `SRID=4326;POINT Z(1 2 3)` |
-| `POINTZ(1 2 3)` | rejected | `POINT Z(1 2 3)` |
-| `LINESTRINGM(0 0 1, 1 1 2)` | rejected | `LINESTRING M(0 0 1, 1 1 2)` |
-| `POLYGONZM((…))` | rejected | `POLYGON ZM((…))` |
+| You write | You read back |
+|---|---|
+| `POINT Z (1 2 3)` | `POINT Z(1 2 3)` |
+| `SRID=4326;POINT Z (1 2 3)` | `SRID=4326;POINT Z(1 2 3)` |
+| `POINTZ(1 2 3)` | `POINT Z(1 2 3)` |
+| `LINESTRINGM(0 0 1, 1 1 2)` | `LINESTRING M(0 0 1, 1 1 2)` |
+| `POLYGONZM((…))` | `POLYGON ZM((…))` |
 
-Where a value is rejected, `WktSpatialData::fromString()` throws `InvalidWktSpatialDataException`, and the `geometry` and `geography` types throw their `Invalid…ForPHPException` on read. Only the array types accept the glued spelling. Write `POINT Z(…)` yourself, and compare values in that spelling rather than in the string you started from.
+`WktSpatialData`, the `geometry` and `geography` types and their arrays all read these the same way. Compare values in the spelling on the right, not in the string you started from.
 
 ## Creating spatial data
 
@@ -158,7 +158,7 @@ $polyhedralSurface = WktSpatialData::fromString('POLYHEDRALSURFACE(((0 0, 0 1, 1
 
 ## Column options for DDL
 
-By default `geometry` and `geography` columns are declared as bare `GEOMETRY` / `GEOGRAPHY`. A bare `GEOMETRY` column accepts any subtype and any SRID. A bare `GEOGRAPHY` column is [narrower](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables): it accepts only geography-compatible subtypes (PostGIS rejects `TIN`, for example) and geodetic lon/lat SRIDs, and stores SRID-less input as SRID 4326. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
+By default `geometry` and `geography` columns, and their arrays, are declared as bare `GEOMETRY` / `GEOGRAPHY`. A bare `GEOMETRY` column accepts any subtype and any SRID. A bare `GEOGRAPHY` column is [narrower](https://postgis.net/docs/using_postgis_dbmanagement.html#Create_Geography_Tables): it accepts only geography-compatible subtypes (PostGIS rejects `TIN`, for example) and geodetic lon/lat SRIDs, and stores SRID-less input as SRID 4326. Two column options add a PostGIS type modifier so the constraint is enforced by PostgreSQL itself:
 
 | Option | Type | Meaning |
 |---|---|---|
@@ -187,8 +187,15 @@ class Place
     // GEOMETRY - unconstrained
     #[ORM\Column(type: 'geometry')]
     private WktSpatialData $shape;
+
+    // GEOGRAPHY(POINT,4326)[] - every item a WGS 84 point
+    /** @var list<?WktSpatialData> */
+    #[ORM\Column(type: 'geography[]', options: ['geometry_type' => 'Point', 'srid' => 4326])]
+    private array $stops;
 }
 ```
+
+An array type carries the modifier on its item type, `GEOGRAPHY(POINT,4326)[]`, and PostgreSQL checks every item against it.
 
 Both options are optional and independent:
 
@@ -340,4 +347,4 @@ $spatialData->getSrid();         // 4326, or null when the string carries no SRI
 
 `WktSpatialData::fromString()` reads WKT and EWKT. The type names and modifiers it accepts come from two enums, `GeometryType` and `DimensionalModifier`.
 
-`GeometryArray` and `GeographyArray` share the `SpatialDataArray` base. It splits a PostgreSQL array literal into items, quoted or not, and keeps an item whole when its coordinate list contains commas or nested parentheses. It also rewrites the glued `POINTZ(…)` spelling to `POINT Z(…)` before handing each item to `WktSpatialData`, which is why only the array types accept it.
+`GeometryArray` and `GeographyArray` share the `SpatialDataArray` base. It splits a PostgreSQL array literal into items, quoted or not, and keeps an item whole when its coordinate list contains commas or nested parentheses. Each item then goes through `WktSpatialData::fromString()`, the same parser a single value uses.

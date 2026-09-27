@@ -19,6 +19,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class GeographyArrayTest extends TestCase
 {
+    use SpatialColumnOptionsTestTrait;
+
     private GeographyArray $type;
 
     private AbstractPlatform&Stub $platform;
@@ -27,6 +29,19 @@ final class GeographyArrayTest extends TestCase
     {
         $this->type = new GeographyArray();
         $this->platform = $this->createStub(AbstractPlatform::class);
+    }
+
+    /**
+     * @param array<string, mixed> $fieldDeclaration
+     */
+    protected function getSQLDeclarationFor(array $fieldDeclaration): string
+    {
+        return $this->type->getSQLDeclaration($fieldDeclaration, $this->platform);
+    }
+
+    protected function getExpectedSQLDeclaration(string $typeModifier): string
+    {
+        return 'GEOGRAPHY'.$typeModifier.'[]';
     }
 
     #[Test]
