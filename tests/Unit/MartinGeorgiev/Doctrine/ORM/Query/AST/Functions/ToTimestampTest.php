@@ -8,6 +8,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ToTimestampTest extends TestCase
@@ -35,24 +36,31 @@ final class ToTimestampTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideInvalidArgumentCountCases')]
     #[Test]
-    public function throws_exception_for_missing_arguments(): void
+    public function throws_exception_for_invalid_argument_count(string $dql, string $expectedMessage): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('to_timestamp() requires at least 1 argument');
+        $this->expectExceptionMessage($expectedMessage);
 
-        $dql = \sprintf('SELECT TO_TIMESTAMP() FROM %s e', ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    #[Test]
-    public function throws_exception_for_too_many_arguments(): void
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function provideInvalidArgumentCountCases(): array
     {
-        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('to_timestamp() requires between 1 and 2 arguments');
-
-        $dql = \sprintf("SELECT TO_TIMESTAMP(e.text1, 'DD Mon YYYY', 'extra') FROM %s e", ContainsTexts::class);
-        $this->buildEntityManager()->createQuery($dql)->getSQL();
+        return [
+            'too few arguments' => [
+                \sprintf('SELECT TO_TIMESTAMP() FROM %s e', ContainsTexts::class),
+                'to_timestamp() requires at least 1 argument',
+            ],
+            'too many arguments' => [
+                \sprintf("SELECT TO_TIMESTAMP(e.text1, 'DD Mon YYYY', 'extra') FROM %s e", ContainsTexts::class),
+                'to_timestamp() requires between 1 and 2 arguments',
+            ],
+        ];
     }
 
     #[Test]
