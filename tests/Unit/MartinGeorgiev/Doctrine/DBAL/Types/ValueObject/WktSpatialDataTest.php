@@ -365,6 +365,8 @@ final class WktSpatialDataTest extends TestCase
             'float coordinates' => [-122.4194, 37.7749, null, 'POINT(-122.4194 37.7749)'],
             'string coordinates' => ['-122.4194', '37.7749', null, 'POINT(-122.4194 37.7749)'],
             'with srid' => [-122.4194, 37.7749, 4326, 'SRID=4326;POINT(-122.4194 37.7749)'],
+            'float coordinates needing more than 14 significant digits' => [-122.41941234567891, 37.774912345678899, null, 'POINT(-122.41941234567891 37.774912345678899)'],
+            'not a number coordinate' => [\NAN, 1, null, 'POINT(NaN 1)'],
         ];
     }
 
@@ -393,6 +395,7 @@ final class WktSpatialDataTest extends TestCase
         return [
             'simple 3d point' => [1, 2, 3, null, 'POINT Z(1 2 3)'],
             'with srid' => [-122.4194, 37.7749, 100, 4326, 'SRID=4326;POINT Z(-122.4194 37.7749 100)'],
+            'elevation needing more than 14 significant digits' => [1, 2, 100.12345678901234, null, 'POINT Z(1 2 100.12345678901234)'],
         ];
     }
 
