@@ -61,38 +61,36 @@ abstract class BaseFloatArray extends BaseArray
             throw InvalidFloatArrayItemForDatabaseException::doesNotMatchRegex($item);
         }
 
-        $floatValue = (float) $stringValue;
-
-        if ($this->isBelowMinValue($stringValue, $floatValue)) {
+        if ($this->isBelowMinValue($stringValue)) {
             throw InvalidFloatArrayItemForDatabaseException::isBelowMinValue($item);
         }
 
-        if ($this->isAboveMaxValue($stringValue, $floatValue)) {
+        if ($this->isAboveMaxValue($stringValue)) {
             throw InvalidFloatArrayItemForDatabaseException::isAboveMaxValue($item);
         }
 
-        if ($this->roundsToZero($stringValue, $floatValue)) {
+        if ($this->roundsToZero($stringValue)) {
             throw InvalidFloatArrayItemForDatabaseException::absoluteValueIsTooCloseToZero($item);
         }
     }
 
-    protected function isBelowMinValue(string $value, float $floatValue): bool
+    protected function isBelowMinValue(string $value): bool
     {
-        return $floatValue < (float) $this->getMinValue();
+        return (float) $value < (float) $this->getMinValue();
     }
 
-    protected function isAboveMaxValue(string $value, float $floatValue): bool
+    protected function isAboveMaxValue(string $value): bool
     {
-        return $floatValue > (float) $this->getMaxValue();
+        return (float) $value > (float) $this->getMaxValue();
     }
 
     /**
      * PostgreSQL rounds a value to the nearest one its type holds, subnormals included, and rejects only a non-zero value
      * that rounds to zero. A PHP float is a double, so a value that rounds to zero in double precision parses as zero.
      */
-    protected function roundsToZero(string $value, float $floatValue): bool
+    protected function roundsToZero(string $value): bool
     {
-        return $floatValue === 0.0 && PostgresFloat::compareMagnitudes($value, '0') !== 0;
+        return (float) $value === 0.0 && PostgresFloat::compareMagnitudes($value, '0') !== 0;
     }
 
     protected function throwInvalidItemException(mixed $item): never

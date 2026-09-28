@@ -52,17 +52,17 @@ class RealArray extends BaseFloatArray
      * PostgreSQL rounds the text straight to real, while PHP rounds it to a double first. Near the two midpoints that
      * double can land on the other side, so the range is decided on the text as written.
      */
-    protected function isBelowMinValue(string $value, float $floatValue): bool
+    protected function isBelowMinValue(string $value): bool
     {
-        return $floatValue < 0 && PostgresFloat::compareMagnitudes($value, self::OVERFLOW_MIDPOINT) >= 0;
+        return (float) $value < 0 && PostgresFloat::compareMagnitudes($value, self::OVERFLOW_MIDPOINT) >= 0;
     }
 
-    protected function isAboveMaxValue(string $value, float $floatValue): bool
+    protected function isAboveMaxValue(string $value): bool
     {
-        return $floatValue > 0 && PostgresFloat::compareMagnitudes($value, self::OVERFLOW_MIDPOINT) >= 0;
+        return (float) $value > 0 && PostgresFloat::compareMagnitudes($value, self::OVERFLOW_MIDPOINT) >= 0;
     }
 
-    protected function roundsToZero(string $value, float $floatValue): bool
+    protected function roundsToZero(string $value): bool
     {
         return PostgresFloat::compareMagnitudes($value, '0') !== 0
             && PostgresFloat::compareMagnitudes($value, self::UNDERFLOW_MIDPOINT) <= 0;
