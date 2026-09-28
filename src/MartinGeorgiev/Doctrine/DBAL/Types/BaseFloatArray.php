@@ -53,12 +53,12 @@ abstract class BaseFloatArray extends BaseArray
         }
 
         // Infinity and NaN are values PostgreSQL stores and emits.
-        // The precision, range and closeness-to-zero checks below all describe finite numbers.
+        // The range and rounds-to-zero checks below describe finite numbers.
         if (\is_float($item) && !\is_finite($item)) {
             return;
         }
 
-        $stringValue = (string) $item;
+        $stringValue = \is_float($item) ? PostgresFloat::format($item) : (string) $item;
         if (PostgresFloat::isNonFinite($stringValue)) {
             return;
         }
