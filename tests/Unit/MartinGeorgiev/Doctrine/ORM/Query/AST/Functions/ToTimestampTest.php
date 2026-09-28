@@ -6,6 +6,7 @@ namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -51,6 +52,15 @@ final class ToTimestampTest extends TestCase
         $this->expectExceptionMessage('to_timestamp() requires between 1 and 2 arguments');
 
         $dql = \sprintf("SELECT TO_TIMESTAMP(e.text1, 'DD Mon YYYY', 'extra') FROM %s e", ContainsTexts::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    #[Test]
+    public function throws_exception_for_a_numeric_format_argument(): void
+    {
+        $this->expectException(ParserException::class);
+
+        $dql = \sprintf("SELECT TO_TIMESTAMP('05 Dec 2000', 1) FROM %s e", ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }

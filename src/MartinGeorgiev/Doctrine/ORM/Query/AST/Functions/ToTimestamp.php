@@ -21,7 +21,10 @@ class ToTimestamp extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['SimpleArithmeticExpression,StringPrimary'];
+        return [
+            'StringPrimary,StringPrimary',
+            'SimpleArithmeticExpression',
+        ];
     }
 
     protected function getFunctionName(): string
