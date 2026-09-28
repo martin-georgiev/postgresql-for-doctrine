@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
 use MartinGeorgiev\Utils\PostgresFloat;
 
@@ -26,10 +25,10 @@ abstract class BaseFloatArray extends BaseArray
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
-        return !$this->findInvalidity($item) instanceof InvalidFloatArrayItemForDatabaseException;
+        return !$this->findProblem($item) instanceof FloatArrayItemProblem;
     }
 
-    private function findInvalidity(mixed $item): ?InvalidFloatArrayItemForDatabaseException
+    private function findProblem(mixed $item): ?FloatArrayItemProblem
     {
         if ($item === null) {
             return null;
@@ -37,7 +36,7 @@ abstract class BaseFloatArray extends BaseArray
 
         $isNotANumber = !\is_float($item) && !\is_int($item) && !\is_string($item);
         if ($isNotANumber) {
-            return InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
+            return FloatArrayItemProblem::NotANumber;
         }
 
         // Infinity and NaN are values PostgreSQL stores and emits.
@@ -52,21 +51,21 @@ abstract class BaseFloatArray extends BaseArray
         }
 
         if (!\preg_match(self::FLOAT_REGEX, $stringValue)) {
-            return InvalidFloatArrayItemForDatabaseException::doesNotMatchRegex($item);
+            return FloatArrayItemProblem::NotAFloatLiteral;
         }
 
         $floatValue = (float) $stringValue;
 
         if ($this->isBelowMinValue($stringValue, $floatValue)) {
-            return InvalidFloatArrayItemForDatabaseException::isBelowMinValue($item);
+            return FloatArrayItemProblem::BelowMinValue;
         }
 
         if ($this->isAboveMaxValue($stringValue, $floatValue)) {
-            return InvalidFloatArrayItemForDatabaseException::isAboveMaxValue($item);
+            return FloatArrayItemProblem::AboveMaxValue;
         }
 
         if ($this->roundsToZero($stringValue, $floatValue)) {
-            return InvalidFloatArrayItemForDatabaseException::absoluteValueIsTooCloseToZero($item);
+            return FloatArrayItemProblem::RoundsToZero;
         }
 
         return null;
@@ -93,7 +92,7 @@ abstract class BaseFloatArray extends BaseArray
 
     protected function throwInvalidItemException(mixed $item): never
     {
-        throw $this->findInvalidity($item) ?? InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
+        throw ($this->findProblem($item) ?? FloatArrayItemProblem::NotANumber)->toException($item);
     }
 
     protected function transformArrayItemForPostgres(mixed $item): string

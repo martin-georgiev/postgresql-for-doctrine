@@ -43,10 +43,6 @@ class RealArray extends BaseFloatArray
         return '-3.4028235677973366E+38';
     }
 
-    /**
-     * The midpoint between the largest real and 2^128. PostgreSQL rounds anything below it down to the largest real
-     * and rejects anything above it.
-     */
     protected function getMaxValue(): string
     {
         return '3.4028235677973366E+38';
