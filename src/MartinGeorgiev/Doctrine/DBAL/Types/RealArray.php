@@ -23,16 +23,16 @@ class RealArray extends BaseFloatArray
     protected const TYPE_NAME = Type::REAL_ARRAY;
 
     /**
-     * The midpoint between the largest real and 2^128. PostgreSQL rounds a smaller magnitude down to the largest real and
-     * rejects this one and anything larger.
+     * The midpoint between the largest real and 2^128.
+     * PostgreSQL rounds a smaller magnitude down to the largest real and rejects this one and anything larger.
      *
      * @var string
      */
     private const OVERFLOW_MIDPOINT = '340282356779733661637539395458142568448';
 
     /**
-     * Half the smallest subnormal real, 2^-150. PostgreSQL rounds a non-zero magnitude up to the smallest real only
-     * above it, and rejects this one and anything smaller.
+     * Half the smallest subnormal real, 2^-150.
+     * PostgreSQL rounds a non-zero magnitude up to the smallest real only above it, and rejects this one and anything smaller.
      *
      * @var string
      */
@@ -49,8 +49,8 @@ class RealArray extends BaseFloatArray
     }
 
     /**
-     * PostgreSQL rounds the text straight to real, while PHP rounds it to a double first. Near the two midpoints that
-     * double can land on the other side, so the range is decided on the text as written.
+     * PostgreSQL rounds the text straight to real, while PHP rounds it to a double first.
+     * Near the two midpoints that double can land on the other side, so the range is decided on the text as written.
      */
     protected function isBelowMinValue(string $value): bool
     {
