@@ -9,6 +9,7 @@ use Fixtures\MartinGeorgiev\Doctrine\Function\TestPatternFallbackFunction;
 use Fixtures\MartinGeorgiev\Doctrine\Function\TestPatternRewindFunction;
 use Fixtures\MartinGeorgiev\Doctrine\Function\TestShorterPatternFallbackFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 final class BaseVariadicFunctionPatternFallbackTest extends TestCase
@@ -40,30 +41,24 @@ final class BaseVariadicFunctionPatternFallbackTest extends TestCase
         ];
     }
 
+    #[DataProvider('provideUnparsableArgumentLists')]
     #[Test]
-    public function throws_parser_exception_when_no_pattern_can_parse_the_argument_list(): void
+    public function throws_parser_exception_when_no_pattern_can_parse_the_argument_list(string $dql): void
     {
         $this->expectException(ParserException::class);
 
-        $dql = \sprintf('SELECT TEST_PATTERN_FALLBACK(NULL, NULL) FROM %s e', ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
-    #[Test]
-    public function throws_parser_exception_when_the_next_pattern_rejects_the_argument_list_from_its_start(): void
+    /**
+     * @return array<string, array{dql: string}>
+     */
+    public static function provideUnparsableArgumentLists(): array
     {
-        $this->expectException(ParserException::class);
-
-        $dql = \sprintf('SELECT TEST_PATTERN_REWIND(e.text1, 1) FROM %s e', ContainsTexts::class);
-        $this->buildEntityManager()->createQuery($dql)->getSQL();
-    }
-
-    #[Test]
-    public function throws_parser_exception_when_only_a_pattern_shorter_than_the_argument_list_accepts_it(): void
-    {
-        $this->expectException(ParserException::class);
-
-        $dql = \sprintf("SELECT TEST_SHORTER_PATTERN_FALLBACK('a', 1) FROM %s e", ContainsTexts::class);
-        $this->buildEntityManager()->createQuery($dql)->getSQL();
+        return [
+            'no pattern accepts the arguments' => ['dql' => \sprintf('SELECT TEST_PATTERN_FALLBACK(NULL, NULL) FROM %s e', ContainsTexts::class)],
+            'the next pattern rejects the argument list from its start' => ['dql' => \sprintf('SELECT TEST_PATTERN_REWIND(e.text1, 1) FROM %s e', ContainsTexts::class)],
+            'only a pattern shorter than the argument list accepts it' => ['dql' => \sprintf("SELECT TEST_SHORTER_PATTERN_FALLBACK('a', 1) FROM %s e", ContainsTexts::class)],
+        ];
     }
 }
