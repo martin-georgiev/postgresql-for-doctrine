@@ -29,6 +29,8 @@ final class RealArrayTest extends BaseFloatArrayTestCase
             'too small' => ['-3.5E+38'],
             'rounds to zero in real' => ['7e-46'],
             'rounds to zero in real (negative)' => ['-7e-46'],
+            'rounds up past the largest real' => ['3.40282357E+38'],
+            'rounds up past the largest real (negative)' => ['-3.40282357E+38'],
         ]);
     }
 
@@ -47,6 +49,9 @@ final class RealArrayTest extends BaseFloatArrayTestCase
             'subnormal' => ['1.17E-38'],
             'negative subnormal' => ['-1.17E-38'],
             'smallest subnormal' => ['1e-45'],
+            'rounds down to the largest real' => ['3.4028235677973366E+38'],
+            'rounds down to the largest real (negative)' => ['-3.4028235677973366E+38'],
+            'float just above the rounded maximum real' => [3.4028235000000003E+38],
         ]);
     }
 
