@@ -49,10 +49,18 @@ abstract class BaseVariadicFunction extends BaseFunction
 
                 return;
             }
+
+            $patterns = $this->withoutPatternsShorterThanTheArgumentList($parser->getLexer(), $patterns);
         }
 
+        $lexer = $parser->getLexer();
+        $argumentListStart = $lexer->lookahead;
         $lastParserException = null;
         foreach ($patterns as $pattern) {
+            if ($lastParserException instanceof ParserException) {
+                $this->rewindToArgumentListStart($lexer, $argumentListStart);
+            }
+
             try {
                 $this->feedParserWithNodesForNodeMappingPattern($parser, $pattern);
 
@@ -66,6 +74,41 @@ abstract class BaseVariadicFunction extends BaseFunction
         if ($lastParserException instanceof ParserException) {
             throw $lastParserException;
         }
+    }
+
+    /**
+     * A failed pattern leaves its parsed arguments behind and the lexer somewhere inside the argument list.
+     * The lexer can only be rewound to a token index it does not expose, so it is replayed from the start
+     * until its lookahead is again the token the argument list started at.
+     */
+    private function rewindToArgumentListStart(Lexer $lexer, mixed $argumentListStart): void
+    {
+        $this->nodes = [];
+
+        $lexer->reset();
+        do {
+            $hasMoreTokens = $lexer->moveNext();
+        } while ($hasMoreTokens && $lexer->lookahead !== $argumentListStart);
+    }
+
+    /**
+     * Token analysis never picks a pattern with fewer slots than there are arguments, but a one-slot pattern
+     * takes its node type for every argument, so trying it once a longer pattern fails would accept the list anyway.
+     *
+     * @param array<string> $patterns
+     *
+     * @return array<string>
+     */
+    private function withoutPatternsShorterThanTheArgumentList(Lexer $lexer, array $patterns): array
+    {
+        $argumentCount = \count($this->peekArgumentTokenTypes($lexer));
+        $longEnoughPatterns = \array_values(\array_filter(
+            $patterns,
+            static fn (string $pattern): bool => \count(\explode(',', $pattern)) >= $argumentCount
+        ));
+
+        // With none left, the patterns still have to report why the argument list does not parse.
+        return $longEnoughPatterns === [] ? $patterns : $longEnoughPatterns;
     }
 
     /**
