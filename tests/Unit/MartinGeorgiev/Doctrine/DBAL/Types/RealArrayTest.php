@@ -31,6 +31,10 @@ final class RealArrayTest extends BaseFloatArrayTestCase
             'rounds to zero in real (negative)' => ['-7e-46'],
             'rounds up past the largest real' => ['3.40282357E+38'],
             'rounds up past the largest real (negative)' => ['-3.40282357E+38'],
+            'the exact midpoint above the largest real' => ['340282356779733661637539395458142568448'],
+            'the exact midpoint above the largest real (negative)' => ['-340282356779733661637539395458142568448'],
+            'just above the midpoint, where a PHP float still reads the midpoint' => ['3.40282356779733662E+38'],
+            'the exact midpoint below the smallest real' => ['7.00649232162408535461864791644958065640130970938257885878534141944895541342930300743319094181060791015625E-46'],
         ]);
     }
 
@@ -52,6 +56,9 @@ final class RealArrayTest extends BaseFloatArrayTestCase
             'rounds down to the largest real' => ['3.4028235677973366E+38'],
             'rounds down to the largest real (negative)' => ['-3.4028235677973366E+38'],
             'float just above the rounded maximum real' => [3.4028235000000003E+38],
+            'just below the midpoint above the largest real' => ['340282356779733661637539395458142568447'],
+            'the float two to the minus 150, which PostgreSQL rounds up to the smallest real' => [7.0064923216240854E-46],
+            'two to the minus 150 as PHP writes it' => ['7.0064923216240854E-46'],
         ]);
     }
 
