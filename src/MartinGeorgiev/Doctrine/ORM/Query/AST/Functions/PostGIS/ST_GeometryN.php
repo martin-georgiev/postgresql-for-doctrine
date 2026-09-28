@@ -25,6 +25,6 @@ class ST_GeometryN extends BaseFunction
     {
         $this->setFunctionPrototype('ST_GeometryN(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

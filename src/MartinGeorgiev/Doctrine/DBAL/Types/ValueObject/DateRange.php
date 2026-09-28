@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresEraConversionTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
 
 /**
@@ -18,6 +19,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeExcept
  */
 final class DateRange extends Range
 {
+    use PostgresEraConversionTrait;
+
     public function __construct(
         mixed $lower,
         mixed $upper,
@@ -50,7 +53,26 @@ final class DateRange extends Range
             throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $b);
         }
 
-        return $a->getTimestamp() <=> $b->getTimestamp();
+        return $this->calendarDate($a) <=> $this->calendarDate($b);
+    }
+
+    protected function hasNoValueBetween(mixed $lower, mixed $upper): bool
+    {
+        \assert($lower instanceof \DateTimeInterface && $upper instanceof \DateTimeInterface);
+
+        $nextDay = \DateTimeImmutable::createFromInterface($lower)->modify('+1 day');
+
+        return $this->calendarDate($nextDay) === $this->calendarDate($upper);
+    }
+
+    /**
+     * A daterange holds dates, so the time of day a bound carries does not order it, just as formatValue() drops it.
+     *
+     * @return array{int, int, int}
+     */
+    private function calendarDate(\DateTimeInterface $date): array
+    {
+        return [(int) $date->format('Y'), (int) $date->format('n'), (int) $date->format('j')];
     }
 
     protected function formatValue(mixed $value): string
@@ -59,7 +81,7 @@ final class DateRange extends Range
             throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $value);
         }
 
-        return $value->format('Y-m-d');
+        return self::formatInPostgresEra($value, 'Y-m-d');
     }
 
     protected static function parseValue(string $value): ?\DateTimeImmutable
@@ -69,7 +91,7 @@ final class DateRange extends Range
         }
 
         try {
-            return new \DateTimeImmutable($value);
+            return new \DateTimeImmutable(self::signYearForPhpParser($value));
         } catch (\Exception $exception) {
             throw InvalidRangeException::forUnparsableBound($value, $exception);
         }

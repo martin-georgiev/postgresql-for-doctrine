@@ -58,6 +58,21 @@ final class PHPArrayToPostgresValueTransformerTest extends TestCase
                 ],
                 'postgresValue' => '{1.5,2.75,-3.25}',
             ],
+            'floats needing more than 14 significant digits' => [
+                'phpValue' => [
+                    0 => 0.30000000000000004,
+                    1 => 12345678.901234567,
+                ],
+                'postgresValue' => '{0.30000000000000004,12345678.901234567}',
+            ],
+            'non-finite floats spelled the way PostgreSQL writes them' => [
+                'phpValue' => [
+                    0 => \INF,
+                    1 => -\INF,
+                    2 => \NAN,
+                ],
+                'postgresValue' => '{Infinity,-Infinity,NaN}',
+            ],
             'boolean values' => [
                 'phpValue' => [
                     0 => true,

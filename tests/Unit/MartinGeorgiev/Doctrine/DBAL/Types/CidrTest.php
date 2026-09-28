@@ -63,8 +63,8 @@ final class CidrTest extends TestCase
                 'postgresValue' => '192.168.0.0/24',
             ],
             'IPv4 CIDR with min netmask' => [
-                'phpValue' => '10.0.0.0/0',
-                'postgresValue' => '10.0.0.0/0',
+                'phpValue' => '0.0.0.0/0',
+                'postgresValue' => '0.0.0.0/0',
             ],
             'IPv4 CIDR with max netmask' => [
                 'phpValue' => '172.16.0.0/32',
@@ -75,8 +75,8 @@ final class CidrTest extends TestCase
                 'postgresValue' => '2001:db8::/32',
             ],
             'IPv6 CIDR with min netmask' => [
-                'phpValue' => 'fe80::/0',
-                'postgresValue' => 'fe80::/0',
+                'phpValue' => '::/0',
+                'postgresValue' => '::/0',
             ],
             'IPv6 CIDR with max netmask' => [
                 'phpValue' => '2001:db8::/128',
@@ -115,6 +115,8 @@ final class CidrTest extends TestCase
             'malformed CIDR with spaces' => ['192.168.0.0 / 24'],
             'invalid IPv4 address' => ['256.256.256.0/24'],
             'invalid IPv6 address' => ['2001:xyz::/32'],
+            'IPv4 host bits set right of the netmask' => ['192.168.1.1/24'],
+            'IPv6 host bits set right of the netmask' => ['2001:db8::1/32'],
             'IPv4 invalid netmask low' => ['192.168.0.0/-1'],
             'IPv4 invalid netmask high' => ['192.168.0.0/33'],
             'IPv6 invalid netmask low' => ['2001:db8::/-1'],

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCircleException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL circle geometric type.
@@ -24,12 +25,12 @@ final readonly class Circle extends BaseGeometricValue
      *
      * @var string
      */
-    private const RADIUS_PATTERN = self::UNSIGNED_FLOAT_PATTERN;
+    private const RADIUS_PATTERN = PostgresFloat::UNSIGNED_PATTERN;
 
     /**
      * @var string
      */
-    private const CIRCLE_REGEX = '/^<\s*\(\s*('.self::FLOAT_PATTERN.')\s*,\s*('.self::FLOAT_PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
+    private const CIRCLE_REGEX = '/^<\s*\(\s*('.PostgresFloat::PATTERN.')\s*,\s*('.PostgresFloat::PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
 
     public function __construct(
         private Point $center,
@@ -44,9 +45,9 @@ final readonly class Circle extends BaseGeometricValue
     {
         return \sprintf(
             '<(%s,%s),%s>',
-            self::formatFloat($this->center->getX()),
-            self::formatFloat($this->center->getY()),
-            self::formatFloat($this->radius)
+            PostgresFloat::format($this->center->getX()),
+            PostgresFloat::format($this->center->getY()),
+            PostgresFloat::format($this->radius)
         );
     }
 
@@ -67,8 +68,8 @@ final readonly class Circle extends BaseGeometricValue
         }
 
         return new self(
-            new Point(self::parseFloat($matches[1]), self::parseFloat($matches[2])),
-            self::parseFloat($matches[3])
+            new Point(PostgresFloat::parse($matches[1]), PostgresFloat::parse($matches[2])),
+            PostgresFloat::parse($matches[3])
         );
     }
 }

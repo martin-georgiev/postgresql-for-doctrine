@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidBoxException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL box geometric type.
@@ -32,10 +33,10 @@ final readonly class Box extends BaseGeometricValue
     {
         return \sprintf(
             '(%s,%s),(%s,%s)',
-            self::formatFloat($this->upperRight->getX()),
-            self::formatFloat($this->upperRight->getY()),
-            self::formatFloat($this->lowerLeft->getX()),
-            self::formatFloat($this->lowerLeft->getY())
+            PostgresFloat::format($this->upperRight->getX()),
+            PostgresFloat::format($this->upperRight->getY()),
+            PostgresFloat::format($this->lowerLeft->getX()),
+            PostgresFloat::format($this->lowerLeft->getY())
         );
     }
 

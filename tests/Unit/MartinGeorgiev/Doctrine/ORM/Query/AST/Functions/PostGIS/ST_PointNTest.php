@@ -20,6 +20,7 @@ final class ST_PointNTest extends TestCase
     {
         return [
             'SELECT ST_PointN(c0_.geometry1, 1) AS sclr_0 FROM ContainsGeometries c0_',
+            'SELECT ST_PointN(c0_.geometry1, -1) AS sclr_0 FROM ContainsGeometries c0_',
         ];
     }
 
@@ -27,6 +28,7 @@ final class ST_PointNTest extends TestCase
     {
         return [
             'SELECT ST_POINTN(g.geometry1, 1) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            'SELECT ST_POINTN(g.geometry1, -1) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
         ];
     }
 }

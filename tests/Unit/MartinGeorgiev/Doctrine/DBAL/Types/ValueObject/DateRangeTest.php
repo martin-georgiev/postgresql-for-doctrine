@@ -133,6 +133,17 @@ final class DateRangeTest extends BaseRangeTestCase
                 ),
                 'expectedEmpty' => false,
             ],
+            'adjacent exclusive days should be empty' => [
+                'range' => DateRange::fromString('(2024-01-01,2024-01-02)'),
+                'expectedEmpty' => true,
+            ],
+            'two times of one day should be empty' => [
+                'range' => new DateRange(
+                    new \DateTimeImmutable('2024-01-01 10:00'),
+                    new \DateTimeImmutable('2024-01-01 15:00')
+                ),
+                'expectedEmpty' => true,
+            ],
             'equal infinite bounds exclusive should be empty' => [
                 'range' => DateRange::fromString('[infinity,infinity)'),
                 'expectedEmpty' => true,
@@ -234,6 +245,11 @@ final class DateRangeTest extends BaseRangeTestCase
             new \DateTimeImmutable('2022-12-31'),
             false,
         ];
+        yield 'single inclusive day contains a time on that day' => [
+            DateRange::fromString('[2024-01-01,2024-01-01]'),
+            new \DateTimeImmutable('2024-01-01 12:00'),
+            true,
+        ];
         yield 'range between both infinities contains a date' => [
             DateRange::fromString('[-infinity,infinity)'),
             new \DateTimeImmutable('2023-06-15'),
@@ -253,6 +269,18 @@ final class DateRangeTest extends BaseRangeTestCase
 
     public static function provideFromStringTestCases(): \Generator
     {
+        yield 'PostgreSQL output with a five-digit year' => [
+            '[10000-01-01,10000-01-05)',
+            new DateRange(new \DateTimeImmutable('+10000-01-01'), new \DateTimeImmutable('+10000-01-05')),
+        ];
+        yield 'PostgreSQL output with a BC era' => [
+            '["0044-03-15 BC","0044-03-16 BC")',
+            new DateRange(new \DateTimeImmutable('-0043-03-15'), new \DateTimeImmutable('-0043-03-16')),
+        ];
+        yield 'PostgreSQL output with a 29 February of a BC leap year' => [
+            '["0001-02-29 BC","0001-03-01 BC")',
+            new DateRange(new \DateTimeImmutable('+0000-02-29'), new \DateTimeImmutable('+0000-03-01')),
+        ];
         yield 'simple date range' => [
             '[2023-01-01,2023-12-31)',
             new DateRange(
@@ -406,9 +434,9 @@ final class DateRangeTest extends BaseRangeTestCase
         $reverseRange = new DateRange($date2, $date1); // 20:00 to 10:00
         $this->assertTrue($reverseRange->isEmpty());
 
-        // When lower < upper, range should not be empty
-        $normalRange = new DateRange($date1, $date2); // 10:00 to 20:00
-        $this->assertFalse($normalRange->isEmpty());
+        // Both times fall on one date, and PostgreSQL stores [2023-06-15,2023-06-15), which holds no date
+        $sameDayRange = new DateRange($date1, $date2); // 10:00 to 20:00
+        $this->assertTrue($sameDayRange->isEmpty());
 
         // When lower == upper with exclusive bounds, should be empty
         $equalExclusive = new DateRange($date1, $date1, false, false);

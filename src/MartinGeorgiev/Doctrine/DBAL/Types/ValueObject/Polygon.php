@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPolygonException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL polygon geometric type.
@@ -41,8 +42,8 @@ final readonly class Polygon extends BaseGeometricValue
         $vertexStrings = \array_map(
             static fn (Point $point): string => \sprintf(
                 '(%s,%s)',
-                self::formatFloat($point->getX()),
-                self::formatFloat($point->getY())
+                PostgresFloat::format($point->getX()),
+                PostgresFloat::format($point->getY())
             ),
             $this->vertices
         );

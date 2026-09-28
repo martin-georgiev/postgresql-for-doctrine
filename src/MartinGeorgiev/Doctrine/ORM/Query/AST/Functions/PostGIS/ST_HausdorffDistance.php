@@ -24,7 +24,7 @@ class ST_HausdorffDistance extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,StringPrimary,ArithmeticPrimary'];
+        return ['StringPrimary,StringPrimary,SimpleArithmeticExpression'];
     }
 
     protected function getFunctionName(): string

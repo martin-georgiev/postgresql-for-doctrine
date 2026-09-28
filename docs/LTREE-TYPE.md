@@ -225,11 +225,14 @@ $dql = "SELECT INDEX(e.path, 'Child1', 1) FROM Entity e";
 ### Ancestor functions
 
 #### `LCA(ltree1, ltree2, ...)`
-Computes the longest common ancestor (up to 8 arguments).
+Computes the longest common ancestor (up to 8 arguments), or of every path in a single `ltree[]`.
 
 ```php
 $dql = "SELECT LCA(e.path1, e.path2, e.path3) FROM Entity e";
 // lca('Top.Child1.Child2', 'Top.Child1', 'Top.Child2') → 'Top'
+
+$dql = "SELECT LCA('{Top.Child1.Child2,Top.Child1}') FROM Entity e";
+// lca('{Top.Child1.Child2,Top.Child1}') → 'Top'
 ```
 
 ### Type conversion functions

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL numeric range.
@@ -19,8 +19,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeExcept
  */
 final class NumericRange extends Range
 {
-    use PostgresFloatConversionTrait;
-
     public function __construct(
         mixed $lower,
         mixed $upper,
@@ -134,7 +132,7 @@ final class NumericRange extends Range
     protected function formatValue(mixed $value): string
     {
         if (\is_float($value)) {
-            return self::formatFloat($value);
+            return PostgresFloat::format($value);
         }
 
         if (!\is_numeric($value)) {
@@ -146,17 +144,17 @@ final class NumericRange extends Range
 
     protected static function isInfinityString(string $value): bool
     {
-        return self::isNonFiniteString($value) && \is_infinite(self::parseFloat($value));
+        return PostgresFloat::isNonFinite($value) && \is_infinite(PostgresFloat::parse($value));
     }
 
     protected static function isNegativeInfinityString(string $value): bool
     {
-        return self::isInfinityString($value) && self::parseFloat($value) < 0;
+        return self::isInfinityString($value) && PostgresFloat::parse($value) < 0;
     }
 
     protected static function formatInfinityBound(bool $isNegative): string
     {
-        return self::formatFloat($isNegative ? -\INF : \INF);
+        return PostgresFloat::format($isNegative ? -\INF : \INF);
     }
 
     protected static function parseValue(string $value): float|int|null

@@ -24,6 +24,6 @@ class SetMasklen extends BaseFunction
     {
         $this->setFunctionPrototype('set_masklen(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

@@ -24,6 +24,6 @@ class ST_SetSRID extends BaseFunction
     {
         $this->setFunctionPrototype('ST_SetSRID(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

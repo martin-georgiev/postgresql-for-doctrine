@@ -229,6 +229,14 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
 
     public static function provideFromStringTestCases(): \Generator
     {
+        yield 'PostgreSQL output with a five-digit year' => [
+            '["10000-01-01 10:00:00","10000-01-02 00:00:00")',
+            new TsRange(new \DateTimeImmutable('+10000-01-01 10:00:00'), new \DateTimeImmutable('+10000-01-02 00:00:00')),
+        ];
+        yield 'PostgreSQL output with a BC era' => [
+            '["0044-03-15 10:00:00 BC","0044-03-16 00:00:00 BC")',
+            new TsRange(new \DateTimeImmutable('-0043-03-15 10:00:00'), new \DateTimeImmutable('-0043-03-16 00:00:00')),
+        ];
         yield 'simple range' => [
             '[2023-01-01 10:00:00.000000,2023-01-01 18:00:00.000000)',
             new TsRange(

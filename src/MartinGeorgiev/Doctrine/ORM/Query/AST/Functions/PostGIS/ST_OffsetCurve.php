@@ -24,8 +24,8 @@ class ST_OffsetCurve extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,ArithmeticPrimary,StringPrimary',
-            'StringPrimary,ArithmeticPrimary',
+            'StringPrimary,SimpleArithmeticExpression,StringPrimary',
+            'StringPrimary,SimpleArithmeticExpression',
         ];
     }
 

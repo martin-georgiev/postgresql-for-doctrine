@@ -21,6 +21,8 @@ final class TsRangeTypeTest extends RangeTypeTestCase
     public static function provideValidTransformations(): array
     {
         return [
+            'tsrange with a five-digit year' => [new TsRangeValueObject(new \DateTimeImmutable('+10000-01-01 10:00:00'), new \DateTimeImmutable('+10000-01-02 00:00:00'))],
+            'tsrange with a BC era' => [new TsRangeValueObject(new \DateTimeImmutable('-0043-03-15 10:00:00'), new \DateTimeImmutable('-0043-03-16 00:00:00'))],
             'simple tsrange' => [new TsRangeValueObject(
                 new \DateTimeImmutable('2023-01-01 10:00:00'),
                 new \DateTimeImmutable('2023-01-01 18:00:00'),

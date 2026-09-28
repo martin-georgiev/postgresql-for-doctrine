@@ -36,6 +36,11 @@ abstract class BaseIntegerRange extends Range
         return $a <=> $b;
     }
 
+    protected function hasNoValueBetween(mixed $lower, mixed $upper): bool
+    {
+        return \is_int($lower) && $upper === $lower + 1;
+    }
+
     protected function formatValue(mixed $value): string
     {
         if (!\is_int($value)) {

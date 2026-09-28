@@ -27,9 +27,9 @@ class RegexpReplace extends BaseVariadicFunction
          *   - if the 4th arg is an integer, it’s taken as start position. This can be extended with the Nth argument.
          */
         return [
-            'StringPrimary,StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary,StringPrimary', // with start, N and flags: regexp_replace(string, pattern, replacement, 3, 2, 'i')
-            'StringPrimary,StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary', // with start and N: regexp_replace(string, pattern, replacement, 3, 2)
-            'StringPrimary,StringPrimary,StringPrimary,ArithmeticPrimary', // with start: regexp_replace(string, pattern, replacement, 3)
+            'StringPrimary,StringPrimary,StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,StringPrimary', // with start, N and flags: regexp_replace(string, pattern, replacement, 3, 2, 'i')
+            'StringPrimary,StringPrimary,StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression', // with start and N: regexp_replace(string, pattern, replacement, 3, 2)
+            'StringPrimary,StringPrimary,StringPrimary,SimpleArithmeticExpression', // with start: regexp_replace(string, pattern, replacement, 3)
             'StringPrimary,StringPrimary,StringPrimary,StringPrimary', // with flags: regexp_replace(string, pattern, replacement, 'i')
             'StringPrimary,StringPrimary,StringPrimary', // basic replacement: regexp_replace(string, pattern, replacement)
         ];

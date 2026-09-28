@@ -166,7 +166,7 @@ abstract class BaseVariadicFunction extends BaseFunction
     /**
      * Determines if a token type is compatible with a node mapping type.
      *
-     * Numeric literals (T_INTEGER/T_FLOAT) are only compatible with ArithmeticPrimary.
+     * Numeric literals (T_INTEGER/T_FLOAT) are only compatible with the arithmetic node types.
      * String literals (T_STRING) are only compatible with StringPrimary.
      * Identifiers, parameters, and function calls are compatible with all node types.
      */

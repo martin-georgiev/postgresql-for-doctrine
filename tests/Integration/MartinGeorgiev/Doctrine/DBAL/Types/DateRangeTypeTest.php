@@ -21,6 +21,9 @@ final class DateRangeTypeTest extends RangeTypeTestCase
     public static function provideValidTransformations(): array
     {
         return [
+            'daterange with a five-digit year' => [new DateRangeValueObject(new \DateTimeImmutable('+10000-01-01'), new \DateTimeImmutable('+10000-01-05'))],
+            'daterange with a BC era' => [new DateRangeValueObject(new \DateTimeImmutable('-0043-03-15'), new \DateTimeImmutable('-0043-03-16'))],
+            'daterange with a 29 February of a BC leap year' => [new DateRangeValueObject(new \DateTimeImmutable('+0000-02-29'), new \DateTimeImmutable('+0000-03-01'))],
             'simple daterange' => [new DateRangeValueObject(
                 new \DateTimeImmutable('2023-01-02'),
                 new \DateTimeImmutable('2023-12-31'),

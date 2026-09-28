@@ -17,14 +17,15 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BaseVariadicFunction;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  *
- * @example Using it in DQL: "SELECT ST_SUBDIVIDE(g.geometry, 256) FROM Entity g"
+ * @example Using it in DQL: "SELECT ST_SUBDIVIDE(g.geometry) FROM Entity g"
+ * @example Using it in DQL with max vertices: "SELECT ST_SUBDIVIDE(g.geometry, 256) FROM Entity g"
  * @example Using it in DQL with gridSize: "SELECT ST_SUBDIVIDE(g.geometry, 256, 0.5) FROM Entity g"
  */
 class ST_Subdivide extends BaseVariadicFunction
 {
     protected function getNodeMappingPattern(): array
     {
-        return ['StringPrimary,ArithmeticPrimary,ArithmeticPrimary'];
+        return ['StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression'];
     }
 
     protected function getFunctionName(): string
@@ -34,7 +35,7 @@ class ST_Subdivide extends BaseVariadicFunction
 
     protected function getMinArgumentCount(): int
     {
-        return 2;
+        return 1;
     }
 
     protected function getMaxArgumentCount(): int

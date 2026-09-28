@@ -6,7 +6,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
-use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * @since 3.0
@@ -15,8 +15,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
  */
 abstract class BaseFloatArray extends BaseArray
 {
-    use PostgresFloatConversionTrait;
-
     /**
      * @var string
      */
@@ -61,7 +59,7 @@ abstract class BaseFloatArray extends BaseArray
         }
 
         $stringValue = (string) $item;
-        if (self::isNonFiniteString($stringValue)) {
+        if (PostgresFloat::isNonFinite($stringValue)) {
             return;
         }
 
@@ -103,7 +101,7 @@ abstract class BaseFloatArray extends BaseArray
         }
 
         if (\is_float($item)) {
-            return self::formatFloat($item);
+            return PostgresFloat::format($item);
         }
 
         \assert(\is_scalar($item));
@@ -123,8 +121,8 @@ abstract class BaseFloatArray extends BaseArray
         }
 
         $stringValue = (string) $item;
-        if (self::isNonFiniteString($stringValue)) {
-            return self::parseFloat($stringValue);
+        if (PostgresFloat::isNonFinite($stringValue)) {
+            return PostgresFloat::parse($stringValue);
         }
 
         if (!\preg_match(self::FLOAT_REGEX, $stringValue)) {

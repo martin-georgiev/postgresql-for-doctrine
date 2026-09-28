@@ -22,10 +22,10 @@ class RegexpSubstr extends BaseVariadicFunction
     protected function getNodeMappingPattern(): array
     {
         return [
-            'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary,StringPrimary,ArithmeticPrimary',
-            'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary,StringPrimary',
-            'StringPrimary,StringPrimary,ArithmeticPrimary,ArithmeticPrimary',
-            'StringPrimary,StringPrimary,ArithmeticPrimary',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,StringPrimary,SimpleArithmeticExpression',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression,StringPrimary',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression,SimpleArithmeticExpression',
+            'StringPrimary,StringPrimary,SimpleArithmeticExpression',
             'StringPrimary,StringPrimary',
         ];
     }

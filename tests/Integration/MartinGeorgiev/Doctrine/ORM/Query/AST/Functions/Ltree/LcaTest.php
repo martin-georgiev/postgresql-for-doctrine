@@ -39,4 +39,12 @@ final class LcaTest extends TestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame('1.2.3', $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_longest_common_ancestor_from_an_array_of_paths(): void
+    {
+        $dql = "SELECT LCA('{Top.Child1.Child2,Top.Child1}') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsLtrees l WHERE l.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame('Top', $result[0]['result']);
+    }
 }

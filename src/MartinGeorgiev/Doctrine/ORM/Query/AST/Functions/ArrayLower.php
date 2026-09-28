@@ -22,6 +22,6 @@ class ArrayLower extends BaseFunction
     {
         $this->setFunctionPrototype('array_lower(%s, %s)');
         $this->addNodeMapping('StringPrimary');
-        $this->addNodeMapping('ArithmeticPrimary');
+        $this->addNodeMapping('SimpleArithmeticExpression');
     }
 }

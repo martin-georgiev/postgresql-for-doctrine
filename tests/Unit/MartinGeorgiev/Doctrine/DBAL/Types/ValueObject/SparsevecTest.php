@@ -53,6 +53,10 @@ final class SparsevecTest extends TestCase
                 'sparsevec' => new Sparsevec([], 3),
                 'expected' => '{}/3',
             ],
+            'element needing more than 14 significant digits' => [
+                'sparsevec' => new Sparsevec([1 => 0.30000000000000004], 2),
+                'expected' => '{1:0.30000000000000004}/2',
+            ],
         ];
     }
 

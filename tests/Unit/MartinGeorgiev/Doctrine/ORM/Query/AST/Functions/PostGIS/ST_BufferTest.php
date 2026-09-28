@@ -24,6 +24,7 @@ final class ST_BufferTest extends TestCase
             'SELECT ST_Buffer(c0_.geometry1, MIN(1)) AS sclr_0 FROM ContainsGeometries c0_',
             'SELECT ST_Buffer(c0_.geometry1, 10, 32) AS sclr_0 FROM ContainsGeometries c0_',
             "SELECT ST_Buffer(c0_.geometry1, 10, 'quad_segs=8') AS sclr_0 FROM ContainsGeometries c0_",
+            "SELECT ST_Buffer(c0_.geometry1, -10, 'quad_segs=8') AS sclr_0 FROM ContainsGeometries c0_",
         ];
     }
 
@@ -35,6 +36,7 @@ final class ST_BufferTest extends TestCase
             'SELECT ST_BUFFER(g.geometry1, MIN(1)) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             'SELECT ST_BUFFER(g.geometry1, 10, 32) FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
             'SELECT ST_BUFFER(g.geometry1, 10, \'quad_segs=8\') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g',
+            "SELECT ST_BUFFER(g.geometry1, -10, 'quad_segs=8') FROM Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsGeometries g",
         ];
     }
 }

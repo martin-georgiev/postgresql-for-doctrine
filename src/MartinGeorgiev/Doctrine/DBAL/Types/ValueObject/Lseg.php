@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLsegException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL lseg (line segment) geometric type.
@@ -37,10 +38,10 @@ final readonly class Lseg extends BaseGeometricValue
     {
         return \sprintf(
             '[(%s,%s),(%s,%s)]',
-            self::formatFloat($this->start->getX()),
-            self::formatFloat($this->start->getY()),
-            self::formatFloat($this->end->getX()),
-            self::formatFloat($this->end->getY())
+            PostgresFloat::format($this->start->getX()),
+            PostgresFloat::format($this->start->getY()),
+            PostgresFloat::format($this->end->getX()),
+            PostgresFloat::format($this->end->getY())
         );
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidSparsevecException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Value object representing a pgvector sparsevec value.
@@ -61,7 +62,7 @@ final readonly class Sparsevec implements \Stringable
     {
         $parts = [];
         foreach ($this->elements as $index => $value) {
-            $parts[] = $index.':'.$value;
+            $parts[] = $index.':'.PostgresFloat::format($value);
         }
 
         return '{'.\implode(',', $parts).'}/'.$this->dimensions;
