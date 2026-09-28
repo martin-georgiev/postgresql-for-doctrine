@@ -30,14 +30,4 @@ class DoublePrecisionArray extends BaseFloatArray
     {
         return '1.7976931348623157E+308';
     }
-
-    protected function getMaxPrecision(): int
-    {
-        return 15;
-    }
-
-    protected function getMinAbsoluteValue(): string
-    {
-        return '2.2250738585072014E-308';
-    }
 }

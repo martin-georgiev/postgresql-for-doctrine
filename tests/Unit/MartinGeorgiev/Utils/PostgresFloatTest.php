@@ -93,4 +93,30 @@ final class PostgresFloatTest extends TestCase
             'a word that only starts like infinity' => ['infinite', false],
         ];
     }
+
+    #[DataProvider('provideMagnitudesToCompare')]
+    #[Test]
+    public function compares_decimal_magnitudes_exactly(string $first, string $second, int $expected): void
+    {
+        $this->assertSame($expected, PostgresFloat::compareMagnitudes($first, $second));
+    }
+
+    /**
+     * @return array<string, array{string, string, int}>
+     */
+    public static function provideMagnitudesToCompare(): array
+    {
+        return [
+            'equal' => ['1.5', '1.5', 0],
+            'equal with trailing zeros and an exponent' => ['1.50', '15E-1', 0],
+            'the sign is ignored' => ['-3', '2', 1],
+            'more integer digits' => ['10', '9', 1],
+            'fewer integer digits' => ['9', '10', -1],
+            'zero spelled two ways' => ['0', '-0.00', 0],
+            'zero below any non-zero value' => ['0', '1E-400', -1],
+            'non-zero value above zero' => ['1E-400', '0', 1],
+            'differs only past what a double holds' => ['340282356779733661637539395458142568447', '3.40282356779733661637539395458142568448E+38', -1],
+            'leading zeros in the fraction' => ['0.0005', '5E-4', 0],
+        ];
+    }
 }

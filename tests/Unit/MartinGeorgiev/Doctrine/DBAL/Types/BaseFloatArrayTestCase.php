@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\DBAL\Types;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidFloatArrayItemForPHPException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -77,6 +78,39 @@ abstract class BaseFloatArrayTestCase extends BaseNumericArrayTestCase
         $this->expectExceptionMessage('cannot be transformed to valid PHP float');
 
         $this->fixture->transformArrayItemForPHP('1.e234');
+    }
+
+    /**
+     * PostgreSQL stores and emits the non-finite values, so their spellings are valid items as strings too.
+     *
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return \array_merge(parent::provideValidArrayItemsForDatabase(), [
+            'infinity spelled as a string' => ['Infinity'],
+            'not a number spelled as a string' => ['nan'],
+        ]);
+    }
+
+    #[DataProvider('provideValidItemTransformationsToPostgres')]
+    #[Test]
+    public function converts_item_for_postgres(float|int|string $phpValue, string $expectedPostgresValue): void
+    {
+        $this->assertSame($expectedPostgresValue, $this->fixture->convertToDatabaseValue([$phpValue], $this->createStub(AbstractPlatform::class)));
+    }
+
+    /**
+     * An integer or a numeric string is written as given, and PostgreSQL reads it back as a float.
+     *
+     * @return array<string, array{phpValue: float|int|string, expectedPostgresValue: string}>
+     */
+    public static function provideValidItemTransformationsToPostgres(): array
+    {
+        return [
+            'integer' => ['phpValue' => 2, 'expectedPostgresValue' => '{2}'],
+            'numeric string' => ['phpValue' => '1.5', 'expectedPostgresValue' => '{1.5}'],
+        ];
     }
 
     #[DataProvider('provideValidScientificNotationStrings')]

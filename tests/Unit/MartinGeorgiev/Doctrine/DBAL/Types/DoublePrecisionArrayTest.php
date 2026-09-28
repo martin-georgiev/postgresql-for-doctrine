@@ -28,13 +28,28 @@ final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
             'too large' => ['1.7976931348623157E+309'],
             'too small' => ['-1.7976931348623157E+309'],
-            'too many decimal places' => ['1.123456789012345678'],
-            'sixteen decimals' => ['1.1234567890123456789'],
-            'many trailing zeros' => ['1.123456789012345000000'],
-            'large number with excess precision' => ['123456.1234567890123456789'],
-            'negative with excess precision' => ['-1.1234567890123456789'],
-            'too close to zero' => ['2.2250738585072014E-309'],
-            'too close to zero (negative)' => ['-2.2250738585072014E-309'],
+            'rounds to zero in double precision' => ['2e-324'],
+            'rounds to zero in double precision (negative)' => ['-2e-324'],
+            'rounds to zero in double precision with a trailing newline' => ["2e-324\n"],
+        ]);
+    }
+
+    /**
+     * PostgreSQL rounds a value to the nearest double, so digits past double precision and subnormals are both stored.
+     *
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return \array_merge(parent::provideValidArrayItemsForDatabase(), [
+            'more digits than double precision keeps' => ['1.123456789012345678'],
+            'trailing zeros past double precision' => ['1.123456789012345000000'],
+            'large number with more digits than double precision keeps' => ['123456.1234567890123456789'],
+            'negative with more digits than double precision keeps' => ['-1.1234567890123456789'],
+            'float with sixteen decimals' => [0.1234567890123456],
+            'subnormal' => ['2.2250738585072014E-309'],
+            'negative subnormal' => ['-2.2250738585072014E-309'],
+            'smallest subnormal' => ['5e-324'],
         ]);
     }
 

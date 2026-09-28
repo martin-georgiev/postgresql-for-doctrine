@@ -18,15 +18,11 @@ abstract class BaseFloatArray extends BaseArray
     /**
      * @var string
      */
-    private const FLOAT_REGEX = '/^-?\d*\.?\d+(?:[eE][-+]?\d+)?$/';
+    private const FLOAT_REGEX = '/^-?\d*\.?\d+(?:[eE][-+]?\d+)?\z/';
 
     abstract protected function getMinValue(): string;
 
     abstract protected function getMaxValue(): string;
-
-    abstract protected function getMaxPrecision(): int;
-
-    abstract protected function getMinAbsoluteValue(): string;
 
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
@@ -51,12 +47,12 @@ abstract class BaseFloatArray extends BaseArray
         }
 
         // Infinity and NaN are values PostgreSQL stores and emits.
-        // The precision, range and closeness-to-zero checks below all describe finite numbers.
+        // The range and rounds-to-zero checks below describe finite numbers.
         if (\is_float($item) && !\is_finite($item)) {
             return;
         }
 
-        $stringValue = (string) $item;
+        $stringValue = \is_float($item) ? PostgresFloat::format($item) : (string) $item;
         if (PostgresFloat::isNonFinite($stringValue)) {
             return;
         }
@@ -65,32 +61,36 @@ abstract class BaseFloatArray extends BaseArray
             throw InvalidFloatArrayItemForDatabaseException::doesNotMatchRegex($item);
         }
 
-        $floatValue = (float) $stringValue;
-
-        $isScientificNotation = \str_contains($stringValue, 'e') || \str_contains($stringValue, 'E');
-        if (!$isScientificNotation && \str_contains($stringValue, '.')) {
-            $parts = \explode('.', $stringValue);
-            if (\strlen($parts[1]) > $this->getMaxPrecision()) {
-                throw InvalidFloatArrayItemForDatabaseException::isANormalNumberWithExcessPrecision($item);
-            }
-        }
-
-        $isBelowMinValue = $floatValue < (float) $this->getMinValue();
-        if ($isBelowMinValue) {
+        if ($this->isBelowMinValue($stringValue)) {
             throw InvalidFloatArrayItemForDatabaseException::isBelowMinValue($item);
         }
 
-        $isAboveMaxValue = $floatValue > (float) $this->getMaxValue();
-        if ($isAboveMaxValue) {
+        if ($this->isAboveMaxValue($stringValue)) {
             throw InvalidFloatArrayItemForDatabaseException::isAboveMaxValue($item);
         }
 
-        // Check if value is too close to zero
-        $absoluteValue = \abs($floatValue);
-        $isTooCloseToZero = $absoluteValue > 0 && $absoluteValue < (float) $this->getMinAbsoluteValue();
-        if ($isTooCloseToZero) {
+        if ($this->roundsToZero($stringValue)) {
             throw InvalidFloatArrayItemForDatabaseException::absoluteValueIsTooCloseToZero($item);
         }
+    }
+
+    protected function isBelowMinValue(string $value): bool
+    {
+        return (float) $value < (float) $this->getMinValue();
+    }
+
+    protected function isAboveMaxValue(string $value): bool
+    {
+        return (float) $value > (float) $this->getMaxValue();
+    }
+
+    /**
+     * PostgreSQL rounds a value to the nearest one its type holds, subnormals included, and rejects only a non-zero value
+     * that rounds to zero. A PHP float is a double, so a value that rounds to zero in double precision parses as zero.
+     */
+    protected function roundsToZero(string $value): bool
+    {
+        return (float) $value === 0.0 && PostgresFloat::compareMagnitudes($value, '0') !== 0;
     }
 
     protected function throwInvalidItemException(mixed $item): never

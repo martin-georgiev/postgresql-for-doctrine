@@ -75,4 +75,42 @@ final class PostgresFloat
             default => (float) $value,
         };
     }
+
+    /**
+     * Orders the magnitudes of two finite decimal numbers exactly, where comparing them as PHP floats rounds both first.
+     *
+     * @return int -1, 0 or 1
+     */
+    public static function compareMagnitudes(string $first, string $second): int
+    {
+        [$firstDigits, $firstExponent] = self::toSignificantDigits($first);
+        [$secondDigits, $secondExponent] = self::toSignificantDigits($second);
+        if ($firstDigits === '' || $secondDigits === '') {
+            return ($firstDigits !== '') <=> ($secondDigits !== '');
+        }
+
+        $firstLeadingPosition = \strlen($firstDigits) + $firstExponent;
+        $secondLeadingPosition = \strlen($secondDigits) + $secondExponent;
+        if ($firstLeadingPosition !== $secondLeadingPosition) {
+            return $firstLeadingPosition <=> $secondLeadingPosition;
+        }
+
+        $length = \max(\strlen($firstDigits), \strlen($secondDigits));
+
+        return \strcmp(\str_pad($firstDigits, $length, '0'), \str_pad($secondDigits, $length, '0')) <=> 0;
+    }
+
+    /**
+     * @return array{string, int} the digits without leading or trailing zeros, empty for zero, and the power of ten they are scaled by
+     */
+    private static function toSignificantDigits(string $value): array
+    {
+        \preg_match('/^[+-]?(\d*)(?:\.(\d*))?(?:[eE]([+-]?\d+))?\z/', $value, $matches);
+        $fraction = $matches[2] ?? '';
+        $digits = \ltrim(($matches[1] ?? '').$fraction, '0');
+        $significantDigits = \rtrim($digits, '0');
+        $exponent = (int) ($matches[3] ?? 0) - \strlen($fraction) + \strlen($digits) - \strlen($significantDigits);
+
+        return [$significantDigits, $exponent];
+    }
 }

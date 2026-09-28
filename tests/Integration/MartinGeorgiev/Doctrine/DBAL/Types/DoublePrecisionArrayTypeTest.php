@@ -30,6 +30,7 @@ final class DoublePrecisionArrayTypeTest extends FloatArrayTypeTestCase
             'double precision array with zero' => [[0.0, 1.5, -1.5]],
             'empty double precision array' => [[]],
             'double precision array with large numbers' => [[1234567.123456, -9876543.987654]],
+            'double precision array with sixteen fractional digits and a subnormal' => [[0.1234567890123456, 5.0E-324]],
             'array with a null element' => [[1, null, 3]],
         ];
     }

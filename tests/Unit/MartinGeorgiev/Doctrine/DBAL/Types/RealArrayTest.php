@@ -27,12 +27,41 @@ final class RealArrayTest extends BaseFloatArrayTestCase
         return \array_merge(parent::provideInvalidDatabaseValueInputs(), [
             'too large' => ['3.5E+38'],
             'too small' => ['-3.5E+38'],
-            'too many decimal places' => ['1.1234567'],
-            'many trailing zeros' => ['1.123000000'],
-            'large number with excess precision' => ['123456.1234567'],
-            'negative with excess precision' => ['-1.1234567'],
-            'too close to zero' => ['1.17E-38'],
-            'too close to zero (negative)' => ['-1.17E-38'],
+            'rounds to zero in real' => ['7e-46'],
+            'rounds to zero in real (negative)' => ['-7e-46'],
+            'rounds up past the largest real' => ['3.40282357E+38'],
+            'rounds up past the largest real (negative)' => ['-3.40282357E+38'],
+            'the exact midpoint above the largest real' => ['340282356779733661637539395458142568448'],
+            'too large with a trailing newline' => ["3.5E+38\n"],
+            'rounds to zero in real with a trailing newline' => ["7e-46\n"],
+            'in range with a trailing newline' => ["1.5\n"],
+            'the exact midpoint above the largest real (negative)' => ['-340282356779733661637539395458142568448'],
+            'just above the midpoint, where a PHP float still reads the midpoint' => ['3.40282356779733662E+38'],
+            'the exact midpoint below the smallest real' => ['7.00649232162408535461864791644958065640130970938257885878534141944895541342930300743319094181060791015625E-46'],
+        ]);
+    }
+
+    /**
+     * PostgreSQL rounds a value to the nearest real, so digits past real's precision and subnormals are both stored.
+     *
+     * @return array<string, array{mixed}>
+     */
+    public static function provideValidArrayItemsForDatabase(): array
+    {
+        return \array_merge(parent::provideValidArrayItemsForDatabase(), [
+            'more digits than real keeps' => ['1.1234567'],
+            'trailing zeros past real precision' => ['1.123000000'],
+            'large number with more digits than real keeps' => ['123456.1234567'],
+            'negative with more digits than real keeps' => ['-1.1234567'],
+            'subnormal' => ['1.17E-38'],
+            'negative subnormal' => ['-1.17E-38'],
+            'smallest subnormal' => ['1e-45'],
+            'rounds down to the largest real' => ['3.4028235677973366E+38'],
+            'rounds down to the largest real (negative)' => ['-3.4028235677973366E+38'],
+            'float just above the rounded maximum real' => [3.4028235000000003E+38],
+            'just below the midpoint above the largest real' => ['340282356779733661637539395458142568447'],
+            'the float two to the minus 150, which PostgreSQL rounds up to the smallest real' => [7.0064923216240854E-46],
+            'two to the minus 150 as PHP writes it' => ['7.0064923216240854E-46'],
         ]);
     }
 
