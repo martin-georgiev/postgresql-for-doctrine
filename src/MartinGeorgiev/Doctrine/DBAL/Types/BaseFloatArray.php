@@ -24,74 +24,76 @@ abstract class BaseFloatArray extends BaseArray
 
     abstract protected function getMaxValue(): string;
 
-    /**
-     * PostgreSQL rounds a value to the nearest one its type holds, subnormals included, and rejects only a non-zero value
-     * that rounds to zero. This is the largest magnitude that does.
-     */
-    abstract protected function getLargestMagnitudeRoundingToZero(): string;
-
     public function isValidArrayItemForDatabase(mixed $item): bool
     {
-        try {
-            $this->throwIfInvalidArrayItemForDatabase($item);
-        } catch (InvalidFloatArrayItemForDatabaseException) {
-            return false;
-        }
-
-        return true;
+        return !$this->findInvalidity($item) instanceof InvalidFloatArrayItemForDatabaseException;
     }
 
-    private function throwIfInvalidArrayItemForDatabase(mixed $item): void
+    private function findInvalidity(mixed $item): ?InvalidFloatArrayItemForDatabaseException
     {
         if ($item === null) {
-            return;
+            return null;
         }
 
         $isNotANumber = !\is_float($item) && !\is_int($item) && !\is_string($item);
         if ($isNotANumber) {
-            throw InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
+            return InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
         }
 
         // Infinity and NaN are values PostgreSQL stores and emits.
         // The range and rounds-to-zero checks below describe finite numbers.
         if (\is_float($item) && !\is_finite($item)) {
-            return;
+            return null;
         }
 
         $stringValue = \is_float($item) ? PostgresFloat::format($item) : (string) $item;
         if (PostgresFloat::isNonFinite($stringValue)) {
-            return;
+            return null;
         }
 
         if (!\preg_match(self::FLOAT_REGEX, $stringValue)) {
-            throw InvalidFloatArrayItemForDatabaseException::doesNotMatchRegex($item);
+            return InvalidFloatArrayItemForDatabaseException::doesNotMatchRegex($item);
         }
 
         $floatValue = (float) $stringValue;
 
-        $isBelowMinValue = $floatValue < (float) $this->getMinValue();
-        if ($isBelowMinValue) {
-            throw InvalidFloatArrayItemForDatabaseException::isBelowMinValue($item);
+        if ($this->isBelowMinValue($stringValue, $floatValue)) {
+            return InvalidFloatArrayItemForDatabaseException::isBelowMinValue($item);
         }
 
-        $isAboveMaxValue = $floatValue > (float) $this->getMaxValue();
-        if ($isAboveMaxValue) {
-            throw InvalidFloatArrayItemForDatabaseException::isAboveMaxValue($item);
+        if ($this->isAboveMaxValue($stringValue, $floatValue)) {
+            return InvalidFloatArrayItemForDatabaseException::isAboveMaxValue($item);
         }
 
-        $mantissa = (string) \preg_replace('/[eE].*\z/', '', $stringValue);
-        $isNonZero = \preg_match('/[1-9]/', $mantissa) === 1;
-        $roundsToZero = $isNonZero && \abs($floatValue) <= (float) $this->getLargestMagnitudeRoundingToZero();
-        if ($roundsToZero) {
-            throw InvalidFloatArrayItemForDatabaseException::absoluteValueIsTooCloseToZero($item);
+        if ($this->roundsToZero($stringValue, $floatValue)) {
+            return InvalidFloatArrayItemForDatabaseException::absoluteValueIsTooCloseToZero($item);
         }
+
+        return null;
+    }
+
+    protected function isBelowMinValue(string $value, float $floatValue): bool
+    {
+        return $floatValue < (float) $this->getMinValue();
+    }
+
+    protected function isAboveMaxValue(string $value, float $floatValue): bool
+    {
+        return $floatValue > (float) $this->getMaxValue();
+    }
+
+    /**
+     * PostgreSQL rounds a value to the nearest one its type holds, subnormals included, and rejects only a non-zero value
+     * that rounds to zero. A PHP float is a double, so a value that rounds to zero in double precision parses as zero.
+     */
+    protected function roundsToZero(string $value, float $floatValue): bool
+    {
+        return $floatValue === 0.0 && PostgresFloat::compareMagnitudes($value, '0') !== 0;
     }
 
     protected function throwInvalidItemException(mixed $item): never
     {
-        $this->throwIfInvalidArrayItemForDatabase($item);
-
-        throw InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
+        throw $this->findInvalidity($item) ?? InvalidFloatArrayItemForDatabaseException::isNotANumber($item);
     }
 
     protected function transformArrayItemForPostgres(mixed $item): string
