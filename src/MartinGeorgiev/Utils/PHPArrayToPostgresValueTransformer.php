@@ -60,7 +60,7 @@ class PHPArrayToPostgresValueTransformer
         }
 
         if (\is_float($value)) {
-            return PreciseFloatFormatter::format($value);
+            return PostgresFloat::format($value);
         }
 
         if (\is_bool($value)) {

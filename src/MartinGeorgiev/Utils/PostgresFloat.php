@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Utils;
 
-use MartinGeorgiev\Utils\PreciseFloatFormatter;
-
 /**
  * The text PostgreSQL reads and writes for a float, its non-finite values included.
  *
@@ -31,7 +29,8 @@ final class PostgresFloat
     public const PATTERN = '[+-]?'.self::UNSIGNED_PATTERN;
 
     /**
-     * Spells the non-finite values the way PostgreSQL emits them and keeps every digit of a finite one.
+     * Casting a float to string is bound by the `precision` ini setting (14 by default). This rewrites the value before
+     * it reaches PostgreSQL. Fall back to the 17-digit form, which always round-trips, whenever the short one does not.
      */
     public static function format(float $value): string
     {
@@ -43,7 +42,12 @@ final class PostgresFloat
             return $value > 0 ? 'Infinity' : '-Infinity';
         }
 
-        return PreciseFloatFormatter::format($value);
+        $shortForm = (string) $value;
+        if ((float) $shortForm === $value) {
+            return $shortForm;
+        }
+
+        return \sprintf('%.17H', $value);
     }
 
     /**
