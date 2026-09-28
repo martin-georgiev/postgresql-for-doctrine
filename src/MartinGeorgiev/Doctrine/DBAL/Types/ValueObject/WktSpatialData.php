@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidWktSpatialDataException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Spatial data value object supporting EWKT (with optional SRID prefix) and WKT.
@@ -175,7 +176,7 @@ final readonly class WktSpatialData implements \Stringable
         float|int|string $latitude,
         ?int $srid = null
     ): self {
-        return new self($srid, GeometryType::POINT, \sprintf('%s %s', $longitude, $latitude));
+        return new self($srid, GeometryType::POINT, \sprintf('%s %s', self::formatCoordinate($longitude), self::formatCoordinate($latitude)));
     }
 
     /**
@@ -192,7 +193,17 @@ final readonly class WktSpatialData implements \Stringable
         float|int|string $elevation,
         ?int $srid = null
     ): self {
-        return new self($srid, GeometryType::POINT, \sprintf('%s %s %s', $longitude, $latitude, $elevation), DimensionalModifier::Z);
+        return new self(
+            $srid,
+            GeometryType::POINT,
+            \sprintf('%s %s %s', self::formatCoordinate($longitude), self::formatCoordinate($latitude), self::formatCoordinate($elevation)),
+            DimensionalModifier::Z
+        );
+    }
+
+    private static function formatCoordinate(float|int|string $coordinate): string
+    {
+        return \is_float($coordinate) ? PostgresFloat::format($coordinate) : (string) $coordinate;
     }
 
     public function getSrid(): ?int

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * @since 4.5
@@ -13,17 +13,15 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
  */
 abstract readonly class BaseGeometricValue implements \Stringable
 {
-    use PostgresFloatConversionTrait;
+    /**
+     * @var string
+     */
+    protected const POINT_PATTERN = '\(\s*'.PostgresFloat::PATTERN.'\s*,\s*'.PostgresFloat::PATTERN.'\s*\)';
 
     /**
      * @var string
      */
-    protected const POINT_PATTERN = '\(\s*'.self::FLOAT_PATTERN.'\s*,\s*'.self::FLOAT_PATTERN.'\s*\)';
-
-    /**
-     * @var string
-     */
-    protected const POINT_CAPTURE_REGEX = '/\(\s*('.self::FLOAT_PATTERN.')\s*,\s*('.self::FLOAT_PATTERN.')\s*\)/';
+    protected const POINT_CAPTURE_REGEX = '/\(\s*('.PostgresFloat::PATTERN.')\s*,\s*('.PostgresFloat::PATTERN.')\s*\)/';
 
     /**
      * @return list<Point>
@@ -33,7 +31,7 @@ abstract readonly class BaseGeometricValue implements \Stringable
         \preg_match_all(self::POINT_CAPTURE_REGEX, $value, $matches, PREG_SET_ORDER);
 
         return \array_map(
-            static fn (array $match): Point => new Point(self::parseFloat($match[1]), self::parseFloat($match[2])),
+            static fn (array $match): Point => new Point(PostgresFloat::parse($match[1]), PostgresFloat::parse($match[2])),
             $matches
         );
     }

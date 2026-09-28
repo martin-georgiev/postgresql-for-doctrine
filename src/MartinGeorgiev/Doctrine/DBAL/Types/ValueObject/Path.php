@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPathException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL path geometric type.
@@ -45,8 +46,8 @@ final readonly class Path extends BaseGeometricValue
         $pointStrings = \array_map(
             static fn (Point $point): string => \sprintf(
                 '(%s,%s)',
-                self::formatFloat($point->getX()),
-                self::formatFloat($point->getY())
+                PostgresFloat::format($point->getX()),
+                PostgresFloat::format($point->getY())
             ),
             $this->points
         );

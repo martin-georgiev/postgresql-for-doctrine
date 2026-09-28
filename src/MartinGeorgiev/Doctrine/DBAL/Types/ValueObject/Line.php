@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidLineException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL line geometric type.
@@ -21,7 +22,7 @@ final readonly class Line extends BaseGeometricValue
     /**
      * @var string
      */
-    private const LINE_REGEX = '/^\{\s*('.self::FLOAT_PATTERN.'),\s*('.self::FLOAT_PATTERN.'),\s*('.self::FLOAT_PATTERN.')\s*\}$/';
+    private const LINE_REGEX = '/^\{\s*('.PostgresFloat::PATTERN.'),\s*('.PostgresFloat::PATTERN.'),\s*('.PostgresFloat::PATTERN.')\s*\}$/';
 
     public function __construct(
         private float $a,
@@ -37,9 +38,9 @@ final readonly class Line extends BaseGeometricValue
     {
         return \sprintf(
             '{%s,%s,%s}',
-            self::formatFloat($this->a),
-            self::formatFloat($this->b),
-            self::formatFloat($this->c)
+            PostgresFloat::format($this->a),
+            PostgresFloat::format($this->b),
+            PostgresFloat::format($this->c)
         );
     }
 
@@ -65,9 +66,9 @@ final readonly class Line extends BaseGeometricValue
         }
 
         return new self(
-            self::parseFloat($matches[1]),
-            self::parseFloat($matches[2]),
-            self::parseFloat($matches[3])
+            PostgresFloat::parse($matches[1]),
+            PostgresFloat::parse($matches[2]),
+            PostgresFloat::parse($matches[3])
         );
     }
 }

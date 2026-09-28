@@ -35,23 +35,23 @@ final class BaseVariadicFunctionTruncatedArgumentListTest extends TestCase
 
     #[DataProvider('provideTruncatedArgumentLists')]
     #[Test]
-    public function throws_exception_when_the_argument_list_is_truncated(string $dql): void
+    public function throws_exception_when_the_argument_list_is_truncated(string $dql, string $message): void
     {
         $this->expectException(ParserException::class);
-        $this->expectExceptionMessage('test_pattern_fallback() requires at least 2 arguments');
+        $this->expectExceptionMessage($message);
 
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
     /**
-     * @return array<string, array{dql: string}>
+     * @return array<string, array{dql: string, message: string}>
      */
     public static function provideTruncatedArgumentLists(): array
     {
         return [
-            'nothing follows the opening parenthesis' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK('],
-            'nothing follows the first argument' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK(e.text1'],
-            'nothing follows the argument separator' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK(e.text1,'],
+            'nothing follows the opening parenthesis' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK(', 'message' => 'test_pattern_fallback() requires at least 2 arguments'],
+            'nothing follows the first argument' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK(e.text1', 'message' => 'Cannot parse the argument list of test_pattern_fallback(). Expected a comma or a closing parenthesis after an argument.'],
+            'nothing follows the argument separator' => ['dql' => 'SELECT TEST_PATTERN_FALLBACK(e.text1,', 'message' => 'test_pattern_fallback() requires at least 2 arguments'],
         ];
     }
 }
