@@ -30,6 +30,7 @@ final class DoublePrecisionArrayTest extends BaseFloatArrayTestCase
             'too small' => ['-1.7976931348623157E+309'],
             'rounds to zero in double precision' => ['2e-324'],
             'rounds to zero in double precision (negative)' => ['-2e-324'],
+            'rounds to zero in double precision with a trailing newline' => ["2e-324\n"],
         ]);
     }
 

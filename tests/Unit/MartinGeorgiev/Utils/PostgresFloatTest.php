@@ -117,6 +117,7 @@ final class PostgresFloatTest extends TestCase
             'non-zero value above zero' => ['1E-400', '0', 1],
             'differs only past what a double holds' => ['340282356779733661637539395458142568447', '3.40282356779733661637539395458142568448E+38', -1],
             'leading zeros in the fraction' => ['0.0005', '5E-4', 0],
+            'a trailing newline is ignored' => ["3.5E+38\n", '3.5E+38', 0],
         ];
     }
 }
