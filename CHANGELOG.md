@@ -1,5 +1,60 @@
 # Changelog
 
+## [4.9.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.8.1...v4.9.0) (2026-09-28)
+
+
+### Features
+
+* Add PostGIS geometry validation and repair functions through `ST_MakeValid` and `ST_IsValidReason` ([#772](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/772)) ([ee07212](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ee07212e86c4667b2a0dd5eb6da8c15681ab1226))
+* Add PostGIS OGC element accessors ([#775](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/775)) ([13585e8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/13585e86b237964bcb7c27853962c0599bd065df))
+* Add PostGIS WKT and EWKT text conversion functions ([#773](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/773)) ([63d3f61](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/63d3f6130901afca9ce789ac44cd622b675e3c5b))
+* Add support for `geometry_type` and `srid` options to `geometry[]` and `geography[]` ([#824](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/824)) ([ad8bda5](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ad8bda5742aedad64d214fc24c162487e3342439))
+* Add support for the aggregate `FILTER` clause ([#792](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/792)) ([f98c93d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/f98c93d47f8a249572f9ca7906b0b29d3b1c57b0))
+* Add support for the ordered-set aggregates (`MODE()`, `PERCENTILE_DISC()`, `PERCENTILE_CONT()`) ([#793](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/793)) ([8c0c8fd](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8c0c8fd605b4e164ec6c742cf67a69378172597c))
+* Add support for the ranking window functions (`ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST`, `NTILE`) ([#799](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/799)) ([e6188f5](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e6188f57b2a45a6b78192cafeaa35f831cfcefbd))
+* Add support for the value window functions (`LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, `NTH_VALUE`) ([#800](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/800)) ([e0f978c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e0f978c7f2d23ffb640a940e07678255d761a548))
+* Add support for window functions through `OVER` ([#798](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/798)) ([4209935](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4209935aa40e2ba5e65830ea94712ac129b9681f))
+* Let `WktSpatialData` parse under the same-named `fromString` method like every other value object ([#767](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/767)) ([5a95db7](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5a95db703eb6d7fed9e0527aed67a11285a397db))
+* Value objects throw their own exception ([#752](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/752)) ([a50c9db](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a50c9db03caae262c3d62e9c97bd9788f048737b))
+
+
+### Bug Fixes
+
+* Accept `LCA` with an array of paths ([#850](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/850)) ([d02ccf8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d02ccf85d28d65e710ad6c632b4faa4ebe5923e0))
+* Accept `ST_COLLECTIONEXTRACT` with only a geometry ([#846](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/846)) ([131da97](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/131da977d6802ba3775d8f9364412ac6a3c88bf9))
+* Accept `ST_SCALE` with a geometry factor ([#847](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/847)) ([d973e71](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/d973e717ea2f698ca3a6973cb00630a3d0086a5b))
+* Accept `ST_SUBDIVIDE` with only a geometry ([#845](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/845)) ([4981c85](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4981c859ba3ce2314fdc9f956f3c79ace3bb0092))
+* Accept `TO_TIMESTAMP` with a Unix epoch ([#848](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/848)) ([77da8cd](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/77da8cd0d996905e22bb8d7d89d6af142c241830))
+* Accept `WIDTH_BUCKET` with an array of thresholds ([#849](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/849)) ([8a5542d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8a5542df89f4de62692ba6386f539b47a602d4a3))
+* Accept a signed number wherever a DQL function takes a numeric argument ([#833](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/833)) ([8f0b9b9](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/8f0b9b934b0679b5d9c573cc5e59912cb424eb1b))
+* Accept every real and double precision array item PostgreSQL accepts ([#838](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/838)) ([9ff6c1d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9ff6c1d0a046b7076a624e34aa79dc4fa7e017dc))
+* Accept only digits and letter numbers in `lquery` and `ltxtquery` labels ([#840](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/840)) ([bd40ec6](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/bd40ec6d4c7b9e849e10fef662908402bc52f033))
+* Keep a fetch-joined collection's order out of an aggregate's `ORDER BY` ([#830](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/830)) ([a9753fa](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a9753fa7b567b91dfa01b144be72f82a1d2b25ca))
+* Keep an empty ltree inside an ltree array ([#829](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/829)) ([df4ad76](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/df4ad76986ec67ab1a2ee4ada504e004fc4d3ae8))
+* Keep every decimal when reading geometry and geography columns ([#825](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/825)) ([3370ecd](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3370ecdb861a1632f4943a62c47b5d425200237c))
+* Keep every microsecond of long interval times ([#834](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/834)) ([710b8cf](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/710b8cf9c7980587cf0eb7d0f9dae5525ec76a28))
+* Keep every significant digit of floats in composite fields and numeric ranges ([#831](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/831)) ([0fc765f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/0fc765f5c5472f87d3f853059b5f60cc875ab9f6))
+* Keep every significant digit of the floats a WKT point is built from ([#853](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/853)) ([b3198c1](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/b3198c1d947798a95b21134fff2b9a969f4257f0))
+* Keep the sign of a range bound of positive infinity below or negative infinity above ([#832](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/832)) ([e309d3d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e309d3d4a53bcf6aecc8e4ddb701533654def505))
+* Read and write range bounds with a five-digit year or a BC date ([#836](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/836)) ([2181392](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/218139278addc09adfe1080e467251247ad2d2cb))
+* Read geometry and geography arrays through the ORM ([#821](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/821)) ([4771a42](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/4771a42545762e4569fc6b1db48b2f46b869ba21))
+* Read geometry and geography columns through the ORM on ORM 2 ([#823](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/823)) ([631e73c](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/631e73c1c1574c789ce791637c52133552b94a30))
+* Read PostgreSQL arrays whose index does not start at one ([#839](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/839)) ([e0124fa](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/e0124fa1f1416a71625ad9c1fcda2b27552fc7bb))
+* Read the glued dimensional modifier spelling in the scalar spatial types ([#827](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/827)) ([6bffe41](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/6bffe417974643876eb03ef73e4b8f2d2756bc02))
+* Reject a `DATE_EXTRACT` field that is not a string literal ([#844](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/844)) ([774c638](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/774c638223e7b38209cb5b18729f14956c78cef4))
+* Reject a cidr with bits set right of its netmask ([#837](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/837)) ([3d91660](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3d91660014d8ff850fc31395e5c08418c270eb8e))
+* Remove `ND_BOUNDING_BOX_DISTANCE`, whose `<<#>>` operator was never released in a stable PostGIS version ([#813](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/813)) ([1be13d3](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/1be13d33b0c5ba1112dc7763c1b776553ee8fdd9))
+* Swap the inverted exception family on some DBAL types ([#781](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/781)) ([7f02b8d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/7f02b8d446c8a28f82befec80685cd24ed6d878e))
+* Treat a discrete range with no value between its bounds as empty ([#835](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/835)) ([03cd58a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/03cd58af4fb1c4839169521aa16464df03c42d2b))
+* Write text array and vector floats through PostgresFloat ([#841](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/841)) ([568909a](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/568909a9997c107bda71b7ed84fdc020a7dd7cab))
+
+
+### Code Refactoring
+
+* Keep PostgreSQL float conversion in one internal Utils class ([#852](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/852)) ([366637e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/366637e07bb0c43fb490028ae60d093eab328732))
+* The exception factories follow their own message rule ([#757](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/757)) ([b89c15d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/b89c15dd5a680de7fac9fcbba51786867e329975))
+* The value objects throw their own exception family ([#754](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/754)) ([c7b316b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c7b316bb55f857131c91aa26e2689015148c4326))
+
 ## [4.8.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.8.0...v4.8.1) (2026-09-21)
 
 
