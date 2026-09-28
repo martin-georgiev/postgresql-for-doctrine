@@ -28,6 +28,14 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
     public static function provideValidTransformations(): array
     {
         return [
+            'index starting below one' => [
+                'phpValue' => [1, 2, 3],
+                'postgresValue' => '[0:2]={1,2,3}',
+            ],
+            'index starting above one' => [
+                'phpValue' => ['a', 'b'],
+                'postgresValue' => '[2:3]={a,b}',
+            ],
             'null value' => [
                 'phpValue' => [],
                 'postgresValue' => 'null',
@@ -190,6 +198,9 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
         return [
             'multi-dimensioned array' => [
                 'postgresValue' => '{{1,2,3},{4,5,6}}',
+            ],
+            'multi-dimensioned array with its index bounds' => [
+                'postgresValue' => '[1:2][1:2]={{1,2},{3,4}}',
             ],
         ];
     }

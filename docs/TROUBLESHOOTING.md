@@ -144,6 +144,16 @@ For example `'{books,php,new}'` instead of a PHP array.
 
 **Fix:** convert it yourself, as [Converting a computed value yourself](QUERY-RESULTS.md#converting-a-computed-value-yourself) shows.
 
+### `Array values must be hex-encoded bytea strings starting with \x`
+
+**Cause:** the session's [`bytea_output`](https://www.postgresql.org/docs/18/runtime-config-client.html#GUC-BYTEA-OUTPUT) is `escape`, so PostgreSQL writes each `bytea[]` item in the escape format. This library reads only the default hex format.
+
+**Fix:** switch the setting back to `hex`, for example for every new connection to the database:
+
+```sql
+ALTER DATABASE app SET bytea_output = 'hex';
+```
+
 ### `getSingleScalarResult()` returns `'{php,postgres}'` for an array field
 
 **Cause:** the scalar result methods skip the DBAL type, even for a mapped field.

@@ -39,4 +39,12 @@ final class WidthBucketTest extends NumericTestCase
         $result = $this->executeDqlQuery($dql);
         $this->assertSame(1, $result[0]['result']);
     }
+
+    #[Test]
+    public function returns_the_bucket_number_with_thresholds(): void
+    {
+        $dql = "SELECT WIDTH_BUCKET(n.decimal1, '{0,10,100}') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(2, $result[0]['result']);
+    }
 }

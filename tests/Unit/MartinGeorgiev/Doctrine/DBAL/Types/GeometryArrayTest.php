@@ -129,12 +129,24 @@ final class GeometryArrayTest extends TestCase
         $this->assertSame('{NULL}', $this->type->convertToDatabaseValue([null], $this->platform));
     }
 
+    #[DataProvider('provideLiteralsTheArrayParserRejects')]
     #[Test]
-    public function throws_exception_for_a_literal_the_array_parser_rejects(): void
+    public function throws_exception_for_a_literal_the_array_parser_rejects(string $postgresValue): void
     {
         $this->expectException(InvalidGeometryForPHPException::class);
 
-        $this->type->convertToPHPValue('{"unclosed}', $this->platform);
+        $this->type->convertToPHPValue($postgresValue, $this->platform);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideLiteralsTheArrayParserRejects(): array
+    {
+        return [
+            'unclosed quote' => ['{"unclosed}'],
+            'multi-dimensional array with its index bounds' => ['[1:1][1:1]={{"POINT(1 2)"}}'],
+        ];
     }
 
     #[Test]
@@ -267,6 +279,10 @@ final class GeometryArrayTest extends TestCase
     public static function provideValidPostgresArraysForPHP(): array
     {
         return [
+            'index starting below one' => [
+                '[0:0]={"POINT(1 2)"}',
+                ['POINT(1 2)'],
+            ],
             'single point' => [
                 '{POINT(1 2)}',
                 ['POINT(1 2)'],
