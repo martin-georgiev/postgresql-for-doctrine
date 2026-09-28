@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\ORM\Query\QueryException;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsTexts;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentForVariadicFunctionException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 final class ToTimestampTest extends TestCase
@@ -22,6 +24,7 @@ final class ToTimestampTest extends TestCase
     {
         return [
             'converts text to timestamp using format pattern' => "SELECT to_timestamp(c0_.text1, 'DD Mon YYYY') AS sclr_0 FROM ContainsTexts c0_",
+            'converts a Unix epoch to timestamp' => 'SELECT to_timestamp(1700000000) AS sclr_0 FROM ContainsTexts c0_',
         ];
     }
 
@@ -29,15 +32,36 @@ final class ToTimestampTest extends TestCase
     {
         return [
             'converts text to timestamp using format pattern' => \sprintf("SELECT TO_TIMESTAMP(e.text1, 'DD Mon YYYY') FROM %s e", ContainsTexts::class),
+            'converts a Unix epoch to timestamp' => \sprintf('SELECT TO_TIMESTAMP(1700000000) FROM %s e', ContainsTexts::class),
+        ];
+    }
+
+    #[DataProvider('provideInvalidArgumentCountCases')]
+    #[Test]
+    public function throws_exception_for_invalid_argument_count(string $dql): void
+    {
+        $this->expectException(InvalidArgumentForVariadicFunctionException::class);
+
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidArgumentCountCases(): array
+    {
+        return [
+            'too few arguments' => [\sprintf('SELECT TO_TIMESTAMP() FROM %s e', ContainsTexts::class)],
+            'too many arguments' => [\sprintf("SELECT TO_TIMESTAMP(e.text1, 'DD Mon YYYY', 'extra') FROM %s e", ContainsTexts::class)],
         ];
     }
 
     #[Test]
-    public function throws_exception_for_missing_arguments(): void
+    public function throws_exception_for_a_numeric_format_argument(): void
     {
-        $this->expectException(QueryException::class);
+        $this->expectException(ParserException::class);
 
-        $dql = \sprintf('SELECT TO_TIMESTAMP(e.text1) FROM %s e', ContainsTexts::class);
+        $dql = \sprintf("SELECT TO_TIMESTAMP('05 Dec 2000', 1) FROM %s e", ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 }
