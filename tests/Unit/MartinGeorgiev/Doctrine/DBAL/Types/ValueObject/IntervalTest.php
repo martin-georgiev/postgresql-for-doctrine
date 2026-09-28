@@ -27,6 +27,9 @@ final class IntervalTest extends TestCase
     public static function provideParsingAndFormatting(): array
     {
         return [
+            'sub-microsecond tie rounds down to even' => ['00:00:00.0000025', '00:00:00.000002'],
+            'sub-microsecond tie rounds up to even' => ['00:00:00.0000035', '00:00:00.000004'],
+            'sub-microsecond remainder past the tie rounds up' => ['00:00:00.00000250001', '00:00:00.000003'],
             'postgres style: year' => ['1 year', '1 year'],
             'postgres style: years' => ['2 years', '2 years'],
             'postgres style: mon' => ['1 mon', '1 mon'],
@@ -257,6 +260,8 @@ final class IntervalTest extends TestCase
             'fractional seconds' => ['04:05:06.5'],
             'full microsecond precision' => ['00:00:01.123456'],
             'hours beyond a day' => ['100:00:00'],
+            'microseconds beyond what a float counts exactly' => ['3000000:00:00.000001'],
+            'the longest time PostgreSQL holds' => ['2562047788:00:54.775807'],
             'single negative second' => ['-00:00:01'],
         ];
     }
@@ -522,6 +527,10 @@ final class IntervalTest extends TestCase
 
         yield 'seconds beyond a minute' => [new \DateInterval('PT90S'), '00:01:30'];
         yield 'minutes beyond an hour' => [new \DateInterval('PT1H90M'), '02:30:00'];
+
+        $microsecondBeyondWhatAFloatCountsExactly = new \DateInterval('PT3000000H');
+        $microsecondBeyondWhatAFloatCountsExactly->f = 0.000001;
+        yield 'a microsecond beyond what a float counts exactly' => [$microsecondBeyondWhatAFloatCountsExactly, '3000000:00:00.000001'];
     }
 
     #[Test]

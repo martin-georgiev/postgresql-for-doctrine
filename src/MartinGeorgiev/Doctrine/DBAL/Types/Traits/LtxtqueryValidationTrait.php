@@ -19,7 +19,7 @@ trait LtxtqueryValidationTrait
      * @var string
      */
     private const LTXTQUERY_PATTERN = '/^(?(DEFINE)'
-        .'(?<word>[\p{L}\p{N}_-]+[@*%]*)'
+        .'(?<word>[\p{L}\p{Nd}\p{Nl}_-]+[@*%]*)'
         .'(?<term>(?:! *)*(?:(?&word)|\( *(?&expr) *\)))'
         .'(?<expr>(?&term)(?: *[&|] *(?&term))*)'
         .') *(?&expr) *\z/u';

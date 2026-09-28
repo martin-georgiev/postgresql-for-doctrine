@@ -58,6 +58,10 @@ final class LtxtqueryTest extends TestCase
                 'phpValue' => null,
                 'databaseValue' => null,
             ],
+            'decimal digit and letter number words' => [
+                'phpValue' => 'a٣ & Ⅻ',
+                'databaseValue' => 'a٣ & Ⅻ',
+            ],
             'single word' => [
                 'phpValue' => 'Earth',
                 'databaseValue' => 'Earth',
@@ -124,6 +128,7 @@ final class LtxtqueryTest extends TestCase
     public static function provideInvalidDatabaseValueInputs(): array
     {
         return [
+            'a numeric character that is not a digit' => ['x½'],
             'integer input' => [42],
             'float input' => [3.14],
             'array input' => [['not', 'a', 'string']],

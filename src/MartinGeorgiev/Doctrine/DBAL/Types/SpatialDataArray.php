@@ -79,7 +79,12 @@ abstract class SpatialDataArray extends BaseArray
      */
     protected function transformPostgresArrayToPHPArray(string $postgresArray): array
     {
-        $trimmedArray = \trim($postgresArray);
+        try {
+            $trimmedArray = PostgresArrayToPHPArrayTransformer::withoutIndexBounds(\trim($postgresArray));
+        } catch (InvalidArrayFormatException) {
+            $this->throwInvalidFormatExceptionForPHP($postgresArray);
+        }
+
         if ($trimmedArray === '{}' || $trimmedArray === '') {
             return [];
         }

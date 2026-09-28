@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPointException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL point geometric type.
@@ -19,7 +20,7 @@ final readonly class Point extends BaseGeometricValue
     /**
      * @var string
      */
-    private const POINT_REGEX = '/^\(\s*('.self::FLOAT_PATTERN.')\s*,\s*('.self::FLOAT_PATTERN.')\s*\)$/';
+    private const POINT_REGEX = '/^\(\s*('.PostgresFloat::PATTERN.')\s*,\s*('.PostgresFloat::PATTERN.')\s*\)$/';
 
     public function __construct(
         private float $x,
@@ -28,7 +29,7 @@ final readonly class Point extends BaseGeometricValue
 
     public function __toString(): string
     {
-        return \sprintf('(%s,%s)', self::formatFloat($this->x), self::formatFloat($this->y));
+        return \sprintf('(%s,%s)', PostgresFloat::format($this->x), PostgresFloat::format($this->y));
     }
 
     public function getX(): float
@@ -47,6 +48,6 @@ final readonly class Point extends BaseGeometricValue
             throw InvalidPointException::forInvalidFormat($pointString, self::POINT_REGEX);
         }
 
-        return new self(self::parseFloat($matches[1]), self::parseFloat($matches[2]));
+        return new self(PostgresFloat::parse($matches[1]), PostgresFloat::parse($matches[2]));
     }
 }

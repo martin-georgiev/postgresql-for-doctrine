@@ -23,6 +23,7 @@ final class LcaTest extends TestCase
     {
         return [
             'computes longest common ancestor of two paths' => 'SELECT lca(c0_.text1, c0_.text2) AS sclr_0 FROM ContainsTexts c0_',
+            'computes longest common ancestor of an array of paths' => 'SELECT lca(?) AS sclr_0 FROM ContainsTexts c0_',
             'computes longest common ancestor of three paths' => "SELECT lca(c0_.text1, c0_.text2, 'Top.Child1') AS sclr_0 FROM ContainsTexts c0_",
         ];
     }
@@ -31,6 +32,7 @@ final class LcaTest extends TestCase
     {
         return [
             'computes longest common ancestor of two paths' => \sprintf('SELECT LCA(e.text1, e.text2) FROM %s e', ContainsTexts::class),
+            'computes longest common ancestor of an array of paths' => \sprintf('SELECT LCA(:paths) FROM %s e', ContainsTexts::class),
             'computes longest common ancestor of three paths' => \sprintf("SELECT LCA(e.text1, e.text2, 'Top.Child1') FROM %s e", ContainsTexts::class),
         ];
     }
@@ -39,9 +41,9 @@ final class LcaTest extends TestCase
     public function throws_exception_when_argument_count_is_too_low(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('lca() requires at least 2 arguments');
+        $this->expectExceptionMessage('lca() requires at least 1 argument');
 
-        $dql = \sprintf('SELECT LCA(e.text1) FROM %s e', ContainsTexts::class);
+        $dql = \sprintf('SELECT LCA() FROM %s e', ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
@@ -49,7 +51,7 @@ final class LcaTest extends TestCase
     public function throws_exception_when_argument_count_is_too_high(): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage('lca() requires between 2 and 8 arguments');
+        $this->expectExceptionMessage('lca() requires between 1 and 8 arguments');
 
         $dql = \sprintf('SELECT LCA(e.text1, e.text2, e.text3, e.text4, e.text5, e.text6, e.text7, e.text8, e.text9) FROM %s e', ContainsTexts::class);
         $this->buildEntityManager()->createQuery($dql)->getSQL();
