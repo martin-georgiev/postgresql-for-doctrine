@@ -124,6 +124,10 @@ abstract class BaseVectorTypeTestCase extends TestCase
                 'phpValue' => [0.1, 0.2, 0.3],
                 'postgresValue' => '[0.1,0.2,0.3]',
             ],
+            'float needing more than 14 significant digits' => [
+                'phpValue' => [0.30000000000000004],
+                'postgresValue' => '[0.30000000000000004]',
+            ],
             'integers are accepted' => [
                 'phpValue' => [1, 2, 3],
                 'postgresValue' => '[1,2,3]',

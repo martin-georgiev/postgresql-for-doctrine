@@ -6,6 +6,7 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MartinGeorgiev\Doctrine\DBAL\Types\Traits\LengthAwareSQLDeclarationTrait;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Shared implementation for pgvector dense float vector types (VECTOR, HALFVEC).
@@ -54,7 +55,7 @@ abstract class BaseVector extends BaseType
                 $this->throwInvalidItemTypeForDatabase($item);
             }
 
-            $stringItems[] = (string) $item;
+            $stringItems[] = \is_float($item) ? PostgresFloat::format($item) : (string) $item;
         }
 
         return '['.\implode(',', $stringItems).']';
