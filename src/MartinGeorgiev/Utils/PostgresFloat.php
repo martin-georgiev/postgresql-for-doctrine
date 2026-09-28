@@ -101,13 +101,11 @@ final class PostgresFloat
     }
 
     /**
-     * Accepts the one trailing newline the float array validation lets through, which a PHP float cast ignores too.
-     *
      * @return array{string, int} the digits without leading or trailing zeros, empty for zero, and the power of ten they are scaled by
      */
     private static function toSignificantDigits(string $value): array
     {
-        \preg_match('/^[+-]?(\d*)(?:\.(\d*))?(?:[eE]([+-]?\d+))?\n?\z/', $value, $matches);
+        \preg_match('/^[+-]?(\d*)(?:\.(\d*))?(?:[eE]([+-]?\d+))?\z/', $value, $matches);
         $fraction = $matches[2] ?? '';
         $digits = \ltrim(($matches[1] ?? '').$fraction, '0');
         $significantDigits = \rtrim($digits, '0');

@@ -34,6 +34,7 @@ final class RealArrayTest extends BaseFloatArrayTestCase
             'the exact midpoint above the largest real' => ['340282356779733661637539395458142568448'],
             'too large with a trailing newline' => ["3.5E+38\n"],
             'rounds to zero in real with a trailing newline' => ["7e-46\n"],
+            'in range with a trailing newline' => ["1.5\n"],
             'the exact midpoint above the largest real (negative)' => ['-340282356779733661637539395458142568448'],
             'just above the midpoint, where a PHP float still reads the midpoint' => ['3.40282356779733662E+38'],
             'the exact midpoint below the smallest real' => ['7.00649232162408535461864791644958065640130970938257885878534141944895541342930300743319094181060791015625E-46'],

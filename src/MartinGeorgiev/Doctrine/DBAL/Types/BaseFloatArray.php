@@ -17,7 +17,7 @@ abstract class BaseFloatArray extends BaseArray
     /**
      * @var string
      */
-    private const FLOAT_REGEX = '/^-?\d*\.?\d+(?:[eE][-+]?\d+)?$/';
+    private const FLOAT_REGEX = '/^-?\d*\.?\d+(?:[eE][-+]?\d+)?\z/';
 
     abstract protected function getMinValue(): string;
 
