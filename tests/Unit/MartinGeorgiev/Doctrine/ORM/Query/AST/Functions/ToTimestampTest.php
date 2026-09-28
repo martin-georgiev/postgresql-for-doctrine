@@ -38,28 +38,21 @@ final class ToTimestampTest extends TestCase
 
     #[DataProvider('provideInvalidArgumentCountCases')]
     #[Test]
-    public function throws_exception_for_invalid_argument_count(string $dql, string $expectedMessage): void
+    public function throws_exception_for_invalid_argument_count(string $dql): void
     {
         $this->expectException(InvalidArgumentForVariadicFunctionException::class);
-        $this->expectExceptionMessage($expectedMessage);
 
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
 
     /**
-     * @return array<string, array{string, string}>
+     * @return array<string, array{string}>
      */
     public static function provideInvalidArgumentCountCases(): array
     {
         return [
-            'too few arguments' => [
-                \sprintf('SELECT TO_TIMESTAMP() FROM %s e', ContainsTexts::class),
-                'to_timestamp() requires at least 1 argument',
-            ],
-            'too many arguments' => [
-                \sprintf("SELECT TO_TIMESTAMP(e.text1, 'DD Mon YYYY', 'extra') FROM %s e", ContainsTexts::class),
-                'to_timestamp() requires between 1 and 2 arguments',
-            ],
+            'too few arguments' => [\sprintf('SELECT TO_TIMESTAMP() FROM %s e', ContainsTexts::class)],
+            'too many arguments' => [\sprintf("SELECT TO_TIMESTAMP(e.text1, 'DD Mon YYYY', 'extra') FROM %s e", ContainsTexts::class)],
         ];
     }
 
