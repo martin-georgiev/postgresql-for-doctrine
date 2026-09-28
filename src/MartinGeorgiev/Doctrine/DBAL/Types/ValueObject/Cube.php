@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
-use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeException;
+use MartinGeorgiev\Utils\PostgresFloat;
 
 /**
  * Represents a PostgreSQL cube value, provided by the cube extension.
@@ -24,8 +24,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidCubeExcepti
  */
 final readonly class Cube implements \Stringable
 {
-    use PostgresFloatConversionTrait;
-
     /**
      * PostgreSQL rejects anything above this with "A cube cannot have more than 100 dimensions".
      *
@@ -36,7 +34,7 @@ final readonly class Cube implements \Stringable
     /**
      * @var string
      */
-    private const COORDINATE_LIST_PATTERN = self::FLOAT_PATTERN.'(?:\s*,\s*'.self::FLOAT_PATTERN.')*';
+    private const COORDINATE_LIST_PATTERN = PostgresFloat::PATTERN.'(?:\s*,\s*'.PostgresFloat::PATTERN.')*';
 
     /**
      * @var string
@@ -172,7 +170,7 @@ final readonly class Cube implements \Stringable
         $parts = \preg_split('/\s*,\s*/', \trim($coordinateList));
         \assert(\is_array($parts));
 
-        return \array_map(self::parseFloat(...), $parts);
+        return \array_map(PostgresFloat::parse(...), $parts);
     }
 
     /**
@@ -180,6 +178,6 @@ final readonly class Cube implements \Stringable
      */
     private function formatCorner(array $coordinates): string
     {
-        return '('.\implode(', ', \array_map($this->formatFloat(...), $coordinates)).')';
+        return '('.\implode(', ', \array_map(PostgresFloat::format(...), $coordinates)).')';
     }
 }

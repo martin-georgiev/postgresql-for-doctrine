@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
+namespace MartinGeorgiev\Utils;
 
 /**
- * @since 4.8
+ * The text PostgreSQL reads and writes for a float, its non-finite values included.
+ *
+ * @internal
+ *
+ * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-trait PostgresFloatConversionTrait
+final class PostgresFloat
 {
     /**
      * A float without its sign, for the operands PostgreSQL never accepts a negative value for, such as a radius.
@@ -17,18 +21,18 @@ trait PostgresFloatConversionTrait
      *
      * @var string
      */
-    protected const UNSIGNED_FLOAT_PATTERN = '(?:(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|(?i:inf(?:inity)?|nan))';
+    public const UNSIGNED_PATTERN = '(?:(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|(?i:inf(?:inity)?|nan))';
 
     /**
      * @var string
      */
-    protected const FLOAT_PATTERN = '[+-]?'.self::UNSIGNED_FLOAT_PATTERN;
+    public const PATTERN = '[+-]?'.self::UNSIGNED_PATTERN;
 
     /**
      * Casting a float to string is bound by the `precision` ini setting (14 by default). This rewrites the value before
      * it reaches PostgreSQL. Fall back to the 17-digit form, which always round-trips, whenever the short one does not.
      */
-    protected static function formatFloat(float $value): string
+    public static function format(float $value): string
     {
         if (\is_nan($value)) {
             return 'NaN';
@@ -50,7 +54,7 @@ trait PostgresFloatConversionTrait
      * The spellings PostgreSQL accepts for a value outside the finite range. It emits `Infinity`, `-Infinity` and `NaN`,
      * but reads any case, the `inf` abbreviation and an explicit `+`.
      */
-    protected static function isNonFiniteString(string $value): bool
+    public static function isNonFinite(string $value): bool
     {
         return \in_array(
             \mb_strtolower($value),
@@ -62,7 +66,7 @@ trait PostgresFloatConversionTrait
     /**
      * Casting a string to float yields 0.0 for every non-finite spelling PostgreSQL uses. Those are matched explicitly.
      */
-    protected static function parseFloat(string $value): float
+    public static function parse(string $value): float
     {
         return match (\mb_strtolower(\ltrim($value, '+'))) {
             'nan', '-nan' => \NAN,
