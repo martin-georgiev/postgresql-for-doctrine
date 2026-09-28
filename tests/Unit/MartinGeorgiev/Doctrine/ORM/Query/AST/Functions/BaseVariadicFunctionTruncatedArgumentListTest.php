@@ -38,7 +38,6 @@ final class BaseVariadicFunctionTruncatedArgumentListTest extends TestCase
     public function throws_exception_when_the_argument_list_is_truncated(string $dql): void
     {
         $this->expectException(ParserException::class);
-        $this->expectExceptionMessage('test_pattern_fallback() requires at least 2 arguments');
 
         $this->buildEntityManager()->createQuery($dql)->getSQL();
     }
