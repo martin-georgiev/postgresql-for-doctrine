@@ -8,9 +8,9 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type as DoctrineType;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCompositeForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidCompositeForPHPException;
-use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PostgresFloatConversionTrait;
 use MartinGeorgiev\Utils\Exception\InvalidRecordFormatException;
 use MartinGeorgiev\Utils\PHPArrayToPostgresRecordTransformer;
+use MartinGeorgiev\Utils\PostgresFloat;
 use MartinGeorgiev\Utils\PostgresRecordToPHPArrayTransformer;
 
 /**
@@ -40,8 +40,6 @@ use MartinGeorgiev\Utils\PostgresRecordToPHPArrayTransformer;
  */
 abstract class Composite extends BaseType
 {
-    use PostgresFloatConversionTrait;
-
     /**
      * Field name mapped to the Doctrine type used to convert it, in PostgreSQL declaration order.
      *
@@ -151,7 +149,7 @@ abstract class Composite extends BaseType
             // PostgreSQL accepts 1/0 for boolean, which is what its platform returns for a bool field
             \is_bool($converted) => $converted ? '1' : '0',
             \is_int($converted) => (string) $converted,
-            \is_float($converted) => self::formatFloat($converted),
+            \is_float($converted) => PostgresFloat::format($converted),
             default => throw InvalidCompositeForDatabaseException::forUnsupportedFieldValue($fieldName, $converted),
         };
     }
