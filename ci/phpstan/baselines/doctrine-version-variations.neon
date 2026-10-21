@@ -19,26 +19,6 @@ parameters:
                 - ../../../tests/Unit/MartinGeorgiev/Doctrine/DBAL/Types/GeometryArrayTest.php
             reportUnmatched: false
 
-        # ORM 2.x only: set{Metadata,Query}CacheImpl() deprecated there, removed in 3.x. Call sites branch at runtime
-        -
-            message: '#^Call to function method_exists\(\) with Doctrine\\ORM\\Configuration and ''set(Metadata|Query)CacheImpl'' will always evaluate to true\.$#'
-            paths:
-                - ../../../tests/Integration/MartinGeorgiev/TestCase.php
-                - ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/TestCase.php
-            reportUnmatched: false
-        -
-            message: '#^Call to deprecated method set(Metadata|Query)CacheImpl\(\) of class Doctrine\\ORM\\Configuration#'
-            paths:
-                - ../../../tests/Integration/MartinGeorgiev/TestCase.php
-                - ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/TestCase.php
-            reportUnmatched: false
-        -
-            message: '#^Parameter \#1 \$cacheImpl of method Doctrine\\ORM\\Configuration::set(Metadata|Query)CacheImpl\(\) expects Doctrine\\Common\\Cache\\Cache, mixed given\.$#'
-            paths:
-                - ../../../tests/Integration/MartinGeorgiev/TestCase.php
-                - ../../../tests/Unit/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/TestCase.php
-            reportUnmatched: false
-
         # Matched with ORM 2.x only: FunctionNode::__construct() takes mixed $name there and string in ORM 3.x.
         -
             message: '#is not contravariant with parameter \#1 \$name \(mixed\) of method Doctrine\\ORM\\Query\\AST\\Functions\\FunctionNode::__construct\(\)\.$#'

@@ -118,7 +118,6 @@ use MartinGeorgiev\Doctrine\DBAL\Types\XmlArray;
 use MartinGeorgiev\Utils\PHPArrayToPostgresValueTransformer;
 use MartinGeorgiev\Utils\PostgresArrayToPHPArrayTransformer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types\EnsurePostgresExtensionTrait;
 
 abstract class TestCase extends BaseTestCase
@@ -162,7 +161,6 @@ abstract class TestCase extends BaseTestCase
         $configuration->setProxyDir(self::FIXTURES_DIRECTORY.'/Proxies');
         $configuration->setProxyNamespace(self::FIXTURE_NAMESPACE.'\Proxy');
         $configuration->setAutoGenerateProxyClasses(true);
-        $this->setConfigurationCache($configuration);
 
         // Register the entity namespace for DQL short aliases
         $configuration->setEntityNamespaces([
@@ -185,30 +183,6 @@ abstract class TestCase extends BaseTestCase
     {
         $this->connection->executeStatement('DROP SCHEMA IF EXISTS test CASCADE');
         $this->connection->close();
-    }
-
-    private function setConfigurationCache(Configuration $configuration): void
-    {
-        $symfonyArrayAdapterClass = '\\'.ArrayAdapter::class;
-        // @phpstan-ignore-next-line
-        $useDbalV3 = \class_exists($symfonyArrayAdapterClass) && \method_exists($configuration, 'setMetadataCache') && \method_exists($configuration, 'setQueryCache');
-        if ($useDbalV3) {
-            $configuration->setMetadataCache(new $symfonyArrayAdapterClass());
-            $configuration->setQueryCache(new $symfonyArrayAdapterClass());
-
-            return;
-        }
-
-        $doctrineArrayCacheClass = '\Doctrine\Common\Cache\ArrayCache';
-        $useDbalV2 = \class_exists($doctrineArrayCacheClass) && \method_exists($configuration, 'setMetadataCacheImpl') && \method_exists($configuration, 'setQueryCacheImpl');
-        if ($useDbalV2) {
-            $configuration->setMetadataCacheImpl(new $doctrineArrayCacheClass());
-            $configuration->setQueryCacheImpl(new $doctrineArrayCacheClass());
-
-            return;
-        }
-
-        throw new \RuntimeException('No known compatible version of doctrine/dbal found. Please report an issue on GitHub.');
     }
 
     protected function setUpConnection(): void

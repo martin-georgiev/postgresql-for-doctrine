@@ -11,7 +11,6 @@ use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase as BaseTestCase;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -28,35 +27,10 @@ abstract class TestCase extends BaseTestCase
         $configuration->setProxyDir(static::FIXTURES_DIRECTORY.'/Proxies');
         $configuration->setProxyNamespace('Fixtures\MartinGeorgiev\Doctrine\Entity\Proxy');
         $configuration->setAutoGenerateProxyClasses(true);
-        $this->setConfigurationCache($configuration);
 
         $this->configuration = $configuration;
 
         $this->registerFunction();
-    }
-
-    private function setConfigurationCache(Configuration $configuration): void
-    {
-        $symfonyArrayAdapterClass = '\\'.ArrayAdapter::class;
-        // @phpstan-ignore-next-line
-        $useDbalV3 = \class_exists($symfonyArrayAdapterClass) && \method_exists($configuration, 'setMetadataCache') && \method_exists($configuration, 'setQueryCache');
-        if ($useDbalV3) {
-            $configuration->setMetadataCache(new $symfonyArrayAdapterClass());
-            $configuration->setQueryCache(new $symfonyArrayAdapterClass());
-
-            return;
-        }
-
-        $doctrineArrayCacheClass = '\Doctrine\Common\Cache\ArrayCache';
-        $useDbalV2 = \class_exists($doctrineArrayCacheClass) && \method_exists($configuration, 'setMetadataCacheImpl') && \method_exists($configuration, 'setQueryCacheImpl');
-        if ($useDbalV2) {
-            $configuration->setMetadataCacheImpl(new $doctrineArrayCacheClass());
-            $configuration->setQueryCacheImpl(new $doctrineArrayCacheClass());
-
-            return;
-        }
-
-        throw new \RuntimeException('No known compatible version of doctrine/dbal found. Please report an issue on GitHub.');
     }
 
     private function registerFunction(): void
