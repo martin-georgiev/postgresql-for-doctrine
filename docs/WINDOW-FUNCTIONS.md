@@ -128,7 +128,7 @@ A value function returns a value read from another row of the window.
 
 ### Skipping NULLs: `IGNORE NULLS` / `RESPECT NULLS`
 
-From [PostgreSQL 19](https://www.postgresql.org/docs/19/functions-window.html), a null treatment can follow the call of a value function. As in SQL, it goes right after the call's closing parenthesis, before the comma that starts the window specification:
+A [null treatment](https://www.postgresql.org/docs/19/functions-window.html) can follow the call of a value function. As in SQL, it goes right after the call's closing parenthesis, before the comma that starts the window specification:
 
 | SQL | DQL |
 |---|---|
@@ -138,7 +138,6 @@ From [PostgreSQL 19](https://www.postgresql.org/docs/19/functions-window.html), 
 
 - `IGNORE NULLS` skips rows whose value is NULL: `LAG(e.price) IGNORE NULLS` returns the last non-NULL price before the current row, which fills gaps in a series. `RESPECT NULLS` is the default and changes nothing.
 - Only `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE` take it, or a function of your own implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NullTreatableWindowFunction`. After an aggregate or a ranking function it throws a `ParserException`, as PostgreSQL would reject it.
-- PostgreSQL 18 and older reject it with a syntax error when the query runs.
 
 ## Usage examples
 
