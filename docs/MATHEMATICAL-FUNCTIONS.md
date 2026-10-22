@@ -172,9 +172,9 @@ SELECT POWER(POWER(e.x2 - e.x1, 2) + POWER(e.y2 - e.y1, 2), 0.5) as distance FRO
 SELECT e FROM Entity e WHERE RANDOM() < 0.1 ORDER BY RANDOM() -- DQL has no LIMIT: cap the rows with $query->setMaxResults(100)
 -- → each row with a one-in-ten chance, in random order
 
--- RANDOM with bounds: a whole number from 1 to 6, like a die roll
+-- RANDOM with bounds
 SELECT RANDOM(1, 6) as roll FROM Entity e
--- → one row per entity, each with a whole number from 1 to 6
+-- → a whole number from 1 to 6 for each row
 
 -- GREATEST/LEAST with aggregates - clamp aggregate results to a floor or ceiling
 SELECT e.category,
@@ -205,7 +205,6 @@ FROM Entity e GROUP BY e.category
 
 **Tips:**
 - `WIDTH_BUCKET` numbers the equal-width bucket a value falls into, which is what a histogram groups by.
-- `RANDOM()` returns a value from 0 up to, but not including, 1. `RANDOM(min, max)` returns one from `min` up to and including `max`, of the bounds' type: `integer`, `bigint`, `numeric`, `date`, `timestamp` or `timestamptz`. A `numeric` result keeps as many decimal places as the bound that has more.
-- Pass `RANDOM` date or timestamp bounds as fields, not as string literals: PostgreSQL cannot tell which overload `RANDOM('2024-01-01', '2024-12-31')` means and fails with `function random(unknown, unknown) is not unique`.
+- `RANDOM()` returns a value from 0 up to, but not including, 1. `RANDOM(min, max)` includes both bounds. With two string literals, PostgreSQL cannot pick the bounds' type and fails with `function random(unknown, unknown) is not unique`: make at least one bound a field.
 - `GREATEST` and `LEAST` skip `NULL` arguments; they return `NULL` only when every argument is `NULL`.
 - `LN` and `LOG` fail on zero and on negative numbers.

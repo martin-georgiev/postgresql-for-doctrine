@@ -23,7 +23,15 @@ final class RandomWithDateBoundsTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_a_random_date_between_entity_fields(): void
+    public function returns_a_random_date_from_a_literal_operand(): void
+    {
+        $dql = "SELECT RANDOM(t.date1, '2023-06-16') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertContains($result[0]['result'], ['2023-06-15', '2023-06-16']);
+    }
+
+    #[Test]
+    public function returns_a_random_date_from_entity_fields(): void
     {
         $dql = 'SELECT RANDOM(t.date1, t.date2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);
@@ -31,7 +39,17 @@ final class RandomWithDateBoundsTest extends DateTestCase
     }
 
     #[Test]
-    public function returns_a_random_timestamp_between_entity_fields(): void
+    public function returns_a_random_timestamp_from_a_literal_operand(): void
+    {
+        $dql = "SELECT RANDOM(t.datetime1, '2023-06-16 11:45:00') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1";
+        $result = $this->executeDqlQuery($dql);
+        $this->assertIsString($result[0]['result']);
+        $this->assertGreaterThanOrEqual('2023-06-15 10:30:00', $result[0]['result']);
+        $this->assertLessThanOrEqual('2023-06-16 11:45:00', $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_a_random_timestamp_from_entity_fields(): void
     {
         $dql = 'SELECT RANDOM(t.datetime1, t.datetime2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsDates t WHERE t.id = 1';
         $result = $this->executeDqlQuery($dql);

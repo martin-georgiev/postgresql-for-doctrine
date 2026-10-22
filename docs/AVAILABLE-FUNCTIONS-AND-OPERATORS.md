@@ -121,7 +121,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `GAMMA`/`LGAMMA` - Gamma function for statistical calculations
 - `GREATEST`/`LEAST` - Find maximum/minimum values
 - `ROUND`/`SCALE`/`MIN_SCALE`/`TRIM_SCALE` - Numeric precision functions
-- `RANDOM`/`RANDOM_NORMAL` - Generate random numbers, optionally between bounds (`RANDOM(min, max)`, also over dates and timestamps)
+- `RANDOM`/`RANDOM_NORMAL` - Generate random numbers, optionally between bounds
 - **Bitwise/Boolean Aggregates**: `BIT_AND`, `BIT_OR`, `BIT_XOR`, `BOOL_AND`, `BOOL_OR`, `EVERY`
 - **Statistical Aggregates**: `CORR`, `COVAR_POP`, `COVAR_SAMP`, `MODE`, `PERCENTILE_CONT`, `PERCENTILE_DISC`, `STDDEV`, `STDDEV_POP`, `VAR_POP`, `VARIANCE`
 

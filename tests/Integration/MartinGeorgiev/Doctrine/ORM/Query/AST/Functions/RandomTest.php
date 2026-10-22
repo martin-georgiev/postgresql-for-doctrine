@@ -26,7 +26,7 @@ final class RandomTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_a_random_value_between_a_literal_and_an_entity_field(): void
+    public function returns_a_random_integer_from_a_literal_operand(): void
     {
         $this->requirePostgresVersion(170000, 'random() with bounds');
 
@@ -38,7 +38,7 @@ final class RandomTest extends NumericTestCase
     }
 
     #[Test]
-    public function returns_a_random_value_between_entity_fields(): void
+    public function returns_a_random_integer_from_entity_fields(): void
     {
         $this->requirePostgresVersion(170000, 'random() with bounds');
 
