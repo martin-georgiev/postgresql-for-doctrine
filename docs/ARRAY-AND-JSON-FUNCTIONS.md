@@ -64,6 +64,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | array_upper | ARRAY_UPPER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper` |
 | cardinality | ARRAY_CARDINALITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality` |
 | string_to_array | STRING_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray` |
+| trim_array | TRIM_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimArray` |
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` |
 
 ## JSON functions
