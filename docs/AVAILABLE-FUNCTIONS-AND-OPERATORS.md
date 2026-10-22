@@ -79,6 +79,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 **JSON Operations:** ([full list](ARRAY-AND-JSON-FUNCTIONS.md))
 - `JSON_GET_FIELD_AS_TEXT` (`->>`) - Extract JSON field as text
 - `JSON_BUILD_OBJECT` - Build JSON objects
+- `JSON` - Parse text as JSON, optionally rejecting repeated keys (`WITH UNIQUE KEYS`)
 - `JSONB_PATH_EXISTS` - Test JSON path existence
 
 **Spatial Operations:** ([full list](SPATIAL-FUNCTIONS-AND-OPERATORS.md))

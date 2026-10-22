@@ -499,6 +499,7 @@ return [
         'UNNEST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class,
 
         # json specific functions
+        'JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Json::class,
         'JSON_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class,
         'JSON_BUILD_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray::class,
         'JSON_BUILD_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class,

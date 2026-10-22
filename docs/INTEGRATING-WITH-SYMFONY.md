@@ -479,6 +479,7 @@ doctrine:
                         UNNEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest
 
                         # json specific functions
+                        JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Json
                         JSON_ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength
                         JSON_BUILD_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray
                         JSON_BUILD_OBJECT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject
