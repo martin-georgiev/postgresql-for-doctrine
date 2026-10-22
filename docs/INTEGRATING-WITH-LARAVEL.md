@@ -956,6 +956,9 @@ return [
         'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,
         'TO_NUMBER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class,
         'TO_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class,
+
+        # comparison functions
+        'ERROR_ON_NULL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ErrorOnNull::class,
     ],
 
     ...

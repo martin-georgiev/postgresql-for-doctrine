@@ -5,6 +5,7 @@
 | cast | CAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast` |
 | to_char | TO_CHAR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar` |
 | to_number | TO_NUMBER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber` |
+| error_on_null | ERROR_ON_NULL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ErrorOnNull` |
 | gen_random_uuid | GEN_RANDOM_UUID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenRandomUuid` |
 | uuidv4 | UUIDV4 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4` |
 | uuidv7 | UUIDV7 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv7` |
@@ -14,6 +15,8 @@
 
 
 `TO_NUMBER` supports Roman numeral conversion via the [`RN` pattern](https://www.postgresql.org/docs/18/functions-formatting.html#FUNCTIONS-FORMATTING-NUMERIC-TABLE) (PostgreSQL 18+).
+
+`ERROR_ON_NULL` (PostgreSQL 19+) returns its argument unchanged, or fails the query with `null value not allowed` when the argument is NULL, so a missing value stops the query instead of reaching your code. Like any polymorphic function, it cannot take a bare string literal: pass a field, an expression over one, or a numeric literal.
 
 `DISTANCE` is the [earthdistance](https://www.postgresql.org/docs/18/earthdistance.html#EARTHDISTANCE-POINT-BASED) `point <@> point` operator. It returns the great-circle distance in statute miles between two `point` values written as (longitude, latitude). It is not a PostGIS operator and does not accept `geometry` or `geography` values.
 
