@@ -122,6 +122,8 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | jsonb_to_tsvector | JSONB_TO_TSVECTOR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbToTsvector` |
 | jsonb_typeof | JSONB_TYPEOF | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonbTypeof` |
 
+The `JSONB_PATH_*` functions pass the path to PostgreSQL unchanged, so they support every jsonpath method the server does. PostgreSQL 19 adds the string methods `.lower()`, `.upper()`, `.initcap()`, `.ltrim()`, `.rtrim()`, `.btrim()`, `.replace(from, to)` and `.split_part(delimiter, n)`, which chain like the other methods: for `{"name": "John"}`, `JSONB_PATH_QUERY_FIRST(e.data, '$.name.upper()')` returns `'"JOHN"'`.
+
 ## Bonus helpers
 
 | PostgreSQL functions | Register for DQL as | Implemented by |

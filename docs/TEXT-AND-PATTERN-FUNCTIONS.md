@@ -75,6 +75,8 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | translate | TRANSLATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate` |
 | unaccent | UNACCENT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unaccent` |
 
+`ENCODE` and `DECODE` take the format as their second argument and pass it to PostgreSQL unchanged, so they support whatever formats the server does: `base64`, `escape` and `hex`, plus `base64url` and `base32hex` from PostgreSQL 19. `base64url` is the URL- and filename-safe alphabet, as used in JWTs: `ENCODE(DECODE('+/8=', 'base64'), 'base64url')` returns `'-_8'`. `base32hex` encodes in the order the raw bytes sort, so encoded values sort the same way as the bytes they encode.
+
 ## Full-text search functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |

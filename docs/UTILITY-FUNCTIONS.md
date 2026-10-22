@@ -18,3 +18,5 @@
 `DISTANCE` is the [earthdistance](https://www.postgresql.org/docs/18/earthdistance.html#EARTHDISTANCE-POINT-BASED) `point <@> point` operator. It returns the great-circle distance in statute miles between two `point` values written as (longitude, latitude). It is not a PostGIS operator and does not accept `geometry` or `geography` values.
 
 > **Requires the [`earthdistance`](https://www.postgresql.org/docs/18/earthdistance.html) extension:** `CREATE EXTENSION IF NOT EXISTS earthdistance CASCADE;` - earthdistance depends on `cube`, which `CASCADE` installs.
+
+`CAST` converts between `uuid` and `bytea` from PostgreSQL 19, in both directions: `CAST(e.id AS BYTEA)` gives the UUID's 16 raw bytes, and `CAST(e.raw AS UUID)` reads 16 bytes back as a UUID. Any other length fails.
