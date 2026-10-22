@@ -5,6 +5,9 @@
 | cast | CAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast` |
 | to_char | TO_CHAR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar` |
 | to_number | TO_NUMBER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber` |
+| to_hex | TO_HEX | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToHex` |
+| to_bin | TO_BIN | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToBin` |
+| to_oct | TO_OCT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToOct` |
 | error_on_null | ERROR_ON_NULL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ErrorOnNull` |
 | gen_random_uuid | GEN_RANDOM_UUID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\GenRandomUuid` |
 | uuidv4 | UUIDV4 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Uuidv4` |

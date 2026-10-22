@@ -952,9 +952,12 @@ return [
 
         # type conversion and formatting functions
         'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
+        'TO_BIN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToBin::class,
         'TO_CHAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class,
         'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,
+        'TO_HEX' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToHex::class,
         'TO_NUMBER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class,
+        'TO_OCT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToOct::class,
         'TO_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class,
 
         # comparison functions
