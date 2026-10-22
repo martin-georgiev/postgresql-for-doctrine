@@ -129,7 +129,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `CAST` - General type conversion
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
-- `ERROR_ON_NULL` - Return a value, or fail the query when it is NULL (PostgreSQL 19+)
+- `ERROR_ON_NULL` - Return a value, or fail the query when it is NULL
 - `GEN_RANDOM_UUID` - Generate a random UUID (version 4)
 - `UUIDV4` - Explicit UUID version 4 generation
 - `UUIDV7` - Generate a UUID (version 7) that sorts by creation time
