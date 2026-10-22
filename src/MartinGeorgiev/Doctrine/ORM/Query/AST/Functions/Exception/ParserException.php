@@ -26,6 +26,11 @@ class ParserException extends \RuntimeException
         return new self(\sprintf('%s() requires an aggregate or a window function as its first argument, %s() given', $functionName, $argumentName));
     }
 
+    public static function forNullTreatmentOfUnsupportedArgument(string $functionName, string $argumentName): self
+    {
+        return new self(\sprintf('%s() allows IGNORE NULLS or RESPECT NULLS only after lag(), lead(), first_value(), last_value() or nth_value(), %s() given', $functionName, $argumentName));
+    }
+
     public static function forSelectListAliasInOrderBy(): self
     {
         return new self('ORDER BY of an aggregate or a window cannot refer to a select-list alias: PostgreSQL resolves only input columns there. Order by the expression itself.');

@@ -185,7 +185,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `ROW_NUMBER`/`RANK`/`DENSE_RANK` - Number or rank rows within their partition
 - `PERCENT_RANK`/`CUME_DIST` - Relative rank and cumulative distribution within the partition
 - `NTILE` - Split the partition into a number of buckets
-- `LAG`/`LEAD` - Value from a row before or after the current one
+- `LAG`/`LEAD` - Value from a row before or after the current one, optionally skipping NULLs with `IGNORE NULLS`
 - `FIRST_VALUE`/`LAST_VALUE`/`NTH_VALUE` - Value from the first, last or n-th row of the window frame
 
 ## Related pages
