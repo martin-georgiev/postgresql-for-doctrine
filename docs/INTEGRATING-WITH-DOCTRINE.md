@@ -709,6 +709,9 @@ $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Q
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
 $configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class);
 
+# comparison functions
+$configuration->addCustomStringFunction('ERROR_ON_NULL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ErrorOnNull::class);
+
 $connection = DriverManager::getConnection([
     'driver' => 'pdo_pgsql',
     // ... your connection parameters

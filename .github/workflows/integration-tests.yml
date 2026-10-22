@@ -88,6 +88,8 @@ jobs:
     needs: should-run
     if: needs.should-run.outputs.run == 'true'
     runs-on: ubuntu-latest
+    # A release candidate may still change, so its failures are reported without failing the run
+    continue-on-error: ${{ matrix.prerelease == true }}
     name: "PostgreSQL ${{ matrix.postgres }} + PostGIS ${{ matrix.postgis }} + PHP ${{ matrix.php }} + Doctrine ORM ${{ matrix.doctrine-orm }}"
 
     strategy:
@@ -117,6 +119,14 @@ jobs:
             postgres: '18'
             postgis: '3.6'
             doctrine-orm: '2.20'
+          # The next PostgreSQL major ahead of its release; move it into the matrix above once it ships
+          - php: '8.5'
+            postgres: '19rc1'
+            postgis: '3.6'
+            doctrine-orm: 'latest'
+            prerelease: true
+            # pgx_ulid builds only up to PostgreSQL 18 (pgrx 0.17), so the ulid tests skip themselves
+            without-pgx-ulid: true
 
     services:
       postgres:
@@ -185,6 +195,7 @@ jobs:
       # pgx_ulid publishes only glibc packages that cannot load on Alpine (musl), so the extension is compiled from
       # source once per PostgreSQL major version and reused from the cache afterward.
       - name: Restore pgx_ulid build cache
+        if: matrix.without-pgx-ulid != true
         id: pgx-ulid-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -194,7 +205,7 @@ jobs:
           key: pgx-ulid-0.2.3-c22451db-pg${{ matrix.postgres }}-alpine-musl
 
       - name: Build pgx_ulid extension from source
-        if: steps.pgx-ulid-cache.outputs.cache-hit != 'true'
+        if: matrix.without-pgx-ulid != true && steps.pgx-ulid-cache.outputs.cache-hit != 'true'
         run: |
           docker cp ci/docker/build-pgx-ulid.sh ${{ job.services.postgres.id }}:/opt/build-pgx-ulid.sh
           docker exec ${{ job.services.postgres.id }} sh /opt/build-pgx-ulid.sh
@@ -202,6 +213,7 @@ jobs:
           docker cp ${{ job.services.postgres.id }}:/opt/pgx-ulid-artifacts/. ~/pgx-ulid-artifacts/
 
       - name: Install pgx_ulid extension in PostgreSQL service
+        if: matrix.without-pgx-ulid != true
         run: |
           docker cp ~/pgx-ulid-artifacts/. ${{ job.services.postgres.id }}:/opt/pgx-ulid-artifacts/
           docker exec ${{ job.services.postgres.id }} sh -c 'cp /opt/pgx-ulid-artifacts/pgx_ulid.so "$(pg_config --pkglibdir)/" && cp /opt/pgx-ulid-artifacts/ulid.control /opt/pgx-ulid-artifacts/ulid--*.sql "$(pg_config --sharedir)/extension/"'
