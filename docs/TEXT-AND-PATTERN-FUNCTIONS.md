@@ -38,6 +38,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | regexp_instr | REGEXP_INSTR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr` |
 | regexp_like | REGEXP_LIKE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike` |
 | regexp_match | REGEXP_MATCH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch` |
+| regexp_split_to_array | REGEXP_SPLIT_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSplitToArray` |
 | regexp_replace | REGEXP_REPLACE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace` |
 | regexp_substr | REGEXP_SUBSTR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr` |
 
