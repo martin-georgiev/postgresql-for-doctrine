@@ -936,6 +936,9 @@ doctrine:
                         TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate
                         TO_NUMBER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber
                         TO_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp
+
+                        # comparison functions
+                        ERROR_ON_NULL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ErrorOnNull
 ```
 
 ### Usage in entities
