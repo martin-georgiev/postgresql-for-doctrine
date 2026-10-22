@@ -934,6 +934,7 @@ return [
         'XPATH_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class,
 
         # hashing and checksum functions
+        'BIT_COUNT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitCount::class,
         'CRC32' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class,
         'CRC32C' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c::class,
         'MD5' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5::class,

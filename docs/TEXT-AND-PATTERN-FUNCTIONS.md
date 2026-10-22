@@ -145,6 +145,7 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
+| bit_count | BIT_COUNT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitCount` |
 | crc32 | CRC32 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32` |
 | crc32c | CRC32C | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c` |
 | md5 | MD5 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5` |
@@ -153,6 +154,8 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | sha256 | SHA256 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha256` |
 | sha384 | SHA384 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha384` |
 | sha512 | SHA512 | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Sha512` |
+
+`BIT_COUNT` takes a `bytea` or a `bit` string. PostgreSQL cannot tell which a bare string literal is, so give it a type, as in `BIT_COUNT(DECODE('ff', 'hex'))`.
 
 ## Usage examples
 
