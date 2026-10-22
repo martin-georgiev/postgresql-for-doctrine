@@ -344,7 +344,9 @@ $configuration->addCustomStringFunction('TRANSACTION_TIMESTAMP', MartinGeorgiev\
 $configuration->addCustomStringFunction('DATERANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class);
 $configuration->addCustomStringFunction('INT4RANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range::class);
 $configuration->addCustomStringFunction('INT8RANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range::class);
+$configuration->addCustomStringFunction('MULTIRANGE_MINUS_MULTI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MultirangeMinusMulti::class);
 $configuration->addCustomStringFunction('NUMRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class);
+$configuration->addCustomStringFunction('RANGE_MINUS_MULTI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeMinusMulti::class);
 $configuration->addCustomStringFunction('TSRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class);
 $configuration->addCustomStringFunction('TSTZRANGE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class);
 

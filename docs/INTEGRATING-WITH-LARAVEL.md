@@ -592,7 +592,9 @@ return [
         'DATERANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class,
         'INT4RANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range::class,
         'INT8RANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range::class,
+        'MULTIRANGE_MINUS_MULTI' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MultirangeMinusMulti::class,
         'NUMRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class,
+        'RANGE_MINUS_MULTI' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeMinusMulti::class,
         'TSRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class,
         'TSTZRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class,
         

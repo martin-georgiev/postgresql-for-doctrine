@@ -572,7 +572,9 @@ doctrine:
                         DATERANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange
                         INT4RANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range
                         INT8RANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range
+                        MULTIRANGE_MINUS_MULTI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MultirangeMinusMulti
                         NUMRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange
+                        RANGE_MINUS_MULTI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeMinusMulti
                         TSRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange
                         TSTZRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange
                         

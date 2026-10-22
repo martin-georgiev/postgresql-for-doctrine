@@ -112,6 +112,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `DATERANGE` - Create date ranges
 - `ISFINITE` - Test if date/timestamp/interval is finite
 - `JUSTIFY_DAYS`/`JUSTIFY_HOURS`/`JUSTIFY_INTERVAL` - Adjust interval representations
+- `RANGE_MINUS_MULTI`/`MULTIRANGE_MINUS_MULTI` - Subtract ranges or multiranges without failing on a gap (PostgreSQL 19+)
 - `STATEMENT_TIMESTAMP` - Timestamp of current SQL statement
 - `TRANSACTION_TIMESTAMP` - Timestamp of current transaction
 
