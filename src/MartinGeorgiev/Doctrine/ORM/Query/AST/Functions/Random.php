@@ -11,7 +11,7 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidArgumentFor
  * Implementation of PostgreSQL RANDOM().
  *
  * Returns a random value between 0.0 and 1.0, or between a minimum and a maximum.
- * The bounds can be integers or numerics (PostgreSQL 17+), or dates or timestamps (PostgreSQL 19+).
+ * The bounds can be integers, numerics, dates or timestamps.
  *
  * @see https://www.postgresql.org/docs/19/functions-math.html
  * @since 3.2
