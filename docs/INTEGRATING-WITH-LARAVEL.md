@@ -582,6 +582,7 @@ return [
         'JUSTIFY_HOURS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours::class,
         'JUSTIFY_INTERVAL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval::class,
         'MAKE_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate::class,
+        'MAKE_INTERVAL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeInterval::class,
         'MAKE_TIME' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime::class,
         'MAKE_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp::class,
         'MAKE_TIMESTAMPTZ' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz::class,

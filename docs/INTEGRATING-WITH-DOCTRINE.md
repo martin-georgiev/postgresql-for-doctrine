@@ -334,6 +334,7 @@ $configuration->addCustomStringFunction('JUSTIFY_DAYS', MartinGeorgiev\Doctrine\
 $configuration->addCustomStringFunction('JUSTIFY_HOURS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours::class);
 $configuration->addCustomStringFunction('JUSTIFY_INTERVAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval::class);
 $configuration->addCustomStringFunction('MAKE_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate::class);
+$configuration->addCustomStringFunction('MAKE_INTERVAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeInterval::class);
 $configuration->addCustomStringFunction('MAKE_TIME', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime::class);
 $configuration->addCustomStringFunction('MAKE_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp::class);
 $configuration->addCustomStringFunction('MAKE_TIMESTAMPTZ', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz::class);
