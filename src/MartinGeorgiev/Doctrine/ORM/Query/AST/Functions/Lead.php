@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT OVER(LEAD(e.price, 1, 0), PARTITION BY e.product ORDER BY e.day) FROM Entity e"
  */
-class Lead extends BaseVariadicFunction implements WindowFunction
+class Lead extends BaseVariadicFunction implements NullTreatableWindowFunction
 {
     protected function getNodeMappingPattern(): array
     {

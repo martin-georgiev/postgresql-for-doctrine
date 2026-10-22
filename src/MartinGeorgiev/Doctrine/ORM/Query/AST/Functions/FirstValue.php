@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT OVER(FIRST_VALUE(e.price), PARTITION BY e.product ORDER BY e.day) FROM Entity e"
  */
-class FirstValue extends BaseFunction implements WindowFunction
+class FirstValue extends BaseFunction implements NullTreatableWindowFunction
 {
     protected function customizeFunction(): void
     {
