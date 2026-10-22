@@ -43,7 +43,7 @@ Each category has its own page:
 [Mathematical and statistical functions](MATHEMATICAL-FUNCTIONS.md): arithmetic, rounding, trigonometry, random numbers, the bitwise and boolean aggregates (`BIT_AND`, `BOOL_OR`, `EVERY`, …) and the statistical aggregates (`CORR`, `STDDEV`, `PERCENTILE_CONT`, `MODE`, …).
 
 ### Utility functions
-[Utility functions](UTILITY-FUNCTIONS.md): type casting (`CAST`), formatting (`TO_CHAR`, `TO_NUMBER`), and UUID generation and inspection (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`, `UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`).
+[Utility functions](UTILITY-FUNCTIONS.md): type casting (`CAST`), formatting (`TO_CHAR`, `TO_NUMBER`), NULL checks (`ERROR_ON_NULL`), and UUID generation and inspection (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`, `UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`).
 
 ### XML functions
 [XML functions](XML-FUNCTIONS.md): aggregation (`XMLAGG`), well-formedness checks (`XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT`), construction (`XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI`) and XPath (`XPATH`, `XPATH_EXISTS`, `XMLEXISTS`).
@@ -129,6 +129,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `CAST` - General type conversion
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
+- `ERROR_ON_NULL` - Return a value, or fail the query when it is NULL
 - `GEN_RANDOM_UUID` - Generate a random UUID (version 4)
 - `UUIDV4` - Explicit UUID version 4 generation
 - `UUIDV7` - Generate a UUID (version 7) that sorts by creation time
