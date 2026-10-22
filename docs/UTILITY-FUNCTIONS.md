@@ -3,6 +3,7 @@
 | PostgreSQL function | Register for DQL as | Implemented by |
 |---|---|---|
 | cast | CAST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast` |
+| pg_input_is_valid | PG_INPUT_IS_VALID | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid` |
 | to_char | TO_CHAR | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar` |
 | to_number | TO_NUMBER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber` |
 | error_on_null | ERROR_ON_NULL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ErrorOnNull` |
