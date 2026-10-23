@@ -915,6 +915,7 @@ doctrine:
                         XMLCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat
                         XMLEXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists
                         XMLPI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi
+                        XMLSERIALIZE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlSerialize
                         XMLTEXT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText
                         XPATH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath
                         XPATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists

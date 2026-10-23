@@ -687,6 +687,7 @@ $configuration->addCustomStringFunction('XMLCOMMENT', MartinGeorgiev\Doctrine\OR
 $configuration->addCustomStringFunction('XMLCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat::class);
 $configuration->addCustomStringFunction('XMLEXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists::class);
 $configuration->addCustomStringFunction('XMLPI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi::class);
+$configuration->addCustomStringFunction('XMLSERIALIZE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlSerialize::class);
 $configuration->addCustomStringFunction('XMLTEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText::class);
 $configuration->addCustomStringFunction('XPATH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class);
 $configuration->addCustomStringFunction('XPATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class);
