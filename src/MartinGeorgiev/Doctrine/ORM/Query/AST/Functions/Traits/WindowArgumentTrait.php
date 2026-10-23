@@ -13,6 +13,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\WindowFunction;
 /**
  * Parses the call OVER takes as its first argument: an aggregate, or a function implementing WindowFunction.
  *
+ * @internal
+ *
  * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

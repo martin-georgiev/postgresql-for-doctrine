@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 /**
  * Common validation logic for lquery path-matching patterns.
  *
+ * @internal
+ *
  * @since 4.8
  */
 trait LqueryValidationTrait

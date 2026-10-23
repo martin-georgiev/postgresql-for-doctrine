@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 /**
  * Common validation logic for ltxtquery full-text label queries.
  *
+ * @internal
+ *
  * @since 4.8
  */
 trait LtxtqueryValidationTrait

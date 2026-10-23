@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 /**
  * Common validation logic for bit string values.
  *
+ * @internal
+ *
  * @since 4.5
  */
 trait BitValidationTrait

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
+ * @internal
+ *
  * @since 1.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

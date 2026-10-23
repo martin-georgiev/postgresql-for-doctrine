@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 
 /**
+ * @internal
+ *
  * @since 3.2
  *
  * @author Jan Klan <jan@klan.com.au>

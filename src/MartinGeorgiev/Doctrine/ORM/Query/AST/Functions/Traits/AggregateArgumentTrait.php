@@ -17,6 +17,8 @@ use MartinGeorgiev\Utils\DoctrineLexer;
  * DQL's own aggregates (AVG, COUNT, MAX, MIN, SUM) are keywords the parser reads only through AggregateExpression();
  * any other function counts as an aggregate when it implements AggregateFunction.
  *
+ * @internal
+ *
  * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

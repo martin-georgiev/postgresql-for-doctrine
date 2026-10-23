@@ -10,6 +10,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\WktSpatialData;
 /**
  * Reads a PostGIS value as EWKT text and turns it into a WktSpatialData, for the scalar and the array spatial types alike.
  *
+ * @internal
+ *
  * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

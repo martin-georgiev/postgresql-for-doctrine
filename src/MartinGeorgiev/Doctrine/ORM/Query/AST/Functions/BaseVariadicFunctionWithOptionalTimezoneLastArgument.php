@@ -8,6 +8,8 @@ use Doctrine\ORM\Query\AST\Node;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Traits\TimezoneValidationTrait;
 
 /**
+ * @internal
+ *
  * @since 4.4
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Utils;
 /**
  * Handles transformation from already-converted field strings to a PostgreSQL record literal.
  *
+ * @internal
+ *
  * @since 4.8
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
