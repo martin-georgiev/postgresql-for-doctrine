@@ -18,19 +18,20 @@ final class TsRange extends BaseTimestampRange
 {
     /**
      * A tsrange holds wall-clock times, and formatValue() writes each bound's own wall clock whatever its time zone,
-     * as Doctrine's datetime types do. Comparing the instants instead would pass bounds PostgreSQL then rejects.
+     * as Doctrine's datetime types do. Ordering the instants instead would pass bounds PostgreSQL then rejects, and
+     * save a valid range as empty.
      */
-    protected function compareBounds(mixed $a, mixed $b): int
+    protected function compareLowerBoundWithUpperBound(mixed $lower, mixed $upper): int
     {
-        if (!$a instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $a);
+        if (!$lower instanceof \DateTimeInterface) {
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $lower);
         }
 
-        if (!$b instanceof \DateTimeInterface) {
-            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $b);
+        if (!$upper instanceof \DateTimeInterface) {
+            throw InvalidRangeException::forInvalidBoundType(\DateTimeInterface::class, $upper);
         }
 
-        return $this->wallClock($a) <=> $this->wallClock($b);
+        return $this->wallClock($lower) <=> $this->wallClock($upper);
     }
 
     /**

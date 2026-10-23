@@ -213,14 +213,9 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
             new \DateTimeImmutable('2023-01-01 09:00:00'),
             false,
         ];
-        yield 'contains a value whose wall clock is in range, whatever its time zone' => [
-            $tsRange,
+        yield 'compares the instant of a value in another time zone' => [
+            new TsRange(new \DateTimeImmutable('2023-01-01 10:00:00+00:00'), new \DateTimeImmutable('2023-01-01 18:00:00+00:00')),
             new \DateTimeImmutable('2023-01-01 14:00:00+05:00'),
-            true,
-        ];
-        yield 'does not contain a value whose wall clock is outside the range, whatever its time zone' => [
-            $tsRange,
-            new \DateTimeImmutable('2023-01-01 09:00:00-05:00'),
             false,
         ];
         yield 'does not contain null' => [$tsRange, null, false];

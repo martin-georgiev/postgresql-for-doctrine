@@ -189,6 +189,8 @@ $workingHours = new TsRange(
 );
 ```
 
+> **Time zones:** a bound keeps only its wall-clock time, so `10:00+02:00` is stored as `10:00`, as Doctrine's `datetime` type does. The bounds are ordered by those stored times, but `contains()` compares instants: with PHP in `Europe/Sofia`, `$workingHours` does not contain `15:30 UTC`, which is 17:30 in Sofia.
+
 ### TstzRange (with timezone)
 
 ```php
