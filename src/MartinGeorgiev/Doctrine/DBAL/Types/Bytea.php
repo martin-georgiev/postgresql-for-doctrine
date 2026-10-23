@@ -39,7 +39,7 @@ final class Bytea extends BaseType
 
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?string
     {
-        if ($value === null || $value === '') {
+        if ($value === null) {
             return null;
         }
 
@@ -47,7 +47,12 @@ final class Bytea extends BaseType
             \rewind($value);
             $content = \stream_get_contents($value);
 
-            return $content !== false && $content !== '' ? $content : null;
+            return $content !== false ? $content : null;
+        }
+
+        // An empty bytea under bytea_output = 'escape' is the empty string, where hex output writes \x.
+        if ($value === '') {
+            return '';
         }
 
         if (!\is_string($value)) {

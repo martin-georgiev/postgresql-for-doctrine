@@ -91,21 +91,15 @@ final class EnumTypeTest extends TestCase
     }
 
     /**
-     * EMPTY_LABEL is excluded: the scalar type maps an empty database string to null, so that case cannot
-     * round-trip. See EnumTest::converts_empty_string_from_database_to_null().
-     *
      * @return array<string, array{TrickyLabels}>
      */
     public static function provideValidTransformations(): array
     {
-        $roundTrippable = \array_filter(
-            TrickyLabels::cases(),
-            static fn (TrickyLabels $trickyLabels): bool => $trickyLabels !== TrickyLabels::EMPTY_LABEL
-        );
+        $cases = TrickyLabels::cases();
 
         return \array_combine(
-            \array_map(static fn (TrickyLabels $trickyLabels): string => \strtolower($trickyLabels->name), $roundTrippable),
-            \array_map(static fn (TrickyLabels $trickyLabels): array => [$trickyLabels], $roundTrippable)
+            \array_map(static fn (TrickyLabels $trickyLabels): string => \strtolower($trickyLabels->name), $cases),
+            \array_map(static fn (TrickyLabels $trickyLabels): array => [$trickyLabels], $cases)
         );
     }
 

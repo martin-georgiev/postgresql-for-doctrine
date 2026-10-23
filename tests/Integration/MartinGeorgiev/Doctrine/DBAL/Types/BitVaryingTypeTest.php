@@ -48,6 +48,7 @@ final class BitVaryingTypeTest extends ScalarTypeTestCase
             'mixed bits' => ['10110'],
             'all zeros' => ['00000000'],
             'all ones' => ['11111111'],
+            'empty bit string' => [''],
         ];
     }
 

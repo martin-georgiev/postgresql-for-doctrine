@@ -34,10 +34,13 @@ final class ByteaTest extends TestCase
         $this->assertSame('bytea', $this->fixture->getName());
     }
 
+    /**
+     * bytea_output = 'escape' writes an empty bytea as the empty string, where the default hex output writes \x.
+     */
     #[Test]
-    public function converts_empty_string_from_database_to_null(): void
+    public function converts_empty_escape_format_value_to_php_value(): void
     {
-        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
+        $this->assertSame('', $this->fixture->convertToPHPValue('', $this->platform));
     }
 
     #[DataProvider('provideValidTransformations')]
@@ -80,6 +83,10 @@ final class ByteaTest extends TestCase
                 'phpValue' => "\x00",
                 'postgresValue' => '\\x00',
             ],
+            'empty bytes' => [
+                'phpValue' => '',
+                'postgresValue' => '\\x',
+            ],
         ];
     }
 
@@ -97,12 +104,12 @@ final class ByteaTest extends TestCase
     }
 
     #[Test]
-    public function converts_empty_resource_to_null(): void
+    public function converts_empty_resource_to_php_value(): void
     {
         $stream = \fopen('php://memory', 'r+');
         \assert(\is_resource($stream));
 
-        $this->assertNull($this->fixture->convertToPHPValue($stream, $this->platform));
+        $this->assertSame('', $this->fixture->convertToPHPValue($stream, $this->platform));
 
         \fclose($stream);
     }

@@ -64,12 +64,6 @@ final class BitVaryingTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
-    #[Test]
-    public function converts_empty_string_from_database_to_null(): void
-    {
-        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
-    }
-
     #[DataProvider('provideValidBitStrings')]
     #[Test]
     public function roundtrips_valid_bit_strings(string $bitString): void
@@ -89,6 +83,7 @@ final class BitVaryingTest extends TestCase
             'mixed bits' => ['10110'],
             'all zeros' => ['00000000'],
             'all ones' => ['11111111'],
+            'empty bit string' => [''],
         ];
     }
 

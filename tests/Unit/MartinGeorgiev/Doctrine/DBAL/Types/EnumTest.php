@@ -55,14 +55,10 @@ final class EnumTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
-    /**
-     * TrickyLabels declares an empty label, but this type maps an empty database string to null, so that
-     * one case cannot be read back through the scalar type. See EMPTY_LABEL in the round-trip provider.
-     */
     #[Test]
-    public function converts_empty_string_from_database_to_null(): void
+    public function converts_empty_string_to_the_empty_label(): void
     {
-        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
+        $this->assertSame(TrickyLabels::EMPTY_LABEL, $this->fixture->convertToPHPValue('', $this->platform));
     }
 
     #[Test]
