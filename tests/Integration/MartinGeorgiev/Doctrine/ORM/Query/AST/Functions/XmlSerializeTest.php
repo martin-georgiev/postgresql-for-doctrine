@@ -46,6 +46,8 @@ final class XmlSerializeTest extends XmlTestCase
                 WHERE t.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertSame("<root>\n  <item>foo</item>\n  <item>bar</item>\n</root>", $result[0]['result']);
+        $this->assertIsString($result[0]['result']);
+        // Older PostgreSQL minor releases (e.g. 16.4) end the indented output with a newline; later ones do not
+        $this->assertMatchesRegularExpression('#^<root>\n  <item>foo</item>\n  <item>bar</item>\n</root>\n?\z#', $result[0]['result']);
     }
 }
