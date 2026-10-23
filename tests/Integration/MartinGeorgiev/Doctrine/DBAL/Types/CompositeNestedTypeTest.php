@@ -131,6 +131,28 @@ final class CompositeNestedTypeTest extends TestCase
                 'weight' => 12345678.901234567,
                 'metadata' => [],
             ]],
+            'positive infinity float' => [[
+                'label' => 'bulk',
+                'item' => $item,
+                'packed_at' => new \DateTimeImmutable('2024-01-15 10:30:00'),
+                'delivered_at' => new \DateTimeImmutable('2024-01-15 10:30:00', new \DateTimeZone('UTC')),
+                'dispatched_on' => new \DateTimeImmutable('2024-01-15 00:00:00'),
+                'is_express' => true,
+                'tracking_id' => '550e8400-e29b-41d4-a716-446655440000',
+                'weight' => \INF,
+                'metadata' => [],
+            ]],
+            'negative infinity float' => [[
+                'label' => 'bulk',
+                'item' => $item,
+                'packed_at' => new \DateTimeImmutable('2024-01-15 10:30:00'),
+                'delivered_at' => new \DateTimeImmutable('2024-01-15 10:30:00', new \DateTimeZone('UTC')),
+                'dispatched_on' => new \DateTimeImmutable('2024-01-15 00:00:00'),
+                'is_express' => true,
+                'tracking_id' => '550e8400-e29b-41d4-a716-446655440000',
+                'weight' => -\INF,
+                'metadata' => [],
+            ]],
             'all fields null' => [[
                 'label' => null,
                 'item' => null,
@@ -143,6 +165,32 @@ final class CompositeNestedTypeTest extends TestCase
                 'metadata' => null,
             ]],
         ];
+    }
+
+    /**
+     * NaN never equals itself, so it cannot go through the equality-based round trip above.
+     */
+    #[Test]
+    public function converts_a_not_a_number_float_field(): void
+    {
+        [$tableName, $columnName] = $this->prepareTestTable($this->getTypeName());
+
+        try {
+            $this->connection->executeStatement(\sprintf(
+                'INSERT INTO %s.%s ("%s") VALUES (ROW(NULL, NULL, NULL, NULL, NULL, NULL, NULL, \'NaN\'::double precision, NULL))',
+                self::DATABASE_SCHEMA,
+                $tableName,
+                $columnName
+            ));
+
+            $retrieved = $this->fetchConvertedValue($this->getTypeName(), $tableName, $columnName);
+
+            $this->assertIsArray($retrieved);
+            $this->assertIsFloat($retrieved['weight']);
+            $this->assertNan($retrieved['weight']);
+        } finally {
+            $this->dropTestTableIfItExists($tableName);
+        }
     }
 
     #[Test]

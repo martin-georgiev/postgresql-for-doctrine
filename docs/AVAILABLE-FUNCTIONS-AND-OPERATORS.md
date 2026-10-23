@@ -46,7 +46,7 @@ Each category has its own page:
 [Utility functions](UTILITY-FUNCTIONS.md): type casting (`CAST`), formatting (`TO_CHAR`, `TO_NUMBER`), NULL checks (`ERROR_ON_NULL`), and UUID generation and inspection (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`, `UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`).
 
 ### XML functions
-[XML functions](XML-FUNCTIONS.md): aggregation (`XMLAGG`), well-formedness checks (`XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT`), construction (`XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI`) and XPath (`XPATH`, `XPATH_EXISTS`, `XMLEXISTS`).
+[XML functions](XML-FUNCTIONS.md): aggregation (`XMLAGG`), well-formedness checks (`XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT`), construction (`XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI`), serialization (`XMLSERIALIZE`) and XPath (`XPATH`, `XPATH_EXISTS`, `XMLEXISTS`).
 
 ### Window functions
 [Window functions](WINDOW-FUNCTIONS.md): `OVER` for running any aggregate over a window, with frame clauses, the ranking functions `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `PERCENT_RANK`, `CUME_DIST` and `NTILE`, and the value functions `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE`.
@@ -136,6 +136,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `PG_INPUT_IS_VALID` - Test whether a string would convert to a type, without failing the query
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
+- `TO_HEX`/`TO_BIN`/`TO_OCT` - Write an integer in hexadecimal, binary or octal
 - `ERROR_ON_NULL` - Return a value, or fail the query when it is NULL
 - `GEN_RANDOM_UUID` - Generate a random UUID (version 4)
 - `UUIDV4` - Explicit UUID version 4 generation
@@ -183,6 +184,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `XMLCONCAT` - Concatenate multiple XML values into a single XML value
 - `XMLEXISTS` - Test if an XPath expression matches any nodes in an XML value
 - `XMLPI` - Create an XML processing instruction
+- `XMLSERIALIZE` - Serialize an XML value into a character string, optionally indented
 - `XMLTEXT` - Create an XML text node (with entity escaping)
 - `XPATH` - Evaluate an XPath expression against an XML value, returning matched nodes
 - `XPATH_EXISTS` - Test if an XPath expression matches any node in an XML value

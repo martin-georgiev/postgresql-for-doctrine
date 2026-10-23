@@ -12,6 +12,7 @@
 | xmlconcat | XMLCONCAT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat` |
 | xmlexists | XMLEXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists` |
 | xmlpi | XMLPI | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi` |
+| xmlserialize | XMLSERIALIZE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlSerialize` |
 | xmltext | XMLTEXT | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText` |
 | xpath | XPATH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath` |
 | xpath_exists | XPATH_EXISTS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists` |
@@ -61,4 +62,8 @@ SELECT XMLEXISTS('//item', e.xmlData) FROM App\Entity\Article e WHERE e.id = :id
 -- → [1 => true]
 SELECT XMLPI('php', 'echo "hello";') FROM App\Entity\Article e WHERE e.id = :id
 -- → [1 => '<?php echo "hello";?>']
+
+-- XMLSERIALIZE takes DOCUMENT or CONTENT, then TEXT or VARCHAR, then an optional INDENT or NO INDENT
+SELECT XMLSERIALIZE(DOCUMENT e.xmlData AS TEXT INDENT) FROM App\Entity\Article e WHERE e.id = :id
+-- → [1 => "<feed>\n  <item active=\"true\">\n    <title>First</title>\n  </item>\n  <item>\n    <title>Second</title>\n  </item>\n</feed>"]
 ```
