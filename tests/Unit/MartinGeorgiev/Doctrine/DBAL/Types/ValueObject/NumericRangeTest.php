@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
- * @extends BaseRangeTestCase<float|int>
+ * @extends BaseRangeTestCase<float|int|numeric-string>
  */
 final class NumericRangeTest extends BaseRangeTestCase
 {
@@ -86,6 +86,18 @@ final class NumericRangeTest extends BaseRangeTestCase
                 'range' => new NumericRange(5.0, 5.0, true, true),
                 'expectedEmpty' => false,
             ],
+            'decimal bounds a float cannot tell apart should not be empty' => [
+                'range' => new NumericRange('12345678901234567890.1', '12345678901234567890.2'),
+                'expectedEmpty' => false,
+            ],
+            'integer bounds a float cannot tell apart should not be empty' => [
+                'range' => new NumericRange(9007199254740992, 9007199254740993),
+                'expectedEmpty' => false,
+            ],
+            'reversed negative decimal bounds a float cannot tell apart should be empty' => [
+                'range' => new NumericRange('-12345678901234567890.1', '-12345678901234567890.2'),
+                'expectedEmpty' => true,
+            ],
             'equal infinite bounds exclusive should be empty' => [
                 'range' => NumericRange::fromString('[Infinity,Infinity)'),
                 'expectedEmpty' => true,
@@ -139,6 +151,8 @@ final class NumericRangeTest extends BaseRangeTestCase
         yield 'bounded by abbreviated positive infinity' => ['[1,inf)', new NumericRange(1, INF)];
         yield 'integers beyond float precision' => ['[9007199254740993,9007199254740995)', new NumericRange(9007199254740993, 9007199254740995)];
         yield 'integer beyond the PHP integer range' => ['[1,100000000000000000000)', new NumericRange(1, 1.0E+20)];
+        yield 'decimals beyond float precision' => ['[0.1000000000000000055511151231257827,12345678901234567890.123456789]', new NumericRange('0.1000000000000000055511151231257827', '12345678901234567890.123456789', true, true)];
+        yield 'integer beyond the PHP integer range a float cannot hold' => ['[1,99999999999999999999)', new NumericRange(1, '99999999999999999999')];
         yield 'empty range' => ['empty', NumericRange::empty()];
     }
 
@@ -454,7 +468,6 @@ final class NumericRangeTest extends BaseRangeTestCase
         $this->expectException(InvalidRangeException::class);
         $this->expectExceptionMessage('Upper bound must be a number a PHP float can hold');
 
-        /* @phpstan-ignore-next-line Intentionally testing a literal PostgreSQL stores but PHP cannot hold */
         new NumericRange(1, '1e999');
     }
 

@@ -80,6 +80,32 @@ final class NumRangeTypeTest extends RangeTypeTestCase
         ];
     }
 
+    #[DataProvider('provideBoundsBeyondFloatPrecision')]
+    #[Test]
+    public function preserves_the_precision_of_a_bound_emitted_by_postgres(string $postgresLiteral): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $result = $this->fetchConvertedValueForPostgresLiteral($typeName, $columnType, $postgresLiteral);
+
+        $this->assertInstanceOf(NumRangeValueObject::class, $result);
+        $this->assertSame($postgresLiteral, (string) $result);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideBoundsBeyondFloatPrecision(): array
+    {
+        return [
+            'decimals a float cannot tell apart' => ['[12345678901234567890.1,12345678901234567890.2)'],
+            'integers a float cannot tell apart' => ['[9007199254740992,9007199254740993)'],
+            'decimal a float rounds' => ['[0.1000000000000000055511151231257827,1)'],
+            'integer beyond the PHP integer range a float cannot hold' => ['[1,99999999999999999999)'],
+        ];
+    }
+
     /**
      * PostgreSQL orders NaN above every other numeric value, so it bounds a range rather than opening it.
      */

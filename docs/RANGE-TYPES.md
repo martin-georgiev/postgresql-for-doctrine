@@ -108,7 +108,7 @@ if ($range->isEmpty()) {
 
 ## Numeric ranges (NUMRANGE)
 
-PostgreSQL keeps a `numeric` bound to any precision. PHP reads it back as an `int` when it is a whole number an `int` can hold, and as a `float` otherwise, so a bound with more than 17 significant digits comes back rounded: `[0.12345678901234567890,1)` reads as `[0.12345678901234568,1)`.
+PostgreSQL keeps a `numeric` bound to any precision. PHP reads it back as an `int` when it is a whole number an `int` can hold, as a `float` when a float holds it exactly, and as the numeric string PostgreSQL wrote otherwise: `[0.12345678901234567890,1)` reads as `['0.12345678901234567890', 1]`. A numeric string is also accepted as a bound, and bounds compare exactly, whatever their type.
 
 ```php
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;

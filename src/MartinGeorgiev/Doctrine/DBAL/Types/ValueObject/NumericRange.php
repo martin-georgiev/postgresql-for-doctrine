@@ -10,7 +10,9 @@ use MartinGeorgiev\Utils\PostgresFloat;
 /**
  * Represents a PostgreSQL numeric range.
  *
- * @extends Range<float|int>
+ * A bound an int or a float cannot hold exactly is kept as the numeric string PostgreSQL wrote.
+ *
+ * @extends Range<float|int|numeric-string>
  *
  * @see https://www.postgresql.org/docs/18/rangetypes.html
  * @since 3.3
@@ -102,7 +104,36 @@ final class NumericRange extends Range
             return $aIsNotANumber <=> $bIsNotANumber;
         }
 
-        return (float) $a <=> (float) $b;
+        $isEitherInfinite = !\is_finite((float) $a) || !\is_finite((float) $b);
+        if ($isEitherInfinite) {
+            return (float) $a <=> (float) $b;
+        }
+
+        return self::compareDecimals($this->toDecimalString($a), $this->toDecimalString($b));
+    }
+
+    /**
+     * A float is compared as the decimal formatValue() writes for it, so the order matches what PostgreSQL stores.
+     */
+    private function toDecimalString(float|int|string $value): string
+    {
+        return \is_float($value) ? PostgresFloat::format($value) : \trim((string) $value);
+    }
+
+    /**
+     * Two numerics a float cannot tell apart, such as 12345678901234567890.1 and 12345678901234567890.2, still differ.
+     */
+    private static function compareDecimals(string $a, string $b): int
+    {
+        $aIsNegative = \str_starts_with($a, '-') && PostgresFloat::compareMagnitudes($a, '0') !== 0;
+        $bIsNegative = \str_starts_with($b, '-') && PostgresFloat::compareMagnitudes($b, '0') !== 0;
+        if ($aIsNegative !== $bIsNegative) {
+            return $aIsNegative ? -1 : 1;
+        }
+
+        $magnitudeOrder = PostgresFloat::compareMagnitudes($a, $b);
+
+        return $aIsNegative ? -$magnitudeOrder : $magnitudeOrder;
     }
 
     /**
@@ -157,7 +188,10 @@ final class NumericRange extends Range
         return PostgresFloat::format($isNegative ? -\INF : \INF);
     }
 
-    protected static function parseValue(string $value): float|int|null
+    /**
+     * @return float|int|numeric-string|null
+     */
+    protected static function parseValue(string $value): float|int|string|null
     {
         if (self::isInfinityString($value)) {
             return null;
@@ -180,6 +214,10 @@ final class NumericRange extends Range
         $floatValue = (float) $value;
         if (!\is_finite($floatValue)) {
             throw InvalidRangeException::forNonFiniteBound($value);
+        }
+
+        if (self::compareDecimals(PostgresFloat::format($floatValue), $value) !== 0) {
+            return $value;
         }
 
         $isWithinIntegerRange = $floatValue >= \PHP_INT_MIN && $floatValue < \PHP_INT_MAX;

@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @template R of int|float|\DateTimeInterface
+ * @template R of int|float|numeric-string|\DateTimeInterface
  *
  * TODO: Remove PHPStan suppressions when covariant generics are supported
  *
