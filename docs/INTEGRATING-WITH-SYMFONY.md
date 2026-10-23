@@ -476,6 +476,7 @@ doctrine:
                         STRPOS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
                         TRANSLATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate
+                        TRIM_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimArray
                         UNNEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest
 
                         # json specific functions

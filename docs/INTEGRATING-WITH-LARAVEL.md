@@ -496,6 +496,7 @@ return [
         'STRPOS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos::class,
         'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
         'TRANSLATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate::class,
+        'TRIM_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimArray::class,
         'UNNEST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class,
 
         # json specific functions

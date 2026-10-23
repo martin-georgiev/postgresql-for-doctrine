@@ -248,6 +248,7 @@ $configuration->addCustomStringFunction('STRPOS', MartinGeorgiev\Doctrine\ORM\Qu
 $configuration->addCustomStringFunction('STRING_TO_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class);
 $configuration->addCustomStringFunction('ROW', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Row::class);
 $configuration->addCustomStringFunction('TRANSLATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate::class);
+$configuration->addCustomStringFunction('TRIM_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimArray::class);
 $configuration->addCustomStringFunction('UNNEST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class);
 
 # json specific functions
