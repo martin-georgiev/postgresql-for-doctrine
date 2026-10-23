@@ -334,6 +334,7 @@ $configuration->addCustomStringFunction('JUSTIFY_DAYS', MartinGeorgiev\Doctrine\
 $configuration->addCustomStringFunction('JUSTIFY_HOURS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours::class);
 $configuration->addCustomStringFunction('JUSTIFY_INTERVAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval::class);
 $configuration->addCustomStringFunction('MAKE_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate::class);
+$configuration->addCustomStringFunction('MAKE_INTERVAL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeInterval::class);
 $configuration->addCustomStringFunction('MAKE_TIME', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime::class);
 $configuration->addCustomStringFunction('MAKE_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp::class);
 $configuration->addCustomStringFunction('MAKE_TIMESTAMPTZ', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz::class);
@@ -419,6 +420,7 @@ $configuration->addCustomStringFunction('REGEXP_COUNT', MartinGeorgiev\Doctrine\
 $configuration->addCustomStringFunction('REGEXP_INSTR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr::class);
 $configuration->addCustomStringFunction('REGEXP_SUBSTR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class);
 $configuration->addCustomStringFunction('REGEXP_MATCH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class);
+$configuration->addCustomStringFunction('REGEXP_SPLIT_TO_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSplitToArray::class);
 $configuration->addCustomStringFunction('STRCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class);
 $configuration->addCustomStringFunction('REGEXP_REPLACE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class);
 $configuration->addCustomStringFunction('DISTANCE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Distance::class);
@@ -688,6 +690,7 @@ $configuration->addCustomStringFunction('XPATH', MartinGeorgiev\Doctrine\ORM\Que
 $configuration->addCustomStringFunction('XPATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class);
 
 # hashing and checksum functions
+$configuration->addCustomStringFunction('BIT_COUNT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitCount::class);
 $configuration->addCustomStringFunction('CRC32', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class);
 $configuration->addCustomStringFunction('CRC32C', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c::class);
 $configuration->addCustomStringFunction('MD5', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5::class);
@@ -706,10 +709,14 @@ $configuration->addCustomStringFunction('UUIDV7', MartinGeorgiev\Doctrine\ORM\Qu
 
 # type conversion and formatting functions
 $configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
+$configuration->addCustomStringFunction('PG_INPUT_IS_VALID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid::class);
 $configuration->addCustomStringFunction('TO_CHAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class);
 $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class);
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
 $configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class);
+
+# comparison functions
+$configuration->addCustomStringFunction('ERROR_ON_NULL', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ErrorOnNull::class);
 
 $connection = DriverManager::getConnection([
     'driver' => 'pdo_pgsql',

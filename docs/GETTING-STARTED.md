@@ -6,7 +6,7 @@ This page takes you from an empty project to a first query that uses a PostgreSQ
 
 ## Before you start
 
-You need PHP 8.2 or newer, Doctrine DBAL 3 or 4, Doctrine ORM 2.14 or newer, and a PostgreSQL database. The library's integration tests run on PostgreSQL 16, 17 and 18.
+You need PHP 8.2 or newer, Doctrine DBAL 3 or 4, Doctrine ORM 2.14 or newer, and a PostgreSQL database. The library's integration tests run on PostgreSQL 16, 17, 18 and 19.
 
 ## 1. Install the package
 

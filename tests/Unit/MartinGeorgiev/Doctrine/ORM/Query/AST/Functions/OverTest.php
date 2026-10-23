@@ -11,6 +11,11 @@ use Fixtures\MartinGeorgiev\Doctrine\Function\TestWindowFunction;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayAgg;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Filter;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\LastValue;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lead;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NthValue;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -22,6 +27,11 @@ final class OverTest extends TestCase
         return [
             'ARRAY_AGG' => ArrayAgg::class,
             'FILTER' => Filter::class,
+            'FIRST_VALUE' => FirstValue::class,
+            'LAG' => Lag::class,
+            'LAST_VALUE' => LastValue::class,
+            'LEAD' => Lead::class,
+            'NTH_VALUE' => NthValue::class,
             'OVER' => Over::class,
             'TEST_WINDOW' => TestWindowFunction::class,
         ];
@@ -66,6 +76,13 @@ final class OverTest extends TestCase
             'with a frame excluding no others' => 'SELECT COUNT(c0_.id) OVER (ORDER BY c0_.integer2 ASC ROWS UNBOUNDED PRECEDING EXCLUDE NO OTHERS) AS sclr_0 FROM ContainsNumerics c0_',
             'with lowercase frame keywords' => 'SELECT COUNT(c0_.id) OVER (ORDER BY c0_.integer2 ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE GROUP) AS sclr_0 FROM ContainsNumerics c0_',
             'windows a window function' => 'SELECT test_window() OVER (ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            'windows LAG ignoring nulls' => 'SELECT lag(c0_.integer1) IGNORE NULLS OVER (ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            'windows LEAD respecting nulls' => 'SELECT lead(c0_.integer1, 2, 0) RESPECT NULLS OVER (PARTITION BY c0_.bigint1 ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            'windows FIRST_VALUE ignoring nulls' => 'SELECT first_value(c0_.integer1) IGNORE NULLS OVER (ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            'windows LAST_VALUE ignoring nulls with a frame' => 'SELECT last_value(c0_.integer1) IGNORE NULLS OVER (ORDER BY c0_.integer2 ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS sclr_0 FROM ContainsNumerics c0_',
+            'windows NTH_VALUE ignoring nulls' => 'SELECT nth_value(c0_.integer1, 2) IGNORE NULLS OVER (ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            'with lowercase null treatment keywords' => 'SELECT lag(c0_.integer1) IGNORE NULLS OVER (ORDER BY c0_.integer2 ASC) AS sclr_0 FROM ContainsNumerics c0_',
+            'with null treatment and no window specification' => 'SELECT first_value(c0_.integer1) IGNORE NULLS OVER () AS sclr_0 FROM ContainsNumerics c0_',
             "keeps a fetch-joined collection's order out of the window" => 'SELECT c0_.id AS id_0, o1_.id AS id_1, o1_.name AS name_2, o1_.position AS position_3, o1_.owner_id AS owner_id_4 FROM ContainsOrderedItems c0_ INNER JOIN OrderedItem o1_ ON c0_.id = o1_.owner_id WHERE c0_.id IN (SELECT MIN(c2_.id) OVER (ORDER BY o3_.name ASC) AS sclr_5 FROM ContainsOrderedItems c2_ INNER JOIN OrderedItem o3_ ON c2_.id = o3_.owner_id) ORDER BY o1_.position ASC',
             "keeps a fetch-joined collection's order when the window orders by the same column" => 'SELECT MIN(o0_.id) OVER (ORDER BY o0_.position ASC) AS sclr_0, c1_.id AS id_1, o0_.id AS id_2, o0_.name AS name_3, o0_.position AS position_4, o0_.owner_id AS owner_id_5 FROM ContainsOrderedItems c1_ INNER JOIN OrderedItem o0_ ON c1_.id = o0_.owner_id ORDER BY o0_.position ASC',
         ];
@@ -110,6 +127,13 @@ final class OverTest extends TestCase
             'with a frame excluding no others' => \sprintf('SELECT OVER(COUNT(e.id), ORDER BY e.integer2 ROWS UNBOUNDED PRECEDING EXCLUDE NO OTHERS) FROM %s e', ContainsNumerics::class),
             'with lowercase frame keywords' => \sprintf('SELECT OVER(COUNT(e.id), ORDER BY e.integer2 rows between unbounded preceding and current row exclude group) FROM %s e', ContainsNumerics::class),
             'windows a window function' => \sprintf('SELECT OVER(TEST_WINDOW(), ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
+            'windows LAG ignoring nulls' => \sprintf('SELECT OVER(LAG(e.integer1) IGNORE NULLS, ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
+            'windows LEAD respecting nulls' => \sprintf('SELECT OVER(LEAD(e.integer1, 2, 0) RESPECT NULLS, PARTITION BY e.bigint1 ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
+            'windows FIRST_VALUE ignoring nulls' => \sprintf('SELECT OVER(FIRST_VALUE(e.integer1) IGNORE NULLS, ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
+            'windows LAST_VALUE ignoring nulls with a frame' => \sprintf('SELECT OVER(LAST_VALUE(e.integer1) IGNORE NULLS, ORDER BY e.integer2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) FROM %s e', ContainsNumerics::class),
+            'windows NTH_VALUE ignoring nulls' => \sprintf('SELECT OVER(NTH_VALUE(e.integer1, 2) IGNORE NULLS, ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
+            'with lowercase null treatment keywords' => \sprintf('SELECT OVER(LAG(e.integer1) ignore nulls, ORDER BY e.integer2) FROM %s e', ContainsNumerics::class),
+            'with null treatment and no window specification' => \sprintf('SELECT OVER(FIRST_VALUE(e.integer1) IGNORE NULLS) FROM %s e', ContainsNumerics::class),
             "keeps a fetch-joined collection's order out of the window" => \sprintf('SELECT o, i FROM %s o JOIN o.items i WHERE o.id IN (SELECT OVER(MIN(o2.id), ORDER BY i2.name) FROM %s o2 JOIN o2.items i2)', ContainsOrderedItems::class, ContainsOrderedItems::class),
             "keeps a fetch-joined collection's order when the window orders by the same column" => \sprintf('SELECT o, i, OVER(MIN(i.id), ORDER BY i.position) FROM %s o JOIN o.items i', ContainsOrderedItems::class),
         ];
@@ -151,6 +175,9 @@ final class OverTest extends TestCase
             'frame before ORDER BY' => ['OVER(COUNT(e.id), ROWS UNBOUNDED PRECEDING ORDER BY e.integer2)'],
             'PARTITION without BY' => ['OVER(COUNT(e.id), PARTITION e.integer1)'],
             'ORDER BY before PARTITION BY' => ['OVER(COUNT(e.id), ORDER BY e.integer2 PARTITION BY e.integer1)'],
+            'IGNORE without NULLS' => ['OVER(LAG(e.integer1) IGNORE, ORDER BY e.integer2)'],
+            'null treatment after the comma' => ['OVER(LAG(e.integer1), IGNORE NULLS ORDER BY e.integer2)'],
+            'null treatment after the window specification' => ['OVER(LAG(e.integer1), ORDER BY e.integer2 IGNORE NULLS)'],
         ];
     }
 
@@ -172,6 +199,28 @@ final class OverTest extends TestCase
         return [
             'scalar function' => ['OVER(ABS(e.integer1), PARTITION BY e.integer2)'],
             'nested OVER' => ['OVER(OVER(COUNT(e.id)), PARTITION BY e.integer2)'],
+        ];
+    }
+
+    #[DataProvider('provideNullTreatmentOfUnsupportedArguments')]
+    #[Test]
+    public function throws_exception_when_null_treatment_follows_an_unsupported_argument(string $dqlFunctionCall): void
+    {
+        $this->expectException(ParserException::class);
+
+        $dql = \sprintf('SELECT %s FROM %s e', $dqlFunctionCall, ContainsNumerics::class);
+        $this->buildEntityManager()->createQuery($dql)->getSQL();
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideNullTreatmentOfUnsupportedArguments(): array
+    {
+        return [
+            'DQL aggregate' => ['OVER(SUM(e.integer1) IGNORE NULLS, ORDER BY e.integer2)'],
+            'library aggregate' => ['OVER(ARRAY_AGG(e.integer1) RESPECT NULLS)'],
+            'ranking function' => ['OVER(TEST_WINDOW() IGNORE NULLS, ORDER BY e.integer2)'],
         ];
     }
 }

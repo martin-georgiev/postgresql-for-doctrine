@@ -43,7 +43,7 @@ Each category has its own page:
 [Mathematical and statistical functions](MATHEMATICAL-FUNCTIONS.md): arithmetic, rounding, trigonometry, random numbers, the bitwise and boolean aggregates (`BIT_AND`, `BOOL_OR`, `EVERY`, …) and the statistical aggregates (`CORR`, `STDDEV`, `PERCENTILE_CONT`, `MODE`, …).
 
 ### Utility functions
-[Utility functions](UTILITY-FUNCTIONS.md): type casting (`CAST`), formatting (`TO_CHAR`, `TO_NUMBER`), and UUID generation and inspection (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`, `UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`).
+[Utility functions](UTILITY-FUNCTIONS.md): type casting (`CAST`), formatting (`TO_CHAR`, `TO_NUMBER`), NULL checks (`ERROR_ON_NULL`), and UUID generation and inspection (`GEN_RANDOM_UUID`, `UUIDV4`, `UUIDV7`, `UUID_EXTRACT_TIMESTAMP`, `UUID_EXTRACT_VERSION`).
 
 ### XML functions
 [XML functions](XML-FUNCTIONS.md): aggregation (`XMLAGG`), well-formedness checks (`XML_IS_WELL_FORMED`, `XML_IS_WELL_FORMED_DOCUMENT`, `XML_IS_WELL_FORMED_CONTENT`), construction (`XMLTEXT`, `XMLCOMMENT`, `XMLCONCAT`, `XMLPI`) and XPath (`XPATH`, `XPATH_EXISTS`, `XMLEXISTS`).
@@ -96,6 +96,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `LPAD`/`RPAD` - Left/right pad a string to a given length
 - `QUOTE_IDENT`/`QUOTE_LITERAL`/`QUOTE_NULLABLE` - Quote SQL identifiers and literals
 - `REGEXP` (`~`) - Regular expression matching
+- `REGEXP_SPLIT_TO_ARRAY` - Split text into an array at each regular expression match
 - `STARTS_WITH` - Test if text starts with a substring
 - `STRPOS` - Find position of substring
 - `TRANSLATE` - Replace characters in a string
@@ -103,6 +104,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `SOUNDEX` - Phonetic encoding for similarity matching
 - `MD5`/`SHA256`/`SHA512` (and other SHA variants) - Cryptographic hashing
 - `CRC32`/`CRC32C` - CRC checksum computation
+- `BIT_COUNT` - Count the bits set in a binary or bit string value
 - `REVERSE_BYTES` - Reverse byte order for bytea values
 
 **Date/Range Operations:** ([full list](DATE-AND-RANGE-FUNCTIONS.md))
@@ -112,6 +114,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `DATERANGE` - Create date ranges
 - `ISFINITE` - Test if date/timestamp/interval is finite
 - `JUSTIFY_DAYS`/`JUSTIFY_HOURS`/`JUSTIFY_INTERVAL` - Adjust interval representations
+- `MAKE_INTERVAL` - Build an interval from years, months, weeks, days, hours, minutes and seconds
 - `RANGE_MINUS_MULTI`/`MULTIRANGE_MINUS_MULTI` - Subtract ranges or multiranges without failing on a gap
 - `STATEMENT_TIMESTAMP` - Timestamp of current SQL statement
 - `TRANSACTION_TIMESTAMP` - Timestamp of current transaction
@@ -122,14 +125,16 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `GAMMA`/`LGAMMA` - Gamma function for statistical calculations
 - `GREATEST`/`LEAST` - Find maximum/minimum values
 - `ROUND`/`SCALE`/`MIN_SCALE`/`TRIM_SCALE` - Numeric precision functions
-- `RANDOM`/`RANDOM_NORMAL` - Generate random numbers
+- `RANDOM`/`RANDOM_NORMAL` - Generate random numbers, optionally between bounds
 - **Bitwise/Boolean Aggregates**: `BIT_AND`, `BIT_OR`, `BIT_XOR`, `BOOL_AND`, `BOOL_OR`, `EVERY`
 - **Statistical Aggregates**: `CORR`, `COVAR_POP`, `COVAR_SAMP`, `MODE`, `PERCENTILE_CONT`, `PERCENTILE_DISC`, `STDDEV`, `STDDEV_POP`, `VAR_POP`, `VARIANCE`
 
 **Utility Functions:** ([full list](UTILITY-FUNCTIONS.md))
 - `CAST` - General type conversion
+- `PG_INPUT_IS_VALID` - Test whether a string would convert to a type, without failing the query
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
+- `ERROR_ON_NULL` - Return a value, or fail the query when it is NULL
 - `GEN_RANDOM_UUID` - Generate a random UUID (version 4)
 - `UUIDV4` - Explicit UUID version 4 generation
 - `UUIDV7` - Generate a UUID (version 7) that sorts by creation time
@@ -185,7 +190,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `ROW_NUMBER`/`RANK`/`DENSE_RANK` - Number or rank rows within their partition
 - `PERCENT_RANK`/`CUME_DIST` - Relative rank and cumulative distribution within the partition
 - `NTILE` - Split the partition into a number of buckets
-- `LAG`/`LEAD` - Value from a row before or after the current one
+- `LAG`/`LEAD` - Value from a row before or after the current one, optionally skipping NULLs with `IGNORE NULLS`
 - `FIRST_VALUE`/`LAST_VALUE`/`NTH_VALUE` - Value from the first, last or n-th row of the window frame
 
 ## Related pages

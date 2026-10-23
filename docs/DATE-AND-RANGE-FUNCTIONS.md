@@ -22,6 +22,7 @@ This page covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/func
 | justify_hours | JUSTIFY_HOURS | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours` |
 | justify_interval | JUSTIFY_INTERVAL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval` |
 | make_date | MAKE_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate` |
+| make_interval | MAKE_INTERVAL | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeInterval` |
 | make_time | MAKE_TIME | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime` |
 | make_timestamp | MAKE_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp` |
 | make_timestamptz | MAKE_TIMESTAMPTZ | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz` |
@@ -30,6 +31,8 @@ This page covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/func
 | to_date | TO_DATE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate` |
 | to_timestamp | TO_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp` |
 | transaction_timestamp | TRANSACTION_TIMESTAMP | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TransactionTimestamp` |
+
+`MAKE_INTERVAL` takes its parts by position: years, months, weeks, days, hours, minutes, seconds. DQL cannot write PostgreSQL's named arguments, so `make_interval(days => 3)` becomes `MAKE_INTERVAL(0, 0, 0, 3)`.
 
 ## Date and time operators
 

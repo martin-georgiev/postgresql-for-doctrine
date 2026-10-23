@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT OVER(LAST_VALUE(e.price), PARTITION BY e.product ORDER BY e.day ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) FROM Entity e"
  */
-class LastValue extends BaseFunction implements WindowFunction
+class LastValue extends BaseFunction implements NullTreatableWindowFunction
 {
     protected function customizeFunction(): void
     {

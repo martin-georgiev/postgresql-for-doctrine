@@ -126,6 +126,19 @@ A value function returns a value read from another row of the window.
 - `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE` read the window frame, not the whole partition. With an `ORDER BY` the default frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`, which ends at the current row's last peer (the last row with the same `ORDER BY` values). So `LAST_VALUE` returns that peer's value, which differs from the current row's when peers hold different values, and `NTH_VALUE` returns NULL until the frame reaches its n-th row. Add a tie-breaker to `ORDER BY`, such as the id, or use an explicit `ROWS` frame to make the result deterministic, and `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING` to read the whole partition.
 - The value argument is polymorphic, so PostgreSQL cannot resolve a bare string literal such as `LAG('none')`, nor a parameter, and fails with `could not determine polymorphic type because input has type unknown`. Pass a field, an expression over one, or a numeric literal. A string literal or a parameter as `default` is fine, as the value argument already decides the type.
 
+### Skipping NULLs: `IGNORE NULLS` / `RESPECT NULLS`
+
+A [null treatment](https://www.postgresql.org/docs/19/functions-window.html) can follow the call of a value function. As in SQL, it goes right after the call's closing parenthesis, before the comma that starts the window specification:
+
+| SQL | DQL |
+|---|---|
+| `lag(e.price) IGNORE NULLS OVER (PARTITION BY e.product ORDER BY e.day)` | `OVER(LAG(e.price) IGNORE NULLS, PARTITION BY e.product ORDER BY e.day)` |
+| `first_value(e.price) IGNORE NULLS OVER (ORDER BY e.day)` | `OVER(FIRST_VALUE(e.price) IGNORE NULLS, ORDER BY e.day)` |
+| `nth_value(e.price, 2) RESPECT NULLS OVER (ORDER BY e.day)` | `OVER(NTH_VALUE(e.price, 2) RESPECT NULLS, ORDER BY e.day)` |
+
+- `IGNORE NULLS` skips rows whose value is NULL: `LAG(e.price) IGNORE NULLS` returns the last non-NULL price before the current row, which fills gaps in a series. `RESPECT NULLS` is the default and changes nothing.
+- Only `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE` and `NTH_VALUE` take it, or a function of your own implementing `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\NullTreatableWindowFunction`. After an aggregate or a ranking function it throws a `ParserException`, as PostgreSQL would reject it.
+
 ## Usage examples
 
 The results come from these rows. `Sale` belongs to a `Customer`; `amount` and `price` are `numeric(10,2)`, and times are in UTC.

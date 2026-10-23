@@ -562,6 +562,7 @@ doctrine:
                         JUSTIFY_HOURS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours
                         JUSTIFY_INTERVAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval
                         MAKE_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate
+                        MAKE_INTERVAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeInterval
                         MAKE_TIME: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime
                         MAKE_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp
                         MAKE_TIMESTAMPTZ: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz
@@ -646,6 +647,7 @@ doctrine:
                         REGEXP_INSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr
                         REGEXP_LIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike
                         REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch
+                        REGEXP_SPLIT_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSplitToArray
                         REGEXP_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace
                         REGEXP_SUBSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr
                         STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
@@ -916,6 +918,7 @@ doctrine:
                         XPATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists
 
                         # hashing and checksum functions
+                        BIT_COUNT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitCount
                         CRC32: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32
                         CRC32C: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c
                         MD5: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5
@@ -934,10 +937,14 @@ doctrine:
 
                         # type conversion and formatting functions
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
+                        PG_INPUT_IS_VALID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid
                         TO_CHAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar
                         TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate
                         TO_NUMBER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber
                         TO_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp
+
+                        # comparison functions
+                        ERROR_ON_NULL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ErrorOnNull
 ```
 
 ### Usage in entities
