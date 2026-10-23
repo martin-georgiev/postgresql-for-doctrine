@@ -110,7 +110,11 @@ abstract class Composite extends BaseType
         $result = [];
         $position = 0;
         foreach ($fieldTypes as $fieldName => $fieldType) {
-            $result[$fieldName] = DoctrineType::getType($fieldType)->convertToPHPValue($rawFields[$position], $platform);
+            $rawField = $rawFields[$position];
+            $converted = DoctrineType::getType($fieldType)->convertToPHPValue($rawField, $platform);
+            // Doctrine's float types cast the field text, and a cast reads every non-finite spelling as 0.0
+            $isANonFiniteFloat = \is_float($converted) && $rawField !== null && PostgresFloat::isNonFinite($rawField);
+            $result[$fieldName] = $isANonFiniteFloat ? PostgresFloat::parse($rawField) : $converted;
             $position++;
         }
 
