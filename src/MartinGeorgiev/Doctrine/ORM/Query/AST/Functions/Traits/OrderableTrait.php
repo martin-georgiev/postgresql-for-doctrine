@@ -15,6 +15,9 @@ use Doctrine\ORM\Query\TokenType;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
+/**
+ * @internal
+ */
 trait OrderableTrait
 {
     protected Node $expression;

@@ -13,6 +13,8 @@ use Doctrine\ORM\Query\AST\Node;
  * PHP null rather than a Node for a literal NULL token. BaseVariadicFunction wraps that result in this node
  * to keep the argument a Node while still rendering as SQL NULL.
  *
+ * @internal
+ *
  * @since 4.8
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

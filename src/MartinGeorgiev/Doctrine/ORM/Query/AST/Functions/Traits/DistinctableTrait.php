@@ -9,6 +9,9 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\TokenType;
 use MartinGeorgiev\Utils\DoctrineOrm;
 
+/**
+ * @internal
+ */
 trait DistinctableTrait
 {
     protected bool $isDistinct = false;

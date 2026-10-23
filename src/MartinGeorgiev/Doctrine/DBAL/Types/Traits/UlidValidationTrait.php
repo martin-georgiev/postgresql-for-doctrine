@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 /**
  * Common validation logic for ULID values.
  *
+ * @internal
+ *
  * @since 4.8.1
  */
 trait UlidValidationTrait

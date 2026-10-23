@@ -9,6 +9,8 @@ use MartinGeorgiev\Utils\Exception\InvalidJsonFormatException;
 /**
  * Handles transformation from PostgreSQL JSON(B) values to PHP values.
  *
+ * @internal
+ *
  * @since 3.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

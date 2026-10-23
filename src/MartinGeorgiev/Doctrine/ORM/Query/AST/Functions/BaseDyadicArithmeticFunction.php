@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 /**
  * Base class for arithmetic functions that accept exactly two arguments (dyadic operations).
  *
+ * @internal
+ *
  * @since 4.5
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

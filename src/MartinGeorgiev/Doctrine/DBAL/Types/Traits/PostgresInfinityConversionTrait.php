@@ -9,6 +9,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
  *
  * The grammar is narrower than the one the numeric types use. E.g. `inf` is a float and numeric spelling that a date rejects, so it is deliberately absent here.
  *
+ * @internal
+ *
  * @since 4.8
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

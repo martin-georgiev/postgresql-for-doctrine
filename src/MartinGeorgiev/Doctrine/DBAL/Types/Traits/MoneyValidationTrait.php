@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 /**
  * Common validation logic for PostgreSQL MONEY values.
  *
+ * @internal
+ *
  * @since 4.4
  */
 trait MoneyValidationTrait

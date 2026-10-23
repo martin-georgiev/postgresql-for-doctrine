@@ -9,6 +9,8 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 /**
  * Adds length-aware SQL declaration for types that support a dimension/length parameter.
  * Generates `TYPE(n)` when `fieldDeclaration['length']` is a positive integer, otherwise bare `TYPE`.
+ *
+ * @internal
  */
 trait LengthAwareSQLDeclarationTrait
 {

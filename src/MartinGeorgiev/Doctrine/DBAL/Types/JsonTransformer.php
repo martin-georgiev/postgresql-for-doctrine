@@ -11,6 +11,8 @@ use MartinGeorgiev\Utils\PostgresJsonToPHPArrayTransformer;
 /**
  * Helpers for converting PHP values into PostgreSQL JSON and vice versa.
  *
+ * @internal
+ *
  * @since 0.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
