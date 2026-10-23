@@ -562,6 +562,7 @@ doctrine:
                         JUSTIFY_HOURS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours
                         JUSTIFY_INTERVAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval
                         MAKE_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate
+                        MAKE_INTERVAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeInterval
                         MAKE_TIME: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime
                         MAKE_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp
                         MAKE_TIMESTAMPTZ: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz
