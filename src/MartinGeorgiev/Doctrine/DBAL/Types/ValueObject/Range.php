@@ -141,16 +141,7 @@ abstract class Range implements \Stringable
             return $this->compareWithInfinity($this->lower, $this->isUpperInfinityNegative);
         }
 
-        return $this->compareLowerBoundWithUpperBound($this->lower, $this->upper);
-    }
-
-    /**
-     * Only the two bounds are ordered here, never a value passed to contains(), so a subtype can order them by the form
-     * it writes them in.
-     */
-    protected function compareLowerBoundWithUpperBound(mixed $lower, mixed $upper): int
-    {
-        return $this->compareBounds($lower, $upper);
+        return $this->compareBounds($this->lower, $this->upper);
     }
 
     abstract protected function compareBounds(mixed $a, mixed $b): int;
