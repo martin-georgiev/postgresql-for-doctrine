@@ -252,6 +252,7 @@ $configuration->addCustomStringFunction('TRIM_ARRAY', MartinGeorgiev\Doctrine\OR
 $configuration->addCustomStringFunction('UNNEST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class);
 
 # json specific functions
+$configuration->addCustomStringFunction('JSON', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Json::class);
 $configuration->addCustomStringFunction('JSON_ARRAY_LENGTH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class);
 $configuration->addCustomStringFunction('JSON_BUILD_ARRAY', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray::class);
 $configuration->addCustomStringFunction('JSON_BUILD_OBJECT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class);
