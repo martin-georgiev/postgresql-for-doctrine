@@ -704,6 +704,7 @@ $configuration->addCustomStringFunction('UUIDV7', MartinGeorgiev\Doctrine\ORM\Qu
 
 # type conversion and formatting functions
 $configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
+$configuration->addCustomStringFunction('PG_INPUT_IS_VALID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid::class);
 $configuration->addCustomStringFunction('TO_CHAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class);
 $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class);
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);

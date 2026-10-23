@@ -952,6 +952,7 @@ return [
 
         # type conversion and formatting functions
         'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
+        'PG_INPUT_IS_VALID' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid::class,
         'TO_CHAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class,
         'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,
         'TO_NUMBER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class,

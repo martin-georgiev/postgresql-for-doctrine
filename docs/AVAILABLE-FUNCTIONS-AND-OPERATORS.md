@@ -127,6 +127,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 
 **Utility Functions:** ([full list](UTILITY-FUNCTIONS.md))
 - `CAST` - General type conversion
+- `PG_INPUT_IS_VALID` - Test whether a string would convert to a type, without failing the query
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
 - `ERROR_ON_NULL` - Return a value, or fail the query when it is NULL

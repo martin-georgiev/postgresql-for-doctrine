@@ -932,6 +932,7 @@ doctrine:
 
                         # type conversion and formatting functions
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
+                        PG_INPUT_IS_VALID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid
                         TO_CHAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar
                         TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate
                         TO_NUMBER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber
