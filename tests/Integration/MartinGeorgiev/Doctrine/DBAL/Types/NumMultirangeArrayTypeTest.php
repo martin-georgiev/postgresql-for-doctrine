@@ -6,6 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericMultirange;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\NumericRange;
+use PHPUnit\Framework\Attributes\Test;
 
 final class NumMultirangeArrayTypeTest extends ArrayTypeTestCase
 {
@@ -30,5 +31,19 @@ final class NumMultirangeArrayTypeTest extends ArrayTypeTestCase
             ],
             'array with null item' => [[new NumericMultirange([new NumericRange(1.5, 10.5)]), null]],
         ];
+    }
+
+    #[Test]
+    public function preserves_the_precision_of_a_bound_emitted_by_postgres(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $result = $this->fetchConvertedValueForPostgresLiteral($typeName, $columnType, '{"{[12345678901234567890.1,12345678901234567890.2)}"}');
+
+        $this->assertIsArray($result);
+        $this->assertCount(1, $result);
+        $this->assertInstanceOf(NumericMultirange::class, $result[0]);
+        $this->assertSame('{[12345678901234567890.1,12345678901234567890.2)}', (string) $result[0]);
     }
 }
