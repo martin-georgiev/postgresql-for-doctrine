@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 /**
  * Common validation logic for INET addresses.
  *
+ * @internal
+ *
  * @since 3.0
  */
 trait InetValidationTrait

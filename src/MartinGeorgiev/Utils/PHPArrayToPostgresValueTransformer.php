@@ -9,6 +9,8 @@ use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
 /**
  * Handles transformation from PHP values to PostgreSQL values.
  *
+ * @internal
+ *
  * @since 3.0
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

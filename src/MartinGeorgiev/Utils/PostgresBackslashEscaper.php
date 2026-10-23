@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace MartinGeorgiev\Utils;
 
 /**
+ * @internal
+ *
  * @since 4.8.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

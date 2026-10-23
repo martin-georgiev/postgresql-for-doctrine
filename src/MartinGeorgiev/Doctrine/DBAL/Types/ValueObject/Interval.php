@@ -569,12 +569,15 @@ class Interval implements \Stringable
             $sign * $hours,
             $sign * $minutes,
             $sign * $seconds,
-            (float) ($sign * $fraction) / self::MICROSECONDS_PER_SECOND
+            $sign * $fraction
         );
     }
 
-    private static function createInterval(int $years, int $months, int $days, int $hours, int $minutes, int $seconds, float $microseconds): \DateInterval
+    private static function createInterval(int $years, int $months, int $days, int $hours, int $minutes, int $seconds, int $microseconds): \DateInterval
     {
+        // DateInterval keeps whole microseconds and truncates the fraction assigned to it, and most fractions land just
+        // below their decimal value as a double (0.000251 is 0.00025099…), so half a microsecond outward survives the cut.
+        $halfAMicrosecondOutward = ($microseconds <=> 0) * 0.5;
         $dateInterval = new \DateInterval('PT0S');
         $dateInterval->y = $years;
         $dateInterval->m = $months;
@@ -582,7 +585,7 @@ class Interval implements \Stringable
         $dateInterval->h = $hours;
         $dateInterval->i = $minutes;
         $dateInterval->s = $seconds;
-        $dateInterval->f = $microseconds;
+        $dateInterval->f = ($microseconds + $halfAMicrosecondOutward) / self::MICROSECONDS_PER_SECOND;
 
         return $dateInterval;
     }

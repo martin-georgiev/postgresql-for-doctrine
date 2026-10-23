@@ -935,6 +935,7 @@ return [
         'XMLCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat::class,
         'XMLEXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists::class,
         'XMLPI' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi::class,
+        'XMLSERIALIZE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlSerialize::class,
         'XMLTEXT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText::class,
         'XPATH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class,
         'XPATH_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class,
@@ -960,9 +961,12 @@ return [
         # type conversion and formatting functions
         'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
         'PG_INPUT_IS_VALID' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid::class,
+        'TO_BIN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToBin::class,
         'TO_CHAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class,
         'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,
+        'TO_HEX' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToHex::class,
         'TO_NUMBER' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class,
+        'TO_OCT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToOct::class,
         'TO_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class,
 
         # comparison functions

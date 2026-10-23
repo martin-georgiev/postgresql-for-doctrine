@@ -9,6 +9,8 @@ use MartinGeorgiev\Utils\PostgresBackslashEscaper;
 /**
  * Provides HSTORE string parsing and building shared by Hstore and HstoreArray types.
  *
+ * @internal
+ *
  * @since 4.6
  */
 trait HstoreParserTrait

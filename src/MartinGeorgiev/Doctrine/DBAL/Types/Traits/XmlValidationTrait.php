@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 /**
  * Common validation logic for XML values.
  *
+ * @internal
+ *
  * @since 4.4
  */
 trait XmlValidationTrait
