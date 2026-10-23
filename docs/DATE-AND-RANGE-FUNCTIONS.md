@@ -42,14 +42,16 @@ This page covers PostgreSQL [date, time](https://www.postgresql.org/docs/18/func
 
 ## Range functions
 
-PostgreSQL provides several range types for representing ranges of values. These functions create and work with range types.
+PostgreSQL provides several range types for representing ranges of values. These functions create and work with range types. `RANGE_MINUS_MULTI` and `MULTIRANGE_MINUS_MULTI` return a set: one result row per remaining range, or no row when nothing remains.
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
 | daterange | DATERANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange` |
 | int4range | INT4RANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range` |
 | int8range | INT8RANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range` |
+| multirange_minus_multi | MULTIRANGE_MINUS_MULTI | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MultirangeMinusMulti` |
 | numrange | NUMRANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange` |
+| range_minus_multi | RANGE_MINUS_MULTI | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeMinusMulti` |
 | tsrange | TSRANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange` |
 | tstzrange | TSTZRANGE | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange` |
 
@@ -123,6 +125,12 @@ SELECT e FROM Entity e WHERE OVERLAPS(e.active_period, DATERANGE('2023-01-01', '
 --   Entity {id: 3}
 SELECT e FROM Entity e WHERE CONTAINS(TSTZRANGE(DATE_SUBTRACT(CURRENT_TIMESTAMP(), '30 days'), CURRENT_TIMESTAMP()), e.start_tz) = TRUE
 -- → the rows whose start_tz falls in the 30 days before the query runs
+
+-- RANGE_MINUS_MULTI: subtracting a range that splits another in two returns one row per part,
+-- where the - operator would fail with "result of range difference would not be contiguous"
+SELECT RANGE_MINUS_MULTI(e.active_period, DATERANGE('2023-04-01', '2023-05-01')) as remaining FROM Entity e WHERE e.id = 1
+-- → ['remaining' => '[2023-03-01,2023-04-01)']
+--   ['remaining' => '[2023-05-01,2023-06-01)']
 
 -- Group by calendar month using DATE_TRUNC + DATE_ADD
 SELECT TSTZRANGE(DATE_TRUNC('month', e.created_at),

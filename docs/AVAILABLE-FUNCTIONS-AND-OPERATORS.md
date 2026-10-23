@@ -115,6 +115,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `ISFINITE` - Test if date/timestamp/interval is finite
 - `JUSTIFY_DAYS`/`JUSTIFY_HOURS`/`JUSTIFY_INTERVAL` - Adjust interval representations
 - `MAKE_INTERVAL` - Build an interval from years, months, weeks, days, hours, minutes and seconds
+- `RANGE_MINUS_MULTI`/`MULTIRANGE_MINUS_MULTI` - Subtract ranges or multiranges without failing on a gap
 - `STATEMENT_TIMESTAMP` - Timestamp of current SQL statement
 - `TRANSACTION_TIMESTAMP` - Timestamp of current transaction
 
