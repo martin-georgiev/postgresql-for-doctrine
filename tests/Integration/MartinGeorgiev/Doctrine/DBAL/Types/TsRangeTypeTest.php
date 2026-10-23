@@ -22,6 +22,7 @@ final class TsRangeTypeTest extends RangeTypeTestCase
     {
         return [
             'tsrange with a five-digit year' => [new TsRangeValueObject(new \DateTimeImmutable('+10000-01-01 10:00:00'), new \DateTimeImmutable('+10000-01-02 00:00:00'))],
+            'tsrange whose wall clocks run backwards across time zones' => [new TsRangeValueObject(new \DateTimeImmutable('2023-01-01 10:00:00+02:00'), new \DateTimeImmutable('2023-01-01 09:00:00+00:00'))],
             'tsrange with a BC era' => [new TsRangeValueObject(new \DateTimeImmutable('-0043-03-15 10:00:00'), new \DateTimeImmutable('-0043-03-16 00:00:00'))],
             'simple tsrange' => [new TsRangeValueObject(
                 new \DateTimeImmutable('2023-01-01 10:00:00'),
