@@ -665,6 +665,7 @@ return [
         'REGEXP_INSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr::class,
         'REGEXP_LIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike::class,
         'REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class,
+        'REGEXP_SPLIT_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSplitToArray::class,
         'REGEXP_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class,
         'REGEXP_SUBSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class,
         'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator

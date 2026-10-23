@@ -96,6 +96,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `LPAD`/`RPAD` - Left/right pad a string to a given length
 - `QUOTE_IDENT`/`QUOTE_LITERAL`/`QUOTE_NULLABLE` - Quote SQL identifiers and literals
 - `REGEXP` (`~`) - Regular expression matching
+- `REGEXP_SPLIT_TO_ARRAY` - Split text into an array at each regular expression match
 - `STARTS_WITH` - Test if text starts with a substring
 - `STRPOS` - Find position of substring
 - `TRANSLATE` - Replace characters in a string
