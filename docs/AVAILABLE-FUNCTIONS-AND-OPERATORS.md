@@ -104,6 +104,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `SOUNDEX` - Phonetic encoding for similarity matching
 - `MD5`/`SHA256`/`SHA512` (and other SHA variants) - Cryptographic hashing
 - `CRC32`/`CRC32C` - CRC checksum computation
+- `BIT_COUNT` - Count the bits set in a binary or bit string value
 - `REVERSE_BYTES` - Reverse byte order for bytea values
 
 **Date/Range Operations:** ([full list](DATE-AND-RANGE-FUNCTIONS.md))

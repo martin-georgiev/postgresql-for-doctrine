@@ -688,6 +688,7 @@ $configuration->addCustomStringFunction('XPATH', MartinGeorgiev\Doctrine\ORM\Que
 $configuration->addCustomStringFunction('XPATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class);
 
 # hashing and checksum functions
+$configuration->addCustomStringFunction('BIT_COUNT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitCount::class);
 $configuration->addCustomStringFunction('CRC32', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class);
 $configuration->addCustomStringFunction('CRC32C', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c::class);
 $configuration->addCustomStringFunction('MD5', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5::class);
