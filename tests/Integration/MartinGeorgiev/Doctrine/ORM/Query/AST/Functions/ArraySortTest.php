@@ -41,4 +41,22 @@ final class ArraySortTest extends ArrayTestCase
         $actual = $this->transformPostgresArray($result[0]['result']);
         $this->assertSame(['banana', 'kiwi', 'mango', 'orange'], $actual);
     }
+
+    #[Test]
+    public function returns_the_sorted_array_with_descending(): void
+    {
+        $dql = "SELECT ARRAY_SORT(t.textArray, 'true') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 3";
+        $result = $this->executeDqlQuery($dql);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertSame(['orange', 'mango', 'kiwi', 'banana'], $actual);
+    }
+
+    #[Test]
+    public function returns_the_sorted_array_with_nulls_first(): void
+    {
+        $dql = "SELECT ARRAY_SORT(t.textArray, 'false', 'true') as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsArrays t WHERE t.id = 3";
+        $result = $this->executeDqlQuery($dql);
+        $actual = $this->transformPostgresArray($result[0]['result']);
+        $this->assertSame(['banana', 'kiwi', 'mango', 'orange'], $actual);
+    }
 }
