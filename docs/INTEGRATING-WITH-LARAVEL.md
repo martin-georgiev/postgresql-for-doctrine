@@ -496,9 +496,11 @@ return [
         'STRPOS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos::class,
         'STRING_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray::class,
         'TRANSLATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate::class,
+        'TRIM_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimArray::class,
         'UNNEST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest::class,
 
         # json specific functions
+        'JSON' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Json::class,
         'JSON_ARRAY_LENGTH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength::class,
         'JSON_BUILD_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray::class,
         'JSON_BUILD_OBJECT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject::class,
@@ -582,6 +584,7 @@ return [
         'JUSTIFY_HOURS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours::class,
         'JUSTIFY_INTERVAL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval::class,
         'MAKE_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate::class,
+        'MAKE_INTERVAL' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeInterval::class,
         'MAKE_TIME' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime::class,
         'MAKE_TIMESTAMP' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp::class,
         'MAKE_TIMESTAMPTZ' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz::class,
@@ -592,7 +595,9 @@ return [
         'DATERANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange::class,
         'INT4RANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range::class,
         'INT8RANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range::class,
+        'MULTIRANGE_MINUS_MULTI' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MultirangeMinusMulti::class,
         'NUMRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange::class,
+        'RANGE_MINUS_MULTI' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeMinusMulti::class,
         'TSRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange::class,
         'TSTZRANGE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange::class,
         
@@ -664,6 +669,7 @@ return [
         'REGEXP_INSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr::class,
         'REGEXP_LIKE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike::class,
         'REGEXP_MATCH' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch::class,
+        'REGEXP_SPLIT_TO_ARRAY' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSplitToArray::class,
         'REGEXP_REPLACE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace::class,
         'REGEXP_SUBSTR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr::class,
         'STRCONCAT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat::class, // the `||` operator
@@ -934,6 +940,7 @@ return [
         'XPATH_EXISTS' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class,
 
         # hashing and checksum functions
+        'BIT_COUNT' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitCount::class,
         'CRC32' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32::class,
         'CRC32C' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c::class,
         'MD5' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5::class,
@@ -952,6 +959,7 @@ return [
 
         # type conversion and formatting functions
         'CAST' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class,
+        'PG_INPUT_IS_VALID' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid::class,
         'TO_BIN' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToBin::class,
         'TO_CHAR' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class,
         'TO_DATE' => MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class,

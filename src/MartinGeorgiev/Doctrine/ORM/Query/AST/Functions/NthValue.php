@@ -16,7 +16,7 @@ namespace MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
  *
  * @example Using it in DQL: "SELECT OVER(NTH_VALUE(e.price, 2), PARTITION BY e.product ORDER BY e.day) FROM Entity e"
  */
-class NthValue extends BaseFunction implements WindowFunction
+class NthValue extends BaseFunction implements NullTreatableWindowFunction
 {
     protected function customizeFunction(): void
     {

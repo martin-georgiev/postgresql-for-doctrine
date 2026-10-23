@@ -476,9 +476,11 @@ doctrine:
                         STRPOS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Strpos
                         STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
                         TRANSLATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Translate
+                        TRIM_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimArray
                         UNNEST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest
 
                         # json specific functions
+                        JSON: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Json
                         JSON_ARRAY_LENGTH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength
                         JSON_BUILD_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray
                         JSON_BUILD_OBJECT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildObject
@@ -562,6 +564,7 @@ doctrine:
                         JUSTIFY_HOURS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyHours
                         JUSTIFY_INTERVAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JustifyInterval
                         MAKE_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeDate
+                        MAKE_INTERVAL: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeInterval
                         MAKE_TIME: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTime
                         MAKE_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamp
                         MAKE_TIMESTAMPTZ: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MakeTimestamptz
@@ -572,7 +575,9 @@ doctrine:
                         DATERANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Daterange
                         INT4RANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int4range
                         INT8RANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Int8range
+                        MULTIRANGE_MINUS_MULTI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\MultirangeMinusMulti
                         NUMRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Numrange
+                        RANGE_MINUS_MULTI: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RangeMinusMulti
                         TSRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tsrange
                         TSTZRANGE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Tstzrange
                         
@@ -644,6 +649,7 @@ doctrine:
                         REGEXP_INSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpInstr
                         REGEXP_LIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpLike
                         REGEXP_MATCH: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpMatch
+                        REGEXP_SPLIT_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSplitToArray
                         REGEXP_REPLACE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpReplace
                         REGEXP_SUBSTR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RegexpSubstr
                         STRCONCAT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StrConcat
@@ -914,6 +920,7 @@ doctrine:
                         XPATH_EXISTS: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists
 
                         # hashing and checksum functions
+                        BIT_COUNT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\BitCount
                         CRC32: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32
                         CRC32C: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Crc32c
                         MD5: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Md5
@@ -932,6 +939,7 @@ doctrine:
 
                         # type conversion and formatting functions
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
+                        PG_INPUT_IS_VALID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid
                         TO_BIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToBin
                         TO_CHAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar
                         TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate

@@ -64,12 +64,14 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | array_upper | ARRAY_UPPER | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayUpper` |
 | cardinality | ARRAY_CARDINALITY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ArrayCardinality` |
 | string_to_array | STRING_TO_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray` |
+| trim_array | TRIM_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\TrimArray` |
 | unnest | UNNEST | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Unnest` |
 
 ## JSON functions
 
 | PostgreSQL functions | Register for DQL as | Implemented by |
 |---|---|---|
+| json | JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Json` |
 | json_agg | JSON_AGG | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonAgg` |
 | json_array_length | JSON_ARRAY_LENGTH | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonArrayLength` |
 | json_build_array | JSON_BUILD_ARRAY | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\JsonBuildArray` |
@@ -91,6 +93,8 @@ Some PostgreSQL operators have multiple meanings depending on the data types inv
 | row_to_json | ROW_TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\RowToJson` |
 | to_json | TO_JSON | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJson` |
 | to_jsonb | TO_JSONB | `MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToJsonb` |
+
+`JSON(value WITH UNIQUE KEYS)` fails on an object that repeats a key. It takes only a text value, such as a string literal or a `text` field: PostgreSQL rejects a `json` or `jsonb` value with `cannot use non-string types with WITH UNIQUE KEYS clause`.
 
 ## JSONB functions
 

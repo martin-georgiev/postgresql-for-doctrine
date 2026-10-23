@@ -7,6 +7,8 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\ORM\Query\AST\Functions;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Fixtures\MartinGeorgiev\Doctrine\Entity\ContainsNumerics;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\ParserException;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\FirstValue;
+use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Lag;
 use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Over;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -15,6 +17,8 @@ final class OverTest extends NumericTestCase
     protected function getStringFunctions(): array
     {
         return [
+            'FIRST_VALUE' => FirstValue::class,
+            'LAG' => Lag::class,
             'OVER' => Over::class,
         ];
     }
@@ -55,6 +59,34 @@ final class OverTest extends NumericTestCase
         $this->assertIsArray($rows[0]);
         $this->assertInstanceOf(ContainsNumerics::class, $rows[0][0]);
         $this->assertSame(1, $rows[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_windowed_value_with_ignore_nulls(): void
+    {
+        $this->requirePostgresVersion(190000, 'IGNORE NULLS in window functions');
+
+        $dql = 'SELECT OVER(LAG(n.integer1, 0) IGNORE NULLS, ORDER BY n.integer2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(10, $result[0]['result']);
+    }
+
+    #[Test]
+    public function returns_the_windowed_value_with_respect_nulls(): void
+    {
+        $this->requirePostgresVersion(190000, 'RESPECT NULLS in window functions');
+
+        $dql = 'SELECT OVER(FIRST_VALUE(n.integer1) RESPECT NULLS, ORDER BY n.integer2) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
+        $result = $this->executeDqlQuery($dql);
+        $this->assertSame(10, $result[0]['result']);
+    }
+
+    #[Test]
+    public function rejects_null_treatment_of_an_aggregate(): void
+    {
+        $this->expectException(ParserException::class);
+        $dql = 'SELECT OVER(SUM(n.integer1) IGNORE NULLS, PARTITION BY n.integer1) as result FROM Fixtures\\MartinGeorgiev\\Doctrine\\Entity\\ContainsNumerics n WHERE n.id = 1';
+        $this->executeDqlQuery($dql);
     }
 
     #[Test]

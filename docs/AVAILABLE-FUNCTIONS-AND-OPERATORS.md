@@ -74,11 +74,13 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `CONTAINS` (`@>`) - Test if array/range contains elements
 - `OVERLAPS` (`&&`) - Test if arrays/ranges overlap
 - `ARRAY_AGG` - Aggregate values into arrays
+- `TRIM_ARRAY` - Remove the last elements of an array
 - `FILTER` - Restrict the rows an aggregate reads (`FILTER (WHERE ...)`)
 
 **JSON Operations:** ([full list](ARRAY-AND-JSON-FUNCTIONS.md))
 - `JSON_GET_FIELD_AS_TEXT` (`->>`) - Extract JSON field as text
 - `JSON_BUILD_OBJECT` - Build JSON objects
+- `JSON` - Parse text as JSON, optionally rejecting repeated keys (`WITH UNIQUE KEYS`)
 - `JSONB_PATH_EXISTS` - Test JSON path existence
 
 **Spatial Operations:** ([full list](SPATIAL-FUNCTIONS-AND-OPERATORS.md))
@@ -96,6 +98,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `LPAD`/`RPAD` - Left/right pad a string to a given length
 - `QUOTE_IDENT`/`QUOTE_LITERAL`/`QUOTE_NULLABLE` - Quote SQL identifiers and literals
 - `REGEXP` (`~`) - Regular expression matching
+- `REGEXP_SPLIT_TO_ARRAY` - Split text into an array at each regular expression match
 - `STARTS_WITH` - Test if text starts with a substring
 - `STRPOS` - Find position of substring
 - `TRANSLATE` - Replace characters in a string
@@ -103,6 +106,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `SOUNDEX` - Phonetic encoding for similarity matching
 - `MD5`/`SHA256`/`SHA512` (and other SHA variants) - Cryptographic hashing
 - `CRC32`/`CRC32C` - CRC checksum computation
+- `BIT_COUNT` - Count the bits set in a binary or bit string value
 - `REVERSE_BYTES` - Reverse byte order for bytea values
 
 **Date/Range Operations:** ([full list](DATE-AND-RANGE-FUNCTIONS.md))
@@ -112,6 +116,8 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `DATERANGE` - Create date ranges
 - `ISFINITE` - Test if date/timestamp/interval is finite
 - `JUSTIFY_DAYS`/`JUSTIFY_HOURS`/`JUSTIFY_INTERVAL` - Adjust interval representations
+- `MAKE_INTERVAL` - Build an interval from years, months, weeks, days, hours, minutes and seconds
+- `RANGE_MINUS_MULTI`/`MULTIRANGE_MINUS_MULTI` - Subtract ranges or multiranges without failing on a gap
 - `STATEMENT_TIMESTAMP` - Timestamp of current SQL statement
 - `TRANSACTION_TIMESTAMP` - Timestamp of current transaction
 
@@ -127,6 +133,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 
 **Utility Functions:** ([full list](UTILITY-FUNCTIONS.md))
 - `CAST` - General type conversion
+- `PG_INPUT_IS_VALID` - Test whether a string would convert to a type, without failing the query
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
 - `TO_HEX`/`TO_BIN`/`TO_OCT` - Write an integer in hexadecimal, binary or octal
@@ -186,7 +193,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `ROW_NUMBER`/`RANK`/`DENSE_RANK` - Number or rank rows within their partition
 - `PERCENT_RANK`/`CUME_DIST` - Relative rank and cumulative distribution within the partition
 - `NTILE` - Split the partition into a number of buckets
-- `LAG`/`LEAD` - Value from a row before or after the current one
+- `LAG`/`LEAD` - Value from a row before or after the current one, optionally skipping NULLs with `IGNORE NULLS`
 - `FIRST_VALUE`/`LAST_VALUE`/`NTH_VALUE` - Value from the first, last or n-th row of the window frame
 
 ## Related pages
