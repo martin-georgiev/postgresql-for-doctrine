@@ -687,6 +687,7 @@ $configuration->addCustomStringFunction('XMLCOMMENT', MartinGeorgiev\Doctrine\OR
 $configuration->addCustomStringFunction('XMLCONCAT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlConcat::class);
 $configuration->addCustomStringFunction('XMLEXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlExists::class);
 $configuration->addCustomStringFunction('XMLPI', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlPi::class);
+$configuration->addCustomStringFunction('XMLSERIALIZE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlSerialize::class);
 $configuration->addCustomStringFunction('XMLTEXT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XmlText::class);
 $configuration->addCustomStringFunction('XPATH', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Xpath::class);
 $configuration->addCustomStringFunction('XPATH_EXISTS', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\XpathExists::class);
@@ -712,9 +713,12 @@ $configuration->addCustomStringFunction('UUIDV7', MartinGeorgiev\Doctrine\ORM\Qu
 # type conversion and formatting functions
 $configuration->addCustomStringFunction('CAST', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast::class);
 $configuration->addCustomStringFunction('PG_INPUT_IS_VALID', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid::class);
+$configuration->addCustomStringFunction('TO_BIN', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToBin::class);
 $configuration->addCustomStringFunction('TO_CHAR', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar::class);
 $configuration->addCustomStringFunction('TO_DATE', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate::class);
+$configuration->addCustomStringFunction('TO_HEX', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToHex::class);
 $configuration->addCustomStringFunction('TO_NUMBER', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber::class);
+$configuration->addCustomStringFunction('TO_OCT', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToOct::class);
 $configuration->addCustomStringFunction('TO_TIMESTAMP', MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp::class);
 
 # comparison functions

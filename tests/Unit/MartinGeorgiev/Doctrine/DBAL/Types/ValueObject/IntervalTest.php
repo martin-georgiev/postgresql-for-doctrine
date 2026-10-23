@@ -54,6 +54,8 @@ final class IntervalTest extends TestCase
             'postgres style: all negative' => ['-1 years -2 mons -3 days -04:05:06', '-1 year -2 mons -3 days -04:05:06'],
             'postgres style: large hours' => ['100:00:00', '100:00:00'],
             'postgres style: fractional seconds full precision' => ['00:00:01.123456', '00:00:01.123456'],
+            'postgres style: microseconds a double holds below their value' => ['00:00:00.000251', '00:00:00.000251'],
+            'postgres style: negative microseconds a double holds below their value' => ['-36 days -00:13:06.065271', '-36 days -00:13:06.065271'],
             'postgres style: days only' => ['30 days', '30 days'],
             'sql_standard: year-month' => ['1-2', '1 year 2 mons'],
             'sql_standard: year-month with days and time' => ['1-2 3 4:05:06', '1 year 2 mons 3 days 04:05:06'],

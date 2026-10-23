@@ -1,5 +1,24 @@
 # Changelog
 
+## [4.10.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.9.0...v4.10.0) (2026-10-23)
+
+
+### Features
+
+* Accept a minimum and a maximum in `RANDOM()` ([#857](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/857)) ([95a8339](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/95a8339fc581626ec7e22406adab724c2711328f))
+* Accept the descending and nulls-first flags in `ARRAY_SORT()` ([#863](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/863)) ([64bb7d0](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/64bb7d0f57f400fc80eda5f9a891a551498ff401))
+* Add support for `BIT_COUNT()` ([#869](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/869)) ([9c4d49d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9c4d49dd7430c0c31542d800efa658efb89d3a50))
+* Add support for `ERROR_ON_NULL()` ([#859](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/859)) ([3018bc2](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/3018bc2e383f6f290205e5877239f50cc14aa8dc))
+* Add support for `JSON()` ([#870](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/870)) ([23a2c1e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/23a2c1ee62c29a64ea28667f5628fd87a0b2164b))
+* Add support for `MAKE_INTERVAL()` ([#867](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/867)) ([59dff8d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/59dff8d26c631be3f9737c4d66d076be2db5a1f2))
+* Add support for `PG_INPUT_IS_VALID()` ([#864](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/864)) ([886204e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/886204ef847bcfc6b633b1aa2e284609b25c4962))
+* Add support for `RANGE_MINUS_MULTI()` and `MULTIRANGE_MINUS_MULTI()` ([#858](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/858)) ([6a3650b](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/6a3650b4ee467de4ab1a9dc26f6446b1e1cca31a))
+* Add support for `REGEXP_SPLIT_TO_ARRAY()` ([#866](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/866)) ([c11e588](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c11e588ed220cb83ee77199ed49adcf133a8f54a))
+* Add support for `TO_HEX()`, `TO_BIN()` and `TO_OCT()` ([#865](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/865)) ([85891ea](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/85891ea2a6541d29d332ec18e22a8de7f9c99132))
+* Add support for `TRIM_ARRAY()` ([#868](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/868)) ([798cf4e](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/798cf4eb958f810d8072e2d3b52defdd443494be))
+* Add support for `XMLSERIALIZE()` ([#871](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/871)) ([04cd522](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/04cd52259c58ca9ae7f9aabe7ae1c595ca60b8c1))
+* Support `IGNORE NULLS` and `RESPECT NULLS` after the window value functions ([#856](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/856)) ([5daa2d8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5daa2d85971312fc693de75daeee5ebd517c31e1))
+
 ## [4.9.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.8.1...v4.9.0) (2026-09-28)
 
 
