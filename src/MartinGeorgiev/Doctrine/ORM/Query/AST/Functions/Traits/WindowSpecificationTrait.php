@@ -19,6 +19,8 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  * DQL has no PARTITION keyword, so it arrives as an identifier and only counts as one when BY follows it. Likewise, the
  * frame modes ROWS, RANGE and GROUPS arrive as identifiers and only count as one when BETWEEN or a frame bound follows.
  *
+ * @internal
+ *
  * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

@@ -11,6 +11,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidTimezoneExc
 /**
  * Provides timezone validation functionality for functions that use valid PHP timezones.
  *
+ * @internal
+ *
  * @since 3.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

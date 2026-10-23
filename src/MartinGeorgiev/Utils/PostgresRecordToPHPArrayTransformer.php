@@ -9,6 +9,8 @@ use MartinGeorgiev\Utils\Exception\InvalidRecordFormatException;
 /**
  * Handles transformation from a PostgreSQL record literal to its raw field strings.
  *
+ * @internal
+ *
  * @since 4.8
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

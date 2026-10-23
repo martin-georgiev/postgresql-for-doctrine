@@ -14,6 +14,8 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\GeometryType;
  * Generates `TYPE(subtype,srid)` from the `geometry_type` and `srid` column options, otherwise bare `TYPE`.
  * An array type carries the modifier on its item type, so `TYPE[]` becomes `TYPE(subtype,srid)[]`.
  *
+ * @internal
+ *
  * @since 4.8
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

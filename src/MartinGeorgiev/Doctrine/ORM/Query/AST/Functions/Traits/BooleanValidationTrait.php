@@ -11,6 +11,8 @@ use MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Exception\InvalidBooleanExce
 /**
  * Provides boolean validation functionality for functions that accept boolean parameters.
  *
+ * @internal
+ *
  * @since 3.1
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>

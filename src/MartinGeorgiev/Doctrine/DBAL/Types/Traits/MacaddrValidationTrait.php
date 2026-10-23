@@ -7,6 +7,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
 /**
  * Common validation logic for 6-byte MAC addresses.
  *
+ * @internal
+ *
  * @since 3.0
  */
 trait MacaddrValidationTrait

@@ -8,6 +8,8 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\Traits;
  * PostgreSQL writes a date before year 1 in the BC era, with a suffix, and a year past 9999 with as many digits as it needs.
  * PHP counts the first in astronomical years, with a year zero, and needs a sign to read the second.
  *
+ * @internal
+ *
  * @since 4.9
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
