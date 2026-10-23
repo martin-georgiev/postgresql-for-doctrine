@@ -136,6 +136,7 @@ Distance functions for fixed-dimension float vectors stored with the `vector` ty
 - `PG_INPUT_IS_VALID` - Test whether a string would convert to a type, without failing the query
 - `TO_CHAR` - Convert numbers and dates to formatted strings
 - `TO_NUMBER` - Parse formatted text as numbers
+- `TO_HEX`/`TO_BIN`/`TO_OCT` - Write an integer in hexadecimal, binary or octal
 - `ERROR_ON_NULL` - Return a value, or fail the query when it is NULL
 - `GEN_RANDOM_UUID` - Generate a random UUID (version 4)
 - `UUIDV4` - Explicit UUID version 4 generation

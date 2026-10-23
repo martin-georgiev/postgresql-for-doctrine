@@ -940,9 +940,12 @@ doctrine:
                         # type conversion and formatting functions
                         CAST: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Cast
                         PG_INPUT_IS_VALID: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\PgInputIsValid
+                        TO_BIN: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToBin
                         TO_CHAR: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToChar
                         TO_DATE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToDate
+                        TO_HEX: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToHex
                         TO_NUMBER: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToNumber
+                        TO_OCT: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToOct
                         TO_TIMESTAMP: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\ToTimestamp
 
                         # comparison functions
