@@ -89,29 +89,24 @@ abstract class BaseIntegerArray extends BaseArray
             return null;
         }
 
-        if (\is_string($item)) {
-            $integerValue = (int) $item;
-            $isACanonicalIntegerInRange = (string) $integerValue === $item && $integerValue >= $this->getMinValue() && $integerValue <= $this->getMaxValue();
-            if ($isACanonicalIntegerInRange) {
-                return $integerValue;
-            }
-        }
-
         $isNotANumberCandidate = !\is_int($item) && !\is_string($item);
         if ($isNotANumberCandidate) {
             throw InvalidIntegerArrayItemForPHPException::forValueThatIsNotAValidPHPInteger($item, static::TYPE_NAME);
         }
 
         $stringValue = (string) $item;
-        if (!\preg_match(self::INTEGER_REGEX, $stringValue)) {
-            throw InvalidIntegerArrayItemForPHPException::forValueThatIsNotAValidPHPInteger($item, static::TYPE_NAME);
-        }
-
-        if (!$this->fitsInPHPInteger($stringValue)) {
-            throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInPHP($item, static::TYPE_NAME);
-        }
-
         $integerValue = (int) $item;
+        $isACanonicalInteger = (string) $integerValue === $stringValue;
+        if (!$isACanonicalInteger) {
+            if (!\preg_match(self::INTEGER_REGEX, $stringValue)) {
+                throw InvalidIntegerArrayItemForPHPException::forValueThatIsNotAValidPHPInteger($item, static::TYPE_NAME);
+            }
+
+            if (!$this->fitsInPHPInteger($stringValue)) {
+                throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInPHP($item, static::TYPE_NAME);
+            }
+        }
+
         $doesNotFitIntoDatabaseInteger = $integerValue < $this->getMinValue() || $integerValue > $this->getMaxValue();
         if ($doesNotFitIntoDatabaseInteger) {
             throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInDatabaseType($item, static::TYPE_NAME);
