@@ -1,5 +1,32 @@
 # Changelog
 
+## [4.10.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.10.0...v4.10.1) (2026-10-24)
+
+
+### Bug Fixes
+
+* Keep `Infinity` and `NaN` in composite float fields ([#875](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/875)) ([ed4409f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/ed4409f0389a6487d8c9263b3929466152940950))
+* Keep every digit of a `NUMRANGE` bound ([#873](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/873)) ([a529e77](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a529e7771e6400136f85eba22ea4a974be302f95))
+* Keep every microsecond when reading an `INTERVAL` ([#872](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/872)) ([440f9ec](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/440f9ec5c1193a99c3153f7d3cd87c723bc41969))
+* Order `TSRANGE` bounds by the wall clock they are written with ([#879](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/879)) ([83e733d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/83e733d4ad179988ff6a703739438c78abe315ed))
+* Read a `PATH` or `POLYGON` with thousands of points ([#881](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/881)) ([cd1d950](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/cd1d9505c4e810aff4170a82643724f89f847772))
+* Read an `HSTORE` value longer than 8 KB ([#880](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/880)) ([c74370f](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c74370f3e2f85b967528ef0256522daec7098a79))
+* Read an empty `BYTEA`, `BIT VARYING`, `XML` or enum value as itself, not as null ([#874](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/874)) ([bf0d8ae](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/bf0d8ae0ccfa13bf1f95bd22cdf18bd3fc69c5d0))
+* Read any `XML` value and accept fragments on write ([#884](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/884)) ([c24039d](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c24039d7a9769154d95542c820ad6df6ede2b96d))
+
+
+### Performance Improvements
+
+* Read array literals a run of characters at a time ([#883](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/883)) ([b946280](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/b9462801ba22d71bb21e7ca7c73771e597ef75bd))
+* Read escape-heavy array items without stepping through each backslash ([#885](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/885)) ([88897e9](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/88897e9c75ee186bb2f0dd973451828cbf6fff9d))
+* Reject a long invalid `REAL[]` or `DOUBLE PRECISION[]` item in linear time ([#877](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/877)) ([9e33813](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/9e3381323eb86757e35bd50a619172a83bcb309a))
+* Turn away a non-IPv4 value before stripping leading zeros ([#882](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/882)) ([095d8b9](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/095d8b92329de62a79f6b5e8a89ea1d3ebb5e485))
+
+
+### Code Refactoring
+
+* Mark the classes users never reach directly as `[@internal](https://github.com/internal)` ([#878](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/878)) ([a23badb](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/a23badb38741acaf18cd3c92220fb41323995049))
+
 ## [4.10.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.9.0...v4.10.0) (2026-10-23)
 
 
