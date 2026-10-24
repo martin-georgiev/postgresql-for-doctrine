@@ -116,7 +116,7 @@
 | money | money | `MartinGeorgiev\Doctrine\DBAL\Types\Money` (see [note](#money-type)) |
 | money[] | _money | `MartinGeorgiev\Doctrine\DBAL\Types\MoneyArray` |
 |---|---|---|
-| xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` |
+| xml | xml | `MartinGeorgiev\Doctrine\DBAL\Types\Xml` (see [note](#xml-type)) |
 | xml[] | _xml | `MartinGeorgiev\Doctrine\DBAL\Types\XmlArray` |
 |---|---|---|
 | halfvec | halfvec | `MartinGeorgiev\Doctrine\DBAL\Types\Halfvec` (see [note](#pgvector-types)) |
@@ -308,6 +308,22 @@ $money = Money::of(preg_replace('/[^0-9.\-]/', '', $entity->getPrice()), 'USD');
 ```
 
 Note that both examples above assume USD - you must know the currency independently since PostgreSQL does not store it.
+
+---
+
+## XML type
+
+The `xml` and `xml[]` types follow PostgreSQL, which by default ([`xmloption`](https://www.postgresql.org/docs/18/runtime-config-client.html#GUC-XMLOPTION) set to `content`) accepts more than a single XML document: a fragment such as `<a/><b/>`, plain text, or an empty string. Any value PostgreSQL returns is read as it is.
+
+Before writing, PHP checks that it can parse the value as a document or as a fragment. A few values PostgreSQL accepts fail that check, such as an XML declaration followed by more than one element, or a namespace prefix that is not declared in the value. If PHP rejects a value, wrap it in one root element and declare the namespace there:
+
+```php
+'<?xml version="1.0"?><a/><b/>'               // rejected on write
+'<?xml version="1.0"?><root><a/><b/></root>'  // accepted
+
+'<p:a/>'                                      // rejected on write
+'<root xmlns:p="urn:example"><p:a/></root>'   // accepted
+```
 
 ---
 
