@@ -39,17 +39,6 @@ class XmlArray extends BaseStringArray
         return $this->isValidXml($item);
     }
 
-    public function transformArrayItemForPHP(mixed $item): ?string
-    {
-        $result = parent::transformArrayItemForPHP($item);
-
-        if ($result !== null && !$this->isValidXml($result)) {
-            throw InvalidXmlArrayItemForPHPException::forInvalidFormat($item);
-        }
-
-        return $result;
-    }
-
     protected function throwInvalidTypeExceptionForPHP(mixed $item): never
     {
         throw InvalidXmlArrayItemForPHPException::forInvalidType($item);

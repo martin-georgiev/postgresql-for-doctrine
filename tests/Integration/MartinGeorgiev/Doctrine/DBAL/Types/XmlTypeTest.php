@@ -38,6 +38,8 @@ final class XmlTypeTest extends ScalarTypeTestCase
             'element with CDATA section' => ['<root><![CDATA[some <raw> text]]></root>'],
             'declaration with standalone' => ['<?xml version="1.0" standalone="yes"?><root/>'],
             'empty content' => [''],
+            'multiple root elements' => ['<a/><b/>'],
+            'plain text' => ['plain text'],
         ];
     }
 
@@ -105,7 +107,7 @@ final class XmlTypeTest extends ScalarTypeTestCase
             'unclosed nested element' => ['<root><child></root>'],
             'unquoted attribute value' => ['<root attr=unquoted/>'],
             'empty tag name' => ['<>'],
-            'not markup at all' => ['not xml at all'],
+            'doctype document with two root elements' => ['<!DOCTYPE root><root/><root/>'],
         ];
     }
 }

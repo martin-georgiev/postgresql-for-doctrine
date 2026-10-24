@@ -15,6 +15,11 @@ trait XmlValidationTrait
 {
     protected function isValidXml(string $value): bool
     {
+        return $this->isWellFormedXmlDocument($value) || $this->isWellFormedXmlDocument('<root>'.$value.'</root>');
+    }
+
+    private function isWellFormedXmlDocument(string $value): bool
+    {
         if ($value === '') {
             return false;
         }
