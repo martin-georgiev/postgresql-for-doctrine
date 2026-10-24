@@ -95,15 +95,18 @@ abstract class BaseIntegerArray extends BaseArray
         }
 
         $stringValue = (string) $item;
-        if (!\preg_match(self::INTEGER_REGEX, $stringValue)) {
-            throw InvalidIntegerArrayItemForPHPException::forValueThatIsNotAValidPHPInteger($item, static::TYPE_NAME);
-        }
-
-        if (!$this->fitsInPHPInteger($stringValue)) {
-            throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInPHP($item, static::TYPE_NAME);
-        }
-
         $integerValue = (int) $item;
+        $isACanonicalInteger = (string) $integerValue === $stringValue;
+        if (!$isACanonicalInteger) {
+            if (!\preg_match(self::INTEGER_REGEX, $stringValue)) {
+                throw InvalidIntegerArrayItemForPHPException::forValueThatIsNotAValidPHPInteger($item, static::TYPE_NAME);
+            }
+
+            if (!$this->fitsInPHPInteger($stringValue)) {
+                throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInPHP($item, static::TYPE_NAME);
+            }
+        }
+
         $doesNotFitIntoDatabaseInteger = $integerValue < $this->getMinValue() || $integerValue > $this->getMaxValue();
         if ($doesNotFitIntoDatabaseInteger) {
             throw InvalidIntegerArrayItemForPHPException::forValueOutOfRangeInDatabaseType($item, static::TYPE_NAME);

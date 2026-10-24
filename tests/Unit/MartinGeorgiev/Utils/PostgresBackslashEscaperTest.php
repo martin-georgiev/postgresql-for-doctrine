@@ -19,6 +19,7 @@ final class PostgresBackslashEscaperTest extends TestCase
     }
 
     #[DataProvider('provideValuesNeedingEscaping')]
+    #[DataProvider('provideValuesOnlyUnescaped')]
     #[Test]
     public function converts_from_escaped_value(string $phpValue, string $escapedValue): void
     {
@@ -41,15 +42,15 @@ final class PostgresBackslashEscaperTest extends TestCase
         ];
     }
 
-    #[Test]
-    public function converts_a_lone_backslash_as_an_escape(): void
+    /**
+     * @return array<string, array{phpValue: string, escapedValue: string}>
+     */
+    public static function provideValuesOnlyUnescaped(): array
     {
-        $this->assertSame('ab', PostgresBackslashEscaper::unescape('a\\b'));
-    }
-
-    #[Test]
-    public function preserves_a_trailing_backslash(): void
-    {
-        $this->assertSame('a\\', PostgresBackslashEscaper::unescape('a\\'));
+        return [
+            'a backslash before an ordinary character' => ['phpValue' => 'ab', 'escapedValue' => 'a\\b'],
+            'an escaped zero' => ['phpValue' => 'a0b', 'escapedValue' => 'a\\0b'],
+            'a trailing backslash' => ['phpValue' => 'a\\', 'escapedValue' => 'a\\'],
+        ];
     }
 }

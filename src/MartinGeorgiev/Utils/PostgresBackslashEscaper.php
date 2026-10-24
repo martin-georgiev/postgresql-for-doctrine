@@ -28,6 +28,12 @@ class PostgresBackslashEscaper
             return $value;
         }
 
+        // stripslashes() differs only in reading \0 as a NUL byte and dropping a final backslash
+        $stripslashesReadsItTheSame = !\str_ends_with($value, '\\') && !\str_contains($value, '\\0');
+        if ($stripslashesReadsItTheSame) {
+            return \stripslashes($value);
+        }
+
         $result = '';
         $length = \strlen($value);
         $position = 0;

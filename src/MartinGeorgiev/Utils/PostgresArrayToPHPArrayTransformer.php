@@ -64,33 +64,21 @@ class PostgresArrayToPHPArrayTransformer
         // Check for malformed nesting - this is a more specific check than the one above
         // But we need to exclude cases where curly braces are part of quoted strings
         $content = \trim($trimmed, self::POSTGRESQL_EMPTY_ARRAY);
-        $inQuotes = false;
         $length = \strlen($content);
         $position = 0;
 
         while ($position < $length) {
-            $position += \strcspn($content, $inQuotes ? '"\\' : '"{}', $position);
+            $position += \strcspn($content, '"{}', $position);
             if ($position >= $length) {
                 break;
             }
 
-            $char = $content[$position];
-            if ($char === '\\') {
-                $position += 2;
-
-                continue;
-            }
-
-            if ($char !== '"') {
+            if ($content[$position] !== '"') {
                 throw InvalidArrayFormatException::invalidFormat('Malformed array nesting detected');
             }
 
-            $inQuotes = !$inQuotes;
-            $position++;
-        }
-
-        if ($inQuotes) {
-            throw InvalidArrayFormatException::invalidFormat('Unclosed quotes in array');
+            $position = self::findEndOfQuotedValue($content, $position)
+                ?? throw InvalidArrayFormatException::invalidFormat('Unclosed quotes in array');
         }
 
         if ($preserveStringTypes) {
@@ -143,7 +131,6 @@ class PostgresArrayToPHPArrayTransformer
         }
 
         $result = [];
-        $inQuotes = false;
         $currentValue = '';
         $length = \strlen($content);
         $position = 0;
@@ -153,26 +140,18 @@ class PostgresArrayToPHPArrayTransformer
         // Copying each run of ordinary characters in one step, instead of one character at a time,
         // is what keeps reading a large array cheap
         while ($position < $length) {
-            $runLength = \strcspn($content, $inQuotes ? '"\\' : $unquotedStops, $position);
+            $runLength = \strcspn($content, $unquotedStops, $position);
             $currentValue .= \substr($content, $position, $runLength);
             $position += $runLength;
             if ($position >= $length) {
                 break;
             }
 
-            $char = $content[$position];
-            if ($inQuotes && $char === '\\') {
-                $currentValue .= \substr($content, $position, 2);
-                $position += 2;
-
-                continue;
-            }
-
-            if ($char === '"') {
-                $inQuotes = !$inQuotes;
+            if ($content[$position] === '"') {
+                $endOfQuotedValue = self::findEndOfQuotedValue($content, $position) ?? $length;
                 // For quoted values, we include the quotes for later processing
-                $currentValue .= $char;
-                $position++;
+                $currentValue .= \substr($content, $position, $endOfQuotedValue - $position);
+                $position = $endOfQuotedValue;
 
                 continue;
             }
@@ -197,6 +176,29 @@ class PostgresArrayToPHPArrayTransformer
         }
 
         return $result;
+    }
+
+    /**
+     * A quote after an odd run of backslashes is escaped, so the scan can jump from quote to quote.
+     *
+     * @return int|null just past the closing quote, or null when there is none
+     */
+    private static function findEndOfQuotedValue(string $content, int $openingQuotePosition): ?int
+    {
+        $quotePosition = $openingQuotePosition;
+        while (($quotePosition = \strpos($content, '"', $quotePosition + 1)) !== false) {
+            $lastNonBackslashPosition = $quotePosition - 1;
+            while ($lastNonBackslashPosition > $openingQuotePosition && $content[$lastNonBackslashPosition] === '\\') {
+                $lastNonBackslashPosition--;
+            }
+
+            $isEscaped = ($quotePosition - 1 - $lastNonBackslashPosition) % 2 === 1;
+            if (!$isEscaped) {
+                return $quotePosition + 1;
+            }
+        }
+
+        return null;
     }
 
     /**
