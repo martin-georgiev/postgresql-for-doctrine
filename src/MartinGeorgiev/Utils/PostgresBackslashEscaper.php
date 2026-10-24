@@ -24,14 +24,25 @@ class PostgresBackslashEscaper
      */
     public static function unescape(string $value): string
     {
+        if (!\str_contains($value, '\\')) {
+            return $value;
+        }
+
         $result = '';
         $length = \strlen($value);
         $position = 0;
 
         while ($position < $length) {
-            $escapesTheNextCharacter = $value[$position] === '\\' && $position + 1 < $length;
-            $result .= $escapesTheNextCharacter ? $value[$position + 1] : $value[$position];
-            $position += $escapesTheNextCharacter ? 2 : 1;
+            $runLength = \strcspn($value, '\\', $position);
+            $result .= \substr($value, $position, $runLength);
+            $position += $runLength;
+            if ($position >= $length) {
+                break;
+            }
+
+            $escapesTheNextCharacter = $position + 1 < $length;
+            $result .= $escapesTheNextCharacter ? $value[$position + 1] : '\\';
+            $position += 2;
         }
 
         return $result;
