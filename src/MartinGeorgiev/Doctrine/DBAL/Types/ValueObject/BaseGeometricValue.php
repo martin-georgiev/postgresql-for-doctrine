@@ -24,16 +24,21 @@ abstract readonly class BaseGeometricValue implements \Stringable
      * Reads one point per match. A single pattern repeating over every point runs out of PCRE's JIT stack before 2,000
      * points, and out of its backtrack limit after some tens of thousands even when possessive.
      *
-     * Whitespace is skipped only inside brackets, so an unbracketed list must start and end with its points.
+     * Whitespace is skipped only inside brackets, so an unbracketed list must start and end with its points. A caller
+     * with a fixed number of points passes it as $maxPoints, so a longer value is rejected without reading the rest.
      *
      * @return list<Point>|null null when $value is not a comma-separated list of points between the two brackets
      */
-    protected static function parsePointList(string $value, string $openingBracket = '', string $closingBracket = ''): ?array
+    protected static function parsePointList(string $value, string $openingBracket = '', string $closingBracket = '', ?int $maxPoints = null): ?array
     {
         $points = [];
         $offset = 0;
         $leadingPattern = $openingBracket === '' ? '' : \preg_quote($openingBracket, '/').'\s*';
         while (\preg_match('/'.$leadingPattern.self::POINT_PATTERN.'/A', $value, $match, 0, $offset) === 1) {
+            if ($maxPoints !== null && \count($points) === $maxPoints) {
+                return null;
+            }
+
             $points[] = new Point(PostgresFloat::parse($match[1]), PostgresFloat::parse($match[2]));
             $offset += \strlen($match[0]);
             $leadingPattern = '\s*,\s*';

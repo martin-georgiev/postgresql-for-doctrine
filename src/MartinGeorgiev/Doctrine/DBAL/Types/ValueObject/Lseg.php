@@ -47,7 +47,7 @@ final readonly class Lseg extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        $points = \str_starts_with($value, '[') ? self::parsePointList($value, '[', ']') : self::parsePointList($value);
+        $points = \str_starts_with($value, '[') ? self::parsePointList($value, '[', ']', 2) : self::parsePointList($value, maxPoints: 2);
         if ($points === null || \count($points) !== 2) {
             throw InvalidLsegException::forInvalidFormat($value, '[(x1,y1),(x2,y2)]');
         }
