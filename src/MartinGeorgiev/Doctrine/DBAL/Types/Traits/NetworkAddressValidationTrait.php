@@ -44,6 +44,13 @@ trait NetworkAddressValidationTrait
 
     private function isValidIpv4(string $value): bool
     {
+        // The pattern below tries every split of a run of zeros that ends in a letter. Stripping zeros removes only
+        // digits, so a value holding anything else fails filter_var() anyway and can be turned away first.
+        $holdsOnlyDigitsAndDots = \strspn($value, '0123456789.') === \strlen($value);
+        if (!$holdsOnlyDigitsAndDots) {
+            return false;
+        }
+
         // First remove any leading zeros from octets
         // IPv4 addresses with leading zeros (like '192.168.001.001') are valid according to PostgreSQL's INET type specification
         $normalized = \preg_replace('/\b0+(\d+)\b/', '$1', $value);
