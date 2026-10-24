@@ -21,16 +21,6 @@ use MartinGeorgiev\Utils\PostgresFloat;
  */
 final readonly class Path extends BaseGeometricValue
 {
-    /**
-     * @var string
-     */
-    private const OPEN_PATH_REGEX = '/^\[\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\]$/';
-
-    /**
-     * @var string
-     */
-    private const CLOSED_PATH_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\)$/';
-
     /** @var list<Point> */
     private array $points;
 
@@ -73,11 +63,11 @@ final readonly class Path extends BaseGeometricValue
     {
         $isOpen = \str_starts_with($value, '[');
 
-        $regex = $isOpen ? self::OPEN_PATH_REGEX : self::CLOSED_PATH_REGEX;
-        if (!\preg_match($regex, $value)) {
-            throw InvalidPathException::forInvalidFormat($value, $regex);
+        $points = $isOpen ? self::parsePointList($value, '[', ']') : self::parsePointList($value, '(', ')');
+        if ($points === null) {
+            throw InvalidPathException::forInvalidFormat($value, $isOpen ? '[(x1,y1),(x2,y2),...]' : '((x1,y1),(x2,y2),...)');
         }
 
-        return new self($isOpen, ...self::extractPoints($value));
+        return new self($isOpen, ...$points);
     }
 }

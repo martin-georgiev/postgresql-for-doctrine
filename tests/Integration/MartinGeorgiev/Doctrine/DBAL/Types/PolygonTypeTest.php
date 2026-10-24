@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPolygonForDatabaseException;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Polygon as PolygonValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -46,6 +47,7 @@ final class PolygonTypeTest extends TestCase
             'polygon with floats' => [PolygonValueObject::fromString('((1.5,2.5),(3.5,4.5),(5.5,6.5))')],
             'polygon with negative coordinates' => [PolygonValueObject::fromString('((-1,-2),(-3,-4),(-5,-6))')],
             'polygon with infinite coordinates' => [PolygonValueObject::fromString('((Infinity,2),(-Infinity,-2),(5,6))')],
+            'polygon with 100,000 vertices' => [new PolygonValueObject(...\array_map(static fn (int $index): Point => new Point($index, -$index), \range(1, 100_000)))],
         ];
     }
 

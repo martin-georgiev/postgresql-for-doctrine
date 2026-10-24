@@ -19,11 +19,6 @@ use MartinGeorgiev\Utils\PostgresFloat;
  */
 final readonly class Polygon extends BaseGeometricValue
 {
-    /**
-     * @var string
-     */
-    private const POLYGON_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.'){1,}\s*\)$/';
-
     /** @var list<Point> */
     private array $vertices;
 
@@ -61,10 +56,11 @@ final readonly class Polygon extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::POLYGON_REGEX, $value)) {
-            throw InvalidPolygonException::forInvalidFormat($value, self::POLYGON_REGEX);
+        $vertices = self::parsePointList($value, '(', ')');
+        if ($vertices === null || \count($vertices) < 2) {
+            throw InvalidPolygonException::forInvalidFormat($value, '((x1,y1),(x2,y2),...)');
         }
 
-        return new self(...self::extractPoints($value));
+        return new self(...$vertices);
     }
 }

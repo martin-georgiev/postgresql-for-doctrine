@@ -36,6 +36,18 @@ final class PolygonTest extends TestCase
         yield 'polygon with short non-finite spellings' => ['((nan,2),(inf,-inf),(5,6))', '((NaN,2),(Infinity,-Infinity),(5,6))'];
     }
 
+    /**
+     * A single pattern repeating over every vertex gave up before 2,000 vertices with PCRE's JIT on.
+     */
+    #[Test]
+    public function parses_from_string_with_many_vertices(): void
+    {
+        $vertices = \array_map(static fn (int $index): string => \sprintf('(%d,%d)', $index, -$index), \range(1, 100_000));
+        $value = '('.\implode(',', $vertices).')';
+
+        $this->assertSame($value, (string) Polygon::fromString($value));
+    }
+
     #[DataProvider('provideInvalidPolygonStrings')]
     #[Test]
     public function throws_exception_for_invalid_format(string $value): void
