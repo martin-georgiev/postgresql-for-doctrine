@@ -369,6 +369,10 @@ final class PostgresArrayToPHPArrayTransformerTest extends TestCase
                 'expectedValue' => ['', 'text', ''],
                 'postgresValue' => '{"",text,""}',
             ],
+            'a value made of a million escapes' => [
+                'expectedValue' => [\str_repeat('\\"', 500_000), 'text'],
+                'postgresValue' => '{"'.\str_repeat('\\\\\\"', 500_000).'",text}',
+            ],
         ];
     }
 

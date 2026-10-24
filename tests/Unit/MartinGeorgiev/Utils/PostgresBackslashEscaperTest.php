@@ -48,6 +48,12 @@ final class PostgresBackslashEscaperTest extends TestCase
     }
 
     #[Test]
+    public function converts_an_escaped_zero_as_a_zero(): void
+    {
+        $this->assertSame('a0b', PostgresBackslashEscaper::unescape('a\\0b'));
+    }
+
+    #[Test]
     public function preserves_a_trailing_backslash(): void
     {
         $this->assertSame('a\\', PostgresBackslashEscaper::unescape('a\\'));
