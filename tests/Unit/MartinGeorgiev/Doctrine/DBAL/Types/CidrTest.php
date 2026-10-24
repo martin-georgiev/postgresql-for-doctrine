@@ -133,6 +133,27 @@ final class CidrTest extends TestCase
         ];
     }
 
+    /**
+     * The leading-zero pattern tries every split of such a run until PCRE's backtrack limit stops it, which costs
+     * milliseconds per value and leaves that error behind. A value that is not digits and dots never needs the pattern.
+     */
+    #[Test]
+    public function throws_exception_for_a_long_run_of_zeros_without_exhausting_pcre(): void
+    {
+        // preg_last_error() reports the last PCRE call anywhere in the process, so start from a clean one
+        \preg_match('/^/', '');
+        $thrown = null;
+
+        try {
+            $this->fixture->convertToDatabaseValue(\str_repeat('0', 10_000).'x/24', $this->platform);
+        } catch (InvalidCidrForDatabaseException $invalidCidrForDatabaseException) {
+            $thrown = $invalidCidrForDatabaseException;
+        }
+
+        $this->assertInstanceOf(InvalidCidrForDatabaseException::class, $thrown);
+        $this->assertSame(\PREG_NO_ERROR, \preg_last_error());
+    }
+
     #[DataProvider('provideInvalidPHPValueInputs')]
     #[Test]
     public function throws_exception_for_invalid_php_value_inputs(mixed $dbValue): void

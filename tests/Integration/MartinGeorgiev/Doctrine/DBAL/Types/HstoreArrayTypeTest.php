@@ -35,6 +35,7 @@ final class HstoreArrayTypeTest extends ArrayTypeTestCase
             'array with empty hstore' => [[[]]],
             'hstore with multiple pairs' => [[['a' => 'b', 'c' => 'd', 'e' => 'f']]],
             'hstore with special characters' => [[['key' => 'value with "quotes" and backslash\\']]],
+            'hstore with a value longer than 8 KB' => [[['key' => \str_repeat('v', 100_000)]]],
         ];
     }
 

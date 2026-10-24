@@ -97,6 +97,10 @@ final class HstoreArrayTest extends TestCase
                 'phpValue' => [['a' => 'b'], ['c' => 'd']],
                 'postgresValue' => '{"\"a\"=>\"b\"","\"c\"=>\"d\""}',
             ],
+            'hstore with a value longer than 8 KB' => [
+                'phpValue' => [['k' => \str_repeat('v', 100_000)]],
+                'postgresValue' => '{"\"k\"=>\"'.\str_repeat('v', 100_000).'\""}',
+            ],
         ];
     }
 

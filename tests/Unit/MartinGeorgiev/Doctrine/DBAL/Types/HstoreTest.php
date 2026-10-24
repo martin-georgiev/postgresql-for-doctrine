@@ -173,6 +173,18 @@ final class HstoreTest extends TestCase
                 '"a"=>"1",',
                 ['a' => '1'],
             ],
+            'a key longer than 8 KB' => [
+                '"'.\str_repeat('k', 100_000).'"=>"v"',
+                [\str_repeat('k', 100_000) => 'v'],
+            ],
+            'a value longer than 8 KB' => [
+                '"k"=>"'.\str_repeat('v', 100_000).'"',
+                ['k' => \str_repeat('v', 100_000)],
+            ],
+            'a value of escaped quotes longer than 8 KB' => [
+                '"k"=>"'.\str_repeat('\\"', 50_000).'"',
+                ['k' => \str_repeat('"', 50_000)],
+            ],
         ];
     }
 
