@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PointListParserTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPolygonException;
 use MartinGeorgiev\Utils\PostgresFloat;
 
@@ -17,8 +18,10 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Polygon extends BasePointListValue
+final readonly class Polygon implements \Stringable
 {
+    use PointListParserTrait;
+
     /** @var list<Point> */
     private array $vertices;
 

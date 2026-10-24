@@ -15,12 +15,19 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Sébastien Jean <sebastien.jean76@gmail.com>
  */
-final readonly class Point extends BaseGeometricValue
+final readonly class Point implements \Stringable
 {
+    /**
+     * Captures x and y.
+     *
+     * @var string
+     */
+    public const PATTERN = '\(\s*('.PostgresFloat::PATTERN.')\s*,\s*('.PostgresFloat::PATTERN.')\s*\)';
+
     /**
      * @var string
      */
-    private const POINT_REGEX = '/^\(\s*('.PostgresFloat::PATTERN.')\s*,\s*('.PostgresFloat::PATTERN.')\s*\)$/';
+    private const POINT_REGEX = '/^'.self::PATTERN.'$/';
 
     public function __construct(
         private float $x,

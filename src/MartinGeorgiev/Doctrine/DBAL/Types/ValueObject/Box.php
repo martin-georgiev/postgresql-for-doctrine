@@ -17,8 +17,13 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Box extends BasePointListValue
+final readonly class Box implements \Stringable
 {
+    /**
+     * @var string
+     */
+    private const BOX_REGEX = '/^'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'$/';
+
     public function __construct(
         private Point $upperRight,
         private Point $lowerLeft,
@@ -47,11 +52,13 @@ final readonly class Box extends BasePointListValue
 
     public static function fromString(string $value): self
     {
-        $points = self::parsePointList($value, exactPointCount: 2);
-        if ($points === null) {
-            throw InvalidBoxException::forInvalidFormat($value, '(x1,y1),(x2,y2)');
+        if (!\preg_match(self::BOX_REGEX, $value, $matches)) {
+            throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
         }
 
-        return new self($points[0], $points[1]);
+        return new self(
+            new Point(PostgresFloat::parse($matches[1]), PostgresFloat::parse($matches[2])),
+            new Point(PostgresFloat::parse($matches[3]), PostgresFloat::parse($matches[4]))
+        );
     }
 }

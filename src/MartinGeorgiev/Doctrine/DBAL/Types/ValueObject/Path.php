@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PointListParserTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPathException;
 use MartinGeorgiev\Utils\PostgresFloat;
 
@@ -19,8 +20,10 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Path extends BasePointListValue
+final readonly class Path implements \Stringable
 {
+    use PointListParserTrait;
+
     /** @var list<Point> */
     private array $points;
 
