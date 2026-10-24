@@ -19,7 +19,7 @@ final class PostgresBackslashEscaperTest extends TestCase
     }
 
     #[DataProvider('provideValuesNeedingEscaping')]
-    #[DataProvider('provideEscapedValuesEscapeNeverWrites')]
+    #[DataProvider('provideValuesOnlyUnescaped')]
     #[Test]
     public function converts_from_escaped_value(string $phpValue, string $escapedValue): void
     {
@@ -45,7 +45,7 @@ final class PostgresBackslashEscaperTest extends TestCase
     /**
      * @return array<string, array{phpValue: string, escapedValue: string}>
      */
-    public static function provideEscapedValuesEscapeNeverWrites(): array
+    public static function provideValuesOnlyUnescaped(): array
     {
         return [
             'a backslash before an ordinary character' => ['phpValue' => 'ab', 'escapedValue' => 'a\\b'],
