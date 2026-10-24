@@ -56,7 +56,7 @@ final class DateRange extends Range
 
 ```php
 // ✓ Correct — Box VO shape
-final readonly class Box extends BaseGeometricValue
+final readonly class Box implements \Stringable
 {
     public function __toString(): string
     {
@@ -68,11 +68,10 @@ final readonly class Box extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::BOX_REGEX, $value)) {
+        if (!\preg_match(self::BOX_REGEX, $value, $matches)) {
             throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
         }
-        $points = self::extractPoints($value);
-        return new self($points[0], $points[1]);
+        return new self(new Point(...), new Point(...));
     }
 }
 ```

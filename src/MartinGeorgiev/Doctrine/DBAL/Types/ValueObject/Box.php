@@ -17,12 +17,12 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Box extends BaseGeometricValue
+final readonly class Box implements \Stringable
 {
     /**
      * @var string
      */
-    private const BOX_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
+    private const BOX_REGEX = '/^'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'$/';
 
     public function __construct(
         private Point $upperRight,
@@ -52,12 +52,13 @@ final readonly class Box extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::BOX_REGEX, $value)) {
+        if (!\preg_match(self::BOX_REGEX, $value, $matches)) {
             throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
         }
 
-        $points = self::extractPoints($value);
-
-        return new self($points[0], $points[1]);
+        return new self(
+            new Point(PostgresFloat::parse($matches[1]), PostgresFloat::parse($matches[2])),
+            new Point(PostgresFloat::parse($matches[3]), PostgresFloat::parse($matches[4]))
+        );
     }
 }

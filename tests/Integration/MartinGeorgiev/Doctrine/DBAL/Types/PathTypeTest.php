@@ -6,6 +6,7 @@ namespace Tests\Integration\MartinGeorgiev\Doctrine\DBAL\Types;
 
 use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidPathForDatabaseException;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Path as PathValueObject;
+use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -46,6 +47,8 @@ final class PathTypeTest extends TestCase
             'path with floats' => [PathValueObject::fromString('[(1.5,2.5),(3.5,4.5)]')],
             'path with negative coordinates' => [PathValueObject::fromString('[(-1,-2),(-3,-4)]')],
             'path with infinite coordinates' => [PathValueObject::fromString('[(Infinity,2),(-Infinity,-2)]')],
+            'open path with 100,000 points' => [new PathValueObject(true, ...\array_map(static fn (int $index): Point => new Point($index, -$index), \range(1, 100_000)))],
+            'closed path with 100,000 points' => [new PathValueObject(false, ...\array_map(static fn (int $index): Point => new Point($index, -$index), \range(1, 100_000)))],
         ];
     }
 

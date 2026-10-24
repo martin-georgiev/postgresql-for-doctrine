@@ -17,7 +17,7 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Circle extends BaseGeometricValue
+final readonly class Circle implements \Stringable
 {
     /**
      * PostgreSQL accepts a NaN or Infinity radius but rejects every negative one, -Infinity included, so this pattern
