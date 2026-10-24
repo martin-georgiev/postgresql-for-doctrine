@@ -158,6 +158,20 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
                 ),
                 'expectedEmpty' => true,
             ],
+            'bounds in different time zones order by their wall clock' => [
+                'range' => new TsRange(
+                    new \DateTimeImmutable('2023-01-01 08:00:00+00:00'),
+                    new \DateTimeImmutable('2023-01-01 09:00:00+02:00')
+                ),
+                'expectedEmpty' => false,
+            ],
+            'wall clocks in reverse order are empty whatever their instants' => [
+                'range' => new TsRange(
+                    new \DateTimeImmutable('2023-01-01 10:00:00+02:00'),
+                    new \DateTimeImmutable('2023-01-01 09:00:00+00:00')
+                ),
+                'expectedEmpty' => true,
+            ],
             'equal bounds inclusive should not be empty' => [
                 'range' => new TsRange(
                     new \DateTimeImmutable('2023-01-01 10:00:00'),
@@ -197,6 +211,11 @@ final class TsRangeTest extends BaseTimestampRangeTestCase
         yield 'does not contain value before range' => [
             $tsRange,
             new \DateTimeImmutable('2023-01-01 09:00:00'),
+            false,
+        ];
+        yield 'compares the instant of a value in another time zone' => [
+            new TsRange(new \DateTimeImmutable('2023-01-01 10:00:00+00:00'), new \DateTimeImmutable('2023-01-01 18:00:00+00:00')),
+            new \DateTimeImmutable('2023-01-01 14:00:00+05:00'),
             false,
         ];
         yield 'does not contain null' => [$tsRange, null, false];
