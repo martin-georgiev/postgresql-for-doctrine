@@ -23,11 +23,6 @@ class InvalidXmlArrayItemForPHPException extends ConversionException
         return self::create('Array values must be strings, %s given', $value);
     }
 
-    public static function forInvalidFormat(mixed $value): self
-    {
-        return self::create('Invalid XML format in array: %s', $value);
-    }
-
     public static function forInvalidArrayType(mixed $value): self
     {
         return self::create('Value must be an array, %s given', $value);
