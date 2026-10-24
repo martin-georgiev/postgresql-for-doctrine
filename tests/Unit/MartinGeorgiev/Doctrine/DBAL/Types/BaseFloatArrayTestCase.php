@@ -93,6 +93,23 @@ abstract class BaseFloatArrayTestCase extends BaseNumericArrayTestCase
         ]);
     }
 
+    /**
+     * A pattern that backtracks through every split of the digits takes seconds to reject this item, and the item can
+     * come from an application's user.
+     */
+    #[Test]
+    public function validates_a_long_invalid_item_for_database_quickly(): void
+    {
+        $item = \str_repeat('1', 100_000).'x';
+
+        $startedAt = \hrtime(true);
+        $isValid = $this->fixture->isValidArrayItemForDatabase($item);
+        $elapsedSeconds = (\hrtime(true) - $startedAt) / 1e9;
+
+        $this->assertFalse($isValid);
+        $this->assertLessThan(0.5, $elapsedSeconds);
+    }
+
     #[DataProvider('provideValidItemTransformationsToPostgres')]
     #[Test]
     public function converts_item_for_postgres(float|int|string $phpValue, string $expectedPostgresValue): void
