@@ -93,10 +93,6 @@ final class XmlArrayTest extends TestCase
                 'phpValue' => ['plain text'],
                 'postgresValue' => '{"plain text"}',
             ],
-            'xml declaration with a fragment' => [
-                'phpValue' => ['<?xml version="1.0"?><a/><b/>'],
-                'postgresValue' => '{"<?xml version=\"1.0\"?><a/><b/>"}',
-            ],
             'empty content' => [
                 'phpValue' => [''],
                 'postgresValue' => '{""}',

@@ -81,10 +81,6 @@ final class XmlTypeTest extends ScalarTypeTestCase
                 'storedValue' => '<?xml version="1.0"?><root><a>1</a></root>',
                 'retrievedValue' => '<root><a>1</a></root>',
             ],
-            'declaration before a fragment' => [
-                'storedValue' => '<?xml version="1.0"?><a/><b/>',
-                'retrievedValue' => '<a/><b/>',
-            ],
         ];
     }
 

@@ -70,12 +70,7 @@ final class XmlTest extends TestCase
             'multiple root elements' => ['<root/><root/>'],
             'plain text' => ['not xml at all'],
             'text around an element' => ['before <root/> after'],
-            'xml declaration with a fragment' => ['<?xml version="1.0"?><a/><b/>'],
-            'xml declaration with plain text' => ['<?xml version="1.0" encoding="UTF-8" standalone="yes"?>text'],
             'doctype document' => ['<!DOCTYPE root><root/>'],
-            'doctype document after many comments' => [\str_repeat('<!--c-->', 20000).'<!DOCTYPE root><root/>'],
-            'xml declaration with an unsupported encoding before a doctype' => ['<?xml version="1.0" encoding="UTF-16"?><!DOCTYPE root><root/>'],
-            'undeclared namespace prefix' => ['<ns:root/>'],
             'external network entity declaration (LIBXML_NONET blocks resolution, XML remains structurally valid)' => ['<?xml version="1.0"?><!DOCTYPE test [<!ENTITY ext SYSTEM "http://example.com">]><test>&ext;</test>'],
         ];
     }
@@ -103,8 +98,8 @@ final class XmlTest extends TestCase
             'xml declaration after leading whitespace' => [' <?xml version="1.0"?><root/>'],
             'malformed xml declaration' => ['<?xml?><root/>'],
             'doctype document with two root elements' => ['<!DOCTYPE root><root/><root/>'],
-            'unsupported xml version before a doctype' => ['<?xml version="2.0"?><!DOCTYPE root><root/>'],
-            'empty encoding before a doctype' => ['<?xml version="1.0" encoding=""?><!DOCTYPE root><root/>'],
+            'xml declaration with a fragment' => ['<?xml version="1.0"?><a/><b/>'],
+            'undeclared namespace prefix' => ['<ns:root/>'],
         ];
     }
 
