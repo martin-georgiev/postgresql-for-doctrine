@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PointListParserTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPolygonException;
 use MartinGeorgiev\Utils\PostgresFloat;
 
@@ -17,12 +18,9 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Polygon extends BaseGeometricValue
+final readonly class Polygon implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private const POLYGON_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.'){1,}\s*\)$/';
+    use PointListParserTrait;
 
     /** @var list<Point> */
     private array $vertices;
@@ -61,10 +59,11 @@ final readonly class Polygon extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::POLYGON_REGEX, $value)) {
-            throw InvalidPolygonException::forInvalidFormat($value, self::POLYGON_REGEX);
+        $vertices = self::parsePointList($value, '(', ')');
+        if ($vertices === null || \count($vertices) < 2) {
+            throw InvalidPolygonException::forInvalidFormat($value, '((x1,y1),(x2,y2),...)');
         }
 
-        return new self(...self::extractPoints($value));
+        return new self(...$vertices);
     }
 }

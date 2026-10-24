@@ -37,6 +37,25 @@ final class PathTest extends TestCase
         yield 'closed path with non-finite coordinates' => ['((nan,2),(inf,-inf))', '((NaN,2),(Infinity,-Infinity))'];
     }
 
+    #[DataProvider('providePathBrackets')]
+    #[Test]
+    public function parses_from_string_with_many_points(string $openingBracket, string $closingBracket): void
+    {
+        $points = \array_map(static fn (int $index): string => \sprintf('(%d,%d)', $index, -$index), \range(1, 100_000));
+        $value = $openingBracket.\implode(',', $points).$closingBracket;
+
+        $this->assertSame($value, (string) Path::fromString($value));
+    }
+
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function providePathBrackets(): iterable
+    {
+        yield 'open path' => ['[', ']'];
+        yield 'closed path' => ['(', ')'];
+    }
+
     #[DataProvider('provideInvalidPathStrings')]
     #[Test]
     public function throws_exception_for_invalid_format(string $value): void

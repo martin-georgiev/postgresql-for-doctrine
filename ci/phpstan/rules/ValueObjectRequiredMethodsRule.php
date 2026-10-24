@@ -12,7 +12,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 
 /**
  * Keeps a value object's `__toString()` and static `fromString()` present, inherited or declared. Abstract bases are
- * exempt - `BaseGeometricValue` has no string form. Whether the two round-trip is semantic and unseeable here.
+ * exempt. Whether the two round-trip is semantic and unseeable here.
  *
  * @implements Rule<InClassNode>
  */

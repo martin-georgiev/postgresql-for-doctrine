@@ -17,17 +17,17 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Lseg extends BaseGeometricValue
+final readonly class Lseg implements \Stringable
 {
     /**
      * @var string
      */
-    private const BRACKETED_LSEG_REGEX = '/^\[\s*'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'\s*\]$/';
+    private const BRACKETED_LSEG_REGEX = '/^\[\s*'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'\s*\]$/';
 
     /**
      * @var string
      */
-    private const UNBRACKETED_LSEG_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
+    private const UNBRACKETED_LSEG_REGEX = '/^'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'$/';
 
     public function __construct(
         private Point $start,
@@ -57,12 +57,13 @@ final readonly class Lseg extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::BRACKETED_LSEG_REGEX, $value) && !\preg_match(self::UNBRACKETED_LSEG_REGEX, $value)) {
+        if (!\preg_match(self::BRACKETED_LSEG_REGEX, $value, $matches) && !\preg_match(self::UNBRACKETED_LSEG_REGEX, $value, $matches)) {
             throw InvalidLsegException::forInvalidFormat($value, self::BRACKETED_LSEG_REGEX);
         }
 
-        $points = self::extractPoints($value);
-
-        return new self($points[0], $points[1]);
+        return new self(
+            new Point(PostgresFloat::parse($matches[1]), PostgresFloat::parse($matches[2])),
+            new Point(PostgresFloat::parse($matches[3]), PostgresFloat::parse($matches[4]))
+        );
     }
 }

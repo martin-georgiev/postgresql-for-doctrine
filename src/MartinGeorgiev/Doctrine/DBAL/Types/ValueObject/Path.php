@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject;
 
+use MartinGeorgiev\Doctrine\DBAL\Types\Traits\PointListParserTrait;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidPathException;
 use MartinGeorgiev\Utils\PostgresFloat;
 
@@ -19,17 +20,9 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Path extends BaseGeometricValue
+final readonly class Path implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private const OPEN_PATH_REGEX = '/^\[\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\]$/';
-
-    /**
-     * @var string
-     */
-    private const CLOSED_PATH_REGEX = '/^\(\s*'.self::POINT_PATTERN.'(?:\s*,\s*'.self::POINT_PATTERN.')*\s*\)$/';
+    use PointListParserTrait;
 
     /** @var list<Point> */
     private array $points;
@@ -73,11 +66,11 @@ final readonly class Path extends BaseGeometricValue
     {
         $isOpen = \str_starts_with($value, '[');
 
-        $regex = $isOpen ? self::OPEN_PATH_REGEX : self::CLOSED_PATH_REGEX;
-        if (!\preg_match($regex, $value)) {
-            throw InvalidPathException::forInvalidFormat($value, $regex);
+        $points = $isOpen ? self::parsePointList($value, '[', ']') : self::parsePointList($value, '(', ')');
+        if ($points === null) {
+            throw InvalidPathException::forInvalidFormat($value, $isOpen ? '[(x1,y1),(x2,y2),...]' : '((x1,y1),(x2,y2),...)');
         }
 
-        return new self($isOpen, ...self::extractPoints($value));
+        return new self($isOpen, ...$points);
     }
 }

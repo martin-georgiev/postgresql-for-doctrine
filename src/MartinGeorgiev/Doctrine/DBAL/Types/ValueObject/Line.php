@@ -17,7 +17,7 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Line extends BaseGeometricValue
+final readonly class Line implements \Stringable
 {
     /**
      * @var string
