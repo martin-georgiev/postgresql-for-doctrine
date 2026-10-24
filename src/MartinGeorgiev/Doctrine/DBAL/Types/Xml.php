@@ -37,7 +37,7 @@ final class Xml extends BaseType
             throw InvalidXmlForDatabaseException::forInvalidType($value);
         }
 
-        if (!$this->isValidXml($value)) {
+        if (!$this->isValidXmlValue($value)) {
             throw InvalidXmlForDatabaseException::forInvalidFormat($value);
         }
 
@@ -46,7 +46,7 @@ final class Xml extends BaseType
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
-        if ($value === null || $value === '') {
+        if ($value === null) {
             return null;
         }
 
@@ -54,10 +54,18 @@ final class Xml extends BaseType
             throw InvalidXmlForPHPException::forInvalidType($value);
         }
 
-        if (!$this->isValidXml($value)) {
+        if (!$this->isValidXmlValue($value)) {
             throw InvalidXmlForPHPException::forInvalidFormat($value);
         }
 
         return $value;
+    }
+
+    /**
+     * Under the default xmloption = content, PostgreSQL stores the empty string as an xml value of its own, not as NULL.
+     */
+    private function isValidXmlValue(string $value): bool
+    {
+        return $value === '' || $this->isValidXml($value);
     }
 }

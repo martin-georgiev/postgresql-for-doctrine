@@ -39,7 +39,7 @@ final class BitVarying extends BaseType
             throw InvalidBitVaryingForDatabaseException::forInvalidType($value);
         }
 
-        if (!$this->isValidBitString($value)) {
+        if (!$this->isValidBitVaryingString($value)) {
             throw InvalidBitVaryingForDatabaseException::forInvalidFormat($value);
         }
 
@@ -48,7 +48,7 @@ final class BitVarying extends BaseType
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
-        if ($value === null || $value === '') {
+        if ($value === null) {
             return null;
         }
 
@@ -56,10 +56,18 @@ final class BitVarying extends BaseType
             throw InvalidBitVaryingForPHPException::forInvalidType($value);
         }
 
-        if (!$this->isValidBitString($value)) {
+        if (!$this->isValidBitVaryingString($value)) {
             throw InvalidBitVaryingForPHPException::forInvalidFormat($value);
         }
 
         return $value;
+    }
+
+    /**
+     * Unlike bit(n), whose length is at least 1, bit varying holds the empty bit string.
+     */
+    private function isValidBitVaryingString(string $value): bool
+    {
+        return $value === '' || $this->isValidBitString($value);
     }
 }

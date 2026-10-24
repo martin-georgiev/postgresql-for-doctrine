@@ -15,6 +15,14 @@ final class ByteaTypeTest extends ScalarTypeTestCase
         return 'bytea';
     }
 
+    /**
+     * The inherited loose comparison would let an empty byte string read back as null.
+     */
+    protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
+    {
+        $this->assertSame($expected, $actual, \sprintf('Type %s round-trip failed', $typeName));
+    }
+
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function roundtrips_value(string $testValue): void
@@ -34,18 +42,8 @@ final class ByteaTypeTest extends ScalarTypeTestCase
             'simple ascii string' => ['hello world'],
             'binary with null byte and high byte' => ["binary\x00data\xFF"],
             'deadbeef bytes' => ["\xDE\xAD\xBE\xEF"],
+            'empty bytes' => [''],
         ];
-    }
-
-    #[Test]
-    public function normalizes_empty_bytea_to_null(): void
-    {
-        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
-            $this->getTypeName(),
-            $this->getPostgresTypeName(),
-            '',
-            null
-        );
     }
 
     #[Test]

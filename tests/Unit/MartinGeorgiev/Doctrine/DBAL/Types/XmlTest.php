@@ -46,12 +46,6 @@ final class XmlTest extends TestCase
         $this->assertNull($this->fixture->convertToPHPValue(null, $this->platform));
     }
 
-    #[Test]
-    public function converts_empty_string_from_database_to_null(): void
-    {
-        $this->assertNull($this->fixture->convertToPHPValue('', $this->platform));
-    }
-
     #[DataProvider('provideValidXmlStrings')]
     #[Test]
     public function roundtrips_valid_xml_strings(string $xml): void
@@ -72,6 +66,7 @@ final class XmlTest extends TestCase
             'element with attributes' => ['<root id="1" class="main"><item key="value"/></root>'],
             'element with namespace' => ['<root xmlns="http://example.com"><child/></root>'],
             'element with CDATA section' => ['<root><![CDATA[some <raw> text]]></root>'],
+            'empty content' => [''],
             'external network entity declaration (LIBXML_NONET blocks resolution, XML remains structurally valid)' => ['<?xml version="1.0"?><!DOCTYPE test [<!ENTITY ext SYSTEM "http://example.com">]><test>&ext;</test>'],
         ];
     }

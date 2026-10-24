@@ -37,6 +37,7 @@ final class XmlTypeTest extends ScalarTypeTestCase
             'element with namespace' => ['<root xmlns="http://example.com"><child/></root>'],
             'element with CDATA section' => ['<root><![CDATA[some <raw> text]]></root>'],
             'declaration with standalone' => ['<?xml version="1.0" standalone="yes"?><root/>'],
+            'empty content' => [''],
         ];
     }
 

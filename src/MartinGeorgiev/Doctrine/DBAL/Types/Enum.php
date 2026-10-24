@@ -61,7 +61,7 @@ abstract class Enum extends BaseType
 
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?\BackedEnum
     {
-        if ($value === null || $value === '') {
+        if ($value === null) {
             return null;
         }
 
