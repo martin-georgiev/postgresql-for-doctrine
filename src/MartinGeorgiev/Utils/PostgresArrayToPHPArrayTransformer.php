@@ -65,28 +65,28 @@ class PostgresArrayToPHPArrayTransformer
         // But we need to exclude cases where curly braces are part of quoted strings
         $content = \trim($trimmed, self::POSTGRESQL_EMPTY_ARRAY);
         $inQuotes = false;
-        $escaping = false;
+        $length = \strlen($content);
+        $position = 0;
 
-        for ($i = 0, $len = \strlen($content); $i < $len; $i++) {
-            $char = $content[$i];
+        while ($position < $length) {
+            $position += \strcspn($content, $inQuotes ? '"\\' : '"{}', $position);
+            if ($position >= $length) {
+                break;
+            }
 
-            if ($escaping) {
-                $escaping = false;
+            $char = $content[$position];
+            if ($char === '\\') {
+                $position += 2;
 
                 continue;
             }
 
-            if ($char === '\\' && $inQuotes) {
-                $escaping = true;
-
-                continue;
-            }
-
-            if ($char === '"') {
-                $inQuotes = !$inQuotes;
-            } elseif (($char === '{' || $char === '}') && !$inQuotes) {
+            if ($char !== '"') {
                 throw InvalidArrayFormatException::invalidFormat('Malformed array nesting detected');
             }
+
+            $inQuotes = !$inQuotes;
+            $position++;
         }
 
         if ($inQuotes) {
@@ -145,22 +145,25 @@ class PostgresArrayToPHPArrayTransformer
         $result = [];
         $inQuotes = false;
         $currentValue = '';
-        $escaping = false;
+        $length = \strlen($content);
+        $position = 0;
+        // A delimiter longer than one character never matched a single character, so it splits nothing
+        $unquotedStops = '"'.(\strlen($delimiter) === 1 ? $delimiter : '');
 
-        for ($i = 0, $len = \strlen($content); $i < $len; $i++) {
-            $char = $content[$i];
-
-            // Handle escaping within quotes
-            if ($escaping) {
-                $currentValue .= $char;
-                $escaping = false;
-
-                continue;
+        // Copying each run of ordinary characters in one step, instead of one character at a time,
+        // is what keeps reading a large array cheap
+        while ($position < $length) {
+            $runLength = \strcspn($content, $inQuotes ? '"\\' : $unquotedStops, $position);
+            $currentValue .= \substr($content, $position, $runLength);
+            $position += $runLength;
+            if ($position >= $length) {
+                break;
             }
 
-            if ($char === '\\' && $inQuotes) {
-                $escaping = true;
-                $currentValue .= $char;
+            $char = $content[$position];
+            if ($inQuotes && $char === '\\') {
+                $currentValue .= \substr($content, $position, 2);
+                $position += 2;
 
                 continue;
             }
@@ -169,18 +172,20 @@ class PostgresArrayToPHPArrayTransformer
                 $inQuotes = !$inQuotes;
                 // For quoted values, we include the quotes for later processing
                 $currentValue .= $char;
-            } elseif ($char === $delimiter && !$inQuotes) {
-                // PostgreSQL never emits an empty element unquoted: an empty string arrives as ""
-                // and a null as the NULL token, so nothing between two delimiters is malformed.
-                if ($currentValue === '') {
-                    throw InvalidArrayFormatException::invalidFormat('Empty element in array');
-                }
+                $position++;
 
-                $result[] = self::processPostgresValue($currentValue, $preserveStringTypes);
-                $currentValue = '';
-            } else {
-                $currentValue .= $char;
+                continue;
             }
+
+            // PostgreSQL never emits an empty element unquoted: an empty string arrives as ""
+            // and a null as the NULL token, so nothing between two delimiters is malformed.
+            if ($currentValue === '') {
+                throw InvalidArrayFormatException::invalidFormat('Empty element in array');
+            }
+
+            $result[] = self::processPostgresValue($currentValue, $preserveStringTypes);
+            $currentValue = '';
+            $position++;
         }
 
         // Content after the final delimiter is the last value; nothing there means the literal
