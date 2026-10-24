@@ -19,11 +19,6 @@ use MartinGeorgiev\Utils\PostgresFloat;
  */
 final readonly class Box extends BaseGeometricValue
 {
-    /**
-     * @var string
-     */
-    private const BOX_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
-
     public function __construct(
         private Point $upperRight,
         private Point $lowerLeft,
@@ -52,11 +47,10 @@ final readonly class Box extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::BOX_REGEX, $value)) {
-            throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
+        $points = self::parsePointList($value);
+        if ($points === null || \count($points) !== 2) {
+            throw InvalidBoxException::forInvalidFormat($value, '(x1,y1),(x2,y2)');
         }
-
-        $points = self::extractPoints($value);
 
         return new self($points[0], $points[1]);
     }

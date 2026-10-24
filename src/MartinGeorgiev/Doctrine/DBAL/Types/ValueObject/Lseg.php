@@ -19,16 +19,6 @@ use MartinGeorgiev\Utils\PostgresFloat;
  */
 final readonly class Lseg extends BaseGeometricValue
 {
-    /**
-     * @var string
-     */
-    private const BRACKETED_LSEG_REGEX = '/^\[\s*'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'\s*\]$/';
-
-    /**
-     * @var string
-     */
-    private const UNBRACKETED_LSEG_REGEX = '/^'.self::POINT_PATTERN.'\s*,\s*'.self::POINT_PATTERN.'$/';
-
     public function __construct(
         private Point $start,
         private Point $end,
@@ -57,11 +47,10 @@ final readonly class Lseg extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::BRACKETED_LSEG_REGEX, $value) && !\preg_match(self::UNBRACKETED_LSEG_REGEX, $value)) {
-            throw InvalidLsegException::forInvalidFormat($value, self::BRACKETED_LSEG_REGEX);
+        $points = \str_starts_with($value, '[') ? self::parsePointList($value, '[', ']') : self::parsePointList($value);
+        if ($points === null || \count($points) !== 2) {
+            throw InvalidLsegException::forInvalidFormat($value, '[(x1,y1),(x2,y2)]');
         }
-
-        $points = self::extractPoints($value);
 
         return new self($points[0], $points[1]);
     }
