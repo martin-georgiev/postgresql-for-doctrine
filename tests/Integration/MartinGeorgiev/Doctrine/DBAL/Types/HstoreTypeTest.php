@@ -45,6 +45,8 @@ final class HstoreTypeTest extends ScalarTypeTestCase
             'simple key value' => [['key' => 'value', 'count' => '42']],
             'null values in hstore' => [['a' => 'b', 'c' => null]],
             'special characters' => [['key' => 'value with "quotes" and backslash\\']],
+            'value longer than 8 KB' => [['key' => \str_repeat('v', 100_000)]],
+            'value of quotes longer than 8 KB' => [['key' => \str_repeat('"', 50_000)]],
         ];
     }
 

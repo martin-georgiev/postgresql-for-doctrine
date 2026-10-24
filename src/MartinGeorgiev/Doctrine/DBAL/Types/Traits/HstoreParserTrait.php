@@ -18,9 +18,12 @@ trait HstoreParserTrait
     /**
      * Matches a quoted key, '=>', then either a quoted value or the NULL keyword.
      *
+     * The quoted strings are matched possessively. Kept for backtracking, every repetition of a group costs PCRE's JIT
+     * a stack frame, so a value of a few kilobytes exhausts the stack and the literal cannot be read.
+     *
      * @var string
      */
-    private const HSTORE_PAIR_PATTERN = '/"((?:[^"\\\\]|\\\\.)*)"\\s*=>\\s*(?:"((?:[^"\\\\]|\\\\.)*)"|(?i:(NULL)))/';
+    private const HSTORE_PAIR_PATTERN = '/"((?:[^"\\\\]++|\\\\.)*+)"\\s*=>\\s*(?:"((?:[^"\\\\]++|\\\\.)*+)"|(?i:(NULL)))/';
 
     /**
      * Spelled out rather than left to `\s`, which leaves out the form feed and vertical tab PostgreSQL skips.
