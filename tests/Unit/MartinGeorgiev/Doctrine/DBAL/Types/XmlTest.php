@@ -67,6 +67,15 @@ final class XmlTest extends TestCase
             'element with namespace' => ['<root xmlns="http://example.com"><child/></root>'],
             'element with CDATA section' => ['<root><![CDATA[some <raw> text]]></root>'],
             'empty content' => [''],
+            'multiple root elements' => ['<root/><root/>'],
+            'plain text' => ['not xml at all'],
+            'text around an element' => ['before <root/> after'],
+            'xml declaration with a fragment' => ['<?xml version="1.0"?><a/><b/>'],
+            'xml declaration with plain text' => ['<?xml version="1.0" encoding="UTF-8" standalone="yes"?>text'],
+            'doctype document' => ['<!DOCTYPE root><root/>'],
+            'doctype document after many comments' => [\str_repeat('<!--c-->', 20000).'<!DOCTYPE root><root/>'],
+            'xml declaration with an unsupported encoding before a doctype' => ['<?xml version="1.0" encoding="UTF-16"?><!DOCTYPE root><root/>'],
+            'undeclared namespace prefix' => ['<ns:root/>'],
             'external network entity declaration (LIBXML_NONET blocks resolution, XML remains structurally valid)' => ['<?xml version="1.0"?><!DOCTYPE test [<!ENTITY ext SYSTEM "http://example.com">]><test>&ext;</test>'],
         ];
     }
@@ -80,15 +89,6 @@ final class XmlTest extends TestCase
         $this->fixture->convertToDatabaseValue($invalidXml, $this->platform);
     }
 
-    #[DataProvider('provideMalformedXmlStrings')]
-    #[Test]
-    public function throws_exception_for_malformed_xml_in_php_value(string $invalidXml): void
-    {
-        $this->expectException(InvalidXmlForPHPException::class);
-
-        $this->fixture->convertToPHPValue($invalidXml, $this->platform);
-    }
-
     /**
      * @return array<string, array{string}>
      */
@@ -98,9 +98,13 @@ final class XmlTest extends TestCase
             'unclosed tag' => ['<root>'],
             'mismatched tags' => ['<root><child></root>'],
             'invalid tag name' => ['<123invalid/>'],
-            'plain text' => ['not xml at all'],
-            'multiple root elements' => ['<root/><root/>'],
             'unescaped ampersand' => ['<root>a & b</root>'],
+            'undefined entity' => ['&undefined;'],
+            'xml declaration after leading whitespace' => [' <?xml version="1.0"?><root/>'],
+            'malformed xml declaration' => ['<?xml?><root/>'],
+            'doctype document with two root elements' => ['<!DOCTYPE root><root/><root/>'],
+            'unsupported xml version before a doctype' => ['<?xml version="2.0"?><!DOCTYPE root><root/>'],
+            'empty encoding before a doctype' => ['<?xml version="1.0" encoding=""?><!DOCTYPE root><root/>'],
         ];
     }
 

@@ -27,6 +27,9 @@ final class XmlArrayTypeTest extends ArrayTypeTestCase
             'xml with namespace' => [['<ns:root xmlns:ns="http://example.com"/>']],
             'xml array with null item' => [['<a/>', null, '<b/>']],
             'empty xml array' => [[]],
+            'fragment with multiple root elements' => [['<a/><b/>']],
+            'plain text' => [['plain text']],
+            'empty content' => [['']],
         ];
     }
 
@@ -39,16 +42,5 @@ final class XmlArrayTypeTest extends ArrayTypeTestCase
         $columnType = $this->getPostgresTypeName();
 
         $this->runDbalBindingRoundTrip($typeName, $columnType, ['<unclosed>']);
-    }
-
-    #[Test]
-    public function rejects_non_xml_string(): void
-    {
-        $this->expectException(InvalidXmlArrayItemForDatabaseException::class);
-
-        $typeName = $this->getTypeName();
-        $columnType = $this->getPostgresTypeName();
-
-        $this->runDbalBindingRoundTrip($typeName, $columnType, ['just plain text']);
     }
 }

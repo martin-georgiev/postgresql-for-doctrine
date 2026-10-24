@@ -85,6 +85,22 @@ final class XmlArrayTest extends TestCase
                 'phpValue' => ['<a/>', null, '<b/>'],
                 'postgresValue' => '{"<a/>",NULL,"<b/>"}',
             ],
+            'fragment with multiple root elements' => [
+                'phpValue' => ['<a/><b/>'],
+                'postgresValue' => '{"<a/><b/>"}',
+            ],
+            'plain text' => [
+                'phpValue' => ['plain text'],
+                'postgresValue' => '{"plain text"}',
+            ],
+            'xml declaration with a fragment' => [
+                'phpValue' => ['<?xml version="1.0"?><a/><b/>'],
+                'postgresValue' => '{"<?xml version=\"1.0\"?><a/><b/>"}',
+            ],
+            'empty content' => [
+                'phpValue' => [''],
+                'postgresValue' => '{""}',
+            ],
         ];
     }
 
@@ -103,9 +119,7 @@ final class XmlArrayTest extends TestCase
     {
         return [
             'unclosed tag' => [['<unclosed>']],
-            'plain text' => [['not xml']],
             'integer item' => [[123]],
-            'empty string' => [['']],
         ];
     }
 
@@ -127,25 +141,6 @@ final class XmlArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideInvalidPHPValueInputs')]
-    #[Test]
-    public function throws_exception_for_invalid_php_value_inputs(string $postgresValue): void
-    {
-        $this->expectException(InvalidXmlArrayItemForPHPException::class);
-        $this->fixture->convertToPHPValue($postgresValue, $this->platform);
-    }
-
-    /**
-     * @return array<string, array{string}>
-     */
-    public static function provideInvalidPHPValueInputs(): array
-    {
-        return [
-            'unclosed tag in array' => ['{"<unclosed>"}'],
-            'plain text in array' => ['{"not xml"}'],
-        ];
-    }
-
     #[DataProvider('provideValidArrayItemsForDatabase')]
     #[Test]
     public function validates_valid_array_item_for_database(mixed $value): void
@@ -163,6 +158,9 @@ final class XmlArrayTest extends TestCase
             'element with content' => ['<item>value</item>'],
             'element with attributes' => ['<item id="1">text</item>'],
             'external network entity declaration (LIBXML_NONET blocks resolution, XML remains structurally valid)' => ['<?xml version="1.0"?><!DOCTYPE test [<!ENTITY ext SYSTEM "http://example.com">]><test>&ext;</test>'],
+            'fragment with multiple root elements' => ['<a/><b/>'],
+            'plain text' => ['not xml'],
+            'empty string' => [''],
             'null value' => [null],
         ];
     }
@@ -181,9 +179,8 @@ final class XmlArrayTest extends TestCase
     {
         return [
             'malformed xml' => ['<unclosed>'],
-            'plain text' => ['not xml'],
+            'undefined entity' => ['&undefined;'],
             'integer' => [123],
-            'empty string' => [''],
         ];
     }
 
