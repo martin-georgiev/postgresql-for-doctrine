@@ -56,7 +56,7 @@ final class DateRange extends Range
 
 ```php
 // ✓ Correct — Box VO shape
-final readonly class Box extends BaseGeometricValue
+final readonly class Box extends BasePointListValue
 {
     public function __toString(): string
     {
@@ -68,10 +68,10 @@ final readonly class Box extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        if (!\preg_match(self::BOX_REGEX, $value)) {
-            throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
+        $points = self::parsePointList($value, exactPointCount: 2);
+        if ($points === null) {
+            throw InvalidBoxException::forInvalidFormat($value, '(x1,y1),(x2,y2)');
         }
-        $points = self::extractPoints($value);
         return new self($points[0], $points[1]);
     }
 }
@@ -85,7 +85,7 @@ Keep the class PHPDoc to one line; do not explain the parent — `ci/rector/conf
 
 ```php
 // ✓ Correct — throw VO-specific exception with for*-named factory
-throw InvalidBoxException::forInvalidFormat($value, self::BOX_REGEX);
+throw InvalidBoxException::forInvalidFormat($value, '(x1,y1),(x2,y2)');
 throw InvalidLtreeException::forInvalidNodeFormat($value, 'non-empty string');
 
 // ❌ Wrong — generic exception, no for* factory

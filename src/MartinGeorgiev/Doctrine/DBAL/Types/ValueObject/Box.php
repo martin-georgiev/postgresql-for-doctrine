@@ -17,7 +17,7 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Box extends BaseGeometricValue
+final readonly class Box extends BasePointListValue
 {
     public function __construct(
         private Point $upperRight,
@@ -47,8 +47,8 @@ final readonly class Box extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        $points = self::parsePointList($value, maxPoints: 2);
-        if ($points === null || \count($points) !== 2) {
+        $points = self::parsePointList($value, exactPointCount: 2);
+        if ($points === null) {
             throw InvalidBoxException::forInvalidFormat($value, '(x1,y1),(x2,y2)');
         }
 

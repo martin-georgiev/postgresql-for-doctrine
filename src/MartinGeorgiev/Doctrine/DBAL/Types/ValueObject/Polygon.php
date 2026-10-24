@@ -17,7 +17,7 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Polygon extends BaseGeometricValue
+final readonly class Polygon extends BasePointListValue
 {
     /** @var list<Point> */
     private array $vertices;

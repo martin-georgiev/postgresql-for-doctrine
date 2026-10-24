@@ -37,9 +37,6 @@ final class PathTest extends TestCase
         yield 'closed path with non-finite coordinates' => ['((nan,2),(inf,-inf))', '((NaN,2),(Infinity,-Infinity))'];
     }
 
-    /**
-     * A single pattern repeating over every point gave up before 2,000 points with PCRE's JIT on.
-     */
     #[DataProvider('providePathBrackets')]
     #[Test]
     public function parses_from_string_with_many_points(string $openingBracket, string $closingBracket): void

@@ -17,7 +17,7 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Lseg extends BaseGeometricValue
+final readonly class Lseg extends BasePointListValue
 {
     public function __construct(
         private Point $start,
@@ -47,8 +47,8 @@ final readonly class Lseg extends BaseGeometricValue
 
     public static function fromString(string $value): self
     {
-        $points = \str_starts_with($value, '[') ? self::parsePointList($value, '[', ']', 2) : self::parsePointList($value, maxPoints: 2);
-        if ($points === null || \count($points) !== 2) {
+        $points = \str_starts_with($value, '[') ? self::parsePointList($value, '[', ']', exactPointCount: 2) : self::parsePointList($value, exactPointCount: 2);
+        if ($points === null) {
             throw InvalidLsegException::forInvalidFormat($value, '[(x1,y1),(x2,y2)]');
         }
 

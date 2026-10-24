@@ -19,7 +19,7 @@ use MartinGeorgiev\Utils\PostgresFloat;
  *
  * @author Martin Georgiev <martin.georgiev@gmail.com>
  */
-final readonly class Path extends BaseGeometricValue
+final readonly class Path extends BasePointListValue
 {
     /** @var list<Point> */
     private array $points;

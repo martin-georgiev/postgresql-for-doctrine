@@ -36,9 +36,6 @@ final class PolygonTest extends TestCase
         yield 'polygon with short non-finite spellings' => ['((nan,2),(inf,-inf),(5,6))', '((NaN,2),(Infinity,-Infinity),(5,6))'];
     }
 
-    /**
-     * A single pattern repeating over every vertex gave up before 2,000 vertices with PCRE's JIT on.
-     */
     #[Test]
     public function parses_from_string_with_many_vertices(): void
     {
