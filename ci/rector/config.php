@@ -10,11 +10,9 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use PHPUnit\Framework\MockObject\MockObject;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
-use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
+use Rector\CodeQuality\Rector\If_\ExplicitNullableObjectInstanceRector;
 use Rector\Config\RectorConfig;
-use Rector\DeadCode\Rector\ClassMethod\RemoveParentDelegatingConstructorRector;
 use Rector\Doctrine\Set\DoctrineSetList;
-use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\Privatization\Rector\Class_\FinalizeTestCaseClassRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
@@ -46,27 +44,26 @@ return RectorConfig::configure()
         phpunit: true,
     )
     ->withSets([
-        SetList::CODE_QUALITY,
-        SetList::DEAD_CODE,
-        SetList::NAMING,
-        SetList::TYPE_DECLARATION,
-        SetList::PRIVATIZATION,
-        SetList::CODING_STYLE,
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
         LevelSetList::UP_TO_PHP_82,
+        SetList::CODE_QUALITY,
+        SetList::CODING_STYLE,
+        SetList::DEAD_CODE,
+        SetList::PRIVATIZATION,
+        SetList::TYPE_DECLARATION,
     ])
     ->withRules([
-        PreferPHPUnitThisCallRector::class,
         FinalizeTestCaseClassRector::class,
+        PreferPHPUnitThisCallRector::class,
         VarTagByConstantValueRector::class,
     ])
     // the DBAL types translate value object failures with catch (\InvalidArgumentException);
     // a member of this namespace that escapes it surfaces from the wrong layer
     ->withConfiguredRule(ParentByNamespaceRector::class, [
-        'MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Exceptions\\' => InvalidArgumentException::class,
         'MartinGeorgiev\\Doctrine\\DBAL\\Types\\Exceptions\\' => ConversionException::class,
-        'MartinGeorgiev\\Utils\\Exception\\' => InvalidArgumentException::class,
+        'MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Exceptions\\' => InvalidArgumentException::class,
         'MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\' => FunctionNode::class,
+        'MartinGeorgiev\\Utils\\Exception\\' => InvalidArgumentException::class,
     ])
     // a DBAL type reads as the write path then the read path, the order the rules ask for
     ->withConfiguredRule(MethodOrderRector::class, [
@@ -84,16 +81,12 @@ return RectorConfig::configure()
             $basePath.'src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Exception',
         ],
         // skip as it breaks support for legacy Lexer discovery on older Doctrine versions
-        FlipTypeControlToUseExclusiveTypeRector::class => [
+        ExplicitNullableObjectInstanceRector::class => [
             $basePath.'src/MartinGeorgiev/Utils/DoctrineLexer.php',
         ],
         // skip as it breaks intentionally looser milliseconds check when dealing with timestamps
         UseIdenticalOverEqualWithSameTypeRector::class => [
             $basePath.'/src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Interval.php',
-        ],
-        // skip as it removes the intended type narrowing for constructor arguments
-        RemoveParentDelegatingConstructorRector::class => [
-            $basePath.'src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/BaseTimestampRange.php',
         ],
         // skip as it breaks support for Lexer constants on older Doctrine versions
         RenameClassConstFetchRector::class => [
@@ -113,12 +106,9 @@ return RectorConfig::configure()
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Traits/OrderableTrait.php',
             $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Traits/WindowSpecificationTrait.php',
         ],
-        // skip globally as it eliminates self-documenting code where naming is intentionally different to capture specific intention
-        RenamePropertyToMatchTypeRector::class,
     ])
     ->withImportNames(
         importNames: false,
         importDocBlockNames: false,
         importShortClasses: false,
-        removeUnusedImports: true,
     );
