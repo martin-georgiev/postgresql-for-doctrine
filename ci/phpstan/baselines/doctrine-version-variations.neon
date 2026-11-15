@@ -2,6 +2,17 @@
 # @phpstan-ignore cannot opt out of reportUnmatchedIgnoredErrors, so each is scoped by path and exempted here.
 parameters:
     ignoreErrors:
+        # DBAL 4.6+ only: the static Type registry is deprecated in favour of the connection's type provider, which
+        # DBAL below 4.6 (still supported here, and the only DBAL ORM 2.x resolves) does not have.
+        -
+            message: '#^Call to deprecated method (getType|hasType|addType|overrideType)\(\) of class Doctrine\\DBAL\\Types\\Type:#'
+            paths:
+                - ../../../src/MartinGeorgiev/Doctrine/DBAL/Types/Composite.php
+                - ../../../tests/Integration/MartinGeorgiev/TestCase.php
+                - ../../../tests/Integration/MartinGeorgiev/Doctrine/DBAL/Types/
+                - ../../../ci/docs/DqlExampleChecker.php
+            reportUnmatched: false
+
         # DBAL 3.x only: requiresSQLCommentHint() is deprecated there, gone in 4.x. Call sites guard with method_exists
         -
             message: '#^Call to deprecated method requiresSQLCommentHint\(\) of class #'
