@@ -38,6 +38,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Check for src changes
         if: steps.release-please-check.outputs.skip != 'true'
@@ -79,13 +80,16 @@ jobs:
       - name: Determine if tests should run
         id: check
         run: |
-          if [ "${{ steps.release-please-check.outputs.skip }}" = "true" ]; then
+          if [ "${STEPS_RELEASE_PLEASE_CHECK_OUTPUTS_SKIP}" = "true" ]; then
             echo "run=false" >> $GITHUB_OUTPUT
-          elif [ "${{ steps.src-changes.outputs.src_changed }}" = "false" ]; then
+          elif [ "${STEPS_SRC_CHANGES_OUTPUTS_SRC_CHANGED}" = "false" ]; then
             echo "run=false" >> $GITHUB_OUTPUT
           else
             echo "run=true" >> $GITHUB_OUTPUT
           fi
+        env:
+          STEPS_RELEASE_PLEASE_CHECK_OUTPUTS_SKIP: ${{ steps.release-please-check.outputs.skip }}
+          STEPS_SRC_CHANGES_OUTPUTS_SRC_CHANGED: ${{ steps.src-changes.outputs.src_changed }}
 
   unit-tests:
     needs: should-run
@@ -119,6 +123,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Set up PHP with PECL extension
         uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
