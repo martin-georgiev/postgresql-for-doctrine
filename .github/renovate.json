@@ -23,6 +23,21 @@
     "rangeStrategy": "auto",
     "rebaseWhen": "conflicted",
     "recreateWhen": "never",
+    "customManagers": [
+        {
+            "description": "Track the zizmor version passed to zizmor-action. Renovate updates the action digest but not its version input.",
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/^\\.github/workflows/.+\\.ya?ml$/"
+            ],
+            "matchStrings": [
+                "uses:\\s+zizmorcore/zizmor-action@[^\\s]+[\\s\\S]*?version:\\s+\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
+            ],
+            "depNameTemplate": "zizmorcore/zizmor",
+            "datasourceTemplate": "github-releases",
+            "extractVersionTemplate": "^v(?<version>.+)$"
+        }
+    ],
     "packageRules": [
         {
             "enabled": false,
