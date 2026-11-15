@@ -39,7 +39,6 @@ abstract class VectorTypeTestCase extends TestCase
         $this->assertArrayHasKey('length', $declaration, 'Vector tests must declare a length to exercise the dimension-aware SQL declaration');
         $this->assertIsInt($declaration['length']);
         $this->assertGreaterThan(0, $declaration['length']);
-        /** @var positive-int $dimension */
         $dimension = $declaration['length'];
 
         $this->expectException(DriverException::class);

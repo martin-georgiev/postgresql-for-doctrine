@@ -23,7 +23,6 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\BetterPhpDocParser\ValueObject\Type\BracketsAwareIntersectionTypeNode;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\Rector\AbstractRector;
@@ -186,11 +185,11 @@ final class TestDoubleIntersectionVarRector extends AbstractRector implements Co
             return false;
         }
 
-        $bracketsAwareIntersectionTypeNode = new BracketsAwareIntersectionTypeNode([
+        $intersectionTypeNode = new IntersectionTypeNode([
             new IdentifierTypeNode($this->spellingOf($doubledClass)),
             new IdentifierTypeNode($this->spellingOf($property->type)),
         ]);
-        $this->phpDocTypeChanger->changeVarTypeNode($property, $phpDocInfo, $bracketsAwareIntersectionTypeNode);
+        $this->phpDocTypeChanger->changeVarTypeNode($property, $phpDocInfo, $intersectionTypeNode);
 
         return true;
     }
