@@ -59,4 +59,35 @@ abstract class VectorTypeTestCase extends TestCase
      * @param positive-int $declaredDimension
      */
     abstract protected function getValueWithMismatchedDimension(int $declaredDimension): mixed;
+
+    #[Test]
+    public function normalizes_value_to_the_type_precision(): void
+    {
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTripExpectingDifferentRetrievedValue(
+            $typeName,
+            $columnType,
+            $this->getValueBeyondTheTypePrecision(),
+            $this->getValueRoundedToTheTypePrecision(),
+        );
+    }
+
+    abstract protected function getValueBeyondTheTypePrecision(): mixed;
+
+    abstract protected function getValueRoundedToTheTypePrecision(): mixed;
+
+    #[Test]
+    public function rejects_value_exceeding_the_type_range(): void
+    {
+        $this->expectException(DriverException::class);
+
+        $typeName = $this->getTypeName();
+        $columnType = $this->getPostgresTypeName();
+
+        $this->runDbalBindingRoundTrip($typeName, $columnType, $this->getValueExceedingTheTypeRange());
+    }
+
+    abstract protected function getValueExceedingTheTypeRange(): mixed;
 }
