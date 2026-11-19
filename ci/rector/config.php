@@ -15,7 +15,6 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\Privatization\Rector\Class_\FinalizeTestCaseClassRector;
-use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
@@ -87,24 +86,6 @@ return RectorConfig::configure()
         // skip as it breaks intentionally looser milliseconds check when dealing with timestamps
         UseIdenticalOverEqualWithSameTypeRector::class => [
             $basePath.'/src/MartinGeorgiev/Doctrine/DBAL/Types/ValueObject/Interval.php',
-        ],
-        // skip as it breaks support for Lexer constants on older Doctrine versions
-        RenameClassConstFetchRector::class => [
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseAggregateFunction.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseFunction.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseOrderedSetAggregateFunction.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/BaseVariadicFunction.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Cast.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/CompositeField.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Filter.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/JsonGetField.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Over.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/StringAgg.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/XmlAgg.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/XmlPi.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Traits/DistinctableTrait.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Traits/OrderableTrait.php',
-            $basePath.'/src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions/Traits/WindowSpecificationTrait.php',
         ],
     ])
     ->withImportNames(

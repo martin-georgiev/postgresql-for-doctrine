@@ -52,7 +52,7 @@ final readonly class Sparsevec implements \Stringable
                 throw InvalidSparsevecException::forInvalidElementValue($key, $value);
             }
 
-            $normalized[$key] = (float) $value;
+            $normalized[$key] = $value;
         }
 
         $this->elements = $normalized;
