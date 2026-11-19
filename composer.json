@@ -90,7 +90,7 @@
     },
 
     "require": {
-        "php": "^8.2 <8.6",
+        "php": "^8.2 <8.7",
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -114,7 +114,7 @@
         "symfony/var-exporter": "^6.4||^7.0"
     },
     "suggest": {
-        "php": "^8.4",
+        "php": "^8.5",
         "doctrine/orm": "~2.14||~3.0"
     },
 

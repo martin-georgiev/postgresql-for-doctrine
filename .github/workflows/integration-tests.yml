@@ -99,7 +99,7 @@ jobs:
     strategy:
       fail-fast: ${{ github.event_name == 'pull_request' }}
       matrix:
-        php: ['8.2', '8.3', '8.4', '8.5']
+        php: ['8.2', '8.3', '8.4', '8.5', '8.6']
         postgis: ['3.4', '3.5', '3.6']
         postgres: ['16', '17', '18']
         doctrine-orm: ['latest']
@@ -114,17 +114,17 @@ jobs:
             postgis: '3.5'
         include:
           # Code coverage on the latest stable combination
-          - php: '8.5'
+          - php: '8.6'
             postgres: '18'
             postgis: '3.6'
             calculate-code-coverage: true
           # ORM 2.x applies convertToPHPValueSQL() only to types that opt in, ORM 3.x to every type
-          - php: '8.5'
+          - php: '8.6'
             postgres: '18'
             postgis: '3.6'
             doctrine-orm: '2.20'
           # The next PostgreSQL major ahead of its release; move it into the matrix above once it ships
-          - php: '8.5'
+          - php: '8.6'
             postgres: '19rc1'
             postgis: '3.6'
             doctrine-orm: 'latest'

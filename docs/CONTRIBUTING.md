@@ -128,7 +128,7 @@ Using local-only plaintext secrets here is acceptable.
 For example, this file:
 
 - Install [Harlequin](https://harlequin.sh/) database TUI.
-- Set PHP version to 8.5.
+- Set PHP version to 8.6.
 - Change PostgreSQL-related environment variables.
 
 ```nix
@@ -139,7 +139,7 @@ For example, this file:
   packages = with pkgs; [ harlequin ];
 
   # https://devenv.sh/languages/
-  languages.php.version = "8.5";
+  languages.php.version = "8.6";
 
   # https://devenv.sh/basics/
   env = {
