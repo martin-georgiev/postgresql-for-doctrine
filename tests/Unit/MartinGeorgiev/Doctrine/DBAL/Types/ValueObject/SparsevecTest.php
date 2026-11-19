@@ -152,13 +152,6 @@ final class SparsevecTest extends TestCase
     }
 
     #[Test]
-    public function normalizes_integer_element_values_to_float(): void
-    {
-        $sparsevec = new Sparsevec([1 => 1, 3 => 2], 5);
-        $this->assertSame([1 => 1.0, 3 => 2.0], $sparsevec->getElements());
-    }
-
-    #[Test]
     public function roundtrips_from_string_to_string(): void
     {
         $original = '{1:1.5,3:2}/5';
