@@ -23,36 +23,26 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final readonly class ClassDocBlockRule implements Rule
 {
-    /**
-     * @var string
-     */
-    public const REQUIREMENT_DESCRIPTION = 'description';
+    public const string REQUIREMENT_DESCRIPTION = 'description';
 
-    /**
-     * @var string
-     */
-    public const REQUIREMENT_FIRST_LINE_NAMES_IMPLEMENTATION = 'implementationFirstLine';
+    public const string REQUIREMENT_FIRST_LINE_NAMES_IMPLEMENTATION = 'implementationFirstLine';
 
     /**
      * A tag must carry a value; a bare `@since` fails.
      *
      * @var array<int, string>
      */
-    private const SUPPORTED_TAGS = ['see', 'since', 'author'];
+    private const array SUPPORTED_TAGS = ['see', 'since', 'author'];
 
     /**
      * The vendors whose names a DQL function docblock may open with.
-     *
-     * @var string
      */
-    private const FIRST_LINE_PATTERN = '/^Implementation of (?:PostgreSQL|PostGIS) \S.*\.\z/';
+    private const string FIRST_LINE_PATTERN = '/^Implementation of (?:PostgreSQL|PostGIS) \S.*\.\z/';
 
     /**
      * PostGIS spells its functions `ST_Area`, not `ST_AREA`.
-     *
-     * @var string
      */
-    private const CALLABLE_TOKEN_PATTERN = '/\b([A-Za-z_][A-Za-z0-9_]*)\(\)/';
+    private const string CALLABLE_TOKEN_PATTERN = '/\b([A-Za-z_][A-Za-z0-9_]*)\(\)/';
 
     /**
      * @var array<string, array<int, string>>

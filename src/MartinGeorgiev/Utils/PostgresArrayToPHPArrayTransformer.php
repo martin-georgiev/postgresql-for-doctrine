@@ -15,20 +15,11 @@ use MartinGeorgiev\Utils\Exception\InvalidArrayFormatException;
  */
 class PostgresArrayToPHPArrayTransformer
 {
-    /**
-     * @var string
-     */
-    private const POSTGRESQL_EMPTY_ARRAY = '{}';
+    private const string POSTGRESQL_EMPTY_ARRAY = '{}';
 
-    /**
-     * @var string
-     */
-    private const POSTGRESQL_NULL_VALUE = 'null';
+    private const string POSTGRESQL_NULL_VALUE = 'null';
 
-    /**
-     * @var string
-     */
-    private const POSTGRESQL_DEFAULT_TYPDELIM = ',';
+    private const string POSTGRESQL_DEFAULT_TYPDELIM = ',';
 
     /**
      * Transforms a PostgreSQL text array to a PHP array.

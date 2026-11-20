@@ -40,10 +40,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidEnumArrayItemForPHPExce
  */
 abstract class EnumArray extends BaseArray
 {
-    /**
-     * @var string
-     */
-    private const POSTGRES_NULL_ELEMENT = 'NULL';
+    private const string POSTGRES_NULL_ELEMENT = 'NULL';
 
     /**
      * @return class-string<\BackedEnum>

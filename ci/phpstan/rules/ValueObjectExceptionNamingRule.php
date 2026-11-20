@@ -19,10 +19,7 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final readonly class ValueObjectExceptionNamingRule implements Rule
 {
-    /**
-     * @var string
-     */
-    private const EXPECTED_NAME_PATTERN = '/^Invalid(?<valueObject>[A-Z][A-Za-z0-9]*)Exception\z/';
+    private const string EXPECTED_NAME_PATTERN = '/^Invalid(?<valueObject>[A-Z][A-Za-z0-9]*)Exception\z/';
 
     public function __construct(private ReflectionProvider $reflectionProvider) {}
 

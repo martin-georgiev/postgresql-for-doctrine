@@ -21,15 +21,12 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class ConversionMethodDocBlockRule implements Rule
 {
-    /**
-     * @var string
-     */
-    private const TYPES = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\';
+    private const string TYPES = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\';
 
     /**
      * @var array<int, string>
      */
-    private const CONVERSION_METHODS = ['convertToDatabaseValue', 'convertToPHPValue'];
+    private const array CONVERSION_METHODS = ['convertToDatabaseValue', 'convertToPHPValue'];
 
     public function getNodeType(): string
     {

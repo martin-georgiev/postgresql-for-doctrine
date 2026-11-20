@@ -18,10 +18,8 @@ abstract class BaseFloatArray extends BaseArray
     /**
      * The quantifiers are possessive, so a long item that is not a number fails in linear time instead of backtracking
      * through every split of its digits.
-     *
-     * @var string
      */
-    private const FLOAT_REGEX = '/^-?(?:\d++(?:\.\d++)?|\.\d++)(?:[eE][-+]?\d++)?\z/';
+    private const string FLOAT_REGEX = '/^-?(?:\d++(?:\.\d++)?|\.\d++)(?:[eE][-+]?\d++)?\z/';
 
     abstract protected function getMinValue(): string;
 

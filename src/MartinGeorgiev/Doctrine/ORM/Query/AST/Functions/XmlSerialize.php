@@ -30,15 +30,9 @@ use MartinGeorgiev\Utils\DoctrineOrm;
  */
 class XmlSerialize extends FunctionNode
 {
-    /**
-     * @var array
-     */
-    private const OPTIONS = ['DOCUMENT', 'CONTENT'];
+    private const array OPTIONS = ['DOCUMENT', 'CONTENT'];
 
-    /**
-     * @var array
-     */
-    private const TARGET_TYPES = ['TEXT', 'VARCHAR'];
+    private const array TARGET_TYPES = ['TEXT', 'VARCHAR'];
 
     public string $option;
 

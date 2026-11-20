@@ -26,35 +26,18 @@ final readonly class Cube implements \Stringable
 {
     /**
      * PostgreSQL rejects anything above this with "A cube cannot have more than 100 dimensions".
-     *
-     * @var int
      */
-    private const MAX_DIMENSIONS = 100;
+    private const int MAX_DIMENSIONS = 100;
 
-    /**
-     * @var string
-     */
-    private const COORDINATE_LIST_PATTERN = PostgresFloat::PATTERN.'(?:\s*,\s*'.PostgresFloat::PATTERN.')*';
+    private const string COORDINATE_LIST_PATTERN = PostgresFloat::PATTERN.'(?:\s*,\s*'.PostgresFloat::PATTERN.')*';
 
-    /**
-     * @var string
-     */
-    private const CORNER_PATTERN = '\(\s*('.self::COORDINATE_LIST_PATTERN.')\s*\)';
+    private const string CORNER_PATTERN = '\(\s*('.self::COORDINATE_LIST_PATTERN.')\s*\)';
 
-    /**
-     * @var string
-     */
-    private const BOX_REGEX = '/^'.self::CORNER_PATTERN.'\s*,\s*'.self::CORNER_PATTERN.'$/';
+    private const string BOX_REGEX = '/^'.self::CORNER_PATTERN.'\s*,\s*'.self::CORNER_PATTERN.'$/';
 
-    /**
-     * @var string
-     */
-    private const POINT_REGEX = '/^'.self::CORNER_PATTERN.'$/';
+    private const string POINT_REGEX = '/^'.self::CORNER_PATTERN.'$/';
 
-    /**
-     * @var string
-     */
-    private const BARE_POINT_REGEX = '/^('.self::COORDINATE_LIST_PATTERN.')$/';
+    private const string BARE_POINT_REGEX = '/^('.self::COORDINATE_LIST_PATTERN.')$/';
 
     /**
      * @var list<float>

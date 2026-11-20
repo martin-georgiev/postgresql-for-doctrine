@@ -29,8 +29,8 @@ in
   # https://devenv.sh/languages/
   languages.php = {
     enable = true;
-    # PHP 8.2 is the least supported PHP version in this project.
-    version = "8.2";
+    # PHP 8.3 is the earliest supported PHP version in this project.
+    version = "8.3";
     extensions = [
       "ctype"
       "dom"

@@ -90,7 +90,7 @@
     },
 
     "require": {
-        "php": "^8.2 <8.7",
+        "php": "^8.3 <8.7",
         "ext-ctype": "*",
         "ext-json": "*",
         "ext-mbstring": "*",

@@ -20,9 +20,7 @@ $config = (new Config())
     ->setRules(
         [
             '@PSR2' => true,
-            '@PHP7x1Migration' => true,
-            '@PHP8x1Migration' => true,
-            '@PHP8x2Migration' => true,
+            '@PHP8x3Migration' => true,
             '@DoctrineAnnotation' => true,
             '@PhpCsFixer' => true,
             'align_multiline_comment' => false,

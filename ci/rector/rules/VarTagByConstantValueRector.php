@@ -101,7 +101,7 @@ final class VarTagByConstantValueRector extends AbstractRector
     }
 
     /**
-     * An enum case is the only object a PHP 8.2 constant expression can produce.
+     * An enum case is the only object a PHP constant expression can produce.
      * The tag names its enum rather than the case, which the value already shows.
      */
     private function nameObjectClass(Type $type): ?string

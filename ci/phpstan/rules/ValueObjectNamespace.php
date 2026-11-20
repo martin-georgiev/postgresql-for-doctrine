@@ -12,15 +12,9 @@ use PHPStan\Reflection\ClassReflection;
  */
 final class ValueObjectNamespace
 {
-    /**
-     * @var string
-     */
-    public const VALUE_OBJECTS = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\';
+    public const string VALUE_OBJECTS = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\';
 
-    /**
-     * @var string
-     */
-    public const EXCEPTIONS = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Exceptions\\';
+    public const string EXCEPTIONS = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\ValueObject\\Exceptions\\';
 
     /**
      * A PostgreSQL value, abstract bases included.

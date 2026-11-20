@@ -27,15 +27,9 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class FunctionNumericArgumentNodeMappingRule implements Rule
 {
-    /**
-     * @var string
-     */
-    private const UNSIGNED_NODE_TYPE = 'ArithmeticPrimary';
+    private const string UNSIGNED_NODE_TYPE = 'ArithmeticPrimary';
 
-    /**
-     * @var string
-     */
-    private const SIGNED_NODE_TYPE = 'SimpleArithmeticExpression';
+    private const string SIGNED_NODE_TYPE = 'SimpleArithmeticExpression';
 
     public function getNodeType(): string
     {

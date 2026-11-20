@@ -22,10 +22,7 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class VariadicFunctionBooleanArgumentNodeMappingRule implements Rule
 {
-    /**
-     * @var string
-     */
-    private const BOOLEAN_CARRYING_NODE_TYPE = 'StringPrimary';
+    private const string BOOLEAN_CARRYING_NODE_TYPE = 'StringPrimary';
 
     public function getNodeType(): string
     {

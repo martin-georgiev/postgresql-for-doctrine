@@ -24,10 +24,8 @@ class Ltree implements \Stringable, \JsonSerializable
      *
      * PostgreSQL classifies label characters through the server's LC_CTYPE. A server with the C locale rejects non-ASCII labels.
      * Narrowing to ASCII would reject labels every Unicode-aware server takes, so the permissive end is deliberate.
-     *
-     * @var string
      */
-    private const LABEL_REGEX = '/^[\p{L}\p{Nd}\p{Nl}_-]{1,1000}\z/u';
+    private const string LABEL_REGEX = '/^[\p{L}\p{Nd}\p{Nl}_-]{1,1000}\z/u';
 
     /**
      * @param list<non-empty-string> $pathFromRoot A list with one element represents the root. The list may be empty.

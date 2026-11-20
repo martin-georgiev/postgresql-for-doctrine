@@ -18,15 +18,10 @@ final class PostgresFloat
     /**
      * A float without its sign, for the operands PostgreSQL never accepts a negative value for, such as a radius.
      * The non-finite spellings (inf, infinity, nan) are part of the grammar; PostgreSQL emits them capitalized.
-     *
-     * @var string
      */
-    public const UNSIGNED_PATTERN = '(?:(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|(?i:inf(?:inity)?|nan))';
+    public const string UNSIGNED_PATTERN = '(?:(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|(?i:inf(?:inity)?|nan))';
 
-    /**
-     * @var string
-     */
-    public const PATTERN = '[+-]?'.self::UNSIGNED_PATTERN;
+    public const string PATTERN = '[+-]?'.self::UNSIGNED_PATTERN;
 
     /**
      * Casting a float to string is bound by the `precision` ini setting (14 by default). This rewrites the value before

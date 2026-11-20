@@ -13,10 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class CompositeTypeTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    private const INVENTORY_ITEM_TYPE_NAME = 'test_inventory_item';
+    private const string INVENTORY_ITEM_TYPE_NAME = 'test_inventory_item';
 
     protected function setUp(): void
     {

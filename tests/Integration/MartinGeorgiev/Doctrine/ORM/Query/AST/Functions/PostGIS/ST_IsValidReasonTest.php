@@ -11,10 +11,8 @@ final class ST_IsValidReasonTest extends SpatialOperatorTestCase
 {
     /**
      * A self-intersecting "bowtie" - the shape a map-drawing UI produces when an outline crosses itself.
-     *
-     * @var string
      */
-    private const SELF_INTERSECTING_POLYGON = 'POLYGON((0 0,2 2,0 2,2 0,0 0))';
+    private const string SELF_INTERSECTING_POLYGON = 'POLYGON((0 0,2 2,0 2,2 0,0 0))';
 
     protected function getStringFunctions(): array
     {

@@ -6,515 +6,209 @@ namespace MartinGeorgiev\Doctrine\DBAL;
 
 final class Type
 {
-    /**
-     * @var string
-     */
-    public const BIGINT_ARRAY = 'bigint[]';
-
-    /**
-     * @var string
-     */
-    public const BIT = 'bit';
-
-    /**
-     * @var string
-     */
-    public const BIT_ARRAY = 'bit[]';
-
-    /**
-     * @var string
-     */
-    public const BIT_VARYING = 'bit varying';
-
-    /**
-     * @var string
-     */
-    public const BIT_VARYING_ARRAY = 'bit varying[]';
-
-    /**
-     * @var string
-     */
-    public const BOOL_ARRAY = 'bool[]';
-
-    /**
-     * @var string
-     */
-    public const BOX = 'box';
-
-    /**
-     * @var string
-     */
-    public const BOX_ARRAY = 'box[]';
-
-    /**
-     * @var string
-     */
-    public const BYTEA = 'bytea';
-
-    /**
-     * @var string
-     */
-    public const BYTEA_ARRAY = 'bytea[]';
-
-    /**
-     * @var string
-     */
-    public const CITEXT = 'citext';
-
-    /**
-     * @var string
-     */
-    public const CITEXT_ARRAY = 'citext[]';
-
-    /**
-     * @var string
-     */
-    public const CIDR = 'cidr';
-
-    /**
-     * @var string
-     */
-    public const CIDR_ARRAY = 'cidr[]';
-
-    /**
-     * @var string
-     */
-    public const CIRCLE = 'circle';
-
-    /**
-     * @var string
-     */
-    public const CIRCLE_ARRAY = 'circle[]';
-
-    /**
-     * @var string
-     */
-    public const CUBE = 'cube';
-
-    /**
-     * @var string
-     */
-    public const CUBE_ARRAY = 'cube[]';
-
-    /**
-     * @var string
-     */
-    public const DATE_ARRAY = 'date[]';
-
-    /**
-     * @var string
-     */
-    public const DATEMULTIRANGE = 'datemultirange';
-
-    /**
-     * @var string
-     */
-    public const DATEMULTIRANGE_ARRAY = 'datemultirange[]';
-
-    /**
-     * @var string
-     */
-    public const DATERANGE = 'daterange';
-
-    /**
-     * @var string
-     */
-    public const DATERANGE_ARRAY = 'daterange[]';
-
-    /**
-     * @var string
-     */
-    public const DOUBLE_PRECISION_ARRAY = 'double precision[]';
-
-    /**
-     * @var string
-     */
-    public const GEOGRAPHY = 'geography';
-
-    /**
-     * @var string
-     */
-    public const GEOGRAPHY_ARRAY = 'geography[]';
-
-    /**
-     * @var string
-     */
-    public const GEOMETRY = 'geometry';
-
-    /**
-     * @var string
-     */
-    public const GEOMETRY_ARRAY = 'geometry[]';
-
-    /**
-     * @var string
-     */
-    public const HALFVEC = 'halfvec';
-
-    /**
-     * @var string
-     */
-    public const HSTORE = 'hstore';
-
-    /**
-     * @var string
-     */
-    public const HSTORE_ARRAY = 'hstore[]';
-
-    /**
-     * @var string
-     */
-    public const INET = 'inet';
-
-    /**
-     * @var string
-     */
-    public const INET_ARRAY = 'inet[]';
-
-    /**
-     * @var string
-     */
-    public const INT4MULTIRANGE = 'int4multirange';
-
-    /**
-     * @var string
-     */
-    public const INT4MULTIRANGE_ARRAY = 'int4multirange[]';
-
-    /**
-     * @var string
-     */
-    public const INT4RANGE = 'int4range';
-
-    /**
-     * @var string
-     */
-    public const INT4RANGE_ARRAY = 'int4range[]';
-
-    /**
-     * @var string
-     */
-    public const INT8MULTIRANGE = 'int8multirange';
-
-    /**
-     * @var string
-     */
-    public const INT8MULTIRANGE_ARRAY = 'int8multirange[]';
-
-    /**
-     * @var string
-     */
-    public const INT8RANGE = 'int8range';
-
-    /**
-     * @var string
-     */
-    public const INT8RANGE_ARRAY = 'int8range[]';
-
-    /**
-     * @var string
-     */
-    public const INTEGER_ARRAY = 'integer[]';
-
-    /**
-     * @var string
-     */
-    public const INTERVAL = 'interval';
-
-    /**
-     * @var string
-     */
-    public const INTERVAL_ARRAY = 'interval[]';
-
-    /**
-     * @var string
-     */
-    public const JSON_ARRAY = 'json[]';
-
-    /**
-     * @var string
-     */
-    public const JSONB = 'jsonb';
-
-    /**
-     * @var string
-     */
-    public const JSONB_ARRAY = 'jsonb[]';
-
-    /**
-     * @var string
-     */
-    public const LINE = 'line';
-
-    /**
-     * @var string
-     */
-    public const LINE_ARRAY = 'line[]';
-
-    /**
-     * @var string
-     */
-    public const LSEG = 'lseg';
-
-    /**
-     * @var string
-     */
-    public const LSEG_ARRAY = 'lseg[]';
-
-    /**
-     * @var string
-     */
-    public const LQUERY = 'lquery';
-
-    /**
-     * @var string
-     */
-    public const LQUERY_ARRAY = 'lquery[]';
-
-    /**
-     * @var string
-     */
-    public const LTREE = 'ltree';
-
-    /**
-     * @var string
-     */
-    public const LTREE_ARRAY = 'ltree[]';
-
-    /**
-     * @var string
-     */
-    public const LTXTQUERY = 'ltxtquery';
-
-    /**
-     * @var string
-     */
-    public const LTXTQUERY_ARRAY = 'ltxtquery[]';
-
-    /**
-     * @var string
-     */
-    public const MACADDR = 'macaddr';
-
-    /**
-     * @var string
-     */
-    public const MACADDR8 = 'macaddr8';
-
-    /**
-     * @var string
-     */
-    public const MACADDR8_ARRAY = 'macaddr8[]';
-
-    /**
-     * @var string
-     */
-    public const MACADDR_ARRAY = 'macaddr[]';
-
-    /**
-     * @var string
-     */
-    public const MONEY = 'money';
-
-    /**
-     * @var string
-     */
-    public const MONEY_ARRAY = 'money[]';
-
-    /**
-     * @var string
-     */
-    public const NUMERIC_ARRAY = 'numeric[]';
-
-    /**
-     * @var string
-     */
-    public const NUMMULTIRANGE = 'nummultirange';
-
-    /**
-     * @var string
-     */
-    public const NUMMULTIRANGE_ARRAY = 'nummultirange[]';
-
-    /**
-     * @var string
-     */
-    public const NUMRANGE = 'numrange';
-
-    /**
-     * @var string
-     */
-    public const NUMRANGE_ARRAY = 'numrange[]';
-
-    /**
-     * @var string
-     */
-    public const PATH = 'path';
-
-    /**
-     * @var string
-     */
-    public const PATH_ARRAY = 'path[]';
-
-    /**
-     * @var string
-     */
-    public const POINT = 'point';
-
-    /**
-     * @var string
-     */
-    public const POINT_ARRAY = 'point[]';
-
-    /**
-     * @var string
-     */
-    public const POLYGON = 'polygon';
-
-    /**
-     * @var string
-     */
-    public const POLYGON_ARRAY = 'polygon[]';
-
-    /**
-     * @var string
-     */
-    public const REAL_ARRAY = 'real[]';
-
-    /**
-     * @var string
-     */
-    public const SMALLINT_ARRAY = 'smallint[]';
-
-    /**
-     * @var string
-     */
-    public const SPARSEVEC = 'sparsevec';
-
-    /**
-     * @var string
-     */
-    public const TEXT_ARRAY = 'text[]';
-
-    /**
-     * @var string
-     */
-    public const TIME_ARRAY = 'time[]';
-
-    /**
-     * @var string
-     */
-    public const TIMETZ = 'timetz';
-
-    /**
-     * @var string
-     */
-    public const TIMETZ_ARRAY = 'timetz[]';
-
-    /**
-     * @var string
-     */
-    public const TIMESTAMP_ARRAY = 'timestamp[]';
-
-    /**
-     * @var string
-     */
-    public const TIMESTAMPTZ_ARRAY = 'timestamptz[]';
-
-    /**
-     * @var string
-     */
-    public const TSQUERY = 'tsquery';
-
-    /**
-     * @var string
-     */
-    public const TSQUERY_ARRAY = 'tsquery[]';
-
-    /**
-     * @var string
-     */
-    public const TSRANGE = 'tsrange';
-
-    /**
-     * @var string
-     */
-    public const TSRANGE_ARRAY = 'tsrange[]';
-
-    /**
-     * @var string
-     */
-    public const TSMULTIRANGE = 'tsmultirange';
-
-    /**
-     * @var string
-     */
-    public const TSMULTIRANGE_ARRAY = 'tsmultirange[]';
-
-    /**
-     * @var string
-     */
-    public const TSVECTOR = 'tsvector';
-
-    /**
-     * @var string
-     */
-    public const TSVECTOR_ARRAY = 'tsvector[]';
-
-    /**
-     * @var string
-     */
-    public const TSTZRANGE = 'tstzrange';
-
-    /**
-     * @var string
-     */
-    public const TSTZRANGE_ARRAY = 'tstzrange[]';
-
-    /**
-     * @var string
-     */
-    public const TSTZMULTIRANGE = 'tstzmultirange';
-
-    /**
-     * @var string
-     */
-    public const TSTZMULTIRANGE_ARRAY = 'tstzmultirange[]';
-
-    /**
-     * @var string
-     */
-    public const ULID = 'ulid';
-
-    /**
-     * @var string
-     */
-    public const ULID_ARRAY = 'ulid[]';
-
-    /**
-     * @var string
-     */
-    public const UUID_ARRAY = 'uuid[]';
-
-    /**
-     * @var string
-     */
-    public const VARCHAR_ARRAY = 'varchar[]';
-
-    /**
-     * @var string
-     */
-    public const VECTOR = 'vector';
-
-    /**
-     * @var string
-     */
-    public const XML = 'xml';
-
-    /**
-     * @var string
-     */
-    public const XML_ARRAY = 'xml[]';
+    public const string BIGINT_ARRAY = 'bigint[]';
+
+    public const string BIT = 'bit';
+
+    public const string BIT_ARRAY = 'bit[]';
+
+    public const string BIT_VARYING = 'bit varying';
+
+    public const string BIT_VARYING_ARRAY = 'bit varying[]';
+
+    public const string BOOL_ARRAY = 'bool[]';
+
+    public const string BOX = 'box';
+
+    public const string BOX_ARRAY = 'box[]';
+
+    public const string BYTEA = 'bytea';
+
+    public const string BYTEA_ARRAY = 'bytea[]';
+
+    public const string CITEXT = 'citext';
+
+    public const string CITEXT_ARRAY = 'citext[]';
+
+    public const string CIDR = 'cidr';
+
+    public const string CIDR_ARRAY = 'cidr[]';
+
+    public const string CIRCLE = 'circle';
+
+    public const string CIRCLE_ARRAY = 'circle[]';
+
+    public const string CUBE = 'cube';
+
+    public const string CUBE_ARRAY = 'cube[]';
+
+    public const string DATE_ARRAY = 'date[]';
+
+    public const string DATEMULTIRANGE = 'datemultirange';
+
+    public const string DATEMULTIRANGE_ARRAY = 'datemultirange[]';
+
+    public const string DATERANGE = 'daterange';
+
+    public const string DATERANGE_ARRAY = 'daterange[]';
+
+    public const string DOUBLE_PRECISION_ARRAY = 'double precision[]';
+
+    public const string GEOGRAPHY = 'geography';
+
+    public const string GEOGRAPHY_ARRAY = 'geography[]';
+
+    public const string GEOMETRY = 'geometry';
+
+    public const string GEOMETRY_ARRAY = 'geometry[]';
+
+    public const string HALFVEC = 'halfvec';
+
+    public const string HSTORE = 'hstore';
+
+    public const string HSTORE_ARRAY = 'hstore[]';
+
+    public const string INET = 'inet';
+
+    public const string INET_ARRAY = 'inet[]';
+
+    public const string INT4MULTIRANGE = 'int4multirange';
+
+    public const string INT4MULTIRANGE_ARRAY = 'int4multirange[]';
+
+    public const string INT4RANGE = 'int4range';
+
+    public const string INT4RANGE_ARRAY = 'int4range[]';
+
+    public const string INT8MULTIRANGE = 'int8multirange';
+
+    public const string INT8MULTIRANGE_ARRAY = 'int8multirange[]';
+
+    public const string INT8RANGE = 'int8range';
+
+    public const string INT8RANGE_ARRAY = 'int8range[]';
+
+    public const string INTEGER_ARRAY = 'integer[]';
+
+    public const string INTERVAL = 'interval';
+
+    public const string INTERVAL_ARRAY = 'interval[]';
+
+    public const string JSON_ARRAY = 'json[]';
+
+    public const string JSONB = 'jsonb';
+
+    public const string JSONB_ARRAY = 'jsonb[]';
+
+    public const string LINE = 'line';
+
+    public const string LINE_ARRAY = 'line[]';
+
+    public const string LSEG = 'lseg';
+
+    public const string LSEG_ARRAY = 'lseg[]';
+
+    public const string LQUERY = 'lquery';
+
+    public const string LQUERY_ARRAY = 'lquery[]';
+
+    public const string LTREE = 'ltree';
+
+    public const string LTREE_ARRAY = 'ltree[]';
+
+    public const string LTXTQUERY = 'ltxtquery';
+
+    public const string LTXTQUERY_ARRAY = 'ltxtquery[]';
+
+    public const string MACADDR = 'macaddr';
+
+    public const string MACADDR8 = 'macaddr8';
+
+    public const string MACADDR8_ARRAY = 'macaddr8[]';
+
+    public const string MACADDR_ARRAY = 'macaddr[]';
+
+    public const string MONEY = 'money';
+
+    public const string MONEY_ARRAY = 'money[]';
+
+    public const string NUMERIC_ARRAY = 'numeric[]';
+
+    public const string NUMMULTIRANGE = 'nummultirange';
+
+    public const string NUMMULTIRANGE_ARRAY = 'nummultirange[]';
+
+    public const string NUMRANGE = 'numrange';
+
+    public const string NUMRANGE_ARRAY = 'numrange[]';
+
+    public const string PATH = 'path';
+
+    public const string PATH_ARRAY = 'path[]';
+
+    public const string POINT = 'point';
+
+    public const string POINT_ARRAY = 'point[]';
+
+    public const string POLYGON = 'polygon';
+
+    public const string POLYGON_ARRAY = 'polygon[]';
+
+    public const string REAL_ARRAY = 'real[]';
+
+    public const string SMALLINT_ARRAY = 'smallint[]';
+
+    public const string SPARSEVEC = 'sparsevec';
+
+    public const string TEXT_ARRAY = 'text[]';
+
+    public const string TIME_ARRAY = 'time[]';
+
+    public const string TIMETZ = 'timetz';
+
+    public const string TIMETZ_ARRAY = 'timetz[]';
+
+    public const string TIMESTAMP_ARRAY = 'timestamp[]';
+
+    public const string TIMESTAMPTZ_ARRAY = 'timestamptz[]';
+
+    public const string TSQUERY = 'tsquery';
+
+    public const string TSQUERY_ARRAY = 'tsquery[]';
+
+    public const string TSRANGE = 'tsrange';
+
+    public const string TSRANGE_ARRAY = 'tsrange[]';
+
+    public const string TSMULTIRANGE = 'tsmultirange';
+
+    public const string TSMULTIRANGE_ARRAY = 'tsmultirange[]';
+
+    public const string TSVECTOR = 'tsvector';
+
+    public const string TSVECTOR_ARRAY = 'tsvector[]';
+
+    public const string TSTZRANGE = 'tstzrange';
+
+    public const string TSTZRANGE_ARRAY = 'tstzrange[]';
+
+    public const string TSTZMULTIRANGE = 'tstzmultirange';
+
+    public const string TSTZMULTIRANGE_ARRAY = 'tstzmultirange[]';
+
+    public const string ULID = 'ulid';
+
+    public const string ULID_ARRAY = 'ulid[]';
+
+    public const string UUID_ARRAY = 'uuid[]';
+
+    public const string VARCHAR_ARRAY = 'varchar[]';
+
+    public const string VECTOR = 'vector';
+
+    public const string XML = 'xml';
+
+    public const string XML_ARRAY = 'xml[]';
 
     private function __construct()
     {
