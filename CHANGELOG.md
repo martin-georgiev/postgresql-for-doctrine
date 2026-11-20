@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.11.0](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.10.1...v4.11.0) (2026-11-20)
+
+
+### Features
+
+* Add support for PHP 8.6 ([#892](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/892)) ([5688ee8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/5688ee8294b5a0fe0ce505b567824f807f031b23))
+
+
+### Bug Fixes
+
+* Declare integer elements as accepted by the `Sparsevec` value object ([#897](https://github.com/martin-georgiev/postgresql-for-doctrine/issues/897)) ([c7c47c8](https://github.com/martin-georgiev/postgresql-for-doctrine/commit/c7c47c827393b446136388287fa249beab2c1177))
+
 ## [4.10.1](https://github.com/martin-georgiev/postgresql-for-doctrine/compare/v4.10.0...v4.10.1) (2026-10-24)
 
 
