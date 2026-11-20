@@ -19,10 +19,7 @@ use MartinGeorgiev\Utils\PostgresFloat;
  */
 final readonly class Box implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private const BOX_REGEX = '/^'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'$/';
+    private const string BOX_REGEX = '/^'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'$/';
 
     public function __construct(
         private Point $upperRight,

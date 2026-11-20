@@ -25,18 +25,14 @@ class RealArray extends BaseFloatArray
     /**
      * The midpoint between the largest real and 2^128.
      * PostgreSQL rounds a smaller magnitude down to the largest real and rejects this one and anything larger.
-     *
-     * @var string
      */
-    private const OVERFLOW_MIDPOINT = '340282356779733661637539395458142568448';
+    private const string OVERFLOW_MIDPOINT = '340282356779733661637539395458142568448';
 
     /**
      * Half the smallest subnormal real, 2^-150.
      * PostgreSQL rounds a non-zero magnitude up to the smallest real only above it, and rejects this one and anything smaller.
-     *
-     * @var string
      */
-    private const UNDERFLOW_MIDPOINT = '7.00649232162408535461864791644958065640130970938257885878534141944895541342930300743319094181060791015625E-46';
+    private const string UNDERFLOW_MIDPOINT = '7.00649232162408535461864791644958065640130970938257885878534141944895541342930300743319094181060791015625E-46';
 
     protected function getMinValue(): string
     {

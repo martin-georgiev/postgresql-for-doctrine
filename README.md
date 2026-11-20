@@ -7,7 +7,7 @@
 
 <h1 align="center">PostgreSQL for Doctrine</h1>
 
-<p align="center">Enhances Doctrine with PostgreSQL-specific features and functions. Supports PostgreSQL 9.4+ and PHP 8.2+.</p>
+<p align="center">Enhances Doctrine with PostgreSQL-specific features and functions. Supports PostgreSQL 9.4+ and PHP 8.3+.</p>
 
 <p align="center"><a href="https://postgresql-for-doctrine.dev">Documentation at postgresql-for-doctrine.dev</a></p>
 

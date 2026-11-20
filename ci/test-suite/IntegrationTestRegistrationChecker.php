@@ -16,20 +16,11 @@ use PhpParser\ParserFactory;
 
 final readonly class IntegrationTestRegistrationChecker
 {
-    /**
-     * @var string
-     */
-    private const TYPE_REGISTRATION_FILE = 'tests/Integration/MartinGeorgiev/TestCase.php';
+    private const string TYPE_REGISTRATION_FILE = 'tests/Integration/MartinGeorgiev/TestCase.php';
 
-    /**
-     * @var string
-     */
-    private const FUNCTION_INTEGRATION_TEST_DIRECTORY = 'tests/Integration/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions';
+    private const string FUNCTION_INTEGRATION_TEST_DIRECTORY = 'tests/Integration/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions';
 
-    /**
-     * @var string
-     */
-    private const FUNCTION_INTEGRATION_TEST_NAMESPACE = 'Tests\\Integration\\MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
+    private const string FUNCTION_INTEGRATION_TEST_NAMESPACE = 'Tests\\Integration\\MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
 
     private function __construct(
         private Repository $repository,

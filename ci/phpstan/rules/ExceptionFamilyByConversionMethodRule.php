@@ -22,20 +22,14 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class ExceptionFamilyByConversionMethodRule implements Rule
 {
-    /**
-     * @var string
-     */
-    private const TYPES = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\';
+    private const string TYPES = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\';
 
-    /**
-     * @var string
-     */
-    private const FAMILY_PATTERN = '/^Invalid\w+For(PHP|Database)Exception\z/';
+    private const string FAMILY_PATTERN = '/^Invalid\w+For(PHP|Database)Exception\z/';
 
     /**
      * @var array<string, string>
      */
-    private const FAMILY_BY_CONVERSION_METHOD = [
+    private const array FAMILY_BY_CONVERSION_METHOD = [
         'convertToPHPValue' => 'PHP',
         'transformArrayItemForPHP' => 'PHP',
         'convertToDatabaseValue' => 'Database',

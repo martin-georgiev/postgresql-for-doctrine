@@ -15,10 +15,7 @@ use MartinGeorgiev\Doctrine\DBAL\Types\Exceptions\InvalidIntegerArrayItemForPHPE
  */
 abstract class BaseIntegerArray extends BaseArray
 {
-    /**
-     * @var string
-     */
-    private const INTEGER_REGEX = '/^-?\d+$/';
+    private const string INTEGER_REGEX = '/^-?\d+$/';
 
     abstract protected function getMinValue(): int;
 

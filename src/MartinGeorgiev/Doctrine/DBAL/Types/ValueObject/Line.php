@@ -19,10 +19,7 @@ use MartinGeorgiev\Utils\PostgresFloat;
  */
 final readonly class Line implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private const LINE_REGEX = '/^\{\s*('.PostgresFloat::PATTERN.'),\s*('.PostgresFloat::PATTERN.'),\s*('.PostgresFloat::PATTERN.')\s*\}$/';
+    private const string LINE_REGEX = '/^\{\s*('.PostgresFloat::PATTERN.'),\s*('.PostgresFloat::PATTERN.'),\s*('.PostgresFloat::PATTERN.')\s*\}$/';
 
     public function __construct(
         private float $a,

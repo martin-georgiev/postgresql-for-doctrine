@@ -12,30 +12,18 @@ use PHPUnit\Framework\TestCase;
 
 final class ArrayTypeTestCompletenessTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    private const ROOT_DIRECTORY = __DIR__.'/../../..';
+    private const string ROOT_DIRECTORY = __DIR__.'/../../..';
 
-    /**
-     * @var string
-     */
-    private const TYPE_SOURCE_DIRECTORY = 'src/MartinGeorgiev/Doctrine/DBAL/Types';
+    private const string TYPE_SOURCE_DIRECTORY = 'src/MartinGeorgiev/Doctrine/DBAL/Types';
 
-    /**
-     * @var string
-     */
-    private const TYPE_SOURCE_NAMESPACE = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\';
+    private const string TYPE_SOURCE_NAMESPACE = 'MartinGeorgiev\\Doctrine\\DBAL\\Types\\';
 
-    /**
-     * @var string
-     */
-    private const UNIT_TEST_NAMESPACE = 'Tests\\Unit\\MartinGeorgiev\\Doctrine\\DBAL\\Types\\';
+    private const string UNIT_TEST_NAMESPACE = 'Tests\\Unit\\MartinGeorgiev\\Doctrine\\DBAL\\Types\\';
 
     /**
      * @var list<string>
      */
-    private const REQUIRED_OF_EVERY_ARRAY_TYPE = [
+    private const array REQUIRED_OF_EVERY_ARRAY_TYPE = [
         'has_name',
         'converts_to_database_value',
         'converts_to_php_value',
@@ -49,25 +37,19 @@ final class ArrayTypeTestCompletenessTest extends TestCase
      *
      * @var list<string>
      */
-    private const REQUIRED_WHEN_ITEMS_ARE_VALIDATED = [
+    private const array REQUIRED_WHEN_ITEMS_ARE_VALIDATED = [
         'validates_invalid_array_item_for_database',
         'throws_exception_for_invalid_database_value_inputs',
     ];
 
-    /**
-     * @var string
-     */
-    private const REQUIRED_WHEN_THE_ITEM_HOOK_REJECTS_A_NON_STRING = 'throws_exception_for_non_string_item_from_database';
+    private const string REQUIRED_WHEN_THE_ITEM_HOOK_REJECTS_A_NON_STRING = 'throws_exception_for_non_string_item_from_database';
 
-    /**
-     * @var string
-     */
-    private const VALID_TRANSFORMATIONS_PROVIDER = 'provideValidTransformations';
+    private const string VALID_TRANSFORMATIONS_PROVIDER = 'provideValidTransformations';
 
     /**
      * @var list<string>
      */
-    private const REQUIRED_VALID_TRANSFORMATIONS_ROWS = ['null', 'empty array'];
+    private const array REQUIRED_VALID_TRANSFORMATIONS_ROWS = ['null', 'empty array'];
 
     /**
      * PostgreSQL normalises WKT on the way out (`POINTZ(1 2 3)` reads back as `POINT Z(1 2 3)`), so one row cannot
@@ -75,7 +57,7 @@ final class ArrayTypeTestCompletenessTest extends TestCase
      *
      * @var list<class-string>
      */
-    private const TYPES_WHOSE_WRITTEN_AND_READ_LITERALS_DIFFER = [
+    private const array TYPES_WHOSE_WRITTEN_AND_READ_LITERALS_DIFFER = [
         GeographyArray::class,
         GeometryArray::class,
     ];

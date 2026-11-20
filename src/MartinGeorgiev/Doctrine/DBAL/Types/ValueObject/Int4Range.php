@@ -16,15 +16,9 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidRangeExcept
  */
 final class Int4Range extends BaseIntegerRange
 {
-    /**
-     * @var int
-     */
-    private const MIN_INT4_VALUE = -2147483648;
+    private const int MIN_INT4_VALUE = -2147483648;
 
-    /**
-     * @var int
-     */
-    private const MAX_INT4_VALUE = 2147483647;
+    private const int MAX_INT4_VALUE = 2147483647;
 
     public function __construct(
         ?int $lower,

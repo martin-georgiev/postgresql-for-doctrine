@@ -6,20 +6,14 @@ namespace Ci\MartinGeorgiev\Shared;
 
 final readonly class Repository
 {
-    /**
-     * @var string
-     */
-    public const FUNCTION_SOURCE_DIRECTORY = 'src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions';
+    public const string FUNCTION_SOURCE_DIRECTORY = 'src/MartinGeorgiev/Doctrine/ORM/Query/AST/Functions';
 
-    /**
-     * @var string
-     */
-    private const FUNCTION_SOURCE_NAMESPACE = 'MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
+    private const string FUNCTION_SOURCE_NAMESPACE = 'MartinGeorgiev\\Doctrine\\ORM\\Query\\AST\\Functions\\';
 
     /**
      * @var list<string>
      */
-    private const NON_FUNCTION_SOURCE_SUBFOLDERS = ['Exception', 'Traits'];
+    private const array NON_FUNCTION_SOURCE_SUBFOLDERS = ['Exception', 'Traits'];
 
     public string $rootDirectory;
 

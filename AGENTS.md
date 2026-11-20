@@ -1,6 +1,6 @@
 # PostgreSQL for Doctrine
 
-PHP library enhancing Doctrine ORM with PostgreSQL-specific DBAL types, DQL functions, and PostGIS support. PHP 8.2+, PostgreSQL 9.4+.
+PHP library enhancing Doctrine ORM with PostgreSQL-specific DBAL types, DQL functions, and PostGIS support. PHP 8.3+, PostgreSQL 9.4+.
 
 ## Project Layout
 

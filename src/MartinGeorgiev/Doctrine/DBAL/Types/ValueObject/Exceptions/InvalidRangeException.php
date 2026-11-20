@@ -13,22 +13,14 @@ namespace MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions;
  */
 final class InvalidRangeException extends \InvalidArgumentException
 {
-    /**
-     * @var string
-     */
-    public const LOWER_BOUND = 'Lower';
+    public const string LOWER_BOUND = 'Lower';
 
-    /**
-     * @var string
-     */
-    public const UPPER_BOUND = 'Upper';
+    public const string UPPER_BOUND = 'Upper';
 
     /**
      * Used where the failure is not attributable to one end — a comparison, or a bound parsed out of a literal.
-     *
-     * @var string
      */
-    private const ANY_BOUND = 'Range';
+    private const string ANY_BOUND = 'Range';
 
     private static function create(string $message, mixed $value): self
     {

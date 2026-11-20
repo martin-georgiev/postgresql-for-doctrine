@@ -24,62 +24,33 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Exceptions\InvalidIntervalExc
  */
 class Interval implements \Stringable
 {
-    /**
-     * @var int
-     */
-    private const MICROSECONDS_PER_MILLISECOND = 1_000;
+    private const int MICROSECONDS_PER_MILLISECOND = 1_000;
 
-    /**
-     * @var int
-     */
-    private const MICROSECONDS_PER_SECOND = 1_000_000;
+    private const int MICROSECONDS_PER_SECOND = 1_000_000;
 
-    /**
-     * @var int
-     */
-    private const MICROSECONDS_PER_MINUTE = 60_000_000;
+    private const int MICROSECONDS_PER_MINUTE = 60_000_000;
 
-    /**
-     * @var int
-     */
-    private const MICROSECONDS_PER_HOUR = 3_600_000_000;
+    private const int MICROSECONDS_PER_HOUR = 3_600_000_000;
 
-    /**
-     * @var int
-     */
-    private const MICROSECONDS_PER_DAY = 86_400_000_000;
+    private const int MICROSECONDS_PER_DAY = 86_400_000_000;
 
-    /**
-     * @var int
-     */
-    private const MONTHS_PER_YEAR = 12;
+    private const int MONTHS_PER_YEAR = 12;
 
     /**
      * PostgreSQL interval is stored as int32 for months & days, and int64 for microseconds.
-     *
-     * @var int
      */
-    private const POSTGRESQL_MIN_SUPPORTED_RANGE_FOR_FIELD = -2_147_483_648;
+    private const int POSTGRESQL_MIN_SUPPORTED_RANGE_FOR_FIELD = -2_147_483_648;
 
-    /**
-     * @var int
-     */
-    private const POSTGRESQL_MAX_SUPPORTED_RANGE_FOR_FIELD = 2_147_483_647;
+    private const int POSTGRESQL_MAX_SUPPORTED_RANGE_FOR_FIELD = 2_147_483_647;
 
-    /**
-     * @var int
-     */
-    private const DAYS_PER_MONTH = 30;
+    private const int DAYS_PER_MONTH = 30;
 
-    /**
-     * @var int
-     */
-    private const DAYS_PER_WEEK = 7;
+    private const int DAYS_PER_WEEK = 7;
 
     /**
      * @var array<string, int>
      */
-    private const YEARS_PER_LARGER_UNIT = [
+    private const array YEARS_PER_LARGER_UNIT = [
         'decade' => 10,
         'century' => 100,
         'millennium' => 1_000,
@@ -88,7 +59,7 @@ class Interval implements \Stringable
     /**
      * @var array<string, string>
      */
-    private const UNIT_ALIASES = [
+    private const array UNIT_ALIASES = [
         'millennium' => 'millennium',
         'millenniums' => 'millennium',
         'millennia' => 'millennium',
@@ -138,15 +109,9 @@ class Interval implements \Stringable
         'microseconds' => 'microsecond',
     ];
 
-    /**
-     * @var string
-     */
-    private const NUMBER_PATTERN = '(?:\d+(?:\.\d*)?|\.\d+)';
+    private const string NUMBER_PATTERN = '(?:\d+(?:\.\d*)?|\.\d+)';
 
-    /**
-     * @var string
-     */
-    private const TIME_FIELD_PATTERN = '([+-])?(\d+):(\d{1,2})(?::(\d{1,2})(?:\.(\d+))?)?';
+    private const string TIME_FIELD_PATTERN = '([+-])?(\d+):(\d{1,2})(?::(\d{1,2})(?:\.(\d+))?)?';
 
     protected function __construct(
         private readonly \DateInterval $dateInterval,

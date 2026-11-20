@@ -22,15 +22,10 @@ final readonly class Circle implements \Stringable
     /**
      * PostgreSQL accepts a NaN or Infinity radius but rejects every negative one, -Infinity included, so this pattern
      * stays unsigned while allowing the non-finite spellings.
-     *
-     * @var string
      */
-    private const RADIUS_PATTERN = PostgresFloat::UNSIGNED_PATTERN;
+    private const string RADIUS_PATTERN = PostgresFloat::UNSIGNED_PATTERN;
 
-    /**
-     * @var string
-     */
-    private const CIRCLE_REGEX = '/^<\s*\(\s*('.PostgresFloat::PATTERN.')\s*,\s*('.PostgresFloat::PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
+    private const string CIRCLE_REGEX = '/^<\s*\(\s*('.PostgresFloat::PATTERN.')\s*,\s*('.PostgresFloat::PATTERN.')\s*\)\s*,\s*('.self::RADIUS_PATTERN.')\s*>$/';
 
     public function __construct(
         private Point $center,

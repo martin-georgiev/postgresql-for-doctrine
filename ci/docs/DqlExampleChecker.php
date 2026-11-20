@@ -30,7 +30,7 @@ final readonly class DqlExampleChecker
     /**
      * @var array<string, class-string>
      */
-    private const FIXTURE_ENTITY_BY_PLACEHOLDER_FIELD_KEYWORD = [
+    private const array FIXTURE_ENTITY_BY_PLACEHOLDER_FIELD_KEYWORD = [
         'geom' => ContainsGeometries::class,
         'geog' => ContainsGeometries::class,
         'trajectory' => ContainsGeometries::class,

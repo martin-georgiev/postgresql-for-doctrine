@@ -10,30 +10,18 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 
 final readonly class SetupGuides
 {
-    /**
-     * @var string
-     */
-    public const DOCTRINE = 'docs/INTEGRATING-WITH-DOCTRINE.md';
+    public const string DOCTRINE = 'docs/INTEGRATING-WITH-DOCTRINE.md';
 
-    /**
-     * @var string
-     */
-    public const SYMFONY = 'docs/INTEGRATING-WITH-SYMFONY.md';
+    public const string SYMFONY = 'docs/INTEGRATING-WITH-SYMFONY.md';
 
-    /**
-     * @var string
-     */
-    public const LARAVEL = 'docs/INTEGRATING-WITH-LARAVEL.md';
+    public const string LARAVEL = 'docs/INTEGRATING-WITH-LARAVEL.md';
 
-    /**
-     * @var string
-     */
-    private const TYPE_CATALOGUE = 'docs/AVAILABLE-TYPES.md';
+    private const string TYPE_CATALOGUE = 'docs/AVAILABLE-TYPES.md';
 
     /**
      * @var array<string, string>
      */
-    private const TYPE_REGISTRATION_PATTERN_BY_FILE = [
+    private const array TYPE_REGISTRATION_PATTERN_BY_FILE = [
         self::TYPE_CATALOGUE => '/\| %s \| /',
         self::DOCTRINE => "/addType\\('%s', /",
         self::SYMFONY => "/^ *'?%s'?: MartinGeorgiev/m",
@@ -43,16 +31,13 @@ final readonly class SetupGuides
     /**
      * @var array<string, string>
      */
-    private const FUNCTION_REGISTRATION_PATTERN_BY_GUIDE = [
+    private const array FUNCTION_REGISTRATION_PATTERN_BY_GUIDE = [
         self::DOCTRINE => "/addCustom(?:String|Numeric|Datetime)Function\\('(?<name>[^']+)', (?<class>MartinGeorgiev\\\\Doctrine\\\\ORM\\\\[\\w\\\\]+)::class\\)/",
         self::SYMFONY => "/^ *'?(?<name>\\w+)'?: (?<class>MartinGeorgiev\\\\Doctrine\\\\ORM\\\\[\\w\\\\]+)/m",
         self::LARAVEL => "/'(?<name>[^']+)' => (?<class>MartinGeorgiev\\\\Doctrine\\\\ORM\\\\[\\w\\\\]+)::class/",
     ];
 
-    /**
-     * @var string
-     */
-    private const DOCTRINE_TYPE_CLASS_REGISTRATION_PATTERN = "/addType\\('(?<name>[^']+)', \"(?<class>MartinGeorgiev[\\\\\\w]+)\"\\)/";
+    private const string DOCTRINE_TYPE_CLASS_REGISTRATION_PATTERN = "/addType\\('(?<name>[^']+)', \"(?<class>MartinGeorgiev[\\\\\\w]+)\"\\)/";
 
     public function __construct(
         private Repository $repository,

@@ -12,15 +12,9 @@ use PHPUnit\Framework\Attributes\Test;
 
 final class CompositeNestedTypeTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    private const ITEM_TYPE_NAME = 'test_inventory_item';
+    private const string ITEM_TYPE_NAME = 'test_inventory_item';
 
-    /**
-     * @var string
-     */
-    private const DBAL_TYPE_NAME = 'test_shipment';
+    private const string DBAL_TYPE_NAME = 'test_shipment';
 
     protected function setUp(): void
     {

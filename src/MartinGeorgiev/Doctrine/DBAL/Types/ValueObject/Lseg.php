@@ -19,15 +19,9 @@ use MartinGeorgiev\Utils\PostgresFloat;
  */
 final readonly class Lseg implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private const BRACKETED_LSEG_REGEX = '/^\[\s*'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'\s*\]$/';
+    private const string BRACKETED_LSEG_REGEX = '/^\[\s*'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'\s*\]$/';
 
-    /**
-     * @var string
-     */
-    private const UNBRACKETED_LSEG_REGEX = '/^'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'$/';
+    private const string UNBRACKETED_LSEG_REGEX = '/^'.Point::PATTERN.'\s*,\s*'.Point::PATTERN.'$/';
 
     public function __construct(
         private Point $start,

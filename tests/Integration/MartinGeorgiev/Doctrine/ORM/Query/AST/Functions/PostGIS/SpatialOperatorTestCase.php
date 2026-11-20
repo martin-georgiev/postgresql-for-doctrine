@@ -8,10 +8,7 @@ use Tests\Integration\MartinGeorgiev\TestCase as BaseTestCase;
 
 abstract class SpatialOperatorTestCase extends BaseTestCase
 {
-    /**
-     * @var string
-     */
-    private const TABLE_NAME = 'containsgeometries';
+    private const string TABLE_NAME = 'containsgeometries';
 
     protected function setUp(): void
     {

@@ -28,10 +28,8 @@ class NumericArray extends BaseStringArray
     /**
      * Scientific notation, a leading plus sign and a bare decimal point (".5") are accepted by PostgreSQL on input.
      * They never appear in its output. The non-finite values are matched in the single spelling PostgreSQL prints.
-     *
-     * @var string
      */
-    private const NUMERIC_REGEX = '/^(?:-?\d+(\.\d+)?|NaN|-?Infinity)\z/';
+    private const string NUMERIC_REGEX = '/^(?:-?\d+(\.\d+)?|NaN|-?Infinity)\z/';
 
     /**
      * @var string
