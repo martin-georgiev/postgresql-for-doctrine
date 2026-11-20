@@ -80,6 +80,7 @@ final class SparsevecTypeTest extends VectorTypeTestCase
             'multiple elements' => [new SparsevecValueObject([1 => 1.5, 3 => 2.0], 5)],
             'empty elements' => [new SparsevecValueObject([], 5)],
             'negative value' => [new SparsevecValueObject([1 => -0.5], 5)],
+            'integer values' => [new SparsevecValueObject([1 => 1, 3 => 2], 5)],
         ];
     }
 

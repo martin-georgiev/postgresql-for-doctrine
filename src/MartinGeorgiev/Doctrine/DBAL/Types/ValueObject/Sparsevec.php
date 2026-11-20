@@ -25,7 +25,7 @@ final readonly class Sparsevec implements \Stringable
     private array $elements;
 
     /**
-     * @param array<int, float> $elements 1-based index => float value (only non-zero elements)
+     * @param array<int, float|int> $elements 1-based index => numeric value (only non-zero elements)
      * @param positive-int $dimensions total number of dimensions
      *
      * @throws InvalidSparsevecException if dimensions is not positive, element keys are out of range, or values are not numeric

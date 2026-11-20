@@ -165,4 +165,11 @@ final class SparsevecTest extends TestCase
         $sparsevec = Sparsevec::fromString($original);
         $this->assertSame($original, (string) $sparsevec);
     }
+
+    #[Test]
+    public function roundtrips_integer_elements_through_from_string(): void
+    {
+        $sparsevec = new Sparsevec([1 => 1, 2 => 9007199254740993], 5);
+        $this->assertSame($sparsevec->getElements(), Sparsevec::fromString((string) $sparsevec)->getElements());
+    }
 }
