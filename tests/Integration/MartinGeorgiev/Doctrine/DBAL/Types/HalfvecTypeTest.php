@@ -48,6 +48,30 @@ final class HalfvecTypeTest extends VectorTypeTestCase
         return \array_fill(0, $declaredDimension + 2, 1.0);
     }
 
+    /**
+     * @return list<float>
+     */
+    protected function getValueBeyondTheTypePrecision(): array
+    {
+        return [2049.0, 1000.3, 1.0];
+    }
+
+    /**
+     * @return list<float>
+     */
+    protected function getValueRoundedToTheTypePrecision(): array
+    {
+        return [2048.0, 1000.5, 1.0];
+    }
+
+    /**
+     * @return list<float>
+     */
+    protected function getValueExceedingTheTypeRange(): array
+    {
+        return [65520.0, 1.0, 2.0];
+    }
+
     #[DataProvider('provideValidTransformations')]
     #[Test]
     public function roundtrips_value(array $testValue): void
@@ -59,12 +83,12 @@ final class HalfvecTypeTest extends VectorTypeTestCase
     }
 
     /**
-     * @return array<string, array{list<float>}>
+     * @return array<string, array{list<float|int>}>
      */
     public static function provideValidTransformations(): array
     {
         return [
-            'integer values' => [[1.0, 2.0, 3.0]],
+            'integer values' => [[1, 2, 3]],
             'float values' => [[0.1, 0.2, 0.3]],
             'negative values' => [[-1.5, 0.0, 1.5]],
             'zero vector' => [[0.0, 0.0, 0.0]],

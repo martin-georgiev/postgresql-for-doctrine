@@ -38,6 +38,21 @@ final class SparsevecTypeTest extends VectorTypeTestCase
         return new SparsevecValueObject([1 => 1.0], $largerDimension);
     }
 
+    protected function getValueBeyondTheTypePrecision(): SparsevecValueObject
+    {
+        return new SparsevecValueObject([1 => 16777217.0, 2 => 0.123456789], 5);
+    }
+
+    protected function getValueRoundedToTheTypePrecision(): SparsevecValueObject
+    {
+        return new SparsevecValueObject([1 => 16777216.0, 2 => 0.12345679], 5);
+    }
+
+    protected function getValueExceedingTheTypeRange(): SparsevecValueObject
+    {
+        return new SparsevecValueObject([1 => 1e39], 5);
+    }
+
     protected function assertTypeValueEquals(mixed $expected, mixed $actual, string $typeName): void
     {
         $this->assertInstanceOf(SparsevecValueObject::class, $expected);
@@ -65,6 +80,7 @@ final class SparsevecTypeTest extends VectorTypeTestCase
             'multiple elements' => [new SparsevecValueObject([1 => 1.5, 3 => 2.0], 5)],
             'empty elements' => [new SparsevecValueObject([], 5)],
             'negative value' => [new SparsevecValueObject([1 => -0.5], 5)],
+            'integer values' => [new SparsevecValueObject([1 => 1, 3 => 2], 5)],
         ];
     }
 
