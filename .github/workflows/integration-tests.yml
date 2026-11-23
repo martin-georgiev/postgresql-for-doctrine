@@ -112,7 +112,7 @@ jobs:
             postgis: '3.4'
           - postgres: '18'
             postgis: '3.5'
-          # PostgreSQL 18: Docker images support only for PostGIS 3.
+          # PostgreSQL 19: Docker images support only for PostGIS 3.7
           - postgres: '19'
             postgis: '3.4'
           - postgres: '19'
