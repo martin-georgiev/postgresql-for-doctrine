@@ -26,7 +26,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3.121445152258052, $result[0]['result']);
+        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.000001);
     }
 
     #[Test]
@@ -37,7 +37,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1';
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3.1403311569547543, $result[0]['result']);
+        $this->assertEqualsWithDelta(3.1403311569547543, $result[0]['result'], 0.000001);
     }
 
     #[Test]
@@ -48,7 +48,7 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3.121445152258052, $result[0]['result']);
+        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.000001);
     }
 
     #[Test]
@@ -59,6 +59,6 @@ final class ST_BufferTest extends SpatialOperatorTestCase
                 WHERE g.id = 1";
 
         $result = $this->executeDqlQuery($dql);
-        $this->assertEquals(3.121445152258052, $result[0]['result']);
+        $this->assertEqualsWithDelta(3.121445152258052, $result[0]['result'], 0.000001);
     }
 }

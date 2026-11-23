@@ -8,6 +8,8 @@ set -eu
 PGX_ULID_VERSION="0.2.3"
 # sync with the pgx_ulid cache key in .github/workflows/integration-tests.yml.
 PGX_ULID_COMMIT="c22451dba167dd83cf64a7b0fa6af668f926f221"
+# pgx_ulid 0.2.3 depends on pgrx ^0.17, which has no PostgreSQL 19 support (pgrx gained it in 0.19).
+CARGO_PGRX_VERSION="0.20.0"
 OUT_DIR="/opt/pgx-ulid-artifacts"
 
 apk add --no-cache build-base clang-dev clang-libs llvm-dev git curl bash rustup openssl-dev openssl-libs-static > /dev/null
@@ -15,7 +17,7 @@ apk add --no-cache build-base clang-dev clang-libs llvm-dev git curl bash rustup
 rustup-init -y --default-toolchain stable --profile minimal > /dev/null
 . "$HOME/.cargo/env"
 
-cargo install cargo-pgrx --version "^0.17" --locked
+cargo install cargo-pgrx --version "=${CARGO_PGRX_VERSION}" --locked
 
 pg_major="$(pg_config --version | sed -E 's/^PostgreSQL ([0-9]+).*$/\1/')"
 cargo pgrx init "--pg${pg_major}" "$(command -v pg_config)"
@@ -29,6 +31,13 @@ if [ "${checked_out_commit}" != "${PGX_ULID_COMMIT}" ]; then
     echo "pgx_ulid: tag v${PGX_ULID_VERSION} resolved to unexpected commit ${checked_out_commit} (pinned: ${PGX_ULID_COMMIT})" >&2
     exit 1
 fi
+
+# Upstream declares pg14-pg18 only, Cargo.lock pins pgrx 0.17 & newer pgrx dropped pg14.
+# Instead, add pg19 and move pgrx to pgrx 0.20 that supports it, or Cargo cannot resolve the manifest.
+sed -i -E '/^pg14 /d' Cargo.toml
+sed -i -E "s/^(pgrx(-tests)? *= *)\"\\^0\\.17\\.0\"/\\1\"=${CARGO_PGRX_VERSION}\"/" Cargo.toml
+sed -i -E '/^pg18 /a pg19    = ["pgrx-tests/pg19", "pgrx/pg19"]' Cargo.toml
+rm -f Cargo.lock
 
 # Statically-linked musl binaries cannot dlopen libclang (needed by bindgen).
 export RUSTFLAGS="-C target-feature=-crt-static"
