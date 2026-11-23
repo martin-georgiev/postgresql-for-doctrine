@@ -32,7 +32,9 @@ if [ "${checked_out_commit}" != "${PGX_ULID_COMMIT}" ]; then
     exit 1
 fi
 
-# Upstream declares pg14-pg18 only; add pg19 and move pgrx to a release that supports it. Cargo.lock pins pgrx 0.17.
+# Upstream declares pg14-pg18 only, Cargo.lock pins pgrx 0.17 & newer pgrx dropped pg14.
+# Instead, add pg19 and move pgrx to pgrx 0.20 that supports it, or Cargo cannot resolve the manifest.
+sed -i -E '/^pg14 /d' Cargo.toml
 sed -i -E "s/^(pgrx(-tests)? *= *)\"\\^0\\.17\\.0\"/\\1\"=${CARGO_PGRX_VERSION}\"/" Cargo.toml
 sed -i -E '/^pg18 /a pg19    = ["pgrx-tests/pg19", "pgrx/pg19"]' Cargo.toml
 rm -f Cargo.lock
